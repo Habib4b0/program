@@ -36,6 +36,8 @@
 		<vaadin.charts.version>3.0.0-alpha1</vaadin.charts.version>
 		<log4j.version>2.0-beta8</log4j.version>
 		<bpm.version>6.2.0.Final</bpm.version>
+	 <maven.compiler.source>1.8</maven.compiler.source>
+	 <maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<repositories>
 		<repository>
@@ -53,11 +55,12 @@
 				<module>app/gtnProperties</module>
 				<module>app/gtnUtility</module>
 				<module>app/util-service</module>
-				<module>app/gtnServicePartII_L7</module>
-				<module>app/gtnServicePartI_L7</module>
+				<module>app/gtnServicePartII</module>
+				<module>app/gtnServicePartI</module>
 				<module>app/gtnHierarchyRouteBuilder</module>
 				<module>app/gtnGlobal</module>
 				<module>app/gtnSecurity</module>
+				<module>app/bpm-common-utility</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
@@ -73,7 +76,7 @@
 			</properties>
 			<build>
 				<defaultGoal>
-                    clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release 
+                    clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release
                 </defaultGoal>
 				<plugins>
 					<plugin>
@@ -139,14 +142,10 @@
 				<module>app/gtnProperties</module>
 				<module>app/gtnUtility</module>
 				<module>app/util-service</module>
-				<module>app/gtnServicePartII_L7</module>
-				<module>app/gtnServicePartI_L7</module>
-				<module>app/WarReleasePlugin</module>
-				<module>app/gtnPartI</module>
-				<module>app/gtnPartII</module>
-				<module>app/gtnSharedLibrary</module>
+				<module>app/gtnServicePartII</module>
+				<module>app/gtnServicePartI</module>
+				<module>app/gtnHierarchyRouteBuilder</module>
 				<module>app/gtnGlobal</module>
-				<module>app/gtnContract</module>
 				<module>app/gtnSecurity</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
@@ -155,6 +154,18 @@
 			</modules>
 			<build>
 				<defaultGoal>clean</defaultGoal>
+			</build>
+		</profile>
+		<profile>
+			<id>Build-Subsystem</id>
+			<modules>
+				<module>app/Liferay-Service-Subsystem</module>
+				<module>app/Resources/Resource-subsystem</module>
+				<module>app/Base-Subsystem</module>
+				<module>app/Modules-Subsystem</module>
+			</modules>
+			<build>
+				<defaultGoal>clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release </defaultGoal>
 			</build>
 		</profile>
 

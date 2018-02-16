@@ -228,7 +228,7 @@ public class FileManagementLookup extends Window {
 	@UiField("fieldName")
 	private ComboBox fieldName;
 
-	private final ThemeResource excelImage = new ThemeResource("../../icons/excel.png");
+	private final ThemeResource excelImage = new ThemeResource("img/excel.png" );
 
 	private final BeanItemContainer<FileMananagementResultDTO> resultsBean = new BeanItemContainer<>(
 			FileMananagementResultDTO.class);
@@ -877,7 +877,7 @@ public class FileManagementLookup extends Window {
 								return;
 							}
 							if (fieldName.getValue().equals(ConstantsUtils.CAPS_MONTH)) {
-								int forecastMonth = Integer.valueOf(value.getValue());
+								int forecastMonth = Integer.parseInt(value.getValue());
 								if (forecastMonth > NumericConstants.TWELVE) {
 									AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 											"Please Enter Valid Month");
@@ -960,7 +960,7 @@ public class FileManagementLookup extends Window {
 												.setValue(value.getValue().toString());
 									}
 								} else if (fieldName.getValue().equals(ConstantsUtils.CAPS_MONTH)) {
-									int forecastMonth = Integer.valueOf(value.getValue());
+									int forecastMonth = Integer.parseInt(value.getValue());
 									if (forecastMonth > NumericConstants.TWELVE) {
 										AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 												"Please Enter Valid ");
@@ -2342,7 +2342,7 @@ public class FileManagementLookup extends Window {
 									if (StringUtils.isNotBlank(maxVersion)) {
 										if (maxVersion.contains(".")) {
 											String[] array = maxVersion.split("\\.");
-											int minorVersion = Integer.valueOf(array[1]);
+											int minorVersion = Integer.parseInt(array[1]);
 											minorVersion = minorVersion + 1;
 											String s1 = String.valueOf(minorVersion);
 											finalVersion = array[0] + "." + s1;
@@ -3172,7 +3172,7 @@ public class FileManagementLookup extends Window {
 									month.setValue(ConstantsUtils.EMPTY);
 									return;
 								} else {
-									int forecastMonth = Integer.valueOf(enteredMonth);
+									int forecastMonth = Integer.parseInt(enteredMonth);
 									if (forecastMonth > NumericConstants.TWELVE || forecastMonth == 0) {
 										AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 												"Please Enter valid Month");

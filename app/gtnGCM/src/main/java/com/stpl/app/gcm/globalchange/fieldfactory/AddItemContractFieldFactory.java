@@ -53,7 +53,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
   private final AbstractLogic logic = AbstractLogic.getInstance();
   private final SelectionDTO selection;
-  private ExtPagedTable contractSelectionTable;
+  private final ExtPagedTable contractSelectionTable;
   private Map tempTableMap = new HashMap();
   private boolean valueChange = true;
 
@@ -93,6 +93,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                       itemStatus.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 Object itemStatusValue = itemStatus.getValue();
@@ -256,6 +257,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             cpendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             cpendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             cpendDate.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         @Override
@@ -298,6 +300,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceProtectionStartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             priceProtectionStartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             priceProtectionStartDate.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         @Override
@@ -332,6 +335,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceProtectionEndDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             priceProtectionEndDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             priceProtectionEndDate.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         @Override
@@ -372,6 +376,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox priceToleranceType = new ComboBox();
             CommonUtil.getComboBoxByListName(priceToleranceType, "PRICE_TOLERANCE_TYPE", false);
             priceToleranceType.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceType.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -409,6 +414,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField priceTolerance = new CustomTextField();
             priceTolerance.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             priceTolerance.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceTolerance.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -442,6 +448,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox priceToleranceFrequency = new ComboBox();
             CommonUtil.getComboBoxByListName(priceToleranceFrequency, "PRICE_TOLERANCE_FREQUENCY", false);
             priceToleranceFrequency.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceFrequency.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -478,6 +485,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox priceToleranceInterval = new ComboBox();
             CommonUtil.getComboBoxByListName(priceToleranceInterval, "PRICE_TOLERANCE_INTERVAL", false);
             priceToleranceInterval.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceInterval.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -513,6 +521,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField basePrice = new CustomTextField();
             basePrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             basePrice.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     basePrice.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -543,6 +552,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField price = new CustomTextField();
             price.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             price.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     price.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -573,6 +583,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField contractPrice = new CustomTextField();
             contractPrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             contractPrice.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     contractPrice.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -607,6 +618,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rsstartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             rsstartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             rsstartDate.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         @Override
@@ -640,6 +652,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rsendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             rsendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             rsendDate.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         @Override
@@ -747,6 +760,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField formulaMethodId = new CustomTextField();
             formulaMethodId.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             formulaMethodId.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     formulaMethodId.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -778,6 +792,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField rebateAmount = new CustomTextField();
             rebateAmount.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             rebateAmount.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     rebateAmount.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -810,6 +825,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox priceProtectionStatus = new ComboBox();
             CommonUtil.loadComboBoxForGCM(priceProtectionStatus, Constants.STATUS, false);
             priceProtectionStatus.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceProtectionStatus.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -844,6 +860,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField nep = new CustomTextField();
             nep.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             nep.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     nep.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -908,6 +925,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField maxIncrementalChange = new CustomTextField();
             maxIncrementalChange.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             maxIncrementalChange.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     maxIncrementalChange.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -937,6 +955,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox resetEligible = new ComboBox();
             CommonUtil.loadComboBoxForGCM(resetEligible, Constants.LOCKED_STATUS_LISTNAME, false);
             resetEligible.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetEligible.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -971,6 +990,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox resetType = new ComboBox();
             CommonUtil.loadComboBoxForGCM(resetType, Constants.RESET_TYPE_LISTNAME, false);
             resetType.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetType.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1008,6 +1028,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             resetDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             resetDate.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         @Override
@@ -1041,6 +1062,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox resetInterval = new ComboBox();
             CommonUtil.loadComboBoxForGCM(resetInterval, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, false);
             resetInterval.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetInterval.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1075,6 +1097,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox resetFrequency = new ComboBox();
             CommonUtil.loadComboBoxForGCM(resetFrequency, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, false);
             resetFrequency.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetFrequency.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1109,6 +1132,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox netPriceType = new ComboBox();
             CommonUtil.loadComboBoxForGCM(netPriceType, Constants.LOCKED_STATUS_LISTNAME, false);
             netPriceType.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netPriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1179,6 +1203,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox resetPriceType = new ComboBox();
             final AbstractContractSearchDTO dto = loadPricetype(itemId, resetPriceType);
             resetPriceType.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1209,6 +1234,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox netResetPriceType = new ComboBox();
             CommonUtil.loadComboBoxForGCM(netResetPriceType, Constants.LOCKED_STATUS_LISTNAME, false);
             netResetPriceType.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netResetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1280,6 +1306,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox basePriceType = new ComboBox();
             CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_LISTNAME, false);
             basePriceType.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     basePriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1302,7 +1329,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                     saveTempItemDetails(dto);
                                 }
                                 valueChange = true;
-                                contractSelectionTable.getContainerLogic().setCurrentPage(1);
+                                contractSelectionTable.getContainerLogic().setCurrentPage(contractSelectionTable.getContainerLogic().getCurrentPage()); 
                                 contractSelectionTable.setRefresh(true);
                             }
                         }
@@ -1380,6 +1407,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox subsequentPeriodPriceType = new ComboBox();
             final AbstractContractSearchDTO dto = loadPricetype(itemId, subsequentPeriodPriceType);
             subsequentPeriodPriceType.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     subsequentPeriodPriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1409,6 +1437,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox netSubsequentPeriodPrice = new ComboBox();
             CommonUtil.loadComboBoxForGCM(netSubsequentPeriodPrice, Constants.LOCKED_STATUS_LISTNAME, false);
             netSubsequentPeriodPrice.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netSubsequentPeriodPrice.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1516,6 +1545,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox baselineNetWAC = new ComboBox();
             CommonUtil.loadComboBoxForGCM(baselineNetWAC, Constants.LOCKED_STATUS_LISTNAME, false);
             baselineNetWAC.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     baselineNetWAC.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1551,6 +1581,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox priceType = new ComboBox();
             final AbstractContractSearchDTO dto = loadPricetype(itemId, priceType);
             priceType.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceType.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override
@@ -1581,6 +1612,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final ComboBox measurementPrice = new ComboBox();
             final AbstractContractSearchDTO dto = loadPricetype(itemId, measurementPrice);
             measurementPrice.addFocusListener(new FocusListener() {
+                @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     measurementPrice.addValueChangeListener(new Property.ValueChangeListener() {
                         @Override

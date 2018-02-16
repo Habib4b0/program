@@ -32,13 +32,13 @@ import org.slf4j.LoggerFactory;
 public class ButtonLayout extends HorizontalLayout {
 
 	private static final long serialVersionUID = -8493167007955745933L;
-	private ErrorfulFieldGroup binder;
+	private final ErrorfulFieldGroup binder;
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ButtonLayout.class.getName());
-	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private final BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
 	private Table table;
 	private final Label space = new Label("&nbsp;", ContentMode.HTML);
-	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
+	private final BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
 
 	public ButtonLayout(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
@@ -64,6 +64,7 @@ public class ButtonLayout extends HorizontalLayout {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                     return;
             
@@ -73,6 +74,7 @@ public class ButtonLayout extends HorizontalLayout {
 		btnReset.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				binder.discard();
 				binder.setItemDataSource(new BeanItem<BusinessroleMasterDTO>(
@@ -91,6 +93,7 @@ public class ButtonLayout extends HorizontalLayout {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                    
                 return;
@@ -100,6 +103,7 @@ public class ButtonLayout extends HorizontalLayout {
 		btnSearch.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				LOGGER.debug("Clicked on Save");
 				try {
@@ -140,15 +144,12 @@ public class ButtonLayout extends HorizontalLayout {
 						notif.show(Page.getCurrent());
 					}
 				} catch (SystemException e) {
-					// TODO Auto-generated catch block
 					LOGGER.error(e.getMessage());
                                    
 				}  catch (CommitException e) {
-					// TODO Auto-generated catch block
 					LOGGER.error(e.getMessage());
                                       
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					LOGGER.error(e.getMessage());
                                       
 				}

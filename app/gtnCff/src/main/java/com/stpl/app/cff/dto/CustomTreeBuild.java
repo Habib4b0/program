@@ -289,7 +289,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             customerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
         }
         LOGGER.debug("loadCustomers projectionId=" + session.getProjectionId()+"session level number========"+session.getCustomerLevelNumber());
-        List customerList = CommonLogic.getCustomerHierarchy(session.getProjectionId(), Integer.valueOf(session.getCustomerLevelNumber()));
+        List customerList = CommonLogic.getCustomerHierarchy(session.getProjectionId(), Integer.parseInt(session.getCustomerLevelNumber()));
         LOGGER.debug("loadCustomers customerList size=" + customerList.size());
         int size = customerList.size();
         for (int i = 0; i < size; i++) {
@@ -314,7 +314,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             productContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
         }
         LOGGER.debug("loadProducts projectionId=" + session.getProjectionId()+"=====product level number======="+session.getProductLevelNumber());
-        List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), Integer.valueOf(session.getProductLevelNumber()));
+        List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), Integer.parseInt(session.getProductLevelNumber()));
         LOGGER.debug("loadProducts productList Start size=" + productList.size());
         int size = productList.size();
         for (int i = 0; i < size; i++) {
@@ -341,7 +341,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         String sql = CommonQueryUtils.getAppQuery(input, "DEDUCTION_LEVEL_NO");
         List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
         Object[] res = (Object[])list.get(0);
-        List deductionList = CommonLogic.getDeductionHierarchy(session.getProjectionId(), Integer.valueOf(res[0].toString()));
+        List deductionList = CommonLogic.getDeductionHierarchy(session.getProjectionId(), Integer.parseInt(res[0].toString()));
         LOGGER.debug("load Deductions productList Start size=" + deductionList.size());
         int size = deductionList.size();
         for (int i = 0; i < size; i++) {

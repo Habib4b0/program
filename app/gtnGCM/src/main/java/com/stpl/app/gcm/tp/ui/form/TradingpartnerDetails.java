@@ -6,7 +6,6 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
@@ -38,7 +37,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +68,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     @UiField("rebuild")
     public Button rebuild;
 
-    private ExtFilterTable tradingPartnerDetailsTable = new ExtFilterTable();
+    private final ExtFilterTable tradingPartnerDetailsTable = new ExtFilterTable();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
     private final BeanItemContainer<ContractResultDTO> tradingPartnerDetailsContainer;

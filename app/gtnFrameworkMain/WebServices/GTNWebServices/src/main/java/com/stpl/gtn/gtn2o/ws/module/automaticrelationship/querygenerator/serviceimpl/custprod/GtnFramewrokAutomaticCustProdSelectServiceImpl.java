@@ -104,7 +104,7 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 					+ singleColumnRelationBean.getWhereClauseColumn());
 			query.append(",'.'");
 		}
-		finalQuery.append("isnull(\r\n" + "				RELATIONSHIP_LEVEL_DEFINITION1.HIERARCHY_NO,\r\n"
+		finalQuery.append("isnull(\r\n" + "				USERDEFINED_RELATION_JOIN.HIERARCHY_NO,\r\n"
 				+ "				concat(RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO");
 		finalQuery.append(query);
 		finalQuery.append("))");

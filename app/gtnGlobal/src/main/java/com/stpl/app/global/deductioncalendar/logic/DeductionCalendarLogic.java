@@ -166,7 +166,7 @@ public class DeductionCalendarLogic {
         String query = (isItem ? SQLUtil.getQuery("deduction-item-count") : SQLUtil.getQuery("deduction-company-count"))
                 .replace("?UID", sessionDTO.getUserId())
                 .replace("?SID", "'" + sessionDTO.getUiSessionId() + "'");
-        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
+        final List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
@@ -288,7 +288,7 @@ public class DeductionCalendarLogic {
                 sql += " AND DSM.DEDUCTION_CALENDAR_DESC LIKE '" + searchCriteria.get(ConstantsUtils.DEDUCTION_CAL_DESC) + "'";
             
         }
-        if (searchCriteria.get(ConstantsUtils.CATEGORY) != null && Integer.valueOf(searchCriteria.get(ConstantsUtils.CATEGORY)) != 0) {
+        if (searchCriteria.get(ConstantsUtils.CATEGORY) != null && Integer.parseInt(searchCriteria.get(ConstantsUtils.CATEGORY)) != 0) {
             sql += " AND DSM.CATEGORY = " + Integer.valueOf(searchCriteria.get(ConstantsUtils.CATEGORY));
 
         }
@@ -394,7 +394,7 @@ public class DeductionCalendarLogic {
                     Object[] result = (Object[]) obj;
                     record = new SearchResultsDTO();
                     record.setSystemID(String.valueOf(result[0]));
-                    record.setDeductionCalendarSid(Integer.valueOf(String.valueOf(result[0])));
+                    record.setDeductionCalendarSid(Integer.parseInt(String.valueOf(result[0])));
                     record.setDeductionCalendarno(String.valueOf(result[1]));
                     record.setDeductionCalendarname(String.valueOf(result[NumericConstants.TWO]));
                    if(result[NumericConstants.THREE]!=null)

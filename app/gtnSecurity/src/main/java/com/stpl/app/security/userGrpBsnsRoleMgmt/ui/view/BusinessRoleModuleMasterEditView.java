@@ -17,8 +17,8 @@ public class BusinessRoleModuleMasterEditView extends VerticalLayout implements 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "view";
 	
-	private BusinessRoleModuleMasterDTO businessRoleModuleMasterDTO = new BusinessRoleModuleMasterDTO();
-	private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
+	private final BusinessRoleModuleMasterDTO businessRoleModuleMasterDTO = new BusinessRoleModuleMasterDTO();
+	private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(
 			 new BeanItem<BusinessRoleModuleMasterDTO>(businessRoleModuleMasterDTO));
 	 
 	 
@@ -28,6 +28,7 @@ public class BusinessRoleModuleMasterEditView extends VerticalLayout implements 
 		setComponentError(new UserError(""));
 	}
 	
+        @Override
 	public void enter(ViewChangeEvent event) {
             return;
 	}

@@ -58,6 +58,8 @@ import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -82,6 +84,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
             DiscountProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     private final MMDPRLogic mmLogic = new MMDPRLogic();
     private final DataSelectionLogic dsLogic = new DataSelectionLogic();
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManagedDiscountProjectionResult.class);
     /**
      * The max split position.
      */

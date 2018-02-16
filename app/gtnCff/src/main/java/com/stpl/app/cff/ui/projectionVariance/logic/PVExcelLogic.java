@@ -84,6 +84,9 @@ public class PVExcelLogic {
     private static final int COLUMN_COUNT_DISCOUNT = 12;
     private static final String ALL = "ALL";
     private static final int BASECOLUMN_HIERARCHY_INDEX = 2;
+    private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
+    private static final String DF_LEVEL_NAME = "dfLevelName";
+    private boolean currentBasis = false;
 
     public PVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto, Map<String, List<ProjectionVarianceDTO>> discountMap, Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails) {
@@ -785,7 +788,7 @@ public class PVExcelLogic {
             } else if (tempFrequencyDivision == 1) {
                 commonColumn = String.valueOf(obj[0]);
             } else if (tempFrequencyDivision == NumericConstants.TWELVE) {
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                 commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
             }
             Map<String, ProjectionVarianceDTO> valueMap = pivotDiscountMap.get(key);
@@ -815,7 +818,7 @@ public class PVExcelLogic {
             Object[] obj = (Object[]) it.next();
             String key = obj[NumericConstants.TWO].toString();
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
-            List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[0].toString()), Integer.valueOf(obj[1].toString()));
+            List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.parseInt(obj[0].toString()), Integer.parseInt(obj[1].toString()));
             String groupId = common.get(1);
             ProjectionVarianceDTO freVarianceDTO = new ProjectionVarianceDTO();
             freVarianceDTO.setGroup(groupId);
@@ -1206,7 +1209,7 @@ public class PVExcelLogic {
             } else if (frequencyDivision == 1) {
                 commonColumn = String.valueOf(obj[0]);
             } else if (frequencyDivision == NumericConstants.TWELVE) {
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                 commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
             }
             Map<String, ProjectionVarianceDTO> valueMap = pivotDiscountMap.get(key);
@@ -1398,7 +1401,7 @@ public class PVExcelLogic {
                 } else if (vFrequencyDivision == 1) {
                     commonColumn = StringUtils.EMPTY + obj[0];
                 } else if (vFrequencyDivision == NumericConstants.TWELVE) {
-                    String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                    String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                     commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                 }
                 PVCommonLogic.customizePeriod(commonColumn, indicator, projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, obj, isPer);
@@ -1434,6 +1437,23 @@ public class PVExcelLogic {
         } else {
             groupName = CommonUtils.getDisplayFormattedName(hierarchy.trim(), selection.getHierarchyIndicator(),
                             selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+            dto.setGroup(groupName);
+            if (groupName.contains("-")) {
+                String[] tempArr = groupName.split("-");
+                dto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                dto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+            } else if (selection.getDisplayFormat().length > 0) {
+                int index = (int) selection.getDisplayFormat()[0];
+                if (index == 0) {
+                    dto.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                    
+                } else {
+                    dto.addStringProperties(DF_LEVEL_NAME, groupName);
+                }
+            } else {
+                dto.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                dto.addStringProperties(DF_LEVEL_NAME, groupName);
+            }
         }
         dto.setGroup(groupName);
         pvList.add(dto);
@@ -2037,11 +2057,20 @@ public class PVExcelLogic {
          
         if (addFlag) {
             if (pvsdto.getVarIndicator().equals(Constants.VALUE)) {
-                pvDTO.setGroup(groupName.concat(Constants.VALUE));
+               String groupValue = groupName.concat(Constants.VALUE);
+                pvDTO.addStringProperties(DF_LEVEL_NUMBER, groupValue);
+                pvDTO.addStringProperties(DF_LEVEL_NAME, groupValue);
+                pvDTO.setGroup(groupValue);
             } else if (pvsdto.getVarIndicator().equals(Constants.VARIANCE)) {
-                pvDTO.setGroup(groupName.concat(Constants.VARIANCE));
+                String groupVaiance = groupName.concat(Constants.VARIANCE);
+                pvDTO.addStringProperties(DF_LEVEL_NUMBER, groupVaiance);
+                pvDTO.addStringProperties(DF_LEVEL_NAME, groupVaiance);
+                pvDTO.setGroup(groupVaiance);
             } else if (pvsdto.getVarIndicator().equals(Constants.CHANGE)) {
-                pvDTO.setGroup(groupName.concat(Constants.CHANGE));
+                String groupChange = groupName.concat(Constants.CHANGE);
+                pvDTO.addStringProperties(DF_LEVEL_NUMBER, groupChange);
+                pvDTO.addStringProperties(DF_LEVEL_NAME, groupChange);
+                pvDTO.setGroup(groupChange);
             }
         }
         List<Integer> vPriorList = new ArrayList<>(pvsdto.getProjIdList());
@@ -2055,7 +2084,7 @@ public class PVExcelLogic {
             } else if (vFrequencyDiv == 1) {
                 commonColumn = StringUtils.EMPTY + obj[0];
             } else if (vFrequencyDiv == NumericConstants.TWELVE) {
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                 commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
             }
             PVCommonLogic.customizePeriod(commonColumn, varibaleCat, pvsdto, pvDTO, FORMAT, totalListPostion, obj, groupName.contains("%"));
@@ -2618,7 +2647,7 @@ public class PVExcelLogic {
                 commonColumn = StringUtils.EMPTY + obj[NumericConstants.TWO];
                 break;
             case NumericConstants.TWELVE:
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) - 1);
+                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) - 1);
                 commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.TWO];
                 break;
             default:
@@ -3263,7 +3292,7 @@ public class PVExcelLogic {
         } else if (frequencyDivision == 1) {
             commonColumn = StringUtils.EMPTY + obj[NumericConstants.TWO];
         } else if (frequencyDivision == NumericConstants.TWELVE) {
-            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) - 1);
+            String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) - 1);
             commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.TWO];
         }
         return commonColumn;
@@ -3283,7 +3312,7 @@ public class PVExcelLogic {
                 key = obj[NumericConstants.TWO].toString();
             }
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
-            List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[0].toString()), Integer.valueOf(obj[1].toString()));
+            List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.parseInt(obj[0].toString()), Integer.parseInt(obj[1].toString()));
             String groupId = common.get(1);
             ProjectionVarianceDTO freVarianceDTO = new ProjectionVarianceDTO();
             freVarianceDTO.setGroup(groupId);

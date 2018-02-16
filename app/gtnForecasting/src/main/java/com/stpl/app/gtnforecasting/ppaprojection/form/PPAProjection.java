@@ -2031,13 +2031,13 @@ public class PPAProjection extends CustomComponent implements View {
         List input = null;
         if (populateIdentifier.get(Constant.FROZEN_FIELDS).contains(fieldValue)) {
             input = logic.getInputForMassUpdateGroup(value, columnName, selection);
-            PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-Group");
+            PPAQuerys.ppaUpdateQuery(input, "PPA.MAssUpdate-Group");
         } else {
             input = logic.getInputForMassUpdate(startQuater, endQuater, startYear, endYear, value, columnName, selection);
             if (columnName.equals("NEP") || columnName.equals("PRICE_TOLERANCE") || columnName.equals("MAX_INCREMENTAL_CHANGE")) {
-                PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-Price");
+                PPAQuerys.ppaUpdateQuery(input, "PPA.MAssUpdate-Price");
             } else {
-                PPAQuerys.ppaUpdate(input, "PPA.MAssUpdate-PriceCap");
+                PPAQuerys.ppaUpdateQuery(input, "PPA.MAssUpdate-PriceCap");
             }
         }
 

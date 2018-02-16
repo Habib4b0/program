@@ -829,14 +829,12 @@ public class CommonUiUtils {
         tableHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
         fullHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
         fullHeaderDTO.addDoubleColumn(doubleCol, " ");
-        fullHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
 
         tableHeaderDTO.addSingleColumn(singleCol[1], "Base Year", String.class);
         tableHeaderDTO.addDoubleColumn(doubleColumn, " ");
         tableHeaderDTO.addDoubleHeaderMap(doubleColumn, singleCol);
         fullHeaderDTO.addSingleColumn(singleCol[1], "Base Year", String.class);
-        fullHeaderDTO.addDoubleColumn(doubleColumn, " ");
-        fullHeaderDTO.addDoubleHeaderMap(doubleColumn, singleCol);
+        fullHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
         return tableHeaderDTO;
     }
 
@@ -939,7 +937,7 @@ public class CommonUiUtils {
                 fullHeaderDTO.addDoubleColumn(ACTUALS.getConstant(), ACTUALS.getConstant());
                 fullHeaderDTO.addDoubleHeaderMap(ACTUALS.getConstant(), dmap.toArray());
             }
-
+                dmap.clear();
             /// Projection  
             startPr = histProjPeriod;
             lastPr = frequencyDivision;

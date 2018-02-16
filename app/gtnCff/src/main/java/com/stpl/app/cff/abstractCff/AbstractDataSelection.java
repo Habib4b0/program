@@ -35,6 +35,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.NativeSelect;
+import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -223,6 +224,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 	private ComboBox businessUnit = new ComboBox();
 
+        @UiField("cffEligibleDate")
+	protected PopupDateField cffEligibleDate;
+        
 	public Button getGenerateBtn() {
 		return generateBtn;
 	}
@@ -1076,7 +1080,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 				customerRelationValueChange(event.getProperty().getValue());
 				loadForecastLevels(innerCustLevels, customerInnerLevelContainer, level,
 						customerHierarchyDto.getHierarchyId(),
-						Integer.valueOf(customerRelationVersionComboBox.getValue().toString()));
+						Integer.parseInt(customerRelationVersionComboBox.getValue().toString()));
 			}
 		});
 	}

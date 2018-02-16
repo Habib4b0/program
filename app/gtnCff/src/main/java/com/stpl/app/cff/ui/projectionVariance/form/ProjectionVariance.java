@@ -60,6 +60,7 @@ import com.vaadin.v7.data.Property;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -136,6 +137,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String SELECT_VALUES = "-Select Values-";
     private List<String[]> deductionLevel = new ArrayList<>();
     public static final String SID = "SID";
+    public static final String GROUP_PROPERTY = "group";
      
      public static final CommonLogic commonLogic = new CommonLogic();
 
@@ -329,8 +331,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setProjIdList(projIdList);
             pvSelectionDTO.setProjectionMap(projectionMap);
             pvSelectionDTO.setVariableCategory(variableCategoryValue);
-            pvSelectionDTO.setUserId(Integer.valueOf(sessionDTO.getUserId()));
-            pvSelectionDTO.setSessionId(Integer.valueOf(sessionDTO.getSessionId()));
+            pvSelectionDTO.setUserId(Integer.parseInt(sessionDTO.getUserId()));
+            pvSelectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
             pvSelectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());
             pvSelectionDTO.setProdRelationshipBuilderSid(sessionDTO.getProdRelationshipBuilderSid());
             pvSelectionDTO.setForecastDTO(sessionDTO.getForecastDTO());
@@ -339,9 +341,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(String.valueOf(frequency.getValue()), sessionDTO));
             pvSelectionDTO.setProjectionOrder(String.valueOf(projectionPeriodOrder.getValue()));
             pvSelectionDTO.setCustomerLevelNo(StringUtils.isBlank(pvSelectionDTO.getSessionDTO().getCustomerLevelNumber()) || "null".equals(pvSelectionDTO.getSessionDTO().getCustomerLevelNumber())
-                    ? 1 : Integer.valueOf(pvSelectionDTO.getSessionDTO().getCustomerLevelNumber()));
+                    ? 1 : Integer.parseInt(pvSelectionDTO.getSessionDTO().getCustomerLevelNumber()));
             pvSelectionDTO.setProductLevelNo(StringUtils.isBlank(pvSelectionDTO.getSessionDTO().getProductLevelNumber()) || "null".equals(pvSelectionDTO.getSessionDTO().getProductLevelNumber())
-                    ? 1 : Integer.valueOf(pvSelectionDTO.getSessionDTO().getProductLevelNumber()));
+                    ? 1 : Integer.parseInt(pvSelectionDTO.getSessionDTO().getProductLevelNumber()));
             pvSelectionDTO.setVariables(variablesValue);
             pvSelectionDTO.setHistoryNum(CommonUtils.getHistoryProjectionNum(String.valueOf(frequency.getValue()), sessionDTO));
             pvSelectionDTO.setCustomId(customId);
@@ -517,7 +519,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo > 0) {
             if (pvSelectionDTO.isIslevelFiler()) {
                 levelFilter.removeValueChangeListener(levelFilterChangeOption);
@@ -1008,6 +1010,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     export.export();
                 }
             } else {
+                excelColumnFormat();
                 excelTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
                 excelTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
                 excelTable.setDoubleHeaderVisible(true);
@@ -1213,8 +1216,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        pvSelectionDTO.setUserId(Integer.valueOf(sessionDTO.getUserId()));
-        pvSelectionDTO.setSessionId(Integer.valueOf(sessionDTO.getSessionId()));
+        pvSelectionDTO.setUserId(Integer.parseInt(sessionDTO.getUserId()));
+        pvSelectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
         tradingPartnerNo = CommonLogic.getTradingPartnerLevelNo(false, sessionDTO.getProjectionId());
     }
 
@@ -1936,7 +1939,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     
        public void loadProductLevel()  {
 
-        int hierarchyLevelNo = isInteger(sessionDTO.getProductLevelNumber()) ? Integer.valueOf(sessionDTO.getProductLevelNumber()) : 0;
+        int hierarchyLevelNo = isInteger(sessionDTO.getProductLevelNumber()) ? Integer.parseInt(sessionDTO.getProductLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getProductHierarchy(sessionDTO.getProjectionId(), hierarchyLevelNo, sessionDTO.getProdRelationshipBuilderSid());
         CommonLogic.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, StringUtils.EMPTY);
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
@@ -2009,7 +2012,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void loadCustomerLevel() {
-        int hierarchyNo = isInteger(sessionDTO.getCustomerLevelNumber()) ? Integer.valueOf(sessionDTO.getCustomerLevelNumber()) : 0;
+        int hierarchyNo = isInteger(sessionDTO.getCustomerLevelNumber()) ? Integer.parseInt(sessionDTO.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(sessionDTO.getProjectionId(), hierarchyNo, sessionDTO.getCustRelationshipBuilderSid());
         CommonLogic.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
         
@@ -2126,6 +2129,36 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             loadSalesInclusion();
             uomLoadingTabChange();
             loadDisplayFormatDdlb();
+        }
+    }
+    
+    private void excelColumnFormat() {
+        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get("group");
+        List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
+        listHeaders.remove(GROUP_PROPERTY);
+
+        fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+        fullHeader.getSingleColumns().remove(GROUP_PROPERTY);
+        fullHeader.getSingleHeaders().remove(0);
+
+        Object[] displayFormatIndex = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
+        if (displayFormatIndex.length == 1) {
+            for (int i = 0; i < displayFormatIndex.length; i++) {
+                LOGGER.info("obj--------------" + i);
+                int index = (Integer) displayFormatIndex[i];
+                if (index == 0) {
+                    listHeaders.remove("dfLevelName");
+                    fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+                    fullHeader.getSingleColumns().remove("dfLevelName");
+                    fullHeader.getSingleHeaders().remove(1);
+                } else {
+                    listHeaders.remove("dfLevelNumber");
+                    fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+                    fullHeader.getSingleColumns().remove("dfLevelNumber");
+                    fullHeader.getSingleHeaders().remove(0);
+                }
+
+            }
         }
     }
     

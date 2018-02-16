@@ -21,30 +21,37 @@ import com.liferay.portal.kernel.exception.SystemException;
  */
 public class NotificationMgmtLogicDAOImpl implements NotificationMgmtLogicDAO {
 
+    @Override
     public List<HelperTable> getBusinessProcess(DynamicQuery dynamicQuery) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
+    @Override
     public List<HelperTable> getCategory(DynamicQuery dynamicQuery) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
+    @Override
     public MailNotificationMaster saveMailNotificationMaster(MailNotificationMaster mailNotificationMaster) throws SystemException {
         return MailNotificationMasterLocalServiceUtil.addMailNotificationMaster(mailNotificationMaster);
     }
 
+    @Override
     public MailNotificationMaster getMailNotificationMaster(int systemId) throws SystemException, PortalException {
         return MailNotificationMasterLocalServiceUtil.getMailNotificationMaster(systemId);
     }
 
+    @Override
     public MailNotificationMaster updateMailNotificationMaster(MailNotificationMaster mailNotificationMaster) throws SystemException {
         return MailNotificationMasterLocalServiceUtil.updateMailNotificationMaster(mailNotificationMaster);
     }
 
+    @Override
     public MailNotificationMaster deleteNotification(int mailNotificationSystemId) throws SystemException, PortalException {
         return MailNotificationMasterLocalServiceUtil.deleteMailNotificationMaster(mailNotificationSystemId);
     }
 
+    @Override
     public List<MailNotificationMaster> getAllMailNotification(DynamicQuery query) throws SystemException {
        return MailNotificationMasterLocalServiceUtil.dynamicQuery(query);
     }

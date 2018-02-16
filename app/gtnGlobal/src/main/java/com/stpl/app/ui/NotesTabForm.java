@@ -196,7 +196,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				TimeZone central = TimeZone.getTimeZone("CST");
 				format.setTimeZone(central);
 				attachmentDTO.setDateAdded(format.format(new Date()));
-				attachmentDTO.setUserId(Integer.valueOf(userId));
+				attachmentDTO.setUserId(Integer.parseInt(userId));
 				attachmentDTO.setUserName(userName);
 				attachmentDTO.setDocumentFullPath(fileUploadPath + name);
 				attachmentsListBean.addBean(attachmentDTO);
@@ -325,7 +325,7 @@ public class NotesTabForm extends AbstractNotesTab {
 			LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
 
 			int systemId = masterTableSidValue.equals(StringUtils.EMPTY) ? 0
-					: Integer.valueOf(masterTableSidValue.replace(",", " "));
+					: Integer.parseInt(masterTableSidValue.replace(",", " "));
 			if (systemId != 0) {
 				attachmentsListBean.addAll(logic.getAttachmentDTOList(systemId, dbModuleName, fileUploadPath));
 			}

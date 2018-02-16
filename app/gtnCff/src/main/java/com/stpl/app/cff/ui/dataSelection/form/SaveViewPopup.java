@@ -220,12 +220,12 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
             DataSelectionLogic dsLogic = new DataSelectionLogic();
             int viewIdValue = 0;
             if ("Update".equalsIgnoreCase(actionFlag)) {
-                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, Boolean.TRUE, projectionIdValue);
+                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, Boolean.TRUE, projectionIdValue,sessionDTO);
                 dsLogic.updateCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue);
                 dsLogic.updateProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue,dataselectionDtoToSave);
                 dsLogic.updateCcpLogicView(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", projectionIdValue);
             } else {
-                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, Boolean.FALSE, projectionIdValue);
+                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, Boolean.FALSE, projectionIdValue,sessionDTO);
                 dsLogic.saveCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue, null, "save");
                 dsLogic.saveProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue, null, "save",dataselectionDtoToSave);
                 dsLogic.saveCcp(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", String.valueOf(projectionIdValue));
@@ -282,7 +282,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
 
                     close();
                     if (updateView()) {
-                        saveView(selectedCustomersList, selectedProductsList, "Update", Integer.valueOf(viewDTO.getProjectionId()));
+                        saveView(selectedCustomersList, selectedProductsList, "Update", Integer.parseInt(viewDTO.getProjectionId()));
                     } else {
                         saveView(selectedCustomersList, selectedProductsList, "save", Constants.ZERO);
                     }

@@ -185,7 +185,7 @@ public class Converters {
             Object objects[] = (Object[]) resultList.get(loop);
             dataSelectionDTO.setProjectionId(Integer.parseInt(String.valueOf(objects[0])));
             dataSelectionDTO.setProjectionName(String.valueOf(objects[1]));
-            dataSelectionDTO.setDescription(String.valueOf(objects[NumericConstants.TWO]));
+            dataSelectionDTO.setDescription(objects[NumericConstants.TWO] == null ? StringUtils.EMPTY:String.valueOf(objects[NumericConstants.TWO]));
             dataSelectionDTO.setCustomerHierSid(String.valueOf(objects[NumericConstants.THREE]));
             dataSelectionDTO.setCustomerHierarchy(String.valueOf(objects[NumericConstants.FOUR]));
             dataSelectionDTO.setCustomerHierarchyLevel(String.valueOf(objects[NumericConstants.FIVE]));
@@ -232,6 +232,7 @@ public class Converters {
                 dataSelectionDTO.setDeductionLevel(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_SEVEN])));
                 dataSelectionDTO.setDeductionValue(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_EIGHT])));
             }
+            dataSelectionDTO.setForecastEligibleDate(parsetDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.THIRTY_ONE]))));
 
             dataSelectionDTOs.add(dataSelectionDTO);
         }

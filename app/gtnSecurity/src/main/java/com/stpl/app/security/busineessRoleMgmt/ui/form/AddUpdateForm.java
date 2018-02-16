@@ -26,9 +26,9 @@ public class AddUpdateForm extends CustomComponent {
 	private final TextField businessroleDesc = new TextField();
 	private final TextField businessroleName = new TextField();
 	private final TextField hierarchyLevel = new TextField();
-	private ErrorfulFieldGroup binder;
-	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
-	private Table table;
+	private final ErrorfulFieldGroup binder;
+	private final BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private final Table table;
 
 	public AddUpdateForm(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
