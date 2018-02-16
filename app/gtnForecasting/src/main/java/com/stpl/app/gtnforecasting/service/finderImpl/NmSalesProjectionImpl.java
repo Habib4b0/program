@@ -2734,9 +2734,9 @@ if(!custom){
         try {
             queryBuilder.append("select H.LEVEL_NO, H.RELATIONSHIP_LEVEL_VALUES ,H.HIERARCHY_NO");
             queryBuilder.append(" from ST_NM_ACTUAL_SALES A,  ST_NM_SALES_PROJECTION_MASTER B, PROJECTION_DETAILS E , PROJECTION_MASTER F, ");
-            if ((Constants.customer).equalsIgnoreCase(viewType) || "c".equalsIgnoreCase(indicator)) {
+            if ((Constants.CUSTOMER).equalsIgnoreCase(viewType) || "c".equalsIgnoreCase(indicator)) {
                 queryBuilder.append("PROJECTION_CUST_HIERARCHY G,");
-            } else if ((Constants.product).equalsIgnoreCase(viewType) || "p".equalsIgnoreCase(indicator)) {
+            } else if ((Constants.PRODUCT).equalsIgnoreCase(viewType) || "p".equalsIgnoreCase(indicator)) {
                 queryBuilder.append("PROJECTION_PROD_HIERARCHY G,");
             }
             queryBuilder.append("RELATIONSHIP_LEVEL_DEFINITION H, \"PERIOD\" I ");
@@ -2750,9 +2750,9 @@ if(!custom){
             queryBuilder.append(" Union  select H.LEVEL_NO, H.RELATIONSHIP_LEVEL_VALUES,H.HIERARCHY_NO");
             queryBuilder.append(" from ST_NM_SALES_PROJECTION A,  ST_NM_SALES_PROJECTION_MASTER B, PROJECTION_DETAILS E , PROJECTION_MASTER F,");
 //        queryBuilder.append("PROJECTION_CUST_HIERARCHY G, RELATIONSHIP_LEVEL_DEFINITION H, \"PERIOD\" I where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID");
-            if ((Constants.customer).equalsIgnoreCase(viewType) || "c".equalsIgnoreCase(indicator)) {
+            if ((Constants.CUSTOMER).equalsIgnoreCase(viewType) || "c".equalsIgnoreCase(indicator)) {
                 queryBuilder.append("PROJECTION_CUST_HIERARCHY G,");
-            } else if ((Constants.product).equalsIgnoreCase(viewType) || "p".equalsIgnoreCase(indicator)) {
+            } else if ((Constants.PRODUCT).equalsIgnoreCase(viewType) || "p".equalsIgnoreCase(indicator)) {
                 queryBuilder.append("PROJECTION_PROD_HIERARCHY G,");
             }
             queryBuilder.append("RELATIONSHIP_LEVEL_DEFINITION H, \"PERIOD\" I where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID");

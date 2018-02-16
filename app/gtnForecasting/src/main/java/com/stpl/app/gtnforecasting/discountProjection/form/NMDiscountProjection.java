@@ -762,7 +762,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					} else if (property.contains("ProjectedAmount")) {
 						refreshName = "AMOUNT";
 						isAmountUpdatedManually = true;
-						double doubleVal = Double.valueOf(blurValue);
+						double doubleVal = Double.parseDouble(blurValue);
                                                 doubleVal = CommonUtil.getConversionFormattedMultipleValue(projectionSelection, doubleVal);
 						ccpsCount = dto.getCcpCount();
 						int discountLevelccpCount = dto.getCcpCountForDiscount().get(discountName) != null
@@ -777,8 +777,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						refreshName = "GROWTH";
 						isGrowthUpdatedManually = true;
 					}
-					saveDto.setPeriodNo(isInteger(periodToUpdate) ? Integer.valueOf(periodToUpdate) : 0);
-					saveDto.setYear(Integer.valueOf(yearToUpdate));
+					saveDto.setPeriodNo(isInteger(periodToUpdate) ? Integer.parseInt(periodToUpdate) : 0);
+					saveDto.setYear(Integer.parseInt(yearToUpdate));
 					saveDto.setValue(blurValue);
 					saveDto.setHirarechyNo(dto.getHierarchyNo());
 					saveDto.setTreeLevelNo(dto.getTreeLevelNo());
@@ -1340,9 +1340,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private int getStartLevelNo() {
 		int levelNo = 1;
 		if (view.getValue().equals(CUSTOMER.getConstant())) {
-			levelNo = Integer.valueOf(session.getCustomerLevelNumber());
+			levelNo = Integer.parseInt(session.getCustomerLevelNumber());
 		} else if (view.getValue().equals(PRODUCT.getConstant())) {
-			levelNo = Integer.valueOf(session.getProductLevelNumber());
+			levelNo = Integer.parseInt(session.getProductLevelNumber());
 		}
 
 		return levelNo;
@@ -2024,14 +2024,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			// To set startFreq (in No) and startYear
 			if (!projectionSelection.getFrequency().equals(MONTHLY.getConstant())) {
 				String startFreqNoValue = startPeriodValue.substring(1, NumericConstants.TWO);
-				startFreq = isInteger(startFreqNoValue) ? Integer.valueOf(startFreqNoValue) : 0;
+				startFreq = isInteger(startFreqNoValue) ? Integer.parseInt(startFreqNoValue) : 0;
 			} else {
 				String startMonthValue = startPeriodValue.substring(0,
 						startPeriodValue.length() - NumericConstants.FIVE);
 				startFreq = CommonUtils.getIntegerForMonth(startMonthValue);
 			}
 			LOGGER.debug("startPeriodValue-->>" + startPeriodValue);
-			startYear = Integer.valueOf(startPeriodValue.substring(startPeriodValue.length() - NumericConstants.FOUR));
+			startYear = Integer.parseInt(startPeriodValue.substring(startPeriodValue.length() - NumericConstants.FOUR));
 
 			// To set endFreq (in No) and endYear
 			String endPeriodValue;
@@ -2044,12 +2044,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			LOGGER.debug(" endPeriodValue " + endPeriodValue);
 			if (!projectionSelection.getFrequency().equals(MONTHLY.getConstant())) {
 				String endFreqNoValue = endPeriodValue.substring(1, NumericConstants.TWO);
-				endFreq = isInteger(endFreqNoValue) ? Integer.valueOf(endFreqNoValue) : 0;
+				endFreq = isInteger(endFreqNoValue) ? Integer.parseInt(endFreqNoValue) : 0;
 			} else {
 				String endMonthValue = endPeriodValue.substring(0, endPeriodValue.length() - NumericConstants.FIVE);
 				endFreq = CommonUtils.getIntegerForMonth(endMonthValue);
 			}
-			endYear = Integer.valueOf(endPeriodValue.substring(endPeriodValue.length() - NumericConstants.FOUR));
+			endYear = Integer.parseInt(endPeriodValue.substring(endPeriodValue.length() - NumericConstants.FOUR));
 
 			List<Integer> massUpdatePeriods = new ArrayList<Integer>();
 			massUpdatePeriods.add(startFreq);
@@ -3536,15 +3536,15 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			String startYearValue = startFreq.substring(startFreq.length() - NumericConstants.FOUR);
 			String endYearValue = endFreq.substring(endFreq.length() - NumericConstants.FOUR);
 
-			int startYear = isInteger(startYearValue) ? Integer.valueOf(startYearValue) : 0;
-			int endYear = isInteger(endYearValue) ? Integer.valueOf(endYearValue) : 0;
+			int startYear = isInteger(startYearValue) ? Integer.parseInt(startYearValue) : 0;
+			int endYear = isInteger(endYearValue) ? Integer.parseInt(endYearValue) : 0;
 
 			startAndEndPeriods.clear();
 			if (!projectionSelection.getFrequency().equals(MONTHLY.getConstant())) {
 				String startFreqNoValue = startFreq.substring(1, NumericConstants.TWO);
 				String endFreqNoValue = endFreq.substring(1, NumericConstants.TWO);
-				int startFreqNo = isInteger(startFreqNoValue) ? Integer.valueOf(startFreqNoValue) : 0;
-				int endFreqNo = isInteger(endFreqNoValue) ? Integer.valueOf(endFreqNoValue) : 0;
+				int startFreqNo = isInteger(startFreqNoValue) ? Integer.parseInt(startFreqNoValue) : 0;
+				int endFreqNo = isInteger(endFreqNoValue) ? Integer.parseInt(endFreqNoValue) : 0;
 				if (projectionSelection.getProjectionOrder().equals(ASCENDING.getConstant())) {
 					startAndEndPeriods.add(startFreqNo);
 					startAndEndPeriods.add(endFreqNo);
@@ -3952,20 +3952,20 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		String freq = String.valueOf(frequencyDdlb.getValue());
 		String hist = String.valueOf(historyDdlb.getValue());
 		String yearValue = String.valueOf(yearSelection.getValue());
-		int year = isInteger(yearValue) ? Integer.valueOf(yearValue) : 0;
+		int year = isInteger(yearValue) ? Integer.parseInt(yearValue) : 0;
 		int historyNum = 0;
 		try {
 			if (year == 0 && !yearValue.equals(ALL.getConstant())) {
 				if (freq.equals(QUARTERLY.getConstant())) {
-					historyNum = Integer.valueOf(hist.replace("Quarter", StringUtils.EMPTY)
+					historyNum = Integer.parseInt(hist.replace("Quarter", StringUtils.EMPTY)
 							.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 				} else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-					historyNum = Integer.valueOf(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+					historyNum = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 				} else if (freq.equals(MONTHLY.getConstant())) {
-					historyNum = Integer.valueOf(hist.replace("Month", StringUtils.EMPTY)
+					historyNum = Integer.parseInt(hist.replace("Month", StringUtils.EMPTY)
 							.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 				} else if (freq.equals(ANNUALLY.getConstant())) {
-					historyNum = Integer.valueOf(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
+					historyNum = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 				}
 			} else {
 				historyNum = historyDdlb.getItemIds().size();
@@ -3985,9 +3985,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		projectionSelection.setYear(yearValue);
 
 		projectionSelection.setProjectionId(session.getProjectionId());
-		projectionSelection.setUserId(isInteger(session.getUserId()) ? Integer.valueOf(session.getUserId()) : 0);
+		projectionSelection.setUserId(isInteger(session.getUserId()) ? Integer.parseInt(session.getUserId()) : 0);
 		projectionSelection
-				.setSessionId(isInteger(session.getSessionId()) ? Integer.valueOf(session.getSessionId()) : 0);
+				.setSessionId(isInteger(session.getSessionId()) ? Integer.parseInt(session.getSessionId()) : 0);
 		projectionSelection.setCustomId(customId);
 		projectionSelection.setForecastConfigPeriods(CommonUtils.prepareProjectionPeriodList(projectionSelection));
 		List<String> discountToBeLoaded = projectionSelection.getDeductionLevelCaptions();
@@ -4091,7 +4091,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private void expandCollapseLevelOption(boolean isExpand) {
 		String levelNoString = String.valueOf(levelDdlb.getValue());
 		if (isInteger(levelNoString)) {
-			int levelNo = Integer.valueOf(levelNoString);
+			int levelNo = Integer.parseInt(levelNoString);
 			if (!isExpand) {
 				levelNo--;
 			}
@@ -4118,7 +4118,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			LOGGER.debug(" event value " + event.getProperty().getValue());
 			resetTableData();
 			String levelNumber = String.valueOf(event.getProperty().getValue());
-			int levelNo = isInteger(levelNumber) ? Integer.valueOf(levelNumber) : 0;
+			int levelNo = isInteger(levelNumber) ? Integer.parseInt(levelNumber) : 0;
 			if (!levelNumber.startsWith(Constant.DASH)) {
 				tableLogic.setChildrenAllowed(false);
 				tableLogic.filterLevels(levelNo);
@@ -4414,8 +4414,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		LOGGER.debug("Inside get Quater with String" + str);
 		int a[] = new int[NumericConstants.TWO];
 		String[] splited = str.split("\\s+");
-		a[0] = Integer.valueOf(new String(splited[0].replaceAll("[Q]+", StringUtils.EMPTY)));
-		a[1] = Integer.valueOf(splited[1]);
+		a[0] = Integer.parseInt(new String(splited[0].replaceAll("[Q]+", StringUtils.EMPTY)));
+		a[1] = Integer.parseInt(splited[1]);
 		return a;
 	}
 
@@ -4426,8 +4426,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				int endMonth = CommonUtils.getIntegerForMonth(valueEnd.substring(0, NumericConstants.THREE));
 				int startMonth = CommonUtils.getIntegerForMonth(
 						startPeriodForecastTab.getValue().toString().trim().substring(0, NumericConstants.THREE));
-				int endYear = Integer.valueOf(valueEnd.substring(NumericConstants.FOUR, NumericConstants.EIGHT));
-				int startYear = Integer.valueOf(startPeriodForecastTab.getValue().toString().trim()
+				int endYear = Integer.parseInt(valueEnd.substring(NumericConstants.FOUR, NumericConstants.EIGHT));
+				int startYear = Integer.parseInt(startPeriodForecastTab.getValue().toString().trim()
 						.substring(NumericConstants.FOUR, NumericConstants.EIGHT));
 
 				if (startYear < endYear) {
@@ -4443,13 +4443,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				String endValue = valueEnd.replace(" ", "~").trim();
 				String startValue1[] = startValue.split("~");
 				String endValue1[] = endValue.split("~");
-				if (Integer.valueOf(startValue1[1].trim()) > Integer.valueOf(endValue1[1].trim())) {
+				if (Integer.parseInt(startValue1[1].trim()) > Integer.parseInt(endValue1[1].trim())) {
 					errorFlag = true;
 					return false;
 				} else if ((Integer.valueOf(startValue1[1].trim())).equals(Integer.valueOf(endValue1[1].trim()))) {
 					startValue1[0] = startValue1[0].replace(Constant.Q, StringUtils.EMPTY).trim();
 					endValue1[0] = endValue1[0].replace(Constant.Q, StringUtils.EMPTY).trim();
-					if (Integer.valueOf(startValue1[0]) > Integer.valueOf(endValue1[0])) {
+					if (Integer.parseInt(startValue1[0]) > Integer.parseInt(endValue1[0])) {
 						errorFlag = true;
 						return false;
 					} else {
@@ -4461,7 +4461,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			} else {
 				String startValue = startPeriodForecastTab.getValue().toString();
 
-				if (Integer.valueOf(startValue) > Integer.valueOf(valueEnd)) {
+				if (Integer.parseInt(startValue) > Integer.parseInt(valueEnd)) {
 					return false;
 				} else {
 					return true;
@@ -4489,7 +4489,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		for (int i = 0; i < radioMap.size(); i++) {
 			String value = radioMap.getIndex(i).getValue().toString();
 			if (checkBoxMap.get(radioMap.getIndex(i).getKey()) != null
-					&& Boolean.valueOf(checkBoxMap.get(radioMap.getIndex(i).getKey()).toString())) {
+					&& Boolean.parseBoolean(checkBoxMap.get(radioMap.getIndex(i).getKey()).toString())) {
 				if (value.contains("ActualRate")) {
 					tempSalesvalue = true;
 					calc = Constant.RATE;
@@ -4585,9 +4585,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					}
 					if (defval != 1) {
 						String fullYear = tempYear + subYear1;
-						year[i] = Integer.valueOf(fullYear.trim());
+						year[i] = Integer.parseInt(fullYear.trim());
 					} else {
-						year[i] = Integer.valueOf(overall.get(i).trim());
+						year[i] = Integer.parseInt(overall.get(i).trim());
 					}
 
 				}
@@ -4628,8 +4628,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				String endfullYear = endTempYear + subYear3;
 				int finStartPeriod = 0;
                                 int finEndPeriod = 0;
-				finStartPeriod = Integer.valueOf(startfullYear.trim());
-				finEndPeriod = Integer.valueOf(endfullYear.trim());
+				finStartPeriod = Integer.parseInt(startfullYear.trim());
+				finEndPeriod = Integer.parseInt(endfullYear.trim());
 				if (year[year.length - 1] > finEndPeriod) {
 					baselineFlag = NumericConstants.TWO;
 					return false;
@@ -4719,7 +4719,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						subYear1 = tempSubYear;
 					}
 					String fullYear = tempYear + subYear1;
-					year[i] = Integer.valueOf(fullYear.trim());
+					year[i] = Integer.parseInt(fullYear.trim());
 
 				}
 				int i = 0;
@@ -4831,7 +4831,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 		int divval = 1;
 		int defval = 0;
-		int month = Integer.valueOf(strMonth);
+		int month = Integer.parseInt(strMonth);
 		String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
 		if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
 			divval = NumericConstants.SIX;
@@ -4850,7 +4850,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			month = month / divval;
 		}
 		String strYear = dateFormat.format(date) + String.valueOf(month);
-		int intYear = Integer.valueOf(strYear);
+		int intYear = Integer.parseInt(strYear);
 		GtnSmallHashMap monthMap = new GtnSmallHashMap();
 		if (frequency.equals(MONTHLY.getConstant())) {
 			defval = NumericConstants.TWELVE;
@@ -4882,7 +4882,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					subYear1 = tempSubYear;
 				}
 				String fullYear = tempYear + subYear1;
-				year[i] = Integer.valueOf(fullYear.trim());
+				year[i] = Integer.parseInt(fullYear.trim());
 			}
 			int i = 0;
 			Arrays.sort(year);
@@ -5220,7 +5220,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private void loadProductLevel() {
 
 		int hierarchyLevelNo = isInteger(session.getProductLevelNumber())
-				? Integer.valueOf(session.getProductLevelNumber()) : 0;
+				? Integer.parseInt(session.getProductLevelNumber()) : 0;
 		currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,
 				session.getProdRelationshipBuilderSid());
 		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
@@ -5310,7 +5310,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private void loadCustomerLevel() {
 		int hierarchyNo = isInteger(session.getCustomerLevelNumber())
-				? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+				? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
 		currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo,
 				session.getCustRelationshipBuilderSid());
 		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){

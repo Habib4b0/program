@@ -37,7 +37,7 @@ public class DataAssumptionstableLogic extends PageTableLogic {
             if (isFirstLoad) {
                 List list = logic.getDataAssumption(0, 0, true, this.getFilters(), this.getSortByColumns(), sessionDTO);
                 if (list != null && !list.isEmpty()) {
-                    count = Integer.valueOf(String.valueOf(list.get(0)));
+                    count = Integer.parseInt(String.valueOf(list.get(0)));
                 }
             }
 

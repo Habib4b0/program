@@ -231,7 +231,6 @@ public class NationalAssumptionsForm extends CustomComponent {
         tabSheet.addTab(fcpResults, "FCP Results", null, NumericConstants.THREE);
         tabSheet.addTab(phsResults, "PHS Results", null, NumericConstants.FOUR);
         tabSheet.addTab(additionalInformation, "Additional Information", null, NumericConstants.FIVE);
-        additionalInformation.setDescription("Additional Information");
 
         int tabCount = tabSheet.getComponentCount();
         tabsheetMap.clear();

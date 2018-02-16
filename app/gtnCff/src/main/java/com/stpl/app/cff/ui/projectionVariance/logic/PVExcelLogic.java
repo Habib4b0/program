@@ -50,7 +50,7 @@ public class PVExcelLogic {
     private static final DecimalFormat RATE_PER = new DecimalFormat(STRING_TWO_DECIMAL_FORMAT);
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
     private static final String ZERO = "0";
-    private static final int indexValue = 6;
+    private static final int INDEX_VALUE = 6;
     private int frequencyDivision;
     private static final int BASECOLUMN_LEVELNAME_INDEX = 3;
     private static final List<Object> PROCRAWLIST_TOTAL_PERIOD = new ArrayList();
@@ -825,10 +825,10 @@ public class PVExcelLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addListPivot(pvList, obj, freVarianceDTO, indexValue, key, groupId);
+                addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
 				hierarchyAndTPkeys(obj, key, pvList);
             } else {
-                updateListPivot(pvList, obj, freVarianceDTO, indexValue, key, groupId);
+                updateListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
             }
         }
     }
@@ -3319,7 +3319,7 @@ public class PVExcelLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addListPivot(pvList, obj, freVarianceDTO, indexValue, key, groupId);
+                addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
                 appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
                 if (isCustomView && !isTotal) {
                     customHierarchyAndTPKeys(obj, key, pvList);
@@ -3333,7 +3333,7 @@ public class PVExcelLogic {
                         : temp[temp.length - 1].toString();
                 if (!currValue.equals(tempValue)) {
                     pvList = new ArrayList();
-                    addListPivot(pvList, obj, freVarianceDTO, indexValue, key, groupId);
+                    addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
                     if (isCustomView && !isTotal) {
                         customHierarchyAndTPKeys(obj, key, pvList);
                     } else {
@@ -3341,10 +3341,10 @@ public class PVExcelLogic {
                     }
                     appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
                 } else {
-                    updateListPivot(pvList, obj, freVarianceDTO, indexValue, key, groupId);
+                    updateListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
                 }
             } else {
-                updateListPivot(pvList, obj, freVarianceDTO, indexValue, key, groupId);
+                updateListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
             }
         }
     }

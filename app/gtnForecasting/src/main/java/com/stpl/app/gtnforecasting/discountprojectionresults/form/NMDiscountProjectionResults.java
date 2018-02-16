@@ -422,16 +422,16 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 projectionDTO.setHistory(hist.toString());
 
                 if (freq.equals(QUARTERLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(MONTHLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(ANNUALLY)) {
                     String histPeriod = String.valueOf(hist);
-                    historyNum = Integer.valueOf(histPeriod.trim());
+                    historyNum = Integer.parseInt(histPeriod.trim());
                 }
             }
         if (toFreq && toHist) {
@@ -449,8 +449,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             projectionDTO.setHistoryNum(historyNum);
             projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), sessionDto));
             projectionDTO.setProjection(StringUtils.EMPTY + projectionDTO.getProjectionNum());
-            projectionDTO.setUserId(Integer.valueOf(sessionDto.getUserId()));
-            projectionDTO.setSessionId(Integer.valueOf(sessionDto.getSessionId()));
+            projectionDTO.setUserId(Integer.parseInt(sessionDto.getUserId()));
+            projectionDTO.setSessionId(Integer.parseInt(sessionDto.getSessionId()));
             projectionDTO.setCustRelationshipBuilderSid(sessionDto.getCustRelationshipBuilderSid());
             projectionDTO.setProdRelationshipBuilderSid(sessionDto.getProdRelationshipBuilderSid());
             projectionDTO.setActualsOrProjections(String.valueOf(actualOrProjectionsOpg.getValue()));
@@ -463,8 +463,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             projectionDTO.setCustomId(customId);
             projectionDTO.setView(String.valueOf(viewOpg.getValue()));
             projectionDTO.setDiscountList(new ArrayList<>(discountlist));
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(sessionDto.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(sessionDto.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(sessionDto.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(sessionDto.getProductLevelNumber()));
             List asd = getCheckedValues();
             projectionDTO.setdPVariablesList(asd);
             viewChange(false);
@@ -512,7 +512,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             getResultsTable().getLeftFreezeAsTable().setFilterBarVisible(true);
             getResultsTable().getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
             projectionDTO.setProjectionId(getProjectionId());
-            projectionDTO.setSessionId(sessionDto.getSessionId() != null && !StringUtils.EMPTY.equals(sessionDto.getSessionId()) ? Integer.valueOf(sessionDto.getSessionId()) : 0);
+            projectionDTO.setSessionId(sessionDto.getSessionId() != null && !StringUtils.EMPTY.equals(sessionDto.getSessionId()) ? Integer.parseInt(sessionDto.getSessionId()) : 0);
             getResultsTable().getLeftFreezeAsTable().setFilterGenerator(new NMFilterGenerator(sessionDto));
     }
 
@@ -624,14 +624,14 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             getResultsTable().getLeftFreezeAsTable().setFilterBarVisible(true);
             getResultsTable().getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
             projectionDTO.setProjectionId(getProjectionId());
-            projectionDTO.setSessionId(sessionDto.getSessionId() != null && !StringUtils.EMPTY.equals(sessionDto.getSessionId()) ? Integer.valueOf(sessionDto.getSessionId()) : 0);
+            projectionDTO.setSessionId(sessionDto.getSessionId() != null && !StringUtils.EMPTY.equals(sessionDto.getSessionId()) ? Integer.parseInt(sessionDto.getSessionId()) : 0);
             getResultsTable().getLeftFreezeAsTable().setFilterGenerator(new NMFilterGenerator(sessionDto));
         }
 
     public void levelFilterDdlbChangeOption(boolean excelExport) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilterDdlb.getValue());
         
-        int levelNo = levelFilterDdlb.getValue() == null ? 0 : Integer.valueOf(levelHierarchy.get(0).toString());
+        int levelNo = levelFilterDdlb.getValue() == null ? 0 : Integer.parseInt(levelHierarchy.get(0).toString());
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -668,10 +668,10 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
          CommercialDPRLogic commercialDPRLogic = new CommercialDPRLogic();
             ExcelUtils excelUtils = new ExcelUtils();
             String levelNo = commonLogic.getFirstLevelNo(projectionDTO.getProjectionId(), projectionDTO.getHierarchyIndicator());
-            List<String> hierarchy = commonLogic.getSelectedHierarchyForExcel(sessionDto, hierarchyNo.equals("0") ? "" : hierarchyNo, projectionDTO.getHierarchyIndicator(), Integer.valueOf(levelNo));
+            List<String> hierarchy = commonLogic.getSelectedHierarchyForExcel(sessionDto, hierarchyNo.equals("0") ? "" : hierarchyNo, projectionDTO.getHierarchyIndicator(), Integer.parseInt(levelNo));
             List<DiscountProjectionResultsDTO> resultList = commercialDPRLogic.getProjectionTotal(projectionDTO, isPeriodView);
             List<DiscountProjectionResultsDTO> discountList = commercialDPRLogic.getAllRSDiscount(projectionDTO, isPeriodView);
-            List mainList = commercialDPRLogic.configureLevelsForExcel(0, Integer.valueOf(hierarchy.get(0)), projectionDTO, isPeriodView, hierarchy.get(1));
+            List mainList = commercialDPRLogic.configureLevelsForExcel(0, Integer.parseInt(hierarchy.get(0)), projectionDTO, isPeriodView, hierarchy.get(1));
             List discountListForContract = commercialDPRLogic.getDiscountForAllContractExcel(projectionDTO, isPeriodView, hierarchy.get(1));
          ExcelUtils.setStaticRowToExcelContainer(getExcelResultBeanContainer(), resultList);
          ExcelUtils.setStaticRowToExcelContainer(getExcelResultBeanContainer(), discountList);
@@ -734,7 +734,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
     private void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo > 0) {
             if (projectionDTO.isIsFilter()) {
                 levelFilterDdlb.removeValueChangeListener(levelFilterChangeOption);
@@ -762,7 +762,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             String query = logic.getTradingPartnerLevel(projectionDTO.getProjectionId());
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
-                int tpLevel = Integer.valueOf(String.valueOf(list.get(0)));
+                int tpLevel = Integer.parseInt(String.valueOf(list.get(0)));
                 sessionDto.setTradingPartner(tpLevel);
                 projectionDTO.setTpLevel(tpLevel);
             }

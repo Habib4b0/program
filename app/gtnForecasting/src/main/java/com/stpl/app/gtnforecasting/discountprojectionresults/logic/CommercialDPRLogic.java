@@ -210,7 +210,7 @@ public class CommercialDPRLogic {
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, selection.getSessionDTO().getCurrentTableNames()));
         int count = 0;
         if (list != null && !list.isEmpty()) {
-            count = Integer.valueOf(list.get(0).toString());
+            count = Integer.parseInt(list.get(0).toString());
         }
         return count;
     }
@@ -831,7 +831,7 @@ public class CommercialDPRLogic {
         } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
             column = Constant.S_SMALL + String.valueOf(object[NumericConstants.TWO]) + String.valueOf(object[1]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
-            String monthName = getMonthForInt(Integer.valueOf(String.valueOf(object[NumericConstants.TWO])) - 1);
+            String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
             column = monthName.toLowerCase() + String.valueOf(object[1]);
         }
         return column;
@@ -846,7 +846,7 @@ public class CommercialDPRLogic {
         } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
             column = Constant.S + String.valueOf(object[NumericConstants.TWO]) + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
-            String monthName = getMonthForInt(Integer.valueOf(String.valueOf(object[NumericConstants.TWO])) - 1);
+            String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
             column = monthName + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
         }
         return column;

@@ -289,15 +289,15 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
                 hist = String.valueOf(hist).replace("Years", Constant.YEAR);
 
                 if (freq.equals(QUARTERLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(MONTHLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(ANNUALLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim());
                 }
             }
 
@@ -310,8 +310,8 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
             projectionDTO.setHistoryNum(historyNum);
             projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), sessionDTO));
             projectionDTO.setProjection(StringUtils.EMPTY + projectionDTO.getProjectionNum());
-            projectionDTO.setUserId(Integer.valueOf(sessionDTO.getUserId()));
-            projectionDTO.setSessionId(Integer.valueOf(sessionDTO.getSessionId()));
+            projectionDTO.setUserId(Integer.parseInt(sessionDTO.getUserId()));
+            projectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
 
             projectionDTO.setActualsOrProjections(String.valueOf(actualOrProjectionsOpg.getValue()));
             projectionDTO.setForecastConfigPeriods(CommonUtils.prepareProjectionPeriodList(projectionDTO));
@@ -323,8 +323,8 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
             projectionDTO.setCustomId(0);
 
             projectionDTO.setDiscountList(new ArrayList<>(discountlist));
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(sessionDTO.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(sessionDTO.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(sessionDTO.getProductLevelNumber()));
             projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             projectionDTO.setCusFieldName(sessionDTO.getCusFieldName());
             projectionDTO.setDiscountValue(String.valueOf(discountOpg));
