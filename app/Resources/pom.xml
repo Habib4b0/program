@@ -12,6 +12,7 @@
         <groupId>com.stpl.app</groupId>
         <artifactId>global-parent</artifactId>
         <version>1.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <properties>
         <maven.version>2.5</maven.version>
