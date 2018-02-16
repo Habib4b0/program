@@ -1056,7 +1056,7 @@ public class NMDPRLogic {
                     List<Object> list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                     if (list != null && !list.isEmpty()) {
                         Object ob = list.get(0);
-                        count = count + Integer.valueOf(String.valueOf(ob));
+                        count = count + Integer.parseInt(String.valueOf(ob));
                     }
                 }
             } else {

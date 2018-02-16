@@ -133,7 +133,7 @@ public abstract class AbstractViewLookup extends Window {
 		Panel resultSection = UiUtils.addCommonPanel(RESULTS.getConstant());
 		VerticalLayout layout = (VerticalLayout) UiUtils.getLayout(new VerticalLayout());
 		resourceBundle = ResourceBundle.getBundle("configurations/default");
-		float tableWidth = Float.valueOf(resourceBundle.getString("view_table_width"));
+		float tableWidth = Float.parseFloat(resourceBundle.getString("view_table_width"));
 		results.setWidth(tableWidth, Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
 		layout.setSizeFull();
 		layout.addComponent(results);

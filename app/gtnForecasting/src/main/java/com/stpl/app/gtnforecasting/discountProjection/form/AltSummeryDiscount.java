@@ -463,7 +463,7 @@ public class AltSummeryDiscount extends CustomComponent {
 
         newBtn.setEnabled(true);
         /* To load the Customer hierarchy initially */
-        int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+        int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo);
         hierarchyIndicator = "C";
 
@@ -650,9 +650,9 @@ public class AltSummeryDiscount extends CustomComponent {
     private int getStartLevelNo() {
         int levelNo = 1;
         if (view.getValue().equals(CUSTOMER.getConstant())) {
-            levelNo = Integer.valueOf(session.getCustomerLevelNumber());
+            levelNo = Integer.parseInt(session.getCustomerLevelNumber());
         } else if (view.getValue().equals(PRODUCT.getConstant())) {
-            levelNo = Integer.valueOf(session.getProductLevelNumber());
+            levelNo = Integer.parseInt(session.getProductLevelNumber());
         }
 
         return levelNo;
@@ -687,7 +687,7 @@ public class AltSummeryDiscount extends CustomComponent {
                 }
             } else if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
                 customIdToSelect = customId;
-                int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+                int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
                 currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo);
                 Collections.sort(this.currentHierarchy,new Comparator<Leveldto>(){
                 	@Override
@@ -710,7 +710,7 @@ public class AltSummeryDiscount extends CustomComponent {
                 resultsTable.getLeftFreezeAsTable().setColumnCollapsed(Constant.GROUP, false);
             } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
                 customIdToSelect = customId;
-                int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+                int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
                 currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo);
                 Collections.sort(this.currentHierarchy,new Comparator<Leveldto>(){
                 	@Override
@@ -1093,23 +1093,23 @@ public class AltSummeryDiscount extends CustomComponent {
                 endFreq = String.valueOf(rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1));
                 String startYearValue = startFreq.substring(startFreq.length() - NumericConstants.FOUR);
                 String endYearValue = endFreq.substring(endFreq.length() - NumericConstants.FOUR);
-                startYear = isInteger(startYearValue) ? Integer.valueOf(startYearValue) : 0;
-                endYear = isInteger(endYearValue) ? Integer.valueOf(endYearValue) : 0;
+                startYear = isInteger(startYearValue) ? Integer.parseInt(startYearValue) : 0;
+                endYear = isInteger(endYearValue) ? Integer.parseInt(endYearValue) : 0;
             }
             else{
                 startFreq = String.valueOf(projectionSelection.getPeriodList().get(0));
                 endFreq = String.valueOf(projectionSelection.getPeriodList().get(projectionSelection.getPeriodList().size()-1));
                 String startYearValue = projectionSelection.getPeriodList().get(0).substring(projectionSelection.getPeriodList().get(0).length() - NumericConstants.FOUR);
                 String endYearValue = projectionSelection.getPeriodList().get(projectionSelection.getPeriodList().size()-1).substring(projectionSelection.getPeriodList().get(projectionSelection.getPeriodList().size()-1).length() - NumericConstants.FOUR);
-                startYear = isInteger(startYearValue) ? Integer.valueOf(startYearValue) : 0;
-                endYear = isInteger(endYearValue) ? Integer.valueOf(endYearValue) : 0;
+                startYear = isInteger(startYearValue) ? Integer.parseInt(startYearValue) : 0;
+                endYear = isInteger(endYearValue) ? Integer.parseInt(endYearValue) : 0;
             }
             startAndEndPeriods.clear();
             if (!projectionSelection.getFrequency().equals(MONTHLY.getConstant())) {
                 String startFreqNoValue = startFreq.substring(1, NumericConstants.TWO);
                 String endFreqNoValue = endFreq.substring(1, NumericConstants.TWO);
-                int startFreqNo = isInteger(startFreqNoValue) ? Integer.valueOf(startFreqNoValue) : 0;
-                int endFreqNo = isInteger(endFreqNoValue) ? Integer.valueOf(endFreqNoValue) : 0;
+                int startFreqNo = isInteger(startFreqNoValue) ? Integer.parseInt(startFreqNoValue) : 0;
+                int endFreqNo = isInteger(endFreqNoValue) ? Integer.parseInt(endFreqNoValue) : 0;
                 if (projectionSelection.getProjectionOrder().equals(ASCENDING.getConstant())) {
                     startAndEndPeriods.add(startFreqNo);
                     startAndEndPeriods.add(endFreqNo);
@@ -1250,13 +1250,13 @@ public class AltSummeryDiscount extends CustomComponent {
         try {
 
             if (freq.equals(QUARTERLY.getConstant())) {
-                historyNum = Integer.valueOf(hist.replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                historyNum = Integer.valueOf(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
             } else if (freq.equals(MONTHLY.getConstant())) {
-                historyNum = Integer.valueOf(hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } else if (freq.equals(ANNUALLY.getConstant())) {
-                historyNum = Integer.valueOf(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
             }
 
         } catch (NumberFormatException e) {
@@ -1276,8 +1276,8 @@ public class AltSummeryDiscount extends CustomComponent {
         projectionSelection.setActualsOrProjections(String.valueOf(actualsProjs.getValue()));
         projectionSelection.setProjectionOrder(String.valueOf(periodOrder.getValue()));
         projectionSelection.setProjectionId(session.getProjectionId());
-        projectionSelection.setUserId(isInteger(session.getUserId()) ? Integer.valueOf(session.getUserId()) : 0);
-        projectionSelection.setSessionId(isInteger(session.getSessionId()) ? Integer.valueOf(session.getSessionId()) : 0);
+        projectionSelection.setUserId(isInteger(session.getUserId()) ? Integer.parseInt(session.getUserId()) : 0);
+        projectionSelection.setSessionId(isInteger(session.getSessionId()) ? Integer.parseInt(session.getSessionId()) : 0);
         projectionSelection.setCustomId(customId);
 
         LOGGER.debug(" Ending Selection Dto Creation");
@@ -1330,7 +1330,7 @@ public class AltSummeryDiscount extends CustomComponent {
     private void expandCollapseLevelOption(boolean isExpand) {
         String levelNoString = String.valueOf(levelDdlb.getValue());
         if (isInteger(levelNoString)) {
-            int levelNo = Integer.valueOf(levelNoString);
+            int levelNo = Integer.parseInt(levelNoString);
             if (!isExpand) {
                 levelNo--;
             }
@@ -1354,7 +1354,7 @@ public class AltSummeryDiscount extends CustomComponent {
                 LOGGER.debug(" event value " + event.getProperty().getValue());
 
                 String levelNumber = String.valueOf(event.getProperty().getValue());
-                int levelNo = isInteger(levelNumber) ? Integer.valueOf(levelNumber) : 0;
+                int levelNo = isInteger(levelNumber) ? Integer.parseInt(levelNumber) : 0;
                 if (!levelNumber.startsWith(Constant.DASH)) {
                     projectionSelection.setIsFilter(true);
                     if (!Constant.VARIABLE.equalsIgnoreCase(String.valueOf(pivotView.getValue()))) {
@@ -1517,9 +1517,9 @@ public class AltSummeryDiscount extends CustomComponent {
                     }
                     if (defval != 1) {
                         String fullYear = tempYear + subYear1;
-                        year[i] = Integer.valueOf(fullYear.trim());
+                        year[i] = Integer.parseInt(fullYear.trim());
                     } else {
-                        year[i] = Integer.valueOf(overall.get(i).toString().trim());
+                        year[i] = Integer.parseInt(overall.get(i).toString().trim());
                     }
 
                 }
@@ -1559,8 +1559,8 @@ public class AltSummeryDiscount extends CustomComponent {
                 String endfullYear = endTempYear + subYear3;
                 int finStartPeriod = 0;
                 int finEndPeriod = 0;
-                finStartPeriod = Integer.valueOf(startfullYear.trim());
-                finEndPeriod = Integer.valueOf(endfullYear.trim());
+                finStartPeriod = Integer.parseInt(startfullYear.trim());
+                finEndPeriod = Integer.parseInt(endfullYear.trim());
                 if (year[year.length - 1] > finEndPeriod) {
                     return false;
                 } else if (year[year.length - 1] >= finStartPeriod && year[year.length - 1] <= finEndPeriod) {
@@ -1574,7 +1574,7 @@ public class AltSummeryDiscount extends CustomComponent {
     }
 
     public double doubleConversion(String value) {
-        double doubleVal = Double.valueOf(value);
+        double doubleVal = Double.parseDouble(value);
         double finalValue = doubleVal / ccpsCount;
         return finalValue;
     }
