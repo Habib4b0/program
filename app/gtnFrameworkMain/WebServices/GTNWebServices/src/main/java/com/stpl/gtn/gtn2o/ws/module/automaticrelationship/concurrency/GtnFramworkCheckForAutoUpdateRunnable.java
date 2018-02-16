@@ -44,6 +44,7 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 	private int index;
 	private AtomicBoolean atomicBoolean;
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFramworkCheckForAutoUpdateRunnable.class);
+        private static final String RELATIONSHIP_LEVEL_DEFINITION = "RELATIONSHIP_LEVEL_DEFINITION";
 
 	public GtnFramworkCheckForAutoUpdateRunnable() {
 		super();
@@ -177,8 +178,8 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
 						previousHierarchyLevelBean.getFieldName());
-		GtnFrameworkJoinClauseBean relationJoin = queryGenerartorBean.addJoinClauseBean("RELATIONSHIP_LEVEL_DEFINITION",
-				"RELATIONSHIP_LEVEL_DEFINITION", GtnFrameworkJoinType.JOIN);
+		GtnFrameworkJoinClauseBean relationJoin = queryGenerartorBean.addJoinClauseBean(RELATIONSHIP_LEVEL_DEFINITION,
+				RELATIONSHIP_LEVEL_DEFINITION, GtnFrameworkJoinType.JOIN);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
 				keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn(),
 				GtnFrameworkOperatorType.EQUAL_TO);
@@ -192,7 +193,7 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 				getHierarchyNoForRelationShip(hierarchyLevelDefinitionList, previousHierarchyLevelBean),
 				GtnFrameworkOperatorType.LIKE);
 		GtnFrameworkJoinClauseBean relationDateJoin = queryGenerartorBean.addJoinClauseBean(
-				"RELATIONSHIP_LEVEL_DEFINITION", "RELATIONSHIP_LEVEL_DEFINITION2", GtnFrameworkJoinType.JOIN);
+				RELATIONSHIP_LEVEL_DEFINITION, "RELATIONSHIP_LEVEL_DEFINITION2", GtnFrameworkJoinType.JOIN);
 		relationDateJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION2.RELATIONSHIP_BUILDER_SID",
 				"RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", GtnFrameworkOperatorType.EQUAL_TO);
 		relationDateJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION2.level_no", null,
