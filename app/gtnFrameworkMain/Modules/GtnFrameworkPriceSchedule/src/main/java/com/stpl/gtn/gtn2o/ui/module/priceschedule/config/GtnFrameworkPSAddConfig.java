@@ -27,7 +27,6 @@ import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameWorkPSSavePri
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameworkPSDeleteConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameworkPSSaveConfirmationAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
 /**

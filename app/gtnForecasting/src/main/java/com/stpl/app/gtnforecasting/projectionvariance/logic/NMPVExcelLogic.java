@@ -9,7 +9,6 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.PVParameters;
-import static com.stpl.app.gtnforecasting.projectionvariance.logic.PVCommonLogic.variableValueCustomization;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -18,7 +17,6 @@ import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.LabelConstants.DESCENDING;
-import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -153,7 +151,7 @@ public class NMPVExcelLogic {
     private static final String ALL = "ALL";
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private static final String DF_LEVEL_NAME = "dfLevelName";
-    private static final int baseColumn_hierarchyIndicator_index = 2;
+    private static final int BASECOLUMN_HIERARCHYINDICATOR_INDEX = 2;
 
     public NMPVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto) {
@@ -342,7 +340,7 @@ public class NMPVExcelLogic {
                     detail.setHierarchyNo(obj[1].toString());
                     detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
                 } else {
-                      groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[baseColumn_hierarchyIndicator_index].toString(),
+                      groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
                       selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
                       detail.setGroup(groupName);
                     if (groupName.contains("-")) {

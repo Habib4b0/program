@@ -101,9 +101,9 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      * The table control Layout.
      */
     private  ExtTreeContainer<ProjectionVarianceDTO> beanContainerResult = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
-    private static List<Integer> projectionIdList = new ArrayList<>();
+    private List<Integer> projectionIdList = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
-    private static List<String> projectionNameList = new ArrayList<>();
+    private List<String> projectionNameList = new ArrayList<>();
     private final MProjectionVarianceLogic pvLogic = new MProjectionVarianceLogic();
     private boolean firstGenerated = false;
     private boolean canLoad = true;

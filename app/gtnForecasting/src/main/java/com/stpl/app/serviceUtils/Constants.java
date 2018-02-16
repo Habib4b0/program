@@ -38,7 +38,7 @@ public final class Constants {
     /**
      * The Bundle no.
      */
-    public static final String Bundle_No = "bundleNo";
+    public static final String BUNDLE_NO = "bundleNo";
     /**
      * The CONTRAC t_ n o1.
      */
@@ -446,11 +446,11 @@ public final class Constants {
     /**
      * The public static final String asterisk.
      */
-    public static final String _ASTERISK = "*";
+    public static final String ASTERISK = "*";
     /**
      * The public static final String zero.
      */
-    public static final String _ZERO = "0";
+    public static final String STR_ZERO = "0";
     /**
      * The char percent.
      */
@@ -1005,9 +1005,9 @@ public final class Constants {
      */
     public static final String SALES_CAPS = "Sales";
 
-    public static final String customer = "Customer";
-    public static final String product = "Product";
-    public static final String custom = "Custom";
+    public static final String CUSTOMER = "Customer";
+    public static final String PRODUCT = "Product";
+    public static final String CUSTOM = "Custom";
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CATEGORY = "Program Category";
      public static final String INDICATOR = "indicator";
@@ -1093,7 +1093,7 @@ public final class Constants {
     public static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
 
     public static String alphaNumericCharsMessage = "Special Characters are not allowed in ";
-    public final static String itemClickFlag = "ITEM_CLICK_FLAG";
+    public final static String ITEM_CLICK_FLAG = "ITEM_CLICK_FLAG";
 
     /**
      * The Constant PRICE.
