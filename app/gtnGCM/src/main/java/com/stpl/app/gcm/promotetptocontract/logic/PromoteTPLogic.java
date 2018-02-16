@@ -407,8 +407,8 @@ public class PromoteTPLogic {
                         dto.setTherapyClass(convertNullToEmpty(obj[NumericConstants.TWO]));
                         dto.setBrand(convertNullToEmpty(obj[NumericConstants.THREE]));
                         dto.setStatus(convertNullToEmpty(obj[NumericConstants.FOUR]));
-                        dto.setItemStartDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FIVE].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.DATE_FORMAT)) : null);
-                        dto.setItemEndDate(!String.valueOf(obj[NumericConstants.SIX]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SIX].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.DATE_FORMAT)) : null);
+                        dto.setItemStartDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FIVE].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.MM_DD_YYYY)) : null);
+                        dto.setItemEndDate(!String.valueOf(obj[NumericConstants.SIX]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SIX].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.MM_DD_YYYY)) : null);
                         dto.setRebatePlan(convertNullToEmpty(obj[NumericConstants.SEVEN]));
                         dto.setFormulaId(convertNullToEmpty(obj[NumericConstants.EIGHT]));
                         componentInfoList.add(dto);
@@ -461,7 +461,6 @@ public class PromoteTPLogic {
             contract = contractId.replace(Constants.IndicatorConstants.CHAR_ASTERISK.getConstant(), Constants.IndicatorConstants.CHAR_PERCENT.getConstant());
         }
         final List<CurrentContractDTO> contractList = new ArrayList<>();
-        // TODO change the limits in the query
         try {
             final List<ContractMaster> contractML = dao.contractMasterDynamicQuery(getProcessedQuery(contract, start, end));
 
@@ -1413,8 +1412,8 @@ public class PromoteTPLogic {
                             dto.setItemName(convertNullToEmpty(obj[1]));
                             dto.setBrand(convertNullToEmpty(obj[NumericConstants.TWO]));
                             dto.setStatus(convertNullToEmpty(obj[NumericConstants.THREE]));
-                            dto.setItemStartDate(!String.valueOf(obj[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FOUR].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.DATE_FORMAT)) : null);
-                            dto.setItemEndDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FIVE].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.DATE_FORMAT)) : null);
+                            dto.setItemStartDate(!String.valueOf(obj[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FOUR].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.MM_DD_YYYY)) : null);
+                            dto.setItemEndDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FIVE].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.MM_DD_YYYY)) : null);
                             dto.setRebatePlan(convertNullToEmpty(obj[NumericConstants.TEN]));
                             dto.setFormulaId(convertNullToEmpty(obj[NumericConstants.SEVEN]));
                         }
@@ -1743,7 +1742,6 @@ public class PromoteTPLogic {
             contract = contractId.replace(Constants.IndicatorConstants.CHAR_ASTERISK.getConstant(), Constants.IndicatorConstants.CHAR_PERCENT.getConstant());
         }
         final List<ComponentInfoDTO> contractList = new ArrayList<>();
-        // TODO change the limits in the query
         try {
             final List<ContractMaster> contractML = dao.contractMasterDynamicQuery(getProcessedQuery(contract, start, end));
 

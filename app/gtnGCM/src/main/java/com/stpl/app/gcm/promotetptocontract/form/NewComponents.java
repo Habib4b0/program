@@ -281,7 +281,7 @@ public class NewComponents extends CustomComponent implements View {
     private NewComponentSearchTableLogic compItemSearchTableLogic = new NewComponentSearchTableLogic();
     private ExtPagedTable compItemSearchTable = new ExtPagedTable(compItemSearchTableLogic);
     private ComponentInfoDTO contInfoDto = new ComponentInfoDTO();
-    private DateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
+    private DateFormat df = new SimpleDateFormat(Constants.MM_DD_YYYY);
     private static final String MASS_UPDATE_ERROR = "Mass Update Error";
     private QueryUtils queryUtils = new QueryUtils();
     private List<ComponentInfoDTO> selecteditemList = new ArrayList<>();
@@ -340,12 +340,12 @@ public class NewComponents extends CustomComponent implements View {
 
     protected void configureFields() {
         try {
-            startDate.setDateFormat(Constants.DATE_FORMAT);
-            endDate.setDateFormat(Constants.DATE_FORMAT);
-            ifpStartDate.setDateFormat(Constants.DATE_FORMAT);
-            ifpEndDate.setDateFormat(Constants.DATE_FORMAT);
-            psStartDate.setDateFormat(Constants.DATE_FORMAT);
-            psEndDate.setDateFormat(Constants.DATE_FORMAT);
+            startDate.setDateFormat(Constants.MM_DD_YYYY);
+            endDate.setDateFormat(Constants.MM_DD_YYYY);
+            ifpStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            ifpEndDate.setDateFormat(Constants.MM_DD_YYYY);
+            psStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            psEndDate.setDateFormat(Constants.MM_DD_YYYY);
             massStartDate.setDateFormat(Constants.MM_DD_YYYY);
             massEndDate.setDateFormat(Constants.MM_DD_YYYY);
             massUpdateRadio.addItem(ENABLE.getConstant());

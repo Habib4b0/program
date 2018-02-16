@@ -797,7 +797,7 @@ public class TransferComponents extends CustomComponent implements View {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Same IFP(s) already available.Please select different IFP");
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 } else if (level.equals(Constants.PRICE_SCHEDULE)) {
                     int Duplicatealert = 0;
@@ -868,7 +868,7 @@ public class TransferComponents extends CustomComponent implements View {
                             }
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 } else if (level.equals(Constants.REBATE_SCHEDULE)) {
                     if (NumericConstants.FOUR - levelNumber == 1) {
@@ -915,7 +915,7 @@ public class TransferComponents extends CustomComponent implements View {
                             }
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 }
             } else {

@@ -461,8 +461,8 @@ public class UpdatedContractSelection extends VerticalLayout {
             fieldDdlb.addItem(Constants.COMPANY_END_DATE_LABEL);
             valueDdlb.setVisible(true);
             startPeriod.setVisible(false);
-            startPeriod.setDateFormat(Constants.DATE_FORMAT);
-            endPeriod.setDateFormat(Constants.DATE_FORMAT);
+            startPeriod.setDateFormat(Constants.MM_DD_YYYY);
+            endPeriod.setDateFormat(Constants.MM_DD_YYYY);
             comStartDateLabel.setVisible(false);
 
             endPeriod.setVisible(false);
@@ -708,7 +708,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     final PopupDateField compStartDate = new PopupDateField();
                     compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     compStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
-                    compStartDate.setDateFormat(Constants.DATE_FORMAT);
+                    compStartDate.setDateFormat(Constants.MM_DD_YYYY);
                     if (dto.getWorkflowStatus().trim().isEmpty() && (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant()) || TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName()) || session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()))) {
                         compStartDate.setImmediate(true);
                         compStartDate.setData(((ContractResultDTO) itemId).getCompStartDate());
@@ -726,7 +726,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                                             Date maxEndDate = new Date(1, 1, NumericConstants.ONE_NINE_ZERO_ZERO);
                                             if (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())) {
                                                 String tmpEndDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
-                                                maxEndDate = new Date(CommonLogic.convertDateFormat(tmpEndDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
+                                                maxEndDate = new Date(CommonLogic.convertDateFormat(tmpEndDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.MM_DD_YYYY));
                                             }
 
                                             if (enteredDate == null || (enteredDate.after(maxEndDate))) {
@@ -763,7 +763,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
                 if (propertyId.equals(Constants.COMP_END_DATE_PROPERTY)) {
                     final PopupDateField compEndDate = new PopupDateField();
-                    compEndDate.setDateFormat(Constants.DATE_FORMAT);
+                    compEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     compEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     if (dto.getWorkflowStatus().trim().isEmpty()) {
@@ -878,7 +878,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 if (propertyId.equals(
                         "contEndDate")) {
                     final PopupDateField contEndDate = new PopupDateField();
-                    contEndDate.setDateFormat(Constants.DATE_FORMAT);
+                    contEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     contEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contEndDate.setEnabled(false);
@@ -889,7 +889,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 if (propertyId.equals(
                         "contStartDate")) {
                     final PopupDateField contStartDate = new PopupDateField();
-                    contStartDate.setDateFormat(Constants.DATE_FORMAT);
+                    contStartDate.setDateFormat(Constants.MM_DD_YYYY);
                     contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     contStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contStartDate.setEnabled(false);
@@ -1892,10 +1892,10 @@ public class UpdatedContractSelection extends VerticalLayout {
     private boolean isTimeGapPresent() {
         LOGGER.debug("Inside isTimeGapPresent");
         String tmpEndDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
-        Date maxEndDate = new Date(CommonLogic.convertDateFormat(tmpEndDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
+        Date maxEndDate = new Date(CommonLogic.convertDateFormat(tmpEndDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.MM_DD_YYYY));
 
         String tmpStartDate = CommonLogic.getDateForCheckedContract(session.getSessionId(), true, true, false);
-        Date minStartDate = new Date(CommonLogic.convertDateFormat(tmpStartDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
+        Date minStartDate = new Date(CommonLogic.convertDateFormat(tmpStartDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.MM_DD_YYYY));
 
         Calendar startCalendar = new GregorianCalendar();
         startCalendar.setTime(maxEndDate);
