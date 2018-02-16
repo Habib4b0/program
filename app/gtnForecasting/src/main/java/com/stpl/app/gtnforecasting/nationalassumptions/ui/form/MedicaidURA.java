@@ -570,7 +570,7 @@ public class MedicaidURA extends CustomComponent implements View {
             if ((hist != null) && (!SELECT_ONE.getConstant().equals(hist.toString()))) {
                 histFlag = true;
                 projectionDTO.setHistory(hist.toString());
-                historyNum = Integer.valueOf(String.valueOf(hist).trim().substring(0, NumericConstants.TWO).trim());
+                historyNum = Integer.parseInt(String.valueOf(hist).trim().substring(0, NumericConstants.TWO).trim());
             }
         if (histFlag) {
             flag = true;

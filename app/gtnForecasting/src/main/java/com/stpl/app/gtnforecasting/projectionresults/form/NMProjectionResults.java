@@ -148,18 +148,18 @@ public class NMProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setIsHistroryChanged(hist.toString());
             projectionSelectionDTO.setHistory(hist.toString());
             String[] his = historyDdlb.getValue().toString().split(" ");
-            historyNum = Integer.valueOf(his[0]);
+            historyNum = Integer.parseInt(his[0]);
         }
         if (toFreq && toHist) {
             toRet = true;
-            projectionSelectionDTO.setCustomerLevelNo(Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
-            projectionSelectionDTO.setProductLevelNo(Integer.valueOf(sessionDTO.getProductLevelNumber()));
-            projectionSelectionDTO.setTreeLevelNo(Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
+            projectionSelectionDTO.setCustomerLevelNo(Integer.parseInt(sessionDTO.getCustomerLevelNumber()));
+            projectionSelectionDTO.setProductLevelNo(Integer.parseInt(sessionDTO.getProductLevelNumber()));
+            projectionSelectionDTO.setTreeLevelNo(Integer.parseInt(sessionDTO.getCustomerLevelNumber()));
             projectionSelectionDTO.setSessionDTO(sessionDTO);
             projectionId = sessionDTO.getProjectionId();
             projectionSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
-            projectionSelectionDTO.setUserId(Integer.valueOf(sessionDTO.getUserId()));
-            projectionSelectionDTO.setSessionId(Integer.valueOf(sessionDTO.getSessionId()));
+            projectionSelectionDTO.setUserId(Integer.parseInt(sessionDTO.getUserId()));
+            projectionSelectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
             projectionSelectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());
             projectionSelectionDTO.setProdRelationshipBuilderSid(sessionDTO.getProdRelationshipBuilderSid());
             projectionSelectionDTO.setPpa(CommonLogic.isPPA(Boolean.TRUE, projectionSelectionDTO));
@@ -239,7 +239,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
     public void levelFilterDdlbChangeOption(boolean excelExport) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilterDdlb.getValue());
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
