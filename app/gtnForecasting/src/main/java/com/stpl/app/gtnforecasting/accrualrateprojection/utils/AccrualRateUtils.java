@@ -343,7 +343,7 @@ public class AccrualRateUtils {
      * @param accrualRateSelectionDTO
      */
     public static void getRightHeadersForAccrual(final CustomTableHeaderDTO tableHeaderDTO, final Object historyValue, final AccrualRateSelectionDTO accrualRateSelectionDTO, final String screenName, final List<String> selectedValues, final CustomTableHeaderDTO recordHeaderDTO) {
-        int historyStartPeriod = historyValue == null || historyValue.equals(Constant.SELECT_ONE) ? -1 : Integer.valueOf(DASH + (historyValue.toString().substring(0, 2).trim()));
+        int historyStartPeriod = historyValue == null || historyValue.equals(Constant.SELECT_ONE) ? -1 : Integer.parseInt(DASH + (historyValue.toString().substring(0, 2).trim()));
         int filterEndIndex = 0;
         int filterStartindex = 0;
         if (accrualRateSelectionDTO.isFilterValid()) {

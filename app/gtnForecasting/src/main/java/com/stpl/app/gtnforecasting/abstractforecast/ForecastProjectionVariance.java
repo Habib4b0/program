@@ -507,7 +507,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -600,7 +600,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             if (frequency.getValue() != null && !Constant.NULL.equals(String.valueOf(frequency.getValue())) && !StringUtils.EMPTY.equals(String.valueOf(frequency.getValue()))) {
                 String selectedCustomID = String.valueOf(customDdlb.getValue());
                 customIdToSelect=!Constant.NULL.equals(selectedCustomID) && !SELECT_ONE.equals(selectedCustomID)
-                        ? Integer.valueOf(selectedCustomID) : 0;
+                        ? Integer.parseInt(selectedCustomID) : 0;
                 getGenerateCall(false);
                 setDisableFields();
                 
