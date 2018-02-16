@@ -982,7 +982,7 @@ public class DataSelection extends CustomComponent implements View {
 
     private void setSavedValues() {
         try {
-            NaProjMaster model = NaProjMasterLocalServiceUtil.getNaProjMaster(Integer.valueOf(VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID).toString()));
+            NaProjMaster model = NaProjMasterLocalServiceUtil.getNaProjMaster(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID).toString()));
             company.setValue(model.getCompanyMasterSid());
             businessUnit.setValue(model.getBusinessUnit());
         } catch (PortalException | SystemException ex) {

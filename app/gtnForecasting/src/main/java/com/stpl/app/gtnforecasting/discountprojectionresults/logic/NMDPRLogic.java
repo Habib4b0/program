@@ -1675,7 +1675,7 @@ public class NMDPRLogic {
         } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
             freq = Constant.S_SMALL + String.valueOf(obj[1]) + String.valueOf(obj[0]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
-            String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+            String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
             freq = monthName.toLowerCase() + String.valueOf(obj[0]);
         }
         return freq;
