@@ -338,7 +338,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         }
 
         if (list != null && !list.isEmpty()) {
-            return Integer.valueOf(String.valueOf(list.get(0)));
+            return Integer.parseInt(String.valueOf(list.get(0)));
         } else {
             return 0;
         }

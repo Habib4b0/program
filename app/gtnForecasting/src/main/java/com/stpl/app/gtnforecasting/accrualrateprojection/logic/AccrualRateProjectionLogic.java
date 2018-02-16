@@ -89,12 +89,12 @@ public final class AccrualRateProjectionLogic {
                 isNotValid = true;
             } else {
                 String[] from = fromPeriod.split(AccrualRateUtils.DASH);
-                int startYear = Integer.valueOf(from[1].substring(0, NumericConstants.FOUR));
-                int startMonth = Integer.valueOf(from[0].trim().substring(1, from[0].length()));
+                int startYear = Integer.parseInt(from[1].substring(0, NumericConstants.FOUR));
+                int startMonth = Integer.parseInt(from[0].trim().substring(1, from[0].length()));
                 if (StringUtils.isNotBlank(toPeriod)) {
                     String[] to = toPeriod.split(AccrualRateUtils.DASH);
-                    int endYear = Integer.valueOf(to[1].substring(0,  NumericConstants.FOUR));
-                    int endMonth = Integer.valueOf(to[0].trim().substring(1, to[0].length()));
+                    int endYear = Integer.parseInt(to[1].substring(0,  NumericConstants.FOUR));
+                    int endMonth = Integer.parseInt(to[0].trim().substring(1, to[0].length()));
                     if (startYear > endYear) {
                         isNotValid = true;
                     } else if ((startYear == endYear) && (startMonth > endMonth)) {
@@ -140,7 +140,7 @@ public final class AccrualRateProjectionLogic {
         query = query.replace(Constant.AT_TABLE_NAME, isViewMode?Constant.ACCRUAL_PROJ_DETAILS:Constant.ST_ACCRUAL_PROJ_DETAILS);
         query = query.replace(Constant.AT_PROJECTION_MASTER_SID, accrualRateSelectionDTO.getProjectionId());
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
-        return list == null || list.get(0) == null ? 0 : Integer.valueOf(list.get(0).toString());
+        return list == null || list.get(0) == null ? 0 : Integer.parseInt(list.get(0).toString());
     }
 
     /**
@@ -658,7 +658,7 @@ public final class AccrualRateProjectionLogic {
         }
 
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
-        return list == null || list.get(0) == null ? 0 : Integer.valueOf(list.get(0).toString());
+        return list == null || list.get(0) == null ? 0 : Integer.parseInt(list.get(0).toString());
     }
 
     public List<AccrualRateSelectionDTO> getAvalableValues(final List<SortByColumn> columns, final Set<Container.Filter> filterSet, int start, int end) {
@@ -808,7 +808,7 @@ public final class AccrualRateProjectionLogic {
         }
 
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), dto.getSessionDto().getCurrentTableNames()));
-        return list == null || list.get(0) == null ? 0 : Integer.valueOf(list.get(0).toString());
+        return list == null || list.get(0) == null ? 0 : Integer.parseInt(list.get(0).toString());
     }
 
     public List getExcluededCompanys(AccrualRateSelectionDTO accrualRateSelectionDTO, final List<SortByColumn> sortByColumns, final Set<Container.Filter> filterSet, int start, int end,final boolean isViewMode) {
