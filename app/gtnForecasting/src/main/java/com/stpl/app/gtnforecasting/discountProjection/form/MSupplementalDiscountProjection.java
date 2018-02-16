@@ -404,10 +404,10 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             projectionDTO.setHistoryNum(NumericConstants.TWELVE);
             projectionDTO.setVariableList(selectedItems);
             projectionDTO.setProjectionId(session.getProjectionId());
-            projectionDTO.setUserId(Integer.valueOf(session.getUserId()));
-            projectionDTO.setSessionId(Integer.valueOf(session.getSessionId()));
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+            projectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+            projectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             projectionDTO.setStartDate(session.getFromDate());
             projectionDTO.setStartDate(session.getToDate());
             projectionDTO.setCustHierarchySid(session.getCustomerHierarchyId());
@@ -1142,7 +1142,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         if (!isExpand && !isInteger(levelNoString)) {
             levelNoString = Constant.DASH;
         }
-        int levelNo = Integer.valueOf(levelNoString) == NumericConstants.FOUR ? NumericConstants.THREE : Integer.valueOf(levelNoString);
+        int levelNo = Integer.parseInt(levelNoString) == NumericConstants.FOUR ? NumericConstants.THREE : Integer.parseInt(levelNoString);
         if (!isExpand) {
             levelNo--;
         }
@@ -1224,15 +1224,15 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
             final int startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
 
-            final int startYear = Integer.valueOf(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            final int startYear = Integer.parseInt(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
             int endQuater = 0;
             int endYear = 0;
             if (endPeriod.getValue() == null || SELECT_ONE.getConstant().equals(endPeriod.getValue())) {
                 endQuater = Integer.valueOf(rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).charAt(1) - NumericConstants.FORTY_EIGHT);
-                endYear = Integer.valueOf(rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).substring(NumericConstants.THREE, NumericConstants.SEVEN));
+                endYear = Integer.parseInt(rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).substring(NumericConstants.THREE, NumericConstants.SEVEN));
             } else {
                 endQuater = Integer.valueOf(endPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
-                endYear = Integer.valueOf(endPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+                endYear = Integer.parseInt(endPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
             }
 
             String columnNameforField = getColumnName(fieldDdlb.getValue());

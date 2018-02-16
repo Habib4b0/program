@@ -17,7 +17,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderMultiSelectBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderKeyConstant;
 
 /**
@@ -38,16 +37,8 @@ public class GtnFrameworkAddToTreeAction implements GtnUIFrameWorkAction, GtnUIF
 		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 		addSingleItem(componentId, parameters.get(2).toString(), parameters.get(3).toString(),
 				parameters.get(4).toString());
-
-		resetSelectedItemsList();
 	}
 
-	private void resetSelectedItemsList() {
-		GtnWsRelationshipBuilderMultiSelectBean relationshipBuilderMultiSelectBean = GtnWsRelationshipBuilderMultiSelectBean
-				.getInstance();
-		relationshipBuilderMultiSelectBean.getSelectedItemsList().clear();
-
-	}
 
 	private void addSingleItem(String componentId, String tableId, String treeId, String removeBtnId)
 			throws GtnFrameworkGeneralException {
