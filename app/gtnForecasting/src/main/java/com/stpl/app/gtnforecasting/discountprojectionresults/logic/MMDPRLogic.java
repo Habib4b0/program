@@ -537,8 +537,8 @@ public class MMDPRLogic {
         }
         for (Object[] row : list) {
 
-            int year = Integer.valueOf(String.valueOf(row[col - 1]));
-            int period = Integer.valueOf(String.valueOf(row[NumericConstants.FOUR]));
+            int year = Integer.parseInt(String.valueOf(row[col - 1]));
+            int period = Integer.parseInt(String.valueOf(row[NumericConstants.FOUR]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
@@ -618,8 +618,8 @@ public class MMDPRLogic {
                         for (int i = 0; i < list.size(); i++) {
 
                             Object[] obj = (Object[]) list.get(i);
-                            int year = Integer.valueOf(String.valueOf(obj[1]));
-                            int period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                            int year = Integer.parseInt(String.valueOf(obj[1]));
+                            int period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                             List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                             String commonColumn = column.get(1);
                             if (i == 0) {
@@ -659,8 +659,8 @@ public class MMDPRLogic {
                         DiscountProjectionResultsDTO dto = null;
                         for (int i = 0; i < list.size(); i++) {
                             Object[] obj = (Object[]) list.get(i);
-                            int year = Integer.valueOf(String.valueOf(obj[0]));
-                            int period = Integer.valueOf(String.valueOf(obj[1]));
+                            int year = Integer.parseInt(String.valueOf(obj[0]));
+                            int period = Integer.parseInt(String.valueOf(obj[1]));
                             List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                             String commonColumn = column.get(1);
                             if (periodList.contains(column.get(1))) {
@@ -809,8 +809,8 @@ public class MMDPRLogic {
                 for (int i = 0; i < list.size(); i++) {
 
                     final Object[] obj = (Object[]) list.get(i);
-                    int year = Integer.valueOf(String.valueOf(obj[0]));
-                    int period = Integer.valueOf(String.valueOf(obj[1]));
+                    int year = Integer.parseInt(String.valueOf(obj[0]));
+                    int period = Integer.parseInt(String.valueOf(obj[1]));
                     List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = column.get(0);
                     projSelDTO.setCurrentLevel(String.valueOf(obj[NumericConstants.SEVEN]));
@@ -871,8 +871,8 @@ public class MMDPRLogic {
         List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         for (Object rows : list) {
             final Object[] row = (Object[]) rows;
-            int year = Integer.valueOf(String.valueOf(row[0]));
-            int period = Integer.valueOf(String.valueOf(row[1]));
+            int year = Integer.parseInt(String.valueOf(row[0]));
+            int period = Integer.parseInt(String.valueOf(row[1]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
@@ -1031,11 +1031,11 @@ public class MMDPRLogic {
                     String actualsRPU;
                     if (ANNUALLY.equalsIgnoreCase(projSel.getFrequency())) {
                         period = 0;
-                        year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                        year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                         actualsRPU = String.valueOf(obj[NumericConstants.FOUR]);
                     } else {
-                        period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-                        year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+                        period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+                        year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
                         actualsRPU = String.valueOf(obj[NumericConstants.FIVE]);
                     }
 
@@ -1056,11 +1056,11 @@ public class MMDPRLogic {
                     String projRPU;
                     if (ANNUALLY.equalsIgnoreCase(projSel.getFrequency())) {
                         period = 0;
-                        year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                        year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                         projRPU = String.valueOf(obj[NumericConstants.FOUR]);
                     } else {
-                        period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-                        year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+                        period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+                        year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
                         projRPU = String.valueOf(obj[NumericConstants.FIVE]);
                     }
                     List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
@@ -1109,8 +1109,8 @@ public class MMDPRLogic {
                 final Object[] obj = (Object[]) list1;
                 if (Constant.ACTUAL_CAPS.equalsIgnoreCase(String.valueOf(obj[NumericConstants.THREE]))) {
 
-                    int year = Integer.valueOf(String.valueOf(obj[0]));
-                    int period = Integer.valueOf(String.valueOf(obj[1]));
+                    int year = Integer.parseInt(String.valueOf(obj[0]));
+                    int period = Integer.parseInt(String.valueOf(obj[1]));
                     List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = column.get(0);
                     String actualsAmount = String.valueOf(obj[NumericConstants.TWO]);
@@ -1124,8 +1124,8 @@ public class MMDPRLogic {
                     dto.addStringProperties(commonColumn + ACTUALSRATE, actualsRate);
                     dto.addStringProperties(commonColumn + ACTUALRPU, actualsRPU);
                 } else {
-                    int year = Integer.valueOf(String.valueOf(obj[0]));
-                    int period = Integer.valueOf(String.valueOf(obj[1]));
+                    int year = Integer.parseInt(String.valueOf(obj[0]));
+                    int period = Integer.parseInt(String.valueOf(obj[1]));
                     List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = column.get(0);
                     String projAmount = String.valueOf(obj[NumericConstants.TWO]);
@@ -1650,7 +1650,7 @@ public class MMDPRLogic {
                             } else if (i == 0) {
                                 year = selectedYear;
                                 month = selectedMonth;
-                                String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + obj[1]) - 1);
+                                String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
                                 monthName = monthName.toLowerCase();
                                 commonColumn = monthName + obj[0];
                                 if (obj[NumericConstants.TWO] != null) {
@@ -1698,7 +1698,7 @@ public class MMDPRLogic {
                                 actualAmount = 0;
                                 projectedSales = 0;
                                 projectedAmount = 0;
-                                String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + obj[1]) - 1);
+                                String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
                                 monthName = monthName.toLowerCase();
                                 commonColumn = monthName + obj[0];
                                 year = (Integer) obj[0];
@@ -1749,7 +1749,7 @@ public class MMDPRLogic {
                                 actualAmount = 0;
                                 projectedSales = 0;
                                 projectedAmount = 0;
-                                String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + obj[1]) - 1);
+                                String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
                                 monthName = monthName.toLowerCase();
                                 commonColumn = monthName + obj[0];
                                 year = (Integer) obj[0];
@@ -1825,8 +1825,8 @@ public class MMDPRLogic {
 
                 if (Constant.DASH.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FOUR]))) {
 
-                    int year = Integer.valueOf(String.valueOf(obj[0]));
-                    int period = Integer.valueOf(String.valueOf(obj[1]));
+                    int year = Integer.parseInt(String.valueOf(obj[0]));
+                    int period = Integer.parseInt(String.valueOf(obj[1]));
                     List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = column.get(0);
 
@@ -1841,8 +1841,8 @@ public class MMDPRLogic {
                     dto.addStringProperties(commonColumn + ACTUALRPU, actualsRPU);
                 } else {
 
-                    int year = Integer.valueOf(String.valueOf(obj[0]));
-                    int period = Integer.valueOf(String.valueOf(obj[1]));
+                    int year = Integer.parseInt(String.valueOf(obj[0]));
+                    int period = Integer.parseInt(String.valueOf(obj[1]));
                     List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = column.get(0);
                     String projAmount = String.valueOf(obj[NumericConstants.TWO]);
@@ -1967,10 +1967,10 @@ public class MMDPRLogic {
                 int year;
                 if (ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                     period = 0;
-                    year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                    year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                 } else {
-                    period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-                    year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+                    period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+                    year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
                 }
 
                 List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
@@ -2017,10 +2017,10 @@ public class MMDPRLogic {
                 int year;
                 if (ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
                     period = 0;
-                    year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                    year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                 } else {
-                    period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-                    year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+                    period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+                    year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
                 }
 
                 List<String> column = getCommonColumnHeaderForMMDPRPivot(frequencyDivision, year, period);
@@ -2079,8 +2079,8 @@ public class MMDPRLogic {
                 final Object[] obj = (Object[]) list1;
 
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
-                int year = Integer.valueOf(String.valueOf(obj[0]));
-                int period = Integer.valueOf(String.valueOf(obj[1]));
+                int year = Integer.parseInt(String.valueOf(obj[0]));
+                int period = Integer.parseInt(String.valueOf(obj[1]));
                 List<String> column = getCommonColumnHeaderForMMDPRPivot(frequencyDivision, year, period);
                 String commonColumn = column.get(0);
                 String commonHeader = column.get(1);
@@ -2134,8 +2134,8 @@ public class MMDPRLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
-                int year = Integer.valueOf(String.valueOf(obj[0]));
-                int period = Integer.valueOf(String.valueOf(obj[1]));
+                int year = Integer.parseInt(String.valueOf(obj[0]));
+                int period = Integer.parseInt(String.valueOf(obj[1]));
                 List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = column.get(0);
                 String commonHeader = column.get(1);
@@ -2183,8 +2183,8 @@ public class MMDPRLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 int frequencyDivision = projSelDTO.getFrequencyDivision();
-                int year = Integer.valueOf(String.valueOf(obj[1]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                int year = Integer.parseInt(String.valueOf(obj[1]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                 List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = column.get(1);
 
@@ -2290,8 +2290,8 @@ public class MMDPRLogic {
                     dto.setParentNode(projSelDTO.getParentNode());
                     if (Constant.ACTUAL_CAPS.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FOUR]))) {
 
-                        int year = Integer.valueOf(String.valueOf(obj[1]));
-                        int period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                        int year = Integer.parseInt(String.valueOf(obj[1]));
+                        int period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                         List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                         String commonColumn = column.get(0);
                         String actualsAmount = String.valueOf(obj[NumericConstants.THREE]);
@@ -2305,8 +2305,8 @@ public class MMDPRLogic {
                         dto.addStringProperties(commonColumn + ACTUALRPU, actualsRPU);
 
                     } else {
-                        int year = Integer.valueOf(String.valueOf(obj[1]));
-                        int period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                        int year = Integer.parseInt(String.valueOf(obj[1]));
+                        int period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                         List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                         String commonColumn = column.get(0);
                         String proAmount = String.valueOf(obj[NumericConstants.THREE]);
@@ -2449,8 +2449,8 @@ public class MMDPRLogic {
             Object[] obj = (Object[]) list.get(i);
 
             int frequencyDivision = projSelDTO.getFrequencyDivision();
-            int year = Integer.valueOf(String.valueOf(obj[0]));
-            int period = Integer.valueOf(String.valueOf(obj[1]));
+            int year = Integer.parseInt(String.valueOf(obj[0]));
+            int period = Integer.parseInt(String.valueOf(obj[1]));
             List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = column.get(0);
             if (groupName.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SIX]))) {
@@ -2532,8 +2532,8 @@ public class MMDPRLogic {
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = (Object[]) list.get(i);
             if (pivotGroupName.equals(String.valueOf(obj[NumericConstants.SIX]))) {
-                int year = Integer.valueOf(String.valueOf(obj[0]));
-                int period = Integer.valueOf(String.valueOf(obj[1]));
+                int year = Integer.parseInt(String.valueOf(obj[0]));
+                int period = Integer.parseInt(String.valueOf(obj[1]));
                 List<String> column = getCommonColumnHeaderForMMDPRPivot(frequencyDivision, year, period);
                 String commonColumn = column.get(1);
                 if (projSelDTO.getGroup().equalsIgnoreCase(commonColumn)) {
