@@ -261,7 +261,7 @@ public class CommonUtils {
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
         List result = DAO.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
-            code = Integer.valueOf(result.get(0).toString());
+            code = Integer.parseInt(result.get(0).toString());
         }
         return code;
     }
@@ -294,8 +294,8 @@ public class CommonUtils {
             cffResultsDTO.setPriorLatestEstimate(s);
             s = String.valueOf(obj[NumericConstants.SEVEN] == null ? "" : obj[NumericConstants.SEVEN]);
             cffResultsDTO.setPriorUpdateCycle(s);
-            cffResultsDTO.setProjectionId(Integer.valueOf(String.valueOf(obj[NumericConstants.EIGHT])));
-            cffResultsDTO.setWorkflowMasterSystemID(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
+            cffResultsDTO.setProjectionId(Integer.parseInt(String.valueOf(obj[NumericConstants.EIGHT])));
+            cffResultsDTO.setWorkflowMasterSystemID(Integer.parseInt(String.valueOf(obj[NumericConstants.NINE])));
             cffResultsDTOs.add(cffResultsDTO);
 
         }
@@ -326,14 +326,14 @@ public class CommonUtils {
             cffResultsDTO = new CFFResultsDTO();
 
             if (obj[0] != null) {
-                cffResultsDTO.setWorkflowMasterSystemID(Integer.valueOf(String.valueOf(obj[0])));
+                cffResultsDTO.setWorkflowMasterSystemID(Integer.parseInt(String.valueOf(obj[0])));
             }
 
             if (obj[1] != null) {
                 cffResultsDTO.setWorkflowId(String.valueOf(obj[1]));
             }
             if (obj[NumericConstants.TWO] != null) {
-                projectionId = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                projectionId = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                 cffResultsDTO.setProjectionMasterSid(projectionId);
             }
             if (obj[NumericConstants.THREE] != null) {
@@ -372,7 +372,7 @@ public class CommonUtils {
                     cffResultsDTO.setPriorUpdateCycle(latestEstimet[1]);
                 } else {
                     try {
-                        String desription = CommonUtils.getHelperDescription(obj[NumericConstants.ELEVEN] != null ? Integer.valueOf(obj[NumericConstants.ELEVEN].toString()) : 0);
+                        String desription = CommonUtils.getHelperDescription(obj[NumericConstants.ELEVEN] != null ? Integer.parseInt(obj[NumericConstants.ELEVEN].toString()) : 0);
                         if ("Latest Estimate".equals(desription)) {
                             cffResultsDTO.setPriorLatestEstimate(latestEstimet[0]);
                         } else if ("Update Cycle".equals(desription)) {
@@ -395,7 +395,7 @@ public class CommonUtils {
         cffResultsDTO = new CFFResultsDTO();
 
         if (obj[0] != null) {
-            cffResultsDTO.setWorkflowMasterSystemID(Integer.valueOf(String.valueOf(obj[0])));
+            cffResultsDTO.setWorkflowMasterSystemID(Integer.parseInt(String.valueOf(obj[0])));
         }
 
         if (obj[1] != null) {
@@ -416,14 +416,14 @@ public class CommonUtils {
             cffResultsDTO = new CFFResultsDTO();
 
             if (obj[0] != null) {
-                cffResultsDTO.setWorkflowMasterSystemID(Integer.valueOf(String.valueOf(obj[0])));
+                cffResultsDTO.setWorkflowMasterSystemID(Integer.parseInt(String.valueOf(obj[0])));
             }
 
             if (obj[1] != null) {
                 cffResultsDTO.setWorkflowId(String.valueOf(obj[1]));
             }
             if (obj[NumericConstants.TWO] != null) {
-                cffResultsDTO.setProjectionMasterSid(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])));
+                cffResultsDTO.setProjectionMasterSid(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])));
             }
             if (obj[NumericConstants.THREE] != null) {
                 cffResultsDTO.setProjectionName(String.valueOf(obj[NumericConstants.THREE]));
@@ -573,7 +573,7 @@ public class CommonUtils {
                 cffSearchDTOLoop.setFinancialForecastName(StringUtils.EMPTY);
             }
             if (obj[NumericConstants.TWO] != null) {
-                HelperDTO helper = HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])));
+                HelperDTO helper = HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])));
                 String type = ((HelperDTO) helper).getDescription();
                 if (type.equals("-Select One-")) {
                     cffSearchDTOLoop.setTypeDesc("");
@@ -582,7 +582,7 @@ public class CommonUtils {
                 }
             }
             if (obj[NumericConstants.THREE] != null) {
-                HelperDTO statusdto = HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                HelperDTO statusdto = HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
                 cffSearchDTOLoop.setStatusDesc(statusdto == null ? StringUtils.EMPTY : ((HelperDTO) statusdto).getDescription());
                 if (String.valueOf(obj[NumericConstants.THREE]).equals("-Select One-")) {
                     cffSearchDTOLoop.setStatusDesc("");
@@ -770,7 +770,7 @@ public class CommonUtils {
         User loggedUserDetails = null;
 
         try {
-            loggedUserDetails = UserLocalServiceUtil.getUser(Long.valueOf(userId));
+            loggedUserDetails = UserLocalServiceUtil.getUser(Long.parseLong(userId));
         } catch (NoSuchUserException noSuchUserException) {
             loggedUserDetails = null;
             LOGGER.error(noSuchUserException.getMessage());

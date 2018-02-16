@@ -44,7 +44,7 @@ public final class CommonUtil {
     public static int getIntValue(final Object input) {
         int intValue = 0;
         try {
-            intValue = Integer.valueOf(String.valueOf(input));
+            intValue = Integer.parseInt(String.valueOf(input));
         } catch (NumberFormatException nfe) {
             LOGGER.debug(String.valueOf(input) + " is not a number. So setting the value as 0");
         }

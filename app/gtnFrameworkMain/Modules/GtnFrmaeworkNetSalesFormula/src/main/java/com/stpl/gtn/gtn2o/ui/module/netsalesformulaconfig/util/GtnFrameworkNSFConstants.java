@@ -156,6 +156,7 @@ public class GtnFrameworkNSFConstants {
 	private static final String NET_SALES_MASS_UPDATE_VALUE_ERROR_HEADER = " No Value Selected ";
 	private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_MSG = " Please select a field to Mass Update ";
 	private static final String NET_SALES_MASS_UPDATE_VALUE_ERROR_MSG = " Please select a value to Mass Update ";
+	private static final String POPULATE_BUTTON_CHECK_RECORD_ERROR_SALES_BASIS_HEADER = "No values in the ‘Selected Customers’ list view are selected";
 
 	public static String getNsfMainView() {
 		return NSF_MAIN_VIEW;
@@ -380,5 +381,10 @@ public class GtnFrameworkNSFConstants {
 	public static String getNetSalesMassUpdateValueErrorMsg() {
 		return NET_SALES_MASS_UPDATE_VALUE_ERROR_MSG;
 	}
+
+	public static String getPopulateButtonCheckRecordErrorSalesBasisHeader() {
+		return POPULATE_BUTTON_CHECK_RECORD_ERROR_SALES_BASIS_HEADER;
+	}
+
 
 }

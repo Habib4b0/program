@@ -30,6 +30,7 @@
 			<fileset dir="Dist">
 				<include name="**/*.war" />
 				<include name="**/*.jar" />
+              	<include name="**/*.esa" />
 			</fileset>
 		</move>
 

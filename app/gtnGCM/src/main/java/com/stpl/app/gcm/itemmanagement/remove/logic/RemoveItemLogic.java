@@ -205,8 +205,8 @@ public class RemoveItemLogic {
         for (int i = 0; i < list.size(); i++) {
 
             Object[] obj = (Object[]) list.get(i);
-            int year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-            int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+            int year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+            int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
             if (frequencyDivision == NumericConstants.TWELVE) {
@@ -514,8 +514,8 @@ public class RemoveItemLogic {
         for (int i = 0; i < list.size(); i++) {
 
             Object[] obj = (Object[]) list.get(i);
-            int year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-            int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+            int year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+            int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
             if (frequencyDivision == NumericConstants.TWELVE) {

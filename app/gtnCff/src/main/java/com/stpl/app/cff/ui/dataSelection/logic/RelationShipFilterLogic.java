@@ -625,7 +625,7 @@ public class RelationShipFilterLogic {
 		for (Leveldto leveldto : hierarchyLevelDefinitionList) {
 			levelHierarchyLevelDefinitionList = hierarchyLevelDefinitionList.subList(0, leveldto.getLevelNo());
 			List<Leveldto> data = loadAvailableCustomerlevel(leveldto,
-					Integer.valueOf(relationshipBuilderSID.toString()), Collections.<String>emptyList(),
+					Integer.parseInt(relationshipBuilderSID.toString()), Collections.<String>emptyList(),
 					levelHierarchyLevelDefinitionList, 1,CFFEligibleDate);
 			for (Leveldto leveldto2 : data) {
 				relationMap.put(leveldto2.getHierarchyNo(), leveldto2.getLevel());

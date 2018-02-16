@@ -334,8 +334,8 @@ public class ParityLookup extends Window {
                     for (Object list1 : parityList) {
                         final Object[] obj = (Object[]) list1;
                         LookUpDTO parityDto = new LookUpDTO();
-                        parityDto.setItemMasterSid(Integer.valueOf(String.valueOf(obj[0])));
-                        parityDto.setContractMasterSid(Integer.valueOf(String.valueOf(obj[1])));
+                        parityDto.setItemMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+                        parityDto.setContractMasterSid(Integer.parseInt(String.valueOf(obj[1])));
                         parityDto.setContractName(String.valueOf(obj[NumericConstants.TWO]==null?StringUtils.EMPTY:obj[NumericConstants.TWO]));
                         parityDto.setBrandName(String.valueOf(obj[NumericConstants.THREE]==null?StringUtils.EMPTY:obj[NumericConstants.THREE]));
                         parityDto.setItemNo(String.valueOf(obj[NumericConstants.FOUR]==null?StringUtils.EMPTY:obj[NumericConstants.FOUR]));

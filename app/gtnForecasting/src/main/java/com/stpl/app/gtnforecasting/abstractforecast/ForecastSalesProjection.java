@@ -1175,13 +1175,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected void loadLevelFilterValue(final String view) {
 
         if (view.equalsIgnoreCase(PRODUCT_HIERARCHY.getConstant())) {
-            int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+            int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
             currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
             CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
             CommonUtils.loadLevelDdlb(levelFilter, false, currentHierarchy);
             CommonUtils.loadLevelDdlb(populateLevel, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOMER_HIERARCHY.getConstant())) {
-            int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+            int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
             currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getCustRelationshipBuilderSid());
             CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
             CommonUtils.loadLevelDdlb(levelFilter, false, currentHierarchy);
@@ -1548,9 +1548,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     check.setValue(false);
                     check.setImmediate(true);
                     check.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
-                    check.addBlurListener(new BlurListener() {
+                    check.addClickListener(new ExtCustomCheckBox.ClickListener() {
 		    @Override
-		    public void blur(FieldEvents.BlurEvent event) {
+		    public void click(ExtCustomCheckBox.ClickEvent event) {
                             try {
                                 SalesRowDto checkDTO = (SalesRowDto) itemId;
                                 Boolean checkValue = check.getValue();
@@ -1693,8 +1693,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 try {
                                     Double newNumber;
                                     Double oldNumber;
-                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
-                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
+                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
+                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
                                     if (String.valueOf(propertyId).contains(Constant.SALES_SMALL)) {
                                         newNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, newNumber);
                                         oldNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, oldNumber);
@@ -1845,7 +1845,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
                 if (tempId != null) {
                     SalesRowDto tempDto = (SalesRowDto) tempId;
-                    tempDto.setUncheckCount(checkClear ? 0 : Integer.valueOf(tempDto.getCcpCount()));
+                    tempDto.setUncheckCount(checkClear ? 0 : Integer.parseInt(tempDto.getCcpCount()));
                     updateChecks(tempId, isPresentInContainer);
                 }
             }
@@ -2092,7 +2092,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     endQuater = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).charAt(1) - NumericConstants.FORTY_EIGHT;
                     temp = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1);
                     length = temp.length();
-                    endYear = Integer.valueOf(temp.substring(length - NumericConstants.FOUR, length));
+                    endYear = Integer.parseInt(temp.substring(length - NumericConstants.FOUR, length));
                     if (projectionDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
                         String peroidValue = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1);
                         String month = peroidValue.substring(0, peroidValue.length() - NumericConstants.FIVE);
@@ -2105,7 +2105,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     endPeriod.getValue().toString().length();
 
                     length = endPeriod.getValue().toString().length();
-                    endYear = Integer.valueOf(endPeriod.getValue().toString().substring(length - NumericConstants.FOUR, length));
+                    endYear = Integer.parseInt(endPeriod.getValue().toString().substring(length - NumericConstants.FOUR, length));
                     if (projectionDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
                         String peroidValue = endPeriod.getValue().toString();
                         String month = peroidValue.substring(0, peroidValue.length() - NumericConstants.FIVE);
@@ -2116,7 +2116,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     startQuater = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1).charAt(1) - NumericConstants.FORTY_EIGHT;
                     temp = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1);
                     length = temp.length();
-                    startYear = Integer.valueOf(temp.substring(length - NumericConstants.FOUR, length));
+                    startYear = Integer.parseInt(temp.substring(length - NumericConstants.FOUR, length));
                     if (projectionDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
                         String peroidValue = rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1);
                         String month = peroidValue.substring(0, peroidValue.length() - NumericConstants.FIVE);
@@ -2126,7 +2126,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     startPeriodValue = String.valueOf(startPeriod.getValue());
                     startQuater = startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT;
                     length = startPeriod.getValue().toString().length();
-                    startYear = Integer.valueOf(startPeriod.getValue().toString().substring(length - NumericConstants.FOUR, length));
+                    startYear = Integer.parseInt(startPeriod.getValue().toString().substring(length - NumericConstants.FOUR, length));
                     if (projectionDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
                         String peroidValue = startPeriod.getValue().toString();
                         String month = peroidValue.substring(0, peroidValue.length() - NumericConstants.FIVE);
@@ -3140,8 +3140,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
             projectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
             projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             projectionDTO.clearNonFetchableIndex();
             int count = 0;
 
@@ -3436,15 +3436,15 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         String frequency = String.valueOf(nmFrequencyDdlb.getValue());
         String forecastStart = String.valueOf(forecastStartPeriod.getValue());
         String forecastEnd = String.valueOf(forecastEndPeriod.getValue());
-        int startPeriodValue = !ANNUAL.equals(frequency) ? getQuaterAndYear(forecastStart, false) : Integer.valueOf(forecastStart);
-        int endPeriodValue = isEndPeriodSelected ? !ANNUAL.equals(frequency) ? getQuaterAndYear(forecastEnd, false) : Integer.valueOf(forecastEnd) : 0;
+        int startPeriodValue = !ANNUAL.equals(frequency) ? getQuaterAndYear(forecastStart, false) : Integer.parseInt(forecastStart);
+        int endPeriodValue = isEndPeriodSelected ? !ANNUAL.equals(frequency) ? getQuaterAndYear(forecastEnd, false) : Integer.parseInt(forecastEnd) : 0;
 
         int m = 0;
         int count = 0;
         for (Map.Entry<Object, Boolean> entry : checkBoxMap.entrySet()) {
             if (checkBoxMap.get(entry.getKey())) {
                 String columnName = String.valueOf(entry.getKey());
-                int temp = !ANNUAL.equals(frequency) ? getQuaterAndYear(columnName, true) : Integer.valueOf(columnName);
+                int temp = !ANNUAL.equals(frequency) ? getQuaterAndYear(columnName, true) : Integer.parseInt(columnName);
                 if (entry.getValue() == true) {
                     count = count + 1;
                 }
@@ -3486,19 +3486,19 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         String[] splited = str.split(isTableColumn ? "-" : "\\s+");
         int resultValue = 0;
-        a[1] = Integer.valueOf(splited[1]);
+        a[1] = Integer.parseInt(splited[1]);
 
         if (QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue()))) {
-            a[0] = Integer.valueOf(splited[0].replaceAll(isTableColumn ? "[q]+" : "[Q]+", StringUtils.EMPTY));
-            resultValue = Integer.valueOf(a[1] + StringUtils.EMPTY + a[0]);
+            a[0] = Integer.parseInt(splited[0].replaceAll(isTableColumn ? "[q]+" : "[Q]+", StringUtils.EMPTY));
+            resultValue = Integer.parseInt(a[1] + StringUtils.EMPTY + a[0]);
         } else if (SEMI_ANNUAL.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue()))) {
-            a[0] = Integer.valueOf(splited[0].replaceAll(isTableColumn ? "[s]+" : "[S]+", StringUtils.EMPTY));
-            resultValue = Integer.valueOf(a[1] + StringUtils.EMPTY + a[0]);
+            a[0] = Integer.parseInt(splited[0].replaceAll(isTableColumn ? "[s]+" : "[S]+", StringUtils.EMPTY));
+            resultValue = Integer.parseInt(a[1] + StringUtils.EMPTY + a[0]);
         } else if (MONTHLY.equals(String.valueOf(nmFrequencyDdlb.getValue()))) {
             DateFormatSymbols dfs = new DateFormatSymbols();
             List<String> monthsList = Arrays.asList(dfs.getShortMonths());
             a[0] = monthsList.indexOf(StringUtils.capitalize(splited[0].trim()));
-            resultValue = Integer.valueOf(a[1] + (a[0] < NumericConstants.TEN ? Constant.DASH + a[0] : StringUtils.EMPTY + a[0]));
+            resultValue = Integer.parseInt(a[1] + (a[0] < NumericConstants.TEN ? Constant.DASH + a[0] : StringUtils.EMPTY + a[0]));
         }
 
         return resultValue;
@@ -3754,14 +3754,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     return true;
                 }
             } else if (frequency.equals(ANNUAL)) {
-                if (Integer.valueOf(end.trim()) > Integer.valueOf(start.trim())) {
+                if (Integer.parseInt(end.trim()) > Integer.parseInt(start.trim())) {
                     return true;
                 }
             } else {
                 int startyear = Integer.parseInt(start.trim().substring(NumericConstants.THREE));
                 int endyear = Integer.parseInt(end.trim().substring(NumericConstants.THREE));
                 if ((endyear > startyear)
-                        || ((startyear == endyear) && (Integer.valueOf(end.trim().substring(1, NumericConstants.TWO)) > Integer.valueOf(start.trim().substring(1, NumericConstants.TWO))))) {
+                        || ((startyear == endyear) && (Integer.parseInt(end.trim().substring(1, NumericConstants.TWO)) > Integer.parseInt(start.trim().substring(1, NumericConstants.TWO))))) {
                     return true;
                 }
             }

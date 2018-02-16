@@ -241,7 +241,7 @@ public class CustomViewLogic {
                 }
                 LevelMapKey key = new LevelMapKey(level_No, level_value);
 
-                key.setCustomViewDetailsSid(Integer.valueOf(obj[NumericConstants.THREE].toString()));
+                key.setCustomViewDetailsSid(Integer.parseInt(obj[NumericConstants.THREE].toString()));
                 List ccpIds = ccpMap.get(key);
                 if (ccpIds == null) {
                     ccpIds = new ArrayList();
@@ -284,7 +284,7 @@ public class CustomViewLogic {
                     for (int j = 0; j < list.size(); j++) {
                         Integer ccpId = list.get(j);
                         
-                        String parentHierarchyNo = findParentHierarchyNo(ccpId, Integer.valueOf(currentKey.getLevelNo()) - 1);
+                        String parentHierarchyNo = findParentHierarchyNo(ccpId, Integer.parseInt(currentKey.getLevelNo()) - 1);
 
                         if (!parentHierarchy.equals(parentHierarchyNo)) {
                             if (!level_values_sid.equals(currentKey.getLevelValuesSid())) {

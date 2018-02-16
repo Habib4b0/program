@@ -534,8 +534,8 @@ public class SelectionLogic {
                 selectionDTO.setPriorParentStartDate((Date) object[NumericConstants.THIRTY]);
             }
             selectionDTO.setPriorParentCustomerNo(String.valueOf(object[NumericConstants.THIRTY_ONE]).equals(ConstantsUtils.NULL) ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.THIRTY_ONE]));
-            selectionDTO.setCompanyMasterSid(String.valueOf(object[NumericConstants.THIRTY_TWO]).equals(ConstantsUtils.NULL) ? 0 : Integer.valueOf(String.valueOf(object[NumericConstants.THIRTY_TWO])));
-            selectionDTO.setParentCompanyMasterSid(String.valueOf(object[NumericConstants.THIRTY_THREE]).equals(ConstantsUtils.NULL) ? 0 : Integer.valueOf(String.valueOf(object[NumericConstants.THIRTY_THREE])));
+            selectionDTO.setCompanyMasterSid(String.valueOf(object[NumericConstants.THIRTY_TWO]).equals(ConstantsUtils.NULL) ? 0 : Integer.parseInt(String.valueOf(object[NumericConstants.THIRTY_TWO])));
+            selectionDTO.setParentCompanyMasterSid(String.valueOf(object[NumericConstants.THIRTY_THREE]).equals(ConstantsUtils.NULL) ? 0 : Integer.parseInt(String.valueOf(object[NumericConstants.THIRTY_THREE])));
             resultList.add(selectionDTO);
         }
         return resultList;
@@ -617,7 +617,7 @@ public class SelectionLogic {
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
         List result = DAO.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
-            code = Integer.valueOf(result.get(ZERO).toString());
+            code = Integer.parseInt(result.get(ZERO).toString());
         }
         return code;
     }
@@ -670,7 +670,7 @@ public class SelectionLogic {
         final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
-            count += Integer.valueOf(String.valueOf(ob));
+            count += Integer.parseInt(String.valueOf(ob));
         }
         return count;
     }

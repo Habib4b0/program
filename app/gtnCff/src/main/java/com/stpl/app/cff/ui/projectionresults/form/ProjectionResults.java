@@ -170,14 +170,14 @@ public class ProjectionResults extends ForecastProjectionResults {
             toHist = true;
             projectionSelectionDTO.setHistory(hist.toString());
             String[] his = historyDdlb.getValue().toString().split(" ");
-            historyNum = Integer.valueOf(his[0]);
+            historyNum = Integer.parseInt(his[0]);
         }
         if (toFreq && toHist) {
             toRet = true;
             projectionSelectionDTO.setSessionDTO(sessionDTO);
             projectionId = sessionDTO.getProjectionId();
-            projectionSelectionDTO.setUserId(Integer.valueOf(sessionDTO.getUserId()));
-            projectionSelectionDTO.setSessionId(Integer.valueOf(sessionDTO.getSessionId()));
+            projectionSelectionDTO.setUserId(Integer.parseInt(sessionDTO.getUserId()));
+            projectionSelectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
             projectionSelectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());
             projectionSelectionDTO.setProdRelationshipBuilderSid(sessionDTO.getProdRelationshipBuilderSid());
             projectionSelectionDTO.setPpa(sessionDTO.isPpaIndicator());
@@ -221,7 +221,7 @@ public class ProjectionResults extends ForecastProjectionResults {
     public void levelFilterDdlbChangeOption(boolean excelExport) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilterDdlb.getValue());
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -469,12 +469,12 @@ public class ProjectionResults extends ForecastProjectionResults {
         projectionSelectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());
         projectionSelectionDTO.setProdRelationshipBuilderSid(sessionDTO.getProdRelationshipBuilderSid());
         projectionSelectionDTO.setCustomerLevelNo(StringUtils.isBlank(sessionDTO.getCustomerLevelNumber()) || "null".equals(sessionDTO.getCustomerLevelNumber())
-                ? 1 : Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
+                ? 1 : Integer.parseInt(sessionDTO.getCustomerLevelNumber()));
         projectionSelectionDTO.setProductLevelNo(StringUtils.isBlank(sessionDTO.getProductLevelNumber()) || "null".equals(sessionDTO.getProductLevelNumber())
-                ? 1 : Integer.valueOf(sessionDTO.getProductLevelNumber()));
+                ? 1 : Integer.parseInt(sessionDTO.getProductLevelNumber()));
         projectionSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
-        projectionSelectionDTO.setUserId(Integer.valueOf(projectionSelectionDTO.getSessionDTO().getUserId()));
-        projectionSelectionDTO.setSessionId(Integer.valueOf(projectionSelectionDTO.getSessionDTO().getSessionId()));
+        projectionSelectionDTO.setUserId(Integer.parseInt(projectionSelectionDTO.getSessionDTO().getUserId()));
+        projectionSelectionDTO.setSessionId(Integer.parseInt(projectionSelectionDTO.getSessionDTO().getSessionId()));
         projectionSelectionDTO.setFrequency(String.valueOf(frequencyDdlb.getValue()));
         projectionSelectionDTO.setProjectionOrder(String.valueOf(periodOrderOpg.getValue()));
         projectionSelectionDTO.setActualsOrProjections(String.valueOf(actualOrProjectionsOpg.getValue()));

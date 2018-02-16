@@ -35,7 +35,7 @@ public class ExistingComponentDetailsTableLogic extends PageTableLogic {
     public int getCount() {
         if (generate) {
             try {
-                return Integer.valueOf(String.valueOf(logic.getExistingDetailsData(componentType, dto, true, 0, 0)));
+                return Integer.parseInt(String.valueOf(logic.getExistingDetailsData(componentType, dto, true, 0, 0)));
             } catch (ParseException ex) {
              LOGGER.error("",ex);
             }

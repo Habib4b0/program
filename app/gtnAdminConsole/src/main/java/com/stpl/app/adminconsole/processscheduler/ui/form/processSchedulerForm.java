@@ -430,6 +430,11 @@ public class processSchedulerForm extends CustomComponent {
         manualProcessesTable.addComponent(manualProcTable);
         HorizontalLayout layout1 = new HorizontalLayout();
         manualProcessesTable.addComponent(layout1);
+        HorizontalLayout layout = new HorizontalLayout();
+        ResponsiveUtils.getResponsiveControls(manualTabLogic.createControls(), layout);
+        manualProcessesTable.addComponent(layout);
+        HorizontalLayout layout2 = new HorizontalLayout();
+        manualProcessesTable.addComponent(layout2);
         LOGGER.debug("Ending addManualLayout");
     }
 
@@ -457,14 +462,15 @@ public class processSchedulerForm extends CustomComponent {
         manualTabLogic.setContainerDataSource(manualProcSchContainerBean);
         manualTabLogic.setPageLength(10);
         manualTabLogic.sinkItemPerPageWithPageLength(false);
-        manualProcTable.setWidth("497px");
+        manualProcTable.setWidth("550px");
         manualProcTable.setSelectable(true);
         manualProcTable.setMultiSelect(false);
-        HorizontalLayout controls = manualTabLogic.createControls();
-        HorizontalLayout controlLayout = ResponsiveUtils.getResponsiveControls(controls);
-        manualProcessesTable.addComponent(controlLayout);
-        manualProcTable.setContainerDataSource(manualProcSchContainerBean);
-
+        manualProcTable.markAsDirty();
+        manualProcTable.setComponentError(null);
+        manualProcTable.setValidationVisible(false);
+        manualProcTable.setFilterBarVisible(false);
+        manualProcTable.markAsDirtyRecursive();
+        manualProcTable.setImmediate(true);
         manualTabLogic.setItemsPerPage(10);
         manualProcTable.setVisibleColumns(manualColumn);
         manualProcTable.setColumnHeaders(manualHeader);

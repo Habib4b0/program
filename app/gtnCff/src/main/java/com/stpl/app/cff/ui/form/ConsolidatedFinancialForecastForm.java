@@ -478,17 +478,17 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDto.setAction(Constants.CommonConstants.ACTION_EDIT.getConstant());
 					final DataSelectionLogic logic = new DataSelectionLogic();
 					sessionDto.setCustomerHierarchyId(
-							resultList[1] != null ? Integer.valueOf(resultList[1].toString()) : 0);
+							resultList[1] != null ? Integer.parseInt(resultList[1].toString()) : 0);
 					sessionDto.setProductHierarchyId(resultList[NumericConstants.TWO] != null
-							? Integer.valueOf(resultList[NumericConstants.TWO].toString()) : 0);
+							? Integer.parseInt(resultList[NumericConstants.TWO].toString()) : 0);
 					sessionDto.setProductDescription(logic.getLevelValueMap(resultList[NumericConstants.FOUR] != null
-							? Integer.valueOf(resultList[NumericConstants.FOUR].toString()) : 0));
+							? Integer.parseInt(resultList[NumericConstants.FOUR].toString()) : 0));
 					sessionDto.setCustomerRelationId(resultList[NumericConstants.THREE] != null
-							? Integer.valueOf(resultList[NumericConstants.THREE].toString()) : 0);
+							? Integer.parseInt(resultList[NumericConstants.THREE].toString()) : 0);
 					sessionDto.setCustRelationshipBuilderSid(resultList[NumericConstants.THREE] != null
 							? resultList[NumericConstants.THREE].toString() : "0");
 					sessionDto.setProductRelationId(resultList[NumericConstants.FOUR] != null
-							? Integer.valueOf(resultList[NumericConstants.FOUR].toString()) : 0);
+							? Integer.parseInt(resultList[NumericConstants.FOUR].toString()) : 0);
 					sessionDto.setProdRelationshipBuilderSid(resultList[NumericConstants.FOUR] != null
 							? resultList[NumericConstants.FOUR].toString() : "0");
 					if (CommonUtils.isValueEligibleForLoading()) {
@@ -502,7 +502,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDto.setCustomerLevelNumber(resultList[NumericConstants.SEVEN] != null
 							? resultList[NumericConstants.SEVEN].toString() : "0");
 					sessionDto.setCustomerDescription(logic.getLevelValueMap(resultList[NumericConstants.THREE] != null
-							? Integer.valueOf(resultList[NumericConstants.THREE].toString()) : 0));
+							? Integer.parseInt(resultList[NumericConstants.THREE].toString()) : 0));
 					sessionDto.setProjectionId(dto.getCffMasterSid());
 					loadDataSelectionDTO(resultList);
 					customerFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getCustomerRelationShipVersionNo(),
@@ -665,17 +665,17 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				final List<Object[]> dsList = CommonQueryUtils.getAppData(list, "searchDS", null);
 				final Object[] resultList = dsList.get(0);
 				vSessionDTO
-						.setCustomerHierarchyId(resultList[1] != null ? Integer.valueOf(resultList[1].toString()) : 0);
+						.setCustomerHierarchyId(resultList[1] != null ? Integer.parseInt(resultList[1].toString()) : 0);
 				vSessionDTO.setProductHierarchyId(resultList[NumericConstants.TWO] != null
-						? Integer.valueOf(resultList[NumericConstants.TWO].toString()) : 0);
+						? Integer.parseInt(resultList[NumericConstants.TWO].toString()) : 0);
 				vSessionDTO.setProductDescription(logic.getLevelValueMap(resultList[NumericConstants.FOUR] != null
-						? Integer.valueOf(resultList[NumericConstants.FOUR].toString()) : 0));
+						? Integer.parseInt(resultList[NumericConstants.FOUR].toString()) : 0));
 				vSessionDTO.setCustomerRelationId(resultList[NumericConstants.THREE] != null
-						? Integer.valueOf(resultList[NumericConstants.THREE].toString()) : 0);
+						? Integer.parseInt(resultList[NumericConstants.THREE].toString()) : 0);
 				vSessionDTO.setCustRelationshipBuilderSid(resultList[NumericConstants.THREE] != null
 						? resultList[NumericConstants.THREE].toString() : "0");
 				vSessionDTO.setProductRelationId(resultList[NumericConstants.FOUR] != null
-						? Integer.valueOf(resultList[NumericConstants.FOUR].toString()) : 0);
+						? Integer.parseInt(resultList[NumericConstants.FOUR].toString()) : 0);
 				vSessionDTO.setProdRelationshipBuilderSid(
 						resultList[NumericConstants.FOUR] != null ? resultList[NumericConstants.FOUR].toString() : "0");
 				if (CommonUtils.isValueEligibleForLoading()) {
@@ -689,20 +689,20 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				vSessionDTO.setCustomerLevelNumber(resultList[NumericConstants.SEVEN] != null
 						? resultList[NumericConstants.SEVEN].toString() : "0");
 				vSessionDTO.setCustomerDescription(logic.getLevelValueMap(resultList[NumericConstants.THREE] != null
-						? Integer.valueOf(resultList[NumericConstants.THREE].toString()) : 0));
+						? Integer.parseInt(resultList[NumericConstants.THREE].toString()) : 0));
 				loadDataSelectionDTO(resultList);
 				vSessionDTO
-						.setCustomerHierarchyId(resultList[1] != null ? Integer.valueOf(resultList[1].toString()) : 0);
+						.setCustomerHierarchyId(resultList[1] != null ? Integer.parseInt(resultList[1].toString()) : 0);
 				vSessionDTO.setProductHierarchyId(resultList[NumericConstants.TWO] != null
-						? Integer.valueOf(resultList[NumericConstants.TWO].toString()) : 0);
+						? Integer.parseInt(resultList[NumericConstants.TWO].toString()) : 0);
 				vSessionDTO.setProductDescription(logic.getLevelValueMap(resultList[NumericConstants.FOUR] != null
-						? Integer.valueOf(resultList[NumericConstants.FOUR].toString()) : 0));
+						? Integer.parseInt(resultList[NumericConstants.FOUR].toString()) : 0));
 				vSessionDTO.setCustomerRelationId(resultList[NumericConstants.THREE] != null
-						? Integer.valueOf(resultList[NumericConstants.THREE].toString()) : 0);
+						? Integer.parseInt(resultList[NumericConstants.THREE].toString()) : 0);
 				vSessionDTO.setCustRelationshipBuilderSid(resultList[NumericConstants.THREE] != null
 						? resultList[NumericConstants.THREE].toString() : "0");
 				vSessionDTO.setProductRelationId(resultList[NumericConstants.FOUR] != null
-						? Integer.valueOf(resultList[NumericConstants.FOUR].toString()) : 0);
+						? Integer.parseInt(resultList[NumericConstants.FOUR].toString()) : 0);
 				vSessionDTO.setProdRelationshipBuilderSid(
 						resultList[NumericConstants.FOUR] != null ? resultList[NumericConstants.FOUR].toString() : "0");
 				vSessionDTO.setProductLevelNumber(
@@ -710,7 +710,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				vSessionDTO.setCustomerLevelNumber(resultList[NumericConstants.SEVEN] != null
 						? resultList[NumericConstants.SEVEN].toString() : "0");
 				vSessionDTO.setCustomerDescription(logic.getLevelValueMap(resultList[NumericConstants.THREE] != null
-						? Integer.valueOf(resultList[NumericConstants.THREE].toString()) : 0));
+						? Integer.parseInt(resultList[NumericConstants.THREE].toString()) : 0));
 				vSessionDTO.setScreenName("CCP_HIERARCHY");
 				CFFQueryUtils.createTempTables(vSessionDTO);
 				vSessionDTO.setCustomerHierarchyVersion(dataSelectionDto.getCustomerHierVersionNo());
@@ -925,22 +925,22 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 		dataSelectionDto.setProductHierarchy(
 				resultList[NumericConstants.EIGHT] != null ? resultList[NumericConstants.EIGHT].toString() : "0");
 		dataSelectionDto.setCustomerHierVersionNo(resultList[NumericConstants.NINETEEN] != null
-				? Integer.valueOf(resultList[NumericConstants.NINETEEN].toString()) : 0);
+				? Integer.parseInt(resultList[NumericConstants.NINETEEN].toString()) : 0);
 		dataSelectionDto.setProductHierVersionNo(resultList[NumericConstants.TWENTY] != null
-				? Integer.valueOf(resultList[NumericConstants.TWENTY].toString()) : 0);
+				? Integer.parseInt(resultList[NumericConstants.TWENTY].toString()) : 0);
 		dataSelectionDto.setCompanyName(resultList[NumericConstants.TWENTY_ONE] != null
 				? resultList[NumericConstants.TWENTY_ONE].toString() : " ");
 		dataSelectionDto.setProjectionId(dto.getCffMasterSid());
 		dataSelectionDto.setBusinessUnitSystemId(resultList[NumericConstants.TWENTY_TWO] != null
-				? Integer.valueOf(resultList[NumericConstants.TWENTY_TWO].toString()) : 0);
+				? Integer.parseInt(resultList[NumericConstants.TWENTY_TWO].toString()) : 0);
 		dataSelectionDto.setCustomerHierVersionNo(resultList[NumericConstants.TWENTY_FIVE] != null
-				? Integer.valueOf(resultList[NumericConstants.TWENTY_FIVE].toString()) : 0);
+				? Integer.parseInt(resultList[NumericConstants.TWENTY_FIVE].toString()) : 0);
 		dataSelectionDto.setProductHierVersionNo(resultList[NumericConstants.TWENTY_SIX] != null
-				? Integer.valueOf(resultList[NumericConstants.TWENTY_SIX].toString()) : 0);
+				? Integer.parseInt(resultList[NumericConstants.TWENTY_SIX].toString()) : 0);
 		dataSelectionDto.setCustomerRelationShipVersionNo(resultList[NumericConstants.TWENTY_SEVEN] != null
-				? Integer.valueOf(resultList[NumericConstants.TWENTY_SEVEN].toString()) : 0);
+				? Integer.parseInt(resultList[NumericConstants.TWENTY_SEVEN].toString()) : 0);
 		dataSelectionDto.setProductRelationShipVersionNo(resultList[NumericConstants.TWENTY_EIGHT] != null
-				? Integer.valueOf(resultList[NumericConstants.TWENTY_EIGHT].toString()) : 0);
+				? Integer.parseInt(resultList[NumericConstants.TWENTY_EIGHT].toString()) : 0);
 
 	}
 

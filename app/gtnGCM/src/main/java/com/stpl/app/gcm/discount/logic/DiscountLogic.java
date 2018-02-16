@@ -932,9 +932,9 @@ public class DiscountLogic {
         rsMasterAttached.setCity(rebateMaster.getCity());
         rsMasterAttached.setState(rebateMaster.getState());
         rsMasterAttached.setZipCode(rebateMaster.getZipCode());
-        rsMasterAttached.setCreatedBy(Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+        rsMasterAttached.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
         rsMasterAttached.setCreatedDate(new Date());
-        rsMasterAttached.setModifiedBy(Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+        rsMasterAttached.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
         rsMasterAttached.setModifiedDate(new Date());
         rsMasterAttached.setFormulaMethodId(rebateMaster.getFormulaMethodId());
         rsMasterAttached.setRecordLockStatus(false);
@@ -1749,18 +1749,18 @@ public class DiscountLogic {
         rsModel.setRsId(saveDto.getId());
         rsModel.setRsName(saveDto.getName());
         rsModel.setRsNo(saveDto.getNumber());
-        rsModel.setPaymentFrequency(Integer.valueOf(saveDto.getPaymentFrequency()));
-        rsModel.setRsStatus(Integer.valueOf(saveDto.getStatus()));
+        rsModel.setPaymentFrequency(Integer.parseInt(saveDto.getPaymentFrequency()));
+        rsModel.setRsStatus(Integer.parseInt(saveDto.getStatus()));
         rsModel.setRsStartDate(new Date(saveDto.getStartDate()));
         rsModel.setRsEndDate(new Date(saveDto.getEndDate()));
-        rsModel.setPaymentMethod(Integer.valueOf(saveDto.getPaymentMethod()));
-        rsModel.setRsType(Integer.valueOf(saveDto.getRebateType()));
-        rsModel.setRebateProgramType(Integer.valueOf(saveDto.getRebateProgramType()));
+        rsModel.setPaymentMethod(Integer.parseInt(saveDto.getPaymentMethod()));
+        rsModel.setRsType(Integer.parseInt(saveDto.getRebateType()));
+        rsModel.setRebateProgramType(Integer.parseInt(saveDto.getRebateProgramType()));
         rsModel.setRebatePlanLevel(saveDto.getRebatePlan());
         rsModel.setCreatedDate(new Date());
-        rsModel.setCreatedBy(Integer.valueOf(userId));
+        rsModel.setCreatedBy(Integer.parseInt(userId));
         rsModel.setModifiedDate(new Date());
-        rsModel.setModifiedBy(Integer.valueOf(userId));
+        rsModel.setModifiedBy(Integer.parseInt(userId));
         try {
             rsModel = RsModelLocalServiceUtil.addRsModel(rsModel);
             saveIntoRsDetails(rsModel, userId, tempSessionId);
@@ -1948,13 +1948,13 @@ public class DiscountLogic {
         rsModel.setPsId(saveDto.getId());
         rsModel.setPsName(saveDto.getName());
         rsModel.setPsNo(saveDto.getNumber());
-        rsModel.setPsStatus(Integer.valueOf(saveDto.getStatus()));
+        rsModel.setPsStatus(Integer.parseInt(saveDto.getStatus()));
         rsModel.setPsStartDate(new Date(saveDto.getStartDate()));
         rsModel.setInboundStatus("A");
         rsModel.setCreatedDate(new Date());
-        rsModel.setCreatedBy(Integer.valueOf(userId));
+        rsModel.setCreatedBy(Integer.parseInt(userId));
         rsModel.setModifiedDate(new Date());
-        rsModel.setModifiedBy(Integer.valueOf(userId));
+        rsModel.setModifiedBy(Integer.parseInt(userId));
         try {
             rsModel = PsModelLocalServiceUtil.addPsModel(rsModel);
         } catch (SystemException ex) {
@@ -1970,13 +1970,13 @@ public class DiscountLogic {
         ifpmodel.setIfpId(saveDto.getId());
         ifpmodel.setIfpName(saveDto.getName());
         ifpmodel.setIfpNo(saveDto.getNumber());
-        ifpmodel.setIfpStatus(Integer.valueOf(saveDto.getStatus()));
+        ifpmodel.setIfpStatus(Integer.parseInt(saveDto.getStatus()));
         ifpmodel.setIfpStartDate(new Date(saveDto.getStartDate()));
         ifpmodel.setInboundStatus("A");
         ifpmodel.setCreatedDate(new Date());
-        ifpmodel.setCreatedBy(Integer.valueOf(userId));
+        ifpmodel.setCreatedBy(Integer.parseInt(userId));
         ifpmodel.setModifiedDate(new Date());
-        ifpmodel.setModifiedBy(Integer.valueOf(userId));
+        ifpmodel.setModifiedBy(Integer.parseInt(userId));
         try {
             ifpmodel = IfpModelLocalServiceUtil.addIfpModel(ifpmodel);
             saveIntoIfpDetails(ifpmodel, userId, searchSessionId);
@@ -2019,13 +2019,13 @@ public class DiscountLogic {
         cfpmodel.setCfpId(saveDto.getId());
         cfpmodel.setCfpName(saveDto.getName());
         cfpmodel.setCfpNo(saveDto.getNumber());
-        cfpmodel.setCfpStatus(Integer.valueOf(saveDto.getStatus()));
+        cfpmodel.setCfpStatus(Integer.parseInt(saveDto.getStatus()));
         cfpmodel.setCfpStartDate(new Date(saveDto.getStartDate()));
         cfpmodel.setInboundStatus("A");
         cfpmodel.setCreatedDate(new Date());
-        cfpmodel.setCreatedBy(Integer.valueOf(userId));
+        cfpmodel.setCreatedBy(Integer.parseInt(userId));
         cfpmodel.setModifiedDate(new Date());
-        cfpmodel.setModifiedBy(Integer.valueOf(userId));
+        cfpmodel.setModifiedBy(Integer.parseInt(userId));
         try {
             cfpmodel = CfpModelLocalServiceUtil.addCfpModel(cfpmodel);
             saveIntoCfpDetails(cfpmodel, userId, searchSessionId);
@@ -2077,9 +2077,9 @@ public class DiscountLogic {
             psMasterAttached.setPsEndDate(priceSchedule.getPsEndDate());
             psMasterAttached.setPsContractAttachedDate(new Date());
 
-            psMasterAttached.setCreatedBy(Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+            psMasterAttached.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
             psMasterAttached.setCreatedDate(new Date());
-            psMasterAttached.setModifiedBy(Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+            psMasterAttached.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
             psMasterAttached.setModifiedDate(new Date());
             psMasterAttached.setRecordLockStatus(false);
             psMasterAttached.setInboundStatus("A");
@@ -2189,9 +2189,9 @@ public class DiscountLogic {
         ifpMasterAttached.setIfpStartDate(itemFamily.getIfpStartDate());
         ifpMasterAttached.setIfpEndDate(itemFamily.getIfpEndDate());
         ifpMasterAttached.setIfpContractAttachedDate(new Date());
-        ifpMasterAttached.setCreatedBy(Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+        ifpMasterAttached.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
         ifpMasterAttached.setCreatedDate(new Date());
-        ifpMasterAttached.setModifiedBy(Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+        ifpMasterAttached.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
         ifpMasterAttached.setModifiedDate(new Date());
         ifpMasterAttached.setRecordLockStatus(false);
         ifpMasterAttached.setInboundStatus("A");
@@ -2263,9 +2263,9 @@ public class DiscountLogic {
         cfpMasterAttached.setCfpTradeClass(companyFamily.getCfpTradeClass());
         cfpMasterAttached.setCfpStartDate(companyFamily.getCfpStartDate());
         cfpMasterAttached.setCfpEndDate(companyFamily.getCfpEndDate());
-        cfpMasterAttached.setCreatedBy(Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+        cfpMasterAttached.setCreatedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
         cfpMasterAttached.setCreatedDate(new Date());
-        cfpMasterAttached.setModifiedBy(Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
+        cfpMasterAttached.setModifiedBy(Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
         cfpMasterAttached.setModifiedDate(new Date());
         cfpMasterAttached.setCfpContractAttachedDate(new Date());
         cfpMasterAttached.setRecordLockStatus(false);
@@ -2545,8 +2545,8 @@ public class DiscountLogic {
             tempDto.setItemNo(CommonUtil.getPureValue(String.valueOf(temp[0])));
             tempDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
             tempDto.setBrand(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE])));
-            tempDto.setTherapyClass(CommonUtil.getPureValue(helperlist.getHelperDescription(Integer.valueOf(temp[NumericConstants.TWO].toString()))));
-            tempDto.setStatus(CommonUtil.getPureValue(helperlist.getHelperDescription(Integer.valueOf(temp[NumericConstants.FOUR].toString()))));
+            tempDto.setTherapyClass(CommonUtil.getPureValue(helperlist.getHelperDescription(Integer.parseInt(temp[NumericConstants.TWO].toString()))));
+            tempDto.setStatus(CommonUtil.getPureValue(helperlist.getHelperDescription(Integer.parseInt(temp[NumericConstants.FOUR].toString()))));
             tempDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FIVE]))) ? null : DBDate.format((Date) temp[NumericConstants.FIVE]));
             tempDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.SIX]))) ? null : DBDate.format((Date) temp[NumericConstants.SIX]));
             resultsList.add(tempDto);
@@ -2572,7 +2572,7 @@ public class DiscountLogic {
             tempDto.setItemName(CommonUtil.getPureValue(String.valueOf(temp[1])));
             tempDto.setBrand(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.THREE])));
             tempDto.setTherapyClass(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.TWO])));
-            tempDto.setStatus(CommonUtil.getPureValue(helperlist.getHelperDescription(Integer.valueOf(temp[NumericConstants.FOUR].toString()))));
+            tempDto.setStatus(CommonUtil.getPureValue(helperlist.getHelperDescription(Integer.parseInt(temp[NumericConstants.FOUR].toString()))));
             tempDto.setStartDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.FIVE]))) ? null : DBDate.format((Date) temp[NumericConstants.FIVE]));
             tempDto.setEndDate(StringUtils.EMPTY.equals(CommonUtil.getPureValue(String.valueOf(temp[NumericConstants.SIX]))) ? null : DBDate.format((Date) temp[NumericConstants.SIX]));
             resultsList.add(tempDto);
