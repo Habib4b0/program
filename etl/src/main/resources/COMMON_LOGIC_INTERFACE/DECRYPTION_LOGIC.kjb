@@ -131,7 +131,7 @@
       <name>Decrypt files with PGP</name>
       <description/>
       <type>PGP_DECRYPT_FILES</type>
-      <gpglocation>&#x2f;usr&#x2f;bin&#x2f;gpg</gpglocation>
+      <gpglocation>&#x24;&#x7b;GPG_LOCATION&#x7d;</gpglocation>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <add_result_filesname>N</add_result_filesname>
