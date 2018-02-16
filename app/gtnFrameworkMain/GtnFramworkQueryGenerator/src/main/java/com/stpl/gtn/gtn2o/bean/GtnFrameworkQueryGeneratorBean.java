@@ -81,6 +81,7 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 		whereClauseConfigList.remove(index);
 	}
 
+
 	public void removeWhereClauseConfigListByIndex(int fromIndex, int toIndex) {
 		if (fromIndex < 0 && toIndex >= whereClauseConfigList.size())
 			throw new ArrayIndexOutOfBoundsException(

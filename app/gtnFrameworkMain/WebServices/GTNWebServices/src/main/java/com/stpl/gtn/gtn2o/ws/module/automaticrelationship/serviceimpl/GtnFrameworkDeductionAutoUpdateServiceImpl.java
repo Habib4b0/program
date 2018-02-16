@@ -20,7 +20,6 @@ import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
@@ -54,10 +53,6 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 	@Autowired
 	private GtnFrameworkDeductionJoinServiceImpl joinService;
-
-	@Autowired
-	private GtnFrameworkHierarchyService hierarchyService;
-
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 	@Autowired
@@ -111,7 +106,6 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 				customerRunnableTarget.setIndex(i);
 				customerRunnableTarget.setRelationBean(relationBean);
 				customerRunnableTarget.setItemMastersidList(itemMastersidList);
-
 				customerExecutorService.submit(customerRunnableTarget);
 			}
 			customerExecutorService.shutdown();
