@@ -5,11 +5,12 @@
     <artifactId>modules-subsytem</artifactId>
     <packaging>esa</packaging>
     <version>1.0</version>
-      <parent>
-        <groupId>com.stpl.app</groupId>
-        <artifactId>global-parent</artifactId>
-        <version>1.0</version>
-    </parent>
+	<parent>
+		<groupId>com.stpl.app</groupId>
+		<artifactId>global-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
     <properties>
         <modules.subsystem.order>5</modules.subsystem.order>
     </properties>

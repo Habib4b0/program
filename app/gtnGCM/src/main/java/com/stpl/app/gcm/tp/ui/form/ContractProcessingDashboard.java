@@ -171,8 +171,8 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private Button removeContract;
     @UiField("remove")
     private Button remove;
-    private ExtFilterTable addTradingPartnerTable = new ExtFilterTable();
-    private TreeTable contractDashboardTable = new TreeTable();
+    private final ExtFilterTable addTradingPartnerTable = new ExtFilterTable();
+    private final TreeTable contractDashboardTable = new TreeTable();
     private final StplSecurity stplSecurity = new StplSecurity();
 
     final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
@@ -180,7 +180,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private boolean contractRefresh;
 
-    private List parentList = new ArrayList();
+    private final List parentList = new ArrayList();
     /**
      * The contract member.
      */
@@ -212,11 +212,11 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private final CommmonLogic logic = new CommmonLogic();
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    private List<ComponentInformationDTO> componentInformation = new ArrayList<>();
+    private final List<ComponentInformationDTO> componentInformation = new ArrayList<>();
     private final ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
     private String excelName = "Rebate Schedule Information";
     private final CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
-    private ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
+    private final ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
 
     public ContractProcessingDashboard(BeanItemContainer<ContractResultDTO> selectedContractContainer, SessionDTO session) {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/contractProcessingDashboard.xml"), this));

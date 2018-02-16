@@ -152,11 +152,11 @@ public class ContractMasterImpl {
                 sql += " AND con.CONTRACT_TYPE =" + contractType;
             }
 
-            if (Integer.valueOf(String.valueOf(filterMap.get("contractStatus"))) != 0) {
+            if (Integer.parseInt(String.valueOf(filterMap.get("contractStatus"))) != 0) {
                 sql += " AND con.CONTRACT_STATUS =" + Integer.valueOf(String.valueOf(filterMap.get("contractStatus")));
             }
 
-            if (Integer.valueOf(String.valueOf(filterMap.get("contractType"))) != 0) {
+            if (Integer.parseInt(String.valueOf(filterMap.get("contractType"))) != 0) {
                 sql += " AND con.CONTRACT_TYPE =" + Integer.valueOf(String.valueOf(filterMap.get("contractType")));
             }
 

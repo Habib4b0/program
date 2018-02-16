@@ -25,14 +25,14 @@ import com.vaadin.v7.ui.VerticalLayout;
 public class SearchResults extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 	private final Label space = new Label("&nbsp;", ContentMode.HTML);
-	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-	private BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
+	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
 	private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
-	private Table table;
-	private Table tableResult;
-	private CheckBox add = new CheckBox("Add");
-	private CheckBox view = new CheckBox("View");
-	private CheckBox edit = new CheckBox("Edit");
+	private final Table table;
+	private final Table tableResult;
+	private final CheckBox add = new CheckBox("Add");
+	private final CheckBox view = new CheckBox("View");
+	private final CheckBox edit = new CheckBox("Edit");
 
 	public SearchResults(
 			BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,

@@ -28,7 +28,7 @@ public class CopyContractView extends VerticalLayout {
 
     private final CopyContractform addDiscountForm;
     @SuppressWarnings("unused")
-	private SessionDTO session;
+	private final SessionDTO session;
     private  List<ContractSelectionDTO> selectedList;
 
     /**

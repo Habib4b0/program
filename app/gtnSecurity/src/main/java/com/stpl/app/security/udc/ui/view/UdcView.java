@@ -9,14 +9,18 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UdcView extends VerticalLayout implements View {
 
     public static final String NAME = "";
-    private BeanItemContainer<HelperForm> searchResultbeans = new BeanItemContainer<HelperForm>(
+    private final BeanItemContainer<HelperForm> searchResultbeans = new BeanItemContainer<HelperForm>(
             HelperForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UdcView.class
+			.getName());
 
-    private Table table = new Table();
+    private final Table table = new Table();
     private final SessionDTO sessionDTO;
 
     public UdcView(final SessionDTO sessionDTO) {
@@ -26,8 +30,9 @@ public class UdcView extends VerticalLayout implements View {
         setComponentError(new UserError(""));
     }
 
+    @Override
     public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
+                    LOGGER.debug("Inside overriden method of enter: Class UdcView");
 
     }
 

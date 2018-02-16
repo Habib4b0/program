@@ -26,7 +26,6 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
@@ -666,7 +665,7 @@ public class Copycomponents extends CustomComponent {
             if (root != null) {
                 String levelNo = String.valueOf(contractDashBoardTable.getContainerProperty(root, Constants.LEVELNO).getValue());
                 String modelSId = String.valueOf(contractDashBoardTable.getContainerProperty(root, Constants.MODEL_ID).getValue());
-                int levelNumber = Integer.valueOf(levelNo);
+                int levelNumber = Integer.parseInt(levelNo);
                 String level = String.valueOf(componentitems.getValue());
                 if (Constants.NULL.equals(level)) {
                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please checkmark components to add to the Contract");
@@ -1040,7 +1039,7 @@ public class Copycomponents extends CustomComponent {
                 contractMaster.setProcessStatus(true);
                 contractMaster.setSource("BPI");
                 contractMaster.setContractStatus(status);
-                contractMaster.setCreatedBy(Integer.valueOf(userId));
+                contractMaster.setCreatedBy(Integer.parseInt(userId));
                 contractMaster.setStartDate(startDate);
                 contractMaster.setEndDate(endDate);
                 contractMaster.setInboundStatus(Constants.A);

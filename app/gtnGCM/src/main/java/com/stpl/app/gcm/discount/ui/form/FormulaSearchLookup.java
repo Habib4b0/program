@@ -55,7 +55,7 @@ public class FormulaSearchLookup extends CustomWindow {
     public Button closeBtn;
     private final FormulaLookupTableLogic tableLogic = new FormulaLookupTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private CustomTextField componentTextField;
+    private final CustomTextField componentTextField;
     private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
      private static final Logger LOGGER = LoggerFactory.getLogger(FormulaSearchLookup.class);
     public FormulaSearchLookup(CustomTextField componentTextField) {

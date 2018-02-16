@@ -66,7 +66,7 @@ public class UdcHelperForm extends CustomComponent implements View {
      *
      */
     private static final long serialVersionUID = 7820110023085927101L;
-    private UdcLogic udcLogic = new UdcLogic();
+    private final UdcLogic udcLogic = new UdcLogic();
     private final ErrorLabel errorMsg = new ErrorLabel();
     private final Label space = new Label("&nbsp;", ContentMode.HTML);
     private final NativeSelect category = new NativeSelect();
@@ -75,7 +75,7 @@ public class UdcHelperForm extends CustomComponent implements View {
     private final TextField brandName = new TextField();
     private final TextField displayBrand = new TextField();
     private final TextField aliasName = new TextField();
-    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     private ErrorfulFieldGroup binder;
     private ErrorfulFieldGroup brandBinder;
     private static final Object[] HELPER_COLUMNS = new Object[]{"description", "listName"};
@@ -88,16 +88,19 @@ public class UdcHelperForm extends CustomComponent implements View {
     public static final String UDC_CONFIGURATION = "UDC Configuration";
     private static final Object[] BRAND_HELPER_COLUMNS = new Object[]{BRAND_ID_LABEL, BRAND_NAME_LABEL, DIS_BRAND_LABEL, CATEGORY_LABEL};
     private static final String[] BRAND_HELPER_HEADERS = new String[]{"Brand ID", "Brand Name", "Display Brand", CommonUtils.CASECATEGORY};
+    private static final String MSG_DELETED_SUCCESSFULLY = " Deleted successfully";
+    private static final String MSG_CATEGORY_VALUE =" Category Value ";
+    private static final String MSG_DELETION_FAILED = "Deletion Failed. Category Value ";
     
     private static final Object[] FILE_TYPE_HELPER_COLUMNS = new Object[]{"description", "listName", "aliasName"};
     private static final String[] FILE_TYPE_HELPER_HEADERS = new String[]{"Description", CommonUtils.CASECATEGORY ,CommonUtils.ALIAS_NAME};
-    private Button btnDelete = new Button("Delete");
-    private Button btnSave1 = new Button("Add");
+    private final Button btnDelete = new Button("Delete");
+    private final Button btnSave1 = new Button("Add");
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(UdcHelperForm.class.getName());
 
-    private BeanItemContainer<HelperForm> searchResultbeans;
+    private final BeanItemContainer<HelperForm> searchResultbeans;
     private Table table = new Table();
     private LazyBeanItemContainer searchResults;
     private final Label valueLabel = new Label("Value");
@@ -106,7 +109,7 @@ public class UdcHelperForm extends CustomComponent implements View {
     private final Label brandNameLabel = new Label("Brand Name");
     private final Label displayBrandLabel = new Label("Display Brand");
     private int masterSid = 0;
-    private UdcLogicDAO dao = new UdcLogicDAOImpl();
+    private final UdcLogicDAO dao = new UdcLogicDAOImpl();
     private final SessionDTO sessionDTO;
 
     public UdcHelperForm(SessionDTO sessionDTO, BeanItemContainer<HelperForm> searchResultbeans, Table table) {
@@ -172,7 +175,7 @@ public class UdcHelperForm extends CustomComponent implements View {
         brandBinder.setErrorDisplay(errorMsg);
         return brandBinder;
     }
-    private GridLayout gridLayout = new GridLayout(NumericConstants.SEVEN, NumericConstants.FOUR);
+    private final GridLayout gridLayout = new GridLayout(NumericConstants.SEVEN, NumericConstants.FOUR);
 
     private GridLayout addGrid() {
 
@@ -210,6 +213,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                  */
                 private static final long serialVersionUID = 1L;
 
+                @Override
                 public void error(com.vaadin.server.ErrorEvent event) {
                     return;
                 }
@@ -221,6 +225,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                  * Method is called when results value is changed
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void valueChange(final Property.ValueChangeEvent event) {
                     LOGGER.debug("In addResultsTable results.addValueChangeListener started");
                     resultsItemClick(event.getProperty().getValue());
@@ -273,6 +278,7 @@ public class UdcHelperForm extends CustomComponent implements View {
         category.addValueChangeListener(new ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void valueChange(ValueChangeEvent event) {
 
                 if (event.getProperty().getValue() != null) {
@@ -354,6 +360,7 @@ public class UdcHelperForm extends CustomComponent implements View {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void buttonClick(ClickEvent event) {
                 try {
 
@@ -373,10 +380,10 @@ public class UdcHelperForm extends CustomComponent implements View {
                             success = udcLogic.saveBrandMaster(brandBinder, masterSid);
 
                         }else if (category.getValue().equals(CommonUtils.FILE_TYPE)) {
-                            success = udcLogic.SaveFileTypeHelperTable(binder);
+                            success = udcLogic.saveFileTypeHelperTable(binder);
 
                         }else {
-                            success = udcLogic.SaveHelperTable(binder);
+                            success = udcLogic.saveHelperTable(binder);
                         }
                         if (success.equals("success")) {
 
@@ -458,6 +465,7 @@ public class UdcHelperForm extends CustomComponent implements View {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 return;
             }
@@ -465,6 +473,7 @@ public class UdcHelperForm extends CustomComponent implements View {
         btnDelete.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void buttonClick(ClickEvent event) {
 
                 binder.getFields();
@@ -485,7 +494,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                                 table.setContainerDataSource(searchResults);
                                 table.setVisibleColumns(BRAND_HELPER_COLUMNS);
                                 table.setColumnHeaders(BRAND_HELPER_HEADERS);
-                                Notification notif = new Notification(" Category Value " + "BRAND" + " Deleted successfully", Notification.Type.HUMANIZED_MESSAGE);
+                                Notification notif = new Notification(MSG_CATEGORY_VALUE + "BRAND" + MSG_DELETED_SUCCESSFULLY, Notification.Type.HUMANIZED_MESSAGE);
                                 notif.setPosition(Position.MIDDLE_CENTER);
                                 notif.setStyleName(CommonUtils.MYSTYLE);
                                 notif.show(Page.getCurrent());
@@ -493,7 +502,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                         } else if (masterSid == 0) {
                             NotificationUtils.getErrorNotification("Error", "Please select Brand to delete");
                         } else {
-                            Notification notif = new Notification("Deleted Failed. Category Value " + "BRAND" + " is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
+                            Notification notif = new Notification(MSG_DELETION_FAILED + "BRAND" + " is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());
@@ -508,7 +517,7 @@ public class UdcHelperForm extends CustomComponent implements View {
 
                             List<HelperForm> helperResult = udcLogic.getFileTypeDescription(String.valueOf(category.getValue()));
                             searchResultbeans.addAll(helperResult);
-                            Notification notif = new Notification(" Category Value " + helperTable.getListName() + " Deleted successfully", Notification.Type.HUMANIZED_MESSAGE);
+                            Notification notif = new Notification(MSG_CATEGORY_VALUE + helperTable.getListName() + MSG_DELETED_SUCCESSFULLY, Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());
@@ -518,7 +527,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());
                         } else {
-                            Notification notif = new Notification("Deleted Failed. Category Value " + helperTable.getListName() + "is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
+                            Notification notif = new Notification(MSG_DELETION_FAILED + helperTable.getListName() + "is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());
@@ -533,17 +542,17 @@ public class UdcHelperForm extends CustomComponent implements View {
 
                             List<HelperForm> helperResult = udcLogic.getDescrition(String.valueOf(category.getValue()));
                             searchResultbeans.addAll(helperResult);
-                            Notification notif = new Notification(" Category Value " + helperTable.getListName() + " Deleted successfully", Notification.Type.HUMANIZED_MESSAGE);
+                            Notification notif = new Notification(MSG_CATEGORY_VALUE + helperTable.getListName() + MSG_DELETED_SUCCESSFULLY, Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());
                         } else if (masterSid == 0) {
-                            Notification notif = new Notification("Deleted Failed", Notification.Type.HUMANIZED_MESSAGE);
+                            Notification notif = new Notification("Deletion Failed", Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());
                         } else {
-                            Notification notif = new Notification("Deleted Failed. Category Value " + helperTable.getListName() + "is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
+                            Notification notif = new Notification(MSG_DELETION_FAILED + helperTable.getListName() + "is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());
@@ -560,6 +569,7 @@ public class UdcHelperForm extends CustomComponent implements View {
         return btnDelete;
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         return;
     }
@@ -585,9 +595,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                 category.setVisible(true);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex.getMessage());
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
 

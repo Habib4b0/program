@@ -14,9 +14,9 @@ import com.vaadin.ui.Notification;
 public class ActionButtonLayout extends HorizontalLayout {
 
 	private static final long serialVersionUID = 1L;
-	private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
+	private final BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
 	
-	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
 
 	public ActionButtonLayout(BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans) {
 		super();
@@ -26,10 +26,10 @@ public class ActionButtonLayout extends HorizontalLayout {
 
 	private void init(){
 		this.setSpacing(true);
-		SaveButton();
+		saveButton();
 	}
 
-	private void SaveButton() {
+	private void saveButton() {
 		// Commit button
 		Button btnSearch = new Button("Save");
 		btnSearch.setWidth("75");
@@ -37,6 +37,7 @@ public class ActionButtonLayout extends HorizontalLayout {
 			private static final long serialVersionUID = 1L;
 
 			
+                        @Override
 			public void buttonClick(ClickEvent event) {
 					businessRoleModuleLogic.saveBusinessRoleModuleMaster(searchResultbeans.getItemIds());
 

@@ -162,20 +162,17 @@ public class FederalNdcPopup extends CustomComponent {
                             double convertedWAC = Double.valueOf(wacValue);
                             wac.setReadOnly(false);
                             wac.setValue(CommonUtils.DOLLAR + decimalFormat.format(convertedWAC));
-                            wac.setReadOnly(true);
                         } else {
                             NewNdcDTO dto = (NewNdcDTO) federalMap.get(Integer.parseInt(String.valueOf(ndc.getValue())));
                             if (dto != null && !dto.equals(Constant.NULL)) {
                                 wac.setReadOnly(false);
                                 wac.setValue(dto.getWac());
-                                wac.setReadOnly(true);
                             } else {
                                 wac.setReadOnly(false);
 
                                 wac.setValue(StringUtils.EMPTY);
                                 nonFamp.setValue(StringUtils.EMPTY);
                                 fss.setValue(StringUtils.EMPTY);
-                                wac.setReadOnly(true);
 
                             }
                         }
@@ -212,7 +209,6 @@ public class FederalNdcPopup extends CustomComponent {
 
                     } else {
                         ndc.setValue(StringUtils.EMPTY);
-                        wac.setReadOnly(false);
 
                         wac.setValue(StringUtils.EMPTY);
                         nonFamp.setValue(StringUtils.EMPTY);
@@ -220,7 +216,6 @@ public class FederalNdcPopup extends CustomComponent {
                         wac.setReadOnly(true);
 
                     }
-                    wac.setReadOnly(true);
                 } catch (Property.ReadOnlyException | NumberFormatException ex) {
                     LOGGER.error(ex.getMessage());
                 }
@@ -250,8 +245,6 @@ public class FederalNdcPopup extends CustomComponent {
                 }
             }
         });
-        wac.setReadOnly(true);
-        wac.setImmediate(true);
         fss.setImmediate(true);
 
         final StplSecurity stplSecurity = new StplSecurity();
