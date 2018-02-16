@@ -29,10 +29,10 @@ public class SearchResults extends CustomComponent {
         private final ErrorLabel errorMsg = new ErrorLabel();
         private final Label space = new Label("&nbsp;", ContentMode.HTML);
 	
-	private ErrorfulFieldGroup binder;
-	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private final ErrorfulFieldGroup binder;
+	private final BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
 	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
-	private Table table;
+	private final Table table;
 
 	public SearchResults(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
@@ -76,6 +76,7 @@ public class SearchResults extends CustomComponent {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                    
             return;
@@ -86,6 +87,7 @@ public class SearchResults extends CustomComponent {
 		table.addValueChangeListener(new Property.ValueChangeListener() {
 			private static final long serialVersionUID = -7031867080753509788L;
 
+                        @Override
 			public void valueChange(ValueChangeEvent event) {
 				if (event.getProperty().getValue() != null) {
 					try {

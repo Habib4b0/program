@@ -19,6 +19,7 @@ public class HelperTable implements java.io.Serializable {
     private Date createdDate;
     private int modifiedBy;
     private Date modifiedDate;
+    private String aliasName;
     private Set udcsesForUdc7 = new HashSet(0);
     private Set companyMastersForCompanyCategory = new HashSet(0);
     private Set udcsesForUdc6 = new HashSet(0);
@@ -66,7 +67,7 @@ public class HelperTable implements java.io.Serializable {
     }
 
     public HelperTable(int helperTableSid, String description, String listName, BigDecimal refCount, int createdBy,
-            Date createdDate, int modifiedBy, Date modifiedDate, Set udcsesForUdc7,
+            Date createdDate, int modifiedBy, Date modifiedDate,String aliasName, Set udcsesForUdc7,
             Set companyMastersForCompanyCategory, Set udcsesForUdc6, Set companyMastersForState, Set udcsesForUdc5,
             Set udcsesForUdc11, Set udcsesForUdc4, Set udcsesForUdc12, Set udcsesForUdc3,
             Set companyTradeClassesForPriorTradeClass, Set udcsesForUdc2, Set udcsesForUdc9,
@@ -86,6 +87,7 @@ public class HelperTable implements java.io.Serializable {
         this.createdDate = createdDate;
         this.modifiedBy = modifiedBy;
         this.modifiedDate = modifiedDate;
+        this.aliasName=aliasName;
         this.udcsesForUdc7 = udcsesForUdc7;
         this.companyMastersForCompanyCategory = companyMastersForCompanyCategory;
         this.udcsesForUdc6 = udcsesForUdc6;
@@ -122,7 +124,7 @@ public class HelperTable implements java.io.Serializable {
         this.fileManagements = fileManagements;
     }
 
-    public int getHelperTableSid() {
+	public int getHelperTableSid() {
         return this.helperTableSid;
     }
 
@@ -456,5 +458,14 @@ public class HelperTable implements java.io.Serializable {
     public void setFileManagements(Set fileManagements) {
         this.fileManagements = fileManagements;
     }
+    
+    public String getAliasName() {
+		return aliasName;
+	}
+
+	public void setAliasName(String aliasName) {
+		this.aliasName = aliasName;
+	}
+
 
 }

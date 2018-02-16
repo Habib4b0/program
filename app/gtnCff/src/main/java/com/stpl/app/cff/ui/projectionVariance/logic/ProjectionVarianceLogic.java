@@ -78,6 +78,9 @@ public class ProjectionVarianceLogic {
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
     public static final String DISCOUNT_PERCENT = "Discount %";
     public static final String DISCOUNT_DOLLAR = "Discount $";
+    private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
+    private static final String DF_LEVEL_NAME = "dfLevelName";
+    private static final String CFF_TOTAL = "CFF Total";
     
     /**
      * The Percent Two Decimal Places Format.
@@ -288,7 +291,7 @@ public class ProjectionVarianceLogic {
                 if (obj[NumericConstants.EIGHT] == null) {
                     comparisonLookupDTO.setProjectionId(0);
                 } else {
-                    comparisonLookupDTO.setProjectionId(Integer.valueOf(obj[NumericConstants.EIGHT].toString()));
+                    comparisonLookupDTO.setProjectionId(Integer.parseInt(obj[NumericConstants.EIGHT].toString()));
                 }
                 if (obj[NumericConstants.NINE] == null) {
                     comparisonLookupDTO.setCreatedDateFrom(null);
@@ -417,7 +420,7 @@ public class ProjectionVarianceLogic {
                 if (obj[NumericConstants.EIGHT] == null) {
                     comparisonLookupDTO.setProjectionId(0);
                 } else {
-                    comparisonLookupDTO.setProjectionId(Integer.valueOf(obj[NumericConstants.EIGHT].toString()));
+                    comparisonLookupDTO.setProjectionId(Integer.parseInt(obj[NumericConstants.EIGHT].toString()));
                 }
                 if (obj[NumericConstants.NINE] == null) {
                     comparisonLookupDTO.setCreatedDateFrom(null);
@@ -1185,8 +1188,7 @@ public class ProjectionVarianceLogic {
             }
             list = HelperTableLocalServiceUtil.executeSelectQuery(rsQuery);
         }
-        int count = CFFLogic.getCount(list);
-        return count;
+        return CFFLogic.getCount(list);
     }
     
     public String HelperJoinQuery(PVSelectionDTO dto,List dedInput){
@@ -1286,7 +1288,7 @@ public class ProjectionVarianceLogic {
             List<String> hierarchyNoList = getHiearchyNoAsList(projSelDTO, resultStart, offset);
             for (String hierarchyNo : hierarchyNoList) {
                 String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
-                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchy).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchy)));
+                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(hierarchy).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchy)));
             }
         }
 
@@ -1476,8 +1478,8 @@ public class ProjectionVarianceLogic {
         if (results != null && !results.isEmpty()) {
             for (int i = 0; i < results.size(); i++) {
                 final Object[] row = (Object[]) results.get(i);
-                int year = Integer.valueOf(String.valueOf(row[0]));
-                int period = row[1] != null ? Integer.valueOf(String.valueOf(row[1])) : 0;
+                int year = Integer.parseInt(String.valueOf(row[0]));
+                int period = row[1] != null ? Integer.parseInt(String.valueOf(row[1])) : 0;
                 List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, year, period);
                 String pcommonColumn = common.get(0);
                 String commonHeader = common.get(1);
@@ -1848,8 +1850,8 @@ public class ProjectionVarianceLogic {
                         }
                         for (int dis = 0; dis < totalDiscount.size(); dis++) {
                             Object[] discountRow = (Object[]) totalDiscount.get(dis);
-                            int dyear = Integer.valueOf(String.valueOf(discountRow[0]));
-                            int dperiod = Integer.valueOf(String.valueOf(discountRow[1]));
+                            int dyear = Integer.parseInt(String.valueOf(discountRow[0]));
+                            int dperiod = Integer.parseInt(String.valueOf(discountRow[1]));
                             List<String> dcommon = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, dyear, dperiod);
                             String dcommonColumn = dcommon.get(0);
                             dcommonColumn = getCommonColumn(dcommonColumn, frequencyDivision);
@@ -1949,7 +1951,7 @@ public class ProjectionVarianceLogic {
 
         if (!pvsdto.getLevel().equals(DETAIL)) {
             ProjectionVarianceDTO totalDTO = new ProjectionVarianceDTO();
-            totalDTO.setGroup("CFF Total");
+            totalDTO.setGroup(CFF_TOTAL);
             projDTOList.add(0, totalDTO);
 
         }
@@ -1969,7 +1971,9 @@ public class ProjectionVarianceLogic {
             isDetail = true;
         } else {
             ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
-            dto.setGroup("CFF Total");
+            dto.setGroup(CFF_TOTAL);
+            dto.addStringProperties(DF_LEVEL_NUMBER, CFF_TOTAL);
+            dto.addStringProperties(DF_LEVEL_NAME, CFF_TOTAL);
             projectionVarianceDTO.add(dto);
         }
         // ExFac Sales 
@@ -2453,7 +2457,7 @@ public class ProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         column = StringUtils.EMPTY + discountRow[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(discountRow[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(discountRow[1])) - 1);
                         column = monthName + discountRow[0];
                     }
                     column1 = column + CURRENT + projSelDTO.getCurrentProjId();
@@ -2676,12 +2680,12 @@ public class ProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                     }
                     PVCommonLogic.customizePeriod(commonColumn, varibaleCat, pvsdto, pvDTO, FORMAT, totalListPostion, obj, isPer);
                     for (int j = 0; j < priorList.size(); j++) {
-                        PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn + priorList.get(j), totalListPostion, j, isPer, COLUMN_COUNT_TOTAL, FORMAT,commonColumn);
+                        PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn, totalListPostion, j, isPer, COLUMN_COUNT_TOTAL, FORMAT);
                     }
                 }
             }
@@ -2721,13 +2725,13 @@ public class ProjectionVarianceLogic {
                 } else if (frequencyDivision == 1) {
                     commonColumn = StringUtils.EMPTY + obj[0];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
-                    String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                    String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                     commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                 }
 
                 PVCommonLogic.customizePeriod(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, obj, isPer);
                 for (int j = 0; j < priorList.size(); j++) {
-                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn + priorList.get(j), index, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT,commonColumn);
+                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn, index, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT);
                 }
                 if (i == dataList.size() - 1) {
                     resultDto.add(pvDTO);
@@ -2917,10 +2921,10 @@ public class ProjectionVarianceLogic {
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
                 
                 value = String.valueOf(roundToFraction((val - val1), 10000));
-                value = roundToFraction(Double.valueOf(value), 100) + "";
+                value = roundToFraction(Double.parseDouble(value), 100) + "";
             value = getFormattedValue(format, value);
         } else {
-            variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
+            variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = getFormattedValue(format, variance);
         }
         return value;
@@ -2935,16 +2939,16 @@ public class ProjectionVarianceLogic {
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
                 
                 value = String.valueOf(roundToFraction((val - val1), 10000));
-                value = roundToFraction(Double.valueOf(value), 100) + "";
+                value = roundToFraction(Double.parseDouble(value), 100) + "";
         } else {
-            variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
+            variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = getFormattedValue(formatter, variance);
         }
         String priorval = getFormattedValue(formatter, priorVal);
 
         value = value.replace(",", StringUtils.EMPTY);
         priorval = priorval.replace(",", StringUtils.EMPTY);
-        Double perChange = Double.valueOf(value) / Double.valueOf(priorval);
+        Double perChange = Double.parseDouble(value) / Double.parseDouble(priorval);
         if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
             perChange = 0.0;
         }
@@ -2967,7 +2971,7 @@ public class ProjectionVarianceLogic {
             List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
             PVCommonLogic.customizePeriod(variableValue, variableCategory, pvsdto, projDTO, format, index, obj, format.equals(RATE));
             for (int j = 0; j < priorList.size(); j++) {
-                PVCommonLogic.getPriorCommonCustomization(variableCategory, pvsdto, obj, projDTO, variableValue + priorList.get(j), index, j, format.equals(RATE), isTotalLevel ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DISCOUNT, format,variableValue);
+                PVCommonLogic.getPriorCommonCustomization(variableCategory, pvsdto, obj, projDTO, variableValue, index, j, format.equals(RATE), isTotalLevel ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DISCOUNT, format);
             }
 
         } catch (Exception e) {
@@ -2991,7 +2995,7 @@ public class ProjectionVarianceLogic {
         countQuery = countQuery.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO)));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
-            count = Integer.valueOf(list.get(0).toString());
+            count = Integer.parseInt(list.get(0).toString());
         }
         LOGGER.debug("ending getCountForCustomView");
         return count;
@@ -3016,7 +3020,7 @@ public class ProjectionVarianceLogic {
             query = query.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator()));
             List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
             if (list != null && !list.isEmpty()) {
-                count = Integer.valueOf(list.get(0).toString());
+                count = Integer.parseInt(list.get(0).toString());
         }
         } else {
             throw new IllegalArgumentException("Invalid Hierarchy Indicator :" + hierarchyIndicator);
@@ -3276,7 +3280,7 @@ public class ProjectionVarianceLogic {
     }
 
     public boolean isSameLevelHierarchyIndicator(Map.Entry<String, List> entry, int levelNo, String hierarchyIndicator) {
-        return (Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()));
+        return (Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()));
     }
 
     public String getString(String key, List<String> hierarchyNo) {

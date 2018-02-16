@@ -22,35 +22,43 @@ import java.util.ArrayList;
  */
 public class UdcLogicDAOImpl implements UdcLogicDAO {
 
+    @Override
     public List<HelperTable> getListName(DynamicQuery dynamicQuery) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
+    @Override
     public List<HelperTable> getDescrition(String desc) throws SystemException {
         return new ArrayList<>();
     }
 
+    @Override
     public List<HelperTable> findByHelperTableDetails(String category) throws SystemException {
         return new ArrayList<>();
     }
     
 
+    @Override
     public HelperTable saveHelperTableDetails(HelperTable helperTable) throws SystemException {
        return HelperTableLocalServiceUtil.addHelperTable(helperTable);
     }
 
+    @Override
     public HelperTable deleteHelperTableByCode(int code) throws SystemException, PortalException {
         return HelperTableLocalServiceUtil.deleteHelperTable(code);
     }
     
+    @Override
     public BrandMaster saveBrandTableDetails(BrandMaster brandTable) throws SystemException {
        return BrandMasterLocalServiceUtil.addBrandMaster(brandTable);
     }
     
+    @Override
      public BrandMaster deleteBrandTableByCode(BrandMaster code) throws SystemException, PortalException {
         return BrandMasterLocalServiceUtil.updateBrandMaster(code);
     }
      
+    @Override
      public BrandMaster getBrandMaster(int id) throws SystemException, PortalException  {
         return BrandMasterLocalServiceUtil.getBrandMaster(id);
     }

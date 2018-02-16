@@ -160,6 +160,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                     itemendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
                     itemendDate.addFocusListener(new FocusListener() {
 
+                        @Override
                         public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                             Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
 

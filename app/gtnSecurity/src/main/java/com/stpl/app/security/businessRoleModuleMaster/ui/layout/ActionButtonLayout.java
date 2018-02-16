@@ -20,17 +20,17 @@ public class ActionButtonLayout extends HorizontalLayout {
 	private static final long serialVersionUID = 1L;
 
 	
-	private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
+	private final BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
 	
-	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-	private BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
-	private ComboBox subModuleName;
-        private ComboBox moduleName;
-        private CheckBox add;
-        private CheckBox edit;
-        private CheckBox view;
-        private String userId;
-        private ComboBox businessRoleName;
+	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
+	private final ComboBox subModuleName;
+        private final ComboBox moduleName;
+        private final CheckBox add;
+        private final CheckBox edit;
+        private final CheckBox view;
+        private final String userId;
+        private final ComboBox businessRoleName;
 
 	public ActionButtonLayout(BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult,
                 ComboBox subModuleName,ComboBox moduleName,ComboBox businessRoleName, String userId,CheckBox add,CheckBox edit,CheckBox view) {
@@ -49,10 +49,10 @@ public class ActionButtonLayout extends HorizontalLayout {
 
 	private void init(){
 		this.setSpacing(true);
-		SaveButton();
+		saveButton();
 	}
 
-	private void SaveButton() {
+	private void saveButton() {
 		// Commit button
 		Button btnSearch = new Button("Save");
 		btnSearch.setWidth("75");
@@ -60,6 +60,7 @@ public class ActionButtonLayout extends HorizontalLayout {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                     return;
             
@@ -69,6 +70,7 @@ public class ActionButtonLayout extends HorizontalLayout {
 		          btnSearch.addClickListener(new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
+                @Override
                               public void buttonClick(ClickEvent event) {
                                   businessRoleModuleLogic.saveBusinessRoleModuleMaster(searchResultbeans.getItemIds(), searchFieldResult.getItemIds(), userId);
                                   searchResultbeans.removeAllItems();

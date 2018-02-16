@@ -143,7 +143,7 @@ public class DataSelectionLogic {
 		for (int i = 0; i < result.size(); i++) {
 			hdto = new HierarchyLookupDTO();
 			final Object[] obj = (Object[]) result.get(i);
-			hdto.setHierarchyId(Integer.valueOf(obj[0].toString()));
+			hdto.setHierarchyId(Integer.parseInt(obj[0].toString()));
 			hdto.setHierarchyName(String.valueOf(obj[1].toString()));
 			hdto.setHighestLevel(String.valueOf(obj[NumericConstants.THREE].toString()));
 			hdto.setLowestLevel(String.valueOf(obj[NumericConstants.FOUR].toString()));
@@ -937,7 +937,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			final List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
 			final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			filterText = StringUtils.trimToEmpty(filterText) + "%";
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
@@ -954,18 +954,18 @@ public class DataSelectionLogic {
 			if (selectedCompanyDdlbDto == null) {
 				for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 					final Object[] objects = returnlist.get(loop);
-					companyDdlbDto = new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+					companyDdlbDto = new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 							String.valueOf(objects[1]));
 					companies.add(companyDdlbDto);
 				}
 			} else {
 				for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 					final Object[] objects = returnlist.get(loop);
-					if (Integer.valueOf(String.valueOf(objects[0])) == selectedCompanyDdlbDto.getCompanyMasterSid()) {
+					if (Integer.parseInt(String.valueOf(objects[0])) == selectedCompanyDdlbDto.getCompanyMasterSid()) {
 						selectedCompanyDdlbDto.setCompanyName(String.valueOf(objects[1]));
 						companies.add(selectedCompanyDdlbDto);
 					} else {
-						companyDdlbDto = new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+						companyDdlbDto = new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 								String.valueOf(objects[1]));
 						companies.add(companyDdlbDto);
 					}
@@ -994,7 +994,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			final List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
 			final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			filterText = StringUtils.trimToEmpty(filterText) + "%";
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
@@ -1483,7 +1483,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			final List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
 			final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
 					UiUtils.convertStringListToIngeter(companySids)));
@@ -1496,7 +1496,7 @@ public class DataSelectionLogic {
 			CompanyDdlbDto companyDdlbDto;
 			for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 				final Object[] objects = returnlist.get(loop);
-				companyDdlbDto = new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+				companyDdlbDto = new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 						String.valueOf(objects[1]));
 				companies.add(companyDdlbDto);
 			}
@@ -1638,7 +1638,7 @@ public class DataSelectionLogic {
 			for (int loop = 0, limit = resultList.size(); loop < limit; loop++) {
 				final Object[] objects = resultList.get(loop);
 				discounts.add(
-						new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])), String.valueOf(objects[1])));
+						new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])), String.valueOf(objects[1])));
 			}
 		} else {
 			for (int loop = 0, limit = resultList.size(); loop < limit; loop++) {
@@ -1647,7 +1647,7 @@ public class DataSelectionLogic {
 					selectedDiscount.setRsNo(String.valueOf(objects[1]));
 					discounts.add(selectedDiscount);
 				} else {
-					discountDdlbDto = new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+					discountDdlbDto = new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 							String.valueOf(objects[1]));
 					discounts.add(discountDdlbDto);
 				}
@@ -1884,7 +1884,7 @@ public class DataSelectionLogic {
 	}
 
 	public List getProjection(int projectionId) {
-		final String sql = "SELECT CFF_NAME,PROD_RELATIONSHIP_BUILDER_SID,CUST_RELATIONSHIP_BUILDER_SID From dbo.CFF_MASTER where CFF_MASTER_SID = "
+		final String sql = "SELECT CFF_NAME,PROD_RELATIONSHIP_BUILDER_SID,CUST_RELATIONSHIP_BUILDER_SID,CFF_ELIGIBLE_DATE From dbo.CFF_MASTER where CFF_MASTER_SID = "
 				+ projectionId;
 		final List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
 		if (list.isEmpty()) {
@@ -1953,4 +1953,15 @@ public class DataSelectionLogic {
 		}
 		return resultMap;
 	}
+        public Date getDefaultEligibleDateFromForecastConfiguration() {
+            String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Consolidated Financial Forecast')";
+            List cffEligibleDatelist = HelperTableLocalServiceUtil.executeSelectQuery(query);
+            return (Date) cffEligibleDatelist.get(0);
+        }
+            public String getremovedcontractbasedonCFFEligibleDate(final SessionDTO session) {
+            List<Object> inputList = new ArrayList();
+		inputList.add(session.getProjectionId());
+            List<Object[]> removedcontract = CommonQueryUtils.getAppData(inputList, "CFFeligibledatealertquery",null);
+            return   removedcontract.toString().replace("[", "").replace("]", "");
+        }
 }

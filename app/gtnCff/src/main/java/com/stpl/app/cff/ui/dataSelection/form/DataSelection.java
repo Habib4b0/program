@@ -127,6 +127,7 @@ public class DataSelection extends AbstractDataSelection {
 		}
 
 		configureBusinessUnitDdlb();
+                loadCFFEligibleDate();
 
 	}
 
@@ -310,8 +311,8 @@ public class DataSelection extends AbstractDataSelection {
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList,
-						relationVersionNo);
+						Integer.parseInt(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList,
+						relationVersionNo,cffEligibleDate.getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -444,7 +445,7 @@ public class DataSelection extends AbstractDataSelection {
 			}
 
 			bindDataselectionDtoToSave();
-			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, Boolean.FALSE, 0);
+			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, Boolean.FALSE, 0,sessionDTO);
 			VaadinSession.getCurrent().setAttribute("projectionId", projectionIdValue);
 			dataSelectionDTO.setProjectionId(projectionIdValue);
 			int prodRelationVersionNo = Integer
@@ -459,14 +460,14 @@ public class DataSelection extends AbstractDataSelection {
 				sessionDTO.setAction(Constants.ADD);
 				sessionDTO.setFromDate(dataSelectionDTO.getFromDate());
 				sessionDTO.setToDate(dataSelectionDTO.getToDate());
-				sessionDTO.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
-				sessionDTO.setProductRelationId(Integer.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
+				sessionDTO.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
+				sessionDTO.setProductRelationId(Integer.parseInt(dataSelectionDTO.getProdRelationshipBuilderSid()));
 				sessionDTO.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setProductDescription(productDescriptionMap);
 				sessionDTO.setCustomerHierarchyId(0);
 				sessionDTO.setCustomerDescription(customerDescriptionMap);
-				sessionDTO.setCustomerHierarchyId(Integer.valueOf(dataSelectionDTO.getCustomerHierSid()));
-				sessionDTO.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
+				sessionDTO.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
+				sessionDTO.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
 				sessionDTO.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 				Object[] obj = cffLogic.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setDedRelationshipBuilderSid(obj[0].toString());
@@ -480,7 +481,7 @@ public class DataSelection extends AbstractDataSelection {
 				relationLogic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(),
 						selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
 						customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-						custRelationVersionNo, prodRelationVersionNo);
+						custRelationVersionNo, prodRelationVersionNo,projectionIdValue);
 				insertCffDetailsUsingExecutorService(projectionIdValue, sessionDTO.getCurrentTableNames());
 				sessionDTO.setCustomerLevelDetails(
 						cffLogic.getLevelValueDetails(sessionDTO, customerRelation.getValue(), true));
@@ -3085,7 +3086,7 @@ public class DataSelection extends AbstractDataSelection {
 				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String>emptyList()
 						: groupFilteredItems;
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
-						Integer.valueOf(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
+						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
 						hierarchyLevelDefinitionList, customerHierarchyDefinitionList, productRelationVersionNo,
 						customerRelationVersionNo, getBusinessUnit().getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
@@ -3388,7 +3389,7 @@ public class DataSelection extends AbstractDataSelection {
 		dataSelectionDTO.setCustomerHierarchy(customerHierarchy.getValue());
 		if (customerHierarchyDto != null) {
 			dataSelectionDTO.setCustomerHierVersionNo(
-					Integer.valueOf(String.valueOf(customerRelationVersionComboBox.getValue())));
+					Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue())));
 			dataSelectionDTO.setCustomerRelationShipVersionNo(Integer.parseInt(
 					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue())));
 		} else {
@@ -3397,7 +3398,7 @@ public class DataSelection extends AbstractDataSelection {
 		}
 		if (productHierarchyDto != null) {
 			dataSelectionDTO.setProductHierVersionNo(
-					Integer.valueOf(String.valueOf(productRelationVersionComboBox.getValue())));
+					Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue())));
 			dataSelectionDTO.setProductRelationShipVersionNo(Integer.parseInt(
 					productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue())));
 		} else {
@@ -3414,6 +3415,7 @@ public class DataSelection extends AbstractDataSelection {
 			dataSelectionDTO.setDiscount(SELECT_ONE);
 			dataSelectionDTO.setDiscountSid(0);
 		}
+                sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
 		return dataSelectionDTO;
 	}
 
@@ -3509,6 +3511,7 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	private void initializeFromDto() {
+            DataSelectionLogic logic = new DataSelectionLogic();
 		try {
 
 			if (dataSelectionDTO != null) {
@@ -3614,6 +3617,11 @@ public class DataSelection extends AbstractDataSelection {
 				} else {
 					company.setValue(dataSelectionDTO.getSelectedCompanyName());
 				}
+                                if (sessionDTO.getCffEligibleDate()!=null) {
+                                       cffEligibleDate.setValue(sessionDTO.getCffEligibleDate());
+                                } else {
+                                      cffEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration());
+                                }
 			}
 		} catch (Exception ex) {
 			LOGGER.error(ex + " in initializeFromDto ");
@@ -3825,6 +3833,20 @@ public class DataSelection extends AbstractDataSelection {
 		});
 
 	}
+        public void loadCFFEligibleDate() {
+            DataSelectionLogic logic = new DataSelectionLogic();
+            if (sessionDTO.getCffEligibleDate() != null) {
+                cffEligibleDate.setValue(sessionDTO.getCffEligibleDate());
+            } else {
+                cffEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration());
+            }
+            cffEligibleDate.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent event) {
+                  sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
+                }
+            });
+        }
 
 	/**
 	 * Used to check which level is top in selected customer hierarchy either

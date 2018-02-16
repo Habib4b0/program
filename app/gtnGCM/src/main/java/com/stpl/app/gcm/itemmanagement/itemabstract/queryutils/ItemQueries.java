@@ -742,7 +742,7 @@ public class ItemQueries {
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
         List result = DAO.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
-            code = Integer.valueOf(result.get(0).toString());
+            code = Integer.parseInt(result.get(0).toString());
         }
         return code;
     }

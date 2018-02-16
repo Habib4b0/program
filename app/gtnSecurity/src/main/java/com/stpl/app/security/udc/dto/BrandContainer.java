@@ -36,10 +36,11 @@ public class BrandContainer implements BeanDAO<BrandMasterDTO> {
 
     /**
      * Instantiates a new ifp dao.
+     * @param categoryValue
      */
     public BrandContainer(Object categoryValue) {
-        String category = String.valueOf(categoryValue);
-        this.category = category;
+        String categoryVal = String.valueOf(categoryValue);
+        this.category = categoryVal;
         // empty method
     }
 
@@ -95,6 +96,7 @@ public class BrandContainer implements BeanDAO<BrandMasterDTO> {
      * @param search the search
      * @return int
      */
+    @Override
     public int count(final BeanSearchCriteria search) {
         int count = 0;
         try {
@@ -115,6 +117,7 @@ public class BrandContainer implements BeanDAO<BrandMasterDTO> {
      * @param columns the columns
      * @return List of results
      */
+    @Override
     public List<BrandMasterDTO> find(final BeanSearchCriteria criteria, final int startIndex, final int offset, final List<OrderByColumn> columns) {
         List<BrandMasterDTO> dto = new ArrayList<BrandMasterDTO>();
         try {

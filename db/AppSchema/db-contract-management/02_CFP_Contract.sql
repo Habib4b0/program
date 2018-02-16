@@ -852,6 +852,20 @@ BEGIN
 END
 GO
 
+------------------------------- ADD COLUMN IN CFP_CONTRACT_DETAILS --------------------
+   
+IF NOT EXISTS(SELECT 1 
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'CFP_CONTRACT_DETAILS' 
+			  AND COLUMN_NAME  = 'CFP_ELIGIBLE_DATE'
+			  AND TABLE_SCHEMA = 'DBO')
+    BEGIN
+                
+      ALTER TABLE CFP_CONTRACT_DETAILS
+        ADD CFP_ELIGIBLE_DATE DATETIME NULL
+    END
+GO
+
 
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
@@ -1006,6 +1020,21 @@ IF NOT EXISTS (SELECT *
   END
 
 GO
+
+
+------ ADD COLUMN -----------
+IF NOT EXISTS(SELECT 1 
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'HIST_CFP_CONTRACT_DETAILS' 
+			  AND COLUMN_NAME  = 'CFP_ELIGIBLE_DATE'
+			  AND TABLE_SCHEMA = 'DBO')
+    BEGIN
+                
+      ALTER TABLE HIST_CFP_CONTRACT_DETAILS
+        ADD CFP_ELIGIBLE_DATE DATETIME NULL
+    END
+GO
+
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
 DECLARE @STATSNAME VARCHAR(200)
@@ -1142,7 +1171,8 @@ AS
                      CREATED_DATE,
                      MODIFIED_BY,
                      MODIFIED_DATE,
-                     ACTION_FLAG)
+                     ACTION_FLAG,
+					 CFP_ELIGIBLE_DATE)
         SELECT CFP_CONTRACT_DETAILS_SID,
                CFP_CONTRACT_SID,
                COMPANY_MASTER_SID,
@@ -1160,7 +1190,8 @@ AS
                CREATED_DATE,
                MODIFIED_BY,
                MODIFIED_DATE,
-               'A'
+               'A',
+			   CFP_ELIGIBLE_DATE
         FROM   INSERTED
   END
 
@@ -1203,7 +1234,8 @@ AS
                      CREATED_DATE,
                      MODIFIED_BY,
                      MODIFIED_DATE,
-                     ACTION_FLAG)
+                     ACTION_FLAG,
+					 CFP_ELIGIBLE_DATE)
         SELECT CFP_CONTRACT_DETAILS_SID,
                CFP_CONTRACT_SID,
                COMPANY_MASTER_SID,
@@ -1221,7 +1253,8 @@ AS
                CREATED_DATE,
                MODIFIED_BY,
                MODIFIED_DATE,
-               'C'
+               'C',
+			   CFP_ELIGIBLE_DATE
         FROM   INSERTED
   END
 
@@ -1262,7 +1295,8 @@ AS
                      CREATED_DATE,
                      MODIFIED_BY,
                      MODIFIED_DATE,
-                     ACTION_FLAG)
+                     ACTION_FLAG,
+					 CFP_ELIGIBLE_DATE)
         SELECT CFP_CONTRACT_DETAILS_SID,
                CFP_CONTRACT_SID,
                COMPANY_MASTER_SID,
@@ -1280,7 +1314,8 @@ AS
                CREATED_DATE,
                MODIFIED_BY,
                MODIFIED_DATE,
-               'D'
+               'D',
+			   CFP_ELIGIBLE_DATE
         FROM   DELETED
   END
 
@@ -1412,7 +1447,18 @@ BEGIN
   END
 END
 GO
-
+-------------------------------AGN-510 CR 
+IF NOT EXISTS(SELECT 1 
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'CFP_CONTRACT_DETAILS_PENDING' 
+			  AND COLUMN_NAME  = 'CFP_ELIGIBLE_DATE'
+			  AND TABLE_SCHEMA = 'DBO')
+    BEGIN
+                
+      ALTER TABLE CFP_CONTRACT_DETAILS_PENDING
+        ADD CFP_ELIGIBLE_DATE DATETIME NULL
+    END
+GO
 
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
@@ -1510,4 +1556,3 @@ CLOSE CUR1
 DEALLOCATE CUR1
 
 GO 
-

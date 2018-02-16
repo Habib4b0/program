@@ -199,6 +199,9 @@
 		<property name="modifiedDate" type="timestamp">
 			<column name="MODIFIED_DATE" length="23" not-null="true" />
 		</property>
+                <property name="contractEligibleDate" type="timestamp">
+			<column name="CONTRACT_ELIGIBLE_DATE" length="23" not-null="true" />
+		</property>
 		<set name="rsContracts" table="RS_CONTRACT" inverse="true" lazy="true"
 			fetch="select">
 			<key>

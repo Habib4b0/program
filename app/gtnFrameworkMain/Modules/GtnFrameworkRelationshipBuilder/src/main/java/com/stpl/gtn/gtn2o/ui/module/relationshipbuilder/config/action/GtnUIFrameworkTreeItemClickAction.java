@@ -24,7 +24,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderMultiSelectBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderKeyConstant;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -51,29 +50,6 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 			throws GtnFrameworkGeneralException {
 		loadFilteredResultLayout((GtnWsRecordBean) gtnUIFrameWorkActionConfig.getEventParameter(),
 				gtnUIFrameWorkActionConfig.getActionParameterList(), componentId);
-		setList();
-	}
-
-	private void setList() {
-		gtnLogger.info("inside setList:");
-		GtnWsRecordBean itemSelected = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getSessionProperty("selectedId");
-
-		GtnWsRelationshipBuilderMultiSelectBean relationshipBuilderBean = GtnWsRelationshipBuilderMultiSelectBean
-				.getInstance();
-		List<GtnWsRecordBean> listSelected = relationshipBuilderBean.getSelectedItemsList();
-		if (listSelected == null || listSelected.isEmpty()) {
-			listSelected = new ArrayList<>();
-		}
-		listSelected.add(itemSelected);
-		gtnLogger.info("list selected:" + listSelected.size());
-		relationshipBuilderBean.setSelectedItemsList(listSelected);
-		if (relationshipBuilderBean.getSelectedItemsList() == null
-				|| relationshipBuilderBean.getSelectedItemsList().isEmpty()) {
-			gtnLogger.info("get selcted items list is empty");
-		} else {
-			gtnLogger.info("get selcted items list:" + relationshipBuilderBean.getSelectedItemsList().size());
-		}
-
 	}
 
 	@Override

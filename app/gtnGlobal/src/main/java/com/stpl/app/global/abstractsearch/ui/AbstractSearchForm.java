@@ -534,7 +534,7 @@ public final class AbstractSearchForm extends CustomComponent {
                         }
 
                     }
-                    sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
+                    sessionDTO.setSystemId(Integer.parseInt(searchForm.getSystemID()));
                 }
                 resultTable.setValue(null);
             }
@@ -548,7 +548,7 @@ public final class AbstractSearchForm extends CustomComponent {
         try {
 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            return commonsUtil.checkETLUser(Integer.valueOf(userId));
+            return commonsUtil.checkETLUser(Integer.parseInt(userId));
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1015), new MessageBoxListener() {
@@ -778,7 +778,7 @@ public final class AbstractSearchForm extends CustomComponent {
                 String[] rules = String.valueOf(key).split(ConstantUtil.COMMA);
                 if (rules[0] != null && ValidationUtil.getMessage(rules[0]) != null && StringUtils.isNotEmpty(ValidationUtil.getMessage(rules[0]))) {
                     String[] temp = ValidationUtil.getMessage(rules[0]).split(ConstantUtil.COMMA);
-                    tempObj.addValidator(new StringLengthValidator(ValidationUtil.getMessage(rules[1]), Integer.valueOf(temp[0]), Integer.valueOf(temp[1]), Boolean.valueOf(temp[NumericConstants.TWO])));
+                    tempObj.addValidator(new StringLengthValidator(ValidationUtil.getMessage(rules[1]), Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Boolean.parseBoolean(temp[NumericConstants.TWO])));
                 }
                 if (!ConstantUtil.NULL.equalsIgnoreCase(rules[NumericConstants.TWO]) && ValidationUtil.getMessage(rules[NumericConstants.TWO]) != null && StringUtils.isNotEmpty(ValidationUtil.getMessage(rules[NumericConstants.TWO]))) {
                     tempObj.addValidator(new RegexpValidator(ValidationUtil.getMessage(rules[NumericConstants.TWO]), ValidationUtil.getMessage(rules[NumericConstants.THREE])));
@@ -1282,7 +1282,7 @@ public final class AbstractSearchForm extends CustomComponent {
                             if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
                                 SelectionLogic selLogic = new SelectionLogic();
                                 resultTable.removeItem(resultTable.getValue());
-                                selLogic.deleteDedutionCalendar(Integer.valueOf(searchForm.getSystemID()));
+                                selLogic.deleteDedutionCalendar(Integer.parseInt(searchForm.getSystemID()));
                             }
                             if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
                                 CDRLogic cdrLogic = new CDRLogic();
@@ -1327,7 +1327,7 @@ public final class AbstractSearchForm extends CustomComponent {
                             if (buttonId.name().equalsIgnoreCase(ConstantUtil.YES_VARIABLE)) {
                                 SelectionLogic selLogic = new SelectionLogic();
                                 resultTable.removeItem(resultTable.getValue());
-                                selLogic.deleteDedutionCalendar(Integer.valueOf(searchForm.getSystemID()));
+                                selLogic.deleteDedutionCalendar(Integer.parseInt(searchForm.getSystemID()));
                             }
                         } catch (NumberFormatException e) {
                             LOGGER.error(e.getMessage());

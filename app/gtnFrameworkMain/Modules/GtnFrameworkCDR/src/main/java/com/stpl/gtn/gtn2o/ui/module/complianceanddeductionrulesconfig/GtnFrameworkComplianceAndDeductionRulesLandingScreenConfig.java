@@ -130,7 +130,7 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig companyType = gtnFrameworkConfigurationFactory.buildComponentConfig(
-				GtnFrameworkCommonConstants.PROPERTY_RULE_TYPE, "Rule Type", true,
+				GtnFrameworkCommonConstants.PROPERTY_RULE_TYPE, GtnFrameworkCommonConstants.RULE_TYPE, true,
 				GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setAuthorizationIncluded(true);
 		companyType.setParentComponentId(GtnFrameworkCommonConstants.RULE_TYPE_LAYOUT);
@@ -141,7 +141,6 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = gtnFrameworkConfigurationFactory
 				.buildComboBoxConfig("RULE_TYPE", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
 
 		List<GtnUIFrameworkConditionalValidationType> conditions = new ArrayList<>();

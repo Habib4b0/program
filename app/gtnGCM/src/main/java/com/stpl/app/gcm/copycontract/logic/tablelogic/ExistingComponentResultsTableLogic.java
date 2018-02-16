@@ -41,7 +41,7 @@ public class ExistingComponentResultsTableLogic extends PageTableLogic {
         if (generate) {
             try {
                 newInput.addAll(input);
-                return Integer.valueOf(String.valueOf(logic.getExistingDetailsCount(componentType, newInput, true, 0, 0)));
+                return Integer.parseInt(String.valueOf(logic.getExistingDetailsCount(componentType, newInput, true, 0, 0)));
             } catch (ParseException ex) {
                 LOGGER.error("",ex);
             }

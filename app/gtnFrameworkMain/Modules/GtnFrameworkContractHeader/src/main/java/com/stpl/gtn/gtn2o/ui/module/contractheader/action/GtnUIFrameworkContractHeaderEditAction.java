@@ -131,13 +131,9 @@ public class GtnUIFrameworkContractHeaderEditAction
 					info.getPriceEscalationClause(), info.getExemptFromLowPrice(), info.getPriceResetIndicator(),
 					info.getCancellationClause(), info.getMostFavoredNation(), info.getCategory(), info.getCurrency(),
 					info.getMinimumOrder(), null, null, null, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					(info.getTerm() == null || info.getTerm() == 0) ? GtnFrameworkCommonStringConstants.STRING_EMPTY
-							: String.valueOf(info.getTerm()),
-					info.getPaymentTerms(),
-					(info.getAdvanceNoticeDays() == null || info.getAdvanceNoticeDays() == 0)
-							? GtnFrameworkCommonStringConstants.STRING_EMPTY
-							: String.valueOf(info.getAdvanceNoticeDays().intValue())
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, info.getTerm()==0?GtnFrameworkCommonStringConstants.STRING_EMPTY:String.valueOf(info.getTerm()),
+					info.getPaymentTerms(),info.getAdvanceNoticeDays().intValue() == 0 ? GtnFrameworkCommonStringConstants.STRING_EMPTY: String.valueOf(info.getAdvanceNoticeDays().intValue())
+                                        ,info.getContractEligibleDate()
 
 			}));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, chEditDefaultValueActionConfig);

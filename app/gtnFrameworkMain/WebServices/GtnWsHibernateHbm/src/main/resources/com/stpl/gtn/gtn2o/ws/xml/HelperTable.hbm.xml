@@ -29,6 +29,9 @@
         <property name="modifiedDate" type="timestamp">
             <column length="23" name="MODIFIED_DATE" not-null="true" />
         </property>
+        <property name="aliasName" type="string">
+            <column length="1000" name="ALIAS_NAME" />
+        </property>
         <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc7"
                      table="UDCS">
             <key>

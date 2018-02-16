@@ -9,7 +9,12 @@
 	<packaging>war</packaging>
 
 	<name>gtnSSOAutoLogin</name>
-
+	<parent>
+		<groupId>com.stpl.app</groupId>
+		<artifactId>global-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

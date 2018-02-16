@@ -553,8 +553,8 @@ public class ItemManagementLookup extends CustomWindow {
                     List correntTransfer = getCloneProjectionParametrs(ConstantsUtil.CURRENT_SUMMARY);
                     List transferContract = getCloneProjectionParametrs(ConstantsUtil.TRANSFER_SUMMARY);
                     CommonLogic logic = new CommonLogic();
-                    int fromProjection = Integer.valueOf(correntTransfer.get(0).toString());
-                    int toProjection = Integer.valueOf(transferContract.get(0).toString());                    
+                    int fromProjection = Integer.parseInt(correntTransfer.get(0).toString());
+                    int toProjection = Integer.parseInt(transferContract.get(0).toString());                    
                     session.setFromProjectionId(fromProjection);
                     session.setToProjectionId(toProjection);
                     List<String> tempTransferList = new ArrayList<>();
