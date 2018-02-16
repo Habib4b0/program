@@ -101,6 +101,8 @@ public class GtnWsRelationshipBuilderService {
 
 	@Autowired
 	private GtnFrameworkAutomaticService automaticService;
+        
+        private static final String HELPER_JOIN_DESCRIPTION = "HELPER_JOIN .DESCRIPTION";
 
 	public GtnWsRelationshipBuilderService() {
 		super();
@@ -568,14 +570,14 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder,String append) {
-		if(queryBuilder.toString().contains("HELPER_JOIN .DESCRIPTION"))
+		if(queryBuilder.toString().contains(HELPER_JOIN_DESCRIPTION))
 		{
 			queryBuilder.append(" "+append+" HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
 		}
 	}
 
 	private void printFinalQuery(String query) {
-		if(query.contains("HELPER_JOIN .DESCRIPTION"))  
+		if(query.contains(HELPER_JOIN_DESCRIPTION))  
 		{
 			logger.info("finalQuery concat--->>"+query);
 		}
@@ -759,7 +761,7 @@ public class GtnWsRelationshipBuilderService {
 
 	private String checkForSelectOne(String query) {
 		String quer=query;
-		if(quer.contains("HELPER_JOIN .DESCRIPTION"))
+		if(quer.contains(HELPER_JOIN_DESCRIPTION))
 		{
 			quer=quer.concat(" AND HELPER_JOIN .DESCRIPTION<> '-Select One-' ");
 		}
