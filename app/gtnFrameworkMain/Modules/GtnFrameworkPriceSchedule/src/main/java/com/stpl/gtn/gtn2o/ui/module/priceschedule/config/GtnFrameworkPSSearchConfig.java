@@ -316,7 +316,7 @@ public class GtnFrameworkPSSearchConfig {
 		GtnUIFrameWorkActionConfig alertActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParams = new ArrayList<>();
-		alertParams.add("No Search Criteria ");
+		alertParams.add("Search Criteria ");
 		alertParams.add("Please enter Search Criteria");
 		alertActionConfig.setActionParameterList(alertParams);
 		onFailure.add(alertActionConfig);
@@ -357,8 +357,8 @@ public class GtnFrameworkPSSearchConfig {
 		resetActionConfig.setActionType(GtnUIFrameworkActionType.RESET_ACTION);
 
 		List<Object> params = new ArrayList<>();
-		params.add("Reset Confirmation");
-		params.add("Are you sure you want to reset the values in the Search Criteria group box?");
+		params.add("Confirmation");
+		params.add("Are you sure you want to reset the page to default/previous values?");
 		Map<String, Object> psResetMap = new HashMap<>();
 		psResetMap.put(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID, "");
 		psResetMap.put(GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO, "");

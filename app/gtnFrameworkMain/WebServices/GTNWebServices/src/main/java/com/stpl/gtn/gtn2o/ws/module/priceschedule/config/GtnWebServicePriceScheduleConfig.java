@@ -203,6 +203,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnStringConfig("PS_DETAILS_PRICE", GtnFrameworkWebserviceConstant.IMPSD));
 		psPriceTabToColumnDetailsMap.put("suggestedPrice", configProvider
 				.getColumnStringConfig("PS_DETAILS_SUGGESTED_PRICE", GtnFrameworkWebserviceConstant.IMPSD));
+                psPriceTabToColumnDetailsMap.put("source", configProvider
+				.getColumnStringConfig("SOURCE", "IM"));
 		psPriceTabToColumnDetailsMap.put("psCreatedDate",
 				configProvider.getColumnDateConfig("PS_DETAILS_CREATED_DATE", GtnFrameworkWebserviceConstant.IMPSD));
 		psPriceTabToColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_ATTACHED_DATE,
@@ -222,10 +224,12 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		gtnWebServiceSearchQueryContext.setOrderByClause(cDROrderByClauseList);
 
 		gtnWebServiceSearchQueryContext.setCountQuery(" FROM IMTD_PS_DETAILS IMPSD \n"
-				+ " JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IMPSD.BRAND_MASTER_SID \n");
+				+ " JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID=IMPSD.ITEM_MASTER_SID\n"
+                        + "JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IMPSD.BRAND_MASTER_SID \n");
 
 		gtnWebServiceSearchQueryContext.setSearchQuery("  FROM IMTD_PS_DETAILS IMPSD \n"
-				+ " JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IMPSD.BRAND_MASTER_SID \n");
+				+ "JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID=IMPSD.ITEM_MASTER_SID"
+                        + " JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IMPSD.BRAND_MASTER_SID \n");
 		gtnWebServiceSearchQueryContext.setWhereClauseList(Arrays.asList("ADD_COPY_INDICATOR is null"));
 		searchQueryConfigMap.put("priceSchedulePrice", gtnWebServiceSearchQueryContext);
 
@@ -257,6 +261,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnStringConfig("PRICE", GtnFrameworkWebserviceConstant.IMPSD));
 		itemPriceTabColumnDetailsMap.put("suggestedPrice",
 				configProvider.getColumnStringConfig("SUGGESTED_PRICE", GtnFrameworkWebserviceConstant.IMPSD));
+                itemPriceTabColumnDetailsMap.put("source",
+				configProvider.getColumnStringConfig("SOURCE", "im"));
 		itemPriceTabColumnDetailsMap.put("createdBy",
 				configProvider.getColumnUserConfig("CREATED_BY", GtnFrameworkWebserviceConstant.IMPSD));
 		itemPriceTabColumnDetailsMap.put("psCreatedDate",
