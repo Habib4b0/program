@@ -937,29 +937,29 @@ public class Allocation extends CustomComponent implements View {
         if (Constant.ANNUALLY.equalsIgnoreCase(frequency_val)) {
             startFrom = 0;
             startTo = NumericConstants.ELEVEN;
-            yearFrom = Integer.valueOf(from_val.trim());
-            yearTo = Integer.valueOf(to_val.trim());
+            yearFrom = Integer.parseInt(from_val.trim());
+            yearTo = Integer.parseInt(to_val.trim());
         } else if (Constant.MONTHLY.equalsIgnoreCase(frequency_val)) {
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             List<String> months = Arrays.asList(dateFormatSymbols.getShortMonths());
             startFrom = months.indexOf(StringUtils.capitalize(from_val.substring(0, NumericConstants.THREE))) ;
             startTo = months.indexOf(StringUtils.capitalize(to_val.substring(0, NumericConstants.THREE))) ;
-            yearFrom = Integer.valueOf(from_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
-            yearTo = Integer.valueOf(to_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            yearFrom = Integer.parseInt(from_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            yearTo = Integer.parseInt(to_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
         } else {
             if (Constant.QUARTERLY.equalsIgnoreCase(frequency_val)) {
-                startFrom = Integer.valueOf(from_val.substring(1, NumericConstants.TWO));
+                startFrom = Integer.parseInt(from_val.substring(1, NumericConstants.TWO));
                 startFrom = (startFrom * NumericConstants.THREE) - NumericConstants.THREE;
-                startTo = Integer.valueOf(to_val.substring(1, NumericConstants.TWO));
+                startTo = Integer.parseInt(to_val.substring(1, NumericConstants.TWO));
                 startTo = (startTo * NumericConstants.THREE)-1;
             } else {
-                startFrom = Integer.valueOf(from_val.substring(1, NumericConstants.TWO));
+                startFrom = Integer.parseInt(from_val.substring(1, NumericConstants.TWO));
                 startFrom = (startFrom * NumericConstants.SIX) - NumericConstants.SIX;
-                startTo = Integer.valueOf(to_val.substring(1, NumericConstants.TWO));
+                startTo = Integer.parseInt(to_val.substring(1, NumericConstants.TWO));
                 startTo = (startTo * NumericConstants.SIX)-1;
 }
-            yearFrom = Integer.valueOf(from_val.substring(NumericConstants.TWO, NumericConstants.SIX));
-            yearTo = Integer.valueOf(to_val.substring(NumericConstants.TWO, NumericConstants.SIX));
+            yearFrom = Integer.parseInt(from_val.substring(NumericConstants.TWO, NumericConstants.SIX));
+            yearTo = Integer.parseInt(to_val.substring(NumericConstants.TWO, NumericConstants.SIX));
         }
         if (start_stamp == null) {
             start_stamp = new Date(yearFrom - NumericConstants.ONE_NINE_ZERO_ZERO, startFrom, 1);

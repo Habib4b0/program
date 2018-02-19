@@ -94,7 +94,7 @@ public class PMPYCalculationExporter {
             worksheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
 
             final HSSFCellStyle cellStyleCurrency = workbook.createCellStyle();
-            cellStyleCurrency.setDataFormat(Short.valueOf(String.valueOf(NumericConstants.SIX)));
+            cellStyleCurrency.setDataFormat(Short.parseShort(String.valueOf(NumericConstants.SIX)));
 
             final HSSFCellStyle cellStylePercentage = workbook.createCellStyle();
             final HSSFDataFormat dateformat = workbook.createDataFormat();

@@ -212,7 +212,7 @@ public class SalesLogic {
             query = query.replace(Constant.SESSION_ID1_AT, sessionDTO.getSessionId());
         }
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
-        return Integer.valueOf(list.get(0).toString());
+        return Integer.parseInt(list.get(0).toString());
     }
 
     /**
@@ -706,7 +706,7 @@ public class SalesLogic {
                 } else if (frequencyDivision == NumericConstants.TWO) {
                     key = Constant.S_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
-                    String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) - 1);
+                    String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) - 1);
                     key = monthName.toLowerCase() + "-" + String.valueOf(obj[NumericConstants.TWO]);
                 }
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[0] == null ? 0 : obj[0])));
@@ -800,7 +800,7 @@ public class SalesLogic {
             } else if (frequencyDivision == NumericConstants.TWO) {
                 key = Constant.S_SMALL + String.valueOf(obj[NumericConstants.SEVEN]) + "-" + String.valueOf(obj[NumericConstants.SIX]);
             } else if (frequencyDivision == NumericConstants.TWELVE) {
-                String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) - 1);
+                String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN])) - 1);
                 key = monthName.toLowerCase() + "-" + String.valueOf(obj[NumericConstants.SIX]);
             }
             if (CommonUtil.isValueEligibleForLoading()) {
@@ -1229,7 +1229,7 @@ public class SalesLogic {
                 salesRowDto.setCheckRecordCount(String.valueOf(object[NumericConstants.SEVEN]).equals(Constant.NULL) || StringUtils.isBlank(String.valueOf(object[NumericConstants.SEVEN])) ? Constant.DASH : String.valueOf(object[NumericConstants.SEVEN]));
                 salesRowDto.setCcpCount(String.valueOf(object[NumericConstants.EIGHT]).equals(Constant.NULL) || StringUtils.isBlank(String.valueOf(object[NumericConstants.EIGHT])) ? Constant.DASH : String.valueOf(object[NumericConstants.EIGHT]));
                 int value = Integer.valueOf((object[NumericConstants.SEVEN] == null) ? Constant.DASH : object[NumericConstants.SEVEN].toString());
-                salesRowDto.addBooleanProperties(Constant.CHECK, value >= Integer.valueOf(salesRowDto.getCcpCount()));
+                salesRowDto.addBooleanProperties(Constant.CHECK, value >= Integer.parseInt(salesRowDto.getCcpCount()));
             }
             hierarchyNo = String.valueOf(object[NumericConstants.THREE]);
             String key = StringUtils.EMPTY;
@@ -1264,7 +1264,7 @@ public class SalesLogic {
         parameters.put(INDICATOR.getConstant(), "checkSelectAll");
         List resultList = salesAllocationDAO.executeQuery(parameters);
         if ((resultList != null) && (!resultList.isEmpty() && resultList.size() == 1)) {
-            returnValue = resultList.get(0) == null ? false : Boolean.valueOf(String.valueOf(resultList.get(0)));
+            returnValue = resultList.get(0) == null ? false : Boolean.parseBoolean(String.valueOf(resultList.get(0)));
         }
         return returnValue;
     }
@@ -1362,7 +1362,7 @@ public class SalesLogic {
         if (resultList != null && !resultList.isEmpty()) {
             if (resultList.size() == 1) {
                 Object obj = (Object) resultList.get(0);
-                if (Boolean.valueOf(String.valueOf(obj))) {
+                if (Boolean.parseBoolean(String.valueOf(obj))) {
                     returnValue = true;
                 }
             } else {
@@ -1838,7 +1838,7 @@ public class SalesLogic {
             detailsIdValues = salesDTO.getReturnDetailsSid().split("\\s*,\\s*");
             String keyarray[] = propertyId.split("-");
             if (frequencyDivision == 1) {
-                year = Integer.valueOf(keyarr[0]);
+                year = Integer.parseInt(keyarr[0]);
                 keyarray[1] = StringUtils.EMPTY;
                 frequencyValue = NumericConstants.TWELVE;
             } else if (frequencyDivision == NumericConstants.FOUR) {
@@ -1869,7 +1869,7 @@ public class SalesLogic {
                     amountValue = "PROJECTED_RETURN_AMOUNT+(PROJECTED_RETURN_AMOUNT*" + actualAmount + ")";
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 } else {
-                    actualAmount = Double.valueOf(editedValue) / (detailsIdValues.length);
+                    actualAmount = Double.parseDouble(editedValue) / (detailsIdValues.length);
                     amountValue = String.valueOf(actualAmount / frequencyValue);
                 }
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
@@ -1936,7 +1936,7 @@ public class SalesLogic {
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
             if (frequencyDivision == 1) {
-                year = Integer.valueOf(keyarr[0]);
+                year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
             } else if (frequencyDivision == NumericConstants.FOUR) {
                 keyarr[0] = (keyarr[0]).replace('q', ' ');
@@ -2076,7 +2076,7 @@ public class SalesLogic {
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
             if (frequencyDivision == 1) {
-                year = Integer.valueOf(keyarr[0]);
+                year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
             } else if (frequencyDivision == NumericConstants.FOUR) {
                 keyarr[0] = (keyarr[0]).replace('q', ' ');
@@ -2445,7 +2445,7 @@ public class SalesLogic {
                 String amountValue;
                 if (salesDTO.getReturnDetailsSid().split(",").length == 1) {
                     updateQuery = updateQuery.replace(Constant.RETURNS_DETAILS_SID_AT, salesDTO.getReturnDetailsSid());
-                    actualAmount = Double.valueOf(enteredValue) / frequencyValue;
+                    actualAmount = Double.parseDouble(enteredValue) / frequencyValue;
                     updateQuery = updateQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + actualAmount).replace(Constant.VARIABLE1_AT, ",REFRESHED_NAME='PROJECTED_RETURN_PERCENT'");
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 } else {
@@ -2453,16 +2453,16 @@ public class SalesLogic {
 
                         if (projectionSelectionDTO.getFrequencyDivision() == 1) {
                             query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]);
-                            query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.valueOf(entrys.getKey().split(",")[0]), query);
+                            query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[0]), query);
                         } else {
                             query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]).replace(Constant.PERIOD1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[1]);
-                            query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.valueOf(entrys.getKey().split(",")[1]), query);
+                            query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[1]), query);
                         }
                         if (!entrys.getValue().isInfinite() && !entrys.getValue().isNaN()) {
                             actualAmount = entrys.getValue() / 100;
                             amountValue = "PROJECTED_RETURN_AMOUNT+(PROJECTED_RETURN_AMOUNT*" + actualAmount + ")";
                         } else {
-                            actualAmount = Double.valueOf(enteredValue) / (salesDTO.getReturnDetailsSid().split(",").length);
+                            actualAmount = Double.parseDouble(enteredValue) / (salesDTO.getReturnDetailsSid().split(",").length);
                             amountValue = String.valueOf(actualAmount / frequencyValue);
                         }
                         bulkQuery += query.replace(Constant.USER_ENTERED_PROPERTY_VALUE, Constant.PROJECTED_RETURN_AMOUNT).replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
@@ -2484,7 +2484,7 @@ public class SalesLogic {
                     String query;
                     for (Map.Entry<String, Map<String, Double>> entrys : salesMap.entrySet()) {
                         query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]).replace(Constant.PERIOD1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[1]);
-                        query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.valueOf(entrys.getKey().split(",")[1]), query);
+                        query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[1]), query);
                         bulkQuery += calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), entrys.getValue());
                     }
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
@@ -2504,7 +2504,7 @@ public class SalesLogic {
                     String query;
                     for (Map.Entry<String, Map<String, Double>> entrys : salesMap.entrySet()) {
                         query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]).replace(Constant.PERIOD1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[1]);
-                        query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.valueOf(entrys.getKey().split(",")[1]), query);
+                        query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[1]), query);
                         bulkQuery += calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), unitsMap.get(entrys.getKey()));
                     }
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
@@ -2672,7 +2672,7 @@ public class SalesLogic {
             contractBrandDTO.setContractNumber(String.valueOf(obj[1]));
             contractBrandDTO.setContractName(String.valueOf(obj[NumericConstants.TWO]));
             contractBrandDTO.setCustomerId(String.valueOf(obj[NumericConstants.THREE]));
-            contractBrandDTO.setContractSid(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
+            contractBrandDTO.setContractSid(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])));
             resultList.add(contractBrandDTO);
         }
 
@@ -2712,7 +2712,7 @@ public class SalesLogic {
         for (Object list1 : list) {
             ContractBrandDTO contractBrandDTO = new ContractBrandDTO();
             Object[] obj = (Object[]) list1;
-            contractBrandDTO.setBrandMasterSid(Integer.valueOf(String.valueOf(obj[0])));
+            contractBrandDTO.setBrandMasterSid(Integer.parseInt(String.valueOf(obj[0])));
             contractBrandDTO.setBrand(String.valueOf(obj[1]));
             contractBrandDTO.setBrandSid(String.valueOf(obj[NumericConstants.TWO]));
             resultList.add(contractBrandDTO);
@@ -3445,7 +3445,7 @@ public class SalesLogic {
             } else if (frequencyDivision == NumericConstants.TWO) {
                 key = Constant.S_SMALL + String.valueOf(obj[0]) + "-" + String.valueOf(obj[1]);
             } else if (frequencyDivision == NumericConstants.TWELVE) {
-                String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[0])) - 1);
+                String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[0])) - 1);
                 key = monthName.toLowerCase() + "-" + String.valueOf(obj[1]);
             }
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualReturned%", String.valueOf(UNIT.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])) + Constant.PERCENT);
@@ -3600,8 +3600,8 @@ public class SalesLogic {
         List resultsList = (List) salesAllocationDAO.executeSelectQuery(query);
         for (int i = 0; i < resultsList.size(); i++) {
             Object[] ob = (Object[]) resultsList.get(i);
-            salesMap.put(ob[0] == null ? StringUtils.EMPTY : ob[0].toString(), ob[1] == null ? 0.0 : Double.valueOf(ob[1].toString()));
-            unitsMap.put(ob[0] == null ? StringUtils.EMPTY : ob[0].toString(), ob[NumericConstants.TWO] == null ? 0.0 : Double.valueOf(ob[NumericConstants.TWO].toString()));
+            salesMap.put(ob[0] == null ? StringUtils.EMPTY : ob[0].toString(), ob[1] == null ? 0.0 : Double.parseDouble(ob[1].toString()));
+            unitsMap.put(ob[0] == null ? StringUtils.EMPTY : ob[0].toString(), ob[NumericConstants.TWO] == null ? 0.0 : Double.parseDouble(ob[NumericConstants.TWO].toString()));
         }
         mapList.add(salesMap);
         mapList.add(unitsMap);
@@ -3626,7 +3626,7 @@ public class SalesLogic {
                 amount += unitsMap.get(str[i]);
             }
         }
-        amount = amount * Integer.valueOf(editedValue);
+        amount = amount * Integer.parseInt(editedValue);
         return amount;
     }
 
@@ -3705,18 +3705,18 @@ public class SalesLogic {
             for (int i = 0; i < resultsList.size(); i++) {
                 Object[] ob = (Object[]) resultsList.get(i);
                 if (year == 0) {
-                    period = Integer.valueOf(ob[0].toString());
-                    year = Integer.valueOf(ob[1].toString());
-                } else if (period != Integer.valueOf(ob[0].toString()) || year != Integer.valueOf(ob[1].toString())) {
+                    period = Integer.parseInt(ob[0].toString());
+                    year = Integer.parseInt(ob[1].toString());
+                } else if (period != Integer.parseInt(ob[0].toString()) || year != Integer.parseInt(ob[1].toString())) {
                     salesMap.put(year + "," + period, sales);
                     unitsMap.put(year + "," + period, units);
                     sales = new TreeMap<>();
                     units = new TreeMap<>();
-                    year = Integer.valueOf(ob[1].toString());
-                    period = Integer.valueOf(ob[0].toString());
+                    year = Integer.parseInt(ob[1].toString());
+                    period = Integer.parseInt(ob[0].toString());
                 }
-                sales.put(ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : ob[NumericConstants.TWO].toString(), ob[NumericConstants.THREE] == null ? 0.0 : Double.valueOf(ob[NumericConstants.THREE].toString()));
-                units.put(ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : ob[NumericConstants.TWO].toString(), ob[NumericConstants.FOUR] == null ? 0.0 : Double.valueOf(ob[NumericConstants.FOUR].toString()));
+                sales.put(ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : ob[NumericConstants.TWO].toString(), ob[NumericConstants.THREE] == null ? 0.0 : Double.parseDouble(ob[NumericConstants.THREE].toString()));
+                units.put(ob[NumericConstants.TWO] == null ? StringUtils.EMPTY : ob[NumericConstants.TWO].toString(), ob[NumericConstants.FOUR] == null ? 0.0 : Double.parseDouble(ob[NumericConstants.FOUR].toString()));
                 if (i == (resultsList.size() - 1)) {
                     salesMap.put(year + "," + period, sales);
                     unitsMap.put(year + "," + period, units);
@@ -3969,8 +3969,8 @@ public class SalesLogic {
         for (Object rows : list) {
             final Object[] row = (Object[]) rows;
             String column;
-            int year = Integer.valueOf(String.valueOf(row[0]));
-            int period = Integer.valueOf(String.valueOf(row[1]));
+            int year = Integer.parseInt(String.valueOf(row[0]));
+            int period = Integer.parseInt(String.valueOf(row[1]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
@@ -4335,7 +4335,7 @@ public class SalesLogic {
             List<Object> list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                count = Integer.valueOf(String.valueOf(ob));
+                count = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -4366,7 +4366,7 @@ public class SalesLogic {
         Set hierachies = new LinkedHashSet();
         for (int i = start; i < end && i < currentHierarchy.size(); i++) {
             String hierarachy = String.valueOf(currentHierarchy.get(i));
-            int levelNoForcurrent = Integer.valueOf((String) projectionSelectionDTO.getSessionDTO().getHierarchyLevelDetails().get(hierarachy).get(2));
+            int levelNoForcurrent = Integer.parseInt((String) projectionSelectionDTO.getSessionDTO().getHierarchyLevelDetails().get(hierarachy).get(2));
             while (!hierarachy.isEmpty()) {
                 if ((levelNoForcurrent >= forecastlevel) && (levelNoForcurrent <= expandLevelNo) && (!hierachies.contains(hierarachy))) {
                     hierachies.add(hierarachy);
@@ -4374,7 +4374,7 @@ public class SalesLogic {
                 hierarachy = hierarachy.substring(0, hierarachy.length() - 1);
                 hierarachy = hierarachy.substring(0, hierarachy.lastIndexOf('.') + 1);
                 if (!hierarachy.isEmpty()) {
-                    levelNoForcurrent = Integer.valueOf((String) projectionSelectionDTO.getSessionDTO().getHierarchyLevelDetails().get(hierarachy).get(2));
+                    levelNoForcurrent = Integer.parseInt((String) projectionSelectionDTO.getSessionDTO().getHierarchyLevelDetails().get(hierarachy).get(2));
                 }
             }
         }

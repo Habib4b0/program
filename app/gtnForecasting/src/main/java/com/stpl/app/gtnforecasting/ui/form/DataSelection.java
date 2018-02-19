@@ -478,7 +478,7 @@ public class DataSelection extends ForecastDataSelection {
 		session.setToPeriod(dataSelectionDTO.getToPeriod());
 		session.setFromDate(dataSelectionDTO.getFromDate());
 		session.setToDate(dataSelectionDTO.getToDate());
-		session.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
+		session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 			configureStartAndEndPeriods();
 		} else {
@@ -492,7 +492,7 @@ public class DataSelection extends ForecastDataSelection {
 		initializeFromDto();
 		setFirstTimeLoad(false);
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
-			session.setCustomerHierarchyId(Integer.valueOf(dataSelectionDTO.getCustomerHierSid()));
+			session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
 			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()),
 					dataSelectionDTO.getCustRelationshipBuilderSid());
 		}
@@ -616,7 +616,7 @@ public class DataSelection extends ForecastDataSelection {
 						String parentName = parentarr[1];
 						int parentLevel = 0;
 						try {
-							parentLevel = Integer.valueOf(parentarr[0]);
+							parentLevel = Integer.parseInt(parentarr[0]);
 						} catch (NumberFormatException ne) {
 							LOGGER.info("Error While loading the Customer level." + parentarr[0]
 									+ " is not a valid number");
@@ -684,7 +684,7 @@ public class DataSelection extends ForecastDataSelection {
 						String parentName = parentarr[1];
 						int parentLevel = 0;
 						try {
-							parentLevel = Integer.valueOf(parentarr[0]);
+							parentLevel = Integer.parseInt(parentarr[0]);
 						} catch (NumberFormatException nfe) {
 							LOGGER.error(
 									"Error While loading the Product level." + parentarr[0] + " is not a valid number");
@@ -1669,7 +1669,7 @@ public class DataSelection extends ForecastDataSelection {
 					: groupFilteredCompanies;
 			List<Leveldto> resultedLevelsList = null;
 			resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-					Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
+					Integer.parseInt(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
 						dedValue, relationVersionNo, forecastEligibleDate.getValue());
 			if (selectedHierarchyLevelDto.getLevel() != null) {
 				levelName = selectedHierarchyLevelDto.getLevel();
@@ -1948,7 +1948,7 @@ public class DataSelection extends ForecastDataSelection {
 				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String> emptyList()
 						: groupFilteredItems;
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
-						Integer.valueOf(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
+						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
 						hierarchyLevelDefinitionList, customerHierarchyDefinitionList, dedLevel, dedValue,
 						relationVersionNo, customerRelationVersionNo, businessUnit.getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {

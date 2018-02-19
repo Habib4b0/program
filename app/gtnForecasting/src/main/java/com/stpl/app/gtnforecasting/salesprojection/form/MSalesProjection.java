@@ -88,7 +88,7 @@ public class MSalesProjection extends ForecastSalesProjection {
             projectionDTO.setIsFilter(true);
             projectionDTO.setLevelFilter(true);
             projectionDTO.setLevelFilterValue(String.valueOf(UiUtils.parseStringToInteger(String.valueOf(levelFilter.getValue()).split("-")[0].trim())));
-            projectionDTO.setFilterLevelNo(Integer.valueOf(projectionDTO.getLevelFilterValue()));
+            projectionDTO.setFilterLevelNo(Integer.parseInt(projectionDTO.getLevelFilterValue()));
             mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             projectionDTO.setLevelFilter(false);
         } else {
@@ -395,12 +395,12 @@ public class MSalesProjection extends ForecastSalesProjection {
         projectionDTO.setCustRelationshipBuilderSid(projectionDTO.getSessionDTO().getCustRelationshipBuilderSid());
         projectionDTO.setProdRelationshipBuilderSid(projectionDTO.getSessionDTO().getProdRelationshipBuilderSid());
         projectionDTO.setCustomerLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getCustomerLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getCustomerLevelNumber())
-                ? 1 : Integer.valueOf(projectionDTO.getSessionDTO().getCustomerLevelNumber()));
+                ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getCustomerLevelNumber()));
         projectionDTO.setProductLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getProductLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getProductLevelNumber())
-                ? 1 : Integer.valueOf(projectionDTO.getSessionDTO().getProductLevelNumber()));
+                ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getProductLevelNumber()));
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
-        projectionDTO.setUserId(Integer.valueOf(projectionDTO.getSessionDTO().getUserId()));
-        projectionDTO.setSessionId(Integer.valueOf(projectionDTO.getSessionDTO().getSessionId()));
+        projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
+        projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
@@ -409,7 +409,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
-            historyNum = Integer.valueOf(projectionDTO.getHistory());
+            historyNum = Integer.parseInt(projectionDTO.getHistory());
         }
         if (toHist) {
             projectionDTO.setForecastDTO(session.getForecastDTO());

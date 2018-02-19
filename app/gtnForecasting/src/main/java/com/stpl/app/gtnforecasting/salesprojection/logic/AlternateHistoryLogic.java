@@ -440,7 +440,7 @@ public class AlternateHistoryLogic {
         if (list != null && !list.isEmpty()) {
             Object obj = list.get(0);
             String countValue = String.valueOf(obj);
-            count = Integer.valueOf(countValue);
+            count = Integer.parseInt(countValue);
 
         }
         return count;
@@ -779,7 +779,7 @@ public class AlternateHistoryLogic {
         } else if (freq.equals(Constant.ANNUALLY)) {
             column = StringUtils.EMPTY + obj1;
         } else if (freq.equals(Constant.MONTHLY)) {
-            column = StringUtils.lowerCase(getMonthForInt(Integer.valueOf(String.valueOf(obj1)) - 1) + obj2);
+            column = StringUtils.lowerCase(getMonthForInt(Integer.parseInt(String.valueOf(obj1)) - 1) + obj2);
         }
         return column;
     }
@@ -1115,7 +1115,7 @@ public class AlternateHistoryLogic {
 
         if (objList != null && !objList.isEmpty()) {
             Object ob = objList.get(0);
-            count += Integer.valueOf(String.valueOf(ob));
+            count += Integer.parseInt(String.valueOf(ob));
         }
 
         return count;
@@ -1525,7 +1525,7 @@ public class AlternateHistoryLogic {
         query = query.replace(Constant.SELECTED_CHECKBOX, "1");
 
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-        return list.isEmpty() || (list.get(0) == null) ? false : (Integer.valueOf(list.get(0).toString()) > 0);
+        return list.isEmpty() || (list.get(0) == null) ? false : (Integer.parseInt(list.get(0).toString()) > 0);
     }
 
     public void addItems(final SessionDTO session) {

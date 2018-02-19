@@ -1547,7 +1547,7 @@ public class ForecastForm extends AbstractForm {
 					WorkflowLogic wfLogic = new WorkflowLogic();
 					WorkflowMaster wm = wfLogic.getWorkflowMasterByProjectionId(session.getProjectionId());
 					WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(session.getProjectionId(),
-							wm.getWorkflowMasterSid(), Integer.valueOf(session.getUserId()),
+							wm.getWorkflowMasterSid(), Integer.parseInt(session.getUserId()),
 							WorkflowConstants.getApprovedStatus(), notes, session.getApprovalLevel());
 					workflowId = wfLogic.updateWorkflow(wfMasterDto);
 					approvedFlag = "Submitted and Approved";

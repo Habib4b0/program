@@ -614,8 +614,8 @@ public class AltHistorySelection extends CustomComponent implements View {
             if (freq.equals(Constant.QUARTERLY)) {
                 startPeriod = startPeriod.replace(Constant.Q, StringUtils.EMPTY);
                 endPeriod = endPeriod.replace(Constant.Q, StringUtils.EMPTY);
-                startMonth = Integer.valueOf(startPeriod.substring(0, 1));
-                endMonth = Integer.valueOf(endPeriod.substring(0, 1));
+                startMonth = Integer.parseInt(startPeriod.substring(0, 1));
+                endMonth = Integer.parseInt(endPeriod.substring(0, 1));
                
                 switch (startMonth) {
                     case NumericConstants.FOUR:
@@ -643,14 +643,14 @@ public class AltHistorySelection extends CustomComponent implements View {
                 if (endMonth == NumericConstants.FOUR) {
                     endMonth = NumericConstants.TWELVE;
                 }
-                startYear = Integer.valueOf(fromYear);
-                endYear = Integer.valueOf(toYear);
+                startYear = Integer.parseInt(fromYear);
+                endYear = Integer.parseInt(toYear);
             }
             else if (freq.equals(Constant.SEMI_ANNUALLY)) {
                 startPeriod = startPeriod.replace(Constant.S, StringUtils.EMPTY);
                 endPeriod = endPeriod.replace(Constant.S, StringUtils.EMPTY);
-                startMonth = Integer.valueOf(startPeriod.substring(0, 1));
-                endMonth = Integer.valueOf(endPeriod.substring(0, 1));
+                startMonth = Integer.parseInt(startPeriod.substring(0, 1));
+                endMonth = Integer.parseInt(endPeriod.substring(0, 1));
                 if (startMonth == 1) {
                     startMonth = 1;
                 }
@@ -663,13 +663,13 @@ public class AltHistorySelection extends CustomComponent implements View {
                 if (endMonth == NumericConstants.TWO) {
                     endMonth = NumericConstants.TWELVE;
                 }
-                startYear = Integer.valueOf(fromYear);
-                endYear = Integer.valueOf(toYear);
+                startYear = Integer.parseInt(fromYear);
+                endYear = Integer.parseInt(toYear);
 
             }else if(freq.equals(Constant.ANNUALLY)){
                 
-                startYear = Integer.valueOf(fromYear);
-                endYear = Integer.valueOf(toYear);
+                startYear = Integer.parseInt(fromYear);
+                endYear = Integer.parseInt(toYear);
                 startMonth =  1;
                 endMonth = NumericConstants.TWELVE;
             }else if(freq.equals(Constant.MONTHLY)){
@@ -679,8 +679,8 @@ public class AltHistorySelection extends CustomComponent implements View {
                 int endMon = monthMap.get(endPeriod.substring(endPeriod.length() - NumericConstants.SEVEN, endPeriod.length() - NumericConstants.FOUR));
                 startMonth = startMon + 1;
                 endMonth = endMon + 1;
-                startYear = Integer.valueOf(fromYear);
-                endYear = Integer.valueOf(toYear);
+                startYear = Integer.parseInt(fromYear);
+                endYear = Integer.parseInt(toYear);
             }
         } else {
             startMonth = forecastDTO.getHistoryStartMonth();

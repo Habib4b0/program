@@ -163,26 +163,26 @@ public class ForecastUI extends UI {
                 screenName = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION;
             }
             sessionDto = SessionUtil.createSession();
-            List list = WorkflowPersistance.selectWFInstanceInfo(Integer.valueOf(projectionId));
+            List list = WorkflowPersistance.selectWFInstanceInfo(Integer.parseInt(projectionId));
             Long processId = 0L;
             if (list != null && !list.isEmpty()) {
                 processId = Long.valueOf(list.get(0).toString());
             }
 
             sessionDto.setProcessId(processId);
-            sessionDto.setProjectionId(Integer.valueOf(projectionId));
+            sessionDto.setProjectionId(Integer.parseInt(projectionId));
             RelationShipFilterLogic logic = RelationShipFilterLogic.getInstance();
             ProjectionMaster temp = null;
             String projectionName = StringUtils.EMPTY;
             try {
-                temp = dataSelectionDao.getProjectionMaster(Integer.valueOf(projectionId));
+                temp = dataSelectionDao.getProjectionMaster(Integer.parseInt(projectionId));
                 if (!getReturnsConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
-                    int hierarchySid = Integer.valueOf(temp.getCustomerHierarchySid());
+                    int hierarchySid = Integer.parseInt(temp.getCustomerHierarchySid());
                     sessionDto.setCustomerDescription(
                             logic.getLevelValueMap(temp.getCustRelationshipBuilderSid(), hierarchySid,
                                     temp.getCustomerHierVersionNo(), temp.getProjectionCustVersionNo()));
                 }
-                int hierarchySid = Integer.valueOf(temp.getProductHierarchySid());
+                int hierarchySid = Integer.parseInt(temp.getProductHierarchySid());
                 sessionDto.setProductDescription(
                         logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
@@ -190,7 +190,7 @@ public class ForecastUI extends UI {
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
-            sessionDto.setWorkflowId(Integer.valueOf(workflowId));
+            sessionDto.setWorkflowId(Integer.parseInt(workflowId));
             sessionDto.setWorkflowStatus(workflowStatus);
             sessionDto.setWorkflowUserType(userType);
             sessionDto.setUserId(userId);
@@ -224,7 +224,7 @@ public class ForecastUI extends UI {
                         sessionDto.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
                         sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                         sessionDto.setScreenName(screenName);
-                        sessionDto.setProductRelationId(Integer.valueOf(dto.getProdRelationshipBuilderSid()));
+                        sessionDto.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
                         sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());
                         QueryUtils.createTempTables(sessionDto);
 
@@ -253,7 +253,7 @@ public class ForecastUI extends UI {
                         relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds,
                                 productItemIds, customerHierarchyLevelDefinitionList,
                                 productHierarchyLevelDefinitionList, dto.getCustomerRelationShipVersionNo(),
-                                dto.getProductRelationShipVersionNo(),Integer.valueOf(projectionId));
+                                dto.getProductRelationShipVersionNo(),Integer.parseInt(projectionId));
                         sessionDto.setCustomerLevelDetails(
                                 dsLogic.getLevelValueDetails(sessionDto, dto.getCustRelationshipBuilderSid(), true));
                         sessionDto.setProductLevelDetails(

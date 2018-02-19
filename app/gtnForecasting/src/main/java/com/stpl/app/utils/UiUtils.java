@@ -208,10 +208,10 @@ public class UiUtils {
 	public static Table addResultTable() {
 		resourceBundle = ResourceBundle.getBundle(Constant.CONFIGURATIONS_DEFAULT);
 		Table resultTable = new Table();
-		resultTable.setSelectable(Boolean.valueOf(resourceBundle.getString("table_selectable")));
+		resultTable.setSelectable(Boolean.parseBoolean(resourceBundle.getString("table_selectable")));
 		resultTable.setSizeFull();
 
-		resultTable.setWidth(Float.valueOf(String.valueOf(resourceBundle.getString("max_width"))),
+		resultTable.setWidth(Float.parseFloat(String.valueOf(resourceBundle.getString("max_width"))),
 				Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("max_width_unit"))));
 		return resultTable;
 	}
@@ -224,9 +224,9 @@ public class UiUtils {
 	public static ExtFilterTable addFilterResultTable() {
 		resourceBundle = ResourceBundle.getBundle(Constant.CONFIGURATIONS_DEFAULT);
 		ExtFilterTable resultTable = new ExtFilterTable();
-		resultTable.setSelectable(Boolean.valueOf(resourceBundle.getString("table_selectable")));
+		resultTable.setSelectable(Boolean.parseBoolean(resourceBundle.getString("table_selectable")));
 		resultTable.setSizeFull();
-		resultTable.setWidth(Float.valueOf(String.valueOf(resourceBundle.getString("max_width"))),
+		resultTable.setWidth(Float.parseFloat(String.valueOf(resourceBundle.getString("max_width"))),
 				Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("max_width_unit"))));
 		return resultTable;
 	}
@@ -295,8 +295,8 @@ public class UiUtils {
 	 */
 	public static AbstractOrderedLayout getLayout(AbstractOrderedLayout layout) {
 		resourceBundle = ResourceBundle.getBundle(Constant.CONFIGURATIONS_DEFAULT);
-		layout.setMargin(Boolean.valueOf(resourceBundle.getString("layout_margin")));
-		layout.setSpacing(Boolean.valueOf(resourceBundle.getString("layout_spacing")));
+		layout.setMargin(Boolean.parseBoolean(resourceBundle.getString("layout_margin")));
+		layout.setSpacing(Boolean.parseBoolean(resourceBundle.getString("layout_spacing")));
 		return layout;
 	}
 
@@ -310,7 +310,7 @@ public class UiUtils {
 	 */
 	public static void configureHierarchyTables(final TreeTable availableTree, final TreeTable selectedTree) {
 		resourceBundle = ResourceBundle.getBundle(Constant.CONFIGURATIONS_DEFAULT);
-		float tableWidth = Float.valueOf(resourceBundle.getString("table_group_heirarchy_width"));
+		float tableWidth = Float.parseFloat(resourceBundle.getString("table_group_heirarchy_width"));
 		availableTree.setWidth(tableWidth,
 				Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
 		selectedTree.setWidth(tableWidth,

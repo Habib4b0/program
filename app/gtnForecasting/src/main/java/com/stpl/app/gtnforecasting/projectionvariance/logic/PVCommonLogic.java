@@ -94,8 +94,8 @@ public class PVCommonLogic {
         String currValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index])));
 
         if (comparisonBasis) {
-            comparisonPriorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index + ((Integer.valueOf(pvsdto.getComparisonBasis()) + 1) * columnCountTotal)])));
-            priorComparison = visibleColumn.equals(commonColumn + pvsdto.getProjIdList().get(Integer.valueOf(pvsdto.getComparisonBasis())));
+            comparisonPriorVal = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[index + ((Integer.parseInt(pvsdto.getComparisonBasis()) + 1) * columnCountTotal)])));
+            priorComparison = visibleColumn.equals(commonColumn + pvsdto.getProjIdList().get(Integer.parseInt(pvsdto.getComparisonBasis())));
         }
         variableValueCustomization(variableCategory, priorVal, format, visibleColumn, pvsdto, projDTO, isPer);
         if (!priorComparison) {
@@ -145,10 +145,10 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.valueOf(value), 100) + "";
+            value = roundToFraction(Double.parseDouble(value), 100) + "";
             value = getFormattedValue(format, value);
         } else {
-            variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
+            variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = selectionDto.isConversionNeeded() ? CommonUtil.getConversionFormattedValue(selectionDto, variance, true) : getFormattedValue(format, variance);
         }
         return value;
@@ -162,16 +162,16 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.valueOf(value), 100) + "";
+            value = roundToFraction(Double.parseDouble(value), 100) + "";
         } else {
-            variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
+            variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = getFormattedValue(formatter, variance);
         }
         String priorval = getFormattedValue(formatter, priorVal);
 
         value = value.replace(",", StringUtils.EMPTY);
         priorval = priorval.replace(",", StringUtils.EMPTY);
-        Double perChange = Double.valueOf(value) / Double.valueOf(priorval);
+        Double perChange = Double.parseDouble(value) / Double.parseDouble(priorval);
         if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
             perChange = 0.0;
         }

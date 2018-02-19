@@ -322,7 +322,7 @@ public class WorkFlowNotesLookup extends Window {
                 TimeZone central = TimeZone.getTimeZone("CST");
                 format.setTimeZone(central);
                 attachmentDTO.setDateAdded(format.format(new Date()));
-                attachmentDTO.setUserId(Integer.valueOf(userId));
+                attachmentDTO.setUserId(Integer.parseInt(userId));
                 attachmentDTO.setUserName(StringUtils.EMPTY + CommonUtils.getUserNameById(userId));
                 attachmentDTO.setDocumentFullPath(fileUploadPath + name);
                 attachmentsListBean.addBean(attachmentDTO);

@@ -232,9 +232,9 @@ public class SPRCommonLogic {
         String hierarchyNo = StringUtils.EMPTY;
         int j = selectedId.indexOf('~');
         if (filter && j > 0) {
-            levelNo = Integer.valueOf(selectedId.substring(j - 1, j));
+            levelNo = Integer.parseInt(selectedId.substring(j - 1, j));
         } else if (j > 0) {
-            levelNo = Integer.valueOf(selectedId.substring(0, j));
+            levelNo = Integer.parseInt(selectedId.substring(0, j));
         }
         if (selectedId.length() > (j + 1)) {
             hierarchyNo = selectedId.substring(j + 1, selectedId.length());
@@ -261,7 +261,7 @@ public class SPRCommonLogic {
         List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
-            count = Integer.valueOf(String.valueOf(ob));
+            count = Integer.parseInt(String.valueOf(ob));
         }
         return count;
     }
@@ -721,12 +721,12 @@ public class SPRCommonLogic {
         List<List<Object>> allLevelHierarchy = new ArrayList<>();
         List<Object> levelHierarchy = getLevelNoAndHierarchyNo(value, false);
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         String hierarchyNo = String.valueOf(levelHierarchy.get(1));
         allLevelHierarchy.add(0, levelHierarchy);
         while (levelNo > 1) {
             List<Object> levelH = getParentLevelNoAndHierarchyNo(levelNo, hierarchyNo);
-            levelNo = Integer.valueOf(String.valueOf(levelH.get(0)));
+            levelNo = Integer.parseInt(String.valueOf(levelH.get(0)));
             hierarchyNo = String.valueOf(levelH.get(1));
             allLevelHierarchy.add(0, levelH);
         }
@@ -743,7 +743,7 @@ public class SPRCommonLogic {
         List<Object> list = (List<Object>) executeSelectQuery(levelIndexQuery, null, null);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
-            index = Integer.valueOf(String.valueOf(ob));
+            index = Integer.parseInt(String.valueOf(ob));
         }
         return index;
     }
@@ -767,7 +767,7 @@ public class SPRCommonLogic {
         editBtn.setEnabled(false);
         String value = String.valueOf(customDdlb.getValue());
         if (!Constant.NULL.equals(value) && !SELECT_ONE.equals(value)) {
-            int selectedId = Integer.valueOf(value);
+            int selectedId = Integer.parseInt(value);
             editBtn.setEnabled(true);
             return selectedId;
         }
@@ -888,7 +888,7 @@ public class SPRCommonLogic {
         String userId1 = session.getUserId();
         int userId = 0;
         if (CommonUtils.isInteger(userId1)) {
-            userId = Integer.valueOf(userId1);
+            userId = Integer.parseInt(userId1);
         }
 
         if (userId != 0) {
@@ -961,12 +961,12 @@ public class SPRCommonLogic {
         String userId1 = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         int userId = 0;
         try {
-            userId = Integer.valueOf(userId1);
+            userId = Integer.parseInt(userId1);
         } catch (NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
         }
         if (userId != 0) {
-            int selectedId = Integer.valueOf(String.valueOf(value));
+            int selectedId = Integer.parseInt(String.valueOf(value));
             for (CustomViewMaster custom : customViewList) {
                 if ((custom.getCustomViewMasterSid() == selectedId) && (custom.getCreatedBy() == userId)) {
                     return true;
@@ -1292,7 +1292,7 @@ public class SPRCommonLogic {
         List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
-            count = Integer.valueOf(String.valueOf(ob));
+            count = Integer.parseInt(String.valueOf(ob));
         }
         return count;
     }
@@ -1438,7 +1438,7 @@ public class SPRCommonLogic {
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                count = Integer.valueOf(String.valueOf(ob));
+                count = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
@@ -1457,7 +1457,7 @@ public class SPRCommonLogic {
             List<Object> list = (List<Object>) executeSelectQuery(levelIndexQuery, null, null);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                index = Integer.valueOf(String.valueOf(ob));
+                index = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
@@ -1693,7 +1693,7 @@ public class SPRCommonLogic {
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                levelNo = Integer.valueOf(String.valueOf(ob));
+                levelNo = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
@@ -1732,7 +1732,7 @@ public class SPRCommonLogic {
         String hierarchyNo = StringUtils.EMPTY;
         int j = selectedId.indexOf('~');
         if (j > 0) {
-            levelNo = Integer.valueOf(selectedId.substring(0, j));
+            levelNo = Integer.parseInt(selectedId.substring(0, j));
         }
         if (selectedId.length() > (j + 1)) {
             hierarchyNo = selectedId.substring(j + 1, selectedId.length());

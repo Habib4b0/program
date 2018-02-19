@@ -97,7 +97,7 @@ public class NmPpaProjectionMasterImpl {
             if(priceCap instanceof Boolean)
             {
                 sql.append("UPDATE NM_PPA_PROJECTION_MASTER SET CHECK_RECORD=");
-                if(Boolean.valueOf(priceCap.toString()))
+                if(Boolean.parseBoolean(priceCap.toString()))
                 sql.append(1);
                 else
                     sql.append(0);

@@ -408,7 +408,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String>emptyList()
 						: groupFilteredItems;
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
-						Integer.valueOf(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
+						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
 						hierarchyLevelDefinitionList, customerHierarchyDefinitionList, dedLevel, dedValue,
 						relationVersionNo, customerRelationVersionNo, businessUnit.getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
@@ -3245,11 +3245,11 @@ public class DataSelectionForm extends ForecastDataSelection {
 				tempSession.setProjectionId(projectionIdValue);
 				tempSession.setAction(Constant.EDIT_SMALL);
 
-				tempSession.setCustomerRelationId(Integer.valueOf(dto.getCustRelationshipBuilderSid()));
-				tempSession.setProductRelationId(Integer.valueOf(dto.getProdRelationshipBuilderSid()));
+				tempSession.setCustomerRelationId(Integer.parseInt(dto.getCustRelationshipBuilderSid()));
+				tempSession.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
 				tempSession.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
-				tempSession.setCustomerHierarchyId(Integer.valueOf(dto.getCustomerHierSid()));
-				tempSession.setProductHierarchyId(Integer.valueOf(dto.getProdHierSid()));
+				tempSession.setCustomerHierarchyId(Integer.parseInt(dto.getCustomerHierSid()));
+				tempSession.setProductHierarchyId(Integer.parseInt(dto.getProdHierSid()));
 				tempSession.setBusineesUnit(businessUnitlist);
 				tempSession.setProjectionName(dto.getProjectionName());
                                 String contractIds=dsLogic.getremovedcontractbasedonEligibleDate(tempSession);
@@ -3438,7 +3438,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							dto.getCustomerRelationShipVersionNo(), dto.getProductRelationShipVersionNo(),projectionIdValue);
 				}
 				DataSelectionLogic logic = new DataSelectionLogic();
-				session.setProductRelationId(Integer.valueOf(dto.getProdRelationshipBuilderSid()));
+				session.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
 				session.setProductLevelNumber(dto.getProductHierarchyLevel());
 
 				if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)) {
@@ -3661,7 +3661,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						String parentName = parentarr[1];
 						int parentLevel = 0;
 						try {
-							parentLevel = Integer.valueOf(parentarr[0]);
+							parentLevel = Integer.parseInt(parentarr[0]);
 						} catch (NumberFormatException nfe) {
 							LOGGER.error("Error While loading the Customer level." + parentarr[0]
 									+ " is not a valid number");
@@ -3723,7 +3723,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						String parentName = parentarr[1];
 						int parentLevel = 0;
 						try {
-							parentLevel = Integer.valueOf(parentarr[0]);
+							parentLevel = Integer.parseInt(parentarr[0]);
 						} catch (NumberFormatException nfe) {
 							LOGGER.error(
 									"Error While loading the Product level." + parentarr[0] + " is not a valid number");
@@ -4102,7 +4102,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
+						Integer.parseInt(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
 						dedValue, relationVersionNo, forecastEligibleDate.getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
@@ -4185,7 +4185,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				loadCustomerVersionNo(customerRelationComboBox.getValue());
 				loadForecastLevels(innerCustLevels, customerForecastLevelContainer, customerLevel,
 						customerHierarchyDto.getHierarchyId(),
-						Integer.valueOf(customerRelationVersionComboBox.getValue().toString()));
+						Integer.parseInt(customerRelationVersionComboBox.getValue().toString()));
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)
 						&& !innerCustLevels.isEmpty()) {
 					customerForecastLevelContainer.removeAllItems();
@@ -4232,7 +4232,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				loadProductVersionNo(productRelation.getValue());
 				loadForecastLevels(innerProdLevels, productForecastLevelContainer, productLevel,
 						productHierarchyDto.getHierarchyId(),
-						Integer.valueOf(productRelationVersionComboBox.getValue().toString()));
+						Integer.parseInt(productRelationVersionComboBox.getValue().toString()));
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)
 						&& !innerProdLevels.isEmpty()) {
 					productForecastLevelContainer.removeAllItems();
@@ -4393,7 +4393,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					countMarkType += 1;
 				}
 				if (customerLevel.getValue().equals(Constant.LEVEL + 1 + " - " + Constant.SEGMENT_LABEL)) {
-					relationId = Integer.valueOf(dto.getRelationShipBuilderId());
+					relationId = Integer.parseInt(dto.getRelationShipBuilderId());
 				}
 
 			}
@@ -4430,14 +4430,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setToDate(dataSelectionDTO.getToDate());
 				session.setFromPeriod(String.valueOf(fromPeriod.getValue()));
 				session.setToPeriod(String.valueOf(toPeriod.getValue()));
-				session.setCustomerHierarchyId(Integer.valueOf(dataSelectionDTO.getCustomerHierSid()));
-				session.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
-				session.setCustomerRelationId(Integer.valueOf(dataSelectionDTO.getCustRelationshipBuilderSid()));
-				session.setProductRelationId(Integer.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
+				session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
+				session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
+				session.setCustomerRelationId(Integer.parseInt(dataSelectionDTO.getCustRelationshipBuilderSid()));
+				session.setProductRelationId(Integer.parseInt(dataSelectionDTO.getProdRelationshipBuilderSid()));
 				String definedOrUDValue = StringUtils.EMPTY;
 				String definedValue = dsLogic.getDefinedValue(dataSelectionDTO.getCustomerHierSid());
-				session.setCustomerHierarchyId(Integer.valueOf(dataSelectionDTO.getCustomerHierSid()));
-				session.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
+				session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
+				session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
 				session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 				session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
 				session.setCustomerDescription(customerDescMap);
@@ -4460,7 +4460,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					if (!StringUtils.EMPTY.equals(dataSelectionDTO.getCustRelationshipBuilderSid())
 							&& !DASH.equals(dataSelectionDTO.getCustRelationshipBuilderSid())) {
 						marketType = dsLogic.getGenerateMarketValue(
-								Integer.valueOf(dataSelectionDTO.getCustRelationshipBuilderSid()));
+								Integer.parseInt(dataSelectionDTO.getCustRelationshipBuilderSid()));
 					}
 					definedOrUDValue = marketType;
 				} else if ("Market Type"
@@ -4701,9 +4701,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setToDate(dataSelectionDTO.getToDate());
 				session.setFromPeriod(String.valueOf(fromPeriod.getValue()));
 				session.setToPeriod(String.valueOf(toPeriod.getValue()));
-				session.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
-				session.setProductRelationId(Integer.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
-				session.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
+				session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
+				session.setProductRelationId(Integer.parseInt(dataSelectionDTO.getProdRelationshipBuilderSid()));
+				session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
 				session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
 				session.setProductDescription(productDescMap);
 				session.setCustomerHierarchyId(0);
@@ -4799,9 +4799,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setProductLevelNumber(String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 				session.setCustomerLevelNumber(String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 				session.setAction(Constant.ADD_FULL_SMALL);
-				session.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
-				session.setProductRelationId(Integer.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
-				session.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
+				session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
+				session.setProductRelationId(Integer.parseInt(dataSelectionDTO.getProdRelationshipBuilderSid()));
+				session.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
 				session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
 				session.setCustomerDescription(customerDescMap);
 				session.setProductDescription(productDescMap);

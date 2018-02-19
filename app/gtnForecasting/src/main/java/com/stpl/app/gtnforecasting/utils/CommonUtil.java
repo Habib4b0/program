@@ -346,9 +346,9 @@ public class CommonUtil {
         Collections.sort(list, new Comparator<HelperDTO>() {
             @Override
             public int compare(final HelperDTO lhs, HelperDTO rhs) {
-                if (Integer.valueOf(lhs.getDescription()) > Integer.valueOf(rhs.getDescription())) {
+                if (Integer.parseInt(lhs.getDescription()) > Integer.parseInt(rhs.getDescription())) {
                     return 1;
-                } else if (Integer.valueOf(lhs.getDescription()) < Integer.valueOf(rhs.getDescription())) {
+                } else if (Integer.parseInt(lhs.getDescription()) < Integer.parseInt(rhs.getDescription())) {
                     return -1;
                 } else {
                     return 0;
@@ -379,11 +379,11 @@ public class CommonUtil {
                         break;
                     case Constant.CUST_HIERARCHY_INSERT:
                         Thread.currentThread().setName(Constant.CUST_HIERARCHY_INSERT);
-                        DataSelectionLogic.hierarchyDetailsInsert((List<String>) inputs[NumericConstants.TWO], "PROJECTION_CUST_HIERARCHY", Integer.valueOf(inputs[1].toString()), Boolean.valueOf(inputs[NumericConstants.THREE].toString()));
+                        DataSelectionLogic.hierarchyDetailsInsert((List<String>) inputs[NumericConstants.TWO], "PROJECTION_CUST_HIERARCHY", Integer.parseInt(inputs[1].toString()), Boolean.parseBoolean(inputs[NumericConstants.THREE].toString()));
                         break;
                     case Constant.PROD_HIERARCHY_INSERT:
                         Thread.currentThread().setName(Constant.PROD_HIERARCHY_INSERT);
-                        DataSelectionLogic.hierarchyDetailsInsert((List<String>) inputs[NumericConstants.TWO], "PROJECTION_PROD_HIERARCHY", Integer.valueOf(inputs[1].toString()),Boolean.valueOf(inputs[NumericConstants.THREE].toString()));
+                        DataSelectionLogic.hierarchyDetailsInsert((List<String>) inputs[NumericConstants.TWO], "PROJECTION_PROD_HIERARCHY", Integer.parseInt(inputs[1].toString()),Boolean.parseBoolean(inputs[NumericConstants.THREE].toString()));
                         break;
                     case Constant.DATA_SELECTION_TAB_LOAD:
                         Thread.currentThread().setName(Constant.DATA_SELECTION_TAB_LOAD);
@@ -397,7 +397,7 @@ public class CommonUtil {
                         break;
                     case Constant.PROJECTION_DETAILS_INSERT:
                         Thread.currentThread().setName(Constant.PROJECTION_DETAILS_INSERT);
-                        DataSelectionLogic.projectionDetailsInsert(Integer.valueOf(inputs[1].toString()), (GtnSmallHashMap) inputs[NumericConstants.TWO],Boolean.valueOf(inputs[NumericConstants.THREE].toString()));
+                        DataSelectionLogic.projectionDetailsInsert(Integer.parseInt(inputs[1].toString()), (GtnSmallHashMap) inputs[NumericConstants.TWO],Boolean.parseBoolean(inputs[NumericConstants.THREE].toString()));
                         break;
                     case Constant.PROCEDURE_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
@@ -405,7 +405,7 @@ public class CommonUtil {
                             //It will wait until the main to temp get complete in discount tables//                            
                         waitsForOtherThreadsToComplete((Future)inputs[NumericConstants.SIX]);
                             }
-                        new DataSelectionLogic().callInsertProcedureForNm(Integer.valueOf(inputs[NumericConstants.TWO].toString()), inputs[NumericConstants.THREE].toString(), inputs[NumericConstants.FOUR].toString(), inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
+                        new DataSelectionLogic().callInsertProcedureForNm(Integer.parseInt(inputs[NumericConstants.TWO].toString()), inputs[NumericConstants.THREE].toString(), inputs[NumericConstants.FOUR].toString(), inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
                         break;
                     case Constant.INSERTORUPDATE:
                             //For Discount Projection insert alone will wait for list view get saved.(Used in temp to main insert)

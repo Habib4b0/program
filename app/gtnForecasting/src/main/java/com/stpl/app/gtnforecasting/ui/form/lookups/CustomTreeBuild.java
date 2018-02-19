@@ -286,7 +286,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             customerContainer = new BeanItemContainer<>(Leveldto.class);
         }
 
-        List customerList = CommonLogic.getCustomerHierarchy(session.getProjectionId(), Integer.valueOf(session.getCustomerLevelNumber()));
+        List customerList = CommonLogic.getCustomerHierarchy(session.getProjectionId(), Integer.parseInt(session.getCustomerLevelNumber()));
 
         int size = customerList.size();
         for (int i = 0; i < size; i++) {
@@ -310,7 +310,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             productContainer = new BeanItemContainer<>(Leveldto.class);
         }
 
-        List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), Integer.valueOf(session.getProductLevelNumber()));
+        List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), Integer.parseInt(session.getProductLevelNumber()));
 
         int size = productList.size();
         for (int i = 0; i < size; i++) {
@@ -338,7 +338,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         Object[] res = (Object[])list.get(0);
 
 
-        List deductionList = CommonLogic.getDeductionHierarchy(session.getProjectionId(), Integer.valueOf(res[0].toString()));
+        List deductionList = CommonLogic.getDeductionHierarchy(session.getProjectionId(), Integer.parseInt(res[0].toString()));
 
         int size = deductionList.size();
         for (int i = 0; i < size; i++) {
