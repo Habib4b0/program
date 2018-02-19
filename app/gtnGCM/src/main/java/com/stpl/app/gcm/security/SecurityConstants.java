@@ -26,12 +26,9 @@ public class SecurityConstants {
     public static final String SUMMARY = "Summary";
     public static final String ITEM_SELECTION = "Item Selection";
     public static final String CURRENT_CONTRACT_TAB = "Current Contract Tab";
-    public static final String TRANSFER_CONTRACT_TAB = "Transfer Contract";
-    public static final String SUMMARY_TAB = "Summary";
     public static final String SALES_TAB = "Sales";
     public static final String REBATES_TAB = "Rebates";
     public static final String SALES_RABATES_TAB = "Sales and Rebates";
-    public static final String ITEM_SELECTION_TAB = "Item Selection";
     public static final String ITEM_DETAILS_TAB = "Item Details";
     public static final String CONTRACT_SELECTION_TAB = "Contract selection Tab";
 }

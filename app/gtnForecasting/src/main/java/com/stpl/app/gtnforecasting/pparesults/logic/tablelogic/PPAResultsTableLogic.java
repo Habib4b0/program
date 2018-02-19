@@ -209,7 +209,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
                         int index = count - size + 1;
                         for (int j = 0; j < size; j++) {
                             String customTreeLevel = treeLevel + (index + j) + ".";
-                            PPAProjectionResultsDTO dto = logic.configureDetailsInDTO(selection, levelList.get(j), selection.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(levelList.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(levelList.get(j)));
+                            PPAProjectionResultsDTO dto = logic.configureDetailsInDTO(selection, levelList.get(j), selection.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(levelList.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(levelList.get(j)));
                     addExpandedTreeList(customTreeLevel, dto);
                             recursivelyLoadExpandData(selection,dto, customTreeLevel, expandLevelNo);                            
                 }

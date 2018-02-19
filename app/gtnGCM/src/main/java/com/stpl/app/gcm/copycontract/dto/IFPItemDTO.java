@@ -379,7 +379,9 @@ public class IFPItemDTO implements Serializable {
      * Instantiates a new ifp item dto.
      */
     public IFPItemDTO() {
-        // TODO Auto-generated constructor stub
+        /**
+         * IFPItemDTO
+         */
     }
 
     /**

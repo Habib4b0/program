@@ -56,8 +56,8 @@ public class ItemLogic {
         componentMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.CFP_ID");
         componentMap.put(StringConstantsUtil.COMPONENT_NO, " CM.CFP_NO");
         componentMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.CFP_NAME");
-        componentMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYPDESCRIPTION);
-        componentMap.put(Constants.CATEGORY, StringConstantsUtil.CATDESCRIPTION);
+        componentMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYP_DESCRIPTION);
+        componentMap.put(Constants.CATEGORY, StringConstantsUtil.CAT_DESCRIPTION);
         componentMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "CM.CFP_DESIGNATION");
         componentMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.STHELPER_TABLE_SID);
         componentMap.put("tradeClass", "TC.DESCRIPTION");

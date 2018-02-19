@@ -112,7 +112,7 @@ public class SupplementalDiscountProjectionLogic {
             List<Object> masterData = getQueryToHitMasterTable(projSelDTO, false, false);
             if (masterData != null && !masterData.isEmpty()) {
                 Object ob = masterData.get(0);
-                count += Integer.valueOf(String.valueOf(ob));
+                count += Integer.parseInt(String.valueOf(ob));
             }
         }
         return count;
@@ -417,8 +417,8 @@ public class SupplementalDiscountProjectionLogic {
 
             for (Object list1 : projectionList) {
                 final Object[] obj = (Object[]) list1;
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.NINE]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.EIGHT]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.NINE]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.EIGHT]));
                 int suppIementLevelNo = projSelDTO.getSupplementalLevelNo();
                 List<String> common = HeaderUtils.getCommonColumnHeader(NumericConstants.FOUR, year, period);
                 String commonColumn = common.get(0).toLowerCase();
@@ -761,7 +761,7 @@ public class SupplementalDiscountProjectionLogic {
             list = (List) salesProjectionDAO.executeSelectQuery(sql);
             for (int i = 0; i < list.size(); i++) {
                 listInte.add(Integer.valueOf(String.valueOf(list.get(i))));
-                value = Integer.valueOf(String.valueOf(list.get(i)));
+                value = Integer.parseInt(String.valueOf(list.get(i)));
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -949,7 +949,7 @@ public class SupplementalDiscountProjectionLogic {
         StringBuilder query = new StringBuilder();
         query.append("IF EXISTS (select 1 from ST_M_SUPPLEMENTAL_DISC_PROJ where USER_ID = " + session.getUserId() + " and SESSION_ID = " + session.getSessionId()+" ) SELECT 1 ELSE SELECT 0");
         List<Object> objList = (List<Object>) CommonLogic.executeSelectQuery(query.toString(), null, null);
-        if (objList != null && !objList.isEmpty() && Integer.valueOf(String.valueOf(objList.get(0)))==1)   {
+        if (objList != null && !objList.isEmpty() && Integer.parseInt(String.valueOf(objList.get(0)))==1)   {
             procedureFlag = true;
         }
         return procedureFlag;
@@ -1250,7 +1250,7 @@ public class SupplementalDiscountProjectionLogic {
         int count = 0;
         if (objList != null && !objList.isEmpty()) {
             Object ob = objList.get(0);
-            count = Integer.valueOf(String.valueOf(ob));
+            count = Integer.parseInt(String.valueOf(ob));
         }
         return count;
     }
@@ -1345,7 +1345,7 @@ public class SupplementalDiscountProjectionLogic {
 
         for (int i = 0; i < list.size(); i++) {
 
-            ccpDetailsId = Integer.valueOf(String.valueOf(list.get(i)));
+            ccpDetailsId = Integer.parseInt(String.valueOf(list.get(i)));
 
         }
 
@@ -1486,16 +1486,16 @@ public class SupplementalDiscountProjectionLogic {
                 if (list != null && !list.isEmpty()) {
                     Object[] ob = (Object[]) list.get(0);
 
-                    boolean populateDateFlag = Integer.valueOf(ob[NumericConstants.FIVE].toString()) <= saveDto.getStartYear() && Integer.valueOf(ob[NumericConstants.SIX].toString()) >= saveDto.getEndYear()
-                            && HeaderUtils.getQuarter(Integer.valueOf(ob[NumericConstants.THREE].toString())) <= (saveDto.getStartPeriod()) && HeaderUtils.getQuarter(Integer.valueOf(ob[NumericConstants.FOUR].toString())) >= saveDto.getEndPeriod();
+                    boolean populateDateFlag = Integer.parseInt(ob[NumericConstants.FIVE].toString()) <= saveDto.getStartYear() && Integer.parseInt(ob[NumericConstants.SIX].toString()) >= saveDto.getEndYear()
+                            && HeaderUtils.getQuarter(Integer.parseInt(ob[NumericConstants.THREE].toString())) <= (saveDto.getStartPeriod()) && HeaderUtils.getQuarter(Integer.parseInt(ob[NumericConstants.FOUR].toString())) >= saveDto.getEndPeriod();
                     if (populateDateFlag) {
                         methodologyUpdate(saveDto, session, ob, value, tempStr, true);
                     } else {
                         //Used to update the methodology value for all the selected year
                         Object[] defaultVaues = {0, 0, 0};
                         methodologyUpdate(saveDto, session, defaultVaues, value, tempStr, true);
-                        List<Object> formulaList = getDataList(HeaderUtils.getQuarter(Integer.valueOf(ob[NumericConstants.THREE].toString())), Integer.valueOf(ob[NumericConstants.FIVE].toString()),
-                                HeaderUtils.getQuarter(Integer.valueOf(ob[NumericConstants.FOUR].toString())), Integer.valueOf(ob[NumericConstants.SIX].toString()), false);
+                        List<Object> formulaList = getDataList(HeaderUtils.getQuarter(Integer.parseInt(ob[NumericConstants.THREE].toString())), Integer.parseInt(ob[NumericConstants.FIVE].toString()),
+                                HeaderUtils.getQuarter(Integer.parseInt(ob[NumericConstants.FOUR].toString())), Integer.parseInt(ob[NumericConstants.SIX].toString()), false);
                         List<Object> selectionList = getDataList(saveDto.getStartPeriod(), saveDto.getStartYear(), saveDto.getEndPeriod(), saveDto.getEndYear(), false);
                         List<Object> finalList = new ArrayList<>();
                         for (Object object1 : formulaList) {

@@ -201,11 +201,11 @@ public class CfpLookUp extends Window {
             CommonUtil.loadComboBoxForGCM(cfpStatus, UiUtils.STATUS, false);
             CommonUtil.loadComboBoxForGCM(cfpType, UiUtils.CFP_TYPE, false);
             CommonUtil.loadComboBoxForGCM(cfpCategory, UiUtils.CFP_CATEGORY, false);
-            cfpEndDate.setDateFormat(Constants.DATE_FORMAT);
-            cfpEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            cfpEndDate.setDateFormat(Constants.MM_DD_YYYY);
+            cfpEndDate.addStyleName(Constants.DATE_FIELD_CENTER);
             cfpEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
-            cfpStartDate.setDateFormat(Constants.DATE_FORMAT);
-            cfpStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            cfpStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            cfpStartDate.addStyleName(Constants.DATE_FIELD_CENTER);
             cfpStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
             cfpId.focus();
         } catch (Exception ex) {

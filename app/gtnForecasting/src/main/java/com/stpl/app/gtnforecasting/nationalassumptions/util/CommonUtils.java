@@ -304,7 +304,7 @@ public class CommonUtils {
             List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
             int companyTypeId = 0;
             if (!companyTypeIds.isEmpty()) {
-                companyTypeId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
+                companyTypeId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
             }
         DynamicQuery companyDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 
@@ -622,7 +622,7 @@ public class CommonUtils {
         }
 
         if (doubleFlag) {
-            doubleValue = Double.valueOf(value);
+            doubleValue = Double.parseDouble(value);
 
         } else {
             doubleValue = 0;
@@ -652,7 +652,7 @@ public class CommonUtils {
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
         List result = DAO.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
-            code = Integer.valueOf(result.get(ZERO).toString());
+            code = Integer.parseInt(result.get(ZERO).toString());
         }
         return code;
     }

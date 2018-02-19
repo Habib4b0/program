@@ -1218,7 +1218,7 @@ public class CompanyMasterImpl {
                                         prevNo--;
                                     }
                                 }
-                                if ("Contract Holder".equals(tempRow[3]) && parameters.get(PROJ_ID) != null && Constants.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(parameters.get("screenName"))) {
+                                if ("Contract Holder".equals(tempRow[3]) && parameters.get(PROJ_ID) != null && Constants.NON_MANDATED.equals(parameters.get("screenName"))) {
                                     StringBuilder tempLogic = new StringBuilder(SELECT_CM_CNT_MASTER_SID_FROM_CNT_MASTER);
                                     if (CNT_MASTER.equals(tempRow[5])) {
                                         tempLogic.append(" WHERE CM.CONT_HOLD_COMPANY_MASTER_SID=");

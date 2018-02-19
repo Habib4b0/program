@@ -36,9 +36,9 @@ public class Utility {
     public static final Logger LOGGER = LoggerFactory.getLogger(Utility.class);
 
     public static void loadHierarchyList(final SessionDTO session) {
-        int producthierarchyLevelNo = CommonUtils.isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+        int producthierarchyLevelNo = CommonUtils.isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
         session.setProductHierarchyList(CommonLogic.getProductHierarchy(session.getProjectionId(), producthierarchyLevelNo, session.getProdRelationshipBuilderSid()));
-        int customerhierarchyLevelNo = CommonUtils.isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+        int customerhierarchyLevelNo = CommonUtils.isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
         session.setCustomerHierarchyList(CommonLogic.getCustomerHierarchy(session.getProjectionId(), customerhierarchyLevelNo, session.getCustRelationshipBuilderSid()));
     }
 
@@ -217,7 +217,7 @@ public class Utility {
             Map<String, List> hierarchyLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
             for (Map.Entry<String, List> entry : hierarchyLevelDetailsMap.entrySet()) {
                 if ("Trading Partner".equals(entry.getValue().get(1).toString())) {
-                    levelNo = Integer.valueOf(entry.getValue().get(NumericConstants.TWO).toString());
+                    levelNo = Integer.parseInt(entry.getValue().get(NumericConstants.TWO).toString());
                     sessionDTO.setTradingPartner(levelNo);
                     return levelNo;
                 }

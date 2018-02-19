@@ -72,6 +72,8 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -123,7 +125,7 @@ public class CompanySearch extends VerticalLayout {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearch.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanySearch.class);
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     private String updateType = StringUtils.EMPTY;
     private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();

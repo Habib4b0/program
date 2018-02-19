@@ -28,6 +28,7 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.ChangeCustomMenuBarValueUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
@@ -79,6 +80,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.MenuItemDTO;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
@@ -174,8 +176,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-             generateDiscountToBeLoaded=commonLogic.getFilterValues(deductionFilterValues).get(SID);
-             generateDiscountNamesToBeLoaded=commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, menuItemValue);
+            generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+            generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
             pvSelectionDTO.setIsdeductionFirst(!generateDiscountToBeLoaded.isEmpty());
             loadCustomerLevelFilter(ANULL.equals(String.valueOf(customerlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(customerlevelDdlb.getValue()));
             loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
@@ -186,7 +190,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-            generateProductToBeLoaded=commonLogic.getFilterValues(productFilterValues).get(SID);
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, menuItemValue);
+            generateProductToBeLoaded = commonLogic.getFilterValues(productFilterValues).get(SID);
             pvSelectionDTO.setIsproductFirst(!generateProductToBeLoaded.isEmpty());
             loadCustomerLevelFilter(ANULL.equals(String.valueOf(customerlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(customerlevelDdlb.getValue()));
             loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(deductionlevelDdlb.getValue()));
@@ -196,10 +202,49 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-            generateCustomerToBeLoaded=commonLogic.getFilterValues(customerFilterValues).get(SID);
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, menuItemValue);
+            generateCustomerToBeLoaded = commonLogic.getFilterValues(customerFilterValues).get(SID);
             pvSelectionDTO.setIscustomerFirst(!generateCustomerToBeLoaded.isEmpty());
             loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(deductionlevelDdlb.getValue()));
             loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
+        }
+    };
+    protected CustomMenuBar.SubMenuCloseListener deductionInclusionListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(deductionInclusionValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, menuItemValue);
+        }
+    };
+    protected CustomMenuBar.SubMenuCloseListener salesInclusionListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, menuItemValue);
+        }
+    };
+    protected CustomMenuBar.SubMenuCloseListener displayFormatListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, menuItemValue);
+        }
+    };
+    protected CustomMenuBar.SubMenuCloseListener customMenuBarListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customMenuItem);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, menuItemValue);
+        }
+    };
+
+    protected CustomMenuBar.SubMenuCloseListener variableCategoryCustomMenuBarListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(variableCategoryCustomMenuItem);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, menuItemValue);
+
         }
     };
 
@@ -219,8 +264,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         nonMandatedForm = form;
         session = nonMandatedForm.getSessions();
         projectionId = session.getProjectionId();
-        pvSelectionDTO.setUserId(Integer.valueOf(session.getUserId()));
-        pvSelectionDTO.setSessionId(Integer.valueOf(session.getSessionId()));
+        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
         pvSelectionDTO.setSessionDTO(sessionDTO);
         excelTable.setVisible(false);
         if (flag) {
@@ -252,6 +297,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         List<String> returnList = loadVariablesDdlb();
         String[] variableValues = returnList.toArray(new String[0]);
 
+        customMenuBar.removeSubMenuCloseListener(customMenuBarListener);
         customMenuItem = customMenuBar.addItem("-Select Variables-", null);
         CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[variableValues.length];
         for (int i = 0; i < variableValues.length; i++) {
@@ -264,9 +310,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 customItem[i].setCheckAll(true);
             }
         }
+        customMenuBar.addSubMenuCloseListener(customMenuBarListener);
 
         String[] variableCategoryValues = Constant.PVVariableCategory.names();
 
+        variableCategoryCustomMenuBar.removeSubMenuCloseListener(variableCategoryCustomMenuBarListener);
         variableCategoryCustomMenuItem = variableCategoryCustomMenuBar.addItem("-Select Variables-", null);
         CustomMenuBar.CustomMenuItem[] variableCategoryCustomItem = new CustomMenuBar.CustomMenuItem[variableCategoryValues.length];
         for (int i = 0; i < variableCategoryValues.length; i++) {
@@ -276,6 +324,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
             variableCategoryCustomItem[i].setItemClickNotClosable(true);
         }
+        variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryCustomMenuBarListener);
         discountLevel.addItem(Constants.LabelConstants.TOTAL_DISCOUNT.toString());
         discountLevel.addItem(PROGRAM_CATEGORY.getConstant());
         discountLevel.addItem("Program");
@@ -372,7 +421,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
         resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         pvSelectionDTO.setProjectionId(projectionId);
-        pvSelectionDTO.setTreeLevelNo(Integer.valueOf(getSessionDTO().getCustomerLevelNumber()));
+        pvSelectionDTO.setTreeLevelNo(Integer.parseInt(getSessionDTO().getCustomerLevelNumber()));
         pvSelectionDTO.setPpa(CommonLogic.isPPA(Boolean.TRUE, pvSelectionDTO));
         pvSelectionDTO.setReturns(CommonLogic.isReturns(Boolean.TRUE, pvSelectionDTO));
         resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, CommonUtil.isValueEligibleForLoading()));
@@ -787,7 +836,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo > 0) {
             if (pvSelectionDTO.isIslevelFiler()) {
                 levelFilter.removeValueChangeListener(levelFilterChangeOption);
@@ -995,8 +1044,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setProjIdList(projIdList);
         pvSelectionDTO.setProjectionMap(projectionMap);
         pvSelectionDTO.setVariableCategory(variableCategoryValue);
-        pvSelectionDTO.setUserId(Integer.valueOf(session.getUserId()));
-        pvSelectionDTO.setSessionId(Integer.valueOf(session.getSessionId()));
+        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
         pvSelectionDTO.setCustRelationshipBuilderSid(session.getCustRelationshipBuilderSid());
         pvSelectionDTO.setProdRelationshipBuilderSid(session.getProdRelationshipBuilderSid());
         pvSelectionDTO.setForecastDTO(session.getForecastDTO());
@@ -1004,8 +1053,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setCurrentProjId(projectionId);
         pvSelectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(String.valueOf(frequency.getValue()), session));
         pvSelectionDTO.setProjectionOrder(String.valueOf(projectionPeriodOrder.getValue()));
-        pvSelectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-        pvSelectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+        pvSelectionDTO.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+        pvSelectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
         pvSelectionDTO.setVariables(variablesValue);
         pvSelectionDTO.setHistoryNum(CommonUtils.getHistoryProjectionNum(String.valueOf(frequency.getValue()), session));
         pvSelectionDTO.setCustomId(customId);
@@ -1515,8 +1564,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         projectionId = session.getProjectionId();
-        pvSelectionDTO.setUserId(Integer.valueOf(session.getUserId()));
-        pvSelectionDTO.setSessionId(Integer.valueOf(session.getSessionId()));
+        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
         tradingPartnerNo = Utility.getTradingPartnerLevelNo(projectionId, session);
     }
 
@@ -1557,6 +1606,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(productFilterValues).get(SID), CommonUtil.COMMA));
             map.put(Constant.DEDUCTION_LEVEL_DDLB, deductionlevelDdlb.getValue());
             map.put(Constant.DEDUCTION_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(deductionFilterValues).get(SID), CommonUtil.COMMA));
+            map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues)));
+            map.put(Constant.DEDUCTION_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(deductionInclusionValues)));
             logic.saveNMPVSelection(map, projectionId, TAB_PROJECTION_VARIANCE.getConstant());
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -1631,7 +1682,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     }
                 }
             }
-
+            String variableCategoryItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(variableCategoryCustomMenuItem);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, variableCategoryItemValue);
             value = map.get(Constant.VARIABLES);
             if (value != null && customMenuItem != null && value.toString().length() > 0) {
                 String val = value.toString();
@@ -1654,10 +1706,14 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
                 }
             }
+            String variableMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customMenuItem);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, variableMenuItemValue);
             value = map.get(Constant.DISPLAY_FORMAT_SAVE);
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, displayFormatValues);
             }
+            String displayFormatMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(displayFormatValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
             if (isReset) {
                 CommonLogic.unCheckMultiSelect(customerFilterValues);
                 CommonLogic.unCheckMultiSelect(productFilterValues);
@@ -1671,6 +1727,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                   generateCustomerToBeLoaded= commonLogic.getFilterValues(customerFilterValues).get(SID);
                   pvSelectionDTO.setCustomerLevelFilter((List)generateCustomerToBeLoaded);
             }
+            String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
             value = map.get(Constant.PRODUCT_LEVEL_DDLB);
             productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
             value = map.get(Constant.PRODUCT_LEVEL_VALUE);
@@ -1679,6 +1737,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                  generateProductToBeLoaded=commonLogic.getFilterValues(productFilterValues).get(SID);
                  pvSelectionDTO.setProductLevelFilter((List)generateProductToBeLoaded);
             }
+            String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
             value = map.get(Constant.DEDUCTION_LEVEL_DDLB);
             deductionlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
             value = map.get(Constant.DEDUCTION_LEVEL_VALUE);
@@ -1689,6 +1749,20 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 pvSelectionDTO.setDeductionLevelFilter((List) generateDiscountToBeLoaded);
                 pvSelectionDTO.setDeductionLevelCaptions((List) generateDiscountToBeLoaded);
             }
+            String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+            value = map.get(Constant.SALES_INCLUSION_DDLB);
+            if (!CommonUtil.nullCheck(value)) {
+                CommonUtil.setCustomMenuBarValuesInEdit(value, salesInclusionValues);
+            }
+            String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionValue);
+            value = map.get(Constant.DEDUCTION_INCLUSION_DDLB);
+            if (!CommonUtil.nullCheck(value)) {
+                CommonUtil.setCustomMenuBarValuesInEdit(value, deductionInclusionValues);
+            }
+            String deductionInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(deductionInclusionValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, deductionInclusionValue);
         }
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             fetchDiscountsFromSave();
@@ -2240,17 +2314,19 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private void loadDisplayFormatDdlb() throws IllegalStateException {
         List<Object[]> displayFormatFilter = new ArrayList<>();
+        displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES_LABEL, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
+        displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
     }
     public static final String SELECT_VALUES_LABEL = "-Select Values-";
 
     private void loadProductLevel() {
 
-        int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+        int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
         Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, StringUtils.EMPTY);
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
@@ -2330,7 +2406,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     public static final String SELECT_ALL = "Select All";
 
     private void loadCustomerLevel() {
-        int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+        int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
 
@@ -2368,15 +2444,18 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private void loadDeductionInclusion() throws IllegalStateException {
         String[] deductionValues = {"Yes", "No"};
+        deductionInclusionDdlb.removeSubMenuCloseListener(deductionInclusionListener);
         deductionInclusionDdlb.removeItems();
         deductionInclusionValues = deductionInclusionDdlb.addItem(SELECT_VALUES_LABEL, null);
         CustomMenuBar.CustomMenuItem[] deductionInclusionCustomItem = new CustomMenuBar.CustomMenuItem[deductionValues.length];
         for (int i = 0; i < deductionValues.length; i++) {
-            deductionInclusionCustomItem[i] = deductionInclusionValues.addItem(deductionValues[i].trim(), null);
+            MenuItemDTO dto = new MenuItemDTO(i,deductionValues[i].trim());
+            deductionInclusionCustomItem[i] = deductionInclusionValues.addItem(dto, null);
             deductionInclusionCustomItem[i].setCheckable(true);
             deductionInclusionCustomItem[i].setItemClickable(true);
             deductionInclusionCustomItem[i].setItemClickNotClosable(true);
         }
+        deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
     }
 
     protected List getCheckedSalesInclusionValues() {
@@ -2409,16 +2488,19 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private void loadSalesInclusion() throws IllegalStateException {
         String[] variablesalesInclusion = {"Yes", "No"};
+        salesInclusionDdlb.removeSubMenuCloseListener(salesInclusionListener);
         salesInclusionDdlb.removeItems();
         salesInclusionValues = salesInclusionDdlb.addItem(SELECT_VALUES_LABEL, null);
         CustomMenuBar.CustomMenuItem[] salesInclusionCustomItem = new CustomMenuBar.CustomMenuItem[variablesalesInclusion.length];
         for (int i = 0; i < variablesalesInclusion.length; i++) {
-            salesInclusionCustomItem[i] = salesInclusionValues.addItem(variablesalesInclusion[i].trim(), null);
+            MenuItemDTO dto = new MenuItemDTO(i,variablesalesInclusion[i].trim());
+            salesInclusionCustomItem[i] = salesInclusionValues.addItem(dto, null);
             salesInclusionCustomItem[i].setCheckable(true);
             salesInclusionCustomItem[i].setItemClickable(true);
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
            
         }
+        salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
     }
 
 	public List<String> getComparisonProjName() {

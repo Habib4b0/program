@@ -65,6 +65,8 @@ public class Constants {
     public static final String PRODUCT_LEVEL_VALUE="ProductLevelValue";
     public static final String DEDUCTION_LEVEL_DDLB="DeductionLevel";
     public static final String DEDUCTION_LEVEL_VALUE="DeductionLevelValue";
+    public static final String SALES_INCLUSION_DDLB="SalesInclusion";
+    public static final String DEDUCTION_INCLUSION_DDLB="DeductionInclusion";
     public static final String PROGRAM_CATEGORY_LABEL = "Program Category";
     public static final String CONVERSION_FACTOR = "CONVERSION_FACTOR";
     public static final String CONVERSION_FACTOR_DEFALUT_VALUE="No Conversion";

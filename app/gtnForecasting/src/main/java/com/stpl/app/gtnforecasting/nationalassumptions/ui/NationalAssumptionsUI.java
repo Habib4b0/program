@@ -95,7 +95,7 @@ public class NationalAssumptionsUI extends UI {
                 sessionDto.setProjectionId(0);
             } else {
                 VaadinSession.getCurrent().setAttribute(PROJECTION_ID, Integer.parseInt(projectionId.trim()));
-                sessionDto.setProjectionId(Integer.valueOf(projectionId));
+                sessionDto.setProjectionId(Integer.parseInt(projectionId));
                 navigator.navigateTo(DataSelectionView.NAME);
             }
            
