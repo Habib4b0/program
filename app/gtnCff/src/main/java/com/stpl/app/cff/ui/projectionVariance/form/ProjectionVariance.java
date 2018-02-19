@@ -113,7 +113,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     private boolean isComparisonLookupOpened;
     private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
-    private List<Integer> comparisonProjId = new ArrayList<>();
+    private final List<Integer> comparisonProjId = new ArrayList<>();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -254,7 +254,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             try {
                 List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
                 selectedList = pvLogic.getCustomizedPVComparisonList(list);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
@@ -355,7 +355,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             groupChange(false);
             setCurrentHierarchy(new ArrayList<Leveldto>(viewChangeHierarchy));
             LOGGER.debug("After loading DTo");
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
     }
@@ -454,7 +454,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     if (!discountLevel.getValue().equals(StringConstantsUtil.TOTAL_DISCOUNT)) {
                         resultsTable.getRightFreezeAsTable().setColumnCollapsingAllowed(true);
                         for (String object : pvSelectionDTO.getHeaderMap().keySet()) {
-                            LOGGER.debug("Key ========== " + object + "  Value " + pvSelectionDTO.getHeaderMap().get(object));
+                            LOGGER.debug("Key= {} and Value= {}", object, pvSelectionDTO.getHeaderMap().get(object));
                         }
 
                         for (Object object : pvSelectionDTO.getHeaderMap().values()) {
@@ -473,11 +473,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                             }
                         });
                     }
-                } catch (Exception e) {
+                } catch (IllegalStateException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage());
         }
     }
@@ -619,7 +619,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
                 generated = false;
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
@@ -755,7 +755,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
             }
             fromDate.setValue(fromDateVal);
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
             LOGGER.error(e.getMessage());
         }
     }
@@ -790,7 +790,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 toDate.addItem(listMap.get(periodList.get(i)));
             }
             toDate.setValue(toDateVal);
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
             LOGGER.error(e.getMessage());
         }
     }
@@ -871,7 +871,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     @Override
     protected void loadFrequency() {
-        LOGGER.debug("ProjectionVariance ValueChangeEvent initiated with frequency -->" + frequency.getValue());
+        LOGGER.debug("ProjectionVariance ValueChangeEvent initiated with frequency= {}", frequency.getValue());
         if (frequency.getValue() != null && !Constants.NULL.equals(String.valueOf(frequency.getValue())) && !StringUtils.EMPTY.equals(String.valueOf(frequency.getValue()))) {
             loadProjectionSelection();
             fullHeader = new CustomTableHeaderDTO();
@@ -889,7 +889,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
-                // do nothing
+                LOGGER. debug("Inside the overriden method of resetBtnLoading");
             }
 
             @Override
@@ -1035,10 +1035,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 chartiLst.add(dto);
             }
         }
-//        final PVChart chart = new PVChart(chartiLst, String.valueOf(frequency.getValue()), "", fullHeader, pvSelectionDTO);
-//        final PVGraphWindow salesGraphWindow = new PVGraphWindow(chart.getChart(), PROJECTION_VARIANCE);
-//        UI.getCurrent().addWindow(salesGraphWindow);
-//        salesGraphWindow.focus();
     }
 
     public static List<Date> getStartandTodate() {
@@ -1086,7 +1082,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         dynamicQuery.addOrder(OrderFactoryUtil.desc("versionNo"));
         try {
             resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         ForecastConfig forecastConfig = null;
@@ -2144,7 +2140,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         Object[] displayFormatIndex = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
         if (displayFormatIndex.length == 1) {
             for (int i = 0; i < displayFormatIndex.length; i++) {
-                LOGGER.info("obj--------------" + i);
+                LOGGER.info("obj--------------= {}", i);
                 int index = (Integer) displayFormatIndex[i];
                 if (index == 0) {
                     listHeaders.remove("dfLevelName");

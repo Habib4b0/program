@@ -27,6 +27,7 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
+import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.event.ItemClickEvent;
@@ -93,7 +94,8 @@ public class NotesTabForm extends AbstractNotesTab {
 		configureFields();
 		setValues(false, sessionDTO);
 
-		LOGGER.debug("userid :" + vUserId + " Username : " + userName);
+		LOGGER.debug("userid= {} and Username= {}", vUserId, 
+                        userName);
 	}
 
 	@Override
@@ -166,7 +168,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
 				uploader.setValue("");
 			}
-		} catch (Exception ex) {
+		} catch (Property.ReadOnlyException | NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 
@@ -204,7 +206,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				AbstractNotificationUtils.getErrorNotification("No File Name", "Please Enter a valid File Name");
 				uploader.setValue("");
 			}
-		} catch (Exception ex) {
+		} catch (Property.ReadOnlyException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 
@@ -274,14 +276,14 @@ public class NotesTabForm extends AbstractNotesTab {
 			} else {
 				masterTableSidValue = String.valueOf(binder.getField(masterTableSid).getValue());
 			}
-			LOGGER.debug("masterTableSid :" + masterTableSid);
-			LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
+			LOGGER.debug("masterTableSid= {}", masterTableSid);
+			LOGGER.debug("masterTableSidValue= {}", masterTableSidValue);
 			int systemId = Integer.parseInt(masterTableSidValue.replace(",", ""));
 			if (systemId != 0) {
 				attachmentsListBean.addAll(logic.getAttachmentDTOList(systemId, "ACC_CLOSURE_MASTER", fileUploadPath));
 			}
 		} catch (FieldGroup.CommitException e) {
-			LOGGER.error("Error while commiting the binder :" + e);
+			LOGGER.error("Error while commiting the binder :{}", e);
 		}
 	}
 

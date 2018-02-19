@@ -72,7 +72,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         workFlowStatus.setNullSelectionAllowed(false);
         workFlowStatus.setValue(SELECT_ONE);
         workFlowStatus.focus();
-        }catch(Exception ex){
+        }catch(Property.ReadOnlyException ex){
             LOGGER.error(ex.getMessage());
         }
     }

@@ -38,7 +38,7 @@ public class FileSelectionTableLogic extends PageTableLogic {
     @Override
     public List loadData(int start, int offset) {
         list=(List<FileSelectionDTO>)logic.getFileName(false,sessionDTO, getFilters(),businessUnit);
-        LOGGER.debug("getCount"+list.size());
+        LOGGER.debug("getCount= {}", list.size());
         return Collections.unmodifiableList(list);
     }
 

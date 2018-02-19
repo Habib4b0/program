@@ -7,6 +7,7 @@
 package com.stpl.app.cff.queryUtils;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
 import com.stpl.app.cff.dto.SessionDTO;
@@ -66,7 +67,7 @@ public class CFFQueryUtils {
         } catch (PortalException ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
@@ -86,7 +87,7 @@ public class CFFQueryUtils {
                 approvedDetailsSids.add(Integer.valueOf(StringUtils.EMPTY + approveList[NumericConstants.FIVE]));
             }
             return approvedDetailsSids;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
             return Collections.EMPTY_LIST;
         }
@@ -117,7 +118,7 @@ public class CFFQueryUtils {
         } catch (PortalException ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }

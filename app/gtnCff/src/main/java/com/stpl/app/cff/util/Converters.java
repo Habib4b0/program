@@ -44,7 +44,7 @@ public class Converters {
      */
     public static List<ViewDTO> getCustomizedViews(final List list) throws ParseException, PortalException, SystemException {
         final List<ViewDTO> results = new ArrayList<>();
-        LOGGER.debug("Entering getCustomizedViews method with list size  " + list.size());
+        LOGGER.debug("Entering getCustomizedViews method with list size= {}", list.size());
         try{
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
@@ -91,7 +91,7 @@ public class Converters {
             result.setProdHierarchyVersion(obj[NumericConstants.THIRTY] == null ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTY])));
             results.add(result);
         }
-        }catch(Exception e){
+        }catch(PortalException | SystemException | NumberFormatException | ParseException e){
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of getCustomizedViews method");
@@ -238,7 +238,7 @@ public class Converters {
             
             dataSelectionDTO.setFromPeriod(String.valueOf(objects[NumericConstants.TWENTY_ONE]));
             dataSelectionDTO.setToPeriod(String.valueOf(objects[NumericConstants.TWENTY_FOUR]));
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             LOGGER.error(ex.getMessage());
         }
         

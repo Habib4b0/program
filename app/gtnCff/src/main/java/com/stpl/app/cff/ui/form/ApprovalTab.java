@@ -296,7 +296,7 @@ public class ApprovalTab extends CustomComponent {
             latestEstimate.addItem(ConstantsUtil.SELECT_ONE);
             try {
                 latestEstimate = commonUtils.getNativeSelect(latestEstimate, CFFLogic.getDropDownList(ConstantsUtil.LOCKED_STATUS), StringUtils.EMPTY);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
             latestEstimate.setImmediate(true);
@@ -319,7 +319,7 @@ public class ApprovalTab extends CustomComponent {
             updateCycle.addItem(ConstantsUtil.SELECT_ONE);
             try {
                 updateCycle = commonUtils.getNativeSelect(updateCycle, CFFLogic.getDropDownList(ConstantsUtil.LOCKED_STATUS), StringUtils.EMPTY);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
             updateCycle.setImmediate(true);
@@ -515,7 +515,7 @@ public class ApprovalTab extends CustomComponent {
             resultLayout.addComponent(excelTable);
             resultLayout.addComponent(resultPagination);
 
-        } catch (Exception e) {
+        } catch (PortalException | SystemException | Property.ReadOnlyException | UnsupportedOperationException e) {
             LOGGER.error(e.getMessage());
         }
         disableFieldsOnview();
@@ -604,7 +604,7 @@ public class ApprovalTab extends CustomComponent {
                 link.setDescription("Open Commercial Forecasting");
             }
             furl += parameter;
-            LOGGER.debug("Redirecting to URL Ready : --------------" + furl);
+            LOGGER.debug("Redirecting to URL Ready : --------------{}", furl);
             link.setResource(new ExternalResource(furl));
         } else {
             projectionIdHidden = null;
@@ -898,7 +898,7 @@ public class ApprovalTab extends CustomComponent {
                     CommonUIUtils.getMessageNotification("Submitted Successfully");
                     return Boolean.TRUE;
                 }
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException | NumberFormatException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }

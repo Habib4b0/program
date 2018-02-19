@@ -151,7 +151,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
                         sidsFromDetails = logic.getCustomerGroupDetails(Integer.parseInt(selectedCustHierarchy.getCustomerGroupSid()));
                         finalCompanySids.retainAll(sidsFromDetails);
                         setFilteredSids(finalCompanySids);
-                    } catch (Exception ex) {
+                    } catch (SystemException | NumberFormatException ex) {
                         Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
@@ -166,7 +166,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
                         sidsFromDetails = logic.getItemGroupDetails(Integer.parseInt(selectedProdHierarchy.getProductGroupSid()));
                         finalItemSids.retainAll(sidsFromDetails);
                         setFilteredSids(finalItemSids);
-                    } catch (Exception ex) {
+                    } catch (SystemException | NumberFormatException ex) {
                         Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {

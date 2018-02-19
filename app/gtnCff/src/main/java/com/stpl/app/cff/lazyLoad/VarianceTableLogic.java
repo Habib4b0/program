@@ -47,14 +47,15 @@ public class VarianceTableLogic extends PageTreeTableLogic{
      */
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {} and start= {} and offset={}", firstGenerated, start, offset);
         Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated && offset > 0) {
             List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);
             List<ProjectionVarianceDTO> list = null;
             list = nmProjectionVarianceLogic.getConfiguredProjectionVariance(getLastParent(), projSelDTO, start, offset);
-            LOGGER.debug("list in load" + list.size());
+            LOGGER.debug("list in load= {}", 
+                    list.size());
             int i = start;
             for (ProjectionVarianceDTO dto : list) {
                 map.put(i, dto);
@@ -77,7 +78,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
         if (firstGenerated) {
             count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, true);
         }
-        LOGGER.debug("Count - - - - " + count);
+        LOGGER.debug("Count - - - -= {}", count);
         return count;
     }
 
@@ -260,7 +261,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
             }
                     }
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
