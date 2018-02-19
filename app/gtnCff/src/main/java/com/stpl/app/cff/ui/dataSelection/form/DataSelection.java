@@ -19,7 +19,6 @@ import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
@@ -576,7 +575,7 @@ public class DataSelection extends AbstractDataSelection {
 	@Override
 	protected void loadCustomerGroup() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		final CustomerProductGroupLookup customerGroupLookupWindow = new CustomerProductGroupLookup(
-				INDICATOR_CUSTOMER_GROUP.getConstant(), WINDOW_CUSTOMER_GROUP_LOOKUP.getConstant(), customerGroup,
+				Constants.CUSTOMER_GROUP, WINDOW_CUSTOMER_GROUP_LOOKUP.getConstant(), customerGroup,
 				DataSelectionUtil.getCustomerSidFromHierarchy(getCustomersFromHierarchy()));
 		UI.getCurrent().addWindow(customerGroupLookupWindow);
 		customerGroupLookupWindow.addCloseListener(new Window.CloseListener() {

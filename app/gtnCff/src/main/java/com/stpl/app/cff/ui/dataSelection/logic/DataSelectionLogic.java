@@ -24,7 +24,7 @@ import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
 import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
 import com.stpl.app.cff.util.CommonUtils;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
+import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -1716,7 +1716,7 @@ public class DataSelectionLogic {
 				start, offset, filters, sortByColumns);
 		resultList = dataSelectionDaoImpl.executeQueryforchannel(parameters);
 		try {
-			if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(groupIdentifier)) {
+			if (Constants.CUSTOMER_GROUP.equals(groupIdentifier)) {
 				returnList = Converters.convertCustomerGroupList(resultList);
 			} else {
 				returnList = Converters.convertItemGroupList(resultList);

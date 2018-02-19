@@ -1254,7 +1254,7 @@ public class CommonServiceImpl {
             String desc = null;
             String sids = null;
             StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-            if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
+            if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
                 queryString.append(SQlUtil.getQuery("getCustomerGroupPaged"));
                 name = " CG.COMPANY_GROUP_NAME ";
                 no = " CG.COMPANY_GROUP_NO ";
@@ -1300,7 +1300,7 @@ public class CommonServiceImpl {
             try {
                 if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
                         && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
-                    if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
+                    if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
                         query = query.replace(StringConstantsUtil.SELECTION, " DISTINCT CG.COMPANY_GROUP_SID, CG.COMPANY_GROUP_NO, CG.COMPANY_GROUP_NAME, CG.VERSION_NO, CG.COMPANY_GROUP_DESCRIPTION ");
                     } else {
                         query = query.replace(StringConstantsUtil.SELECTION, " DISTINCT IG.ITEM_GROUP_SID, IG.ITEM_GROUP_NO, IG.ITEM_GROUP_NAME, CM.COMPANY_NAME, IG.VERSION_NO, IG.ITEM_GROUP_DESCRIPTION ");
@@ -1373,7 +1373,7 @@ public class CommonServiceImpl {
                         query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                     }
                     if ((parameters.get(StringConstantsUtil.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED))))) {
-                        if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
+                        if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
                             query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY CG.COMPANY_GROUP_SID ");
                         } else {
                             query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY IG.ITEM_GROUP_SID ");
@@ -1430,7 +1430,7 @@ public class CommonServiceImpl {
                         query = query + StringConstantsUtil.OFFSET_W_SPACE + startIndex + StringConstantsUtil.ROWS_FETCH_NEXT + offset + StringConstantsUtil.ROWS_ONLY_W_SPACE;
                     }
                 } else {
-                    if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
+                    if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
                         query = query.replace(StringConstantsUtil.SELECTION, " COUNT (DISTINCT CG.COMPANY_GROUP_SID) ");
                     } else {
                         query = query.replace(StringConstantsUtil.SELECTION, " COUNT (DISTINCT IG.ITEM_GROUP_SID) ");
