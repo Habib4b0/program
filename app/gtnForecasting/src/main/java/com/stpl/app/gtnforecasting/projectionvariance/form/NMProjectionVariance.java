@@ -110,7 +110,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NMProjectionVariance.class);
 
-
     private CommonLogic commonLogic = new CommonLogic();
     /**
      * The trading partner level no.
@@ -543,12 +542,12 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 isComparisonLookupOpened = true;
                 loadComparison();
                 if (!pvSelectionDTO.getProjIdList().isEmpty()) {
-                for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
-                    comparisonBasis.addItem(j);
-                    comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
-                    comparisonBasis.select("Current Projection");
+                    for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
+                        comparisonBasis.addItem(j);
+                        comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
+                        comparisonBasis.select("Current Projection");
+                    }
                 }
-            }
             }
         });
 
@@ -860,7 +859,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 pvSelectionDTO.setProductLevelFilter((List) (generateProductToBeLoaded != null ? generateProductToBeLoaded : new ArrayList<>()));
                 pvSelectionDTO.setDeductionLevelFilter((List) (generateDiscountToBeLoaded != null ? generateDiscountToBeLoaded : new ArrayList<>()));
                 pvSelectionDTO.setDeductionLevelCaptions((List) (generateDiscountNamesToBeLoaded != null ? generateDiscountNamesToBeLoaded : new ArrayList<>()));
-                
+
                 getDiscount();
                 if (pivotView.getValue().equals("Variable")) {
                     pivotPanel.setCaption("Variable Pivot View");
@@ -2112,7 +2111,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
                                 }
-                                
+
                                 parentItemId = excelParentRecords.get(parentKey);
 
                                 if (parentItemId != null) {
@@ -2319,7 +2318,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (!levelNo.isEmpty()) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL});
             deductionLevelFilter.addAll(commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateProductToBeLoaded, generateCustomerToBeLoaded));
-            CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
+            if ("10".equals(levelNo) && CommonUtil.isValueEligibleForLoading()) {
+                CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
+            } else {
+                CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
+            }
         }
 
         deductionFilterDdlb.setScrollable(true);
@@ -2417,16 +2420,16 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             salesInclusionCustomItem[i].setCheckable(true);
             salesInclusionCustomItem[i].setItemClickable(true);
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
-           
+
         }
     }
 
-	public List<String> getComparisonProjName() {
-		return comparisonProjName;
-	}
+    public List<String> getComparisonProjName() {
+        return comparisonProjName;
+    }
 
-	public void setComparisonProjName(List<String> comparisonProjName) {
-		this.comparisonProjName = comparisonProjName;
-	}
+    public void setComparisonProjName(List<String> comparisonProjName) {
+        this.comparisonProjName = comparisonProjName;
+    }
 
 }

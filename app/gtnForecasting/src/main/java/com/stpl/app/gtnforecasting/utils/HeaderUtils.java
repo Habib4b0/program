@@ -1363,6 +1363,10 @@ public class HeaderUtils {
             int discountNamesint = isCustom ? 1 : discountNames.size();
             for (int l = 0; l < discountNamesint; l++) {
                 String discountName = discountNames.get(l);
+                if (discountName.contains("-") && CommonUtil.isValueEligibleForLoading()) {
+                    String[] tempArr = discountName.split("-");
+                    discountName = tempArr[0];
+                }
 
                 String discountColumnName = discountProperties.get(l);
                 List<Object> tmap = new ArrayList<>();
@@ -1581,9 +1585,9 @@ public class HeaderUtils {
                 }
 
                 if (!tmap.isEmpty() && !isCustom) {
-                    tableHeader.addTripleColumn(discountColumnName, discountName.contains("~") ? discountName.split("~")[0] : discountName);
+                    tableHeader.addTripleColumn(discountColumnName, discountName.contains("-") ? discountName.split("-")[0] : discountName);
                     tableHeader.addTripleHeaderMap(discountColumnName, tmap.toArray());
-                    excelHeader.addTripleColumn(discountColumnName, discountName.contains("~") ? discountName.split("~")[0] : discountName);
+                    excelHeader.addTripleColumn(discountColumnName, discountName.contains("-") ? discountName.split("-")[0] : discountName);
                     excelHeader.addTripleHeaderMap(discountColumnName, tmap.toArray());
                 }
             }

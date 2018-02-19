@@ -3104,7 +3104,7 @@ public class CommonLogic {
                     joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 ";
                     break;
                 case 10:
-                    selectClause = " RS.RS_ID,RS.RS_CONTRACT_SID ";
+                    selectClause = " RS.RS_ID,RS.RS_NAME,RS.RS_CONTRACT_SID ";
                     joinClause = StringUtils.EMPTY;
                     udcJoinClause=StringUtils.EMPTY;
                     break;
@@ -3324,6 +3324,47 @@ public class CommonLogic {
             columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ";       
         }
         return columnName;
+    }
+    
+     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+        String newLevel=StringUtils.EMPTY;
+        String oldLevel = StringUtils.EMPTY;
+        String listOfSids = StringUtils.EMPTY;
+        CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
+        customerlevelCustomItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
+        customerlevelCustomItem[0].setCheckable(true);
+        customerlevelCustomItem[0].setItemClickable(true);
+        customerlevelCustomItem[0].setItemClickNotClosable(true);
+        customerlevelCustomItem[0].setCheckAll(true);
+        for (int i = 1; i < listOfLevelFilter.size(); i++) {
+            MenuItemDTO dto = null;
+            Object[] obj = listOfLevelFilter.get(i);
+            String firstIndex = obj[0].toString();
+            String secondIndex = obj[1].toString();
+            newLevel = firstIndex + " - " + secondIndex;
+            if (oldLevel.equals(newLevel)) {
+                listOfSids += "," + obj[1].toString();
+                oldLevel = newLevel;
+            } else {
+                if (i != 1) {
+                    dto = new MenuItemDTO(listOfSids, oldLevel);
+                     listOfSids = "";
+                    customerlevelCustomItem[i] = filterValues.addItem(dto, null);
+                    customerlevelCustomItem[i].setCheckable(true);
+                    customerlevelCustomItem[i].setItemClickable(true);
+                    customerlevelCustomItem[i].setItemClickNotClosable(true);
+                }
+                listOfSids += obj[2].toString();
+                oldLevel = newLevel;
+            }
+            if (i == listOfLevelFilter.size() - 1) {
+                dto = new MenuItemDTO(listOfSids, newLevel);
+                customerlevelCustomItem[i] = filterValues.addItem(dto, null);
+                customerlevelCustomItem[i].setCheckable(true);
+                customerlevelCustomItem[i].setItemClickable(true);
+                customerlevelCustomItem[i].setItemClickNotClosable(true);
+            }
+        }
     }
 }
 

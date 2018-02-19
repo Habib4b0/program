@@ -2002,7 +2002,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             if (!levelNo.isEmpty()) {
                 deductionLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 deductionLevelFilter.addAll(CommonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO));
-                CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
+                if ("10".equals(levelNo) && CommonUtils.isValueEligibleForLoading()) {
+                    CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
+                } else {
+                    CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
+                }
             }
             
             deductionFilterDdlb.setScrollable(true);

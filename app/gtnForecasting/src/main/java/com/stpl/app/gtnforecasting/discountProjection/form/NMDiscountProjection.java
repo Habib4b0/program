@@ -5299,8 +5299,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			deductionLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			deductionLevelFilter.addAll(
 					commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateCustomerToBeLoaded));
-			CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
-		}
+			LOGGER.info("Deduction Level Filter Values====="+Arrays.asList(deductionLevelFilter));
+                        
+                     if ("10".equals(levelNo) && CommonUtil.isValueEligibleForLoading()) {
+                        CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
+                    } else {
+                        CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
+                    }
+                }
 
 		deductionFilterDdlb.setScrollable(true);
 		deductionFilterDdlb.setPageLength(NumericConstants.TEN);
