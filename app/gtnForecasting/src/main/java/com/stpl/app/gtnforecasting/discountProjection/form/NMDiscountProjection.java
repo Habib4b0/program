@@ -947,7 +947,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		if (multipleVariableCheckMap.get(period.trim()) == null) {
 			multipleVariableCheckMap.put(period.trim(), refreshName);
                 }else{
-                LOGGER.info("manualEntryMap.get(period)-----------------------------------------------------"+isMultipleVariablesUpdated);
                 isMultipleVariablesUpdated = true;
                 }
 	}
