@@ -215,8 +215,6 @@ public class StringConstantsUtil {
     public static final String RS_START_DATE_LABEL = "RSStartDate";
     public static final String SELECTED_ITEMS_NOT_BELONG_SAME_CONTRACT = "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.";
     public static final String PLEASE_SELECT_A_VALUE_IN_THE_RESULTS = "Please select a value in the Results list view then try again.";
-    public static final String FOR_THE_SELECTED_UPDATE_TYPE_THIS = "For the selected Update Type, this operation is not valid ";
-    public static final String NO_VALID_RECORDS = "No Valid records found in Current Item Details.\n Please submit any record to Continue.";
     public static final String AND_PROJECTION_NAME = " \n and Projection Name - ";
     public static final String SOME_ERROR_IN_CREATING_PROJECTION = "There is some error in creating projection. ";
     public static final String CHECK_WHETHER_THE_SELECTED_PROJECTION_HAS_RELATION = "\n kindly check whether the selected Projection has relationship that is set to Automatic";
@@ -230,8 +228,6 @@ public class StringConstantsUtil {
     public static final String NO_RECORDS_SUBMITTED = "No records submitted";
     public static final String SUMMARY_FIELD = "Summary";
     public static final String FOR_THE_SELECTED_UPDATE_TYPE_NOT_VALID = "For the selected Update Type, this operation is not valid ";
-    public static final String TYPDESCRIPTION = "TYP.DESCRIPTION";
-    public static final String CATDESCRIPTION = "CAT.DESCRIPTION";
     public static final String COMPONENT_STATUS_PROPERTY = "componentStatus";
     public static final String COMPONENT_NO = "componentNo";
     public static final String COMPONENT_NAME = "componentName";
@@ -325,6 +321,16 @@ public class StringConstantsUtil {
     public static final String FILTERR_AR_CATEGORY = "filter~rARCategory";
     public static final String FROM_FILTER = "~from";
     public static final String TO_FILTER = "~to";
+    public static final String IFP_TYPE = " AND IM.IFP_TYPE like '";
+    public static final String SELECT = "SELECT\n";
+    public static final String MODULE_NAME_CONDITION = " AND MSM.MODULE_NAME = '" ;
+    public static final String BUSINESSROLE_MASTER_SID_CONDITION = " AND ubm.BUSINESSROLE_MASTER_SID in (" ;
+    public static final String MODULE_NAME_IN_CONDITION = " AND spm.MODULE_NAME in ('" ;
+    public static final String SUBMODULE_NAME_IN_CONDITION = " AND MSM.SUBMODULE_NAME = '";
+    public static final String AND_CONDITION = " AND ";
+    public static final String CONTRACT_NO  = "contractNo";
+    public static final String IS_ORDERED  = "isOrdered";
+    public static final String ROWS_FETCH_NEXT  = " ROWS FETCH NEXT ";
 
     private StringConstantsUtil() {
         /*

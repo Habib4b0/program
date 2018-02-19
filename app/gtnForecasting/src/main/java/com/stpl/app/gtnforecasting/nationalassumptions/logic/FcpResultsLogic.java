@@ -307,7 +307,7 @@ public class FcpResultsLogic {
                     String group = StringUtils.EMPTY + obj[NumericConstants.SIX];
                     if (group.trim().equalsIgnoreCase(groupIndicator.trim())) {
                         String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
-                        int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE]));
+                        int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE]));
                         int period = 0;
                         List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                         String commonColumn = common.get(0);
@@ -421,7 +421,7 @@ public class FcpResultsLogic {
 
                         final Object[] obj = (Object[]) list.get(i);
 
-                        int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE]));
+                        int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE]));
                         int period = 0;
                         List<String> periodList = getCommonColumnHeader(frequencyDivision, year, period);
 
@@ -611,8 +611,8 @@ public class FcpResultsLogic {
                     gtsDTO.setParent(0);
                     gtsDTO.setItemMasterSid(itemId);
                     columnList.remove(Constant.GROUP);
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.SIX]));
-                    int period = Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN]));
+                    int year = Integer.parseInt(String.valueOf(obj[NumericConstants.SIX]));
+                    int period = Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN]));
                     List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = common.get(0);
                     String source = StringUtils.EMPTY + obj[NumericConstants.EIGHT];
@@ -965,7 +965,7 @@ public class FcpResultsLogic {
                 LOGGER.debug("Got Connection " + connection.toString()+ ", ");
                 statement.setInt(1, session.getProjectionId());
                 statement.setObject(NumericConstants.TWO, priceBasis);
-                statement.setInt(NumericConstants.THREE, Integer.valueOf(session.getUserId()));
+                statement.setInt(NumericConstants.THREE, Integer.parseInt(session.getUserId()));
                 statement.setObject(NumericConstants.FOUR, session.getSessionId());
                 statement.execute();
                 LOGGER.debug("procedure call ended  ");
@@ -1009,8 +1009,8 @@ public class FcpResultsLogic {
                 String group = StringUtils.EMPTY + obj[0];
                 if (group.equalsIgnoreCase(groupIndicator.trim())) {
 
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
-                    int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                    int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
+                    int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                     List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = common.get(0);
                     String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
@@ -1062,7 +1062,7 @@ public class FcpResultsLogic {
             for (Object list1 : fcpYearlist) {
                 final Object[] obj = (Object[]) list1;
                 String group = StringUtils.EMPTY + obj[0];
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
                 if (group.equalsIgnoreCase(groupIndicator.trim())) {
                     String source = StringUtils.EMPTY + obj[NumericConstants.SIX];
                     if (ACTUALS_CAPS.getConstant().equals(source)) {
@@ -1110,8 +1110,8 @@ public class FcpResultsLogic {
                 final Object[] obj = (Object[]) list1;
                 String column;
                 String group = StringUtils.EMPTY + obj[0];
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
@@ -1122,7 +1122,7 @@ public class FcpResultsLogic {
                         String value;
                         String[] notesArray = new String[NumericConstants.TWO];
                         if (obj[NumericConstants.SIX] != null) {
-                            notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                            notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                         } else {
                             notesArray[0] = StringUtils.EMPTY;
                         }

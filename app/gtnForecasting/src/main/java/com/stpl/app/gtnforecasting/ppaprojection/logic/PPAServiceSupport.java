@@ -81,7 +81,7 @@ public class PPAServiceSupport {
             for (final Iterator<Object[]> iterator = returnList.iterator(); iterator.hasNext();) {
                 final Object[] value = iterator.next();
                 helperTable = new HelperDTO();
-                helperTable.setId(value[0] != null ? Integer.valueOf(value[0].toString()) : 0);
+                helperTable.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
                 helperTable.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
 
                 if (!StringUtils.EMPTY.equals(helperTable.getDescription())) {

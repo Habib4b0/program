@@ -20,6 +20,7 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.ChangeCustomMenuBarValueUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import static com.stpl.app.gtnforecasting.utils.CommonUtil.stringNullCheck;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
@@ -3339,6 +3340,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, displayFormatValues);
             }
+            String displayFormatMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
             if (isReset) {
                 CommonLogic.unCheckMultiSelect(customerFilterValues);
                 CommonLogic.unCheckMultiSelect(productFilterValues);
@@ -3350,6 +3353,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 generateCustomerToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.<String>emptyList() : generateCustomerToBeLoaded;
                 CommonUtil.setCustomMenuBarValuesInEdit(value, customerFilterValues);
             }
+            String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
             value = map.get(Constant.PRODUCT_LEVEL_DDLB);
             productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
             value = map.get(Constant.PRODUCT_LEVEL_VALUE);
@@ -3357,6 +3362,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 generateProductToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.<String>emptyList() : generateProductToBeLoaded;
                 CommonUtil.setCustomMenuBarValuesInEdit(value, productFilterValues);
             }
+            String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
+            value = map.get(Constant.SALES_INCLUSION_DDLB);
+            if(!CommonUtil.nullCheck(value)){
+               CommonUtil.setCustomMenuBarValuesInEdit(value, salesInclusionValues);
+            }
+            String salesInclusionMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionMenuItemValue);
         }
     }
 

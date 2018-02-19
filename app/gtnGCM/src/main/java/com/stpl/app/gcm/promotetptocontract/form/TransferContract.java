@@ -237,12 +237,12 @@ public class TransferContract extends VerticalLayout implements View {
 			number.setData("maxlengthvalidationhundred,maxlengthvalidationnumber,specialchar,specialcharnumber");
 			number.setValidationVisible(true);
 
-			startDate.setDateFormat(Constants.DATE_FORMAT);
-			endDate.setDateFormat(Constants.DATE_FORMAT);
-			cfpSDate.setDateFormat(Constants.DATE_FORMAT);
-			cfpEDate.setDateFormat(Constants.DATE_FORMAT);
-			aliasStartDate.setDateFormat(Constants.DATE_FORMAT);
-			aliasEndDate.setDateFormat(Constants.DATE_FORMAT);
+			startDate.setDateFormat(Constants.MM_DD_YYYY);
+			endDate.setDateFormat(Constants.MM_DD_YYYY);
+			cfpSDate.setDateFormat(Constants.MM_DD_YYYY);
+			cfpEDate.setDateFormat(Constants.MM_DD_YYYY);
+			aliasStartDate.setDateFormat(Constants.MM_DD_YYYY);
+			aliasEndDate.setDateFormat(Constants.MM_DD_YYYY);
 
 			contractHolder.setEnabled(false);
 			commonUtil.loadComboBox(marketType, UiUtils.CONTRACT_TYPE, false);

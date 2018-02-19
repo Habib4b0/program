@@ -543,7 +543,7 @@ public class PPAProjection extends CustomComponent implements View {
                                         @Override
                                         public void valueChange(Property.ValueChangeEvent event) {
                                             if (valueChangeAllowed) {
-                                                int ddlbValue = Integer.valueOf(String.valueOf(comboBox.getValue()));
+                                                int ddlbValue = Integer.parseInt(String.valueOf(comboBox.getValue()));
                                                 if (ddlbValue == -1) {
                                                     return;
                                                 }
@@ -593,7 +593,7 @@ public class PPAProjection extends CustomComponent implements View {
                                                 if (propId.contains(Constant.PPAColumns.NEP.getConstant())
                                                         || propId.contains(Constant.PPAColumns.PRICE_TOLERANCE.getConstant())
                                                         || propId.contains(Constant.PPAColumns.MAX_INCREMENTAL_CHANGE.getConstant())) {
-                                                    textValue = String.valueOf(Double.valueOf(textValue) / dto.getCCPCount());
+                                                    textValue = String.valueOf(Double.parseDouble(textValue) / dto.getCCPCount());
                                                 }
                                                 savePPAProjection(propertyId.toString(), textValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.RIGHT);
 
@@ -1051,7 +1051,7 @@ public class PPAProjection extends CustomComponent implements View {
                 int startYear = 0;
                 if (startPeriod.getValue() != null) {
                     startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
-                    startYear = Integer.valueOf(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+                    startYear = Integer.parseInt(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 } else if (startPeriod.isVisible()) {
                     MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_03"), ButtonId.OK);
                     return;
@@ -1179,11 +1179,11 @@ public class PPAProjection extends CustomComponent implements View {
                 updateResetRow(propertyId, itemId, result, presentFlag);
             } else if (value instanceof Integer) {
 
-                if (Integer.valueOf(value.toString()) >= dto.getCCPCount()) {
+                if (Integer.parseInt(value.toString()) >= dto.getCCPCount()) {
                     result = Boolean.TRUE;
                     dto.setCheckRecordCount(dto.getCCPCount());
                 } else {
-                    if (Integer.valueOf(value.toString()) < 0) {
+                    if (Integer.parseInt(value.toString()) < 0) {
                         dto.setCheckRecordCount(0);
                     } else {
                         dto.setCheckRecordCount(Integer.valueOf(value.toString()));
@@ -1243,7 +1243,7 @@ public class PPAProjection extends CustomComponent implements View {
     private void expandCollapseLevelOption(boolean isExpand, Object value) {
         if (value != null) {
             List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-            int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+            int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
             if (levelNo > 0) {
                 if (selection.isIsFilter()) {
                     valueChangeForColumnCheckBox = Boolean.TRUE;
@@ -1480,7 +1480,7 @@ public class PPAProjection extends CustomComponent implements View {
         loadMassPeriods(selection);
         if (filterValue != null) {
             String filteredValue = filterValue.toString();
-            selection.setLevelNo(Integer.valueOf(filteredValue.split("~")[0]));
+            selection.setLevelNo(Integer.parseInt(filteredValue.split("~")[0]));
             selection.setIsFilter(Boolean.TRUE);
             tableLogic.setSelection(selection);
             resetTable();
@@ -1552,8 +1552,8 @@ public class PPAProjection extends CustomComponent implements View {
             count = NumericConstants.ONE_CRORE;
         } else {
             selection.setIsFilter(Boolean.TRUE);
-            selection.setLevelNo(Integer.valueOf(levelFilter.getValue().toString().split("~")[0]));
-            selection.setTreeLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+            selection.setLevelNo(Integer.parseInt(levelFilter.getValue().toString().split("~")[0]));
+            selection.setTreeLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
             count = CommonLogic.getLevelListCount(projectionId, Constant.PPA, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, selection.getLevelNo(), StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, Boolean.TRUE, Boolean.FALSE, 0, selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(), selection.getDiscountNoList(),selection);
         }
         selection.setExcelExport(Boolean.TRUE);
@@ -1745,12 +1745,12 @@ public class PPAProjection extends CustomComponent implements View {
                     trd = toDateDdlb.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase().trim();
                 }
             if (!frd.isEmpty()) {
-                startmonth = getQuarterStartMonth(Integer.valueOf(frd.substring(1, frd.length() - NumericConstants.FOUR)));
-                startyear = Integer.valueOf(frd.substring(frd.length() - NumericConstants.FOUR));
+                startmonth = getQuarterStartMonth(Integer.parseInt(frd.substring(1, frd.length() - NumericConstants.FOUR)));
+                startyear = Integer.parseInt(frd.substring(frd.length() - NumericConstants.FOUR));
             }
             if (!trd.isEmpty()) {
-                endmonth = getQuarterEndMonth(Integer.valueOf(trd.substring(1, trd.length() - NumericConstants.FOUR)));
-                endyear = Integer.valueOf(trd.substring(trd.length() - NumericConstants.FOUR));
+                endmonth = getQuarterEndMonth(Integer.parseInt(trd.substring(1, trd.length() - NumericConstants.FOUR)));
+                endyear = Integer.parseInt(trd.substring(trd.length() - NumericConstants.FOUR));
             }
         }
 
@@ -1778,19 +1778,19 @@ public class PPAProjection extends CustomComponent implements View {
     private void loadProjectionSelection(boolean initial) {
         LOGGER.debug("Enter inside load projection selection");
         selection.setSessionDTO(session);
-        selection.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+        selection.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
         selection.setCustRelationshipBuilderSid(session.getCustRelationshipBuilderSid());
         selection.setRelationshipBuilderSid(selection.getCustRelationshipBuilderSid());
         selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-        selection.setLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+        selection.setLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
         selection.setCustomerHierarchyNo(StringUtils.EMPTY);
         selection.setProductHierarchyNo(StringUtils.EMPTY);
         selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
         selection.setIsCustomHierarchy(Boolean.FALSE);
         selection.setCustomId(0);
         selection.setProjectionId(projectionId);
-        selection.setSessionId(Integer.valueOf(session.getSessionId()));
-        selection.setUserId(Integer.valueOf(session.getUserId()));
+        selection.setSessionId(Integer.parseInt(session.getSessionId()));
+        selection.setUserId(Integer.parseInt(session.getUserId()));
         selection.setForecastDTO(getClonedForecastDTO(session.getForecastDTO(), initial));
         LOGGER.debug("END of load projection selection");
 
