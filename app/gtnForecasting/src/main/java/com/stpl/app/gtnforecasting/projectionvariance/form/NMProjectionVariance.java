@@ -97,7 +97,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private final StplSecurity stplSecurity = new StplSecurity();
     public static final String CAPTION = "CAPTION";
-    public static final String GROUP = "group";
+    public static final String GROUP_PROPERTY = "group";
     /**
      * The projection id.
      */
@@ -691,11 +691,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     export.export();
                 }
             } else {
-                Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get(GROUP);
+                Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get(GROUP_PROPERTY);
                 List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
-                listHeaders.remove(GROUP);
-                fullHeader.getDoubleHeaderMaps().put(GROUP, listHeaders.toArray());
-                fullHeader.getSingleColumns().remove(GROUP);
+                listHeaders.remove(GROUP_PROPERTY);
+                fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+                fullHeader.getSingleColumns().remove(GROUP_PROPERTY);
                 fullHeader.getSingleHeaders().remove(0);
 
                 Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
@@ -705,12 +705,12 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         int index = (Integer) displayFormatIndex[i];
                         if (index == 0) {
                             listHeaders.remove("dfLevelName");
-                            fullHeader.getDoubleHeaderMaps().put(GROUP, listHeaders.toArray());
+                            fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
                             fullHeader.getSingleColumns().remove("dfLevelName");
                             fullHeader.getSingleHeaders().remove(1);
                         } else {
                             listHeaders.remove("dfLevelNumber");
-                            fullHeader.getDoubleHeaderMaps().put(GROUP, listHeaders.toArray());
+                            fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
                             fullHeader.getSingleColumns().remove("dfLevelNumber");
                             fullHeader.getSingleHeaders().remove(0);
                         }

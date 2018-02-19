@@ -789,6 +789,7 @@ public class Constant {
     public static final String PERIOD_ORDER = "Period Order";
     public static final String VARIABLES = "Variables";
     public static final String LEVELNAME = "levelName";
+    public static final String LEVEL_NAME_HEADER = "Level Name";
     public static final String UPDATE_SMALL = "Update";
     public static final String EDIT_CAPS = "EDIT";
     public static final String VIEW_CAPS = "VIEW";

@@ -4453,16 +4453,16 @@ public class SalesLogic {
     public CustomTableHeaderDTO getHeader(ProjectionSelectionDTO projectionSelectionDTO) {
         CustomTableHeaderDTO salesProjectionExcelHeader = new CustomTableHeaderDTO();
         CustomTableHeaderDTO salesProjectionFullHeader = new CustomTableHeaderDTO();
-        salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+        salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_HEADER, String.class);
         if (projectionSelectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             salesProjectionExcelHeader.addSingleColumn(Constant.GROUP, "Group", String.class);
         }
         if (CommonUtil.isValueEligibleForLoading()) {
             salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number", String.class);
-            salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
+            salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NAME, Constant.LEVEL_NAME_HEADER, String.class);
 
         } else {
-            salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+            salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_HEADER, String.class);
         }
         salesProjectionExcelHeader.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
         salesProjectionExcelHeader.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);

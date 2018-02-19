@@ -610,11 +610,11 @@ public class HeaderUtils {
         if (CommonUtil.isValueEligibleForLoading()) {
             excelHeader.addDoubleColumn(Constant.GROUP, " ");
             excelHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number", String.class);
-            excelHeader.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
+            excelHeader.addSingleColumn(DF_LEVEL_NAME, Constant.LEVEL_NAME_HEADER, String.class);
             excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVELNAME,DF_LEVEL_NUMBER, DF_LEVEL_NAME,Constant.GROUP});
             
         } else {
-            excelHeader.addSingleColumn(Constant.LEVELNAME, LEVEL_NAME1, String.class);
+            excelHeader.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_HEADER, String.class);
             excelHeader.addDoubleColumn(Constant.GROUP, " ");
         }
         if (!Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator)) {

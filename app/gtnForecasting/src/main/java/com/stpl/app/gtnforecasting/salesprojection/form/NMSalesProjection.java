@@ -197,7 +197,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                             int index = (Integer) displayFormatIndex[k];
                             if (index == 0) {
                                 column = ArrayUtils.removeElement(column, "dfLevelName");
-                                header = ArrayUtils.removeElement(header, "Level Name");
+                                header = ArrayUtils.removeElement(header, Constant.LEVEL_NAME_HEADER);
                             } else {
                                 column = ArrayUtils.removeElement(column, "dfLevelNumber");
                                 header = ArrayUtils.removeElement(header, "Level Number");
@@ -516,9 +516,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
       
         if (CommonUtil.isValueEligibleForLoading()) {
             excelHeader.addSingleColumn("dfLevelNumber", "Level Number", String.class);
-            excelHeader.addSingleColumn("dfLevelName", "Level Name", String.class);
+            excelHeader.addSingleColumn("dfLevelName", Constant.LEVEL_NAME_HEADER, String.class);
         } else{
-            excelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+            excelHeader.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_HEADER, String.class);
         }
         
         if (projectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
