@@ -281,7 +281,7 @@ public class NewComponents extends CustomComponent implements View {
     private NewComponentSearchTableLogic compItemSearchTableLogic = new NewComponentSearchTableLogic();
     private ExtPagedTable compItemSearchTable = new ExtPagedTable(compItemSearchTableLogic);
     private ComponentInfoDTO contInfoDto = new ComponentInfoDTO();
-    private DateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
+    private DateFormat df = new SimpleDateFormat(Constants.MM_DD_YYYY);
     private static final String MASS_UPDATE_ERROR = "Mass Update Error";
     private QueryUtils queryUtils = new QueryUtils();
     private List<ComponentInfoDTO> selecteditemList = new ArrayList<>();
@@ -340,12 +340,12 @@ public class NewComponents extends CustomComponent implements View {
 
     protected void configureFields() {
         try {
-            startDate.setDateFormat(Constants.DATE_FORMAT);
-            endDate.setDateFormat(Constants.DATE_FORMAT);
-            ifpStartDate.setDateFormat(Constants.DATE_FORMAT);
-            ifpEndDate.setDateFormat(Constants.DATE_FORMAT);
-            psStartDate.setDateFormat(Constants.DATE_FORMAT);
-            psEndDate.setDateFormat(Constants.DATE_FORMAT);
+            startDate.setDateFormat(Constants.MM_DD_YYYY);
+            endDate.setDateFormat(Constants.MM_DD_YYYY);
+            ifpStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            ifpEndDate.setDateFormat(Constants.MM_DD_YYYY);
+            psStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            psEndDate.setDateFormat(Constants.MM_DD_YYYY);
             massStartDate.setDateFormat(Constants.MM_DD_YYYY);
             massEndDate.setDateFormat(Constants.MM_DD_YYYY);
             massUpdateRadio.addItem(ENABLE.getConstant());
@@ -1403,7 +1403,7 @@ public class NewComponents extends CustomComponent implements View {
             final Object root = contractDashboardResultsTable.getValue();
             if (root != null) {
                 String levelNo = String.valueOf(contractDashboardResultsTable.getContainerProperty(root, Constants.LEVELNO).getValue());
-                int levelNumber = Integer.valueOf(levelNo);
+                int levelNumber = Integer.parseInt(levelNo);
                 String level = String.valueOf(componentType.getValue());
                 if (Constants.NULL.equals(level)) {
                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Component");
@@ -1445,7 +1445,7 @@ public class NewComponents extends CustomComponent implements View {
                                     gcmGlobalDetails = GcmGlobalDetailsLocalServiceUtil.createGcmGlobalDetails(0);
                                     gcmGlobalDetails.setIfpModelSid(gcmContractDetails.getGcmContractDetailsSid());
                                     String itemMasterId = compDto.getItemMasterId();
-                                    gcmGlobalDetails.setItemMasterSid(Integer.valueOf(itemMasterId));
+                                    gcmGlobalDetails.setItemMasterSid(Integer.parseInt(itemMasterId));
                                     GcmGlobalDetailsLocalServiceUtil.addGcmGlobalDetails(gcmGlobalDetails);
                                     itemLst.add(compDto);
                                 }
@@ -1556,7 +1556,7 @@ public class NewComponents extends CustomComponent implements View {
                                     gcmGlobalDetails = GcmGlobalDetailsLocalServiceUtil.createGcmGlobalDetails(0);
                                     String itemMasterId = String.valueOf(componentDetailResultsContainer.getContainerProperty(item, ITEM_MASTER_ID).getValue());
                                     gcmGlobalDetails.setRsModelSid(gcmContractDetails.getGcmContractDetailsSid());
-                                    gcmGlobalDetails.setItemMasterSid(Integer.valueOf(itemMasterId));
+                                    gcmGlobalDetails.setItemMasterSid(Integer.parseInt(itemMasterId));
                                     GcmGlobalDetailsLocalServiceUtil.addGcmGlobalDetails(gcmGlobalDetails);
                                     rsList.add(item);
                                 }
@@ -1609,7 +1609,7 @@ public class NewComponents extends CustomComponent implements View {
                     String contractId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_ID).getValue());
                     String contractNo = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NUMBER).getValue());
                     String contractName = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
-                    int contractType = Integer.valueOf(String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()));
+                    int contractType = Integer.parseInt(String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()));
                     int contStatus = 1;
 
                     /* Used to save At Contract Master table */
@@ -1622,7 +1622,7 @@ public class NewComponents extends CustomComponent implements View {
                     contractMaster.setProcessStatus(true);
                     contractMaster.setSource("BPI");
                     contractMaster.setContractStatus(contStatus);
-                    contractMaster.setCreatedBy(Integer.valueOf(userId));
+                    contractMaster.setCreatedBy(Integer.parseInt(userId));
                     contractMaster.setStartDate(new Date());
                     contractMaster.setInboundStatus("A");
                     contractMaster.setCreatedDate(new Date());
@@ -1637,7 +1637,7 @@ public class NewComponents extends CustomComponent implements View {
                     /* Used to save At Contract Alias Master table */
                     ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
                     CAM.setContractAliasNo(AliasNumber);
-                    CAM.setContractAliasType(AliasType != null && !Constants.NULL.equals(AliasType) && !StringUtils.EMPTY.equals(AliasType) ? Integer.valueOf(AliasType) : 0);
+                    CAM.setContractAliasType(AliasType != null && !Constants.NULL.equals(AliasType) && !StringUtils.EMPTY.equals(AliasType) ? Integer.parseInt(AliasType) : 0);
                     CAM.setStartDate(new Date());
                     CAM.setModifiedDate(new Date());
                     CAM.setCreatedBy(1);
@@ -1664,7 +1664,7 @@ public class NewComponents extends CustomComponent implements View {
                     /* Used to save at cfp_model table */
                     cfpmodel.setCfpName(cfpName);
                     cfpmodel.setCfpNo(cfpNo);
-                    cfpmodel.setCfpStatus(Integer.valueOf(cfpStatus));
+                    cfpmodel.setCfpStatus(Integer.parseInt(cfpStatus));
                     cfpmodel.setCfpId(cfpId);
                     cfpmodel.setCfpStartDate(sdate);
                     cfpmodel.setCfpEndDate(edate);
@@ -1673,8 +1673,8 @@ public class NewComponents extends CustomComponent implements View {
                     cfpmodel.setCreatedDate(new Date());
                     cfpmodel.setModifiedDate(new Date());
                     cfpmodel.setRecordLockStatus(false);
-                    cfpmodel.setCreatedBy(Integer.valueOf(userId));
-                    cfpmodel.setModifiedBy(Integer.valueOf(userId));
+                    cfpmodel.setCreatedBy(Integer.parseInt(userId));
+                    cfpmodel.setModifiedBy(Integer.parseInt(userId));
                     cfpmodel = CfpModelLocalServiceUtil.addCfpModel(cfpmodel);
                     String companySid = session.getCompanyMasterSid();
                     returnList.add(Integer.valueOf(companySid));
@@ -1683,15 +1683,15 @@ public class NewComponents extends CustomComponent implements View {
                     CfpDetails cfpDetails;
                     cfpDetails = CfpDetailsLocalServiceUtil.createCfpDetails(0);
                     cfpDetails.setCfpModelSid(cfpmodel.getCfpModelSid());
-                    cfpDetails.setCompanyMasterSid(Integer.valueOf(companySid));
+                    cfpDetails.setCompanyMasterSid(Integer.parseInt(companySid));
                     cfpDetails.setCompanyStartDate(new Date());
                     cfpDetails.setInboundStatus("A");
                     cfpDetails.setSource("BPI");
                     cfpDetails.setRecordLockStatus(false);
                     cfpDetails.setCreatedDate(new Date());
                     cfpDetails.setModifiedDate(new Date());
-                    cfpDetails.setCreatedBy(Integer.valueOf(userId));
-                    cfpDetails.setModifiedBy(Integer.valueOf(userId));
+                    cfpDetails.setCreatedBy(Integer.parseInt(userId));
+                    cfpDetails.setModifiedBy(Integer.parseInt(userId));
                     CfpDetailsLocalServiceUtil.addCfpDetails(cfpDetails);
 
                     /* Used to save at cfp_contract table */
@@ -1707,8 +1707,8 @@ public class NewComponents extends CustomComponent implements View {
                     cfpcontract.setRecordLockStatus(false);
                     cfpcontract.setCreatedDate(new Date());
                     cfpcontract.setModifiedDate(new Date());
-                    cfpcontract.setCreatedBy(Integer.valueOf(userId));
-                    cfpcontract.setModifiedBy(Integer.valueOf(userId));
+                    cfpcontract.setCreatedBy(Integer.parseInt(userId));
+                    cfpcontract.setModifiedBy(Integer.parseInt(userId));
                     cfpcontract = CfpContractLocalServiceUtil.addCfpContract(cfpcontract);
 
                     /* Used to save at cfp_contract_Details table */
@@ -1717,14 +1717,14 @@ public class NewComponents extends CustomComponent implements View {
                     CfpContractDetails cfpcontractDetails;
                     cfpcontractDetails = CfpContractDetailsLocalServiceUtil.createCfpContractDetails(0);
                     cfpcontractDetails.setCfpContractSid(cfpcontract.getCfpContractSid());
-                    cfpcontractDetails.setCompanyMasterSid(Integer.valueOf(session.getCompanyMasterSid()));
+                    cfpcontractDetails.setCompanyMasterSid(Integer.parseInt(session.getCompanyMasterSid()));
                     cfpcontractDetails.setCompanyStartDate(cfpmodel.getCfpStartDate());
                     cfpcontractDetails.setCompanyEndDate(cfpmodel.getCfpEndDate());
                     cfpcontractDetails.setCfpContractAttachedStatus(cfpmodel.getCfpStatus());
                     cfpcontractDetails.setCreatedDate(new Date());
                     cfpcontractDetails.setModifiedDate(new Date());
-                    cfpcontractDetails.setCreatedBy(Integer.valueOf(userId));
-                    cfpcontractDetails.setModifiedBy(Integer.valueOf(userId));
+                    cfpcontractDetails.setCreatedBy(Integer.parseInt(userId));
+                    cfpcontractDetails.setModifiedBy(Integer.parseInt(userId));
                     cfpcontractDetails.setInboundStatus("A");
                     cfpcontractDetails.setRecordLockStatus(false);
                     CfpContractDetailsLocalServiceUtil.addCfpContractDetails(cfpcontractDetails);
@@ -1742,8 +1742,8 @@ public class NewComponents extends CustomComponent implements View {
                         ifpmodel.setIfpName(String.valueOf(obj[0]));
                         ifpmodel.setIfpId(String.valueOf(obj[1]));
                         ifpmodel.setIfpNo(String.valueOf(obj[NumericConstants.TWO]));
-                        ifpmodel.setIfpStatus(Integer.valueOf(String.valueOf(obj[NumericConstants.SIX])));
-                        ifpmodel.setIfpType(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                        ifpmodel.setIfpStatus(Integer.parseInt(String.valueOf(obj[NumericConstants.SIX])));
+                        ifpmodel.setIfpType(Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE])));
                         if (obj[NumericConstants.THREE] != null) {
                             ifpmodel.setIfpStartDate((Date) obj[NumericConstants.THREE]);
                         }
@@ -1755,8 +1755,8 @@ public class NewComponents extends CustomComponent implements View {
                             ifpmodel.setCreatedDate(new Date());
                             ifpmodel.setModifiedDate(new Date());
                             ifpmodel.setRecordLockStatus(false);
-                            ifpmodel.setCreatedBy(Integer.valueOf(userId));
-                            ifpmodel.setModifiedBy(Integer.valueOf(userId));
+                            ifpmodel.setCreatedBy(Integer.parseInt(userId));
+                            ifpmodel.setModifiedBy(Integer.parseInt(userId));
                             ifpmodel = IfpModelLocalServiceUtil.addIfpModel(ifpmodel);
                         }
 
@@ -1769,7 +1769,7 @@ public class NewComponents extends CustomComponent implements View {
                             for (int i = 0; i < itemList.size(); i++) {
                                 IfpDetails ifpDetails;
                                 ifpDetails = IfpDetailsLocalServiceUtil.createIfpDetails(0);
-                                int itemMasterId = Integer.valueOf(String.valueOf(itemList.get(i)));
+                                int itemMasterId = Integer.parseInt(String.valueOf(itemList.get(i)));
                                 String itemDetails = "select ITEM_MASTER_SID,ITEM_START_DATE,ITEM_END_DATE from dbo.ITEM_MASTER WHERE ITEM_MASTER_SID ='" + itemMasterId + "'";
                                 List detList = HelperTableLocalServiceUtil.executeSelectQuery(itemDetails);
                                 if (detList != null && detList.size() > 0) {
@@ -1789,8 +1789,8 @@ public class NewComponents extends CustomComponent implements View {
                                 ifpDetails.setCreatedDate(new Date());
                                 ifpDetails.setModifiedDate(new Date());
                                 ifpDetails.setRecordLockStatus(false);
-                                ifpDetails.setCreatedBy(Integer.valueOf(userId));
-                                ifpDetails.setModifiedBy(Integer.valueOf(userId));
+                                ifpDetails.setCreatedBy(Integer.parseInt(userId));
+                                ifpDetails.setModifiedBy(Integer.parseInt(userId));
                                 IfpDetailsLocalServiceUtil.addIfpDetails(ifpDetails);
 
                             }
@@ -1816,8 +1816,8 @@ public class NewComponents extends CustomComponent implements View {
                         ifpcontract.setInboundStatus("A");
                         ifpcontract.setRecordLockStatus(false);
                         ifpcontract.setSource("GCM");
-                        ifpcontract.setCreatedBy(Integer.valueOf(userId));
-                        ifpcontract.setModifiedBy(Integer.valueOf(userId));
+                        ifpcontract.setCreatedBy(Integer.parseInt(userId));
+                        ifpcontract.setModifiedBy(Integer.parseInt(userId));
                         ifpcontract.setCreatedDate(new Date());
                         ifpcontract.setModifiedDate(new Date());
                         ifpcontract = IfpContractLocalServiceUtil.addIfpContract(ifpcontract);
@@ -1850,8 +1850,8 @@ public class NewComponents extends CustomComponent implements View {
                         psModel.setPsName(String.valueOf(obj[NumericConstants.TWO]));
                         psModel.setPsNo(String.valueOf(obj[1]));
                         psModel.setPsId(String.valueOf(obj[0]));
-                        psModel.setPsType(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])));
-                        psModel.setPsStatus(Integer.valueOf(String.valueOf(obj[NumericConstants.SIX])));
+                        psModel.setPsType(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+                        psModel.setPsStatus(Integer.parseInt(String.valueOf(obj[NumericConstants.SIX])));
                         if (obj[NumericConstants.FOUR] != null) {
                             psModel.setPsStartDate((Date) obj[NumericConstants.FOUR]);
                         } else {
@@ -1866,8 +1866,8 @@ public class NewComponents extends CustomComponent implements View {
                         psModel.setCreatedDate(new Date());
                         psModel.setModifiedDate(new Date());
                         psModel.setRecordLockStatus(false);
-                        psModel.setCreatedBy(Integer.valueOf(userId));
-                        psModel.setModifiedBy(Integer.valueOf(userId));
+                        psModel.setCreatedBy(Integer.parseInt(userId));
+                        psModel.setModifiedBy(Integer.parseInt(userId));
                         psModel = PsModelLocalServiceUtil.addPsModel(psModel);
                     }
 
@@ -1879,7 +1879,7 @@ public class NewComponents extends CustomComponent implements View {
                     if (itemList != null && itemList.size() > 0) {
                         for (int i = 0; i < itemList.size(); i++) {
                             int itemMasterId = 0;
-                            itemMasterId = Integer.valueOf(String.valueOf(itemList.get(i)));
+                            itemMasterId = Integer.parseInt(String.valueOf(itemList.get(i)));
                             String itemDetails = "select ITEM_MASTER_SID,ITEM_START_DATE,ITEM_END_DATE from dbo.ITEM_MASTER WHERE ITEM_MASTER_SID='" + itemMasterId + "'";
                             List detList = HelperTableLocalServiceUtil.executeSelectQuery(itemDetails);
                             if (detList != null && detList.size() > 0) {
@@ -1920,9 +1920,9 @@ public class NewComponents extends CustomComponent implements View {
                     /* Used to save value in ps_contract table */
                     PsContract psContract;
                     psContract = PsContractLocalServiceUtil.createPsContract(0);
-                    psContract.setPsModelSid(Integer.valueOf(psModelId));
+                    psContract.setPsModelSid(Integer.parseInt(psModelId));
                     PsModel psmodel;
-                    psmodel = PsModelLocalServiceUtil.getPsModel(Integer.valueOf(psModelId));
+                    psmodel = PsModelLocalServiceUtil.getPsModel(Integer.parseInt(psModelId));
                     psContract.setPsName(psmodel.getPsName());
                     psContract.setPsType(psmodel.getPsType());
                     psContract.setPsCategory(psmodel.getPsCategory());
@@ -1935,8 +1935,8 @@ public class NewComponents extends CustomComponent implements View {
                     psContract.setInboundStatus("A");
                     psContract.setRecordLockStatus(false);
                     psContract.setSource("GCM");
-                    psContract.setCreatedBy(Integer.valueOf(userId));
-                    psContract.setModifiedBy(Integer.valueOf(userId));
+                    psContract.setCreatedBy(Integer.parseInt(userId));
+                    psContract.setModifiedBy(Integer.parseInt(userId));
                     psContract.setCreatedDate(new Date());
                     psContract.setModifiedDate(new Date());
                     psContract = PsContractLocalServiceUtil.addPsContract(psContract);
@@ -1978,19 +1978,19 @@ public class NewComponents extends CustomComponent implements View {
                         if (obj[NumericConstants.FOUR] != null) {
                             rsModel.setRsEndDate((Date) obj[NumericConstants.FOUR]);
                         }
-                        rsModel.setRsType(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
-                        rsModel.setRsStatus(Integer.valueOf(String.valueOf(obj[NumericConstants.SIX])));
-                        rsModel.setRebateProgramType(Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])));
+                        rsModel.setRsType(Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE])));
+                        rsModel.setRsStatus(Integer.parseInt(String.valueOf(obj[NumericConstants.SIX])));
+                        rsModel.setRebateProgramType(Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN])));
                         rsModel.setRebatePlanLevel(String.valueOf(obj[NumericConstants.EIGHT]));
-                        rsModel.setPaymentFrequency(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
-                        rsModel.setPaymentMethod(Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])));
+                        rsModel.setPaymentFrequency(Integer.parseInt(String.valueOf(obj[NumericConstants.NINE])));
+                        rsModel.setPaymentMethod(Integer.parseInt(String.valueOf(obj[NumericConstants.TEN])));
                         rsModel.setSource("GCM");
                         rsModel.setInboundStatus("A");
                         rsModel.setCreatedDate(new Date());
                         rsModel.setModifiedDate(new Date());
                         rsModel.setRecordLockStatus(false);
-                        rsModel.setCreatedBy(Integer.valueOf(userId));
-                        rsModel.setModifiedBy(Integer.valueOf(userId));
+                        rsModel.setCreatedBy(Integer.parseInt(userId));
+                        rsModel.setModifiedBy(Integer.parseInt(userId));
                         rsModel = RsModelLocalServiceUtil.addRsModel(rsModel);
 
                         String rsQuery = queryUtils.getRSDetailsFromTempTable(rsModelId);
@@ -2038,8 +2038,8 @@ public class NewComponents extends CustomComponent implements View {
                         rsContract.setInboundStatus("A");
                         rsContract.setRecordLockStatus(false);
                         rsContract.setSource("GCM");
-                        rsContract.setCreatedBy(Integer.valueOf(userId));
-                        rsContract.setModifiedBy(Integer.valueOf(userId));
+                        rsContract.setCreatedBy(Integer.parseInt(userId));
+                        rsContract.setModifiedBy(Integer.parseInt(userId));
                         rsContract.setCreatedDate(new Date());
                         rsContract.setModifiedDate(new Date());
                         rsContract = RsContractLocalServiceUtil.addRsContract(rsContract);

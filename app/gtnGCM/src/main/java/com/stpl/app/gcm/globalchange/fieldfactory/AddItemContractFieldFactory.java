@@ -988,7 +988,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
             final ComboBox resetType = new ComboBox();
-            CommonUtil.loadComboBoxForGCM(resetType, Constants.RESET_TYPE_LISTNAME, false);
+            CommonUtil.loadComboBoxForGCM(resetType, Constants.RESET_TYPE_COLUMN_NAME, false);
             resetType.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
@@ -1304,7 +1304,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
             final ComboBox basePriceType = new ComboBox();
-            CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_LISTNAME, false);
+            CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_COLUMN_NAME, false);
             basePriceType.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {

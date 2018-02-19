@@ -40,7 +40,8 @@
 		<move todir="${FrameworkDistUI}">
 			<fileset dir="${FrameworkDist}">
 				<include name="**/*.war" />
-				<include name="**/*.jar" />			
+				<include name="**/*.jar" />
+              	<include name="**/*.esa" />
 			</fileset>
 		</move>				
 		<move todir="${FrameworkDistWS}">
@@ -59,6 +60,7 @@
 			<fileset dir="${FrameworkDistUI}">
 				<include name="**/*.war" />
 				<include name="**/*.jar" />
+              	<include name="**/*.esa" />
 			</fileset>
 		</move>
 		

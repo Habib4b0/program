@@ -6,6 +6,7 @@
 package com.stpl.app.gcm.impl;
 
 import com.stpl.app.gcm.util.Constants;
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class ContractMasterImpl {
                 sql += " AND cm.COMPANY_TYPE =" + Integer.valueOf(String.valueOf(filterMap.get("companyType")));
             }
 
-            sql += " ORDER BY " + column + " " + orederBy + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+            sql += " ORDER BY " + column + " " + orederBy + StringConstantsUtil.SPACE_OFFSET_SPACE+ start + StringConstantsUtil.ROWS_FETCH_NEXT + offset + " ROWS ONLY";
 
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
@@ -152,11 +153,11 @@ public class ContractMasterImpl {
                 sql += " AND con.CONTRACT_TYPE =" + contractType;
             }
 
-            if (Integer.valueOf(String.valueOf(filterMap.get("contractStatus"))) != 0) {
+            if (Integer.parseInt(String.valueOf(filterMap.get("contractStatus"))) != 0) {
                 sql += " AND con.CONTRACT_STATUS =" + Integer.valueOf(String.valueOf(filterMap.get("contractStatus")));
             }
 
-            if (Integer.valueOf(String.valueOf(filterMap.get("contractType"))) != 0) {
+            if (Integer.parseInt(String.valueOf(filterMap.get("contractType"))) != 0) {
                 sql += " AND con.CONTRACT_TYPE =" + Integer.valueOf(String.valueOf(filterMap.get("contractType")));
             }
 
@@ -172,8 +173,8 @@ public class ContractMasterImpl {
                 sql += " AND con.CONTRACT_NO LIKE '" + contractNo + "'";
             }
 
-            if (StringUtils.isNotBlank(String.valueOf(filterMap.get("contractNo")))) {
-                sql += " AND con.CONTRACT_NO LIKE '" + String.valueOf(filterMap.get("contractNo")) + "'";
+            if (StringUtils.isNotBlank(String.valueOf(filterMap.get(StringConstantsUtil.CONTRACT_NO)))) {
+                sql += " AND con.CONTRACT_NO LIKE '" + String.valueOf(filterMap.get(StringConstantsUtil.CONTRACT_NO)) + "'";
             }
 
             if (StringUtils.isNotBlank(contractName)) {
@@ -196,7 +197,7 @@ public class ContractMasterImpl {
             }
 
             if (isCount) {
-                sql += " ORDER BY " + column + " " + orderBy + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
+                sql += " ORDER BY " + column + " " + orderBy + StringConstantsUtil.SPACE_OFFSET_SPACE+ start + StringConstantsUtil.ROWS_FETCH_NEXT + offset + " ROWS ONLY";
             }
 
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -230,34 +231,34 @@ public class ContractMasterImpl {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         try {
             LOGGER.debug("Entering searchContractsForPromoteTp method");
-            if (parameters.get("lazyLoadResults") != null && "lazyLoadResults".equalsIgnoreCase(String.valueOf(parameters.get("lazyLoadResults")))) {
+            if (parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS) != null && StringConstantsUtil.LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS)))) {
                 queryString.append(SQlUtil.getQuery("searchPromoteTpToChContract"));
             } else {
                 queryString.append(SQlUtil.getQuery("searchPromoteTpToChContractCount"));
             }
 
-            if (parameters.get("contractNo") != null) {
+            if (parameters.get(StringConstantsUtil.CONTRACT_NO) != null) {
                 queryString.append(" WHERE CM.CONTRACT_NO like '");
-                queryString.append(String.valueOf(parameters.get("contractNo")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_NO)));
                 queryString.append("' ");
             }
 
-            if ((parameters.get("isOrdered") == null || "false".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) && (parameters.get("lazyLoadResults") != null)) {
+            if ((parameters.get(StringConstantsUtil.IS_ORDERED) == null || "false".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) && (parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS) != null)) {
                 queryString.append(" ORDER BY CM.CREATED_DATE DESC ");
-            } else if (parameters.get("isOrdered") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) {
-                if (parameters.get("orderBy~contractName") != null && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~contractName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~contractName")))) {
+            } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) {
+                if (parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME)))) {
                     queryString.append(" ORDER BY CM.CONTRACT_NAME ");
-                    queryString.append(String.valueOf(parameters.get("orderBy~contractName")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYCONTRACT_NAME)));
                 }
             }
-            if (parameters.get("lazyLoadResults") != null) {
+            if (parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS) != null) {
 
                 if (parameters.get("startIndex") != null && parameters.get("offset") != null) {
                     int startIndex = Integer.parseInt(String.valueOf(parameters.get("startIndex")));
                     int offset = Integer.parseInt(String.valueOf(parameters.get("offset")));
                     queryString.append(" OFFSET ");
                     queryString.append(startIndex);
-                    queryString.append(" ROWS FETCH NEXT ");
+                    queryString.append(StringConstantsUtil.ROWS_FETCH_NEXT);
                     queryString.append(offset);
                     queryString.append(" ROWS ONLY;");
                 }

@@ -235,7 +235,7 @@ public class UdcLogic {
                 if (!list.isEmpty() && list.size() > 0) {
                     for (Object object : list) {
                         Object[] row = (Object[]) object;
-                        BrandMaster brand = dao.getBrandMaster(row[0] != null ? Integer.valueOf(String.valueOf(row[0])) : 0);
+                        BrandMaster brand = dao.getBrandMaster(row[0] != null ? Integer.parseInt(String.valueOf(row[0])) : 0);
                         brand.setInboundStatus("A");
                         brand.setBrandName(brandName);
                         brand.setDisplayBrand(displayBrand);
@@ -293,7 +293,7 @@ public class UdcLogic {
     public int brandCount(String categoryValue) {
         String query = " select count(*) from brand_master where inbound_status <> 'D'";
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        int count = Integer.valueOf(String.valueOf(list.get(0)));
+        int count = Integer.parseInt(String.valueOf(list.get(0)));
         return count;
     }
 
@@ -340,7 +340,7 @@ public class UdcLogic {
             brandDto.setBrandId(obj[0] != null ? String.valueOf(obj[0].toString()) : "");
             brandDto.setBrandName(obj[NumericConstants.ONE] != null ? String.valueOf(obj[NumericConstants.ONE].toString()) : "");
             brandDto.setDisplayBrand(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO].toString()) : "");
-            brandDto.setBrandMasterSid(obj[NumericConstants.THREE] != null ? Integer.valueOf(obj[NumericConstants.THREE].toString()) : 0);
+            brandDto.setBrandMasterSid(obj[NumericConstants.THREE] != null ? Integer.parseInt(obj[NumericConstants.THREE].toString()) : 0);
             brandDto.setCategory(categoryValue);
             results.add(brandDto);
         }

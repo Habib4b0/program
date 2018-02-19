@@ -218,7 +218,7 @@ public class CommonLogic {
         level.setEnabled(false);
         String value = String.valueOf(customDdlb.getValue());
         if (!Constant.NULL.equals(value) && !SELECT_ONE.equals(value)) {
-            int selectedId = Integer.valueOf(value);
+            int selectedId = Integer.parseInt(value);
             editBtn.setEnabled(true);
             level.setEnabled(true);
             return selectedId;
@@ -230,7 +230,7 @@ public class CommonLogic {
         editBtn.setEnabled(false);
         String value = String.valueOf(customDdlb.getValue());
         if (!Constant.NULL.equals(value) && !SELECT_ONE.equals(value)) {
-            int selectedId = Integer.valueOf(value);
+            int selectedId = Integer.parseInt(value);
             editBtn.setEnabled(true);
             return selectedId;
         }
@@ -242,12 +242,12 @@ public class CommonLogic {
         String userId1 = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         int userId = 0;
         try {
-            userId = Integer.valueOf(userId1);
+            userId = Integer.parseInt(userId1);
         } catch (NumberFormatException ex) {
             LOGGER.error(StringUtils.EMPTY,ex.getCause());
         }
         if (userId != 0) {
-            int selectedId = Integer.valueOf(String.valueOf(value));
+            int selectedId = Integer.parseInt(String.valueOf(value));
             for (CustomViewMaster custom : customViewList) {
                 if ((custom.getCustomViewMasterSid() == selectedId) && (custom.getCreatedBy() == userId)) {
                     return true;
@@ -263,7 +263,7 @@ public class CommonLogic {
         String userId1 = session.getUserId();
         int userId = 0;
         if (CommonUtils.isInteger(userId1)) {
-            userId = Integer.valueOf(userId1);
+            userId = Integer.parseInt(userId1);
         }
 
         if (userId != 0) {
@@ -474,7 +474,7 @@ public class CommonLogic {
             }
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                count = Integer.valueOf(String.valueOf(ob));
+                count = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -492,7 +492,7 @@ public class CommonLogic {
             }
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                count = Integer.valueOf(String.valueOf(ob));
+                count = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -704,7 +704,7 @@ public class CommonLogic {
         String hierarchyNo = StringUtils.EMPTY;
         int j = selectedId.indexOf('~');
         if (j > 0) {
-            levelNo = Integer.valueOf(selectedId.substring(0, j));
+            levelNo = Integer.parseInt(selectedId.substring(0, j));
         }
         if (selectedId.length() > (j + 1)) {
             hierarchyNo = selectedId.substring(j + 1, selectedId.length());
@@ -732,7 +732,7 @@ public class CommonLogic {
         List<List<Object>> allLevelHierarchy = new ArrayList<>();
         List<Object> levelHierarchy = getLevelNoAndHierarchyNo(value);
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         String hierarchyNo1 = String.valueOf(levelHierarchy.get(1));
         List<String> nos = getAllHierarchyNo(hierarchyNo1);
         Collections.reverse(nos);
@@ -750,7 +750,7 @@ public class CommonLogic {
     public static List<Object> getParentLevelNoAndHierarchyNo(Object value) {
         List<Object> levelHierarchy = getLevelNoAndHierarchyNo(value);
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         String hierarchyNo = String.valueOf(levelHierarchy.get(1));
         return getParentLevelNoAndHierarchyNo(levelNo, hierarchyNo);
     }
@@ -1003,7 +1003,7 @@ public class CommonLogic {
         List<Object> list;
         String query = " IF EXISTS (SELECT 1 from M_PROJECTION_SELECTION  WHERE PROJECTION_MASTER_SID=" + projectionID + "AND SCREEN_NAME='" + screenName + "' ) SELECT 1 ELSE SELECT 0";
         list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        if (list == null || list.isEmpty() || Integer.valueOf(String.valueOf(list.get(0))) == 0) {
+        if (list == null || list.isEmpty() || Integer.parseInt(String.valueOf(list.get(0))) == 0) {
             saveSelection(map, projectionID, screenName, Constant.SAVE, Constant.M_PROJECTION_SELECTION);
         } else {
             saveSelection(map, projectionID, screenName, Constant.UPDATE, Constant.M_PROJECTION_SELECTION);
@@ -1795,7 +1795,7 @@ public class CommonLogic {
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                levelNo = Integer.valueOf(String.valueOf(ob));
+                levelNo = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
             LOGGER.error(StringUtils.EMPTY,ex);
@@ -1822,7 +1822,7 @@ public class CommonLogic {
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                levelNo = Integer.valueOf(String.valueOf(ob));
+                levelNo = Integer.parseInt(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -2059,7 +2059,7 @@ public class CommonLogic {
         List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
-            count = Integer.valueOf(String.valueOf(ob));
+            count = Integer.parseInt(String.valueOf(ob));
         }
         return count;
     }
@@ -2855,9 +2855,9 @@ public class CommonLogic {
         String hierarchyNo = StringUtils.EMPTY;
         int j = selectedId.indexOf('~');
         if (filter && j > 0) {
-            levelNo = Integer.valueOf(selectedId.substring(j - 1, j));
+            levelNo = Integer.parseInt(selectedId.substring(j - 1, j));
         } else if (j > 0) {
-            levelNo = Integer.valueOf(selectedId.substring(0, j));
+            levelNo = Integer.parseInt(selectedId.substring(0, j));
         }
         if (selectedId.length() > (j + 1)) {
             hierarchyNo = selectedId.substring(j + 1, selectedId.length());
@@ -3532,7 +3532,7 @@ public class CommonLogic {
 
             List levelDetailsList = entry.getValue();
 
-            if ((levelNo == Integer.valueOf(levelDetailsList.get(2).toString()) && hierarchyIndicator.equals(levelDetailsList.get(4).toString())) && (StringUtils.isBlank(hierarchyNo) || "%".equals(hierarchyNo) || entry.getKey().startsWith(hierarchyNo))) {
+            if ((levelNo == Integer.parseInt(levelDetailsList.get(2).toString()) && hierarchyIndicator.equals(levelDetailsList.get(4).toString())) && (StringUtils.isBlank(hierarchyNo) || "%".equals(hierarchyNo) || entry.getKey().startsWith(hierarchyNo))) {
 
                 count++;
             }
@@ -3563,7 +3563,7 @@ public class CommonLogic {
                 query = query.replace("?DEDJOIN",projSelDTO.getTabName().equals("Variance")?" WHERE PV_FILTERS=1 ":StringUtils.EMPTY);
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                 if (list != null && !list.isEmpty()) {
-                    count = Integer.valueOf(list.get(0).toString());
+                    count = Integer.parseInt(list.get(0).toString());
                 }
             }
         } else {
@@ -3593,7 +3593,7 @@ public class CommonLogic {
                 excelquery += " SELECT COUNT(HIERARCHY_NO) FROM  #SELECTED_HIERARCHY_NO ";
                 List listforExcel = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(excelquery, projSelDTO.getSessionDTO().getCurrentTableNames()));
                 if (listforExcel != null && !listforExcel.isEmpty()) {
-                    countforexcel = Integer.valueOf(listforExcel.get(0).toString());
+                    countforexcel = Integer.parseInt(listforExcel.get(0).toString());
                 }
             }
         } else {
@@ -3625,7 +3625,7 @@ public class CommonLogic {
         countQuery = countQuery.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(Boolean.TRUE, customerHierarchyNo, productHierarchyNo, hierarchyIndicator));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, session.getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
-            count = Integer.valueOf(list.get(0).toString());
+            count = Integer.parseInt(list.get(0).toString());
         }
         LOGGER.debug("Count is  " + count);
         return count;
@@ -3651,7 +3651,7 @@ public class CommonLogic {
             countQuery = countQuery.replace(Constant.SELECTED_HIERARCHY_JOIN, selectedHierarchy);
             List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
             if (list != null && !list.isEmpty()) {
-                count = Integer.valueOf(list.get(0).toString());
+                count = Integer.parseInt(list.get(0).toString());
             }
         }
         LOGGER.debug("ending getCountForCustomView");
@@ -4162,7 +4162,7 @@ public class CommonLogic {
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
         int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+            if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
 
             	
                 if (isNotFirstElement) {
@@ -4197,7 +4197,7 @@ public class CommonLogic {
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            int entryLevel = Integer.valueOf(entry.getValue().get(2).toString());
+            int entryLevel = Integer.parseInt(entry.getValue().get(2).toString());
             if ((entryLevel >= levelNo) && (hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
@@ -4409,7 +4409,7 @@ public class CommonLogic {
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if ((Integer.valueOf(entry.getValue().get(2).toString()) >= levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+            if ((Integer.parseInt(entry.getValue().get(2).toString()) >= levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
                 }
@@ -4626,7 +4626,7 @@ public class CommonLogic {
             } else {
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                     listOfSids = "";
+                    listOfSids = "";
                     customerlevelCustomItem[i] = filterValues.addItem(dto, null);
                     customerlevelCustomItem[i].setCheckable(true);
                     customerlevelCustomItem[i].setItemClickable(true);
@@ -4835,7 +4835,7 @@ public class CommonLogic {
             }
             query.append(" GROUP BY ").append(selectClause);
             deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
-            } catch (SystemException | PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex.getMessage());
         }
         return deductionValuesList;
@@ -4967,7 +4967,7 @@ public class CommonLogic {
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable)) {
+            if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable)) {
 
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
@@ -5159,7 +5159,7 @@ public class CommonLogic {
                 header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
                 break;
             case 'M':
-                String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.ONE])) - 1);
+                String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])) - 1);
                 header = discountId+monthName.toLowerCase() + separator + obj[NumericConstants.TWO].toString();
                 break;
             default:
@@ -5208,7 +5208,7 @@ public class CommonLogic {
                     customerlevelCustomItem[i].setCheckable(true);
                     customerlevelCustomItem[i].setItemClickable(true);
                     customerlevelCustomItem[i].setItemClickNotClosable(true);
-                }
+}
                 listOfSids += obj[2].toString();
                 oldLevel = newLevel;
             }

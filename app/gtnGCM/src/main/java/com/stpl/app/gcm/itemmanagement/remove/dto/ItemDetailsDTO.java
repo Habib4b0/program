@@ -4,7 +4,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.remove.dto;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * private String rarcategory  private String status 

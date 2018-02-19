@@ -379,8 +379,8 @@ public class MedicaidURAResultsLogic {
                 String column;
                 String group = StringUtils.EMPTY + obj[NumericConstants.SIX];
                 if (group.equalsIgnoreCase(groupIndicator.trim())) {
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                    int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE]));
+                    int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+                    int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE]));
                     List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = common.get(0);
                     String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
@@ -480,8 +480,8 @@ public class MedicaidURAResultsLogic {
 
                         final Object[] obj = (Object[]) list.get(i);
 
-                        int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                        int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE]));
+                        int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+                        int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE]));
                         List<String> periodList = getCommonColumnHeader(frequencyDivision, year, period);
                         if ((selectedColumn.get(j)).contains(periodList.get(0))) {
                             String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
@@ -900,7 +900,7 @@ public class MedicaidURAResultsLogic {
                 {
                 statement.setInt(1, session.getProjectionId());
                 statement.setObject(NumericConstants.TWO, priceBasis);
-                statement.setInt(NumericConstants.THREE, Integer.valueOf(session.getUserId()));
+                statement.setInt(NumericConstants.THREE, Integer.parseInt(session.getUserId()));
                 statement.setObject(NumericConstants.FOUR, session.getSessionId());
                 statement.execute();
             } catch (SQLException ex)
@@ -923,8 +923,8 @@ public class MedicaidURAResultsLogic {
                 String group = StringUtils.EMPTY + obj[0];
                 if (group.equalsIgnoreCase(groupIndicator.trim())) {
 
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
-                    int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                    int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
+                    int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                     List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = common.get(0);
                     String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
@@ -944,7 +944,7 @@ public class MedicaidURAResultsLogic {
                                 String[] notesArray = new String[NumericConstants.TWO];
                                 if (medicaidDTO.getGroup().startsWith("Historical AMP")) {
                                     if (obj[NumericConstants.SIX] != null) {
-                                        notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -956,7 +956,7 @@ public class MedicaidURAResultsLogic {
                                 }
                                 if (medicaidDTO.getGroup().startsWith("Historical CPI-U")) {
                                     if (obj[NumericConstants.SIX] != null) {
-                                        notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -1060,8 +1060,8 @@ public class MedicaidURAResultsLogic {
                 final Object[] obj = (Object[]) list1;
                 String column;
                  String group = StringUtils.EMPTY + obj[0];
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
@@ -1074,7 +1074,7 @@ public class MedicaidURAResultsLogic {
                             if (group.equalsIgnoreCase(groupIndicator.trim())) {
 
                                 if (obj[NumericConstants.SIX] != null) {
-                                    value = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    value = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 }
                                 medicaidDTO.addStringProperties(column, value);
                                 columnList.remove(column);
@@ -1084,7 +1084,7 @@ public class MedicaidURAResultsLogic {
                             if (group.equalsIgnoreCase(AMP.getConstant())) {
 
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1094,7 +1094,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase(BEST_PRICE_CAPS.getConstant())) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1104,7 +1104,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase(CPI_U)) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1114,7 +1114,7 @@ public class MedicaidURAResultsLogic {
                             }
                             if (group.equalsIgnoreCase("CPI URA")) {
                                 if (obj[NumericConstants.SIX] != null) {
-                                    notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                    notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                                 } else {
                                     notesArray[0] = StringUtils.EMPTY;
                                 }
@@ -1152,8 +1152,8 @@ public class MedicaidURAResultsLogic {
                 String group = StringUtils.EMPTY + obj[0];
                 if (group.equalsIgnoreCase(groupIndicator.trim())) {
 
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
-                    int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                    int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
+                    int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                     List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                     String commonColumn = common.get(0);
                     String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
@@ -1173,7 +1173,7 @@ public class MedicaidURAResultsLogic {
                                 String[] notesArray = new String[NumericConstants.TWO];
                                 if (medicaidDTO.getGroup().startsWith(Constant.AMP)) {
                                     if (obj[NumericConstants.EIGHT] != null) {
-                                        notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
+                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }
@@ -1185,7 +1185,7 @@ public class MedicaidURAResultsLogic {
                                 }
                                 if (medicaidDTO.getGroup().startsWith(CPI_U)) {
                                     if (obj[NumericConstants.EIGHT] != null) {
-                                        notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
+                                        notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.EIGHT]);
                                     } else {
                                         notesArray[0] = StringUtils.EMPTY;
                                     }

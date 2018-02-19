@@ -1762,7 +1762,7 @@ public class FileManagementLookup extends Window {
 									String finalVersion;
 									if (versionList.getValue().contains(".")) {
 										String[] array = versionList.getValue().split("\\.");
-										int minorVersion = Integer.valueOf(array[1]);
+										int minorVersion = Integer.parseInt(array[1]);
 										minorVersion = minorVersion + 1;
 										String s1 = String.valueOf(minorVersion);
 										finalVersion = array[0] + "." + s1;
@@ -2552,7 +2552,7 @@ public class FileManagementLookup extends Window {
 									month.setValue(ConstantsUtils.EMPTY);
 									return;
 								} else {
-									int forecastMonth = Integer.valueOf(enteredMonth);
+									int forecastMonth = Integer.parseInt(enteredMonth);
 									if (forecastMonth > NumericConstants.TWELVE || forecastMonth == 0) {
 										AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 												"Please Enter valid Month");

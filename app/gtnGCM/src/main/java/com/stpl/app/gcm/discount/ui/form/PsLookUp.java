@@ -201,11 +201,11 @@ public class PsLookUp extends Window {
         psType.setNullSelectionAllowed(true);
         psType.setValue(Constants.HELPER_DTO);
         psType.setItemCaptionPropertyId("description");
-        psEndDate.setDateFormat(Constants.DATE_FORMAT);
-        psEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+        psEndDate.setDateFormat(Constants.MM_DD_YYYY);
+        psEndDate.addStyleName(Constants.DATE_FIELD_CENTER);
         psEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
-        psStartDate.setDateFormat(Constants.DATE_FORMAT);
-        psStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+        psStartDate.setDateFormat(Constants.MM_DD_YYYY);
+        psStartDate.addStyleName(Constants.DATE_FIELD_CENTER);
          try {
             CommonUtil.loadComboBoxForGCM(psCategory, UiUtils.PS_CATEGORY, false);
         } catch (Exception ex) {

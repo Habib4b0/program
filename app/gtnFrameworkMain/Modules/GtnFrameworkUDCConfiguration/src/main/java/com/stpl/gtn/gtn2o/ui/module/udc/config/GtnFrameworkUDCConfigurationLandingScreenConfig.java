@@ -200,6 +200,11 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 		loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE);
 		addFileTypeActionConfigList.add(loadDataTableActionConfig);
+		
+		GtnUIFrameWorkActionConfig reloadFileTypeActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reloadFileTypeActionConfig.setActionType(GtnUIFrameworkActionType.RELOAD_HELPER_TABLE_ACTION);
+		addFileTypeActionConfigList.add(reloadFileTypeActionConfig);
 
 		addFileTypeButtonConfig.setGtnUIFrameWorkActionConfigList(addFileTypeActionConfigList);
 		componentList.add(addFileTypeButtonConfig);
@@ -387,6 +392,11 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		brandLoadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
 		brandLoadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
 		addBrandActionConfigList.add(brandLoadDataTableActionConfig);
+		
+		GtnUIFrameWorkActionConfig reloadAddActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reloadAddActionConfig.setActionType(GtnUIFrameworkActionType.RELOAD_HELPER_TABLE_ACTION);
+		addBrandActionConfigList.add(reloadAddActionConfig);
 
 		addBrandButtonConfig.setGtnUIFrameWorkActionConfigList(addBrandActionConfigList);
 		componentList.add(addBrandButtonConfig);
@@ -441,6 +451,11 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 		loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
 		addBrandActionConfigList.add(loadDataTableActionConfig);
+		
+		GtnUIFrameWorkActionConfig reloadBrandActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reloadBrandActionConfig.setActionType(GtnUIFrameworkActionType.RELOAD_HELPER_TABLE_ACTION);
+		addBrandActionConfigList.add(reloadBrandActionConfig);
 
 		addBrandButtonConfig.setGtnUIFrameWorkActionConfigList(addBrandActionConfigList);
 		componentList.add(addBrandButtonConfig);
@@ -464,6 +479,11 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		deleteActionConfig.addActionParameter(GtnFrameworkUdcDeleteAction.class.getName());
 		deleteActionConfigList.add(deleteActionConfig);
+		
+		GtnUIFrameWorkActionConfig reloadDeleteActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reloadDeleteActionConfig.setActionType(GtnUIFrameworkActionType.RELOAD_HELPER_TABLE_ACTION);
+		deleteActionConfigList.add(reloadDeleteActionConfig);
 
 		deleteButtonConfig.setGtnUIFrameWorkActionConfigList(deleteActionConfigList);
 		componentList.add(deleteButtonConfig);

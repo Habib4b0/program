@@ -328,7 +328,7 @@ public class RebateTab extends VerticalLayout {
             initializeResultTable();
             leftDTO = HeaderUtils.getSalesTabLeftTableColumns(fullHeader);
             tableHeader = new CustomTableHeaderDTO();
-            rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, Integer.valueOf(his[0]), String.valueOf(frequency.getValue()), false);
+            rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, Integer.parseInt(his[0]), String.valueOf(frequency.getValue()), false);
             resultBean.setColumnProperties(leftDTO.getProperties());
             resultBean.setColumnProperties(rightDTO.getProperties());
             tableLogic.setTreeNodeMultiClick(false);
