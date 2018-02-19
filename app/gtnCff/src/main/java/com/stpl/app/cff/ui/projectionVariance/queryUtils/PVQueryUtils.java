@@ -814,7 +814,7 @@ public class PVQueryUtils {
 
         // To handle the scenario where any discount is not selected in program selection lookup
         String discountTypeColumnName = "'Total discounts' as DISCOUNTS";
-        LOGGER.debug("Discount Level= {}", projSelDTO.getDiscountLevel());
+        LOGGER.debug("Discount Level= {}",projSelDTO.getDiscountLevel());
         if (projSelDTO.getDiscountLevel().equals("Program Category")) {
             LOGGER.debug("projSelDTO.getDiscountNameList()= {} and projSelDTO.isIsTotal()= {} ", projSelDTO.getDiscountNameList().size(), projSelDTO.isIsTotal());
             if (projSelDTO.getDiscountNameList() != null && !projSelDTO.getDiscountNameList().isEmpty()) {

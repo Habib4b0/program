@@ -363,11 +363,7 @@ public abstract class AbstractLookup extends Window {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5023));
-				} catch (SQLException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5023));
-				} catch (PortalException | NamingException ex) {
+				} catch (SQLException | PortalException | NamingException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5023));

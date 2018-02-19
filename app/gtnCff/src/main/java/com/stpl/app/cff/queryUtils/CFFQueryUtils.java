@@ -64,10 +64,7 @@ public class CFFQueryUtils {
         sql += "AND CFF_MASTER_SID=" + cffSid;
         try {
             return (List) DAO.executeSelectQuery(sql);
-        } catch (PortalException ex) {
-            LOGGER.error(ex.getMessage());
-            return Collections.emptyList();
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
@@ -115,10 +112,7 @@ public class CFFQueryUtils {
             }
             sql += " ORDER BY CM.CREATED_DATE DESC";
             return (List) DAO.executeSelectQuery(sql);
-        } catch (PortalException ex) {
-            LOGGER.error(ex.getMessage());
-            return Collections.emptyList();
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }

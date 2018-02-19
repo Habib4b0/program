@@ -283,7 +283,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				attachmentsListBean.addAll(logic.getAttachmentDTOList(systemId, "ACC_CLOSURE_MASTER", fileUploadPath));
 			}
 		} catch (FieldGroup.CommitException e) {
-			LOGGER.error("Error while commiting the binder :{}", e);
+			LOGGER.error("Error while commiting the binder :{}",e);
 		}
 	}
 

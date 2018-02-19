@@ -839,11 +839,7 @@ public class DataSelectionLogic {
 
 			user = dataSelectionDaoImpl.getUser(Long.valueOf(userId));
 
-		} catch (final PortalException ex) {
-			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (final SystemException ex) {
-			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (final NumberFormatException ex) {
+		} catch (final PortalException | SystemException | NumberFormatException ex) {
 			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return user;

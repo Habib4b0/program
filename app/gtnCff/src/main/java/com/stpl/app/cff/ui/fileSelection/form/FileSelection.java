@@ -206,7 +206,7 @@ public class FileSelection extends CustomComponent {
                             query = query.replace(StringConstantsUtil.ACTIVE_TO, "null");
                         }
                         query = query.replace("@FILE_TYPE", dto.getFileTypeId());
-                        LOGGER.debug("--final query--------->>>>> {}", query);
+                        LOGGER.debug("--final query--------->>>>> {}",query);
                         HelperTableLocalServiceUtil.executeUpdateQuery(query);
                     }
                 }
