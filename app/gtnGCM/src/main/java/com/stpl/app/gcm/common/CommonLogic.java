@@ -160,7 +160,6 @@ public class CommonLogic {
                     IndicatorConstants.CHAR_PERCENT.getConstant());
         }
         final List<ContractsDetailsDto> contractList = new ArrayList<>();
-        // TODO change the limits in the query
         final List<ContractMaster> contractML = daoImpl.contractMasterDynamicQuery(getProcessedQuery(contract));
 
         ContractsDetailsDto contractDetails;

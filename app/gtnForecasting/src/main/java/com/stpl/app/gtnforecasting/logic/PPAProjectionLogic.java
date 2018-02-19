@@ -187,8 +187,8 @@ public class PPAProjectionLogic {
                     } else {
                         String quater = str[NumericConstants.THREE].toString();
                         String year = str[NumericConstants.FOUR].toString();
-                        int intQuarter = Integer.valueOf(quater);
-                        int intYear = Integer.valueOf(year);
+                        int intQuarter = Integer.parseInt(quater);
+                        int intYear = Integer.parseInt(year);
                         int endQuater = (selection.getForecastDTO().getProjectionEndMonth() / NumericConstants.THREE) + 1;
                         int endYear = selection.getForecastDTO().getProjectionEndYear();
                         boolean flag = Boolean.FALSE;
@@ -200,7 +200,7 @@ public class PPAProjectionLogic {
                         }
                         if ((isColumn(visibleColumn, quater, year, Constant.PRICECAP)) && (str[NumericConstants.EIGHT].toString() != null || !str[NumericConstants.EIGHT].equals(Constant.NULL))) {
                             if (flag) {
-                                dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, CommonUtils.PERCENTFORMAT.format(Double.valueOf(str[NumericConstants.EIGHT].toString()) / NumericConstants.HUNDRED));
+                                dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, CommonUtils.PERCENTFORMAT.format(Double.parseDouble(str[NumericConstants.EIGHT].toString()) / NumericConstants.HUNDRED));
                             } else {
                                 dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, Constant.DASH_NO_DATA);
                             }
@@ -230,10 +230,10 @@ public class PPAProjectionLogic {
             String year = str[NumericConstants.FOUR].toString();
             dto.setPriceBasis(str[NumericConstants.SEVEN] != null ? str[NumericConstants.SEVEN].toString() : "-");
 
-            dto.setActualPriceCap(str[NumericConstants.SIX] != null ? CommonUtils.PERCENTFORMAT.format(Double.valueOf(str[NumericConstants.SIX].toString()) / NumericConstants.HUNDRED) : CommonUtils.PERCENTFORMAT.format(Double.valueOf(Constant.DASH)));
+            dto.setActualPriceCap(str[NumericConstants.SIX] != null ? CommonUtils.PERCENTFORMAT.format(Double.parseDouble(str[NumericConstants.SIX].toString()) / NumericConstants.HUNDRED) : CommonUtils.PERCENTFORMAT.format(Double.valueOf(Constant.DASH)));
             if (str[NumericConstants.TWELVE] != null && str[NumericConstants.THIRTEEN] != null) {
                 if (str[NumericConstants.TWELVE].equals(str[NumericConstants.THIRTEEN])) {
-                    dto.addBooleanProperties(Constant.CHECK_RECORD, Integer.valueOf(str[NumericConstants.TWELVE].toString()) > 0);
+                    dto.addBooleanProperties(Constant.CHECK_RECORD, Integer.parseInt(str[NumericConstants.TWELVE].toString()) > 0);
                 }
                 dto.setCheckRecordCount(Integer.valueOf(str[NumericConstants.TWELVE].toString()));
             }
@@ -248,7 +248,7 @@ public class PPAProjectionLogic {
                 if (str[NumericConstants.EIGHT].toString() == null && str[NumericConstants.EIGHT].equals(Constant.NULL)) {
                     dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, CommonUtils.PERCENTFORMAT.format(Double.valueOf(Constant.DASH)));
                 } else {
-                    dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, CommonUtils.PERCENTFORMAT.format(Double.valueOf(str[NumericConstants.EIGHT].toString()) / NumericConstants.HUNDRED));
+                    dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, CommonUtils.PERCENTFORMAT.format(Double.parseDouble(str[NumericConstants.EIGHT].toString()) / NumericConstants.HUNDRED));
                 }
             }
             if (isColumn(visibleColumn, quater, year, Constant.RESET_SMALL)) {
@@ -312,7 +312,7 @@ public class PPAProjectionLogic {
                     input = getInputForSaveLeftTable(projectionId, dto.getValue(), dto.getHirarechyNo(), dto.getGroup(), selection, columnName);
                     PPAQuerys.ppaUpdateQuery(input, "PPA.saveLeftTableFields");
                 } else if (propertyId.contains(Constant.CHECK_RECORD)) {
-                    if ((dto.getValue() != null) && (Boolean.valueOf(dto.getValue().toString()))) {
+                    if ((dto.getValue() != null) && (Boolean.parseBoolean(dto.getValue().toString()))) {
                         input = getInputForSaveCheckRecord(projectionId, dto, Constant.STRING_ONE, selection);
                     } else {
                         input = getInputForSaveCheckRecord(projectionId, dto, DASH, selection);
@@ -487,7 +487,7 @@ public class PPAProjectionLogic {
                 }
 
             } else {
-                selection.setLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+                selection.setLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
                 count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, Boolean.FALSE, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             }
             selection.setLevelCount(count);
@@ -628,7 +628,7 @@ public class PPAProjectionLogic {
         for (final Iterator<Object[]> iterator = returnList.iterator(); iterator.hasNext();) {
             final Object[] value = iterator.next();
             helperTable = new HelperDTO();
-            helperTable.setId(value[0] != null ? Integer.valueOf(value[0].toString()) : 0);
+            helperTable.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
             helperTable.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
             if (!StringUtils.EMPTY.equals(helperTable.getDescription())) {
                 list.add(helperTable);
@@ -687,13 +687,13 @@ public class PPAProjectionLogic {
         List<RSFormulaDTO> resultList = new ArrayList<>();
         for (Object[] object : list) {
             RSFormulaDTO rSFormulaDTO = new RSFormulaDTO();
-            rSFormulaDTO.setForectastingFormulaSid(Integer.valueOf(String.valueOf(object[0])));
+            rSFormulaDTO.setForectastingFormulaSid(Integer.parseInt(String.valueOf(object[0])));
             rSFormulaDTO.setFormulaID(String.valueOf(object[1]));
             rSFormulaDTO.setFormulaNo(String.valueOf(object[NumericConstants.TWO]));
             rSFormulaDTO.setFormulaName(String.valueOf(object[NumericConstants.THREE]));
-            rSFormulaDTO.setFormulaTypeId(Integer.valueOf(String.valueOf(object[NumericConstants.FOUR])));
+            rSFormulaDTO.setFormulaTypeId(Integer.parseInt(String.valueOf(object[NumericConstants.FOUR])));
             HelperDTO dto = new HelperDTO();
-            dto.setId(Integer.valueOf(String.valueOf(object[NumericConstants.FOUR])));
+            dto.setId(Integer.parseInt(String.valueOf(object[NumericConstants.FOUR])));
             dto.setDescription(String.valueOf(object[NumericConstants.FIVE]));
             rSFormulaDTO.setFormulaType(dto);
             resultList.add(rSFormulaDTO);

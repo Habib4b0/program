@@ -163,10 +163,10 @@ public class CopyContractform extends CustomComponent implements View {
             contractid.focus();
             startdate.setDateFormat(Constants.MM_DD_YYYY);
             enddate.setDateFormat(Constants.MM_DD_YYYY);
-            startdate.setStyleName(Constants.DATE_FIEILD_CENTER);
-            enddate.setStyleName(Constants.DATE_FIEILD_CENTER);
-            aliasStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
-            aliasEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            startdate.setStyleName(Constants.DATE_FIELD_CENTER);
+            enddate.setStyleName(Constants.DATE_FIELD_CENTER);
+            aliasStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+            aliasEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
             aliasStartDate.setDateFormat(Constants.MM_DD_YYYY);
             aliasEndDate.setDateFormat(Constants.MM_DD_YYYY);
             contractStatus.setVisible(true);
@@ -463,13 +463,13 @@ public class CopyContractform extends CustomComponent implements View {
                 if (Constants.START_DATE.equals(propertyId) || Constants.ALIAS_START_DATE.equals(propertyId) || Constants.ALIAS_END_DATE.equals(propertyId)) {
                     PopupDateField field1 = new PopupDateField();
                     field1.setDateFormat(Constants.MM_DD_YYYY);
-                    field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    field1.setStyleName(Constants.DATE_FIELD_CENTER);
                     return field1;
                 }
                 if (Constants.END_DATE.equals(propertyId)) {
                     PopupDateField field1 = new PopupDateField();
                     field1.setDateFormat(Constants.MM_DD_YYYY);
-                    field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    field1.setStyleName(Constants.DATE_FIELD_CENTER);
                     return field1;
 
                 }

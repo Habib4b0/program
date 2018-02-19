@@ -1424,7 +1424,7 @@ public class HeaderUtils {
             projectionOrder = NumericConstants.TWO;
         }
         String yearValue = projSelDTO.getYear();
-        int year = isInteger(yearValue) ? Integer.valueOf(yearValue) : 0;
+        int year = isInteger(yearValue) ? Integer.parseInt(yearValue) : 0;
         int historyStartIndex = -1;
         int projectionStartIndex = -1;
         int forecastStartIndex = -1;

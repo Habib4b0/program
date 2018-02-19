@@ -165,7 +165,7 @@ public class PPAProjectionResultsLogic {
 
             freq = 0;
             yearInt = 1;
-            int actulOrProjection = str[NumericConstants.SIX] != null ? Integer.valueOf(str[NumericConstants.SIX].toString()) : -1;
+            int actulOrProjection = str[NumericConstants.SIX] != null ? Integer.parseInt(str[NumericConstants.SIX].toString()) : -1;
             String quater = null;
             String year = null;
             quater = str[freq].toString();
@@ -210,7 +210,7 @@ public class PPAProjectionResultsLogic {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year + caption;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.valueOf(quater) - 1).toLowerCase() + year + caption;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year + caption;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year + caption;
@@ -228,7 +228,7 @@ public class PPAProjectionResultsLogic {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.valueOf(quater) - 1).toLowerCase() + year;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year;
@@ -255,7 +255,7 @@ public class PPAProjectionResultsLogic {
 
             Object[] str = list.get(i);
             String year;
-            int actulOrProjection = str[NumericConstants.SIX] != null ? Integer.valueOf(str[NumericConstants.SIX].toString()) : -1;
+            int actulOrProjection = str[NumericConstants.SIX] != null ? Integer.parseInt(str[NumericConstants.SIX].toString()) : -1;
             String freq = null;
             String constant = null;
             if (frequency.equals(Constant.ANNUALLY)) {
@@ -273,7 +273,7 @@ public class PPAProjectionResultsLogic {
 
             }
             if (frequency.equals(Constant.MONTHLY)) {
-                constant = HeaderUtils.getMonthForInt(Integer.valueOf(freq) - Constant.ONE) + Constant.SPACE + year;
+                constant = HeaderUtils.getMonthForInt(Integer.parseInt(freq) - Constant.ONE) + Constant.SPACE + year;
 
             }
             String key = year + (freq.length() == 1 ? (0 + freq) : freq);
@@ -587,7 +587,7 @@ public class PPAProjectionResultsLogic {
         } else {
             List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, start, offset);
             for (String hierarchyNo : hierarchyNoList) {
-                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo)));
+                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo)));
             }
         }
 
@@ -890,7 +890,7 @@ public class PPAProjectionResultsLogic {
         for (final Iterator<Object[]> iterator = returnList.iterator(); iterator.hasNext();) {
             final Object[] value = iterator.next();
             helperTable = new HelperDTO();
-            helperTable.setId(value[0] != null ? Integer.valueOf(value[0].toString()) : 0);
+            helperTable.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
             helperTable.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
             if (!StringUtils.EMPTY.equals(helperTable.getDescription())) {
                 list.add(helperTable);
@@ -1017,7 +1017,7 @@ public class PPAProjectionResultsLogic {
         for (final Iterator<Object[]> iterator = returnList.iterator(); iterator.hasNext();) {
             final Object[] value = iterator.next();
             helperTable = new PPAHelperDTO();
-            helperTable.setItemMasterSysId(value[0] != null ? Integer.valueOf(value[0].toString()) : 0);
+            helperTable.setItemMasterSysId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
             helperTable.setItemNo(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
             helperTable.setItemName(value[NumericConstants.TWO] != null ? value[NumericConstants.TWO].toString() : StringUtils.EMPTY);
             if (helperTable.getItemMasterSysId() != 0) {
@@ -1083,7 +1083,7 @@ public class PPAProjectionResultsLogic {
         for (Object[] object : list) {
             try {
                 PPADetailsDTO detailsDTO = new PPADetailsDTO();
-                detailsDTO.setPeriod((object[0] != null ? String.valueOf(object[0]) : StringUtils.EMPTY) + " " + (object[1] != null ? CommonUtils.getMonthName(Integer.valueOf(String.valueOf(object[1]))) : StringUtils.EMPTY));
+                detailsDTO.setPeriod((object[0] != null ? String.valueOf(object[0]) : StringUtils.EMPTY) + " " + (object[1] != null ? CommonUtils.getMonthName(Integer.parseInt(String.valueOf(object[1]))) : StringUtils.EMPTY));
                 detailsDTO.setPriceProtectionPriceType(object[NumericConstants.TWO] != null ? String.valueOf(object[NumericConstants.TWO]) : StringUtils.EMPTY);
                 detailsDTO.setMap(object[NumericConstants.FIVE] != null ? getFormatValue(TWO_DECIMAL, String.valueOf(object[NumericConstants.FIVE]), CURRENCY) : StringUtils.EMPTY);
                 detailsDTO.setTotalDeductions(object[NumericConstants.SIX] != null ? getFormatValue(TWO_DECIMAL, String.valueOf(object[NumericConstants.SIX]), CURRENCY) : StringUtils.EMPTY);
@@ -1290,8 +1290,8 @@ public class PPAProjectionResultsLogic {
             }
 
             // finding wac  Price Change
-            int historyPeriod = Integer.valueOf(periodSid) - (currentfrquencyForWacReset + periodList.indexOf(periodSid));
-            int baseperiod = Integer.valueOf(periodSid) - periodList.indexOf(periodSid);
+            int historyPeriod = Integer.parseInt(periodSid) - (currentfrquencyForWacReset + periodList.indexOf(periodSid));
+            int baseperiod = Integer.parseInt(periodSid) - periodList.indexOf(periodSid);
             wac_price[NumericConstants.ONE] = calculateWacPriceChange(searchWacPrice(rsId, String.valueOf(baseperiod)), searchWacPrice(rsId, String.valueOf(historyPeriod)));
             return wac_price;
         } catch (NumberFormatException ex) {
@@ -1324,7 +1324,7 @@ public class PPAProjectionResultsLogic {
 
     String calculateWacPriceChange(String current, String history) {
         try {
-            Double finalValue = (Double.valueOf(current) - Double.valueOf(history)) / Double.valueOf(history);
+            Double finalValue = (Double.parseDouble(current) - Double.parseDouble(history)) / Double.parseDouble(history);
             return String.valueOf(finalValue.isInfinite()||finalValue.isNaN()?Constants.ZERO:finalValue * NumericConstants.HUNDRED);
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());

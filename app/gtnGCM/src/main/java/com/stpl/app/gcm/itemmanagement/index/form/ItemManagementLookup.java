@@ -222,7 +222,7 @@ public class ItemManagementLookup extends CustomWindow {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (removeSummary.getItemDetails(Boolean.FALSE)==null || (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() == 0)) {
-                    AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, StringConstantsUtil.NO_VALID_RECORDS);
+                    AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, StringConstantsUtil.NO_VALID_RECORDS_FOUND_IN_CURRENT_ITEM);
                     return;
                 }
              

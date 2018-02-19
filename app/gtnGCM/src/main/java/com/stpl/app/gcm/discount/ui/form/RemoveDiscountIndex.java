@@ -178,19 +178,19 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
             marketType.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             promoteTpToChDtoTableLayout.addComponent(resultsTable); // Removed below lines for CEL-810
             contractstartDate.setValidationVisible(true);
-            contractstartDate.setDateFormat(Constants.DATE_FORMAT);
-            contractstartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            contractstartDate.setDateFormat(Constants.MM_DD_YYYY);
+            contractstartDate.addStyleName(Constants.DATE_FIELD_CENTER);
             contractendDate.setValidationVisible(true);
-            contractendDate.setDateFormat(Constants.DATE_FORMAT);
-            contractendDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            contractendDate.setDateFormat(Constants.MM_DD_YYYY);
+            contractendDate.addStyleName(Constants.DATE_FIELD_CENTER);
             commonUtil.loadComboBox(aliastype, UiUtils.CONTRACT_ALIAS_TYPE, false);
             configureAccrualResultsTable();
             aliasStartDate.setValidationVisible(true);
-            aliasStartDate.setDateFormat(Constants.DATE_FORMAT);
-            aliasStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            aliasStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            aliasStartDate.addStyleName(Constants.DATE_FIELD_CENTER);
             aliasEndDate.setValidationVisible(true);
-            aliasEndDate.setDateFormat(Constants.DATE_FORMAT);
-            aliasEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            aliasEndDate.setDateFormat(Constants.MM_DD_YYYY);
+            aliasEndDate.addStyleName(Constants.DATE_FIELD_CENTER);
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }

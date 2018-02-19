@@ -855,7 +855,7 @@ public class NationalAssumptionLogic {
                       CallableStatement statement = connection.prepareCall(CALL_BRACKET + "PRC_NATIONAL_ASSUMPTIONS" + "(?,?,?)}"))
                 {
                 statement.setInt(1, session.getProjectionId());
-                statement.setInt(NumericConstants.TWO, Integer.valueOf(session.getUserId()));
+                statement.setInt(NumericConstants.TWO, Integer.parseInt(session.getUserId()));
                 statement.setObject(NumericConstants.THREE, session.getSessionId());
                 statement.execute();
             } catch (NumberFormatException | SQLException ex)
@@ -1235,7 +1235,7 @@ public class NationalAssumptionLogic {
                                        CallableStatement statement = connection.prepareCall(CALL_BRACKET + "PRC_NEW_NDC" + "(?,?,?)}"))
                 {
                 statement.setInt(1, session.getProjectionId());
-                statement.setInt(NumericConstants.TWO, Integer.valueOf(session.getUserId()));
+                statement.setInt(NumericConstants.TWO, Integer.parseInt(session.getUserId()));
                 statement.setObject(NumericConstants.THREE, session.getSessionId());
                 statement.execute();
             } catch (NumberFormatException | SQLException ex)

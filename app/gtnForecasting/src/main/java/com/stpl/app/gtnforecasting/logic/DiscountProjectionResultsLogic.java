@@ -83,8 +83,8 @@ public class DiscountProjectionResultsLogic {
             String selectedView = projSelDTO.getView();
             String userId = String.valueOf(projSelDTO.getUserId());
             String sessionId = String.valueOf(projSelDTO.getSessionId());
-            int user = Integer.valueOf(userId);
-            int session = Integer.valueOf(sessionId);
+            int user = Integer.parseInt(userId);
+            int session = Integer.parseInt(sessionId);
             List ccpId = null;
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
                 ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
@@ -217,7 +217,7 @@ public class DiscountProjectionResultsLogic {
                         Object[] obj = (Object[]) list.get(i);
                         String id = String.valueOf(obj[1]);
                         if (!id.equals(Constant.NULL)) {
-                            int ccp = Integer.valueOf(id);
+                            int ccp = Integer.parseInt(id);
                             ccpid.add(ccp);
                         }
                     }
@@ -237,8 +237,8 @@ public class DiscountProjectionResultsLogic {
                 if (projectionDetailsId != null && !projectionDetailsId.isEmpty()) {
                     String userId = String.valueOf(proSelDTO.getUserId());
                     String sessionId = String.valueOf(proSelDTO.getSessionId());
-                    int user = Integer.valueOf(userId);
-                    int session = Integer.valueOf(sessionId);
+                    int user = Integer.parseInt(userId);
+                    int session = Integer.parseInt(sessionId);
                     String freq = String.valueOf(proSelDTO.getFrequency());
                     String discountString = CommonUtils.CollectionToString(discountList, true);
                     if (discountString.equals(StringUtils.EMPTY)) {
@@ -311,8 +311,8 @@ public class DiscountProjectionResultsLogic {
                     String order = projSelDTO.getProjectionOrder();
                     String userId = String.valueOf(projSelDTO.getUserId());
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
-                    int user = Integer.valueOf(userId);
-                    int session = Integer.valueOf(sessionId);
+                    int user = Integer.parseInt(userId);
+                    int session = Integer.parseInt(sessionId);
                     String discountString = CommonUtils.CollectionToString(discountList, true);
 
                     if (discountString.equals(StringUtils.EMPTY)) {
@@ -384,8 +384,8 @@ public class DiscountProjectionResultsLogic {
                     String freq = String.valueOf(projSelDTO.getFrequency());
                     String userId = String.valueOf(projSelDTO.getUserId());
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
-                    int user = Integer.valueOf(userId);
-                    int session = Integer.valueOf(sessionId);
+                    int user = Integer.parseInt(userId);
+                    int session = Integer.parseInt(sessionId);
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
@@ -598,8 +598,8 @@ public class DiscountProjectionResultsLogic {
                 if (proDetailsSid != null && !proDetailsSid.isEmpty()) {
                     String userId = String.valueOf(projSelDTO.getUserId());
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
-                    int user = Integer.valueOf(userId);
-                    int session = Integer.valueOf(sessionId);
+                    int user = Integer.parseInt(userId);
+                    int session = Integer.parseInt(sessionId);
                     String freq = String.valueOf(projSelDTO.getFrequency());
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
@@ -1744,7 +1744,7 @@ public class DiscountProjectionResultsLogic {
                     Object[] obj = (Object[]) list.get(i);
                     String id = String.valueOf(obj[1]);
                     if (!id.equals(Constant.NULL)) {
-                        int ccp = Integer.valueOf(id);
+                        int ccp = Integer.parseInt(id);
                         ccpId.add(ccp);
                     }
                 }
@@ -1762,8 +1762,8 @@ public class DiscountProjectionResultsLogic {
             if (proDetailsSid != null && !proDetailsSid.isEmpty()) {
                 String userId = String.valueOf(projSelDTO.getUserId());
                 String sessionId = String.valueOf(projSelDTO.getSessionId());
-                int user = Integer.valueOf(userId);
-                int session = Integer.valueOf(sessionId);
+                int user = Integer.parseInt(userId);
+                int session = Integer.parseInt(sessionId);
                 String frequ = String.valueOf(projSelDTO.getFrequency());
                 List<String> discountList;
                 List<String> tmpList = new ArrayList<>();
@@ -2982,8 +2982,8 @@ public class DiscountProjectionResultsLogic {
             if (projectionDetailsId != null && !projectionDetailsId.isEmpty()) {
                 String userId = String.valueOf(selection.get(Constant.USER_ID));
                 String sessionId = String.valueOf(selection.get(Constant.SESSION_ID));
-                int user = Integer.valueOf(userId);
-                int session1 = Integer.valueOf(sessionId);
+                int user = Integer.parseInt(userId);
+                int session1 = Integer.parseInt(sessionId);
                 List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, StringUtils.EMPTY, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, startAndEndPeriods, user, session1,viewFlag);
                 if (list != null && !list.isEmpty()) {
                     if (frequency.equals(QUARTERLY.getConstant())) {
@@ -3472,7 +3472,7 @@ public class DiscountProjectionResultsLogic {
                                     actualAmount = 0;
                                     projectedSales = 0;
                                     projectedAmount = 0;
-                                    String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + object[1]) - 1);
+                                    String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + object[1]) - 1);
                                     commonColumn = monthName + object[0];
                                     year = (Integer) object[0];
                                     month = (Integer) object[1];
@@ -3481,7 +3481,7 @@ public class DiscountProjectionResultsLogic {
                                 if (j == 0) {
                                     year = selectedYear;
                                     month = selectedMonth;
-                                    String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + object[1]) - 1);
+                                    String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + object[1]) - 1);
                                     commonColumn = monthName + object[0];
                                     if (object[NumericConstants.TWO] != null) {
                                         Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
@@ -3528,7 +3528,7 @@ public class DiscountProjectionResultsLogic {
                                     actualAmount = 0;
                                     projectedSales = 0;
                                     projectedAmount = 0;
-                                    String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + object[1]) - 1);
+                                    String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + object[1]) - 1);
                                     commonColumn = monthName + object[0];
                                     year = (Integer) object[0];
                                     month = (Integer) object[1];
@@ -4199,7 +4199,7 @@ public class DiscountProjectionResultsLogic {
                             Object[] obj = (Object[]) list.get(i);
                             String id = String.valueOf(obj[1]);
                             if (!id.equals(Constant.NULL)) {
-                                int ccpIds = Integer.valueOf(id);
+                                int ccpIds = Integer.parseInt(id);
                                 ccpId.add(ccpIds);
                             }
                         }
@@ -4219,8 +4219,8 @@ public class DiscountProjectionResultsLogic {
                 if (projectionDetailsId != null && !projectionDetailsId.isEmpty()) {
                     String userId = String.valueOf(projSelDTO.getUserId());
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
-                    int user = Integer.valueOf(userId);
-                    int session = Integer.valueOf(sessionId);
+                    int user = Integer.parseInt(userId);
+                    int session = Integer.parseInt(sessionId);
                     String frequency = projSelDTO.getFrequency();
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
@@ -4335,7 +4335,7 @@ public class DiscountProjectionResultsLogic {
                         Object[] obj = (Object[]) list.get(i);
                         String id = String.valueOf(obj[1]);
                         if (!id.equals(Constant.NULL)) {
-                            int ccpIds = Integer.valueOf(id);
+                            int ccpIds = Integer.parseInt(id);
                             ccpId.add(ccpIds);
                         }
                     }
@@ -4353,8 +4353,8 @@ public class DiscountProjectionResultsLogic {
                     String freq = String.valueOf(projSelDTO.getFrequency());
                     String userId = String.valueOf(projSelDTO.getUserId());
                     String sessionId = String.valueOf(projSelDTO.getSessionId());
-                    int user = Integer.valueOf(userId);
-                    int session = Integer.valueOf(sessionId);
+                    int user = Integer.parseInt(userId);
+                    int session = Integer.parseInt(sessionId);
                     List<String> discountList;
                     List<String> tmpList = new ArrayList<>();
                     discountList = projSelDTO.getDiscountNameList();
@@ -4993,7 +4993,7 @@ public class DiscountProjectionResultsLogic {
                 if (i == 0) {
                     year = selectedYear;
                     month = selectedMonth;
-                    String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + obj[1]) - 1);
+                    String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
                     monthName = monthName.toLowerCase();
                     commonColumn = monthName + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
@@ -5043,7 +5043,7 @@ public class DiscountProjectionResultsLogic {
                     actualAmount = 0;
                     projectedSales = 0;
                     projectedAmount = 0;
-                    String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + obj[1]) - 1);
+                    String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
                     monthName = monthName.toLowerCase();
                     commonColumn = monthName + obj[0];
                     year = (Integer) obj[0];
@@ -5096,7 +5096,7 @@ public class DiscountProjectionResultsLogic {
                 actualAmount = 0;
                 projectedSales = 0;
                 projectedAmount = 0;
-                String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + obj[1]) - 1);
+                String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
                 monthName = monthName.toLowerCase();
                 commonColumn = monthName + obj[0];
                 year = (Integer) obj[0];
@@ -5597,7 +5597,7 @@ public class DiscountProjectionResultsLogic {
         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
         int currentYear = (Integer) object[0];
         int currentMonth = (Integer) object[NumericConstants.SEVEN];
-        String monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + object[NumericConstants.SEVEN]) - 1);
+        String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + object[NumericConstants.SEVEN]) - 1);
         monthName = monthName.toLowerCase();
         commonColumn = monthName + object[0];
         dto.setIsParent(ZERO_SYMBOL);
@@ -5707,7 +5707,7 @@ public class DiscountProjectionResultsLogic {
                         actualAmount = 0;
                         projectedSales = 0;
                         projectedAmount = 0;
-                        monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
+                        monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
                         monthName = monthName.toLowerCase();
                         commonColumn = monthName + obj[0];
                         currentYear = selectedYear;
@@ -5772,7 +5772,7 @@ public class DiscountProjectionResultsLogic {
                     currentDiscount = selectedDiscount;
                     dto.setGroup(currentDiscount);
                     discountList.remove(currentDiscount);
-                    monthName = getMonthForInt(Integer.valueOf(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
+                    monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SEVEN]) - 1);
                     monthName = monthName.toLowerCase();
                     commonColumn = monthName + obj[0];
                     currentYear = selectedYear;
