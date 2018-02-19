@@ -150,7 +150,7 @@ public class CommonLogic {
             List result = (List) DAO.executeSelectQuery(query);
             if (result != null && !result.isEmpty()) {
                 Object[] obj = (Object[]) result.get(0);
-                ht.setId(Integer.valueOf(String.valueOf(obj[0])));
+                ht.setId(Integer.parseInt(String.valueOf(obj[0])));
                 ht.setDescription(String.valueOf(obj[1]));
             } else {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());
@@ -172,7 +172,7 @@ public class CommonLogic {
             List result = (List) DAO.executeSelectQuery(query);
             if (result != null && !result.isEmpty()) {
                 Object[] obj = (Object[]) result.get(0);
-                ht.setId(Integer.valueOf(String.valueOf(obj[0])));
+                ht.setId(Integer.parseInt(String.valueOf(obj[0])));
                 ht.setDescription(String.valueOf(obj[1]));
             } else {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());

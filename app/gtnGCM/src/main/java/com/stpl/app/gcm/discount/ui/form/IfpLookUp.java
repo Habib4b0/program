@@ -200,12 +200,12 @@ public class IfpLookUp extends Window {
         ifpType.setValue(Constants.HELPER_DTO);
         ifpType.setItemCaptionPropertyId("description");
         ifpEndDate.setImmediate(true);
-        ifpEndDate.setDateFormat(Constants.DATE_FORMAT);
-        ifpEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+        ifpEndDate.setDateFormat(Constants.MM_DD_YYYY);
+        ifpEndDate.addStyleName(Constants.DATE_FIELD_CENTER);
         ifpEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
         ifpStartDate.setImmediate(true);
-        ifpStartDate.setDateFormat(Constants.DATE_FORMAT);
-        ifpStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+        ifpStartDate.setDateFormat(Constants.MM_DD_YYYY);
+        ifpStartDate.addStyleName(Constants.DATE_FIELD_CENTER);
         ifpStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
         ifpNo.focus();
         try {
