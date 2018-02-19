@@ -4656,7 +4656,7 @@ public class CommonLogic {
         unitOfMeasureDdlb.markAsDirty();
     }
      
-       public List<Object[]> getCustomerLevelValues(int projectionId, String type, ProjectionSelectionDTO projDto,List<Object> productList,List<Object> deductionList) {
+       public List<Object[]> getCustomerLevelValues(int projectionId, String type, ProjectionSelectionDTO projDto,List<Object> productList,List<Object> deductionList,String version) {
         SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
         String maintableName = "CONTRACT_MASTER";
         String companyMaster = Constant.COMPANY_MASTER;
