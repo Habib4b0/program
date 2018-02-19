@@ -2117,7 +2117,7 @@ public class CommonLogic {
                         if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
                                 && !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
                             marketType = getGenerateMarketValue(
-                                    Integer.valueOf(String.valueOf(projectionMasterRow[0])));
+                                    Integer.parseInt(String.valueOf(projectionMasterRow[0])));
                         }
 
                         String definedOrUDValue;
