@@ -5181,8 +5181,8 @@ public class CommonLogic {
         return value;
     }
     
-      public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
-        String newLevel=StringUtils.EMPTY;
+     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+        String newLevel = StringUtils.EMPTY;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
         CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
@@ -5203,12 +5203,12 @@ public class CommonLogic {
             } else {
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
-                     listOfSids = "";
+                    listOfSids = "";
                     customerlevelCustomItem[i] = filterValues.addItem(dto, null);
                     customerlevelCustomItem[i].setCheckable(true);
                     customerlevelCustomItem[i].setItemClickable(true);
                     customerlevelCustomItem[i].setItemClickNotClosable(true);
-}
+                }
                 listOfSids += obj[2].toString();
                 oldLevel = newLevel;
             }

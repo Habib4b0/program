@@ -5359,7 +5359,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			deductionLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			deductionLevelFilter.addAll(
 					commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateCustomerToBeLoaded));
-			LOGGER.info("Deduction Level Filter Values====="+Arrays.asList(deductionLevelFilter));
                         
                      if ("10".equals(levelNo) && CommonUtil.isValueEligibleForLoading()) {
                         CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
