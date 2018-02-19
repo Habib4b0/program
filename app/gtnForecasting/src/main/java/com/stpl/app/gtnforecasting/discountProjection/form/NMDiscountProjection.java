@@ -5239,7 +5239,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		if (!levelNo.isEmpty()) {
 			productLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			productLevelFilter
-					.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateCustomerToBeLoaded,generateDiscountToBeLoaded));
+					.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateCustomerToBeLoaded,generateDiscountToBeLoaded,String.valueOf(session.getProductRelationVersion())));
 			CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
 		}
 
@@ -5310,7 +5310,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		if (!levelNo.isEmpty()) {
 			customerLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			customerLevelFilter.addAll(
-					commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateDiscountToBeLoaded));
+					commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateDiscountToBeLoaded,String.valueOf(session.getCustomerRelationVersion())));
 			CommonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
 		}
 		customerFilterDdlb.setScrollable(true);
