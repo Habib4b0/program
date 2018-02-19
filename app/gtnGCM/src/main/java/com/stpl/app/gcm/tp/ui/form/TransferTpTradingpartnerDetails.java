@@ -7,11 +7,9 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.ContractResultDTO;
-import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.stpl.app.gcm.tp.logic.ContractSelectionLogic;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
@@ -43,7 +41,6 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -81,8 +78,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     private final SessionDTO session;
     private final transient ContractSelectionLogic logic = new ContractSelectionLogic();
     private final transient CommmonLogic commonLogic = new CommmonLogic();
-    private ExtPagedFilterTable currentTradingPartnerDetailsTable = new ExtPagedFilterTable();
-    private ExtPagedFilterTable transferTradingPartnerDetailsTable = new ExtPagedFilterTable();
+    private final ExtPagedFilterTable currentTradingPartnerDetailsTable = new ExtPagedFilterTable();
+    private final ExtPagedFilterTable transferTradingPartnerDetailsTable = new ExtPagedFilterTable();
 
     private final TransferTPForm transferTpForm;
     private final transient StplSecurity stplSecurity = new StplSecurity();
@@ -178,8 +175,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                 if (propertyId.equals("compEndDate")) {
                     final PopupDateField compEndDate = new PopupDateField();
                     compEndDate.setDateFormat(Constants.MM_DD_YYYY);
-                    compEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
-                    compEndDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
+                    compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compEndDate.setEnabled(false);
 
                     return compEndDate;
@@ -188,8 +185,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                 if (propertyId.equals("compStartDate")) {
                     final PopupDateField compStartDate = new PopupDateField();
                     compStartDate.setDateFormat(Constants.MM_DD_YYYY);
-                    compStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
-                    compStartDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
+                    compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compStartDate.setEnabled(false);
                     return compStartDate;
                 }
@@ -198,8 +195,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                         "contEndDate")) {
                     final PopupDateField contEndDate = new PopupDateField();
                     contEndDate.setDateFormat(Constants.MM_DD_YYYY);
-                    contEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
-                    contEndDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
+                    contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contEndDate.setEnabled(false);
 
                     return contEndDate;
@@ -209,8 +206,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                         "contStartDate")) {
                     final PopupDateField contStartDate = new PopupDateField();
                     contStartDate.setDateFormat(Constants.MM_DD_YYYY);
-                    contStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
-                    contStartDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
+                    contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    contStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contStartDate.setEnabled(false);
                     return contStartDate;
                 }
@@ -238,7 +235,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                     final PopupDateField compEndDate = new PopupDateField();
                     compEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
-                    compEndDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
+                    compEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compEndDate.setEnabled(false);
                     return compEndDate;
                 }
@@ -247,7 +244,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                     final PopupDateField compStartDate = new PopupDateField();
                     compStartDate.setDateFormat(Constants.MM_DD_YYYY);
                     compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
-                    compStartDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
+                    compStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compStartDate.setEnabled(false);
                     return compStartDate;
                 }
@@ -257,7 +254,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                     final PopupDateField contEndDate = new PopupDateField();
                     contEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
-                    contEndDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
+                    contEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contEndDate.setEnabled(false);
 
                     return contEndDate;
@@ -268,7 +265,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
                     final PopupDateField contStartDate = new PopupDateField();
                     contStartDate.setDateFormat(Constants.MM_DD_YYYY);
                     contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
-                    contStartDate.addStyleName(Constants.DATE_FIEILD_CENTERED);
+                    contStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contStartDate.setEnabled(false);
                     return contStartDate;
                 }
@@ -380,7 +377,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         try {
             csvTransferFlag = false;
             List list = CommmonLogic.getSubmittedRecords(session, TAB_CURRENT_CONTRACT.getConstant(), true);
-            int recordCount = Integer.valueOf(String.valueOf(list.get(0)));
+            int recordCount = Integer.parseInt(String.valueOf(list.get(0)));
 
             List tempVisibleHeaders = new ArrayList(Arrays.asList(currentTradingPartnerDetailsTable.getColumnHeaders()));
             tempVisibleHeaders.remove(0);
@@ -397,7 +394,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         try {
             csvTransferFlag = true;
             List list = CommmonLogic.getSubmittedRecords(session, TAB_TRANSFER_CONTRACT.getConstant(), true);
-            int recordCount = Integer.valueOf(String.valueOf(list.get(0)));
+            int recordCount = Integer.parseInt(String.valueOf(list.get(0)));
 
             List tempVisibleHeaders = new ArrayList(Arrays.asList(transferTradingPartnerDetailsTable.getColumnHeaders()));
             tempVisibleHeaders.remove(0);

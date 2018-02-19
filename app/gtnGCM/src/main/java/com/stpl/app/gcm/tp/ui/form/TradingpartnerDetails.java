@@ -6,7 +6,6 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
@@ -38,7 +37,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +68,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     @UiField("rebuild")
     public Button rebuild;
 
-    private ExtFilterTable tradingPartnerDetailsTable = new ExtFilterTable();
+    private final ExtFilterTable tradingPartnerDetailsTable = new ExtFilterTable();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
     private final BeanItemContainer<ContractResultDTO> tradingPartnerDetailsContainer;
@@ -139,7 +137,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
 
                 if (propertyId.equals("compStartDate")) {
                     final PopupDateField compStartDate = new PopupDateField();
-                    compStartDate.setDateFormat(Constants.DATE_FORMAT);
+                    compStartDate.setDateFormat(Constants.MM_DD_YYYY);
                     compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     compStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compStartDate.setEnabled(false);
@@ -148,7 +146,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
 
                 if (propertyId.equals("compEndDate")) {
                     final PopupDateField compEndDate = new PopupDateField();
-                    compEndDate.setDateFormat(Constants.DATE_FORMAT);
+                    compEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     compEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compEndDate.setEnabled(false);
@@ -157,7 +155,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
 
                 if (propertyId.equals("contEndDate")) {
                     final PopupDateField contEndDate = new PopupDateField();
-                    contEndDate.setDateFormat(Constants.DATE_FORMAT);
+                    contEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     contEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     contEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contEndDate.setEnabled(false);
@@ -166,7 +164,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
 
                 if (propertyId.equals("contStartDate")) {
                     final PopupDateField contStartDate = new PopupDateField();
-                    contStartDate.setDateFormat(Constants.DATE_FORMAT);
+                    contStartDate.setDateFormat(Constants.MM_DD_YYYY);
                     contStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     contStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     contStartDate.setEnabled(false);

@@ -24,7 +24,6 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 
-import static com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic.getDdlbmap;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.app.gcm.util.ErrorCodeUtil;
@@ -552,7 +551,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
             query.append(from);
             query.append(AND_QUOTE);
@@ -565,7 +564,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))));
             query.append(to);
             query.append("' ");
@@ -575,7 +574,7 @@ public class CommmonLogic {
                 || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
             query.append(from);
             query.append("' ");
@@ -586,7 +585,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))));
             query.append(from);
             query.append(AND_QUOTE);
@@ -599,7 +598,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATETO))));
             query.append(to);
             query.append("' ");
@@ -609,7 +608,7 @@ public class CommmonLogic {
                 || StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))));
             query.append(from);
             query.append("' ");
@@ -620,7 +619,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
             query.append(from);
             query.append(AND_QUOTE);
@@ -633,7 +632,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))));
             query.append(to);
             query.append("' ");
@@ -643,7 +642,7 @@ public class CommmonLogic {
                 || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
             query.append(from);
             query.append("' ");
@@ -654,7 +653,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
             query.append(from);
             query.append(AND_QUOTE);
@@ -667,7 +666,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))));
             query.append(to);
             query.append("' ");
@@ -677,7 +676,7 @@ public class CommmonLogic {
                 || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
             query.append(from);
             query.append("' ");
@@ -723,8 +722,8 @@ public class CommmonLogic {
                 dto.setContractNo(String.valueOf(obj[1]));
                 dto.setContractName(String.valueOf(obj[NumericConstants.TWO]));
                 dto.setContractType(idHelperDTOMap.get(obj[NumericConstants.THREE]));
-                dto.setContStartDate(!String.valueOf(obj[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(convertToSrting((Date) obj[NumericConstants.FOUR], Constants.DATE_FORMAT)) : null);
-                dto.setContEndDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertToSrting((Date) obj[NumericConstants.FIVE], Constants.DATE_FORMAT)) : null);
+                dto.setContStartDate(!String.valueOf(obj[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(convertToSrting((Date) obj[NumericConstants.FOUR], Constants.MM_DD_YYYY)) : null);
+                dto.setContEndDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertToSrting((Date) obj[NumericConstants.FIVE], Constants.MM_DD_YYYY)) : null);
                 dto.setCfpName(String.valueOf(obj[NumericConstants.SIX]));
                 dto.setCfpNo(String.valueOf(obj[NumericConstants.SEVEN]));
                 dto.setIfpName(String.valueOf(obj[NumericConstants.EIGHT]));
@@ -739,8 +738,8 @@ public class CommmonLogic {
                 dto.setIfpContSid(String.valueOf(obj[NumericConstants.SEVENTEEN]));
                 dto.setPsContSid(String.valueOf(obj[NumericConstants.EIGHTEEN]));
                 dto.setContractMasterSid(String.valueOf(obj[NumericConstants.NINETEEN]));
-                dto.setCompStartDate(!String.valueOf(obj[NumericConstants.TWENTY]).equals("null") ? new Date(convertToSrting((Date) obj[NumericConstants.TWENTY], Constants.DATE_FORMAT)) : null);
-                dto.setCompEndDate(!String.valueOf(obj[NumericConstants.TWENTY_ONE]).equals("null") ? new Date(convertToSrting((Date) obj[NumericConstants.TWENTY_ONE], Constants.DATE_FORMAT)) : null);
+                dto.setCompStartDate(!String.valueOf(obj[NumericConstants.TWENTY]).equals("null") ? new Date(convertToSrting((Date) obj[NumericConstants.TWENTY], Constants.MM_DD_YYYY)) : null);
+                dto.setCompEndDate(!String.valueOf(obj[NumericConstants.TWENTY_ONE]).equals("null") ? new Date(convertToSrting((Date) obj[NumericConstants.TWENTY_ONE], Constants.MM_DD_YYYY)) : null);
                 dto.setStatusString(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
                 dto.setStatusDescription(idHelperDTOMap.get(obj[NumericConstants.TWENTY_TWO]));
                 dto.setCheckRecord(!String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.TRUE) ? true : false : false);
@@ -1158,7 +1157,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
             query.append(from);
             query.append(AND_QUOTE);
@@ -1171,7 +1170,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))));
             query.append(to);
             query.append("' ");
@@ -1181,7 +1180,7 @@ public class CommmonLogic {
                 || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND CON.START_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATEFROM))));
             query.append(from);
             query.append("' ");
@@ -1192,7 +1191,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))));
             query.append(from);
             query.append(AND_QUOTE);
@@ -1205,7 +1204,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATETO))));
             query.append(to);
             query.append("' ");
@@ -1215,7 +1214,7 @@ public class CommmonLogic {
                 || StringUtils.isBlank(String.valueOf(parameters.get(FILTERCONT_END_DATETO))))) {
             query.append(" AND CON.END_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(FILTERCONT_END_DATEFROM))));
             query.append(from);
             query.append("' ");
@@ -1226,7 +1225,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
             query.append(from);
             query.append(AND_QUOTE);
@@ -1239,7 +1238,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATETO))));
             query.append(to);
             query.append("' ");
@@ -1249,7 +1248,7 @@ public class CommmonLogic {
                 || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCONT_START_DATETO))))) {
             query.append(" AND TEMP_TABLE.START_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_START_DATEFROM))));
             query.append(from);
             query.append("' ");
@@ -1260,7 +1259,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE BETWEEN '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
             query.append(from);
             query.append(AND_QUOTE);
@@ -1273,7 +1272,7 @@ public class CommmonLogic {
                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE < '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))));
             query.append(to);
             query.append("' ");
@@ -1283,7 +1282,7 @@ public class CommmonLogic {
                 || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATETO))))) {
             query.append(" AND TEMP_TABLE.END_DATE > '");
             SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.DATE_HOUR_FORMAT);
-            SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat format = new SimpleDateFormat(Constants.MM_DD_YYYY);
             String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTERCOMP_END_DATEFROM))));
             query.append(from);
             query.append("' ");
@@ -1817,44 +1816,44 @@ public class CommmonLogic {
                     dto.setContractNo(String.valueOf(obj[NumericConstants.THREE]));
                     dto.setContractName(String.valueOf(obj[NumericConstants.FOUR]));
                     dto.setContractType(idHelperDTOMap.get(obj[NumericConstants.FIVE]));
-                    dto.setContStartDate(!String.valueOf(obj[NumericConstants.SIX]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SIX].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
-                    dto.setContEndDate(!String.valueOf(obj[NumericConstants.SEVEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SEVEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setContStartDate(!String.valueOf(obj[NumericConstants.SIX]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SIX].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
+                    dto.setContEndDate(!String.valueOf(obj[NumericConstants.SEVEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SEVEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
                     dto.setCfpName(String.valueOf(obj[NumericConstants.EIGHT]));
                     dto.setCfpNo(String.valueOf(obj[NumericConstants.NINE]));
                     dto.setCfpId(String.valueOf(obj[NumericConstants.TEN]));
                     dto.setCfpStatus(idHelperDTOMap.get(obj[NumericConstants.ELEVEN]));
-                    dto.setCfpStartDate(!String.valueOf(obj[NumericConstants.TWELVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWELVE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
-                    dto.setCfpEndDate(!String.valueOf(obj[NumericConstants.THIRTEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setCfpStartDate(!String.valueOf(obj[NumericConstants.TWELVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWELVE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
+                    dto.setCfpEndDate(!String.valueOf(obj[NumericConstants.THIRTEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
 
                     dto.setIfpName(String.valueOf(obj[NumericConstants.FOURTEEN]));
                     dto.setIfpNo(String.valueOf(obj[NumericConstants.FIFTEEN]));
                     dto.setIfpId(String.valueOf(obj[NumericConstants.SIXTEEN]));
                     dto.setIfpStatus(idHelperDTOMap.get(obj[NumericConstants.SEVENTEEN]));
-                    dto.setIfpStartDate(!String.valueOf(obj[NumericConstants.EIGHTEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.EIGHTEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
-                    dto.setIfpEndDate(!String.valueOf(obj[NumericConstants.NINETEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.NINETEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setIfpStartDate(!String.valueOf(obj[NumericConstants.EIGHTEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.EIGHTEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
+                    dto.setIfpEndDate(!String.valueOf(obj[NumericConstants.NINETEEN]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.NINETEEN].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
 
                     dto.setpSName(String.valueOf(obj[NumericConstants.TWENTY]));
                     dto.setpSNo(String.valueOf(obj[NumericConstants.TWENTY_ONE]));
                     dto.setpSId(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
                     dto.setpSStatus(idHelperDTOMap.get(obj[NumericConstants.TWENTY_THREE]));
-                    dto.setpStartDate(!String.valueOf(obj[NumericConstants.TWENTY_FOUR]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWENTY_FOUR].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
-                    dto.setpSEndDate(!String.valueOf(obj[NumericConstants.TWENTY_FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWENTY_FIVE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setpStartDate(!String.valueOf(obj[NumericConstants.TWENTY_FOUR]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWENTY_FOUR].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
+                    dto.setpSEndDate(!String.valueOf(obj[NumericConstants.TWENTY_FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.TWENTY_FIVE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
 
                     dto.setrSName(String.valueOf(obj[NumericConstants.TWENTY_SIX]));
                     dto.setrSNo(obj[NumericConstants.TWENTY_SEVEN] != null ? String.valueOf(obj[NumericConstants.TWENTY_SEVEN]) : StringUtils.EMPTY);
                     dto.setrARCategory(String.valueOf(obj[NumericConstants.TWENTY_EIGHT]).trim().equalsIgnoreCase(Constants.SELECT_ONE) || obj[NumericConstants.TWENTY_EIGHT] == null ? StringUtils.EMPTY : String.valueOf(obj[NumericConstants.TWENTY_EIGHT]));
                     dto.setrSId(String.valueOf(obj[NumericConstants.TWENTY_NINE]));
                     dto.setrSStatus(idHelperDTOMap.get(obj[NumericConstants.THIRTY]));
-                    dto.setrStartDate(!String.valueOf(obj[NumericConstants.THIRTY_ONE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_ONE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
-                    dto.setrSEndDate(!String.valueOf(obj[NumericConstants.THIRTY_TWO]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_TWO].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setrStartDate(!String.valueOf(obj[NumericConstants.THIRTY_ONE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_ONE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
+                    dto.setrSEndDate(!String.valueOf(obj[NumericConstants.THIRTY_TWO]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_TWO].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
 
                     dto.setCfpContSid(String.valueOf(obj[NumericConstants.THIRTY_THREE]));
                     dto.setRsContSid(String.valueOf(obj[NumericConstants.THIRTY_FOUR]));
                     dto.setIfpContSid(String.valueOf(obj[NumericConstants.THIRTY_FIVE]));
                     dto.setPsContSid(String.valueOf(obj[NumericConstants.THIRTY_SIX]));
                     dto.setContractMasterSid(String.valueOf(obj[NumericConstants.THIRTY_SEVEN]));
-                    dto.setCompStartDate(!String.valueOf(obj[NumericConstants.THIRTY_EIGHT]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_EIGHT].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
-                    dto.setCompEndDate(!String.valueOf(obj[NumericConstants.THIRTY_NINE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_NINE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.DATE_FORMAT)) : null);
+                    dto.setCompStartDate(!String.valueOf(obj[NumericConstants.THIRTY_EIGHT]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_EIGHT].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
+                    dto.setCompEndDate(!String.valueOf(obj[NumericConstants.THIRTY_NINE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.THIRTY_NINE].toString(), YYYY_M_MDD_H_HMMSS_SSS, Constants.MM_DD_YYYY)) : null);
                     HelperDTO status = new HelperDTO();
                     status.setId(!String.valueOf(obj[NumericConstants.FORTY]).equals(Constants.NULL) ? Integer.parseInt(String.valueOf(obj[NumericConstants.FORTY])) : 0);
                     status.setDescription(!String.valueOf(obj[NumericConstants.FORTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.FORTY_THREE]) : Constants.SELECT_ONE);
@@ -1959,7 +1958,7 @@ public class CommmonLogic {
             company.setCompanyStringId(companyform.getCompanyId());
             company.setCompanyNo(companyform.getCompanyNo());
             company.setCompanyName(companyform.getCompanyName());
-            company.setCompanyStatus(Integer.valueOf(companyform.getComapnyStatus()));
+            company.setCompanyStatus(Integer.parseInt(companyform.getComapnyStatus()));
             company.setCompanyStartDate(companyform.getCompanyStartDate());
             company.setCompanyEndDate(null);
             company.setRecordLockStatus(false);//unlocked
@@ -1989,11 +1988,11 @@ public class CommmonLogic {
 
                 final CompanyIdentifier identifier = CompanyIdentifierLocalServiceUtil.createCompanyIdentifier(0);
 
-                identifier.setCompanyQualifierSid(Integer.valueOf(identifierForm.getQualifierName()));
+                identifier.setCompanyQualifierSid(Integer.parseInt(identifierForm.getQualifierName()));
 
-                identifier.setIdentifierStatus(Integer.valueOf(identifierForm.getIdentifierStatus()));
+                identifier.setIdentifierStatus(Integer.parseInt(identifierForm.getIdentifierStatus()));
                 identifier.setCompanyStringIdentifierValue(identifierForm.getCompanyIdentifier().trim());
-                identifier.setIdentifierStatus(Integer.valueOf(identifierForm.getIdentifierStatus()));
+                identifier.setIdentifierStatus(Integer.parseInt(identifierForm.getIdentifierStatus()));
                 identifier.setCreatedDate(new Date());
                 identifier.setModifiedDate(new Date());
                 identifier.setCreatedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
@@ -2028,7 +2027,7 @@ public class CommmonLogic {
                 tradeClass.setRecordLockStatus(false);//unlocked
                 tradeClass.setCompanyMasterSid(result.getCompanyMasterSid());
 
-                tradeClass.setCompanyTradeClass(Integer.valueOf(companyTradeList.get(i).getTradeClass()));
+                tradeClass.setCompanyTradeClass(Integer.parseInt(companyTradeList.get(i).getTradeClass()));
 
                 if (companyTradeList.get(i).getTradeStartDate() != null && !StringUtils.EMPTY.equals(companyTradeList.get(i).getTradeStartDate())) {
                     tradeClass.setTradeClassStartDate(companyTradeList.get(i).getTradeStartDate());
@@ -2234,7 +2233,7 @@ public class CommmonLogic {
             resultList.add(dto);
 
         } else {
-            SimpleDateFormat outputDateFormatter = new SimpleDateFormat(Constants.DATE_FORMAT);
+            SimpleDateFormat outputDateFormatter = new SimpleDateFormat(Constants.MM_DD_YYYY);
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
                     Object[] obj = (Object[]) list.get(i);
@@ -2298,7 +2297,7 @@ public class CommmonLogic {
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(Constants.IndicatorConstants.SELECT_ONE.getConstant()))) {
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : Integer.parseInt(str[0].toString()));
                     dto.setDescription(str[1] == null ? Constants.ZEROSTRING : String.valueOf(str[1]));
                     resultList.add(dto);
                 }

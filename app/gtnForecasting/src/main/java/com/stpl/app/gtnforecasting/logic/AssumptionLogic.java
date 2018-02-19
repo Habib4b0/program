@@ -115,7 +115,7 @@ public class AssumptionLogic {
         for (Object[] temp : (List<Object[]>) result) {
             AssumptionPVDTO tempDto = new AssumptionPVDTO();
             tempDto.setParent((Boolean) temp[NumericConstants.TWO]);
-            tempDto.setPvCheck(Integer.valueOf(String.valueOf(temp[0]))==0?Boolean.FALSE:Boolean.TRUE);
+            tempDto.setPvCheck(Integer.parseInt(String.valueOf(temp[0]))==0?Boolean.FALSE:Boolean.TRUE);
             if (tempDto.getParent()) {
                 tempDto.setProjectionPeriodPV(String.valueOf(temp[1]));
                 tempDto.setContractHolder(String.valueOf(temp[NumericConstants.THREE]));

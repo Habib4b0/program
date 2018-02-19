@@ -145,7 +145,7 @@ public class DataSelectionLogic {
 		for (int i = 0; i < result.size(); i++) {
 			hdto = new HierarchyLookupDTO();
 			final Object[] obj = (Object[]) result.get(i);
-			hdto.setHierarchyId(Integer.valueOf(obj[0].toString()));
+			hdto.setHierarchyId(Integer.parseInt(obj[0].toString()));
 			hdto.setHierarchyName(String.valueOf(obj[1].toString()));
 			hdto.setHighestLevel(String.valueOf(obj[NumericConstants.THREE].toString()));
 			hdto.setLowestLevel(String.valueOf(obj[NumericConstants.FOUR].toString()));
@@ -970,7 +970,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			String tempFilterText = filterText;
 			tempFilterText = StringUtils.trimToEmpty(tempFilterText) + Constant.PERCENT;
@@ -988,18 +988,18 @@ public class DataSelectionLogic {
 			if (selectedCompanyDdlbDto == null) {
 				for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 					Object[] objects = returnlist.get(loop);
-					companyDdlbDto = new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+					companyDdlbDto = new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 							String.valueOf(objects[1]));
 					companies.add(companyDdlbDto);
 				}
 			} else {
 				for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 					Object[] objects = returnlist.get(loop);
-					if ((Integer.valueOf(String.valueOf(objects[0]))) == selectedCompanyDdlbDto.getCompanyMasterSid()) {
+					if ((Integer.parseInt(String.valueOf(objects[0]))) == selectedCompanyDdlbDto.getCompanyMasterSid()) {
 						selectedCompanyDdlbDto.setCompanyName(String.valueOf(objects[1]));
 						companies.add(selectedCompanyDdlbDto);
 					} else {
-						companyDdlbDto = new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+						companyDdlbDto = new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 								String.valueOf(objects[1]));
 						companies.add(companyDdlbDto);
 					}
@@ -1031,7 +1031,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			String tempFilterText = filterText;
 			tempFilterText = StringUtils.trimToEmpty(tempFilterText) + Constant.PERCENT;
@@ -1533,7 +1533,7 @@ public class DataSelectionLogic {
 			helper.setProjection(ProjectionFactoryUtil.distinct(helperProjectionList));
 			List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
-			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
+			companyId = Integer.parseInt(String.valueOf(companyTypeIds.get(0)));
 			DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.COMPANYMASTERSID,
 					UiUtils.convertStringListToIngeter(companySids)));
@@ -1546,7 +1546,7 @@ public class DataSelectionLogic {
 			CompanyDdlbDto companyDdlbDto;
 			for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 				Object[] objects = returnlist.get(loop);
-				companyDdlbDto = new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+				companyDdlbDto = new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 						String.valueOf(objects[1]));
 				companies.add(companyDdlbDto);
 			}
@@ -1690,7 +1690,7 @@ public class DataSelectionLogic {
 		if (selectedDiscount == null) {
 			for (int loop = 0, limit = resultList.size(); loop < limit; loop++) {
 				Object[] objects = resultList.get(loop);
-				discounts.add(new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+				discounts.add(new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 						String.valueOf(objects[1]), true));
 			}
 		} else {
@@ -1700,7 +1700,7 @@ public class DataSelectionLogic {
 					selectedDiscount.setRsNo(String.valueOf(objects[1]));
 					discounts.add(selectedDiscount);
 				} else {
-					discountDdlbDto = new CompanyDdlbDto(Integer.valueOf(String.valueOf(objects[0])),
+					discountDdlbDto = new CompanyDdlbDto(Integer.parseInt(String.valueOf(objects[0])),
 							String.valueOf(objects[1]), true);
 					discounts.add(discountDdlbDto);
 				}
@@ -2437,7 +2437,7 @@ public class DataSelectionLogic {
 	public int getMaximumLevelNo(Map<String, List> hierarchyDetailsMap, String hierarchyIndicator) {
 		int maxLevelNo = 0;
 		for (Map.Entry<String, List> entry : hierarchyDetailsMap.entrySet()) {
-			int levelNo = Integer.valueOf(entry.getValue().get(NumericConstants.TWO).toString());
+			int levelNo = Integer.parseInt(entry.getValue().get(NumericConstants.TWO).toString());
 			if (maxLevelNo < levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR))) {
 				maxLevelNo = levelNo;
 			}

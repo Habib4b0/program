@@ -89,6 +89,11 @@ if [ $count != 0 ]
 then 
 cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.jar $RPM_BUILD_ROOT%{prefix}/tempdeploy/
 fi
+count=`ls -1 $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.esa 2>/dev/null | wc -l`
+if [ $count != 0 ]
+then 
+cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.esa $RPM_BUILD_ROOT%{prefix}/tempdeploy/
+fi
 mkdir $RPM_BUILD_ROOT%{prefix}/deploy/
 chmod 777 $RPM_BUILD_ROOT%{prefix}/deploy/
 
@@ -145,7 +150,7 @@ sed -i -e "/COMMON_LOGIC_PATH=/ s/=.*/=$COMMON_LOGIC_PATH/" -e  "/SERVER_NAME=/ 
 sed -i -e "/SERVER_USERNAME=/ s/=.*/=$SERVER_USERNAME/" -e  "/BPI_SYS_HOST=/ s/=.*/=$BPI_SYS_HOST/" -e "/BPI_SYS_DB=/ s/=.*/=$BPI_SYS_DB/" -e "/BPI_SYS_USER=/ s/=.*/=$BPI_SYS_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 sed -i -e "/BPI_SYS_PASSWORD=/ s/=.*/=$BPI_SYS_PASSWORD/" -e  "/STAGING_HOST=/ s/=.*/=$STAGING_HOST/" -e  "/STAGING_DB=/ s/=.*/=$STAGING_DB/" -e "/STAGING_USER=/ s/=.*/=$STAGING_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 sed -i -e "/STAGING_PASSWORD=/ s/=.*/=$STAGING_PASSWORD/" -e "/BPI_SOURCE_HOST=/ s/=.*/=$BPI_SOURCE_HOST/" -e "/BPI_SOURCE_DB=/ s/=.*/=$BPI_SOURCE_DB/" -e "/BPI_SOURCE_USER=/ s/=.*/=$BPI_SOURCE_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
-sed -i -e "/BPI_SOURCE_PASSWORD=/ s/=.*/=$BPI_SOURCE_PASSWORD/" -e  "/ETL_PORT_NO=/ s/=.*/=$ETL_PORT_NO/" -e "/com_stpl_gtnframework_base_path==/ s/=.*/=$Gtn_Framework_Base_path/" $install_path/etl/Interface_Job/EtlConfiguration.properties
+sed -i -e "/BPI_SOURCE_PASSWORD=/ s/=.*/=$BPI_SOURCE_PASSWORD/" -e  "/ETL_PORT_NO=/ s/=.*/=$ETL_PORT_NO/" -e "/com_stpl_gtnframework_base_path=/ s/=.*/=$Gtn_Framework_Base_path/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 fi
 # Deleting Service jar index files ends
 
@@ -162,17 +167,17 @@ fi
 
 #  Moving Gtn Framework Wars
 app_file=$install_path/tempdeploy/
-FILES="$install_path/tempdeploy/*.jar"
+FILES="$install_path/tempdeploy/*.esa"
 for f in $FILES
 do
 if [ -e $f ] 
 then
         echo "Deploying $f"
  currentfile=$(basename $f)
-if [ -e  $install_path/osgi/modules/$currentfile.jar ];
+if [ -e  $install_path/osgi/modules/$currentfile.esa ];
 then
 
-rm -rf $install_path/osgi/modules/$currentfile.jar
+rm -rf $install_path/osgi/modules/$currentfile.esa
 sleep 8s
 
 fi
@@ -282,5 +287,3 @@ chown $APP_User:etl $install_path
 
 %files
 %{prefix}/
-
-

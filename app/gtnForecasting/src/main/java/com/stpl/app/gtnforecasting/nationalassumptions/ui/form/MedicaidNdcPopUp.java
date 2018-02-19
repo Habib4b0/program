@@ -178,7 +178,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                         bestPrice.setValue(StringUtils.EMPTY);
                         String wacValue = wACList.get(ndc.getValue().toString());
                         if (wacValue != null && !wacValue.equals(Constant.NULL)) {
-                            double convertedWAC = Double.valueOf(wacValue);
+                            double convertedWAC = Double.parseDouble(wacValue);
                             wac.setValue(dollar4decimal.format(convertedWAC));
                         } else {
                             NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(ndc.getValue().toString());
@@ -198,7 +198,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                         NewNdcDTO dto = (NewNdcDTO) medicaidMap.get(ndc.getValue().toString());
                         if (cpiValue != null && !cpiValue.equalsIgnoreCase(Constant.NULL)) {
                             baseYearCPI.setReadOnly(false);
-                            double convertedCPI = Double.valueOf(cpiValue);
+                            double convertedCPI = Double.parseDouble(cpiValue);
                             baseYearCPI.setValue(dollar4decimal.format(convertedCPI));
                             baseYearCPI.setReadOnly(true);
                         } else if (dto != null && !dto.getBaseYearCPI().equalsIgnoreCase(Constant.NULL)) {
@@ -212,9 +212,10 @@ public class MedicaidNdcPopUp extends CustomComponent {
                         }
 
                     } else {
-                        wac.setReadOnly(false);
+                        
                         ndc.setValue(StringUtils.EMPTY);
                         wac.setValue(StringUtils.EMPTY);
+                        wac.setReadOnly(true);
                         forecastAMP.setValue(StringUtils.EMPTY);
                         baseAMP.setValue(StringUtils.EMPTY);
                         baseYearCPI.setReadOnly(false);
@@ -222,7 +223,6 @@ public class MedicaidNdcPopUp extends CustomComponent {
                         baseYearCPI.setReadOnly(true);
                         bestPrice.setValue(StringUtils.EMPTY);
                     }
-                    wac.setReadOnly(true);
                 } catch (Property.ReadOnlyException | NumberFormatException ex) {
                     LOGGER.error(ex.getMessage());
                 }
@@ -236,7 +236,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
             public void valueChange(Property.ValueChangeEvent event) {
 
                 if (event.getProperty().getValue() != null && !StringUtils.EMPTY.equals(event.getProperty().getValue())) {
-                    double ampValue = Double.valueOf(wac.getValue().replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY)) * NumericConstants.DOUBLE_NINTY_EIGHT;
+                    double ampValue = Double.parseDouble(wac.getValue().replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY)) * NumericConstants.DOUBLE_NINTY_EIGHT;
                     String strValue = String.valueOf(ampValue);
                     baseAMP.setValue(strValue);
                     forecastAMP.setValue(strValue);
@@ -335,7 +335,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
         }
         SelectedNDC = newNDC.getNdc9();
 
-        newNDC.setItemMasterSid(Integer.valueOf(String.valueOf(ndc.getValue()).trim()));
+        newNDC.setItemMasterSid(Integer.parseInt(String.valueOf(ndc.getValue()).trim()));
         newNDC.setForecastAMP(forecastAMP.getValue());
         newNDC.setWac(wac.getValue());
         newNDC.setForecastBestPrice(bestPrice.getValue());

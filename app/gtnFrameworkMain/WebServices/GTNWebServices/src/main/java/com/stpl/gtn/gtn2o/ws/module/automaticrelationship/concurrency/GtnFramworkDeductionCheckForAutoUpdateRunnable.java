@@ -20,12 +20,12 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchySer
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 @Service
 @Scope(value = "prototype")
@@ -56,6 +56,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 	public void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
 		this.gtnWsSqlService = gtnWsSqlService;
 	}
+
 	public GtnWsSqlService getGtnWsSqlService() {
 		return gtnWsSqlService;
 	}
@@ -63,6 +64,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
 		return gtnSqlQueryEngine;
 	}
+
 	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
 		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
 	}
@@ -74,6 +76,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 	public void setGtnFrameworkEntityMasterBean(GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean) {
 		this.gtnFrameworkEntityMasterBean = gtnFrameworkEntityMasterBean;
 	}
+
 	public GtnFrameworkEntityMasterBean getGtnFrameworkEntityMasterBean() {
 		return gtnFrameworkEntityMasterBean;
 	}
@@ -82,9 +85,6 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 		this.gtnHierarchyServiceBuilder = gtnHierarchyServiceBuilder;
 	}
 
-
-
-
 	public void setItemMastersidList(List<Integer> itemMastersidList) {
 		this.itemMastersidList = Collections.unmodifiableList(itemMastersidList);
 	}
@@ -92,7 +92,6 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 	public GtnFrameworkHierarchyService getGtnHierarchyServiceBuilder() {
 		return gtnHierarchyServiceBuilder;
 	}
-
 
 	public GtnWsRelationshipBuilderBean getRelationBean() {
 		return relationBean;
@@ -110,7 +109,6 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 		return Collections.unmodifiableList(hierarchyLevelDefinitionList);
 	}
 
-
 	public int getIndex() {
 		return index;
 	}
@@ -118,6 +116,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 	public void setAtomicBoolean(AtomicBoolean atomicBoolean) {
 		this.atomicBoolean = atomicBoolean;
 	}
+
 	public void setIndex(int index) {
 		this.index = index;
 	}
@@ -125,7 +124,6 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 	public AtomicBoolean getAtomicBoolean() {
 		return atomicBoolean;
 	}
-
 
 	@Override
 	public void run() {
@@ -135,15 +133,12 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 			HierarchyLevelDefinitionBean previousHierarchyLevelBean = HierarchyLevelDefinitionBean
 					.getPreviousLinkedLevel(hierarchyLevelDefinitionList, currnetHierarchyLevelBean);
 			List<Object> input = new ArrayList<>();
-			input.add(relationBean.getRelationshipBuilderSid());
-			input.add(previousHierarchyLevelBean.getLevelNo());
-			input.add(relationBean.getVersionNo());
 			input.add(getListToString(itemMastersidList));
 			List<Object> finalInputForQuery = null;
 			String finalQeury = null;
 			if (!atomicBoolean.get()) {
 				GtnFrameworkQueryGeneratorBean hierarchyQuery = getCheckForUpdateQuery(currnetHierarchyLevelBean,
-						previousHierarchyLevelBean);
+						previousHierarchyLevelBean, relationBean.getRelationshipBuilderSid());
 
 				String query = gtnWsSqlService.getReplacedQuery(input, hierarchyQuery.generateQuery());
 				finalInputForQuery = new ArrayList<>();
@@ -168,53 +163,34 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 	}
 
 	private GtnFrameworkQueryGeneratorBean getCheckForUpdateQuery(HierarchyLevelDefinitionBean hierarchyLevelBean,
-			HierarchyLevelDefinitionBean previousHierarchyLevelBean) {
+			HierarchyLevelDefinitionBean previousHierarchyLevelBean, int relationShipBuilderSid) {
 		GtnFrameworkFileReadWriteService fileServiceDeduction = new GtnFrameworkFileReadWriteService();
 		GtnFrameworkHierarchyQueryBean hierarchyQuery = fileServiceDeduction.getQueryFromFile(
 				hierarchyLevelBean.getHierarchyDefinitionSid(), hierarchyLevelBean.getHierarchyLevelDefinitionSid(),
 				hierarchyLevelBean.getVersionNo());
 		GtnFrameworkQueryGeneratorBean queryGenerartorBeanDeduction = hierarchyQuery.getQuery();
-		String hierarchyNoSelectClause = getHierarchyNo(hierarchyLevelDefinitionList, hierarchyLevelBean).toString();
+		String hierarchyNoSelectClause = getHierarchyNo(hierarchyLevelDefinitionList, hierarchyLevelBean,
+				relationShipBuilderSid).toString();
 		addJoinClause(previousHierarchyLevelBean, queryGenerartorBeanDeduction);
-		queryGenerartorBeanDeduction.addSelectClauseBean(null, "HIERARCHY_NO", false,
-				hierarchyNoSelectClause);
-		queryGenerartorBeanDeduction.removeAllWhereClauseConfigList();
+		queryGenerartorBeanDeduction.addSelectClauseBean(null, "HIERARCHY_NO", false, hierarchyNoSelectClause);
+		queryGenerartorBeanDeduction.removeWhereClauseConfigListByIndex(1,
+				queryGenerartorBeanDeduction.getWhereClauseConfigList().size() - 1);
 		gtnHierarchyServiceBuilder.getInboundRestrictionQueryForAutoUpdate(queryGenerartorBeanDeduction);
-		queryGenerartorBeanDeduction.addWhereClauseBean("RS_CONTRACT_DETAILS.ITEM_MASTER_SID", null, GtnFrameworkOperatorType.IN,
-				GtnFrameworkDataType.NULL_ALLOWED, null);
+		queryGenerartorBeanDeduction.addWhereClauseBean("RS_CONTRACT_DETAILS.ITEM_MASTER_SID", null,
+				GtnFrameworkOperatorType.IN, GtnFrameworkDataType.NULL_ALLOWED, null);
 		return queryGenerartorBeanDeduction;
 	}
 
-
 	private void addJoinClause(HierarchyLevelDefinitionBean hierarchyLevelBean,
 			GtnFrameworkQueryGeneratorBean queryGenerartorBean) {
-		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
-				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyLevelBean.getTableName(),
-						hierarchyLevelBean.getFieldName());
 		GtnFrameworkJoinClauseBean rsDetailsJoin = queryGenerartorBean.addJoinClauseBean("RS_CONTRACT_DETAILS",
 				"RS_CONTRACT_DETAILS", GtnFrameworkJoinType.JOIN);
 		rsDetailsJoin.addConditionBean("RS_CONTRACT.RS_CONTRACT_SID", "RS_CONTRACT_DETAILS.RS_CONTRACT_SID",
 				GtnFrameworkOperatorType.EQUAL_TO);
-
-		GtnFrameworkJoinClauseBean relationJoinBean = queryGenerartorBean.addJoinClauseBean("RELATIONSHIP_LEVEL_DEFINITION",
-				"RELATIONSHIP_LEVEL_DEFINITION", GtnFrameworkJoinType.JOIN);
-		relationJoinBean.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
-				keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn(),
-				GtnFrameworkOperatorType.EQUAL_TO);
-		relationJoinBean.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", null,
-				GtnFrameworkOperatorType.EQUAL_TO);
-		relationJoinBean.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.level_no", null,
-				GtnFrameworkOperatorType.EQUAL_TO);
-		relationJoinBean.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
-				GtnFrameworkOperatorType.EQUAL_TO);
-		relationJoinBean.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
-				getHierarchyNoForRelationShip(hierarchyLevelDefinitionList, hierarchyLevelBean),
-				GtnFrameworkOperatorType.LIKE);
-
 	}
 
 	public StringBuilder getHierarchyNo(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
+			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto, int relationShipBuilderSid) {
 		StringBuilder initialQueryDeduction = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
 		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
@@ -227,38 +203,14 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 			initialQueryDeduction.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(levelDTO.getTableName(), levelDTO.getFieldName());
-			initialQueryDeduction.append(singleColumnRelationBean.getActualTtableName()).append(".").append(singleColumnRelationBean.getWhereClauseColumn());
+			initialQueryDeduction.append(singleColumnRelationBean.getActualTtableName()).append(".")
+					.append(singleColumnRelationBean.getWhereClauseColumn());
 			initialQueryDeduction.append(",'.'");
 		}
-		finalQuery.append("concat( RELATIONSHIP_BUILDER_SID,'-'");
+		finalQuery.append("concat( " + relationShipBuilderSid + ",'-'");
 		finalQuery.append(initialQueryDeduction);
 		finalQuery.append(")");
 		return finalQuery;
-	}
-
-	public String getHierarchyNoForRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
-		StringBuilder query = new StringBuilder();
-		StringBuilder finalQuery = new StringBuilder();
-		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
-			HierarchyLevelDefinitionBean hierarchyDto = hierarchyLevelDefinitionList.get(i);
-			if (hierarchyDto.getTableName().isEmpty()) {
-				query.append(",'%'");
-				query.append(",'.'");
-				continue;
-			}
-			query.append(",");
-			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyDto.getTableName(), hierarchyDto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName() + "."
-					+ singleColumnRelationBean.getWhereClauseColumn());
-			query.append(",'.'");
-		}
-		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
-		finalQuery.append(query);
-		query.append(",'%'");
-		finalQuery.append(")");
-		return finalQuery.toString();
 	}
 
 	private String getListToString(Collection<?> masterSids) {

@@ -271,7 +271,7 @@ public class Newcomponent extends CustomComponent {
     private final CommonDao DAO = CommonImpl.getInstance();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
-    private ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
+    private final ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
     private final CopyContractLogic logic = new CopyContractLogic();
     public static final String REGEX_STRING = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
     public static final String SELECT_ATLEAST_ONE_RECORD = "Please Select Atleast one Record at Component Details Section";
@@ -291,23 +291,23 @@ public class Newcomponent extends CustomComponent {
     protected void configureFields() {
         try {
             cfpStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            cfpStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            cfpStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
             cfpEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            cfpEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            cfpEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             ifpStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            ifpStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            ifpStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
             ifpEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            ifpEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            ifpEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             psStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            psStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            psStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             rsStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            rsStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             rsEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            rsEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
             BtnsearchNC.setEnabled(false);
             componenttype.addItem(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN);
             componenttype.addItem(Constants.IndicatorConstants.ITEM_FAMILY_PLAN);
@@ -422,13 +422,13 @@ public class Newcomponent extends CustomComponent {
                     if (Constants.START_DATE.equals(propertyId)) {
                         PopupDateField field1 = new PopupDateField();
                         field1.setDateFormat(Constants.MM_DD_YYYY);
-                        field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                        field1.setStyleName(Constants.DATE_FIELD_CENTER);
                         field = field1;
                     }
                     if (Constants.END_DATE.equals(propertyId)) {
                         PopupDateField field1 = new PopupDateField();
                         field1.setDateFormat(Constants.MM_DD_YYYY);
-                        field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                        field1.setStyleName(Constants.DATE_FIELD_CENTER);
                         field = field1;
 
                     }
@@ -766,12 +766,12 @@ public class Newcomponent extends CustomComponent {
                         } else if (Constants.START_DATE.equals(propertyId)) {
                             PopupDateField field1 = new PopupDateField();
                             field1.setDateFormat(Constants.MM_DD_YYYY);
-                            field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                            field1.setStyleName(Constants.DATE_FIELD_CENTER);
                             field = field1;
                         } else if (Constants.END_DATE.equals(propertyId)) {
                             PopupDateField field1 = new PopupDateField();
                             field1.setDateFormat(Constants.MM_DD_YYYY);
-                            field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                            field1.setStyleName(Constants.DATE_FIELD_CENTER);
                             field = field1;
                         } else if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
@@ -1319,7 +1319,7 @@ public class Newcomponent extends CustomComponent {
             Object root = dashboardResultsTable.getValue();
             if (root != null) {
                 String levelNo = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.LEVELNO).getValue());
-                int levelNumber = Integer.valueOf(levelNo);
+                int levelNumber = Integer.parseInt(levelNo);
                 String component = String.valueOf(componenttype.getValue());
                 if (component.equals(Constants.COMPANY_FAMILY_PLAN)) {
                     if (1 - levelNumber == 1) {
@@ -1430,19 +1430,19 @@ public class Newcomponent extends CustomComponent {
                                         Date endDate = (Date) componentResultsContainer.getContainerProperty(item, Constants.END_DATE).getValue();
                                         String companyStatus = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.COMPANY_STATUS).getValue());
                                         GcmCompanyDetails tempCFP = GcmCompanyDetailsLocalServiceUtil.createGcmCompanyDetails(0);
-                                        tempCFP.setCompanyMasterSid(Integer.valueOf(companysid));
+                                        tempCFP.setCompanyMasterSid(Integer.parseInt(companysid));
                                         tempCFP.setCompanyStringId(companysid);
                                         tempCFP.setCompanyNo(cno);
                                         tempCFP.setCompanyName(cname);
 
                                         tempCFP.setCfpDetailsTradeClass(StringUtils.EMPTY);//Trading Partner Contract NO
-                                        tempCFP.setCompanyStatusSid(Integer.valueOf(companyStatus));
+                                        tempCFP.setCompanyStatusSid(Integer.parseInt(companyStatus));
                                         tempCFP.setCompanyStartDate(startDate);
                                         tempCFP.setCompanyEndDate(endDate);
                                         tempCFP.setCreatedDate(new Date());
                                         tempCFP.setModifiedDate(new Date());
 
-                                        tempCFP.setCfpModelSid(Integer.valueOf(hiddenId));
+                                        tempCFP.setCfpModelSid(Integer.parseInt(hiddenId));
                                         tempCFP.setCfpDetailsStartDate(cfpStartDate.getValue());
                                         tempCFP.setCfpDetailsEndDate(cfpEndDate.getValue());
                                         tempCFP.setCompanyStatus(companyStatus);
@@ -1563,7 +1563,7 @@ public class Newcomponent extends CustomComponent {
                                                 GcmItemDetails tempIFP = GcmItemDetailsLocalServiceUtil.createGcmItemDetails(0);
                                                 String itemsid = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.MODEL_ID).getValue());
                                                 setA.add(itemsid);
-                                                tempIFP.setItemMasterSid(Integer.valueOf(itemsid));
+                                                tempIFP.setItemMasterSid(Integer.parseInt(itemsid));
                                                 String iname = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.ITEM_NAME_PROPERTY).getValue());
                                                 String cno = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.ITEM_NO_PROPERTY).getValue());
                                                 Date startDate = (Date) componentResultsContainer.getContainerProperty(item, Constants.START_DATE).getValue();
@@ -1572,10 +1572,10 @@ public class Newcomponent extends CustomComponent {
                                                 tempIFP.setItemNo(cno);
                                                 tempIFP.setItemName(iname);
                                                 tempIFP.setItemStatus(itemStatus);
-                                                tempIFP.setIfpModelSid(Integer.valueOf(hiddenId));
+                                                tempIFP.setIfpModelSid(Integer.parseInt(hiddenId));
                                                 tempIFP.setCreatedDate(new Date());
                                                 tempIFP.setCreatedBy(1);
-                                                tempIFP.setItemStatusSid(Integer.valueOf(itemStatus));
+                                                tempIFP.setItemStatusSid(Integer.parseInt(itemStatus));
                                                 tempIFP.setIfpDetailsStartDate(startDate);
                                                 tempIFP.setIfpDetailsEndDate(endDate);
                                                 tempIFP.setItemEndDate(endDate);
@@ -1663,7 +1663,7 @@ public class Newcomponent extends CustomComponent {
                                 String priceScheduleId = String.valueOf(psId.getValue());
                                 String priceScheduleNo = psNo.getValue();
                                 String priceScheduleName = psName.getValue();
-                                int priceScheduleStatus = Integer.valueOf(String.valueOf(psStatus.getValue()));
+                                int priceScheduleStatus = Integer.parseInt(String.valueOf(psStatus.getValue()));
                                 Date psDate = psStartDate.getValue();
                                 String fName = psfileName.getValue();
 
@@ -1712,8 +1712,8 @@ public class Newcomponent extends CustomComponent {
                                             ImtdPsDetails imtdPsDetails;
                                             imtdPsDetails = ImtdPsDetailsLocalServiceUtil.createImtdPsDetails(0);
                                             imtdPsDetails.setPsModelSid(imtdItemPriceRebateDetails.getGcmGlobalDetailsSid());
-                                            imtdPsDetails.setIfpModelSid(Integer.valueOf(ifpModelId));
-                                            imtdPsDetails.setItemMasterSid(Integer.valueOf(itemId));
+                                            imtdPsDetails.setIfpModelSid(Integer.parseInt(ifpModelId));
+                                            imtdPsDetails.setItemMasterSid(Integer.parseInt(itemId));
                                             imtdPsDetails.setPsDtlsContPriceStartdate(df.parse(sDate));
                                             if (!eDate.equals(Constants.EMPTY)) {
                                                 imtdPsDetails.setPsDtlsContPriceEnddate(df.parse(eDate));
@@ -1798,7 +1798,7 @@ public class Newcomponent extends CustomComponent {
                                 String rebateScheduleId = String.valueOf(rsId.getValue());
                                 String rebateScheduleNo = rsNumber.getValue();
                                 String rebateScheduleName = rsName.getValue();
-                                int rebateScheduleStatus = Integer.valueOf(String.valueOf(rsStatus.getValue()));
+                                int rebateScheduleStatus = Integer.parseInt(String.valueOf(rsStatus.getValue()));
                                 Date startDate = rsStartDate.getValue();
                                 Date endDate = rsEndDate.getValue();
                                 String paymentFre = String.valueOf(paymentFrequency.getValue());
@@ -1854,8 +1854,8 @@ public class Newcomponent extends CustomComponent {
                                             ImtdPsDetails imtdPsDetails;
                                             imtdPsDetails = ImtdPsDetailsLocalServiceUtil.createImtdPsDetails(0);
                                             imtdPsDetails.setPsModelSid(imtdItemPriceRebateDetails.getGcmGlobalDetailsSid());//hidden id
-                                            imtdPsDetails.setIfpModelSid(Integer.valueOf(ifpModelId));
-                                            imtdPsDetails.setItemMasterSid(Integer.valueOf(itemId));
+                                            imtdPsDetails.setIfpModelSid(Integer.parseInt(ifpModelId));
+                                            imtdPsDetails.setItemMasterSid(Integer.parseInt(itemId));
                                             imtdPsDetails.setPsDtlsContPriceStartdate(df.parse(sDate));
                                             imtdPsDetails.setPsDetailsPrice(Double.parseDouble("10"));
                                             imtdPsDetails.setCreatedBy(1);
@@ -1951,7 +1951,7 @@ public class Newcomponent extends CustomComponent {
                 contractMaster.setProcessStatus(true);
                 contractMaster.setSource("BPI");
                 contractMaster.setContractStatus(status);
-                contractMaster.setCreatedBy(Integer.valueOf(userId));
+                contractMaster.setCreatedBy(Integer.parseInt(userId));
                 contractMaster.setStartDate(startDate);
                 contractMaster.setEndDate(endDate);
                 contractMaster.setInboundStatus("A");
@@ -1988,16 +1988,16 @@ public class Newcomponent extends CustomComponent {
                     psModel.setPsId(String.valueOf(obj[0]));
                     psModel.setPsNo(String.valueOf(obj[1]));
                     psModel.setPsName(String.valueOf(obj[NumericConstants.TWO]));
-                    psModel.setPsStatus(obj[NumericConstants.THREE] != null && !obj[NumericConstants.THREE].toString().equals(StringUtils.EMPTY) ? Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) : 0);
+                    psModel.setPsStatus(obj[NumericConstants.THREE] != null && !obj[NumericConstants.THREE].toString().equals(StringUtils.EMPTY) ? Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) : 0);
                     if (obj[NumericConstants.THREE] != null) {
                         String date1 = df.format(obj[NumericConstants.FOUR]);
                         psModel.setPsStartDate(df.parse(date1));
                     } else {
                         psModel.setPsStartDate(null);
                     }
-                    psModel.setCreatedBy(Integer.valueOf(userId));
+                    psModel.setCreatedBy(Integer.parseInt(userId));
                     psModel.setCreatedDate(new Date());
-                    psModel.setModifiedBy(Integer.valueOf(userId));
+                    psModel.setModifiedBy(Integer.parseInt(userId));
                     psModel.setModifiedDate(new Date());
                     psModel = PsModelLocalServiceUtil.addPsModel(psModel);
                     psModelSid = psModel.getPsModelSid();
@@ -2013,14 +2013,14 @@ public class Newcomponent extends CustomComponent {
                     psContract.setPsName(psModel.getPsName());
                     psContract.setPsNo(psModel.getPsNo());
                     psContract.setPsStartDate(psModel.getPsStartDate());
-                    psContract.setContractMasterSid(Integer.valueOf(contractSId));
+                    psContract.setContractMasterSid(Integer.parseInt(contractSId));
                     psContract.setCfpContractSid(cfpContractId);
                     psContract.setIfpContractSid(ifpContractId);
                     psContract.setInboundStatus("A");
                     psContract.setRecordLockStatus(false);
-                    psContract.setCreatedBy(Integer.valueOf(userId));
+                    psContract.setCreatedBy(Integer.parseInt(userId));
                     psContract.setCreatedDate(new Date());
-                    psContract.setModifiedBy(Integer.valueOf(userId));
+                    psContract.setModifiedBy(Integer.parseInt(userId));
                     psContract.setModifiedDate(new Date());
                     psContract = PsContractLocalServiceUtil.addPsContract(psContract);
                     SavePS(String.valueOf(psContract.getPsContractSid()), psModel.getPsModelSid());
@@ -2037,7 +2037,7 @@ public class Newcomponent extends CustomComponent {
                     rsModel.setRsId(String.valueOf(obj[0]));
                     rsModel.setRsNo(String.valueOf(obj[1]));
                     rsModel.setRsName(String.valueOf(obj[NumericConstants.TWO]));
-                    rsModel.setRsStatus(obj[NumericConstants.THREE] != null && !obj[NumericConstants.THREE].toString().equals(StringUtils.EMPTY) ? Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) : 0);
+                    rsModel.setRsStatus(obj[NumericConstants.THREE] != null && !obj[NumericConstants.THREE].toString().equals(StringUtils.EMPTY) ? Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) : 0);
                     if (obj[NumericConstants.FOUR] != null) {
                         String date1 = df.format(obj[NumericConstants.FOUR]);
                         rsModel.setRsStartDate(df.parse(date1));
@@ -2046,15 +2046,15 @@ public class Newcomponent extends CustomComponent {
                         String date1 = df.format(obj[NumericConstants.FIVE]);
                         rsModel.setRsEndDate(df.parse(date1));
                     }
-                    rsModel.setRsType(Integer.valueOf(String.valueOf(obj[NumericConstants.SIX])));
-                    rsModel.setPaymentFrequency(Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])));
-                    rsModel.setRebateProgramType(Integer.valueOf(String.valueOf(obj[NumericConstants.EIGHT])));
+                    rsModel.setRsType(Integer.parseInt(String.valueOf(obj[NumericConstants.SIX])));
+                    rsModel.setPaymentFrequency(Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN])));
+                    rsModel.setRebateProgramType(Integer.parseInt(String.valueOf(obj[NumericConstants.EIGHT])));
                     rsModel.setRebatePlanLevel(String.valueOf(obj[NumericConstants.NINE]));
-                    rsModel.setPaymentMethod(Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])));
-                    rsModel.setRsCalendar(Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])));
-                    rsModel.setCreatedBy(Integer.valueOf(userId));
+                    rsModel.setPaymentMethod(Integer.parseInt(String.valueOf(obj[NumericConstants.TEN])));
+                    rsModel.setRsCalendar(Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])));
+                    rsModel.setCreatedBy(Integer.parseInt(userId));
                     rsModel.setCreatedDate(new Date());
-                    rsModel.setModifiedBy(Integer.valueOf(userId));
+                    rsModel.setModifiedBy(Integer.parseInt(userId));
                     rsModel.setModifiedDate(new Date());
                     rsModel = RsModelLocalServiceUtil.addRsModel(rsModel);
                     CopyContractLogic.insertIntoRsDetails(temptableSId, userId, rsModel.getRsModelSid());
@@ -2083,7 +2083,7 @@ public class Newcomponent extends CustomComponent {
                     rsContract.setRsType(type);
                     rsContract.setRebateProgramType(rpType);
                     rsContract.setRsStartDate(stDate);
-                    rsContract.setContractMasterSid(Integer.valueOf(contractSId));
+                    rsContract.setContractMasterSid(Integer.parseInt(contractSId));
                     rsContract.setCfpContractSid(cfpContractId);
                     rsContract.setIfpContractSid(ifpContractId);
                     rsContract.setPsContractSid(psContractId);
@@ -2091,9 +2091,9 @@ public class Newcomponent extends CustomComponent {
                     rsContract.setRsCalendar(String.valueOf(calender));
                     rsContract.setInboundStatus("A");
                     rsContract.setRecordLockStatus(false);
-                    rsContract.setCreatedBy(Integer.valueOf(userId));
+                    rsContract.setCreatedBy(Integer.parseInt(userId));
                     rsContract.setCreatedDate(new Date());
-                    rsContract.setModifiedBy(Integer.valueOf(userId));
+                    rsContract.setModifiedBy(Integer.parseInt(userId));
                     rsContract.setModifiedDate(new Date());
                     rsContract = RsContractLocalServiceUtil.addRsContract(rsContract);
                     SaveRS(String.valueOf(rsContract.getRsContractSid()), rsModel.getRsModelSid());
@@ -2129,7 +2129,7 @@ public class Newcomponent extends CustomComponent {
                 cfpMasterAttached.setCfpName(companyFamily.getCfpName());
                 cfpMasterAttached.setCfpModelSid(companyFamily.getCfpModelSid());
                 cfpMasterAttached.setCfpNo(companyFamily.getCfpNo());
-                cfpMasterAttached.setContractMasterSid(Integer.valueOf(contractSId));
+                cfpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                 cfpMasterAttached.setSource("BPI");
                 cfpMasterAttached.setCfpType(companyFamily.getCfpType());
                 cfpMasterAttached.setCfpCategory(companyFamily.getCfpCategory());
@@ -2201,7 +2201,7 @@ public class Newcomponent extends CustomComponent {
                 String parentCFPId = String.valueOf(dashboardResultsTable.getContainerProperty(parentItem, Constants.SAVED_SYSTEM_ID).getValue());
                 Object contractItem = dashboardResultsTable.getParent(parentItem);
                 String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
-                ifpMasterAttached.setContractMasterSid(Integer.valueOf(contractSId));
+                ifpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                 ifpMasterAttached.setCfpContractSid(parentCFPId);
                 updatePsAndRSModelSid(dashboardResultsTable.getChildren(item), itemFamily.getIfpModelSid());
                 IfpContract im1 = IfpContractLocalServiceUtil.addIfpContract(ifpMasterAttached);

@@ -18,7 +18,6 @@ import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.dto.ContractSearchDTO;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.Constants;
@@ -985,7 +984,7 @@ public class QueryUtils {
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null && list.size() > 0) {
             String retCount = String.valueOf(list.get(0));
-            count = Integer.valueOf(retCount);
+            count = Integer.parseInt(retCount);
             return count;
         }
 
@@ -1513,7 +1512,7 @@ public class QueryUtils {
                     + " HELPER_TABLE HTCAT ON IM.IFP_CATEGORY = HTCAT.HELPER_TABLE_SID LEFT JOIN \n"
                     + " HELPER_TABLE HTDE ON IM.IFP_DESIGNATION = HTDE.HELPER_TABLE_SID "
                     + " Where IM.IFP_NO like '" + astToPerConverter(binderDTO.getIfpNo()) + "'  AND IM.IFP_NAME like '" + astToPerConverter(binderDTO.getIfpName()) + "'"
-                    + " AND IM.IFP_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpType() == null ? StringUtils.EMPTY : binderDTO.getIfpType().getId())) + "' AND IM.IFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpCategory() == null ? StringUtils.EMPTY : binderDTO.getIfpCategory().getId())) + "' AND IM.IFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpStatus() == null ? StringUtils.EMPTY : binderDTO.getIfpStatus().getId())) + "'";
+                    + StringConstantsUtil.IFP_TYPE + zeroToPerConverter(String.valueOf(binderDTO.getIfpType() == null ? StringUtils.EMPTY : binderDTO.getIfpType().getId())) + "' AND IM.IFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpCategory() == null ? StringUtils.EMPTY : binderDTO.getIfpCategory().getId())) + "' AND IM.IFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpStatus() == null ? StringUtils.EMPTY : binderDTO.getIfpStatus().getId())) + "'";
             if (binderDTO.getIfpStartDate() != null) {
                 query += "AND IM.IFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.IFP_START_DATE).getValue()) + "'\n";
             }
@@ -1530,7 +1529,7 @@ public class QueryUtils {
                 query += String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_NAME)) + "' ";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_TYPE) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_TYPE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_TYPE)))) {
-                query += " AND IM.IFP_TYPE like '";
+                query += StringConstantsUtil.IFP_TYPE;
                 query += String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_TYPE)) + "' ";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_CATEGORY) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_CATEGORY))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_CATEGORY)))) {
@@ -1925,7 +1924,7 @@ public class QueryUtils {
                 query += String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_NAME)) + "' ";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_TYPE) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_TYPE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_TYPE)))) {
-                query += " AND IM.IFP_TYPE like '";
+                query += StringConstantsUtil.IFP_TYPE;
                 query += String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_TYPE)) + "' ";
             }
             if (parameters.get(StringConstantsUtil.FILTERIFP_CATEGORY) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_CATEGORY))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTERIFP_CATEGORY)))) {
@@ -2151,7 +2150,7 @@ public class QueryUtils {
     }
 
     public String getActuals(RemoveDiscountDto dto) {
-        String query = "SELECT\n" +
+        String query = StringConstantsUtil.SELECT +
                         "  MAX(AM.SALES_AMOUNT) AS Sales,\n" +
                         "  MAX(AM.QUANTITY) AS Units\n" +
                         "  FROM CONTRACT_MASTER CM\n" +
@@ -2402,7 +2401,7 @@ public class QueryUtils {
     }
 
     public String cfpValue(String id) {
-        String query = "SELECT\n" +
+        String query = StringConstantsUtil.SELECT +
 "	CFP_ID,\n" +
 "	CFP_C.CFP_NO,\n" +
 "	CFP_C.CFP_NAME,\n" +
@@ -2436,7 +2435,7 @@ public class QueryUtils {
     }
 
     public String rsValue(String id) {
-        String query = "SELECT\n" +
+        String query = StringConstantsUtil.SELECT +
 "	RS_M.RS_ID,\n" +
 "	Rs_C.RS_NO,\n" +
 "	Rs_C.RS_NAME,\n" +

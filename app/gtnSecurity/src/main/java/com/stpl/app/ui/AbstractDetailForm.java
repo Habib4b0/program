@@ -9,5 +9,6 @@ public interface AbstractDetailForm  extends  View{
 	public abstract TabSheet addTabSheet();
 	public abstract AbstractActionButtonLayout addActionBtn();
 	public abstract void configureFields();
+        @Override
 	public void enter(ViewChangeEvent event);
 }

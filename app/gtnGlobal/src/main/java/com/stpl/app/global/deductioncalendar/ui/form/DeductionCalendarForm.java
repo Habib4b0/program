@@ -551,14 +551,14 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
             msg = deductionCalendarLogic.saveDeductionCalendarMaster(deductionCalendarDTO, sessionDTO, notesTabForm.getUploadedData(), notesTabForm.getAddedNotes(), notesTabForm.removeDetailsList());
             deductionCalendarLogic.saveDeductionDetails(sessionDTO);
             if (msg.equals(ConstantsUtils.SUCCESS)) {
-                deductionCalendarLogic.deleteTempSeletionTable(sessionDTO);
-                deductionCalendarLogic.deleteTempDeductionDetails(sessionDTO);
+                
                 final Notification notif = new Notification(commonMsg.getSavedSuccessfulMessage(String.valueOf(binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NO).getValue()), String.valueOf(binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NAME).getValue())), Notification.Type.HUMANIZED_MESSAGE);
                 notif.setPosition(Position.MIDDLE_CENTER);
                 notif.setStyleName(ConstantsUtils.MY_STYLE);
                 notif.show(Page.getCurrent());
                 notif.setDelayMsec(NumericConstants.TWO_THOUSAND);
                 sessionDTO.setMode(ConstantsUtils.EDIT);
+                saveBtn.setCaption("UPDATE");
                 getUI().getNavigator().navigateTo(DeductionCalendarView.NAME);
             }
 

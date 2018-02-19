@@ -1067,7 +1067,7 @@ public class DPRQueryUtils {
 
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                count = Integer.valueOf(ob.toString());
+                count = Integer.parseInt(ob.toString());
 
             }
 

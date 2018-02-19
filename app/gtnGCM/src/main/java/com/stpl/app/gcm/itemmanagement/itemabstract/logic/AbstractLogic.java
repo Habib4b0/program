@@ -118,7 +118,7 @@ public class AbstractLogic {
     public List<HelperDTO> getDdlbList(String QueryName, final List<String> input, final Boolean isFilter) {
         List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
-        if (Integer.valueOf(String.valueOf(input.get(1))) == 0) {
+        if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             if (isFilter) {
                 HelperDTO defaultValue = new HelperDTO(0, Constants.SHOW_ALL);
                 resultList.add(defaultValue);
@@ -130,7 +130,7 @@ public class AbstractLogic {
         for (Object[] str : list) {
             if (!str[1].equals(String.valueOf(IndicatorConstants.SELECT_ONE.getConstant()))) {
                 HelperDTO dto = new HelperDTO();
-                dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                dto.setId(str[0] == null ? 0 : Integer.parseInt(str[0].toString()));
                 dto.setDescription(str[1] == null ? Constants.ZEROSTRING: String.valueOf(str[1]));
                 resultList.add(dto);
             }
@@ -171,7 +171,7 @@ public class AbstractLogic {
             dto.setStartDate(str[NumericConstants.SIX] == null ? null : (Date) str[NumericConstants.SIX]);
             dto.setEndDate(str[NumericConstants.SEVEN] == null ? null : (Date) str[NumericConstants.SEVEN]);
             HelperDTO status = new HelperDTO();
-            status.setId(str[NumericConstants.EIGHT] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.EIGHT])));
+            status.setId(str[NumericConstants.EIGHT] == null ? 0 : Integer.parseInt(String.valueOf(str[NumericConstants.EIGHT])));
             status.setDescription(str[NumericConstants.FORTY_THREE] == null ? Constants.IndicatorConstants.SELECT_ONE.getConstant() : String.valueOf(String.valueOf(str[NumericConstants.FORTY_THREE])));
             dto.setStatus(status);
             dto.setItemStartDate(str[NumericConstants.NINE] == null ? null : (Date) str[NumericConstants.NINE]);
@@ -184,16 +184,16 @@ public class AbstractLogic {
             dto.setPriceProtectionStartDate(str[NumericConstants.FIFTEEN] == null ? null : (Date) str[NumericConstants.FIFTEEN]);
             dto.setPriceProtectionEndDate(str[NumericConstants.SIXTEEN] == null ? null : (Date) str[NumericConstants.SIXTEEN]);
             HelperDTO priceToleranceType = new HelperDTO();
-            priceToleranceType.setId(str[NumericConstants.SEVENTEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SEVENTEEN])));
+            priceToleranceType.setId(str[NumericConstants.SEVENTEEN] == null ? 0 : Integer.parseInt(String.valueOf(str[NumericConstants.SEVENTEEN])));
             priceToleranceType.setDescription(str[NumericConstants.FORTY_FOUR] == null ? Constants.IndicatorConstants.SELECT_ONE.getConstant() : String.valueOf(String.valueOf(str[NumericConstants.FORTY_FOUR])));
             dto.setPriceToleranceType(priceToleranceType);
             dto.setPriceTolerance(str[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHTEEN]));
             HelperDTO priceTolerance = new HelperDTO();
             HelperDTO priceToleranceFrequency = new HelperDTO();
-            priceToleranceFrequency.setId(str[NumericConstants.NINETEEN] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.NINETEEN])));
+            priceToleranceFrequency.setId(str[NumericConstants.NINETEEN] == null ? 0 : Integer.parseInt(String.valueOf(str[NumericConstants.NINETEEN])));
             priceToleranceFrequency.setDescription(str[NumericConstants.FORTY_FIVE] == null ? Constants.IndicatorConstants.SELECT_ONE.getConstant() : String.valueOf(String.valueOf(str[NumericConstants.FORTY_FIVE])));
             dto.setPriceToleranceFrequency(priceToleranceFrequency);
-            priceTolerance.setId(str[NumericConstants.TWENTY] == null ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.TWENTY])));
+            priceTolerance.setId(str[NumericConstants.TWENTY] == null ? 0 : Integer.parseInt(String.valueOf(str[NumericConstants.TWENTY])));
             priceTolerance.setDescription(str[NumericConstants.FORTY_SIX] == null ? Constants.IndicatorConstants.SELECT_ONE.getConstant() : String.valueOf(String.valueOf(str[NumericConstants.FORTY_SIX])));
             dto.setPriceToleranceInterval(priceTolerance);
             dto.setBasePrice(str[NumericConstants.TWENTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_ONE]));
@@ -212,12 +212,12 @@ public class AbstractLogic {
             dto.setRsName(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
             dto.setRarCategory(str[NumericConstants.THIRTY_FIVE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FIVE]));
             dto.setCheckRecord(str[NumericConstants.THIRTY_SIX] == null ? Boolean.FALSE : (Boolean) str[NumericConstants.THIRTY_SIX]);
-            dto.setContractMasterSid(str[NumericConstants.THIRTY_SEVEN] == null ? 0 : Integer.valueOf(str[NumericConstants.THIRTY_SEVEN].toString()));
-            dto.setCfpContractSid(str[NumericConstants.THIRTY_EIGHT] == null ? 0 : Integer.valueOf(str[NumericConstants.THIRTY_EIGHT].toString()));
-            dto.setIfpConteractSid(str[NumericConstants.THIRTY_NINE] == null ? 0 : Integer.valueOf(str[NumericConstants.THIRTY_NINE].toString()));
-            dto.setPsContractSid(str[NumericConstants.FORTY] == null ? 0 : Integer.valueOf(str[NumericConstants.FORTY].toString()));
-            dto.setRsContractSid(str[NumericConstants.FORTY_ONE] == null ? 0 : Integer.valueOf(str[NumericConstants.FORTY_ONE].toString()));
-            dto.setItemMasterSid(str[NumericConstants.FORTY_TWO] == null ? 0 : Integer.valueOf(str[NumericConstants.FORTY_TWO].toString()));
+            dto.setContractMasterSid(str[NumericConstants.THIRTY_SEVEN] == null ? 0 : Integer.parseInt(str[NumericConstants.THIRTY_SEVEN].toString()));
+            dto.setCfpContractSid(str[NumericConstants.THIRTY_EIGHT] == null ? 0 : Integer.parseInt(str[NumericConstants.THIRTY_EIGHT].toString()));
+            dto.setIfpConteractSid(str[NumericConstants.THIRTY_NINE] == null ? 0 : Integer.parseInt(str[NumericConstants.THIRTY_NINE].toString()));
+            dto.setPsContractSid(str[NumericConstants.FORTY] == null ? 0 : Integer.parseInt(str[NumericConstants.FORTY].toString()));
+            dto.setRsContractSid(str[NumericConstants.FORTY_ONE] == null ? 0 : Integer.parseInt(str[NumericConstants.FORTY_ONE].toString()));
+            dto.setItemMasterSid(str[NumericConstants.FORTY_TWO] == null ? 0 : Integer.parseInt(str[NumericConstants.FORTY_TWO].toString()));
             if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                 dto.setTransferScreenName(screenName);
                 selection.setTransferScreenName(screenName);
@@ -393,57 +393,57 @@ public class AbstractLogic {
                 dto.setItemNo(str[0] == null ? StringUtils.EMPTY : String.valueOf(str[0]));
                 dto.setItemName(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
                 dto.setBrand(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
-                dto.setPriceProtectionStatus(str[NumericConstants.THREE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THREE])) && !Constants.NULL.equals(str[NumericConstants.THREE]) ? getDescription(Integer.valueOf(str[NumericConstants.THREE].toString())) : StringUtils.EMPTY);
+                dto.setPriceProtectionStatus(str[NumericConstants.THREE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THREE])) && !Constants.NULL.equals(str[NumericConstants.THREE]) ? getDescription(Integer.parseInt(str[NumericConstants.THREE].toString())) : StringUtils.EMPTY);
                 dto.setPriceProtectionStartDate(str[NumericConstants.FOUR] == null ? null : (Date) (str[NumericConstants.FOUR]));
                 dto.setPriceProtectionEndDate(str[NumericConstants.FIVE] == null ? null : (Date) (str[NumericConstants.FIVE]));
                 dto.setMeasurementPrice(str[NumericConstants.THIRTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_ONE]));
                 dto.setNep(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
                 dto.setNepFormula(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-                dto.setBasePriceType(str[NumericConstants.NINE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.NINE])) && !Constants.NULL.equals(str[NumericConstants.NINE]) ? getDescription(Integer.valueOf(str[NumericConstants.NINE].toString())) : StringUtils.EMPTY);
-                dto.setBaselineNetWAC(str[NumericConstants.TEN] != null && !Constants.ZEROSTRING.equals(str[NumericConstants.TEN]) && !Constants.NULL.equals(str[NumericConstants.TEN]) ? getDescription(Integer.valueOf(str[NumericConstants.TEN].toString())) : StringUtils.EMPTY);
+                dto.setBasePriceType(str[NumericConstants.NINE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.NINE])) && !Constants.NULL.equals(str[NumericConstants.NINE]) ? getDescription(Integer.parseInt(str[NumericConstants.NINE].toString())) : StringUtils.EMPTY);
+                dto.setBaselineNetWAC(str[NumericConstants.TEN] != null && !Constants.ZEROSTRING.equals(str[NumericConstants.TEN]) && !Constants.NULL.equals(str[NumericConstants.TEN]) ? getDescription(Integer.parseInt(str[NumericConstants.TEN].toString())) : StringUtils.EMPTY);
                 dto.setNetBaselineWACFormula(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
                 dto.setSubsequentPeriodPriceType(str[NumericConstants.THIRTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_TWO]));
-                dto.setNetSubsequentPeriodPrice(str[NumericConstants.THIRTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THIRTEEN])) && !Constants.NULL.equals(str[NumericConstants.THIRTEEN]) ? getDescription(Integer.valueOf(str[NumericConstants.THIRTEEN].toString())) : StringUtils.EMPTY);
+                dto.setNetSubsequentPeriodPrice(str[NumericConstants.THIRTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THIRTEEN])) && !Constants.NULL.equals(str[NumericConstants.THIRTEEN]) ? getDescription(Integer.parseInt(str[NumericConstants.THIRTEEN].toString())) : StringUtils.EMPTY);
                 dto.setNetSubsequentPeriodPriceFormula(str[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOURTEEN]));
-                dto.setPriceToleranceInterval(str[NumericConstants.FIFTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.FIFTEEN])) && !Constants.NULL.equals(str[NumericConstants.FIFTEEN]) ? getDescription(Integer.valueOf(str[NumericConstants.FIFTEEN].toString())) : StringUtils.EMPTY);
-                dto.setPriceToleranceFrequency(str[NumericConstants.SIXTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.SIXTEEN])) && !Constants.NULL.equals(str[NumericConstants.SIXTEEN]) ? getDescription(Integer.valueOf(str[NumericConstants.SIXTEEN].toString())) : StringUtils.EMPTY);
-                dto.setPriceToleranceType(str[NumericConstants.SEVENTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.SEVENTEEN])) && !Constants.NULL.equals(str[NumericConstants.SEVENTEEN]) ? getDescription(Integer.valueOf(str[NumericConstants.SEVENTEEN].toString())) : StringUtils.EMPTY);
+                dto.setPriceToleranceInterval(str[NumericConstants.FIFTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.FIFTEEN])) && !Constants.NULL.equals(str[NumericConstants.FIFTEEN]) ? getDescription(Integer.parseInt(str[NumericConstants.FIFTEEN].toString())) : StringUtils.EMPTY);
+                dto.setPriceToleranceFrequency(str[NumericConstants.SIXTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.SIXTEEN])) && !Constants.NULL.equals(str[NumericConstants.SIXTEEN]) ? getDescription(Integer.parseInt(str[NumericConstants.SIXTEEN].toString())) : StringUtils.EMPTY);
+                dto.setPriceToleranceType(str[NumericConstants.SEVENTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.SEVENTEEN])) && !Constants.NULL.equals(str[NumericConstants.SEVENTEEN]) ? getDescription(Integer.parseInt(str[NumericConstants.SEVENTEEN].toString())) : StringUtils.EMPTY);
                 dto.setPriceTolerance(str[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHTEEN]));
                 dto.setMaxIncrementalChange(str[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINETEEN]));
-                dto.setResetEligible(str[NumericConstants.TWENTY] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY])) && !Constants.NULL.equals(str[NumericConstants.TWENTY]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY].toString())) : StringUtils.EMPTY);
-                dto.setResetType(str[NumericConstants.TWENTY_ONE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_ONE])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_ONE]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_ONE].toString())) : StringUtils.EMPTY);
+                dto.setResetEligible(str[NumericConstants.TWENTY] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY])) && !Constants.NULL.equals(str[NumericConstants.TWENTY]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY].toString())) : StringUtils.EMPTY);
+                dto.setResetType(str[NumericConstants.TWENTY_ONE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_ONE])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_ONE]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_ONE].toString())) : StringUtils.EMPTY);
                 dto.setResetDate(str[NumericConstants.TWENTY_TWO] == null ? null : (Date) (str[NumericConstants.TWENTY_TWO]));
-                dto.setResetInterval(str[NumericConstants.TWENTY_THREE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_THREE])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_THREE]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_THREE].toString())) : StringUtils.EMPTY);
-                dto.setResetFrequency(str[NumericConstants.TWENTY_FOUR] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_FOUR])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_FOUR]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_FOUR].toString())) : StringUtils.EMPTY);
+                dto.setResetInterval(str[NumericConstants.TWENTY_THREE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_THREE])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_THREE]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_THREE].toString())) : StringUtils.EMPTY);
+                dto.setResetFrequency(str[NumericConstants.TWENTY_FOUR] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_FOUR])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_FOUR]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_FOUR].toString())) : StringUtils.EMPTY);
                 dto.setResetPriceType(str[NumericConstants.THIRTY_THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_THREE]));
-                dto.setNetResetPriceType(str[NumericConstants.TWENTY_SIX] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_SIX])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_SIX]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_SIX].toString())) : StringUtils.EMPTY);
+                dto.setNetResetPriceType(str[NumericConstants.TWENTY_SIX] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_SIX])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_SIX]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_SIX].toString())) : StringUtils.EMPTY);
                 dto.setNetResetPriceFormula(str[NumericConstants.TWENTY_SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_SEVEN]));
-                dto.setNetPriceType(str[NumericConstants.TWENTY_EIGHT] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_EIGHT])) &&!Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THREE])) && !Constants.NULL.equals(str[NumericConstants.THREE]) ? getDescription(Integer.valueOf(str[NumericConstants.THREE].toString())) : StringUtils.EMPTY);
+                dto.setNetPriceType(str[NumericConstants.TWENTY_EIGHT] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_EIGHT])) &&!Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THREE])) && !Constants.NULL.equals(str[NumericConstants.THREE]) ? getDescription(Integer.parseInt(str[NumericConstants.THREE].toString())) : StringUtils.EMPTY);
                 dto.setPriceProtectionStartDate(str[NumericConstants.FOUR] == null ? null : (Date) (str[NumericConstants.FOUR]));
                 dto.setPriceProtectionEndDate(str[NumericConstants.FIVE] == null ? null : (Date) (str[NumericConstants.FIVE]));
                 dto.setMeasurementPrice(str[NumericConstants.THIRTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_ONE]));
                 dto.setNep(str[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
                 dto.setNepFormula(str[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-                dto.setBasePriceType(str[NumericConstants.NINE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.NINE])) && !Constants.NULL.equals(str[NumericConstants.NINE]) ? getDescription(Integer.valueOf(str[NumericConstants.NINE].toString())) : StringUtils.EMPTY);
-                dto.setBaselineNetWAC(str[NumericConstants.TEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TEN])) && !Constants.NULL.equals(str[NumericConstants.TEN]) ? getDescription(Integer.valueOf(str[NumericConstants.TEN].toString())) : StringUtils.EMPTY);
+                dto.setBasePriceType(str[NumericConstants.NINE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.NINE])) && !Constants.NULL.equals(str[NumericConstants.NINE]) ? getDescription(Integer.parseInt(str[NumericConstants.NINE].toString())) : StringUtils.EMPTY);
+                dto.setBaselineNetWAC(str[NumericConstants.TEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TEN])) && !Constants.NULL.equals(str[NumericConstants.TEN]) ? getDescription(Integer.parseInt(str[NumericConstants.TEN].toString())) : StringUtils.EMPTY);
                 dto.setNetBaselineWACFormula(str[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
                 dto.setSubsequentPeriodPriceType(str[NumericConstants.THIRTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_TWO]));
-                dto.setNetSubsequentPeriodPrice(str[NumericConstants.THIRTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THIRTEEN])) && !Constants.NULL.equals(str[NumericConstants.THIRTEEN]) ? getDescription(Integer.valueOf(str[NumericConstants.THIRTEEN].toString())) : StringUtils.EMPTY);
+                dto.setNetSubsequentPeriodPrice(str[NumericConstants.THIRTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THIRTEEN])) && !Constants.NULL.equals(str[NumericConstants.THIRTEEN]) ? getDescription(Integer.parseInt(str[NumericConstants.THIRTEEN].toString())) : StringUtils.EMPTY);
                 dto.setNetSubsequentPeriodPriceFormula(str[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOURTEEN]));
-                dto.setPriceToleranceInterval(str[NumericConstants.FIFTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.FIFTEEN])) && !Constants.NULL.equals(str[NumericConstants.FIFTEEN]) ? getDescription(Integer.valueOf(str[NumericConstants.FIFTEEN].toString())) : StringUtils.EMPTY);
-                dto.setPriceToleranceFrequency(str[NumericConstants.SIXTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.SIXTEEN])) && !Constants.NULL.equals(str[NumericConstants.SIXTEEN]) ? getDescription(Integer.valueOf(str[NumericConstants.SIXTEEN].toString())) : StringUtils.EMPTY);
-                dto.setPriceToleranceType(str[NumericConstants.SEVENTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.SEVENTEEN])) && !Constants.NULL.equals(str[NumericConstants.SEVENTEEN]) ? getDescription(Integer.valueOf(str[NumericConstants.SEVENTEEN].toString())) : StringUtils.EMPTY);
+                dto.setPriceToleranceInterval(str[NumericConstants.FIFTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.FIFTEEN])) && !Constants.NULL.equals(str[NumericConstants.FIFTEEN]) ? getDescription(Integer.parseInt(str[NumericConstants.FIFTEEN].toString())) : StringUtils.EMPTY);
+                dto.setPriceToleranceFrequency(str[NumericConstants.SIXTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.SIXTEEN])) && !Constants.NULL.equals(str[NumericConstants.SIXTEEN]) ? getDescription(Integer.parseInt(str[NumericConstants.SIXTEEN].toString())) : StringUtils.EMPTY);
+                dto.setPriceToleranceType(str[NumericConstants.SEVENTEEN] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.SEVENTEEN])) && !Constants.NULL.equals(str[NumericConstants.SEVENTEEN]) ? getDescription(Integer.parseInt(str[NumericConstants.SEVENTEEN].toString())) : StringUtils.EMPTY);
                 dto.setPriceTolerance(str[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHTEEN]));
                 dto.setMaxIncrementalChange(str[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINETEEN]));
-                dto.setResetEligible(str[NumericConstants.TWENTY] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY])) && !Constants.NULL.equals(str[NumericConstants.TWENTY]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY].toString())) : StringUtils.EMPTY);
-                dto.setResetType(str[NumericConstants.TWENTY_ONE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_ONE])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_ONE]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_ONE].toString())) : StringUtils.EMPTY);
+                dto.setResetEligible(str[NumericConstants.TWENTY] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY])) && !Constants.NULL.equals(str[NumericConstants.TWENTY]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY].toString())) : StringUtils.EMPTY);
+                dto.setResetType(str[NumericConstants.TWENTY_ONE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_ONE])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_ONE]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_ONE].toString())) : StringUtils.EMPTY);
                 dto.setResetDate(str[NumericConstants.TWENTY_TWO] == null ? null : (Date) (str[NumericConstants.TWENTY_TWO]));
-                dto.setResetInterval(str[NumericConstants.TWENTY_THREE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_THREE])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_THREE]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_THREE].toString())) : StringUtils.EMPTY);
-                dto.setResetFrequency(str[NumericConstants.TWENTY_FOUR] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_FOUR])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_FOUR]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_FOUR].toString())) : StringUtils.EMPTY);
+                dto.setResetInterval(str[NumericConstants.TWENTY_THREE] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_THREE])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_THREE]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_THREE].toString())) : StringUtils.EMPTY);
+                dto.setResetFrequency(str[NumericConstants.TWENTY_FOUR] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_FOUR])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_FOUR]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_FOUR].toString())) : StringUtils.EMPTY);
                 dto.setResetPriceType(str[NumericConstants.THIRTY_THREE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_THREE]));
-                dto.setNetResetPriceType(str[NumericConstants.TWENTY_SIX] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_SIX])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_SIX]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_SIX].toString())) : StringUtils.EMPTY);
+                dto.setNetResetPriceType(str[NumericConstants.TWENTY_SIX] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_SIX])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_SIX]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_SIX].toString())) : StringUtils.EMPTY);
                 dto.setNetResetPriceFormula(str[NumericConstants.TWENTY_SEVEN] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_SEVEN]));
-                dto.setNetPriceType(str[NumericConstants.TWENTY_EIGHT] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_EIGHT])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_EIGHT]) ? getDescription(Integer.valueOf(str[NumericConstants.TWENTY_EIGHT].toString())) : StringUtils.EMPTY);
+                dto.setNetPriceType(str[NumericConstants.TWENTY_EIGHT] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.TWENTY_EIGHT])) && !Constants.NULL.equals(str[NumericConstants.TWENTY_EIGHT]) ? getDescription(Integer.parseInt(str[NumericConstants.TWENTY_EIGHT].toString())) : StringUtils.EMPTY);
                 dto.setNetPriceTypeFormula(str[NumericConstants.TWENTY_NINE] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWENTY_NINE]));
                 dto.setAttachedDate(str[NumericConstants.THIRTY] == null ? null : (Date) (str[NumericConstants.THIRTY]));
                 String basePriceType = dto.getBasePriceType();
@@ -457,7 +457,7 @@ public class AbstractLogic {
                             dto.setBaselineWAC((Date) (str[NumericConstants.THIRTY_FIVE]));
                             break;
                         case Constants.PRICE_TYPE_LABEL:
-                            dto.setBaselineWAC(str[NumericConstants.THIRTY_SIX] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THIRTY_SIX])) && !Constants.NULL.equals(str[NumericConstants.THIRTY_SIX]) ? getDescription(Integer.valueOf(str[NumericConstants.THIRTY_SIX].toString())) : StringUtils.EMPTY);
+                            dto.setBaselineWAC(str[NumericConstants.THIRTY_SIX] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THIRTY_SIX])) && !Constants.NULL.equals(str[NumericConstants.THIRTY_SIX]) ? getDescription(Integer.parseInt(str[NumericConstants.THIRTY_SIX].toString())) : StringUtils.EMPTY);
                             break;
                         default:
                             break;
@@ -1624,10 +1624,10 @@ public class AbstractLogic {
         }
         comboBox.setNullSelectionAllowed(true);
         comboBox.setItemCaptionPropertyId(DESCRIPTION);
-        comboBox.addItems(getDDLBList(columnName, tableName, isFilter, queryName));
+        comboBox.addItems(loadDdlbList(columnName, tableName, isFilter, queryName));
     }
 
-    public static List getDDLBList(String columnName, String tableName, Boolean isFilter, String queryName) {
+    public static List loadDdlbList(String columnName, String tableName, Boolean isFilter, String queryName) {
         String comboboxName = tableName + "-" + columnName;
         if (getDdlbmap().get(comboboxName) == null) {
             List input = new ArrayList();
@@ -1646,7 +1646,7 @@ public class AbstractLogic {
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(IndicatorConstants.SELECT_ONE.getConstant()))) {
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : Integer.parseInt(str[0].toString()));
                     dto.setDescription(str[1] == null ? Constants.ZEROSTRING : String.valueOf(str[1]));
                     resultList.add(dto);
                 }

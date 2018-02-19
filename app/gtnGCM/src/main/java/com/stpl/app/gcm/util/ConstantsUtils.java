@@ -18,36 +18,31 @@ public final class ConstantsUtils {
     /**
      * The zero.
      */
-    public final static int ZERO_INT = 0;
+    public static final int ZERO_INT = 0;
     /**
      * The list name.
      */
-    public final static String LIST_NAME = "listName";
+    public static final String LIST_NAME = "listName";
 
     /**
      * The description.
      */
-    public final static String DESCRIPTION = "description";
+    public static final String DESCRIPTION = "description";
 
     /**
      * The Constant COMPANY_TYPE.
      */
-    public final static String COMPANY_TYPE = "COMP_TYPE";
+    public static final String COMPANY_TYPE = "COMP_TYPE";
 
     /**
      * The Constant COMPANY_TYPE.
      */
-    public final static String COMPANY_CATEGORY = "COMP_CATEGORY";
-
-    /**
-     * The Constant COMPANY_TYPE.
-     */
-    public final static String COMPANY_TRADE_CLASS = "COMP_CATEGORY";
+    public static final String COMPANY_CATEGORY = "COMP_CATEGORY";
 
     /**
      * The quote.
      */
-    public final static String QUOTE = "\"";
+    public static final String QUOTE = "\"";
     public static final String NULL = "null";
     
     
@@ -135,11 +130,6 @@ public final class ConstantsUtils {
      * The date format.
      */
     public static final String DATE_FIEILD_CENTER = "dateFieldCenter";
-
-    /**
-     * The dmy format.
-     */
-    public static final String DMY_FORMAT = "dd/MM/yyyyy";
 
     /**
      * The width.
@@ -244,19 +234,6 @@ public final class ConstantsUtils {
      */
     public static final String END_DATE = "endDate";
 
-    /**
-     * The start date.
-     */
-    public static final String START_DATE_SP = "startDate";
-
-    /**
-     * The end date.
-     */
-    public static final String END_DATE_SP = "endDate";
-
-    /**
-     * The entity code.
-     */
     public static final String ENTITY_CODE = "entityCode";
     public static final String ENTITY_CODE_SID = "entityCodeSid";
 
@@ -532,11 +509,6 @@ public final class ConstantsUtils {
     public static final String COMPANY_NAME = "companyName";
 
     /**
-     * The company type.
-     */
-    public static final String COMPANYTYP = "companyType";
-
-    /**
      * The company type value
      */
     public static final String COMPANY_TYPE_VALUE = "companyTypeValue";
@@ -727,11 +699,7 @@ public final class ConstantsUtils {
     public static final String IFP_ID = "itemFamilyplanId";
     public static final String IFP_MODEL_ID = "ifpId";
 
-    public static final String IFP_MODEL_NO = "ifpNo";
-
     public static final String IFP_MODEL_STATUS = "ifpStatus";
-
-    public static final String IFP_MODEL_NAME = "ifpName";
 
     public static final String IFP_MODEL_TYPE = "ifpType";
 
@@ -921,11 +889,6 @@ public final class ConstantsUtils {
      */
     public static final String ITEM_PRICING_QUALIFIER_NAME = "itemPricingQualifierNameDDLB";
     /**
-     * The item pricing qualifier name.
-     */
-    public static final String ITEM_PRICING_QUALIFIER_CODE_NAME = "itemPricingCodeQualifierName";
-
-    /**
      * The identifier code qualifier name.
      */
     public static final String IDENTIFIER_CODE_QUALIFIER_NAME = "identifierCodeQualifierName";
@@ -955,10 +918,6 @@ public final class ConstantsUtils {
      */
     public static final String YES_INDICATOR = "Y";
 
-    /**
-     * The date.
-     */
-    public static final String DATE = "dd-MM-yyyy HH:mm:ss";
 
     /**
      * The primary uom.
@@ -1234,11 +1193,6 @@ public final class ConstantsUtils {
      * The dateformat.
      */
     public static final String DATEFORMAT = "dd/MM/yyyyy";
-
-    /**
-     * The spl date format.
-     */
-    public static final String SPL_DATE_FORMAT = "E MMM dd HH:mm:ss Z yyyy";
 
     /**
      * The manufacture.
@@ -1916,11 +1870,6 @@ public final class ConstantsUtils {
     /**
      * The session id.
      */
-    public static final String IFP_SYS_ID = "ifpId";
-
-    /**
-     * The session id.
-     */
     public static final String PREV_IFP_SYS_ID = "prevIfpId";
 
     /**
@@ -1957,7 +1906,6 @@ public final class ConstantsUtils {
      */
     public static final String COMPANY_SEARCH_FORM = "COMPANY_SEARCH_FORM";
     public static final String ITEM_SEARCH_FORM = "ITEM_SEARCH_FORM";
-    public static String ITEM_QUAL_NAME = "itemQualifierName";
     public static final String ITEM_PRICING_QUAL_NAME = "itemPricingQualifierName";
     public static final String BRAND_MASTER_SID = "brandMasterSid";
     public static final String REBATE_PLAN_SEARCH_FORM = "REBATE_PLAN_SEARCH_FORM";
@@ -1967,10 +1915,6 @@ public final class ConstantsUtils {
     public static final String PS_SEARCH_FORM = "PS_SEARCH_FORM";
     public static final String IM_SEARCH_FORM = "IM_SEARCH_FORM";
     public static Object UDC = "udc";
-    /**
-     * The user id.
-     */
-    public static final String USERS_ID = "usersSid";
     public static final String MANUFACTURE_CM_SID = "manfCompanyMasterSid";
     public static final String COMPANY_IDENTIFIER_SID = "companyIdentifierSid";
     public static final String PARENT_COMPANY_IDENTIFIER_SID = "parentCompanyMasterSid";
@@ -1985,19 +1929,10 @@ public final class ConstantsUtils {
     public static final String ITEM_MASTER = "ITEM_MASTER";
 
     /**
-     * The edit list.
-     */
-    public static final String EDITLIST = "Edit List";
-
-    /**
      * The select one.
      */
     public static final String SHOW_ALL = "Show all";
 
-    /**
-     * The system id.
-     */
-    public static final String ITEM_MASTER_SYSTEM_ID = "itemMasterSid";
     /**
      * entity code
      */
@@ -2106,7 +2041,34 @@ public final class ConstantsUtils {
     public static final String STATUS = "STATUS";
 
     public static final String TESTING = "testing";
-  
+    public static final String SYSTEM_ID_HEADER = "System ID";
+    public static final String TRADE_CLASS_END_DATE_HEADER = "Trade Class End Date";
+    public static final String TRADE_CLASS_START_DATE_HEADER = "Trade Class Start Date";
+    public static final String COMPANY_CRT_QUALIFIER_NAME = "companyCrtQualifierName";
+    public static final String COMPANY_QUALIFIER_NAME_HEADER = "Company Qualifier Name";
+    public static final String CONTRACT_ALIAS_TYPE = "CONTRACT_ALIAS_TYPE";
+    public static final String QUARTERLY = "Quarterly";
+    public static final String MONTHLY = "Monthly";
+    public static final String SEMI_ANNUALLY = "Semi-Annually";
+    public static final String ANNUALLY = "Annually"; 
+    public static final String IFP_CONTRACT_SID = "ifpContractSid";
+    public static final String MANDATED= "Mandated";
+    public static final String CFP_TYPE_CAPS= "CFP_TYPE";
+    public static final String IFP_TYPE_CAPS= "IFP_TYPE";
+    public static final String PS_TYPE_CAPS= "PS_TYPE";
+    public static final String RS_TYPE_CAPS= "RS_TYPE";
+    public static final String REBATE_SCHEDULE= "Rebate Schedule";
+    public static final String SALES = "Sales";
+    public static final String UNITS = "Units";
+    public static final String AMOUNT = "Amount";
+    public static final String ITEM_MANAGEMENT = "Item Management";
+    public static final String COMPANY_FAMILY_PLAN = "Company Family Plan";
+    public static final String ITEM_FAMILY_PLAN = "Item Family Plan";
+    public static final String CONTRACT_HOLDER = "Contract Holder";
+    public static final String COMP_TRADECLASS = "COMP_TRADECLASS";
+    public static final String NON_MANDATED = "Non Mandated";
+    public static final String CFP_CONTRACT_SID = "cfpContractSid";
+    
     /**
      *
      *

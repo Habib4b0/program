@@ -35,12 +35,14 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComponentConfig rpCalculationTabMainLayout = configProvider
 				.getVerticalLayoutConfig(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB, false, null);
 		rpCalculationTabMainLayout.setTabComponent(true);
-		rpCalculationTabMainLayout.addComponentStyle(GtnFrameworkStringConstants.WIDTH_AUTO);
+		rpCalculationTabMainLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(rpCalculationTabMainLayout);
 
+	        GtnUIFrameworkComponentConfig rpCalculationTabPanelConfig = configProvider.getPanelConfig(GtnFrameworkCommonConstants.RP_CALC_TAB_MAIN_PANEL, true, GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB);
+		rpCalculationTabPanelConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+                componentList.add(rpCalculationTabPanelConfig);
                 GtnUIFrameworkComponentConfig rpCalculationTabMainCssConfig = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_MAIN_CSS_LAYOUT, true,
-				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB);
+				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_MAIN_CSS_LAYOUT, true, GtnFrameworkCommonConstants.RP_CALC_TAB_MAIN_PANEL);
 		List<String> rpCalculationTabStyles = new ArrayList<>();
 		rpCalculationTabStyles.add(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		rpCalculationTabStyles.add(GtnFrameworkCssConstants.NO_MARGIN);
@@ -51,7 +53,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_INFORMATION_TAB, true,
 				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_MAIN_CSS_LAYOUT);
 		List<String> styleList = new ArrayList<>();
-                rpCalculationTabLeftCssLayoutConfig.setComponentWidth(GtnFrameworkCommonConstants.PERCENT_500);
+		styleList.add(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_3);
 		styleList.add(GtnFrameworkCssConstants.NO_MARGIN);
 		rpCalculationTabLeftCssLayoutConfig.setComponentStyle(styleList);
 		componentList.add(rpCalculationTabLeftCssLayoutConfig);
@@ -78,7 +80,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		addActionButtonLayout(componentList);
 
 	}
-   
+
 	public void calculationLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 
 		ruleInformationPanel(componentList);
@@ -94,7 +96,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 				"ruleInformationMainLayout", true,
 				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_INFORMATION_TAB);
 		rpCalculationTabRuleInformationPanel.setAuthorizationIncluded(true);
-		rpCalculationTabRuleInformationPanel.setComponentWidth("500px");
+		rpCalculationTabRuleInformationPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(rpCalculationTabRuleInformationPanel);
 
 		ruleInformationLayout(componentList);
@@ -196,7 +198,6 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		rpRuleDetailsResultDataTable.setAuthorizationIncluded(true);
 		rpRuleDetailsResultDataTable.setComponentName("Results");
 		rpRuleDetailsResultDataTable.setComponentHight("500px");
-		rpRuleDetailsResultDataTable.setComponentWidth("1000px");
 
 		rpRuleDetailsResultDataTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(rpRuleDetailsResultDataTable);

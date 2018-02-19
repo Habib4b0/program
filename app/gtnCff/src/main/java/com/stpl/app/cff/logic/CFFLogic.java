@@ -214,7 +214,7 @@ public class CFFLogic {
 
         VaadinSession.getCurrent().setAttribute(CommonUtils.CFF_MASTER_SYSTEM_ID_SESSION, cffMasterSystemId);
         String noOfLevel = getNoOfLevelFromJbpm(sessionDTO, cffMasterSid, userId);
-        result = submitCffPendingDetails(userId, Integer.valueOf(cffMasterSid), noOfLevel);
+        result = submitCffPendingDetails(userId, Integer.parseInt(cffMasterSid), noOfLevel);
         if (result.equals(CommonUtils.FAIL) || noOfLevel.isEmpty()) {
             return CommonUtils.FAIL;
         }
@@ -236,7 +236,7 @@ public class CFFLogic {
 
             CffMaster cffMaster;
             cffMaster = DAO.getCffMaster(cffMasterSystemId);
-            cffMaster.setModifiedBy(Integer.valueOf(userId));
+            cffMaster.setModifiedBy(Integer.parseInt(userId));
             cffMaster.setModifiedDate(new Date());
             cffMaster.setInboundStatus(ConstantsUtil.INBOUND_STATUS_UPDATE);
             DAO.updateCffMaster(cffMaster);
@@ -374,7 +374,7 @@ public class CFFLogic {
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
         try {
-            cffApprovalDetails.setApprovedBy(Integer.valueOf(userId));
+            cffApprovalDetails.setApprovedBy(Integer.parseInt(userId));
             cffApprovalDetails.setApprovedDate(new Date());
             cffApprovalDetails.setCffMasterSid(cffId);
             cffApprovalDetails.setInboundStatus(ConstantsUtil.INBOUND_STATUS_ADD);
@@ -454,7 +454,7 @@ public class CFFLogic {
                 Object[] obj = listSeq.get(0);
                 if (obj[NumericConstants.SEVEN] != null) {
                     String level = String.valueOf(obj[NumericConstants.SEVEN]);
-                    noOfLevel = Integer.valueOf(level);
+                    noOfLevel = Integer.parseInt(level);
                 }
             }
             List<Object[]> currentLevelList = CommonQueryUtils.getAppData(list, "getCFFCurrentLevel", null);
@@ -462,7 +462,7 @@ public class CFFLogic {
                 Object[] obj = currentLevelList.get(0);
                 if (obj[NumericConstants.FOUR] != null) {
                     String level = String.valueOf(obj[NumericConstants.FOUR]);
-                    currentLevel = Integer.valueOf(level);
+                    currentLevel = Integer.parseInt(level);
                 }
             }
             input.add(Integer.valueOf(userId));
@@ -514,7 +514,7 @@ public class CFFLogic {
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
         try {
-            cffApprovalDetails.setApprovedBy(Integer.valueOf(userId));
+            cffApprovalDetails.setApprovedBy(Integer.parseInt(userId));
             cffApprovalDetails.setApprovedDate(new Date());
             cffApprovalDetails.setCffMasterSid(cffId);
             cffApprovalDetails.setInboundStatus(ConstantsUtil.INBOUND_STATUS_ADD);
@@ -550,7 +550,7 @@ public class CFFLogic {
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
         try {
-            cffApprovalDetails.setApprovedBy(Integer.valueOf(userId));
+            cffApprovalDetails.setApprovedBy(Integer.parseInt(userId));
             cffApprovalDetails.setApprovedDate(new Date());
             cffApprovalDetails.setCffMasterSid(cffId);
             cffApprovalDetails.setInboundStatus(ConstantsUtil.INBOUND_STATUS_ADD);
@@ -941,7 +941,7 @@ public class CFFLogic {
             if (list != null && !list.isEmpty()) {
                 Object obj = list.get(0);
                 String ccfMasterId = String.valueOf(obj);
-                projectionId = Integer.valueOf(ccfMasterId);
+                projectionId = Integer.parseInt(ccfMasterId);
             }
             return projectionId;
         }
@@ -1068,7 +1068,7 @@ public class CFFLogic {
             list.add(projectionId);
             String query = CommonQueryUtils.getAppQuery(list, "CFFDETAILSINSERT");
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, tempTableNames));
-            updateInclusionFlag(Integer.valueOf(projectionId));
+            updateInclusionFlag(Integer.parseInt(projectionId));
         }
     }
 
@@ -1211,7 +1211,7 @@ public class CFFLogic {
         if (list != null) {
             recordCount = String.valueOf(list.get(0));
             if (!recordCount.equals("null")) {
-                count = Integer.valueOf(recordCount);
+                count = Integer.parseInt(recordCount);
             }
         }
         return count;
@@ -1313,7 +1313,7 @@ public class CFFLogic {
         List<Object[]> productList = new ArrayList<>();
         List<String> hierarchyNoList = new ArrayList<>();
         CommonLogic logic = new CommonLogic();
-        getCustomerSelectionHierarchyNo(contractList, customerList, hierarchyNoList, customerSelection, Integer.valueOf(dsDTO.getCustomerHierarchyLevel()));
+        getCustomerSelectionHierarchyNo(contractList, customerList, hierarchyNoList, customerSelection, Integer.parseInt(dsDTO.getCustomerHierarchyLevel()));
 
         String[] ccpHierarchyQuery = new String[NumericConstants.THREE];
 
@@ -1330,7 +1330,7 @@ public class CFFLogic {
 
         hierarchyNoList.clear();
 
-        getProductSelectionHierarchyNo(productList, hierarchyNoList, productSelection, Integer.valueOf(dsDTO.getProductHierarchyLevel()));
+        getProductSelectionHierarchyNo(productList, hierarchyNoList, productSelection, Integer.parseInt(dsDTO.getProductHierarchyLevel()));
 
         if (productList.isEmpty()) {
             ccpHierarchyQuery[NumericConstants.TWO] = getCCPValues(dsDTO.getProdRelationshipBuilderSid(), logic.formInqueryStringValue(hierarchyNoList, StringConstantsUtil.HIERARCHY_NO), "GET_PRODUCT_LEVEL");

@@ -200,7 +200,7 @@ public class PmpyLogic {
             final PmpyTradingPartnerDTO lookedUpTP = new PmpyTradingPartnerDTO();
             lookedUpTP.setTradingPartnerNo(String.valueOf(obj[0]));
             lookedUpTP.setTradingPartnerName(String.valueOf(obj[1]));
-            lookedUpTP.setCompanySysId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])));
+            lookedUpTP.setCompanySysId(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])));
             resultList.add(lookedUpTP);
         }
 
@@ -381,7 +381,7 @@ public class PmpyLogic {
             } else if (frequency.contains(Constants.FrequencyConstants.ANNUAL.getConstant())) {
                 key = StringUtils.EMPTY + obj[NumericConstants.FIVE];
             } else if (frequency.contains(Constants.FrequencyConstants.MONTHLY.getConstant())) {
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FIVE])));
+                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FIVE])));
                 key = String.valueOf(monthName + String.valueOf(obj[NumericConstants.SIX])).toUpperCase();
             }
 
@@ -457,7 +457,7 @@ public class PmpyLogic {
             worksheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
 
             final HSSFCellStyle cellStyleCurrency = workbook.createCellStyle();
-            cellStyleCurrency.setDataFormat(Short.valueOf(String.valueOf(NumericConstants.SIX)));
+            cellStyleCurrency.setDataFormat(Short.parseShort(String.valueOf(NumericConstants.SIX)));
 
             final HSSFCellStyle cellStylePercentage = workbook.createCellStyle();
             final HSSFDataFormat dateformat = workbook.createDataFormat();

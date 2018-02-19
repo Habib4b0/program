@@ -119,7 +119,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoveDiscountIndex.class);
     private String screenName = StringUtils.EMPTY;
     /* The bean used to load Start Period */
-    final private BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
     private final DiscountLogic discountLogic = new DiscountLogic();
     private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
@@ -127,7 +127,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     /**
      * Binder for DataSelection.
      */
-    final private ErrorfulFieldGroup discountChBinder = new ErrorfulFieldGroup(new BeanItem<>(removeDiscountDto));
+    private final ErrorfulFieldGroup discountChBinder = new ErrorfulFieldGroup(new BeanItem<>(removeDiscountDto));
     /**
      * Bean container for result table.
      */
@@ -178,19 +178,19 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
             marketType.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             promoteTpToChDtoTableLayout.addComponent(resultsTable); // Removed below lines for CEL-810
             contractstartDate.setValidationVisible(true);
-            contractstartDate.setDateFormat(Constants.DATE_FORMAT);
-            contractstartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            contractstartDate.setDateFormat(Constants.MM_DD_YYYY);
+            contractstartDate.addStyleName(Constants.DATE_FIELD_CENTER);
             contractendDate.setValidationVisible(true);
-            contractendDate.setDateFormat(Constants.DATE_FORMAT);
-            contractendDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            contractendDate.setDateFormat(Constants.MM_DD_YYYY);
+            contractendDate.addStyleName(Constants.DATE_FIELD_CENTER);
             commonUtil.loadComboBox(aliastype, UiUtils.CONTRACT_ALIAS_TYPE, false);
             configureAccrualResultsTable();
             aliasStartDate.setValidationVisible(true);
-            aliasStartDate.setDateFormat(Constants.DATE_FORMAT);
-            aliasStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            aliasStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            aliasStartDate.addStyleName(Constants.DATE_FIELD_CENTER);
             aliasEndDate.setValidationVisible(true);
-            aliasEndDate.setDateFormat(Constants.DATE_FORMAT);
-            aliasEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+            aliasEndDate.setDateFormat(Constants.MM_DD_YYYY);
+            aliasEndDate.addStyleName(Constants.DATE_FIELD_CENTER);
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }

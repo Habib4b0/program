@@ -43,6 +43,7 @@ import com.stpl.gtn.gtn2o.ws.service.userrole.GtnWsUserRoleService;
 import com.stpl.gtn.gtn2o.ws.util.xmlparser.SQLUtility;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsWorkflowMasterBean;
+import org.hibernate.criterion.Order;
 
 /**
  *
@@ -514,7 +515,13 @@ public class WorkflowLogicService {
             GtnWsContractWorkflowBean contractBean = workflowRequest.getContractBean();
             workflowMaster = getWorkFlowMasterBasedOnContract(contractBean.getWorkflowMasterSystemId(),
                     contractBean.getContractId(), contractBean.getContractStructure(), session);
-            if (workflowMaster == null) {
+            int approvedStatusId = databaseService
+                    .getHelperTableByDescription("Approved", GtnFrameworkWebserviceConstant.WORK_FLOW_STATUS, session)
+                    .getHelperTableSid();
+            int canceledStatusId = databaseService
+                    .getHelperTableByDescription("Canceled", GtnFrameworkWebserviceConstant.WORK_FLOW_STATUS, session)
+                    .getHelperTableSid();
+            if (workflowMaster == null || workflowMaster.getWorkflowStatusId() == approvedStatusId || workflowMaster.getWorkflowStatusId() == canceledStatusId) {
                 workflowMaster = new WorkflowMaster();
                 contractBean.setWorkflowId(new GtnWorkFlowIdGeneratorService()
                         .generateId(workflowRequest.getWorkflowGeneratorPath(), workflowRequest.getModuleName()));
@@ -556,7 +563,8 @@ public class WorkflowLogicService {
         } else {
             Criteria cr = session.createCriteria(WorkflowMaster.class)
                     .add(Restrictions.eq("contractMasterSid", contractId))
-                    .add(Restrictions.like("contractStructure", contractStructure));
+                    .add(Restrictions.like("contractStructure", contractStructure))
+                    .addOrder(Order.desc("workflowMasterSid"));
 
             List<WorkflowMaster> workFlowList = cr.list();
             if (workFlowList != null && !workFlowList.isEmpty()) {

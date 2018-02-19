@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author alok.v
  */
-public class Constants {
+public class Constants { 
 
     /**
      * The null.
@@ -36,7 +36,6 @@ public class Constants {
     public static final String ALL = "ALL";
     public static final String ZEROSTRING = "0";
     public static final String CONTRACT_ALIAS_TYPE = "CONTRACT_ALIAS_TYPE";
-    public static final String CFP_STATUS = "STATUS";
     public static final String CFP_TYPE = "CFP_TYPE";
     public static final String CFP_CATAGORY = "CFP_CATEGORY";
     public static final String TRADE_CLASS = "CFP_TRADECLASS";
@@ -87,22 +86,22 @@ public class Constants {
     public static final String FROM = "from";
     public static final String TO = "to";
     
-    public final static String IFP_STATUS = "IFP Status";
-    public final String[] cfpSearch = {CFP_NO_HEADER, CFP_NAME_HEADER, "CFP ID", "CFP Status", "CFP Type", "Company ID", "Company No", "Company Name", COMPANYSTATUS,
-         "Company Type", "Company Category", "Trade Class"};
+    public static final String IFP_STATUS = "IFP Status";
+    public final String[] cfpSearch = {CFP_NO_HEADER, CFP_NAME_HEADER, "CFP ID", "CFP Status", "CFP Type", COMPANY_ID, COMPANYNO, COMPANYNAME, COMPANYSTATUS,
+         COMPANYTYPE, COMPANYCATEGORY, TRADECLASS};
     public static final String IFP_TYPE_LABEL = "IFP Type";
-    public final String[] ifpSearch = {Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.IFP_ID, IFP_STATUS, IFP_TYPE_LABEL, "Item ID", "Item No", "Item Name",
-         "Item Status", "Item Type", "Brand", "Form", "Strength", "Therapy Class", "Item Start Date", "Item End Date"};
+    public final String[] ifpSearch = {Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.IFP_ID, IFP_STATUS, IFP_TYPE_LABEL, ITEM_ID, ITEM_NO, ITEM_NAME,
+         ITEM_STATUS, ITEM_TYPE, BRAND, FORM, STRENGTH, THERAPY_CLASS, ITEM_START_DATE, ITEM_END_DATE};
     public static final String PS_NO_LABEL = "PS No";
     public final String[] psSearch = {PS_NO_LABEL, PS_NAME_FIELD, "PS ID", "PS Status", "PS Type"};
-    public final String[] rsSearch = {RS_NO_HEADER, "RS Name", "RS ID", "RS Status", "RS Type"};
+    public final String[] rsSearch = {RS_NO_HEADER, RS_NAME_LABEL, "RS ID", "RS Status", "RS Type"};
     public static final String ID = "ID :";
     public static final String NAME = "Name :";
     public static final String NUMBER = "Number :";
     public static final String STATUS = "STATUS";
-    public final static String COMP_TRADE_CLASS = "COMP_TRADECLASS";
-    public final static String COMPANY_CATEGORY = "COMP_CATEGORY";
-    public final static String COMPANY_TYPE = "COMP_TYPE";
+    public static final String COMP_TRADE_CLASS = "COMP_TRADECLASS";
+    public static final String COMPANY_CATEGORY = "COMP_CATEGORY";
+    public static final String COMPANY_TYPE = "COMP_TYPE";
     public static final String RS_PROGRAM_TYPE = "RS_PROGRAM_TYPE";
     public static final String ALPHA_NUM_VALIDATION = "([0-9|a-z|A-Z|\\_|\\*|\\s])*";
     public static final String MM_DD_YYYY = "MM/dd/yyyy";
@@ -145,10 +144,6 @@ public class Constants {
      * The Constant PAYMENT_METHOD.
      */
     public static final String PAYMENT_METHOD = "PAYMENT_METHOD";
-    /**
-     * The Constant REBATE_SCHEDULE_TYPE.
-     */
-    public static final String REBATE_SCHEDULE_TYPE = "RS_TYPE";
     public static final String CONTRACT_HOLDER = "contractHolder";
     public static final String CONTRACT_NO = "contractNo";
     public static final String CONTRACT_NAME = "contractName";
@@ -163,66 +158,56 @@ public class Constants {
     public static final String SINGLE_QUOTES = "'";
     public static final String ASTRICK = "*";
     public static final String CONTRACT_NAME_HEADER = "Contract Name";
-    /**
-     * The date format.
-     */
-    public final static String DATE_FORMAT = "MM/dd/yyyy";
-    /**
-     * The date format.
-     */
-    public final static String DATE_FIEILD_CENTER = "dateFieldCenter";
-    public final static String DATE_FIEILD_CENTERED = "datefieldcentered";
     public static final String ANNUALLY = "Annually";
     public static final String SEMIANNUALLY = "Semi-Annually";
     public static final String QUARTERLY = "Quarterly";
     public static final String MONTHLY = "Monthly";
     public static final String SPACE = " ";
-    public final static String SHOW_ALL = "Show All";
-    public final static String BOOTSTRAP = "bootstrap";
-    public final static String BOOTSTRAP_FORECAST_BOOTSTRAP_NM = "bootstrap-forecast bootstrap-nm";
-    public final static String IFPTYPE = IFP_TYPE_LABEL;
+    public static final String SHOW_ALL = "Show All";
+    public static final String BOOTSTRAP = "bootstrap";
+    public static final String BOOTSTRAP_FORECAST_BOOTSTRAP_NM = "bootstrap-forecast bootstrap-nm";
+    public static final String IFPTYPE = IFP_TYPE_LABEL;
 
-    public final static String COMPANYCATEGORY = "Company Category";
-    public final static String COMPANYTYPE = "Company Type";
-    public final static String FORM = "Form";
-    public final static String CFP_NAME = "cfpName";
-    public final static String IFPNAME = "ifpName";
-    public final static String PSNAME = "psName";
-    public final static String RSNAME = "rsName";
-    public final static String RS_START_DATE = "rsStartDate";
-    public final static String RS_END_DATE = "rsEndDate";
-    public final static String CFP_START_DATE = "cfpStartDate";
-    public final static String CFP_END_DATE = "cfpEndDate";
-    public final static String PS_START_DATE = "psStartDate";
-    public final static String PS_END_DATE = "psEndDate";
-    public final static String IFP_START_DATE = "ifpStartDate";
-    public final static String IFP_END_DATE = "ifpEndDate";
-    public final static String COMPANY_ID = "Company ID";
-    public final static String COMPANYNAME = "Company Name";
-    public final static String COMPANYNO = "Company No";
-    public final static String TRADECLASS = "Trade Class";
-    public final static String ITEM_ID = "Item ID";
-    public final static String ITEM_NAME = "Item Name";
-    public final static String ITEM_NO = "Item No";
-    public final static String ITEM_STATUS = "Item Status";
-    public final static String ITEM_TYPE = "Item Type";
-    public final static String BRAND = "Brand";
-    public final static String STRENGTH = "Strength";
-    public final static String THERAPY_CLASS = "Therapy Class";
-    public final static String ITEM_START_DATE = "Item Start Date";
-    public final static String ITEM_END_DATE = "Item End Date";
-    public final static String IFP_ID = "IFP ID";
-    public final static String IFP_NAME_LABEL = "IFP Name";
-    public final static String IFP_NO = "IFP No";
-    public final static String TRUE = "true";
-    public final static String IS_ORDERED = "isOrdered";
-    public final static String CFP_CONTRACT_SID = "cfpContractSid";
-    public final static String IFP_CONTRACT_SID = "ifpContractSid";
-    public final static String DBDATE_FORMAT = "yyyy-MM-dd";
-    public final static String MASS_UPDATE_ERROR = "Mass Update Error";
-    public final static String PS_CONT_SID = "psContSid";
-    public final static String RS_CONT_SID = "rsContSid";
-    public final static String CORRECT_NODE_ALERT = "Please Select Correct Node";
+    public static final String COMPANYCATEGORY = "Company Category";
+    public static final String COMPANYTYPE = "Company Type";
+    public static final String FORM = "Form";
+    public static final String CFP_NAME = "cfpName";
+    public static final String IFPNAME = "ifpName";
+    public static final String PSNAME = "psName";
+    public static final String RSNAME = "rsName";
+    public static final String RS_START_DATE = "rsStartDate";
+    public static final String RS_END_DATE = "rsEndDate";
+    public static final String CFP_START_DATE = "cfpStartDate";
+    public static final String CFP_END_DATE = "cfpEndDate";
+    public static final String PS_START_DATE = "psStartDate";
+    public static final String PS_END_DATE = "psEndDate";
+    public static final String IFP_START_DATE = "ifpStartDate";
+    public static final String IFP_END_DATE = "ifpEndDate";
+    public static final String COMPANY_ID = "Company ID";
+    public static final String COMPANYNAME = "Company Name";
+    public static final String COMPANYNO = "Company No";
+    public static final String TRADECLASS = "Trade Class";
+    public static final String ITEM_ID = "Item ID";
+    public static final String ITEM_NAME = "Item Name";
+    public static final String ITEM_NO = "Item No";
+    public static final String ITEM_STATUS = "Item Status";
+    public static final String ITEM_TYPE = "Item Type";
+    public static final String BRAND = "Brand";
+    public static final String STRENGTH = "Strength";
+    public static final String THERAPY_CLASS = "Therapy Class";
+    public static final String ITEM_START_DATE = "Item Start Date";
+    public static final String ITEM_END_DATE = "Item End Date";
+    public static final String IFP_ID = "IFP ID";
+    public static final String IFP_NAME_LABEL = "IFP Name";
+    public static final String IFP_NO = "IFP No";
+    public static final String TRUE = "true";
+    public static final String IS_ORDERED = "isOrdered";
+    public static final String CFP_CONTRACT_SID = "cfpContractSid";
+    public static final String IFP_CONTRACT_SID = "ifpContractSid";
+    public static final String DBDATE_FORMAT = "yyyy-MM-dd";
+    public static final String MASS_UPDATE_ERROR = "Mass Update Error";
+    public static final String PS_CONT_SID = "psContSid";
+    public static final String RS_CONT_SID = "rsContSid";
     public static final String STATUS_FIELD = "Status";
     public static final String PS_NO = PS_NO_LABEL;
     public static final String PS_NAME_LABEL = " PS Name";
@@ -246,14 +231,13 @@ public class Constants {
     public static final String CONTRACT_TYPE_PROPERTY = "contractType";
     public static final String BRAND_NAME = "brandName";
     public static final String MANUFACTURER = "Manufacturer";
-    public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
 
     public final Object summaryContractSelectionColumns[] = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, Constants.CFP_NAME,
         Constants.IFPNAME, PS_NAME_PROPERTY, RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY, "tpstatus", COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
     public final Object summaryTransferTpColumns[] = new Object[]{
-        CHECK_RECORD, "contractHolder", "contractNo", "contractName", CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, "cfpName",
-        "ifpName", PS_NAME_PROPERTY, RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY, "statusString", COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
+        CHECK_RECORD, CONTRACT_HOLDER, CONTRACT_NO, CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, CFP_NAME,
+        IFPNAME, PS_NAME_PROPERTY, RS_NAME_PROPERTY, RAR_CATEGORY_PROPERTY, "statusString", COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY};
     public static final String COMPANY_START_DATE_LABEL = "Company Start Date";
     public static final String COMPANY_END_DATE_LABEL = "Company End Date";
     public static final String CONTRACT_END_DATE_LABEL = "Contract End Date";
@@ -268,7 +252,7 @@ public class Constants {
         CHECK_RECORD, PROJ_ID_LINK, WORKFLOW_STATUS_PROPERTY, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, STATUS_S, COMP_START_DATE_PROPERTY, COMP_END_DATE_PROPERTY, Constants.CFP_NAME, CFP_NO_PROPERTY, Constants.IFPNAME, IFP_NO_COLUMN, PS_NAME_PROPERTY, "pSNo", RS_NAME_PROPERTY, "rSNo", RAR_CATEGORY_PROPERTY};
     public static final String WORKFLOW_STATUS_LABEL = "Workflow Status";
     public final String contractSelectionHeaders[] = new String[]{
-        "", "Projection ID", WORKFLOW_STATUS_LABEL, CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL, CFP_NAME_HEADER,
+        "", PROJECTION_ID_HEADER, WORKFLOW_STATUS_LABEL, CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, STATUS_FIELD, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL, CFP_NAME_HEADER,
         CFP_NO_HEADER, Constants.IFP_NAME_LABEL, Constants.IFP_NO, PS_NAME_FIELD, PS_NO_LABEL, RS_NAME_LABEL, RS_NO_HEADER,
         RAR_CATEGORY_HEADER,};
     public final Object addTpContractSelectionColumns[] = new Object[]{
@@ -588,7 +572,7 @@ public class Constants {
     public final String custSearchHeaders[] = new String[]{
         "Customer ID", "Customer No", "Customer Name", "Customer Status", "Customer Type"};
     public final Object itemSearchColumns[] = new Object[]{
-        ITEM_ID_PROPERTY, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, ITEM_STATUS_PROPERTY, "itemType"};
+        ITEM_ID_PROPERTY, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, ITEM_STATUS_PROPERTY, ITEM_TYPE_PROPERTY};
     public final String itemSearchHeaders[] = new String[]{
         Constants.ITEM_ID, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.ITEM_STATUS, Constants.ITEM_TYPE};
     public final Object promoteTpContractDashboardTreeColumnsTransfer[] = new Object[]{
@@ -678,7 +662,6 @@ public class Constants {
     public static final String PP_S_DATE = "ppSDate";
     public static final String SELECT_THE_SAME_ITEMS = "Please Select the same items that are in IFP";
     public static final String ADD_TO_TREE = "Add to Tree";
-    public static final String E_DATE = "eDate";
     public static final String ALREADY_ADDED = " Already Added";
     public static final String CRITERIA_MISMATCH = "Criteria Mismatch";
     public static final String ITEM_MASTER_SID_PROPERTY = "itemMasterSid";
@@ -742,14 +725,14 @@ public class Constants {
         GLOBAL_CHANGE_INDEX("GlobalChangeManagement"),
         CUSTOMER_EXISTING("Existing"),
         CUSTOMER_NEW("New"),
-        COMPANY_FAMILY_PLAN("Company Family Plan"),
-        ITEM_FAMILY_PLAN("Item Family Plan"),
+        COMPANY_FAMILY_PLAN(ConstantsUtils.COMPANY_FAMILY_PLAN),
+        ITEM_FAMILY_PLAN(ConstantsUtils.ITEM_FAMILY_PLAN),
         CONTRACT("Contract"),
         ITEM_CONTRACT("Item/Contract"),
-        SELECT_ONE("-Select One-"),
+        SELECT_ONE(ConstantsUtils.SELECT_ONE),
         CUSTOMER_MANAGEMENT("Customer Management"),
         CONTRACT_MANAGEMENT("Contract Management"),
-        ITEM_MANAGEMENT("Item Management"),
+        ITEM_MANAGEMENT(ConstantsUtils.ITEM_MANAGEMENT),
         PROMOTE_TRADING_PARTNER("Promote Customer"),
         CUSTOMER_CONTRACT("Customer/Contract"),
         REMOVE_DISCOUNT("Remove Discount"),
@@ -773,17 +756,17 @@ public class Constants {
         ENABLE("Enable"),
         DISABLE("Disable"),
         TRADING_PARTNER_DETAILS("Customer Details"),
-        SALES("Sales"),
-        UNITS("Units"),
+        SALES(ConstantsUtils.SALES),
+        UNITS(ConstantsUtils.UNITS),
         SALES_PROJECTION("Sales Projection"),
         REBATES_PROJECTION("Rebates Projection"),
         SALES_AND_REBATES_PROJECTION("Sales & Rebates Projection"),
         SALES_TRANSFER("Sales Transfer"),
-        AMOUNT("Amount"),
+        AMOUNT(ConstantsUtils.AMOUNT),
         RATE("Rate"),
         YES("Yes"),
         NO("No"),
-        CONTRACT_ALIAS_TYPE("CONTRACT_ALIAS_TYPE"),
+        CONTRACT_ALIAS_TYPE(ConstantsUtils.CONTRACT_ALIAS_TYPE),
         TAB_PROMOTE_TP_TRANSFER_COMPONENTS("Transfer Components"),
         TAB_PROMOTE_TP_NEW_COMPONENTS("New Components"),
         TAB_SUMMARY_TP_DETAILS("Customer Details"),
@@ -818,7 +801,7 @@ public class Constants {
         /**
          * The primary key item family plan system id.
          */
-        IFP_CONTRACT_SID("ifpContractSid"),
+        IFP_CONTRACT_SID(ConstantsUtils.IFP_CONTRACT_SID),
         /**
          * The primary key price schedule system id.
          */
@@ -830,23 +813,23 @@ public class Constants {
         /**
          * The primary key company plan system id.
          */
-        CFP_CONTRACT_SID("cfpContractSid"),
+        CFP_CONTRACT_SID(ConstantsUtils.CFP_CONTRACT_SID),
         INBOUND_STATUS("inboundStatus"),
         PRICE_SCHEDULE(Constants.PRICE_SCHEDULE),
-        REBATE_SCHEDULE("Rebate Schedule"),
+        REBATE_SCHEDULE(ConstantsUtils.REBATE_SCHEDULE),
         ITEM_MASTER("Item Master"),
         PROMOTE_TP_REBATE_SCHEDULE_NAME(REBATE_SCHEDULE_NAME_LABEL),
         PROMOTE_TP_REBATE_FREQUENCY(QUARTERLY),
         PROMOTE_TP_SEARCH_FIELD("Brand Name"),
         TAB_PROMOTE_TP_EXISTING_COMPONENTS("Existing Components"),
         BRAND("Brand Name"),
-        STATUS(CFP_STATUS),
-        RS_TYPE(REBATE_SCHEDULE_TYPE),
-        CFP_TYPE("CFP_TYPE"),
-        IFP_TYPE("IFP_TYPE"),
+        STATUS(ConstantsUtils.STATUS),
+        RS_TYPE(ConstantsUtils.RS_TYPE_CAPS),
+        CFP_TYPE(ConstantsUtils.CFP_TYPE_CAPS),
+        IFP_TYPE(ConstantsUtils.IFP_TYPE_CAPS),
         TP_COMPANY_END_DATE(COMPANY_END_DATE_LABEL),
-        INDICATOR_CONTRACT_HOLDER("Contract Holder"),
-        PS_TYPE("PS_TYPE"),
+        INDICATOR_CONTRACT_HOLDER(ConstantsUtils.CONTRACT_HOLDER),
+        PS_TYPE(ConstantsUtils.PS_TYPE_CAPS),
         RSCONTRACTSID("rsContractSid"),
         RS_IFP_FOR_ADD_DISCOUNT("RS_IFP_FOR_ADD_DISCOUNT"),
         PS_IFP_FOR_ADD_DISCOUNT("PS_IFP_FOR_ADD_DISCOUNT"),
@@ -859,13 +842,13 @@ public class Constants {
         COMPANYS_FOR_CFP_IN_ADD_DISCOUNT("COMPANYS_FOR_CFP_IN_ADD_DISCOUNT"),
         SELECTED_ITEMS_FOR_IFP_IN_ADD_DISCOUNT("SELECTED_ITEMS_FOR_IFP_IN_ADD_DISCOUNT"),
         SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT("SELECTED_COMPANYS_FOR_CFP_IN_ADD_DISCOUNT"),
-        COMP_CATEGORY("COMP_CATEGORY"),
-        COMP_TRADECLASS("COMP_TRADECLASS"),
+        COMP_CATEGORY(ConstantsUtils.COMPANY_CATEGORY),
+        COMP_TRADECLASS(ConstantsUtils.COMP_TRADECLASS),
         FORM("FORM"),
         STRENGTH("STRENGTH"),
         ITEM_THERP_CLASS("ITEM_THERP_CLASS"),
-        MANDATED("Mandated"),
-        NON_MANDATED("Non Mandated");
+        MANDATED(ConstantsUtils.MANDATED),
+        NON_MANDATED(ConstantsUtils.NON_MANDATED);
         /**
          * The constant.
          */
@@ -903,7 +886,7 @@ public class Constants {
     public enum FieldConstants {
 
         RS_NUMBER("rsNumber"),
-        STATUS("status"),
+        STATUS(STATUS_S),
         REBATE_FREQUENCY("rebateFrequency"),
         START_DATE(Constants.START_DATE),
         RS_ID("rsId"),
@@ -972,7 +955,7 @@ public class Constants {
     };
     public final Object copycontractIfpResultsColumns[] = new Object[]{
         "itemFamilyplanId", "itemFamilyplanNo", "displayIFPStatus",
-        "ifpStartDate", "ifpEndDate"
+        IFP_START_DATE, IFP_END_DATE
     };
     public final String copycontractPsResultsHeaders[] = new String[]{
         "ID", NUMBER_LABEL, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, "IFP", "Type", CATEGORY_LABEL, "Designation"
@@ -1064,7 +1047,7 @@ public class Constants {
     public final String contractInfoHeaders[] = new String[]{
         Constants.COMPANYNO, Constants.COMPANYNAME, COMPANYSTATUS, COMPANY_START_DATE_LABEL, COMPANY_END_DATE_LABEL};
     public final Object contractComponentColumns[] = new Object[]{
-        CHECK, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, "contractStartDate", "contractEndDate", IFP_NAME, PS_NAME, "RSname"};
+        CHECK, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, CONTRACT_START_DATE, CONTRACT_END_DATE, IFP_NAME, PS_NAME, RS_NAME};
     public final String contractComponentHeaders[] = new String[]{
         "", CONTRACT_HOLDER_HEADER, CONTRACT_NO_HEADER, CONTRACT_NAME_HEADER, MARKET_TYPE_HEADER, START_DATE_HEADER, END_DATE_HEADER, "IFP", "PS", "RS"};
     public final Object ccComponentDetailsColumns[] = new Object[]{
@@ -1131,7 +1114,7 @@ public class Constants {
         NO_TP_SELECTED_TO_PROMOTE(TRANSFER_ERROR_LABEL),
         EMPTY_SPACE(""),
         NO_SEARCH_CRITERIA_TP("Please enter search criteria."),
-        TP_NO_ROW_SELECTED("Error"),
+        TP_NO_ROW_SELECTED(ERROR),
         SELECT_VALUE_BODY("Please enter value and try again."),
         RD_NO_SEARCH_CRITERIA_BODY("Please enter value.");
 
@@ -1158,7 +1141,7 @@ public class Constants {
 
         DEFOULT_JAVA_DATE_FORMAT("EEE MMM dd HH:mm:ss z yyyy"),
         DEFOULT_SQL_DATE_FORMAT("yyyy-MM-dd HH:mm:ss.SSS"),
-        MMDDYYYY(DATE_FORMAT),
+        MMDDYYYY(ConstantsUtils.DATE_FORMAT),
         YYYYMMDDHHMMSSSSS("yyyy-MM-dd hh:mm:ss.SSS"),
         MMDDYYYYHHMMSS("MM/dd/yyyy hh:mm:ss");
         private final String constant;
@@ -1240,7 +1223,7 @@ public class Constants {
     public final String newPsDetailsHeaders[] = new String[]{
         Constants.EMPTY, Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PLAN_NO_LABEL, PRICE_PLAN_NAME_LABEL, PRICE_PROTECTION_STATUS_LABEL, PRICE_PROTECTION_START_DATE_LABEL, PRICE_PROTECTION_END_DATE_LABEL, PRICE_PROTECTION_PRICE_TYPE_LABEL, PRICE_TOLERANCE_INTERVAL_LABEL, PRICE_TOLERANCE_FREQUENCY_LABEL, PRICE_TOLERANCE_TYPE_LABEL, MAX_INCREMENTAL_CHANGE_LABEL, PRICE_TOLERANCE_LABEL, "Reset", "Eligibility", RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
     public final Object adNdPsComponentDetailsColumns[] = new Object[]{
-        Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, S_DATE_PROPERTY, E_DATE_PROPERTY, PRICE_TYPE_PROPERTY, "ppSDate"};
+        Constants.CHECK_RECORD, ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, S_DATE_PROPERTY, E_DATE_PROPERTY, PRICE_TYPE_PROPERTY, PP_S_DATE};
     public final Object newRsDetailsColumns[] = new Object[]{
         Constants.CHECK, IFP_NO_COLUMN, Constants.IFPNAME, BRAND_PROPERTY, ITEM_STATUS_PROPERTY, Constants.PS_START_DATE, Constants.PS_END_DATE, FORMULA_TYPE_PROPERTY, FORMULA_ID_PROPERTY, FORMULA_NAME_PROPERTY, REBATE_PLAN_ID_PROPERTY, REBATE_PLAN_NAME_PROPERTY, REBATE_AMOUNT_PROPERTY, BUNDLE_NO_PROPERTY, ATTACHED_DATE_PROPERTY};
     public final String newRsDetailsHeaders[] = new String[]{
@@ -1299,13 +1282,13 @@ public class Constants {
     public enum FrequencyConstants {
 
         ANNUAL("Annual"),
-        ANNUALLY("Annually"),
+        ANNUALLY(ConstantsUtils.ANNUALLY),
         YEAR("Year"),
         YEARS("Years"),
         SEMI_ANNUAL("Semi-Annual"),
-        SEMI_ANNUALLY("Semi-Annually"),
-        QUARTERLY("Quarterly"),
-        MONTHLY("Monthly"),
+        SEMI_ANNUALLY(ConstantsUtils.SEMI_ANNUALLY),
+        QUARTERLY(ConstantsUtils.QUARTERLY),
+        MONTHLY(ConstantsUtils.MONTHLY),
         MONTHS("Months"),
         QUARTERS("Quarters");
         private final String frequencyValue;
@@ -1377,16 +1360,11 @@ public class Constants {
     public static final String NET_RESET_PRICE_TYPE_LABLE_NAME = "Net Reset Price Type";
     public static final String RESET_ELIGIBLE_LABLE_NAME = "Reset Eligible";
     public static final String NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME = "Net Subsequent Period Price";
-    public static final String RESET_FREQUENCY_LABLE_NAME = "Reset Frequency";
     public static final String RESET_PRICE_TYPE_LABLE_NAME = "Reset Price Type";
-    public static final String RESET_INTERVAL_LABLE_NAME = "Reset Interval";
-    public static final String RESET_TYPE_LABLE_NAME = "Reset Type";
-    public static final String RESET_DATE_LABLE_NAME = "Reset Date";
     public static final String BASELINE_NET_WAC_LABLE_NAME = "Baseline Net WAC";
     public static final String NET_PRICE_TYPE_FORMULA_LABLE_NAME = "Net Price Type Formula";
     public static final String NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME = "Net Subsequent Period Price Formula";
     public static final String NET_BASELINE_WAC_FORMULA_LABLE_NAME = "Net Baseline WAC Formula";
-    public static final String MAX_INCREMENTAL_CHANGE_LABLE_NAME = "Max Incremental Change";
     public static final String SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME = "Subsequent Period Price Type";
     public static final String NET_RESET_PRICE_FORMULA_LABLE_NAME = "Net Reset Price Formula";
     public static final String BASELINE_WAC_LABLE_NAME = "Baseline WAC";
@@ -1429,8 +1407,6 @@ public class Constants {
             Constants for Item Management List Names
      */
     public static final String LOCKED_STATUS_LISTNAME = "LOCKED_STATUS";
-    public static final String RESET_TYPE_LISTNAME = "RESET_TYPE";
-    public static final String BASE_PRICE_TYPE_LISTNAME = "BASE_PRICE_TYPE";
     public static final String NS_FORMULA_TYPE_LISTNAME = "NS_FORMULA_TYPE";
     
     public static final String SEARCH_ICON = "searchicon";

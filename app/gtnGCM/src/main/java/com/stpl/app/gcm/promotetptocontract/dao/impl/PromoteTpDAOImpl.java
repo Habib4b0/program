@@ -9,7 +9,6 @@ import com.stpl.app.gcm.promotetptocontract.dao.PromoteTpDAO;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.COMPANY_FAMILY_PLAN;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ITEM_FAMILY_PLAN;
@@ -30,7 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -199,10 +197,10 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         }
         GcmGlobalDetails temp = GcmGlobalDetailsLocalServiceUtil.createGcmGlobalDetails(0);
         if (dto.getProjectionId() != null && !dto.getProjectionId().isEmpty()) {
-            temp.setProjectionMasterSid(Integer.valueOf(dto.getProjectionId()));
+            temp.setProjectionMasterSid(Integer.parseInt(dto.getProjectionId()));
         }
         if (dto.getContractId() != null && !dto.getContractId().isEmpty()) {
-            temp.setContractMasterSid(Integer.valueOf(dto.getContractId()));
+            temp.setContractMasterSid(Integer.parseInt(dto.getContractId()));
         }
         if (dto.getIfpId() != null) {
             temp.setIfpModelSid(dto.getIFPId());
@@ -216,7 +214,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         temp.setOperation("Promote_TP_Submit");
         temp.setSessionId(sessionId);
         temp.setCheckRecord(true);
-        temp.setUserId(Integer.valueOf(userId));
+        temp.setUserId(Integer.parseInt(userId));
         GcmGlobalDetailsLocalServiceUtil.updateGcmGlobalDetails(temp);
              
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS set CHECK_RECORD = '0' , OPERATION = '" + udcValue + "' where USER_ID='" + userId + "' AND SESSION_ID='" + sessionId + "' AND CHECK_RECORD='1' AND SCREEN_NAME = '" + screenName + "'";

@@ -601,7 +601,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }

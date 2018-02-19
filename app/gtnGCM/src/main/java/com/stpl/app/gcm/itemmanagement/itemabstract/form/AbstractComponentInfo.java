@@ -158,7 +158,7 @@ public class AbstractComponentInfo extends CustomComponent {
         Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.NEP_LABLE_NAME, Constants.NEP_FORMULA_LABLE_NAME, Constants.BASE_PRICE_TYPE_LABLE_NAME, Constants.BASELINE_WAC_LABLE_NAME,
         Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME,
         Constants.PRICE_TOLERANCE_INTERVAL_LABEL, Constants.PRICE_TOLERANCE_FREQUENCY_LABEL, Constants.PRICE_TOLERANCE_TYPE_LABEL, Constants.PRICE_TOLERANCE_LABEL,
-        Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME, Constants.RESET_ELIGIBLE_LABLE_NAME, Constants.RESET_TYPE_LABLE_NAME, Constants.RESET_DATE_LABLE_NAME, Constants.RESET_INTERVAL_LABLE_NAME, Constants.RESET_FREQUENCY_LABLE_NAME,
+        Constants.MAX_INCREMENTAL_CHANGE_LABEL, Constants.RESET_ELIGIBLE_LABLE_NAME, Constants.RESET_TYPE_LABEL, Constants.RESET_DATE_LABEL, Constants.RESET_INTERVAL_LABEL, Constants.RESET_FREQUENCY_LABEL,
         Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.ATTACHED_DATE_FIELD};
 
 
@@ -166,7 +166,7 @@ public class AbstractComponentInfo extends CustomComponent {
     public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
+    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     String componentFlag = StringUtils.EMPTY;
@@ -419,7 +419,7 @@ public class AbstractComponentInfo extends CustomComponent {
                         }
                         if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
                             ComboBox basePriceType = new ComboBox();
-                            CommonUtil.getComboBoxByListName(basePriceType, Constants.BASE_PRICE_TYPE_LISTNAME, true);
+                            CommonUtil.getComboBoxByListName(basePriceType, Constants.BASE_PRICE_TYPE_COLUMN_NAME, true);
                             return basePriceType;
                         }
                         if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {
@@ -449,7 +449,7 @@ public class AbstractComponentInfo extends CustomComponent {
                         }
                         if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, Constants.RESET_TYPE_LISTNAME, true);
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.RESET_TYPE_COLUMN_NAME, true);
                             return comboBox;
                         }
                         if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {

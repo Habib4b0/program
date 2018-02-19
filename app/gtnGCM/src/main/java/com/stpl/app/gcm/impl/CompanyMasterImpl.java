@@ -26,8 +26,76 @@ import org.slf4j.LoggerFactory;
 public class CompanyMasterImpl {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyMasterImpl.class);
-
-    public List findCompanyMaster(String companyId, String companyNo,
+    private static final String CONST_AND = " AND ";
+    private static final String COMP_START_DATE_FROM = "compStartDatefrom";
+    private static final String COMP_START_DATE_TO = "compStartDateto";
+    private static final String CREATED_DATE_FROM = "createdDatefrom";
+    private static final String CREATED_DATE_TO = "createdDateto";
+    private static final String COMP_END_DATE_FROM = "compEndDatefrom";
+    private static final String COMP_END_DATE_TO = "compEndDateto";
+    private static final String TRADE_START_DATE_FROM = "tradeStartDatefrom";
+    private static final String TRADE_START_DATE_TO = "tradeStartDateto";
+    private static final String TRADE_END_DATE_FROM = "tradeEndDatefrom";
+    private static final String TRADE_END_DATE_TO = "tradeEndDateto";
+    private static final String PARENT_START_DATE_FROM = "parentSDatefrom";
+    private static final String PARENT_START_DATE_TO = "parentSDateto";
+    private static final String PARENT_END_DATE_FROM = "parentEDatefrom";
+    private static final String PARENT_END_DATE_TO = "parentEDateto";
+    private static final String PRIOR_PARENT_START_DATE_FROM = "priorParentSDatefrom";
+    private static final String PRIOR_PARENT_START_DATE_TO = "priorParentSDateto";
+    private static final String FILTER_COMPANY_ID = "filter~companyId";        
+    private static final String FILTER_COMPANY_NO = "filter~companyNo";
+    private static final String FILTER_COMPANY_NAME= "filter~companyName";
+    private static final String COMP_STATUS = "companyStatus";
+    private static final String COMP_TYPE = "companyType";        
+    private static final String TRADE_CLASS = "tradeClass";        
+    private static final String COMPANY_CATEGORY = "companyCategory";        
+    private static final String FILTER_ADDRESS = "filter~address1"; 
+            
+    private static final String FILTER_ADDRESS_2 = "filter~address2";
+    private static final String FILTER_CITY = "filter~city";        
+    private static final String ROWS_FETCH_NEXT = " ROWS FETCH NEXT ";
+    private static final String ROWS_ONLY = " ROWS ONLY;";
+    private static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
+            
+    private static final String COMP_NAME = "companyName";         
+    private static final String COMP_ID = "companyId";        
+    private static final String COMP_NO = "companyNo";
+    private static final String FILTER_COMPANY_SYS_ID = "filter~companySystemId";
+    private static final String AND_CM_COMP_NAME_LIKE = " AND cm.COMPANY_NAME like '";
+            
+               
+    private static final String AND_CM_COMP_ID_LIKE = " AND cm.COMPANY_ID like '";        
+    private static final String AND_CM_COMP_NO_LIKE = " AND cm.COMPANY_NO like '";        
+    private static final String FILTER_COMPANY_TYPE = "filter~companyType";
+    private static final String FILTER_COMPANY_CATEGORY = "filter~companyCategory";
+    private static final String FILTER_TRADE_CLASS = "filter~tradeClass";
+            
+               
+    private static final String AND_CM_ADDRESS_1_LIKE = " AND cm.ADDRESS1 like '";        
+    private static final String FILTER_ZIP = "filter~zip";        
+    private static final String FILTER_STATE = "filter~state";
+    private static final String IS_ORDERED = "isOrdered";
+    private static final String ORDER_BY_COMP_NAME = "orderBy~companyName";
+            
+               
+    private static final String START_INDEX = "startIndex";         
+    private static final String OFFSET = "offset";        
+    private static final String IDENTIFIER = "identifier";
+    private static final String IDENTIFIER_TYPE = "identifierType";
+    private static final String COMPANY_MASTER_SID = "companyMasterSids";
+    
+    private static final String PDT_COMP_RESTRICTION_SESS_ID = "pdt.companyRestrictionSessionId";
+    private static final String FILTER_COMPANY_STATUS = "filter~companyStatus";                             
+    private static final String FILTER_PARENT_NO = "filter~parentNo";
+    private static final String FILTER_PARENT_NAME = "filter~parentName";  
+    private static final String PROJ_ID = "projectionId"; 
+    private static final String SELECT_CM_CNT_MASTER_SID_FROM_CNT_MASTER = ", (SELECT CM.CONTRACT_MASTER_SID FROM CONTRACT_MASTER CM";
+    private static final String CNT_MASTER = "CONTRACT_MASTER"; 
+    private static final String J1_WHERE_J1 = " J1 WHERE J1."; 
+    private static final String SELECT_IM_ITEM_MASTER_SID_FROM_ITEM_MASTER = ", (SELECT IM.ITEM_MASTER_SID FROM ITEM_MASTER IM";
+            
+            public List findCompanyMaster(String companyId, String companyNo,
             String companyName, String companyStatus, String companyType,
             String tradeClass, int identifierType, String identifier, String orderByColumn, Boolean sortOrder) {
 
@@ -100,7 +168,6 @@ public class CompanyMasterImpl {
     public List findCompanyMasterV1(String companyId, String companyNo,
             String companyName, String companyStatus, String companyType, String companyCategory, String companyGroup,
             String tradeClass, int identifierType, String identifier, String orderByColumn, Boolean sortOrder, Object index, Object next, Map<String, Object> parameters) {
-//        Map<String, Object> parameters = new HashMap<String, Object>();
         StringBuilder sql = new StringBuilder();
         try {
 
@@ -115,297 +182,297 @@ public class CompanyMasterImpl {
                 sql.append(" where ");
                 if (identifierType != 0) {
                     sql.append(" crti.COMPANY_QUALIFIER_SID=").append(identifierType).append(" ");
-                    andOperator = " AND ";
+                    andOperator = CONST_AND;
                 }
                 if (identifier.length() != 0) {
                     identifier = identifier.replace('*', '%');
                     sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(identifier).append("' ");
-                    andOperator = " AND ";
+                    andOperator = CONST_AND;
                 }
 
             }
 
             if (companyId.length() != 0) {
                 sql.append(andOperator).append(" cm.COMPANY_ID like '").append(companyId).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
 
             if (companyNo.length() != 0) {
                 sql.append(andOperator).append(" cm.COMPANY_NO like '").append(companyNo).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
 
             }
 
             if (companyName.length() != 0) {
                 sql.append(andOperator).append(" cm.COMPANY_NAME like '").append(companyName).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
 
             if (!"0".equals(companyStatus) && StringUtils.isNotBlank(companyStatus)) {
                 sql.append(andOperator).append(" cm.COMPANY_STATUS='").append(companyStatus).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
 
             }
 
             if (!"0".equals(companyType) && StringUtils.isNotBlank(companyType)) {
                 sql.append(andOperator).append(" cm.COMPANY_TYPE='").append(companyType).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
 
             }
             if (!"0".equals(companyCategory) && StringUtils.isNotBlank(companyCategory)) {
                 sql.append(andOperator).append(" cm.COMPANY_CATEGORY='").append(companyCategory).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
 
             }
             if (!"0".equals(companyGroup) && StringUtils.isNotBlank(companyGroup)) {
                 sql.append(andOperator).append(" cm.COMPANY_GROUP='").append(companyGroup).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
 
             }
             if (!"0".equals(tradeClass) && StringUtils.isNotBlank(tradeClass)) {
                 sql.append(andOperator).append(" trade.COMPANY_TRADE_CLASS='").append(tradeClass).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
 
             }
 
             sql.append(andOperator).append(" cm.INBOUND_STATUS <> 'D' and trade.INBOUND_STATUS <> 'D'");
 
-            if ((parameters.get("compStartDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("compStartDatefrom"))))) {
-                String startDate = parameters.get("compStartDatefrom").toString();
+            if ((parameters.get(COMP_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_START_DATE_FROM))))) {
+                String startDate = parameters.get(COMP_START_DATE_FROM).toString();
                 sql.append(andOperator).append(" cm.COMPANY_START_DATE >= '").append(startDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("compStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("compStartDateto"))))) {
-                String endDate = parameters.get("compStartDateto").toString();
+            if ((parameters.get(COMP_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_START_DATE_TO))))) {
+                String endDate = parameters.get(COMP_START_DATE_TO).toString();
                 sql.append(andOperator).append(" cm.COMPANY_START_DATE <= '").append(endDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("createdDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("createdDatefrom"))))) {
-                String startDate = parameters.get("createdDatefrom").toString();
+            if ((parameters.get(CREATED_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CREATED_DATE_FROM))))) {
+                String startDate = parameters.get(CREATED_DATE_FROM).toString();
                 sql.append(andOperator).append(" crti.CREATED_DATE >= '").append(startDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("createdDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("createdDateto"))))) {
-                String endDate = parameters.get("createdDateto").toString();
+            if ((parameters.get(CREATED_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CREATED_DATE_TO))))) {
+                String endDate = parameters.get(CREATED_DATE_TO).toString();
                 sql.append(andOperator).append(" crti.CREATED_DATE <= '").append(endDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("compEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("compEndDatefrom"))))) {
-                String startDate = parameters.get("compEndDatefrom").toString();
+            if ((parameters.get(COMP_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_END_DATE_FROM))))) {
+                String startDate = parameters.get(COMP_END_DATE_FROM).toString();
                 sql.append(andOperator).append(" cm.COMPANY_END_DATE >= '").append(startDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("compEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("compEndDateto"))))) {
-                String endDate = parameters.get("compEndDateto").toString();
+            if ((parameters.get(COMP_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_END_DATE_TO))))) {
+                String endDate = parameters.get(COMP_END_DATE_TO).toString();
                 sql.append(andOperator).append(" cm.COMPANY_END_DATE <= '").append(endDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("tradeStartDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("tradeStartDatefrom"))))) {
-                String startDate = parameters.get("tradeStartDatefrom").toString();
+            if ((parameters.get(TRADE_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(TRADE_START_DATE_FROM))))) {
+                String startDate = parameters.get(TRADE_START_DATE_FROM).toString();
                 sql.append(andOperator).append(" trade.TRADE_CLASS_START_DATE >= '").append(startDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("tradeStartDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("tradeStartDateto"))))) {
-                String endDate = parameters.get("tradeStartDateto").toString();
+            if ((parameters.get(TRADE_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(TRADE_START_DATE_TO))))) {
+                String endDate = parameters.get(TRADE_START_DATE_TO).toString();
                 sql.append(andOperator).append(" trade.TRADE_CLASS_START_DATE <= '").append(endDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("tradeEndDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("tradeEndDatefrom"))))) {
-                String startDate = parameters.get("tradeEndDatefrom").toString();
+            if ((parameters.get(TRADE_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(TRADE_END_DATE_FROM))))) {
+                String startDate = parameters.get(TRADE_END_DATE_FROM).toString();
                 sql.append(andOperator).append(" trade.TRADE_CLASS_END_DATE >= '").append(startDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("tradeEndDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("tradeEndDateto"))))) {
-                String endDate = parameters.get("tradeEndDateto").toString();
+            if ((parameters.get(TRADE_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(TRADE_END_DATE_TO))))) {
+                String endDate = parameters.get(TRADE_END_DATE_TO).toString();
                 sql.append(andOperator).append(" trade.TRADE_CLASS_END_DATE <= '").append(endDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("parentSDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("parentSDatefrom"))))) {
-                String startDate = parameters.get("parentSDatefrom").toString();
+            if ((parameters.get(PARENT_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(PARENT_START_DATE_FROM))))) {
+                String startDate = parameters.get(PARENT_START_DATE_FROM).toString();
                 sql.append(andOperator).append(" parent.PARENT_START_DATE >= '").append(startDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("parentSDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("parentSDateto"))))) {
-                String endDate = parameters.get("parentSDateto").toString();
+            if ((parameters.get(PARENT_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(PARENT_START_DATE_TO))))) {
+                String endDate = parameters.get(PARENT_START_DATE_TO).toString();
                 sql.append(andOperator).append(" parent.PARENT_START_DATE <= '").append(endDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("parentEDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("parentEDatefrom"))))) {
-                String startDate = parameters.get("parentEDatefrom").toString();
+            if ((parameters.get(PARENT_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(PARENT_END_DATE_FROM))))) {
+                String startDate = parameters.get(PARENT_END_DATE_FROM).toString();
                 sql.append(andOperator).append(" parent.PARENT_END_DATE >= '").append(startDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("parentEDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("parentEDateto"))))) {
-                String endDate = parameters.get("parentEDateto").toString();
+            if ((parameters.get(PARENT_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(PARENT_END_DATE_TO))))) {
+                String endDate = parameters.get(PARENT_END_DATE_TO).toString();
                 sql.append(andOperator).append(" parent.PARENT_END_DATE <= '").append(endDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("priorParentSDatefrom") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priorParentSDatefrom"))))) {
-                String startDate = parameters.get("priorParentSDatefrom").toString();
+            if ((parameters.get(PRIOR_PARENT_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(PRIOR_PARENT_START_DATE_FROM))))) {
+                String startDate = parameters.get(PRIOR_PARENT_START_DATE_FROM).toString();
                 sql.append(andOperator).append(" parent.PRIOR_PARENT_START_DATE >= '").append(startDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if ((parameters.get("priorParentSDateto") != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get("priorParentSDateto"))))) {
-                String endDate = parameters.get("priorParentSDateto").toString();
+            if ((parameters.get(PRIOR_PARENT_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(PRIOR_PARENT_START_DATE_TO))))) {
+                String endDate = parameters.get(PRIOR_PARENT_START_DATE_TO).toString();
                 sql.append(andOperator).append(" parent.PRIOR_PARENT_START_DATE <= '").append(endDate).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("filter~companyId") != null) {
-                String company = parameters.get("filter~companyId").toString();
+            if (parameters.get(FILTER_COMPANY_ID) != null) {
+                String company = parameters.get(FILTER_COMPANY_ID).toString();
                 sql.append(andOperator).append(" cm.COMPANY_ID like '").append(company).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~parentCompanyNo") != null) {
                 String compNo = parameters.get("filter~parentCompanyNo").toString();
                 sql.append(andOperator).append(" comp.COMPANY_NO like '").append(compNo).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("filter~companyNo") != null) {
-                String compNo = parameters.get("filter~companyNo").toString();
+            if (parameters.get(FILTER_COMPANY_NO) != null) {
+                String compNo = parameters.get(FILTER_COMPANY_NO).toString();
                 sql.append(andOperator).append(" cm.COMPANY_NO like '").append(compNo).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("filter~companyName") != null) {
-                String compName = parameters.get("filter~companyName").toString();
+            if (parameters.get(FILTER_COMPANY_NAME) != null) {
+                String compName = parameters.get(FILTER_COMPANY_NAME).toString();
                 sql.append(andOperator).append(" cm.COMPANY_NAME like '").append(compName).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~systemId") != null) {
                 String sysId = parameters.get("filter~systemId").toString();
                 sql.append(andOperator).append(" cm.COMPANY_MASTER_SID like '").append(sysId).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("companyStatus") != null) {
-                String compStatus = parameters.get("companyStatus").toString();
+            if (parameters.get(COMP_STATUS) != null) {
+                String compStatus = parameters.get(COMP_STATUS).toString();
                 sql.append(andOperator).append(" cm.COMPANY_STATUS = '").append(compStatus).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("companyType") != null) {
-                String compType = parameters.get("companyType").toString();
+            if (parameters.get(COMP_TYPE) != null) {
+                String compType = parameters.get(COMP_TYPE).toString();
                 sql.append(andOperator).append(" cm.COMPANY_TYPE like '").append(compType).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~companyStartDate") != null) {
                 String compStart = parameters.get("filter~companyStartDate").toString();
                 sql.append(andOperator).append(" cm.COMPANY_START_DATE like '").append(compStart).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("tradeClass") != null) {
-                String trade = parameters.get("tradeClass").toString();
+            if (parameters.get(TRADE_CLASS) != null) {
+                String trade = parameters.get(TRADE_CLASS).toString();
                 sql.append(andOperator).append(" trade.COMPANY_TRADE_CLASS like '").append(trade).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~lives") != null) {
                 String lives = parameters.get("filter~lives").toString();
                 sql.append(andOperator).append(" cm.LIVES like '").append(lives).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~identifier") != null) {
                 String iden = parameters.get("filter~identifier").toString();
                 sql.append(andOperator).append(" crti.COMPANY_IDENTIFIER_VALUE like '").append(iden).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("companyGroup") != null) {
                 String group = parameters.get("companyGroup").toString();
                 sql.append(andOperator).append(" cm.COMPANY_GROUP like '").append(group).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("companyCategory") != null) {
-                String category = parameters.get("companyCategory").toString();
+            if (parameters.get(COMPANY_CATEGORY) != null) {
+                String category = parameters.get(COMPANY_CATEGORY).toString();
                 sql.append(andOperator).append(" cm.COMPANY_CATEGORY like '").append(category).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("orgKey") != null) {
                 String orgKey = parameters.get("orgKey").toString();
                 sql.append(andOperator).append(" cm.ORGANIZATION_KEY like '").append(orgKey).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~identifierTypeDesc") != null) {
                 String qualifier = parameters.get("filter~identifierTypeDesc").toString();
                 sql.append(andOperator).append(" crtq.COMPANY_QUALIFIER_NAME like '").append(qualifier).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
 
             if (parameters.get("filter~identifierType") != null) {
                 String qualifier = parameters.get("filter~identifierType").toString();
                 sql.append(andOperator).append(" crtq.COMPANY_QUALIFIER_NAME like '").append(qualifier).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
 
             if (parameters.get("filter~financialSystem") != null) {
                 String company = parameters.get("filter~financialSystem").toString();
                 sql.append(andOperator).append(" cm.FINANCIAL_SYSTEM like '").append(company).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~regionCode") != null) {
                 String code = parameters.get("filter~regionCode").toString();
                 sql.append(andOperator).append(" cm.REGION_CODE like '").append(code).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("udc1") != null) {
                 String udc1 = parameters.get("udc1").toString();
                 sql.append(andOperator).append(" udc.UDC1 like '").append(udc1).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("udc2") != null) {
                 String udc2 = parameters.get("udc2").toString();
                 sql.append(andOperator).append(" udc.UDC2 like '").append(udc2).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("udc3") != null) {
                 String udc3 = parameters.get("udc3").toString();
                 sql.append(andOperator).append(" udc.UDC3 like '").append(udc3).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("udc4") != null) {
                 String udc4 = parameters.get("udc4").toString();
                 sql.append(andOperator).append(" udc.UDC4 like '").append(udc4).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("udc5") != null) {
                 String udc5 = parameters.get("udc5").toString();
                 sql.append(andOperator).append(" udc.UDC5 like '").append(udc5).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("udc6") != null) {
                 String udc6 = parameters.get("udc6").toString();
                 sql.append(andOperator).append(" udc.UDC6 like '").append(udc6).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("filter~address1") != null) {
-                String address1 = parameters.get("filter~address1").toString();
+            if (parameters.get(FILTER_ADDRESS) != null) {
+                String address1 = parameters.get(FILTER_ADDRESS).toString();
                 sql.append(andOperator).append(" cm.ADDRESS1 like '").append(address1).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("filter~address2") != null) {
-                String address2 = parameters.get("filter~address2").toString();
+            if (parameters.get(FILTER_ADDRESS_2) != null) {
+                String address2 = parameters.get(FILTER_ADDRESS_2).toString();
                 sql.append(andOperator).append(" cm.ADDRESS2 like '").append(address2).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~zipCode") != null) {
                 String zipCode = parameters.get("filter~zipCode").toString();
                 sql.append(andOperator).append(" cm.ZIP_CODE like '").append(zipCode).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
-            if (parameters.get("filter~city") != null) {
-                String city = parameters.get("filter~city").toString();
+            if (parameters.get(FILTER_CITY) != null) {
+                String city = parameters.get(FILTER_CITY).toString();
                 sql.append(andOperator).append(" cm.CITY like '").append(city).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("state") != null) {
                 String state = parameters.get("state").toString();
                 sql.append(andOperator).append(" cm.STATE like '").append(state).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("country") != null) {
                 String country = parameters.get("country").toString();
                 sql.append(andOperator).append(" cm.COUNTRY like '").append(country).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("identifierStatus") != null) {
                 String identifierStatus = parameters.get("identifierStatus").toString();
                 sql.append(andOperator).append(" crti.IDENTIFIER_STATUS like '").append(identifierStatus).append("' ");
-                andOperator = " AND ";
+                andOperator = CONST_AND;
             }
             if (parameters.get("filter~systemId~>") != null) {
                 String value = parameters.get("filter~systemId~>").toString();
@@ -452,7 +519,6 @@ public class CompanyMasterImpl {
                 sql.append(" AND CM.COMPANY_MASTER_SID > '");
                 sql.append(companySidGreater).append("'");
                 sql.append(" AND CM.COMPANY_MASTER_SID < '");
-//                sql.append("'AND '");
                 sql.append(companySidLesser).append("'");
             }
 
@@ -466,9 +532,9 @@ public class CompanyMasterImpl {
 
                 sql.append(" " + "OFFSET ");
                 sql.append(index);
-                sql.append(" ROWS FETCH NEXT ");
+                sql.append(ROWS_FETCH_NEXT);
                 sql.append(((Integer) next - (Integer) index));
-                sql.append(" ROWS ONLY;");
+                sql.append(ROWS_ONLY);
             }
 
            
@@ -539,7 +605,6 @@ public class CompanyMasterImpl {
 
     }
 
-    //Admin Console
     public List getCustomerSearchDetails(String customerNo, String tradeClass, String customerStatus, String state, String customerName, String customerType, String city, String zipCode) {
         String sql = StringUtils.EMPTY;
         try {
@@ -579,7 +644,6 @@ public class CompanyMasterImpl {
                 sql += " and CM.zip_Code like '" + zip + "' ";
 
             }
-            // sql += " and CM.inboundStatus not like '"+ConstantsUtils.INBOUND_STATUS_D+"'";
 
             LOGGER.debug("Final sql statement----------->" + sql);
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -661,142 +725,142 @@ public class CompanyMasterImpl {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         try {
             LOGGER.debug("Entering searchTPCompanies method");
-            if (parameters.get("lazyLoadResults") != null && "lazyLoadResults".equalsIgnoreCase(String.valueOf(parameters.get("lazyLoadResults")))) {
+            if (parameters.get(LAZY_LOAD_RESULTS) != null && LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(LAZY_LOAD_RESULTS)))) {
                 queryString.append(SQlUtil.getQuery("searchPromoteTpToChCompany"));
             } else {
                 queryString.append(SQlUtil.getQuery("searchPromoteTpToChCompanyCount"));
             }
 
-            if (parameters.get("companyName") != null) {
+            if (parameters.get(COMP_NAME) != null) {
                 queryString.append(" AND CM.COMPANY_NAME like '");
-                queryString.append(String.valueOf(parameters.get("companyName")));
+                queryString.append(String.valueOf(parameters.get(COMP_NAME)));
                 queryString.append("' ");
             }
 
-            if (parameters.get("companyId") != null) {
+            if (parameters.get(COMP_ID) != null) {
                 queryString.append(" AND CM.COMPANY_ID like '");
-                queryString.append(String.valueOf(parameters.get("companyId")));
+                queryString.append(String.valueOf(parameters.get(COMP_ID)));
                 queryString.append("' ");
             }
 
-            if (parameters.get("companyNo") != null) {
+            if (parameters.get(COMP_NO) != null) {
                 queryString.append(" AND CM.COMPANY_NO like '");
-                queryString.append(String.valueOf(parameters.get("companyNo")));
+                queryString.append(String.valueOf(parameters.get(COMP_NO)));
                 queryString.append("' ");
             }
 
-            if (parameters.get("companyType") != null) {
+            if (parameters.get(COMP_TYPE) != null) {
                 queryString.append(" AND CM.COMPANY_TYPE in (select HELPER_TABLE_SID from HELPER_TABLE where DESCRIPTION='");
-                queryString.append(String.valueOf(parameters.get("companyType")));
+                queryString.append(String.valueOf(parameters.get(COMP_TYPE)));
                 queryString.append("' and LIST_NAME='COMPANY_TYPE' )");
             }
 
-            if (parameters.get("companyCategory") != null) {
+            if (parameters.get(COMPANY_CATEGORY) != null) {
                 queryString.append(" AND CM.COMPANY_CATEGORY in (select HELPER_TABLE_SID from HELPER_TABLE where DESCRIPTION='");
-                queryString.append(String.valueOf(parameters.get("companyCategory")));
+                queryString.append(String.valueOf(parameters.get(COMPANY_CATEGORY)));
                 queryString.append("' and LIST_NAME='COMPANY_CATEGORY' )");
             }
 
-            if (parameters.get("tradeClass") != null) {
+            if (parameters.get(TRADE_CLASS) != null) {
                 queryString.append(" AND trade.COMPANY_TRADE_CLASS in (select HELPER_TABLE_SID from HELPER_TABLE where DESCRIPTION='");
-                queryString.append(String.valueOf(parameters.get("tradeClass")));
+                queryString.append(String.valueOf(parameters.get(TRADE_CLASS)));
                 queryString.append("' and LIST_NAME='COMPANY_TRADE_CLASS' )");
             }
 
             /* coded for filter */
-            if (parameters.get("filter~companySystemId") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companySystemId"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companySystemId")))) {
+            if (parameters.get(FILTER_COMPANY_SYS_ID) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_SYS_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_SYS_ID)))) {
                 queryString.append(" AND cm.COMPANY_MASTER_SID like '");
-                queryString.append(String.valueOf(parameters.get("filter~companySystemId")));
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_SYS_ID)));
                 queryString.append("' ");
             }
 
-            if (parameters.get("filter~companyName") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyName")))) {
-                queryString.append(" AND cm.COMPANY_NAME like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyName")));
+            if (parameters.get(FILTER_COMPANY_NAME) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_NAME)))) {
+                queryString.append(AND_CM_COMP_NAME_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_NAME)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companyId") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyId"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyId")))) {
-                queryString.append(" AND cm.COMPANY_ID like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyId")));
+            if (parameters.get(FILTER_COMPANY_ID) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_ID)))) {
+                queryString.append(AND_CM_COMP_ID_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_ID)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companyNo") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyNo"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyNo")))) {
-                queryString.append(" AND cm.COMPANY_NO like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyNo")));
+            if (parameters.get(FILTER_COMPANY_NO) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_NO)))) {
+                queryString.append(AND_CM_COMP_NO_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_NO)));
                 queryString.append("' ");
             }
 
-            if (parameters.get("filter~companyType") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyType"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyType")))) {
-                String cType = String.valueOf(parameters.get("filter~companyType"));
+            if (parameters.get(FILTER_COMPANY_TYPE) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_TYPE))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_TYPE)))) {
+                String cType = String.valueOf(parameters.get(FILTER_COMPANY_TYPE));
                 cType = cType.replaceAll("%", "");
                 queryString.append(" AND CM.COMPANY_TYPE in (");
                 queryString.append(cType);
                 queryString.append(")");
             }
 
-            if (parameters.get("filter~companyCategory") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyCategory"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyCategory")))) {
-                String category = String.valueOf(parameters.get("filter~companyCategory"));
+            if (parameters.get(FILTER_COMPANY_CATEGORY) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY)))) {
+                String category = String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY));
                 category = category.replaceAll("%", "");
                 queryString.append(" AND CM.COMPANY_CATEGORY in (");
                 queryString.append(category);
                 queryString.append(")");
             }
 
-            if (parameters.get("filter~tradeClass") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~tradeClass"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~tradeClass")))) {
-                String tradeClass = String.valueOf(parameters.get("filter~tradeClass"));
+            if (parameters.get(FILTER_TRADE_CLASS) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_TRADE_CLASS))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_TRADE_CLASS)))) {
+                String tradeClass = String.valueOf(parameters.get(FILTER_TRADE_CLASS));
                 tradeClass = tradeClass.replaceAll("%", "");
                 queryString.append(" AND trade.COMPANY_TRADE_CLASS in (");
                 queryString.append(tradeClass);
                 queryString.append(" )");
             }
 
-            if (parameters.get("filter~address1") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~address1"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~address1")))) {
-                queryString.append(" AND cm.ADDRESS1 like '");
-                queryString.append(String.valueOf(parameters.get("filter~address1")));
+            if (parameters.get(FILTER_ADDRESS) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_ADDRESS))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_ADDRESS)))) {
+                queryString.append(AND_CM_ADDRESS_1_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_ADDRESS)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~address2") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~address2"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~address2")))) {
-                queryString.append(" AND cm.ADDRESS1 like '");
-                queryString.append(String.valueOf(parameters.get("filter~address2")));
+            if (parameters.get(FILTER_ADDRESS_2) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_ADDRESS_2))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_ADDRESS_2)))) {
+                queryString.append(AND_CM_ADDRESS_1_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_ADDRESS_2)));
                 queryString.append("' ");
             }
 
-            if (parameters.get("filter~city") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~city"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~city")))) {
+            if (parameters.get(FILTER_CITY) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_CITY))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_CITY)))) {
                 queryString.append(" AND cm.CITY like '");
-                queryString.append(String.valueOf(parameters.get("filter~city")));
+                queryString.append(String.valueOf(parameters.get(FILTER_CITY)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~zip") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~zip"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~zip")))) {
+            if (parameters.get(FILTER_ZIP) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_ZIP))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_ZIP)))) {
                 queryString.append(" AND cm.ZIP_CODE like '");
-                queryString.append(String.valueOf(parameters.get("filter~zip")));
+                queryString.append(String.valueOf(parameters.get(FILTER_ZIP)));
                 queryString.append("' ");
             }
 
-            if (parameters.get("filter~state") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~state"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~state")))) {
-                String state = String.valueOf(parameters.get("filter~state"));
+            if (parameters.get(FILTER_STATE) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_STATE))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_STATE)))) {
+                String state = String.valueOf(parameters.get(FILTER_STATE));
                 state = state.replaceAll("%", "");
                 queryString.append(" AND CM.STATE in (");
                 queryString.append(state);
                 queryString.append(" )");
             }
 
-            if ((parameters.get("isOrdered") == null || "false".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) && (parameters.get("lazyLoadResults") != null)) {
+            if ((parameters.get(IS_ORDERED) == null || "false".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) && (parameters.get(LAZY_LOAD_RESULTS) != null)) {
                 queryString.append(" ORDER BY CM.CREATED_DATE DESC ");
-            } else if (parameters.get("isOrdered") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) {
-                if (parameters.get("orderBy~companyName") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("orderBy~companyName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~companyName")))) {
+            } else if (parameters.get(IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) {
+                if (parameters.get(ORDER_BY_COMP_NAME) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)))) {
                     queryString.append(" ORDER BY CM.COMPANY_NAME ");
-                    queryString.append(String.valueOf(parameters.get("orderBy~companyName")));
+                    queryString.append(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)));
                 }
             }
-            if (parameters.get("lazyLoadResults") != null) {
-                if (parameters.get("startIndex") != null && parameters.get("offset") != null) {
-                    int startIndex = Integer.parseInt(String.valueOf(parameters.get("startIndex")));
-                    int offset = Integer.parseInt(String.valueOf(parameters.get("offset")));
+            if (parameters.get(LAZY_LOAD_RESULTS) != null) {
+                if (parameters.get(START_INDEX) != null && parameters.get(OFFSET) != null) {
+                    int startIndex = Integer.parseInt(String.valueOf(parameters.get(START_INDEX)));
+                    int offset = Integer.parseInt(String.valueOf(parameters.get(OFFSET)));
                     queryString.append(" OFFSET ");
                     queryString.append(startIndex);
-                    queryString.append(" ROWS FETCH NEXT ");
+                    queryString.append(ROWS_FETCH_NEXT);
                     queryString.append(offset);
-                    queryString.append(" ROWS ONLY;");
+                    queryString.append(ROWS_ONLY);
                 }
             }
             LOGGER.debug("queryString-------------->" + queryString);
@@ -806,7 +870,6 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(queryString.toString());
-            //return null;
         } 
         return resultList;
     }
@@ -834,7 +897,7 @@ public class CompanyMasterImpl {
         List resultList = null;
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         try {
-            if (parameters.get("lazyLoadResults") != null && "lazyLoadResults".equalsIgnoreCase(String.valueOf(parameters.get("lazyLoadResults")))) {
+            if (parameters.get(LAZY_LOAD_RESULTS) != null && LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(LAZY_LOAD_RESULTS)))) {
 
                 queryString.append(SQlUtil.getQuery("getCompanyTypeForPromoteTpToCh"));
             } else {
@@ -856,59 +919,52 @@ public class CompanyMasterImpl {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         try {
 
-            if (parameters.get("lazyLoadResults") != null && "lazyLoadResults".equalsIgnoreCase(String.valueOf(parameters.get("lazyLoadResults")))) {
+            if (parameters.get(LAZY_LOAD_RESULTS) != null && LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(LAZY_LOAD_RESULTS)))) {
                 LOGGER.debug("Entering search companies method");
-                if (parameters.get("identifier") != null || parameters.get("identifierType") != null) {
+                if (parameters.get(IDENTIFIER) != null || parameters.get(IDENTIFIER_TYPE) != null) {
                     queryString.append(SQlUtil.getQuery("searchCompanyWithIdentifier"));
                 } else {
                     queryString.append(SQlUtil.getQuery("searchCompany"));
                 }
             } else {
                 LOGGER.debug("Entering searchTPCompanies count method");
-                if (parameters.get("identifier") != null || parameters.get("identifierType") != null) {
+                if (parameters.get(IDENTIFIER) != null || parameters.get(IDENTIFIER_TYPE) != null) {
                     queryString.append(SQlUtil.getQuery("searchCompanyCountWithIdentifier"));
                 } else {
                     queryString.append(SQlUtil.getQuery("searchCompanyCount"));
                 }
             }
 
-            // Used to get data for the selected companies in Transfer projection details module
-            if (parameters.get("companyMasterSids") != null && !String.valueOf(parameters.get("companyMasterSids")).isEmpty()) {
-                queryString.append(" AND cm.COMPANY_MASTER_SID in(" + String.valueOf(parameters.get("companyMasterSids")) + ")");
+            if (parameters.get(COMPANY_MASTER_SID) != null && !String.valueOf(parameters.get(COMPANY_MASTER_SID)).isEmpty()) {
+                queryString.append(" AND cm.COMPANY_MASTER_SID in(" + String.valueOf(parameters.get(COMPANY_MASTER_SID)) + ")");
             }
-            // Used to restrict the data for the selected companies in Transfer projection details module
-            if (parameters.get("pdt.companyRestrictionSessionId") != null && !String.valueOf(parameters.get("pdt.companyRestrictionSessionId")).isEmpty()) {
-                queryString.append(" AND cm.COMPANY_MASTER_SID not in( Select COMPANY_MASTER_SID from GCM_COMPANY_LINK WHERE SESSION_ID = '" + String.valueOf(parameters.get("pdt.companyRestrictionSessionId")) + "' AND LINK_ID <> 'R')");
+            if (parameters.get(PDT_COMP_RESTRICTION_SESS_ID) != null && !String.valueOf(parameters.get(PDT_COMP_RESTRICTION_SESS_ID)).isEmpty()) {
+                queryString.append(" AND cm.COMPANY_MASTER_SID not in( Select COMPANY_MASTER_SID from GCM_COMPANY_LINK WHERE SESSION_ID = '" + String.valueOf(parameters.get(PDT_COMP_RESTRICTION_SESS_ID)) + "' AND LINK_ID <> 'R')");
             }
 
-//            if (parameters.get("recordLockStatus") != null && !String.valueOf(parameters.get("recordLockStatus")).isEmpty()) {
-//                queryString.append(" AND cm.RECORD_LOCK_STATUS = ");
-//                queryString.append(String.valueOf(parameters.get("recordLockStatus")));
-//            }
-
-            if (parameters.get("companyName") != null) {
-                queryString.append(" AND cm.COMPANY_NAME like '");
-                queryString.append(String.valueOf(parameters.get("companyName")));
+            if (parameters.get(COMP_NAME) != null) {
+                queryString.append(AND_CM_COMP_NAME_LIKE);
+                queryString.append(String.valueOf(parameters.get(COMP_NAME)));
                 queryString.append("' ");
             }
-            if (parameters.get("companyNo") != null) {
-                queryString.append(" AND cm.COMPANY_NO like '");
-                queryString.append(String.valueOf(parameters.get("companyNo")));
+            if (parameters.get(COMP_NO) != null) {
+                queryString.append(AND_CM_COMP_NO_LIKE);
+                queryString.append(String.valueOf(parameters.get(COMP_NO)));
                 queryString.append("' ");
             }
-            if (parameters.get("companyId") != null) {
-                queryString.append(" AND cm.COMPANY_ID like '");
-                queryString.append(String.valueOf(parameters.get("companyId")));
+            if (parameters.get(COMP_ID) != null) {
+                queryString.append(AND_CM_COMP_ID_LIKE);
+                queryString.append(String.valueOf(parameters.get(COMP_ID)));
                 queryString.append("' ");
             }
-            if (parameters.get("companyType") != null) {
+            if (parameters.get(COMP_TYPE) != null) {
                 queryString.append(" AND cm.COMPANY_TYPE like '");
-                queryString.append(String.valueOf(parameters.get("companyType")));
+                queryString.append(String.valueOf(parameters.get(COMP_TYPE)));
                 queryString.append("' ");
             }
-            if (parameters.get("companyCategory") != null) {
+            if (parameters.get(COMPANY_CATEGORY) != null) {
                 queryString.append(" AND cm.COMPANY_CATEGORY like '");
-                queryString.append(String.valueOf(parameters.get("companyCategory")));
+                queryString.append(String.valueOf(parameters.get(COMPANY_CATEGORY)));
                 queryString.append("' ");
             }
             if (parameters.get("companyTradeClass") != null) {
@@ -916,118 +972,116 @@ public class CompanyMasterImpl {
                 queryString.append(String.valueOf(parameters.get("companyTradeClass")));
                 queryString.append("' ");
             }
-            if (parameters.get("identifierType") != null) {
+            if (parameters.get(IDENTIFIER_TYPE) != null) {
                 queryString.append(" AND crti.COMPANY_QUALIFIER_SID like '");
-                queryString.append(String.valueOf(parameters.get("identifierType")));
+                queryString.append(String.valueOf(parameters.get(IDENTIFIER_TYPE)));
                 queryString.append("' ");
             }
-            if (parameters.get("identifier") != null) {
+            if (parameters.get(IDENTIFIER) != null) {
                 queryString.append(" AND crti.COMPANY_IDENTIFIER_VALUE like '");
-                queryString.append(String.valueOf(parameters.get("identifier")));
+                queryString.append(String.valueOf(parameters.get(IDENTIFIER)));
                 queryString.append("' ");
             }
-            if (parameters.get("companyStatus") != null) {
+            if (parameters.get(COMP_STATUS) != null) {
                 queryString.append(" AND cm.COMPANY_STATUS like '");
-                queryString.append(String.valueOf(parameters.get("companyStatus")));
+                queryString.append(String.valueOf(parameters.get(COMP_STATUS)));
                 queryString.append("' ");
             }
             if (parameters.get("parentCompanyNo") != null) {
-//                queryString.append(" AND parent.PARENT_COMPANY_MASTER_SID like '");
                 queryString.append(" AND comp.COMPANY_NO like '");
                 queryString.append(String.valueOf(parameters.get("parentCompanyNo")));
                 queryString.append("' ");
             }
             if (parameters.get("parentCompanyName") != null) {
-//                queryString.append(" AND parent.PARENT_COMPANY_MASTER_SID like '");
                 queryString.append(" AND comp.COMPANY_NAME like '");
                 queryString.append(String.valueOf(parameters.get("parentCompanyName")));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companyId") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyId"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyId")))) {
-                queryString.append(" AND cm.COMPANY_ID like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyId")));
+            if (parameters.get(FILTER_COMPANY_ID) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_ID))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_ID)))) {
+                queryString.append(AND_CM_COMP_ID_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_ID)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companyNo") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyNo"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyNo")))) {
-                queryString.append(" AND cm.COMPANY_NO like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyNo")));
+            if (parameters.get(FILTER_COMPANY_NO) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_NO))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_NO)))) {
+                queryString.append(AND_CM_COMP_NO_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_NO)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companyName") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyName")))) {
-                queryString.append(" AND cm.COMPANY_NAME like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyName")));
+            if (parameters.get(FILTER_COMPANY_NAME) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_NAME)))) {
+                queryString.append(AND_CM_COMP_NAME_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_NAME)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companyType") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyType")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyType"))) && !"0".equals(String.valueOf(parameters.get("filter~companyType")))) {
+            if (parameters.get(FILTER_COMPANY_TYPE) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_TYPE)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_TYPE))) && !"0".equals(String.valueOf(parameters.get(FILTER_COMPANY_TYPE)))) {
                 queryString.append(" AND cm.COMPANY_TYPE like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyType")));
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_TYPE)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companyCategory") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyCategory")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyCategory"))) && !"0".equals(String.valueOf(parameters.get("filter~companyCategory")))) {
+            if (parameters.get(FILTER_COMPANY_CATEGORY) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY))) && !"0".equals(String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY)))) {
                 queryString.append(" AND cm.COMPANY_CATEGORY like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyCategory")));
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companyStatus") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companyStatus")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companyStatus"))) && !"0".equals(String.valueOf(parameters.get("filter~companyStatus")))) {
+            if (parameters.get(FILTER_COMPANY_STATUS) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_STATUS)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_STATUS))) && !"0".equals(String.valueOf(parameters.get(FILTER_COMPANY_STATUS)))) {
                 queryString.append(" AND cm.COMPANY_STATUS like '");
-                queryString.append(String.valueOf(parameters.get("filter~companyStatus")));
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_STATUS)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~companySystemId") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~companySystemId")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~companySystemId"))) && !"0".equals(String.valueOf(parameters.get("filter~companySystemId")))) {
+            if (parameters.get(FILTER_COMPANY_SYS_ID) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_SYS_ID)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_SYS_ID))) && !"0".equals(String.valueOf(parameters.get(FILTER_COMPANY_SYS_ID)))) {
                 queryString.append(" AND cm.COMPANY_MASTER_SID like '");
-                queryString.append(String.valueOf(parameters.get("filter~companySystemId")));
+                queryString.append(String.valueOf(parameters.get(FILTER_COMPANY_SYS_ID)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~tradeClass") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~tradeClass")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~tradeClass"))) && !"0".equals(String.valueOf(parameters.get("filter~tradeClass")))) {
+            if (parameters.get(FILTER_TRADE_CLASS) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_TRADE_CLASS)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_TRADE_CLASS))) && !"0".equals(String.valueOf(parameters.get(FILTER_TRADE_CLASS)))) {
                 queryString.append(" AND trade.COMPANY_TRADE_CLASS like '");
-                queryString.append(String.valueOf(parameters.get("filter~tradeClass")));
+                queryString.append(String.valueOf(parameters.get(FILTER_TRADE_CLASS)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~address1") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~address1")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~address1"))) && !"0".equals(String.valueOf(parameters.get("filter~address1")))) {
-                queryString.append(" AND cm.ADDRESS1 like '");
-                queryString.append(String.valueOf(parameters.get("filter~address1")));
+            if (parameters.get(FILTER_ADDRESS) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_ADDRESS)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_ADDRESS))) && !"0".equals(String.valueOf(parameters.get(FILTER_ADDRESS)))) {
+                queryString.append(AND_CM_ADDRESS_1_LIKE);
+                queryString.append(String.valueOf(parameters.get(FILTER_ADDRESS)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~address2") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~address2")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~address2"))) && !"0".equals(String.valueOf(parameters.get("filter~address2")))) {
+            if (parameters.get(FILTER_ADDRESS_2) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_ADDRESS_2)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_ADDRESS_2))) && !"0".equals(String.valueOf(parameters.get(FILTER_ADDRESS_2)))) {
                 queryString.append(" AND cm.ADDRESS2 like '");
-                queryString.append(String.valueOf(parameters.get("filter~address2")));
+                queryString.append(String.valueOf(parameters.get(FILTER_ADDRESS_2)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~city") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~city")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~city"))) && !"0".equals(String.valueOf(parameters.get("filter~city")))) {
+            if (parameters.get(FILTER_CITY) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_CITY)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_CITY))) && !"0".equals(String.valueOf(parameters.get(FILTER_CITY)))) {
                 queryString.append(" AND cm.CITY like '");
-                queryString.append(String.valueOf(parameters.get("filter~city")));
+                queryString.append(String.valueOf(parameters.get(FILTER_CITY)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~state") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~state")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~state"))) && !"0".equals(String.valueOf(parameters.get("filter~state")))) {
+            if (parameters.get(FILTER_STATE) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_STATE)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_STATE))) && !"0".equals(String.valueOf(parameters.get(FILTER_STATE)))) {
                 queryString.append(" AND cm.\"STATE\" like '");
-                queryString.append(String.valueOf(parameters.get("filter~state")));
+                queryString.append(String.valueOf(parameters.get(FILTER_STATE)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~zip") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~zip")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~zip"))) && !"0".equals(String.valueOf(parameters.get("filter~zip")))) {
+            if (parameters.get(FILTER_ZIP) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_ZIP)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_ZIP))) && !"0".equals(String.valueOf(parameters.get(FILTER_ZIP)))) {
                 queryString.append(" AND cm.ZIP_CODE like '");
-                queryString.append(String.valueOf(parameters.get("filter~zip")));
+                queryString.append(String.valueOf(parameters.get(FILTER_ZIP)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~parentNo") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~parentNo")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~parentNo"))) && !"0".equals(String.valueOf(parameters.get("filter~parentNo")))) {
+            if (parameters.get(FILTER_PARENT_NO) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_PARENT_NO)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_PARENT_NO))) && !"0".equals(String.valueOf(parameters.get(FILTER_PARENT_NO)))) {
                 queryString.append(" AND comp.COMPANY_NO like '");
-                queryString.append(String.valueOf(parameters.get("filter~parentNo")));
+                queryString.append(String.valueOf(parameters.get(FILTER_PARENT_NO)));
                 queryString.append("' ");
             }
-            if (parameters.get("filter~parentName") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~parentName")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("filter~parentName"))) && !"0".equals(String.valueOf(parameters.get("filter~parentName")))) {
+            if (parameters.get(FILTER_PARENT_NAME) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_PARENT_NAME)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_PARENT_NAME))) && !"0".equals(String.valueOf(parameters.get(FILTER_PARENT_NAME)))) {
                 queryString.append(" AND comp.COMPANY_NAME like '");
-                queryString.append(String.valueOf(parameters.get("filter~parentName")));
+                queryString.append(String.valueOf(parameters.get(FILTER_PARENT_NAME)));
                 queryString.append("' ");
             }
             if (parameters.get("searchSessionId") != null) {
@@ -1038,24 +1092,24 @@ public class CompanyMasterImpl {
             if (parameters.get("checkRecord") != null) {
                 queryString.append(" AND temp.CHECK_RECORD = 1 ");
             }
-            if ((parameters.get("isOrdered") == null || StringUtils.isEmpty(String.valueOf(parameters.get("isOrdered"))) || StringUtils.isEmpty(String.valueOf(parameters.get("orderBy~companyName"))) || "false".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) && (parameters.get("lazyLoadResults") != null)) {
+            if ((parameters.get(IS_ORDERED) == null || StringUtils.isEmpty(String.valueOf(parameters.get(IS_ORDERED))) || StringUtils.isEmpty(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))) || "false".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) && (parameters.get(LAZY_LOAD_RESULTS) != null)) {
                 queryString.append(" ORDER BY CM.CREATED_DATE DESC ");
-            } else if (parameters.get("isOrdered") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) {
-                if (parameters.get("orderBy~companyName") != null && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~companyName")))) {
-                    queryString.append(" ORDER BY ").append(String.valueOf(parameters.get("orderBy~companyName"))).append(" ");
+            } else if (parameters.get(IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) {
+                if (parameters.get(ORDER_BY_COMP_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)))) {
+                    queryString.append(" ORDER BY ").append(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))).append(" ");
                     queryString.append(String.valueOf(parameters.get("orderBy")));
                 }
             }
-            if (parameters.get("lazyLoadResults") != null) {
+            if (parameters.get(LAZY_LOAD_RESULTS) != null) {
 
-                if (parameters.get("startIndex") != null && parameters.get("offset") != null) {
-                    int startIndex = Integer.parseInt(String.valueOf(parameters.get("startIndex")));
-                    int offset = Integer.parseInt(String.valueOf(parameters.get("offset")));
+                if (parameters.get(START_INDEX) != null && parameters.get(OFFSET) != null) {
+                    int startIndex = Integer.parseInt(String.valueOf(parameters.get(START_INDEX)));
+                    int offset = Integer.parseInt(String.valueOf(parameters.get(OFFSET)));
                     queryString.append(" OFFSET ");
                     queryString.append(startIndex);
-                    queryString.append(" ROWS FETCH NEXT ");
+                    queryString.append(ROWS_FETCH_NEXT);
                     queryString.append(offset);
-                    queryString.append(" ROWS ONLY;");
+                    queryString.append(ROWS_ONLY);
                 }
             }
             else {
@@ -1068,7 +1122,6 @@ public class CompanyMasterImpl {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(queryString.toString());
-            //return null;
         }
         return resultList;
     }
@@ -1081,7 +1134,6 @@ public class CompanyMasterImpl {
             LOGGER.error(ex.getMessage());
             LOGGER.error(query);
         } 
-        //LOGGER.debug("findByTableName return List list=" + list.size());
         return list;
     }
 
@@ -1112,16 +1164,16 @@ public class CompanyMasterImpl {
                 StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
                 customSql.append(SQlUtil.getQuery("saveCcp"));
 
-                if (parameters.get("projectionId") != null) {
-                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("projectionId")));
+                if (parameters.get(PROJ_ID) != null) {
+                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get(PROJ_ID)));
                 }
 
                 if (parameters.get("hierarchyNo") != null) {
                     customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
                 }
 
-                if (parameters.get("projectionId") != null) {
-                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("projectionId")));
+                if (parameters.get(PROJ_ID) != null) {
+                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get(PROJ_ID)));
                 }
 
                 LOGGER.debug("End of saveCcp method");
@@ -1166,16 +1218,15 @@ public class CompanyMasterImpl {
                                         prevNo--;
                                     }
                                 }
-                                //ly nm
-                                if ("Contract Holder".equals(tempRow[3]) && parameters.get("projectionId") != null && Constants.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(parameters.get("screenName"))) {
-                                    StringBuilder tempLogic = new StringBuilder(", (SELECT CM.CONTRACT_MASTER_SID FROM CONTRACT_MASTER CM");
-                                    if ("CONTRACT_MASTER".equals(tempRow[5])) {
+                                if ("Contract Holder".equals(tempRow[3]) && parameters.get(PROJ_ID) != null && Constants.NON_MANDATED.equals(parameters.get("screenName"))) {
+                                    StringBuilder tempLogic = new StringBuilder(SELECT_CM_CNT_MASTER_SID_FROM_CNT_MASTER);
+                                    if (CNT_MASTER.equals(tempRow[5])) {
                                         tempLogic.append(" WHERE CM.CONT_HOLD_COMPANY_MASTER_SID=");
                                         tempLogic.append(tempRow[1]);
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
-                                        tempLogic.append(" J1 WHERE J1.");
+                                        tempLogic.append(J1_WHERE_J1);
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
@@ -1185,14 +1236,14 @@ public class CompanyMasterImpl {
                                     logic.add(tempLogic);
                                     condition.add("CCP.CONTRACT_MASTER_SID=CH.CONTRACT_MASTER_SID");
                                 } else if ("Market Type".equals(tempRow[3])) {
-                                    StringBuilder tempLogic = new StringBuilder(", (SELECT CM.CONTRACT_MASTER_SID FROM CONTRACT_MASTER CM");
-                                    if ("CONTRACT_MASTER".equals(tempRow[5])) {
+                                    StringBuilder tempLogic = new StringBuilder(SELECT_CM_CNT_MASTER_SID_FROM_CNT_MASTER);
+                                    if (CNT_MASTER.equals(tempRow[5])) {
                                         tempLogic.append(" WHERE CM.CONTRACT_TYPE=");
                                         tempLogic.append(tempRow[1]);
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
-                                        tempLogic.append(" J1 WHERE J1.");
+                                        tempLogic.append(J1_WHERE_J1);
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
@@ -1202,8 +1253,8 @@ public class CompanyMasterImpl {
                                     logic.add(tempLogic);
                                     condition.add("CCP.CONTRACT_MASTER_SID=MT.CONTRACT_MASTER_SID");
                                 } else if ("Contract".equals(tempRow[3])) {
-                                    StringBuilder tempLogic = new StringBuilder(", (SELECT CM.CONTRACT_MASTER_SID FROM CONTRACT_MASTER CM");
-                                    if ("CONTRACT_MASTER".equals(tempRow[5])) {
+                                    StringBuilder tempLogic = new StringBuilder(SELECT_CM_CNT_MASTER_SID_FROM_CNT_MASTER);
+                                    if (CNT_MASTER.equals(tempRow[5])) {
                                         tempLogic.append(" WHERE CM.");
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
@@ -1212,7 +1263,7 @@ public class CompanyMasterImpl {
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
-                                        tempLogic.append(" J1 WHERE J1.");
+                                        tempLogic.append(J1_WHERE_J1);
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("=' ");
                                         tempLogic.append(tempRow[1]);
@@ -1232,7 +1283,7 @@ public class CompanyMasterImpl {
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
-                                        tempLogic.append(" J1 WHERE J1.");
+                                        tempLogic.append(J1_WHERE_J1);
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
@@ -1243,7 +1294,7 @@ public class CompanyMasterImpl {
                                     condition.add("CCP.COMPANY_MASTER_SID=TP.COMPANY_MASTER_SID");
                                 } 
                                 else if ("Brand".equals(tempRow[3])) {
-                                    StringBuilder tempLogic = new StringBuilder(", (SELECT IM.ITEM_MASTER_SID FROM ITEM_MASTER IM");
+                                    StringBuilder tempLogic = new StringBuilder(SELECT_IM_ITEM_MASTER_SID_FROM_ITEM_MASTER);
                                     if ("BRAND_MASTER".equals(tempRow[5])) {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
@@ -1255,7 +1306,7 @@ public class CompanyMasterImpl {
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
-                                        tempLogic.append(" J1 WHERE J1.");
+                                        tempLogic.append(J1_WHERE_J1);
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
@@ -1265,7 +1316,7 @@ public class CompanyMasterImpl {
                                     logic.add(tempLogic);
                                     condition.add("CCP.ITEM_MASTER_SID=BRAND.ITEM_MASTER_SID");
                                 } else if ("Therapeutic Class".equals(tempRow[3])) {
-                                    StringBuilder tempLogic = new StringBuilder(", (SELECT IM.ITEM_MASTER_SID FROM ITEM_MASTER IM");
+                                    StringBuilder tempLogic = new StringBuilder(SELECT_IM_ITEM_MASTER_SID_FROM_ITEM_MASTER);
                                     if ("ITEM_MASTER".equals(tempRow[5])) {
                                         tempLogic.append(" WHERE IM.");
                                         tempLogic.append(tempRow[6]);
@@ -1275,7 +1326,7 @@ public class CompanyMasterImpl {
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
-                                        tempLogic.append(" J1 WHERE J1.");
+                                        tempLogic.append(J1_WHERE_J1);
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
@@ -1287,7 +1338,7 @@ public class CompanyMasterImpl {
                                     logic.add(tempLogic);
                                     condition.add("CCP.ITEM_MASTER_SID=TPC.ITEM_MASTER_SID");
                                 } else if ("Item".equals(tempRow[3]) || "NDC".equals(tempRow[3]) || "Product".equals(tempRow[3])) {
-                                    StringBuilder tempLogic = new StringBuilder(", (SELECT IM.ITEM_MASTER_SID FROM ITEM_MASTER IM");
+                                    StringBuilder tempLogic = new StringBuilder(SELECT_IM_ITEM_MASTER_SID_FROM_ITEM_MASTER);
                                     if ("ITEM_MASTER".equals(tempRow[5])) {
                                         tempLogic.append(" WHERE IM.");
                                         tempLogic.append(tempRow[6]);
@@ -1297,7 +1348,7 @@ public class CompanyMasterImpl {
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
-                                        tempLogic.append(" J1 WHERE J1.");
+                                        tempLogic.append(J1_WHERE_J1);
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
@@ -1317,7 +1368,7 @@ public class CompanyMasterImpl {
                                     for (int j = condition.size() - 1; j >= 0; j--) {
                                         ccpQuery.append(condition.get(j));
                                         if (j != 0) {
-                                            ccpQuery.append(" AND ");
+                                            ccpQuery.append(CONST_AND);
                                         }
                                     }
                                     ccpQuery.append(") AS SOURCE ON (TARGET.RELATIONSHIP_LEVEL_SID=SOURCE.RELATIONSHIP_LEVEL_SID AND "

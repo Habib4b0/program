@@ -99,7 +99,7 @@ public class PromoteTPLogic {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPLogic.class);
-    private static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
+    private static final PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
     private final DiscountDAO discountDAO = new DiscountDaoImpl();
@@ -279,13 +279,13 @@ public class PromoteTPLogic {
     public List<HelperDTO> getDdlbList(String QueryName, final List<String> input) {
         List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
-        if (Integer.valueOf(String.valueOf(input.get(1))) == 0) {
+        if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             HelperDTO defaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
             resultList.add(defaultValue);
         }
         for (Object[] str : list) {
             HelperDTO dto = new HelperDTO();
-            dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+            dto.setId(str[0] == null ? 0 : Integer.parseInt(str[0].toString()));
             dto.setDescription(str[1] == null ? Constants.ZEROSTRING : String.valueOf(str[1]));
             resultList.add(dto);
         }
@@ -407,8 +407,8 @@ public class PromoteTPLogic {
                         dto.setTherapyClass(convertNullToEmpty(obj[NumericConstants.TWO]));
                         dto.setBrand(convertNullToEmpty(obj[NumericConstants.THREE]));
                         dto.setStatus(convertNullToEmpty(obj[NumericConstants.FOUR]));
-                        dto.setItemStartDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FIVE].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.DATE_FORMAT)) : null);
-                        dto.setItemEndDate(!String.valueOf(obj[NumericConstants.SIX]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SIX].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.DATE_FORMAT)) : null);
+                        dto.setItemStartDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FIVE].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.MM_DD_YYYY)) : null);
+                        dto.setItemEndDate(!String.valueOf(obj[NumericConstants.SIX]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.SIX].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.MM_DD_YYYY)) : null);
                         dto.setRebatePlan(convertNullToEmpty(obj[NumericConstants.SEVEN]));
                         dto.setFormulaId(convertNullToEmpty(obj[NumericConstants.EIGHT]));
                         componentInfoList.add(dto);
@@ -461,7 +461,6 @@ public class PromoteTPLogic {
             contract = contractId.replace(Constants.IndicatorConstants.CHAR_ASTERISK.getConstant(), Constants.IndicatorConstants.CHAR_PERCENT.getConstant());
         }
         final List<CurrentContractDTO> contractList = new ArrayList<>();
-        // TODO change the limits in the query
         try {
             final List<ContractMaster> contractML = dao.contractMasterDynamicQuery(getProcessedQuery(contract, start, end));
 
@@ -1413,8 +1412,8 @@ public class PromoteTPLogic {
                             dto.setItemName(convertNullToEmpty(obj[1]));
                             dto.setBrand(convertNullToEmpty(obj[NumericConstants.TWO]));
                             dto.setStatus(convertNullToEmpty(obj[NumericConstants.THREE]));
-                            dto.setItemStartDate(!String.valueOf(obj[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FOUR].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.DATE_FORMAT)) : null);
-                            dto.setItemEndDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FIVE].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.DATE_FORMAT)) : null);
+                            dto.setItemStartDate(!String.valueOf(obj[NumericConstants.FOUR]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FOUR].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.MM_DD_YYYY)) : null);
+                            dto.setItemEndDate(!String.valueOf(obj[NumericConstants.FIVE]).equals(Constants.NULL) ? new Date(convertStringToDate(obj[NumericConstants.FIVE].toString(), StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS, Constants.MM_DD_YYYY)) : null);
                             dto.setRebatePlan(convertNullToEmpty(obj[NumericConstants.TEN]));
                             dto.setFormulaId(convertNullToEmpty(obj[NumericConstants.SEVEN]));
                         }
@@ -1489,7 +1488,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
             }
@@ -1505,7 +1504,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
             }
@@ -1521,7 +1520,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
             }
@@ -1743,7 +1742,6 @@ public class PromoteTPLogic {
             contract = contractId.replace(Constants.IndicatorConstants.CHAR_ASTERISK.getConstant(), Constants.IndicatorConstants.CHAR_PERCENT.getConstant());
         }
         final List<ComponentInfoDTO> contractList = new ArrayList<>();
-        // TODO change the limits in the query
         try {
             final List<ContractMaster> contractML = dao.contractMasterDynamicQuery(getProcessedQuery(contract, start, end));
 
@@ -2393,7 +2391,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
 
@@ -2415,7 +2413,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
 
@@ -2456,7 +2454,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
 

@@ -10,7 +10,6 @@ import com.stpl.app.gcm.copycontract.logic.CopyContractLogic;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.slf4j.Logger;
@@ -37,7 +36,7 @@ public class ExistingLevelDataTableLogic extends PageTableLogic {
     public int getCount() {
         if (generate) {
             try {
-                return Integer.valueOf(String.valueOf(logic.getComponentLevelData(levelNo, id, true, 0, 0)));
+                return Integer.parseInt(String.valueOf(logic.getComponentLevelData(levelNo, id, true, 0, 0)));
             } catch (ParseException ex) {
                 LOGGER.error("",ex);
             }

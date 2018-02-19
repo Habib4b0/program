@@ -382,26 +382,26 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
                 histFlag = true;
                 projectionDTO.setHistory(hist.toString());
                 if (freq.equals(QUARTERLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                    historyNum = String.valueOf(hist).endsWith("Periods") ? Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim())
-                            : Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Period", StringUtils.EMPTY).trim());
+                    historyNum = String.valueOf(hist).endsWith("Periods") ? Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim())
+                            : Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Period", StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(MONTHLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(ANNUALLY)) {
                     String histPeriod = String.valueOf(hist);
                     if (histPeriod.endsWith(Constant.YEAR) || histPeriod.endsWith("Years")) {
-                        historyNum = histPeriod.endsWith(Constant.YEAR) ? Integer.valueOf(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim()) : Integer.valueOf(String.valueOf(hist).replace("Years", StringUtils.EMPTY).trim());
+                        historyNum = histPeriod.endsWith(Constant.YEAR) ? Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim()) : Integer.parseInt(String.valueOf(hist).replace("Years", StringUtils.EMPTY).trim());
                     }
                 }
             }
         if (freqFlag && histFlag) {
             flag = true;
             setProjectionId(sessionDTO.getProjectionId());
-            projectionDTO.setUserId(Integer.valueOf(sessionDTO.getUserId()));
-            projectionDTO.setSessionId(Integer.valueOf(sessionDTO.getSessionId()));
+            projectionDTO.setUserId(Integer.parseInt(sessionDTO.getUserId()));
+            projectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
             projectionDTO.setHistoryNum(historyNum);
             projectionDTO.setActualsOrProjections(actualOrProjectionsOpg.getValue().toString());
             projectionDTO.setProjectionOrder(periodOrderOpg.getValue().toString());
@@ -409,8 +409,8 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             projectionDTO.setView(viewOpg.getValue().toString());
             projectionDTO.setProjectionId(getProjectionId());
             projectionDTO.setMandatedOrSupp(discountOpg.getValue().toString());
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(sessionDTO.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(sessionDTO.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(sessionDTO.getProductLevelNumber()));
             projectionDTO.setCustomId(customId);
             projectionDTO.setForecastDTO(sessionDTO.getForecastDTO());
             projectionDTO.setCustomerHierarchySID(sessionDTO.getCustomerHierarchyId());
@@ -750,7 +750,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         LOGGER.debug("levelFilterDdlbChangeOption inititated");
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilterDdlb.getValue());
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -840,7 +840,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
 
     private void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
 
         if (levelNo != 0) {
             if (projectionDTO.isIsFilter()) {

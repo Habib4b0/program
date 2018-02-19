@@ -311,7 +311,7 @@ public class DataSelection extends AbstractDataSelection {
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList,
+						Integer.parseInt(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList,
 						relationVersionNo,cffEligibleDate.getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
@@ -460,14 +460,14 @@ public class DataSelection extends AbstractDataSelection {
 				sessionDTO.setAction(Constants.ADD);
 				sessionDTO.setFromDate(dataSelectionDTO.getFromDate());
 				sessionDTO.setToDate(dataSelectionDTO.getToDate());
-				sessionDTO.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
-				sessionDTO.setProductRelationId(Integer.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
+				sessionDTO.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
+				sessionDTO.setProductRelationId(Integer.parseInt(dataSelectionDTO.getProdRelationshipBuilderSid()));
 				sessionDTO.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setProductDescription(productDescriptionMap);
 				sessionDTO.setCustomerHierarchyId(0);
 				sessionDTO.setCustomerDescription(customerDescriptionMap);
-				sessionDTO.setCustomerHierarchyId(Integer.valueOf(dataSelectionDTO.getCustomerHierSid()));
-				sessionDTO.setProductHierarchyId(Integer.valueOf(dataSelectionDTO.getProdHierSid()));
+				sessionDTO.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
+				sessionDTO.setProductHierarchyId(Integer.parseInt(dataSelectionDTO.getProdHierSid()));
 				sessionDTO.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 				Object[] obj = cffLogic.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setDedRelationshipBuilderSid(obj[0].toString());
@@ -3086,7 +3086,7 @@ public class DataSelection extends AbstractDataSelection {
 				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String>emptyList()
 						: groupFilteredItems;
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
-						Integer.valueOf(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
+						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
 						hierarchyLevelDefinitionList, customerHierarchyDefinitionList, productRelationVersionNo,
 						customerRelationVersionNo, getBusinessUnit().getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
@@ -3389,7 +3389,7 @@ public class DataSelection extends AbstractDataSelection {
 		dataSelectionDTO.setCustomerHierarchy(customerHierarchy.getValue());
 		if (customerHierarchyDto != null) {
 			dataSelectionDTO.setCustomerHierVersionNo(
-					Integer.valueOf(String.valueOf(customerRelationVersionComboBox.getValue())));
+					Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue())));
 			dataSelectionDTO.setCustomerRelationShipVersionNo(Integer.parseInt(
 					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue())));
 		} else {
@@ -3398,7 +3398,7 @@ public class DataSelection extends AbstractDataSelection {
 		}
 		if (productHierarchyDto != null) {
 			dataSelectionDTO.setProductHierVersionNo(
-					Integer.valueOf(String.valueOf(productRelationVersionComboBox.getValue())));
+					Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue())));
 			dataSelectionDTO.setProductRelationShipVersionNo(Integer.parseInt(
 					productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue())));
 		} else {
