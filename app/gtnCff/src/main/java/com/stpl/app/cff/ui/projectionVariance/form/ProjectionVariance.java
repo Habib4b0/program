@@ -1369,8 +1369,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             map.put(Constants.PRODUCT_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(productFilterValues).get(SID), Constants.COMMA));
             map.put(Constants.DEDUCTION_LEVEL_DDLB, productlevelDdlb.getValue());
             map.put(Constants.DEDUCTION_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(deductionFilterValues).get(SID), Constants.COMMA));
-            map.put(Constants.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtils.getDisplayFormatSelectedValues(salesInclusionValues)));
-            map.put(Constants.DEDUCTION_INCLUSION_DDLB, StringUtils.join(CommonUtils.getDisplayFormatSelectedValues(deductionInclusionValues)));
+            map.put(Constants.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtils.getDisplayFormatSelectedValues(salesInclusionValues),Constants.COMMA));
+            map.put(Constants.DEDUCTION_INCLUSION_DDLB, StringUtils.join(CommonUtils.getDisplayFormatSelectedValues(deductionInclusionValues),Constants.COMMA));
             logic.saveNMPVSelection(map, sessionDTO.getProjectionId(), PROJECTION_VARIANCE);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -2190,7 +2190,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
-        displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES, null);
+        displayFormatValues = displayFormatDdlb.addItem("Both", null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.setPageLength(NumericConstants.TEN);
