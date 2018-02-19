@@ -360,8 +360,8 @@ public class DPRLogic {
             for (Object list1 : list) {
                 String columnName;
                 final Object[] obj = (Object[]) list1;
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
                 List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                 String commonColumn = common.get(0);
                 if (Constant.MANDATED.equalsIgnoreCase(salesOrUnits) || Constant.BOTH_SMALL.equalsIgnoreCase(salesOrUnits)) {
@@ -441,10 +441,10 @@ public class DPRLogic {
                     }
                     contractDTO = new DiscountProjectionResultsDTO();
                 }
-                actualFlag = Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
+                actualFlag = Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
                 lastValue = String.valueOf(obj[NumericConstants.TWO]);
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+                int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE]));
                 List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
@@ -496,18 +496,18 @@ public class DPRLogic {
 
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
-                            annualMandamt = annualMandamt + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
+                            annualMandamt = annualMandamt + (obj[NumericConstants.FIVE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0);
                             mandAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandamt), CURRENCY);
-                            annualMandrate = annualMandrate + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
+                            annualMandrate = annualMandrate + (obj[NumericConstants.SIX] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0);
                             mandRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrate), PERCENTAGE);
-                            annualMandrpu = annualMandrpu + (obj[NumericConstants.NINE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0);
+                            annualMandrpu = annualMandrpu + (obj[NumericConstants.NINE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0);
                             mandRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrpu), CURRENCY);
                         } else {
-                            annualMandProjamt = annualMandProjamt + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
+                            annualMandProjamt = annualMandProjamt + (obj[NumericConstants.FIVE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0);
                             mandAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjamt), CURRENCY);
-                            annualMandProjrate = annualMandProjrate + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
+                            annualMandProjrate = annualMandProjrate + (obj[NumericConstants.SIX] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0);
                             mandRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjrate), PERCENTAGE);
-                            annualMandProjrpu = annualMandProjrpu + (obj[NumericConstants.NINE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0);
+                            annualMandProjrpu = annualMandProjrpu + (obj[NumericConstants.NINE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0);
                             mandRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjrpu), CURRENCY);
                         }
                         if (!actualFlag) {
@@ -550,18 +550,18 @@ public class DPRLogic {
 
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
-                            annualSuppamt = annualSuppamt + (obj[NumericConstants.SEVEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
+                            annualSuppamt = annualSuppamt + (obj[NumericConstants.SEVEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
                             suppAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppamt), CURRENCY);
-                            annualSupprate = annualSupprate + (obj[NumericConstants.EIGHT] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
+                            annualSupprate = annualSupprate + (obj[NumericConstants.EIGHT] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
                             suppRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprate), PERCENTAGE);
-                            annualSupprpu = annualSupprpu + (obj[NumericConstants.TEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0);
+                            annualSupprpu = annualSupprpu + (obj[NumericConstants.TEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0);
                             suppRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprpu), CURRENCY);
                         } else {
-                            annualSuppProjamt = annualSuppProjamt + (obj[NumericConstants.SEVEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
+                            annualSuppProjamt = annualSuppProjamt + (obj[NumericConstants.SEVEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
                             suppAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjamt), CURRENCY);
-                            annualSuppProjrate = annualSuppProjrate + (obj[NumericConstants.EIGHT] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
+                            annualSuppProjrate = annualSuppProjrate + (obj[NumericConstants.EIGHT] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
                             suppRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjrate), PERCENTAGE);
-                            annualSuppProjrpu = annualSuppProjrpu + (obj[NumericConstants.TEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0);
+                            annualSuppProjrpu = annualSuppProjrpu + (obj[NumericConstants.TEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0);
                             suppRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjrpu), CURRENCY);
                         }
                         if (!actualFlag) {
@@ -957,8 +957,8 @@ public class DPRLogic {
                 } else {
                     type = String.valueOf(obj[NumericConstants.ELEVEN]);
                 }
-                int year = annualFlag ? Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])) : Integer.valueOf(String.valueOf(obj[NumericConstants.TEN]));
-                int period = annualFlag ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.NINE]));
+                int year = annualFlag ? Integer.parseInt(String.valueOf(obj[NumericConstants.NINE])) : Integer.parseInt(String.valueOf(obj[NumericConstants.TEN]));
+                int period = annualFlag ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.NINE]));
                 List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!annualFlag) {
@@ -1019,18 +1019,18 @@ public class DPRLogic {
 
                 if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                     if (actualFlag) {
-                        amt = amt + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
+                        amt = amt + (obj[NumericConstants.SIX] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0);
                         totalAmt = getFormatValue(NumericConstants.TWO, String.valueOf(amt), CURRENCY);
-                        rate = rate + (obj[NumericConstants.SEVEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
+                        rate = rate + (obj[NumericConstants.SEVEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
                         totalRate = getFormatValue(NumericConstants.TWO, String.valueOf(rate), PERCENTAGE);
-                        rpu = rpu + (obj[NumericConstants.EIGHT] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
+                        rpu = rpu + (obj[NumericConstants.EIGHT] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
                         totalRPU = getFormatValue(NumericConstants.TWO, String.valueOf(rpu), CURRENCY);
                     } else {
-                        projamt = projamt + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
+                        projamt = projamt + (obj[NumericConstants.SIX] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0);
                         totalAmt = getFormatValue(NumericConstants.TWO, String.valueOf(projamt), CURRENCY);
-                        projrate = projrate + (obj[NumericConstants.SEVEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
+                        projrate = projrate + (obj[NumericConstants.SEVEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
                         totalRate = getFormatValue(NumericConstants.TWO, String.valueOf(projrate), PERCENTAGE);
-                        projrpu = projrpu + (obj[NumericConstants.EIGHT] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
+                        projrpu = projrpu + (obj[NumericConstants.EIGHT] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
                         totalRPU = getFormatValue(NumericConstants.TWO, String.valueOf(projrpu), CURRENCY);
                     }
                     if (!actualFlag) {
@@ -1072,18 +1072,18 @@ public class DPRLogic {
                     mandatedDTO.addStringProperties(commonColumn + columnName, mandRPU);
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
-                            annualMandamt = annualMandamt + (obj[0] != null ? Double.valueOf(String.valueOf(obj[0])) : 0);
+                            annualMandamt = annualMandamt + (obj[0] != null ? Double.parseDouble(String.valueOf(obj[0])) : 0);
                             mandAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandamt), CURRENCY);
-                            annualMandrate = annualMandrate + (obj[1] != null ? Double.valueOf(String.valueOf(obj[1])) : 0);
+                            annualMandrate = annualMandrate + (obj[1] != null ? Double.parseDouble(String.valueOf(obj[1])) : 0);
                             mandRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrate), PERCENTAGE);
-                            annualMandrpu = annualMandrpu + (obj[NumericConstants.TWO] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TWO])) : 0);
+                            annualMandrpu = annualMandrpu + (obj[NumericConstants.TWO] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.TWO])) : 0);
                             mandRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrpu), CURRENCY);
                         } else {
-                            annualMandProjamt = annualMandProjamt + (obj[0] != null ? Double.valueOf(String.valueOf(obj[0])) : 0);
+                            annualMandProjamt = annualMandProjamt + (obj[0] != null ? Double.parseDouble(String.valueOf(obj[0])) : 0);
                             mandAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjamt), CURRENCY);
-                            annualMandProjrate = annualMandProjrate + (obj[1] != null ? Double.valueOf(String.valueOf(obj[1])) : 0);
+                            annualMandProjrate = annualMandProjrate + (obj[1] != null ? Double.parseDouble(String.valueOf(obj[1])) : 0);
                             mandRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjrate), PERCENTAGE);
-                            annualMandProjrpu = annualMandProjrpu + (obj[NumericConstants.TWO] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TWO])) : 0);
+                            annualMandProjrpu = annualMandProjrpu + (obj[NumericConstants.TWO] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.TWO])) : 0);
                             mandRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjrpu), CURRENCY);
                         }
 
@@ -1126,18 +1126,18 @@ public class DPRLogic {
                     supplDTO.addStringProperties(commonColumn + columnName, suppRPU);
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
-                            annualSuppamt = annualSuppamt + (obj[NumericConstants.THREE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.THREE])) : 0);
+                            annualSuppamt = annualSuppamt + (obj[NumericConstants.THREE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.THREE])) : 0);
                             suppAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppamt), CURRENCY);
-                            annualSupprate = annualSupprate + (obj[NumericConstants.FOUR] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FOUR])) : 0);
+                            annualSupprate = annualSupprate + (obj[NumericConstants.FOUR] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR])) : 0);
                             suppRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprate), PERCENTAGE);
-                            annualSupprpu = annualSupprpu + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
+                            annualSupprpu = annualSupprpu + (obj[NumericConstants.FIVE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0);
                             suppRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprpu), CURRENCY);
                         } else {
-                            annualSuppProjamt = annualSuppProjamt + (obj[NumericConstants.THREE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.THREE])) : 0);
+                            annualSuppProjamt = annualSuppProjamt + (obj[NumericConstants.THREE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.THREE])) : 0);
                             suppAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjamt), CURRENCY);
-                            annualSuppProjrate = annualSuppProjrate + (obj[NumericConstants.FOUR] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FOUR])) : 0);
+                            annualSuppProjrate = annualSuppProjrate + (obj[NumericConstants.FOUR] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR])) : 0);
                             suppRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjrate), PERCENTAGE);
-                            annualSuppProjrpu = annualSuppProjrpu + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
+                            annualSuppProjrpu = annualSuppProjrpu + (obj[NumericConstants.FIVE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0);
                             suppRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjrpu), CURRENCY);
                         }
                         if (!actualFlag) {
@@ -1188,8 +1188,8 @@ public class DPRLogic {
                 type = String.valueOf(row[NumericConstants.ELEVEN]);
             }
             String column;
-            int year = annualFlag ? Integer.valueOf(String.valueOf(row[NumericConstants.NINE])) : Integer.valueOf(String.valueOf(row[NumericConstants.TEN]));
-            int period = annualFlag ? 0 : Integer.valueOf(String.valueOf(row[NumericConstants.NINE]));
+            int year = annualFlag ? Integer.parseInt(String.valueOf(row[NumericConstants.NINE])) : Integer.parseInt(String.valueOf(row[NumericConstants.TEN]));
+            int period = annualFlag ? 0 : Integer.parseInt(String.valueOf(row[NumericConstants.NINE]));
             List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
@@ -1527,11 +1527,11 @@ public class DPRLogic {
 
                 String columnName;
                 final Object[] obj = (Object[]) list1;
-                actualFlag = Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
+                actualFlag = Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
                 String mandSupp = projSelDTO.getMandatedOrSupp();
 
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+                int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE]));
                 List<String> annualTotal = new ArrayList<>();
                 String annualColumn = StringUtils.EMPTY;
                 if (!ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
@@ -1587,18 +1587,18 @@ public class DPRLogic {
 
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
-                            annualMandamt = annualMandamt + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
+                            annualMandamt = annualMandamt + (obj[NumericConstants.FIVE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0);
                             mandAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandamt), CURRENCY);
-                            annualMandrate = annualMandrate + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
+                            annualMandrate = annualMandrate + (obj[NumericConstants.SIX] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0);
                             mandRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrate), PERCENTAGE);
-                            annualMandrpu = annualMandrpu + (obj[NumericConstants.NINE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0);
+                            annualMandrpu = annualMandrpu + (obj[NumericConstants.NINE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0);
                             mandRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrpu), CURRENCY);
                         } else {
-                            annualMandProjamt = annualMandProjamt + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
+                            annualMandProjamt = annualMandProjamt + (obj[NumericConstants.FIVE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0);
                             mandAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjamt), CURRENCY);
-                            annualMandProjrate = annualMandProjrate + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
+                            annualMandProjrate = annualMandProjrate + (obj[NumericConstants.SIX] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0);
                             mandRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjrate), PERCENTAGE);
-                            annualMandProjrpu = annualMandProjrpu + (obj[NumericConstants.NINE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0);
+                            annualMandProjrpu = annualMandProjrpu + (obj[NumericConstants.NINE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0);
                             mandRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandProjrpu), CURRENCY);
                         }
 
@@ -1647,18 +1647,18 @@ public class DPRLogic {
 
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
-                            annualSuppamt = annualSuppamt + (obj[NumericConstants.SEVEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
+                            annualSuppamt = annualSuppamt + (obj[NumericConstants.SEVEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
                             suppAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppamt), CURRENCY);
-                            annualSupprate = annualSupprate + (obj[NumericConstants.EIGHT] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
+                            annualSupprate = annualSupprate + (obj[NumericConstants.EIGHT] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
                             suppRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprate), PERCENTAGE);
-                            annualSupprpu = annualSupprpu + (obj[NumericConstants.TEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0);
+                            annualSupprpu = annualSupprpu + (obj[NumericConstants.TEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0);
                             suppRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprpu), CURRENCY);
                         } else {
-                            annualSuppProjamt = annualSuppProjamt + (obj[NumericConstants.SEVEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
+                            annualSuppProjamt = annualSuppProjamt + (obj[NumericConstants.SEVEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
                             suppAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjamt), CURRENCY);
-                            annualSuppProjrate = annualSuppProjrate + (obj[NumericConstants.EIGHT] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
+                            annualSuppProjrate = annualSuppProjrate + (obj[NumericConstants.EIGHT] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
                             suppRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjrate), PERCENTAGE);
-                            annualSuppProjrpu = annualSuppProjrpu + (obj[NumericConstants.TEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0);
+                            annualSuppProjrpu = annualSuppProjrpu + (obj[NumericConstants.TEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0);
                             suppRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppProjrpu), CURRENCY);
                         }
 
@@ -1709,7 +1709,7 @@ public class DPRLogic {
                     suppAmt = getFormatValue(NumericConstants.TWO, suppAmt, CURRENCY);
                     columnName = actualFlag ? Constant.ACTUALS_AMOUNT : Constant.PROJECTIONS_AMOUNT;
                     suppDTO.addStringProperties(commonColumn + columnName, suppAmt);
-                    Double amt = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.FIVE])) ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SEVEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0.00);
+                    Double amt = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.FIVE])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SEVEN])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0.00);
                     String stringAmount = String.valueOf(amt);
                     if (!actualFlag) {
                         stringAmount = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, stringAmount);
@@ -1720,7 +1720,7 @@ public class DPRLogic {
                     columnName = actualFlag ? Constant.ACTUALS_RATE : Constant.PROJECTIONS_RATE;
                     suppDTO.addStringProperties(commonColumn + columnName, suppRate);
 
-                    Double rate = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SIX])) ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.EIGHT])) ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0.00);
+                    Double rate = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SIX])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.EIGHT])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0.00);
                     String stringRate = String.valueOf(rate);
                     if (!actualFlag) {
                         stringRate = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, stringRate);
@@ -1734,7 +1734,7 @@ public class DPRLogic {
                     suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
                     columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     suppDTO.addStringProperties(commonColumn + columnName, suppRPU);
-                    Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
+                    Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
                     String stringRpu = String.valueOf(rpu);
                     if (!actualFlag) {
                         stringRpu = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, stringRpu);
@@ -1743,28 +1743,28 @@ public class DPRLogic {
 
                     if (!annualColumn.equals(StringUtils.EMPTY) && commonColumn.contains(annualColumn) && rightHeaderColumns.toString().contains(commonColumn)) {
                         if (actualFlag) {
-                            annualMandamt = annualMandamt + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
+                            annualMandamt = annualMandamt + (obj[NumericConstants.FIVE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0);
                             mandAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandamt), CURRENCY);
-                            annualMandrate = annualMandrate + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
+                            annualMandrate = annualMandrate + (obj[NumericConstants.SIX] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0);
                             mandRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrate), PERCENTAGE);
-                            annualMandrpu = annualMandrpu + (obj[NumericConstants.NINE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0);
+                            annualMandrpu = annualMandrpu + (obj[NumericConstants.NINE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0);
                             mandRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrpu), CURRENCY);
-                            annualSuppamt = annualSuppamt + (obj[NumericConstants.SEVEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
+                            annualSuppamt = annualSuppamt + (obj[NumericConstants.SEVEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
                             suppAmt = getFormatValue(NumericConstants.TWO, String.valueOf(annualSuppamt), CURRENCY);
-                            annualSupprate = annualSupprate + (obj[NumericConstants.EIGHT] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
+                            annualSupprate = annualSupprate + (obj[NumericConstants.EIGHT] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
                             suppRate = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprate), PERCENTAGE);
-                            annualSupprpu = annualSupprpu + (obj[NumericConstants.TEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0);
+                            annualSupprpu = annualSupprpu + (obj[NumericConstants.TEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0);
                             suppRPU = getFormatValue(NumericConstants.TWO, String.valueOf(annualSupprpu), CURRENCY);
                             dto.addStringProperties(annualColumn + Constant.ACTUALS_AMOUNT, getFormatValue(NumericConstants.TWO, String.valueOf(annualMandamt + annualSuppamt), CURRENCY));
                             dto.addStringProperties(annualColumn + Constant.ACTUALS_RATE, getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrate + annualSupprate), PERCENTAGE));
                             dto.addStringProperties(annualColumn + Constant.ACTUALS_RPU, getFormatValue(NumericConstants.TWO, String.valueOf(annualMandrpu + annualSupprpu), CURRENCY));
                         } else {
-                            annualMandProjamt = annualMandProjamt + (obj[NumericConstants.FIVE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0);
-                            annualMandProjrate = annualMandProjrate + (obj[NumericConstants.SIX] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
-                            annualMandProjrpu = annualMandProjrpu + (obj[NumericConstants.NINE] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0);
-                            annualSuppProjamt = annualSuppProjamt + (obj[NumericConstants.SEVEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
-                            annualSuppProjrate = annualSuppProjrate + (obj[NumericConstants.EIGHT] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
-                            annualSuppProjrpu = annualSuppProjrpu + (obj[NumericConstants.TEN] != null ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0);
+                            annualMandProjamt = annualMandProjamt + (obj[NumericConstants.FIVE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0);
+                            annualMandProjrate = annualMandProjrate + (obj[NumericConstants.SIX] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0);
+                            annualMandProjrpu = annualMandProjrpu + (obj[NumericConstants.NINE] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0);
+                            annualSuppProjamt = annualSuppProjamt + (obj[NumericConstants.SEVEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0);
+                            annualSuppProjrate = annualSuppProjrate + (obj[NumericConstants.EIGHT] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0);
+                            annualSuppProjrpu = annualSuppProjrpu + (obj[NumericConstants.TEN] != null ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0);
 
                             String stringAnnualMandProjamt = String.valueOf(annualMandProjamt);
                             String stringAnnualMandProjrate = String.valueOf(annualMandProjrate);
@@ -1984,11 +1984,11 @@ public class DPRLogic {
 
                     String columnName;
                     final Object[] obj = (Object[]) list.get(i);
-                    actualFlag = Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
+                    actualFlag = Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
                     String mandSupp = projSelDTO.getMandatedOrSupp();
 
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                    int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
+                    int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+                    int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE]));
                     List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                     String column = common.get(0);
                     String commonHeader = common.get(1);
@@ -2119,9 +2119,9 @@ public class DPRLogic {
                         periodDTO.addStringProperties(commonColumn + columnName, suppRPU);
 
                         commonColumn = Constant.TOTALDISCOUNT;
-                        Double amt = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.FIVE])) ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SEVEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0.00);
-                        Double rate = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SIX])) ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.EIGHT])) ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0.00);
-                        Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
+                        Double amt = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.FIVE])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SEVEN])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0.00);
+                        Double rate = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SIX])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.EIGHT])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0.00);
+                        Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
 
                         String stringAmt = String.valueOf(amt);
                         String stringRate = String.valueOf(rate);
@@ -2184,10 +2184,10 @@ public class DPRLogic {
 
                 String columnName;
                 final Object[] obj = (Object[]) list.get(i);
-                actualFlag = Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
+                actualFlag = Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
 
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+                int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE]));
                 List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                 String column = common.get(0);
                 lastPeriod = Constant.YEAR_SPACE.equalsIgnoreCase(freq) ? String.valueOf(obj[NumericConstants.FOUR]) : String.valueOf(obj[NumericConstants.THIRTEEN]);

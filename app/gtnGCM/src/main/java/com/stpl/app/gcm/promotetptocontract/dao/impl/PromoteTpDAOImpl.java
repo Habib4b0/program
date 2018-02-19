@@ -197,10 +197,10 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         }
         GcmGlobalDetails temp = GcmGlobalDetailsLocalServiceUtil.createGcmGlobalDetails(0);
         if (dto.getProjectionId() != null && !dto.getProjectionId().isEmpty()) {
-            temp.setProjectionMasterSid(Integer.valueOf(dto.getProjectionId()));
+            temp.setProjectionMasterSid(Integer.parseInt(dto.getProjectionId()));
         }
         if (dto.getContractId() != null && !dto.getContractId().isEmpty()) {
-            temp.setContractMasterSid(Integer.valueOf(dto.getContractId()));
+            temp.setContractMasterSid(Integer.parseInt(dto.getContractId()));
         }
         if (dto.getIfpId() != null) {
             temp.setIfpModelSid(dto.getIFPId());
@@ -214,7 +214,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         temp.setOperation("Promote_TP_Submit");
         temp.setSessionId(sessionId);
         temp.setCheckRecord(true);
-        temp.setUserId(Integer.valueOf(userId));
+        temp.setUserId(Integer.parseInt(userId));
         GcmGlobalDetailsLocalServiceUtil.updateGcmGlobalDetails(temp);
              
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS set CHECK_RECORD = '0' , OPERATION = '" + udcValue + "' where USER_ID='" + userId + "' AND SESSION_ID='" + sessionId + "' AND CHECK_RECORD='1' AND SCREEN_NAME = '" + screenName + "'";

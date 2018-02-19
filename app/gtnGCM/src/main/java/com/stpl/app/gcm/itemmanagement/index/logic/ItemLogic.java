@@ -56,8 +56,8 @@ public class ItemLogic {
         componentMap.put(StringConstantsUtil.COMPONENT_ID_PROPERTY, "CM.CFP_ID");
         componentMap.put(StringConstantsUtil.COMPONENT_NO, " CM.CFP_NO");
         componentMap.put(StringConstantsUtil.COMPONENT_NAME, "CM.CFP_NAME");
-        componentMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYPDESCRIPTION);
-        componentMap.put(Constants.CATEGORY, StringConstantsUtil.CATDESCRIPTION);
+        componentMap.put(StringConstantsUtil.COMPONENT_TYPE, StringConstantsUtil.TYP_DESCRIPTION);
+        componentMap.put(Constants.CATEGORY, StringConstantsUtil.CAT_DESCRIPTION);
         componentMap.put(StringConstantsUtil.DESIGNATION_PROPERTY, "CM.CFP_DESIGNATION");
         componentMap.put(StringConstantsUtil.COMPONENT_STATUS_PROPERTY, StringConstantsUtil.STHELPER_TABLE_SID);
         componentMap.put("tradeClass", "TC.DESCRIPTION");
@@ -127,13 +127,13 @@ public class ItemLogic {
     public List<HelperDTO> getDdlbList(String QueryName, final List<String> input) {
         List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
-        if (Integer.valueOf(String.valueOf(input.get(1))) == 0) {
+        if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             HelperDTO defaultValue = new HelperDTO(0, IndicatorConstants.SELECT_ONE.getConstant());
             resultList.add(defaultValue);
         }
         for (Object[] str : list) {
             HelperDTO dto = new HelperDTO();
-            dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+            dto.setId(str[0] == null ? 0 : Integer.parseInt(str[0].toString()));
             dto.setDescription(str[1] == null ? Constants.ZEROSTRING : String.valueOf(str[1]));
             resultList.add(dto);
         }

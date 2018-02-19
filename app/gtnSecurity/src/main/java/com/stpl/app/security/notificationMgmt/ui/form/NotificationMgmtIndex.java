@@ -393,8 +393,8 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
         notificationMgmtIndexDto.setSubject(subject.getValue().trim());
         notificationMgmtIndexDto.setBody(body.getValue().trim());
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-        notificationMgmtIndexDto.setCreatedById(userId != null || !"".equals(userId) ? Integer.valueOf(userId) : 0);
-        notificationMgmtIndexDto.setModifiedById(userId != null || !"".equals(userId) ? Integer.valueOf(userId) : 0);
+        notificationMgmtIndexDto.setCreatedById(userId != null || !"".equals(userId) ? Integer.parseInt(userId) : 0);
+        notificationMgmtIndexDto.setModifiedById(userId != null || !"".equals(userId) ? Integer.parseInt(userId) : 0);
     }
 
     private CustomFieldGroup getBinder() {

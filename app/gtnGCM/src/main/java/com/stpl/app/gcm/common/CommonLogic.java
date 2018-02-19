@@ -160,7 +160,6 @@ public class CommonLogic {
                     IndicatorConstants.CHAR_PERCENT.getConstant());
         }
         final List<ContractsDetailsDto> contractList = new ArrayList<>();
-        // TODO change the limits in the query
         final List<ContractMaster> contractML = daoImpl.contractMasterDynamicQuery(getProcessedQuery(contract));
 
         ContractsDetailsDto contractDetails;
@@ -1241,7 +1240,7 @@ public class CommonLogic {
         for (final Iterator<Object[]> iterator = results.iterator(); iterator.hasNext();) {
             final Object[] value = iterator.next();
             helperTable = new HelperDTO();
-            helperTable.setId(value[0] != null ? Integer.valueOf(value[0].toString()) : 0);
+            helperTable.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
             helperTable.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
             if (!StringUtils.EMPTY.equals(helperTable.getDescription())) {
                 list.add(helperTable);
@@ -1902,7 +1901,7 @@ public class CommonLogic {
         for (int i = 0; i < size; i++) {
             Object[] arr = (Object[]) results.get(i);
             HelperDTO dTO = new HelperDTO();
-            dTO.setId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
+            dTO.setId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
             dTO.setDescription(Converters.convertNullToEmpty(arr[1]));
             searchList.add(dTO);
         }
@@ -2089,7 +2088,7 @@ public class CommonLogic {
 					.executeSelectQuery(relationShipBuilderSidQuery).get(0);
             LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
             LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
-            setProdRelationshipId(Integer.valueOf(String.valueOf(projectionMasterRow[1])));
+            setProdRelationshipId(Integer.parseInt(String.valueOf(projectionMasterRow[1])));
             List<String> relationshipBuilderSids = new ArrayList<>();
             relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
             relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
@@ -2220,7 +2219,7 @@ public class CommonLogic {
                 } else if (Constants.MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
                     if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
                             && !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
-                        marketType = getGenerateMarketValue(Integer.valueOf(String.valueOf(projectionMasterRow[0])));
+                        marketType = getGenerateMarketValue(Integer.parseInt(String.valueOf(projectionMasterRow[0])));
                     }
 
                     String definedOrUDValue;
@@ -2384,7 +2383,7 @@ public class CommonLogic {
         String marketType;
         String marketValue = StringUtils.EMPTY;
         if (!relationshipSid.isEmpty() && !Constants.ZEROSTRING.equals(relationshipSid)) {
-            marketValue = getGenerateMarketValue(Integer.valueOf(relationshipSid));
+            marketValue = getGenerateMarketValue(Integer.parseInt(relationshipSid));
         }
 
         String definedValue = getDefinedValue(hierarchyDefinitionSid);
@@ -2448,7 +2447,7 @@ public class CommonLogic {
         }
         List<Object> results;
         results = HelperTableLocalServiceUtil.executeSelectQuery(Query);
-        return Integer.valueOf(String.valueOf(results.get(0)));
+        return Integer.parseInt(String.valueOf(results.get(0)));
     }
 
     public List<String> copyTempProjection(int oldProjectionId, boolean isDiscountModule, List<String> contractList,
@@ -2491,7 +2490,7 @@ public class CommonLogic {
                 } else if (Constants.MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
                     if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
                             && !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
-                        marketType = getGenerateMarketValue(Integer.valueOf(String.valueOf(projectionMasterRow[0])));
+                        marketType = getGenerateMarketValue(Integer.parseInt(String.valueOf(projectionMasterRow[0])));
                     }
 
                     String definedOrUDValue;

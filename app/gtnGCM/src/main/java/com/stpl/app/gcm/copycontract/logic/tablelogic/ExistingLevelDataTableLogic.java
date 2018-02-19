@@ -36,7 +36,7 @@ public class ExistingLevelDataTableLogic extends PageTableLogic {
     public int getCount() {
         if (generate) {
             try {
-                return Integer.valueOf(String.valueOf(logic.getComponentLevelData(levelNo, id, true, 0, 0)));
+                return Integer.parseInt(String.valueOf(logic.getComponentLevelData(levelNo, id, true, 0, 0)));
             } catch (ParseException ex) {
                 LOGGER.error("",ex);
             }

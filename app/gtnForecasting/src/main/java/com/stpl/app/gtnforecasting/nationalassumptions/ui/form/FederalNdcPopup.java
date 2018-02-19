@@ -159,7 +159,7 @@ public class FederalNdcPopup extends CustomComponent {
                     if (event.getProperty().getValue() != null) {
                         String wacValue = wACList.get(ndc.getValue().toString());
                         if (wacValue != null && !wacValue.equals(Constant.NULL)) {
-                            double convertedWAC = Double.valueOf(wacValue);
+                            double convertedWAC = Double.parseDouble(wacValue);
                             wac.setReadOnly(false);
                             wac.setValue(CommonUtils.DOLLAR + decimalFormat.format(convertedWAC));
                         } else {
@@ -179,7 +179,7 @@ public class FederalNdcPopup extends CustomComponent {
                         String nonFampValue = nonFampList.get(ndc.getValue().toString());
                         if (nonFampValue != null) {
 
-                            double convertedFamp = Double.valueOf(nonFampValue);
+                            double convertedFamp = Double.parseDouble(nonFampValue);
 
                             nonFamp.setValue(CommonUtils.DOLLAR + decimalFormat.format(convertedFamp));
 
@@ -194,7 +194,7 @@ public class FederalNdcPopup extends CustomComponent {
                         String fssValue = fssList.get(ndc.getValue().toString());
                         if (fssValue != null) {
 
-                            double convertedFSS = Double.valueOf(fssValue);
+                            double convertedFSS = Double.parseDouble(fssValue);
 
                             fss.setValue(CommonUtils.DOLLAR + decimalFormat.format(convertedFSS));
 
@@ -234,9 +234,9 @@ public class FederalNdcPopup extends CustomComponent {
                 try {
                     if (event.getProperty().getValue() != null && !StringUtils.EMPTY.equals(event.getProperty().getValue())) {
 
-                        double nonFampValue = Double.valueOf(wac.getValue().replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY)) * NumericConstants.DOUBLE_NINTY_SIX;
+                        double nonFampValue = Double.parseDouble(wac.getValue().replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY)) * NumericConstants.DOUBLE_NINTY_SIX;
                         nonFamp.setValue(String.valueOf(nonFampValue));
-                        double fssValue = Double.valueOf(wac.getValue().replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY)) * NumericConstants.DOUBLE_SEVENTY_FOUR;
+                        double fssValue = Double.parseDouble(wac.getValue().replace(CommonUtils.DOLLAR, StringUtils.EMPTY).replace(",", StringUtils.EMPTY)) * NumericConstants.DOUBLE_SEVENTY_FOUR;
                         fss.setValue(String.valueOf(fssValue));
 
                     }

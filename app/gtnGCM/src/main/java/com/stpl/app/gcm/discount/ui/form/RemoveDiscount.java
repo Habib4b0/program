@@ -374,8 +374,8 @@ public class RemoveDiscount extends CustomComponent {
                 }
             }
 
-            startDate.setDateFormat(Constants.DATE_FORMAT);
-            endDate.setDateFormat(Constants.DATE_FORMAT);
+            startDate.setDateFormat(Constants.MM_DD_YYYY);
+            endDate.setDateFormat(Constants.MM_DD_YYYY);
         } catch (Exception e) {
             LOGGER.error("",e);
         }

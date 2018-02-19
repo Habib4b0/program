@@ -1039,5 +1039,13 @@ public class GtnUIFrameworkBaseComponent {
 						.removeChildItems((Tree) (getComponentData().getCustomData()),treeSelectedBean);
 			}
 		}
+
+	public GtnWsRecordBean getParent(Object childItemId) {
+			return (GtnWsRecordBean) ((Tree)getComponentData().getCustomData()).getParent(childItemId);
+		}
+
+	public Set<GtnWsRecordBean> getSelectedValues() {
+			return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
+		}
+	}
 	
-}

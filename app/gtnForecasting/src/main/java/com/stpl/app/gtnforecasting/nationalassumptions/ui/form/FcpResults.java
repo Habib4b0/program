@@ -705,7 +705,7 @@ public class FcpResults extends CustomComponent implements View {
             if ((hist != null) && (!SELECT_ONE.getConstant().equals(hist.toString()))) {
                 histFlag = true;
                 projectionDTO.setHistory(hist.toString());
-                historyNum = Integer.valueOf(String.valueOf(hist).substring(0, 1));
+                historyNum = Integer.parseInt(String.valueOf(hist).substring(0, 1));
             }
         if (histFlag) {
             flag = true;

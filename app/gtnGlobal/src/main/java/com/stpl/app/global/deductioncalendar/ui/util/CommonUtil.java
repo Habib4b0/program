@@ -46,24 +46,24 @@ public class CommonUtil {
 
         String fullFromDateArr[] = detailsDto.getDetailsFromDate() == null || StringUtils.EMPTY.equals(detailsDto.getDetailsFromDate()) || ConstantsUtils.NULL.equals(detailsDto.getDetailsFromDate()) ? detailsDto.getForecastFromDate().split("-") : detailsDto.getDetailsFromDate().split("-");
         String fullToDateArr[] = detailsDto.getDetailsToDate() == null || StringUtils.EMPTY.equals(detailsDto.getDetailsToDate()) || ConstantsUtils.NULL.equals(detailsDto.getDetailsToDate()) ? detailsDto.getForecastToDate().split("-") : detailsDto.getDetailsToDate().split("-");
-        int startYear = Integer.valueOf(String.valueOf(fullFromDateArr[0]));
-        int endYear = Integer.valueOf(String.valueOf(fullToDateArr[0]));
+        int startYear = Integer.parseInt(String.valueOf(fullFromDateArr[0]));
+        int endYear = Integer.parseInt(String.valueOf(fullToDateArr[0]));
         int startPeriod = 0;
         int endPeriod = 0;
-        int startYearLoop = Integer.valueOf(String.valueOf(fullFromDateArr[0]));
+        int startYearLoop = Integer.parseInt(String.valueOf(fullFromDateArr[0]));
         if (ConstantsUtils.QUARTERLY.equalsIgnoreCase(detailsDto.getFrequency())) {
             endPeriod = NumericConstants.FOUR;
-            startPeriod = QUATER_VALUE[Integer.valueOf(String.valueOf(fullFromDateArr[1])) - 1];
+            startPeriod = QUATER_VALUE[Integer.parseInt(String.valueOf(fullFromDateArr[1])) - 1];
         } else if (ConstantsUtils.SEMI_ANNUAL.equalsIgnoreCase(detailsDto.getFrequency())) {
             endPeriod = NumericConstants.TWO;
-            startPeriod = SEMI_VALUE[Integer.valueOf(String.valueOf(fullFromDateArr[1])) - 1];
+            startPeriod = SEMI_VALUE[Integer.parseInt(String.valueOf(fullFromDateArr[1])) - 1];
         } else if (ConstantsUtils.MONTHLY.equalsIgnoreCase(detailsDto.getFrequency())) {
             endPeriod = NumericConstants.TWELVE;
-            startPeriod = Integer.valueOf(String.valueOf(fullFromDateArr[1]));
+            startPeriod = Integer.parseInt(String.valueOf(fullFromDateArr[1]));
         }
         for (int i = startYear; i <= endYear; i++) {
             if (i == endYear) {
-                endPeriod = Integer.valueOf(String.valueOf(fullToDateArr[1]));
+                endPeriod = Integer.parseInt(String.valueOf(fullToDateArr[1]));
             }
             if ("Annual".equalsIgnoreCase(detailsDto.getFrequency())) {
                 list.add(StringUtils.EMPTY + startYearLoop);

@@ -41,7 +41,7 @@ public class NewComponentsDetailsSearchTableLogic extends PageTableLogic {
         if (generate) {
             try {
                 int count = 0;
-                count = Integer.valueOf(String.valueOf(logic.getComponentInfoSelection(selection, componentType, componentInnerType, searchValue, true)));
+                count = Integer.parseInt(String.valueOf(logic.getComponentInfoSelection(selection, componentType, componentInnerType, searchValue, true)));
                 return count;
             } catch (ParseException ex) {
                 LOGGER.error("",ex);

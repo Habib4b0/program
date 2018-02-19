@@ -261,8 +261,8 @@ public class LoadTabLogic {
         for (int i = 0; i < list.size(); i++) {
 
             Object obj[] = (Object[]) list.get(i);
-            int year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-            int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+            int year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+            int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
 
@@ -460,7 +460,7 @@ public class LoadTabLogic {
         List<Object> list = getRebateCountQuery(tabSelectionDTO);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
-            count = Integer.valueOf(String.valueOf(ob));
+            count = Integer.parseInt(String.valueOf(ob));
         }
         if (tabSelectionDTO.isIsProjectionTotal()) {
             count += NumericConstants.FOUR;
@@ -537,8 +537,8 @@ public class LoadTabLogic {
 
             Object obj[] = (Object[]) list.get(i);
 
-            int year = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
-            int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+            int year = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
+            int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String commonColumn = common.get(0);
             if (tempCcpid.equalsIgnoreCase(EMPTY_STRING)) {

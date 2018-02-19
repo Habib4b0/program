@@ -29,7 +29,6 @@ import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import java.util.concurrent.ConcurrentHashMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class holds the logic to grant permission to Users.
  *

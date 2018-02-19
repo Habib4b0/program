@@ -531,7 +531,7 @@ public class CompanySearchLogic {
         int count = 0;
 
         try {
-            count = Integer.valueOf(String.valueOf(tpDao.getLinkedCustomersCheckedRecordCount(linkedCustomersSessionId).get(0)));
+            count = Integer.parseInt(String.valueOf(tpDao.getLinkedCustomersCheckedRecordCount(linkedCustomersSessionId).get(0)));
         } catch (Exception e) {
           LOGGER.error("",e);
         }

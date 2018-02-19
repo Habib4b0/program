@@ -494,7 +494,7 @@ public class NonMandatedLogic {
 			final PMPYTradingPartnerDTO lookedUpTP = new PMPYTradingPartnerDTO();
 			lookedUpTP.setTradingPartnerNo(String.valueOf(obj[0]));
 			lookedUpTP.setTradingPartnerName(String.valueOf(obj[1]));
-			lookedUpTP.setCompanySysId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])));
+			lookedUpTP.setCompanySysId(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])));
 			resultList.add(lookedUpTP);
 		}
 
@@ -1733,7 +1733,7 @@ public class NonMandatedLogic {
 		for (int loop = 0, limit = returnlist.size(); loop < limit; loop++) {
 			helperDTO = new HelperDTO();
 			Object[] objects = (Object[]) returnlist.get(loop);
-			helperDTO.setId(Integer.valueOf(String.valueOf(objects[0])));
+			helperDTO.setId(Integer.parseInt(String.valueOf(objects[0])));
 			helperDTO.setDescription(String.valueOf(objects[1]));
 			companies.add(helperDTO);
 		}

@@ -287,6 +287,3 @@ chown $APP_User:etl $install_path
 
 %files
 %{prefix}/
-
-
-
