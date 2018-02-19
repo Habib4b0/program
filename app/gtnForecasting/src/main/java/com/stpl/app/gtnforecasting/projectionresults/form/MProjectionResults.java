@@ -134,7 +134,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
                 toHist = true;
                 projectionSelectionDTO.setHistory(hist.toString());
                 String[] his = historyDdlb.getValue().toString().split(" ");
-                historyNum = Integer.valueOf(his[0]);
+                historyNum = Integer.parseInt(his[0]);
             }
         if (toFreq && toHist) {
             toRet = true;
@@ -143,8 +143,8 @@ public final class MProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setHistoryNum(historyNum);
             projectionSelectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionSelectionDTO.getFrequency(), sessionDTO));
             projectionSelectionDTO.setProjection(StringUtils.EMPTY + projectionSelectionDTO.getProjectionNum());
-            projectionSelectionDTO.setUserId(Integer.valueOf(sessionDTO.getUserId()));
-            projectionSelectionDTO.setSessionId(Integer.valueOf(sessionDTO.getSessionId()));
+            projectionSelectionDTO.setUserId(Integer.parseInt(sessionDTO.getUserId()));
+            projectionSelectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
             projectionSelectionDTO.setActualsOrProjections(actualOrProjectionsOpg.getValue().toString());
 
             projectionSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
@@ -157,8 +157,8 @@ public final class MProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setCustomId(customId);
             projectionSelectionDTO.setView(viewOpg.getValue().toString());
             projectionSelectionDTO.setDiscountList(new ArrayList<>(discountlist));
-            projectionSelectionDTO.setCustomerLevelNo(Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
-            projectionSelectionDTO.setProductLevelNo(Integer.valueOf(sessionDTO.getProductLevelNumber()));
+            projectionSelectionDTO.setCustomerLevelNo(Integer.parseInt(sessionDTO.getCustomerLevelNumber()));
+            projectionSelectionDTO.setProductLevelNo(Integer.parseInt(sessionDTO.getProductLevelNumber()));
             viewChange(false);
         }
         return toRet;
@@ -169,7 +169,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
         LOGGER.debug("levelFilterDdlbChangeOption inititated");
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilterDdlb.getValue());
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }

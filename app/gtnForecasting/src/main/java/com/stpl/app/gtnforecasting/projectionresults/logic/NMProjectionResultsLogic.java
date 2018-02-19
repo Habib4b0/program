@@ -268,8 +268,8 @@ public class NMProjectionResultsLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column;
-                int year = (obj[0] == null) ? 0 : Integer.valueOf(String.valueOf(obj[0]));
-                int period = (obj[1] == null) ? 0 : Integer.valueOf(String.valueOf(obj[1]));
+                int year = (obj[0] == null) ? 0 : Integer.parseInt(String.valueOf(obj[0]));
+                int period = (obj[1] == null) ? 0 : Integer.parseInt(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
                 String commonColumn = common.get(0);
                 int col = NumericConstants.THREE;
@@ -441,8 +441,8 @@ public class NMProjectionResultsLogic {
                     if (start) {
                         discount = discountRow[NumericConstants.TWO].toString();
                         String column;
-                        int year = Integer.valueOf(String.valueOf(discountRow[0]));
-                        int period = Integer.valueOf(String.valueOf(discountRow[1]));
+                        int year = Integer.parseInt(String.valueOf(discountRow[0]));
+                        int period = Integer.parseInt(String.valueOf(discountRow[1]));
                         List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
                         String commonColumn = common.get(0);
                         column = commonColumn + ACTUALS.getConstant();
@@ -551,8 +551,8 @@ public class NMProjectionResultsLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column;
-                int year = Integer.valueOf(String.valueOf(obj[0]));
-                int period = Integer.valueOf(String.valueOf(obj[1]));
+                int year = Integer.parseInt(String.valueOf(obj[0]));
+                int period = Integer.parseInt(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 int col = NumericConstants.TWO;
@@ -649,8 +649,8 @@ public class NMProjectionResultsLogic {
         for (Object rows : list) {
             final Object[] row = (Object[]) rows;
             String column;
-            int year = Integer.valueOf(String.valueOf(row[0]));
-            int period = Integer.valueOf(String.valueOf(row[1]));
+            int year = Integer.parseInt(String.valueOf(row[0]));
+            int period = Integer.parseInt(String.valueOf(row[1]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
@@ -883,8 +883,8 @@ public class NMProjectionResultsLogic {
                 
                 for (int i = discountIndex; i < discountList.size(); i++) {
                     Object[] discountRow = (Object[]) discountList.get(i);
-                    int dyear = Integer.valueOf(String.valueOf(discountRow[dcol - NumericConstants.TWO]));
-                    int dperiod = Integer.valueOf(String.valueOf(discountRow[1]));
+                    int dyear = Integer.parseInt(String.valueOf(discountRow[dcol - NumericConstants.TWO]));
+                    int dperiod = Integer.parseInt(String.valueOf(discountRow[1]));
                     List<String> dcommon = getCommonColumnHeader(frequencyDivision, dyear, dperiod);
                     String dcommonColumn = dcommon.get(0);
                     if (pcommonColumn.equals(dcommonColumn)) {
@@ -1016,8 +1016,8 @@ public class NMProjectionResultsLogic {
         for (Object[] row : list) {
 
             String column;
-            int year = Integer.valueOf(String.valueOf(row[col - 1]));
-            int period = Integer.valueOf(String.valueOf(row[NumericConstants.FOUR]));
+            int year = Integer.parseInt(String.valueOf(row[col - 1]));
+            int period = Integer.parseInt(String.valueOf(row[NumericConstants.FOUR]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
@@ -1272,8 +1272,8 @@ public class NMProjectionResultsLogic {
                 } 
                 for (int i = discountIndex; i < discountList.size(); i++) {
                     Object[] discountRow = discountList.get(i);
-                    int dyear = Integer.valueOf(String.valueOf(discountRow[1]));
-                    int dperiod = Integer.valueOf(String.valueOf(discountRow[NumericConstants.TWO]));
+                    int dyear = Integer.parseInt(String.valueOf(discountRow[1]));
+                    int dperiod = Integer.parseInt(String.valueOf(discountRow[NumericConstants.TWO]));
                     List<String> dcommon = getCommonColumnHeader(frequencyDivision, dyear, dperiod);
                     String dcommonColumn = dcommon.get(0);
                     if (pcommonColumn.equals(dcommonColumn)) {
@@ -1506,8 +1506,8 @@ public class NMProjectionResultsLogic {
                 final Object[] obj = (Object[]) list1;
                 String column;
 
-                int year = Integer.valueOf(String.valueOf(obj[col - 1]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                int year = Integer.parseInt(String.valueOf(obj[col - 1]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
 
@@ -1771,8 +1771,8 @@ public class NMProjectionResultsLogic {
             for (int i = 0; i < list.size(); i++) {
                 final Object[] obj = (Object[]) list.get(i);
                 String column;
-                int year = Integer.valueOf(String.valueOf(obj[1]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.TWO]));
+                int year = Integer.parseInt(String.valueOf(obj[1]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.TWO]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 oldDiscountName = newDiscountName;
@@ -2004,8 +2004,8 @@ public class NMProjectionResultsLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column;
-                int year = (obj[0] == null) ? 0 : Integer.valueOf(String.valueOf(obj[0]));
-                int period = (obj[1] == null) ? 0 : Integer.valueOf(String.valueOf(obj[1]));
+                int year = (obj[0] == null) ? 0 : Integer.parseInt(String.valueOf(obj[0]));
+                int period = (obj[1] == null) ? 0 : Integer.parseInt(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
                 String commonColumn = common.get(0);
                 int col = NumericConstants.TWO;
@@ -2695,13 +2695,13 @@ public class NMProjectionResultsLogic {
                     List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
                     if (list != null && !list.isEmpty()) {
                         Object ob = list.get(0);
-                        count = count + Integer.valueOf(String.valueOf(ob));
+                        count = count + Integer.parseInt(String.valueOf(ob));
                     }
                     query = ccpQuery + getPPACount(Boolean.FALSE);
                    list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
                     if (list != null && !list.isEmpty()) {
                         Object ob = list.get(0);
-                        count = count + Integer.valueOf(String.valueOf(ob));
+                        count = count + Integer.parseInt(String.valueOf(ob));
                     }
                 }
             } else {
@@ -4561,8 +4561,8 @@ public class NMProjectionResultsLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column;
-                int year = (obj[0] == null) ? 0 : Integer.valueOf(String.valueOf(obj[0]));
-                int period = (obj[1] == null) ? 0 : Integer.valueOf(String.valueOf(obj[1]));
+                int year = (obj[0] == null) ? 0 : Integer.parseInt(String.valueOf(obj[0]));
+                int period = (obj[1] == null) ? 0 : Integer.parseInt(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
                 String commonColumn = common.get(0);
                 int col = NumericConstants.THREE;
@@ -4974,8 +4974,8 @@ public class NMProjectionResultsLogic {
                 }
 
                 String column;
-                int year = Integer.valueOf(String.valueOf(discountRow[0]));
-                int period = Integer.valueOf(String.valueOf(discountRow[1]));
+                int year = Integer.parseInt(String.valueOf(discountRow[0]));
+                int period = Integer.parseInt(String.valueOf(discountRow[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
                 String commonColumn = common.get(0);
                 column = commonColumn + ACTUALS.getConstant();
@@ -5072,7 +5072,7 @@ public class NMProjectionResultsLogic {
             List list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                count = count + Integer.valueOf(String.valueOf(ob));
+                count = count + Integer.parseInt(String.valueOf(ob));
             }
             pPACount = count;
             projSelDTO.getSessionDTO().setIsPPAUpdated(false);
@@ -5112,7 +5112,7 @@ public class NMProjectionResultsLogic {
             for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
                     if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
-                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),hierarchyNoList.size(),i));
+                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),hierarchyNoList.size(),i));
                 }
                     started++;
                    }

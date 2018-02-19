@@ -187,7 +187,7 @@ public class PPAProjectionLogic {
 
             if (str[NumericConstants.TEN] != null && str[NumericConstants.ELEVEN] != null) {
                 if (str[NumericConstants.TEN].equals(str[NumericConstants.ELEVEN])) {
-                    dto.addBooleanProperties(Constant.CHECK_RECORD + ".0", Integer.valueOf(str[NumericConstants.TEN].toString()) > 0);
+                    dto.addBooleanProperties(Constant.CHECK_RECORD + ".0", Integer.parseInt(str[NumericConstants.TEN].toString()) > 0);
                 }
                 dto.setCheckRecordCount(Integer.valueOf(str[NumericConstants.TEN].toString()));
             }
@@ -244,7 +244,7 @@ public class PPAProjectionLogic {
         } else if (propertyId.contains(Constant.RESET_SMALL)) {
             String freq = String.valueOf(propertyId.charAt(1));
             String year = String.valueOf(propertyId.substring(NumericConstants.TWO, NumericConstants.SIX));
-            if ((dto.getValue() != null) && (Boolean.valueOf(dto.getValue().toString()))) {
+            if ((dto.getValue() != null) && (Boolean.parseBoolean(dto.getValue().toString()))) {
                 input = getInputForSavePriceCap(projectionId, dto, Constant.STRING_ONE,  freq, year, selection);
             } else {
                 input = getInputForSavePriceCap(projectionId, dto, DASH,  freq, year, selection);
@@ -252,7 +252,7 @@ public class PPAProjectionLogic {
             PPAQuerys.PPAUpdate(input, "PPA.saveReset");
         } else if (propertyId.contains(Constant.CHECK_RECORD)) {
                   
-            if ((dto.getValue() != null) && (Boolean.valueOf(dto.getValue().toString()))) {
+            if ((dto.getValue() != null) && (Boolean.parseBoolean(dto.getValue().toString()))) {
                 input = getInputForSaveCheckRecord(projectionId, dto, Constant.STRING_ONE, selection);
             } else {
                 input = getInputForSaveCheckRecord(projectionId, dto, DASH, selection);
@@ -456,7 +456,7 @@ public class PPAProjectionLogic {
                 }
 
             } else {
-                selection.setLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+                selection.setLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
                 count = configureLevelsCount(selection.getLevelNo(), selection);
             }
 
@@ -570,8 +570,8 @@ public class PPAProjectionLogic {
      * @param dto
      */
     private void customizeResults(Object[] obj, PPAProjectionDTO dto, ProjectionSelectionDTO selection) {
-        int quater = Integer.valueOf(obj[NumericConstants.THREE].toString());
-        int year = Integer.valueOf(obj[NumericConstants.FOUR].toString());
+        int quater = Integer.parseInt(obj[NumericConstants.THREE].toString());
+        int year = Integer.parseInt(obj[NumericConstants.FOUR].toString());
         List<String> commonCol = HeaderUtils.getCommonColumnHeader(selection.getFrequencyDivision(), year, quater);
         int pIndex = selection.getPeriodList().indexOf(commonCol.get(0));
         if (pIndex > -1) {

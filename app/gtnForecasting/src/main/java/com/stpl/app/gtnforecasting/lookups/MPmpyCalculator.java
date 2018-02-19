@@ -439,7 +439,7 @@ public class MPmpyCalculator extends Window {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     try {
-                        loadContractDDLB(Integer.valueOf(String.valueOf(event.getProperty().getValue())));
+                        loadContractDDLB(Integer.parseInt(String.valueOf(event.getProperty().getValue())));
                         availableProductsBean.removeAllItems();
                         selectedProductsBean.removeAllItems();
                     } catch (PortalException | SystemException | NumberFormatException ex) {
@@ -471,8 +471,8 @@ public class MPmpyCalculator extends Window {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     try {
-                        int customerSid = Integer.valueOf(String.valueOf(customerDDLB.getValue()));
-                        int contractSid = Integer.valueOf(String.valueOf(contractDDLB.getValue()));
+                        int customerSid = Integer.parseInt(String.valueOf(customerDDLB.getValue()));
+                        int contractSid = Integer.parseInt(String.valueOf(contractDDLB.getValue()));
                         availableProductsBean.removeAllItems();
                         availableProductsBean.addAll(loadProductsTable(customerSid, contractSid));
                         selectedProductsBean.removeAllItems();
@@ -546,9 +546,9 @@ public class MPmpyCalculator extends Window {
                     if (chValue) {
                         String valuePerLife ;
                         if(isIsSalesOrUnits()){
-                            valuePerLife = SalesUtils.valueToCurrency(calculateValuePerLife(Integer.valueOf(livesField.getValue())), doubleDecimalFormat);  
+                            valuePerLife = SalesUtils.valueToCurrency(calculateValuePerLife(Integer.parseInt(livesField.getValue())), doubleDecimalFormat);  
                         }else{
-                            valuePerLife = calculateValuePerLife(Integer.valueOf(livesField.getValue()));  
+                            valuePerLife = calculateValuePerLife(Integer.parseInt(livesField.getValue()));  
                         }                    
                     valuePerLifeField.setValue(valuePerLife);
                     } else {
@@ -566,7 +566,7 @@ public class MPmpyCalculator extends Window {
 
                     String tempVPL = isIsSalesOrUnits() ? String.valueOf(SalesUtils.currencyToValue(valuePerLifeField.getValue())) : valuePerLifeField.getValue();
                     int valuePerlife = Double.valueOf(tempVPL).intValue();
-                    String totalSales = calculateTotalSales(valuePerlife, Integer.valueOf(totalLivesField.getValue()));
+                    String totalSales = calculateTotalSales(valuePerlife, Integer.parseInt(totalLivesField.getValue()));
                     totalSalesField.setValue(isIsSalesOrUnits() ? SalesUtils.valueToCurrency(totalSales, doubleDecimalFormat) : totalSales);
 
                     int totalSalesAmount = Double.valueOf(totalSales).intValue();
@@ -744,8 +744,8 @@ public class MPmpyCalculator extends Window {
 
     public void moveAllProducts() throws PortalException, SystemException {
         
-        int customerSid = Integer.valueOf(String.valueOf(customerDDLB.getValue()));
-        int contractSid = Integer.valueOf(String.valueOf(contractDDLB.getValue()));
+        int customerSid = Integer.parseInt(String.valueOf(customerDDLB.getValue()));
+        int contractSid = Integer.parseInt(String.valueOf(contractDDLB.getValue()));
 
         if (availableProductsBean.size() == 0) {
             if (selectedProductsBean.size() != 0) {
@@ -893,7 +893,7 @@ public class MPmpyCalculator extends Window {
                 valuePerLife = tempSalesAmount / lives;
             }
         } else {
-            int salesAmount = Integer.valueOf(salesField.getValue());
+            int salesAmount = Integer.parseInt(salesField.getValue());
             if (lives != 0 && salesAmount != 0) {
                 valuePerLife = salesAmount / lives;
             }

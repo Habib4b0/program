@@ -509,7 +509,7 @@ public class ItemManagementIndex extends CustomComponent {
                 }
 
             } else {
-                MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.FOR_THE_SELECTED_UPDATE_TYPE_THIS, ButtonId.OK);
+                MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.FOR_THE_SELECTED_UPDATE_TYPE_NOT_VALID, ButtonId.OK);
 
             }
 

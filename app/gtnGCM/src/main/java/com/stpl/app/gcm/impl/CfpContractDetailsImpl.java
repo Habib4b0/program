@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.impl;
 
+import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
@@ -169,43 +170,43 @@ public class CfpContractDetailsImpl {
             if (StringUtils.isNotBlank(companyNo)) {
                 sql += whereCondition + andOperator + "  c.COMPANY_NO LIKE '" + companyNo + "'";
                 whereCondition = "";
-                andOperator = " AND ";
+                andOperator = StringConstantsUtil.AND_CONDITION;
             }
 
             if (StringUtils.isNotBlank(companyId)) {
                 sql += whereCondition + andOperator + " c.COMPANY_ID LIKE '" + companyId + "'";
                 whereCondition = "";
-                andOperator= " AND ";
+                andOperator= StringConstantsUtil.AND_CONDITION;
             }
 
             if (StringUtils.isNotBlank(companyName)) {
                 sql += whereCondition + andOperator+ " c.COMPANY_NAME LIKE '" + companyName + "'";
                 whereCondition = "";
-                andOperator= " AND ";
+                andOperator= StringConstantsUtil.AND_CONDITION;
             }
 
             if (StringUtils.isNotBlank(companyStatus)) {
                 sql += whereCondition + andOperator+ " C.COMPANY_STATUS = " + companyStatus ;
                 whereCondition = "";
-                andOperator= " AND ";
+                andOperator= StringConstantsUtil.AND_CONDITION;
             }
 
             if (StringUtils.isNotBlank(companyType)) {
                 sql += whereCondition + andOperator+ " C.COMPANY_TYPE = " + companyType;
                 whereCondition = "";
-                andOperator= " AND ";
+                andOperator= StringConstantsUtil.AND_CONDITION;
             }
 
             if (!StringUtils.EMPTY.equals(companyTradeClass)) {
                 sql += whereCondition + andOperator+ " T.COMPANY_TRADE_CLASS LIKE '" + companyTradeClass + "'";
                 whereCondition = "";
-                andOperator= " AND ";
+                andOperator= StringConstantsUtil.AND_CONDITION;
             }
 
             if (!StringUtils.EMPTY.equals(companyCategory)) {
                 sql += whereCondition + andOperator+ " C.COMPANY_CATEGORY =" + companyCategory ;
                 whereCondition = "";
-                andOperator= " AND ";
+                andOperator= StringConstantsUtil.AND_CONDITION;
             }
 
             if (!StringUtils.EMPTY.equals(companyGroup)) {

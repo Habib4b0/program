@@ -335,7 +335,7 @@ public class PPADetailsLookup extends Window {
             ppaDetailsDTO.setEndPeriod(CommonLogic.getPeriodSID(Constant.MONTHLY, String.valueOf(toDate.getValue()), false));
             if ((contract.getValue() != null && contract.getValue() != defaultValue) && (customer.getValue() != null && customer.getValue() != defaultValue) && (brand.getValue() != null && brand.getValue() != defaultValue)
                     && (itemNo.getValue() != null && itemNo.getValue() != itemDefaultValue) && (itemName.getValue() != null && itemName.getValue() != itemDefaultValue)) {
-                if (Integer.valueOf(ppaDetailsDTO.getStartPeriod()) >= Integer.valueOf(ppaDetailsDTO.getEndPeriod())) {
+                if (Integer.parseInt(ppaDetailsDTO.getStartPeriod()) >= Integer.parseInt(ppaDetailsDTO.getEndPeriod())) {
                     MessageBox.showPlain(Icon.ERROR, Constant.ERROR, "The selected To Time Period must come after the From Time Period", ButtonId.OK);
                 } else {
                     ppaDetailsDTO.setProjectionID(projectionId);

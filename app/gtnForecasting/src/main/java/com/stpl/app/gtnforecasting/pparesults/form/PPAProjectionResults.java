@@ -316,8 +316,8 @@ public class PPAProjectionResults extends CustomComponent implements View {
             history.focus();
             verticalLayout.addComponent(periodTableId);
             selection.setProjectionId(projectionId);
-            selection.setUserId(Integer.valueOf(session.getUserId()));
-            selection.setUserId(Integer.valueOf(session.getUserId()));
+            selection.setUserId(Integer.parseInt(session.getUserId()));
+            selection.setUserId(Integer.parseInt(session.getUserId()));
             HorizontalLayout controls = periodTableId.createControls();
             HorizontalLayout cssControls = CommonLogic.getResponsiveControls(controls);
             verticalLayout.addComponent(cssControls);
@@ -525,8 +525,8 @@ public class PPAProjectionResults extends CustomComponent implements View {
                 .setDoubleHeaderColumnHeaders(doubleColumnHeader.toArray(new String[doubleColumnHeader.size()]));
         periodTableId.setDoubleHeaderMap(leftdto.getDoubleHeaderMaps(), ridhtdto.getDoubleHeaderMaps());
         selection.setProjectionId(session.getProjectionId());
-        selection.setUserId(session.getUserId() != null ? Integer.valueOf(session.getUserId()) : 0);
-        selection.setSessionId(session.getSessionId() != null ? Integer.valueOf(session.getSessionId()) : 0);
+        selection.setUserId(session.getUserId() != null ? Integer.parseInt(session.getUserId()) : 0);
+        selection.setSessionId(session.getSessionId() != null ? Integer.parseInt(session.getSessionId()) : 0);
         leftTable.setFilterBarVisible(true);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
         leftTable.setFilterGenerator(new PPAResultsGenerator(selection));
@@ -605,7 +605,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
     private void expandCollapseLevelOption(boolean isExpand, Object value)  {
         if (value != null) {
             List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-            int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+            int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
             if (levelNo > 0) {
                 if (selection.isIsFilter()) {
                     levelFilter.removeValueChangeListener(levelFilterChangeOption);
@@ -810,7 +810,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                 if (Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue()))) {
                     selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                     selection.setRelationshipBuilderSid(selection.getCustRelationshipBuilderSid());
-                    hierarchyLevelNo = Integer.valueOf(session.getCustomerLevelNumber());
+                    hierarchyLevelNo = Integer.parseInt(session.getCustomerLevelNumber());
                     group.setEnabled(Boolean.TRUE);
                     if (viewChange && firstGenerated) {
                         try {
@@ -823,7 +823,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                 } else if (Constant.PRODUCT_LABEL.equals(String.valueOf(view.getValue()))) {
                     selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     selection.setRelationshipBuilderSid(selection.getProdRelationshipBuilderSid());
-                    hierarchyLevelNo = Integer.valueOf(session.getProductLevelNumber());
+                    hierarchyLevelNo = Integer.parseInt(session.getProductLevelNumber());
                     group.setEnabled(Boolean.FALSE);
                     if (viewChange && firstGenerated) {
                         try {
@@ -912,19 +912,19 @@ public class PPAProjectionResults extends CustomComponent implements View {
     public void loadProjectionSelection()  {
         selection.setSessionDTO(session);
         selection.setFrequency(frequency.getValue().toString());
-        selection.setHistoryNum(Integer.valueOf(history.getValue().toString()));
+        selection.setHistoryNum(Integer.parseInt(history.getValue().toString()));
         selection.setHistory(history.getItemCaption(history.getValue()));
         selection.setProjectionOrder(periodOrder.getValue().toString());
         selection.setActualsOrProjections(actualOrProj.getValue().toString());
         selection.setPivotView(pivotView.getValue().toString());
         selection.setView(view.getValue().toString());
         selection.setProjectionId(projectionId);
-        selection.setSessionId(Integer.valueOf(session.getSessionId()));
+        selection.setSessionId(Integer.parseInt(session.getSessionId()));
         selection.setIsProjectionTotal(Boolean.TRUE);
         selection.setForecastDTO(session.getForecastDTO());
-        selection.setUserId(Integer.valueOf(session.getUserId()));
-        selection.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-        selection.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+        selection.setUserId(Integer.parseInt(session.getUserId()));
+        selection.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+        selection.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
         selection.setCustRelationshipBuilderSid(session.getCustRelationshipBuilderSid());
         selection.setProdRelationshipBuilderSid(session.getProdRelationshipBuilderSid());
         viewChange(Boolean.FALSE);
@@ -936,7 +936,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         if (session.getForecastDTO().getForecastStartDate() != null && session.getForecastDTO().getForecastStartDate() != null) {
             selection.setProjectionNum(CommonUtils.getProjectionNumber(selection.getFrequency(), session));
         }
-        selection.setStartDate(logic.getStartForData(frequency.getValue().toString(), Integer.valueOf(history.getValue().toString()) + 1, history.getItemCaption(history.getValue()), session));
+        selection.setStartDate(logic.getStartForData(frequency.getValue().toString(), Integer.parseInt(history.getValue().toString()) + 1, history.getItemCaption(history.getValue()), session));
         loadGroupFilter();
         groupChange(false);
     }
@@ -1035,7 +1035,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
     public void levelFilterDdlbChangeOption(boolean excelExport)  {
         if (levelFilter.getValue() != null) {
             List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
-            int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+            int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
             if (levelNo < 0) {
                 levelNo = 0;
             }
@@ -1092,8 +1092,8 @@ public class PPAProjectionResults extends CustomComponent implements View {
         periodTableId.getLeftFreezeAsTable().setFilterBarVisible(true);
         periodTableId.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         selection.setProjectionId(session.getProjectionId());
-        selection.setUserId(session.getUserId() != null ? Integer.valueOf(session.getUserId()) : 0);
-        selection.setSessionId(session.getSessionId() != null ? Integer.valueOf(session.getSessionId()) : 0);
+        selection.setUserId(session.getUserId() != null ? Integer.parseInt(session.getUserId()) : 0);
+        selection.setSessionId(session.getSessionId() != null ? Integer.parseInt(session.getSessionId()) : 0);
         periodTableId.getLeftFreezeAsTable().setFilterGenerator(new PPAResultsGenerator(selection));
         LOGGER.debug("End loadresults table ");
     }

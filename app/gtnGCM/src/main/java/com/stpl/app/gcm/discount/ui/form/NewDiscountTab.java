@@ -307,34 +307,34 @@ public class NewDiscountTab extends CustomComponent {
             endDate.addStyleName("v-align-center");
 
             rebateScheduleStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            rebateScheduleStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            rebateScheduleStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             rsEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            rsEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             datePeriod.setDateFormat(Constants.MM_DD_YYYY);
-            datePeriod.setStyleName(Constants.DATE_FIEILD_CENTER);
+            datePeriod.setStyleName(Constants.DATE_FIELD_CENTER);
 
             rsStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            rsStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             psStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            psStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            psStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             ifpStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            ifpStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            ifpStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             cfpStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            cfpStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            cfpStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             cfpEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            cfpEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            cfpEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             ifpEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            ifpEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            ifpEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             psEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            psEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            psEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             searchDatePeriod.setDateFormat(Constants.MM_DD_YYYY);
 
@@ -507,7 +507,7 @@ public class NewDiscountTab extends CustomComponent {
                     final PopupDateField itemStartDate = new PopupDateField();
                     itemStartDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     itemStartDate.setDateFormat(MMDDYYYY.getConstant());
-                    itemStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    itemStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     itemStartDate.addBlurListener(new BlurListener() {
                         @Override
                         public void blur(BlurEvent event) {
@@ -523,11 +523,11 @@ public class NewDiscountTab extends CustomComponent {
                     });
                     return itemStartDate;
                 }
-                if (propertyId.equals(Constants.E_DATE)) {
+                if (propertyId.equals(Constants.E_DATE_PROPERTY)) {
                     final PopupDateField itemEndDate = new PopupDateField();
                     itemEndDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     itemEndDate.setDateFormat(MMDDYYYY.getConstant());
-                    itemEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    itemEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     itemEndDate.addBlurListener(new BlurListener() {
                         @Override
                         public void blur(BlurEvent event) {
@@ -537,7 +537,7 @@ public class NewDiscountTab extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 dto.seteDate(dt1);
                                 dto.setTempEDate(dt1);
-                                DiscountLogic.updateTempTableRecord(dto, session, Constants.E_DATE, false);
+                                DiscountLogic.updateTempTableRecord(dto, session, Constants.E_DATE_PROPERTY, false);
                             }
                         }
                     });
@@ -631,7 +631,7 @@ public class NewDiscountTab extends CustomComponent {
                     final PopupDateField ppStartDate = new PopupDateField();
                     ppStartDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     ppStartDate.setDateFormat(MMDDYYYY.getConstant());
-                    ppStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+                    ppStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     ppStartDate.addBlurListener(new BlurListener() {
                         @Override
                         public void blur(BlurEvent event) {
@@ -1016,7 +1016,7 @@ public class NewDiscountTab extends CustomComponent {
                     }
 
                 } else if (massField.contains(Constants.END_DATE_HEADER)) {
-                    propertyId = Constants.E_DATE;
+                    propertyId = Constants.E_DATE_PROPERTY;
                     String value = String.valueOf(datePeriod.getValue());
                     if (value != null && !value.equals(Constants.NULL) && !value.equals(StringUtils.EMPTY)) {
                         newDiscountTabDto.seteDate(datePeriod.getValue());
