@@ -1056,7 +1056,7 @@ public class NMDPRLogic {
                     List<Object> list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                     if (list != null && !list.isEmpty()) {
                         Object ob = list.get(0);
-                        count = count + Integer.valueOf(String.valueOf(ob));
+                        count = count + Integer.parseInt(String.valueOf(ob));
                     }
                 }
             } else {
@@ -1675,7 +1675,7 @@ public class NMDPRLogic {
         } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
             freq = Constant.S_SMALL + String.valueOf(obj[1]) + String.valueOf(obj[0]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
-            String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+            String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
             freq = monthName.toLowerCase() + String.valueOf(obj[0]);
         }
         return freq;

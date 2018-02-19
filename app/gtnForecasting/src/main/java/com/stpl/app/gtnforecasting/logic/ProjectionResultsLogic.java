@@ -195,8 +195,8 @@ public class ProjectionResultsLogic {
                     if (start) {
                         discount = discountRow[NumericConstants.TWO].toString();
                         String column;
-                        int year = Integer.valueOf(String.valueOf(discountRow[0]));
-                        int period = Integer.valueOf(String.valueOf(discountRow[1]));
+                        int year = Integer.parseInt(String.valueOf(discountRow[0]));
+                        int period = Integer.parseInt(String.valueOf(discountRow[1]));
                         List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
                         String commonColumn = common.get(0);
                         column = commonColumn + ACTUALS.getConstant();
@@ -279,8 +279,8 @@ public class ProjectionResultsLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column;
-                int year = Integer.valueOf(String.valueOf(obj[0]));
-                int period = Integer.valueOf(String.valueOf(obj[1]));
+                int year = Integer.parseInt(String.valueOf(obj[0]));
+                int period = Integer.parseInt(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 int col = NumericConstants.TWO;
@@ -344,8 +344,8 @@ public class ProjectionResultsLogic {
         for (Object rows : list) {
             final Object[] row = (Object[]) rows;
             String column;
-            int year = Integer.valueOf(String.valueOf(row[0]));
-            int period = Integer.valueOf(String.valueOf(row[1]));
+            int year = Integer.parseInt(String.valueOf(row[0]));
+            int period = Integer.parseInt(String.valueOf(row[1]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
@@ -491,8 +491,8 @@ public class ProjectionResultsLogic {
                 for (int i = discountIndex; i < discountList.size(); i++) {
                     discountIndex = i;
                     Object[] discountRow = (Object[]) discountList.get(i);
-                    int dyear = Integer.valueOf(String.valueOf(discountRow[dcol - 1]));
-                    int dperiod = Integer.valueOf(String.valueOf(discountRow[1]));
+                    int dyear = Integer.parseInt(String.valueOf(discountRow[dcol - 1]));
+                    int dperiod = Integer.parseInt(String.valueOf(discountRow[1]));
                     List<String> dcommon = getCommonColumnHeader(frequencyDivision, dyear, dperiod);
                     String dcommonColumn = dcommon.get(0);
                     if (pcommonColumn.equals(dcommonColumn)) {
@@ -593,8 +593,8 @@ public class ProjectionResultsLogic {
         for (Object[] row : list) {
 
             String column;
-            int year = Integer.valueOf(String.valueOf(row[col - 1]));
-            int period = Integer.valueOf(String.valueOf(row[NumericConstants.FOUR]));
+            int year = Integer.parseInt(String.valueOf(row[col - 1]));
+            int period = Integer.parseInt(String.valueOf(row[NumericConstants.FOUR]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);
@@ -747,8 +747,8 @@ public class ProjectionResultsLogic {
                 for (int i = discountIndex; i < discountList.size(); i++) {
                     discountIndex = i;
                     Object[] discountRow = discountList.get(i);
-                    int dyear = Integer.valueOf(String.valueOf(discountRow[dcol - 1]));
-                    int dperiod = Integer.valueOf(String.valueOf(discountRow[1]));
+                    int dyear = Integer.parseInt(String.valueOf(discountRow[dcol - 1]));
+                    int dperiod = Integer.parseInt(String.valueOf(discountRow[1]));
                     List<String> dcommon = getCommonColumnHeader(frequencyDivision, dyear, dperiod);
                     String dcommonColumn = dcommon.get(0);
                     if (pcommonColumn.equals(dcommonColumn)) {
@@ -900,8 +900,8 @@ public class ProjectionResultsLogic {
                 final Object[] obj = (Object[]) list1;
                 String column;
 
-                int year = Integer.valueOf(String.valueOf(obj[col - 1]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                int year = Integer.parseInt(String.valueOf(obj[col - 1]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
 
@@ -1037,8 +1037,8 @@ public class ProjectionResultsLogic {
             for (int i = 0; i < list.size(); i++) {
                 final Object[] obj = (Object[]) list.get(i);
                 String column;
-                int year = Integer.valueOf(String.valueOf(obj[col - 1]));
-                int period = Integer.valueOf(String.valueOf(obj[1]));
+                int year = Integer.parseInt(String.valueOf(obj[col - 1]));
+                int period = Integer.parseInt(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 oldDiscountName = newDiscountName;

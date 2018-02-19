@@ -88,9 +88,9 @@ public class ProductGroupLogic {
             ProductGroupLookUpDTO productGroupDTO = new ProductGroupLookUpDTO();
             productGroupDTO.setProductGroup((obtainedObject[0] == null) ? StringUtils.EMPTY : String.valueOf(obtainedObject[0]));
             productGroupDTO.setProductGroupName((obtainedObject[1] == null) ? StringUtils.EMPTY : String.valueOf(obtainedObject[1]));
-            productGroupDTO.setItemGroupSid((obtainedObject[NumericConstants.TWO] == null) ? 0 : Integer.valueOf(obtainedObject[NumericConstants.TWO].toString()));
+            productGroupDTO.setItemGroupSid((obtainedObject[NumericConstants.TWO] == null) ? 0 : Integer.parseInt(obtainedObject[NumericConstants.TWO].toString()));
             productGroupDTO.setCompany((obtainedObject[NumericConstants.THREE] == null) ? StringUtils.EMPTY : String.valueOf(obtainedObject[NumericConstants.THREE].toString()));
-            productGroupDTO.setCompanySid((obtainedObject[NumericConstants.FOUR] == null) ? 0 : Integer.valueOf(obtainedObject[NumericConstants.FOUR].toString()));
+            productGroupDTO.setCompanySid((obtainedObject[NumericConstants.FOUR] == null) ? 0 : Integer.parseInt(obtainedObject[NumericConstants.FOUR].toString()));
             productGroupDTO.setProductGroupDescription((obtainedObject[NumericConstants.FIVE] == null) ? StringUtils.EMPTY : String.valueOf(obtainedObject[NumericConstants.FIVE]));
             resultList.add(productGroupDTO);
         }

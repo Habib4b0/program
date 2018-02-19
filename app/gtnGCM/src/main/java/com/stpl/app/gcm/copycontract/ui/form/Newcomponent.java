@@ -291,23 +291,23 @@ public class Newcomponent extends CustomComponent {
     protected void configureFields() {
         try {
             cfpStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            cfpStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            cfpStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
             cfpEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            cfpEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            cfpEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             ifpStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            ifpStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            ifpStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
             ifpEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            ifpEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            ifpEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             psStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            psStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            psStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             rsStartDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            rsStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
             rsEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            rsEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
             BtnsearchNC.setEnabled(false);
             componenttype.addItem(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN);
             componenttype.addItem(Constants.IndicatorConstants.ITEM_FAMILY_PLAN);
@@ -422,13 +422,13 @@ public class Newcomponent extends CustomComponent {
                     if (Constants.START_DATE.equals(propertyId)) {
                         PopupDateField field1 = new PopupDateField();
                         field1.setDateFormat(Constants.MM_DD_YYYY);
-                        field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                        field1.setStyleName(Constants.DATE_FIELD_CENTER);
                         field = field1;
                     }
                     if (Constants.END_DATE.equals(propertyId)) {
                         PopupDateField field1 = new PopupDateField();
                         field1.setDateFormat(Constants.MM_DD_YYYY);
-                        field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                        field1.setStyleName(Constants.DATE_FIELD_CENTER);
                         field = field1;
 
                     }
@@ -766,12 +766,12 @@ public class Newcomponent extends CustomComponent {
                         } else if (Constants.START_DATE.equals(propertyId)) {
                             PopupDateField field1 = new PopupDateField();
                             field1.setDateFormat(Constants.MM_DD_YYYY);
-                            field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                            field1.setStyleName(Constants.DATE_FIELD_CENTER);
                             field = field1;
                         } else if (Constants.END_DATE.equals(propertyId)) {
                             PopupDateField field1 = new PopupDateField();
                             field1.setDateFormat(Constants.MM_DD_YYYY);
-                            field1.setStyleName(Constants.DATE_FIEILD_CENTER);
+                            field1.setStyleName(Constants.DATE_FIELD_CENTER);
                             field = field1;
                         } else if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();

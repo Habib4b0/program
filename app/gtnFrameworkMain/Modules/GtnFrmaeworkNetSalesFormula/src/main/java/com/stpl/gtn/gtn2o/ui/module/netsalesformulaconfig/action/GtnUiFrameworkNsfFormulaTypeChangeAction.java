@@ -144,13 +144,10 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 	}
 
 	private void checkValueChange(String componentId, String viewId) throws GtnFrameworkGeneralException {
-		LOGGER.info("in checkValueChange--------");
-		if (!GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE, componentId)
-				.getItemsFromTable().isEmpty()
-				|| !GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent(viewId + SELECTED_DEDUCTIONS_RESULT_TABLE, componentId)
-						.getItemsFromTable().isEmpty()) {
+              String formulaTypeValue = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(FORMULA_TYPE));
+              String formulaType = String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + FORMULA_TYPE).getValueFromComponent());           
+                       
+              if (formulaTypeValue!=null && !"null".equals(formulaTypeValue) && formulaType!=null && !"null".equals(formulaType)&& !formulaType.equals(formulaTypeValue)) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 			List<Object> alertParams = new ArrayList<>();

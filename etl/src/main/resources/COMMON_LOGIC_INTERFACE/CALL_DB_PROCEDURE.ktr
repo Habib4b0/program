@@ -102,13 +102,13 @@
   </connection>
   <connection>
     <name>procedurecall</name>
-    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
+    <server>&#x24;&#x7b;BPI_SOURCE_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>BPIGTN_AGN_ADROIT_UNIT </database>
+    <database>&#x24;&#x7b;BPI_SOURCE_DB&#x7d;</database>
     <port>1433</port>
-    <username>bpigtn_agn_adroit</username>
-    <password>Encrypted 2ffeefbac3ccfc6bdaa1dbc7fd786eb9e</password>
+    <username>&#x24;&#x7b;BPI_SOURCE_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_SOURCE_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>

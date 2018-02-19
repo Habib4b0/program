@@ -282,12 +282,12 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         projectionSelectionDTO.setCustRelationshipBuilderSid(projectionSelectionDTO.getSessionDTO().getCustRelationshipBuilderSid());
         projectionSelectionDTO.setProdRelationshipBuilderSid(projectionSelectionDTO.getSessionDTO().getProdRelationshipBuilderSid());
         projectionSelectionDTO.setCustomerLevelNo(StringUtils.isBlank(projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber()) || Constant.NULL.equals(projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber())
-                ? 1 : Integer.valueOf(projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber()));
+                ? 1 : Integer.parseInt(projectionSelectionDTO.getSessionDTO().getCustomerLevelNumber()));
         projectionSelectionDTO.setProductLevelNo(StringUtils.isBlank(projectionSelectionDTO.getSessionDTO().getProductLevelNumber()) || Constant.NULL.equals(projectionSelectionDTO.getSessionDTO().getProductLevelNumber())
-                ? 1 : Integer.valueOf(projectionSelectionDTO.getSessionDTO().getProductLevelNumber()));
+                ? 1 : Integer.parseInt(projectionSelectionDTO.getSessionDTO().getProductLevelNumber()));
         projectionSelectionDTO.setProjectionId(projectionSelectionDTO.getSessionDTO().getProjectionId());
-        projectionSelectionDTO.setUserId(Integer.valueOf(projectionSelectionDTO.getSessionDTO().getUserId()));
-        projectionSelectionDTO.setSessionId(Integer.valueOf(projectionSelectionDTO.getSessionDTO().getSessionId()));
+        projectionSelectionDTO.setUserId(Integer.parseInt(projectionSelectionDTO.getSessionDTO().getUserId()));
+        projectionSelectionDTO.setSessionId(Integer.parseInt(projectionSelectionDTO.getSessionDTO().getSessionId()));
         projectionSelectionDTO.setFrequency(String.valueOf(frequencyDdlb.getValue()));
         projectionSelectionDTO.setProjectionOrder(String.valueOf(periodOrderOpg.getValue()));
         projectionSelectionDTO.setActualsOrProjections(String.valueOf(actualOrProjectionsOpg.getValue()));
@@ -731,7 +731,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException, SystemException{
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo > 0) {
             if (projectionSelectionDTO.isIsFilter()) {
                 levelFilterDdlb.removeValueChangeListener(levelFilterChangeOption);

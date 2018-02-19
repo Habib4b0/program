@@ -409,7 +409,7 @@ public class SalesProjectionLogic {
                 lives.setStartYear(startDate.getYear());
                 lives.setStartDate(startDate);
                 lives.setEndDate(endDate);
-                lives.setLives(Double.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                lives.setLives(Double.parseDouble(String.valueOf(obj[NumericConstants.THREE])));
                 lives.setComp_Name((String) obj[0]);
                 livesDto.add(lives);
 
@@ -801,7 +801,7 @@ public class SalesProjectionLogic {
 
                     return -1;
                 }
-                projectionDettailsId = Integer.valueOf(list.get(0).toString());
+                projectionDettailsId = Integer.parseInt(list.get(0).toString());
             }
         } catch (SystemException | NumberFormatException ex) {
             LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
@@ -965,7 +965,7 @@ public class SalesProjectionLogic {
         try {
             List list = salesProjectionDAO.getSalesProjection(input);
             if (!list.isEmpty()) {
-                count = Integer.valueOf(list.get(0).toString());
+                count = Integer.parseInt(list.get(0).toString());
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
@@ -979,7 +979,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             List list = salesProjectionDAO.getSalesProjection(input);
-            count = Integer.valueOf(list.get(0).toString());
+            count = Integer.parseInt(list.get(0).toString());
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LoggerFactory.getLogger(SalesProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
         }
@@ -1158,7 +1158,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             List list = salesProjectionDAO.getSalesProjection(selection);
-            double count = Double.valueOf(list.get(0).toString());
+            double count = Double.parseDouble(list.get(0).toString());
             if (count <= 0) {
                 hasNoActuals = true;
             }

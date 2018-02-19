@@ -304,7 +304,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        return Integer.valueOf(list.get(0).toString());
+        return Integer.parseInt(list.get(0).toString());
     }
 
     public int getMaxExpandLevelNo() {

@@ -300,7 +300,7 @@ public class MProjectionVarianceLogic {
             }
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             List resultList = (List) salesProjectionDAO.executeSelectQuery(customSql.toString());
-            int count = Integer.valueOf(String.valueOf(resultList.get(0)));
+            int count = Integer.parseInt(String.valueOf(resultList.get(0)));
             return count;
         } catch (ParseException e) {
             LOGGER.error(e.getMessage());
@@ -774,7 +774,7 @@ public class MProjectionVarianceLogic {
             }
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                count = Integer.valueOf(String.valueOf(ob));
+                count = Integer.parseInt(String.valueOf(ob));
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -4462,7 +4462,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "NetSalesPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SIXTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SIXTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SIXTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4488,7 +4488,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "COGCVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWENTY + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY])) - Double.valueOf(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -4499,7 +4499,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "COGCPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWENTY + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4525,7 +4525,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "NetProfitVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWENTY_ONE + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY_ONE])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY_ONE])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -4536,7 +4536,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "NetProfitPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWENTY_ONE + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY_ONE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY_ONE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -5058,7 +5058,7 @@ public class MProjectionVarianceLogic {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
 
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5074,13 +5074,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5102,7 +5102,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5118,13 +5118,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5186,7 +5186,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5202,13 +5202,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.ELEVEN + ((j + 1) * NumericConstants.ELEVEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.ELEVEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.ELEVEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.ELEVEN + ((j + 1) * NumericConstants.ELEVEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.ELEVEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.ELEVEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5234,11 +5234,11 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
-                        Double tempValue = Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) / Double.valueOf(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO]));
+                        Double tempValue = Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) / Double.parseDouble(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO]));
                         if (tempValue.isNaN() || tempValue.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(tempValue))) {
                             tempValue = 0.0;
                         }
@@ -5248,7 +5248,7 @@ public class MProjectionVarianceLogic {
                     }
                     for (int j = 0; j < priorList.size(); j++) {
                         if (pvsdto.getVarIndicator().equals(VALUE)) {
-                            Double tempPriorValue = Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.NINE)])) / Double.valueOf(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)]));
+                            Double tempPriorValue = Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.NINE)])) / Double.parseDouble(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)]));
                             if (tempPriorValue.isNaN() || tempPriorValue.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(tempPriorValue))) {
                                 tempPriorValue = 0.0;
                             }
@@ -5257,8 +5257,8 @@ public class MProjectionVarianceLogic {
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
-                            Double value = Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) / Double.valueOf(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO]));
-                            Double priorVal = Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.NINE)])) / Double.valueOf(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)]));
+                            Double value = Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) / Double.parseDouble(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO]));
+                            Double priorVal = Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.NINE)])) / Double.parseDouble(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)]));
                             Double tempVariance = value - priorVal;
                             if (tempVariance.isNaN() || tempVariance.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(tempVariance))) {
                                 tempVariance = 0.0;
@@ -5267,8 +5267,8 @@ public class MProjectionVarianceLogic {
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
-                            Double value = Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) / Double.valueOf(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO]));
-                            Double priorVal = Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.NINE)])) / Double.valueOf(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)]));
+                            Double value = Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) / Double.parseDouble(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO]));
+                            Double priorVal = Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.NINE)])) / Double.parseDouble(isNull(StringUtils.EMPTY + gts[NumericConstants.TWO + ((j + 1) * NumericConstants.ELEVEN)]));
                             Double perChange = (value - priorVal) / priorVal;
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
@@ -5565,7 +5565,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5581,13 +5581,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOURTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOURTEEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOURTEEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOURTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOURTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOURTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5616,7 +5616,7 @@ public class MProjectionVarianceLogic {
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
-                        String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])));
+                        String value = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])));
                         String baseValue = getFormattedValue(AMOUNT, value);
                         pvDTO.addStringProperties(commonColumn + CURRENT, baseValue);
                     }
@@ -5628,13 +5628,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIVE + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIVE + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5690,7 +5690,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5707,13 +5707,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIFTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIFTEEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIFTEEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIFTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIFTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIFTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5738,7 +5738,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5756,13 +5756,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5814,7 +5814,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5831,13 +5831,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SIXTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SIXTEEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SIXTEEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SIXTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SIXTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SIXTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5861,7 +5861,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5878,13 +5878,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SIX + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SIX + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5957,7 +5957,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5974,13 +5974,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[no + ((j + 1) * NumericConstants.ELEVEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[no])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[no])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[no + ((j + 1) * NumericConstants.ELEVEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[no])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[no])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6007,7 +6007,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6024,13 +6024,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[queryColNo + ((j + 1) * NumericConstants.NINE)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[queryColNo + ((j + 1) * NumericConstants.NINE)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6085,7 +6085,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6102,13 +6102,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[no + ((j + 1) * NumericConstants.ELEVEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[no])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[no])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[no + ((j + 1) * NumericConstants.ELEVEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[no])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[no])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6135,7 +6135,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6152,13 +6152,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[queryColNo + ((j + 1) * NumericConstants.NINE)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[queryColNo + ((j + 1) * NumericConstants.NINE)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6220,7 +6220,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6236,13 +6236,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[no + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[no])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[no])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[no + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[no])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[no])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6269,7 +6269,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6285,13 +6285,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[queryColNo + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[queryColNo + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6362,7 +6362,7 @@ public class MProjectionVarianceLogic {
                 } else if (frequencyDivision == 1) {
                     commonColumn = StringUtils.EMPTY + obj[0];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
-                    String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                    String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                     commonColumn = monthName + obj[0];
                 }
                 int code = queryColNo + (pcSize * NumericConstants.SIX);
@@ -6387,13 +6387,13 @@ public class MProjectionVarianceLogic {
 
                     } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                         String priorVal = StringUtils.EMPTY + obj[code];
-                        String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal)));
+                        String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal)));
                         String val = getFormattedValue(AMOUNT, variance);
                         pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                     } else {
                         String priorVal = StringUtils.EMPTY + obj[code];
-                        Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                        Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                         if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                             perChange = 0.0;
                         }
@@ -6444,7 +6444,7 @@ public class MProjectionVarianceLogic {
                 } else if (frequencyDivision == 1) {
                     commonColumn = StringUtils.EMPTY + obj[0];
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
-                    String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                    String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                     commonColumn = monthName + obj[0];
                 }
                 if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6468,13 +6468,13 @@ public class MProjectionVarianceLogic {
 
                     } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                         String priorVal = StringUtils.EMPTY + obj[code];
-                        String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal)));
+                        String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal)));
                         String val = getFormattedValue(RATE_PER, variance);
                         pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                     } else {
                         String priorVal = StringUtils.EMPTY + obj[code];
-                        Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                        Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[queryColNo])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                         if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                             perChange = 0.0;
                         }
@@ -6750,7 +6750,7 @@ public class MProjectionVarianceLogic {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
 
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6767,13 +6767,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6795,7 +6795,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6812,13 +6812,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6985,7 +6985,7 @@ public class MProjectionVarianceLogic {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
 
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7001,13 +7001,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7029,7 +7029,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7045,13 +7045,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7101,7 +7101,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7117,13 +7117,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWENTY_ONE + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWENTY_ONE])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWENTY_ONE])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWENTY_ONE + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWENTY_ONE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWENTY_ONE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7147,7 +7147,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7163,13 +7163,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIFTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIFTEEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIFTEEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIFTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIFTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIFTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7333,7 +7333,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7349,13 +7349,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.NINETEEN + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.NINETEEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.NINETEEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.NINETEEN + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.NINETEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.NINETEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7379,7 +7379,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7395,13 +7395,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.ELEVEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.ELEVEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.ELEVEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.ELEVEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.ELEVEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.ELEVEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7448,7 +7448,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7465,13 +7465,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7494,7 +7494,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7510,13 +7510,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val+ PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7561,7 +7561,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7578,13 +7578,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7607,7 +7607,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7623,13 +7623,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val+ PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7674,7 +7674,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7691,13 +7691,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val + PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7720,7 +7720,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7736,13 +7736,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(RATE_PER, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val+ PERCENT);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }

@@ -101,9 +101,9 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      * The table control Layout.
      */
     private  ExtTreeContainer<ProjectionVarianceDTO> beanContainerResult = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
-    private static List<Integer> projectionIdList = new ArrayList<>();
+    private List<Integer> projectionIdList = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
-    private static List<String> projectionNameList = new ArrayList<>();
+    private List<String> projectionNameList = new ArrayList<>();
     private final MProjectionVarianceLogic pvLogic = new MProjectionVarianceLogic();
     private boolean firstGenerated = false;
     private boolean canLoad = true;
@@ -504,8 +504,8 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setFrequency(String.valueOf(frequency.getValue()));
         pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
         pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
-        pvSelectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-        pvSelectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+        pvSelectionDTO.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+        pvSelectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
         pvSelectionDTO.setForecastDTO(session.getForecastDTO());
         pvSelectionDTO.setProjectionId(session.getProjectionId());
         pvSelectionDTO.setCurrentProjectionID(session.getProjectionId());
@@ -866,7 +866,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, false,getContractTypeList()));
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo > 0) {
             if (pvSelectionDTO.isIslevelFiler()) {
                 levelFilter.removeValueChangeListener(levelFilterChangeOption);

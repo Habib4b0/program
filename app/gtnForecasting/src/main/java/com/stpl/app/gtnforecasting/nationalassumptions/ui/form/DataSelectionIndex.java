@@ -633,7 +633,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             }
             if (company.getValue() != null  && !"null".equalsIgnoreCase(String.valueOf(productGroupValue)) && !StringUtils.EMPTY.equals((String) productGroupValue) ) {
                 String compName = StringUtils.EMPTY;
-                List list = logic.getCompanyName(Integer.valueOf(company.getValue().toString()));
+                List list = logic.getCompanyName(Integer.parseInt(company.getValue().toString()));
                     for (int i = 0; i < list.size(); i++) {
                         Object[] ob = (Object[]) list.get(i);
                         compName = ob[NumericConstants.TWO].toString();                                               
