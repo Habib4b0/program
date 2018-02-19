@@ -23,6 +23,7 @@ import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.ChangeCustomMenuBarValueUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
@@ -68,6 +69,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.MenuItemDTO;
 import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,15 +94,33 @@ public class NMSalesProjection extends ForecastSalesProjection {
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-            generateProductToBeLoaded=(List) commonLogic.getFilterValues(productFilterValues).get(SID);
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, menuItemValue);
+            generateProductToBeLoaded = (List) commonLogic.getFilterValues(productFilterValues).get(SID);
             loadCustomerLevelFilter(String.valueOf(customerlevelDdlb.getValue()));
         }
     };
-   
+
+    protected CustomMenuBar.SubMenuCloseListener salesInclusionListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+            String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionValue);
+        }
+    };
+    protected CustomMenuBar.SubMenuCloseListener displayFormatListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+            String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, salesInclusionValue);
+        }
+    };
     protected CustomMenuBar.SubMenuCloseListener cutomerListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-             generateCustomerToBeLoaded=(List) commonLogic.getFilterValues(customerFilterValues).get(SID);
+            String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, menuItemValue);
+            generateCustomerToBeLoaded = (List) commonLogic.getFilterValues(customerFilterValues).get(SID);
             loadProductLevelFilter(String.valueOf(productlevelDdlb.getValue()));
         }
     };
@@ -771,6 +791,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             map.put(Constant.CUSTOMER_LEVEL_VALUE, StringUtils.join(getCustomerFilterValues(), CommonUtil.COMMA));
             map.put(Constant.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
             map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(getProductFilterValues(), CommonUtil.COMMA));
+            map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues)));
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -907,25 +928,30 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void loadSalesInclusion() throws IllegalStateException {
         String[] variablesalesInclusion= {"Yes", "No"};
+        salesInclusionDdlb.removeSubMenuCloseListener(salesInclusionListener);
         salesInclusionDdlb.removeItems();
         salesInclusionValues = salesInclusionDdlb.addItem("-Select Values-", null);
         CustomMenuBar.CustomMenuItem[] salesInclusionCustomItem = new CustomMenuBar.CustomMenuItem[variablesalesInclusion.length];
         for (int i = 0; i < variablesalesInclusion.length; i++) {
-            salesInclusionCustomItem[i] = salesInclusionValues.addItem(variablesalesInclusion[i].trim(), null);
+            MenuItemDTO dto = new MenuItemDTO(i,variablesalesInclusion[i].trim());
+            salesInclusionCustomItem[i] = salesInclusionValues.addItem(dto, null);
             salesInclusionCustomItem[i].setCheckable(true);
             salesInclusionCustomItem[i].setItemClickable(true);
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
             
         }
+        salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
     }
     
       private void loadDisplayFormatDdlb() throws IllegalStateException {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem("-Select Values-", null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
+        displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
     }
       
     private void securityForListView(Object[] visibleColumnArray, String[] columnHeaderArray, ExtCustomTreeTable table) {

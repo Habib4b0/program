@@ -324,8 +324,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
             massUpdateValue.setVisible(false);
             massStartDate.setVisible(false);
             massEndDate.setEnabled(false);
-            massStartDate.setDateFormat(Constants.DATE_FORMAT);
-            massEndDate.setDateFormat(Constants.DATE_FORMAT);
+            massStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            massEndDate.setDateFormat(Constants.MM_DD_YYYY);
             massUpdateRadio.addItem(ENABLE.getConstant());
             massUpdateRadio.addItem(DISABLE.getConstant());
             massUpdateRadio.select(DISABLE.getConstant());
