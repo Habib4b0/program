@@ -855,7 +855,7 @@ public class Newcomponent extends CustomComponent {
             if (searchDDLB.getValue() != null) {
                 searchValueString = String.valueOf(searchDDLB.getValue());
             } else if (searchValue.getValue() != null && !searchValue.getValue().isEmpty()) {
-                searchValueString = searchValue.getValue().toString();
+                searchValueString = searchValue.getValue();
             } else {
                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Search Value");
             }
@@ -1313,7 +1313,7 @@ public class Newcomponent extends CustomComponent {
     }
 
     @UiHandler("addToTree")
-    public void addToTreeLogic(Button.ClickEvent event) throws ParseException, SystemException {
+    public void addToTreeLogic(Button.ClickEvent event) throws ParseException {
 
         try {
             Object root = dashboardResultsTable.getValue();
@@ -1356,15 +1356,15 @@ public class Newcomponent extends CustomComponent {
                                     flag = true;
                                 }
                             }
-                            if (cfpId.getValue().toString().length() > NumericConstants.THIRTY_EIGHT) {
+                            if (cfpId.getValue().length() > NumericConstants.THIRTY_EIGHT) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP ID length should be less than 38 characters.");
                             } else if (!cfpId.getValue().matches(STRING_REGEX)) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP ID Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
-                            } else if (cfpNo.getValue().toString().length() > NumericConstants.FIFTY) {
+                            } else if (cfpNo.getValue().length() > NumericConstants.FIFTY) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP No length should be less than 50 characters.");
                             } else if (!cfpNo.getValue().matches(STRING_REGEX)) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP No Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
-                            } else if (cfpName.getValue().toString().length() > NumericConstants.HUNDRED) {
+                            } else if (cfpName.getValue().length() > NumericConstants.HUNDRED) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP Name length should be less than NumericConstants.HUNDRED characters.");
                             } else if (!cfpName.getValue().matches(STRING_REGEX)) {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "CFP Name Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!");
@@ -1384,9 +1384,9 @@ public class Newcomponent extends CustomComponent {
                             } else {
                                 final Object rootId = dashboardResultsTable.addItem();
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.CFP);
-                                dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_ID).setValue(cfpId.getValue().toString());
-                                dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NUMBER).setValue(cfpNo.getValue().toString());
-                                dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(cfpName.getValue().toString());
+                                dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_ID).setValue(cfpId.getValue());
+                                dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NUMBER).setValue(cfpNo.getValue());
+                                dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(cfpName.getValue());
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.ONE);
                                 HelperDTO cfpStatusdto = new HelperDTO();
                                 cfpStatusdto.setId(0);
@@ -1406,8 +1406,8 @@ public class Newcomponent extends CustomComponent {
                                 dashboardResultsTable.setCollapsed(root, false);
                                 GcmGlobalDetails imtdItemPriceRebateDetails;
                                 imtdItemPriceRebateDetails = GcmGlobalDetailsLocalServiceUtil.createGcmGlobalDetails(0);
-                                imtdItemPriceRebateDetails.setItemId(cfpId.getValue().toString());
-                                imtdItemPriceRebateDetails.setItemName(cfpName.getValue().toString());
+                                imtdItemPriceRebateDetails.setItemId(cfpId.getValue());
+                                imtdItemPriceRebateDetails.setItemName(cfpName.getValue());
                                 imtdItemPriceRebateDetails.setItemStatusSid(Integer.parseInt(cfpStatus.getValue().toString()));
                                 imtdItemPriceRebateDetails.setStartDate(cfpStartDate.getValue());
                                 imtdItemPriceRebateDetails.setEndDate(cfpEndDate.getValue());
@@ -1520,9 +1520,9 @@ public class Newcomponent extends CustomComponent {
                                 } else {
                                     final Object rootId = dashboardResultsTable.addItem();
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.CATEGORY).setValue(Constants.IFP);
-                                    dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_ID).setValue(ifpId.getValue().toString());
-                                    dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NUMBER).setValue(ifpNo.getValue().toString());
-                                    dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(ifpName.getValue().toString());
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_ID).setValue(ifpId.getValue());
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NUMBER).setValue(ifpNo.getValue());
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(ifpName.getValue());
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.TWO);
                                     HelperDTO cfpStatusdto = new HelperDTO();
                                     cfpStatusdto.setId(0);
@@ -1542,8 +1542,8 @@ public class Newcomponent extends CustomComponent {
                                     dashboardResultsTable.setCollapsed(root, false);
                                     GcmGlobalDetails imtdItemPriceRebateDetails;
                                     imtdItemPriceRebateDetails = GcmGlobalDetailsLocalServiceUtil.createGcmGlobalDetails(0);
-                                    imtdItemPriceRebateDetails.setItemId(ifpId.getValue().toString());
-                                    imtdItemPriceRebateDetails.setItemName(ifpName.getValue().toString());
+                                    imtdItemPriceRebateDetails.setItemId(ifpId.getValue());
+                                    imtdItemPriceRebateDetails.setItemName(ifpName.getValue());
                                     imtdItemPriceRebateDetails.setItemStatusSid(Integer.parseInt(ifpStatus.getValue().toString()));
                                     imtdItemPriceRebateDetails.setStartDate(ifpStartDate.getValue());
                                     imtdItemPriceRebateDetails.setEndDate(ifpEndDate.getValue());
@@ -1925,7 +1925,7 @@ public class Newcomponent extends CustomComponent {
         }
     }
 
-    public void savecontract(Object item) throws SystemException, ParseException {
+    public void savecontract(Object item) throws  ParseException {
         try {
             Map<String, String> map = new HashMap<>();
             int psModelSid = 0;

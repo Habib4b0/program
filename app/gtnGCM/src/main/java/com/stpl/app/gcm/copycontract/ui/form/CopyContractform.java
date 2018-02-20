@@ -19,7 +19,6 @@ import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -338,7 +337,7 @@ public class CopyContractform extends CustomComponent implements View {
         }.getConfirmationMessage("Create", "Are you sure you want to save the new contract?");
     }
 
-    private void createContract() throws SystemException, PortalException, ParseException {
+    private void createContract() throws  PortalException, ParseException {
         Object[] newItemId = newcontractDashBoardTable.getItemIds().toArray();
         Object[] extItemId = existingContractDashBoardTable.getItemIds().toArray();
         Object[] copyItemId = copyContractDashBoardTable.getItemIds().toArray();

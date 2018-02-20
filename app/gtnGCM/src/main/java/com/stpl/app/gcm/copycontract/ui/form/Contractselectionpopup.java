@@ -9,7 +9,6 @@ import com.stpl.app.gcm.discount.ui.layout.CopyContractWindow;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Property;
 import com.vaadin.server.Sizeable;
 import com.vaadin.v7.ui.ComboBox;
@@ -61,7 +60,7 @@ public class Contractselectionpopup extends Window {
     }
 
     @UiHandler("contractscount")
-    public void contractscountchange(Property.ValueChangeEvent event) throws SystemException {
+    public void contractscountchange(Property.ValueChangeEvent event) {
 
         if (contractscount.getValue() != null && !contractscount.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.SELECT_ONE.getConstant())) {
 

@@ -17,7 +17,6 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.impl.CompanyMasterImpl;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import java.util.List;
@@ -37,12 +36,12 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContractHeaderLogicDAOImpl.class);
 
     @Override
-    public List<HelperTable> getHelperTableList(final DynamicQuery dynamicQuery) throws SystemException {
+    public List<HelperTable> getHelperTableList(final DynamicQuery dynamicQuery) {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     @Override
-    public List getColumnNames(String tableName) throws SystemException {
+    public List getColumnNames(String tableName) {
         return CompanyMasterImpl.getColumnNames(tableName);
     }
 

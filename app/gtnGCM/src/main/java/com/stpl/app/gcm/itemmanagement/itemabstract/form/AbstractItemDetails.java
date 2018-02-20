@@ -18,8 +18,6 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
@@ -230,7 +228,7 @@ public class AbstractItemDetails extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws   NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         List<String> visibleList = Arrays.asList(itemdetailstable.getColumnHeaders()).subList(1, itemdetailstable.getVisibleColumns().length);
         List<SummaryDTO> list = null;
         if (resultTable.size() != 0) {

@@ -25,8 +25,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -775,7 +773,7 @@ public class AbstractComponentInfo extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         if (resultTable.size() != 0) {
             binderDto.setIsCount(false);

@@ -729,7 +729,7 @@ public class Constants {
         ITEM_FAMILY_PLAN(ConstantsUtils.ITEM_FAMILY_PLAN),
         CONTRACT("Contract"),
         ITEM_CONTRACT("Item/Contract"),
-        SELECT_ONE(ConstantsUtils.SELECT_ONE),
+        SELECT_ONE(StringConstantsUtil.SELECT_ONE),
         CUSTOMER_MANAGEMENT("Customer Management"),
         CONTRACT_MANAGEMENT("Contract Management"),
         ITEM_MANAGEMENT(ConstantsUtils.ITEM_MANAGEMENT),
