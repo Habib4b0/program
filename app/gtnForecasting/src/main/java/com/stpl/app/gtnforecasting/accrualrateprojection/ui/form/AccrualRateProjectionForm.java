@@ -109,7 +109,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
     private boolean isDetailsLoaded;
     private boolean heirarchySaved = false;
 
-    private TabSheet.SelectedTabChangeListener tabChangeListener = new TabSheet.SelectedTabChangeListener() {
+    private final TabSheet.SelectedTabChangeListener tabChangeListener = new TabSheet.SelectedTabChangeListener() {
         @Override
         public void selectedTabChange(final TabSheet.SelectedTabChangeEvent event) {
 

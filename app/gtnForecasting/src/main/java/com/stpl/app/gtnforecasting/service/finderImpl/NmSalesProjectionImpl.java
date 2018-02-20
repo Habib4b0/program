@@ -2557,7 +2557,7 @@ if(!custom){
             }
 
 //             LOGGER.debug("Query:\n" + queryBuilder1.toString() + "\n\nquery hit list size: " + list.size() + "\n\n\n");
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(queryBuilder1.toString());
 

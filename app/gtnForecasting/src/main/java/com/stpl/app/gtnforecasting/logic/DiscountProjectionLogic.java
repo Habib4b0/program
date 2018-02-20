@@ -20,7 +20,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getMonthForInt;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.MSalesProjectionMasterLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
@@ -460,7 +459,7 @@ public class DiscountProjectionLogic {
             String query = SQlUtil.getQuery("discount-adjustment-query-Validation");
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             return list.get(0) != null ? (Integer.parseInt(String.valueOf(list.get(0))) > 1) : false;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
              LOGGER.error(e.getMessage());
         }
         return false;

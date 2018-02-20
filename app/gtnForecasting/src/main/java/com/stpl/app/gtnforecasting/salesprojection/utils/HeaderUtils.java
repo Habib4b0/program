@@ -44,17 +44,17 @@ public class HeaderUtils {
     /**
      * The PMPY Available Product columns.
      */
-    private Object[] pmpyProductColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
+    private final Object[] pmpyProductColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
 
     /**
      * The PMPY Available Product Headers.
      */
-    private String[] pmpyProductHeader = new String[]{"Product #", "Product Name"};
+    private final String[] pmpyProductHeader = new String[]{"Product #", "Product Name"};
 
     /**
      * The PMPY Available Product columns.
      */
-    private Object[] pmpyColumns = new Object[]{"actuals", "projections"};
+    private final Object[] pmpyColumns = new Object[]{"actuals", "projections"};
     public static final String PRODUCT_GROWTH1 = " Product Growth";
     public static final String PROJECTED_UNITS1 = " Projected Units";
     public static final String PROJECTED_SALES1 = "Projected Sales";
@@ -62,7 +62,7 @@ public class HeaderUtils {
     /**
      * The PMPY Available Product Headers.
      */
-    private String[] pmpyHeader = new String[]{Constant.ACTUALS, Constant.PROJECTIONS};
+    private final String[] pmpyHeader = new String[]{Constant.ACTUALS, Constant.PROJECTIONS};
 
     /**
      * To load the Header

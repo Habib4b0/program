@@ -2555,7 +2555,7 @@ public class SalesLogic {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             List list = (List) salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             return list.get(0) != null ? (Integer.parseInt(String.valueOf(list.get(0))) > 1) : false;
-        } catch (Exception e) {
+        } catch (PortalException | SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
         return false;

@@ -8,6 +8,7 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -124,7 +125,7 @@ public class ProjectionCustHierarchyImpl {
 
             // LOGGER.debug("queryString.toString() -- >> " + customSql.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql.toString());
-        } catch (Exception e) {
+        } catch (ParseException e) {
 //            e.printStackTrace();
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql.toString());

@@ -962,7 +962,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             List<String> headerArray = headeInformationsList.get(1);
             table.setVisibleColumns(headeInformationsList.get(0).toArray());
             table.setColumnHeaders(headerArray.toArray(new String[headerArray.size()]));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }

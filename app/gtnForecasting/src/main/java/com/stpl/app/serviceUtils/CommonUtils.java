@@ -1,6 +1,7 @@
 package com.stpl.app.serviceUtils;
 
 import com.vaadin.v7.ui.NativeSelect;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -218,7 +219,7 @@ public class CommonUtils {
         try{
         select.addItem("Active");
         select.addItem("Inactive");
-         } catch (Exception e) {
+         } catch (UnsupportedOperationException e) {
             LOGGER.error(e.getMessage());
         }
         return select;
@@ -276,7 +277,7 @@ public class CommonUtils {
         
         dateFormat = new SimpleDateFormat(aMask);
         date = dateFormat.parse(strDate);
-         } catch (Exception e) {
+         } catch (ParseException e) {
             LOGGER.error(e.getMessage());
         }
         return date;
@@ -302,7 +303,7 @@ public class CommonUtils {
                 final String datesVal = sdf.format(enterDate);
                 final Date temp = CommonUtils.convertStringToDate(fmt.format(sdf.parse(datesVal)));
                 enterDate = temp;
-            } catch (Exception e) {
+            } catch (ParseException e) {
                 LOGGER.error(e.getMessage());
             }
         }

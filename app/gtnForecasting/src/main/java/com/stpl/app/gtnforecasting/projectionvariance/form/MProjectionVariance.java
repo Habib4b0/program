@@ -1127,9 +1127,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
                 addViewBtn.setVisible(Boolean.FALSE);
                 editViewBtn.setVisible(Boolean.FALSE);
             }
-        } catch (com.liferay.portal.kernel.exception.PortalException ex) {
-            LoggerFactory.getLogger(MProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);
-        } catch (SystemException ex) {
+        } catch (com.liferay.portal.kernel.exception.PortalException | SystemException ex) {
             LoggerFactory.getLogger(MProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }

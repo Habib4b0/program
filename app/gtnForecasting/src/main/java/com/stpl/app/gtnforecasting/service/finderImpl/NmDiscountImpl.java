@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.*;
@@ -89,7 +90,7 @@ public class NmDiscountImpl {
         String customQuery = StringUtils.EMPTY;
         String genQuery = StringUtils.EMPTY;
         boolean viewFlag = "view".equalsIgnoreCase(action);
-        String masterTableName = !viewFlag ? "ST_NM_DISCOUNT_PROJ_MASTER" : "NM_DISCOUNT_PROJ_MASTER";
+        String masterTableName = !viewFlag ? "ST_NM_DISCOUNT_PROJ_MASTER" : Constant.NM_DISCOUNT_PROJ_MASTER;
         String actualDiscountTableName = !viewFlag ? "ST_NM_ACTUAL_DISCOUNT" : "NM_ACTUAL_DISCOUNT";
         String actualSalesTableName = !viewFlag ? "ST_NM_ACTUAL_SALES" : "ST_NM_ACTUAL_SALES";
         String discountTableName = !viewFlag ? "ST_NM_DISCOUNT_PROJECTION" : "NM_DISCOUNT_PROJECTION";
@@ -130,17 +131,13 @@ public class NmDiscountImpl {
             String hierarchy = "";
             // C indicates customer, P indicates product
             if (hierarchyIndicator.equals("C")) {
-                hierarchy = "PROJECTION_CUST_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
             } else if (hierarchyIndicator.equals("P")) {
-                hierarchy = "PROJECTION_PROD_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
             }
-
-            String altHistoryJoin = " JOIN ST_DISC_ALTERNATE_HIST_ALLOCATION DAA ON DAA.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID  "
-                    + " and DAA.USER_ID = " + userId + " and DAA.SESSION_ID = " + sessionId;
 
             String levelSelectionStatement = "";
             if (levelNo != 0) {
-//                levelSelectionStatement = " WHERE RLD2.LEVEL_NO = " + levelNo + " ";
                 levelSelectionStatement = " HLD.LEVEL_NO = " + levelNo;
             }
 
@@ -163,8 +160,6 @@ public class NmDiscountImpl {
                 int startMonth = 0;
                 int endMonth = 0;
                 if (frequency.equals(QUARTERLY.getConstant())) {
-//                    selectedHistoryFrequency = "QUARTER = " + startFreq + " AND ";
-//                    selectedFutureFrequency = "QUARTER = " + endFreq + " AND ";
                     switch (startFreq) {
                         case 1:
                             startMonth = 1;
@@ -194,8 +189,8 @@ public class NmDiscountImpl {
                             break;
                     }
                     selectClause += "I.QUARTER, ";
-                    groupBy += ", I.QUARTER";
-                    orderBy += ", I.QUARTER";
+                    groupBy += Constant.I_QUARTER;
+                    orderBy += Constant.I_QUARTER;
                     freq = "I.QUARTER,";
                     grpBy = "I.QUARTER,";
                     grpByData = "QUARTER,";
@@ -212,8 +207,6 @@ public class NmDiscountImpl {
                     freq_Actual = "AD.YEAR AS YEARP,";
                 }
                 if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
-//                    selectedHistoryFrequency = "SEMI_ANNUAL = " + startFreq + " AND ";
-//                    selectedFutureFrequency = "SEMI_ANNUAL = " + endFreq + " AND ";
                     switch (startFreq) {
                         case 1:
                             startMonth = 1;
@@ -231,42 +224,29 @@ public class NmDiscountImpl {
                             break;
                     }
                     selectClause += "I.SEMI_ANNUAL, ";
-                    groupBy += ", I.SEMI_ANNUAL";
-                    orderBy += ", I.SEMI_ANNUAL";
+                    groupBy += Constant.I_SEMI_ANNUAL;
+                    orderBy += Constant.I_SEMI_ANNUAL;
                     freq = "I.SEMI_ANNUAL,";
                     grpBy = "I.SEMI_ANNUAL,";
                     grpByData = "SEMI_ANNUAL,";
                     freq_Actual = "AD.SEMI_ANNUAL,";
                 }
                 if (frequency.equals(MONTHLY.getConstant())) {
-//                    selectedHistoryFrequency = "\"MONTH\" = " + startFreq + " AND ";
-//                    selectedFutureFrequency = "\"MONTH\" = " + endFreq + " AND ";
                     startMonth = startFreq;
                     endMonth = endFreq;
                     selectClause += "I.\"MONTH\", ";
-                    groupBy += ", I.\"MONTH\"";
-                    orderBy += ", I.\"MONTH\"";
+                    groupBy += Constant.I_MONTH;
+                    orderBy += Constant.I_MONTH;
                     freq = "I.MONTH,";
                     grpBy = "I.MONTH,";
                     grpByData = "MONTH,";
                     freq_Actual = "AD.MONTH,";
                 }
 
-                declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
-                        + " DECLARE @START_YEAR INT=" + startYear + "\n"
-                        + " DECLARE @END_MONTH INT=" + endMonth + "\n"
-                        + " DECLARE @END_YEAR INT=" + endYear + "\n";
-//                        + " DECLARE @COUNT INT = 1 \n";
-
-                // To handle the scenario where any discount is not selected in program selection lookup                
-//                if (!isProgram && discountList != null && !discountList.isEmpty()) {
-////                    priceGroupTypeCount = discountList.size();
-//                    String discountTypes = CommonUtils.CollectionToString(discountList, true);;
-//                    declareStatement += "SELECT @COUNT =(SELECT count(rs_model_sid) FROM ST_NM_DISCOUNT_PROJ_MASTER\n"
-//                            + "WHERE USER_ID = " + userId + " \n"
-//                            + "	AND   SESSION_ID = " + sessionId + "\n"
-//                            + "	   AND  PRICE_GROUP_TYPE in (" + discountTypes + "))\n";
-//                }
+                declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
+                        + Constant.DECLARE_START_YEAR_INT + startYear + "\n"
+                        + Constant.DECLARE_END_MONTH_INT + endMonth + "\n"
+                        + Constant.DECLARE_END_YEAR_INT + endYear + "\n";
                 String discountTypeColumnName = "'All_Discounts' as DISCOUNTS";
                 String selectedDiscounts = StringUtils.EMPTY;
                 if (discountList != null && !discountList.isEmpty()) {
@@ -294,8 +274,6 @@ public class NmDiscountImpl {
                 }
 
                 String hierarchyNumbers = "";
-//                String hierarchyNumberSelectionStatement = "";
-//                String ccpOrderBy = "";
 
                 String intermediate = "Select  DISTINCT HIERARCHY_NO FROM( ";
 
@@ -303,26 +281,13 @@ public class NmDiscountImpl {
                     if (isRefresh) {
                         hierarchyNumbers = refreshHierarchyNumbers;
                         hierarchyNo = StringUtils.EMPTY;
-//                        String connector = "";
-//                        
-//                        if(levelSelectionStatement.isEmpty()){
-//                            connector = " WHERE ";
-//                        }else{
-//                            connector = " AND ";
-//                        }
-//                        hierarchyNumberSelectionStatement = connector+"HLD.HIERARCHY_NO in(" + refreshHierarchyNumbers + ")";
                     } else {
                         List<String> hierarchyNoList = getHierarchyList(projectionId, hierarchy, hierarchyNo, relationshipBuilderSid, levelNo, userGroup, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
                         hierarchyNumbers = intermediate + hierarchyNoList.get(0) + ") as  HierarchyNos ";
                     }
-
-//                    if(hierarchyNumberSelectionStatement.isEmpty()){
-//                        ccpOrderBy = "               order by HLD.HIERARCHY_NO OFFSET " + startIndex + " ROWS FETCH NEXT " + endIndex + " ROWS ONLY";
-//                    }
                 } else {
                     List<String> hierarchyNoList = getHierarchyListForCustomView(projectionId, hierarchyIndicator, userGroup, customViewDetails, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
                     hierarchyNumbers = intermediate + hierarchyNoList.get(0) + ") as  HierarchyNos ";
-                    //hierarchyNumbers = CommonUtils.CollectionToString(hierarchyNoList, true);
                 }
 
                 if (hierarchyNumbers.isEmpty()) {
@@ -336,7 +301,7 @@ public class NmDiscountImpl {
                     String connector = "";
 
                     if (!levelSelectionStatement.isEmpty()) {
-                        connector = " AND ";
+                        connector = Constant.SPACE_AND_SPACE;
                     }
                     if (!isAltHistory) {
                         ccpDetails = StringUtils.EMPTY;
@@ -345,27 +310,24 @@ public class NmDiscountImpl {
                             + "                         HLD.HIERARCHY_NO,\n"
                             + "                         HLD.RELATIONSHIP_LEVEL_SID,"
                             + "                         PROJECTION_DETAILS_SID\n"
-                            + "                  FROM   (SELECT RLD.HIERARCHY_NO,\n"
+                            + Constant.FROM_SELECT_RLD_HIERAR
                             + "                                 CCP.CCP_DETAILS_SID,"
                             + "                                 PD.PROJECTION_DETAILS_SID\n"
-                            + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n"
+                            + Constant.FROM_RELATION
                             + "                          JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID  AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + "\n"
-                            + "                          JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId + "\n";
-//                            if(isAltHistory){
-//                          ccpDetails += altHistoryJoin; 
-//                            }
-                    ccpDetails += "                          JOIN    " + hierarchy + "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID \n"
-                            + "                                 AND PCH.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                            + "                          ) CCPMAP JOIN \n"
-                            + "                         (SELECT RLD1.HIERARCHY_NO,\n"
-                            + "                                 RLD1.RELATIONSHIP_LEVEL_SID,\n"
-                            + "                                 RLD1.LEVEL_NO\n"
-                            + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
-                            + "                          JOIN   " + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
-                            + "                         AND  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n"
+                            + Constant.JOIN_PROJECTION + projectionId + "\n";
+                    ccpDetails += Constant.JOIN + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID_RLDRE
+                            + Constant.AND_PCHP + projectionId + "\n"
+                            + Constant.CCPMAP_JOIN
+                            + Constant.SELECT_RL_D1HIERA
+                            + Constant.RL_D1RELA
+                            + Constant.RL_D1_LEVEL
+                            + Constant.FROM_RELATIONSHIP_RELATION
+                            + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                            + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                             + " WHERE " + levelSelectionStatement + connector + " HLD.HIERARCHY_NO in(" + hierarchyNumbers + ")\n";
                     if (isAltHistory) {
-                        ccpDetails = ccpDetails + ")CCP";
+                        ccpDetails = ccpDetails + Constant.CCP;
                     }
                 } else {
                     String customId = customViewDetails.get(0);
@@ -378,34 +340,34 @@ public class NmDiscountImpl {
                     ccpDetails = "(SELECT TEMP_CCP.RELATIONSHIP_LEVEL_SID, TEMP_CCP.HIERARCHY_NO,  TEMP_CCP.CCP_DETAILS_SID , TEMP_CCP.PROJECTION_DETAILS_SID FROM \n"
                             + "   (SELECT distinct HLD" + hierarchyIndicator + ".RELATIONSHIP_LEVEL_SID,HLD" + hierarchyIndicator + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID , CCPMAPC.PROJECTION_DETAILS_SID FROM \n"
                             + "    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID , PD.PROJECTION_DETAILS_SID \n"
-                            + "    FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                            + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
-                            + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForCustomer + "\n"
-                            + "    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + "";
+                            + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
+                            + Constant.JOIN_CCP_MAP_CCP_ON_RLDRELATIONSHIP_L
+                            + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
+                            + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId + "";
 
                     ccpDetails += " ) CCPMAPC\n"
-                            + "    JOIN (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                            + "        FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                            + "        JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
-                            + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForProduct + "\n"
-                            + "        JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + "";
+                            + Constant.JOIN_SELECT_RLDRELATIONSHIP_LEVEL_VAL
+                            + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION
+                            + Constant.JOIN_CCP_MAP_CCP_ON_RLDRELATION
+                            + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForProduct + "\n"
+                            + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDC + projectionId + "";
 
                     ccpDetails += " ) CCPMAPP \n"
-                            + "    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID\n"
-                            + "    JOIN \n"
-                            + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                            + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                            + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                            + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                            + "        JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                            + "        WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'\n"
-                            + "    JOIN \n"
+                            + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
+                            + Constant.SPACE_JOIN_NEW_LINE
+                            + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                            + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                            + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                            + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
+                            + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
+                            + Constant.SPACE_JOIN_NEW_LINE
                             + "    ( SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                            + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO like '" + productLevelNo + "'\n"
+                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
                             + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                            + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                            + "        JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                            + "        WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "%' ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'\n"
+                            + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                            + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
+                            + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + "%' ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'\n"
                             + ")TEMP_CCP where TEMP_CCP.HIERARCHY_NO in(" + hierarchyNumbers + " )) CCP";
                 }
                 if (!isAltHistory) {
@@ -533,58 +495,58 @@ public class NmDiscountImpl {
                     String relationshipBuilderSidForCustomer = customViewDetails.get(5);
                     String relationshipBuilderSidForProduct = customViewDetails.get(6);
                     ccpDetails = " (SELECT distinct  HLD" + hierarchyIndicator + ".HIERARCHY_NO FROM \n"
-                            + "    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                            + "    FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
+                            + Constant.SELECT_RLDRELATIONSHIP_LEVEL_VALUES_R
+                            + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
                             + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                            + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForCustomer + "\n"
-                            + "    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + " ";
+                            + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
+                            + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId + " ";
 
-                    ccpDetails += discountTypeQuery + ") CCPMAPC\n"
-                            + "    JOIN (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                            + "        FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
+                    ccpDetails += discountTypeQuery + Constant.CCPMAPC
+                            + Constant.JOIN_SELECT_RLDRELATIONSHIP_LEVEL_VAL
+                            + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION
                             + "        JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
                             + "        AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForProduct + " \n"
-                            + "        JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + "";
+                            + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDC + projectionId + "";
 
-                    ccpDetails += ") CCPMAPP \n"
-                            + "    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID\n"
-                            + "    JOIN \n"
-                            + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                            + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                            + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                            + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                            + "        JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                            + "        WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'\n"
-                            + "    JOIN \n"
-                            + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                            + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO like '" + productLevelNo + "'\n"
-                            + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                            + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                            + "        JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                            + "        WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'\n"
+                    ccpDetails += Constant.CCP_MAP
+                            + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
+                            + Constant.SPACE_JOIN_NEW_LINE
+                            + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                            + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                            + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                            + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
+                            + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
+                            + Constant.SPACE_JOIN_NEW_LINE
+                            + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                            + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                            + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                            + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
+                            + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDPHIE
                             + ") CCP";
                 } else {
                     ccpDetails = "(SELECT HLD.HIERARCHY_NO \n"
-                            + "                  FROM   (SELECT RLD.HIERARCHY_NO,\n"
-                            + "                                 CCP.CCP_DETAILS_SID\n"
-                            + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n"
+                            + Constant.FROM_SELECT_RLD_HIERAR
+                            + Constant.CCP_CCP_D
+                            + Constant.FROM_RELATION
                             + "                          JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID\n"
                             + "                          JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n "
                             + "                                     AND PD.PROJECTION_MASTER_SID = " + projectionId + "\n";
 
                     ccpDetails += discountTypeQuery
-                            + "                          JOIN   " + hierarchy + "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID \n"
-                            + "                                 AND PCH.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                            + "                          ) CCPMAP JOIN \n"
-                            + "                         (SELECT RLD1.HIERARCHY_NO,\n"
-                            + "                                 RLD1.RELATIONSHIP_LEVEL_SID,\n"
-                            + "                                 RLD1.LEVEL_NO\n"
-                            + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
-                            + "                          JOIN   " + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID \n"
+                            + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID_RLDRE
+                            + Constant.AND_PCHP + projectionId + "\n"
+                            + Constant.CCPMAP_JOIN
+                            + Constant.SELECT_RL_D1HIERA
+                            + Constant.RL_D1RELA
+                            + Constant.RL_D1_LEVEL
+                            + Constant.FROM_RELATIONSHIP_RELATION
+                            + Constant.SPACE_JOIN_SPACE + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID \n"
                             + "                              AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
-                            + "                         AND  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n"
+                            + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                             + " WHERE " + levelSelectionStatement + " \n"
-                            + ")CCP";
+                            + Constant.CCP;
 
                 }
                 customQuery = " Select DISTINCT CCP.HIERARCHY_NO  \n "
@@ -639,32 +601,32 @@ public class NmDiscountImpl {
             String relationshipBuilderSidForProduct = customViewDetails.get(6);
 
             String ccpDetails = " (SELECT distinct  HLD" + hierarchyIndicator + ".HIERARCHY_NO,CCPMAPP.RELATIONSHIP_LEVEL_VALUES FROM \n"
-                    + "    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                    + "    FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
+                    + Constant.SELECT_RLDRELATIONSHIP_LEVEL_VALUES_R
+                    + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
                     + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                    + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForCustomer + "\n"
-                    + "    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + " "
-                    + discountTypeQuery + ") CCPMAPC\n"
-                    + "    JOIN (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                    + "        FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
+                    + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
+                    + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId + " "
+                    + discountTypeQuery + Constant.CCPMAPC
+                    + Constant.JOIN_SELECT_RLDRELATIONSHIP_LEVEL_VAL
+                    + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION
                     + "        JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
                     + "        AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForProduct + " \n"
-                    + "        JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + ") CCPMAPP \n"
-                    + "    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID\n"
-                    + "    JOIN \n"
-                    + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                    + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                    + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                    + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                    + "        JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                    + "        WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'\n"
-                    + "    JOIN \n"
-                    + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                    + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO like '" + productLevelNo + "'\n"
-                    + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                    + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                    + "        JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                    + "        WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'\n"
+                    + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDC + projectionId + Constant.CCP_MAP
+                    + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
+                    + Constant.SPACE_JOIN_NEW_LINE
+                    + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                    + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                    + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                    + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                    + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
+                    + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
+                    + Constant.SPACE_JOIN_NEW_LINE
+                    + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                    + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                    + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                    + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                    + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
+                    + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDPHIE
                     + ") CCP)C";
 
             customSql = "SELECT HIERARCHY_NO FROM(SELECT DISTINCT CCP.HIERARCHY_NO  \n"
@@ -697,7 +659,7 @@ public class NmDiscountImpl {
             List<String> discountList, String userId, String sessionId, boolean isProgram, int startIndex, int endIndex, boolean isAlternate, boolean mode) {
         LOGGER.debug("Inside getHierarchyList");
 
-        String tableName = mode ? "NM_DISCOUNT_PROJ_MASTER" : "ST_NM_DISCOUNT_PROJ_MASTER ";
+        String tableName = mode ? Constant.NM_DISCOUNT_PROJ_MASTER : "ST_NM_DISCOUNT_PROJ_MASTER ";
         String customSql = StringUtils.EMPTY;
         try {
             //  session = openSession();
@@ -725,23 +687,23 @@ public class NmDiscountImpl {
             }
 
             String ccpDetails = "(SELECT  HLD.HIERARCHY_NO,HLD.RELATIONSHIP_LEVEL_VALUES \n"
-                    + "                  FROM   (SELECT RLD.HIERARCHY_NO,\n"
+                    + Constant.FROM_SELECT_RLD_HIERAR
                     + "                                 CCP.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES\n"
-                    + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n"
-                    + "                          JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + "\n"
-                    + "                          JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId + "\n"
+                    + Constant.FROM_RELATION
+                    + Constant.JOIN_CCP_MAP + relationshipBuilderSid + "\n"
+                    + Constant.JOIN_PROJECTION + projectionId + "\n"
                     + discountTypeQuery
-                    + "                          JOIN    " + hierarchy + "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID \n"
-                    + "                                 AND PCH.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                    + "                          ) CCPMAP JOIN \n"
-                    + "                         (SELECT RLD1.HIERARCHY_NO,\n"
-                    + "                                 RLD1.RELATIONSHIP_LEVEL_SID,\n"
-                    + "                                 RLD1.LEVEL_NO,RLD1.RELATIONSHIP_LEVEL_VALUES \n"
-                    + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
-                    + "                          JOIN   " + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
-                    + "                         AND  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n"
+                    + Constant.JOIN + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID_RLDRE
+                    + Constant.AND_PCHP + projectionId + "\n"
+                    + Constant.CCPMAP_JOIN
+                    + Constant.SELECT_RL_D1HIERA
+                    + Constant.RL_D1RELA
+                    + Constant.RL_D1LEVE
+                    + Constant.FROM_RELATIONSHIP_RELATION
+                    + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                    + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                     + levelSelectionStatement + " \n"
-                    + ")CCP";
+                    + Constant.CCP;
 
             customSql = "SELECT DISTINCT CCP.HIERARCHY_NO,RELATIONSHIP_LEVEL_VALUES  \n"
                     + " FROM " + ccpDetails + "\n"
@@ -781,7 +743,7 @@ public class NmDiscountImpl {
                     + " JOIN " + CommonUtils.getViewTableName(hierarchyIndicator) + " PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
                     + " AND PCH.PROJECTION_MASTER_SID = " + projectionId + " \n"
                     + " WHERE RLD.HIERARCHY_NO LIKE '" + hierarchyNo + "%' and RLD.LEVEL_NO = " + (selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length()) + ") "
-                    //                    + " WHERE RLD.HIERARCHY_NO LIKE '" + hierarchyNo + "%' and RLD.LEVEL_NO = " + (selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length() + 1) + ") "
+                    //                    + " WHERE RLD.DOT_HIERARCHY_NO LIKE '" + hierarchyNo + "%' and RLD.LEVEL_NO = " + (selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length() + 1) + ") "
                     + " TEMP where TEMP.HIERARCHY_NO='" + selectedHiearchyNo + "'";
             list = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
@@ -835,7 +797,7 @@ public class NmDiscountImpl {
         StringBuilder sb = new StringBuilder();
         LOGGER.debug(" inside getDiscountPrograms");
         try {
-            String tableName = viewFlag ? "NM_DISCOUNT_PROJ_MASTER" : "ST_NM_DISCOUNT_PROJ_MASTER";
+            String tableName = viewFlag ? Constant.NM_DISCOUNT_PROJ_MASTER : "ST_NM_DISCOUNT_PROJ_MASTER";
             if ("DiscountType".equals(programType)) {
                 sb.append("SELECT DISTINCT '' AS DISCOUNT_ID, DM.PRICE_GROUP_TYPE AS DISCOUNT_NAME, RS.RS_MODEL_SID,RS.RS_NAME FROM ST_NM_DISCOUNT_PROJ_MASTER DM "
                         + "JOIN PROJECTION_DETAILS D ON DM.PROJECTION_DETAILS_SID = D.PROJECTION_DETAILS_SID "
@@ -882,11 +844,11 @@ public class NmDiscountImpl {
         try {
             int check = checkValue ? 1 : 0;
 
-            query = "UPDATE M SET CHECK_RECORD = " + check
+            query = Constant.UPDATE_M_SET_CHECK_RECORD + check
                     + " From ST_NM_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E \n"
-                    + " Where M.USER_ID = " + userId + " \n"
-                    + " and M.SESSION_ID = " + sessionId + "\n"
-                    + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
+                    + Constant.WHERE_M_USER_ID + userId + " \n"
+                    + Constant.AND_M_SESSION_ID + sessionId + "\n"
+                    + Constant.AND_EPROJECTION_MASTER_SID + projectionId + "' \n"
                     + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID ";
             if (!userGroup.isEmpty()) {
                 query += " and M.USER_GROUP = '" + userGroup + "'\n";
@@ -908,9 +870,9 @@ public class NmDiscountImpl {
             String hierarchy = "";
             // C indicates customer, P indicates product
             if (hierarchyIndicator.equals("C")) {
-                hierarchy = "PROJECTION_CUST_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
             } else if (hierarchyIndicator.equals("P")) {
-                hierarchy = "PROJECTION_PROD_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
             }
 
             String discountTypeQuery = "";
@@ -938,79 +900,79 @@ public class NmDiscountImpl {
                 String relationshipBuilderSidForProduct = customViewDetails.get(6);
                 ccpDetails = " (SELECT distinct CCPMAPC.PROJECTION_DETAILS_SID FROM \n"
                         + "    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID \n"
-                        + "    FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
+                        + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
                         + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
-                        + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForCustomer + "\n"
-                        + "    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + "\n"
+                        + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
+                        + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId + "\n"
                         + "    ) CCPMAPC\n"
-                        + "    JOIN (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                        + "        FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                        + "        JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
-                        + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForProduct + "\n"
-                        + "        JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + ") CCPMAPP \n"
-                        + "    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID\n"
-                        + "    JOIN \n"
-                        + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                        + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                        + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                        + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                        + "        JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "        WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'\n"
-                        + "    JOIN \n"
-                        + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                        + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO like '" + productLevelNo + "'\n"
-                        + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                        + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                        + "        JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "        WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'\n"
-                        + "    WHERE HLD" + hierarchyIndicator + ".HIERARCHY_NO = '" + hierarchyNo + "'"
+                        + Constant.JOIN_SELECT_RLDRELATIONSHIP_LEVEL_VAL
+                        + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION
+                        + Constant.JOIN_CCP_MAP_CCP_ON_RLDRELATION
+                        + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForProduct + "\n"
+                        + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDC + projectionId + Constant.CCP_MAP
+                        + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
+                        + Constant.SPACE_JOIN_NEW_LINE
+                        + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                        + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                        + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                        + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
+                        + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
+                        + Constant.SPACE_JOIN_NEW_LINE
+                        + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                        + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                        + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                        + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
+                        + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDPHIE
+                        + Constant.WHERE_HLD + hierarchyIndicator + DOT_HIERARCHY_NO + hierarchyNo + "'"
                         + ") CCP";
 
-                customSql = "UPDATE M SET CHECK_RECORD = " + check + "\n"
-                        + " From ST_NM_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E, " + discountTable + " \n"
+                customSql = Constant.UPDATE_M_SET_CHECK_RECORD + check + "\n"
+                        + Constant.FROM_ST_NM_DISCOUNT_PROJ_MASTER_M_PROJEC + discountTable + " \n"
                         + ccpDetails
-                        + " Where M.USER_ID = " + userId + " \n"
-                        + " and M.SESSION_ID = " + sessionId + "\n"
-                        + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
-                        + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
-                        + " AND M.PROJECTION_DETAILS_SID = CCP.PROJECTION_DETAILS_SID \n"
+                        + Constant.WHERE_M_USER_ID + userId + " \n"
+                        + Constant.AND_M_SESSION_ID + sessionId + "\n"
+                        + Constant.AND_EPROJECTION_MASTER_SID + projectionId + "' \n"
+                        + Constant.AND_EPROJECTION_DETAILS_SID_MPROJECTION
+                        + Constant.AND_M_PROJECTION_DETAILS_SID__CCP_PROJECTI
                         + discountTypeQuery;
 
                 if (!userGroup.trim().isEmpty()) {
-                    customSql += " AND M.USER_GROUP = '" + userGroup + "' \n";
+                    customSql += Constant.AND_MUSER_GROUP + userGroup + "' \n";
                 }
                 return HelperTableLocalServiceUtil.executeUpdateQueryCount(customSql);
             } else {
 
-                ccpDetails = "(SELECT CCPMAP.PROJECTION_DETAILS_SID\n"
-                        + "                  FROM   (SELECT RLD.HIERARCHY_NO,\n"
+                ccpDetails = Constant.SELECT_CCPMAPPROJECTION_DETAILS_SID
+                        + Constant.FROM_SELECT_RLD_HIERAR
                         + "                                 CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID \n"
-                        + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n"
-                        + "                          JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + "\n"
-                        + "                          JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId + "\n"
-                        + "                          JOIN    " + hierarchy + "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID \n"
-                        + "                                 AND PCH.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "                          ) CCPMAP JOIN \n"
-                        + "                         (SELECT RLD1.HIERARCHY_NO,\n"
-                        + "                                 RLD1.RELATIONSHIP_LEVEL_SID,\n"
-                        + "                                 RLD1.LEVEL_NO\n"
-                        + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
-                        + "                          JOIN   " + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
+                        + Constant.FROM_RELATION
+                        + Constant.JOIN_CCP_MAP + relationshipBuilderSid + "\n"
+                        + Constant.JOIN_PROJECTION + projectionId + "\n"
+                        + Constant.JOIN + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID_RLDRE
+                        + Constant.AND_PCHP + projectionId + "\n"
+                        + Constant.CCPMAP_JOIN
+                        + Constant.SELECT_RL_D1HIERA
+                        + Constant.RL_D1RELA
+                        + Constant.RL_D1_LEVEL
+                        + Constant.FROM_RELATIONSHIP_RELATION
+                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
                         + "                         AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n"
                         + "  WHERE HLD.HIERARCHY_NO in('" + hierarchyNo + "'))CCP";
 
-                customSql = "UPDATE M SET CHECK_RECORD = " + check + "\n"
-                        + " From ST_NM_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E, " + discountTable + " \n"
+                customSql = Constant.UPDATE_M_SET_CHECK_RECORD + check + "\n"
+                        + Constant.FROM_ST_NM_DISCOUNT_PROJ_MASTER_M_PROJEC + discountTable + " \n"
                         + ccpDetails
-                        + " Where M.USER_ID = " + userId + " \n"
-                        + " and M.SESSION_ID = " + sessionId + "\n"
-                        + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
-                        + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
-                        + " AND M.PROJECTION_DETAILS_SID = CCP.PROJECTION_DETAILS_SID \n"
+                        + Constant.WHERE_M_USER_ID + userId + " \n"
+                        + Constant.AND_M_SESSION_ID + sessionId + "\n"
+                        + Constant.AND_EPROJECTION_MASTER_SID + projectionId + "' \n"
+                        + Constant.AND_EPROJECTION_DETAILS_SID_MPROJECTION
+                        + Constant.AND_M_PROJECTION_DETAILS_SID__CCP_PROJECTI
                         + discountTypeQuery;
 
                 if (!userGroup.trim().isEmpty()) {
-                    customSql += " AND M.USER_GROUP = '" + userGroup + "'\n";
+                    customSql += Constant.AND_MUSER_GROUP + userGroup + "'\n";
                 }
                 return HelperTableLocalServiceUtil.executeUpdateQueryCount(customSql);
 //                }
@@ -1022,6 +984,7 @@ public class NmDiscountImpl {
             return 0;
         }
     }
+    public static final String DOT_HIERARCHY_NO = ".HIERARCHY_NO = '";
 
     public void massUpdate(int projectionId, String userId, String sessionId, String frequency, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
             List<String> checkedDiscounts, boolean isProgram) {
@@ -1052,7 +1015,7 @@ public class NmDiscountImpl {
                         + "(SELECT M.PROJECTION_DETAILS_SID FROM ST_NM_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B \n"
                         + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
                         + " and M.USER_ID = " + userId + "\n"
-                        + " and M.SESSION_ID = " + sessionId + "\n"
+                        + Constant.AND_M_SESSION_ID + sessionId + "\n"
                         + " AND M.CHECK_RECORD = 1"
                         + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "')";
 
@@ -1140,10 +1103,10 @@ public class NmDiscountImpl {
                 if (isProgram) {
                     discountType = "RS.RS_NAME";
                 }
-                String declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
-                        + " DECLARE @START_YEAR INT=" + startYear + "\n"
-                        + " DECLARE @END_MONTH INT=" + endMonth + "\n"
-                        + " DECLARE @END_YEAR INT=" + endYear + "\n";
+                String declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
+                        + Constant.DECLARE_START_YEAR_INT + startYear + "\n"
+                        + Constant.DECLARE_END_MONTH_INT + endMonth + "\n"
+                        + Constant.DECLARE_END_YEAR_INT + endYear + "\n";
 
                 if ("Discount Rate".equals(selectedField) || "RPU".equals(selectedField)) {
                     customSql = declareStatement + SQlUtil.getQuery(getClass(),"discRatemassPopulate");
@@ -1163,12 +1126,12 @@ public class NmDiscountImpl {
                             + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
                             + " AND M.CHECK_RECORD = 1 \n"
                             + " and M.USER_ID = " + userId + "\n"
-                            + " and M.SESSION_ID = " + sessionId + "\n"
+                            + Constant.AND_M_SESSION_ID + sessionId + "\n"
                             + " and DP.USER_ID = " + userId + "\n"
                             + " and DP.SESSION_ID = " + sessionId + "\n"
                             + " AND DP.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
                             + " AND M.RS_MODEL_SID = RS.RS_MODEL_SID \n"
-                            + " AND " + discountType + " in (" + selectedDiscounts + ") \n"
+                            + Constant.SPACE_AND_SPACE + discountType + " in (" + selectedDiscounts + ") \n"
                             + " AND DP.PERIOD_SID = P.PERIOD_SID AND P.PERIOD_DATE " + getPeriodFilter() + "\n "
                             + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' "
                             + ") A \n"
@@ -1185,6 +1148,7 @@ public class NmDiscountImpl {
             LOGGER.error(customSql);
         }
     }
+    
 
     private String getPeriodFilter() {
         String period = " BETWEEN \n "
@@ -1408,61 +1372,61 @@ public class NmDiscountImpl {
                 String productHierarchyNo = customViewDetails.get(4);
                 String relationshipBuilderSidForCustomer = customViewDetails.get(5);
                 String relationshipBuilderSidForProduct = customViewDetails.get(6);
-                ccpDetails = " (SELECT distinct HLDC.RELATIONSHIP_LEVEL_SID, HLDC.HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM \n"
-                        + "    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                        + "    FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                        + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
-                        + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForCustomer + "\n"
-                        + "    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId
-                        + discountTypeQuery + ") CCPMAPC\n"
-                        + "    JOIN (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                        + "        FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                        + "        JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
-                        + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForProduct + "\n"
-                        + "        JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + ") CCPMAPP \n"
-                        + "    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID\n"
-                        + "    JOIN \n"
-                        + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                        + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                        + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                        + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                        + "        JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "        WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'\n"
-                        + "    JOIN \n"
-                        + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                        + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO like '" + productLevelNo + "'\n"
-                        + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                        + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                        + "        JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "        WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'\n"
-                        + "    WHERE HLDC.HIERARCHY_NO = '" + hierarchyNo + "'"
-                        + ") CCP";
+                ccpDetails = Constant.SELECT_DISTINCT_HLDCRELATIONSHIP_LEVEL_S
+                        + Constant.SELECT_RLDRELATIONSHIP_LEVEL_VALUES_R
+                        + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
+                        + Constant.JOIN_CCP_MAP_CCP_ON_RLDRELATIONSHIP_L
+                        + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
+                        + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId
+                        + discountTypeQuery + Constant.CCPMAPC
+                        + Constant.JOIN_SELECT_RLDRELATIONSHIP_LEVEL_VAL
+                        + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION
+                        + Constant.JOIN_CCP_MAP_CCP_ON_RLDRELATION
+                        + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForProduct + "\n"
+                        + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDC + projectionId + Constant.CCP_MAP
+                        + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
+                        + Constant.SPACE_JOIN_NEW_LINE
+                        + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                        + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                        + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                        + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
+                        + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
+                        + Constant.SPACE_JOIN_NEW_LINE
+                        + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                        + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                        + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                        + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
+                        + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDPHIE
+                        + Constant.WHERE_HLDCHIERARCHY_NO + hierarchyNo + "'"
+                        + Constant.CLOSE_BRACKET_CCP;
             } else {
-                ccpDetails = "(SELECT CCPMAP.CCP_DETAILS_SID \n"
-                        + "                  FROM   (SELECT RLD.HIERARCHY_NO,\n"
-                        + "                                 CCP.CCP_DETAILS_SID\n"
-                        + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n"
-                        + "                          JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + "\n"
-                        + "                          JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId + "\n"
+                ccpDetails = Constant.SELECT_CCP_MAP_CCP_DETAILS_SID
+                        + Constant.FROM_SELECT_RLD_HIERAR
+                        + Constant.CCP_CCP_D
+                        + Constant.FROM_RELATION
+                        + Constant.JOIN_CCP_MAP + relationshipBuilderSid + "\n"
+                        + Constant.JOIN_PROJECTION + projectionId + "\n"
                         + discountTypeQuery
-                        + "                          JOIN   " + hierarchy + "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID \n"
-                        + "                                 AND PCH.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "                          ) CCPMAP JOIN \n"
-                        + "                         (SELECT RLD1.HIERARCHY_NO,\n"
-                        + "                                 RLD1.RELATIONSHIP_LEVEL_SID,\n"
-                        + "                                 RLD1.LEVEL_NO\n"
-                        + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
-                        + "                          JOIN   " + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
-                        + "                         AND  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n"
-                        + "  WHERE HLD.HIERARCHY_NO = '" + hierarchyNo + "')";
+                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID_RLDRE
+                        + Constant.AND_PCHP + projectionId + "\n"
+                        + Constant.CCPMAP_JOIN
+                        + Constant.SELECT_RL_D1HIERA
+                        + Constant.RL_D1RELA
+                        + Constant.RL_D1_LEVEL
+                        + Constant.FROM_RELATIONSHIP_RELATION
+                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                        + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
+                        + Constant.WHERE_HLDHIERARCHY_NO + hierarchyNo + "')";
             }
 
-            customSql = "UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET USER_GROUP='" + groupValue + "' \n"
-                    + "  where PROJECTION_DETAILS_SID in ( \n"
-                    + " SELECT PROJECTION_DETAILS_SID FROM PROJECTION_DETAILS WHERE CCP_DETAILS_SID IN"
+            customSql = Constant.UPDATE_ST_NM_DISCOUNT_PROJ_MASTER_SET_USE + groupValue + "' \n"
+                    + Constant.WHERE_PROJECTION_DETAILS_SID_IN
+                    + Constant.SELECT_PROJECTION_DETAILS_SID_FROM_PROJE
                     + ccpDetails + "\n"
-                    + "                     AND PROJECTION_MASTER_SID = " + projectionId + ")"
-                    + " AND USER_ID = " + userId + " AND SESSION_ID = " + sessionId + "\n";
+                    + Constant.AND_PROJECTION_MASTER + projectionId + ")"
+                    + Constant.AND_USER_ID + userId + Constant.AND_SESSION_ID + sessionId + "\n";
 
             HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
             return true;
@@ -1484,9 +1448,9 @@ public class NmDiscountImpl {
             String hierarchy = "";
             // C indicates customer, P indicates product
             if (hierarchyIndicator.equals("C")) {
-                hierarchy = "PROJECTION_CUST_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
             } else if (hierarchyIndicator.equals("P")) {
-                hierarchy = "PROJECTION_PROD_HIERARCHY ";
+                hierarchy = Constant.PROJECTION_PROD_HIERARCHY;
             }
             int periodToSave = period;
             int yearToSave = year;
@@ -1539,10 +1503,10 @@ public class NmDiscountImpl {
                 discountType = "RS.RS_NAME";
             }
 
-            String declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
-                    + " DECLARE @START_YEAR INT=" + yearToSave + "\n"
-                    + " DECLARE @END_MONTH INT=" + endMonth + "\n"
-                    + " DECLARE @END_YEAR INT=" + yearToSave + "\n";
+            String declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
+                    + Constant.DECLARE_START_YEAR_INT + yearToSave + "\n"
+                    + Constant.DECLARE_END_MONTH_INT + endMonth + "\n"
+                    + Constant.DECLARE_END_YEAR_INT + yearToSave + "\n";
 
             String ccpDetails = "";
             if (isCustomHierarchy && customViewDetails != null && !customViewDetails.isEmpty()) {
@@ -1556,32 +1520,32 @@ public class NmDiscountImpl {
                 String relationshipBuilderSidForProduct = customViewDetails.get(6);
 
                 ccpDetails = " (SELECT distinct HLD" + hierarchyIndicator + ".RELATIONSHIP_LEVEL_SID,HLD" + hierarchyIndicator + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM \n"
-                        + "    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                        + "    FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                        + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
-                        + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForCustomer + "\n"
-                        + "    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + ") CCPMAPC\n"
-                        + "    JOIN (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
-                        + "        FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                        + "        JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
-                        + "    AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSidForProduct + "\n"
-                        + "        JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=" + projectionId + ") CCPMAPP \n"
-                        + "    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID\n"
-                        + "    JOIN \n"
-                        + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                        + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO  like '" + customerLevelNo + "'\n"
-                        + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                        + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                        + "        JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "        WHERE RLD2.HIERARCHY_NO like '" + customerHierarchyNo + "%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'\n"
-                        + "    JOIN \n"
-                        + "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                        + "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=" + customId + " AND CVD.LEVEL_NO like '" + productLevelNo + "'\n"
-                        + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                        + "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n"
-                        + "        JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "        WHERE RLD2.HIERARCHY_NO like '" + productHierarchyNo + "%') HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'\n"
-                        + "    WHERE HLD" + hierarchyIndicator + ".HIERARCHY_NO = '" + hierarchyNo + "' \n"
+                        + Constant.SELECT_RLDRELATIONSHIP_LEVEL_VALUES_R
+                        + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
+                        + Constant.JOIN_CCP_MAP_CCP_ON_RLDRELATIONSHIP_L
+                        + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
+                        + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId + Constant.CCPMAPC
+                        + Constant.JOIN_SELECT_RLDRELATIONSHIP_LEVEL_VAL
+                        + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION
+                        + Constant.JOIN_CCP_MAP_CCP_ON_RLDRELATION
+                        + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForProduct + "\n"
+                        + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDC + projectionId + Constant.CCP_MAP
+                        + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
+                        + Constant.SPACE_JOIN_NEW_LINE
+                        + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                        + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                        + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                        + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
+                        + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
+                        + Constant.SPACE_JOIN_NEW_LINE
+                        + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                        + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
+                        + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
+                        + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
+                        + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDPHIE
+                        + Constant.WHERE_HLD + hierarchyIndicator + DOT_HIERARCHY_NO + hierarchyNo + "' \n"
                         + ") CCP";
 
             } else {
@@ -1589,21 +1553,21 @@ public class NmDiscountImpl {
                 ccpDetails = "(SELECT CCPMAP.CCP_DETAILS_SID,\n"
                         + "                         HLD.HIERARCHY_NO,\n"
                         + "                         HLD.RELATIONSHIP_LEVEL_SID\n"
-                        + "                  FROM   (SELECT RLD.HIERARCHY_NO,\n"
-                        + "                                 CCP.CCP_DETAILS_SID\n"
-                        + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n"
-                        + "                          JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + " \n"
-                        + "                          JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId + "\n"
-                        + "                          JOIN    " + hierarchy + "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID \n"
-                        + "                                 AND PCH.PROJECTION_MASTER_SID=" + projectionId + "\n"
-                        + "                          ) CCPMAP JOIN \n"
-                        + "                         (SELECT RLD1.HIERARCHY_NO,\n"
-                        + "                                 RLD1.RELATIONSHIP_LEVEL_SID,\n"
-                        + "                                 RLD1.LEVEL_NO\n"
-                        + "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
-                        + "                          JOIN   " + hierarchy + "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID =  " + projectionId + " \n"
-                        + "                         AND  RLD1.HIERARCHY_NO LIKE '" + hierarchyNo + "%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n"
-                        + "  WHERE HLD.HIERARCHY_NO = '" + hierarchyNo + "') CCP";
+                        + Constant.FROM_SELECT_RLD_HIERAR
+                        + Constant.CCP_CCP_D
+                        + Constant.FROM_RELATION
+                        + Constant.JOIN_CCP_MAP + relationshipBuilderSid + " \n"
+                        + Constant.JOIN_PROJECTION + projectionId + "\n"
+                        + Constant.JOIN + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID_RLDRE
+                        + Constant.AND_PCHP + projectionId + "\n"
+                        + Constant.CCPMAP_JOIN
+                        + Constant.SELECT_RL_D1HIERA
+                        + Constant.RL_D1RELA
+                        + Constant.RL_D1_LEVEL
+                        + Constant.FROM_RELATIONSHIP_RELATION
+                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                        + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
+                        + Constant.WHERE_HLDHIERARCHY_NO + hierarchyNo + "') CCP";
 
             }
 
@@ -1616,14 +1580,14 @@ public class NmDiscountImpl {
                     + " ST_NM_DISCOUNT_PROJECTION DP, RS_MODEL RS, \"PERIOD\" P, \n" + ccpDetails
                     + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
                     + " and M.USER_ID = " + userId + "\n"
-                    + " and M.SESSION_ID = " + sessionId + "\n"
+                    + Constant.AND_M_SESSION_ID + sessionId + "\n"
                     + " and DP.USER_ID = " + userId + "\n"
                     + " and DP.SESSION_ID = " + sessionId + "\n"
                     + " and DP.RS_MODEL_SID = M.RS_MODEL_SID \n"
                     + " AND B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
                     + " AND DP.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
                     + " AND RS.RS_MODEL_SID = M.RS_MODEL_SID \n"
-                    + " AND " + discountType + " = '" + discountName + "' \n"
+                    + Constant.SPACE_AND_SPACE + discountType + " = '" + discountName + "' \n"
                     + " AND DP.PERIOD_SID = P.PERIOD_SID \n"
                     + " AND P.PERIOD_DATE " + getPeriodFilter() + "\n "
                     + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
@@ -1643,75 +1607,8 @@ public class NmDiscountImpl {
         }
 
     }
+    
 
-//    public List getLevelvalues(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, int customId, String relationshipBuilderSid, boolean isCustomHierarchy, boolean isLevelFilter) {
-//      
-//        LOGGER.debug(" entering getLevelvalues");
-//        try {
-//            session = openSession();
-//            String hierarchy = "";
-//            isCustomHierarchy = true;
-//            // C indicates customer, P indicates product
-//            if (hierarchyIndicator.equals("C")) {
-//                hierarchy = "PROJECTION_CUST_HIERARCHY ";
-//                isCustomHierarchy = false;
-//            } else if (hierarchyIndicator.equals("P")) {
-//                hierarchy = "PROJECTION_PROD_HIERARCHY ";
-//                isCustomHierarchy = false;
-//            }
-//
-//            String customSql = "";
-//            String orderBy = "";
-//            String endLevelRestriction = "";
-//            if (isLevelFilter) {
-//                customSql = "Select Distinct HLD.LEVEL_NO ,('Level '+HLD.LEVEL_NO +' - '+HLD.LEVEL_NAME)\n";
-//            } else {
-//                customSql = "Select Distinct HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_VALUES \n";
-//                orderBy = " order by HLD.HIERARCHY_NO ";
-//                if (endLevelNo != 0) {
-//                    endLevelRestriction = " AND RLD1.LEVEL_NO < " + endLevelNo;
-//                }
-//            }
-//
-//            if (!isCustomHierarchy) {
-////                    customSql += " JOIN "+hierarchy+" H ON H.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID \n"
-////                        + " AND H.PROJECTION_MASTER_SID="+projectionId;
-//
-//                customSql += "                   FROM   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES,\n"
-//                        + "                                  RLD.HIERARCHY_NO,\n"
-//                        + "                                  CCP.CCP_DETAILS_SID\n"
-//                        + "                           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n"
-//                        + "                           JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID AND RLD.RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + "\n"
-//                        + "                           JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId + "\n"
-//                        + "                           JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID\n"
-//                        + "                           WHERE  PM.PROJECTION_MASTER_SID = " + projectionId + ") CCPMAP,\n"
-//                        + "                          (SELECT RLD1.HIERARCHY_NO,\n"
-//                        + "                                  RLD1.RELATIONSHIP_LEVEL_SID,\n"
-//                        + "                                  RLD1.RELATIONSHIP_LEVEL_VALUES,\n"
-//                        + "                                  RLD1.LEVEL_NO,\n"
-//                        + "                                  RLD1.LEVEL_NAME\n"
-//                        + "                           FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
-//                        + "                           JOIN   " + hierarchy + "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID\n"
-//                        + "                                                               AND PCH.PROJECTION_MASTER_SID = " + projectionId + "\n"
-//                        + "  WHERE  RLD1.HIERARCHY_NO LIKE '%' AND RLD1.LEVEL_NO >= " + startLevelNo + endLevelRestriction + ") HLD\n"
-//                        + "                       WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n " + orderBy;
-//
-////                }else{
-////                    customSql += " WHERE HIERARCHY_LEVEL_DEFINITION_SID in \n"
-////                            + " (SELECT HIERARCHY_ID from CUSTOM_VIEW_DETAILS WHERE CUSTOM_VIEW_MASTER_SID ='"+customId+"')\n";
-//            }
-//             sqlQuery = session.createSQLQuery(customSql);
-//
-//            return sqlQuery.list();
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//            return null;
-//        } finally {
-//            LOGGER.debug(" exiting getLevelvalues");
-//            closeSession(session);
-//        }
-//            return null;
-//        }
     public List getDiscountProjectionResults(List<Integer> discountprojectionId, String frequency, String discountString, String actualsOrProjections, String view, String order, List<Integer> startAndEndPeriods, int userId, int sessionId, boolean viewFlag) {
 
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
@@ -1905,8 +1802,6 @@ public class NmDiscountImpl {
 
             if (frequency.equals(QUARTERLY.getConstant())) {
                 frequency = "QUARTER";
-                // selectedHistoryFrequency = "QUARTER = "+startFreq+" AND ";
-                //  selectedFutureFrequency = "QUARTER = "+endFreq+" AND ";
 
                 switch (startFreq) {
                     case 1:
@@ -1945,8 +1840,6 @@ public class NmDiscountImpl {
             }
             if (frequency.equals("Semi-Annually")) {
                 frequency = "SEMI_ANNUAL";
-                // selectedHistoryFrequency = "SEMI_ANNUAL = "+startFreq+" AND ";
-                // selectedFutureFrequency = "SEMI_ANNUAL = "+endFreq+" AND ";
                 switch (startFreq) {
                     case 1:
                         startMonth = 1;
@@ -1967,16 +1860,14 @@ public class NmDiscountImpl {
             }
             if (frequency.equals(MONTHLY.getConstant())) {
                 frequency = "MONTH";
-                //selectedHistoryFrequency = "\"MONTH\" = "+startFreq+" AND ";
-                // selectedFutureFrequency = "\"MONTH\" = "+endFreq+" AND ";
                 startMonth = startFreq;
                 endMonth = endFreq;
             }
 
-            declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
-                    + " DECLARE @START_YEAR INT=" + startYear + "\n"
-                    + " DECLARE @END_MONTH INT=" + endMonth + "\n"
-                    + " DECLARE @END_YEAR INT=" + endYear + "\n";
+            declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
+                    + Constant.DECLARE_START_YEAR_INT + startYear + "\n"
+                    + Constant.DECLARE_END_MONTH_INT + endMonth + "\n"
+                    + Constant.DECLARE_END_YEAR_INT + endYear + "\n";
             String periodFilter = "";
             periodFilter = "AND D.PERIOD_DATE BETWEEN \n "
                     + " CASE \n "
@@ -2058,28 +1949,28 @@ public class NmDiscountImpl {
                 whereClause += " and I.\"YEAR\" = " + year;
             }
             if (frequency.contains(QUARTERLY.getConstant())) {
-                selectedHistoryFrequency = "QUARTER = " + startFreq + " AND ";
-                selectedFutureFrequency = "QUARTER = " + endFreq + " AND ";
+                selectedHistoryFrequency = "QUARTER = " + startFreq + Constant.SPACE_AND_SPACE;
+                selectedFutureFrequency = "QUARTER = " + endFreq + Constant.SPACE_AND_SPACE;
                 selectClause += "I.QUARTER, ";
                 whereClause += "";
-                groupBy += ", I.QUARTER";
+                groupBy += Constant.I_QUARTER;
             } else if (frequency.contains(SEMI_ANNUALLY.getConstant())) {
-                selectedHistoryFrequency = "SEMI_ANNUAL = " + startFreq + " AND ";
-                selectedFutureFrequency = "SEMI_ANNUAL = " + endFreq + " AND ";
+                selectedHistoryFrequency = "SEMI_ANNUAL = " + startFreq + Constant.SPACE_AND_SPACE;
+                selectedFutureFrequency = "SEMI_ANNUAL = " + endFreq + Constant.SPACE_AND_SPACE;
                 selectClause += "I.SEMI_ANNUAL, ";
                 whereClause += "";
-                groupBy += ", I.SEMI_ANNUAL";
+                groupBy += Constant.I_SEMI_ANNUAL;
             } else if (frequency.contains(ANNUALLY.getConstant())) {
                 selectClause += "'' as ANNUAL, ";
                 whereClause += "";
                 groupBy += "";
 
             } else if (frequency.contains(MONTHLY.getConstant())) {
-                selectedHistoryFrequency = "\"MONTH\" = " + startFreq + " AND ";
-                selectedFutureFrequency = "\"MONTH\" = " + endFreq + " AND ";
+                selectedHistoryFrequency = "\"MONTH\" = " + startFreq + Constant.SPACE_AND_SPACE;
+                selectedFutureFrequency = "\"MONTH\" = " + endFreq + Constant.SPACE_AND_SPACE;
                 selectClause += "I.\"MONTH\", ";
                 whereClause += "";
-                groupBy += ", I.\"MONTH\"";
+                groupBy += Constant.I_MONTH;
             }
 
             // To filter the data according to selected period
@@ -2467,10 +2358,10 @@ public class NmDiscountImpl {
                     endMonth = endFreq;
 
                 }
-                declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
-                        + " DECLARE @START_YEAR INT=" + startYear + "\n"
-                        + " DECLARE @END_MONTH INT=" + endMonth + "\n"
-                        + " DECLARE @END_YEAR INT=" + endYear + "\n";
+                declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
+                        + Constant.DECLARE_START_YEAR_INT + startYear + "\n"
+                        + Constant.DECLARE_END_MONTH_INT + endMonth + "\n"
+                        + Constant.DECLARE_END_YEAR_INT + endYear + "\n";
                 String periodFilter = "";
                 periodFilter = "AND I.PERIOD_DATE BETWEEN \n "
                         + " CASE \n "
@@ -2607,7 +2498,7 @@ public class NmDiscountImpl {
 
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
             LOGGER.error(e.getMessage());
             LOGGER.error(sql);
@@ -2683,8 +2574,6 @@ public class NmDiscountImpl {
             }
             if (frequency.equals("Semi-Annually")) {
                 frequency = "SEMI_ANNUAL";
-                // selectedHistoryFrequency = "SEMI_ANNUAL = "+startFreq+" AND ";
-                // selectedFutureFrequency = "SEMI_ANNUAL = "+endFreq+" AND ";
                 switch (startFreq) {
                     case 1:
                         startMonth = 1;
@@ -2709,10 +2598,10 @@ public class NmDiscountImpl {
                 endMonth = endFreq;
             }
 
-            declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
-                    + " DECLARE @START_YEAR INT=" + startYear + "\n"
-                    + " DECLARE @END_MONTH INT=" + endMonth + "\n"
-                    + " DECLARE @END_YEAR INT=" + endYear + "\n";
+            declareStatement = Constant.DECLARE_START_MONTH_INT + startMonth + "\n"
+                    + Constant.DECLARE_START_YEAR_INT + startYear + "\n"
+                    + Constant.DECLARE_END_MONTH_INT + endMonth + "\n"
+                    + Constant.DECLARE_END_YEAR_INT + endYear + "\n";
 
             String periodFilter = "";
             periodFilter = "AND I.PERIOD_DATE BETWEEN \n "

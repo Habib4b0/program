@@ -31,10 +31,8 @@ import com.stpl.app.service.WorkflowMasterLocalServiceUtil;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.vaadin.server.VaadinService;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -60,8 +58,8 @@ public class WorkflowLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowLogic.class);
     private final String SUCCESS = Constant.SUCCESS;
-    private WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
-    private DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
+    private final WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
+    private final DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
 
     /**
      * Method to Save the data in WorkflowMaster
@@ -492,7 +490,7 @@ public class WorkflowLogic {
 			FileInputStream fileIS = null;
 			fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
 			prop.load(fileIS);
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("getPropertyFile===================>ends");

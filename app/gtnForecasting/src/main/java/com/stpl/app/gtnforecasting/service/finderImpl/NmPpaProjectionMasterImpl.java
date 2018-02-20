@@ -163,7 +163,7 @@ public class NmPpaProjectionMasterImpl {
 //            LOGGER.debug("sql-->>" + sql);
             int a = HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
 //            LOGGER.debug("a--->>>>" + a);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
         }

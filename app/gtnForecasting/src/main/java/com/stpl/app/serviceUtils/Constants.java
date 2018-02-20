@@ -1063,7 +1063,7 @@ public final class Constants {
         MONTHLY("Monthly"),
         MONTHS("Months"),
         QUARTERS("Quarters");
-        private String frequencyValue;
+        private final String frequencyValue;
 
         private FrequencyConstants(String frequencyValue) {
             this.frequencyValue = frequencyValue;

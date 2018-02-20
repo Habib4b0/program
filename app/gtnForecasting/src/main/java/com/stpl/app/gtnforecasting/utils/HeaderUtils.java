@@ -246,7 +246,7 @@ public class HeaderUtils {
     /**
      * The comparison columns.
      */
-    private Object[] comparisonColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION,
+    private final Object[] comparisonColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION,
         Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "ndcNo", "ndcName", "createdDate", "createdBy"};
     protected static final String MARKET_TYPE1 = "Market Type";
     protected static final String CREATED_BY1 = "Created By";
@@ -254,7 +254,7 @@ public class HeaderUtils {
     /**
      * The parity header.
      */
-    private String[] comparisonHeader = new String[]{"Projection Name", "Description", MARKET_TYPE1, Constant.CUSTOMER_SMALL, Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "NDC #", "NDC Name", "Created Date", CREATED_BY1};
+    private final String[] comparisonHeader = new String[]{"Projection Name", "Description", MARKET_TYPE1, Constant.CUSTOMER_SMALL, Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "NDC #", "NDC Name", "Created Date", CREATED_BY1};
     /**
      * The SALES_SMALL projection columns.
      */

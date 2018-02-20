@@ -281,12 +281,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         public static final String SELECT_VALUES = "-Select Values-";
         public static final String SID = "SID";
         public static final String CAPTION = "CAPTION";
-        private static String DF_LEVEL_NUMBER = "dfLevelNumber";
-        private static String DF_LEVEL_NAME = "dfLevelName";
-        private static String LEVEL_NAME_PROPERTY = "levelName";
-        private static String LEVEL_NUMBER_HEADER = "Level Number";
-        private static String LEVEL_NAME_HEADER = "Level Name";
-        private static String GROUP_PROPERTY_ID = "group";
+        private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
+        private static final String DF_LEVEL_NAME = "dfLevelName";
+        private static final String LEVEL_NAME_PROPERTY = "levelName";
+        private static final String LEVEL_NUMBER_HEADER = "Level Number";
+        private static final String LEVEL_NAME_HEADER = "Level Name";
+        private static final String GROUP_PROPERTY_ID = "group";
 
         private List<Object> generateDiscountToBeLoaded=new ArrayList<>();
         private List<Object> generateDiscountNamesToBeLoaded=new ArrayList<>();

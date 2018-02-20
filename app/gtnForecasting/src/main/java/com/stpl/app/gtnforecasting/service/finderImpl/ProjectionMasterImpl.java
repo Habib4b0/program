@@ -10,6 +10,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.CommonUtils;
 import com.stpl.app.serviceUtils.Constants;
 import com.stpl.app.serviceUtils.ConstantsUtils;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -434,7 +435,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             LOGGER.debug("Final Search Query: " + queryString.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
-        } catch (Exception e) {
+        } catch (NumberFormatException | ParseException e) {
             LOGGER.error("In searchDsProjection ->" + e.getMessage());
             LOGGER.error(queryString.toString());
             return null;
@@ -1398,7 +1399,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         }
                     }
 
-                } catch (Exception ex) {
+                } catch (NumberFormatException ex) {
                     LOGGER.error(ex.getMessage());
                     LOGGER.error(hierarchyQuery);
                     LOGGER.error(levelQuery);
@@ -1762,7 +1763,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     query = query.replace("?FILTER?", StringUtils.EMPTY);
                 }
 
-            } catch (Exception ex) {
+            } catch (NumberFormatException | ParseException ex) {
                 LOGGER.error(ex.getMessage() + " in execute query");
             }
             queryString.append(query);
@@ -2002,7 +2003,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     query = query.replace("?ORDER_BY?", StringUtils.EMPTY);
                     query = query.replace("?FILTER?", StringUtils.EMPTY);
                 }
-            } catch (Exception ex) {
+            } catch (NumberFormatException ex) {
                 LOGGER.error(ex.getMessage() + " in execute query");
                 LOGGER.error(query);
             }
@@ -2344,7 +2345,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     query = query.replace("?ORDER_BY?", StringUtils.EMPTY);
                     query = query.replace("?FILTER?", StringUtils.EMPTY);
                 }
-            } catch (Exception ex) {
+            } catch (NumberFormatException | ParseException ex) {
                 LOGGER.error(ex.getMessage() + " in execute query");
                 LOGGER.error(query);
             }

@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.ui;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
@@ -107,7 +109,7 @@ public class ForecastUI extends UI {
         try {
             Collection<Object> userGroupId = stplSecurity.getUserGroupId(Long.parseLong(userId));
             VaadinSession.getCurrent().setAttribute("businessRoleIds", stplSecurity.getBusinessRoleIds(userGroupId));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -187,7 +189,7 @@ public class ForecastUI extends UI {
                         logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
                 projectionName = temp.getProjectionName();
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException | NumberFormatException ex) {
                 LOGGER.error(ex.getMessage());
             }
             sessionDto.setWorkflowId(Integer.valueOf(workflowId));

@@ -97,6 +97,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1718,7 +1719,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(getTableLogic().getTreeLevelonCurrentPage(itemId));
-                                } catch (Exception ex) {
+                                } catch (PortalException | SystemException | NumberFormatException ex) {
                                     LOGGER.error(ex.getMessage());
                                 }
                             }
@@ -2251,7 +2252,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     endPeriod.select(endPeriodValue);
                 }
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -3780,7 +3781,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             return false;
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException | ParseException ex) {
             LOGGER.error(ex.getMessage());
             return false;
         }

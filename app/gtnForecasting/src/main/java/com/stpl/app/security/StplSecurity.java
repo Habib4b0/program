@@ -58,7 +58,7 @@ public class StplSecurity {
  	private static final List<String> DOMAINIDS1 = null;
         
         /** UserMap - Contains User System ID and User Name */
- 	private static Map<Integer,String> userMap=new ConcurrentHashMap<>();   
+ 	private static final Map<Integer,String> userMap=new ConcurrentHashMap<>();   
         
     /**
      * Gets the dto.

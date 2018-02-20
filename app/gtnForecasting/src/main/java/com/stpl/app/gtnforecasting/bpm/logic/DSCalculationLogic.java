@@ -221,7 +221,7 @@ public class DSCalculationLogic {
 
                 list.add(accrualRate);
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
         return list;
