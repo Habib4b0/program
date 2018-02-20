@@ -40,6 +40,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
+import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -250,6 +251,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	
         @UiField("excelExport")
 	private Button excelExport;
+         private final Resource excelExportImage = new ThemeResource("img/excel.png");
 	/**
 	 * The error msg.
 	 */
@@ -367,7 +369,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 			CFFLogic.mapUsers();
 
-			excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
+			excelExport.setIcon(excelExportImage);
 			excelExport.setStyleName("link");
 			excelExport.setDescription("Export to excel");
 			excelExport.setIconAlternateText("Excel export");
