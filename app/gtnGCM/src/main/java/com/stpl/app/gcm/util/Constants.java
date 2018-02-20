@@ -167,7 +167,6 @@ public class Constants {
     public static final String BOOTSTRAP = "bootstrap";
     public static final String BOOTSTRAP_FORECAST_BOOTSTRAP_NM = "bootstrap-forecast bootstrap-nm";
     public static final String IFPTYPE = IFP_TYPE_LABEL;
-
     public static final String COMPANYCATEGORY = "Company Category";
     public static final String COMPANYTYPE = "Company Type";
     public static final String FORM = "Form";
