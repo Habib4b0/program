@@ -27,7 +27,7 @@ public class Emailer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Emailer.class);
 
     public static final String FROM = "support@bpitechnologies.com";
-    private final static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
 
     public Emailer() {
         LOGGER.debug("Emailer");

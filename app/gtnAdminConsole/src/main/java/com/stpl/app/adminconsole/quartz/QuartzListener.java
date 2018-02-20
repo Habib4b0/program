@@ -61,7 +61,7 @@ public class QuartzListener implements ServletContextListener {
 
 	}
 
-	public synchronized static void createQuartzScheduler() {
+	public static synchronized void createQuartzScheduler() {
 		List<WorkflowProfile> list = null;
 		try {
 			if (scheduler == null) {

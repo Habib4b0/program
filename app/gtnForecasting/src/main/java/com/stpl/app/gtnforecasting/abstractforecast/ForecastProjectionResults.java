@@ -67,7 +67,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public abstract class ForecastProjectionResults extends CustomComponent {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ForecastProjectionResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastProjectionResults.class);
 
     @UiField("tablePanel")
     protected Panel tablePanel;
@@ -154,7 +154,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected int customId = 0;
     protected int customIdToSelect = 0;
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     protected CustomTableHeaderDTO leftHeader= new CustomTableHeaderDTO();
     protected CustomTableHeaderDTO rightHeader= new CustomTableHeaderDTO();
     protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();

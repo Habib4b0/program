@@ -79,13 +79,13 @@ public class FileManagementLogic {
 
 	private static final Criterion NULLCREATION = null;
 
-	final private static FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
+	private static final FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
 
 	private static int foecastYearCount;
 
 	public static final String ITEM_QUAL_NAME = "itemQualifierName";
 
-	public final static String ITEM_QUALIFIER_SID = "itemQualifierSid";
+	public static final  String ITEM_QUALIFIER_SID = "itemQualifierSid";
 
 	public static final String COMPANY_NAME = "companyName";
 	public static final String SELECT_ONE = "-Select One-";

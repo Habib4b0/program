@@ -33,7 +33,7 @@ public final class DataSourceConnection {
     /**
      * The datasource context.
      */
-    private final static String DATASOURCECONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private static final String DATASOURCECONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     /**
      * The Constant LOGGER.
      */

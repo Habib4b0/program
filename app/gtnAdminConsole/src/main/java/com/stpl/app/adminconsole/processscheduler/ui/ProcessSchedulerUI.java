@@ -40,7 +40,7 @@ import org.osgi.service.component.annotations.ServiceScope;
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class ProcessSchedulerUI extends UI {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ProcessSchedulerUI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSchedulerUI.class);
     private SessionDTO sessionDTO = new SessionDTO();
 
     public ProcessSchedulerUI(){

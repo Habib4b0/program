@@ -58,7 +58,7 @@ public class DiscountLogic {
     /**
      * The dao.
      */
-    final private static FileManagementLogicDAO FMDAO = new FileManagementLogicDAOImpl();
+    private static final FileManagementLogicDAO FMDAO = new FileManagementLogicDAOImpl();
 
     private static HashMap<String, String> columnNames = new HashMap<String, String>();
 
