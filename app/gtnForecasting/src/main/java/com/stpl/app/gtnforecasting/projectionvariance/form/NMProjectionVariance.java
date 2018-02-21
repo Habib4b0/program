@@ -1903,6 +1903,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private void excelForCommercial() {
         try {
+            configureTable();
             configureExcelTable();
             getExcelProcedureInput();
             excelLogic.getPVData();
@@ -2136,6 +2137,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                     ProjectionVarianceDTO tpGroup = new ProjectionVarianceDTO() {
                                         {
                                             setGroup(pvSelectionDTO.getGroupFilter());
+                                            setDfLevelNumber(pvSelectionDTO.getGroupFilter());
+                                            setDfLevelName(pvSelectionDTO.getGroupFilter());
                                         }
                                     };
                                     resultExcelContainer.addBean(tpGroup);
