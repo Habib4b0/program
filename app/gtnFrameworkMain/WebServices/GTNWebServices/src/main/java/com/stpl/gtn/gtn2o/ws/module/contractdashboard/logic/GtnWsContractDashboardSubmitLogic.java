@@ -269,7 +269,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		if (dateValue != null && Long.class.isAssignableFrom(dateValue.getClass())) {
 			dateValue = new Date((Long) dateValue);
 		}
-		return (Date) dateValue;
+		return "null".equals(String.valueOf(dateValue)) || String.valueOf(dateValue).equals(StringUtils.EMPTY)? null:(Date) dateValue;
 	}
 
 	private void updateContractInfo(Session session, GtnWsContractDashboardRequest cdRequest)
