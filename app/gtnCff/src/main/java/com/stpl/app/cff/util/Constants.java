@@ -30,7 +30,7 @@ public class Constants {
     public static final String ALL_GROUP = "All PPA Group";
     public static final String PROCEDURE_CALL = "Procedure Call";
     public static final int ZERO = 0;
-    public static final String USER_ID = "userid";
+    public static final String USER_ID = "userId";
     public static final String VIEW_NAME = "viewName";
     public static final String PRIVATE = "Private";
     public static final String SAVE = "save";
