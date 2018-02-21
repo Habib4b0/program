@@ -636,7 +636,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDTO.setProjectionName(String.valueOf(temp[0]));
 					sessionDTO.setProdRelationshipBuilderSid(String.valueOf(temp[1]));
 					sessionDTO.setCustRelationshipBuilderSid(String.valueOf(temp[NumericConstants.TWO]));
+                  if(temp[NumericConstants.THREE]!=null){ 
                                         sessionDTO.setCffEligibleDate(new Date(String.valueOf(temp[NumericConstants.THREE])));
+                  }
 				}
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));
 
