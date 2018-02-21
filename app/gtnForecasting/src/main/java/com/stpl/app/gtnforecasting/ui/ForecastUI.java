@@ -53,7 +53,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
-// TODO: Auto-generated Javadoc
 /**
  * UI class of Non-Mandated.
  *
@@ -320,7 +319,6 @@ public class ForecastUI extends UI {
                 navigator.addView(AccrualRateProjectionView.ARP_VIEW, arpView);
             }
             ExecutorService serviec = Executors.newSingleThreadExecutor();
-//            serviec.submit(new BPMJob());
             if (projectionId != null
                     && !CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 				getUI().getNavigator().navigateTo(ForecastWorkflowView.NAME + "/" + pageParameters);
@@ -336,7 +334,6 @@ public class ForecastUI extends UI {
             LoggerFactory.getLogger(ForecastUI.class.getName()).error(StringUtils.EMPTY, ex);
         }
 
-        // Configure the error handler for the UI
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {

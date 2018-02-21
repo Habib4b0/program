@@ -206,7 +206,6 @@ public class DiscountProjectionLogic {
                         hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup);
             }
         }
-        //To Return the list as it is for the getCount method of Pagination table
         if (isCount) {
             return discountProjectionList;
         }
@@ -302,7 +301,6 @@ public class DiscountProjectionLogic {
                             }
                         }
 
-                        // To handle count for various discounts
                         if (!isCustom) {
                             if (!discountName.equals(String.valueOf(obj[NumericConstants.FOUR]))) {
                                 discountName = String.valueOf(obj[NumericConstants.FOUR]);
@@ -331,7 +329,6 @@ public class DiscountProjectionLogic {
                         } else if (frequency.equals(ANNUALLY.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
-                        // For Triple Header
                         String commonColumn = StringUtils.EMPTY;
                         if (!isCustom) {
                             commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + column;
@@ -908,7 +905,6 @@ public class DiscountProjectionLogic {
                     } else if (frequency.equals(ANNUALLY.getConstant())) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }
-                    // For Triple Header
                     commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + commonColumn;
                     String ACTUAL_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.THREE])) ? DASH : String.valueOf(obj[NumericConstants.THREE]);
                     String PROJ_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOUR])) ? DASH : String.valueOf(obj[NumericConstants.FOUR]);
@@ -942,7 +938,6 @@ public class DiscountProjectionLogic {
                         discountName = StringUtils.EMPTY;
                         levelId = String.valueOf(obj[NumericConstants.THREE]);
                         discountDto.setHierarchyNo(String.valueOf(obj[NumericConstants.TWO]));
-//                        discountDto.setLevelName(session.getLevelValueDiscription(discountDto.getHierarchyNo(), hierarchyIndicator));
                         discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
                         discountDto.setAlternatePivotList(discountProjectionList);
                         if (isCustom) {
@@ -968,7 +963,6 @@ public class DiscountProjectionLogic {
                             discountDto.addStringProperties(Constant.GROUP, group);
                         }
                     }
-                    // To handle count for various discounts
                     if (!discountName.equals(String.valueOf(obj[NumericConstants.SEVEN]))) {
                         discountName = String.valueOf(obj[NumericConstants.SEVEN]);
                         ccpCountForDiscount.put(discountName, Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));

@@ -937,7 +937,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
-                // do nothing
             }
 
             @Override
@@ -1083,10 +1082,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 chartiLst.add(dto);
             }
         }
-//        final PVChart chart = new PVChart(chartiLst, String.valueOf(frequency.getValue()), "", fullHeader, pvSelectionDTO);
-//        final PVGraphWindow salesGraphWindow = new PVGraphWindow(chart.getChart(), PROJECTION_VARIANCE);
-//        UI.getCurrent().addWindow(salesGraphWindow);
-//        salesGraphWindow.focus();
     }
 
     public static List<Date> getStartandTodate() {
