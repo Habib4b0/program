@@ -831,7 +831,7 @@ public class CFFLogic {
                         dto.setFileManagementSid(String.valueOf(obj[0]));
                         dto.setFileName(String.valueOf(obj[1]));
                         dto.setVersion(String.valueOf(obj[NumericConstants.THREE]));
-                        dto.setFileType(String.valueOf(obj[NumericConstants.TWO]));
+                        dto.setFileType(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO]) : StringUtils.EMPTY);
                         dto.setActiveFromDate((Date) obj[NumericConstants.FOUR]);
                         dto.setActiveToDate((Date) obj[NumericConstants.FIVE]);
                         dto.setFileTypeId(String.valueOf(obj[NumericConstants.SIX]));
@@ -1088,7 +1088,7 @@ public class CFFLogic {
         LOGGER.debug("Entering searchView method");
         List list = null;
         List inputList = new ArrayList();
-        final String userId = (String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID);
+        final String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID);
         if (StringUtils.isNotEmpty(viewType)
                 && StringUtils.isNotBlank(viewType)) {
             inputList.add(viewType);
