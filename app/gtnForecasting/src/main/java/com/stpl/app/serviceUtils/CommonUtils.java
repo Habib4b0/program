@@ -169,45 +169,8 @@ public class CommonUtils {
     /**
      * Null representation of HelperDTO (Select one item)
      */
-//    public static final HelperDTO NULL_HELPER_DTO = new HelperDTO(ConstantsUtils.SELECT_ONE);
 
    
-//    /**
-//     * Add items to the NativeSelect from list of HelperDTO.
-//     *
-//     * @param select - NativeSelect
-//     * @param helperList - List of HelperDTO.
-//     * @return NativeSelect with added items.
-//     */
-//    public NativeSelect getNativeSelect(final NativeSelect select,
-//            final List<HelperDTO> helperList) {
-//        try{
-//            
-//        for (final HelperDTO helperDTO : helperList) {
-//            select.addItem(helperDTO.getId());
-//            select.setItemCaption(helperDTO.getId(),helperDTO.getDescription());
-//            
-//        }
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//        }
-//        return select;
-//    }
-//    
-//    public ComboBox getComboBoxV1(final ComboBox select,
-//            final List<HelperDTO> helperList) {
-//        try{
-//            
-//        for (final HelperDTO helperDTO : helperList) {
-//            select.addItem(helperDTO.getId());
-//            select.setItemCaption(helperDTO.getId(),helperDTO.getDescription());
-//            
-//        }
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//        }
-//        return select;
-//    }    
 
     /**
      * Add the items to NativeSelect and returns it.

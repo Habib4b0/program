@@ -3580,7 +3580,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     TextField baseFilter = new TextField();
                     baseFilter.setWidth("100%");
                     return baseFilter;
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setWidth("100%");
                     return levelField;
@@ -3639,7 +3639,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     filterForBaseline.setWidth("100%");
                     return filterForBaseline;
 
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");

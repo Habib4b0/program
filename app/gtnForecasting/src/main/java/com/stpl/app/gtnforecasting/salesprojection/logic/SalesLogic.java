@@ -649,31 +649,6 @@ public class SalesLogic {
      * @return
      */
     public List<SalesRowDto> convertfinalResultLists(List resulList, boolean iscustom, int treeLevelNo, String lastCustomerHierNo, String lastproductHierNo, final ProjectionSelectionDTO projectionSelectionDTO) {
-        // Commented for reference
-        // obj[0] -  Account Growth
-        // obj[1] -  Product Growth
-        // obj[2] -  Projected Sales
-        // obj[3] -  Prjected Units
-        // obj[4] -  Actual Sales
-        // obj[5] -  Actual Units
-        // obj[6] -  Level No
-        // obj[7] -  LevelName
-        // obj[8] -  Year
-        // obj[9] -  Quarter
-        // obj[10] - Base Line
-        // obj[11] - Methodology
-        // obj[12] - Relationship Level Sid
-        // obj[13] - Hierarchy No
-        // obj[14] - Row Count Map
-        // obj[15] - Hierarchy Level Name
-        // obj[16] - Actuals or Projection Rows
-        // obj[17] - ActualsProjectionSales
-        // obj[18] - ActualsProjectionUnits
-        // obj[19] - CheckandUnchecked
-        // obj[20] - Unchk Count
-        // obj[21] - CCP Count
-        // obj[22] - Hierarchy Indicator
-        // obj[23] - User Group
     	CustomTableHeaderDTO rightTableHeader = getHeader(projectionSelectionDTO);
         List salesProjectionDoubleColumnList = getHistoryColumn(rightTableHeader);
 
@@ -733,7 +708,6 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-//                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
                 String levelName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
                 salesRowDto.setLevelName(levelName);
                 if (levelName.contains("-")) {
@@ -767,7 +741,6 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-//                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
                 salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
@@ -1044,7 +1017,6 @@ public class SalesLogic {
         input.put(Constant.FREQUENCY1, SalesUtils.getPeriodFrequecy(projSelDTO.getFrequency()));
 
         if (isCustomer) {
-            // inputs for customer hierarchy
             input.put(Constant.PHTABLE, Constant.PROJECTION_CUST_HIERARCHY1);
             input.put(Constant.RBSID1, projSelDTO.getCustRelationshipBuilderSid());
             input.put("?THERAP?", StringUtils.EMPTY);
@@ -1493,7 +1465,6 @@ public class SalesLogic {
             if (!projectionDTO.isIsCustomHierarchy()) {
 
                 if (INDICATOR_LOGIC_CUSTOMER_HIERARCHY.getConstant().equalsIgnoreCase(projectionDTO.getHierarchyIndicator())) {
-                    // inputs for customer hierarchy
                     input.put(Constant.PHTABLE, Constant.PROJECTION_CUST_HIERARCHY1);
                     input.put(Constant.RBSID1, projectionDTO.getCustRelationshipBuilderSid());
                 } else if (INDICATOR_LOGIC_PRODUCT_HIERARCHY.getConstant().equalsIgnoreCase(projectionDTO.getHierarchyIndicator())) {
@@ -2238,9 +2209,6 @@ public class SalesLogic {
                 LOGGER.debug("4 " + changedProperty);
                 LOGGER.debug(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
 
-                statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.TWO, Integer.parseInt(session.getUserId())); //  @USER_ID
-                statement.setObject(NumericConstants.THREE, session.getSessionId()); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
                 if (!CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
                     statement.setObject(NumericConstants.FIVE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
@@ -2761,12 +2729,7 @@ public class SalesLogic {
                 } else {
                     statement = connection.prepareCall("{call PRC_SALES_ADJUSTMENT (?,?,?,?,?,?,?,?,?,?,?)}");
                 }
-                statement.setObject(1, historyPeriods); //  @BASLINE_PERIODS 
-                statement.setObject(NumericConstants.TWO, projectionPeriods); //  @SELECTED_PERIODS
-                statement.setObject(NumericConstants.THREE, projectionSelectionDTO.getProjectionId()); //  @PROJECTION_SID
                 statement.setObject(NumericConstants.FOUR, projectionSelectionDTO.getFrequency());//Frequency
-                statement.setObject(NumericConstants.FIVE, projectionSelectionDTO.getUserId()); //  @USER_ID
-                statement.setObject(NumericConstants.SIX, projectionSelectionDTO.getSessionDTO().getSessionId()); //  @SESSION_ID
                 statement.setObject(NumericConstants.SEVEN, adjType);
                 statement.setObject(NumericConstants.EIGHT, adjBasis);
                 statement.setObject(NumericConstants.NINE, adsVar);
@@ -2858,11 +2821,6 @@ public class SalesLogic {
         }
         return isCalculated;
     }
-//@selectedfreq',
-//        @year int = @startyear,
-//        @period int = @startperiodvalue,
-//        @year1 int = @endyear,
-//        @period1 int = @endPeriodvalue,
 
     /**
      *
@@ -3261,7 +3219,7 @@ public class SalesLogic {
                 query.add(RestrictionsFactoryUtil.eq("relationshipBuilderSid", productRelationshipId));
             }
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
+            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
             projectionListFrom.add(ProjectionFactoryUtil.property("levelNo"));
             projectionListFrom.add(ProjectionFactoryUtil.property(Constant.HIERARACHY_NO));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
@@ -3565,12 +3523,9 @@ public class SalesLogic {
 
                 statement = connection.prepareCall("{call PRC_RETURNS_REFRESH (?,?,?,?,?,?)}");
 
-                statement.setObject(1, projectionId); //  @PROJECTION_SID
                 statement.setObject(NumericConstants.TWO, selectedItems);
                 statement.setObject(NumericConstants.THREE, refreshedPeriods);
                 statement.setObject(NumericConstants.FOUR, flag);
-                statement.setObject(NumericConstants.FIVE, userId); //  @USER_ID
-                statement.setObject(NumericConstants.SIX, sessionId); //  @SESSION_ID
 
                 statement.execute();
             }
@@ -4058,7 +4013,6 @@ public class SalesLogic {
             groupBy += ", I.\"MONTH\"";
         }
 
-        // To filter the data according to selected period
         String periodFilter = StringUtils.EMPTY;
         //period filter should be in common once the dynamic changes is done in Government
         if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projSelDTO.getScreenName())) {
@@ -4351,7 +4305,6 @@ public class SalesLogic {
             LOGGER.debug("PRC_GROWTH_CALCULATION--------------------------------------- ");
 
             procedureInputs = new Object[]{projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getTabName(), calcBased, projectionSelectionDTO.getFrequency(), UiUtils.getDate(), null, start, end};
-            // Procedure calling part moved to Webservice
             new CumulativeCalculationUtils(procedureInputs, String.valueOf(projectionSelectionDTO.getUserId()),
                     projectionSelectionDTO.getSessionDTO().getSessionId(), methodology,
                     projectionSelectionDTO.getTabName(), tableName);
@@ -4453,7 +4406,7 @@ public class SalesLogic {
     public CustomTableHeaderDTO getHeader(ProjectionSelectionDTO projectionSelectionDTO) {
         CustomTableHeaderDTO salesProjectionExcelHeader = new CustomTableHeaderDTO();
         CustomTableHeaderDTO salesProjectionFullHeader = new CustomTableHeaderDTO();
-        salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+        salesProjectionExcelHeader.addSingleColumn(Constant.LEVEL_NAME, "Level Name", String.class);
         if (projectionSelectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             salesProjectionExcelHeader.addSingleColumn(Constant.GROUP, "Group", String.class);
         }
@@ -4462,7 +4415,7 @@ public class SalesLogic {
             salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
 
         } else {
-            salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+            salesProjectionExcelHeader.addSingleColumn(Constant.LEVEL_NAME, "Level Name", String.class);
         }
         salesProjectionExcelHeader.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
         salesProjectionExcelHeader.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);

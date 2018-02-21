@@ -39,9 +39,7 @@ public class ProjectionCustHierarchyImpl {
         boolean isProjectionStatus = false;
         StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
         try {
-//            LOGGER.debug("Entering getRelationShipValues method");
 
-//            StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
             if (workflowStatus.equals("Saved")) {
                 isProjectionStatus = true;
             }
@@ -114,7 +112,6 @@ public class ProjectionCustHierarchyImpl {
             }
             if (from != null && !"null".equals(from) && !StringUtils.isEmpty(from)
                     && to != null && !"null".equals(to) && !StringUtils.isEmpty(to)) {
-//                SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
                 SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
                 customSql.append(" AND PM.CREATED_DATE BETWEEN '");
                 customSql.append(format2.format(format2.parse(from)));
@@ -123,10 +120,8 @@ public class ProjectionCustHierarchyImpl {
                 customSql.append("' ");
             }
 
-            // LOGGER.debug("queryString.toString() -- >> " + customSql.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql.toString());
         } catch (ParseException e) {
-//            e.printStackTrace();
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql.toString());
             return null;

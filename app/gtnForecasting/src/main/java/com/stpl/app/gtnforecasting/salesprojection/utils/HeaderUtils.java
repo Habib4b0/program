@@ -88,9 +88,9 @@ public class HeaderUtils {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
 
         tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_LABEL, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, Constant.LEVEL_NAME_LABEL, String.class);
         tableHeaderDTO.addDoubleColumn("grouped", " ");
-        tableHeaderDTO.addDoubleHeaderMap("grouped", new Object[]{Constant.CHECK, Constant.LEVELNAME});
+        tableHeaderDTO.addDoubleHeaderMap("grouped", new Object[]{Constant.CHECK, Constant.LEVEL_NAME});
 
         return tableHeaderDTO;
     }
@@ -635,19 +635,19 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getSalesLeftTableColumns(final ProjectionSelectionDTO projectionSelectionDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         if ("Alternate_History".equals(projectionSelectionDTO.getFunctionality())) {
-            tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_LABEL, String.class);
+            tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, Constant.LEVEL_NAME_LABEL, String.class);
             tableHeaderDTO.addDoubleColumn(Constant.GROUP1_SMALL, " ");
-            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.LEVELNAME});
+            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.LEVEL_NAME});
         } else {
             tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-            tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_LABEL, String.class);
+            tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, Constant.LEVEL_NAME_LABEL, String.class);
             if (projectionSelectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 tableHeaderDTO.addSingleColumn(Constant.GROUP, "Group", String.class);
             }
             tableHeaderDTO.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
             tableHeaderDTO.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
             tableHeaderDTO.addDoubleColumn(Constant.GROUP1_SMALL, " ");
-            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVELNAME, Constant.GROUP, Constant.BASELINE, Constant.METHODOLOGY});
+            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVEL_NAME, Constant.GROUP, Constant.BASELINE, Constant.METHODOLOGY});
         }
         return tableHeaderDTO;
     }
@@ -663,7 +663,7 @@ public class HeaderUtils {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         CustomTableHeaderDTO excelDto = new CustomTableHeaderDTO();
         excelDto.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-        excelDto.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_LABEL, String.class);
+        excelDto.addSingleColumn(Constant.LEVEL_NAME, Constant.LEVEL_NAME_LABEL, String.class);
         excelDto.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
         excelDto.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
         return getCalculatedSalesColumnsforSales(selection, tableHeaderDTO, excelDto, sessionDTO);
@@ -1089,18 +1089,18 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getProjectionReturnsLeftTableColumns( CustomTableHeaderDTO excelDto) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, Constant.BRAND_CAPS, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, Constant.BRAND_CAPS, String.class);
         tableHeaderDTO.addSingleColumn("log", "Lag", String.class);
         tableHeaderDTO.addSingleColumn(Constant.CLOSED_DATE, "Closed Date", String.class);
         tableHeaderDTO.addSingleColumn(Constant.LOE_DATE, "LOE Date", String.class);
         tableHeaderDTO.addDoubleColumn(Constant.GROUP1_SMALL, " ");
-        tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVELNAME, "log", Constant.CLOSED_DATE, Constant.LOE_DATE});
-        excelDto.addSingleColumn(Constant.LEVELNAME, Constant.BRAND_CAPS, String.class);
+        tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVEL_NAME, "log", Constant.CLOSED_DATE, Constant.LOE_DATE});
+        excelDto.addSingleColumn(Constant.LEVEL_NAME, Constant.BRAND_CAPS, String.class);
         excelDto.addSingleColumn("log", "Lag", String.class);
         excelDto.addSingleColumn(Constant.CLOSED_DATE, "Closed Date", String.class);
         excelDto.addSingleColumn(Constant.LOE_DATE, "LOE Date", String.class);
         excelDto.addDoubleColumn(Constant.GROUP1_SMALL, " ");
-        excelDto.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVELNAME, "log", Constant.CLOSED_DATE, Constant.LOE_DATE});
+        excelDto.addDoubleHeaderMap(Constant.GROUP1_SMALL, new Object[]{Constant.CHECK, Constant.LEVEL_NAME, "log", Constant.CLOSED_DATE, Constant.LOE_DATE});
         return tableHeaderDTO;
     }
     

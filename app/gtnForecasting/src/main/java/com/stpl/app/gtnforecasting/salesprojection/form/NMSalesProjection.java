@@ -518,7 +518,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             excelHeader.addSingleColumn("dfLevelNumber", "Level Number", String.class);
             excelHeader.addSingleColumn("dfLevelName", "Level Name", String.class);
         } else{
-            excelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+            excelHeader.addSingleColumn(Constant.LEVEL_NAME, "Level Name", String.class);
         }
         
         if (projectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
@@ -549,7 +549,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_FIVE);
-            } else if (String.valueOf(obj).contains(Constant.LEVELNAME)) {
+            } else if (String.valueOf(obj).contains(Constant.LEVEL_NAME)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_ZERO);
             }
         }

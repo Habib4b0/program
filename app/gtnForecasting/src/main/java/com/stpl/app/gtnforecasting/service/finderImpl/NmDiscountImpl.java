@@ -103,7 +103,6 @@ public class NmDiscountImpl {
 
         LOGGER.debug(" Entering getDiscountProjection");
         try {
-//            String customSql = SQlUtil.getQuery(getClass(),"findViewByName");
             String declareStatement = "";
             String selectClause = "";
             String whereClause = "";
@@ -129,7 +128,6 @@ public class NmDiscountImpl {
                     + "					AND	DP.SESSION_ID = STDAA.SESSION_ID";
 
             String hierarchy = "";
-            // C indicates customer, P indicates product
             if (hierarchyIndicator.equals("C")) {
                 hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
             } else if (hierarchyIndicator.equals("P")) {
@@ -267,7 +265,6 @@ public class NmDiscountImpl {
 
                 selectClause += discountTypeColumnName + ", ";
 
-                // To filter the data according to selected period
                 String periodFilter = "";
                 if (!CommonUtils.isInteger(year)) {
                     periodFilter = "AND I.PERIOD_DATE " + getPeriodFilter();
@@ -396,7 +393,6 @@ public class NmDiscountImpl {
                         whereClause += " and B.USER_GROUP = '" + userGroup + "'";
                     }
                     String customSql = masterTableName + " B, PROJECTION_DETAILS E ,\n PROJECTION_MASTER F, "
-                            //                        + hierarchy + " G, "
                             + " RELATIONSHIP_LEVEL_DEFINITION H, \"PERIOD\" I , RS_MODEL J ,\n "
                             + ccpDetails + "\n "
                             + " where A.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID \n ";
@@ -417,8 +413,6 @@ public class NmDiscountImpl {
                     }
                     customSql += " and E.PROJECTION_MASTER_SID = F.PROJECTION_MASTER_SID \n "
                             + " and F.PROJECTION_MASTER_SID = " + projectionId
-                            //                        + " and G.PROJECTION_MASTER_SID = F.PROJECTION_MASTER_SID \n "
-                            //                        + " and G.RELATIONSHIP_LEVEL_SID = H.RELATIONSHIP_LEVEL_SID \n "
                             + " and E.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID \n "
                             + " and H.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n "
                             + " and A.PERIOD_SID = I.PERIOD_SID \n "
@@ -460,13 +454,11 @@ public class NmDiscountImpl {
 
                     orderBy = "\n order by " + orderBy + ", AP_TABLE_INDICATOR";
                     customQuery = declareStatement + historyQuery;
-//                        + "\n \n  UNION \n \n " + futureQuery + orderBy;
                     String altHisQuery = StringUtils.EMPTY;
                     altHisQuery = isAltHistory ? orderBy : "\n \n  UNION \n \n " + futureQuery + orderBy;
                     customQuery += altHisQuery;
                 }
             } else {
-                // To handle the scenario where any discount is not selected in program selection lookup
                 String discountTypeQuery = "";
                 if (discountList != null && !discountList.isEmpty()) {
                     String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
@@ -573,7 +565,6 @@ public class NmDiscountImpl {
         String tableName = mode ? "NM_DISCOUNT_PROJ_MASTER " : "ST_NM_DISCOUNT_PROJ_MASTER ";
         String customSql = StringUtils.EMPTY;
         try {
-            //      session = openSession();
 
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
@@ -636,14 +627,8 @@ public class NmDiscountImpl {
                 customSql += " OFFSET " + startIndex + " ROWS FETCH NEXT " + endIndex + " ROWS ONLY ";
             }
 
-            //  sqlQuery = session.createSQLQuery(customSql);
             List<String> returnList = new ArrayList<String>();
             returnList.add(customSql);
-//            if (!sqlQuery.list().isEmpty()) {
-//                for (Object[] objects : (List<Object[]>)sqlQuery.list()) {
-//                    returnList.add(String.valueOf(objects[0]));
-//                }
-//            }
             return returnList;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -651,7 +636,6 @@ public class NmDiscountImpl {
             return null;
         } finally {
             LOGGER.debug(" exiting getHierarchyListForCustomView");
-            //   closeSession(session);
         }
     }
 
@@ -662,7 +646,6 @@ public class NmDiscountImpl {
         String tableName = mode ? Constant.NM_DISCOUNT_PROJ_MASTER : "ST_NM_DISCOUNT_PROJ_MASTER ";
         String customSql = StringUtils.EMPTY;
         try {
-            //  session = openSession();
             String levelSelectionStatement = "";
             if (levelNo != 0) {
                 levelSelectionStatement = " WHERE HLD.LEVEL_NO = " + levelNo + " ";
@@ -712,14 +695,8 @@ public class NmDiscountImpl {
                 customSql += " OFFSET " + startIndex + " ROWS FETCH NEXT " + endIndex + " ROWS ONLY ";
             }
 
-            //      sqlQuery = session.createSQLQuery(customSql);
             List<String> returnList = new ArrayList<String>();
             returnList.add(customSql);
-//            if (!sqlQuery.list().isEmpty()) {
-//                for (Object[] objects : (List<Object[]>)sqlQuery.list()) {
-//                    returnList.add(String.valueOf(objects[0]));
-//                }
-//            }
             return returnList;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -727,7 +704,6 @@ public class NmDiscountImpl {
             return null;
         } finally {
             LOGGER.debug(" exiting getHierarchyList");
-            //  closeSession(session);
         }
     }
 
@@ -743,7 +719,6 @@ public class NmDiscountImpl {
                     + " JOIN " + CommonUtils.getViewTableName(hierarchyIndicator) + " PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
                     + " AND PCH.PROJECTION_MASTER_SID = " + projectionId + " \n"
                     + " WHERE RLD.HIERARCHY_NO LIKE '" + hierarchyNo + "%' and RLD.LEVEL_NO = " + (selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length()) + ") "
-                    //                    + " WHERE RLD.DOT_HIERARCHY_NO LIKE '" + hierarchyNo + "%' and RLD.LEVEL_NO = " + (selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length() + 1) + ") "
                     + " TEMP where TEMP.HIERARCHY_NO='" + selectedHiearchyNo + "'";
             list = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
@@ -868,7 +843,6 @@ public class NmDiscountImpl {
         LOGGER.debug(" inside updateCheckRecord");
         try {
             String hierarchy = "";
-            // C indicates customer, P indicates product
             if (hierarchyIndicator.equals("C")) {
                 hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
             } else if (hierarchyIndicator.equals("P")) {
@@ -975,7 +949,6 @@ public class NmDiscountImpl {
                     customSql += Constant.AND_MUSER_GROUP + userGroup + "'\n";
                 }
                 return HelperTableLocalServiceUtil.executeUpdateQueryCount(customSql);
-//                }
             }
 
         } catch (Exception e) {
@@ -1026,7 +999,6 @@ public class NmDiscountImpl {
                 int endYear = 0;
 
                 if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
-//                    LOGGER.debug(" startAndEndPeriods " + startAndEndPeriods.toString());
                     startFreq = startAndEndPeriods.get(0);
                     if (startAndEndPeriods.size() > 1) {
                         startYear = startAndEndPeriods.get(1);
@@ -1192,7 +1164,6 @@ public class NmDiscountImpl {
         String discountProjectionTableUpdateQuery = StringUtils.EMPTY;
         LOGGER.debug(" entering updateInputsForAdjustment");
         try {
-            // To updated DISCOUNT_PROJ_MASTER Table
             String baselinePeriods = "";
             String selectedPeriods = "";
             List<String> baselinePeriodsList;
@@ -1248,7 +1219,6 @@ public class NmDiscountImpl {
                 HelperTableLocalServiceUtil.executeUpdateQuery(masterTableUpdateQuery);
             }
 
-            // For updating DISCOUNT_PROJECTION Table 
             String period = "";
             if (frequency.equals(QUARTERLY.getConstant())) {
                 period = " CAST(PR.QUARTER AS CHAR(1)) + CAST(PR.\"YEAR\" AS char(4))";
@@ -1446,7 +1416,6 @@ public class NmDiscountImpl {
 
             String refreshName = customViewDetails.get(7);
             String hierarchy = "";
-            // C indicates customer, P indicates product
             if (hierarchyIndicator.equals("C")) {
                 hierarchy = Constant.PROJECTION_CUST_HIERARCHY;
             } else if (hierarchyIndicator.equals("P")) {
@@ -1780,8 +1749,6 @@ public class NmDiscountImpl {
             int endFreq = 0;
             int startYear = 0;
             int endYear = 0;
-            //  userId=22;
-            //  sessionId=22;
             String declareStatement = "";
             int startMonth = 0;
             int endMonth = 0;
@@ -1900,8 +1867,6 @@ public class NmDiscountImpl {
                     + " WHEN @END_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-12-31') \n "
                     + " END\n ";
 
-            // String periodFilter = " and  D.PERIOD_SID in (SELECT period_sid FROM \"PERIOD\" WHERE PERIOD_DATE>=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE "+selectedHistoryFrequency+" YEAR="+startYear+" ORDER BY PERIOD_SID)"
-            //    + "AND PERIOD_DATE<=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE "+selectedFutureFrequency+" YEAR="+endYear+" ORDER BY PERIOD_SID DESC))";
             if (projection.equals("Actuals")) {
                 sql = "select D.YEAR,D." + frequency + ",sum(B.ACTUAL_SALES) As ACTUAL_SALES,sum(B.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_ACTUAL_DISCOUNT B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + " and B.USER_ID=" + userId + " and A.SESSION_ID=" + sessionId + " and B.SESSION_ID=" + sessionId + " and A.PROJECTION_DETAILS_SID IN (" + idString + ") " + periodFilter + " group by D.YEAR,D." + frequency + " order by D.YEAR";
             }
@@ -1924,7 +1889,6 @@ public class NmDiscountImpl {
 
         String customQuery = "";
         try {
-//                String customSql = SQlUtil.getQuery(getClass(),"findViewByName");
             String selectClause = " select H.LEVEL_NO, H.LEVEL_NAME, H.RELATIONSHIP_LEVEL_VALUES, I.\"YEAR\" , ";
             String whereClause = "";
             String groupBy = ",H.LEVEL_NAME , I.\"YEAR\"";
@@ -1973,21 +1937,18 @@ public class NmDiscountImpl {
                 groupBy += Constant.I_MONTH;
             }
 
-            // To filter the data according to selected period
             String periodFilter = "";
             if (!CommonUtils.isInteger(year)) {
                 periodFilter = " and  I.PERIOD_SID in (SELECT period_sid FROM \"PERIOD\" WHERE PERIOD_DATE>=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE " + selectedHistoryFrequency + " YEAR=" + startYear + " ORDER BY PERIOD_SID)"
                         + "AND PERIOD_DATE<=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE " + selectedFutureFrequency + " YEAR=" + endYear + " ORDER BY PERIOD_SID DESC))";
             }
 
-            // To handle the scenario where any discount is not selected in program selection lookup
             String discountTypeColumnName = "'All_Discounts' as DISCOUNTS";
             if (discountList != null && !discountList.isEmpty()) {
                 if (!discountTotal.equalsIgnoreCase("Total")) {
                     discountTypeColumnName = " B.PRICE_GROUP_TYPE ";
                     groupBy += ", " + discountTypeColumnName;
                 }
-//                discountTypeColumnName = " B.PRICE_GROUP_TYPE ";
                 String selectedDiscounts = "";
                 String comma = ", ";
 
@@ -2126,23 +2087,6 @@ public class NmDiscountImpl {
                     + " and RSM.RS_NAME IN (" + discountName + ")"
                     + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID, RSM.RS_NAME ";
 
-//                    + " SELECT PR.YEAR,PR."+frequency+" AS BASE, MAX(NMSP.ACTUAL_SALES) AS ACTUAL_SALES, SUM(NMDP.ACTUAL_SALES)"
-//                    + " AS ACTUAL_DISCOUNT,MAX(NMSP.HISTORY_PROJECTION_SALES) AS PROJECTION_SALES, SUM(NMDP.ACTUAL_PROJECTION_SALES)\n"
-//                    + " AS PROJECTION_DISCOUNT,PR."+frequency+",PR.MONTH,RSM.RS_NAME FROM PROJECTION_DETAILS PD\n"
-//                    + " JOIN ST_NM_DISCOUNT_PROJ_MASTER NMDPM ON  NMDPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
-//                    + " JOIN ST_NM_ACTUAL_DISCOUNT NMDP ON NMDP.PROJECTION_DETAILS_SID =NMDPM.PROJECTION_DETAILS_SID\n"
-//                    + " AND NMDP.USER_ID = NMDPM.USER_ID AND NMDP.SESSION_ID = NMDPM.SESSION_ID AND NMDPM.RS_MODEL_SID = NMDP.RS_MODEL_SID\n"
-//                    + " JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID JOIN ST_NM_ACTUAL_SALES NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID\n"
-//                    + " JOIN ST_NM_SALES_PROJECTION_MASTER NMSPM ON NMSPM.PROJECTION_DETAILS_SID = NMSP.PROJECTION_DETAILS_SID \n"
-//                    + " AND NMSPM.USER_ID = NMSP.USER_ID AND NMSPM.SESSION_ID = NMSP.SESSION_ID\n"
-//                    + " AND NMSPM.USER_ID = NMDPM.USER_ID AND NMSPM.SESSION_ID = NMDPM.SESSION_ID "
-//                    + " AND PD.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID JOIN\n"
-//                    + " RS_MODEL RSM ON RSM.RS_MODEL_SID = NMDPM.RS_MODEL_SID AND RSM.RS_MODEL_SID = NMDP.RS_MODEL_SID"
-//                    + " WHERE PD.PROJECTION_DETAILS_SID in(" + idString + ") AND NMDPM.USER_ID =" + userId + ""
-//                    + " AND NMDPM.SESSION_ID =" + sessionId + " AND cast(PR.YEAR as varchar(4))+RIGHT ('0'+CAST(PR.MONTH AS VARCHAR),2) >=" + startPeriod + ""
-//                    + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + endPeriod + ""
-//                    + " and RSM.RS_NAME IN ("+discountName+")"
-//                    + " GROUP BY PR.YEAR,PR."+frequency+",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME ";
             if (frequency.equals("YEAR") || frequency.equals("MONTH")) {
                 if (view.get(0) != null && "Descending".equalsIgnoreCase(String.valueOf(view.get(0)))) {
                     projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR DESC,PR.MONTH DESC";
@@ -2395,7 +2339,6 @@ public class NmDiscountImpl {
                         + " END\n ";
 
                 if (actualsOrProjections.equals("Actuals")) {
-                    //  sql = "Select J.RS_NAME,sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (33930,33931,33932,33933,33934,33935,33936,33937,33938,33939,33940,33941,33942,33943) "+periodFilter+"group by J.RS_NAME";
                     sql = "Select J.RS_NAME from ST_NM_DISCOUNT_PROJ_MASTER A,PERIOD I,RS_MODEL J WHERE  A.USER_ID=" + userId + " and  A.SESSION_ID=" + sessionId + " and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS where PROJECTION_MASTER_SID='" + projectionMasterId + "') " + periodFilter + "group by J.RS_NAME";
                 }
                 if (actualsOrProjections.equals("Projections")) {
@@ -2769,24 +2712,6 @@ public class NmDiscountImpl {
                     + " and RSM.RS_NAME IN (" + discountName + ")"
                     + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID, RSM.RS_NAME ";
 
-//                    
-//                    + " SELECT PR.YEAR,PR." + frequency + " AS BASE, MAX(NMSP.ACTUAL_SALES) AS ACTUAL_SALES, SUM(NMDP.ACTUAL_SALES)\n"
-//                    + " AS ACTUAL_DISCOUNT,MAX(NMSP.HISTORY_PROJECTION_SALES) AS PROJECTION_SALES, SUM(NMDP.ACTUAL_PROJECTION_SALES)\n"
-//                    + " AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH,RSM.RS_NAME FROM PROJECTION_DETAILS PD\n"
-//                    + " JOIN ST_NM_DISCOUNT_PROJ_MASTER NMDPM ON  NMDPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
-//                    + " JOIN ST_NM_ACTUAL_DISCOUNT NMDP ON NMDP.PROJECTION_DETAILS_SID =NMDPM.PROJECTION_DETAILS_SID\n"
-//                    + " AND NMDP.USER_ID = NMDPM.USER_ID AND NMDP.SESSION_ID = NMDPM.SESSION_ID AND NMDPM.RS_MODEL_SID = NMDP.RS_MODEL_SID\n"
-//                    + " JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID JOIN ST_NM_ACTUAL_SALES NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID\n"
-//                    + " JOIN ST_NM_SALES_PROJECTION_MASTER NMSPM ON NMSPM.PROJECTION_DETAILS_SID = NMSP.PROJECTION_DETAILS_SID \n"
-//                    + " AND NMSPM.USER_ID = NMSP.USER_ID AND NMSPM.SESSION_ID = NMSP.SESSION_ID\n"
-//                    + " AND NMSPM.USER_ID = NMDPM.USER_ID AND NMSPM.SESSION_ID = NMDPM.SESSION_ID "
-//                    + " AND PD.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID JOIN\n"
-//                    + " RS_MODEL RSM ON RSM.RS_MODEL_SID = NMDPM.RS_MODEL_SID AND RSM.RS_MODEL_SID = NMDP.RS_MODEL_SID"
-//                    + " WHERE PD.PROJECTION_DETAILS_SID in (" + idString + ") AND NMDPM.USER_ID =" + userId + " "
-//                    + " AND NMDPM.SESSION_ID=" + sessionId + " AND cast(PR.YEAR as varchar(4))+RIGHT"
-//                    + " ('0'+CAST(PR.MONTH AS VARCHAR),2) >=" + startPeriod + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + endPeriod + " "
-//                    + " and RSM.RS_NAME IN ("+discountName+")"
-//                    + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME";
             if (frequency.equals("YEAR") || frequency.equals("MONTH")) {
                 sql = sql + " ORDER BY RSM.RS_NAME,PR.YEAR,PR.MONTH";
             } else {

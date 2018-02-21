@@ -788,7 +788,7 @@ public class Constant {
     public static final String FREQUENCY_SMALL = "Frequency";
     public static final String PERIOD_ORDER = "Period Order";
     public static final String VARIABLES = "Variables";
-    public static final String LEVELNAME = "levelName";
+    public static final String LEVEL_NAME = "levelName";
     public static final String UPDATE_SMALL = "Update";
     public static final String EDIT_CAPS = "EDIT";
     public static final String VIEW_CAPS = "VIEW";
@@ -829,7 +829,7 @@ public class Constant {
     public static final String COMPANY_MASTER = "COMPANY_MASTER";
     public static final String CONTRACT_MASTER = "CONTRACT_MASTER";
     public static final String ITEM_MASTER = "ITEM_MASTER";
-    public static final String HIERARCHYDEFINITIONSID = "hierarchyDefinitionSid";
+    public static final String HIERARCHY_DEFINITION_SID = "hierarchyDefinitionSid";
     public static final String UPDATE = "update";
     public static final String HELPER_TABLE_SID = "helperTableSid";
     public static final String LIST_NAME = "listName";
@@ -1268,7 +1268,7 @@ public class Constant {
     public static final String CCPD_DOT = " ccpd.";
     public static final String CONTRACT_MASTER_SID1 = "CONTRACT_MASTER_SID";
     public static final String ITEM_MASTER_SID1 = "ITEM_MASTER_SID";
-    public static final String WHERE_SPACE = " WHERE ";
+    public static final String SPACE_WHERE = " WHERE ";
     public static final String FROM_SPACE = " FROM ";
     public static final String COMPANY_MASTER_SID1 = "COMPANY_MASTER_SID";
     public static final String TABLE1 = "table";
@@ -1600,8 +1600,8 @@ public class Constant {
     public static final String SELECT_RECORD1 = "Select Record";
     public static final String SPACE_AND_SMALL = " and";
     public static final String SPACE_WHERE_SMALL = " where ";
-    public static final String ORDER_BYPRODUCT_GROUP_NAME = "orderBy~productGroupName";
-    public static final String ORDER_BYPRODUCT_GROUP_DESCRIPTION = "orderBy~productGroupDescription";
+    public static final String ORDER_BY_PRODUCT_GROUP_NAME = "orderBy~productGroupName";
+    public static final String ORDER_BY_PRODUCT_GROUP_DESCRIPTION = "orderBy~productGroupDescription";
     public static final String A = "A";
     public static final String GROUP_VALUE_VERIFICATION = "The group value entered conflicted with the group filter. Kindly Click Refresh button before proceeding this operation";
     public static final String CALCULATION_COMPLETE = "Calculation Complete";
@@ -1763,6 +1763,96 @@ public class Constant {
     public static final String ORDER_BY_COMPANY_NAME = "orderBy~companyName";
     public static final String DEDUCTION_LEVEL = "deductionLevel";
     public static final String ORDER_BY_PRODUCT_HIERARCHY_LEVEL = "orderBy~productHierarchyLevel";
+    public static final String SELECT_CMCONTRACT_MASTER_SID_FROM_CONTRACT = ", (SELECT CM.CONTRACT_MASTER_SID FROM CONTRACT_MASTER CM";
+    public static final String REMOVE_LEVELS = "removeLevels";
+    public static final String DELETE_TEMP_ON_UPDATE = "deleteTempOnUpdate";
+    public static final String JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON_CNT = "Join  IFP_CONTRACT_DETAILS IFP_CD_SID  ON  IFP_CD_SID.IFP_CONTRACT_SID=IFP_SID.IFP_CONTRACT_SID\n";
+    public static final String SELECT_DISTINCT_IFP_CD_SID_ITEM_MASTER_SID = "Select Distinct IFP_CD_SID.ITEM_MASTER_SID from CONTRACT_MASTER CM \n";
+    public static final String IS_NDC = "isNdc";
+    public static final String AVAILABLE_HIER_NO = "availableHierNo";
+    public static final String SAVE_CCP = "saveCcp";
+    public static final String JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON_I = "Join IFP_CONTRACT_DETAILS IFP_CD_SID ON IFP_CD_SID.IFP_CONTRACT_SID=IFP_SID.IFP_CONTRACT_SID\n";
+    public static final String DESCRIPTION_LIKE = "DESCRIPTION like '";
+    public static final String JOIN_RS_CONTRACT_RS_C_TYPE_ON_RS_C_TYPE = "Join RS_CONTRACT RS_C_TYPE ON RS_C_TYPE.CONTRACT_MASTER_SID=CM.CONTRACT_MASTER_SID AND \n";
+    public static final String ORDER_BY_DEDUCTION_VALUE = "orderBy~deductionValue";
+    public static final String SELECT_DISTINCT_IM_THERAPEUTIC_CLASS_FROM = "Select Distinct IM.THERAPEUTIC_CLASS from CONTRACT_MASTER CM\n";
+    public static final String SELECT_DISTINCT_IM_BRAND_MASTER_SID_FROM_C = "Select Distinct IM.BRAND_MASTER_SID from CONTRACT_MASTER CM\n";
+    public static final String HTBL = "?HTBL";
+    public static final String COMPANY_FILTER = "companyFilter";
+    public static final String GET_FS_VALUE = "getFSValue";
+    public static final String HNO = "?HNO";
+    public static final String AND_LIST_NAME = "' AND LIST_NAME='";
+    public static final String HAS_TRADING_PARTNER = "hasTradingPartner";
+    public static final String RL_SIDS = "rlSids";
+    public static final String AND_NEW_LINE = "AND\n";
+    public static final String OFFSET = "offset";
+    public static final String IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TABLE = " IN(Select HELPER_TABLE_SID from HELPER_TABLE where  ";
+    public static final String HIERARCHY_NO_LIKE = "HIERARCHY_NO LIKE '";
+    public static final String UNSAVED_PROJECTION_IDS = "getUnsavedProjectionIds";
+    public static final String CHILD_LEVEL_RL = "getChildLevelRL";
+    public static final String PID = "?PID";
+    public static final String JOIN_ITEM_MASTER_IM_ON_IM_ITEM_MASTER_SID = "Join ITEM_MASTER  IM ON IM.ITEM_MASTER_SID=IFP_CD_SID.ITEM_MASTER_SID AND\n";
+    public static final String ORDER_BY_DEDUCTION_LEVEL = "orderBy~deductionLevel";
+    public static final String GET_REMOVABLE_CHILDREN = "getRemovableChildren";
+    public static final String CHILD_LEVEL_RL_SID = "getChildLevelRLSid";
+    public static final String OFFSET_WITH_CAPS = " OFFSET ";
+    public static final String LEVEL_LOWER_CASE = "level";
+    public static final String IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT = "IFP_SID.CONTRACT_MASTER_SID IN (Select CONTRACT_MASTER_SID from RS_CONTRACT\n";
+    public static final String JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON = "Join IFP_CONTRACT_DETAILS IFP_CD_SID  ON  IFP_CD_SID.IFP_CONTRACT_SID=IFP_SID.IFP_CONTRACT_SID\n";
+    public static final String JOIN_IFP_CONTRACT_IFP_SID_ON_CM_CONTRACT_M = "Join IFP_CONTRACT IFP_SID ON CM.CONTRACT_MASTER_SID = IFP_SID.CONTRACT_MASTER_SID\n";
+    public static final String ROWS_FETCH_NEXT = " ROWS FETCH NEXT ";
+    public static final String RS_C_TYPE = "RS_C_TYPE.";
+    public static final String RLC = "?RLC?";
+    public static final String ROWS_ONLY = " ROWS ONLY;";
+    public static final String IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA = " IN(Select HELPER_TABLE_SID from HELPER_TABLE where DESCRIPTION like'";
+    public static final String DTBL = "?DTBL";
+    public static final String SPACE_ROWS_ONLY_SPACE = " ROWS ONLY ";
+    public static final String RELATIONSHIP_SID = "relationshipSid";
+    public static final String ORDER_BY_LOWEST_LEVEL = "orderBy~lowestLevel";
+    public static final String J1_WHERE_J1 = " J1 WHERE J1.";
+    public static final String ORDER_BY_HIGHEST_LEVEL = "orderBy~highestLevel";
+    public static final String FILTER_PRODUCT_GROUP_NO = "filter~productGroupNo";
+    public static final String FILTER_CUSTOMER_GROUP_DESCRIPTION = "filter~customergroupDescription";
+    public static final String WHERE_SPACE = "where ";
+    public static final String ACTION = "action";
+    public static final String FILTER_CUSTOMER_GROUP_NO = "filter~customerGroupNo";
+    public static final String ORDER_BY_HIERARCHY_NAME = "orderBy~hierarchyName";
+    public static final String HIERARCHY_NAME = "hierarchyName";
+    public static final String GET_HIERARCHY_GROUP = "getHierarchyGroup";
+    public static final String FILTER_PRODUCT_GROUP_NAME = "filter~productGroupName";
+    public static final String ORDER_BY = "?ORDER_BY?";
+    public static final String IN_EXECUTE_QUERY = " in execute query";
+    public static final String FILTER_LOWEST_LEVEL = "filter~lowestLevel";
+    public static final String SELECT_IM_ITEM_MASTER_SID_FROM_ITEM_MASTER = ", (SELECT IM.ITEM_MASTER_SID FROM ITEM_MASTER IM";
+    public static final String FILTER_HIERARCHY_NAME = "filter~hierarchyName";
+    public static final String FILTER_CUSTOMER_GROUP_NAME = "filter~customerGroupName";
+    public static final String START = "start";
+    public static final String FILTER_HIGHEST_LEVEL = "filter~highestLevel";
+    public static final String HIERARCHY_TYPE = "hierarchyType";
+    public static final String IS_FILTERED = "isFiltered";
+    public static final String SPACE_LIKE_SPACE = " like '";
+    public static final String COUNT = "count";
+    public static final String GROUP_IDENTIFIER = "groupIdentifier";
+    public static final String FILTER_PRODUCT_GROUP_DESCRIPTION = "filter~productgroupDescription";
+    public static final String SELECTION = "?SELECTION?";
+    public static final String ORDER_BY_PRODUCT_GROUP_NO = "orderBy~productGroupNo";
+    public static final String FILTER_PRODUCT_LEVEL = "filter~productLevel";
+    public static final String ORDER_BY_CUSTOMER_GROUP_DESCRIPTION = "orderBy~customergroupDescription";
+    public static final String ORDER_BY_CUSTOMER_LEVEL = "orderBy~customerLevel";
+    public static final String ORDER_BY_CUSTOMER_GROUP_NO = "orderBy~customerGroupNo";
+    public static final String ORDER_BY_CUSTOMER_GROUP_NAME = "orderBy~customerGroupName";
+    public static final String FILTER_CUSTOMER_GROUP = "filter~customerGroup";
+    public static final String ORDER_BY_PRODUCT_LEVEL = "orderBy~productLevel";
+    public static final String FILTER_BRAND_TYPE = "filter~brandType";
+    public static final String ORDER_BY_PRODUCT_GROUP = "orderBy~productGroup";
+    public static final String FILTER_CUSTOMER_LEVEL = "filter~customerLevel";
+    public static final String ORDER_BY_VIEW_NAME = "orderBy~viewName";
+    public static final String ORDER_BY_CUSTOMER_GROUP = "orderBy~customerGroup";
+    public static final String FILTER_VIEW_NAME = "filter~viewName";
+    public static final String ORDER_BY_BRAND_TYPE = "orderBy~brandType";
+    public static final String ORDER_BY_FROM = "orderBy~from";
+    public static final String ORDER_BY_TO = "orderBy~to";
+    public static final String QUESTION_FILTER_QUESTION = "?FILTER?";
 
     /**
      * Enum for Frequency constants
@@ -1771,7 +1861,7 @@ public class Constant {
 
         ANNUAL("Annual"),
         ANNUALLY("Annually"),
-        YEAR("Year"),UPDATE_M_SET_CHECK_RECORD
+        YEAR("Year"),
         YEARS("Years"),
         SEMI_ANNUAL("Semi-Annual"),
         SEMI_ANNUALLY(SEMIANNUALLY),
