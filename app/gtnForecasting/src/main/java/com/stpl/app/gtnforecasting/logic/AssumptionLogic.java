@@ -18,6 +18,7 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.gtnforecasting.utils.Converters;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.math.BigDecimal;
@@ -470,7 +471,7 @@ public class AssumptionLogic {
         input.add(session.getProjectionId());
         input.add(session.getUserId());
         input.add(session.getSessionId());
-        return Integer.parseInt(String.valueOf(assumptionDAO.getAssumptionResults(input, "assumption.totalCount").get(0)));
+        return DataTypeConverter.convertObjectToInt(assumptionDAO.getAssumptionResults(input, "assumption.totalCount").get(0));
     }
 
     /**
@@ -502,7 +503,7 @@ public class AssumptionLogic {
         List<Object> input = new ArrayList<>();
         input.add(session.getUserId());
         input.add(session.getSessionId());
-        return Integer.parseInt(String.valueOf(assumptionDAO.getAssumptionResults(input, "assumption.checkedCount").get(0)));
+        return DataTypeConverter.convertObjectToInt(assumptionDAO.getAssumptionResults(input, "assumption.checkedCount").get(0));
     }
 
     /**
@@ -514,6 +515,6 @@ public class AssumptionLogic {
         List<Object> input = new ArrayList<>();
         input.add(session.getUserId());
         input.add(session.getSessionId());
-        return Integer.parseInt(String.valueOf(assumptionDAO.getAssumptionResults(input, "assumption.childCheckForAddLine").get(0)));
+        return DataTypeConverter.convertObjectToInt(assumptionDAO.getAssumptionResults(input, "assumption.childCheckForAddLine").get(0));
     }
 }

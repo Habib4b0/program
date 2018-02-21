@@ -39,6 +39,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.SALES_PERC_OF_EX_FACTO
 import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.LabelConstants.UNITS;
 import static com.stpl.app.utils.Constants.LabelConstants.UNIT_VOL;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
@@ -118,7 +119,7 @@ public class NMSalesProjectionResultsLogic {
 						sprDTO = new SalesProjectionResultsDTO();
 						final Object[] levelObj = (Object[]) levelCount.get(j);
 						sprDTO.addStringProperties(Constant.LEVEL_VALUE_SMALL, String.valueOf(levelObj[1]));
-						sprDTO.setLevelNo(Integer.parseInt(String.valueOf(levelObj[0])));
+						sprDTO.setLevelNo(DataTypeConverter.convertObjectToInt(levelObj[0]));
 						sprDTO.setHierarchyNo(String.valueOf(levelObj[NumericConstants.TWO]));
 						salesDTO = new SalesProjectionResultsDTO();
 						unitsDTO = new SalesProjectionResultsDTO();
@@ -215,8 +216,8 @@ public class NMSalesProjectionResultsLogic {
 				paramArray[0] = NumericConstants.TWO_SEVEN_EIGHT;
 				paramArray[1] = frequency;
 				paramArray[2] = StringUtils.EMPTY;
-				paramArray[3] = Integer.parseInt(String.valueOf(selections[NumericConstants.EIGHT]));
-				paramArray[4] = Integer.parseInt(String.valueOf(selections[NumericConstants.SEVEN]));
+				paramArray[3] = DataTypeConverter.convertObjectToInt(selections[NumericConstants.EIGHT]);
+				paramArray[4] = DataTypeConverter.convertObjectToInt(selections[NumericConstants.SEVEN]);
 				List gtsList = GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray);
 				if (sprList != null && !sprList.isEmpty()) {
 					List<List> list = getRowList(selections);
@@ -224,7 +225,7 @@ public class NMSalesProjectionResultsLogic {
 						sprDTO = new SalesProjectionResultsDTO();
 						final Object[] levelObj = (Object[]) levelCount.get(j);
 						sprDTO.addStringProperties(Constant.LEVEL_VALUE_SMALL, String.valueOf(levelObj[1]));
-						sprDTO.setLevelNo(Integer.parseInt(String.valueOf(levelObj[0])));
+						sprDTO.setLevelNo(DataTypeConverter.convertObjectToInt(levelObj[0]));
 						unitsDTO = new SalesProjectionResultsDTO();
 						for (int i = 0; i < sprList.size(); i++) {
 							salesDTO = new SalesProjectionResultsDTO();
@@ -348,8 +349,8 @@ public class NMSalesProjectionResultsLogic {
 		paramArray[0] = projectionID;
 		paramArray[1] = frequency;
 		paramArray[2] = StringUtils.EMPTY;
-		paramArray[3] = Integer.parseInt(sessionId);
-		paramArray[4] = Integer.parseInt(userId);
+		paramArray[3] = DataTypeConverter.convertStringtoInteger(sessionId);
+		paramArray[4] = DataTypeConverter.convertStringtoInteger(userId);
 
 		SalesProjectionResultsDTO gtsDTO = new SalesProjectionResultsDTO();
 		List<SalesProjectionResultsDTO> gtsList = new ArrayList<>();

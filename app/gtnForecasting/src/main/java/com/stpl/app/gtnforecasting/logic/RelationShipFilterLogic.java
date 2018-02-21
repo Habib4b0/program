@@ -6,6 +6,7 @@ import com.stpl.app.gtnforecasting.service.FileReadWriteService;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.QueryUtils;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
@@ -121,9 +122,9 @@ public class RelationShipFilterLogic {
 						Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])), resultsRelationList);
 				if (relationData.length > 0) {
 					dto.setRelationshipLevelValue(String.valueOf(relationData[0]));
-					dto.setLevelNo(Integer.parseInt(String.valueOf(relationData[1])));
+					dto.setLevelNo(DataTypeConverter.convertObjectToInt(relationData[1]));
 					dto.setParentNode(String.valueOf(relationData[NumericConstants.TWO]));
-					dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(relationData[NumericConstants.THREE])));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(relationData[NumericConstants.THREE]));
 					dto.setHierarchyNo(String.valueOf(relationData[NumericConstants.FOUR]));
 					dto.setRelationShipBuilderId(String.valueOf(relationData[NumericConstants.FIVE]));
 					dto.setLevel(String.valueOf(obj[NumericConstants.ZERO]));
@@ -204,9 +205,9 @@ public class RelationShipFilterLogic {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
 				Object[] obj = resultsDataList.get(i);
 				dto.setRelationshipLevelValue(String.valueOf(obj[0]));
-				dto.setLevelNo(Integer.parseInt(String.valueOf(obj[1])));
+				dto.setLevelNo(DataTypeConverter.convertObjectToInt(obj[1]));
 				dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-				dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+				dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
 				dto.setHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]));
 				dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.FIVE]));
 				dto.setLevel(String.valueOf(obj[NumericConstants.SIX]));
@@ -254,9 +255,9 @@ public class RelationShipFilterLogic {
 						Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])), resultsRelationList);
 				if (relationData.length > 0) {
 					dto.setRelationshipLevelValue(String.valueOf(relationData[0]));
-					dto.setLevelNo(Integer.parseInt(String.valueOf(relationData[1])));
+					dto.setLevelNo(DataTypeConverter.convertObjectToInt(relationData[1]));
 					dto.setParentNode(String.valueOf(relationData[NumericConstants.TWO]));
-					dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(relationData[NumericConstants.THREE])));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(relationData[NumericConstants.THREE]));
 					dto.setHierarchyNo(String.valueOf(relationData[NumericConstants.FOUR]));
 					dto.setRelationShipBuilderId(String.valueOf(relationData[NumericConstants.FIVE]));
 					dto.setLevel(String.valueOf(obj[NumericConstants.ZERO]));
@@ -809,7 +810,7 @@ public class RelationShipFilterLogic {
 			levelDto.setHierarchyId(getIntegerValue(objects, 6));
 			levelDto.setRelationshipLevelValue(String.valueOf(objects[7]));
 			levelDto.setParentNode(String.valueOf(objects[NumericConstants.EIGHT]));
-			levelDto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.NINE])));
+			levelDto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.NINE]));
 			levelDto.setHierarchyNo(String.valueOf(objects[NumericConstants.TEN]));
 			levelDto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.ELEVEN]));
 			if (descriptionMap != null) {
@@ -843,7 +844,7 @@ public class RelationShipFilterLogic {
 			levelDto.setHierarchyId((Integer.valueOf(objects[6] == null ? "0" : objects[6].toString())));
 			levelDto.setRelationshipLevelValue(String.valueOf(objects[7]));
 			levelDto.setParentNode(String.valueOf(objects[NumericConstants.EIGHT]));
-			levelDto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.NINE])));
+			levelDto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.NINE]));
 			levelDto.setHierarchyNo(String.valueOf(objects[NumericConstants.TEN]));
 			levelDto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.ELEVEN]));
 			resultList.add(levelDto);

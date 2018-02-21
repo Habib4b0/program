@@ -30,6 +30,7 @@ import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
@@ -111,8 +112,8 @@ public class SalesProjectionLogic {
                 statement.setObject(1, inputs[0]); //  @BASLINE_PERIODS 
                 statement.setObject(NumericConstants.TWO, inputs[1]); //  @SELECTED_PERIODS
                 statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.FOUR, Integer.parseInt((String) inputs[NumericConstants.THREE])); //  @USER_ID
-                statement.setObject(NumericConstants.FIVE, Integer.parseInt((String) inputs[NumericConstants.FOUR])); //  @SESSION_ID
+                statement.setObject(NumericConstants.FOUR, DataTypeConverter.convertObjectToInt(inputs[NumericConstants.THREE])); //  @USER_ID
+                statement.setObject(NumericConstants.FIVE, DataTypeConverter.convertObjectToInt(inputs[NumericConstants.FOUR])); //  @SESSION_ID
 
                 status = statement.execute();
             }
@@ -175,8 +176,8 @@ public class SalesProjectionLogic {
 
                 statement = connection.prepareCall("{call PRC_NM_SALES_PROJECTION (?,?,?)}");
                 statement.setObject(1, inputs[0]);
-                statement.setObject(NumericConstants.TWO, Integer.parseInt((String) inputs[NumericConstants.NINE]));
-                statement.setObject(NumericConstants.THREE, Integer.parseInt((String) inputs[NumericConstants.TEN]));
+                statement.setObject(NumericConstants.TWO, DataTypeConverter.convertObjectToInt(inputs[NumericConstants.NINE]));
+                statement.setObject(NumericConstants.THREE, DataTypeConverter.convertObjectToInt(inputs[NumericConstants.TEN]));
 //  @PROJECTION_SID
                 status = statement.execute();
             }
@@ -311,8 +312,8 @@ public class SalesProjectionLogic {
                 statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]);
                 statement.setObject(NumericConstants.FOUR, inputs[NumericConstants.THREE]);
                 statement.setObject(NumericConstants.FIVE, inputs[NumericConstants.FOUR]);
-                statement.setObject(NumericConstants.SIX, Integer.parseInt((String) inputs[NumericConstants.FIVE]));
-                statement.setObject(NumericConstants.SEVEN, Integer.parseInt((String) inputs[NumericConstants.SIX]));
+                statement.setObject(NumericConstants.SIX, DataTypeConverter.convertObjectToInt(inputs[NumericConstants.FIVE]));
+                statement.setObject(NumericConstants.SEVEN, DataTypeConverter.convertObjectToInt(inputs[NumericConstants.SIX]));
 
                 status = statement.execute();
             }
@@ -347,8 +348,8 @@ public class SalesProjectionLogic {
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_NM_SALES_INSERT (?,?,?)}");
                 statement.setObject(1, inputs[0]);
-                statement.setObject(NumericConstants.TWO, Integer.parseInt((String) inputs[1]));
-                statement.setObject(NumericConstants.THREE, Integer.parseInt((String) inputs[NumericConstants.TWO]));
+                statement.setObject(NumericConstants.TWO, DataTypeConverter.convertObjectToInt(inputs[1]));
+                statement.setObject(NumericConstants.THREE, DataTypeConverter.convertObjectToInt(inputs[NumericConstants.TWO]));
 
                 status = statement.execute();
             }
@@ -1015,8 +1016,8 @@ public class SalesProjectionLogic {
 
            
                 statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.TWO, Integer.parseInt(session.getUserId())); //  @USER_ID
-                statement.setObject(NumericConstants.THREE, Integer.parseInt(session.getSessionId())); //  @SESSION_ID
+                statement.setObject(NumericConstants.TWO, DataTypeConverter.convertStringtoInteger(session.getUserId())); //  @USER_ID
+                statement.setObject(NumericConstants.THREE, DataTypeConverter.convertStringtoInteger(session.getSessionId())); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
                 status = statement.execute();
             }
@@ -1120,7 +1121,7 @@ public class SalesProjectionLogic {
 
         for (String companyKey : finalMap.keySet()) {
             values = finalMap.get(companyKey);
-            lastValue = values.get(Integer.parseInt(year + StringUtils.EMPTY + quator));
+            lastValue = values.get(DataTypeConverter.convertStringtoInteger(year + StringUtils.EMPTY + quator));
             totalValue = totalValue.add(BigDecimal.valueOf(lastValue));
         }
 

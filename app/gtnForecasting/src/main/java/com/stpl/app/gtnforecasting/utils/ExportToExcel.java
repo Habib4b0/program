@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.Property;
 import java.util.Date;
@@ -163,7 +164,7 @@ public class ExportToExcel extends ExcelExport {
                     } else {
                         try {
                             // parse all numbers as double, the format will determine how they appear
-                            final Double d = Double.parseDouble(value.toString());
+                            final Double d = DataTypeConverter.convertObjectToDouble(value);
                             sheetCell.setCellValue(d);
                             sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         } catch (final NumberFormatException nfe) {

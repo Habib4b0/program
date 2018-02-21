@@ -78,6 +78,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.REBATE_PER_UNIT;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -980,9 +981,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 Object mapValue = map.get(Constant.FREQUENCY);
 				frequencyDdlb.select(mapValue);
                                 mapValue = map.get(Constant.HISTORY);
-				historyDdlb.select(Integer.parseInt(String.valueOf((mapValue == null || StringUtils.isBlank(mapValue.toString())
+				historyDdlb.select(Integer.parseInt(((mapValue == null || StringUtils.isBlank(mapValue.toString())
 						|| mapValue.toString().equalsIgnoreCase(ANULL)) ? 0
-								: map.get(Constant.HISTORY))));
+								: map.get(Constant.HISTORY)).toString()));
                                 mapValue = map.get(Constant.PROJECTION_PERIOD_ORDER_LABEL);
 				periodOrder.select(mapValue);
                                 mapValue = map.get(Constant.ACTUALS_PROJECTIONS);
@@ -1002,7 +1003,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     CommonLogic.unCheckMultiSelect(productFilterValues);
                                     }
                                 mapValue = map.get(Constant.CUSTOMER_LEVEL_DDLB);
-                                customerlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue)? SELECT_ONE.getConstant() : Integer.parseInt(mapValue.toString()));
+                                customerlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue)? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
                                 mapValue = map.get(Constant.CUSTOMER_LEVEL_VALUE);
                                 if (!CommonUtil.nullCheck(mapValue)) {
                                     CommonUtil.setCustomMenuBarValuesInEdit(mapValue, customerFilterValues);
@@ -1012,7 +1013,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
                                 ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
                                 mapValue = map.get(Constant.PRODUCT_LEVEL_DDLB);
-                                productlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : Integer.parseInt(mapValue.toString()));
+                                productlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
                                 mapValue = map.get(Constant.PRODUCT_LEVEL_VALUE);
                                 if (!CommonUtil.nullCheck(mapValue)) {
                                     CommonUtil.setCustomMenuBarValuesInEdit(mapValue, productFilterValues);
@@ -1022,7 +1023,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
                                 ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
                                 mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
-                                deductionlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : Integer.parseInt(mapValue.toString()));
+                                deductionlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
                                 mapValue = map.get(Constant.DEDUCTION_LEVEL_VALUE);
                                 if (!CommonUtil.nullCheck(mapValue)) {
                                     CommonUtil.setCustomMenuBarValuesInEdit(mapValue, deductionFilterValues);

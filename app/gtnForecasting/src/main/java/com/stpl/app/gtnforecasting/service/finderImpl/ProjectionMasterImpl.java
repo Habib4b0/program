@@ -10,6 +10,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.CommonUtils;
 import com.stpl.app.serviceUtils.Constants;
 import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1174,7 +1175,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                                     + "AND RLD.RELATIONSHIP_BUILDER_SID=" + temp + ";";
 
                             list = HelperTableLocalServiceUtil.executeSelectQuery(hierarchyQuery);
-                            level = Integer.parseInt(String.valueOf(HelperTableLocalServiceUtil.executeSelectQuery(levelQuery).get(0)));
+                            level = DataTypeConverter.convertObjectToInt(HelperTableLocalServiceUtil.executeSelectQuery(levelQuery).get(0));
                             List<StringBuilder> logic = new ArrayList<StringBuilder>();
                             List<String> condition = new ArrayList<String>();
                             StringBuilder ccpQuery = new StringBuilder("MERGE CCP_MAP AS TARGET USING ( "
@@ -1184,7 +1185,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                             String nextHierarchyNo = StringUtils.EMPTY;
                             for (int i = 0; i < list.size(); i++) {
                                 Object[] tempRow = (Object[]) list.get(i);
-                                Integer currNo = Integer.parseInt(String.valueOf(tempRow[2]));
+                                Integer currNo = DataTypeConverter.convertObjectToInt(tempRow[2]);
 
                                 if (i < list.size() - 1) {
                                     Object[] tempNextRow = (Object[]) list.get(i + 1);
