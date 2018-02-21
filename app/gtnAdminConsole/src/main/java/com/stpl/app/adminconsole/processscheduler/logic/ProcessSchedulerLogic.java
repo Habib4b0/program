@@ -105,7 +105,7 @@ public class ProcessSchedulerLogic {
 				}
 			}
 			String query = CommonUtil.workFlowQuery(start, offset, count, scheduler, dbColumnName, asc);
-			LOGGER.debug("======schedule===query=======" + query);
+			LOGGER.debug("schedule query = {}" , query);
 			List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 			if (count) {
 				return list;
@@ -135,7 +135,7 @@ public class ProcessSchedulerLogic {
 	}
 
 	private List getCustomizedSchedulerProcessing(List list) throws SystemException {
-		LOGGER.debug("Entering getCustomizedSchedulerProcessing" + list.size());
+		LOGGER.debug("Entering getCustomizedSchedulerProcessing= {}" , list.size());
 		List<ProcessSchedulerDTO> returnList = new ArrayList<>();
 		SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		SimpleDateFormat date1 = new SimpleDateFormat("MM/dd/yyyy");
@@ -146,7 +146,7 @@ public class ProcessSchedulerLogic {
 				Object[] obj = (Object[]) list.get(i);
 				ProcessSchedulerDTO dto = new ProcessSchedulerDTO();
 				dto.setProcessSid(Integer.valueOf(String.valueOf(obj[0])));
-				LOGGER.debug("==========obj[1]=======" + obj[1]);
+				LOGGER.debug("obj[1]= {}" , obj[1]);
 				dto.setProcessName(String.valueOf(obj[1]));
 				dto.setStatus("Y".equals(String.valueOf(obj[NumericConstants.TWO])) ? ACTIVE_LABEL
 						: "N".equals(String.valueOf(obj[NumericConstants.TWO])) ? "Inactive" : StringUtils.EMPTY);
@@ -175,7 +175,7 @@ public class ProcessSchedulerLogic {
 			}
 		}
 
-		LOGGER.debug("Ending getCustomizedSchedulerProcessing" + returnList.size());
+		LOGGER.debug("Ending getCustomizedSchedulerProcessing= {}" , returnList.size());
 		return returnList;
 	}
 
@@ -280,9 +280,9 @@ public class ProcessSchedulerLogic {
 
 	public void runJob(FtpProperties ftpProperties, String scriptName) {
 		try {
-			LOGGER.debug("Script Name==========================>" + scriptName);
+			LOGGER.debug("Script Name= {}" , scriptName);
 			String jbossHome=getJbossHome();
-			LOGGER.debug("jboss Home==========================>" + jbossHome);
+			LOGGER.debug("jboss Home= {}" , jbossHome);
 			if (!StringUtils.isBlank(jbossHome)) {
 					java.util.Properties prop =getPropertyFile(getPropertyPath());
 				    java.util.Properties prop1 = getPropertyFile(jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
@@ -298,7 +298,7 @@ public class ProcessSchedulerLogic {
 	}
 
 	public void runShellScript(String scriptUrl) {
-		LOGGER.info("Entering runShellScript with " + scriptUrl);
+		LOGGER.info("Entering runShellScript with= {} " , scriptUrl);
 		GtnWsCallEtlService  etlService=new GtnWsCallEtlService();
 		etlService.runShellScript(scriptUrl);
 	}
@@ -378,7 +378,7 @@ public class ProcessSchedulerLogic {
 		}
 		resultCountList = (List) HelperTableLocalServiceUtil.executeSelectQuery(countQuery);
 		count = getCount(resultCountList);
-		LOGGER.debug("Count For method" + count);
+		LOGGER.debug("Count For method= {}" , count);
 		return count;
 	}
 
@@ -504,7 +504,7 @@ public class ProcessSchedulerLogic {
 	 *             the system exception
 	 */
 	public static List<HelperDTO> getDropDownList(final String listName) throws SystemException {
-		LOGGER.debug("Entering getDropDownList p1:" + listName);
+		LOGGER.debug("Entering getDropDownList p1= {}" , listName);
 		final List<HelperDTO> helperList = new ArrayList<>();
                 DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
                 dynamicQuery.add(RestrictionsFactoryUtil.eq("listName", listName));
@@ -516,7 +516,7 @@ public class ProcessSchedulerLogic {
 
 			}
 		}
-		LOGGER.debug("return DropDownList :" + helperList.size());
+		LOGGER.debug("return DropDownList = {}" , helperList.size());
 		return helperList;
 	}
 
@@ -682,7 +682,7 @@ public class ProcessSchedulerLogic {
 					statement.setString(1, ids);
 					resultSet = statement.executeQuery();
 					objectList = convertResultSetToList(resultSet);
-					LOGGER.debug("After Converting objectList size " + objectList.size());
+					LOGGER.debug("After Converting objectList size= {} " , objectList.size());
 				} catch (SQLException ex)
                                 {
                                     LOGGER.debug(ex.getMessage());
@@ -741,7 +741,7 @@ public class ProcessSchedulerLogic {
 			deleteQuery = SQlUtil.getQuery(deleteQuery);
 			HelperTableLocalServiceUtil.executeUpdateQuery(deleteQuery);
 		} catch (Exception ex) {
-			LOGGER.debug("Intial Session Delete QUERY ERROR--> " + deleteQuery);
+			LOGGER.debug("Intial Session Delete QUERY ERROR= {} " , deleteQuery);
 			LOGGER.error(ex.getMessage());
 		}
 	}
@@ -911,7 +911,7 @@ public class ProcessSchedulerLogic {
 
 		if (cffIds != null && cffIds.size() != 0) {
 			try {
-				LOGGER.debug("Inside cffOutboundInsertProc with cffids" + cffIds.size());
+				LOGGER.debug("Inside cffOutboundInsertProc with cffids= {}" , cffIds.size());
 				StringBuilder sb = new StringBuilder(
 						"DECLARE @CFF_DETAILS_SID UDT_ITEM\n" + "INSERT INTO  @CFF_DETAILS_SID\n");
 				for (int i = 0; i < cffIds.size(); i++) {
@@ -1091,7 +1091,7 @@ public class ProcessSchedulerLogic {
 	 */
 	public static int getLazyHierarchyNameCount(final String filterText) throws SystemException {
 		final String filterText1 = StringUtils.trimToEmpty(filterText) + "%";
-		LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText1);
+		LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText= {}" , filterText1);
 		final DynamicQuery dynamicQuery = HierarchyDefinitionLocalServiceUtil.dynamicQuery();
 		dynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.HIERARCHY_DEFINITION_ID));
 		dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.HIERARCHY_NAME, filterText1));
@@ -1116,7 +1116,7 @@ public class ProcessSchedulerLogic {
 	public static List<HelperDTO> getLazyHierarchyNameResults(final int start, final int end, final String filteredText)
 			throws SystemException {
 		final String filterText = StringUtils.trimToEmpty(filteredText) + "%";
-		LOGGER.debug("Entering getLazyHierarchyNameResults method with filterText" + filterText);
+		LOGGER.debug("Entering getLazyHierarchyNameResults method with filterText= {}" , filterText);
 		final List<HelperDTO> list = new ArrayList<>();
 
 		final DynamicQuery dynamicQuery = HierarchyDefinitionLocalServiceUtil.dynamicQuery();
@@ -1147,7 +1147,7 @@ public class ProcessSchedulerLogic {
 			}
 		}
 
-		LOGGER.debug("return getLazyHierarchyNameResults size -" + list.size());
+		LOGGER.debug("return getLazyHierarchyNameResults size ={}" , list.size());
 		return list;
 	}
 	public String buildUrl(String scriptName, Properties prop) {

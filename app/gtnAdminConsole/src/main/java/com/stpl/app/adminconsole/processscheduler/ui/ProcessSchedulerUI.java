@@ -64,8 +64,8 @@ public class ProcessSchedulerUI extends UI {
             final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
             String sessionId=fmtID.format(tempDate);
             sessionDTO.setArpSessionId(sessionId);
-            LOGGER.info("USER_ID: "+userId);
-            LOGGER.info("SESSION_ID: "+sessionId);
+            LOGGER.info("USER_ID= {} ", userId);
+            LOGGER.info("SESSION_ID= {} ", sessionId);
             VaadinSession.getCurrent().setConverterFactory(new DateToStringConverterFactory());
             navigator = new Navigator(this, this);
             navigator.addView(processSchedulerView.NAME, new processSchedulerView(sessionDTO));

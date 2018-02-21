@@ -171,7 +171,7 @@ public class StplSecurity {
      * @throws SystemException the system exception
      */
     public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName) throws PortalException, SystemException {
-        LOGGER.debug("" + userId);
+        LOGGER.debug("{}" , userId);
         Map<String, AppPermission> functionHm;
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
@@ -340,7 +340,7 @@ public class StplSecurity {
             editPermission = getModePermission(businessRoleIds, moduleName, false, false, true, false);
         }
         final Map<String, AppPermission> fieldHm = listOfFieldAppPermissionMap(tabPermissionList, addPermission, viewPermission, editPermission, FIELD_VALUE);
-        LOGGER.debug("End of getBusinessFieldPermission() with fieldHm value size=" + fieldHm.size());
+        LOGGER.debug("End of getBusinessFieldPermission() with fieldHm value size= {}" , fieldHm.size());
         return fieldHm;
     }
 
@@ -369,7 +369,7 @@ public class StplSecurity {
 
             }
         }
-        LOGGER.debug("End of listToAppPermissionMap() with permissionHm value size=" + permissionHm.size());
+        LOGGER.debug("End of listToAppPermissionMap() with permissionHm value size={}" , permissionHm.size());
         return permissionHm;
     }
 

@@ -699,7 +699,7 @@ public class CommonUtils {
             final Object[] obj = resultList.get(i);
             results.put(String.valueOf(obj[0]), String.valueOf(obj[1]));
         }
-        LOGGER.debug("getHierarchyInfo return HashMap results size:" + results.size());
+        LOGGER.debug("getHierarchyInfo return HashMap results size= {}" , results.size());
         return results;
     }
 }

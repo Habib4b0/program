@@ -385,13 +385,13 @@ public class QuartzListener implements ServletContextListener {
 	public static void DeleteSchedule() {
 		try {
 			String time = getTimeConstant();
-			LOGGER.debug("time" + time);
+			LOGGER.debug("time= {}" , time);
 			String[] hrs = time.split("hrs");
 			JobDataMap jobDataMap = new JobDataMap();
 			jobDataMap.put(ACTION_JOB_DATA_MAP_KEY, "Delete");
 			JobDetail job1 = JobBuilder.newJob(QuartzJob.class).setJobData(jobDataMap)
 					.withIdentity(ConstantsUtils.JOB + "deleteJob", GROUP).storeDurably().build();
-			LOGGER.debug(hrs[0] + "hrs" + hrs[1]);
+			LOGGER.debug("hrs[0]= {}, hrs[1]= {}" , hrs[0], hrs[1]);
 			scheduler.addJob(job1, false);
 			Trigger trigger2 = TriggerBuilder.newTrigger().forJob(job1)
 					.withIdentity(ConstantsUtils.TRIGGER + "deleteTrigger").withSchedule(CronScheduleBuilder
