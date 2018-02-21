@@ -6,6 +6,7 @@
 package com.stpl.app.gcm.impl;
 
 import com.stpl.app.gcm.util.Constants;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.Iterator;
@@ -104,23 +105,23 @@ public class IfpContractDetailsImpl {
             if(StringUtils.isNotBlank(String.valueOf(filterMap.get("form")))){
                 sql += " AND im.FORM ="+Integer.valueOf(String.valueOf(filterMap.get("form")));
             }
-            if(filterMap.get("itemStatus") != null && !"null".equals(String.valueOf(filterMap.get("itemStatus"))) && StringUtils.isNotBlank(String.valueOf(filterMap.get("itemStatus")))){
-                 sql += " AND im.ITEM_STATUS ="+Integer.valueOf(String.valueOf(filterMap.get("itemStatus")));
+            if(filterMap.get(ConstantsUtils.ITEM_STATUS) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.ITEM_STATUS))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.ITEM_STATUS)))){
+                 sql += " AND im.ITEM_STATUS ="+Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.ITEM_STATUS)));
             }
-            if(filterMap.get("strength") != null && !"null".equals(String.valueOf(filterMap.get("strength"))) && StringUtils.isNotBlank(String.valueOf(filterMap.get("strength")))){
-                 sql += " AND im.STRENGTH ="+Integer.valueOf(String.valueOf(filterMap.get("strength")));
+            if(filterMap.get(ConstantsUtils.STRENGTH) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.STRENGTH))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.STRENGTH)))){
+                 sql += " AND im.STRENGTH ="+Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.STRENGTH)));
             }
-            if(filterMap.get("therapeuticClass") != null && !"null".equals(String.valueOf(filterMap.get("therapeuticClass"))) && StringUtils.isNotBlank(String.valueOf(filterMap.get("therapeuticClass")))){
-                 sql += " AND im.THERAPEUTIC_CLASS ="+Integer.valueOf(String.valueOf(filterMap.get("therapeuticClass")));
+            if(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS)))){
+                 sql += " AND im.THERAPEUTIC_CLASS ="+Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS)));
             }
-             if(filterMap.get("packageSize") != null && !"null".equals(String.valueOf(filterMap.get("packageSize"))) && StringUtils.isNotBlank(String.valueOf(filterMap.get("packageSize")))){
-                 sql += " AND im.PACKAGE_SIZE ="+Integer.valueOf(String.valueOf(filterMap.get("packageSize")));
+             if(filterMap.get(ConstantsUtils.PACKAGE_SIZE) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.PACKAGE_SIZE))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.PACKAGE_SIZE)))){
+                 sql += " AND im.PACKAGE_SIZE ="+Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.PACKAGE_SIZE)));
             }
-               if(filterMap.get("itemDesc") != null && !"null".equals(String.valueOf(filterMap.get("itemDesc"))) && StringUtils.isNotBlank(String.valueOf(filterMap.get("itemDesc")))){
-                 sql += " AND im.ITEM_DESC LIKE '"+String.valueOf(filterMap.get("itemDesc"))+"'";
+               if(filterMap.get(ConstantsUtils.ITEM_DESC) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.ITEM_DESC))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.ITEM_DESC)))){
+                 sql += " AND im.ITEM_DESC LIKE '"+String.valueOf(filterMap.get(ConstantsUtils.ITEM_DESC))+"'";
             }
-               if(filterMap.get("brand") != null && !"null".equals(String.valueOf(filterMap.get("brand"))) && StringUtils.isNotBlank(String.valueOf(filterMap.get("brand")))){
-                 sql += " AND bm.BRAND_NAME LIKE '"+String.valueOf(filterMap.get("brand")+"'");
+               if(filterMap.get(ConstantsUtils.BRAND) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.BRAND))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.BRAND)))){
+                 sql += " AND bm.BRAND_NAME LIKE '"+String.valueOf(filterMap.get(ConstantsUtils.BRAND)+"'");
             }
             if (column!=null) {
                 sql += " ORDER BY "+column+" "+orderBy+" OFFSET "+start+" ROWS FETCH NEXT "+end+" ROWS ONLY";

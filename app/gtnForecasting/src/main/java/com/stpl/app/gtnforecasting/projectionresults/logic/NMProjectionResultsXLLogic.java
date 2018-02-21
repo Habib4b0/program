@@ -358,7 +358,7 @@ public class NMProjectionResultsXLLogic {
         } else if (frequencyDivision == 1) {
             commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : BASECOLUMN_YEAR_INDEX];
         } else if (frequencyDivision == NumericConstants.TWELVE) {
-            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX])) - 1);
+            String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX])) - 1);
             commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : BASECOLUMN_YEAR_INDEX];
         }
 
@@ -562,8 +562,8 @@ public class NMProjectionResultsXLLogic {
             Object[] obj = it.next();
             String key = "null".equals(String.valueOf(obj[NumericConstants.FIFTY_THREE])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[NumericConstants.FIFTY_THREE].toString();
             List<ProjectionResultsDTO> pvList = resultMap.get(key);
-            int year = Integer.valueOf(obj[BASECOLUMN_YEAR_INDEX].toString());
-            int period = Integer.valueOf(obj[frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX].toString());
+            int year = Integer.parseInt(obj[BASECOLUMN_YEAR_INDEX].toString());
+            int period = Integer.parseInt(obj[frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX].toString());
             if (year < selection.getHistoryStartYear() || ((year == selection.getHistoryStartYear()) && (period < selection.getHistoryStartPeriod()))) {
                 continue;
             }
@@ -586,8 +586,8 @@ public class NMProjectionResultsXLLogic {
             int listIndex = 0;
             for (ListIterator<Object[]> it = rawListDisc.listIterator(); it.hasNext();) {
                 Object[] obj = it.next(); 
-                int year = Integer.valueOf(obj[BASECOLUMN_YEAR_INDEX].toString());
-                int period = Integer.valueOf(obj[frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX].toString());
+                int year = Integer.parseInt(obj[BASECOLUMN_YEAR_INDEX].toString());
+                int period = Integer.parseInt(obj[frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX].toString());
                 if (year < selection.getHistoryStartYear() || ((year == selection.getHistoryStartYear()) && (period < selection.getHistoryStartPeriod()))) {
                     continue;
                 }
@@ -662,7 +662,7 @@ public class NMProjectionResultsXLLogic {
                 } else if (freqDivision == 1) {
                     commonColumn = StringUtils.EMPTY + obj[NumericConstants.TWO];
                 } else if (freqDivision == NumericConstants.TWELVE) {
-                    String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])) - 1);
+                    String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
                     commonColumn = monthName.toLowerCase() + obj[1];
                 }
                 String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
@@ -713,7 +713,7 @@ public class NMProjectionResultsXLLogic {
                     } else if (frequencyDiv == 1) {
                         commonColumn = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     } else if (frequencyDiv == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
                         commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE];
                     }
                     column1 = commonColumn + CURRENT;
@@ -734,7 +734,7 @@ public class NMProjectionResultsXLLogic {
                     } else if (frequencyDiv == 1) {
                         commonColumn = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     } else if (frequencyDiv == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
                         commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE];
                     }
                     String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
@@ -787,7 +787,7 @@ public class NMProjectionResultsXLLogic {
                             annualIndex = index - 1;
                             annualActRetIndex = actRetIndex - 1;
                         } else if (freqDiv == NumericConstants.TWELVE) {
-                            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])) - 1);
+                            String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
                             commonColumn = monthName.toLowerCase() + obj[discountIndex];
                         }
                         column1 = commonColumn + CURRENT;
@@ -818,7 +818,7 @@ public class NMProjectionResultsXLLogic {
                         } else if (freqDiv == 1) {
                             commonColumn = StringUtils.EMPTY + obj[discountIndex - 1];
                         } else if (freqDiv == NumericConstants.TWELVE) {
-                            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])) - 1);
+                            String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])) - 1);
                             commonColumn = monthName.toLowerCase() + obj[discountIndex];
                         }
                         if (freqDiv != 1) {
@@ -912,7 +912,7 @@ public class NMProjectionResultsXLLogic {
         } else if (frequencyDivision == 1) {
             commonColumn = StringUtils.EMPTY + obj[BASECOLUMN_YRDISC_INDEX];
         } else if (frequencyDivision == NumericConstants.TWELVE) {
-            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[BASECOLUMN_PERIODDISC_INDEX])) - 1);
+            String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[BASECOLUMN_PERIODDISC_INDEX])) - 1);
             commonColumn = monthName.toLowerCase() + obj[BASECOLUMN_YRDISC_INDEX];
         }
 

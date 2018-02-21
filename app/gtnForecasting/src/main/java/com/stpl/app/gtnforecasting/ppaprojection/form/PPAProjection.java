@@ -309,7 +309,7 @@ public class PPAProjection extends CustomComponent implements View {
      * variable to stop executing value change listener every time Except while
      * doing value change
      */
-    private static boolean valueChangeAllowed = Boolean.FALSE;
+    private boolean valueChangeAllowed = Boolean.FALSE;
     private boolean generateFlag = true;
     private Date oldDate;
     private final TableFieldFactory leftTableFieldFactory = getLeftTableFieldFactory();
@@ -344,7 +344,7 @@ public class PPAProjection extends CustomComponent implements View {
         }
         Panel panel = new Panel();
         panel.setContent(layout);
-        PPAProjection.valueChangeAllowed = Boolean.TRUE;
+        valueChangeAllowed = Boolean.TRUE;
         return panel;
 
     }
@@ -371,7 +371,7 @@ public class PPAProjection extends CustomComponent implements View {
                     checkRecord.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
-                            if (PPAProjection.valueChangeAllowed) {
+                            if (valueChangeAllowed) {
                                 Boolean booleanValue = checkRecord.getValue();
                                 savePPAProjection(propertyId.toString(), booleanValue, dto.getHirarechyNo(), Constant.LEFT);
                                 try {
@@ -410,7 +410,7 @@ public class PPAProjection extends CustomComponent implements View {
                                 group.addValueChangeListener(new Property.ValueChangeListener() {
                                     @Override
                                     public void valueChange(Property.ValueChangeEvent event) {
-                                        if (PPAProjection.valueChangeAllowed) {
+                                        if (valueChangeAllowed) {
                                             String groupValue = group.getValue();
                                             if (groupValue == null || StringUtils.EMPTY.equals(groupValue) || Constant.NULL.equals(groupValue)) {
                                                 return;
@@ -446,7 +446,7 @@ public class PPAProjection extends CustomComponent implements View {
                                 @Override
                                 public void valueChange(Property.ValueChangeEvent event) {
                                     try {
-                                        if (PPAProjection.valueChangeAllowed) {
+                                        if (valueChangeAllowed) {
                                             int statusValue = Integer.valueOf(status.getValue() == null ? DASH : String.valueOf(status.getValue()));
                                             ((PPAProjectionDTO) itemId).setPriceProtectionStatus(statusValue);
                                             tableHirarechyNos.add(tableLogic.getTreeLevelonCurrentPage(itemId));
@@ -542,8 +542,8 @@ public class PPAProjection extends CustomComponent implements View {
                                     comboBox.addValueChangeListener(new Property.ValueChangeListener() {
                                         @Override
                                         public void valueChange(Property.ValueChangeEvent event) {
-                                            if (PPAProjection.valueChangeAllowed) {
-                                                int ddlbValue = Integer.valueOf(String.valueOf(comboBox.getValue()));
+                                            if (valueChangeAllowed) {
+                                                int ddlbValue = Integer.parseInt(String.valueOf(comboBox.getValue()));
                                                 if (ddlbValue == -1) {
                                                     return;
                                                 }
@@ -580,7 +580,7 @@ public class PPAProjection extends CustomComponent implements View {
                                     textField.addValueChangeListener(new Property.ValueChangeListener() {
                                         @Override
                                         public void valueChange(Property.ValueChangeEvent event) {
-                                            if (PPAProjection.valueChangeAllowed) {
+                                            if (valueChangeAllowed) {
                                                 String textValue = textField.getValue();
                                                 if (textValue == null || StringUtils.EMPTY.equals(textValue) || Constant.NULL.equals(textValue)) {
                                                     savePPAProjection(propertyId.toString(), null, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.RIGHT);
@@ -593,7 +593,7 @@ public class PPAProjection extends CustomComponent implements View {
                                                 if (propId.contains(Constant.PPAColumns.NEP.getConstant())
                                                         || propId.contains(Constant.PPAColumns.PRICE_TOLERANCE.getConstant())
                                                         || propId.contains(Constant.PPAColumns.MAX_INCREMENTAL_CHANGE.getConstant())) {
-                                                    textValue = String.valueOf(Double.valueOf(textValue) / dto.getCCPCount());
+                                                    textValue = String.valueOf(Double.parseDouble(textValue) / dto.getCCPCount());
                                                 }
                                                 savePPAProjection(propertyId.toString(), textValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.RIGHT);
 
@@ -1016,7 +1016,7 @@ public class PPAProjection extends CustomComponent implements View {
             }
             boolean validationError = false;
             if (fieldDdlb.getValue() != null) {
-                PPAProjection.valueChangeAllowed = Boolean.FALSE;
+                valueChangeAllowed = Boolean.FALSE;
                 String fieldValue = fieldDdlb.getValue().toString().trim();
                 Object valueDdlbVal = valueDdlb.getValue();
                 Object groupValue = massGroup.getValue();
@@ -1051,7 +1051,7 @@ public class PPAProjection extends CustomComponent implements View {
                 int startYear = 0;
                 if (startPeriod.getValue() != null) {
                     startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
-                    startYear = Integer.valueOf(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+                    startYear = Integer.parseInt(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 } else if (startPeriod.isVisible()) {
                     MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_03"), ButtonId.OK);
                     return;
@@ -1100,7 +1100,7 @@ public class PPAProjection extends CustomComponent implements View {
             } else {
                 MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_09"), ButtonId.OK);
             }
-            PPAProjection.valueChangeAllowed = Boolean.TRUE;
+            valueChangeAllowed = Boolean.TRUE;
             valueChangeForColumnCheckBox = Boolean.FALSE;
         } catch (NumberFormatException e) {
             LOGGER.error("Error While doing mass Update :" + e.getMessage());
@@ -1179,11 +1179,11 @@ public class PPAProjection extends CustomComponent implements View {
                 updateResetRow(propertyId, itemId, result, presentFlag);
             } else if (value instanceof Integer) {
 
-                if (Integer.valueOf(value.toString()) >= dto.getCCPCount()) {
+                if (Integer.parseInt(value.toString()) >= dto.getCCPCount()) {
                     result = Boolean.TRUE;
                     dto.setCheckRecordCount(dto.getCCPCount());
                 } else {
-                    if (Integer.valueOf(value.toString()) < 0) {
+                    if (Integer.parseInt(value.toString()) < 0) {
                         dto.setCheckRecordCount(0);
                     } else {
                         dto.setCheckRecordCount(Integer.valueOf(value.toString()));
@@ -1243,7 +1243,7 @@ public class PPAProjection extends CustomComponent implements View {
     private void expandCollapseLevelOption(boolean isExpand, Object value) {
         if (value != null) {
             List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-            int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+            int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
             if (levelNo > 0) {
                 if (selection.isIsFilter()) {
                     valueChangeForColumnCheckBox = Boolean.TRUE;
@@ -1480,7 +1480,7 @@ public class PPAProjection extends CustomComponent implements View {
         loadMassPeriods(selection);
         if (filterValue != null) {
             String filteredValue = filterValue.toString();
-            selection.setLevelNo(Integer.valueOf(filteredValue.split("~")[0]));
+            selection.setLevelNo(Integer.parseInt(filteredValue.split("~")[0]));
             selection.setIsFilter(Boolean.TRUE);
             tableLogic.setSelection(selection);
             resetTable();
@@ -1552,8 +1552,8 @@ public class PPAProjection extends CustomComponent implements View {
             count = NumericConstants.ONE_CRORE;
         } else {
             selection.setIsFilter(Boolean.TRUE);
-            selection.setLevelNo(Integer.valueOf(levelFilter.getValue().toString().split("~")[0]));
-            selection.setTreeLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+            selection.setLevelNo(Integer.parseInt(levelFilter.getValue().toString().split("~")[0]));
+            selection.setTreeLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
             count = CommonLogic.getLevelListCount(projectionId, Constant.PPA, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, selection.getLevelNo(), StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, Boolean.TRUE, Boolean.FALSE, 0, selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(), selection.getDiscountNoList(),selection);
         }
         selection.setExcelExport(Boolean.TRUE);
@@ -1745,12 +1745,12 @@ public class PPAProjection extends CustomComponent implements View {
                     trd = toDateDdlb.getValue().toString().replace(" ", StringUtils.EMPTY).toLowerCase().trim();
                 }
             if (!frd.isEmpty()) {
-                startmonth = getQuarterStartMonth(Integer.valueOf(frd.substring(1, frd.length() - NumericConstants.FOUR)));
-                startyear = Integer.valueOf(frd.substring(frd.length() - NumericConstants.FOUR));
+                startmonth = getQuarterStartMonth(Integer.parseInt(frd.substring(1, frd.length() - NumericConstants.FOUR)));
+                startyear = Integer.parseInt(frd.substring(frd.length() - NumericConstants.FOUR));
             }
             if (!trd.isEmpty()) {
-                endmonth = getQuarterEndMonth(Integer.valueOf(trd.substring(1, trd.length() - NumericConstants.FOUR)));
-                endyear = Integer.valueOf(trd.substring(trd.length() - NumericConstants.FOUR));
+                endmonth = getQuarterEndMonth(Integer.parseInt(trd.substring(1, trd.length() - NumericConstants.FOUR)));
+                endyear = Integer.parseInt(trd.substring(trd.length() - NumericConstants.FOUR));
             }
         }
 
@@ -1778,19 +1778,19 @@ public class PPAProjection extends CustomComponent implements View {
     private void loadProjectionSelection(boolean initial) {
         LOGGER.debug("Enter inside load projection selection");
         selection.setSessionDTO(session);
-        selection.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+        selection.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
         selection.setCustRelationshipBuilderSid(session.getCustRelationshipBuilderSid());
         selection.setRelationshipBuilderSid(selection.getCustRelationshipBuilderSid());
         selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-        selection.setLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+        selection.setLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
         selection.setCustomerHierarchyNo(StringUtils.EMPTY);
         selection.setProductHierarchyNo(StringUtils.EMPTY);
         selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
         selection.setIsCustomHierarchy(Boolean.FALSE);
         selection.setCustomId(0);
         selection.setProjectionId(projectionId);
-        selection.setSessionId(Integer.valueOf(session.getSessionId()));
-        selection.setUserId(Integer.valueOf(session.getUserId()));
+        selection.setSessionId(Integer.parseInt(session.getSessionId()));
+        selection.setUserId(Integer.parseInt(session.getUserId()));
         selection.setForecastDTO(getClonedForecastDTO(session.getForecastDTO(), initial));
         LOGGER.debug("END of load projection selection");
 
@@ -1941,7 +1941,7 @@ public class PPAProjection extends CustomComponent implements View {
 
     public void generateButtonLogic()   {
 
-        PPAProjection.valueChangeAllowed = Boolean.FALSE;
+        valueChangeAllowed = Boolean.FALSE;
         List<String> result = getCheckedVariables();
         if (result.isEmpty()) {
             MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_08"), ButtonId.OK);
@@ -1959,7 +1959,7 @@ public class PPAProjection extends CustomComponent implements View {
         configureTable(true);
         addResultTable();
 
-        PPAProjection.valueChangeAllowed = Boolean.TRUE;
+        valueChangeAllowed = Boolean.TRUE;
     }
 
     @UiHandler("resetBtn")
@@ -2026,7 +2026,7 @@ public class PPAProjection extends CustomComponent implements View {
     private void massUpdatePPAProjection(Object value, String fieldValue, String columnName, int startQuater, int endQuater, int startYear, int endYear, ProjectionSelectionDTO selection) {
 
         waitForSave();
-        PPAProjection.valueChangeAllowed = Boolean.FALSE;
+        valueChangeAllowed = Boolean.FALSE;
 
         List input = null;
         if (populateIdentifier.get(Constant.FROZEN_FIELDS).contains(fieldValue)) {
@@ -2083,12 +2083,12 @@ public class PPAProjection extends CustomComponent implements View {
             tableLogic.setCurrentPage(tableLogic.getCurrentPage());
         }
 
-        PPAProjection.valueChangeAllowed = Boolean.TRUE;
+        valueChangeAllowed = Boolean.TRUE;
 
     }
 
     public static void setValueChangeAllowed(boolean valueChangeAllowed) {
-        PPAProjection.valueChangeAllowed = valueChangeAllowed;
+        valueChangeAllowed = valueChangeAllowed;
     }
 
     private void updateUncheckedRecords(boolean value, Object item) {

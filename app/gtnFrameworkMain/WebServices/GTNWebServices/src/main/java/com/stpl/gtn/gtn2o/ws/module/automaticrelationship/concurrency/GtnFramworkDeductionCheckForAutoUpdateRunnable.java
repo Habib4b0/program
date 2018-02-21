@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBe
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 @Service
 @Scope(value = "prototype")

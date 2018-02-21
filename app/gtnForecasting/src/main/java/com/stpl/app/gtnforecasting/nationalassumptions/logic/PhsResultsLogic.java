@@ -658,7 +658,7 @@ public class PhsResultsLogic {
                     CallableStatement statement = connection.prepareCall("{call " + "PRC_MASTER_PHS_WORKSHEET " + "(?,?,?,?)}")) {
                 statement.setInt(1, session.getProjectionId());
                 statement.setObject(NumericConstants.TWO, priceBasis);
-                statement.setInt(NumericConstants.THREE, Integer.valueOf(session.getUserId()));
+                statement.setInt(NumericConstants.THREE, Integer.parseInt(session.getUserId()));
                 statement.setObject(NumericConstants.FOUR, session.getSessionId());
                 statement.execute();
             } catch (SQLException ex) {
@@ -879,7 +879,7 @@ public class PhsResultsLogic {
                         String value;
                         String[] notesArray = new String[NumericConstants.TWO];
                         if (obj[NumericConstants.SIX] != null) {
-                            notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                            notesArray[0] = Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
                         } else {
                             notesArray[0] = StringUtils.EMPTY;
                         }

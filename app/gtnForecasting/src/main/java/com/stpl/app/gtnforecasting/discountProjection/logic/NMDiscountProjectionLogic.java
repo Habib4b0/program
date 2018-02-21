@@ -109,7 +109,7 @@ public class NMDiscountProjectionLogic {
 
         if (objList != null && !objList.isEmpty()) {
             Object ob = objList.get(0);
-            count += Integer.valueOf(String.valueOf(ob));
+            count += Integer.parseInt(String.valueOf(ob));
         }
         return count;
 

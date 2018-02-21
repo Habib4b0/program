@@ -1624,10 +1624,10 @@ public class AbstractLogic {
         }
         comboBox.setNullSelectionAllowed(true);
         comboBox.setItemCaptionPropertyId(DESCRIPTION);
-        comboBox.addItems(getDDLBList(columnName, tableName, isFilter, queryName));
+        comboBox.addItems(loadDdlbList(columnName, tableName, isFilter, queryName));
     }
 
-    public static List getDDLBList(String columnName, String tableName, Boolean isFilter, String queryName) {
+    public static List loadDdlbList(String columnName, String tableName, Boolean isFilter, String queryName) {
         String comboboxName = tableName + "-" + columnName;
         if (getDdlbmap().get(comboboxName) == null) {
             List input = new ArrayList();

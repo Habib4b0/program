@@ -23,6 +23,7 @@ import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.ui.form.lookups.DiscountSelection;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.ChangeCustomMenuBarValueUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import static com.stpl.app.gtnforecasting.utils.CommonUtil.stringNullCheck;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
@@ -134,6 +135,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.MenuItemDTO;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
@@ -295,6 +297,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
 		@Override
 		public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+                    List<CustomMenuBar.CustomMenuItem> itemList = deductionFilterDdlb.getItems();
+                    if(!itemList.isEmpty()){
+                        MenuItemDTO menuItemDto = itemList.get(0).getMenuItem();
+                        String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+                        menuItemDto.setCaption(menuItemValue);
+                    }
+                    deductionFilterDdlb.markAsDirty();
                     generateDiscountToBeLoaded=commonLogic.getFilterValues(deductionFilterValues).get(SID);
                     generateDiscountNamesToBeLoaded=commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
 			projectionSelection.setIsdeductionFirst(!projectionSelection.getDeductionLevelFilter().isEmpty());
@@ -308,7 +317,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
 		@Override
 		public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-
+                    List<CustomMenuBar.CustomMenuItem> itemList = productFilterDdlb.getItems();
+                    if(!itemList.isEmpty()){
+                        MenuItemDTO menuItemDto = itemList.get(0).getMenuItem();
+                        String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+                        menuItemDto.setCaption(menuItemValue);
+                    }
+                    productFilterDdlb.markAsDirty();
                     generateProductToBeLoaded=commonLogic.getFilterValues(productFilterValues).get(SID);
 			projectionSelection.setIsproductFirst(!projectionSelection.getProductLevelFilter().isEmpty());
 			loadCustomerLevelFilter(ANULL.equals(String.valueOf(customerlevelDdlb.getValue())) ? StringUtils.EMPTY
@@ -321,7 +336,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
 		@Override
 		public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-
+                    List<CustomMenuBar.CustomMenuItem> itemList = customerFilterDdlb.getItems();
+                    if(!itemList.isEmpty()){
+                        String menuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+                        MenuItemDTO menuItemDto = itemList.get(0).getMenuItem();
+                        menuItemDto.setCaption(menuItemValue);
+                    }
+                    customerFilterDdlb.markAsDirty();
                     generateCustomerToBeLoaded=commonLogic.getFilterValues(customerFilterValues).get(SID);
 			projectionSelection.setIscustomerFirst(!projectionSelection.getCustomerLevelFilter().isEmpty());
 			loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY
@@ -331,6 +352,30 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
+        protected CustomMenuBar.SubMenuCloseListener deductionInclusionListener = new CustomMenuBar.SubMenuCloseListener() {
+            @Override
+            public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+                List<CustomMenuBar.CustomMenuItem> itemList = deductionInclusionDdlb.getItems();
+                if(!itemList.isEmpty()){
+                    MenuItemDTO menuItemDto = itemList.get(0).getMenuItem();
+                    String menuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(deductionInclusionValues);
+                    menuItemDto.setCaption(menuItemValue);
+                }
+                deductionInclusionDdlb.markAsDirty();
+            }
+        };
+        protected CustomMenuBar.SubMenuCloseListener displayFormatListener = new CustomMenuBar.SubMenuCloseListener() {
+            @Override
+            public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+                List<CustomMenuBar.CustomMenuItem> itemList = displayFormatDdlb.getItems();
+                if(!itemList.isEmpty()){
+                    MenuItemDTO menuItemDto = itemList.get(0).getMenuItem();
+                    String menuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
+                    menuItemDto.setCaption(menuItemValue);
+                }
+                displayFormatDdlb.markAsDirty();
+            }
+        };
 	public NMDiscountProjection(SessionDTO session, String screenName) {
 		super(session, screenName);
 		tableLogic = new NMDiscountTableLoadLogic(this);
@@ -949,6 +994,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 if (!CommonUtil.nullCheck(map.get(Constant.DISPLAY_FORMAT_SAVE))) {
                                     CommonUtil.setCustomMenuBarValuesInEdit(map.get(Constant.DISPLAY_FORMAT_SAVE), displayFormatValues);
                                 }
+                                String displayFormatMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
+                                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
                                 if (isReset) {
                                     CommonLogic.unCheckMultiSelect(deductionFilterValues);
                                     CommonLogic.unCheckMultiSelect(customerFilterValues);
@@ -962,6 +1009,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     generateCustomerToBeLoaded=commonLogic.getFilterValues(customerFilterValues).get(SID);
                                     projectionSelection.setCustomerLevelFilter((List)generateCustomerToBeLoaded);
                                 }
+                                String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+                                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
                                 mapValue = map.get(Constant.PRODUCT_LEVEL_DDLB);
                                 productlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : Integer.parseInt(mapValue.toString()));
                                 mapValue = map.get(Constant.PRODUCT_LEVEL_VALUE);
@@ -970,6 +1019,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     generateProductToBeLoaded=commonLogic.getFilterValues(productFilterValues).get(SID);
                                     projectionSelection.setProductLevelFilter((List)generateProductToBeLoaded);
                                 }
+                                String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+                                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
                                 mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
                                 deductionlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : Integer.parseInt(mapValue.toString()));
                                 mapValue = map.get(Constant.DEDUCTION_LEVEL_VALUE);
@@ -980,7 +1031,15 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                      projectionSelection.setDeductionLevelFilter((List)generateDiscountToBeLoaded);
                                      projectionSelection.setDeductionLevelCaptions((List)generateDiscountToBeLoaded);
                                 }
-				if (!map.get(Constant.SELECTED_DISCOUNTS).equals("")) {
+                                String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+                                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+				mapValue = map.get(Constant.DEDUCTION_INCLUSION_DDLB);
+                                if(!CommonUtil.nullCheck(mapValue)) {
+                                    CommonUtil.setCustomMenuBarValuesInEdit(mapValue, deductionInclusionValues);
+                                }
+                                String deductionInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(deductionInclusionValues);
+                                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, deductionInclusionValue);
+                                if (!map.get(Constant.SELECTED_DISCOUNTS).equals("")) {
 
 					if ("Program Category".equals(String.valueOf(map.get(Constant.LEVEL_LABEL)))) {
 						discountProgramsList = new LinkedList<>(
@@ -3803,6 +3862,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(productFilterValues).get(SID), CommonUtil.COMMA));
                         map.put(Constant.DEDUCTION_LEVEL_DDLB, deductionlevelDdlb.getValue());
                         map.put(Constant.DEDUCTION_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(deductionFilterValues).get(SID), CommonUtil.COMMA));
+                        map.put(Constant.DEDUCTION_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(deductionInclusionValues)));
                         CommonLogic.saveProjectionSelection(map, session.getProjectionId(), TAB_DISCOUNT_PROJECTION.getConstant());
                 } catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -4414,8 +4474,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		LOGGER.debug("Inside get Quater with String" + str);
 		int a[] = new int[NumericConstants.TWO];
 		String[] splited = str.split("\\s+");
-		a[0] = Integer.valueOf(new String(splited[0].replaceAll("[Q]+", StringUtils.EMPTY)));
-		a[1] = Integer.valueOf(splited[1]);
+		a[0] = Integer.parseInt(new String(splited[0].replaceAll("[Q]+", StringUtils.EMPTY)));
+		a[1] = Integer.parseInt(splited[1]);
 		return a;
 	}
 
@@ -5358,16 +5418,19 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private void loadDeductionInclusion() throws IllegalStateException {
 		String[] deductionValues = { "Yes", "No" };
+                deductionInclusionDdlb.removeSubMenuCloseListener(deductionInclusionListener);
                 deductionInclusionDdlb.removeItems();
 		deductionInclusionValues = deductionInclusionDdlb.addItem(SELECT_VALUES, null);
 		CustomMenuBar.CustomMenuItem[] deductionInclusionCustomItem = new CustomMenuBar.CustomMenuItem[deductionValues.length];
 		for (int i = 0; i < deductionValues.length; i++) {
-			deductionInclusionCustomItem[i] = deductionInclusionValues.addItem(deductionValues[i].trim(), null);
+                        MenuItemDTO dto = new MenuItemDTO(i,deductionValues[i].trim());
+			deductionInclusionCustomItem[i] = deductionInclusionValues.addItem(dto, null);
 			deductionInclusionCustomItem[i].setCheckable(true);
 			deductionInclusionCustomItem[i].setItemClickable(true);
 			deductionInclusionCustomItem[i].setItemClickNotClosable(true);
 			
 		}
+                deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
 	}
 
 	protected List getCheckedDeductionInclusionValues() {
@@ -5392,11 +5455,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     protected void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
+        displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
+        displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
     }
     
     protected DataFormatConverter getConverter(String indicator) {

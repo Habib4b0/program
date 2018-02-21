@@ -106,7 +106,7 @@ public class DataSelectionLogic {
             DataSelectionDTO cac = new DataSelectionDTO();
             cac.setProductNo(object[0] == null ? StringUtils.EMPTY : String.valueOf(object[0].toString()));
             cac.setProductName(object[1] == null ? StringUtils.EMPTY : String.valueOf(object[1].toString()));
-            cac.setItemMasterSid(object[NumericConstants.TWO] == null ? 0 : Integer.valueOf(object[NumericConstants.TWO].toString()));            
+            cac.setItemMasterSid(object[NumericConstants.TWO] == null ? 0 : Integer.parseInt(object[NumericConstants.TWO].toString()));            
             customersAndContracts.add(cac);
         }
 
@@ -121,19 +121,19 @@ public class DataSelectionLogic {
             List<DataSelectionDTO> selectedProducts, boolean updateFlag,SessionDTO session)  {
         String result= StringUtils.EMPTY;
             try {
-                int companyId=Integer.valueOf(values[1].toString());
+                int companyId=Integer.parseInt(values[1].toString());
                 NaProjMaster naProjMaster = updateFlag ? NaProjMasterLocalServiceUtil.getNaProjMaster(session.getProjectionId()) :NaProjMasterLocalServiceUtil.createNaProjMaster(0);
                 
                 naProjMaster.setNaProjName(values[0].toString());
                 naProjMaster.setCompanyMasterSid(companyId);
-                naProjMaster.setTherapeuticClass(Integer.valueOf(values[NumericConstants.TWO].toString()));
-                naProjMaster.setItemGroupSid(Integer.valueOf(values[NumericConstants.THREE].toString()));
-                naProjMaster.setBusinessUnit(Integer.valueOf(values[NumericConstants.FOUR].toString()));
+                naProjMaster.setTherapeuticClass(Integer.parseInt(values[NumericConstants.TWO].toString()));
+                naProjMaster.setItemGroupSid(Integer.parseInt(values[NumericConstants.THREE].toString()));
+                naProjMaster.setBusinessUnit(Integer.parseInt(values[NumericConstants.FOUR].toString()));
                 if (!updateFlag) {
                     naProjMaster.setCreatedDate(new Date());
-                    naProjMaster.setCreatedBy(Integer.valueOf(session.getUserId()));
+                    naProjMaster.setCreatedBy(Integer.parseInt(session.getUserId()));
                 }
-                naProjMaster.setModifiedBy(Integer.valueOf(session.getUserId()));
+                naProjMaster.setModifiedBy(Integer.parseInt(session.getUserId()));
                 naProjMaster.setModifiedDate(new Date());
                 try {
                     naProjMaster = updateFlag ? NaProjMasterLocalServiceUtil.updateNaProjMaster(naProjMaster) : NaProjMasterLocalServiceUtil
@@ -320,7 +320,7 @@ public class DataSelectionLogic {
     public User getUserByID(String userId) {
         User user = null;
         try {
-            user = UserLocalServiceUtil.getUser(Long.valueOf(userId));
+            user = UserLocalServiceUtil.getUser(Long.parseLong(userId));
         } catch (PortalException | SystemException | NumberFormatException ex) {
               LOGGER.error(ex.getMessage());
         }
