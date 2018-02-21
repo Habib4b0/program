@@ -191,7 +191,7 @@ public class ApprovalTab extends CustomComponent {
      */
     private CFFPagedFilterTable resultTable;
     private ExtPagedFilterTable excelTable = new ExtPagedFilterTable();
-     /**
+    /**
      * The excel export image.
      */
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
@@ -290,7 +290,6 @@ public class ApprovalTab extends CustomComponent {
             excelTable.addStyleName(Constants.FILTER_TABLE);
             excelTable.setVisible(false);
             excelExport.setIcon(excelExportImage);
-
 
             latestEstimateName.setImmediate(true);
             latestEstimateName.addValidator(new StringLengthValidator("Latest Estimate name should be less than 100 characters", 0, NumericConstants.HUNDRED, true));

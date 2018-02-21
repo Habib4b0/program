@@ -257,7 +257,7 @@ public class FileManagementLookup extends Window {
 	/**
 	 * The excel image.
 	 */
-	private final ThemeResource excelImage = new ThemeResource("../../icons/excel.png");
+	private final ThemeResource excelImage = new ThemeResource("img/excel.png");
 	/**
 	 * The results bean.
 	 */
