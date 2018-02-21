@@ -367,7 +367,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 			CFFLogic.mapUsers();
 
-			excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
+			excelExport.setIcon(new ThemeResource("img/excel.png"));
 			excelExport.setStyleName("link");
 			excelExport.setDescription("Export to excel");
 			excelExport.setIconAlternateText("Excel export");
