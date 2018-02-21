@@ -6,6 +6,7 @@ public enum GtnFrameworkWorkflowPortletMap {
 			GtnFrameworkWorkflowInboxClassConstants.ACCRUAL_RATE_PROJ), REF(
 					GtnFrameworkWorkflowInboxClassConstants.RETURNS), ARM(
 							GtnFrameworkWorkflowInboxClassConstants.FIXEDDOLLAR_ADJUSTMENT), CMF(
+									GtnFrameworkWorkflowInboxClassConstants.CONTRACT_DASHBOARD), CM(
 									GtnFrameworkWorkflowInboxClassConstants.CONTRACT_DASHBOARD);
 	private GtnFrameworkWorkflowPortletMap(String input) {
 		this.input = input;
