@@ -2,11 +2,12 @@ package com.stpl.gtn.gtn20.ws.report.engine.client.controller;
 
 import com.stpl.gtn.gtn20.ws.report.engine.client.service.GtnWsRawDataCustomiseService;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
-import com.stpl.gtn.gtn2o.ws.report.engine.controller.GtnGenerateReportEngine;
+import com.stpl.gtn.gtn2o.ws.report.engine.engine.GtnGenerateReportEngine;
 import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.controller.GtnWsReportInputGenerator;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
-import com.stpl.gtn.gtn2o.ws.report.engine.service.GtnWsJsonService;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsJsonService;
 import java.util.List;
 
 public class GtnWsReportClientController {
@@ -32,7 +33,8 @@ public class GtnWsReportClientController {
     private GtnWsReportEngineTreeNode getGtnGeneratedReportOutput(GtnWsReportEngineTreeNode input, List<GtnWsProjectionBean> customizedRawList) {
         writeRawDataToMongo("D:\\Jayaram\\report0.json", customizedRawList);
         GtnGenerateReportEngine engine = new GtnGenerateReportEngine();
-        GtnWsReportEngineTreeNode output = engine.generateReportOutput(input);
+        GtnWsReportEngineBean engineBean = getGtnWsReportEngineBean();
+        GtnWsReportEngineTreeNode output = engine.generateReportOutput(input, engineBean);
         GtnWsReportInputGenerator.shutdown();
         return output;
     }
@@ -41,4 +43,13 @@ public class GtnWsReportClientController {
         JSON_SERVICE_INSTANCE.jsonWrite(filename, rawData);
     }
 
+    private GtnWsReportEngineBean getGtnWsReportEngineBean() {
+        GtnWsReportEngineBean engineBean = new GtnWsReportEngineBean();
+        engineBean.setSelectedProjectionId(0);
+        engineBean.setComparisonBasis("Actuals");
+        engineBean.addCollection("calculation");
+        engineBean.addCollection("calculation1");
+//        engineBean.addCollection("calculation2");
+        return engineBean;
+    }
 }

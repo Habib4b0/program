@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ws.report.engine.calculation;
 import com.mongodb.client.MongoCollection;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.report.engine.bean.GtnWsVariableCategoryBean;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,15 @@ public class GtnWsMongoCalculation {
         return MONGO_SERVICE.getCollection(collectionName);
     }
 
-    public void setRowValue(GtnWsReportEngineTreeNode ccpNode, MongoCollection<Document> collection, List<Document> topLevelDocument) {
+    public void setNodeData(GtnWsReportEngineTreeNode ccpNode, GtnWsReportEngineBean bean) {
+        List<String> collection = bean.getCollection();
+        for (String collectionName : collection) {
+            MongoCollection<Document> mongoCollection = getCollection(collectionName);
+            setRowValue(ccpNode, mongoCollection, null);
+        }
+    }
+
+    private void setRowValue(GtnWsReportEngineTreeNode ccpNode, MongoCollection<Document> collection, List<Document> topLevelDocument) {
         if (ccpNode.getLevelNumber() == 0 || topLevelDocument == null) {
             topLevelDocument = MONGO_SERVICE.setTopLevelAggregatedValue(ccpNode, collection);
         }
@@ -49,13 +58,13 @@ public class GtnWsMongoCalculation {
         }
     }
 
-    public void setVariableCategory(final GtnWsReportEngineTreeNode ccpNode, int comparisonBasisIndex) {
+    public void setVariableCategory(final GtnWsReportEngineTreeNode ccpNode, GtnWsReportEngineBean engineBean) {
         for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
             if (gtnWsTreeNode.getNodeData() != null) {
                 GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
-                categoryBean.setComparisonBasis("Projection");
+                categoryBean.setComparisonBasis(engineBean.getComparisonBasis());
                 List<List<Document>> finalNode = (List<List<Document>>) gtnWsTreeNode.getNodeData();
-                List<Document> current = (List<Document>) finalNode.get(comparisonBasisIndex);
+                List<Document> current = (List<Document>) finalNode.get(engineBean.getSelectedProjectionId());
                 List<Document> prior = null;
                 List<Document> finalDocument = new ArrayList<>();
 
@@ -89,7 +98,7 @@ public class GtnWsMongoCalculation {
                 gtnWsTreeNode.setNodeData(finalDocument);
             }
             if (gtnWsTreeNode.getChildren() != null) {
-                setVariableCategory(gtnWsTreeNode, comparisonBasisIndex);
+                setVariableCategory(gtnWsTreeNode, engineBean);
             }
         }
     }

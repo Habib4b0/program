@@ -31,5 +31,10 @@
             <artifactId>GtnWsReportEngineInputGenerator</artifactId>
             <version>1</version>
         </dependency>
+        <dependency>
+            <groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
+            <artifactId>GtnWsReportEngineRawDataGenerator</artifactId>
+            <version>1</version>
+        </dependency>
     </dependencies>
 </project>
