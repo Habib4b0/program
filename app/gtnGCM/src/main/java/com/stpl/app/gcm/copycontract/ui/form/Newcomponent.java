@@ -1989,7 +1989,7 @@ public class Newcomponent extends CustomComponent {
                     psModel.setPsNo(String.valueOf(obj[1]));
                     psModel.setPsName(String.valueOf(obj[NumericConstants.TWO]));
                     psModel.setPsStatus(obj[NumericConstants.THREE] != null && !obj[NumericConstants.THREE].toString().equals(StringUtils.EMPTY) ? Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) : 0);
-                    if (obj[NumericConstants.THREE] != null) {
+                    if (obj[NumericConstants.FOUR] != null) {
                         String date1 = df.format(obj[NumericConstants.FOUR]);
                         psModel.setPsStartDate(df.parse(date1));
                     } else {
@@ -1999,6 +1999,7 @@ public class Newcomponent extends CustomComponent {
                     psModel.setCreatedDate(new Date());
                     psModel.setModifiedBy(Integer.parseInt(userId));
                     psModel.setModifiedDate(new Date());
+                    psModel.setInboundStatus("A");
                     psModel = PsModelLocalServiceUtil.addPsModel(psModel);
                     psModelSid = psModel.getPsModelSid();
                     CopyContractLogic.insertPsDetails(psModelSid, userId, temptableSId);
@@ -2056,6 +2057,7 @@ public class Newcomponent extends CustomComponent {
                     rsModel.setCreatedDate(new Date());
                     rsModel.setModifiedBy(Integer.parseInt(userId));
                     rsModel.setModifiedDate(new Date());
+                    rsModel.setInboundStatus("A");
                     rsModel = RsModelLocalServiceUtil.addRsModel(rsModel);
                     CopyContractLogic.insertIntoRsDetails(temptableSId, userId, rsModel.getRsModelSid());
                     Object psItem = dashboardResultsTable.getParent(item);
@@ -2076,11 +2078,13 @@ public class Newcomponent extends CustomComponent {
                     Date stDate = rsModel.getRsStartDate();
                     int reFre = 0;
                     int calender = rsModel.getRsCalendar();
+                    int status=rsModel.getRsStatus();
                     rsContract.setRsModelSid(modelId);
                     rsContract.setRsId(id);
                     rsContract.setRsNo(no);
                     rsContract.setRsName(name);
                     rsContract.setRsType(type);
+                    rsContract.setRsStatus(status);
                     rsContract.setRebateProgramType(rpType);
                     rsContract.setRsStartDate(stDate);
                     rsContract.setContractMasterSid(Integer.parseInt(contractSId));
