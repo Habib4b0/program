@@ -2,12 +2,12 @@ package com.stpl.gtn.gtn2o.ws.report.engine.controller;
 
 import com.mongodb.client.MongoCollection;
 import com.stpl.gtn.gtn2o.ws.report.engine.calculation.GtnWsMongoCalculation;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNode;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import org.bson.Document;
 
 public class GtnGenerateReportEngine {
 
-    public GtnWsTreeNode generateReportOutput(GtnWsTreeNode input) {
+    public GtnWsReportEngineTreeNode generateReportOutput(GtnWsReportEngineTreeNode input) {
 
         GtnWsMongoCalculation mongoCalc = new GtnWsMongoCalculation();
         MongoCollection<Document> collection = mongoCalc.getCollection("calculation");

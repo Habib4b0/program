@@ -6,20 +6,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 import org.apache.commons.lang3.StringUtils;
 
-public class GtnWsTreeNode implements Serializable {
+public class GtnWsReportEngineTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Object nodeData;
 
+    private List<GtnWsReportEngineTreeNode> children;
+
+    private GtnWsReportEngineTreeNode parent;
+
     private int levelNumber;
-
-    private List<GtnWsTreeNode> children;
-
-    private GtnWsTreeNode parent;
 
     private String hierarchyNo;
 
@@ -29,20 +28,12 @@ public class GtnWsTreeNode implements Serializable {
 
     private int nodeIndex = -1;
 
-    private TreeSet<Integer> dataIndex;
-
-    private int totalDataIndex;
-
-    private boolean checkedNode = false;
-
-    private String hierarchyNoForTable = StringUtils.EMPTY;
-
     private Set<Integer> ccpIds = null;
 
     private Set<Integer> rsIds = null;
 
     private String indicator = StringUtils.EMPTY;
-    
+
     public Object getNodeData() {
         return nodeData;
     }
@@ -51,19 +42,19 @@ public class GtnWsTreeNode implements Serializable {
         this.nodeData = nodeData;
     }
 
-    public List<GtnWsTreeNode> getChildren() {
+    public List<GtnWsReportEngineTreeNode> getChildren() {
         return children;
     }
 
-    public void setChildren(List<GtnWsTreeNode> children) {
+    public void setChildren(List<GtnWsReportEngineTreeNode> children) {
         this.children = children;
     }
 
-    public GtnWsTreeNode getParent() {
+    public GtnWsReportEngineTreeNode getParent() {
         return parent;
     }
 
-    public void setParent(GtnWsTreeNode parent) {
+    public void setParent(GtnWsReportEngineTreeNode parent) {
         this.parent = parent;
     }
 
@@ -107,34 +98,10 @@ public class GtnWsTreeNode implements Serializable {
         this.nodeIndex = nodeIndex;
     }
 
-    public TreeSet<Integer> getDataIndex() {
-        return dataIndex;
-    }
-
-    public void setDataIndex(TreeSet<Integer> dataIndex) {
-        this.dataIndex = dataIndex;
-    }
-
-    public int getTotalDataIndex() {
-        return totalDataIndex;
-    }
-
-    public void setTotalDataIndex(int totalDataIndex) {
-        this.totalDataIndex = totalDataIndex;
-    }
-
-    public String getHierarchyNoForTable() {
-        return hierarchyNoForTable;
-    }
-
-    public void setHierarchyNoForTable(String hierarchyNoForTable) {
-        this.hierarchyNoForTable = hierarchyNoForTable;
-    }
-
-    public GtnWsTreeNode addChildren(GtnWsTreeNode treeNode) {
+    public GtnWsReportEngineTreeNode addChildren(GtnWsReportEngineTreeNode treeNode) {
 
         if (children != null) {
-            for (GtnWsTreeNode childNode : children) {
+            for (GtnWsReportEngineTreeNode childNode : children) {
                 if (treeNode.equals(childNode)) {
                     if (treeNode.getCcpIds() != null) {
                         childNode.addAllCcpIds(treeNode.getCcpIds());
@@ -149,14 +116,8 @@ public class GtnWsTreeNode implements Serializable {
         if (this.children == null) {
             children = new ArrayList<>();
         }
-        treeNode.generatehierarchyNumberForTable(children.size() + 1);
         children.add(treeNode);
         return treeNode;
-    }
-
-    public void generatehierarchyNumberForTable(int position) {
-        String parentTableNum = this.parent.getHierarchyNoForTable();
-        this.hierarchyNoForTable = parentTableNum + position + ".";
     }
 
     public Set<Integer> getCcpIds() {
@@ -220,7 +181,7 @@ public class GtnWsTreeNode implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final GtnWsTreeNode other = (GtnWsTreeNode) obj;
+        final GtnWsReportEngineTreeNode other = (GtnWsReportEngineTreeNode) obj;
         return Objects.equals(this.hierarchyNo, other.hierarchyNo);
     }
 
@@ -228,14 +189,6 @@ public class GtnWsTreeNode implements Serializable {
     public String toString() {
         return "TreeNode{" + " levelNumber=" + levelNumber + ", hierarchyNo=" + hierarchyNo + ",levelValue="
                 + levelValue + " ccp ids = " + ccpIds + " RS = " + rsIds + "}";
-    }
-
-    public boolean isCheckedNode() {
-        return checkedNode;
-    }
-
-    public void setCheckedNode(boolean checkedNode) {
-        this.checkedNode = checkedNode;
     }
 
 }

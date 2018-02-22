@@ -5,7 +5,7 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNode;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCommonCalculation;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +49,7 @@ public class GtnWsMongoService {
         }
     }
 
-    public void updateFinalResultsToMongo(String collectionName, GtnWsTreeNode output) {
+    public void updateFinalResultsToMongo(String collectionName, GtnWsReportEngineTreeNode output) {
         try {
             MongoCollection collection = getCollection(collectionName);
             insertIntoMongoCollection(collection, output);
@@ -59,8 +59,8 @@ public class GtnWsMongoService {
         }
     }
 
-    private void insertIntoMongoCollection(MongoCollection collection, GtnWsTreeNode output) {
-        for (GtnWsTreeNode gtnWsTreeNode : output.getChildren()) {
+    private void insertIntoMongoCollection(MongoCollection collection, GtnWsReportEngineTreeNode output) {
+        for (GtnWsReportEngineTreeNode gtnWsTreeNode : output.getChildren()) {
             List<Document> nodeData = (List<Document>) gtnWsTreeNode.getNodeData();
             if (nodeData != null && !nodeData.isEmpty()) {
                 collection.insertMany(nodeData);
@@ -71,7 +71,7 @@ public class GtnWsMongoService {
         }
     }
 
-    public List<Document> setTopLevelAggregatedValue(GtnWsTreeNode ccpNode, MongoCollection<Document> collection) {
+    public List<Document> setTopLevelAggregatedValue(GtnWsReportEngineTreeNode ccpNode, MongoCollection<Document> collection) {
         List<Document> nodeDataList = new ArrayList();
 
         Document matchCondition = new Document("ccpId", new Document("$in", ccpNode.getCcpIds()));
@@ -111,7 +111,7 @@ public class GtnWsMongoService {
         return nodeDataList;
     }
 
-    public void setAggregatedValue(GtnWsTreeNode ccpNode, MongoCollection<Document> collection, List<Document> topLevelDocument) {
+    public void setAggregatedValue(GtnWsReportEngineTreeNode ccpNode, MongoCollection<Document> collection, List<Document> topLevelDocument) {
         List<Document> nodeDataList = new ArrayList();
         Document matchCondition = new Document("ccpId", new Document("$in", ccpNode.getCcpIds()));
         if (ccpNode.getRsIds() != null && !ccpNode.getRsIds().isEmpty()) {

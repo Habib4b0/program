@@ -5,7 +5,7 @@ import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.report.engine.controller.GtnGenerateReportEngine;
 import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.controller.GtnWsReportInputGenerator;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsProjectionBean;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNode;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.service.GtnWsJsonService;
 import java.util.List;
 
@@ -20,19 +20,19 @@ public class GtnWsReportClientController {
     }
 
     public void getWsReportClientController() {
-        GtnWsTreeNode input = new GtnWsReportInputGenerator().callBuildTree(9);
+        GtnWsReportEngineTreeNode input = new GtnWsReportInputGenerator().callBuildTree(9);
         List<GtnWsProjectionBean> customizedRawList = new GtnWsRawDataCustomiseService().generateApprovedData();
-        GtnWsTreeNode outputTree = getGtnGeneratedReportOutput(input, customizedRawList);
+        GtnWsReportEngineTreeNode outputTree = getGtnGeneratedReportOutput(input, customizedRawList);
         System.out.println("outputTree = " + outputTree);
 
         MONGO_SERVICE.createCollection("computedResults");
         MONGO_SERVICE.updateFinalResultsToMongo("computedResults", outputTree);
     }
 
-    private GtnWsTreeNode getGtnGeneratedReportOutput(GtnWsTreeNode input, List<GtnWsProjectionBean> customizedRawList) {
+    private GtnWsReportEngineTreeNode getGtnGeneratedReportOutput(GtnWsReportEngineTreeNode input, List<GtnWsProjectionBean> customizedRawList) {
         writeRawDataToMongo("D:\\Jayaram\\report0.json", customizedRawList);
         GtnGenerateReportEngine engine = new GtnGenerateReportEngine();
-        GtnWsTreeNode output = engine.generateReportOutput(input);
+        GtnWsReportEngineTreeNode output = engine.generateReportOutput(input);
         GtnWsReportInputGenerator.shutdown();
         return output;
     }
