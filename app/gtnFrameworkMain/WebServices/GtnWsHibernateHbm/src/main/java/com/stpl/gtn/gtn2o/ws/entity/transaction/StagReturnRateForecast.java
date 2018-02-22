@@ -18,7 +18,7 @@ public class StagReturnRateForecast  implements java.io.Serializable {
      private String itemName;
      private String forecastYear;
      private String forecastMonth;
-     private BigDecimal rate;
+     private Double rate;
      private String forecastName;
      private String forecastVer;
      private String modifiedBy;
@@ -33,7 +33,7 @@ public class StagReturnRateForecast  implements java.io.Serializable {
     }
 
 	
-    public StagReturnRateForecast(int stagReturnRateForecastSid, BigDecimal returnRateForecastInterfaceId, String itemId, BigDecimal rate, String addChgDelIndicator, String batchId) {
+    public StagReturnRateForecast(int stagReturnRateForecastSid, BigDecimal returnRateForecastInterfaceId, String itemId, Double rate, String addChgDelIndicator, String batchId) {
         this.stagReturnRateForecastSid = stagReturnRateForecastSid;
         this.returnRateForecastInterfaceId = returnRateForecastInterfaceId;
         this.itemId = itemId;
@@ -41,7 +41,7 @@ public class StagReturnRateForecast  implements java.io.Serializable {
         this.addChgDelIndicator = addChgDelIndicator;
         this.batchId = batchId;
     }
-    public StagReturnRateForecast(int stagReturnRateForecastSid, BigDecimal returnRateForecastInterfaceId, String itemId, String itemNo, String itemName, String forecastYear, String forecastMonth, BigDecimal rate, String forecastName, String forecastVer, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source) {
+    public StagReturnRateForecast(int stagReturnRateForecastSid, BigDecimal returnRateForecastInterfaceId, String itemId, String itemNo, String itemName, String forecastYear, String forecastMonth, Double rate, String forecastName, String forecastVer, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source) {
        this.stagReturnRateForecastSid = stagReturnRateForecastSid;
        this.returnRateForecastInterfaceId = returnRateForecastInterfaceId;
        this.itemId = itemId;
@@ -110,11 +110,11 @@ public class StagReturnRateForecast  implements java.io.Serializable {
     public void setForecastMonth(String forecastMonth) {
         this.forecastMonth = forecastMonth;
     }
-    public BigDecimal getRate() {
+    public Double getRate() {
         return this.rate;
     }
     
-    public void setRate(BigDecimal rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
     public String getForecastName() {
