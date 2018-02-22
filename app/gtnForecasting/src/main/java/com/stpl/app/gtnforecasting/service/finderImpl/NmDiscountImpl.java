@@ -421,7 +421,7 @@ public class NmDiscountImpl {
                     String historysql = customSql + periodFilter + " " + whereClause;
                     customSql += periodFilter + "\n "
                             + whereClause + "\n "
-                            + " group by H.LEVEL_NO ,H.RELATIONSHIP_LEVEL_VALUES, H.LEVEL_NAME , CCP.HIERARCHY_NO, I.\"YEAR\"  " + groupBy;
+                            + Constant.GROUP_BY_HLEVEL_NO_HRELATIONSHIP_LEVEL_V + groupBy;
 
                     String historyQuery = selectClause + "\n COALESCE(Sum(A.ACTUAL_SALES) / (NULLIF(Sum(distinct S.ACTUAL_SALES), 0)), 0) * 100 as ACTUAL_RATE,"
                             + "avg(A.ACTUAL_PROJECTION_RATE) as PROJECTION_RATE, 0 as AP_TABLE_INDICATOR,\n"
@@ -432,14 +432,14 @@ public class NmDiscountImpl {
                                 + "COALESCE(Sum(A.ACTUAL_SALES) / (NULLIF( Sum(distinct S.ACTUAL_UNITS), 0)), 0) as ACTUAL_RPU,\n"
                                 + "SUM(A.ACTUAL_PROJECTION_SALES) as PROJECTION_SALES, NULL as PROJECTION_RPU, NULL as GROWTH "
                                 + "from " + actualDiscountTableName + "A, " + actualSalesTableName + " S, \n"
-                                + historysql + " group by H.LEVEL_NO ,H.RELATIONSHIP_LEVEL_VALUES, H.LEVEL_NAME , CCP.HIERARCHY_NO, I.\"YEAR\"  " + groupBy;
+                                + historysql + Constant.GROUP_BY_HLEVEL_NO_HRELATIONSHIP_LEVEL_V + groupBy;
 
                     } else {
                         historyQuery = historyQuery + "SUM(ISNULL(DAA.ACTUAL_AMOUNT,0))as ACTUAL_SALES,"
                                 + "COALESCE(Sum(ISNULL(DAA.ACTUAL_AMOUNT,0)) / NULLIF(Sum(distinct S.ACTUAL_UNITS), 0), 0) as ACTUAL_RPU,\n"
                                 + "SUM(ISNULL(DAA.PROJECTION_AMOUNT,0)) as PROJECTION_SALES, NULL as PROJECTION_RPU, NULL as GROWTH "
                                 + "from ST_NM_ACTUAL_DISCOUNT A,ST_DISC_ALTERNATE_HIST_ALLOCATION DAA,ST_NM_ACTUAL_SALES S, \n"
-                                + historysql + alternateWhereClause + " group by H.LEVEL_NO ,H.RELATIONSHIP_LEVEL_VALUES, H.LEVEL_NAME , CCP.HIERARCHY_NO, I.\"YEAR\"  " + groupBy;
+                                + historysql + alternateWhereClause + Constant.GROUP_BY_HLEVEL_NO_HRELATIONSHIP_LEVEL_V + groupBy;
 
                     }
 
@@ -462,15 +462,15 @@ public class NmDiscountImpl {
                 String discountTypeQuery = "";
                 if (discountList != null && !discountList.isEmpty()) {
                     String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
-                    discountTypeQuery = " JOIN  " + masterTableName + " DP ON PD.PROJECTION_DETAILS_SID=DP.PROJECTION_DETAILS_SID  \n";
+                    discountTypeQuery = " JOIN  " + masterTableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                     if (!viewFlag) {
-                        discountTypeQuery += " and DP.USER_ID = " + userId + " and DP.SESSION_ID = " + sessionId + "\n";
+                        discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                     }
                     if (isProgram) {
-                        discountTypeQuery += " JOIN RS_MODEL RS ON DP.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + ") \n ";
+                        discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                         discountTypeQuery += isAltHistory ? altHisCountClause : StringUtils.EMPTY;
                     } else {
-                        discountTypeQuery += " AND DP.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
+                        discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + ")  \n";
                     }
                     if (!userGroup.trim().isEmpty()) {
                         discountTypeQuery += " AND DP.USER_GROUP = '" + userGroup + "' \n";
@@ -489,7 +489,7 @@ public class NmDiscountImpl {
                     ccpDetails = " (SELECT distinct  HLD" + hierarchyIndicator + ".HIERARCHY_NO FROM \n"
                             + Constant.SELECT_RLDRELATIONSHIP_LEVEL_VALUES_R
                             + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
-                            + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
+                            + Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL
                             + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
                             + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId + " ";
 
@@ -516,7 +516,7 @@ public class NmDiscountImpl {
                             + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                             + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
                             + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDPHIE
-                            + ") CCP";
+                            + Constant.CLOSE_BRACKET_CCP;
                 } else {
                     ccpDetails = "(SELECT HLD.HIERARCHY_NO \n"
                             + Constant.FROM_SELECT_RLD_HIERAR
@@ -569,17 +569,17 @@ public class NmDiscountImpl {
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
                 String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
-                discountTypeQuery = " JOIN " + tableName + " DP ON PD.PROJECTION_DETAILS_SID=DP.PROJECTION_DETAILS_SID  \n";
+                discountTypeQuery = SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                 if (!mode) {
-                    discountTypeQuery += " and DP.USER_ID = " + userId + " and DP.SESSION_ID = " + sessionId + "\n";
+                    discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                 }
                 if (!userGroup.trim().isEmpty()) {
                     discountTypeQuery += " and DP.USER_GROUP = '" + userGroup + "'\n";
                 }
                 if (isProgram) {
-                    discountTypeQuery += " JOIN RS_MODEL RS ON DP.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + ") \n ";
+                    discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
-                    discountTypeQuery += " AND DP.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
+                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + ")  \n";
                 }
             }
 
@@ -594,7 +594,7 @@ public class NmDiscountImpl {
             String ccpDetails = " (SELECT distinct  HLD" + hierarchyIndicator + ".HIERARCHY_NO,CCPMAPP.RELATIONSHIP_LEVEL_VALUES FROM \n"
                     + Constant.SELECT_RLDRELATIONSHIP_LEVEL_VALUES_R
                     + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
-                    + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
+                    + Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL
                     + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
                     + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId + " "
                     + discountTypeQuery + Constant.CCPMAPC
@@ -638,6 +638,7 @@ public class NmDiscountImpl {
             LOGGER.debug(" exiting getHierarchyListForCustomView");
         }
     }
+    public static final String SPACE_JOIN_SPACE = " JOIN ";
 
     private List getHierarchyList(int projectionId, String hierarchy, String hierarchyNo, String relationshipBuilderSid, int levelNo, String userGroup,
             List<String> discountList, String userId, String sessionId, boolean isProgram, int startIndex, int endIndex, boolean isAlternate, boolean mode) {
@@ -654,18 +655,18 @@ public class NmDiscountImpl {
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
                 String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
-                discountTypeQuery = " JOIN " + tableName + " DP ON PD.PROJECTION_DETAILS_SID=DP.PROJECTION_DETAILS_SID  \n";
+                discountTypeQuery = SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                 if (!mode) {
-                    discountTypeQuery += " and DP.USER_ID = " + userId + " and DP.SESSION_ID = " + sessionId + "\n";
+                    discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                 }
 
                 if (!userGroup.trim().isEmpty()) {
                     discountTypeQuery += " and DP.USER_GROUP = '" + userGroup + "'\n";
                 }
                 if (isProgram) {
-                    discountTypeQuery += " JOIN RS_MODEL RS ON DP.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + ") \n ";
+                    discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
-                    discountTypeQuery += " AND DP.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
+                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + ")  \n";
                 }
             }
 
@@ -716,7 +717,7 @@ public class NmDiscountImpl {
             customSql = "select TEMP.TEMP_INDEX from(SELECT RLD.HIERARCHY_NO, RLD.RELATIONSHIP_LEVEL_VALUES, \n"
                     + " ROW_NUMBER() OVER (ORDER BY RLD.RELATIONSHIP_LEVEL_VALUES ASC) AS TEMP_INDEX"
                     + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                    + " JOIN " + CommonUtils.getViewTableName(hierarchyIndicator) + " PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
+                    + SPACE_JOIN_SPACE + CommonUtils.getViewTableName(hierarchyIndicator) + " PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
                     + " AND PCH.PROJECTION_MASTER_SID = " + projectionId + " \n"
                     + " WHERE RLD.HIERARCHY_NO LIKE '" + hierarchyNo + "%' and RLD.LEVEL_NO = " + (selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length()) + ") "
                     + " TEMP where TEMP.HIERARCHY_NO='" + selectedHiearchyNo + "'";
@@ -744,7 +745,7 @@ public class NmDiscountImpl {
             if (discountList != null && !discountList.isEmpty()) {
                 String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
                 if (isProgram) {
-                    discountTypeQuery += " JOIN RS_MODEL RS ON DP.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + ") \n ";
+                    discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
                     discountTypeQuery += " WHERE DP.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
                 }
@@ -855,7 +856,7 @@ public class NmDiscountImpl {
                 String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
                 if (isProgram) {
                     discountTable = " RS_MODEL RS,";
-                    discountTypeQuery += " AND M.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + ") \n ";
+                    discountTypeQuery += " AND M.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
                     discountTypeQuery += " AND M.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
                 }
@@ -875,7 +876,7 @@ public class NmDiscountImpl {
                 ccpDetails = " (SELECT distinct CCPMAPC.PROJECTION_DETAILS_SID FROM \n"
                         + "    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID, PD.PROJECTION_DETAILS_SID \n"
                         + Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RL
-                        + "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n"
+                        + Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL
                         + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + relationshipBuilderSidForCustomer + "\n"
                         + Constant.JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D + projectionId + "\n"
                         + "    ) CCPMAPC\n"
@@ -899,8 +900,8 @@ public class NmDiscountImpl {
                         + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                         + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
                         + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDPHIE
-                        + Constant.WHERE_HLD + hierarchyIndicator + DOT_HIERARCHY_NO + hierarchyNo + "'"
-                        + ") CCP";
+                        + Constant.WHERE_HLD + hierarchyIndicator + Constant.DOT_HIERARCHY_NO + hierarchyNo + "'"
+                        + Constant.CLOSE_BRACKET_CCP;
 
                 customSql = Constant.UPDATE_M_SET_CHECK_RECORD + check + "\n"
                         + Constant.FROM_ST_NM_DISCOUNT_PROJ_MASTER_M_PROJEC + discountTable + " \n"
@@ -957,7 +958,6 @@ public class NmDiscountImpl {
             return 0;
         }
     }
-    public static final String DOT_HIERARCHY_NO = ".HIERARCHY_NO = '";
 
     public void massUpdate(int projectionId, String userId, String sessionId, String frequency, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
             List<String> checkedDiscounts, boolean isProgram) {
@@ -986,11 +986,11 @@ public class NmDiscountImpl {
             if ("Group".equals(selectedField)) {
                 customSql = "UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET USER_GROUP = '" + fieldValue + "' where PROJECTION_DETAILS_SID in \n"
                         + "(SELECT M.PROJECTION_DETAILS_SID FROM ST_NM_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B \n"
-                        + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
-                        + " and M.USER_ID = " + userId + "\n"
+                        + Constant.WHERE_MPROJECTION_DETAILS_SID
+                        + Constant.AND_MUSER_ID + userId + "\n"
                         + Constant.AND_M_SESSION_ID + sessionId + "\n"
                         + " AND M.CHECK_RECORD = 1"
-                        + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "')";
+                        + Constant.AND_BPROJECTION_MASTER_SID + projectionId + "')";
 
             } else {
                 int startFreq = 0;
@@ -1095,17 +1095,17 @@ public class NmDiscountImpl {
                     customSql = declareStatement + " \n UPDATE DPT SET " + column + " = " + fieldValue + " FROM ST_NM_DISCOUNT_PROJECTION DPT, \n"
                             + "(SELECT M.PROJECTION_DETAILS_SID, DP.PERIOD_SID, RS.RS_MODEL_SID FROM ST_NM_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B,\n"
                             + " ST_NM_DISCOUNT_PROJECTION DP, RS_MODEL RS, \"PERIOD\" P \n"
-                            + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
+                            + Constant.WHERE_MPROJECTION_DETAILS_SID
                             + " AND M.CHECK_RECORD = 1 \n"
-                            + " and M.USER_ID = " + userId + "\n"
+                            + Constant.AND_MUSER_ID + userId + "\n"
                             + Constant.AND_M_SESSION_ID + sessionId + "\n"
-                            + " and DP.USER_ID = " + userId + "\n"
-                            + " and DP.SESSION_ID = " + sessionId + "\n"
+                            + Constant.AND_DP_USER_ID + userId + "\n"
+                            + Constant.AND_DP_SESSION_ID + sessionId + "\n"
                             + " AND DP.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
                             + " AND M.RS_MODEL_SID = RS.RS_MODEL_SID \n"
-                            + Constant.SPACE_AND_SPACE + discountType + " in (" + selectedDiscounts + ") \n"
+                            + Constant.SPACE_AND_SPACE + discountType + " in (" + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE
                             + " AND DP.PERIOD_SID = P.PERIOD_SID AND P.PERIOD_DATE " + getPeriodFilter() + "\n "
-                            + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' "
+                            + Constant.AND_BPROJECTION_MASTER_SID + projectionId + "' "
                             + ") A \n"
                             + " WHERE DPT.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID \n"
                             + " AND DPT.PERIOD_SID = A.PERIOD_SID \n"
@@ -1124,34 +1124,34 @@ public class NmDiscountImpl {
 
     private String getPeriodFilter() {
         String period = " BETWEEN \n "
-                + " CASE \n "
-                + " WHEN @START_MONTH = 1 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-01-01') \n "
-                + " WHEN @START_MONTH = 2 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-02-01') \n "
-                + " WHEN @START_MONTH = 3 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-03-01') \n "
-                + " WHEN @START_MONTH = 4 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-04-01') \n "
-                + " WHEN @START_MONTH = 5 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-05-01') \n "
-                + " WHEN @START_MONTH = 6 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-06-01') \n "
-                + " WHEN @START_MONTH = 7 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-07-01') \n "
-                + " WHEN @START_MONTH = 8 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-08-01') \n "
-                + " WHEN @START_MONTH = 9 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-09-01') \n "
-                + " WHEN @START_MONTH = 10 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-10-01') \n "
-                + " WHEN @START_MONTH = 11 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-11-01') \n "
-                + " WHEN @START_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-12-01') \n "
-                + " END \n "
-                + " AND \n "
-                + " CASE \n "
-                + " WHEN @END_MONTH = 1 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-01-31') \n "
-                + " WHEN @END_MONTH = 2 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-02-28') \n "
-                + " WHEN @END_MONTH = 3 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-03-31') \n "
-                + " WHEN @END_MONTH = 4 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-04-30') \n "
-                + " WHEN @END_MONTH = 5 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-05-31') \n "
-                + " WHEN @END_MONTH = 6 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-06-30') \n "
-                + " WHEN @END_MONTH = 7 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-07-31') \n "
-                + " WHEN @END_MONTH = 8 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-08-31') \n "
-                + " WHEN @END_MONTH = 9 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-09-30') \n "
-                + " WHEN @END_MONTH = 10 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-10-31') \n "
-                + " WHEN @END_MONTH = 11 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-11-30') \n "
-                + " WHEN @END_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-12-31') \n "
+                + Constant.SPACE_CASE_NEW_LINE
+                + Constant.WHEN_START_MONTH_1_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_2_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_3_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_4_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_5_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_6_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_7_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_8_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_9_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_10_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_11_THEN_CONVERT_DATE
+                + Constant.WHEN_START_MONTH_12_THEN_CONVERT_DATE
+                + Constant.SPACE_END_NEW_LINE
+                + Constant.SPACE_AND_NEW_LINE
+                + Constant.SPACE_CASE_NEW_LINE
+                + Constant.WHEN_END_MONTH_1_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_2_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_3_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_4_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_5_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_6_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH71_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_8_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_9_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_10_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_11_THEN_CONVERT_DATE
+                + Constant.WHEN_END_MONTH_12_THEN_CONVERT_DATE
                 + " END\n ";
         return period;
     }
@@ -1323,11 +1323,11 @@ public class NmDiscountImpl {
             if (discountList != null && !discountList.isEmpty()) {
                 String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
                 discountTypeQuery = " JOIN   ST_NM_DISCOUNT_PROJ_MASTER DP ON PD.PROJECTION_DETAILS_SID=DP.PROJECTION_DETAILS_SID  \n"
-                        + " and DP.USER_ID = " + userId + " and DP.SESSION_ID = " + sessionId + "\n";
+                        + Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                 if (isProgram) {
-                    discountTypeQuery += " JOIN RS_MODEL RS ON DP.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + ") \n ";
+                    discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
-                    discountTypeQuery += " AND DP.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
+                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + ")  \n";
                 }
             }
 
@@ -1514,8 +1514,8 @@ public class NmDiscountImpl {
                         + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                         + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
                         + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDPHIE
-                        + Constant.WHERE_HLD + hierarchyIndicator + DOT_HIERARCHY_NO + hierarchyNo + "' \n"
-                        + ") CCP";
+                        + Constant.WHERE_HLD + hierarchyIndicator + Constant.DOT_HIERARCHY_NO + hierarchyNo + "' \n"
+                        + Constant.CLOSE_BRACKET_CCP;
 
             } else {
 
@@ -1547,11 +1547,11 @@ public class NmDiscountImpl {
             }
             customSql += "(SELECT M.PROJECTION_DETAILS_SID, DP.PERIOD_SID , M.RS_MODEL_SID FROM ST_NM_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS B,\n "
                     + " ST_NM_DISCOUNT_PROJECTION DP, RS_MODEL RS, \"PERIOD\" P, \n" + ccpDetails
-                    + " WHERE  M.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
-                    + " and M.USER_ID = " + userId + "\n"
+                    + Constant.WHERE_MPROJECTION_DETAILS_SID
+                    + Constant.AND_MUSER_ID + userId + "\n"
                     + Constant.AND_M_SESSION_ID + sessionId + "\n"
-                    + " and DP.USER_ID = " + userId + "\n"
-                    + " and DP.SESSION_ID = " + sessionId + "\n"
+                    + Constant.AND_DP_USER_ID + userId + "\n"
+                    + Constant.AND_DP_SESSION_ID + sessionId + "\n"
                     + " and DP.RS_MODEL_SID = M.RS_MODEL_SID \n"
                     + " AND B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
                     + " AND DP.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n"
@@ -1559,7 +1559,7 @@ public class NmDiscountImpl {
                     + Constant.SPACE_AND_SPACE + discountType + " = '" + discountName + "' \n"
                     + " AND DP.PERIOD_SID = P.PERIOD_SID \n"
                     + " AND P.PERIOD_DATE " + getPeriodFilter() + "\n "
-                    + " AND B.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
+                    + Constant.AND_BPROJECTION_MASTER_SID + projectionId + "' \n"
                     + ") A "
                     + " WHERE DPT.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID "
                     + " AND DPT.RS_MODEL_SID = A.RS_MODEL_SID \n"
@@ -1641,22 +1641,22 @@ public class NmDiscountImpl {
 
             }
             if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
-            if (frequency.equals("Annually")) {
+            if (frequency.equals(Constant.ANNUALLY)) {
                 frequency = "YEAR";
             }
-            if (frequency.equals("Semi-Annually")) {
-                frequency = "SEMI_ANNUAL";
+            if (frequency.equals(Constant.SEMIANNUALLY)) {
+                frequency = Constant.SEMI_ANNUAL;
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
 
-            projectionQuery = "SELECT PR.YEAR,PR." + frequency + " AS BASE, 0.00 AS ACTUAL_SALES,0.00 AS ACTUAL_DISCOUNT,MAX(NMSP.PROJECTION_SALES)\n"
-                    + " AS PROJECTION_SALES,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
-                    + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS\n"
+            projectionQuery = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
+                    + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                     + " JOIN  " + tableName + "NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n";
             if (!viewFlag) {
                 projectionQuery += " AND NMDP.USER_ID = NMDPM.USER_ID AND NMDP.SESSION_ID = NMDPM.SESSION_ID";
@@ -1665,24 +1665,24 @@ public class NmDiscountImpl {
                     + " JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID JOIN  " + tableName + "NM_SALES_PROJECTION NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID\n"
                     + "  JOIN  " + tableName + "NM_SALES_PROJECTION_MASTER NMSPM ON NMSPM.PROJECTION_DETAILS_SID = NMSP.PROJECTION_DETAILS_SID\n";
             if (!viewFlag) {
-                projectionQuery += " AND NMSPM.USER_ID = NMSP.USER_ID AND NMSPM.SESSION_ID = NMSP.SESSION_ID\n"
-                        + " AND NMSPM.USER_ID = NMDPM.USER_ID AND NMSPM.SESSION_ID = NMDPM.SESSION_ID ";
+                projectionQuery += Constant.AND_NM_SP_M_USER_ID_NM_SP_USER_ID_AND_NM_SP
+                        + Constant.AND_NM_SP_M_USER_ID_NM_DP_M_USER_ID_AND_NM_SPM;
             }
             projectionQuery += " AND PD.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID JOIN RS_MODEL RSM ON RSM.RS_MODEL_SID = NMDPM.RS_MODEL_SID "
-                    + " AND RSM.RS_MODEL_SID = NMDP.RS_MODEL_SID WHERE PD.PROJECTION_DETAILS_SID in (" + idString + ") ";
+                    + Constant.AND_RS_M_RS_MODEL_SID_NM_DP_RS_MODEL_SID_WH + idString + ") ";
 
             if (!viewFlag) {
-                projectionQuery += " AND NMDPM.USER_ID =" + userId + " AND NMDPM.SESSION_ID =" + sessionId + " ";
+                projectionQuery += Constant.AND_NM_DP_MUSER_ID + userId + Constant.AND_NM_DP_M_SESSION_ID + sessionId + " ";
             }
 
-            projectionQuery += " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2)>=" + forecastStartPeriod + ""
+            projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + forecastEndPeriod + ""
-                    + " and RSM.RS_NAME IN (" + discountString + ")"
+                    + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
                     + " GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
-                    + " UNION ALL"
-                    + " SELECT PR.YEAR,PR." + frequency + " AS BASE, MAX(NMAS.ACTUAL_SALES) AS ACTUAL_SALES, SUM(NMAD.ACTUAL_SALES)"
-                    + " AS ACTUAL_DISCOUNT,MAX(ISNULL(NMSP.PROJECTION_SALES, 0)) AS PROJECTION_SALES, SUM(ISNULL(NMDP.PROJECTION_SALES, 0))\n"
-                    + " AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
+                    + Constant.UNION_ALL
+                    + SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
+                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
                     + " Sum(ACTUAL_UNITS) as ACTUAL_UNITS,"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS"
                     + " FROM PROJECTION_DETAILS PD\n"
@@ -1692,10 +1692,10 @@ public class NmDiscountImpl {
                 projectionQuery += " AND NMAD.USER_ID = NMADM.USER_ID AND NMAD.SESSION_ID = NMADM.SESSION_ID ";
             }
             projectionQuery += "AND NMADM.RS_MODEL_SID = NMAD.RS_MODEL_SID\n"
-                    + " JOIN RS_MODEL RSM ON RSM.RS_MODEL_SID = NMADM.RS_MODEL_SID AND RSM.RS_MODEL_SID = NMAD.RS_MODEL_SID\n"
+                    + Constant.JOIN_RS_MODEL_RSM_ON_RS_M_RS_MODEL_SID_NM
                     + " JOIN PERIOD PR ON PR.PERIOD_SID = NMAD.PERIOD_SID JOIN  " + tableName + "NM_ACTUAL_SALES NMAS ON NMAS.PERIOD_SID = PR.PERIOD_SID \n";
             if (!viewFlag) {
-                projectionQuery += " AND NMAS.USER_ID = NMAD.USER_ID AND NMAS.SESSION_ID = NMAD.SESSION_ID \n";
+                projectionQuery += Constant.AND_NM_AS_USER_ID_NM_AD_USER_ID;
             }
             projectionQuery += " AND NMAS.PROJECTION_DETAILS_SID = NMADM.PROJECTION_DETAILS_SID JOIN  " + tableName + "NM_SALES_PROJECTION_MASTER NMSPM "
                     + " ON NMSPM.PROJECTION_DETAILS_SID = NMAS.PROJECTION_DETAILS_SID ";
@@ -1703,34 +1703,34 @@ public class NmDiscountImpl {
                 projectionQuery += "AND NMSPM.USER_ID = NMAS.USER_ID  AND NMSPM.SESSION_ID = NMAS.SESSION_ID";
             }
             projectionQuery += " LEFT JOIN  " + tableName + "NM_SALES_PROJECTION NMSP"
-                    + " ON NMSP.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID AND NMSP.PERIOD_SID = PR.PERIOD_SID";
+                    + Constant.ON_NM_SP_PROJECTION_DETAILS_SID;
             if (!viewFlag) {
                 projectionQuery += " AND NMSP.USER_ID = NMSPM.USER_ID AND NMSP.SESSION_ID = NMSPM.SESSION_ID ";
             }
             projectionQuery += "LEFT JOIN  " + tableName + "NM_DISCOUNT_PROJECTION NMDP"
-                    + " ON NMDP.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID AND NMDP.PERIOD_SID = PR.PERIOD_SID"
+                    + Constant.ON_NM_DP_PROJECTION_DETAILS_SID_NM
                     + " AND NMDP.RS_MODEL_SID = RSM.RS_MODEL_SID ";
             if (!viewFlag) {
                 projectionQuery += "AND NMDP.USER_ID = NMSPM.USER_ID AND NMDP.SESSION_ID = NMSPM.SESSION_ID ";
             }
-            projectionQuery += " WHERE PD.PROJECTION_DETAILS_SID in(" + idString + ") ";
+            projectionQuery += Constant.WHERE_PD_PROJECTION_DETAILS_SID_IN + idString + ") ";
             if (!viewFlag) {
                 projectionQuery += "AND NMADM.USER_ID =" + userId + "AND NMADM.SESSION_ID =" + sessionId;
             }
-            projectionQuery += " AND cast(PR.YEAR as varchar(4))+RIGHT ('0'+CAST(PR.MONTH AS VARCHAR),2) >=" + startPeriod + ""
-                    + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + endPeriod + ""
-                    + " and RSM.RS_NAME IN (" + discountString + ")"
-                    + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
+            projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
+                    + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
+                    + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
+                    + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID ";
             if (view.equalsIgnoreCase("parent")) {
-                if (frequency.equals("YEAR") || frequency.equals("MONTH")) {
+                if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
                     projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR.MONTH";
                 } else {
-                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequency + ",PR.MONTH";
+                    projectionQuery = projectionQuery + "ORDER BY PR.YEAR,PR." + frequency + Constant.PR_MONTH;
                 }
-            } else if (frequency.equals("YEAR") || frequency.equals("MONTH")) {
+            } else if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
                 projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR.MONTH";
             } else {
-                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + ",PR.MONTH";
+                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + Constant.PR_MONTH;
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(projectionQuery);
         } catch (Exception e) {
@@ -1768,7 +1768,7 @@ public class NmDiscountImpl {
             }
 
             if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
 
                 switch (startFreq) {
                     case 1:
@@ -1800,13 +1800,13 @@ public class NmDiscountImpl {
                 }
 
             }
-            if (frequency.equals("Annually")) {
+            if (frequency.equals(Constant.ANNUALLY)) {
                 frequency = "YEAR";
                 startMonth = 1;
                 endMonth = 12;
             }
-            if (frequency.equals("Semi-Annually")) {
-                frequency = "SEMI_ANNUAL";
+            if (frequency.equals(Constant.SEMIANNUALLY)) {
+                frequency = Constant.SEMI_ANNUAL;
                 switch (startFreq) {
                     case 1:
                         startMonth = 1;
@@ -1826,7 +1826,7 @@ public class NmDiscountImpl {
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
                 startMonth = startFreq;
                 endMonth = endFreq;
             }
@@ -1837,44 +1837,44 @@ public class NmDiscountImpl {
                     + Constant.DECLARE_END_YEAR_INT + endYear + "\n";
             String periodFilter = "";
             periodFilter = "AND D.PERIOD_DATE BETWEEN \n "
-                    + " CASE \n "
-                    + " WHEN @START_MONTH = 1 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-01-01') \n "
-                    + " WHEN @START_MONTH = 2 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-02-01') \n "
-                    + " WHEN @START_MONTH = 3 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-03-01') \n "
-                    + " WHEN @START_MONTH = 4 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-04-01') \n "
-                    + " WHEN @START_MONTH = 5 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-05-01') \n "
-                    + " WHEN @START_MONTH = 6 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-06-01') \n "
-                    + " WHEN @START_MONTH = 7 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-07-01') \n "
-                    + " WHEN @START_MONTH = 8 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-08-01') \n "
-                    + " WHEN @START_MONTH = 9 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-09-01') \n "
-                    + " WHEN @START_MONTH = 10 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-10-01') \n "
-                    + " WHEN @START_MONTH = 11 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-11-01') \n "
-                    + " WHEN @START_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-12-01') \n "
-                    + " END \n "
-                    + " AND \n "
-                    + " CASE \n "
-                    + " WHEN @END_MONTH = 1 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-01-31') \n "
-                    + " WHEN @END_MONTH = 2 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-02-28') \n "
-                    + " WHEN @END_MONTH = 3 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-03-31') \n "
-                    + " WHEN @END_MONTH = 4 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-04-30') \n "
-                    + " WHEN @END_MONTH = 5 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-05-31') \n "
-                    + " WHEN @END_MONTH = 6 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-06-30') \n "
-                    + " WHEN @END_MONTH = 7 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-07-31') \n "
-                    + " WHEN @END_MONTH = 8 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-08-31') \n "
-                    + " WHEN @END_MONTH = 9 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-09-30') \n "
-                    + " WHEN @END_MONTH = 10 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-10-31') \n "
-                    + " WHEN @END_MONTH = 11 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-11-30') \n "
-                    + " WHEN @END_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-12-31') \n "
-                    + " END\n ";
+                    + Constant.SPACE_CASE_NEW_LINE
+                    + Constant.WHEN_START_MONTH_1_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_2_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_3_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_4_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_5_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_6_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_7_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_8_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_9_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_10_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_11_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_12_THEN_CONVERT_DATE
+                    + Constant.SPACE_END_NEW_LINE
+                    + Constant.SPACE_AND_NEW_LINE
+                    + Constant.SPACE_CASE_NEW_LINE
+                    + Constant.WHEN_END_MONTH_1_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_2_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_3_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_4_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_5_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_6_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH71_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_8_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_9_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_10_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_11_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_12_THEN_CONVERT_DATE
+                    + Constant.SPACE_END_NEW_LINE;
 
-            if (projection.equals("Actuals")) {
-                sql = "select D.YEAR,D." + frequency + ",sum(B.ACTUAL_SALES) As ACTUAL_SALES,sum(B.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_ACTUAL_DISCOUNT B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + " and B.USER_ID=" + userId + " and A.SESSION_ID=" + sessionId + " and B.SESSION_ID=" + sessionId + " and A.PROJECTION_DETAILS_SID IN (" + idString + ") " + periodFilter + " group by D.YEAR,D." + frequency + " order by D.YEAR";
+            if (projection.equals(Constant.ACTUALS)) {
+                sql = "select D.YEAR,D." + frequency + ",sum(B.ACTUAL_SALES) As ACTUAL_SALES,sum(B.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_ACTUAL_DISCOUNT B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ") " + periodFilter + " group by D.YEAR,D." + frequency + Constant.ORDER_BY_D_YEAR;
             }
-            if (projection.equals("Projections")) {
-                sql = "select J.RS_NAME,D.YEAR,D." + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_DISCOUNT_PROJECTION B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + " and B.USER_ID=" + userId + " and A.SESSION_ID=" + sessionId + " and B.SESSION_ID=" + sessionId + " and A.PROJECTION_DETAILS_SID IN (" + idString + ")" + periodFilter + " group by J.RS_NAME,D.YEAR,D." + frequency + " order by D.YEAR";
+            if (projection.equals(Constant.PROJECTIONS)) {
+                sql = "select J.RS_NAME,D.YEAR,D." + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_DISCOUNT_PROJECTION B,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ")" + periodFilter + " group by J.RS_NAME,D.YEAR,D." + frequency + Constant.ORDER_BY_D_YEAR;
             }
             if (projection.equals("Both")) {
-                sql = "select J.RS_NAME,D.YEAR,D." + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE,sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_DISCOUNT_PROJECTION B,dbo.ST_NM_ACTUAL_DISCOUNT C,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and A.USER_ID=" + userId + " and B.USER_ID=" + userId + " and C.USER_ID=" + userId + " and A.SESSION_ID=" + sessionId + " and B.SESSION_ID=" + sessionId + " and C.SESSION_ID=" + sessionId + " and A.PROJECTION_DETAILS_SID IN (" + idString + ") " + periodFilter + " group by J.RS_NAME,D.YEAR,D." + frequency + " order by D.YEAR";
+                sql = "select J.RS_NAME,D.YEAR,D." + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE,sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from dbo.ST_NM_DISCOUNT_PROJ_MASTER A,dbo.ST_NM_DISCOUNT_PROJECTION B,dbo.ST_NM_ACTUAL_DISCOUNT C,dbo.PERIOD D,RS_MODEL J where A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and A.USER_ID=" + userId + Constant.AND_B_USER_ID + userId + " and C.USER_ID=" + userId + Constant.AND_ASESSION_ID + sessionId + Constant.AND_B_SESSION_ID + sessionId + " and C.SESSION_ID=" + sessionId + Constant.AND_A_PROJECTION_DETAILS_SID_IN + idString + ") " + periodFilter + " group by J.RS_NAME,D.YEAR,D." + frequency + Constant.ORDER_BY_D_YEAR;
             }
             sql = declareStatement + sql;
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -2032,62 +2032,62 @@ public class NmDiscountImpl {
 
             }
             if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
-            if (frequency.equals("Annually")) {
+            if (frequency.equals(Constant.ANNUALLY)) {
                 frequency = "YEAR";
             }
-            if (frequency.equals("Semi-Annually")) {
-                frequency = "SEMI_ANNUAL";
+            if (frequency.equals(Constant.SEMIANNUALLY)) {
+                frequency = Constant.SEMI_ANNUAL;
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
-            projectionQuery = "SELECT PR.YEAR,PR." + frequency + " AS BASE, 0.00 AS ACTUAL_SALES,0.00 AS ACTUAL_DISCOUNT,MAX(NMSP.PROJECTION_SALES)\n"
-                    + " AS PROJECTION_SALES,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH,RSM.RS_NAME,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
-                    + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS\n"
-                    + " FROM PROJECTION_DETAILS PD JOIN ST_NM_DISCOUNT_PROJ_MASTER NMDPM ON  NMDPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
+            projectionQuery = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
+                    + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
+                    + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
                     + " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n"
-                    + " AND NMDP.USER_ID = NMDPM.USER_ID AND NMDP.SESSION_ID = NMDPM.SESSION_ID AND NMDPM.RS_MODEL_SID = NMDP.RS_MODEL_SID\n"
-                    + " JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID\n"
-                    + "  JOIN ST_NM_SALES_PROJECTION_MASTER NMSPM ON NMSPM.PROJECTION_DETAILS_SID = NMSP.PROJECTION_DETAILS_SID\n"
-                    + " AND NMSPM.USER_ID = NMSP.USER_ID AND NMSPM.SESSION_ID = NMSP.SESSION_ID\n"
-                    + " AND NMSPM.USER_ID = NMDPM.USER_ID AND NMSPM.SESSION_ID = NMDPM.SESSION_ID "
+                    + Constant.AND_NM_DP_USER_ID_NM_DP_M_USER_ID
+                    + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID
+                    + Constant.JOIN_ST_NM_SALES_PROJECTION_MASTER_NM_SP
+                    + Constant.AND_NM_SP_M_USER_ID_NM_SP_USER_ID_AND_NM_SP
+                    + Constant.AND_NM_SP_M_USER_ID_NM_DP_M_USER_ID_AND_NM_SPM
                     + " AND PD.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID JOIN RS_MODEL RSM ON RSM.RS_MODEL_SID = NMDPM.RS_MODEL_SID "
-                    + " AND RSM.RS_MODEL_SID = NMDP.RS_MODEL_SID WHERE PD.PROJECTION_DETAILS_SID in (" + idString + ") "
-                    + " AND NMDPM.USER_ID =" + userId + " AND NMDPM.SESSION_ID =" + sessionId + " "
-                    + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2)>=" + forecastStartPeriod + ""
+                    + Constant.AND_RS_M_RS_MODEL_SID_NM_DP_RS_MODEL_SID_WH + idString + ") "
+                    + Constant.AND_NM_DP_MUSER_ID + userId + Constant.AND_NM_DP_M_SESSION_ID + sessionId + " "
+                    + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + forecastEndPeriod + ""
-                    + " and RSM.RS_NAME IN (" + discountName + ")"
+                    + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
                     + " GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME"
-                    + " UNION ALL"
-                    + " SELECT PR.YEAR,PR." + frequency + " AS BASE, MAX(NMAS.ACTUAL_SALES) AS ACTUAL_SALES, SUM(NMAD.ACTUAL_SALES)"
-                    + " AS ACTUAL_DISCOUNT,MAX(ISNULL(NMSP.PROJECTION_SALES, 0)) AS PROJECTION_SALES, SUM(ISNULL(NMDP.PROJECTION_SALES, 0))\n"
-                    + " AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH, RSM.RS_NAME,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
+                    + Constant.UNION_ALL
+                    + SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
+                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
                     + " Sum(ACTUAL_UNITS) as ACTUAL_UNITS,"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS"
                     + " FROM PROJECTION_DETAILS PD\n"
-                    + " JOIN ST_NM_DISCOUNT_PROJ_MASTER NMADM ON  NMADM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
-                    + " JOIN ST_NM_ACTUAL_DISCOUNT NMAD ON NMAD.PROJECTION_DETAILS_SID =NMADM.PROJECTION_DETAILS_SID\n"
-                    + " AND NMAD.USER_ID = NMADM.USER_ID AND NMAD.SESSION_ID = NMADM.SESSION_ID AND NMADM.RS_MODEL_SID = NMAD.RS_MODEL_SID\n"
-                    + " JOIN RS_MODEL RSM ON RSM.RS_MODEL_SID = NMADM.RS_MODEL_SID AND RSM.RS_MODEL_SID = NMAD.RS_MODEL_SID\n"
-                    + " JOIN PERIOD PR ON PR.PERIOD_SID = NMAD.PERIOD_SID JOIN ST_NM_ACTUAL_SALES NMAS ON NMAS.PERIOD_SID = PR.PERIOD_SID \n"
-                    + " AND NMAS.USER_ID = NMAD.USER_ID AND NMAS.SESSION_ID = NMAD.SESSION_ID \n"
-                    + " AND NMAS.PROJECTION_DETAILS_SID = NMADM.PROJECTION_DETAILS_SID JOIN ST_NM_SALES_PROJECTION_MASTER NMSPM "
-                    + " ON NMSPM.PROJECTION_DETAILS_SID = NMAS.PROJECTION_DETAILS_SID AND NMSPM.USER_ID = NMAS.USER_ID \n"
-                    + "  AND NMSPM.SESSION_ID = NMAS.SESSION_ID LEFT JOIN ST_NM_SALES_PROJECTION NMSP"
-                    + " ON NMSP.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID AND NMSP.PERIOD_SID = PR.PERIOD_SID"
-                    + " AND NMSP.USER_ID = NMSPM.USER_ID AND NMSP.SESSION_ID = NMSPM.SESSION_ID LEFT JOIN ST_NM_DISCOUNT_PROJECTION NMDP"
-                    + " ON NMDP.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID AND NMDP.PERIOD_SID = PR.PERIOD_SID"
-                    + " AND NMDP.RS_MODEL_SID = RSM.RS_MODEL_SID AND NMDP.USER_ID = NMSPM.USER_ID AND NMDP.SESSION_ID = NMSPM.SESSION_ID "
-                    + " WHERE PD.PROJECTION_DETAILS_SID in(" + idString + ") AND NMADM.USER_ID =" + userId + ""
-                    + " AND NMADM.SESSION_ID =" + sessionId + " AND cast(PR.YEAR as varchar(4))+RIGHT ('0'+CAST(PR.MONTH AS VARCHAR),2) >=" + startPeriod + ""
-                    + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + endPeriod + ""
-                    + " and RSM.RS_NAME IN (" + discountName + ")"
-                    + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID, RSM.RS_NAME ";
+                    + Constant.JOIN_ST_NM_DISCOUNT_PROJ_MASTER_NM_ADM_ON
+                    + Constant.JOIN_ST_NM_ACTUAL_DISCOUNT_NM_AD_ON_NM_ADP
+                    + Constant.AND_NM_AD_USER_ID_NM_ADM_USER_ID
+                    + Constant.JOIN_RS_MODEL_RSM_ON_RS_M_RS_MODEL_SID_NM
+                    + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID_NM_AD
+                    + Constant.AND_NM_AS_USER_ID_NM_AD_USER_ID
+                    + Constant.AND_NM_AS_PROJECTION_DETAILS_SID_NM_ADM_PRO
+                    + Constant.ON_NM_SP_M_PROJECTION_DETAILS_SID_NM_AS_PROJ
+                    + Constant.AND_NM_SPM_SESSION_ID_NM_AS_SESSION_ID
+                    + Constant.ON_NM_SP_PROJECTION_DETAILS_SID
+                    + Constant.AND_NM_SP_USER_ID_NM_SPM_USER_ID_AND_NM_SP
+                    + Constant.ON_NM_DP_PROJECTION_DETAILS_SID_NM
+                    + Constant.AND_NM_DP_RS_MODEL_SID_RS_RS_MODEL_SID
+                    + Constant.WHERE_PD_PROJECTION_DETAILS_SID_IN + idString + Constant.AND_NM_AD_MUSER_ID + userId + ""
+                    + Constant.AND_NM_ADM_SESSION_ID + sessionId + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
+                    + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
+                    + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
+                    + Constant.GROUP_BY_PR_YEAR + frequency + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
 
-            if (frequency.equals("YEAR") || frequency.equals("MONTH")) {
+            if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
                 if (view.get(0) != null && "Descending".equalsIgnoreCase(String.valueOf(view.get(0)))) {
                     projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR DESC,PR.MONTH DESC";
                 } else {
@@ -2096,7 +2096,7 @@ public class NmDiscountImpl {
             } else if (view.get(0) != null && "Descending".equalsIgnoreCase(String.valueOf(view.get(0)))) {
                 projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR DESC,PR." + frequency + " DESC,PR.MONTH DESC";
             } else {
-                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + ",PR.MONTH";
+                projectionQuery = projectionQuery + "ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + Constant.PR_MONTH;
             }
 
             return HelperTableLocalServiceUtil.executeSelectQuery(projectionQuery);
@@ -2107,6 +2107,7 @@ public class NmDiscountImpl {
         }
         return null;
     }
+    static final String SELECT_PR_YEAR_PR = " SELECT PR.YEAR,PR.";
 
     public List getSubDiscount(List<Integer> projectionDetailsId, String frequency, String discountList, List<Integer> startAndEndPeriods, int userId, int sessionId) {
         {
@@ -2156,58 +2157,58 @@ public class NmDiscountImpl {
                 }
 
                 if (frequency.equals(QUARTERLY.getConstant())) {
-                    frequency = "QUARTER";
+                    frequency = Constant.QUARTER;
                 }
-                if (frequency.equals("Annually")) {
+                if (frequency.equals(Constant.ANNUALLY)) {
                     frequency = "YEAR";
                 }
-                if (frequency.equals("Semi-Annually")) {
-                    frequency = "SEMI_ANNUAL";
+                if (frequency.equals(Constant.SEMIANNUALLY)) {
+                    frequency = Constant.SEMI_ANNUAL;
                 }
                 if (frequency.equals(MONTHLY.getConstant())) {
-                    frequency = "MONTH";
+                    frequency = Constant.MONTH_WITHOUT_SPACE;
                 }
-                sql = "SELECT PR.YEAR,PR." + frequency + " AS BASE, 0.00 AS ACTUAL_SALES,0.00 AS ACTUAL_DISCOUNT,MAX(NMSP.PROJECTION_SALES)\n"
-                        + " AS PROJECTION_SALES,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH,RSM.RS_NAME,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
-                        + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS\n"
-                        + " FROM PROJECTION_DETAILS PD JOIN ST_NM_DISCOUNT_PROJ_MASTER NMDPM ON  NMDPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
+                sql = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                        + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
+                        + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
+                        + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
                         + " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n"
-                        + " AND NMDP.USER_ID = NMDPM.USER_ID AND NMDP.SESSION_ID = NMDPM.SESSION_ID AND NMDPM.RS_MODEL_SID = NMDP.RS_MODEL_SID\n"
-                        + " JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID\n"
-                        + "  JOIN ST_NM_SALES_PROJECTION_MASTER NMSPM ON NMSPM.PROJECTION_DETAILS_SID = NMSP.PROJECTION_DETAILS_SID\n"
-                        + " AND NMSPM.USER_ID = NMSP.USER_ID AND NMSPM.SESSION_ID = NMSP.SESSION_ID\n"
-                        + " AND NMSPM.USER_ID = NMDPM.USER_ID AND NMSPM.SESSION_ID = NMDPM.SESSION_ID "
+                        + Constant.AND_NM_DP_USER_ID_NM_DP_M_USER_ID
+                        + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID
+                        + Constant.JOIN_ST_NM_SALES_PROJECTION_MASTER_NM_SP
+                        + Constant.AND_NM_SP_M_USER_ID_NM_SP_USER_ID_AND_NM_SP
+                        + Constant.AND_NM_SP_M_USER_ID_NM_DP_M_USER_ID_AND_NM_SPM
                         + " AND PD.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID JOIN RS_MODEL RSM ON RSM.RS_MODEL_SID = NMDPM.RS_MODEL_SID"
-                        + " AND RSM.RS_MODEL_SID = NMDP.RS_MODEL_SID WHERE PD.PROJECTION_DETAILS_SID in (" + idString + ") "
-                        + " AND NMDPM.USER_ID =" + userId + " AND NMDPM.SESSION_ID =" + sessionId + " "
-                        + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2)>=" + forecastStartPeriod + ""
+                        + Constant.AND_RS_M_RS_MODEL_SID_NM_DP_RS_MODEL_SID_WH + idString + ") "
+                        + Constant.AND_NM_DP_MUSER_ID + userId + Constant.AND_NM_DP_M_SESSION_ID + sessionId + " "
+                        + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                         + " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + forecastEndPeriod + ""
-                        + " and RSM.RS_NAME IN (" + discountList + ") "
-                        + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
-                        + " UNION ALL"
-                        + " SELECT PR.YEAR,PR." + frequency + " AS BASE, MAX(NMAS.ACTUAL_SALES) AS ACTUAL_SALES, SUM(NMAD.ACTUAL_SALES)"
-                        + " AS ACTUAL_DISCOUNT,MAX(ISNULL(NMSP.PROJECTION_SALES, 0)) AS PROJECTION_SALES, SUM(ISNULL(NMDP.PROJECTION_SALES, 0))\n"
-                        + " AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
+                        + Constant.AND_RS_M_RS_NAME_IN + discountList + ") "
+                        + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
+                        + Constant.UNION_ALL
+                        + SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                        + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
+                        + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
                         + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS "
                         + "FROM PROJECTION_DETAILS PD\n"
-                        + " JOIN ST_NM_DISCOUNT_PROJ_MASTER NMADM ON  NMADM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
-                        + " JOIN ST_NM_ACTUAL_DISCOUNT NMAD ON NMAD.PROJECTION_DETAILS_SID =NMADM.PROJECTION_DETAILS_SID\n"
-                        + " AND NMAD.USER_ID = NMADM.USER_ID AND NMAD.SESSION_ID = NMADM.SESSION_ID AND NMADM.RS_MODEL_SID = NMAD.RS_MODEL_SID\n"
-                        + " JOIN RS_MODEL RSM ON RSM.RS_MODEL_SID = NMADM.RS_MODEL_SID AND RSM.RS_MODEL_SID = NMAD.RS_MODEL_SID\n"
-                        + " JOIN PERIOD PR ON PR.PERIOD_SID = NMAD.PERIOD_SID JOIN ST_NM_ACTUAL_SALES NMAS ON NMAS.PERIOD_SID = PR.PERIOD_SID \n"
-                        + " AND NMAS.USER_ID = NMAD.USER_ID AND NMAS.SESSION_ID = NMAD.SESSION_ID \n"
-                        + " AND NMAS.PROJECTION_DETAILS_SID = NMADM.PROJECTION_DETAILS_SID JOIN ST_NM_SALES_PROJECTION_MASTER NMSPM "
-                        + " ON NMSPM.PROJECTION_DETAILS_SID = NMAS.PROJECTION_DETAILS_SID AND NMSPM.USER_ID = NMAS.USER_ID \n"
-                        + "  AND NMSPM.SESSION_ID = NMAS.SESSION_ID LEFT JOIN ST_NM_SALES_PROJECTION NMSP"
-                        + " ON NMSP.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID AND NMSP.PERIOD_SID = PR.PERIOD_SID"
-                        + " AND NMSP.USER_ID = NMSPM.USER_ID AND NMSP.SESSION_ID = NMSPM.SESSION_ID LEFT JOIN ST_NM_DISCOUNT_PROJECTION NMDP"
-                        + " ON NMDP.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID AND NMDP.PERIOD_SID = PR.PERIOD_SID"
-                        + " AND NMDP.RS_MODEL_SID = RSM.RS_MODEL_SID AND NMDP.USER_ID = NMSPM.USER_ID AND NMDP.SESSION_ID = NMSPM.SESSION_ID "
-                        + " WHERE PD.PROJECTION_DETAILS_SID in(" + idString + ") AND NMADM.USER_ID =" + userId + ""
-                        + " AND NMADM.SESSION_ID =" + sessionId + " AND cast(PR.YEAR as varchar(4))+RIGHT ('0'+CAST(PR.MONTH AS VARCHAR),2) >=" + startPeriod + ""
-                        + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + endPeriod + ""
-                        + " and RSM.RS_NAME IN (" + discountList + ")"
-                        + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID, RSM.RS_NAME ";
+                        + Constant.JOIN_ST_NM_DISCOUNT_PROJ_MASTER_NM_ADM_ON
+                        + Constant.JOIN_ST_NM_ACTUAL_DISCOUNT_NM_AD_ON_NM_ADP
+                        + Constant.AND_NM_AD_USER_ID_NM_ADM_USER_ID
+                        + Constant.JOIN_RS_MODEL_RSM_ON_RS_M_RS_MODEL_SID_NM
+                        + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID_NM_AD
+                        + Constant.AND_NM_AS_USER_ID_NM_AD_USER_ID
+                        + Constant.AND_NM_AS_PROJECTION_DETAILS_SID_NM_ADM_PRO
+                        + Constant.ON_NM_SP_M_PROJECTION_DETAILS_SID_NM_AS_PROJ
+                        + Constant.AND_NM_SPM_SESSION_ID_NM_AS_SESSION_ID
+                        + Constant.ON_NM_SP_PROJECTION_DETAILS_SID
+                        + Constant.AND_NM_SP_USER_ID_NM_SPM_USER_ID_AND_NM_SP
+                        + Constant.ON_NM_DP_PROJECTION_DETAILS_SID_NM
+                        + Constant.AND_NM_DP_RS_MODEL_SID_RS_RS_MODEL_SID
+                        + Constant.WHERE_PD_PROJECTION_DETAILS_SID_IN + idString + Constant.AND_NM_AD_MUSER_ID + userId + ""
+                        + Constant.AND_NM_ADM_SESSION_ID + sessionId + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
+                        + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
+                        + Constant.AND_RS_M_RS_NAME_IN + discountList + ")"
+                        + Constant.GROUP_BY_PR_YEAR + frequency + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
 
                 sql = sql + " ORDER BY PR.YEAR,BASE,RSM.RS_NAME";
 
@@ -2241,7 +2242,7 @@ public class NmDiscountImpl {
                 }
 
                 if (frequency.equals(QUARTERLY.getConstant())) {
-                    frequency = "QUARTER";
+                    frequency = Constant.QUARTER;
                     switch (startFreq) {
                         case 1:
                             startMonth = 1;
@@ -2271,13 +2272,13 @@ public class NmDiscountImpl {
                             break;
                     }
                 }
-                if (frequency.equals("Annually")) {
+                if (frequency.equals(Constant.ANNUALLY)) {
                     frequency = "YEAR";
                     startMonth = 1;
                     endMonth = 12;
                 }
-                if (frequency.equals("Semi-Annually")) {
-                    frequency = "SEMI_ANNUAL";
+                if (frequency.equals(Constant.SEMIANNUALLY)) {
+                    frequency = Constant.SEMI_ANNUAL;
                     switch (startFreq) {
                         case 1:
                             startMonth = 1;
@@ -2297,7 +2298,7 @@ public class NmDiscountImpl {
 
                 }
                 if (frequency.equals(MONTHLY.getConstant())) {
-                    frequency = "MONTH";
+                    frequency = Constant.MONTH_WITHOUT_SPACE;
                     startMonth = startFreq;
                     endMonth = endFreq;
 
@@ -2308,44 +2309,44 @@ public class NmDiscountImpl {
                         + Constant.DECLARE_END_YEAR_INT + endYear + "\n";
                 String periodFilter = "";
                 periodFilter = "AND I.PERIOD_DATE BETWEEN \n "
-                        + " CASE \n "
-                        + " WHEN @START_MONTH = 1 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-01-01') \n "
-                        + " WHEN @START_MONTH = 2 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-02-01') \n "
-                        + " WHEN @START_MONTH = 3 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-03-01') \n "
-                        + " WHEN @START_MONTH = 4 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-04-01') \n "
-                        + " WHEN @START_MONTH = 5 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-05-01') \n "
-                        + " WHEN @START_MONTH = 6 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-06-01') \n "
-                        + " WHEN @START_MONTH = 7 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-07-01') \n "
-                        + " WHEN @START_MONTH = 8 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-08-01') \n "
-                        + " WHEN @START_MONTH = 9 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-09-01') \n "
-                        + " WHEN @START_MONTH = 10 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-10-01') \n "
-                        + " WHEN @START_MONTH = 11 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-11-01') \n "
-                        + " WHEN @START_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-12-01') \n "
-                        + " END \n "
-                        + " AND \n "
-                        + " CASE \n "
-                        + " WHEN @END_MONTH = 1 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-01-31') \n "
-                        + " WHEN @END_MONTH = 2 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-02-28') \n "
-                        + " WHEN @END_MONTH = 3 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-03-31') \n "
-                        + " WHEN @END_MONTH = 4 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-04-30') \n "
-                        + " WHEN @END_MONTH = 5 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-05-31') \n "
-                        + " WHEN @END_MONTH = 6 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-06-30') \n "
-                        + " WHEN @END_MONTH = 7 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-07-31') \n "
-                        + " WHEN @END_MONTH = 8 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-08-31') \n "
-                        + " WHEN @END_MONTH = 9 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-09-30') \n "
-                        + " WHEN @END_MONTH = 10 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-10-31') \n "
-                        + " WHEN @END_MONTH = 11 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-11-30') \n "
-                        + " WHEN @END_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-12-31') \n "
+                        + Constant.SPACE_CASE_NEW_LINE
+                        + Constant.WHEN_START_MONTH_1_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_2_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_3_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_4_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_5_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_6_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_7_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_8_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_9_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_10_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_11_THEN_CONVERT_DATE
+                        + Constant.WHEN_START_MONTH_12_THEN_CONVERT_DATE
+                        + Constant.SPACE_END_NEW_LINE
+                        + Constant.SPACE_AND_NEW_LINE
+                        + Constant.SPACE_CASE_NEW_LINE
+                        + Constant.WHEN_END_MONTH_1_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_2_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_3_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_4_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_5_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_6_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH71_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_8_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_9_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_10_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_11_THEN_CONVERT_DATE
+                        + Constant.WHEN_END_MONTH_12_THEN_CONVERT_DATE
                         + " END\n ";
 
-                if (actualsOrProjections.equals("Actuals")) {
+                if (actualsOrProjections.equals(Constant.ACTUALS)) {
                     sql = "Select J.RS_NAME from ST_NM_DISCOUNT_PROJ_MASTER A,PERIOD I,RS_MODEL J WHERE  A.USER_ID=" + userId + " and  A.SESSION_ID=" + sessionId + " and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS where PROJECTION_MASTER_SID='" + projectionMasterId + "') " + periodFilter + "group by J.RS_NAME";
                 }
-                if (actualsOrProjections.equals("Projections")) {
-                    sql = "Select J.RS_NAME from ST_NM_DISCOUNT_PROJ_MASTER A,PERIOD I,RS_MODEL J WHERE J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + " and A.SESSION_ID=" + sessionId + " and A.PROJECTION_DETAILS_SID in (select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS where PROJECTION_MASTER_SID='" + projectionMasterId + "')  " + periodFilter + " group by J.RS_NAME";
+                if (actualsOrProjections.equals(Constant.PROJECTIONS)) {
+                    sql = "Select J.RS_NAME from ST_NM_DISCOUNT_PROJ_MASTER A,PERIOD I,RS_MODEL J WHERE J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + Constant.AND_ASESSION_ID + sessionId + " and A.PROJECTION_DETAILS_SID in (select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS where PROJECTION_MASTER_SID='" + projectionMasterId + "')  " + periodFilter + " group by J.RS_NAME";
                 }
                 if (actualsOrProjections.equals("Both")) {
-                    sql = "Select J.RS_NAME from ST_NM_DISCOUNT_PROJ_MASTER A,PERIOD I,RS_MODEL J WHERE J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + " and A.SESSION_ID=" + sessionId + " and A.PROJECTION_DETAILS_SID in (select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS where PROJECTION_MASTER_SID='" + projectionMasterId + "') " + periodFilter + " group by J.RS_NAME";
+                    sql = "Select J.RS_NAME from ST_NM_DISCOUNT_PROJ_MASTER A,PERIOD I,RS_MODEL J WHERE J.RS_MODEL_SID=A.RS_MODEL_SID and A.USER_ID=" + userId + Constant.AND_ASESSION_ID + sessionId + " and A.PROJECTION_DETAILS_SID in (select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS where PROJECTION_MASTER_SID='" + projectionMasterId + "') " + periodFilter + " group by J.RS_NAME";
                 }
                 sql = declareStatement + sql;
 
@@ -2479,7 +2480,7 @@ public class NmDiscountImpl {
             }
 
             if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
                 switch (startFreq) {
                     case 1:
                         startMonth = 1;
@@ -2510,13 +2511,13 @@ public class NmDiscountImpl {
                 }
 
             }
-            if (frequency.equals("Annually")) {
+            if (frequency.equals(Constant.ANNUALLY)) {
                 frequency = "YEAR";
                 startMonth = 1;
                 endMonth = 12;
             }
-            if (frequency.equals("Semi-Annually")) {
-                frequency = "SEMI_ANNUAL";
+            if (frequency.equals(Constant.SEMIANNUALLY)) {
+                frequency = Constant.SEMI_ANNUAL;
                 switch (startFreq) {
                     case 1:
                         startMonth = 1;
@@ -2536,7 +2537,7 @@ public class NmDiscountImpl {
 
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
                 startMonth = startFreq;
                 endMonth = endFreq;
             }
@@ -2548,44 +2549,44 @@ public class NmDiscountImpl {
 
             String periodFilter = "";
             periodFilter = "AND I.PERIOD_DATE BETWEEN \n "
-                    + " CASE \n "
-                    + " WHEN @START_MONTH = 1 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-01-01') \n "
-                    + " WHEN @START_MONTH = 2 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-02-01') \n "
-                    + " WHEN @START_MONTH = 3 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-03-01') \n "
-                    + " WHEN @START_MONTH = 4 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-04-01') \n "
-                    + " WHEN @START_MONTH = 5 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-05-01') \n "
-                    + " WHEN @START_MONTH = 6 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-06-01') \n "
-                    + " WHEN @START_MONTH = 7 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-07-01') \n "
-                    + " WHEN @START_MONTH = 8 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-08-01') \n "
-                    + " WHEN @START_MONTH = 9 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-09-01') \n "
-                    + " WHEN @START_MONTH = 10 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-10-01') \n "
-                    + " WHEN @START_MONTH = 11 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-11-01') \n "
-                    + " WHEN @START_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @START_YEAR) + '-12-01') \n "
-                    + " END \n "
-                    + " AND \n "
-                    + " CASE \n "
-                    + " WHEN @END_MONTH = 1 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-01-31') \n "
-                    + " WHEN @END_MONTH = 2 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-02-28') \n "
-                    + " WHEN @END_MONTH = 3 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-03-31') \n "
-                    + " WHEN @END_MONTH = 4 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-04-30') \n "
-                    + " WHEN @END_MONTH = 5 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-05-31') \n "
-                    + " WHEN @END_MONTH = 6 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-06-30') \n "
-                    + " WHEN @END_MONTH = 7 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-07-31') \n "
-                    + " WHEN @END_MONTH = 8 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-08-31') \n "
-                    + " WHEN @END_MONTH = 9 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-09-30') \n "
-                    + " WHEN @END_MONTH = 10 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-10-31') \n "
-                    + " WHEN @END_MONTH = 11 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-11-30') \n "
-                    + " WHEN @END_MONTH = 12 THEN CONVERT(DATE, CONVERT(VARCHAR(4), @END_YEAR) + '-12-31') \n "
+                    + Constant.SPACE_CASE_NEW_LINE
+                    + Constant.WHEN_START_MONTH_1_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_2_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_3_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_4_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_5_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_6_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_7_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_8_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_9_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_10_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_11_THEN_CONVERT_DATE
+                    + Constant.WHEN_START_MONTH_12_THEN_CONVERT_DATE
+                    + Constant.SPACE_END_NEW_LINE
+                    + Constant.SPACE_AND_NEW_LINE
+                    + Constant.SPACE_CASE_NEW_LINE
+                    + Constant.WHEN_END_MONTH_1_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_2_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_3_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_4_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_5_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_6_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH71_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_8_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_9_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_10_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_11_THEN_CONVERT_DATE
+                    + Constant.WHEN_END_MONTH_12_THEN_CONVERT_DATE
                     + " END\n ";
 
-            if (actualsOrProjections.equals("Actuals")) {
-                sql = "Select J.RS_NAME,I.YEAR,I." + frequency + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + " group by I." + frequency + ",I.YEAR,J.RS_NAME order by J.RS_NAME";
+            if (actualsOrProjections.equals(Constant.ACTUALS)) {
+                sql = Constant.SELECT_JRS_NAME_YEAR + frequency + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequency + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
             }
-            if (actualsOrProjections.equals("Projections")) {
-                sql = "Select J.RS_NAME,I.YEAR,I." + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in(" + idString + ") " + periodFilter + " group by I." + frequency + ",I.YEAR,J.RS_NAME order by J.RS_NAME";
+            if (actualsOrProjections.equals(Constant.PROJECTIONS)) {
+                sql = Constant.SELECT_JRS_NAME_YEAR + frequency + ", sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in(" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequency + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
             }
             if (actualsOrProjections.equals("Both")) {
-                sql = "Select J.RS_NAME,I.YEAR,I." + frequency + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE,sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + " group by I." + frequency + ",I.YEAR,J.RS_NAME order by J.RS_NAME";
+                sql = Constant.SELECT_JRS_NAME_YEAR + frequency + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE,sum(B.PROJECTION_SALES) As PROJECTION_SALES,sum(B.PROJECTION_RATE) As PROJECTION_RATE  from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequency + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
             }
             sql = declareStatement + sql;
 
@@ -2660,62 +2661,62 @@ public class NmDiscountImpl {
 
             }
             if (frequency.equals(QUARTERLY.getConstant())) {
-                frequency = "QUARTER";
+                frequency = Constant.QUARTER;
             }
-            if (frequency.equals("Annually")) {
+            if (frequency.equals(Constant.ANNUALLY)) {
                 frequency = "YEAR";
             }
-            if (frequency.equals("Semi-Annually")) {
-                frequency = "SEMI_ANNUAL";
+            if (frequency.equals(Constant.SEMIANNUALLY)) {
+                frequency = Constant.SEMI_ANNUAL;
             }
             if (frequency.equals(MONTHLY.getConstant())) {
-                frequency = "MONTH";
+                frequency = Constant.MONTH_WITHOUT_SPACE;
             }
-            sql = "SELECT PR.YEAR,PR." + frequency + " AS BASE, 0.00 AS ACTUAL_SALES,0.00 AS ACTUAL_DISCOUNT,MAX(NMSP.PROJECTION_SALES)\n"
-                    + " AS PROJECTION_SALES,SUM(NMDP.PROJECTION_SALES) AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH,RSM.RS_NAME,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
-                    + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS\n"
-                    + " FROM PROJECTION_DETAILS PD JOIN ST_NM_DISCOUNT_PROJ_MASTER NMDPM ON  NMDPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
+            sql = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
+                    + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
+                    + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
+                    + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
                     + " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n"
-                    + " AND NMDP.USER_ID = NMDPM.USER_ID AND NMDP.SESSION_ID = NMDPM.SESSION_ID AND NMDPM.RS_MODEL_SID = NMDP.RS_MODEL_SID\n"
-                    + " JOIN PERIOD PR ON PR.PERIOD_SID = NMDP.PERIOD_SID JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.PERIOD_SID = PR.PERIOD_SID\n"
-                    + "  JOIN ST_NM_SALES_PROJECTION_MASTER NMSPM ON NMSPM.PROJECTION_DETAILS_SID = NMSP.PROJECTION_DETAILS_SID\n"
-                    + " AND NMSPM.USER_ID = NMSP.USER_ID AND NMSPM.SESSION_ID = NMSP.SESSION_ID\n"
-                    + " AND NMSPM.USER_ID = NMDPM.USER_ID AND NMSPM.SESSION_ID = NMDPM.SESSION_ID "
+                    + Constant.AND_NM_DP_USER_ID_NM_DP_M_USER_ID
+                    + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID
+                    + Constant.JOIN_ST_NM_SALES_PROJECTION_MASTER_NM_SP
+                    + Constant.AND_NM_SP_M_USER_ID_NM_SP_USER_ID_AND_NM_SP
+                    + Constant.AND_NM_SP_M_USER_ID_NM_DP_M_USER_ID_AND_NM_SPM
                     + " AND PD.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID JOIN RS_MODEL RSM ON RSM.RS_MODEL_SID = NMDPM.RS_MODEL_SID"
-                    + " AND RSM.RS_MODEL_SID = NMDP.RS_MODEL_SID WHERE PD.PROJECTION_DETAILS_SID in (" + idString + ") "
-                    + " AND NMDPM.USER_ID =" + userId + " AND NMDPM.SESSION_ID =" + sessionId + " "
-                    + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2)>=" + forecastStartPeriod + ""
+                    + Constant.AND_RS_M_RS_MODEL_SID_NM_DP_RS_MODEL_SID_WH + idString + ") "
+                    + Constant.AND_NM_DP_MUSER_ID + userId + Constant.AND_NM_DP_M_SESSION_ID + sessionId + " "
+                    + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
                     + " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + forecastEndPeriod + ""
-                    + " and RSM.RS_NAME IN (" + discountName + ")"
-                    + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
-                    + " UNION ALL"
-                    + " SELECT PR.YEAR,PR." + frequency + " AS BASE, MAX(NMAS.ACTUAL_SALES) AS ACTUAL_SALES, SUM(NMAD.ACTUAL_SALES)"
-                    + " AS ACTUAL_DISCOUNT,MAX(ISNULL(NMSP.PROJECTION_SALES, 0)) AS PROJECTION_SALES, SUM(ISNULL(NMDP.PROJECTION_SALES, 0))\n"
-                    + " AS PROJECTION_DISCOUNT,PR." + frequency + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
+                    + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
+                    + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
+                    + Constant.UNION_ALL
+                    + SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
+                    + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS  FROM PROJECTION_DETAILS PD \n"
-                    + " JOIN ST_NM_DISCOUNT_PROJ_MASTER NMADM ON  NMADM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
-                    + " JOIN ST_NM_ACTUAL_DISCOUNT NMAD ON NMAD.PROJECTION_DETAILS_SID =NMADM.PROJECTION_DETAILS_SID\n"
-                    + " AND NMAD.USER_ID = NMADM.USER_ID AND NMAD.SESSION_ID = NMADM.SESSION_ID AND NMADM.RS_MODEL_SID = NMAD.RS_MODEL_SID\n"
-                    + " JOIN RS_MODEL RSM ON RSM.RS_MODEL_SID = NMADM.RS_MODEL_SID AND RSM.RS_MODEL_SID = NMAD.RS_MODEL_SID\n"
-                    + " JOIN PERIOD PR ON PR.PERIOD_SID = NMAD.PERIOD_SID JOIN ST_NM_ACTUAL_SALES NMAS ON NMAS.PERIOD_SID = PR.PERIOD_SID \n"
-                    + " AND NMAS.USER_ID = NMAD.USER_ID AND NMAS.SESSION_ID = NMAD.SESSION_ID \n"
-                    + " AND NMAS.PROJECTION_DETAILS_SID = NMADM.PROJECTION_DETAILS_SID JOIN ST_NM_SALES_PROJECTION_MASTER NMSPM "
-                    + " ON NMSPM.PROJECTION_DETAILS_SID = NMAS.PROJECTION_DETAILS_SID AND NMSPM.USER_ID = NMAS.USER_ID \n"
-                    + "  AND NMSPM.SESSION_ID = NMAS.SESSION_ID LEFT JOIN ST_NM_SALES_PROJECTION NMSP"
-                    + " ON NMSP.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID AND NMSP.PERIOD_SID = PR.PERIOD_SID"
-                    + " AND NMSP.USER_ID = NMSPM.USER_ID AND NMSP.SESSION_ID = NMSPM.SESSION_ID LEFT JOIN ST_NM_DISCOUNT_PROJECTION NMDP"
-                    + " ON NMDP.PROJECTION_DETAILS_SID = NMSPM.PROJECTION_DETAILS_SID AND NMDP.PERIOD_SID = PR.PERIOD_SID"
-                    + " AND NMDP.RS_MODEL_SID = RSM.RS_MODEL_SID AND NMDP.USER_ID = NMSPM.USER_ID AND NMDP.SESSION_ID = NMSPM.SESSION_ID "
-                    + " WHERE PD.PROJECTION_DETAILS_SID in(" + idString + ") AND NMADM.USER_ID =" + userId + ""
-                    + " AND NMADM.SESSION_ID =" + sessionId + " AND cast(PR.YEAR as varchar(4))+RIGHT ('0'+CAST(PR.MONTH AS VARCHAR),2) >=" + startPeriod + ""
-                    + " AND cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + endPeriod + ""
-                    + " and RSM.RS_NAME IN (" + discountName + ")"
-                    + "GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID, RSM.RS_NAME ";
+                    + Constant.JOIN_ST_NM_DISCOUNT_PROJ_MASTER_NM_ADM_ON
+                    + Constant.JOIN_ST_NM_ACTUAL_DISCOUNT_NM_AD_ON_NM_ADP
+                    + Constant.AND_NM_AD_USER_ID_NM_ADM_USER_ID
+                    + Constant.JOIN_RS_MODEL_RSM_ON_RS_M_RS_MODEL_SID_NM
+                    + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID_NM_AD
+                    + Constant.AND_NM_AS_USER_ID_NM_AD_USER_ID
+                    + Constant.AND_NM_AS_PROJECTION_DETAILS_SID_NM_ADM_PRO
+                    + Constant.ON_NM_SP_M_PROJECTION_DETAILS_SID_NM_AS_PROJ
+                    + Constant.AND_NM_SPM_SESSION_ID_NM_AS_SESSION_ID
+                    + Constant.ON_NM_SP_PROJECTION_DETAILS_SID
+                    + Constant.AND_NM_SP_USER_ID_NM_SPM_USER_ID_AND_NM_SP
+                    + Constant.ON_NM_DP_PROJECTION_DETAILS_SID_NM
+                    + Constant.AND_NM_DP_RS_MODEL_SID_RS_RS_MODEL_SID
+                    + Constant.WHERE_PD_PROJECTION_DETAILS_SID_IN + idString + Constant.AND_NM_AD_MUSER_ID + userId + ""
+                    + Constant.AND_NM_ADM_SESSION_ID + sessionId + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT + startPeriod + ""
+                    + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PRMO + endPeriod + ""
+                    + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
+                    + Constant.GROUP_BY_PR_YEAR + frequency + Constant.PR_MONTH_PD_PROJECTION_DETAILS_SID_RS;
 
-            if (frequency.equals("YEAR") || frequency.equals("MONTH")) {
+            if (frequency.equals("YEAR") || frequency.equals(Constant.MONTH_WITHOUT_SPACE)) {
                 sql = sql + " ORDER BY RSM.RS_NAME,PR.YEAR,PR.MONTH";
             } else {
-                sql = sql + " ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + ",PR.MONTH";
+                sql = sql + " ORDER BY RSM.RS_NAME,PR.YEAR,PR." + frequency + Constant.PR_MONTH;
             }
 
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
