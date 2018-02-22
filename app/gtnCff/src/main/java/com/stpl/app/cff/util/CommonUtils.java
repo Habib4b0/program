@@ -635,7 +635,7 @@ public class CommonUtils {
                 for (CffApprovalDetails details : approvalDetails) {
 
                     dto = new ApprovalDetailsDTO();
-                    dto.setApprovedBy(userInfo.get(Long.parseLong(String.valueOf(details.getApprovedBy()))));
+                    dto.setApprovedBy(userInfo.get(DataTypeConverter.convertIntegerToLong(details.getApprovedBy())));
                     dto.setApprovalSequence(String.valueOf(details.getApprovalSequence()));
                     dto.setApprovedDate(details.getApprovedDate());
                     dto.setApprovalStatus(getHelperDescription(details.getApprovalStatus()));
@@ -670,11 +670,11 @@ public class CommonUtils {
         for (CffApprovalDetails cffApprovalDetails : resultsList) {
             cffMasterId = cffApprovalDetails.getCffMasterSid();
             if (approvalDetails.get(cffMasterId) == null) {
-                s = userInfo.get(Long.parseLong(String.valueOf(cffApprovalDetails.getApprovedBy())));
+                s = userInfo.get(DataTypeConverter.convertIntegerToLong(cffApprovalDetails.getApprovedBy()));
                 approvalDetails.put(cffApprovalDetails.getCffMasterSid(), s);
             } else {
                 s = approvalDetails.get(cffMasterId);
-                s = s + "," + userInfo.get(Long.parseLong(String.valueOf(cffApprovalDetails.getApprovedBy())));
+                s = s + "," + userInfo.get(DataTypeConverter.convertIntegerToLong(cffApprovalDetails.getApprovedBy()));
                 approvalDetails.put(cffApprovalDetails.getCffMasterSid(), s);
             }
 

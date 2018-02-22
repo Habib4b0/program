@@ -36,6 +36,7 @@ import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
+import com.stpl.app.cff.util.DataTypeConverter;
 import com.stpl.app.cff.util.HeaderUtils;
 import com.stpl.app.cff.util.PVQueryUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -1248,7 +1249,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             String displayFormatMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(displayFormatValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
             value = map.get(Constants.CUSTOMER_LEVEL_DDLB);
-            customerlevelDdlb.setValue(CommonUtils.nullCheck(value) || CommonUtils.stringNullCheck(value) ? value : Integer.parseInt(value.toString()));
+            customerlevelDdlb.setValue(CommonUtils.nullCheck(value) || CommonUtils.stringNullCheck(value) ? value : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constants.CUSTOMER_LEVEL_VALUE);
             if (!CommonUtils.nullCheck(value)) {
                 CommonUtils.setCustomMenuBarValuesInEdit(value, customerFilterValues);
@@ -1256,7 +1257,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             String customerMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
             value = map.get(Constants.PRODUCT_LEVEL_DDLB);
-            productlevelDdlb.setValue(CommonUtils.nullCheck(value) || CommonUtils.stringNullCheck(value) ? value : Integer.parseInt(value.toString()));
+            productlevelDdlb.setValue(CommonUtils.nullCheck(value) || CommonUtils.stringNullCheck(value) ? value : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constants.PRODUCT_LEVEL_VALUE);
             if (!CommonUtils.nullCheck(value)) {
                 CommonUtils.setCustomMenuBarValuesInEdit(value, productFilterValues);
@@ -1264,7 +1265,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             String productMenuItemValue = ChangeMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
             ChangeMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
             value = map.get(Constants.DEDUCTION_LEVEL_DDLB);
-            deductionlevelDdlb.setValue(CommonUtils.nullCheck(value) || CommonUtils.stringNullCheck(value) ? value : Integer.parseInt(value.toString()));
+            deductionlevelDdlb.setValue(CommonUtils.nullCheck(value) || CommonUtils.stringNullCheck(value) ? value : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constants.DEDUCTION_LEVEL_VALUE);
             if (!CommonUtils.nullCheck(value)) {
                 CommonUtils.setCustomMenuBarValuesInEdit(value, deductionFilterValues);

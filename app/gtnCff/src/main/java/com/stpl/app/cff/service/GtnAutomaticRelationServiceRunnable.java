@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.service;
 
+import com.stpl.app.cff.util.DataTypeConverter;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -47,7 +48,7 @@ public class GtnAutomaticRelationServiceRunnable implements Callable<Boolean> {
 		if (value == null)
 			return Boolean.FALSE;
 
-		Integer relationShipBuilderSid = Integer.parseInt(value.toString());
+		Integer relationShipBuilderSid = DataTypeConverter.convertObjectToInt(value);
 		GtnFrameworkAutomaticRelationshipRequest relationRequest = new GtnFrameworkAutomaticRelationshipRequest();
 		relationRequest.setRelationshipBuilderSid(relationShipBuilderSid);
 		relationRequest.setHierarchyBuilderSid(hierarchySid);

@@ -23,6 +23,7 @@ import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
+import com.stpl.app.cff.util.DataTypeConverter;
 import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
@@ -2845,8 +2846,8 @@ public class CommonLogic {
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 for (int i = 0; i < currentHierarchy.size(); i++) {
                     Object[] levelValues = (Object[]) currentHierarchy.get(i);
-                        ddlb.addItem(Integer.parseInt(String.valueOf(levelValues[0])));
-                        ddlb.setItemCaption(Integer.parseInt(String.valueOf(levelValues[0])), String.valueOf(levelValues[1]));
+                        ddlb.addItem(DataTypeConverter.convertObjectToInt(levelValues[0]));
+                        ddlb.setItemCaption(DataTypeConverter.convertObjectToInt(levelValues[0]), String.valueOf(levelValues[1]));
                 }
             }
         }
