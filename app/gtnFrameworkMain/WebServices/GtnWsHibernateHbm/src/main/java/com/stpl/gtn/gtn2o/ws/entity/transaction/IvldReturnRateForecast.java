@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.ws.entity.transaction;
 // Generated Feb 6, 2018 3:06:35 PM by Hibernate Tools 4.3.1
 
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -18,7 +17,7 @@ public class IvldReturnRateForecast  implements java.io.Serializable {
      private String itemName;
      private String forecastYear;
      private String forecastMonth;
-     private BigDecimal rate;
+     private Double rate;
      private String forecastName;
      private String forecastVer;
      private String createdBy;
@@ -43,7 +42,7 @@ public class IvldReturnRateForecast  implements java.io.Serializable {
         this.returnRateForecastSid = returnRateForecastSid;
         this.checkRecord = checkRecord;
     }
-    public IvldReturnRateForecast(int returnRateForecastSid, String returnRateForecastInterfaceId, String itemId, String itemNo, String itemName, String forecastYear, String forecastMonth, BigDecimal rate, String forecastName, String forecastVer, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate, String errorCode, String errorField, boolean checkRecord, String reprocessedFlag) {
+    public IvldReturnRateForecast(int returnRateForecastSid, String returnRateForecastInterfaceId, String itemId, String itemNo, String itemName, String forecastYear, String forecastMonth, Double rate, String forecastName, String forecastVer, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate, String errorCode, String errorField, boolean checkRecord, String reprocessedFlag) {
        this.returnRateForecastSid = returnRateForecastSid;
        this.returnRateForecastInterfaceId = returnRateForecastInterfaceId;
        this.itemId = itemId;
@@ -118,11 +117,11 @@ public class IvldReturnRateForecast  implements java.io.Serializable {
     public void setForecastMonth(String forecastMonth) {
         this.forecastMonth = forecastMonth;
     }
-    public BigDecimal getRate() {
+    public Double getRate() {
         return this.rate;
     }
     
-    public void setRate(BigDecimal rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
     public String getForecastName() {

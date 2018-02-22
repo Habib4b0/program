@@ -26,7 +26,7 @@
         <property name="forecastMonth" type="string">
             <column name="FORECAST_MONTH" length="200" />
         </property>
-        <property name="rate" type="big_decimal">
+        <property name="rate" type="double">
             <column name="RATE" precision="22" scale="6" />
         </property>
         <property name="forecastName" type="string">
