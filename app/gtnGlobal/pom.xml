@@ -110,12 +110,6 @@
 			<!--<scope>compile</scope> -->
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.logging</groupId>
-			<artifactId>jboss-logging</artifactId>
-			<version>${org.jboss.logging.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.stpl.addons</groupId>
 			<artifactId>beforeunload-addon</artifactId>
 			<version>2.0</version>
@@ -146,16 +140,15 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.kie</groupId>
-			<artifactId>kie-api</artifactId>
-			<version>7.0.0.Final</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.stpl.addons</groupId>
 			<artifactId>extfilteringtable</artifactId>
 			<version>2.0</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.14</version>
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.addons</groupId>
@@ -243,56 +236,6 @@
 	<build>
 		<finalName>${artifactId}</finalName>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.0.0</version>
-				<executions>
-					<execution>
-						<id>copy</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<artifactItems>
-						<artifactItem>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-api</artifactId>
-							<version>1.7.2</version>
-							<type>jar</type>
-							<overWrite>false</overWrite>
-						</artifactItem>
-						<artifactItem>
-							<groupId>org.quartz-scheduler</groupId>
-							<artifactId>quartz</artifactId>
-							<version>2.2.2</version>
-							<type>jar</type>
-							<overWrite>false</overWrite>
-						</artifactItem>
-						<artifactItem>
-							<groupId>commons-beanutils</groupId>
-							<artifactId>commons-beanutils</artifactId>
-							<version>1.8.3</version>
-							<type>jar</type>
-							<overWrite>false</overWrite>
-						</artifactItem>
-						<artifactItem>
-							<groupId>commons-collections</groupId>
-							<artifactId>commons-collections</artifactId>
-							<version>3.2.2</version>
-							<type>jar</type>
-							<overWrite>false</overWrite>
-						</artifactItem>
-					</artifactItems>
-					<outputDirectory>${basedir}/target/gtnGlobal/WEB-INF/lib</outputDirectory>
-					<overWriteReleases>false</overWriteReleases>
-					<overWriteSnapshots>true</overWriteSnapshots>
-				</configuration>
-			</plugin>
-
 			<!-- As we are doing "inplace" GWT compilation, ensure the widgetset -->
 			<!-- directory is cleaned properly -->
 			<plugin>
@@ -304,29 +247,6 @@
 							<directory>src/main/webapp/VAADIN/widgetsets</directory>
 						</fileset>
 					</filesets>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<archive>
-						<manifestEntries>
-							<Dependencies>com.stpl.shared.library</Dependencies>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
-				<configuration>
-					<includes>
-						<includes>**/TestSuite.java</includes>
-					</includes>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -360,56 +280,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-maven-plugin</artifactId>
-				<version>${vaadin.plugin.version}</version>
-				<configuration>
-					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-					<!-- <runTarget>mobilemail</runTarget> -->
-					<!-- We are doing "inplace" but into subdir VAADIN/widgetsets. This 
-						way compatible with Vaadin eclipse plugin. -->
-					<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets
-					</webappDirectory>
-					<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets
-					</hostedWebapp>
-					<!-- Most Vaadin apps don't need this stuff, guide that to target -->
-					<persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
-					<deploy>${project.build.directory}/gwt-deploy</deploy>
-					<!-- Compile report is not typically needed either, saves hunreds of 
-						mb disk -->
-					<compileReport>false</compileReport>
-					<noServer>true</noServer>
-					<!-- Remove draftCompile when project is ready -->
-					<draftCompile>false</draftCompile>
-
-					<style>OBF</style>
-					<strict>true</strict>
-					<runTarget>http://localhost:8080</runTarget>
-				</configuration>
-				<executions>
-					<execution>
-						<configuration>
-							<!-- if you don't specify any modules, the plugin will find them -->
-							<!-- <modules> <module>com.vaadin.demo.mobilemail.gwt.ColorPickerWidgetSet</module> 
-								</modules> -->
-						</configuration>
-						<!-- <goals> <goal>clean</goal> <goal>resources</goal> <goal>update-theme</goal> 
-							<goal>update-widgetset</goal> <goal>compile-theme</goal> <goal>compile</goal> 
-							</goals> -->
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<configuration>
-					<webApp>
-						<contextPath>/</contextPath>
-					</webApp>
-					<scanIntervalSeconds>5</scanIntervalSeconds>
 				</configuration>
 			</plugin>
 		</plugins>
