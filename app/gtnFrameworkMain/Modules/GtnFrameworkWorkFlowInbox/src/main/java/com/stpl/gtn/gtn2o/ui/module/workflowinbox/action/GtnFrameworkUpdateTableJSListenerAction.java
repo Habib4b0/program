@@ -94,7 +94,7 @@ public class GtnFrameworkUpdateTableJSListenerAction implements GtnUIFrameWorkAc
 						table.getLogicFromPagedDataTable()
 								.setCurrentPage(table.getLogicFromPagedDataTable().getCurrentPage());
 
-						if (arguments.getBoolean(1)) {
+						if (Boolean.parseBoolean(arguments.getString(1))) {
 
 							JavaScript.getCurrent()
 									.execute("localStorage.setItem('" + arguments.getString(0) + "', 'false');");
