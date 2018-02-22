@@ -9,7 +9,8 @@ public enum GtnFrameworkWorkflowIdMap {
 									GtnFrameworkWorkflowInboxClassConstants.ACCCLOSUREIDMASTERSID), FD(
 											GtnFrameworkWorkflowInboxClassConstants.ACCCLOSUREIDMASTERSID), CMF(
 													GtnFrameworkWorkflowInboxClassConstants.CONTRACT_MASTERSID), ARM(
-															GtnFrameworkWorkflowInboxClassConstants.ARM_MASTERSID);
+															GtnFrameworkWorkflowInboxClassConstants.ARM_MASTERSID), CM(
+													GtnFrameworkWorkflowInboxClassConstants.CONTRACT_MASTERSID);
 	private GtnFrameworkWorkflowIdMap(String input) {
 		this.input = input;
 	}
