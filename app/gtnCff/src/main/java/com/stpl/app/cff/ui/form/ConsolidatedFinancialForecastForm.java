@@ -367,7 +367,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 			CFFLogic.mapUsers();
 
-			excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
+			excelExport.setIcon(new ThemeResource("img/excel.png"));
 			excelExport.setStyleName("link");
 			excelExport.setDescription("Export to excel");
 			excelExport.setIconAlternateText("Excel export");
@@ -636,7 +636,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDTO.setProjectionName(String.valueOf(temp[0]));
 					sessionDTO.setProdRelationshipBuilderSid(String.valueOf(temp[1]));
 					sessionDTO.setCustRelationshipBuilderSid(String.valueOf(temp[NumericConstants.TWO]));
+                  if(temp[NumericConstants.THREE]!=null){ 
                                         sessionDTO.setCffEligibleDate(new Date(String.valueOf(temp[NumericConstants.THREE])));
+                  }
 				}
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));
 

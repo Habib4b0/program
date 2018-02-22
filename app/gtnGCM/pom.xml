@@ -175,10 +175,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.kie</groupId>
-			<artifactId>kie-api</artifactId>
-			<version>7.0.0.Final</version>
-			<scope>provided</scope>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.14</version>
 		</dependency>
 		<!-- <dependency> <groupId>com.stpl.app.bpm</groupId> <artifactId>stpl-jbpm</artifactId> 
 			<version>${bpm.version}</version> <exclusions> <exclusion> <artifactId>dom4j</artifactId> 
