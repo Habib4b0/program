@@ -797,7 +797,7 @@ public class CFFLogic {
                             dto.setFileManagementSid(String.valueOf(obj[NumericConstants.TWO]));
                             dto.setFileName(String.valueOf(obj[NumericConstants.THREE]));
                             dto.setVersion(String.valueOf(obj[NumericConstants.FOUR]));
-                            dto.setFileType(String.valueOf(obj[NumericConstants.SEVEN]));
+                            dto.setFileType(obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : StringUtils.EMPTY);
                             if (obj[NumericConstants.FIVE] != null) {
                                 dto.setActiveFromDate((Date) obj[NumericConstants.FIVE]);
                             } else {
@@ -831,7 +831,7 @@ public class CFFLogic {
                         dto.setFileManagementSid(String.valueOf(obj[0]));
                         dto.setFileName(String.valueOf(obj[1]));
                         dto.setVersion(String.valueOf(obj[NumericConstants.THREE]));
-                        dto.setFileType(String.valueOf(obj[NumericConstants.TWO]));
+                        dto.setFileType(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO]) : StringUtils.EMPTY);
                         dto.setActiveFromDate((Date) obj[NumericConstants.FOUR]);
                         dto.setActiveToDate((Date) obj[NumericConstants.FIVE]);
                         dto.setFileTypeId(String.valueOf(obj[NumericConstants.SIX]));
