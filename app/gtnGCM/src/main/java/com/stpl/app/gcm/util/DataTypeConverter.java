@@ -42,7 +42,7 @@ public class DataTypeConverter {
      * @param longInput
      * @return long
      */
-    public static long convertLongToInteger(Long longInput) {
+    public static int convertLongToInteger(Long longInput) {
         return Integer.parseInt(String.valueOf(longInput));
     }
     

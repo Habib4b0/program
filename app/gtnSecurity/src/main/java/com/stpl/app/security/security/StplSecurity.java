@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import com.stpl.app.util.ConstantsUtils;
+import com.stpl.app.util.DataTypeConverter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -310,7 +311,7 @@ public class StplSecurity {
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
-            userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            userMap.put(DataTypeConverter.convertLongToInteger(user.getUserId()), user.getFullName());
         }
         LOGGER.debug("End of getUserName method");
         return userMap;

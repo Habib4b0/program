@@ -40,7 +40,7 @@ public class DataTypeConverter {
     /**
      * Converts long to string 
      * @param longInput
-     * @return long
+     * @return integer
      */
     public static int convertLongToInteger(Long longInput) {
         return Integer.parseInt(String.valueOf(longInput));
