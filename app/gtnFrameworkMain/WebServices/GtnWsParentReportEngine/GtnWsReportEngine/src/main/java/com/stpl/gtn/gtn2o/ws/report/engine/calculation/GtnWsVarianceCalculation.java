@@ -58,7 +58,7 @@ public class GtnWsVarianceCalculation implements GtnWsCalculation {
             Object priorObject = this.variableCategoryBean.getPriorDocument().get(priorProperty);
             String current = gtnWsCalculationValidation.getDoubleValue(currentObject);
             String prior = gtnWsCalculationValidation.getDoubleValue(priorObject);
-            String formula = current + "-" + prior;
+            String formula = prior + "-" + current;
             return evaluator.getNumberResult(formula);
         } catch (EvaluationException ex) {
             ex.printStackTrace();

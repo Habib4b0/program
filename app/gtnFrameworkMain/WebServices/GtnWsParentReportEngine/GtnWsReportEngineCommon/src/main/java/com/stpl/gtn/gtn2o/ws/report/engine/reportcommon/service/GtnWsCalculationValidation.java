@@ -60,6 +60,7 @@ public class GtnWsCalculationValidation {
             List<String[]> projection = new ArrayList<>();
             projection.add(new String[]{"Projection", "Actuals"});
             projection.add(new String[]{"Projection", "Accruals"});
+            projection.add(new String[]{"Projection", "Projection"});
             COMPARISON_BASIS.put("Projection", projection);
             List<String[]> value = new ArrayList<>();
             value.add(new String[]{"Actuals", "Accruals", "Projection"});

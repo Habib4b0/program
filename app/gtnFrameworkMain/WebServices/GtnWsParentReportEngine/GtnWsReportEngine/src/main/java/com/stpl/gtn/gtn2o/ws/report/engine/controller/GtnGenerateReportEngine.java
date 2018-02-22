@@ -12,11 +12,11 @@ public class GtnGenerateReportEngine {
         GtnWsMongoCalculation mongoCalc = new GtnWsMongoCalculation();
         MongoCollection<Document> collection = mongoCalc.getCollection("calculation");
         mongoCalc.setRowValue(input, collection, null);
-//        collection = mongoCalc.getCollection("calculation1");
-//        mongoCalc.setRowValue(input, collection, null);
+        collection = mongoCalc.getCollection("calculation1");
+        mongoCalc.setRowValue(input, collection, null);
 //        collection = mongoCalc.getCollection("calculation2");
 //        mongoCalc.setRowValue(input, collection, null);
-        mongoCalc.setVariableCategory(input, 0);
+        mongoCalc.setVariableCategory(input, 1);
         return input;
     }
 }

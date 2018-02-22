@@ -14,7 +14,7 @@ public class GtnWsVariableCategoryBean {
     private DecimalFormat decimalFormat;
     private String comparisonBasis;
     private int projectionId = 0;
-    private final String[] comparisonBasisArray = new String[]{"exfactory", "contractSales"};
+    private final String[] comparisonBasisArray = new String[]{"contractSales"};
 //    private final String[] comparisonBasisArray = new String[]{"exfactory", "contractSales", "contractUnits", "discountAmount", "discountPercent", "rpu", "netContractSales",
 //        "grossContractSalesPerExFactory", "deductionPerExfactory", "netContractSalesPerExfactory", "netExfactorySales", "contractSalesPerTotalContractSales",
 //        "netExfactorySalesPerTotalExfactory"};
