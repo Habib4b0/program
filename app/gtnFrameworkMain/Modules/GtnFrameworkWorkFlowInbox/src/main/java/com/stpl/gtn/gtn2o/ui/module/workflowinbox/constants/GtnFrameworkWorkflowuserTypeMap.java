@@ -8,7 +8,8 @@ public enum GtnFrameworkWorkflowuserTypeMap {
 							GtnFrameworkWorkflowInboxClassConstants.APPROVER), ARM_TRX(
 									GtnFrameworkWorkflowInboxClassConstants.APPROVER), BR(
 											GtnFrameworkWorkflowInboxClassConstants.YES), FD(
-													GtnFrameworkWorkflowInboxClassConstants.YES);
+													GtnFrameworkWorkflowInboxClassConstants.YES), CM(
+			GtnFrameworkWorkflowInboxClassConstants.APPROVER);
 
 	private GtnFrameworkWorkflowuserTypeMap(String input) {
 		this.input = input;
