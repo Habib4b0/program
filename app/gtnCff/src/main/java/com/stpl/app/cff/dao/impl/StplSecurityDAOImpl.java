@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class StplSecurityDAOImpl implements StplSecurityDAO {
 
-    private CommonServiceImpl commonService = CommonServiceImpl.getInstance();
+    private final CommonServiceImpl commonService = CommonServiceImpl.getInstance();
 
     /**
      * Returns the user details corresponding to the userId
