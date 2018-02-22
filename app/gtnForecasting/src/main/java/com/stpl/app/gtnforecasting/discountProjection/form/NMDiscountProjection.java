@@ -981,9 +981,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 Object mapValue = map.get(Constant.FREQUENCY);
 				frequencyDdlb.select(mapValue);
                                 mapValue = map.get(Constant.HISTORY);
-				historyDdlb.select(Integer.parseInt(((mapValue == null || StringUtils.isBlank(mapValue.toString())
+                                String mapValueString = ((mapValue == null || StringUtils.isBlank(mapValue.toString())
 						|| mapValue.toString().equalsIgnoreCase(ANULL)) ? 0
-								: map.get(Constant.HISTORY)).toString()));
+								: map.get(Constant.HISTORY)).toString();
+				historyDdlb.select(DataTypeConverter.convertStringToInteger(mapValueString));
                                 mapValue = map.get(Constant.PROJECTION_PERIOD_ORDER_LABEL);
 				periodOrder.select(mapValue);
                                 mapValue = map.get(Constant.ACTUALS_PROJECTIONS);

@@ -461,8 +461,8 @@ public class SalesProjectionLogic {
                     boolean tempBool = true;
                     int ia = 0;
                     while (tempBool) {
-
-                        values.put(Integer.parseInt((dto.getStartYear() + NumericConstants.ONE_NINE_ZERO_ZERO) + StringUtils.EMPTY + dto.getStartQuator()), dto.getLives());
+                        String inputString = (dto.getStartYear() + NumericConstants.ONE_NINE_ZERO_ZERO) + StringUtils.EMPTY + dto.getStartQuator();
+                        values.put(DataTypeConverter.convertStringToInteger(inputString), dto.getLives());
 
                         if (dto.getStartYear() == dto.getEndYear() && dto.getStartQuator() == dto.getEndQuator()) {
 
@@ -1016,8 +1016,8 @@ public class SalesProjectionLogic {
 
            
                 statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.TWO, DataTypeConverter.convertStringtoInteger(session.getUserId())); //  @USER_ID
-                statement.setObject(NumericConstants.THREE, DataTypeConverter.convertStringtoInteger(session.getSessionId())); //  @SESSION_ID
+                statement.setObject(NumericConstants.TWO, DataTypeConverter.convertStringToInteger(session.getUserId())); //  @USER_ID
+                statement.setObject(NumericConstants.THREE, DataTypeConverter.convertStringToInteger(session.getSessionId())); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
                 status = statement.execute();
             }
@@ -1121,7 +1121,7 @@ public class SalesProjectionLogic {
 
         for (String companyKey : finalMap.keySet()) {
             values = finalMap.get(companyKey);
-            lastValue = values.get(DataTypeConverter.convertStringtoInteger(year + StringUtils.EMPTY + quator));
+            lastValue = values.get(DataTypeConverter.convertStringToInteger(year + StringUtils.EMPTY + quator));
             totalValue = totalValue.add(BigDecimal.valueOf(lastValue));
         }
 

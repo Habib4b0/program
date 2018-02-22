@@ -349,8 +349,8 @@ public class NMSalesProjectionResultsLogic {
 		paramArray[0] = projectionID;
 		paramArray[1] = frequency;
 		paramArray[2] = StringUtils.EMPTY;
-		paramArray[3] = DataTypeConverter.convertStringtoInteger(sessionId);
-		paramArray[4] = DataTypeConverter.convertStringtoInteger(userId);
+		paramArray[3] = DataTypeConverter.convertStringToInteger(sessionId);
+		paramArray[4] = DataTypeConverter.convertStringToInteger(userId);
 
 		SalesProjectionResultsDTO gtsDTO = new SalesProjectionResultsDTO();
 		List<SalesProjectionResultsDTO> gtsList = new ArrayList<>();

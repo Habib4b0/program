@@ -12,6 +12,7 @@ import static com.stpl.app.gtnforecasting.utils.CommonUtils.resetDdlb;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.ui.ComboBox;
@@ -169,8 +170,8 @@ public class Utility {
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 for (int i = 0; i < currentHierarchy.size(); i++) {
                     Object[] levelValues = currentHierarchy.get(i);
-                    ddlb.addItem(Integer.parseInt(String.valueOf(levelValues[0])));
-                    ddlb.setItemCaption(Integer.parseInt(String.valueOf(levelValues[0])), String.valueOf(levelValues[1]));
+                    ddlb.addItem(DataTypeConverter.convertObjectToInt(levelValues[0]));
+                    ddlb.setItemCaption(DataTypeConverter.convertObjectToInt(levelValues[0]), String.valueOf(levelValues[1]));
                 }
             }
         }

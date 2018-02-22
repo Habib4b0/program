@@ -84,6 +84,7 @@ import static com.stpl.app.utils.Constants.StringConstants.PERCENT;
 import static com.stpl.app.utils.Constants.StringConstants.SPLIT_ARROW;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
@@ -719,7 +720,7 @@ public class SalesLogic {
         final Map<String, List> relationshipDetailsMap = sessionDTO.getHierarchyLevelDetails();
         for (int i = 0; i < resulList.size(); i++) {
             Object obj[] = (Object[]) resulList.get(i);
-            MSalesProjection.getRowCountMap().put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) : null);
+            MSalesProjection.getRowCountMap().put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? DataTypeConverter.convertObjectToInt(obj[NumericConstants.ELEVEN]) : null);
             if (lastLevelValue.equalsIgnoreCase(STRING_EMPTY) || lastLevelValue.equals(String.valueOf(obj[NumericConstants.TEN]))) {
 
                 lastLevelValue = String.valueOf(obj[NumericConstants.TEN]);
@@ -773,7 +774,7 @@ public class SalesLogic {
             }
             salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ? new Boolean(false) : new Boolean(true) : new Boolean(false));
             if (obj[NumericConstants.FOURTEEN] != null) {
-                salesRowDto.setUncheckCount(Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])));
+                salesRowDto.setUncheckCount(DataTypeConverter.convertObjectToInt(obj[NumericConstants.FOURTEEN]));
             }
 
             salesRowDto.setParent(1);
@@ -811,7 +812,7 @@ public class SalesLogic {
                     key);
 
             if (obj[NumericConstants.FOURTEEN] != null) {
-                salesRowDto.setUncheckCount(Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])));
+                salesRowDto.setUncheckCount(DataTypeConverter.convertObjectToInt(obj[NumericConstants.FOURTEEN]));
             }
             salesRowDto.setCcpCount(String.valueOf(obj[NumericConstants.FIFTEEN]));
             if (projectionSelectionDTO.isLevelFilter()) {
@@ -2239,7 +2240,7 @@ public class SalesLogic {
                 LOGGER.debug(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
 
                 statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.TWO, Integer.parseInt(session.getUserId())); //  @USER_ID
+                statement.setObject(NumericConstants.TWO, DataTypeConverter.convertStringToInteger(session.getUserId())); //  @USER_ID
                 statement.setObject(NumericConstants.THREE, session.getSessionId()); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
                 if (!CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
@@ -3046,7 +3047,7 @@ public class SalesLogic {
                 statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]);
                 statement.setObject(NumericConstants.FOUR, inputs[NumericConstants.THREE]);
                 statement.setObject(NumericConstants.FIVE, inputs[NumericConstants.FOUR]);
-                statement.setObject(NumericConstants.SIX, Integer.parseInt((String) inputs[NumericConstants.FIVE]));
+                statement.setObject(NumericConstants.SIX, DataTypeConverter.convertObjectToInt(inputs[NumericConstants.FIVE]));
                 statement.setObject(NumericConstants.SEVEN, inputs[NumericConstants.SIX]);
                 statement.execute();
             }

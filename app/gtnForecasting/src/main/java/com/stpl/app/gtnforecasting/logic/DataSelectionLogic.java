@@ -414,7 +414,7 @@ public class DataSelectionLogic {
 		List<Integer> sids = new ArrayList<>();
 
 		for (String sid : companySids) {
-			sids.add(DataTypeConverter.convertStringtoInteger(sid));
+			sids.add(DataTypeConverter.convertStringToInteger(sid));
 		}
 
 		final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
@@ -427,7 +427,7 @@ public class DataSelectionLogic {
 		List<Integer> sids = new ArrayList<>();
 		List<ItemMaster> items = null;
 		for (String sid : itemSids) {
-			sids.add(DataTypeConverter.convertStringtoInteger(sid));
+			sids.add(DataTypeConverter.convertStringToInteger(sid));
 		}
 		if (itemSids != null && !itemSids.isEmpty()) {
 			final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();

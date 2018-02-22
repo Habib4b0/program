@@ -7,7 +7,7 @@ package com.stpl.app.utils.converters;
 
 /**
  *
- * @author Vijayalakshmi.Kishor
+ * @author Vijayalakshmi.Kishore
  */
 public class DataTypeConverter {
     
@@ -33,8 +33,8 @@ public class DataTypeConverter {
      * @param strInput
      * @return string
      */
-    public static int convertStringtoInteger(String objInput) {
-        return Integer.parseInt(objInput);
+    public static int convertStringToInteger(String strInput) {
+        return Integer.parseInt(strInput);
     }
     
     /**
@@ -42,7 +42,17 @@ public class DataTypeConverter {
      * @param longInput
      * @return long
      */
-    public static long ConvertLongtoInteger(Long longInput) {
-        return Integer.parseInt(longInput.toString());
+    public static long convertLongToInteger(Long longInput) {
+        return Integer.parseInt(String.valueOf(longInput));
     }
+    
+    /**
+     * Converts String to Double
+     * @param stringInput
+     * @return double
+     */
+    public static double convertStringToDouble(String stringInput) {
+        return Double.parseDouble(String.valueOf(stringInput));
+    }
+    
 }

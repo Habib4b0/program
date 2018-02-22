@@ -45,6 +45,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
@@ -1419,7 +1420,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
                     ndcList.add(ndcDesc);// for showing ndcs in notification
                     listItemNo.add(ndcDesc);
-                    itemMasterSidMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDesc);
+                    itemMasterSidMap.put(DataTypeConverter.convertObjectToInt(obj[0]), ndcDesc);
                     nonFampMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FIVE]));
                     fssMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.SIX]));
                     federalWacMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FOUR]));
@@ -1431,7 +1432,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     ndcDto.setNonFamp(String.valueOf(obj[NumericConstants.FIVE]));
                     ndcDto.setFssOGA(String.valueOf(obj[NumericConstants.SIX]));
                     ndcDto.setNdcDescription(ndcDesc);
-                    federalMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDto);
+                    federalMap.put(DataTypeConverter.convertObjectToInt(obj[0]), ndcDto);
                 }
 
             }

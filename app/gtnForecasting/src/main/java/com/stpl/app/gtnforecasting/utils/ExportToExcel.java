@@ -90,7 +90,8 @@ public class ExportToExcel extends ExcelExport {
                 Double d = 0.0;
                 try {
                     if (null != value && !String.valueOf(value).equalsIgnoreCase(StringUtils.EMPTY) && !String.valueOf(value).equalsIgnoreCase(Constant.NULL)) {
-                        d = Double.parseDouble(value.toString().replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY).replace(Constant.PERCENT, StringUtils.EMPTY));
+                        String valueSring = value.toString().replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY).replace(Constant.PERCENT, StringUtils.EMPTY);
+                        d = DataTypeConverter.convertStringToDouble(valueSring);
                         sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         if (!String.valueOf(levelValue).contains(CommonUtils.COL_PERCENTAGE) && !String.valueOf(propId).endsWith("Per")
                                 && ((formatter.get(Constant.PERCENT_TWO_DECIMAL) != null

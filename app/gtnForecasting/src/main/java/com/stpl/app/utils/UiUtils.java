@@ -17,6 +17,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.MODE_SEARCH;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_ASSUMPTIONS;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_PPA_PROJECTION;
 import static com.stpl.app.utils.Constants.RegexConstants.REGEX_EXTRACT_DIGITS;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
@@ -413,7 +414,7 @@ public class UiUtils {
 		List<Integer> integerList = new ArrayList<>();
 
 		for (String sid : stringList) {
-			integerList.add(Integer.parseInt(sid));
+			integerList.add(DataTypeConverter.convertStringToInteger(sid));
 		}
 
 		return integerList;
