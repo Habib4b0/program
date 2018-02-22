@@ -1133,12 +1133,6 @@ public final class ConstantsUtils {
      */
     public static final String NATIONAL_ASSUMPTIONS = "National Assumptions";
     
-    private static final Object[] PROCESS_MONITOR_COLUMNS = new Object[]{
-        PROCESS_NAME, "processType", "calender", "modifiedDate", "modifiedBy"};
-    
-    private static final String[] PROCESS_MONITOR_HEADER = new String[]{
-        "Monitor Name", "Process Type", "Calendar", "Modified Date", "Modified By"};
-
     /**
      * Enum for Module/Screen/Functionality indicator constants.
      */

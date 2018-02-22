@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AccrualRateUtils {
     
-    private final static Logger LOGGER = LoggerFactory.getLogger(AccrualRateUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateUtils.class);
 
     public static final String ADJUSTED_DEMAND = "Forecasted Adjusted Demand";
     public static final String DEMAND = "Forecasted Demand";

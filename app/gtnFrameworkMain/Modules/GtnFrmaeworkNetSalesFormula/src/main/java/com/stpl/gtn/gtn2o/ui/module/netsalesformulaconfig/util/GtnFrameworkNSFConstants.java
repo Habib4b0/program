@@ -157,7 +157,9 @@ public class GtnFrameworkNSFConstants {
 	private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_MSG = " Please select a field to Mass Update ";
 	private static final String NET_SALES_MASS_UPDATE_VALUE_ERROR_MSG = " Please select a value to Mass Update ";
 	private static final String POPULATE_BUTTON_CHECK_RECORD_ERROR_SALES_BASIS_HEADER = "No values in the ‘Selected Customers’ list view are selected";
-
+	private static final String FORMULA_TYPE_CONTRACT_DEDUCTION = "Contract Deduction";
+	private static final String FORMULA_TYPE_DEDUCTION_TYPE = "Deduction Type";
+	
 	public static String getNsfMainView() {
 		return NSF_MAIN_VIEW;
 	}
@@ -386,5 +388,11 @@ public class GtnFrameworkNSFConstants {
 		return POPULATE_BUTTON_CHECK_RECORD_ERROR_SALES_BASIS_HEADER;
 	}
 
-
+	public static String getFormulaTypeContractDeduction() {
+		return FORMULA_TYPE_CONTRACT_DEDUCTION;
+	}
+	
+	public static String getFormulaTypeDeductionType() {
+		return FORMULA_TYPE_DEDUCTION_TYPE;
+	}
 }

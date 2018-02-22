@@ -604,7 +604,7 @@ public class ApprovalTab extends CustomComponent {
                 link.setDescription("Open Commercial Forecasting");
             }
             furl += parameter;
-            LOGGER.debug("Redirecting to URL Ready : --------------" + furl);
+            LOGGER.debug("Redirecting to URL Ready : --------------{}",furl);
             link.setResource(new ExternalResource(furl));
         } else {
             projectionIdHidden = null;
