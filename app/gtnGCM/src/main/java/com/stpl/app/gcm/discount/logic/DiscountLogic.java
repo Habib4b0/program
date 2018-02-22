@@ -70,6 +70,7 @@ import com.stpl.app.gcm.impl.CfpContractDetailsImpl;
 import com.stpl.app.gcm.impl.IfpContractDetailsImpl;
 import com.stpl.app.gcm.impl.PsContractDetailsImpl;
 import com.stpl.app.gcm.impl.RsContractDetailsImpl;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.server.VaadinSession;
@@ -407,7 +408,7 @@ public class DiscountLogic {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setCfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setCfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setNumber(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setName(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
@@ -423,7 +424,7 @@ public class DiscountLogic {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setIfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setIfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setNumber(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setName(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
@@ -1277,7 +1278,7 @@ public class DiscountLogic {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setIfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setIfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setNumber(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setName(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
@@ -1297,7 +1298,7 @@ public class DiscountLogic {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
 
-                tabDto.setInternalId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setInternalId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setItemNo(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setItemName(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setBrand(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
@@ -1315,7 +1316,7 @@ public class DiscountLogic {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setInternalId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setInternalId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setTradingPartnerNo(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setTradingPartnerName(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setTpContractNo(StringUtils.EMPTY);

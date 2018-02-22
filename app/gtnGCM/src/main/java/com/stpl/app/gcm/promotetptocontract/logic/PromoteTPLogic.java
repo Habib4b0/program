@@ -65,6 +65,7 @@ import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
@@ -1366,7 +1367,7 @@ public class PromoteTPLogic {
                     dto.setIfpContSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.THIRTEEN])));
                     dto.setPsContSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.FOURTEEN])));
                     dto.setRsContSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.FIFTEEN])));
-                    dto.setContractSid(Integer.parseInt(String.valueOf(obj[NumericConstants.SIXTEEN])));
+                    dto.setContractSid(DataTypeConverter.convertObjectToInt(obj[NumericConstants.SIXTEEN]));
                     dto.setProjectionId(convertNullToEmpty(String.valueOf(obj[NumericConstants.SEVENTEEN])));
                     resultList.add(dto);
                 }
@@ -1607,7 +1608,7 @@ public class PromoteTPLogic {
             for (Iterator it = results.iterator(); it.hasNext();) {
                 CfpModel results1 = (CfpModel) it.next();
                 ComponentInfoDTO tabDto = new ComponentInfoDTO();
-                tabDto.setCfpId(Integer.parseInt(Converters.convertNullToEmpty(results1.getCfpModelSid())));
+                tabDto.setCfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(results1.getCfpModelSid())));
                 tabDto.setId(Converters.convertNullToEmpty(results1.getCfpId()));
                 tabDto.setNumber(Converters.convertNullToEmpty(results1.getCfpNo()));
                 tabDto.setName(Converters.convertNullToEmpty(results1.getCfpName()));
@@ -3030,7 +3031,7 @@ public class PromoteTPLogic {
                     dto.setRsContSid(String.valueOf(obj[NumericConstants.SIXTEEN]));
                     dto.setIfpContSid(String.valueOf(obj[NumericConstants.SEVENTEEN]));
                     dto.setPsContSid(String.valueOf(obj[NumericConstants.EIGHTEEN]));
-                    dto.setContractSid(Integer.parseInt(String.valueOf(obj[NumericConstants.NINETEEN])));
+                    dto.setContractSid(DataTypeConverter.convertObjectToInt(obj[NumericConstants.NINETEEN]));
                     dto.setCheckRecord(!String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.TRUE) ? true : false : false);
                     resultList.add(dto);
                 } catch (Exception ex) {
@@ -3109,7 +3110,7 @@ public class PromoteTPLogic {
                     dto.setRsContSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.SIXTEEN])));
                     dto.setIfpContSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.SEVENTEEN])));
                     dto.setPsContSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.EIGHTEEN])));
-                    dto.setContractSid(Integer.parseInt(String.valueOf(obj[NumericConstants.NINETEEN])));
+                    dto.setContractSid(DataTypeConverter.convertObjectToInt(obj[NumericConstants.NINETEEN]));
                     resultList.add(dto);
                 }
             }

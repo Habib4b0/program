@@ -9,6 +9,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
 import com.stpl.app.gcm.util.ConstantsUtils;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.gcm.util.ValidationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -157,7 +158,8 @@ public class CommonUtil {
                 String[] rules = String.valueOf(key).split(",");
                 if (rules[0] != null && ValidationUtils.getMessage(rules[0]) != null && StringUtils.isNotEmpty(ValidationUtils.getMessage(rules[0]))) {
                     String[] temp = ValidationUtils.getMessage(rules[0]).split(",");
-                    tempObj.addValidator(new StringLengthValidator(ValidationUtils.getMessage(rules[1]), Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Boolean.parseBoolean(temp[NumericConstants.TWO])));
+                    tempObj.addValidator(new StringLengthValidator(ValidationUtils.getMessage(rules[1]), DataTypeConverter.convertStringToInteger(temp[0]), 
+                            DataTypeConverter.convertStringToInteger(temp[1]), DataTypeConverter.convertStringToBoolean(temp[NumericConstants.TWO])));
                 }
                 if (rules[NumericConstants.TWO] != null && ValidationUtils.getMessage(rules[NumericConstants.TWO]) != null && StringUtils.isNotEmpty(ValidationUtils.getMessage(rules[NumericConstants.TWO]))) {
                     tempObj.addValidator(new RegexpValidator(ValidationUtils.getMessage(rules[NumericConstants.TWO]), ValidationUtils.getMessage(rules[NumericConstants.THREE])));

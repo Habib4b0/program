@@ -59,7 +59,7 @@ public class CommonUtils {
         List<Integer> integerList = new ArrayList<>();
 
         for (String sid : stringList) {
-            integerList.add(Integer.parseInt(sid));
+            integerList.add(DataTypeConverter.convertStringToInteger(sid));
         }
 
         return integerList;

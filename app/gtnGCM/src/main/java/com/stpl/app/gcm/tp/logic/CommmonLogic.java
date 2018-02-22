@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -1655,7 +1656,7 @@ public class CommmonLogic {
                     dto.setContractId(String.valueOf(obj[0]));
                     dto.setContractNo(String.valueOf(obj[1]));
                     dto.setContractName(String.valueOf(obj[NumericConstants.TWO]));
-                    dto.setContractSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+                    dto.setContractSid(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
                     dto.setCategory(CONTRACT.getConstant());
                     dto.setLevel(levelIndicator);
 
@@ -1663,7 +1664,7 @@ public class CommmonLogic {
                     dto.setContractId(String.valueOf(obj[0]));
                     dto.setContractNo(String.valueOf(obj[1]));
                     dto.setContractName(String.valueOf(obj[NumericConstants.TWO]));
-                    dto.setCfpContractId(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+                    dto.setCfpContractId(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
                     dto.setContractSid(contractSid);
                     dto.setCategory(CFP.getConstant());
                     dto.setLevel(levelIndicator);
@@ -1673,7 +1674,7 @@ public class CommmonLogic {
                     dto.setContractId(String.valueOf(obj[0]));
                     dto.setContractNo(String.valueOf(obj[1]));
                     dto.setContractName(String.valueOf(obj[NumericConstants.TWO]));
-                    dto.setIfpContractId(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+                    dto.setIfpContractId(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
                     dto.setContractSid(contractSid);
                     dto.setCfpContractId(cfpSid);
                     dto.setCategory(IFP.getConstant());
@@ -1685,7 +1686,7 @@ public class CommmonLogic {
                     dto.setContractId(String.valueOf(obj[0]));
                     dto.setContractNo(String.valueOf(obj[1]));
                     dto.setContractName(String.valueOf(obj[NumericConstants.TWO]));
-                    dto.setPsContractId(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+                    dto.setPsContractId(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
                     dto.setContractSid(contractSid);
                     dto.setCfpContractId(cfpSid);
                     dto.setIfpContractId(ifpSid);
@@ -1700,7 +1701,7 @@ public class CommmonLogic {
                     dto.setContractId(String.valueOf(obj[0]));
                     dto.setContractNo(String.valueOf(obj[1]));
                     dto.setContractName(String.valueOf(obj[NumericConstants.TWO]));
-                    dto.setRsContractSId(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+                    dto.setRsContractSId(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
                     dto.setContractSid(contractSid);
                     dto.setCfpContractId(cfpSid);
                     dto.setIfpContractId(ifpSid);

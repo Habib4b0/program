@@ -7,6 +7,7 @@ package com.stpl.app.gcm.impl;
 
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.text.DateFormat;
@@ -1191,7 +1192,7 @@ public class CompanyMasterImpl {
                                     + "where HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
                                     + "AND RLD.RELATIONSHIP_BUILDER_SID=" + temp + ";";
                             list = HelperTableLocalServiceUtil.executeSelectQuery(hierarchyQuery);
-                            level = Integer.parseInt(String.valueOf(HelperTableLocalServiceUtil.executeSelectQuery(levelQuery).get(0)));
+                            level = DataTypeConverter.convertObjectToInt(HelperTableLocalServiceUtil.executeSelectQuery(levelQuery).get(0));
                             List<StringBuilder> logic = new ArrayList<StringBuilder>();
                             List<String> condition = new ArrayList<String>();
                             StringBuilder ccpQuery = new StringBuilder("MERGE CCP_MAP AS TARGET USING ( "
@@ -1201,7 +1202,7 @@ public class CompanyMasterImpl {
                             String nextHierarchyNo = StringUtils.EMPTY;
                             for (int i = 0; i < list.size(); i++) {
                                 Object[] tempRow = (Object[]) list.get(i);
-                                Integer currNo = Integer.parseInt(String.valueOf(tempRow[2]));
+                                Integer currNo = DataTypeConverter.convertObjectToInt(tempRow[2]);
 
                                 if (i < list.size() - 1) {
                                     Object[] tempNextRow = (Object[]) list.get(i + 1);

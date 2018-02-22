@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import java.util.concurrent.ConcurrentHashMap;
@@ -87,7 +88,7 @@ public class StplSecurity {
         final User user = dto.getUserByUserId(userId);
         for (int i = 0; i < user.getUserGroups().size(); i++) {
             final Long userGroup = user.getUserGroups().get(i).getUserGroupId();
-            userGroupId.add(Integer.parseInt(userGroup.toString()));
+            userGroupId.add(DataTypeConverter.convertLongToInteger(userGroup));
         }
         return userGroupId;
     }
