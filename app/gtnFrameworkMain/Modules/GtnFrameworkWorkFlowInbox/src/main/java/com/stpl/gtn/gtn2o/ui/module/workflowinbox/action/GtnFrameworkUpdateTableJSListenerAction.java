@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class GtnFrameworkUpdateTableJSListenerAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkAddJSListenerAction.class);
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkUpdateTableJSListenerAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
