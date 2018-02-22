@@ -140,7 +140,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected ResultsTableLogic tableLogic = new ResultsTableLogic();
     protected FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
     protected boolean generated, firstGenerated = false;
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     protected HorizontalLayout controlLayout;
     protected ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();

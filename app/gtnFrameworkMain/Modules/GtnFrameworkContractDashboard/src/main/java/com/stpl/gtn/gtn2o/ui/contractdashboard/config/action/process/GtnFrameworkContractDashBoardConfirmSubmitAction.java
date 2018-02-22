@@ -96,14 +96,13 @@ public class GtnFrameworkContractDashBoardConfirmSubmitAction
 			GtnWsContractDashboardSessionBean processDataBean) {
 		GtnUIFrameworkContractWorkflowUpdateAction propertyFile=new GtnUIFrameworkContractWorkflowUpdateAction();
 		java.util.Properties path =propertyFile.getPropertyFile(System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
-   	    java.util.Properties filePath = propertyFile.getPropertyFile(path.getProperty("Workflowpath"));
 		workflowRequest.setContractBean(processDataBean.getWorkflowBean());
 		workflowRequest.setPersistanceId(processDataBean.getPersistanceId());
 		workflowRequest.setModuleKey("Contract_WorkflowId");
 		workflowRequest.setDefaultValue("ForecastingWorkflow.ContractSubmissionWorkflow");
 
 		workflowRequest.setModuleName(GtnWsBpmCommonConstants.CONTRACT_MASTER);
-		workflowRequest.setWorkflowGeneratorPath(filePath.toString());
+		workflowRequest.setWorkflowGeneratorPath(path.getProperty("Workflowpath"));
 		if (workflowRequest.getContractBean() == null) {
 			GtnWsContractWorkflowBean workflowMaster = new GtnWsContractWorkflowBean();
 			workflowMaster.setCreatedBy(Integer.parseInt(processDataBean.getProcessBean().getUserId()));

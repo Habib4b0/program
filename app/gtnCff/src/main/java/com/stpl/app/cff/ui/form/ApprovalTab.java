@@ -296,7 +296,7 @@ public class ApprovalTab extends CustomComponent {
             latestEstimate.addItem(ConstantsUtil.SELECT_ONE);
             try {
                 latestEstimate = commonUtils.getNativeSelect(latestEstimate, CFFLogic.getDropDownList(ConstantsUtil.LOCKED_STATUS), StringUtils.EMPTY);
-            } catch (PortalException | SystemException ex) {
+            } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
             latestEstimate.setImmediate(true);
@@ -319,7 +319,7 @@ public class ApprovalTab extends CustomComponent {
             updateCycle.addItem(ConstantsUtil.SELECT_ONE);
             try {
                 updateCycle = commonUtils.getNativeSelect(updateCycle, CFFLogic.getDropDownList(ConstantsUtil.LOCKED_STATUS), StringUtils.EMPTY);
-            } catch (PortalException | SystemException ex) {
+            } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
             updateCycle.setImmediate(true);
@@ -515,12 +515,12 @@ public class ApprovalTab extends CustomComponent {
             resultLayout.addComponent(excelTable);
             resultLayout.addComponent(resultPagination);
 
-        } catch (PortalException | SystemException | Property.ReadOnlyException | UnsupportedOperationException e) {
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
         disableFieldsOnview();
 
-        excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
+        excelExport.setIcon(new ThemeResource("img/excel.png"));
         excelExport.setStyleName("link");
         excelExport.setDescription("Export to excel");
         excelExport.setIconAlternateText("Excel export");
@@ -898,7 +898,7 @@ public class ApprovalTab extends CustomComponent {
                     CommonUIUtils.getMessageNotification("Submitted Successfully");
                     return Boolean.TRUE;
                 }
-            } catch (PortalException | SystemException | NumberFormatException ex) {
+            } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
