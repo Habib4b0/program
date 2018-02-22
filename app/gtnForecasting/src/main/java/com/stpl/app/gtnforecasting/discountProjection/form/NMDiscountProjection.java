@@ -3862,7 +3862,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(productFilterValues).get(SID), CommonUtil.COMMA));
                         map.put(Constant.DEDUCTION_LEVEL_DDLB, deductionlevelDdlb.getValue());
                         map.put(Constant.DEDUCTION_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(deductionFilterValues).get(SID), CommonUtil.COMMA));
-                        map.put(Constant.DEDUCTION_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(deductionInclusionValues)));
+                        map.put(Constant.DEDUCTION_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(deductionInclusionValues),CommonUtil.COMMA));
                         CommonLogic.saveProjectionSelection(map, session.getProjectionId(), TAB_DISCOUNT_PROJECTION.getConstant());
                 } catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -5336,7 +5336,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		if (!levelNo.isEmpty()) {
 			productLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			productLevelFilter
-					.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateCustomerToBeLoaded,generateDiscountToBeLoaded));
+					.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateCustomerToBeLoaded,generateDiscountToBeLoaded,String.valueOf(session.getProductRelationVersion())));
 			CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
 		}
 
@@ -5407,7 +5407,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		if (!levelNo.isEmpty()) {
 			customerLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			customerLevelFilter.addAll(
-					commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateDiscountToBeLoaded));
+					commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateDiscountToBeLoaded,String.valueOf(session.getCustomerRelationVersion())));
 			CommonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
 		}
 		customerFilterDdlb.setScrollable(true);
@@ -5458,7 +5458,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeItems();
-        displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES, null);
+        displayFormatValues = displayFormatDdlb.addItem("Both", null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
