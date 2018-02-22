@@ -40,6 +40,7 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.util.DataTypeConverter;
 import com.vaadin.v7.data.util.BeanItem;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -1349,7 +1350,7 @@ public class SelectionLogic {
                 searchItemForm.setItemType(CommonUIUtils.getDescription(HelperUtils.getInteger(obj[NumericConstants.FIVE])));
                 searchItemForm.setItemStatus(CommonUIUtils.getDescription(HelperUtils.getInteger(obj[NumericConstants.SIX])));
 
-                searchItemForm.setRecordLockStatus(Boolean.parseBoolean(HelperUtils.getString(obj[NumericConstants.SEVEN])));
+                searchItemForm.setRecordLockStatus(DataTypeConverter.convertStringToBoolean(HelperUtils.getString(obj[NumericConstants.SEVEN])));
                 searchItemForm.setItemCode(HelperUtils.getString(obj[NumericConstants.EIGHT]));
                 searchItemForm.setPackageSizeCode(HelperUtils.getString(obj[NumericConstants.NINE]));
 
