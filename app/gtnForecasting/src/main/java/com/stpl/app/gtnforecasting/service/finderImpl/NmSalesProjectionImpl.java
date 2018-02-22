@@ -161,7 +161,7 @@ public class NmSalesProjectionImpl {
                     }
 
                     queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID      \n \n");
-                    queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'     \n  \n");
+                    queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'     \n  \n");
                     queryBuilder1.append("   WHERE RLD2.LEVEL_NO='" + (levelNo) + "')) CCP    \n  \n");
 
                 } else {
@@ -337,7 +337,7 @@ public class NmSalesProjectionImpl {
                         }
 
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                         queryBuilder1.append("   WHERE RLD2.LEVEL_NO='" + (levelNo) + "')) CCP      \n");
 
                     } else {
@@ -572,7 +572,7 @@ public class NmSalesProjectionImpl {
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append(" ) ) )  AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "'  \n");
 
             } else if (method.equals("saveBfrCalculation")) {
@@ -620,7 +620,7 @@ if(!custom){
                 queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n");
                  }
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                  queryBuilder1.append("   ) ) ) AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "' AND  CHECK_RECORD=1 \n");
 }else{
 
@@ -774,7 +774,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                 queryBuilder1.append("  )) ) AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "'  \n");
 }else{
@@ -1019,7 +1019,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append("  )) CCP      \n");
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("    JOIN RELATIONSHIP_LEVEL_DEFINITION rld   ON CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID  \n");
@@ -1100,14 +1100,14 @@ if(!custom){
 
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                     } else if (viewType.equals("P")) {
 
                         queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n");
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                     } else {
                         queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH   ON PCH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID    \n");
@@ -1383,7 +1383,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append("  )) CCP      \n");
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID AND CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID      \n");
 
@@ -1471,14 +1471,14 @@ if(!custom){
 
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                     } else if (viewType.equals("P")) {
 
                         queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n");
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                     } else {
                         queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH   ON PCH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID    \n");
@@ -1582,7 +1582,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                 queryBuilder1.append("    )) ) AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "'  \n");
 
@@ -1676,7 +1676,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       ");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       ");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       ");
                 queryBuilder1.append("   WHERE RLD2.HIERARCHY_NO in ("+hierarchyNos+"))       ");
 
                 queryBuilder1.append(" ) ) AND USER_ID = '" + userid + "'  AND SESSION_ID ='" +sessionId+ "' ");
@@ -1834,7 +1834,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append(" ) ) )  AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "'  \n");
                 if (!tempFilterValues[0].equalsIgnoreCase("empty")) {
                     queryBuilder1.append("    AND USER_GROUP= '" + (tempFilterValues[0]) + "'         \n");
@@ -2135,7 +2135,7 @@ if(!custom){
                 
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 
                 
                 queryBuilder1.append(" ) )   \n");
@@ -2192,7 +2192,7 @@ if(!custom){
                 queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n");
                  }
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                  queryBuilder1.append("  )  ) )  \n");
 }else{
 
@@ -2304,6 +2304,7 @@ if(!custom){
         return list;
 
     }
+    public static final String AND_PC_H2_PROJECTION_MASTER_SID = "   AND PCH2.PROJECTION_MASTER_SID='";
     public static final String WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD = "   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n";
     public static final String AND_P_CH_PROJECTION_MASTER_SID = "   AND PCH.PROJECTION_MASTER_SID='";
     public static final String WHERE_PM_PROJECTION_MASTER_SID = "   WHERE PM.PROJECTION_MASTER_SID='";
