@@ -20,7 +20,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Component(service = UI.class, property = {
     "com.liferay.portlet.display-category=Forecast and Planning",
     "javax.portlet.name=Commercial",
-    "javax.portlet.display-name=Commercial",
+    "javax.portlet.display-name=Forecasting",
     "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class CommercialUI extends ForecastUI{
     

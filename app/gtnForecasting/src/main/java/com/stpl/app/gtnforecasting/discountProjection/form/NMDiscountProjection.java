@@ -3862,7 +3862,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(productFilterValues).get(SID), CommonUtil.COMMA));
                         map.put(Constant.DEDUCTION_LEVEL_DDLB, deductionlevelDdlb.getValue());
                         map.put(Constant.DEDUCTION_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(deductionFilterValues).get(SID), CommonUtil.COMMA));
-                        map.put(Constant.DEDUCTION_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(deductionInclusionValues)));
+                        map.put(Constant.DEDUCTION_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(deductionInclusionValues),CommonUtil.COMMA));
                         CommonLogic.saveProjectionSelection(map, session.getProjectionId(), TAB_DISCOUNT_PROJECTION.getConstant());
                 } catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -5458,7 +5458,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeItems();
-        displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES, null);
+        displayFormatValues = displayFormatDdlb.addItem("Both", null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);

@@ -791,7 +791,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             map.put(Constant.CUSTOMER_LEVEL_VALUE, StringUtils.join(getCustomerFilterValues(), CommonUtil.COMMA));
             map.put(Constant.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
             map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(getProductFilterValues(), CommonUtil.COMMA));
-            map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues)));
+            map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues),CommonUtil.COMMA));
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -948,7 +948,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatDdlb.removeItems();
-        displayFormatValues = displayFormatDdlb.addItem("-Select Values-", null);
+        displayFormatValues = displayFormatDdlb.addItem("Both", null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
