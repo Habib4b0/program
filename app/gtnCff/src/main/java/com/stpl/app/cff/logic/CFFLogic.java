@@ -1088,7 +1088,7 @@ public class CFFLogic {
         LOGGER.debug("Entering searchView method");
         List list = null;
         List inputList = new ArrayList();
-        final String userId = (String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID);
+        final String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID);
         if (StringUtils.isNotEmpty(viewType)
                 && StringUtils.isNotBlank(viewType)) {
             inputList.add(viewType);

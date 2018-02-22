@@ -5,15 +5,19 @@
  */
 package com.stpl.app.global.deductioncalendar.logic.tablelogic;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.deductioncalendar.dto.SelectionDTO;
 import com.stpl.app.global.deductioncalendar.logic.SelectionLogic;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import java.util.ArrayList;
-import java.util.List;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
 /**
  *
@@ -23,7 +27,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
 
     private final SessionDTO sessionDTO;
     private final SelectionLogic selectionLogic=new SelectionLogic();
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSelectionAvailableTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
 
     @Override
     public int getCount() {
