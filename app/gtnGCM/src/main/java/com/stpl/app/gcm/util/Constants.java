@@ -749,7 +749,7 @@ public class Constants {
         CONTRACT_TRANSFER("Contract Transfer"),
         TAB_CUSTOMER_SELECTION("Customer Selection"),
         TAB_CURRENT_CONTRACT(CURRENT_CONTRACT_LABEL),
-        EXCEL_IMAGE_PATH("../../icons/excel.png"),
+        EXCEL_IMAGE_PATH("img/excel.png"),
         CURRENT_CONTRACT(CURRENT_CONTRACT_LABEL),
         CONTRACT_SELECTION("Contract Selection"),
         ENABLE("Enable"),

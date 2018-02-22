@@ -175,7 +175,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
      @UiField("baseWacDate")
     public PopupDateField baseWacDate;
    
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
     protected ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(getBinderDto()));
     public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContractSearch.class);

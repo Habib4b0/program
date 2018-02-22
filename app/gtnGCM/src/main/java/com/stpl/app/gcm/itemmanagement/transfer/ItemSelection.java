@@ -121,7 +121,7 @@ public class ItemSelection extends CustomComponent {
     private Button exportBtncur;
     @UiField("SelectItemTableLayout")
     private VerticalLayout selectItemTableLayout;
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     @UiField("resultTableLayout")
     private VerticalLayout resultTableLayout;
     @UiField("transferItemsTable")

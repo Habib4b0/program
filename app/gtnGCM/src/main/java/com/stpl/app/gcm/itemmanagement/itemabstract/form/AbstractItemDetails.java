@@ -59,7 +59,7 @@ public class AbstractItemDetails extends CustomComponent {
     private ExtPagedTable itemTransferTable = new ExtPagedTable(itemTransferTableLogic);
     private Object[] visibleColumn = {Constants.CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs", "rarCategory", "status", "itemstartdate", "itemenddate"};
     private String[] columnHeader = {"", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "CFP Name", Constants.IFP_NAME_LABEL, "PS Name", "RS Name", "RAR Category", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private SelectionDTO selection = new SelectionDTO();
     private AbstractLogic logic = AbstractLogic.getInstance();
     private SummaryLogic summaryLogic = new SummaryLogic();

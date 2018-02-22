@@ -142,7 +142,7 @@ public class ItemManagementIndex extends CustomComponent {
     private final List<ItemIndexDto> selecteditemList = new ArrayList<>();
     private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png"); 
 
     private final StplSecurity stplSecurity = new StplSecurity();
     
