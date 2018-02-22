@@ -208,7 +208,7 @@ public class CFFLogic {
 
         String query = "UPDATE dbo.CFF_MASTER\n"
                 + "SET CFF_NAME='" + cffName + "',CFF_TYPE='" + cffType + "',\n"
-                + "+ \" CFF_ELIGIBLE_DATE='\"+valueMap.get(\"cffEligiblDate\").toString()+\"' WHERE CFF_MASTER_SID=" + cffMasterSid;
+                + " CFF_ELIGIBLE_DATE= '"+String.valueOf(valueMap.get("cffEligiblDate")) + "' WHERE CFF_MASTER_SID = " + cffMasterSid;
 
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
