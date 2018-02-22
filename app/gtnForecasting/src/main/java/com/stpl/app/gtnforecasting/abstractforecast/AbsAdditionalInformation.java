@@ -126,7 +126,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      * The module name.
      */
-    public final static String MODULE_NAME = "National Assumptions";
+    public static final String MODULE_NAME = "National Assumptions";
     /**
      * The move back.
      */

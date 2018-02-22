@@ -608,6 +608,8 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig deleteActionConfig = new GtnUIFrameWorkActionConfig();
 		deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ITEM_GROUP_NAME, GtnFrameworkCommonConstants.ITEM_GROUP_NO,
+						GtnFrameworkCommonConstants.ITEM_GROUP_DESC, GtnFrameworkCommonConstants.I_GRP_INFO_COMPANY));
 		deleteActionConfig.addActionParameter(GtnFrameworkItemGrpDeleteValidationAction.class.getName());
 		actionConfigList.add(deleteActionConfig);
 		deleteButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

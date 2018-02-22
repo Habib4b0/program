@@ -40,7 +40,7 @@ import org.osgi.service.component.annotations.ServiceScope;
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class ProcessSchedulerUI extends UI {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ProcessSchedulerUI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSchedulerUI.class);
     private SessionDTO sessionDTO = new SessionDTO();
 
     public ProcessSchedulerUI(){
@@ -64,8 +64,8 @@ public class ProcessSchedulerUI extends UI {
             final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
             String sessionId=fmtID.format(tempDate);
             sessionDTO.setArpSessionId(sessionId);
-            LOGGER.info("USER_ID: "+userId);
-            LOGGER.info("SESSION_ID: "+sessionId);
+            LOGGER.info("USER_ID= {} ", userId);
+            LOGGER.info("SESSION_ID= {} ", sessionId);
             VaadinSession.getCurrent().setConverterFactory(new DateToStringConverterFactory());
             navigator = new Navigator(this, this);
             navigator.addView(processSchedulerView.NAME, new processSchedulerView(sessionDTO));

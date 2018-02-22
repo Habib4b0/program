@@ -646,27 +646,25 @@ SELECT NDC9,
        BASELINE_AMP,
        BASE_CPI
 FROM   (SELECT IM.NDC9,
-               ITEM_DESC=CASE
-                           WHEN COUNT(DISTINCT IM.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
-                           ELSE MAX(ITEM_DESC)
-                         END,
+               ITEM_DESC=ims.ITEM_DESC,
                ROW_NUMBER()
                  OVER (
                    ORDER BY IM.NDC9) AS ROWNUM
-                   ,IM.NEW_FORMULATION ,IM.BASELINE_AMP,
-       IM.BASE_CPI
+                   ,IMs.NEW_FORMULATION ,IMs.BASELINE_AMP,
+       IMs.BASE_CPI
         FROM   NA_PROJ_MASTER PM,
                NA_PROJ_DETAILS PD,
                ITEM_MASTER IM
+   join item_master ims on ims.item_master_sid=im.ndc9
         WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
-               AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+               AND PD.ITEM_MASTER_SID = IM.NDC9
                AND ( PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
                       OR @NA_PROJ_MASTER_SID IS NULL )
                AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
                       OR @BRAND_MASTER_SID IS NULL )
                AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
                       OR @TH_CLASS IS NULL )
-        GROUP  BY IM.NDC9,IM.NEW_FORMULATION,BASELINE_AMP,    BASE_CPI )A
+         GROUP  BY IM.NDC9,IMs.NEW_FORMULATION,ims.BASELINE_AMP,    ims.BASE_CPI,ims.ITEM_DESC )A
 WHERE  ROWNUM >= @OFFSET
        AND ROWNUM < @OFFSET + @LIMIT
 ) A  JOIN

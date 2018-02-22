@@ -54,7 +54,7 @@ public class FileUploader implements Receiver {
 	/**
 	 * The user id.
 	 */
-	final private String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
+	private final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
 
 	private boolean isFileExists;
 	private boolean isFileCreated;

@@ -162,7 +162,7 @@ public class CommonUtils {
     /** The Constant ONE. */
     public static final int ONE = 1;
     
-    public final static String SELECT_ONE  = "Select One";
+    public static final String SELECT_ONE  = "Select One";
     public static final String INDICATOR_PERCENT = "%";
     public static final String INDICATOR_DOLLAR = "$";
     /**

@@ -4,6 +4,8 @@
  */
 package com.stpl.app.cff.queryUtils;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
@@ -20,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class CommonQueryUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonQueryUtils.class);
-    private static CFFDAO DAO = CFFDAOImpl.getInstance();
+    private static final CFFDAO DAO = CFFDAOImpl.getInstance();
 
     public static String getQuery( String query,List input) {
         StringBuilder sql =new StringBuilder();
@@ -50,7 +52,7 @@ public class CommonQueryUtils {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
         StringBuilder sql;
-        LOGGER.debug("queryName - - >> " + queryName);
+        LOGGER.debug("queryName - - >> {} ", queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
@@ -62,7 +64,7 @@ public class CommonQueryUtils {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
                 list = (List<Object[]>) DAO.executeSelectQuery(sql.toString());
-            } catch (final Exception ex) {
+            } catch (final PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
@@ -75,13 +77,13 @@ public class CommonQueryUtils {
         LOGGER.debug("Inside Item Update");
         StringBuilder sql = new StringBuilder();
         try {
-            LOGGER.debug("queryName - - >>" + queryName);
+            LOGGER.debug("queryName - - >> {}", queryName);
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
             for (final Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
-            LOGGER.debug("Input-->>" + input);
-            LOGGER.debug("Sql-->>" + sql);
+            LOGGER.debug("Input-->> {}", input);
+            LOGGER.debug("Sql-->> {}", sql);
             final Integer count = (Integer) DAO.executeUpdateQuery(sql.toString());
             if (count > 0) {
                 return Boolean.TRUE;
@@ -89,7 +91,7 @@ public class CommonQueryUtils {
                 return Boolean.FALSE;
             }
 
-        } catch (final Exception ex) {
+        } catch (final PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of Item Update");
@@ -129,7 +131,7 @@ public class CommonQueryUtils {
     public static String getAppDataQuery(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
         StringBuilder sql = null;
-        LOGGER.debug("queryName - - >> " + queryName);
+        LOGGER.debug("queryName - - >> {} ", queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));

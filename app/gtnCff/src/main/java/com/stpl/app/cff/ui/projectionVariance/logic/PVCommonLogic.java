@@ -73,7 +73,7 @@ public class PVCommonLogic {
                     break;
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
     }

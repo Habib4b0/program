@@ -62,7 +62,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        LOGGER.debug(" Start " + start + " offset " + offset);
+        LOGGER.debug(" Start= {}, offset= {} " , start, offset);
         try {
             binderDto.setCount(Boolean.TRUE);
             binderDto.setStartIndex(start);

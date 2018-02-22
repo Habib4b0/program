@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.module.customergroup.constants.GtnFrameworkCGrpStri
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import java.util.Arrays;
 
 public class GtnFrameworkCGrpDeleteValidationAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -50,6 +51,8 @@ public class GtnFrameworkCGrpDeleteValidationAction implements GtnUIFrameWorkAct
 					GtnFrameworkCGrpStringContants.GTN_CUSTOMER_GRP_CONFIRMATION_MSG + " " + customerGrpName + " ?");
 			GtnUIFrameWorkActionConfig customerGrpDeleteActionConfig = new GtnUIFrameWorkActionConfig();
 			customerGrpDeleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+                        customerGrpDeleteActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NAME,
+				GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NO, GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_DESC));
 			customerGrpDeleteActionConfig.addActionParameter(GtnFrameworkCGrpClassContants.COMPANY_GRP_DELETE_ACTION);
 			customerGrpOnSucessActionConfigList.add(customerGrpDeleteActionConfig);
 
