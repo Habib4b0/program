@@ -170,6 +170,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             addStyleName(Constants.BOOTSTRAP_UI);
             addStyleName(Constants.BOOTSTRAP);
             addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
+            addStyleName("body-fixed");
             setContent(Clara.create(getClass().getResourceAsStream("/cff/CffApprovalDetailsForm.xml"), this));
             configureFields();
             if (sessionDTO.getAction().equals("view")) {
