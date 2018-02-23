@@ -44,7 +44,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
 
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {}, and start= {}, and offset= {}" , firstGenerated, start, offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         if (firstGenerated && offset > 0) {
             try {
@@ -69,13 +69,13 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
-        LOGGER.debug("loadData ended "+map.size());
+        LOGGER.debug("loadData ended= {} ",map.size());
         return map;
     }
 
     @Override
     public int getCount() {
-        LOGGER.debug("getCount initiated with firstGenerated=" + firstGenerated);
+        LOGGER.debug("getCount initiated with firstGenerated= {}" , firstGenerated);
         int count = 0;
         if (firstGenerated) {
             try {            
@@ -84,7 +84,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
-        LOGGER.debug("getCount ended with count=" + count);
+        LOGGER.debug("getCount ended with count= {}" , count);
         return count;
     }
 
@@ -327,10 +327,10 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
     private List<ProjectionResultsDTO> loadDataByForecastName(final Object parentId, final int start, final int offset) throws PortalException, SystemException {
         List<ProjectionResultsDTO> list;
         String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
-        LOGGER.debug("Screen Name is "+screenName);
+        LOGGER.debug("Screen Name is= {} ",screenName);
         switch (screenName) {
             case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                LOGGER.debug("Projection results load data method with start = "+start+" and offset = "+offset);
+                LOGGER.debug("Projection results load data method with start = {}, and offset= {}",start,offset);
                 list = getNmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
                 break;
             case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:

@@ -92,8 +92,8 @@ public class DiscountQueryBuilder {
                     selectedPeriods = CommonUtils.replaceShortMonthForMonth(selectedPeriods);
                 }
 
-                LOGGER.debug(" Baseline Periods " + baselinePeriods);
-                LOGGER.debug(" Selected Periods " + selectedPeriods);
+                LOGGER.debug(" Baseline Periods= {} " , baselinePeriods);
+                LOGGER.debug(" Selected Periods= {} " , selectedPeriods);
                 masterTableUpdateQuery = "UPDATE DM SET DM.BASELINE_PERIODS = '" + baselinePeriods + "', DM.SELECTED_PERIODS = '" + selectedPeriods + "' FROM ST_NM_DISCOUNT_PROJ_MASTER DM ";
                 discountName = discountName.contains("~") ? discountName.split("~")[0] : discountName ;
                 if (levelType.equals(Constants.PROGRAM)) {
@@ -314,7 +314,7 @@ public class DiscountQueryBuilder {
                             startMonth = NumericConstants.TEN;
                             break;
                         default:
-                            LOGGER.warn("startFreq is not valid: " + startFreq);
+                            LOGGER.warn("startFreq is not valid= {} " , startFreq);
                             break;
                     }
                     switch (endFreq) {
@@ -331,7 +331,7 @@ public class DiscountQueryBuilder {
                             endMonth = NumericConstants.TWELVE;
                             break;
                         default:
-                            LOGGER.warn("endFreq is not valid: " + endFreq);
+                            LOGGER.warn("endFreq is not valid= {} " , endFreq);
                             break;
                     }
                 }
@@ -344,7 +344,7 @@ public class DiscountQueryBuilder {
                             startMonth = NumericConstants.SEVEN;
                             break;
                         default:
-                            LOGGER.warn("startFreq is not valid: " + startFreq);
+                            LOGGER.warn("startFreq is not valid= {} " , startFreq);
                             break;
                     }
                     switch (endFreq) {
@@ -355,7 +355,7 @@ public class DiscountQueryBuilder {
                             endMonth = NumericConstants.TWELVE;
                             break;
                         default:
-                            LOGGER.warn("endFreq is not valid: " + endFreq);
+                            LOGGER.warn("endFreq is not valid= {} " , endFreq);
                             break;
                             
                     }
@@ -880,7 +880,7 @@ public class DiscountQueryBuilder {
                     joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST + customerHierarchyNo + "', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
                     break;
                 default:
-                    LOGGER.warn("Invalid Hierarchy Indicator: " + hierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator= {} " , hierarchyIndicator);
             }
 
         } else {

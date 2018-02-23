@@ -819,8 +819,8 @@ public class PPAProjection extends CustomComponent implements View {
             rightTable.setEditable(Boolean.FALSE);
             massUpdate.setEnabled(Boolean.FALSE);
         }
-        LOGGER.debug("SessionId->" + session.getSessionId());
-        LOGGER.debug("ProjectionId->" + session.getProjectionId());
+        LOGGER.debug("SessionId->= {}" , session.getSessionId());
+        LOGGER.debug("ProjectionId->= {}" , session.getProjectionId());
         tableLayout.removeAllComponents();
         frequencyDdlb.addItem(SELECT_ONE.getConstant());
         frequencyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
@@ -941,14 +941,14 @@ public class PPAProjection extends CustomComponent implements View {
             public void buttonClick(Button.ClickEvent event) {
                 waitForSave();
                 groupChangeFlag = Boolean.TRUE;
-                LOGGER.debug("Refreshing the PPA table for hierarchy No :" + tableHirarechyNos);
+                LOGGER.debug("Refreshing the PPA table for hierarchy No = {}" , tableHirarechyNos);
                 Set<String> finalHirarechyNo = new HashSet<>();
                 for (String hirarechyNo : tableHirarechyNos) {
                     finalHirarechyNo.add(hirarechyNo);
                     finalHirarechyNo.addAll(tableLogic.getAllParentLevels(hirarechyNo));
                     finalHirarechyNo.addAll(tableLogic.getAllChildLevels(hirarechyNo));
                 }
-                LOGGER.debug("Refreshing the PPA table for hierarchy Childs :" + finalHirarechyNo);
+                LOGGER.debug("Refreshing the PPA table for hierarchy Childs = {}" , finalHirarechyNo);
                 tableLogic.forRefresh(finalHirarechyNo);
                 tableLogic.setCurrentPage(tableLogic.getCurrentPage());
                 tableHirarechyNos.clear();
@@ -1103,7 +1103,7 @@ public class PPAProjection extends CustomComponent implements View {
             valueChangeAllowed = Boolean.TRUE;
             valueChangeForColumnCheckBox = Boolean.FALSE;
         } catch (NumberFormatException e) {
-            LOGGER.error("Error While doing mass Update :" + e.getMessage());
+            LOGGER.error("Error While doing mass Update = {}" , e.getMessage());
         }
     }
 
@@ -1688,7 +1688,7 @@ public class PPAProjection extends CustomComponent implements View {
         rightTable.reConstruct(Boolean.TRUE);
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         leftTable.setColumnCheckBox(Constant.CHECK_RECORD + ".0", true);
-        LOGGER.debug("!\"view\".equals(session.getAction()) ================= " + !Constant.VIEW.equals(session.getAction()));
+        LOGGER.debug("!\"view\".equals(session.getAction()) ================= {} " , !Constant.VIEW.equals(session.getAction()));
         leftTable.setColumnCheckBoxDisable(Constant.CHECK_RECORD + ".0", Constant.VIEW.equals(session.getAction()));
         UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_FOUR_FIVE, TAB_PPA_PROJECTION.getConstant());
         if (leftdto.getDoubleColumns() != null) {
@@ -1838,7 +1838,7 @@ public class PPAProjection extends CustomComponent implements View {
         groupFilterDdlb.removeAllItems();
 
         List<String> groupList = CommonLogic.getAllPPAGroup();
-        LOGGER.debug("groupList--:" + groupList);
+        LOGGER.debug("groupList--= {}" , groupList);
         if (groupList != null && !groupList.isEmpty()) {
             groupContainer.removeAllItems();
             for (String groups : groupList) {
@@ -2242,7 +2242,7 @@ public class PPAProjection extends CustomComponent implements View {
         massGroup.setContainerDataSource(null);
         IndexedContainer massGroupContainer = new IndexedContainer();
         List<String> groupList = CommonLogic.getAllPPAGroup();
-        LOGGER.debug("groupList--:" + groupList);
+        LOGGER.debug("groupList--= {}" , groupList);
         if (groupList != null && !groupList.isEmpty()) {
             massGroupContainer.removeAllItems();
             for (String groups : groupList) {

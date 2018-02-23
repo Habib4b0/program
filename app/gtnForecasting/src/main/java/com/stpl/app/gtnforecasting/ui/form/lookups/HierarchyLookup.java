@@ -160,7 +160,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
                 resultBean.removeAllItems();
             }
         } catch (ParseException ex) {
-            LOGGER.error(ex + " Hierarchy search logic");
+            LOGGER.error(" Hierarchy search logic= {}",ex);
         }
     }
 

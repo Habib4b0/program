@@ -4665,7 +4665,7 @@ public class HeaderUtils {
     }
 
     public static CustomTableHeaderDTO getSalesProjectionResultsLeftTableColumns(ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
-        LOGGER.debug("Level" + projSelDTO.getLevel());
+        LOGGER.debug("Level= {}" , projSelDTO.getLevel());
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn("relationshipLevelName", Constant.CUSTOMER_SMALL, String.class);
         fullHeaderDTO.addSingleColumn("relationshipLevelName", Constant.CUSTOMER_SMALL, String.class);

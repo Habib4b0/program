@@ -744,7 +744,7 @@ public class AlternateSummery extends CustomComponent {
      * in the Custom DDLB.
      */
     protected void loadCustomDDLB() {
-        LOGGER.debug("loadCustomDDLB initiated " + customIdToSelect);
+        LOGGER.debug("loadCustomDDLB initiated= {} " , customIdToSelect);
         viewDdlb.setEnabled(true);
         newBtn.setEnabled(true);
         editBtn.setEnabled(false);
@@ -1449,7 +1449,7 @@ public class AlternateSummery extends CustomComponent {
      * @param history
      */
     public void loadFrequency(final ComboBox frequency, final ComboBox history) {
-        LOGGER.debug("loadFrequency for " + String.valueOf(frequency.getValue()));
+        LOGGER.debug("loadFrequency for= {} " , String.valueOf(frequency.getValue()));
         CommonUtils.frequenceValueChange(String.valueOf(frequency.getValue()), history, session);
         LOGGER.debug("loadFrequency ends ");
     }
@@ -1515,7 +1515,7 @@ public class AlternateSummery extends CustomComponent {
     }
 
     protected void levelFilterDdlbChangeOption(boolean excelExport) {
-        LOGGER.debug("Excel" + excelExport);
+        LOGGER.debug("Excel= {}" , excelExport);
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
@@ -1863,7 +1863,7 @@ public class AlternateSummery extends CustomComponent {
     }
 
     public void init() throws PortalException, SystemException {
-        LOGGER.debug("Inside NMSalesProjection Screen " + session.getUserId());
+        LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
         configureProjectionDTO();
@@ -1910,8 +1910,8 @@ public class AlternateSummery extends CustomComponent {
         customId = CommonLogic.customDdlbOptionChange(viewDdlb, editBtn, level);
         currentHierarchy = CommonLogic.getCustomTree(customId);
         loadLevelDdlb(level, true, currentHierarchy);
-        LOGGER.debug(" customId  " + customId);
-        LOGGER.debug(" currentHierarchy " + currentHierarchy.size());
+        LOGGER.debug(" customId= {} " , customId);
+        LOGGER.debug(" currentHierarchy= {} " , currentHierarchy.size());
         projectionDTO.setCustomId(customId);
         generateLogic();
         if (viewDdlb.getValue() != null

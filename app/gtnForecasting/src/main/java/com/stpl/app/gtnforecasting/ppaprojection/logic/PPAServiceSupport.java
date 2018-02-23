@@ -91,7 +91,7 @@ public class PPAServiceSupport {
                     priceQualifierMap.put(helperTable.getId(), helperTable.getDescription());
                 }
             }
-            LOGGER.debug("Ending getPriceTypeResults in PPA  return map size :" + +priceQualifierMap.size());
+            LOGGER.debug("Ending getPriceTypeResults in PPA  return map size = {}" , priceQualifierMap.size());
         } catch (SystemException | NumberFormatException e) {
            LOGGER.error(e.getMessage());
         }

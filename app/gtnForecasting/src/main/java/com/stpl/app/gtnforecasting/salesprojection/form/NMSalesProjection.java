@@ -144,7 +144,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
      * Init method
      */
     public void init() {
-        LOGGER.debug("Inside NMSalesProjection Screen " + session.getUserId());
+        LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
         generateBtnLogic(null);
@@ -193,7 +193,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
                     if (displayFormatIndex.length == 1 && CommonUtil.isValueEligibleForLoading()) {
                         for (int k = 0; k < displayFormatIndex.length; k++) {
-                            LOGGER.info("obj--------------" + k);
+                            LOGGER.info("obj--------------= {}" , k);
                             int index = (Integer) displayFormatIndex[k];
                             if (index == 0) {
                                 column = ArrayUtils.removeElement(column, "dfLevelName");
@@ -296,13 +296,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
     protected void customDdlbChangeOption() {
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent initiated ");
         customId = CommonLogic.customDdlbOptionChange(viewDdlb, editBtn, level);
-        LOGGER.debug(" customId  " + customId);
+        LOGGER.debug(" customId= {} " , customId);
         projectionDTO.setCustomId(customId);
         if (customId != 0) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
         }
-        LOGGER.debug(" currentHierarchy " + currentHierarchy.size());
+        LOGGER.debug(" currentHierarchy= {} " , currentHierarchy.size());
         generateLogic();
         if (viewDdlb.getValue() != null
                 && !Constant.NULL.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))

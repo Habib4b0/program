@@ -61,7 +61,7 @@ public class SQlUtil {
 				List<SqlEntity> list = que.getSqlEntity();
 				for (SqlEntity ans : list) {
 					if (QUERY_MAP.get(ans.getSqlID()) != null && ans.getSqlID() != null && ans.getSqlID().isEmpty()) {
-						LOGGER.error("Duplicate sql tag id found - " + ans.getSqlID());
+						LOGGER.error("Duplicate sql tag id found -= {} " , ans.getSqlID());
 					}
 					QUERY_MAP.put(ans.getSqlID(), ans.getSqlQuery());
 				}

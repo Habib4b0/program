@@ -498,7 +498,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void loadFrequency() {
 
-        LOGGER.info("ProjectionVariance ValueChangeEvent initiated with frequency -->" + frequency.getValue());
+        LOGGER.info("ProjectionVariance ValueChangeEvent initiated with frequency -->= {}" , frequency.getValue());
         if (frequency.getValue() != null && !Constant.NULL.equals(String.valueOf(frequency.getValue())) && !StringUtils.EMPTY.equals(String.valueOf(frequency.getValue()))) {
             loadProjectionSelection();
             fullHeader = new CustomTableHeaderDTO();
@@ -620,7 +620,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             long start = System.currentTimeMillis();
             excelTable.setRefresh(Boolean.TRUE);
             long end = System.currentTimeMillis();
-            LOGGER.info("Time taken to refresh table :" + (end - start));
+            LOGGER.info("Time taken to refresh table = {}" , (end - start));
             start = end;
             ForecastUI.setEXCEL_CLOSE(true);
             int leftcolumnsize = NumericConstants.ONE;
@@ -701,7 +701,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
                 if (displayFormatIndex.length == 1) {
                     for (int i = 0; i < displayFormatIndex.length; i++) {
-                        LOGGER.info("obj--------------" + i);
+                        LOGGER.info("obj--------------= {}" , i);
                         int index = (Integer) displayFormatIndex[i];
                         if (index == 0) {
                             listHeaders.remove("dfLevelName");
@@ -727,7 +727,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), TAB_PROJECTION_VARIANCE.getConstant(), TAB_PROJECTION_VARIANCE.getConstant(), "Projection_Variance.xls", false);
                 export.export();
                 end = System.currentTimeMillis();
-                LOGGER.info("Time taken to export :" + (end - start));
+                LOGGER.info("Time taken to export = {}" , (end - start));
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());

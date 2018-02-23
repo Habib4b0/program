@@ -172,7 +172,7 @@ public class DataSelectionLogic {
 	 * @return the list
 	 */
 	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName, int hierarchyVersion) {
-		LOGGER.debug(" hierarchyName "+hierarchyName);
+		LOGGER.debug(" hierarchyName= {} ",hierarchyName);
 		List<Leveldto> resultList = new ArrayList<>();
 		Leveldto leveldto;
 		List<Object> input = new ArrayList<>();
@@ -498,7 +498,7 @@ public class DataSelectionLogic {
 	public void saveProductHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids,
 			final int projectionId, final List<String> addLevels, final String indicator,
 			final DataSelectionDTO dataSelectionDTO) {
-		LOGGER.debug("saveProductHierarchyLogic endLevelSids projectionId " + projectionId);
+		LOGGER.debug("saveProductHierarchyLogic endLevelSids projectionId= {} " , projectionId);
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put(Constant.INDICATOR, "getChildLevelRLSid");
 		parameters.put(RL_SIDS, endLevelSids);
@@ -618,8 +618,8 @@ public class DataSelectionLogic {
 	 */
 	public void saveCustomerHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids,
 			final int projectionId, final List<String> addLevels, final String indicator) {
-		LOGGER.debug("saveCustomerHierarchyLogic endLevelSids size:" + endLevelSids.size() + " projectionId "
-				+ projectionId);
+		LOGGER.debug("saveCustomerHierarchyLogic endLevelSids size= {}, projectionId= {} " , endLevelSids.size(),
+				projectionId);
 		String endLevelsQury;
 		Map<String, Object> parameters = new HashMap<>();
 		String insertQuery = StringUtils.EMPTY;
@@ -857,7 +857,7 @@ public class DataSelectionLogic {
 	}
 
 	public String deleteProjection(int projectionId, String currentUserId, String screenName) {
-		LOGGER.debug("Enters deleteProjection with " + projectionId);
+		LOGGER.debug("Enters deleteProjection with= {} " , projectionId);
 		String str = StringUtils.EMPTY;
 		try {
 			ProjectionMaster projMaster;
@@ -1551,7 +1551,7 @@ public class DataSelectionLogic {
 				companies.add(companyDdlbDto);
 			}
 		}
-		LOGGER.debug("companies return size " + companies.size());
+		LOGGER.debug("companies return size= {} " , companies.size());
 		return companies;
 	}
 
@@ -1724,10 +1724,10 @@ public class DataSelectionLogic {
 
 	public void callInsertProcedure(int projectionId, String userId, String sessionId, String procedureName) {
 		LOGGER.debug("In callInsertProcedure");
-		LOGGER.debug("ProcedureName---> " + procedureName);
-		LOGGER.debug("ProjectionId----> " + projectionId);
-		LOGGER.debug("UserId----------> " + userId);
-		LOGGER.debug("SessionId-------> " + sessionId);
+		LOGGER.debug("ProcedureName--->= {} " , procedureName);
+		LOGGER.debug("ProjectionId---->= {} " , projectionId);
+		LOGGER.debug("UserId---------->= {} " , userId);
+		LOGGER.debug("SessionId------->= {} " , sessionId);
 
 		GtnSqlUtil.procedureCallService(procedureName, new Object[] { projectionId, userId, sessionId });
 
@@ -1737,11 +1737,11 @@ public class DataSelectionLogic {
 	public boolean callReturnsCalculateProcedure(int projectionId, String userId, String sessionId, String frequency,
 			String procedureName) {
 		LOGGER.debug("In callInsertProcedure");
-		LOGGER.debug("ProcedureName---> " + procedureName);
-		LOGGER.debug("ProjectionId----> " + projectionId);
-		LOGGER.debug("UserId----------> " + userId);
-		LOGGER.debug("SessionId-------> " + sessionId);
-		LOGGER.debug("frequency-------> " + frequency);
+		LOGGER.debug("ProcedureName--->= {} " , procedureName);
+		LOGGER.debug("ProjectionId---->= {} " , projectionId);
+		LOGGER.debug("UserId---------->= {} " , userId);
+		LOGGER.debug("SessionId------->= {} " , sessionId);
+		LOGGER.debug("frequency------->= {} " , frequency);
 
 		return GtnSqlUtil.procedureCallService(procedureName,
 				new Object[] { projectionId, userId, sessionId, frequency });
@@ -2069,7 +2069,7 @@ public class DataSelectionLogic {
 	 * @param relationshipBuilderSids
 	 */
 	public void dataSelectionInsert(String relationshipBuilderSids) {
-		LOGGER.debug("Entering dataSelectionInsert" + relationshipBuilderSids);
+		LOGGER.debug("Entering dataSelectionInsert= {}" , relationshipBuilderSids);
 		String query = SQlUtil.getQuery(getClass(),"nm.saveCustomerCcp");
 		query = query.replace("?RBS", relationshipBuilderSids);
 		salesProjectionDAO.executeBulkUpdateQuery(query, null, null);
