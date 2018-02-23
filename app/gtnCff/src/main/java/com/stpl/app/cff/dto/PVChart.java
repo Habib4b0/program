@@ -69,8 +69,7 @@ public class PVChart extends Window {
         LOGGER.debug("End of PPAChart method ");
     }
 
-    /**
-     * Gets the dto.
+     /* Gets the dto.
      *
      * @return the dto
      */

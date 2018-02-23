@@ -809,7 +809,7 @@ public class SPRCommonLogic {
 			DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
+            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
             projectionListFrom.add(ProjectionFactoryUtil.property(LEVEL_NO_PROPERTY));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = commonDao.getRelationshipLevels(query);

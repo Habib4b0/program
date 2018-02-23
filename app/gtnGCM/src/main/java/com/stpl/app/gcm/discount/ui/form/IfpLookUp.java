@@ -94,7 +94,7 @@ public class IfpLookUp extends Window {
         }
     }
 
-    public void configureFields() throws SystemException {
+    public void configureFields()  {
         ifpTableLayout.addComponent(resultsTable);
         ifpTableLayout.addComponent(tableLogic.createControls());
         tableLogic.setContainerDataSource(resultsContainer);

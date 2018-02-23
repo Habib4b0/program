@@ -8,6 +8,7 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -38,9 +39,7 @@ public class ProjectionCustHierarchyImpl {
         boolean isProjectionStatus = false;
         StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
         try {
-//            LOGGER.debug("Entering getRelationShipValues method");
 
-//            StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
             if (workflowStatus.equals("Saved")) {
                 isProjectionStatus = true;
             }
@@ -113,7 +112,6 @@ public class ProjectionCustHierarchyImpl {
             }
             if (from != null && !"null".equals(from) && !StringUtils.isEmpty(from)
                     && to != null && !"null".equals(to) && !StringUtils.isEmpty(to)) {
-//                SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
                 SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
                 customSql.append(" AND PM.CREATED_DATE BETWEEN '");
                 customSql.append(format2.format(format2.parse(from)));
@@ -122,10 +120,8 @@ public class ProjectionCustHierarchyImpl {
                 customSql.append("' ");
             }
 
-            // LOGGER.debug("queryString.toString() -- >> " + customSql.toString());
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql.toString());
-        } catch (Exception e) {
-//            e.printStackTrace();
+        } catch (ParseException e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql.toString());
             return null;

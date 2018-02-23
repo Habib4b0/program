@@ -549,7 +549,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_FIVE);
-            } else if (String.valueOf(obj).contains(Constant.LEVELNAME)) {
+            } else if (String.valueOf(obj).contains(Constant.LEVEL_NAME)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_ZERO);
             }
         }
@@ -962,7 +962,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             List<String> headerArray = headeInformationsList.get(1);
             table.setVisibleColumns(headeInformationsList.get(0).toArray());
             table.setColumnHeaders(headerArray.toArray(new String[headerArray.size()]));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }

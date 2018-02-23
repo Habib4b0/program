@@ -364,7 +364,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         rightTable.setDoubleHeaderMap(rightHeader.getDoubleHeaderMaps());
         leftTable.setDoubleHeaderMap(leftHeader.getDoubleHeaderMaps());
         for (Object obj : leftHeader.getSingleColumns()) {
-            if (String.valueOf(obj).contains(Constant.LEVELNAME)) {
+            if (String.valueOf(obj).contains(Constant.LEVEL_NAME)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_FIVE);
             } else if (String.valueOf(obj).contains(Constant.BASELINE)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj,  NumericConstants.ONE_THREE_FIVE);

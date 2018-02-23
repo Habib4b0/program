@@ -246,7 +246,7 @@ public class HeaderUtils {
     /**
      * The comparison columns.
      */
-    private Object[] comparisonColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION,
+    private final Object[] comparisonColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION,
         Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "ndcNo", "ndcName", "createdDate", "createdBy"};
     protected static final String MARKET_TYPE1 = "Market Type";
     protected static final String CREATED_BY1 = "Created By";
@@ -254,7 +254,7 @@ public class HeaderUtils {
     /**
      * The parity header.
      */
-    private String[] comparisonHeader = new String[]{"Projection Name", "Description", MARKET_TYPE1, Constant.CUSTOMER_SMALL, Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "NDC #", "NDC Name", "Created Date", CREATED_BY1};
+    private final String[] comparisonHeader = new String[]{"Projection Name", "Description", MARKET_TYPE1, Constant.CUSTOMER_SMALL, Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "NDC #", "NDC Name", "Created Date", CREATED_BY1};
     /**
      * The SALES_SMALL projection columns.
      */
@@ -563,14 +563,14 @@ public class HeaderUtils {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
 
         tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
         tableHeaderDTO.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
         tableHeaderDTO.addSingleColumn(Constant.BASELINE, BASE_LINE1, String.class);
         tableHeaderDTO.addSingleColumn(Constant.METHODOLOGY, METHODOLOGY1, String.class);
         tableHeaderDTO.addDoubleColumn(Constant.CHECKRECORD, " ");
         tableHeaderDTO.addDoubleHeaderMap(Constant.CHECKRECORD, new Object[]{Constant.CHECK});
         tableHeaderDTO.addDoubleColumn(GROUP1, " ");
-        tableHeaderDTO.addDoubleHeaderMap(GROUP1, new Object[]{Constant.LEVELNAME, Constant.GROUP, Constant.BASELINE, Constant.METHODOLOGY});
+        tableHeaderDTO.addDoubleHeaderMap(GROUP1, new Object[]{Constant.LEVEL_NAME, Constant.GROUP, Constant.BASELINE, Constant.METHODOLOGY});
 
         return tableHeaderDTO;
     }
@@ -580,7 +580,7 @@ public class HeaderUtils {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         CustomTableHeaderDTO excelDto = new CustomTableHeaderDTO();
 
-        excelDto.addSingleColumn(Constant.LEVELNAME, LEVEL_NAME1, String.class);
+        excelDto.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
         excelDto.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
         excelDto.addSingleColumn(Constant.BASELINE, BASE_LINE1, String.class);
         excelDto.addSingleColumn(Constant.METHODOLOGY, METHODOLOGY1, String.class);
@@ -591,11 +591,11 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getDiscountProjectionLeftTableColumns() {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn(Constant.CHECKRECORD, " ", Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, LEVEL_NAME1, String.class);
-        tableHeaderDTO.addDoubleColumn(Constant.LEVELNAME, " ");
-        tableHeaderDTO.addDoubleHeaderMap(Constant.LEVELNAME, new Object[]{Constant.LEVELNAME, Constant.CHECKRECORD});
-        tableHeaderDTO.addTripleColumn(Constant.LEVELNAME, " ");
-        tableHeaderDTO.addTripleHeaderMap(Constant.LEVELNAME, new Object[]{Constant.LEVELNAME});
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addDoubleColumn(Constant.LEVEL_NAME, " ");
+        tableHeaderDTO.addDoubleHeaderMap(Constant.LEVEL_NAME, new Object[]{Constant.LEVEL_NAME, Constant.CHECKRECORD});
+        tableHeaderDTO.addTripleColumn(Constant.LEVEL_NAME, " ");
+        tableHeaderDTO.addTripleHeaderMap(Constant.LEVEL_NAME, new Object[]{Constant.LEVEL_NAME});
         return tableHeaderDTO;
     }
 
@@ -604,28 +604,28 @@ public class HeaderUtils {
         if (!isView) {
             tableHeaderDTO.addSingleColumn(Constant.CHECKRECORD, " ", Boolean.class);
         }
-        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
         tableHeaderDTO.addDoubleColumn(Constant.GROUP, " ");
         
         if (CommonUtil.isValueEligibleForLoading()) {
             excelHeader.addDoubleColumn(Constant.GROUP, " ");
             excelHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number", String.class);
-            excelHeader.addSingleColumn(DF_LEVEL_NAME, Constant.LEVEL_NAME_HEADER, String.class);
-            excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVELNAME,DF_LEVEL_NUMBER, DF_LEVEL_NAME,Constant.GROUP});
+            excelHeader.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
+            excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVEL_NAME,DF_LEVEL_NUMBER, DF_LEVEL_NAME,Constant.GROUP});
             
         } else {
-            excelHeader.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_HEADER, String.class);
+            excelHeader.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
             excelHeader.addDoubleColumn(Constant.GROUP, " ");
         }
         if (!Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator)) {
             tableHeaderDTO.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
-            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVELNAME, Constant.CHECKRECORD, Constant.GROUP});
+            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVEL_NAME, Constant.CHECKRECORD, Constant.GROUP});
             excelHeader.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
-            excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{DF_LEVEL_NUMBER, DF_LEVEL_NAME, Constant.LEVELNAME, Constant.GROUP});
+            excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{DF_LEVEL_NUMBER, DF_LEVEL_NAME, Constant.LEVEL_NAME, Constant.GROUP});
 
         } else {
-            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVELNAME, Constant.CHECKRECORD});
-            excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{DF_LEVEL_NUMBER, DF_LEVEL_NAME,Constant.LEVELNAME});
+            tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVEL_NAME, Constant.CHECKRECORD});
+            excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{DF_LEVEL_NUMBER, DF_LEVEL_NAME,Constant.LEVEL_NAME});
 
         }
 
@@ -1619,15 +1619,15 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getPPAProjectionLeftTableColumns(CustomTableHeaderDTO fullHeader) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn(Constant.CHECK_RECORD + ".0", Constant.SPACE, Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
         tableHeaderDTO.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
         tableHeaderDTO.addSingleColumn(Constant.PRICEPROTECTIONSTATUS, "Price Protection Status", String.class);
 
         tableHeaderDTO.addSingleColumn(Constant.PRICEPROTECTIONSTARTDATE, "Price Protection Start Date", String.class);
         tableHeaderDTO.addSingleColumn(Constant.PRICEPROTECTIONENDDATE, "Price Protection End Date", String.class);
         tableHeaderDTO.addDoubleColumn(GROUP1, " ");
-        tableHeaderDTO.addDoubleHeaderMap(GROUP1, new Object[]{Constant.CHECK_RECORD + ".0", Constant.LEVELNAME, Constant.GROUP, "priceProtectionStatus", "priceProtectionStartDate", "priceProtectionEndDate"});
-        fullHeader.addSingleColumn(Constant.LEVELNAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addDoubleHeaderMap(GROUP1, new Object[]{Constant.CHECK_RECORD + ".0", Constant.LEVEL_NAME, Constant.GROUP, "priceProtectionStatus", "priceProtectionStartDate", "priceProtectionEndDate"});
+        fullHeader.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
         fullHeader.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
 
         fullHeader.addSingleColumn(Constant.PRICEPROTECTIONSTATUS1, "Price Protection Status", String.class);
@@ -5289,15 +5289,15 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getAHSummeryTabLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
 
-        tableHeaderDTO.addSingleColumn(Constant.LEVELNAME, "  ", String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, "  ", String.class);
 
         tableHeaderDTO.addDoubleColumn(Constant.GROUP, StringUtils.EMPTY);
-        tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVELNAME});
+        tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVEL_NAME});
 
-        fullHeaderDTO.addSingleColumn(Constant.LEVELNAME, "  ", String.class);
+        fullHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, "  ", String.class);
 
         fullHeaderDTO.addDoubleColumn(Constant.GROUP, StringUtils.EMPTY);
-        fullHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVELNAME});
+        fullHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVEL_NAME});
         return tableHeaderDTO;
     }
 

@@ -94,7 +94,6 @@ public class PVCommonLogic {
             priorComparison = visibleColumn.equals(commonColumn + pvsdto.getProjIdList().get(Integer.parseInt(pvsdto.getComparisonBasis())));
         }
         variableValueCustomization(variableCategory, priorVal, format, visibleColumn, pvsdto, projDTO, isPer);
-        if (!priorComparison) {
             switch (pvsdto.getComparisonBasis()) {
 
                 case StringConstantsUtil.ACTUALS1:
@@ -107,13 +106,14 @@ public class PVCommonLogic {
                     comparisonBasisCustomization(variableCategory, priorVal, currValue, format, visibleColumn, pvsdto, projDTO, isPer);
                     break;
                 default:
+                    if (!priorComparison) {
                     comparisonBasisCustomization(variableCategory, priorVal, comparisonPriorVal, format, visibleColumn, pvsdto, projDTO, isPer);
+                     }
                     comparisonBasisCustomization(variableCategory, currValue, comparisonPriorVal, format, commonColumn + CURRENT + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
                     comparisonBasisCustomization(variableCategory, actValue, comparisonPriorVal, format, commonColumn + ACTUAL + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
                     comparisonBasisCustomization(variableCategory, accrValue, comparisonPriorVal, format, commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), pvsdto, projDTO, isPer);
                     break;
-
-            }
+           
         }
         LOGGER.debug("Ending getPivotCommonCustomization");
     }
