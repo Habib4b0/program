@@ -422,9 +422,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             for (StackTraceElement traceElement : trace)
                 LOGGER.error("\tat " + traceElement);
             LOGGER.error(ex.getMessage());
-
         }
-
     }
 
     /**

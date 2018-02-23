@@ -1174,22 +1174,22 @@ if(!custom){
             } else if (method.equals("getCCPIds")) {
 
                 queryBuilder1.append("  SELECT * from dbo.CCP_DETAILS where CCP_DETAILS_SID in (   \n");
-                queryBuilder1.append("  SELECT LCCP.CCP_DETAILS_SID from          \n");
+                queryBuilder1.append("  SELECT LCCP.CCP_DETAILS_SID from          \n");
                 queryBuilder1.append(" (SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from  \n");
-                queryBuilder1.append("      (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID   \n");
-                queryBuilder1.append("     FROM RELATIONSHIP_LEVEL_DEFINITION RLD          JOIN CCP_MAP CCP ON   \n");
-                queryBuilder1.append("  RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID        \n");
-                queryBuilder1.append("     JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='22'   \n");
-                queryBuilder1.append("     JOIN PROJECTION_CUST_HIERARCHY PCH1       ON  RLD.RELATIONSHIP_LEVEL_SID=PCH1.RELATIONSHIP_LEVEL_SID     \n");
-                queryBuilder1.append("    JOIN PROJECTION_MASTER PM  ON PCH1.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID          WHERE PM.PROJECTION_MASTER_SID='22') CCPMAP,     \n");
-                queryBuilder1.append("      (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID         FROM RELATIONSHIP_LEVEL_DEFINITION RLD1      \n");
-                queryBuilder1.append("       JOIN PROJECTION_CUST_HIERARCHY PCH        ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID  \n");
-                queryBuilder1.append("            AND PCH.PROJECTION_MASTER_SID='22'          WHERE RLD1.HIERARCHY_NO like '5-1.1.1.1.1'  ) HLD         \n");
-                queryBuilder1.append("    WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP         WHERE LCCP.HIERARCHY_NO in          \n");
-                queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO          FROM RELATIONSHIP_LEVEL_DEFINITION RLD2          JOIN PROJECTION_CUST_HIERARCHY PCH2      \n");
-                queryBuilder1.append("      ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID        \n");
-                queryBuilder1.append("      AND PCH2.PROJECTION_MASTER_SID='22'        \n");
-                queryBuilder1.append("      WHERE RLD2.LEVEL_NAME = 'Trading Partner' ))  \n");
+                queryBuilder1.append("      (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID   \n");
+                queryBuilder1.append("     FROM RELATIONSHIP_LEVEL_DEFINITION RLD          JOIN CCP_MAP CCP ON   \n");
+                queryBuilder1.append("  RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID        \n");
+                queryBuilder1.append("     JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='22'   \n");
+                queryBuilder1.append("     JOIN PROJECTION_CUST_HIERARCHY PCH1       ON  RLD.RELATIONSHIP_LEVEL_SID=PCH1.RELATIONSHIP_LEVEL_SID     \n");
+                queryBuilder1.append("    JOIN PROJECTION_MASTER PM  ON PCH1.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID          WHERE PM.PROJECTION_MASTER_SID='22') CCPMAP,     \n");
+                queryBuilder1.append("      (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID         FROM RELATIONSHIP_LEVEL_DEFINITION RLD1      \n");
+                queryBuilder1.append("       JOIN PROJECTION_CUST_HIERARCHY PCH        ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID  \n");
+                queryBuilder1.append("            AND PCH.PROJECTION_MASTER_SID='22'          WHERE RLD1.HIERARCHY_NO like '5-1.1.1.1.1'  ) HLD         \n");
+                queryBuilder1.append("    WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP         WHERE LCCP.HIERARCHY_NO in          \n");
+                queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO          FROM RELATIONSHIP_LEVEL_DEFINITION RLD2          JOIN PROJECTION_CUST_HIERARCHY PCH2      \n");
+                queryBuilder1.append("      ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID        \n");
+                queryBuilder1.append("      AND PCH2.PROJECTION_MASTER_SID='22'        \n");
+                queryBuilder1.append("      WHERE RLD2.LEVEL_NAME = 'Trading Partner' ))  \n");
 
             } else if (method.equals("pmpyUpdate")) {
 

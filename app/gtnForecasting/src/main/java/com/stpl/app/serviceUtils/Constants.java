@@ -1086,10 +1086,10 @@ public final class Constants {
      */
     public static final String SEARCH_SP_CHAR = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
 
-    public static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
+    public static final String ALPHA_NUMERIC_CHARS = "([0-9|a-z|A-Z|\\ |\\*])*";
 
-    public static String alphaNumericCharsMessage = "Special Characters are not allowed in ";
-    public final static String ITEM_CLICK_FLAG = "ITEM_CLICK_FLAG";
+    public static final String ALPHA_NUMERIC_CHARS_MSG = "Special Characters are not allowed in ";
+    public static final String ITEM_CLICK_FLAG = "ITEM_CLICK_FLAG";
 
     /**
      * The Constant PRICE.

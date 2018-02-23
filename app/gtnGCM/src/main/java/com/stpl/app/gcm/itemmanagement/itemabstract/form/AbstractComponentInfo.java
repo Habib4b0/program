@@ -164,12 +164,12 @@ public class AbstractComponentInfo extends CustomComponent {
 
     public final Object[] rsCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
     public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
-    ComponentInfoDTO binderDto = new ComponentInfoDTO();
+    private ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection;
-    AbstractLogic abstractLogic = AbstractLogic.getInstance();
-    String componentFlag = StringUtils.EMPTY;
+    private SelectionDTO selection;
+    private AbstractLogic abstractLogic = AbstractLogic.getInstance();
+    private String componentFlag = StringUtils.EMPTY;
     private BeanItemContainer<ComponentInfoDTO> contractExcelResultBean = new BeanItemContainer<>(ComponentInfoDTO.class);
     private ExtCustomTable contractExcelTable;
     private final VerticalLayout contractDashboardLay = new VerticalLayout();

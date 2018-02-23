@@ -802,7 +802,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 setRefresh(true);
-                if (!projectionDTO.isMultipleVariablesUpdated) {
+                if (!projectionDTO.isMultipleVariablesUpdated()) {
                     salesLogic.executeUpdateQuery(projectionDTO);
                     getTableLogic().setRefresh(false);
                     refreshTableData(getCheckedRecordsHierarchyNo());

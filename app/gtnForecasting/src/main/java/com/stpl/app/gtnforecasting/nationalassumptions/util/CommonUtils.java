@@ -107,7 +107,7 @@ public class CommonUtils {
     
     public static final String SPECIAL_CHARACTER_MESSAGE="Value can contain only digits,alphabets";
        
-    public static SessionDTO sessionDto=new SessionDTO();
+    private static SessionDTO sessionDto=new SessionDTO();
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     
     /**

@@ -2107,7 +2107,7 @@ public class NmDiscountImpl {
         }
         return null;
     }
-    static final String SELECT_PR_YEAR_PR = " SELECT PR.YEAR,PR.";
+    public static final String SELECT_PR_YEAR_PR = " SELECT PR.YEAR,PR.";
 
     public List getSubDiscount(List<Integer> projectionDetailsId, String frequency, String discountList, List<Integer> startAndEndPeriods, int userId, int sessionId) {
         {

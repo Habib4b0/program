@@ -59,46 +59,46 @@ public final class UIUtils {
     public final static String MANDATORY_DATE_PICKER = "mandatory-date-picker";
 
     /** The Constant QUALIFIER_COMPANY. */
-    public static final Object[] QUALIFIER_COMPANY = new Object[]{"companyQualifier", "companyCrtQualifierName","effectiveDates","notes","modifiedBy","modifiedDate","createdBy","createdDate"};
+    private static final Object[] QUALIFIER_COMPANY = new Object[]{"companyQualifier", "companyCrtQualifierName","effectiveDates","notes","modifiedBy","modifiedDate","createdBy","createdDate"};
     
     /** The Constant QUALIFIER_COMPANY_HEADERS. */
-    public static final String[] QUALIFIER_COMPANY_HEADERS = new String[]{"Company Qualifier", "Company Qualifier Name","Effective Dates","Notes","Modified By","Modified Date","Created By","Created Date"};
+    private static final String[] QUALIFIER_COMPANY_HEADERS = new String[]{"Company Qualifier", "Company Qualifier Name","Effective Dates","Notes","Modified By","Modified Date","Created By","Created Date"};
     
     /** The Constant PARENT_COMPANY_NO_COLUMNS. */
-    public static final Object[] PARENT_COMPANY_NO_COLUMNS = new Object[]{ConstantsUtils.COMPANY_ID, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME,
+    private static final Object[] PARENT_COMPANY_NO_COLUMNS = new Object[]{ConstantsUtils.COMPANY_ID, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME,
         ConstantsUtils.COMPANY_STATUS, ConstantsUtils.COMPANY_TYPE};
 
     /** The Constant PARENT_COMPANY_NO_HEADERS. */
-    public static final String[] PARENT_COMPANY_NO_HEADERS = new String[]{ConstantsUtils.COMPANYID,
+    private static final String[] PARENT_COMPANY_NO_HEADERS = new String[]{ConstantsUtils.COMPANYID,
         ConstantsUtils.COMPANYNO, ConstantsUtils.COMPANYNAME, ConstantsUtils.COMPANYSTATUS, ConstantsUtils.COMPANYTYPE};
     
     
     /**
      * The Constant PARENT_COMPANY_NO_COLUMNS.
      */
-    public static final Object[] PARENT_COMPANY_NO_COLUMNS_ITEM = new Object[]{"systemId",ConstantsUtils.COMPANY_ID, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME,
+    private static final Object[] PARENT_COMPANY_NO_COLUMNS_ITEM = new Object[]{"systemId",ConstantsUtils.COMPANY_ID, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME,
         ConstantsUtils.COMPANY_STATUS, ConstantsUtils.COMPANY_TYPE, ConstantsUtils.TRADE_CLASS,"address1","address2","city" };
 
     /**
      * The Constant PARENT_COMPANY_NO_HEADERS.
      */
-    public static final String[] PARENT_COMPANY_NO_HEADERS_ITEM = new String[]{"System ID",ConstantsUtils.COMPANYID,
+    private static final String[] PARENT_COMPANY_NO_HEADERS_ITEM = new String[]{"System ID",ConstantsUtils.COMPANYID,
         ConstantsUtils.COMPANYNO, ConstantsUtils.COMPANYNAME, ConstantsUtils.COMPANYSTATUS, ConstantsUtils.COMPANYTYPE, "Trade Class","Address1","Address2","City"};
     
      /**
      * The Constant PARENT_COMPANY_NO_COLUMNS.
      */
-    public static final Object[] PARENT_COMPANY_NO_COLUMNS_ITEM_WITH = new Object[]{"systemId",ConstantsUtils.COMPANY_ID, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME,
+    private static final Object[] PARENT_COMPANY_NO_COLUMNS_ITEM_WITH = new Object[]{"systemId",ConstantsUtils.COMPANY_ID, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME,
         ConstantsUtils.COMPANY_STATUS, ConstantsUtils.COMPANY_TYPE, ConstantsUtils.TRADE_CLASS, "identifier", "identifierType","address1","address2","city"};
 
     /**
      * The Constant PARENT_COMPANY_NO_HEADERS.
      */
-    public static final String[] PARENT_COMPANY_NO_HEADERS_ITEM_WITH = new String[]{"System ID",ConstantsUtils.COMPANYID,
+    private static final String[] PARENT_COMPANY_NO_HEADERS_ITEM_WITH = new String[]{"System ID",ConstantsUtils.COMPANYID,
         ConstantsUtils.COMPANYNO, ConstantsUtils.COMPANYNAME, ConstantsUtils.COMPANYSTATUS, ConstantsUtils.COMPANYTYPE, "Trade Class", "Identifier", "Identifier Type","Address1","Address2","City"};
 
     /** The Constant WITHOUT_IDEN. */
-    public static final Object[] WITHOUT_IDEN = new Object[]{"systemId",ConstantsUtils.COMPANY_ID, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME,
+    private static final Object[] WITHOUT_IDEN = new Object[]{"systemId",ConstantsUtils.COMPANY_ID, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME,
         ConstantsUtils.COMPANY_STATUS, ConstantsUtils.COMPANY_TYPE, "compStartDate", "compEndDate", ConstantsUtils.TRADE_CLASS,
         "tradeStartDate", "tradeEndDate", "lives", "companyGroup", "companyCategory",
         "organizationKey", "financialSystem", "parentCompanyNo", "parentSDate", "parentEDate",
@@ -106,14 +106,14 @@ public final class UIUtils {
         "udc5", "udc6", "address1", "address2", "zipCode", "city", "state", "country"};
 
     /** The Constant WITHOUT_IDEN_HEADER. */
-    public static final String[] WITHOUT_IDEN_HEADER = new String[]{"System ID",ConstantsUtils.COMPANYID,
+    private static final String[] WITHOUT_IDEN_HEADER = new String[]{"System ID",ConstantsUtils.COMPANYID,
         "Company No", ConstantsUtils.COMPANYNAME, ConstantsUtils.COMPANYSTATUS, ConstantsUtils.COMPANYTYPE, "Company Start Date", "Company End Date", "Trade Class", "Trade Class Start Date", "Trade Class End Date", "Lives", "Company Group", "Company Category",
         "Organization ", "Financial System", "Parent Company No.", "Parent Start Date", "Parent End Date",
         "Prior Parent Company No.", "Prior Parent Start Date", "Region Code", "UDC 1", "UDC 2", "UDC 3", "UDC 4",
         "UDC 5", "UDC 6", "Address 1", "Address 2", "Zip Code", "City", "State", "Country"};
     
     /** The Constant WITH_IDEN. */
-    public static final Object[] WITH_IDEN = new Object[]{"systemId",ConstantsUtils.COMPANY_ID,
+    private static final Object[] WITH_IDEN = new Object[]{"systemId",ConstantsUtils.COMPANY_ID,
         ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_NAME, ConstantsUtils.COMPANY_STATUS, ConstantsUtils.COMPANY_TYPE, 
         "companyCategory", "companyGroup", ConstantsUtils.TRADE_CLASS ,"identifierTypeDesc", "identifier",
         "compStartDate", "compEndDate", "tradeStartDate", "tradeEndDate", "lives", 
@@ -122,7 +122,7 @@ public final class UIUtils {
          "udc5", "udc6", "address1", "address2", "zipCode", "city", "state", "country"};
 
     /** The Constant WITH_IDEN_HEADER. */
-    public static final String[] WITH_IDEN_HEADER = new String[]{"System ID",ConstantsUtils.COMPANYID,
+    private static final String[] WITH_IDEN_HEADER = new String[]{"System ID",ConstantsUtils.COMPANYID,
         "Company No", ConstantsUtils.COMPANYNAME, ConstantsUtils.COMPANYSTATUS, ConstantsUtils.COMPANYTYPE, 
         "Company Category", "Company Group", "Trade Class", "Company Qualifier Name", "Company Identifier",
          "Company Start Date", "Company End Date",  "Trade Class Start Date", "Trade Class End Date", "Lives", 
@@ -131,59 +131,59 @@ public final class UIUtils {
          "UDC 5", "UDC 6", "Address 1", "Address 2", "Zip Code", "City", "State", "Country"};
 
     /** The Constant ITEMINFO_COL_ORDER. */
-    public static final Object[] ITEMINFO_COL_ORDER = new Object[]{ConstantsUtils.COMPANY_ID,
+    private static final Object[] ITEMINFO_COL_ORDER = new Object[]{ConstantsUtils.COMPANY_ID,
         ConstantsUtils.COMPANY_NAME, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_TYPE, ConstantsUtils.COMPANY_STATUS, ConstantsUtils.TRADE_CLASS, ConstantsUtils.COMPANY_START_DATE, ConstantsUtils.COMPANY_END_DATE};
 
     /** The Constant ADDINFO_COL_ORDER. */
-    public static final Object[] ADDINFO_COL_ORDER = new Object[]{ConstantsUtils.COMPANY_ID,
+    private static final Object[] ADDINFO_COL_ORDER = new Object[]{ConstantsUtils.COMPANY_ID,
         ConstantsUtils.COMPANY_NAME, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_TYPE, ConstantsUtils.COMPANY_STATUS, ConstantsUtils.TRADE_CLASS, ConstantsUtils.COMPANY_START_DATE, ConstantsUtils.COMPANY_END_DATE};
 
     /** The Constant FORM_COL_ORDER. */
-    public static final Object[] FORM_COL_ORDER = new Object[]{ConstantsUtils.COMPANY_ID,
+    private static final Object[] FORM_COL_ORDER = new Object[]{ConstantsUtils.COMPANY_ID,
         ConstantsUtils.COMPANY_NAME, ConstantsUtils.COMPANY_TYPE, ConstantsUtils.COMPANY_NO, ConstantsUtils.COMPANY_STATUS, ConstantsUtils.TRADE_CLASS, "identifier", "identifierTypeDesc"};
 
     /**
      * "Human readable" captions for properties in same order as in
      * NATURAL_COL_ORDER.
      */
-    public static final String[] COL_HEADERS_ENGLISH = new String[]{
+    private static final String[] COL_HEADERS_ENGLISH = new String[]{
         ConstantsUtils.COMPANYID, ConstantsUtils.COMPANYNAME, "Company No.",
         ConstantsUtils.COMPANYSTATUS, ConstantsUtils.COMPANYTYPE, ConstantsUtils.TRADE_CLASS, "Identifier Type"};
     
     /** The Constant IDEN_FORM_COL_ORDER. */
-    public static final Object[] IDEN_FORM_COL_ORDER = new Object[]{
+    private static final Object[] IDEN_FORM_COL_ORDER = new Object[]{
         "companyCrtQualifierName", "companyIdentifier", "identifierStatus", "startDate", "endDate", "createdDate", "createdBy", "modifiedBy", "modifiedDate"
         };
 
     /** The Constant IDEN_FORM_COL_HEADER. */
-    public static final String[] IDEN_FORM_COL_HEADER = new String[]{
+    private static final String[] IDEN_FORM_COL_HEADER = new String[]{
         "Company Qualifier Name", "Company Identifier", "Identifier Status", "Start Date", "End Date", "Created Date", "Created By", "Modified By", "Modified Date" };
 
     /** The Constant IDEN_VIEW_FORM_COL_ORDER. */
-    public static final Object[] IDEN_VIEW_FORM_COL_ORDER = new Object[]{
+    private static final Object[] IDEN_VIEW_FORM_COL_ORDER = new Object[]{
         "companyCrtQualifierName", "companyIdentifier", "identifierStatusValue", "viewStartDate", "viewEndDate", "viewCreatedDate", "createdBy", "modifiedBy", "viewModifiedDate"
         };
 
 
 
     /** The Constant TRADE_CLASS_COLUMNS. */
-    public static final Object[] TRADE_CLASS_COLUMNS = new Object[]{
+    private static final Object[] TRADE_CLASS_COLUMNS = new Object[]{
        "tradeClass", "tradeClassSDate", "tradeClassEDate","createdDate","createdBy", "modifiedBy", "modifiedDate"
     };
 
     /** The Constant TRADE_CLASS_HEADERS. */
-    public static final String[] TRADE_CLASS_HEADERS = new String[]{
+    private static final String[] TRADE_CLASS_HEADERS = new String[]{
        "Trade Class", "Trade Class Start Date", "Trade Class End Date","Created Date","Created By", "Modified By", "Modified Date"
     };
     
    
     /** The Constant PARENT_COMPANY_COLUMNS. */
-    public static final Object[] PARENT_COMPANY_COLUMNS= new Object[]{
+    private static final Object[] PARENT_COMPANY_COLUMNS= new Object[]{
 		"parentCompanyNo", "parentCompanyName", "parentStartDate","parentEndDate", "createdDate","createdBy", "modifiedBy", "modifiedDate"
 	};
 	
 	/** The Constant PARENT_COMPANY_HEADERS. */
-	public static final String[] PARENT_COMPANY_HEADERS= new String[]{
+	private static final String[] PARENT_COMPANY_HEADERS= new String[]{
 		"Parent Company No", "Parent Company Name", "Parent Company Start Date","Parent Company End Date","Created Date","Created By", "Modified By", "Modified Date"	}; 
    
         

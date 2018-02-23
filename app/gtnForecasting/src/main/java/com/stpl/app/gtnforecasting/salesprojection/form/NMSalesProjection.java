@@ -88,7 +88,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     protected String ALL = "ALL";
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
-    SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
   
     public static final String SELECT_ALL_LABEL = "Select All";
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {

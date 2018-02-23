@@ -32,8 +32,8 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
  */
 public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
-    CommonDao DAO = CommonImpl.getInstance();
-    QueryUtils queryUtils = new QueryUtils();
+    public static final CommonDao DAO = CommonImpl.getInstance();
+    private final QueryUtils queryUtils = new QueryUtils();
     public static final Logger LOGGER = LoggerFactory.getLogger(ContractHeaderLogicDAOImpl.class);
 
     @Override

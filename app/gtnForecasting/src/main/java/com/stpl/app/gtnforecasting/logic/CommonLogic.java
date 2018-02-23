@@ -109,7 +109,7 @@ public class CommonLogic {
     public static final String CUST_HIERARCHY_NO = "CUST_HIERARCHY_NO ";
     public static final String LEVEL_VALUES = "@LEVELVALUES";
     
-    RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
+    protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
     private final GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
     /**

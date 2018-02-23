@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
  */
 public class StChSalesProjectionImpl  {
       private static final Logger LOGGER = LoggerFactory.getLogger(StChSalesProjectionImpl.class);
-      public static ResourceBundle tableNameBundle = ResourceBundle.getBundle("properties.tablename");
-    public List executeQuery(Map<String, Object> parameters) {
+      public static final ResourceBundle TABLE_NAME_BUNDLE = ResourceBundle.getBundle("properties.tablename");
+      public List executeQuery(Map<String, Object> parameters) {
     
     
 
@@ -192,9 +192,9 @@ public class StChSalesProjectionImpl  {
      private String generateQuery(final Map<String, Object> parameters, final boolean joinAllowed) {
         String query = SQlUtil.getQuery(getClass(),String.valueOf(parameters.get(Constants.QUERY_NAME)));
         Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
-        inputs.put("?MASTER_TABLE?", tableNameBundle.getString(Constants.ST_CH_SALES_PROJECTION_MASTER));
-        inputs.put("?PROJECTION_TABLE?", tableNameBundle.getString(Constants.ST_CH_SALES_PROJECTION));
-        inputs.put("?ACTUALS_TABLE?", tableNameBundle.getString(Constants.ST_CH_ACTUAL_SALES));
+        inputs.put("?MASTER_TABLE?", TABLE_NAME_BUNDLE.getString(Constants.ST_CH_SALES_PROJECTION_MASTER));
+        inputs.put("?PROJECTION_TABLE?", TABLE_NAME_BUNDLE.getString(Constants.ST_CH_SALES_PROJECTION));
+        inputs.put("?ACTUALS_TABLE?", TABLE_NAME_BUNDLE.getString(Constants.ST_CH_ACTUAL_SALES));
         if (joinAllowed) {
             Map<String, Object> joinMap = (HashMap<String, Object>) parameters.get(Constants.JOIN_MAP);
             if (joinMap != null) {
