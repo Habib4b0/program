@@ -163,7 +163,7 @@ public class FileSelection extends CustomComponent {
     @SuppressWarnings("serial")
     private Component addResultTable() {
         excelExport.setCaption(StringUtils.EMPTY);
-        excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
+        excelExport.setIcon(excelExportImage);
         excelExport.setStyleName("link");
         excelExport.setDescription("Export to excel");
         excelExport.setIconAlternateText("Excel export");
