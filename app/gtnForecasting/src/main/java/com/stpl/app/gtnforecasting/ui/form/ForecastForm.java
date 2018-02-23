@@ -484,56 +484,59 @@ public class ForecastForm extends AbstractForm {
 				final Tab tab = (Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
 				tabPosition = event.getTabSheet().getTabPosition(tab);
 				buttonEnableLogic(tabPosition, tabSheet.getComponentCount() - 1);
-				try {
-					if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-						session.setTabNameCaption(tabSheet.getTab(tabPosition).getCaption());
-						if (tabPosition == 0) {
-							session.getFutureValue(Constant.DATA_SELECTION_TAB_LOAD, 0).get();
-						}
-						checkSalesFlag = checkLastPositionTab(tabPosition);
-						if (checkSalesFlag) {
-							CommonUtil.getInstance()
-									.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
-						}
-						if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.THREE) {
-							salesProjectionResults.defaultFocus();
-						} else if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.FIVE) {
-							discountProjectionResults.defaultFocus();
-						}
-						if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.SEVEN) {
-							nonmandatedprojectionResults.defaultFocus();
-						}
-						if (tabPosition == NumericConstants.TWO) {
-							session.setIsDeductionCustom(false);
-						}
-						if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
-								|| tabPosition == NumericConstants.EIGHT) {
-							session.setIsDeductionCustom(true);
-						}
-						onTabChange(tabPosition);
+				                    try {
+                            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                                session.setTabNameCaption(tabSheet.getTab(tabPosition).getCaption());
+                                if (tabPosition == 0) {
+                                    session.getFutureValue(Constant.DATA_SELECTION_TAB_LOAD, 0).get();
+                                }
+                                checkSalesFlag = checkLastPositionTab(tabPosition);
+                                if (checkSalesFlag) {
+                                    CommonUtil.getInstance()
+                                            .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
+                                }
+                                if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.THREE) {
+                                    salesProjectionResults.defaultFocus();
+                                } else if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.FIVE) {
+                                    discountProjectionResults.defaultFocus();
+                                }
+                                if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.SEVEN) {
+                                    nonmandatedprojectionResults.defaultFocus();
+                                }
+                                if (tabPosition == NumericConstants.TWO) {
+                                    session.setIsDeductionCustom(false);
+                                    if (nmSalesProjection.isValueChange() && !nmSalesProjection.isRefresh()) {
+                                        nmSalesProjection.generateBtnLogic(null);
+                                    }
+                                }
+                                if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
+                                        || tabPosition == NumericConstants.EIGHT) {
+                                    session.setIsDeductionCustom(true);
+                                }
+                                onTabChange(tabPosition);
 
-					} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-						// To check wheather the thread is alive
-						if (tabPosition == 0) {
-							session.getFutureValue(Constant.DATA_SELECTION_TAB_LOAD, 0).get();
-						}
-						checkSalesFlag = checkLastPositionTab(tabPosition);
-						if (checkSalesFlag) {
-							CommonUtil.getInstance()
-									.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
-						}
-						onTabChangeForMandated();
-					} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
-						// To check wheather the thread is alive
-						if (tabPosition == 0) {
-							waitForThread(dsThread);
-						}
-						onTabChangeForReturns();
-					}
-				} catch (InterruptedException | ExecutionException ex) {
-					LOGGER.error(ex.getMessage());
-				}
-			}
+                            } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+                                // To check wheather the thread is alive
+                                if (tabPosition == 0) {
+                                    session.getFutureValue(Constant.DATA_SELECTION_TAB_LOAD, 0).get();
+                                }
+                                checkSalesFlag = checkLastPositionTab(tabPosition);
+                                if (checkSalesFlag) {
+                                    CommonUtil.getInstance()
+                                            .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
+                                }
+                                onTabChangeForMandated();
+                            } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
+                                // To check wheather the thread is alive
+                                if (tabPosition == 0) {
+                                    waitForThread(dsThread);
+                                }
+                                onTabChangeForReturns();
+                            }
+                        } catch (InterruptedException | ExecutionException ex) {
+                            LOGGER.error(ex.getMessage());
+                        }
+                    }
 		});
 	}
 

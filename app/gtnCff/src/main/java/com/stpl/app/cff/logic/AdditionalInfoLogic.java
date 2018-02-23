@@ -58,7 +58,7 @@ public class AdditionalInfoLogic {
         List<CffDocDetails> docDetailsList;
         NotesDTO attachmentDTO;
 
-        LOGGER.debug("getAttachmentDTOList with projectionId - " + projectionId + " moduleName - " + moduleName);
+        LOGGER.debug("getAttachmentDTOList with projectionId= {} and moduleName= {}", projectionId, moduleName);
 
         docDetailsList = addInfoDao.getAttachmentDTOList(dynamicQuery);
 
@@ -78,7 +78,7 @@ public class AdditionalInfoLogic {
             }
         }
         LOGGER.debug("End of getAttachmentDTOList method");
-        LOGGER.debug("In getAttachmentDTOList() --size of attachmentDTOList" + attachmentDTOList.size());
+        LOGGER.debug("In getAttachmentDTOList() --size of attachmentDTOList= {}", attachmentDTOList.size());
         return attachmentDTOList;
     }
 
@@ -90,7 +90,7 @@ public class AdditionalInfoLogic {
      */
     public List<NotesDTO> addUserFile(final List<NotesDTO> list) {
         final List<NotesDTO> finalList = new ArrayList<>();
-        LOGGER.debug("Entering addUserFile method with list size " + list.size());
+        LOGGER.debug("Entering addUserFile method with list size= {}", list.size());
         for (final Iterator<NotesDTO> iterator = list.iterator(); iterator.hasNext();) {
             final NotesDTO dto = iterator.next();
 
@@ -112,7 +112,7 @@ public class AdditionalInfoLogic {
      */
     public String getNotes(final int projectionId, final String moduleName) throws SystemException {
 
-        LOGGER.debug("Entering getNotes method with projectionId " + projectionId + " moduleName  " + moduleName);
+        LOGGER.debug("Entering getNotes method with projectionId= {} and moduleName= {} ", projectionId, moduleName);
 
         final StringBuilder notes = new StringBuilder();
         notes.append(StringUtils.EMPTY);
@@ -127,7 +127,7 @@ public class AdditionalInfoLogic {
                 notes.append(additionalNotes.getNotes());
                 notes.append('\n');
             }
-            LOGGER.debug("In getNotes() --size of additionalNotesList" + notesList.size());
+            LOGGER.debug("In getNotes() --size of additionalNotesList= {}", notesList.size());
         }
         LOGGER.debug("End of getNotes method");
 
@@ -146,7 +146,7 @@ public class AdditionalInfoLogic {
      * @throws Exception the exception
      */
     public Boolean saveNotes(final int projectionId, final String createdBy, final String notes, final String moduleName) {
-        LOGGER.debug("Entering saveNotes method with with projectionId " + projectionId + " createdBy " + createdBy + " notes " + notes + " moduleName " + moduleName);
+        LOGGER.debug("Entering saveNotes method with with projectionId= {} and createdBy= {} and notes= {} and moduleName= {}", projectionId, createdBy, notes, moduleName);
         List input = new ArrayList();
         input.add(Integer.valueOf(createdBy));
         input.add(projectionId);
@@ -183,8 +183,7 @@ public class AdditionalInfoLogic {
 
         List docDetailsList;
 
-        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName "
-                + moduleName);
+        LOGGER.debug("Entering saveUploadedFile method with projectionId= {} and fileName= {} and uploadedBy= {} and fileSize= {} and moduleName= {} ", projectionId, fileName, uploadedBy, fileSize, moduleName);
         docDetailsList = CommonQueryUtils.getAppData(input, "selectdocdetails", null);
 
         List applist = new ArrayList();
@@ -202,7 +201,7 @@ public class AdditionalInfoLogic {
             applist.add(formatter.format(fileSize));
             CommonQueryUtils.updateAppData(applist, "insertdocdetails");
         } else {
-            LOGGER.debug("In saveUploadedFile() --size of docDetailsList" + docDetailsList.size());
+            LOGGER.debug("In saveUploadedFile() --size of docDetailsList= {}", docDetailsList.size());
 
             if (fileName.indexOf('.') == -1) {
                 applist.add(fileName);
@@ -232,7 +231,7 @@ public class AdditionalInfoLogic {
      * @throws Exception the exception
      */
     public Boolean deleteUploadedFile(final int docDetailsId) throws SystemException, PortalException { // changed
-        LOGGER.debug("Entering deleteUploadedFile method with docDetailsId " + docDetailsId);
+        LOGGER.debug("Entering deleteUploadedFile method with docDetailsId= {}", docDetailsId);
         addInfoDao.deleteCffDocDetails(docDetailsId);
         LOGGER.debug("End of deleteUploadedFile method");
         return true;

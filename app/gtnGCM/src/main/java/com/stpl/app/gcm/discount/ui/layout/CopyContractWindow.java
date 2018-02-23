@@ -9,7 +9,6 @@ import com.stpl.app.gcm.copycontract.ui.form.CopyContractform;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -28,7 +27,7 @@ public class CopyContractWindow extends CustomWindow {
      * The Constant LOGGER.
      */
 
-    public CopyContractWindow(final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count) throws SystemException {
+    public CopyContractWindow(final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count)  {
         super("Copy Contract");
         this.session = session;
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
@@ -40,7 +39,7 @@ public class CopyContractWindow extends CustomWindow {
         setMinimizeToTray();
     }
 
-    private void init() throws SystemException {
+    private void init()  {
 
         center();
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);

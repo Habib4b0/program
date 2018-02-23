@@ -418,7 +418,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             setValues(mode.equalsIgnoreCase(ACTION_EDIT.getConstant()) || mode.equalsIgnoreCase(ACTION_VIEW.getConstant()) ? true : false);
         } catch (Exception ex) {
-            ex.printStackTrace();
              StackTraceElement[] trace = ex.getStackTrace();
             for (StackTraceElement traceElement : trace)
                 LOGGER.error("\tat={} ", traceElement);

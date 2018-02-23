@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
@@ -444,6 +445,7 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 		addDeleteButtonComponent(componentList);
 		addCopyButtonComponent(componentList);
 		addTableResetButtonComponent(componentList);
+		addExcelButtonComponent(componentList);
 	}
 
 	private void addAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -916,6 +918,25 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 		actionConfigList.add(resetActionConfig);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
+	}
+
+	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig excelButtonConfig = new GtnUIFrameworkComponentConfig();
+		excelButtonConfig.setComponentType(GtnUIFrameworkComponentType.EXCEL_BUTTON);
+		excelButtonConfig.setAuthorizationIncluded(true);
+		excelButtonConfig.setAddToParent(true);
+		excelButtonConfig.setParentComponentId(GtnFrameworkCommonConstants.ACTION_BUTTON_LAYOUT);
+		componentList.add(excelButtonConfig);
+		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonConfig = new GtnUIFrameworkExcelButtonConfig();
+		gtnUIFrameworkExcelButtonConfig.setExportFileName(GtnFrameworkCommonConstants.COMPLIANCEDEDUCTIONRULES);
+		gtnUIFrameworkExcelButtonConfig.setExportFromTable(true);
+		gtnUIFrameworkExcelButtonConfig.setExportTableId(GtnFrameworkCommonConstants.CD_RSEARCH_RESULT_TABLE);
+		gtnUIFrameworkExcelButtonConfig.setWriteFileInWebService(false);
+		excelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonConfig);
+		GtnUIFrameWorkActionConfig excelAction = new GtnUIFrameWorkActionConfig();
+		excelAction.setActionType(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
+		excelAction.addActionParameter(gtnUIFrameworkExcelButtonConfig);
+		excelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
 	}
 
 }

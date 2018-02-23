@@ -7,12 +7,10 @@ import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.logic.tablelogic.DataSelectionSearchLogic;
-import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionUtil;
 import com.stpl.app.gtnforecasting.ui.ForecastEditWindow;
@@ -88,10 +86,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -168,7 +162,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		this.privateViewName = privateViewName;
 	}
 
-	private HelperListUtil helperListUtil = HelperListUtil.getInstance();
+	private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
 	private ResourceBundle tableName = ResourceBundle.getBundle("properties.Constants");
 

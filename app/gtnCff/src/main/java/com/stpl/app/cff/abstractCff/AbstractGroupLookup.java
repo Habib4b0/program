@@ -8,7 +8,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.lazyLoad.GroupSearchLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_GROUP;
 import static com.stpl.app.cff.util.Constants.LabelConstants.CUSTOMER_GROUP_NAME;
 import static com.stpl.app.cff.util.Constants.LabelConstants.CUSTOMER_GROUP_NO;
@@ -179,7 +179,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	 * Initializes screen based on customer or product
 	 */
 	private void customerOrProduct() {
-		if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
+		if (Constants.CUSTOMER_GROUP.equals(indicator)) {
 			groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
 			groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
 			resultTableColumns = TableHeaderColumnsUtil.getCustomerGroupLookupColsList();
@@ -203,7 +203,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 		GridLayout criteriaLayout = new GridLayout(NumericConstants.FOUR, NumericConstants.ONE);
 		Label groupNamelabel = UiUtils.makeLabel(groupNameLabel);
 		Label groupNolabel = UiUtils.makeLabel(groupNoLabel);
-		if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
+		if (Constants.CUSTOMER_GROUP.equals(indicator)) {
 			groupNamelabel.setWidth(NumericConstants.ONE_SEVEN_ZERO, Sizeable.Unit.PIXELS);
 			groupNolabel.setWidth(NumericConstants.ONE_SEVEN_ZERO, Sizeable.Unit.PIXELS);
 		} else if (INDICATOR_PRODUCT_GROUP.getConstant().equals(indicator)) {

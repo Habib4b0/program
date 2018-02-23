@@ -343,7 +343,9 @@ public class NMPVExcelLogic {
                       groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
                       selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
                       detail.setGroup(groupName);
-                    if (groupName.contains("-")) {
+                }
+
+                 if (groupName.contains("-")) {
                         String[] tempArr = groupName.split("-");
                         detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
                         detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
@@ -357,8 +359,6 @@ public class NMPVExcelLogic {
                     } else {
                         detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
                     }
-                }
-
                 detail.setGroup(groupName);
                 pvList.add(detail);
             }
@@ -2019,6 +2019,8 @@ public class NMPVExcelLogic {
             }
             pvListDisc.add(pvDTO);
             pvDTO.setGroup(obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString());
+            pvDTO.setDfLevelNumber(obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString());
+            pvDTO.setDfLevelName(obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString());
         } else {
             pvListDisc = resultMap.get(key);
             pvDTO = pvListDisc.get(listIndex);

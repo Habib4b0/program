@@ -1286,9 +1286,9 @@ public class AltSummeryDiscount extends CustomComponent {
     private void createRightHeader() {
         session.setForecastName(TabNameUtil.DISCOUNT_PROJECTION);
         excelHeader = new CustomTableHeaderDTO();
-        excelHeader.addSingleColumn(Constant.LEVELNAME, "  ", String.class);
+        excelHeader.addSingleColumn(Constant.LEVEL_NAME, "  ", String.class);
         excelHeader.addDoubleColumn(Constant.GROUP, StringUtils.EMPTY);
-        excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVELNAME});
+        excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVEL_NAME});
         rightHeader = HeaderUtils.getAlternateHistoryRightTableColumnsForDiscount(projectionSelection, session, excelHeader, rsName);
     }
 

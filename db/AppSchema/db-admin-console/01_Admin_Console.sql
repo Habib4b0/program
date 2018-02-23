@@ -23,6 +23,8 @@ IF NOT EXISTS ( SELECT 'X'
 
 GO
 
+
+
 -----------------------DEFAULT_CONSTRAINTS----------------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.DEFAULT_CONSTRAINTS

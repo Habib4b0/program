@@ -1495,7 +1495,7 @@ public class AlternateSummery extends CustomComponent {
         List<String> columnHeader = new ArrayList<>();
         List<Object> visibleColumns = new ArrayList<>();
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-        visibleColumns.add(Constant.LEVELNAME);
+        visibleColumns.add(Constant.LEVEL_NAME);
         columnHeader.add("Level Name");
 
         for (Object obj : excelHeader.getSingleColumns()) {
@@ -1771,7 +1771,7 @@ public class AlternateSummery extends CustomComponent {
                     baseLineFilter.setReadOnly(true);
                     baseLineFilter.setWidth("100%");
                     return baseLineFilter;
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");
@@ -1830,7 +1830,7 @@ public class AlternateSummery extends CustomComponent {
                     baseLineFilter.setWidth("100%");
                     return baseLineFilter;
 
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");
@@ -2094,7 +2094,7 @@ public class AlternateSummery extends CustomComponent {
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_FIVE);
-            } else if (String.valueOf(obj).contains(Constant.LEVELNAME)) {
+            } else if (String.valueOf(obj).contains(Constant.LEVEL_NAME)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.TWO_EIGHT_ZERO);
             }
         }

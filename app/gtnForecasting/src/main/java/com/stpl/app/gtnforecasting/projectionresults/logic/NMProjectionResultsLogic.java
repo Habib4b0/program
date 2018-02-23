@@ -392,7 +392,7 @@ public class NMProjectionResultsLogic {
         ppaDto.setParent(0);
         return ppaDto;
     }
-    private List<String> discountList = new ArrayList<>();
+    private final List<String> discountList = new ArrayList<>();
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO, boolean isPPA,int value,boolean isNetSales) {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();

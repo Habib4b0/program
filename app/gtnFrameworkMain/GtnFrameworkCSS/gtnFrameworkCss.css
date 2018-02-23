@@ -1652,4 +1652,8 @@
     height: auto !important;
 }
 
+.body-fixed{
+	position: fixed !important;
+}
+
 

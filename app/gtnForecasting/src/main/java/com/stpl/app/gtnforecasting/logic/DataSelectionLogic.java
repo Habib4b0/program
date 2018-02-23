@@ -307,8 +307,8 @@ public class DataSelectionLogic {
 
 		parameters.put("glCompId", companySID);
 		parameters.put(BUSINESS_UNIT_PROPERTY, businessUnitSID);
-		parameters.put(Constant.HIERARCHYDEFINITIONSID, hierarchyId);
-		parameters.put(Constant.LEVELNAME, levelName);
+		parameters.put(Constant.HIERARCHY_DEFINITION_SID, hierarchyId);
+		parameters.put(Constant.LEVEL_NAME, levelName);
 		parameters.put("level", level);
 		parameters.put("relationshipLevelSidList", selectedLevelSids);
 		parameters.put(Constant.FIELD_NAME, fieldName);
@@ -384,7 +384,7 @@ public class DataSelectionLogic {
 
 		dynamicQuery.add(PropertyFactoryUtil.forName(Constant.RELATIONSHIP_BUILDER_SID)
 				.in(RelationshipBuilderLocalServiceUtil.dynamicQuery()
-						.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHYDEFINITIONSID, hierarchyId))
+						.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHY_DEFINITION_SID, hierarchyId))
 						.setProjection(ProjectionFactoryUtil.property(Constant.RELATIONSHIP_BUILDER_SID))));
 
 		dynamicQuery.add(RestrictionsFactoryUtil.in(LEVEL_NO, levelNo));
@@ -392,7 +392,7 @@ public class DataSelectionLogic {
 
 		productProjectionList
 				.add(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("relationshipLevelValues")));
-		productProjectionList.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
+		productProjectionList.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
 		productProjectionList.add(ProjectionFactoryUtil.property("parentNode"));
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.RELATIONSHIP_LEVEL_SID));
 
@@ -1169,7 +1169,7 @@ public class DataSelectionLogic {
 		List<String> returnList = new ArrayList<>();
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put(Constant.INDICATOR, "getRbId");
-		parameters.put(Constant.HIERARCHYDEFINITIONSID, hierarchyDefinitionSid);
+		parameters.put(Constant.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid);
 		List<Object> resultList = dataSelectionDao.getCcpMap(parameters);
 		for (Object rbSid : resultList) {
 			returnList.add(String.valueOf(rbSid));
@@ -1292,7 +1292,7 @@ public class DataSelectionLogic {
 		DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
 		String tempFilterText = filterText;
 		tempFilterText = StringUtils.trimToEmpty(tempFilterText) + Constant.PERCENT;
-		dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHYDEFINITIONSID, hierarchyDefinitionSid));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.RELATIONSHIP_BUILDER_SID));
 		productProjectionList.add(ProjectionFactoryUtil.property(RELATIONSHIP_NAME_PROPERTY));
@@ -1308,7 +1308,7 @@ public class DataSelectionLogic {
 			final int hierarchyDefinitionSid) throws SystemException, PortalException {
 		List<RelationshipDdlbDto> returnList = new ArrayList<>();
 		DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
-		dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHYDEFINITIONSID, hierarchyDefinitionSid));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.RELATIONSHIP_BUILDER_SID));
 		productProjectionList.add(ProjectionFactoryUtil.property(RELATIONSHIP_NAME_PROPERTY));
@@ -1501,7 +1501,7 @@ public class DataSelectionLogic {
 
 	private DynamicQuery getRelationshipSidDynamicQuery(final int hierarchyDefinitionSid) {
 		DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
-		dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHYDEFINITIONSID, hierarchyDefinitionSid));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.RELATIONSHIP_BUILDER_SID));
 		productProjectionList.add(ProjectionFactoryUtil.property(RELATIONSHIP_NAME_PROPERTY));

@@ -22,7 +22,6 @@ public class BusinessRoleModuleImpl {
      private static final Logger LOGGER = LoggerFactory.getLogger(BusinessRoleModuleImpl.class);
      
     public List getBusinessFunctionPermission(String businessRoleId,String moduleName) {
-		//HashMap <String,AppPermission> hashMap=new HashMap<String,AppPermission>();
 		
                         String[] str = null ;
                         String mod;
@@ -99,8 +98,6 @@ public class BusinessRoleModuleImpl {
                         if(str!=null && !str[1].equals(StringUtils.EMPTY) && str[1].length()!=0){
                             sql += " AND spm.TAB_NAME like ('" + str[1] + "') ";
                         }
-//                        if(tabName.length()!=0){
-//			sql += "AND spm.TAB_NAME = '"+tabName+"'";
                             sql=((moduleName.equalsIgnoreCase("Demand")) ||(moduleName.equalsIgnoreCase("Returns")) || (moduleName.equalsIgnoreCase("Inventory"))
                             ||(moduleName.equalsIgnoreCase("Item Hierarchy")) || (moduleName.equalsIgnoreCase("IvldReturns"))  || (moduleName.equalsIgnoreCase("IvldCompanyMaster"))|| (moduleName.equalsIgnoreCase("IvldItemMaster")) || (moduleName.equalsIgnoreCase("IvldItemPricing")) || (moduleName.equalsIgnoreCase("IvldItemIdentifier"))  || (moduleName.equalsIgnoreCase("IvldCompanyIdentifier")) || (moduleName.equalsIgnoreCase("IvldCompanyParent")) || (moduleName.equalsIgnoreCase("IvldCompanyTradeClass")) || (moduleName.equalsIgnoreCase("IvldCustomerGtsForecast")) || (moduleName.equalsIgnoreCase("IvldCustomerGtsActual"))  || ("GlobalFilesCompanyIdentifier,GlobalFilesCompanyIdentifier".equalsIgnoreCase(moduleName)))?sql.replace("distinct", ""):sql;
                     sql = ((moduleName.equalsIgnoreCase("Demand,Demand")) || (moduleName.equalsIgnoreCase("Returns,Returns")) || (moduleName.equalsIgnoreCase("IvldItemMaster,View")) || (moduleName.equalsIgnoreCase("IvldItemPricing,View")) || (moduleName.equalsIgnoreCase("IvldItemIdentifier,View")) || (moduleName.equalsIgnoreCase("Inventory,Inventory"))
@@ -155,8 +152,6 @@ public class BusinessRoleModuleImpl {
 	        try {
 	            
 
-	            //LOGGER.debug("executeSelectQuery "+query);
-//				LOGGER.debug("SIZE--------->" + HelperTableLocalServiceUtil.executeSelectQuery(sql).size());
 	            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
 	        } catch (Exception e) {
@@ -264,7 +259,6 @@ public class BusinessRoleModuleImpl {
 
 				sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findModuleAccessDetails");
 				
-				//LOGGER.debug("sql query------------>"+sql);
 
 				if (businessRoleName.length()!=0) {
 					sql += " AND BM.BUSINESSROLE_NAME = '"
@@ -299,7 +293,6 @@ public class BusinessRoleModuleImpl {
 
 					sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findsubmodulePropertyDetails");
 					
-					////LOGGER.debug("sql query------------>"+sql);
 
 					if (moduleName.length()!=0) {
 						sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
@@ -330,7 +323,6 @@ public class BusinessRoleModuleImpl {
 
 					sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findFieldAccessDetails");
 					
-					////LOGGER.debug("sql query------------>"+sql);
 
 					if (businessRoleName.length()!=0) {
 						sql += " AND BM.BUSINESSROLE_NAME = '"
@@ -365,7 +357,6 @@ public class BusinessRoleModuleImpl {
 
 						sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findsubmoduleFieldDetails");
 						
-						////LOGGER.debug("sql query------------>"+sql);
 
 						if (moduleName.length()!=0) {
 							sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";

@@ -113,7 +113,7 @@ public class Details extends CustomComponent {
 
     private final AccrualRateProjectionLogic accrualRateProjectionLogic = AccrualRateProjectionLogic.getInstance();
 
-    private static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    private static final ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
 
     private boolean isFilterLoadNeeded = true;
 

@@ -599,6 +599,8 @@ public class GtnFrameworkCGrpLandingScreenConfig {
 		List<GtnUIFrameWorkActionConfig> deleteActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig deleteActionConfig = new GtnUIFrameWorkActionConfig();
 		deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NAME,
+				GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NO, GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_DESC));
 		deleteActionConfig.addActionParameter(GtnFrameworkCGrpDeleteValidationAction.class.getName());
 		deleteActionConfigList.add(deleteActionConfig);
 		deleteButtonConfig.setGtnUIFrameWorkActionConfigList(deleteActionConfigList);

@@ -9,6 +9,7 @@ import com.stpl.app.cff.ui.fileSelection.dto.FileMananagementResultDTO;
 import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -37,7 +38,7 @@ public class FileDetailsTableLogic extends PageTableLogic {
             }
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             LOGGER.error(ex.getMessage());
         }
         return count;
@@ -49,7 +50,7 @@ public class FileDetailsTableLogic extends PageTableLogic {
         if (isFirstLoad) {
             try {
                 list = (List) searchLogic.getDetailsResults(resultDTO, start, offset, this.getSortByColumns(), this.getFilters(), false);
-            } catch (Exception ex) {
+            } catch (ParseException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }

@@ -378,7 +378,7 @@ public class CompanyAddForm extends VerticalLayout {
 
         if (companyIdentifier.getValue() != null && !String.valueOf(companyIdentifier.getValue()).equals(StringUtils.EMPTY)) {
 
-            identForm.setCompanyIdentifier(companyIdentifier.getValue().toString());
+            identForm.setCompanyIdentifier(companyIdentifier.getValue());
 
         } else {
             AbstractNotificationUtils.getErrorNotification(MessageUtil.getErrorCode(Message.MANDATORY_ERROR), MessageUtil.getErrorCode(Message.IDENTIFIER_MSG));

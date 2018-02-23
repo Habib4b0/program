@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.salesprojectionresults.form;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjectionResults;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesProjectionResultsDTO;
@@ -79,7 +78,6 @@ import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SalesProjectionResults.
  *
@@ -380,7 +378,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     @Override
     public void enter(ViewChangeEvent event) {
-        // TODO Auto-generated method stub
     }
 
     /**
@@ -1273,10 +1270,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
     public void pushUpdate(String indicator) {
         if (Constants.IndicatorConstants.INDICATOR_REFRESH_UPDATE.getConstant().equals(indicator)) {
-            // Refresh with new temp values
         }
         if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
-            // Refresh after from period change in DS
         }
     }
 
@@ -1330,11 +1325,6 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         editBtn.setTabIndex(NumericConstants.SIXTEEN);
         excelBtn.setTabIndex(NumericConstants.SEVENTEEN);
         graphBtn.setTabIndex(NumericConstants.EIGHTEEN);
-//        AbstractForm.getBtnSave().setTabIndex(NumericConstants.NINETEEN);
-//        AbstractForm.getBtnPrev().setTabIndex(NumericConstants.TWENTY);
-//        AbstractForm.getBtnNext().setTabIndex(NumericConstants.TWENTY_ONE);
-//        AbstractForm.getBtnClose().setTabIndex(NumericConstants.TWENTY_TWO);
-//        AbstractForm.getBtnSubmit().setTabIndex(NumericConstants.TWENTY_THREE);
     }
 
     /**

@@ -1168,12 +1168,14 @@ public class DataSelection extends ForecastDataSelection {
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
 
 				selectionDTO.setCustRelationshipBuilderSid(String.valueOf(customerRelationComboBox.getValue()));
+					loadCustomerVersionNo(customerRelationComboBox.getValue());
 			} else {
 				selectionDTO.setCustRelationshipBuilderSid(String.valueOf(0));
 			}
 			if (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue())) {
 
 				selectionDTO.setProdRelationshipBuilderSid(String.valueOf(productRelation.getValue()));
+					 loadProductVersionNo(productRelation.getValue());
 			} else {
 				selectionDTO.setProdRelationshipBuilderSid(String.valueOf(0));
 			}
@@ -1235,14 +1237,14 @@ public class DataSelection extends ForecastDataSelection {
 				productForecastInnerLevel = UiUtils
 						.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]);
 			}
-			if (customerHierarchyDto != null) {
+			if (customerHierarchyDto != null && customerRelationVersionComboBox.getValue()!= null) {
 				int custHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 				selectionDTO.setCustomerHierVersionNo(custHierarchyVersionNo);
 			} else {
 				selectionDTO.setCustomerHierVersionNo(0);
 			}
-			if (productHierarchyDto != null) {
+			if (productHierarchyDto != null && productRelationVersionComboBox.getValue() != null) {
 				int prodHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
 				selectionDTO.setProductHierVersionNo(prodHierarchyVersionNo);
@@ -3690,12 +3692,12 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public static List<Integer> getProductBeanLisTemp() {
-		return productBeanLisTemp == null ? productBeanLisTemp : Collections.unmodifiableList(productBeanLisTemp);
+				return productBeanLisTemp;
+
 	}
 
 	public static void setProductBeanLisTemp(List<Integer> productBeanLisTemp) {
-		DataSelection.productBeanLisTemp = productBeanLisTemp == null ? productBeanLisTemp
-				: Collections.unmodifiableList(productBeanLisTemp);
+		DataSelection.productBeanLisTemp = productBeanLisTemp;
 	}
 
 	@Override
@@ -4419,7 +4421,7 @@ public class DataSelection extends ForecastDataSelection {
 				new Future[] {
 						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROJECTION_DETAILS_INSERT,
 								selectionDTO.getProjectionId(), session.getCurrentTableNames(), Boolean.TRUE)) });
-		session.setHierarchyLevelDetails(new LinkedHashMap<String, List>());
+		session.setHierarchyLevelDetails(new LinkedHashMap<>());
 		session.setCustomerLevelDetails(
 				dsLogic.getLevelValueDetails(session, selectionDTO.getCustRelationshipBuilderSid(), true));
 		session.setProductLevelDetails(
@@ -4482,4 +4484,3 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 }
-

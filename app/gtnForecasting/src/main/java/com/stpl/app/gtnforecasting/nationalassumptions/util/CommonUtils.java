@@ -96,7 +96,7 @@ public class CommonUtils {
     /** UserMap - Contains User System ID and User Name */
     private static Map<Integer,String> userMap=new ConcurrentHashMap<>();  
     /** UserMap - Contains User Name and User System ID  */
-    private static Map<String,Integer> userIdMap=new ConcurrentHashMap<>(); 
+    private static final Map<String,Integer> userIdMap=new ConcurrentHashMap<>(); 
     public static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
     public static final String GROWTH ="([0-9|\\.|\\,])*";
     public static final String PER_OF_WAC ="\"^\\d+(\\.\\d+)*%$\"";

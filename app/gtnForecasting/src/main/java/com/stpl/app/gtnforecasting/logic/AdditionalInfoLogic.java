@@ -44,7 +44,7 @@ public class AdditionalInfoLogic {
      * The additional info logic dao.
      */
     private final AdditionalInfoDAO addInfoDao = new AdditionalInfoDAOImpl();
-    private SimpleDateFormat wordFormat = new SimpleDateFormat("<MM/dd/yyyy> <hh:mm:ss a>");
+    private final SimpleDateFormat wordFormat = new SimpleDateFormat("<MM/dd/yyyy> <hh:mm:ss a>");
     private boolean isFileExists;
     /**
      * method to Save uploaded file .
