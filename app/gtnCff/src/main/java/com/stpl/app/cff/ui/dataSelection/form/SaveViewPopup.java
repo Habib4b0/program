@@ -21,6 +21,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
+import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -112,7 +113,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
         this.customerListEndSids = customerListEndSids == null ? customerListEndSids : new ArrayList<>(customerListEndSids);
         this.productListEndSids = productListEndSids == null ? productListEndSids : new ArrayList<>(productListEndSids);
         buildPopup();
-        LOGGER.debug("End of SaveViewPopup"+dataSelectionBinder);
+        LOGGER.debug("End of SaveViewPopup= {}", dataSelectionBinder);
     }
 
     /**
@@ -198,7 +199,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * @throws Exception the exception
      */
     private boolean isDuplicateView(final String viewName) throws SystemException {
-        LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
+        LOGGER.debug("Entering isDuplicateView method with viewName= {} ", viewName);
         return viewLogic.isDuplicateView(viewName);
     }
 
@@ -256,8 +257,8 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     }
                 }
             }
-        } catch (Exception ex) {
-            LOGGER.error(ex + " in saveView ");
+        } catch (PortalException | SystemException | Property.ReadOnlyException | FieldGroup.CommitException ex) {
+            LOGGER.error(" in saveView= {} ", ex);
         }
         LOGGER.debug("End of saveView");
     }
@@ -288,8 +289,8 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     }
                 }
             }
-        } catch (Exception e) {
-            LOGGER.error(e + " in save view -  btnUpdateLogic ");
+        } catch (SystemException | NumberFormatException e) {
+            LOGGER.error(" in save view -  btnUpdateLogic= {}", e);
         }
     }
 

@@ -46,7 +46,6 @@ public class PVChart extends Window {
      * The history.
      */
     private String history;
-    private final CustomTableHeaderDTO rightDto;
     /**
      * The Constant LOGGER.
      */
@@ -54,7 +53,6 @@ public class PVChart extends Window {
     /**
      * projSelDTO;
      */
-    private final PVSelectionDTO projSelDTO;
 
     /**
      * The Constructor.
@@ -68,19 +66,10 @@ public class PVChart extends Window {
         this.frequency = frequency;
         this.history = history;
         this.dto = dto == null ? dto : Collections.unmodifiableList(dto);
-        this.rightDto = rightDto;
-        this.projSelDTO = projSelDTO;
         LOGGER.debug("End of PPAChart method ");
     }
 
-    /**
-     * Gets the chart.
-     *
-     * @return the chart
-     */
-
-    /**
-     * Gets the dto.
+     /* Gets the dto.
      *
      * @return the dto
      */

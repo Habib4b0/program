@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
     public static final String SPAN_STYLECOLOR = " <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>";
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);

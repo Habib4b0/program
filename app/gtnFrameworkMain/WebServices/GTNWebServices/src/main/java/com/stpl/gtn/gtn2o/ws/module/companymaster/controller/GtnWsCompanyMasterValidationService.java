@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyIdentifier;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyQualifier;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.cmresponse.GtnCompanyMasterResponse;
@@ -37,8 +38,7 @@ public class GtnWsCompanyMasterValidationService {
 		 * empty constructor
 		 */
 	}
-	
-	
+
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
@@ -55,6 +55,8 @@ public class GtnWsCompanyMasterValidationService {
 	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsCompanyMasterValidationService.class);
 
 	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_WS_CM_VALIDATION_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse checkIdentifierExist(
@@ -123,30 +125,23 @@ public class GtnWsCompanyMasterValidationService {
 		boolean iscompanyNoExist = false;
 		int systemId = companyMasterBean.getGtnCMasterInformationBean().getCompanyMasterSystemId();
 		try {
-			
+
 			List<String> compIdCriteria = new ArrayList<>();
 			compIdCriteria.add(companyMasterBean.getGtnCMasterInformationBean().getCompanyId());
-			@SuppressWarnings("unchecked")
-			List<Long> resultsDb = (List<Long>) gtnSqlQueryEngine
-					.executeSelectQuery(gtnWsSqlService.getQuery(compIdCriteria, "checkCompanyIDStatusNotD"));
-			if(systemId==0 && resultsDb != null)
-			{
-			
-				iscompanyIdExist = (long) resultsDb.size() > 0;
-		
+			List<Integer> resultsDb = null;
+			resultsDb = checkConditionForCompanyId(systemId, compIdCriteria);
+
+			if (resultsDb != null) {
+				iscompanyIdExist = exceptionHandledCompanyId(iscompanyIdExist, resultsDb);
 			}
-			
 			List<String> compNoCriteria = new ArrayList<>();
 			compNoCriteria.add(companyMasterBean.getGtnCMasterInformationBean().getCompanyNo());
-			@SuppressWarnings("unchecked")
-			List<Long> resultsDb2 = (List<Long>) gtnSqlQueryEngine
-					.executeSelectQuery(gtnWsSqlService.getQuery(compNoCriteria, "checkCompanyNoStatusNotD"));
-			if(systemId==0 && resultsDb2 != null )
-			{
-			
-				iscompanyNoExist = (long) resultsDb2.size() > 0;
+			List<Integer> resultsDb2 = null;
+			resultsDb2 = checkConditionForCompanyNo(systemId, compNoCriteria);
+
+			if (resultsDb2 != null) {
+				iscompanyNoExist = exceptionHandledCompanyNo(iscompanyNoExist, resultsDb2);
 			}
-			
 			GtnCompanyMasterResponse imResponse = new GtnCompanyMasterResponse();
 			GtnCMasterValidationBean bean = new GtnCMasterValidationBean();
 			bean.setCompanyIdExist(iscompanyIdExist);
@@ -163,6 +158,72 @@ public class GtnWsCompanyMasterValidationService {
 
 	}
 
-	
+	private boolean exceptionHandledCompanyId(boolean isCompExist, List<Integer> resultsDb) {
+		boolean iscompanyIdExist = isCompExist;
+		try {
+			iscompanyIdExist = checkCompanyIdExist(iscompanyIdExist, resultsDb);
+		} catch (Exception e) {
+			LOGGER.error("Exception:" + e);
+		}
+		return iscompanyIdExist;
 	}
 
+	private boolean exceptionHandledCompanyNo(boolean iscompNoExist, List<Integer> resultsDb2) {
+		boolean iscompanyNoExist = iscompNoExist;
+		try {
+			iscompanyNoExist = checkCompanyNoExist(iscompanyNoExist, resultsDb2);
+		} catch (Exception e) {
+			LOGGER.error("Exception:" + e);
+		}
+		return iscompanyNoExist;
+	}
+
+	private boolean checkCompanyNoExist(boolean iscompNoExist, List<Integer> resultsDb2) {
+		boolean iscompNumberExist = iscompNoExist;
+		if (!resultsDb2.isEmpty()) {
+			iscompNumberExist = resultsDb2.get(0) > 0;
+		}
+		return iscompNumberExist;
+	}
+
+	private boolean checkCompanyIdExist(boolean iscompIdExist, List<Integer> resultsDb) {
+		boolean iscompanyIdExist = iscompIdExist;
+
+		if (!resultsDb.isEmpty()) {
+			iscompanyIdExist = resultsDb.get(0) > 0;
+		}
+		return iscompanyIdExist;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Integer> checkConditionForCompanyNo(int systemId, List<String> compNoCriteria)
+			throws GtnFrameworkGeneralException {
+
+		List<Integer> resultsDb2;
+		if (systemId == 0) {
+			resultsDb2 = (List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(compNoCriteria, "checkCompanyNoStatusNotD"));
+		} else {
+			compNoCriteria.add(String.valueOf(systemId));
+			resultsDb2 = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(
+					gtnWsSqlService.getQuery(compNoCriteria, "checkCompanyNoStatusNotDNotSameSystemId"));
+		}
+		return resultsDb2;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Integer> checkConditionForCompanyId(int systemId, List<String> compIdCriteria)
+			throws GtnFrameworkGeneralException {
+		List<Integer> resultsDb;
+		if (systemId == 0) {
+			resultsDb = (List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(compIdCriteria, "checkCompanyIDStatusNotD"));
+		} else {
+			compIdCriteria.add(String.valueOf(systemId));
+			resultsDb = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(
+					gtnWsSqlService.getQuery(compIdCriteria, "checkCompanyIDStatusNotDNotSameSystemId"));
+		}
+		return resultsDb;
+	}
+
+}

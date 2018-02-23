@@ -87,7 +87,7 @@ public class CommonLogic {
     private static final boolean VIEW_FLAG = false;
     private static String screenName = StringUtils.EMPTY;
     public static final String CCPMAP = ") CCPMAP,";
-    private final static Map<String, String> fileMap = new HashMap<>();
+    private static final Map<String, String> fileMap = new HashMap<>();
     public static final String LEVEL_CAPS = "@LEVEL";
     public static final String JOIN_SPACE = " JOIN";
     public static final String JOIN = " JOIN ";

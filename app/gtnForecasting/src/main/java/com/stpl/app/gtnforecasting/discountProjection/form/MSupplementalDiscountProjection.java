@@ -165,7 +165,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     /**
      * The bean for loading Field drop down.
      */
-    final private BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<>(String.class);
     private final DecimalFormat dollZeroDec = new DecimalFormat("$###,##0.00");
     private static final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
     private final HeaderUtils headerUtils = new HeaderUtils();

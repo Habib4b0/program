@@ -58,27 +58,27 @@ public class OutboundProcess {
     public void getAutomatedOutbound(String processName) {
 
         try {
-            LOGGER.debug("__________Entering AutomatedOutbound_____________" + processName);
+            LOGGER.debug("__________Entering AutomatedOutbound_____________= {}" , processName);
             this.processName = processName;
             Long startTime = System.currentTimeMillis();
             if (StringConstantUtils.RELATIONSHIP_BUILDER_OUTBOUND.equalsIgnoreCase(processName)) {
                 filePath = filePath + "/Relationship_Builder/" + format.format(new Date()) + "/";
-                LOGGER.debug(" Relationship builder filePath=" + filePath);
+                LOGGER.debug(" Relationship builder filePath= {}" , filePath);
                 createWorkSheet();
             }
             if ("HIERARCHY_DEFINITION_OUTBOUND".equalsIgnoreCase(processName)) {
                 filePath = filePath + "/Hierarchy_Definition/" + format.format(new Date()) + "";
                 String excelName = "Hierarchy Definition Outbound Process";
-                LOGGER.debug("Hierarchy filePath=" + filePath);
+                LOGGER.debug("Hierarchy filePath= {}" , filePath);
                 configureHierarchyExcel(StringUtils.EMPTY, true);
                 loadHierarchyExcel(StringUtils.EMPTY, true);
                 SchedulerExcelEport exp = new SchedulerExcelEport(new ExtCustomTableHolder(exceltable), excelName, excelName, "Hierarchy_Definition_" + format_time.format(new Date()) + ".xls", false, filePath);
                 exp.export();
             }
             Long endTime = System.currentTimeMillis();
-            LOGGER.debug("__________Total Time taken===in milli sesconds=" + (endTime - startTime));
-            LOGGER.debug("__________Total Time taken==in seconds==" + TimeUnit.MILLISECONDS.toSeconds(endTime - startTime));
-            LOGGER.debug("__________Ending AutomatedOutbound_____________" + processName);
+            LOGGER.debug("__________Total Time taken===in milli seconds= {}" , (endTime - startTime));
+            LOGGER.debug("__________Total Time taken==in seconds= {}" , TimeUnit.MILLISECONDS.toSeconds(endTime - startTime));
+            LOGGER.debug("__________Ending AutomatedOutbound_____________= {}" , processName);
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
         }
@@ -94,7 +94,7 @@ public class OutboundProcess {
         if (levelCount != null && !levelCount.isEmpty()) {
             maxLevel = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(levelCount.get(0))) ? String.valueOf(levelCount.get(0)) : "0");
         }
-        LOGGER.debug(" Maximum Level=" + maxLevel);
+        LOGGER.debug(" Maximum Level= {}" , maxLevel);
         CommonUtil.getHdOutboundCalculatedColumns(fullHeader, maxLevel);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
         exceltable.setRefresh(false);
@@ -135,7 +135,7 @@ public class OutboundProcess {
 
     public void createWorkSheetContent( final Integer start, final Integer end, final PrintWriter printWriter) {
         try {
-            LOGGER.info("Start index of record is : "+start);
+            LOGGER.info("Start index of record is= {} ", start);
             if (end != 0 && StringConstantUtils.RELATIONSHIP_BUILDER_OUTBOUND.equalsIgnoreCase(processName)) {
                     for (int headerCount = 0; headerCount < CommonUIUtil.getInstance().relationshipOutboundExcelHeader.length; headerCount++) {
                         if (headerCount < CommonUIUtil.getInstance().relationshipOutboundExcelHeader.length - 1) {
@@ -159,7 +159,7 @@ public class OutboundProcess {
             if (!"null".equals(jbossHome)) {
                 String[] ftppath = jbossHome.split("jboss-7.1.1");
                 if (ftppath.length != 0) {
-                    LOGGER.info(ftppath[0] + FTP_PROPERTIES_PATH);
+                    LOGGER.info("{}, {}", ftppath[0] , FTP_PROPERTIES_PATH);
                     java.util.Properties prop = getPropertyFile(ftppath[0] + FTP_PROPERTIES_PATH);
                     ftpProperties.setScripts(prop.getProperty("Outbound_Excel"));
                 }

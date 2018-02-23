@@ -13,8 +13,6 @@ import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -31,7 +29,6 @@ public class PRChart {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PRChart.class);
     private ProjectionSelectionDTO projSelDTO;
 
     /**
