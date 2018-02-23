@@ -86,7 +86,7 @@ public class FileUploader implements Receiver {
 
 		try {
 			if (!StringUtils.EMPTY.equalsIgnoreCase(filename)) {
-				final File dir = com.stpl.ifs.util.CommonUtil.getFilePath("../../../../var/Attachments/"
+				final File dir = com.stpl.ifs.util.CommonUtil.getFilePath(com.stpl.ifs.util.CommonUtil.getGtnDataPath()+"/Attachments/"
 						+ File.separator + moduleName + File.separator + userId + File.separator);
 				if (!dir.exists()) {
 					dir.mkdirs();
