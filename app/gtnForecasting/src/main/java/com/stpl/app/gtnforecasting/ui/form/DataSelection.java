@@ -1169,14 +1169,14 @@ public class DataSelection extends ForecastDataSelection {
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
 
 				selectionDTO.setCustRelationshipBuilderSid(String.valueOf(customerRelationComboBox.getValue()));
-                                loadCustomerVersionNo(customerRelationComboBox.getValue());
+					loadCustomerVersionNo(customerRelationComboBox.getValue());
 			} else {
 				selectionDTO.setCustRelationshipBuilderSid(String.valueOf(0));
 			}
 			if (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue())) {
 
 				selectionDTO.setProdRelationshipBuilderSid(String.valueOf(productRelation.getValue()));
-                                loadProductVersionNo(productRelation.getValue());
+					 loadProductVersionNo(productRelation.getValue());
 			} else {
 				selectionDTO.setProdRelationshipBuilderSid(String.valueOf(0));
 			}
@@ -1724,7 +1724,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 		} else {
 			relationLogic.waitForAutomaticRelation();
-                    try {
+			try {
 				if (!firstTimeLoad) {
 					selectedCustomer.removeAllItems();
 					selectedCustomerContainer.removeAllItems();
@@ -3693,7 +3693,8 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public static List<Integer> getProductBeanLisTemp() {
-		return productBeanLisTemp;
+				return productBeanLisTemp;
+
 	}
 
 	public static void setProductBeanLisTemp(List<Integer> productBeanLisTemp) {
@@ -4484,4 +4485,3 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 }
-
