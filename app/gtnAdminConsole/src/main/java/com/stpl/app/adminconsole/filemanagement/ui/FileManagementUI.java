@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
+import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.filemanagement.ui.view.FileManagementIndexView;
 import com.stpl.app.adminconsole.util.HelperListUtil;
 import com.stpl.ifs.ui.DateToStringConverterFactory;
@@ -62,6 +63,7 @@ public class FileManagementUI extends UI {
 			sessionDTO.setSessionId(sessionId);
 			LOGGER.info("USER_ID: " + userId);
 			LOGGER.info("SESSION_ID: " + sessionId);
+                        CommonUIUtil.beforeUnloadCloseUi(this, sessionDTO);
 			navigator = new Navigator(this, this);
 			HelperListUtil helperListUtil = HelperListUtil.getInstance();
 			helperListUtil.loadValuesWithListName("filemanagement");
