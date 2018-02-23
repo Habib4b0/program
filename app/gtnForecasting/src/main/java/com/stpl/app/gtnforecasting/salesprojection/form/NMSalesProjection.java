@@ -479,7 +479,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     @Override
-    protected void generateBtnLogic(Button.ClickEvent event) {
+    public void generateBtnLogic(Button.ClickEvent event) {
         try {
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
@@ -791,7 +791,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             map.put(Constant.CUSTOMER_LEVEL_VALUE, StringUtils.join(getCustomerFilterValues(), CommonUtil.COMMA));
             map.put(Constant.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
             map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(getProductFilterValues(), CommonUtil.COMMA));
-            map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues)));
+            map.put(Constant.SALES_INCLUSION_DDLB, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(salesInclusionValues),CommonUtil.COMMA));
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -854,7 +854,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         
         if (!levelNo.isEmpty()) {
             productLevelFilter.add(0, new Object[]{0, SELECT_ALL});
-            productLevelFilter.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionDTO,(List)generateCustomerToBeLoaded,new ArrayList<>()));
+            productLevelFilter.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionDTO,(List)generateCustomerToBeLoaded,Collections.emptyList(),String.valueOf(session.getProductRelationVersion())));
             CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
         }
         productFilterDdlb.setScrollable(true);
@@ -866,7 +866,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void loadCustomerLevel() {
         int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo+1, session.getCustRelationshipBuilderSid());
+        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
         
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
@@ -889,7 +889,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         customerFilterValues = customerFilterDdlb.addItem("-Select Level-", null);
         if (!levelNo.isEmpty()) {
             customerLevelFilter.add(0, new Object[]{0, SELECT_ALL});
-            customerLevelFilter.addAll(commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionDTO,(List)generateProductToBeLoaded,new ArrayList<>()));
+            customerLevelFilter.addAll(commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionDTO,(List)generateProductToBeLoaded,new ArrayList<>(),String.valueOf(session.getCustomerRelationVersion())));
             CommonLogic.loadCustomMenuBar(customerLevelFilter,customerFilterValues);
         }
         customerFilterDdlb.setScrollable(true);
@@ -948,7 +948,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatDdlb.removeItems();
-        displayFormatValues = displayFormatDdlb.addItem("-Select Values-", null);
+        displayFormatValues = displayFormatDdlb.addItem("Both", null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);

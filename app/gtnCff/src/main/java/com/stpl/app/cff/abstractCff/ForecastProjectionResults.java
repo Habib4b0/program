@@ -140,7 +140,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected ResultsTableLogic tableLogic = new ResultsTableLogic();
     protected FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
     protected boolean generated, firstGenerated = false;
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     protected HorizontalLayout controlLayout;
     protected ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();
@@ -716,10 +716,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         if (projectionSelectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
             projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }
-//        final PRChart chart = new PRChart(chartiLst, projectionSelectionDTO, fullHeader);
-//        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), TAB_PROJECTION_RESULTS.getConstant());
-//        UI.getCurrent().addWindow(prGraphWindow);
-//        prGraphWindow.focus();
         LOGGER.debug("graphExportLogic method ends");
     }
 

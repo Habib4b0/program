@@ -520,7 +520,7 @@ public class ApprovalTab extends CustomComponent {
         }
         disableFieldsOnview();
 
-        excelExport.setIcon(new ThemeResource("../../icons/excel.png"));
+        excelExport.setIcon(new ThemeResource("img/excel.png"));
         excelExport.setStyleName("link");
         excelExport.setDescription("Export to excel");
         excelExport.setIconAlternateText("Excel export");
@@ -604,7 +604,7 @@ public class ApprovalTab extends CustomComponent {
                 link.setDescription("Open Commercial Forecasting");
             }
             furl += parameter;
-            LOGGER.debug("Redirecting to URL Ready : --------------" + furl);
+            LOGGER.debug("Redirecting to URL Ready : --------------{}",furl);
             link.setResource(new ExternalResource(furl));
         } else {
             projectionIdHidden = null;

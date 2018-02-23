@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Constant {
 
-    public final static String EDIT = "Edit";
+    public static final String EDIT = "Edit";
     /**
      * The null.
      */

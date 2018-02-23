@@ -5,6 +5,8 @@
  */
 package com.stpl.app.cff.lazyLoad;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
 import com.vaadin.v7.data.Container;
@@ -35,7 +37,7 @@ public class ComparisonTableLogic extends PageTableLogic {
                 comparisonLookup.setFilter(getFilters());
                 comparisonLookup.setCount(Boolean.TRUE);
                 count = projectionVarianceLogic.getComparisonCount(comparisonLookup);
-                LOGGER.debug("Count"+count);
+                LOGGER.debug("Count= {}", count);
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -53,7 +55,7 @@ public class ComparisonTableLogic extends PageTableLogic {
            comparisonLookup.setFilter(getFilters());
            comparisonLookup.setSortColumns(getSortByColumns());
             resultList = projectionVarianceLogic.getComparisonResults(comparisonLookup);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return resultList;
