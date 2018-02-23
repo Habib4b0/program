@@ -70,7 +70,6 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		addFieldComponent(componentList, componentConfig);
 	}
 
-
 	private void addFieldComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		addCategory(componentList, componentConfig);
@@ -82,15 +81,15 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		addFileTypeAddButton(componentList, componentConfig);
 		addDELETEButton(componentList, componentConfig);
 	}
+	
 	private void addFileTypeLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig udcCategoryLayout = componentConfig.getGtnCssLayoutConfig(
 				GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPELAYOUT, true,GtnFrameworkCommonConstants.UDC_CATEGORYLAYOUT,
-				GtnUIFrameworkLayoutType.COL2_LAYOUT);
+				GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		udcCategoryLayout.setVisible(false);
 		componentList.add(udcCategoryLayout);
 		addFileTypeFieldComponent(componentList, componentConfig);
-		
 	}
 	private void addFileTypeFieldComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
@@ -139,6 +138,7 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 				aliasNameLayout.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		aliasName.setAuthorizationIncluded(true);
 		aliasName.setComponentName("Alias Name");
+		
 
 		GtnUIFrameworkTextBoxConfig aliasNamevalueMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
 		aliasNamevalueMaxLengthConfig.setMaximumLength(50);
@@ -192,8 +192,8 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig defaultActionConfig = new GtnUIFrameWorkActionConfig();
 		defaultActionConfig.setActionType(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
-		defaultActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.UDC_FILETYPE_VALUE));
-		defaultActionConfig.addActionParameter(Arrays.asList(""));
+		defaultActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.UDC_FILETYPE_VALUE,GtnFrameworkCommonConstants.UDC_FILETYPE_ALIAS));
+		defaultActionConfig.addActionParameter(Arrays.asList("",""));
 		addFileTypeActionConfigList.add(defaultActionConfig);
 
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = componentConfig
@@ -452,11 +452,6 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
 		addBrandActionConfigList.add(loadDataTableActionConfig);
 		
-		GtnUIFrameWorkActionConfig reloadBrandActionConfig = componentConfig
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reloadBrandActionConfig.setActionType(GtnUIFrameworkActionType.RELOAD_HELPER_TABLE_ACTION);
-		addBrandActionConfigList.add(reloadBrandActionConfig);
-
 		addBrandButtonConfig.setGtnUIFrameWorkActionConfigList(addBrandActionConfigList);
 		componentList.add(addBrandButtonConfig);
 

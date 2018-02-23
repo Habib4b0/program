@@ -26,7 +26,7 @@
 	RB.START_DATE,
 	RB.CREATED_DATE,
 	RB.MODIFIED_DATE,
-	usr.lastName + ' ' + usr.middleName + ' ' + usr.firstName as CREATED_BY,
+	ISNULL(usr.lastName,'') + ' ' + ISNULL(usr.middleName,'') + ' ' + ISNULL(usr.firstName,'') as CREATED_BY,
 	RB.RELATIONSHIP_BUILDER_SID,
 	RB.HIERARCHY_DEFINITION_SID,
 	RB.BUILD_TYPE,

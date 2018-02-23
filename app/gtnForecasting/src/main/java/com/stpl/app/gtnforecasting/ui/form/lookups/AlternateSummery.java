@@ -773,7 +773,7 @@ public class AlternateSummery extends CustomComponent {
         List<Object> visibleColumns = new ArrayList<>();
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
 
-        visibleColumns.add(Constant.LEVELNAME);
+        visibleColumns.add(Constant.LEVEL_NAME);
         columnHeader.add("Level");
         visibleColumns.add(Constant.BASELINE);
         columnHeader.add("Base Line");
@@ -1121,7 +1121,7 @@ public class AlternateSummery extends CustomComponent {
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.THREE_HUNDRED);
-            } else if (String.valueOf(obj).contains(Constant.LEVELNAME)) {
+            } else if (String.valueOf(obj).contains(Constant.LEVEL_NAME)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.THREE_HUNDRED);
             }
         }

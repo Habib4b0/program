@@ -503,7 +503,7 @@ public class RelationShipFilterLogic {
 	public StringBuilder appendWhereCondition1(StringBuilder tempQuery) {
 		StringBuilder whereQuery = new StringBuilder();
 		if (!tempQuery.toString().isEmpty()) {
-			whereQuery.append(Constant.WHERE_SPACE).append(tempQuery);
+			whereQuery.append(Constant.SPACE_WHERE).append(tempQuery);
 			int index = whereQuery.lastIndexOf("AND");
 			whereQuery.delete(index, whereQuery.length());
 		}

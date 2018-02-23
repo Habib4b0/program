@@ -301,6 +301,8 @@ public class GtnWsAllListConfig {
 				"SELECT COMPANY_MASTER_SID,COMPANY_ID FROM Company_master cm JOIN DBO.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=cm.COMPANY_TYPE WHERE ht.LIST_NAME='COMPANY_TYPE' AND ht.DESCRIPTION= 'Manufacturer'");
 		comboBoxQueryMap.put("CompanyOrganizationKey",
 				"SELECT CM.COMPANY_MASTER_SID, CM.COMPANY_NO+' - '+CM.COMPANY_ID FROM COMPANY_MASTER CM JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = CM.COMPANY_TYPE WHERE HT.LIST_NAME LIKE 'COMPANY_TYPE' AND HT.DESCRIPTION LIKE 'BUSINESS UNIT'");
+		comboBoxQueryMap.put("COMPANY_TYPE",
+				"select distinct cm.company_master_sid,cm.company_no +' - '+ cm.company_name,cm.company_no as company_name from company_master cm join helper_table ht on ht.helper_table_sid = cm.company_type where  ht.list_name like 'COMPANY_TYPE' and ht.description like 'GLCOMP' and cm.inbound_status <> 'D' order by cm.company_no");
 		comboBoxQueryMap.put("hierarchyName",
 				"select  HIERARCHY_DEFINITION_SID,HIERARCHY_NAME from dbo.HIERARCHY_DEFINITION WHERE HIERARCHY_NAME NOT Like 'Deduction%'");
 		comboBoxQueryMap.put("forecastConfigFrequency",

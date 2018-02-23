@@ -1039,7 +1039,7 @@ public class MedicaidURAResultsLogic {
                 status = statement.execute();
                 LOGGER.debug("procedure call ended  status--------->" + status);
             } catch (SQLException ex)
-            {
+            {   
                 LOGGER.debug("workSheetSetupCook: "+ ex);
             }
             }

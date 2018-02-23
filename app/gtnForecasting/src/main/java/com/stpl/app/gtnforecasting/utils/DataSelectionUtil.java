@@ -161,7 +161,7 @@ public class DataSelectionUtil {
 		query.append(Constant.FROM_SPACE);
 		query.append(UiUtils.generateHqlField(Constant.COMPANY_MASTER, indicatorTable));
 		query.append(" cm ");
-		query.append(Constant.WHERE_SPACE);
+		query.append(Constant.SPACE_WHERE);
 		Map<String, Boolean> fieldDuplicationCheck = new HashMap<>();
 		Leveldto ddo;
 		boolean orFlag = false;
@@ -213,7 +213,7 @@ public class DataSelectionUtil {
 		query.append(UiUtils.generateHqlField(Constant.ITEM_MASTER, indicatorTable));
 		query.append(" im ");
 
-		query.append(Constant.WHERE_SPACE);
+		query.append(Constant.SPACE_WHERE);
 
 		Map<String, Boolean> fieldDuplicationCheck = new HashMap<>();
 
@@ -336,7 +336,7 @@ public class DataSelectionUtil {
 
 		}
 		if (i == 1 || j == 1 || k == 1) {
-			query.append(Constant.WHERE_SPACE);
+			query.append(Constant.SPACE_WHERE);
 
 			if (i == 1) {
 				query.append(Constant.CCPD_DOT);
@@ -907,7 +907,7 @@ public class DataSelectionUtil {
 		}
 		if (!companyMasterValues.isEmpty() || !contractMasterValues.isEmpty()) {
 			String and = StringUtils.EMPTY;
-			query.append(Constant.WHERE_SPACE);
+			query.append(Constant.SPACE_WHERE);
 			if (!companyMasterValues.isEmpty()) {
 				query.append(" CCP.companyMasterSid IN (");
 				query.append(UiUtils.stringListToString(companyMasterValues));

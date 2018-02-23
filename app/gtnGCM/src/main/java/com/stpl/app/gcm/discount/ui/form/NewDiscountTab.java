@@ -687,7 +687,7 @@ public class NewDiscountTab extends CustomComponent {
 
     }
 
-    private void LoadDashBoardTree() throws SystemException {
+    private void LoadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         final CommonLogic commonLogic = new CommonLogic();
         dashboardTreeTable.markAsDirty();
@@ -1144,7 +1144,7 @@ public class NewDiscountTab extends CustomComponent {
     }
 
     @UiHandler("componentTypeddlb")
-    public void componentTypeDdlbLogic(Property.ValueChangeEvent event) throws SystemException {
+    public void componentTypeDdlbLogic(Property.ValueChangeEvent event) {
         String oldValue = selectedComponenttype;
         boolean load = true;
         Object id = componentTypeddlb.getValue();
@@ -1280,7 +1280,7 @@ public class NewDiscountTab extends CustomComponent {
         LOGGER.debug("FieldDdlb ValueChangeEvent ends ");
     }
 
-    private void loadcomponentSelectionGrid() throws SystemException {
+    private void loadcomponentSelectionGrid() {
         componentSelectionLayout.removeAllComponents();
         if (componentTypeddlb.getValue() != null) {
             if (componentTypeddlb.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
@@ -1321,7 +1321,7 @@ public class NewDiscountTab extends CustomComponent {
     }
 
     @UiHandler("addToTree")
-    public void addToTreeLogic(Button.ClickEvent event) throws SystemException {
+    public void addToTreeLogic(Button.ClickEvent event) {
         try {
             Object id = componentTypeddlb.getValue();
             boolean addedFlag = false;
@@ -1529,7 +1529,7 @@ public class NewDiscountTab extends CustomComponent {
         }
     }
     
-    private boolean addToTreeMethod(ContractsDetailsDto srcTableBean) throws SystemException {
+    private boolean addToTreeMethod(ContractsDetailsDto srcTableBean) {
 
         ContractsDetailsDto treeBean = dashboardTreeTable.getValue() == null ? null : getBeanFromID(dashboardTreeTable.getValue());
         Object treeBeanId = dashboardTreeTable.getValue() == null ? null : dashboardTreeTable.getValue();

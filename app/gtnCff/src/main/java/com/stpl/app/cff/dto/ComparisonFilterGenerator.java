@@ -163,7 +163,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 setMmDprFlag(false);
                 return contractType;
 
-            } catch (Exception e) {
+            } catch (Property.ReadOnlyException e) {
                LOGGER.error(e.getMessage());
 
             }

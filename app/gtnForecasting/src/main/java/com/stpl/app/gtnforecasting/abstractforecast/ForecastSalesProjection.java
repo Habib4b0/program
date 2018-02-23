@@ -97,6 +97,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -443,6 +444,25 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected int uncheckRecordCount;
 
     public static final String SELECT_ALL_LABEL = "Select All";
+    private String changedProperty;
+    private boolean refresh = false;
+    private boolean valueChange = false;
+
+    public boolean isRefresh() {
+        return refresh;
+    }
+
+    public void setRefresh(boolean refresh) {
+        this.refresh = refresh;
+    }
+
+    public boolean isValueChange() {
+        return valueChange;
+    }
+
+    public void setValueChange(boolean valueChange) {
+        this.valueChange = valueChange;
+    }
 
 
     /**
@@ -781,13 +801,25 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         refreshBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                getTableLogic().setRefresh(false);
-                refreshTableData(getCheckedRecordsHierarchyNo());
-                getTableLogic().setRefresh(true);
-                final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);
-                notif.setPosition(Position.TOP_CENTER);
-                notif.setStyleName(ConstantsUtils.MY_STYLE);
-                notif.show(Page.getCurrent());
+                setRefresh(true);
+                if (!projectionDTO.isMultipleVariablesUpdated) {
+                    salesLogic.executeUpdateQuery(projectionDTO);
+                    getTableLogic().setRefresh(false);
+                    refreshTableData(getCheckedRecordsHierarchyNo());
+                    getTableLogic().setRefresh(true);
+                    final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);
+                    notif.setPosition(Position.TOP_CENTER);
+                    notif.setStyleName(ConstantsUtils.MY_STYLE);
+                    notif.show(Page.getCurrent());
+                    projectionDTO.getMultipleVariableCheckMap().clear();
+                } else {
+                    AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
+                            "Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
+                    projectionDTO.setIsMultipleVariablesUpdated(false);
+                    refreshTableData(getCheckedRecordsHierarchyNo());
+                    projectionDTO.getMultipleVariableCheckMap().clear();
+                    projectionDTO.getUpdateQueryMap().clear();
+                }
 
             }
         });
@@ -1687,6 +1719,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(((TextField) event.getComponent()).getValue());
+                            setValueChange(true);
                             newValue = newValue.replace("$", StringUtils.EMPTY);
                             newValue = newValue.replace(",", StringUtils.EMPTY);
                             newValue = newValue.replace(Constant.PERCENT, StringUtils.EMPTY);
@@ -1705,7 +1738,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     String tempArray[] = tempValue.split("-");
                                     tempValue = projectionDTO.getFrequencyDivision() == 1 ? tempArray[1] : tempArray[NumericConstants.TWO];
                                     String tempArray1[] = tempValue.split("~");
-                                    String changedProperty = tempArray1[0];
+                                    changedProperty = tempArray1[0];
 
                                     String changedValue = ((TextField) event.getComponent()).getValue();
                                     changedValue = StringUtils.isBlank(changedValue) || Constant.NULL.equals(changedValue) ? "0.0" : changedValue;
@@ -1718,7 +1751,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(getTableLogic().getTreeLevelonCurrentPage(itemId));
-                                } catch (Exception ex) {
+                                } catch (PortalException | SystemException | NumberFormatException ex) {
                                     LOGGER.error(ex.getMessage());
                                 }
                             }
@@ -2251,7 +2284,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     endPeriod.select(endPeriodValue);
                 }
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -3579,7 +3612,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     TextField baseFilter = new TextField();
                     baseFilter.setWidth("100%");
                     return baseFilter;
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setWidth("100%");
                     return levelField;
@@ -3638,7 +3671,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     filterForBaseline.setWidth("100%");
                     return filterForBaseline;
 
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");
@@ -3780,7 +3813,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             return false;
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException | ParseException ex) {
             LOGGER.error(ex.getMessage());
             return false;
         }

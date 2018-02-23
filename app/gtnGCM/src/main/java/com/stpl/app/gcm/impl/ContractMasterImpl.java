@@ -274,7 +274,7 @@ public class ContractMasterImpl {
     }
 
     public static Object executeSelectQueries(String[] queries) {
-        List<Object[]> returnList = new ArrayList<Object[]>();
+        List<Object[]> returnList = new ArrayList<>();
         try {
             for (String query : queries) {
                 returnList.addAll(HelperTableLocalServiceUtil.executeSelectQuery(query));

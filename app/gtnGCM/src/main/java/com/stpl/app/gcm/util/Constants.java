@@ -167,7 +167,6 @@ public class Constants {
     public static final String BOOTSTRAP = "bootstrap";
     public static final String BOOTSTRAP_FORECAST_BOOTSTRAP_NM = "bootstrap-forecast bootstrap-nm";
     public static final String IFPTYPE = IFP_TYPE_LABEL;
-
     public static final String COMPANYCATEGORY = "Company Category";
     public static final String COMPANYTYPE = "Company Type";
     public static final String FORM = "Form";
@@ -729,7 +728,7 @@ public class Constants {
         ITEM_FAMILY_PLAN(ConstantsUtils.ITEM_FAMILY_PLAN),
         CONTRACT("Contract"),
         ITEM_CONTRACT("Item/Contract"),
-        SELECT_ONE(ConstantsUtils.SELECT_ONE),
+        SELECT_ONE(StringConstantsUtil.SELECT_ONE),
         CUSTOMER_MANAGEMENT("Customer Management"),
         CONTRACT_MANAGEMENT("Contract Management"),
         ITEM_MANAGEMENT(ConstantsUtils.ITEM_MANAGEMENT),
@@ -750,7 +749,7 @@ public class Constants {
         CONTRACT_TRANSFER("Contract Transfer"),
         TAB_CUSTOMER_SELECTION("Customer Selection"),
         TAB_CURRENT_CONTRACT(CURRENT_CONTRACT_LABEL),
-        EXCEL_IMAGE_PATH("../../icons/excel.png"),
+        EXCEL_IMAGE_PATH("img/excel.png"),
         CURRENT_CONTRACT(CURRENT_CONTRACT_LABEL),
         CONTRACT_SELECTION("Contract Selection"),
         ENABLE("Enable"),

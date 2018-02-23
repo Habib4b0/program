@@ -52,13 +52,13 @@ public class StplSecurity {
     private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurity.class);
    
    /** The dao. */
-  final private StplSecurityDAO dto = new StplSecurityDAOImpl();
+  private final StplSecurityDAO dto = new StplSecurityDAOImpl();
 	 
  	/** The domain ids1. */
  	private static final List<String> DOMAINIDS1 = null;
         
         /** UserMap - Contains User System ID and User Name */
- 	private static Map<Integer,String> userMap=new ConcurrentHashMap<>();   
+ 	private static final Map<Integer,String> userMap=new ConcurrentHashMap<>();   
         
     /**
      * Gets the dto.

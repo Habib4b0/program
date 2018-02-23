@@ -11,7 +11,6 @@ import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
 import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
-import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstants.VARIANCE;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.HeaderUtils;
@@ -86,7 +85,6 @@ public class PVExcelLogic {
     private static final int BASECOLUMN_HIERARCHY_INDEX = 2;
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private static final String DF_LEVEL_NAME = "dfLevelName";
-    private boolean currentBasis = false;
 
     public PVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto, Map<String, List<ProjectionVarianceDTO>> discountMap, Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails) {
@@ -1413,7 +1411,7 @@ public class PVExcelLogic {
                 }
             }
         }
-        LOGGER.debug("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = >" + resultDto.size());
+        LOGGER.debug("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = > {}", resultDto.size());
         return resultDto;
     }
 
@@ -2627,7 +2625,7 @@ public class PVExcelLogic {
                 pvsdto.setVarIndicator(Constants.CHANGE);
                 ProjectionVarianceDTO netProfitPer = pvList.get(listIndex++);
                 getCommonCustomizedDTODetails(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, RATE, netProfitPer, false);
-                LOGGER.debug("End of Method" + listIndex);
+                LOGGER.debug("End of Method = {}", listIndex);
             }
         }
     }

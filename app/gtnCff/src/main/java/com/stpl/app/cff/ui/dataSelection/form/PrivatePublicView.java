@@ -4,6 +4,8 @@
  */
 package com.stpl.app.cff.ui.dataSelection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractViewLookup;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
@@ -22,6 +24,7 @@ import com.stpl.ifs.ui.util.converters.TextFieldConverter;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.TextField;
+import java.text.ParseException;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -204,7 +207,7 @@ public class PrivatePublicView extends AbstractViewLookup {
                     btnSelect.setEnabled(true);
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException | ParseException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of btnSearchLogic method");

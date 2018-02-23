@@ -338,11 +338,13 @@ public class CommonUiUtils {
                     fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS.getConstant(), String.class);
 
                 }
+                if(!ACTUALS.getConstant().equals(projections)){
                 Object singleColumn = commonColumn + PROJECTIONS.getConstant();
                 dmap.add(singleColumn);
 
                 tableHeaderDTO.addSingleColumn(singleColumn, PROJECTIONS.getConstant(), String.class);
                 fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + PROJECTIONS.getConstant(), String.class);
+                }
 
                 if (!dmap.isEmpty()) {
                     tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
@@ -407,6 +409,7 @@ public class CommonUiUtils {
                 currentPeriod = currentPeriod + 1;
             }
             boolean hist = false;
+            boolean current = false;
             boolean proj = false;
             boolean projectionCol = false;
             if (projectionOrder == 1) {
@@ -423,15 +426,23 @@ public class CommonUiUtils {
                         lastPr = yr;
                     }
                     for (int pr = startPr; pr <= lastPr; pr++) {
-                        if (pr == currentPeriod && yr == currentYear) {
+                       if (pr == currentPeriod && yr == currentYear) {
                             hist = false;
                             proj = true;
+                        }
+                           
+                        if ( yr< currentYear) {
+                          current = true;
+                        }if(yr==currentYear && pr <= currentPeriod){
+                          current = true;
+                         }else{
+                            current=false;
                         }
                         List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
-                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant()))) {
+                            if ((hist ||current ) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant()))) {
                                 Object singleColumn = commonColumn + ACTUALS.getConstant();
                                 dmap.add(singleColumn);
                                 tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
@@ -445,7 +456,7 @@ public class CommonUiUtils {
                             projectionCol = true;
                         }
 
-                            if ((hist || proj) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("projections") || projections.contains(PROJECTIONS.getConstant()) || projectionCol)) {
+                            if ((hist || proj) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("projections") || projections.contains(PROJECTIONS.getConstant()) || projectionCol) && !ACTUALS.getConstant().equals(projections)) {
                                 Object singleColumn = commonColumn + PROJECTIONS.getConstant();
                                 dmap.add(singleColumn);
                                 tableHeaderDTO.addSingleColumn(singleColumn, PROJECTIONS.getConstant(), String.class);
@@ -488,12 +499,18 @@ public class CommonUiUtils {
                         if (pr == currentPeriod && yr == currentYear) {
                             descend = true;
                         }
-
+                       if ( yr< currentYear) {
+                          hist = true;
+                        }if(yr==currentYear && pr <= currentPeriod){
+                          hist = true;
+                         }else{
+                            hist=false;
+                        }
                         List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
-                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant()))) {
+                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) && !ACTUALS.getConstant().equals(projections)) {
                                 Object singleColumn = commonColumn + ACTUALS.getConstant();
                                 dmap.add(singleColumn);
                                 tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
