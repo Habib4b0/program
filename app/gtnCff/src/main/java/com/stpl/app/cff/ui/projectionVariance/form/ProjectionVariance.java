@@ -1315,6 +1315,13 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             comparison.setValue(projNameList.size() > 1 ? "Multiple" : projNameList.get(0));
             pvSelectionDTO.setProjIdList(projIdList);
             pvSelectionDTO.setProjectionMap(projectionMap);
+             if (!pvSelectionDTO.getProjIdList().isEmpty()) {
+                for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
+                    comparisonBasis.addItem(j);
+                    comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
+                    comparisonBasis.select("Current Projection");
+                }
+            }
         }
     }
 
