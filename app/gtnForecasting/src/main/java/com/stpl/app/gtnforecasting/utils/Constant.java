@@ -48,6 +48,7 @@ public class Constant {
      * The Constant ZERO.
      */
     public static final int ZERO = 0;
+    public static final String TEN_STRING = "10";
     /**
      * The Constant ZERO String
      */

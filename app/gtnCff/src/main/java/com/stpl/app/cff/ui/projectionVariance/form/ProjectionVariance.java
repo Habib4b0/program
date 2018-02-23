@@ -135,6 +135,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String PRODUCT1 = "PRODUCT";
     public static final String CUSTOMER1 = "CUSTOMER";
     public static final String SELECT_VALUES = "-Select Values-";
+    public static final String TEN_STRING_VALUE = "10";
     private List<String[]> deductionLevel = new ArrayList<>();
     public static final String SID = "SID";
     public static final String GROUP_PROPERTY = "group";
@@ -2007,7 +2008,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             if (!levelNo.isEmpty()) {
                 deductionLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 deductionLevelFilter.addAll(CommonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO));
-                if ("10".equals(levelNo) && CommonUtils.isValueEligibleForLoading()) {
+                if (CommonUtils.isValueEligibleForLoading() && TEN_STRING_VALUE.equals(levelNo)) {
                     CommonLogic.loadCustomMenuBarFoScheduleID(deductionLevelFilter, deductionFilterValues);
                 } else {
                     CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
