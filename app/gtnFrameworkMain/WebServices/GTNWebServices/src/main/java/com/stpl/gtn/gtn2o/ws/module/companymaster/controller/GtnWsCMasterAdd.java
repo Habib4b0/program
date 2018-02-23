@@ -837,11 +837,12 @@ public class GtnWsCMasterAdd {
 		{
 			if(i==0)
 			{
-				queryParentDetailsStringBuilder=new StringBuilder(" AND COMPANY_PARENT_DETAILS_SID="+parentDetailsSid.get(0));
+				queryParentDetailsStringBuilder=new StringBuilder(" AND COMPANY_PARENT_DETAILS_SID=");
+                                queryParentDetailsStringBuilder.append(parentDetailsSid.get(0));
 			}
 			else
 			{
-				queryParentDetailsStringBuilder.append(" OR  COMPANY_PARENT_DETAILS_SID="+parentDetailsSid.get(i));
+				queryParentDetailsStringBuilder.append(" OR  COMPANY_PARENT_DETAILS_SID=").append(parentDetailsSid.get(i));
 			}
 		}
 		return queryParentDetailsStringBuilder;
@@ -881,11 +882,12 @@ public class GtnWsCMasterAdd {
 		{
 			if(i==0)
 			{
-				query=new StringBuilder(" AND COMPANY_TRADE_CLASS_SID="+tradeclassSid.get(0));
+				query=new StringBuilder(" AND COMPANY_TRADE_CLASS_SID=");
+                                query.append(tradeclassSid.get(0));
 			}
 			else
 			{
-				query.append(" OR  COMPANY_TRADE_CLASS_SID="+tradeclassSid.get(i));
+				query.append(" OR  COMPANY_TRADE_CLASS_SID=").append(tradeclassSid.get(i));
 			}
 		}
 		return query;
