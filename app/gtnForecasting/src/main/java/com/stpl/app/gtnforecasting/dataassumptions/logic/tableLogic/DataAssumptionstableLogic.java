@@ -44,7 +44,7 @@ public class DataAssumptionstableLogic extends PageTableLogic {
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
-        LOGGER.debug("DataAssumptionstableLogic Count" + count);
+        LOGGER.debug("DataAssumptionstableLogic Count= {}" , count);
         return count;
     }
 
@@ -60,7 +60,7 @@ public class DataAssumptionstableLogic extends PageTableLogic {
                 returnList = logic.getDataAssumption(start, offset, false, this.getFilters(), this.getSortByColumns(), sessionDTO);
                 headerList = logic.getCustomizedData(returnList);
 
-                LOGGER.debug("DataAssumptionstableLogic loadData " + headerList.size());
+                LOGGER.debug("DataAssumptionstableLogic loadData= {} " , headerList.size());
 
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());

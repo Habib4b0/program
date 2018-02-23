@@ -63,7 +63,7 @@ public class DataFormatConverter implements Converter<String, String> {
         try {
             parsedValue = value.replaceAll(regex, StringUtils.EMPTY);
         } catch (Exception ex) {
-            LOGGER.error(ex + " in DataFormatConverter - convertToModel");
+            LOGGER.error(" in DataFormatConverter - convertToModel= {}", ex);
         }
         return parsedValue;
     }
@@ -110,7 +110,7 @@ public class DataFormatConverter implements Converter<String, String> {
             }
             return stringValue;
         } catch (Exception ex) {
-            LOGGER.error(ex + "  in DataFormatConverter - convertToPresentation");
+            LOGGER.error("in DataFormatConverter - convertToPresentation= {}", ex);
             return null;
         }
 

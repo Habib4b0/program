@@ -1191,8 +1191,8 @@ public class NmDiscountImpl {
                     selectedPeriods = CommonUtils.replaceShortMonthForMonth(selectedPeriods);
                 }
 
-                LOGGER.debug(" Baseline Periods " + baselinePeriods);
-                LOGGER.debug(" Selected Periods " + selectedPeriods);
+                LOGGER.debug(" Baseline Periods= {} " , baselinePeriods);
+                LOGGER.debug(" Selected Periods= {} " , selectedPeriods);
                 masterTableUpdateQuery = "UPDATE DM SET DM.BASELINE_PERIODS = '" + baselinePeriods + "', DM.SELECTED_PERIODS = '" + selectedPeriods + "' FROM ST_NM_DISCOUNT_PROJ_MASTER DM "
                         + " JOIN (SELECT PD.PROJECTION_DETAILS_SID";
 

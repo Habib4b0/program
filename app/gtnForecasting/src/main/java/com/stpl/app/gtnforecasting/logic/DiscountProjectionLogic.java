@@ -185,17 +185,17 @@ public class DiscountProjectionLogic {
         levelNo = Integer.parseInt(String.valueOf(detailsList.get(0)));
         hierarchyNo = String.valueOf(detailsList.get(1));
         treeLevelNo = Integer.parseInt(String.valueOf(detailsList.get(NumericConstants.TWO)));
-        LOGGER.debug(" isCount " + isCount);
-        LOGGER.debug(" level no " + levelNo);
-        LOGGER.debug(" customTreeLevelNo " + treeLevelNo);
-        LOGGER.info(" Hierarchy No " + hierarchyNo);
-        LOGGER.debug(" Hierarchy Indicator " + hierarchyIndicator);
-        LOGGER.debug("Start:" + start);
-        LOGGER.debug(" history " + history);
-        LOGGER.debug(" rightDto " + rightDto);
-        LOGGER.debug(" relationshipBuilderSid " + relationshipBuilderSid);
-        LOGGER.debug(" isRefresh " + isRefresh);
-        LOGGER.debug("Offset:" + offset);
+        LOGGER.debug(" isCount= {} " , isCount);
+        LOGGER.debug(" level no= {} " , levelNo);
+        LOGGER.debug(" customTreeLevelNo= {} " , treeLevelNo);
+        LOGGER.info(" Hierarchy No= {} " , hierarchyNo);
+        LOGGER.debug(" Hierarchy Indicator= {} " , hierarchyIndicator);
+        LOGGER.debug("Start= {}" , start);
+        LOGGER.debug(" history= {} " , history);
+        LOGGER.debug(" rightDto= {} " , rightDto);
+        LOGGER.debug(" relationshipBuilderSid= {} " , relationshipBuilderSid);
+        LOGGER.debug(" isRefresh= {} " , isRefresh);
+        LOGGER.debug("Offset= {}" , offset);
         List discountProjectionList = Collections.EMPTY_LIST;
         if (levelNo != 0) {
             if (CommonUtil.isValueEligibleForLoading() && !isCustom) {
@@ -363,10 +363,10 @@ public class DiscountProjectionLogic {
                     }
                 }
             }
-            LOGGER.debug(" projectionPeriodorder " + projectionPeriodorder);
-            LOGGER.debug(" year " + year);
-            LOGGER.debug(" refreshHierarchyNumbers " + refreshHierarchyNumbers);
-            LOGGER.debug(" isParent " + isParent);
+            LOGGER.debug(" projectionPeriodorder= {} " , projectionPeriodorder);
+            LOGGER.debug(" year= {} " , year);
+            LOGGER.debug(" refreshHierarchyNumbers= {} " , refreshHierarchyNumbers);
+            LOGGER.debug(" isParent= {} " , isParent);
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
@@ -587,12 +587,12 @@ public class DiscountProjectionLogic {
                 productHierachyNo = dto.getProductHierarchyNo();
                 deductionHierachyNo = dto.getDeductionHierarchyNo();
 
-                LOGGER.debug(" SaveDTO - Custom hierarchy --- \n customId " + customId);
-                LOGGER.debug(" SaveDTO - Hierarchy indicator " + dto.getHierarchyIndicator());
-                LOGGER.debug(" SaveDTO - customerLevelNo " + customerLevelNo);
-                LOGGER.debug(" SaveDTO - customerHierarchyNo " + customerHierarchyNo);
-                LOGGER.debug(" SaveDTO - productLevelNo " + productLevelNo);
-                LOGGER.debug(" SaveDTO - productHierarchyNo " + productHierachyNo);
+                LOGGER.debug(" SaveDTO - Custom hierarchy --- \n customId= {} " , customId);
+                LOGGER.debug(" SaveDTO - Hierarchy indicator= {} " , dto.getHierarchyIndicator());
+                LOGGER.debug(" SaveDTO - customerLevelNo= {} " , customerLevelNo);
+                LOGGER.debug(" SaveDTO - customerHierarchyNo= {} " , customerHierarchyNo);
+                LOGGER.debug(" SaveDTO - productLevelNo= {} " , productLevelNo);
+                LOGGER.debug(" SaveDTO - productHierarchyNo= {} " , productHierachyNo);
                 customViewDetails.add(StringUtils.EMPTY + customId);
                 customViewDetails.add(customerLevelNo);
                 customViewDetails.add(customerHierarchyNo);
@@ -803,14 +803,14 @@ public class DiscountProjectionLogic {
      */
     public boolean callDPProcedure(SessionDTO session, ProjectionSelectionDTO projectionSelection) {
         LOGGER.debug("Entering callDPProcedure  : PRC_NM_DISCOUNT_PROJECTION");
-        LOGGER.debug("Projection ID " + session.getProjectionId());
-        LOGGER.debug("Frequency                " + String.valueOf(session.getFrequency()));
-        LOGGER.debug("UserId                   " + session.getUserId());
-        LOGGER.debug("Session Id               " + session.getSessionId());
-        LOGGER.debug("Forecast Start               " + projectionSelection.getFromDateDdlb());
-        LOGGER.debug("Forecast End              " + projectionSelection.getToDateDdlb());
-        LOGGER.debug("Calc Based              " + projectionSelection.getCalcBased());
-        LOGGER.debug("DEDUCTION  " + ((projectionSelection.getSessionDTO().getDeductionInclusion() == null || ALL.equals(projectionSelection.getSessionDTO().getDeductionInclusion())) ? null : projectionSelection.getSessionDTO().getDeductionInclusion()));
+        LOGGER.debug("Projection ID= {}            " , session.getProjectionId());
+        LOGGER.debug("Frequency= {}                " , String.valueOf(session.getFrequency()));
+        LOGGER.debug("UserId= {}                   " , session.getUserId());
+        LOGGER.debug("Session Id= {}               " , session.getSessionId());
+        LOGGER.debug("Forecast Start= {}           " , projectionSelection.getFromDateDdlb());
+        LOGGER.debug("Forecast End= {}             " , projectionSelection.getToDateDdlb());
+        LOGGER.debug("Calc Based= {}               " , projectionSelection.getCalcBased());
+        LOGGER.debug("DEDUCTION= {}                " , ((projectionSelection.getSessionDTO().getDeductionInclusion() == null || ALL.equals(projectionSelection.getSessionDTO().getDeductionInclusion())) ? null : projectionSelection.getSessionDTO().getDeductionInclusion()));
 
         DataSource datasource = null;
 
@@ -869,7 +869,7 @@ public class DiscountProjectionLogic {
     }
 
     public DiscountProjectionDTO getTotalProjectionList(String userId, String sesionId, String view, String frequency, DiscountProjectionDTO totalDTO, List<Integer> startAndEndPeriods, String detailsValue) {
-        LOGGER.debug("Details Id:==========>" + detailsValue);
+        LOGGER.debug("Details Id:==========>= {}" , detailsValue);
         String queryList = SQlUtil.getQuery("getAlternateHistoryProjectionTotal");
         queryList = queryList.replace("[@PROJECTION_DETAILS_SID]", detailsValue);
         queryList = queryList.replace("[@Frequency]", frequency);

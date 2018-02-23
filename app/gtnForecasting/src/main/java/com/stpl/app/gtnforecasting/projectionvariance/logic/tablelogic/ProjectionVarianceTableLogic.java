@@ -50,7 +50,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
      */
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {}, and start= {}, and offset= {}" , firstGenerated, start, offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         if (firstGenerated && offset > 0) {
             List<String> indexList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
             projSelDTO.clearNonFetchableIndex();
         }
 
-        LOGGER.debug("loadData ended map size=" + map.size());
+        LOGGER.debug("loadData ended map size= {}" , map.size());
 
         return map;
     }
@@ -357,7 +357,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
      * @throws Exception
      */
     private void customizeResult(List<Leveldto> levelList, int count, String treeLevel, int expandLevelNo, boolean flag,String hierarchyIndicator, String hierarchyNo, String productHierarchyNo, String customerHierarchyNo) {
-        LOGGER.debug("Inside customizeResult with levelList size=== = = = "+levelList.size());
+        LOGGER.debug("Inside customizeResult with levelList size=== = = = {} ",levelList.size());
         int size = levelList != null ? levelList.size() : 0;
         int index = count - size+1;
         for (int j = 0; j < size; j++) {
