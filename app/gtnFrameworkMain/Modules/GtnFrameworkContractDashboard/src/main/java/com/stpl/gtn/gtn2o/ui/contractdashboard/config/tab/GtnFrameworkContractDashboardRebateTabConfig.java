@@ -940,8 +940,8 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdRebateComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig rebateFrequencyConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig rebateFrequencyConfig = commonConfig.getUIFrameworkComponentConfig(componentId,
+				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		rebateFrequencyConfig.setAuthorizationIncluded(true);
 		rebateFrequencyConfig.setComponentName("Rebate Frequency");
 		rebateFrequencyConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
@@ -953,7 +953,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.REBATE_FREQUENCY);
 		rebateFrequencyConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentIdList.add(rebateFrequencyConfig.getComponentId());
-                GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
 		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		rebateFrequencyConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 	}
@@ -1058,8 +1058,8 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdRebateComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig paymentComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig paymentComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId,
+				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		paymentComponentConfig.setAuthorizationIncluded(true);
 		paymentComponentConfig.setComponentName("Payment Method");
 		paymentComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
@@ -1220,8 +1220,8 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdRebateComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig calculationTypeConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig calculationTypeConfig = commonConfig.getUIFrameworkComponentConfig(componentId,
+				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		calculationTypeConfig.setAuthorizationIncluded(true);
 		calculationTypeConfig.setComponentName("Calculation Type");
 		calculationTypeConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
@@ -1237,7 +1237,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		rebateTableLoadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		rebateTableLoadActionConfig.addActionParameter(GtnFrameworkRebateTableLoadAction.class.getName());
 		calculationTypeConfig.addGtnUIFrameWorkActionConfig(rebateTableLoadActionConfig);
-                GtnUIFrameworkValidationConfig valCalcTypeConfig = new GtnUIFrameworkValidationConfig();
+		GtnUIFrameworkValidationConfig valCalcTypeConfig = new GtnUIFrameworkValidationConfig();
 		valCalcTypeConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		calculationTypeConfig.setGtnUIFrameworkValidationConfig(valCalcTypeConfig);
 
@@ -1280,8 +1280,8 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdRebateComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig calculationComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig calculationComponentConfig = commonConfig.getUIFrameworkComponentConfig(
+				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		calculationComponentConfig.setAuthorizationIncluded(true);
 		calculationComponentConfig.setComponentName("Calculation Level");
 		calculationComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
@@ -1293,11 +1293,10 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.CALCULATION_LEVEL);
 		calculationComponentConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentIdList.add(calculationComponentConfig.getComponentId());
-                GtnUIFrameworkValidationConfig validationCalcConfig = new GtnUIFrameworkValidationConfig();
+		GtnUIFrameworkValidationConfig validationCalcConfig = new GtnUIFrameworkValidationConfig();
 		validationCalcConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		calculationComponentConfig.setGtnUIFrameworkValidationConfig(validationCalcConfig);
 
-                
 	}
 
 	private void itemsTabHistoryDataTableComponent(List<GtnUIFrameworkComponentConfig> cdRebateComponentList,
