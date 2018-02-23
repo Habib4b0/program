@@ -42,7 +42,6 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -90,7 +89,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 	protected FileDownloader wordDownloader;
 	protected FileDownloader pdfDownloader;       
 
-	String basepath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);			
+	protected String basepath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);			
         
 	protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
 	protected Image pdfPngImage = new Image(null, new ThemeResource("img/pdf.png"));
