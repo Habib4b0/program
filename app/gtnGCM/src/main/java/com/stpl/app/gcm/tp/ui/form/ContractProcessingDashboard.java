@@ -42,7 +42,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -972,7 +971,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         rebatePlanLevel.setVisible(value);
     }
 
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  PortalException {
         LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
         try {
             List tempVisibleColumns = new ArrayList(Arrays.asList(Constants.getInstance().excelContractSelectionColumns));

@@ -18,8 +18,6 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
@@ -61,7 +59,7 @@ public class AbstractItemDetails extends CustomComponent {
     private ExtPagedTable itemTransferTable = new ExtPagedTable(itemTransferTableLogic);
     private Object[] visibleColumn = {Constants.CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs", "rarCategory", "status", "itemstartdate", "itemenddate"};
     private String[] columnHeader = {"", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "CFP Name", Constants.IFP_NAME_LABEL, "PS Name", "RS Name", "RAR Category", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private SelectionDTO selection = new SelectionDTO();
     private AbstractLogic logic = AbstractLogic.getInstance();
     private SummaryLogic summaryLogic = new SummaryLogic();
@@ -230,7 +228,7 @@ public class AbstractItemDetails extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws   NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         List<String> visibleList = Arrays.asList(itemdetailstable.getColumnHeaders()).subList(1, itemdetailstable.getVisibleColumns().length);
         List<SummaryDTO> list = null;
         if (resultTable.size() != 0) {

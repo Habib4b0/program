@@ -10,7 +10,6 @@ import com.stpl.app.gcm.discount.ui.view.AddDiscountAddView;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.customwindow.CustomWindow;
@@ -27,14 +26,14 @@ public class AddDiscountWindow extends CustomWindow {
      * The Constant LOGGER.
      */
 
-    public AddDiscountWindow(final SessionDTO session, List<RemoveDiscountDto> removeList) throws SystemException {
+    public AddDiscountWindow(final SessionDTO session, List<RemoveDiscountDto> removeList)  {
     
         this.session = session;
         this.removeList = removeList == null ? removeList : new ArrayList<>(removeList);
         init();
     }
 
-    private void init() throws SystemException {
+    private void init() {
         setContent(new AddDiscountAddView(this, session, removeList));
         center();
         setCaption("Add Discount");

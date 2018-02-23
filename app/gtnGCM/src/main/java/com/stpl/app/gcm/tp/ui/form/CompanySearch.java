@@ -29,8 +29,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.Container;
@@ -631,7 +629,7 @@ public class CompanySearch extends VerticalLayout {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtFilterTable resultTable) throws PortalException, SystemException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtFilterTable resultTable) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
 
         String parentCompanyNo = parentNo.getValue() != null ? parentNo.getValue() : StringUtils.EMPTY;
         String parentCompanyName = parentName.getValue() != null ? parentName.getValue() : StringUtils.EMPTY;
@@ -703,7 +701,7 @@ public class CompanySearch extends VerticalLayout {
     }
 
     // CSV Export. Do not remove the below method
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
         String parentCompanyNo = parentNo.getValue() != null ? parentNo.getValue() : StringUtils.EMPTY;
         String parentCompanyName = parentName.getValue() != null ? parentName.getValue() : StringUtils.EMPTY;
