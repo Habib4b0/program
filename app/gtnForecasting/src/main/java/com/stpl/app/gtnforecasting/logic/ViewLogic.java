@@ -53,11 +53,11 @@ public class ViewLogic {
      * @throws Exception the exception
      */
     public boolean isDuplicateView(final String viewName) throws SystemException{
-        LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
+        LOGGER.debug("Entering isDuplicateView method with viewName= {} " , viewName);
         final DynamicQuery dynamicQuery = ForecastingViewMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.VIEW_NAME, viewName));
         final long count = dataSelection.getForecastViewMasterdynamicQueryCount(dynamicQuery);
-        LOGGER.debug("End of isDuplicateView with size: " + count);
+        LOGGER.debug("End of isDuplicateView with size= {} " , count);
         return count > Constant.ZERO;
     }
 
@@ -71,7 +71,7 @@ public class ViewLogic {
      * @throws Exception the exception
      */
     public static User getUserById(final String userId) throws SystemException, PortalException {
-        LOGGER.debug("Entering getUserById method with userId " + userId);
+        LOGGER.debug("Entering getUserById method with userId= {} " , userId);
         return dataSelection.getUser(Long.valueOf(userId));
     }
 
@@ -86,7 +86,7 @@ public class ViewLogic {
      * @throws Exception the exception
      */
     public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws SystemException, PortalException {
-        LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId='" + projectionId + "' and view id: " + String.valueOf(saveViewDTO.getViewId()));
+        LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId= {}, and view id= {}" , projectionId, String.valueOf(saveViewDTO.getViewId()));
         final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         ForecastingViewMaster viewMaster = ForecastingViewMasterLocalServiceUtil.createForecastingViewMaster(0);
         if (saveViewDTO.getViewId() != 0) {
@@ -116,7 +116,7 @@ public class ViewLogic {
             // Update Forecast View Master
             viewMaster = dataSelection.updateForecastingViewMaster(viewMaster);
         }
-        LOGGER.debug("End of saveForecastViewMaster method with view id: " + viewMaster.getViewId());
+        LOGGER.debug("End of saveForecastViewMaster method with view id= {} " , viewMaster.getViewId());
         return viewMaster.getViewId();
     }
 

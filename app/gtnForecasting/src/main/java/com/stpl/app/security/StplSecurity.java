@@ -179,7 +179,7 @@ public StplSecurityDAO getDto() {
      * @throws SystemException the system exception
      */
     public Map<String, AppPermission> getBusinessFunctionPermission(final String userId,final String moduleName) throws PortalException, SystemException {
-        LOGGER.debug(StringUtils.EMPTY+userId);
+        LOGGER.debug("{},{}",StringUtils.EMPTY,userId);
          Map<String, AppPermission> functionHm = new HashMap<>();
 
         if(StringUtils.isNotBlank(userId) && !"null".equals(userId)){

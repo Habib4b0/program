@@ -637,7 +637,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 nonMandatedScreenLoad();
                 break;
             default:
-                LOGGER.warn("screenName is not valid: " + screenName);
+                LOGGER.warn("screenName is not valid= {} " , screenName);
                 break;
                            
             }
@@ -824,7 +824,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                     fieldDdlbValueChangeLogic(event);
                     break;
                 default:
-                LOGGER.warn("data is not valid: " + data);
+                LOGGER.warn("data is not valid= {} " , data);
                 break;
                
             }
@@ -883,7 +883,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 collapseBtnClickLogic();
                 break;
             default:
-                LOGGER.warn("data is not valid: " + data);
+                LOGGER.warn("data is not valid= {} " , data);
                 break;
            
         }

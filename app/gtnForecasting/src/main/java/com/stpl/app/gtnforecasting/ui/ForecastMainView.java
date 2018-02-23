@@ -71,7 +71,7 @@ public class ForecastMainView extends VerticalLayout implements View {
         dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
         this.removeAllComponents(); // Added for GAL-9838
         String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
-        LOGGER.debug(" Screen Name --> " + screenName);
+        LOGGER.debug(" Screen Name -->= {} " , screenName);
         if (screenName.equals(getCommercialConstant())) {
             HelperListUtil.getInstance().loadValuesWithListName(getCommercialConstant());
             screenName = CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED;

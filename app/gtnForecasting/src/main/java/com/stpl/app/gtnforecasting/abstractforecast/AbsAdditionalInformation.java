@@ -421,7 +421,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             ex.printStackTrace();
              StackTraceElement[] trace = ex.getStackTrace();
             for (StackTraceElement traceElement : trace)
-                LOGGER.error("\tat " + traceElement);
+                LOGGER.error("\tat={} ", traceElement);
             LOGGER.error(ex.getMessage());
 
         }
@@ -490,7 +490,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         if (wordFile.exists() != true) {
             try {
                 isFileCreated=wordFile.createNewFile();
-                LOGGER.info("WordFile created successfully : "+isFileCreated);
+                LOGGER.info("WordFile created successfully= {} ", isFileCreated);
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -498,7 +498,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         if (pdfFile.exists() != true) {
             try {
             	isFileCreated=pdfFile.createNewFile();
-            	LOGGER.info("PdfFile created successfully : "+isFileCreated);
+            	LOGGER.info("PdfFile created successfully= {} ", isFileCreated);
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }

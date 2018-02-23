@@ -344,7 +344,7 @@ public class NMProjectionResultsXLLogic {
         //Net Profit
         netProfitValue = pvList.get(listIndex++);
         calculate(Constant.PVVariables.VAR_NET_PROFITE.toString(), Constant.VALUE, obj, NumericConstants.FORTY, NumericConstants.FORTY_ONE, netProfitValue, AMOUNT);
-        LOGGER.debug("List Index----" + listIndex);
+        LOGGER.debug("List Index----= {}" , listIndex);
     }
 
     private void calculate(String varaibleName, String varibaleCat, Object[] obj, int actIndex, int projindex, ProjectionResultsDTO pvDTO,
@@ -686,7 +686,7 @@ public class NMProjectionResultsXLLogic {
                 resultDto.add(pvDTO);
             }
         }
-        LOGGER.debug("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = >" + discountList.size());
+        LOGGER.debug("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = {} " , discountList.size());
 
     }
 

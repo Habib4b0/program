@@ -154,7 +154,7 @@ public class MedicaidURAResultsLogic {
     }
 
     public List<TableDTO> getMedicaidResults(int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        LOGGER.debug("getMedicaidResults start=" + start + "   offset=" + offset);
+        LOGGER.debug("getMedicaidResults start= {}, offset= {}" , start, offset);
         List<TableDTO> projDTOList = getMedicaid(projSelDTO);
         LOGGER.debug("getMedicaidResults ends");
         return projDTOList;
@@ -544,7 +544,7 @@ public class MedicaidURAResultsLogic {
     }
 
     public List<TableDTO> getMedicaidChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, String parentSid, SessionDTO session) {
-        LOGGER.debug("getMedicaidChildren start=" + start + "   offset=" + offset);
+        LOGGER.debug("getMedicaidChildren start= {}, offset= {}" , start, offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
@@ -635,7 +635,7 @@ public class MedicaidURAResultsLogic {
     }
 
     public List<TableDTO> getMedicaidWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO sessionDTO) {
-        LOGGER.debug("getMedicaidResults start=" + start + "    offset=" + offset);
+        LOGGER.debug("getMedicaidResults start= {}, offset= {}" , start, offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
@@ -651,7 +651,7 @@ public class MedicaidURAResultsLogic {
     }
 
     public List<TableDTO> getMedicaidWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO sessionDTO) {
-        LOGGER.debug("getMedicaidChildren start=" + start + "  offset=" + offset);
+        LOGGER.debug("getMedicaidChildren start= {}, offset= {}" , start, offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
@@ -892,7 +892,7 @@ public class MedicaidURAResultsLogic {
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException namEx)
         {
-            LOGGER.debug("Inside medicaidProcSetupDataCook: " + namEx);
+            LOGGER.debug("Inside medicaidProcSetupDataCook= {} " , namEx);
         }
             if (datasource != null) {
                 try (Connection connection = datasource.getConnection();
@@ -905,7 +905,7 @@ public class MedicaidURAResultsLogic {
                 statement.execute();
             } catch (SQLException ex)
             {
-                LOGGER.debug("Inside medicaidProcSetupDataCook: " + ex);
+                LOGGER.debug("Inside medicaidProcSetupDataCook= {} " , ex);
             }
             }
         return "Success";
@@ -1024,7 +1024,7 @@ public class MedicaidURAResultsLogic {
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException namingExcep)
         {
-            LOGGER.debug("workSheetSetupCook: "+ namingExcep);
+            LOGGER.debug("workSheetSetupCook= {} ", namingExcep);
         }
             if (datasource != null) {
                 try (Connection connection = datasource.getConnection();
@@ -1037,10 +1037,10 @@ public class MedicaidURAResultsLogic {
                 statement.setObject(NumericConstants.FIVE, session.getSessionId());
                 statement.setObject(NumericConstants.SIX, ndc9);
                 status = statement.execute();
-                LOGGER.debug("procedure call ended  status--------->" + status);
+                LOGGER.debug("procedure call ended  status--------->= {}" , status);
             } catch (SQLException ex)
             {
-                LOGGER.debug("workSheetSetupCook: "+ ex);
+                LOGGER.debug("workSheetSetupCook= {} ", ex);
             }
             }
         return "SUCCESS";

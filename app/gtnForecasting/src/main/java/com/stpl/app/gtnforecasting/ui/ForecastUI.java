@@ -102,8 +102,8 @@ public class ForecastUI extends UI {
         VaadinSession.getCurrent().setAttribute(Constant.USER_ID, userId);
         sessionDto.setUserId(userId);
         sessionDto.setSessionId(sessionId);
-        LOGGER.info("USER_ID: " + userId);
-        LOGGER.info("SESSION_ID: " + sessionId);
+        LOGGER.info("USER_ID= {} " , userId);
+        LOGGER.info("SESSION_ID= {} " , sessionId);
         try {
             Collection<Object> userGroupId = stplSecurity.getUserGroupId(Long.parseLong(userId));
             VaadinSession.getCurrent().setAttribute("businessRoleIds", stplSecurity.getBusinessRoleIds(userGroupId));

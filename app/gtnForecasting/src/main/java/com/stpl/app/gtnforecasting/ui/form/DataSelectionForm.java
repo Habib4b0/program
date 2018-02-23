@@ -433,7 +433,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 		} catch (CloneNotSupportedException | NumberFormatException ex) {
 
-			LOGGER.error(ex + " - in loadFilteredProductSelection");
+			LOGGER.error(" - in loadFilteredProductSelection= {}", ex);
 		}
 	}
 
@@ -850,7 +850,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 		} catch (ParseException ex) {
 
-			LOGGER.error(ex + " in binding for save, can't parse dates");
+			LOGGER.error(" in binding for save, can't parse dates= {}", ex);
 		}
 		return dataSelectionDTO;
 	}
@@ -2539,7 +2539,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in moveRightProduct");
+			LOGGER.error(" in moveRightProduct= {}",ex);
 		}
 
 	}
@@ -3104,7 +3104,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 		} catch (Exception ex) {
 
-			LOGGER.error(ex + " searchBtn");
+			LOGGER.error(" searchBtn= {}",ex);
 		}
 
 	}
@@ -3362,7 +3362,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 			} catch (Exception ex) {
 				
-				LOGGER.error(ex + " - in editBtn");
+				LOGGER.error(" - in editBtn= {}",ex);
 			}
 		}
 	}
@@ -3484,7 +3484,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 			} catch (Exception ex) {
 
-				LOGGER.error(ex + " - in View button");
+				LOGGER.error(" - in View button= {}",ex);
 			}
 
 		}
@@ -3532,7 +3532,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 												projection.getProjectionName() + " has been successfully deleted.");
 									}
 								} catch (Property.ReadOnlyException ex) {
-									LOGGER.error(ex + " - in deleteBtn");
+									LOGGER.error(" - in deleteBtn= {}",ex);
 								}
 							}
 						}
@@ -3542,7 +3542,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	}
 
 	public void loadCustomerLevel(final String hierarchyId, final String innerLevel, final int hierarchyVersion) {
-		LOGGER.debug("Logging - loadCustomerLevel hierarchyId " + hierarchyId + "  innerLevel  " + innerLevel);
+		LOGGER.debug("Logging - loadCustomerLevel hierarchyId= {}, innerLevel= {} " , hierarchyId, innerLevel);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			innerCustLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY, hierarchyVersion);
@@ -3559,13 +3559,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 			setSelectedCustomerLevel(Constant.LEVEL + (levelNo) + " - " + selectedLevelName);
 
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex + " in loadCustomerLevel");
+			LOGGER.error(" in loadCustomerLevel= {}",ex);
 		}
 
 	}
 
 	public void loadProductLevel(final String hierarchyId, final String innerLevel, final int hierarchyVersion) {
-		LOGGER.debug("Logging - loadProductLevel hierarchyId " + hierarchyId + "  innerLevel " + innerLevel);
+		LOGGER.debug("Logging - loadProductLevel hierarchyId= {}, innerLevel= {} " , hierarchyId, innerLevel);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			innerProdLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY, hierarchyVersion);
@@ -3581,7 +3581,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			setSelectedProductLevel(Constant.LEVEL + (levelNo) + " - " + selectedLevelName);
 
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex + " loadProductLevel");
+			LOGGER.error(" loadProductLevel= {}",ex);
 		}
 	}
 
@@ -3663,8 +3663,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						try {
 							parentLevel = Integer.valueOf(parentarr[0]);
 						} catch (NumberFormatException nfe) {
-							LOGGER.error("Error While loading the Customer level." + parentarr[0]
-									+ " is not a valid number");
+							LOGGER.error("Error While loading the Customer level is not a valid number.= {}" , parentarr[0]);
 						}
 						Leveldto levelDto = DataSelectionUtil.getBeanFromId(tempdto);
 						if (levelDto.getLevelNo() == parentLevel
@@ -3726,7 +3725,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							parentLevel = Integer.valueOf(parentarr[0]);
 						} catch (NumberFormatException nfe) {
 							LOGGER.error(
-									"Error While loading the Product level." + parentarr[0] + " is not a valid number");
+									"Error While loading the Product levelis not a valid number.= {}" , parentarr[0] );
 						}
 						Leveldto levelDto = DataSelectionUtil.getBeanFromId(tempdto);
 						if (levelDto.getLevelNo() == parentLevel
@@ -3766,8 +3765,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 	}
 
 	private void loadInnerCustomerLevel(int forecastLevel, int innerLevel, int hierarchyId) {
-		LOGGER.debug("Logging - loadInnerCustomerLevel forecastLevel " + forecastLevel + " innerLevel " + innerLevel
-				+ " hierarchyId " + hierarchyId);
+		LOGGER.debug("Logging - loadInnerCustomerLevel forecastLevel= {}, innerlevel= {}, hierarchyId= {} " , forecastLevel, innerLevel
+				, hierarchyId);
 		customerInnerLevelContainer.removeAllItems();
 		String selectedLevelName = StringUtils.EMPTY;
 		for (int i = 1; i <= forecastLevel; i++) {
@@ -3783,8 +3782,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 	}
 
 	private void loadInnerProductLevel(int forecastLevel, int innerLevel, int hierarchyId) {
-		LOGGER.debug("Logging - loadInnerProductLevel forecastLevel " + forecastLevel + " innerLevel " + innerLevel
-				+ " hierarchyId " + hierarchyId);
+		LOGGER.debug("Logging - loadInnerProductLevel forecastLevel= {}, innerLevel= {}, hierarchyId= {} " , forecastLevel, innerLevel
+				,hierarchyId);
 		productInnerLevelContainer.removeAllItems();
 		String selectedLevelName = StringUtils.EMPTY;
 		for (int i = 1; i <= forecastLevel; i++) {
@@ -3839,7 +3838,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (SystemException | IOException | ClassNotFoundException | CloneNotSupportedException | NumberFormatException ex) {
-			LOGGER.error(ex + " at triggerCustGrpOnView");
+			LOGGER.error(" at triggerCustGrpOnView= {}", ex);
 		}
 	}
 
@@ -3870,7 +3869,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (SystemException | NumberFormatException ex) {
-			LOGGER.error(ex + " at triggerProdGrpOnView");
+			LOGGER.error(" at triggerProdGrpOnView= {}",ex);
 		}
 	}
 
@@ -3915,14 +3914,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 			}
 		} catch (SystemException ex) {
-			LOGGER.error(ex + " in getItemSidFromHierarchy");
+			LOGGER.error(" in getItemSidFromHierarchy= {}", ex);
 		}
 		return innerLevelValues;
 	}
 
 	public static void loadRelationDdlb(final int hierarchyDefinitionSid,
 			final RelationshipDdlbDto selectedRelationshipDdlbDto, final ComboBox relationship) {
-		LOGGER.debug("Logging - loadRelationDdlb hierarchyDefinitionSid " + hierarchyDefinitionSid);
+		LOGGER.debug("Logging - loadRelationDdlb hierarchyDefinitionSid= {} " , hierarchyDefinitionSid);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			List<RelationshipDdlbDto> relationshipSidList = logic.getRelationshipSid(hierarchyDefinitionSid);
@@ -4065,7 +4064,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	protected void levelValueChangeListener(Object value)
 			throws ClassNotFoundException, CloneNotSupportedException, IOException {
 
-		LOGGER.debug("customer inner Level - ValueChangeListener  " + value);
+		LOGGER.debug("customer inner Level - ValueChangeListener= {}  " , value);
 		availableCustomerContainer.removeAllItems();
 		String levelName = Constant.LEVEL_LABEL;
 		try {
@@ -4117,7 +4116,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 		} catch (CloneNotSupportedException | NumberFormatException ex) {
 			
-			LOGGER.error(ex + " level  ValueChangeListener ");
+			LOGGER.error(" level  ValueChangeListener= {} ",ex);
 		}
 	}
 
@@ -4171,7 +4170,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	@Override
 	protected void customerRelationValueChange(Object value) {
-		LOGGER.debug("customerRelationValueChange" + value);
+		LOGGER.debug("customerRelationValueChange= {}" , value);
 		if (value != null && !SELECT_ONE.equals(String.valueOf(value)) ) {
 			try {
 				relationLogic.waitForAutomaticRelation();
@@ -4198,7 +4197,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 			} catch (NumberFormatException ex) {
 				
-				LOGGER.error(ex + " in customerRelation value change");
+				LOGGER.error(" in customerRelation value change= {}",ex);
 			}
 		} else if (value == null || SELECT_ONE.equals(String.valueOf(value))) {
 			availableCustomer.removeAllItems();
@@ -4218,7 +4217,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	@Override
 	protected void productRelationValueChange(Object value) {
-		LOGGER.debug("productRelation - ValueChangeListener " + value);
+		LOGGER.debug("productRelation - ValueChangeListener= {} " , value);
 		if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
 			try {
 				relationLogic.waitForAutomaticRelation();
@@ -4244,7 +4243,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 
 			} catch (NumberFormatException ex) {
-				LOGGER.error(ex + " in productRelation value change");
+				LOGGER.error(" in productRelation value change= {}",ex);
 			}
 		} else if ((value == null || SELECT_ONE.equals(String.valueOf(value)))) {
 			selectedProduct.removeAllItems();
@@ -4264,7 +4263,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	@Override
 	protected void generateButtonLogic() {
-		LOGGER.debug("generateBtn click listener started " + scrName);
+		LOGGER.debug("generateBtn click listener started= {} " , scrName);
 
 		if (dsLogic.checkForActiveFiles(businessUnit.getValue(), company.getValue())) {
 			setPrivateViewName(privateView.getValue());
@@ -4349,7 +4348,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					LOGGER.debug("generateBtn click listener ends  ");
 				} catch (Exception e) {
 
-					LOGGER.error(e + " generateBtn click listener ");
+					LOGGER.error(" generateBtn click listener = {}",e);
 				}
 				UI.getCurrent().setFocusedComponent(UI.getCurrent());
 
@@ -4512,7 +4511,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						loadView(viewDTO);
 
 					} catch (Exception ex) {
-						LOGGER.error(ex + " publicView close");
+						LOGGER.error(" publicView close= {}",ex);
 					}
 				}
 
@@ -4538,7 +4537,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 					} catch (Exception ex) {
 						
-						LOGGER.error(ex + " privateView close");
+						LOGGER.error(" privateView close= {}", ex);
 					}
 				}
 
@@ -4586,7 +4585,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					try {
 						levelValueChangeListener(level.getValue());
 					} catch (ClassNotFoundException | CloneNotSupportedException | IOException ex) {
-						LOGGER.error(ex + " loadCustomerGroup");
+						LOGGER.error(" loadCustomerGroup= {}",ex);
 					}
 				}
 			}

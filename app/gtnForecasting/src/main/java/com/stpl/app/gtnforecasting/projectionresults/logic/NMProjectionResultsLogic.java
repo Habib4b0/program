@@ -2053,9 +2053,9 @@ public class NMProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        LOGGER.debug("= = = Inside getProjectionResults = = =   isReturn  " + projSelDTO.isReturns());
-        LOGGER.debug("= = = Inside getProjectionResults = = =   isPPA  " + projSelDTO.isPpa());
-        LOGGER.debug("= = = Inside getProjectionResults = = =   isPPA  " + projSelDTO.getGroup());
+        LOGGER.debug("= = = Inside getProjectionResults = = =   isReturn= {}  " , projSelDTO.isReturns());
+        LOGGER.debug("= = = Inside getProjectionResults = = =   isPPA= {}  " , projSelDTO.isPpa());
+        LOGGER.debug("= = = Inside getProjectionResults = = =   isPPA= {}  " , projSelDTO.getGroup());
         int started = start;
         int neededRecord = offset;
         int mayBeAdded = 0;
@@ -2465,7 +2465,7 @@ public class NMProjectionResultsLogic {
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size()+ ppaCount;
                     }
                     
-                    LOGGER.debug("= = = Ending Period = = = neededRecord > 0 =started =" + started + "= neededRecord =" + neededRecord + "= maybeadded= " + mayBeAdded);
+                    LOGGER.debug("= = = Ending Period = = = neededRecord > 0 =started = {}, neededRecord = {}, maybeadded= {} " , started, neededRecord, mayBeAdded);
                 }
 
             } else if (neededRecord > 0) {

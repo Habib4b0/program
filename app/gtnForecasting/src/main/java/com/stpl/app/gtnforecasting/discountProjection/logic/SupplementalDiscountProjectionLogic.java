@@ -160,7 +160,7 @@ public class SupplementalDiscountProjectionLogic {
         }
         projSelDTO.setIsCount(false);
         resultList = getSupplementalDiscount(start, offset, projSelDTO);
-        LOGGER.debug("resultList size is " + resultList.size());
+        LOGGER.debug("resultList size is= {} " , resultList.size());
         return resultList;
     }
 
@@ -337,11 +337,11 @@ public class SupplementalDiscountProjectionLogic {
             }
             objList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(finalQuery, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
 
-            LOGGER.debug("objList  size " + objList.size());
+            LOGGER.debug("objList  size= {} " , objList.size());
         } else {
             String query = "select LEVEL_NAME,\"TABLE_NAME\",FIELD_NAME from HIERARCHY_LEVEL_DEFINITION "
                     + "where HIERARCHY_DEFINITION_SID in (" + projSelDTO.getCustHierarchySid() + "," + projSelDTO.getProdHierarchySid() + ")";
-            LOGGER.debug("Query to trace the Error " + query);
+            LOGGER.debug("Query to trace the Error= {} " , query);
 
         }
 

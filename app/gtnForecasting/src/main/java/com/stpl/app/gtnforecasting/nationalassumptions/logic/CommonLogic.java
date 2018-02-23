@@ -113,10 +113,10 @@ public class CommonLogic {
         try {
             LOGGER.debug("Entering tempOperation method ");
             NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
-            LOGGER.debug("Query Name : " + queryName);
+            LOGGER.debug("Query Name = {} " , queryName);
              String customSql = SQlUtil.getQuery(getClass(),queryName);
             for (String key : input.keySet()) {
-                LOGGER.debug("Key : " + key);
+                LOGGER.debug("Key = {} " , key);
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
            

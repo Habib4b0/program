@@ -64,7 +64,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
 
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
-        LOGGER.debug(start + "Inside load data" + offset);
+        LOGGER.debug("Inside load data start = {}, offset= {} " , start, offset);
         GtnSmallHashMap finalMap = new GtnSmallHashMap();
         List<PPAProjectionResultsDTO> list = new ArrayList<>();
         if (firstGenerated && offset > 0) {

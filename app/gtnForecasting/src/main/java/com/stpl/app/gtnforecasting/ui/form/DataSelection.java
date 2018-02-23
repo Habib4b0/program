@@ -133,7 +133,7 @@ public class DataSelection extends ForecastDataSelection {
 		productDescriptionMap = session.getProductDescription();
 		customerGroup.setValue(dataSelectionDTO.getCustomerGroup());
 		productGroup.setValue(dataSelectionDTO.getProductGroup());
-		LOGGER.debug("Inside Constructor" + form);
+		LOGGER.debug("Inside Constructor= {}" , form);
 	}
 
 	/**
@@ -580,7 +580,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 		} catch (SystemException ex) {
 
-			LOGGER.error(ex + " in getCompanySidFromHierarchy");
+			LOGGER.error("in getCompanySidFromHierarchy= {}", ex);
 		}
 		return innerLevelValues;
 	}
@@ -618,8 +618,7 @@ public class DataSelection extends ForecastDataSelection {
 						try {
 							parentLevel = Integer.valueOf(parentarr[0]);
 						} catch (NumberFormatException ne) {
-							LOGGER.info("Error While loading the Customer level." + parentarr[0]
-									+ " is not a valid number");
+							LOGGER.info("Error While loading the Customer level is not a valid number.= {}" , parentarr[0]);
 						}
 						Leveldto levelDto = DataSelectionUtil.getBeanFromId(tempdto);
 						if (levelDto.getLevelNo() == parentLevel
@@ -687,7 +686,7 @@ public class DataSelection extends ForecastDataSelection {
 							parentLevel = Integer.valueOf(parentarr[0]);
 						} catch (NumberFormatException nfe) {
 							LOGGER.error(
-									"Error While loading the Product level." + parentarr[0] + " is not a valid number");
+									"Error While loading the Product level is not a valid number.= {}" , parentarr[0]);
 						}
 						Leveldto levelDto = DataSelectionUtil.getBeanFromId(tempdto);
 						if (levelDto.getLevelNo() == parentLevel
@@ -776,7 +775,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 
 		} catch (Property.ReadOnlyException ex) {
-			LOGGER.error(ex + " in initializeFromDto ");
+			LOGGER.error(" in initializeFromDto= {} ", ex);
 		}
 	}
 
@@ -851,7 +850,7 @@ public class DataSelection extends ForecastDataSelection {
 		try {
 			loadProductLevel(String.valueOf(selectionDTO.getProdHierSid()), selectionDTO.getProductHierVersionNo());
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in load product level ");
+			LOGGER.error("in load product level= {} ",ex);
 		}
 	}
 
@@ -860,7 +859,7 @@ public class DataSelection extends ForecastDataSelection {
 			loadCustomerLevel(String.valueOf(selectionDTO.getCustomerHierSid()),
 					selectionDTO.getCustomerHierVersionNo());
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in load customer level ");
+			LOGGER.error("in load customer level= {} ", ex);
 		}
 	}
 
@@ -869,7 +868,7 @@ public class DataSelection extends ForecastDataSelection {
 			loadInnerCustomerLevel(UiUtils.parseStringToInteger(selectionDTO.getCustomerHierarchyLevel()),
 					UiUtils.parseStringToInteger(selectionDTO.getCustomerHierarchyInnerLevel()));
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in load inner customer level ");
+			LOGGER.error(" in load inner customer level= {} ", ex);
 		}
 	}
 
@@ -878,7 +877,7 @@ public class DataSelection extends ForecastDataSelection {
 			loadInnerProductLevel(UiUtils.parseStringToInteger(selectionDTO.getProductHierarchyLevel()),
 					UiUtils.parseStringToInteger(selectionDTO.getProductHierarchyInnerLevel()));
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in load inner product level ");
+			LOGGER.error(" in load inner product level= {} ",ex);
 		}
 	}
 
@@ -899,7 +898,7 @@ public class DataSelection extends ForecastDataSelection {
 				loadSelectedProductLevel(selectedRelationshipDdlbDto);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in Product Relationship ");
+			LOGGER.error(" in Product Relationship= {} ", ex);
 		}
 	}
 
@@ -908,7 +907,7 @@ public class DataSelection extends ForecastDataSelection {
 			DataSelectionForm.loadRelationDdlb(UiUtils.parseStringToInteger(selectionDTO.getProdHierSid()),
 					selectedRelationshipDdlbDto, productRelation);
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in product relationship selected level load ");
+			LOGGER.error(" in product relationship selected level load= {} ", ex);
 
 		}
 	}
@@ -931,7 +930,7 @@ public class DataSelection extends ForecastDataSelection {
 				loadSelectedCustomersLevel(selectedRelationshipDdlbDto);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in customer relationship ");
+			LOGGER.error(" in customer relationship= {} ",ex);
 		}
 	}
 
@@ -940,7 +939,7 @@ public class DataSelection extends ForecastDataSelection {
 			DataSelectionForm.loadRelationDdlb(UiUtils.parseStringToInteger(selectionDTO.getCustomerHierSid()),
 					selectedRelationshipDdlbDto, customerRelationComboBox);
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in customer relationship selected level load ");
+			LOGGER.error(" in customer relationship selected level load= {} ",ex);
 
 		}
 	}
@@ -971,7 +970,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		} catch (SystemException | NumberFormatException ex) {
-			LOGGER.error(ex + " at triggerCustGrpOnView");
+			LOGGER.error("at triggerCustGrpOnView= {}",ex);
 		}
 	}
 
@@ -1019,7 +1018,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		} catch (SystemException | NumberFormatException ex) {
-			LOGGER.error(ex + " at triggerProdGrpOnView");
+			LOGGER.error("at triggerProdGrpOnView= {}", ex);
 		}
 	}
 
@@ -1379,7 +1378,7 @@ public class DataSelection extends ForecastDataSelection {
                         selectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
 
 		} catch (ParseException ex) {
-			LOGGER.error(ex + " in binding for save, can't parse dates");
+			LOGGER.error(" in binding for save, can't parse dates= {}",ex);
 		}
 		LOGGER.debug("bindDataselectionDtoToSave ends");
 		return selectionDTO;
@@ -1511,7 +1510,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		} catch (SystemException ex) {
-			LOGGER.error(ex + " in getItemSidFromHierarchy");
+			LOGGER.error("in getItemSidFromHierarchy= {}", ex);
 		}
 		return innerLevelValues;
 	}
@@ -1608,7 +1607,7 @@ public class DataSelection extends ForecastDataSelection {
 		String dedLevel = StringUtils.EMPTY;
 		String dedValue = StringUtils.EMPTY;
 
-		LOGGER.debug("customer inner Level - ValueChangeListener  " + value);
+		LOGGER.debug("customer inner Level - ValueChangeListener= {}  " , value);
 		availableCustomerContainer.removeAllItems();
 		String levelName = Constant.LEVEL_LABEL;
 		int forecastLevel = 0;
@@ -1629,8 +1628,8 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			} else {
 				if (selectionDTO != null) {
-					LOGGER.info("customer relation version :" + selectionDTO.getCustomerRelationShipVersionNo());
-					LOGGER.info("customer hierarchy version no:" + selectionDTO.getCustomerHierVersionNo());
+					LOGGER.info("customer relation version = {}" , selectionDTO.getCustomerRelationShipVersionNo());
+					LOGGER.info("customer hierarchy version no= {}" , selectionDTO.getCustomerHierVersionNo());
 					relationVersionNo = selectionDTO.getCustomerRelationShipVersionNo();
 					hierarchyVersionNo = selectionDTO.getCustomerHierVersionNo();
 					customerDescriptionMap = relationLogic.getLevelValueMap(
@@ -1641,7 +1640,7 @@ public class DataSelection extends ForecastDataSelection {
 		}
 
 		catch (NumberFormatException ex) {
-			LOGGER.error(ex + " level  ValueChangeListener1 ");
+			LOGGER.error(" level  ValueChangeListener1= {} ", ex);
 		}
 		try {
 
@@ -1653,7 +1652,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex + " level  ValueChangeListener2 ");
+			LOGGER.error(" level  ValueChangeListener2= {} ", ex);
 		}
 		try {
 			String selectedLevel = String.valueOf(value);
@@ -1684,7 +1683,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableCustomer.setStyleName(Constant.FILTER_TABLE);
 
 		} catch (CloneNotSupportedException | NumberFormatException ex) {
-			LOGGER.error(ex + " level  ValueChangeListener3 ");
+			LOGGER.error(" level  ValueChangeListener3= {} ", ex);
 		}
 	}
 
@@ -1734,7 +1733,7 @@ public class DataSelection extends ForecastDataSelection {
 				loadCustomerVersionNo(customerRelationComboBox.getValue());
 			} catch (Exception ex) {
 
-				LOGGER.error(ex + " in customerRelation value change");
+				LOGGER.error(" in customerRelation value change= {}", ex);
 			}
 		}
 		if (!isFirstTimeLoad()) {
@@ -1797,7 +1796,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 				loadProductVersionNo(productRelation.getValue());
 			} catch (NumberFormatException ex) {
-				LOGGER.error(ex + " in productRelation value change");
+				LOGGER.error(" in productRelation value change= {}",ex);
 			}
 		}
 		if (!isFirstTimeLoad()) {
@@ -1970,7 +1969,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableProduct.setStyleName(Constant.FILTER_TABLE);
 		} catch (CloneNotSupportedException | NumberFormatException ex) {
-			LOGGER.error(ex + " - in loadFilteredProductSelection");
+			LOGGER.error(" - in loadFilteredProductSelection= {}", ex);
 		}
 	}
 
@@ -2007,7 +2006,7 @@ public class DataSelection extends ForecastDataSelection {
 						levelValueChangeListener(level.getValue());
 					} catch (ClassNotFoundException | CloneNotSupportedException | IOException ex) {
 
-						LOGGER.error(e + " - in customerGroupLookupWindow");
+						LOGGER.error(" - in customerGroupLookupWindow= {}", e);
 					}
 				}
 			}
@@ -2055,7 +2054,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		} catch (SystemException ex) {
-			LOGGER.error(ex + " in getCustomersFromHierarchy");
+			LOGGER.error(" in getCustomersFromHierarchy= {}",ex);
 		}
 		return innerLevelValues;
 	}
@@ -2139,7 +2138,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableCustomer.setStyleName(Constant.FILTER_TABLE);
 		} catch (SystemException | NumberFormatException ex) {
-			LOGGER.error(ex + " filterCustomerOnGroupSelect ");
+			LOGGER.error(" filterCustomerOnGroupSelect= {} ",ex);
 		}
 
 	}
@@ -3784,7 +3783,7 @@ public class DataSelection extends ForecastDataSelection {
 						"No Level was selected to move. Please try again. ");
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in moveRightProduct");
+			LOGGER.error(" in moveRightProduct= {}",ex);
 		}
 
 	}
@@ -4454,7 +4453,7 @@ public class DataSelection extends ForecastDataSelection {
 		if (selectedProductRelation != null && !SELECT_ONE.equals(String.valueOf(selectedProductRelation))) {
 			List<Object[]> versionNoList = relationLogic.getVersionNoList(selectedProductRelation);
 			Object value = loadComboBoxBasedOnRelationshipVersion(productRelationVersionComboBox, versionNoList);
-			LOGGER.info("value:" + value);
+			LOGGER.info("value= {}" , value);
 			productRelationVersionComboBox.select(value);
 		}
 	}

@@ -910,7 +910,7 @@ public class SalesLogic {
             List resultList = salesAllocationDAO.executeQuery(parameters);
             size = Integer.parseInt(String.valueOf(resultList.get(0)));
         } catch (PortalException | SystemException | NumberFormatException ex) {
-            LOGGER.error(ex + " in getSalesCount");
+            LOGGER.error("in getSalesCount= {}", ex);
         }
 
         return size;
@@ -983,7 +983,7 @@ public class SalesLogic {
                 resultList = generateCustomView(expandedParent, projSelDTO, parameters, inputs, start, offset, isExpandCollapse, isTotalSales);
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex + " in generateSalesAllocation");
+            LOGGER.error("in generateSalesAllocation= {}", ex);
         }
         return resultList;
     }
@@ -1112,8 +1112,8 @@ public class SalesLogic {
         int maxLevelNo = 0;
         GtnSmallHashMap monthMap = new GtnSmallHashMap();
         String hierarchyIndicator = StringUtils.EMPTY;
-        LOGGER.debug("isExpandCollapse" + isExpandCollapse);
-        LOGGER.debug("isCustomer" + isCustomer);
+        LOGGER.debug("isExpandCollapse= {}" , isExpandCollapse);
+        LOGGER.debug("isCustomer= {}" , isCustomer);
 
         if (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
             monthMap = SalesUtils.getMonthMap();
@@ -1533,7 +1533,7 @@ public class SalesLogic {
             parameters.put(INDICATOR.getConstant(), queryName);
             salesAllocationDAO.executeQuery(parameters);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex + " in saveCheckRecord");
+            LOGGER.error("in saveCheckRecord= {}", ex);
         }
     }
 
@@ -1817,7 +1817,7 @@ public class SalesLogic {
     }
 
     public void saveEditedRecsReturns(String propertyId, String editedValue, Double incOrDecPer, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
-        LOGGER.debug("Property Id-> " + propertyId + " EditedValue--> " + editedValue + " incOrDecPer--> " + incOrDecPer);
+        LOGGER.debug("Property Id->= {}, EditedValue-->= {}, incOrDecPer-->= {} " , propertyId, editedValue, incOrDecPer);
         Double actualAmount;
         String detailsIdValues[];
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
@@ -2232,10 +2232,10 @@ public class SalesLogic {
                     statement = connection.prepareCall("{call PRC_SALES_PROJ_MANUAL_ENTRY_TEMP (?,?,?,?,?)}");
                 }
                 LOGGER.debug("PRC_SALES_PROJ_MANUAL_ENTRY_TEMP");
-                LOGGER.debug("1 " + session.getProjectionId());
-                LOGGER.debug("2 " + session.getUserId());
-                LOGGER.debug("3 " + session.getSessionId());
-                LOGGER.debug("4 " + changedProperty);
+                LOGGER.debug("1= {} " , session.getProjectionId());
+                LOGGER.debug("2= {} " , session.getUserId());
+                LOGGER.debug("3= {} " , session.getSessionId());
+                LOGGER.debug("4= {} " , changedProperty);
                 LOGGER.debug(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
 
                 statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
@@ -2247,7 +2247,7 @@ public class SalesLogic {
                 }
                 status = statement.execute();
             }
-            LOGGER.debug("Ending callManualEntryProcedure return  staus ::::" + status);
+            LOGGER.debug("Ending callManualEntryProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());
         } finally {
@@ -2393,7 +2393,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public void saveOnMassUpdateReturns(final ProjectionSelectionDTO projectionSelectionDTO, final int startYear, final int endYear, final int startQuarter, final int endQuarter, final String enteredValue, final String updateVariable, final SalesRowDto salesDTO, boolean flag, final Map<String, Double> selectedValues) {
-        LOGGER.debug("EnteredValue--> " + enteredValue);
+        LOGGER.debug("EnteredValue-->= {} " , enteredValue);
         Double actualAmount = 0.0;
         int frequencyValue = 0;
         String frequency = StringUtils.EMPTY;
@@ -2597,7 +2597,7 @@ public class SalesLogic {
             dynamicQuery.add(PropertyFactoryUtil.forName(Constant.COMPANYMASTERSID).in(
                     ContractMasterLocalServiceUtil.dynamicQuery().setProjection(ProjectionFactoryUtil.property("contHoldCompanyMasterSid"))));
             resultTPList = dataSelection.getCompanyMasterList(dynamicQuery);
-            LOGGER.debug("Size of resultTPList " + resultTPList.size());
+            LOGGER.debug("Size of resultTPList= {} " , resultTPList.size());
 
             List<ContractBrandDTO> temp;
             temp = getAlternateTP(resultTPList);
@@ -2624,7 +2624,7 @@ public class SalesLogic {
             resultList.add(alternateTP);
         }
 
-        LOGGER.debug("Ending getAlternateTP return  size ::::" + resultList.size());
+        LOGGER.debug("Ending getAlternateTP return  size ::::= {}" , resultList.size());
         return resultList;
     }
 
@@ -2742,17 +2742,17 @@ public class SalesLogic {
 
             if (connection != null) {
                 LOGGER.info("PRC_SALES_ADJUSTMENT_TEMP");
-                LOGGER.info("BASLINE_PERIODS" + historyPeriods);
-                LOGGER.info("SELECTED_PERIODS" + projectionPeriods);
-                LOGGER.info("PROJECTION_SID" + projectionSelectionDTO.getProjectionId());
-                LOGGER.info("Frequency" + projectionSelectionDTO.getFrequency());
-                LOGGER.info("USER_ID" + projectionSelectionDTO.getUserId());
-                LOGGER.info("SESSION_ID" + projectionSelectionDTO.getSessionDTO().getSessionId());
-                LOGGER.info("adjType " + adjType);
-                LOGGER.info("adjBasis " + adjBasis);
-                LOGGER.info("adsVar " + adsVar);
-                LOGGER.info("adsMeth " + adsMeth);
-                LOGGER.info("adjVal " + adjVal);
+                LOGGER.info("BASLINE_PERIODS= {}" , historyPeriods);
+                LOGGER.info("SELECTED_PERIODS= {}" , projectionPeriods);
+                LOGGER.info("PROJECTION_SID= {}" , projectionSelectionDTO.getProjectionId());
+                LOGGER.info("Frequency= {}" , projectionSelectionDTO.getFrequency());
+                LOGGER.info("USER_ID= {}" , projectionSelectionDTO.getUserId());
+                LOGGER.info("SESSION_ID= {}" , projectionSelectionDTO.getSessionDTO().getSessionId());
+                LOGGER.info("adjType= {}" , adjType);
+                LOGGER.info("adjBasis= {}" , adjBasis);
+                LOGGER.info("adsVar= {}" , adsVar);
+                LOGGER.info("adsMeth= {}" , adsMeth);
+                LOGGER.info("adjVal= {}" , adjVal);
                 LOGGER.info(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
                 LOGGER.info(projectionSelectionDTO.getUomCode());
 
@@ -2834,15 +2834,15 @@ public class SalesLogic {
      */
     public boolean callCalculationProcedure(final ProjectionSelectionDTO projectionSelectionDTO, final String calcBased, final String allocationBasis) throws SQLException, NamingException {
         LOGGER.info("callCalculationProcedure PRC_SALES_PROJECTION ");
-        LOGGER.info("Projection ID --- " + projectionSelectionDTO.getProjectionId());
-        LOGGER.info("UserID ---        " + projectionSelectionDTO.getUserId());
-        LOGGER.info("Session ID ----   " + projectionSelectionDTO.getSessionDTO().getSessionId());
-        LOGGER.info("Frequency ----    " + projectionSelectionDTO.getFrequency());
-        LOGGER.info("ScreenName ----    " + projectionSelectionDTO.getScreenName());
-        LOGGER.info("calcbased ----    " + calcBased);
-        LOGGER.info("fstartid ----    " + start);
-        LOGGER.info("fendid ----    " + end);
-        LOGGER.info("allocationBasis ----    " + allocationBasis);
+        LOGGER.info("Projection ID ---= {}" , projectionSelectionDTO.getProjectionId());
+        LOGGER.info("UserID ---       = {}" , projectionSelectionDTO.getUserId());
+        LOGGER.info("Session ID ----  = {}" , projectionSelectionDTO.getSessionDTO().getSessionId());
+        LOGGER.info("Frequency ----   = {}" , projectionSelectionDTO.getFrequency());
+        LOGGER.info("ScreenName ----  = {}" , projectionSelectionDTO.getScreenName());
+        LOGGER.info("calcbased ----   = {}" , calcBased);
+        LOGGER.info("fstartid ----    = {}" , start);
+        LOGGER.info("fendid ----      = {}" , end);
+        LOGGER.info("allocationBasis ----= {}" , allocationBasis);
         LOGGER.info(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
         boolean isCalculated = false;
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
@@ -2972,13 +2972,13 @@ public class SalesLogic {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("SELECT USER_GROUP FROM ST_NM_SALES_PROJECTION_MASTER ");
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        LOGGER.debug("Sales Group ---------------------------------" + query.toString());
+        LOGGER.debug("Sales Group ---------------------------------= {} " , query.toString());
         List list = (List) salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
         List finalList = new ArrayList();
         for (Object object : list) {
             finalList.add(String.valueOf(object));
         }
-        LOGGER.debug("Sales Group list Size---------------------------------" + list.size() + " " + finalList.size());
+        LOGGER.debug("Sales Group list Size---------------------------------= {}, {}" , list.size(), finalList.size());
         return finalList;
     }
 
@@ -3034,13 +3034,13 @@ public class SalesLogic {
             LOGGER.debug("Entering callAlternateHistoryProcedure  ::::");
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_NM_ALTERNATE_ACTUALS (?,?,?,?,?,?,?)}");
-                LOGGER.debug("CONT_HierarchyNo=" + inputs[0]);
-                LOGGER.debug("BRAND_RELATIONSHIP_LEVEL_SID=" + inputs[1]);
-                LOGGER.debug("ALTER_CONTRACT_HOLDER_SID=" + inputs[NumericConstants.TWO]);
-                LOGGER.debug("ALTER_BRAND_MASTER_SID=" + inputs[NumericConstants.THREE]);
-                LOGGER.debug("PROJECTION_MASTER_SID=" + inputs[NumericConstants.FOUR]);
-                LOGGER.debug("SESSION_ID=" + inputs[NumericConstants.FIVE]);
-                LOGGER.debug("USER_ID=" + inputs[NumericConstants.SIX]);
+                LOGGER.debug("CONT_HierarchyNo= {}" , inputs[0]);
+                LOGGER.debug("BRAND_RELATIONSHIP_LEVEL_SID= {}" , inputs[1]);
+                LOGGER.debug("ALTER_CONTRACT_HOLDER_SID= {}" , inputs[NumericConstants.TWO]);
+                LOGGER.debug("ALTER_BRAND_MASTER_SID= {}" , inputs[NumericConstants.THREE]);
+                LOGGER.debug("PROJECTION_MASTER_SID= {}" , inputs[NumericConstants.FOUR]);
+                LOGGER.debug("SESSION_ID= {}" , inputs[NumericConstants.FIVE]);
+                LOGGER.debug("USER_ID= {}" , inputs[NumericConstants.SIX]);
                 statement.setObject(1, inputs[0]);
                 statement.setObject(NumericConstants.TWO, inputs[1]);
                 statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]);
@@ -3052,7 +3052,7 @@ public class SalesLogic {
             }
             LOGGER.debug("Ending callAlternateHistoryProcedure return  staus ::::");
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error(new Date() + ex.getMessage());
+            LOGGER.error("{}, {}",new Date(), ex.getMessage());
             throw new SystemException(ex);
         } finally {
             statement.close();
@@ -3332,7 +3332,7 @@ public class SalesLogic {
                 projectionSelectionDTO.setReHierarchyNo(Arrays.toString(hierarchyArr).replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY));
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.debug("Query Error--> " + query);
+            LOGGER.debug("Query Error-->= {} " , query);
             LOGGER.error(ex.getMessage());
         }
         return count;
@@ -3347,11 +3347,10 @@ public class SalesLogic {
      * @return
      */
     public List<SalesRowDto> getReturnsSalesResults(ProjectionSelectionDTO projSelDTO, int start, int offset) {
-        LOGGER.debug("Load Data ---->>  start" + start + " --- offset" + offset + " HierarchyNo-> " + projSelDTO.getReHierarchyNo() + " projSelDTO.getHierarchyNo()" + projSelDTO.getHierarchyNo());
-        LOGGER.debug("@USER_ID    " + projSelDTO.getUserId());
-        LOGGER.debug("@SESSION_ID " + projSelDTO.getSessionId());
-        LOGGER.debug("@LEVEL_NO   " + projSelDTO.getLevelNo());
-        LOGGER.debug("@RowsPerLevelItem   " + projSelDTO.getRowsPerLevelItem());
+        LOGGER.debug("Load Data ---->>  start= {}, offset= {}, HierarchyNo->= {}, projSelDTO.getHierarchyNo()= {} " , start, offset, projSelDTO.getReHierarchyNo(), projSelDTO.getHierarchyNo());
+        LOGGER.debug("@SESSION_ID= {} " , projSelDTO.getSessionId());
+        LOGGER.debug("@LEVEL_NO= {} " , projSelDTO.getLevelNo());
+        LOGGER.debug("@RowsPerLevelItem= {} " , projSelDTO.getRowsPerLevelItem());
         List list = new ArrayList();
         String queryResult;
         String queryName = Constant.VIEW.equals(projSelDTO.getSessionDTO().getAction()) ? "RETURNS_SALES_QUERY_RESULTS_VIEW" : "RETURNS_SALES_QUERY_RESULTS";
@@ -3363,7 +3362,7 @@ public class SalesLogic {
                 returnDetailsSID += entr.getValue() + ",";
             }
         }
-        LOGGER.debug("ReturnDetailsSID " + returnDetailsSID);
+        LOGGER.debug("ReturnDetailsSID= {} " , returnDetailsSID);
         StringBuilder query = new StringBuilder();
         query.append(SQlUtil.getQuery(queryName));
         queryResult = query.toString().replace("@PROJECTION_SID", String.valueOf(projSelDTO.getProjectionId()));
@@ -3391,7 +3390,7 @@ public class SalesLogic {
         try {
             list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryResult, projSelDTO.getSessionDTO().getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGER.debug("Query Error-->  " + queryResult);
+            LOGGER.debug("Query Error-->= {} " , queryResult);
             LOGGER.error(e.getMessage());
         }
         return convertReturnsSalesResults(projSelDTO, list);
@@ -3505,7 +3504,7 @@ public class SalesLogic {
                 }
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
-            LOGGER.debug("queryToUpdateCheckRecord---> " + queryBuilder.toString());
+            LOGGER.debug("queryToUpdateCheckRecord--->= {} " , queryBuilder.toString());
             LOGGER.error(ex.getMessage());
         }
         return count;
@@ -3549,11 +3548,11 @@ public class SalesLogic {
 
         LOGGER.debug("In callRefreshProcedure starts");
         LOGGER.debug("PRC---> PRC_RETURNS_REFRESH");
-        LOGGER.debug("selectedItems---> " + selectedItems);
-        LOGGER.debug("refreshedPeriods---> " + refreshedPeriods);
-        LOGGER.debug("ProjectionId----> " + projectionId);
-        LOGGER.debug("UserId----------> " + userId);
-        LOGGER.debug("SessionId-------> " + sessionId);
+        LOGGER.debug("selectedItems--->= {} " , selectedItems);
+        LOGGER.debug("refreshedPeriods--->= {} " , refreshedPeriods);
+        LOGGER.debug("ProjectionId---->= {} " , projectionId);
+        LOGGER.debug("UserId---------->= {} " , userId);
+        LOGGER.debug("SessionId------->= {} " , sessionId);
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
         Connection connection = null;
@@ -3618,7 +3617,7 @@ public class SalesLogic {
      * @return return amount
      */
     private double calculateSalesAmouintForRPUValue(final Map<String, Double> unitsMap, final String value, final String editedValue) {
-        LOGGER.debug("Entered Value--> " + editedValue);
+        LOGGER.debug("Entered Value-->= {} " , editedValue);
         double amount = 0.0;
         String[] str = value.split(",");
         for (int i = 0; i < str.length; i++) {
@@ -3642,9 +3641,9 @@ public class SalesLogic {
         String parentDetailsSid = projectionSelectionDTO.getSessionDTO().getReturnsDetailsMap().get(entry.getKey().substring(0, entry.getKey().length() - NumericConstants.TWO));
 
         String hierarchy = entry.getKey();
-        LOGGER.debug("ParentDetailsSid-->>  " + parentDetailsSid);
-        LOGGER.debug("currentDetailsSid-->> " + entry.getValue());
-        LOGGER.debug("hierarchy-->>         " + hierarchy);
+        LOGGER.debug("ParentDetailsSid-->>= {}  " , parentDetailsSid);
+        LOGGER.debug("currentDetailsSid-->>= {} " , entry.getValue());
+        LOGGER.debug("hierarchy-->>        = {} " , hierarchy);
         //Formula:(A)/SUM(B)*AMOUNT
         //Code to calculate A
         double amount = calculatedAmount.get(hierarchy.substring(0, hierarchy.length() - NumericConstants.TWO));
@@ -3661,9 +3660,9 @@ public class SalesLogic {
                 amountB += salesAmount.get(split);
             }
         }
-        LOGGER.debug("amountA-->> " + amountA);
-        LOGGER.debug("amountB-->> " + amountB);
-        LOGGER.debug("amount " + amount);
+        LOGGER.debug("amountA-->>= {} " , amountA);
+        LOGGER.debug("amountB-->>= {} " , amountB);
+        LOGGER.debug("amount     = {} " , amount);
 
         amount = (amountA / amountB) * amount;
         boolean flag = Double.isNaN(amount);
@@ -3674,7 +3673,7 @@ public class SalesLogic {
     }
 
     private String updateQuery(String saveQuery, double rpu, final String entryValue) {
-        LOGGER.debug("RPU " + rpu + " ReturnDetailsSid--> " + entryValue);
+        LOGGER.debug("RPU= {}, ReturnDetailsSid-->= {}  " , rpu, entryValue);
         saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + (Double.isNaN(rpu) ? 0.0 : rpu));
         saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, entryValue);
         return saveQuery;
@@ -3758,16 +3757,16 @@ public class SalesLogic {
                 if (enteredLevel) {
                     amount = calculateSalesAmouintForRPUValue(unitsMap, entry.getValue(), enteredValue);
                     calculatedAmount.put(entry.getKey(), amount);
-                    LOGGER.debug("INITAIL Amount " + amount);
+                    LOGGER.debug("INITAIL Amount= {} " , amount);
                     enteredLevel = false;
                 } else {
                     amount = getRPUValue(salesAmount, entry, calculatedAmount, projectionSelectionDTO);
                     calculatedAmount.put(entry.getKey(), amount);
                 }
-                LOGGER.debug("RESULTS:  Hierarchy--> " + entry.getKey() + " ReturnDetailsSid--> " + entry.getValue() + " Amount= " + amount);
+                LOGGER.debug("RESULTS:  Hierarchy-->= {},ReturnDetailsSid-->= {}, Amount= {} " , entry.getKey(), entry.getValue(), amount);
                 if (entry.getValue().split(",").length == 1) {
-                    LOGGER.debug("Amount Value -> " + amount);
-                    LOGGER.debug("Units Value -> " + unitsMap.get(entry.getValue()));
+                    LOGGER.debug("Amount Value ->= {} " , amount);
+                    LOGGER.debug("Units Value ->= {} " , unitsMap.get(entry.getValue()));
                     bulkQuery += updateQuery(query, amount / unitsMap.get(entry.getValue()), entry.getValue());
                 }
             }

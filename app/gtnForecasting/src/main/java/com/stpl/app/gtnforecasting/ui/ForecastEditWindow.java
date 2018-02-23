@@ -63,7 +63,7 @@ public class ForecastEditWindow extends CustomWindow {
                 session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
                 session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
             } catch (ParseException ex) {
-                LOGGER.error(ex + " NonMandatedEditWindow - loadSessionDTO");
+                LOGGER.error("NonMandatedEditWindow - loadSessionDTO= {}", ex);
             }
         } else {
             dataSelectionDTO = new DataSelectionDTO();
