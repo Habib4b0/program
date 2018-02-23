@@ -3053,6 +3053,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         Object[] singleHeaderArray = excelHeaderLeft.getDoubleHeaderMaps().get(GROUP_PROPERTY_ID);
                         List<Object> listHeadersList = new ArrayList(Arrays.asList(singleHeaderArray));
                         listHeadersList.remove(LEVEL_NAME_PROPERTY);
+                        listHeadersList.remove("group");
                         excelHeaderLeft.getDoubleHeaderMaps().put(GROUP_PROPERTY_ID, listHeadersList.toArray());
 			excelTable.setDoubleHeaderVisible(true);
 			excelTable
@@ -5512,7 +5513,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private void securityForListView(Object[] visibleColumnArray, String[] columnHeaderArray, ExtCustomTreeTable table) {
         try {
             final String userId = String.valueOf(session.getUserId());
-            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Forecasting", "Commercial", "Discount Projection");
+            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Forecasting", "Commercial", "Discount Projection",session.getAction());
             List<List> headeInformationsList = CommonLogic.isPropertyVisibleAccess(visibleColumnArray, columnHeaderArray, functionHM);
             List<String> headerArray = headeInformationsList.get(1);
             table.setVisibleColumns(headeInformationsList.get(0).toArray());

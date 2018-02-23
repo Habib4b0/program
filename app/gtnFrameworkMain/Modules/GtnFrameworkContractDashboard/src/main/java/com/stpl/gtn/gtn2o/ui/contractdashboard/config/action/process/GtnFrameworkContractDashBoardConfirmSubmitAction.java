@@ -38,7 +38,7 @@ import java.util.List;
  */
 public class GtnFrameworkContractDashBoardConfirmSubmitAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-
+    
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {

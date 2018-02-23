@@ -953,6 +953,9 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.REBATE_FREQUENCY);
 		rebateFrequencyConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentIdList.add(rebateFrequencyConfig.getComponentId());
+                GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		rebateFrequencyConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 	}
 
 	private void addPaymentLevel(List<GtnUIFrameworkComponentConfig> cdRebateComponentList, String cdRebateTabPrefix,
@@ -1234,6 +1237,10 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		rebateTableLoadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		rebateTableLoadActionConfig.addActionParameter(GtnFrameworkRebateTableLoadAction.class.getName());
 		calculationTypeConfig.addGtnUIFrameWorkActionConfig(rebateTableLoadActionConfig);
+                GtnUIFrameworkValidationConfig valCalcTypeConfig = new GtnUIFrameworkValidationConfig();
+		valCalcTypeConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		calculationTypeConfig.setGtnUIFrameworkValidationConfig(valCalcTypeConfig);
+
 	}
 
 	private void addCalculationRule(List<GtnUIFrameworkComponentConfig> cdRebateComponentList, String cdRebateTabPrefix,
@@ -1286,6 +1293,11 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.CALCULATION_LEVEL);
 		calculationComponentConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentIdList.add(calculationComponentConfig.getComponentId());
+                GtnUIFrameworkValidationConfig validationCalcConfig = new GtnUIFrameworkValidationConfig();
+		validationCalcConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		calculationComponentConfig.setGtnUIFrameworkValidationConfig(validationCalcConfig);
+
+                
 	}
 
 	private void itemsTabHistoryDataTableComponent(List<GtnUIFrameworkComponentConfig> cdRebateComponentList,

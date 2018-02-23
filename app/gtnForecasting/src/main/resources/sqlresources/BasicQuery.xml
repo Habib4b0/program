@@ -1613,7 +1613,7 @@ SELECT count(1)
     		<![CDATA[
                         select DISTINCT
 				MP.PROPERTY_NAME,
-				BMM.ACCESS_MODULE,
+				BMM.?,
                                 MP.DISPLAY_NAME
 	
 			from
