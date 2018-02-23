@@ -79,7 +79,7 @@ public class SchedulerCSVEport {
 				isFileCreated=tempFile.createNewFile();
 
 			}
-			LOGGER.info("File created successfully : "+isFileCreated);
+			LOGGER.info("File created successfully = {} ", isFileCreated);
 			fileOut = new FileOutputStream(tempFile);
 
 			pw = new PrintWriter(fileOut);

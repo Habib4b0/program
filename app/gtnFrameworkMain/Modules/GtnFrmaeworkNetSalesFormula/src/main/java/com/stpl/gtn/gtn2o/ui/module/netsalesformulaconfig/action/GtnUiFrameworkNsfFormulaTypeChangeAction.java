@@ -17,9 +17,10 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.confirmation.GtnFrameworkNsfAlertNoAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFConstants;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnUIFrameworkNsfFormulaType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -35,6 +36,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 	private static final String FORMULA_TYPE = "formulaType";
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnUiFrameworkNsfFormulaTypeChangeAction.class);
 	private static final String SELECTED_DEDUCTIONS_RESULT_TABLE = "selectedDeductionsResultTable";
+	GtnUIFrameworkNsfFormulaType formulaTypeValue = GtnUIFrameworkNsfFormulaType.getInstance();
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -48,8 +50,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 		List<Object> actionParemeterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String viewId = (String) actionParemeterList.get(1);
 		checkValueChange(componentId, viewId);
-		performActionForComboBox(viewId);
-
+		formulaTypeValue.setChangeAllowed(true);
 	}
 
 	private void performActionForComboBox(String viewId) throws GtnFrameworkGeneralException {
@@ -74,14 +75,14 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 		Object[] availableDeductionVisibleColumns = null;
 		Object[] availableDeductionExtraColumns = null;
 		Class<?>[] availableDeductionExtraColumnsDataTypes = null;
-		String availableDeductionQueryName;
+		String availableDeductionQueryName = null;
 
 		Class<?>[] selectedDeductionTableColumnDataTypes = null;
 		String[] selectedDeductionVisibleHeaders = null;
 		Object[] selectedDeductionVisibleColumns = null;
 		Object[] selectedDeductionExtraColumns = null;
 		Class<?>[] selectedDeductionExtraColumnsDataTypes = null;
-		String selectedDeductionQueryName;
+		String selectedDeductionQueryName = null;
 		if (formulaType != null && formulaType.equals(GtnFrameworkNSFConstants.getFormulaTypeContract())) {
 			enableDisableComponents(componentIds, true);
 			tableColumnDataTypes = new Class<?>[] { String.class, String.class, String.class, String.class,
@@ -127,7 +128,6 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			selectedDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getSystemid() };
 			selectedDeductionExtraColumnsDataTypes = new Class<?>[] { Integer.class };
 			selectedDeductionQueryName = GtnWsNsfCommonConstants.GTN_NSF_SELECTED_DEDUCTIONS_SEARCH_QUERY_NAME;
-
 		}
 		if (GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE)
@@ -141,13 +141,22 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 					selectedDeductionVisibleHeaders, selectedDeductionVisibleColumns, selectedDeductionExtraColumns,
 					selectedDeductionExtraColumnsDataTypes, selectedDeductionQueryName);
 		}
+
 	}
 
 	private void checkValueChange(String componentId, String viewId) throws GtnFrameworkGeneralException {
-              String formulaTypeValue = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(FORMULA_TYPE));
-              String formulaType = String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + FORMULA_TYPE).getValueFromComponent());           
-                       
-              if (formulaTypeValue!=null && !"null".equals(formulaTypeValue) && formulaType!=null && !"null".equals(formulaType)&& !formulaType.equals(formulaTypeValue)) {
+
+		String formulaTypeValueCurrent = formulaTypeValue.getFormulaTypeValue();
+		LOGGER.info("formulat type in session:" + formulaTypeValue.getFormulaTypeValue());
+		String formulaType = String
+				.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + FORMULA_TYPE).getValueFromComponent());
+
+		if ((!GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE)
+				.getItemsFromTable().isEmpty()
+				|| !GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + SELECTED_DEDUCTIONS_RESULT_TABLE)
+						.getItemsFromTable().isEmpty())
+				&& !"test".equals(formulaTypeValueCurrent) && (formulaType != null && !"null".equals(formulaType))) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 			List<Object> alertParams = new ArrayList<>();
@@ -198,7 +207,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			alertParams.add(onFailureActionConfig);
 			alertActionConfig.setActionParameterList(alertParams);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
-		} else {
+		} else if (GtnUIFrameworkNsfFormulaType.getInstance().isChangeAllowed()) {
 			GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
 			resetActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMED_RESET_ACTION);
 			List<Object> resetParams = new ArrayList<>();
@@ -232,6 +241,8 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			resetActionConfig.setActionParameterList(resetParams);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetActionConfig);
 		}
+		performActionForComboBox(viewId);
+
 	}
 
 	@Override

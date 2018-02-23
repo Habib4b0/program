@@ -479,7 +479,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
-    public void configureExcelTable() {
+     public void configureExcelTable() {
         resultExcelContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
         resultExcelContainer.setColumnProperties(leftHeader.getProperties());
         resultExcelContainer.setColumnProperties(rightHeader.getProperties());
