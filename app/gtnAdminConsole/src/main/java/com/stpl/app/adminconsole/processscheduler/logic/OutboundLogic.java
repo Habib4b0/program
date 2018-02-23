@@ -86,13 +86,13 @@ public class OutboundLogic {
             Object ob = masterData.get(0);
             count += Integer.parseInt(String.valueOf(ob));
         }
-        LOGGER.debug(" getHierarchyDefinitionCount ===>" + count);
+        LOGGER.debug(" getHierarchyDefinitionCount= {}" , count);
         return count;
     }
 
     public List<HierarchyDefinitionDTO> loadHierarchyDefinitionResults(
             final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, String hierType, boolean isCheckAll) {
-        LOGGER.debug("Entering loadHierarchyDefinitionResults with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
+        LOGGER.debug("Entering loadHierarchyDefinitionResults with start of= {}, endIndex of= {}, Column Size= {}, " , start, end, ((columns == null) ? columns : columns.size()));
         StringBuilder queryBuilder = buildHierarchyDefinitionSearchQuery(searchFields, false, hierType);
         getHdFilterQuery(filterSet, queryBuilder);
         getHdOrderQuery(queryBuilder, columns, start, end);
@@ -509,7 +509,7 @@ public class OutboundLogic {
             if (resultList != null && !resultList.isEmpty()) {
                 itemGroupList = getCustomizedResults(resultList, isCheckAll);
             }
-            LOGGER.debug("getSearchResults return List<RelationshipBuilderDTO> itemGroupList=" + itemGroupList.size());
+            LOGGER.debug("getSearchResults return List<RelationshipBuilderDTO> itemGroupList= {}" , itemGroupList.size());
             return itemGroupList;
         }
 
@@ -551,7 +551,7 @@ public class OutboundLogic {
             relationBuilderDTO.setCheck(isCheckAll);
             relationBuilderList.add(relationBuilderDTO);
         }
-        LOGGER.debug("getCustomizedResults return List<RelationshipBuilderDTO> relationBuilderList=" + relationBuilderList.size());
+        LOGGER.debug("getCustomizedResults return List<RelationshipBuilderDTO> relationBuilderList= {}" , relationBuilderList.size());
         return relationBuilderList;
     }
 
@@ -694,7 +694,7 @@ public class OutboundLogic {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
-        LOGGER.debug("getCustomizedOutboundTableDTO return List<OutboundTableDTO> OutboundTableResults=" + OutboundTableResults.size());
+        LOGGER.debug("getCustomizedOutboundTableDTO return List<OutboundTableDTO> OutboundTableResults= {}" , OutboundTableResults.size());
         return OutboundTableResults;
     }
     /**

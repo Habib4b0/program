@@ -854,7 +854,7 @@ public class ExistingComponents extends CustomComponent implements View {
         }
     }
 
-    public List<Integer> saveExistingContract() throws SystemException, PortalException, ParseException {
+    public List<Integer> saveExistingContract() throws  PortalException, ParseException {
         int contractMasterSid = 0;
         List<Integer> returnList = new ArrayList<>();
         try {
@@ -1113,12 +1113,12 @@ public class ExistingComponents extends CustomComponent implements View {
         return returnList;
     }
 
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
 
     }
 
-    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) throws SystemException {
+    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) {
         try {
             if (end != 0) {
                 if (contractExcelFlag) {

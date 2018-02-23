@@ -124,7 +124,7 @@ public class BusinessRoleModuleImpl {
 	
 	 public Object executeSelectQuery(String query, Object udc1) {
 	        
-	        List<Object[]> returnList = new ArrayList<Object[]>();
+	        List<Object[]> returnList = new ArrayList<>();
 	        try {
 	            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
 	        } catch (Exception e) {

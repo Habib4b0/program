@@ -4,6 +4,8 @@
  */
 package com.stpl.app.cff.ui.fileSelection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 
 import java.text.SimpleDateFormat;
@@ -149,7 +151,7 @@ public class FileSelection extends CustomComponent {
                 }
 
             });
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("configureFields ends");
@@ -207,7 +209,7 @@ public class FileSelection extends CustomComponent {
                             query = query.replace(StringConstantsUtil.ACTIVE_TO, "null");
                         }
                         query = query.replace("@FILE_TYPE", dto.getFileTypeId());
-                        LOGGER.debug("--final query--------->>>>>" + query);
+                        LOGGER.debug("--final query--------->>>>> {}",query);
                         HelperTableLocalServiceUtil.executeUpdateQuery(query);
                     }
                 }

@@ -367,15 +367,15 @@ public class GtnFrameworkPSPricingTabConfig {
 		psPricingTabTabResultDataTableConfig.setEditable(true);
 		psPricingTabTabResultDataTableConfig.setTableColumnDataType(new Class<?>[] { Boolean.class, String.class,
 				String.class, String.class, String.class, GtnFrameworkCommonConstants.JAVALANG_INTEGER, Date.class,
-				Date.class, GtnFrameworkCommonConstants.JAVALANG_INTEGER, String.class, String.class, String.class,
+				Date.class, GtnFrameworkCommonConstants.JAVALANG_INTEGER, String.class, String.class, String.class,String.class,
 				Date.class, Date.class });
 		psPricingTabTabResultDataTableConfig.setTableVisibleHeader(new String[] { "", "Item ID", "Item No", "Item Name",
-				"Brand Name", "Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price",
+				"Brand Name", "Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price","Source",
 				"Created By", "Created Date", "Attached Date" });
 		psPricingTabTabResultDataTableConfig
 				.setTableColumnMappingId(new Object[] { GtnFrameworkCommonConstants.CHECK_RECORD_ID, "itemId", "itemNo",
 						"itemName", "brandName", GtnFrameworkCommonConstants.PS_STATUS, "cpStartDate", "cpEndDate",
-						GtnFrameworkCommonConstants.PRICE_TYPE, "psPrice", "suggestedPrice", "createdBy",
+						GtnFrameworkCommonConstants.PRICE_TYPE, "psPrice", "suggestedPrice","source", "createdBy",
 						"psCreatedDate", "psAttachedDate" });
 		psPricingTabTabResultDataTableConfig.setExtraColumn(new Object[] { "systemId" });
 		psPricingTabTabResultDataTableConfig.setExtraColumnDataType(new Class<?>[] { String.class });

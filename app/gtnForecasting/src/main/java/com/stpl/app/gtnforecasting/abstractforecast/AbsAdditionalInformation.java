@@ -126,7 +126,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      * The module name.
      */
-    public final static String MODULE_NAME = "National Assumptions";
+    public static final String MODULE_NAME = "National Assumptions";
     /**
      * The move back.
      */
@@ -418,7 +418,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             setValues(mode.equalsIgnoreCase(ACTION_EDIT.getConstant()) || mode.equalsIgnoreCase(ACTION_VIEW.getConstant()) ? true : false);
         } catch (Exception ex) {
-            ex.printStackTrace();
              StackTraceElement[] trace = ex.getStackTrace();
             for (StackTraceElement traceElement : trace)
                 LOGGER.error("\tat " + traceElement);

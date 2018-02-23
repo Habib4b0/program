@@ -40,7 +40,6 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
-import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -64,7 +63,9 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,6 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -251,7 +253,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	
         @UiField("excelExport")
 	private Button excelExport;
-         private final Resource excelExportImage = new ThemeResource("img/excel.png");
 	/**
 	 * The error msg.
 	 */
@@ -369,7 +370,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 			CFFLogic.mapUsers();
 
-			excelExport.setIcon(excelExportImage);
+			excelExport.setIcon(new ThemeResource("img/excel.png"));
 			excelExport.setStyleName("link");
 			excelExport.setDescription("Export to excel");
 			excelExport.setIconAlternateText("Excel export");
@@ -391,7 +392,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 								"Consolidated_Financial_Forecast");
 						LOGGER.debug(" Ends  EXCEL Export Button Click");
 
-					} catch (final Exception exception) {
+					} catch (final PortalException | SystemException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException exception) {
 						LOGGER.error(exception.getMessage());
 					}
 				}
@@ -416,7 +417,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			dto = new CFFSearchDTO();
 			approvalDetailsBean = new BeanItemContainer<>(ApprovalDetailsDTO.class);
 			resultsBean = new BeanItemContainer<>(CFFResultsDTO.class);
-		} catch (final Exception e) {
+		} catch (final IllegalArgumentException e) {
 			LOGGER.error(e.getMessage());
 		} finally {
 			final SessionUtil sessionUtil = new SessionUtil();
@@ -620,7 +621,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to EDIT.");
 			}
 
-		} catch (final Exception ex) {
+		} catch (final PortalException | SystemException | IllegalArgumentException | InterruptedException | NullPointerException | ExecutionException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 	}
@@ -639,12 +640,12 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDTO.setProdRelationshipBuilderSid(String.valueOf(temp[1]));
 					sessionDTO.setCustRelationshipBuilderSid(String.valueOf(temp[NumericConstants.TWO]));
                   if(temp[NumericConstants.THREE]!=null){ 
-                                        sessionDTO.setCffEligibleDate(new Date(String.valueOf(temp[NumericConstants.THREE])));
+                                        sessionDTO.setCffEligibleDate(new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY).parse(String.valueOf(temp[NumericConstants.THREE])));
                   }
 				}
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));
 
-			} catch (final SystemException ex) {
+			} catch (final SystemException | ParseException ex) {
 				LOGGER.error(ex + " NonMandatedEditWindow - loadSessionDTO");
 			}
 		}
@@ -804,7 +805,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			} else {
 				AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to view.");
 			}
-		} catch (final Exception ex) {
+		} catch (final SystemException | IllegalArgumentException | NullPointerException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 	}

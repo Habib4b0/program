@@ -24,8 +24,6 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -602,13 +600,13 @@ public class PromoteTP extends VerticalLayout {
         return dataSelectionBinder;
     }
     
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable,int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable,int count) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
 
     }
     
     
-      public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException {
+      public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
         try {
             if (end != 0) {
               CompanySearchLogic companySearchLogic = new CompanySearchLogic();

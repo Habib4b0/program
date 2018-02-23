@@ -115,7 +115,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The module name.
      */
-    private final static String MODULE_NAME = "National Assumptions";
+    private static final String MODULE_NAME = "National Assumptions";
     /**
      * The new notes.
      */

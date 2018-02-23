@@ -549,7 +549,11 @@ public class AddContractSelection extends CustomComponent {
         selection.setReset(true);
         if ((binderDto.getContractHolder() == null || binderDto.getContractHolder().isEmpty()) && (binderDto.getMarketType_DTO() == null)
                 && (binderDto.getCfp() == null || binderDto.getCfp().isEmpty()) && (binderDto.getContractNo() == null || binderDto.getContractNo().isEmpty())
-                && (binderDto.getStartDate() == null) && (binderDto.getEndDate() == null)
+                && (binderDto.getContractNo_SID()== null || binderDto.getContractNo_SID().isEmpty())
+                && (binderDto.getContractName_SID()== null || binderDto.getContractName_SID().isEmpty()) && (binderDto.getContractHolder_SID()== null || binderDto.getContractHolder_SID().isEmpty())
+                && (binderDto.getCustomer_SID()== null || binderDto.getCustomer_SID().isEmpty()) && (binderDto.getCfp_SID()== null || binderDto.getCfp_SID().isEmpty())
+                && (binderDto.getPs_SID()== null || binderDto.getPs_SID().isEmpty()) && (binderDto.getIfp_SID()== null || binderDto.getIfp_SID().isEmpty())
+                && (binderDto.getRs_SID()== null || binderDto.getRs_SID().isEmpty()) && (binderDto.getStartDate() == null) && (binderDto.getEndDate() == null)
                 && (binderDto.getIfp() == null || binderDto.getIfp().isEmpty())
                 && (binderDto.getContractName() == null || binderDto.getContractName().isEmpty()) && (binderDto.getPriceSchedule() == null || binderDto.getPriceSchedule().isEmpty())
                 && (binderDto.getCustomerNo() == null || binderDto.getCustomerNo().isEmpty()) && (binderDto.getCustomerName() == null || binderDto.getCustomerName().isEmpty())
@@ -603,7 +607,7 @@ public class AddContractSelection extends CustomComponent {
             @Override
             public void yesMethod() {
                 try {
-                    binder.setItemDataSource(new BeanItem<>(new AddItemTableDTO()));
+                    resetSearchField();
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
                     LOGGER.error("",ex);
@@ -616,6 +620,19 @@ public class AddContractSelection extends CustomComponent {
             }
         }.getConfirmationMessage(CONFIRMATION_HEADER, "Are you sure you want to reset the values in the ITEM Search?");
 
+    }
+    
+    private void resetSearchField() {
+        vCntHolder.setValue(StringUtils.EMPTY);
+        marketType_DTO.setValue(null);
+        cfp.setValue(StringUtils.EMPTY);
+        vCntNo.setValue(StringUtils.EMPTY);
+        rsSchedule.setValue(StringUtils.EMPTY);
+        ifp.setValue(StringUtils.EMPTY);
+        vPriceSchdle.setValue(StringUtils.EMPTY);
+        vCntName.setValue(StringUtils.EMPTY);
+        vCustNo.setValue(StringUtils.EMPTY);
+        vCustName.setValue(StringUtils.EMPTY);
     }
 
     @UiHandler("resetBtncur")
