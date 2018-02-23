@@ -1804,6 +1804,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             pvSelectionDTO.setProjIdList(projIdList);
             pvSelectionDTO.setProjectionMap(projectionMap);
             comparisonProjId.addAll(projIdList);
+            if (!pvSelectionDTO.getProjIdList().isEmpty()) {
+                for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
+                    comparisonBasis.addItem(j);
+                    comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
+                    comparisonBasis.select("Current Projection");
+                }
+            }
         }
     }
 
