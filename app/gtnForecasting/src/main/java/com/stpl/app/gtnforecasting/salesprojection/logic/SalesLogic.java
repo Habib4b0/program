@@ -4433,10 +4433,10 @@ public class SalesLogic {
         }
         if (CommonUtil.isValueEligibleForLoading()) {
             salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number", String.class);
-            salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
+            salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NAME, Constant.LEVEL_NAME_HEADER, String.class);
 
         } else {
-            salesProjectionExcelHeader.addSingleColumn(Constant.LEVEL_NAME, "Level Name", String.class);
+            salesProjectionExcelHeader.addSingleColumn(Constant.LEVEL_NAME, Constant.LEVEL_NAME_HEADER, String.class);
         }
         salesProjectionExcelHeader.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
         salesProjectionExcelHeader.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);

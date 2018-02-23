@@ -191,13 +191,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     header = ArrayUtils.remove(header, 0);
                     
                     Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
-                    if (displayFormatIndex.length == 1) {
+                    if (displayFormatIndex.length == 1 && CommonUtil.isValueEligibleForLoading()) {
                         for (int k = 0; k < displayFormatIndex.length; k++) {
                             LOGGER.info("obj--------------= {}" , k);
                             int index = (Integer) displayFormatIndex[k];
                             if (index == 0) {
                                 column = ArrayUtils.removeElement(column, "dfLevelName");
-                                header = ArrayUtils.removeElement(header, "Level Name");
+                                header = ArrayUtils.removeElement(header, Constant.LEVEL_NAME_HEADER);
                             } else {
                                 column = ArrayUtils.removeElement(column, "dfLevelNumber");
                                 header = ArrayUtils.removeElement(header, "Level Number");
@@ -516,9 +516,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
       
         if (CommonUtil.isValueEligibleForLoading()) {
             excelHeader.addSingleColumn("dfLevelNumber", "Level Number", String.class);
-            excelHeader.addSingleColumn("dfLevelName", "Level Name", String.class);
+            excelHeader.addSingleColumn("dfLevelName", Constant.LEVEL_NAME_HEADER, String.class);
         } else{
-            excelHeader.addSingleColumn(Constant.LEVEL_NAME, "Level Name", String.class);
+            excelHeader.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_HEADER, String.class);
         }
         
         if (projectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
@@ -957,7 +957,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private void securityForListView(Object[] visibleColumnArray, String[] columnHeaderArray, ExtCustomTreeTable table) {
         try {
             final String userId = String.valueOf(sessionDTO.getUserId());
-            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Forecasting", "Commercial", "Sales Projection");
+            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Forecasting", "Commercial", "Sales Projection",sessionDTO.getAction());
             List<List> headeInformationsList = CommonLogic.isPropertyVisibleAccess(visibleColumnArray, columnHeaderArray, functionHM);
             List<String> headerArray = headeInformationsList.get(1);
             table.setVisibleColumns(headeInformationsList.get(0).toArray());

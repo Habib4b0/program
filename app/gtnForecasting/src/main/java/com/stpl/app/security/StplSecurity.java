@@ -363,18 +363,20 @@ public StplSecurityDAO getDto() {
         return tabHm;
     }
     
-    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName, final String subModuleName, final String tabName) throws PortalException, SystemException {
+    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName, final String subModuleName, final String tabName,final String modeFlag) throws PortalException, SystemException {
         Map<String, AppPermission> functionHm;
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
-        List<Object[]> tabPermissionList = AppDataUtils.getAppData(getInput(businessRoleIds, moduleName, subModuleName, tabName), "buttonSecurity", null);
+        List<Object[]> tabPermissionList = AppDataUtils.getAppData(getInput(businessRoleIds, moduleName, subModuleName, tabName,modeFlag), "buttonSecurity", null);
         functionHm = listToAppPermissionMap(tabPermissionList, 4);
         return functionHm;
     }
 
-    private List getInput(final String businessRoleId, final String moduleName, final String subModuleName, final String tabName) {
+    private List getInput(final String businessRoleId, final String moduleName, final String subModuleName, final String tabName,final String modeFlag) {
         List input = new ArrayList();
+        Map<String,String> map = new HashMap<>(getFlagColumnMap());
+        input.add(map.get(modeFlag));
         input.add("List View");
         input.add(moduleName);
         input.add(subModuleName);
@@ -387,5 +389,13 @@ public StplSecurityDAO getDto() {
             input.add(StringUtils.EMPTY);
         }
         return input;
+    }
+    
+    private Map<String, String> getFlagColumnMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put(Constant.ADD_FULL_SMALL, "ADD_FLAG");
+        map.put(Constant.EDIT_SMALL, "EDIT_FLAG");
+        map.put(Constant.VIEW, "VIEW_FLAG");
+        return map;
     }
 }

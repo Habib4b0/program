@@ -276,13 +276,18 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdPricingComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig componentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
-		componentConfig.setAuthorizationIncluded(true);
-		componentConfig.setComponentName("Price Schedule Name");
-		componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
-		cdPricingComponentList.add(componentConfig);
-		componentIdList.add(componentConfig.getComponentId());
+		GtnUIFrameworkComponentConfig psNameComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId,
+				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
+		psNameComponentConfig.setAuthorizationIncluded(true);
+		psNameComponentConfig.setComponentName("Price Schedule Name");
+		psNameComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
+		cdPricingComponentList.add(psNameComponentConfig);
+		componentIdList.add(psNameComponentConfig.getComponentId());
+
+		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
+		valConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+
+		psNameComponentConfig.setGtnUIFrameworkValidationConfig(valConfig);
 	}
 
 	private void addPriceScheduleStatus(List<GtnUIFrameworkComponentConfig> cdPricingComponentList,
