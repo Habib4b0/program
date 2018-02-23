@@ -283,13 +283,13 @@ public class MasterPhsWorksheet extends Window {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
 
-                LOGGER.debug("ndcDdlb ValueChangeEvent initiated " + ndcDdlb.getValue());
+                LOGGER.debug("ndcDdlb ValueChangeEvent initiated= {} " , ndcDdlb.getValue());
 
                 if (ndcDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(String.valueOf(ndcDdlb.getValue()))) {
                     HelperDTO helperDTO = (HelperDTO) ndcDdlb.getValue();
                     int ndcId = helperDTO.getId();
                     projectionDTO.setNdcSid(helperDTO);
-                    LOGGER.debug("ndcDdlb ValueChangeEvent ends theraupeyticId   " + ndcId);
+                    LOGGER.debug("ndcDdlb ValueChangeEvent ends theraupeyticId= {}  " , ndcId);
 
                 }
             }
@@ -300,7 +300,7 @@ public class MasterPhsWorksheet extends Window {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
 
-                LOGGER.debug("brandDdlb ValueChangeEvent initiated " + brandDdlb.getValue());
+                LOGGER.debug("brandDdlb ValueChangeEvent initiated= {} " , brandDdlb.getValue());
 
                 if (brandDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(String.valueOf(brandDdlb.getValue()))) {
                     HelperDTO helperDTO = (HelperDTO) brandDdlb.getValue();
@@ -309,7 +309,7 @@ public class MasterPhsWorksheet extends Window {
                     ndcContainer.removeAllItems();
                     loadNdc();
                     ndcDdlb.select(dto);
-                    LOGGER.debug("brandDdlb ValueChangeEvent ends brandDdlb   " + brandSid);
+                    LOGGER.debug("brandDdlb ValueChangeEvent ends brandDdlb= {}  " , brandSid);
 
                 } else {
                     projectionDTO.setBrandWSdto(dto);

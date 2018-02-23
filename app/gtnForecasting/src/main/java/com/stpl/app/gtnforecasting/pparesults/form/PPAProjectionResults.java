@@ -422,7 +422,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     @UiHandler("frequency")
     public void loadFrequency(Property.ValueChangeEvent event) {
-        LOGGER.debug("PPAProjectionResults ValueChangeEvent initiated with frequency -->" + frequency.getValue());
+        LOGGER.debug("PPAProjectionResults ValueChangeEvent initiated with frequency -->= {}" , frequency.getValue());
         CommonUtils.frequenceValueChange(frequency.getValue(), history, session);
         LOGGER.debug("PPAProjectionResults ValueChangeEvent ends ");
     }

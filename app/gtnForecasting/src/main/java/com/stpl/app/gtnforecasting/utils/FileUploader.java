@@ -97,8 +97,8 @@ public class FileUploader implements Receiver {
 				}
 				isFileCreated=file.createNewFile();
 				outputStream = new FileOutputStream(file);
-				LOGGER.info("File deleted successfully"+isFileExists);
-				LOGGER.info("File created successfully"+isFileCreated);
+				LOGGER.info("File deleted successfully= {}",isFileExists);
+				LOGGER.info("File created successfully= {}",isFileCreated);
 				return outputStream;
 			}
 		} catch (final java.io.FileNotFoundException e) {
