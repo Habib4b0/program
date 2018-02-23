@@ -106,6 +106,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -682,7 +683,7 @@ public class SalesLogic {
                     key = Constant.S_SMALL + String.valueOf(obj[NumericConstants.THREE]) + "-" + String.valueOf(obj[NumericConstants.TWO]);
                 } else if (frequencyDivision == NumericConstants.TWELVE) {
                     String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) - 1);
-                    key = monthName.toLowerCase() + "-" + String.valueOf(obj[NumericConstants.TWO]);
+                    key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.TWO]);
                 }
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[0] == null ? 0 : obj[0])));
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[1] == null ? 0 : obj[1])));
@@ -774,7 +775,7 @@ public class SalesLogic {
                 key = Constant.S_SMALL + String.valueOf(obj[NumericConstants.SEVEN]) + "-" + String.valueOf(obj[NumericConstants.SIX]);
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) - 1);
-                key = monthName.toLowerCase() + "-" + String.valueOf(obj[NumericConstants.SIX]);
+                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.SIX]);
             }
             if (CommonUtil.isValueEligibleForLoading()) {
                 salesRowDto.setSalesInclusion(obj[NumericConstants.NINETEEN] != null ? String.valueOf(obj[NumericConstants.NINETEEN]) : StringUtils.EMPTY);
@@ -1333,7 +1334,7 @@ public class SalesLogic {
         List resultList = salesAllocationDAO.executeQuery(parameters);
         if (resultList != null && !resultList.isEmpty()) {
             if (resultList.size() == 1) {
-                Object obj = (Object) resultList.get(0);
+                Object obj = resultList.get(0);
                 if (Boolean.valueOf(String.valueOf(obj))) {
                     returnValue = true;
                 }
@@ -2026,7 +2027,7 @@ public class SalesLogic {
         }
 
     }
-
+    
     public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
 
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
@@ -2045,7 +2046,8 @@ public class SalesLogic {
             BigDecimal value = new BigDecimal(editedValue);
             String hierarchyNo = salesDTO.getHierarchyNo();
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
-            String keyarr[] = propertyId.split("-");
+            String[] keyarr = propertyId.split("-");
+            String key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
             if (frequencyDivision == 1) {
                 year = Integer.valueOf(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
@@ -2101,6 +2103,8 @@ public class SalesLogic {
 
                     }
                     break;
+                default:
+                    break;
             }
 
             StringBuilder periodRestriction = new StringBuilder();
@@ -2151,13 +2155,32 @@ public class SalesLogic {
             updateQuery = updateQuery.replace("[?PERIOD_RESTRICTION]", periodRestriction.toString());
 
             String finalQuery = hierarchyInserQuery + updateQuery;
-            SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-            salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+            projectionSelectionDTO.getUpdateQueryMap().put(key+","+changedValue,QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+            if (column.equals("ProjectedSales") || column.equals(Constant.PROJECTED_UNITS1)) {
+                checkMultiVariables(key.trim(), column, projectionSelectionDTO);
+            }
         }
         if (isManualEntry) {
             saveRecordsForManualEntry(changedValue, projectionSelectionDTO, salesDTO, checkAll);
         }
 
+    }
+    
+     public void checkMultiVariables(final String period, final String refreshName,ProjectionSelectionDTO projectionSelectionDTO) {
+		if (projectionSelectionDTO.getMultipleVariableCheckMap().get(period) == null) {
+			projectionSelectionDTO.getMultipleVariableCheckMap().put(period, refreshName);
+                }else{
+                projectionSelectionDTO.setIsMultipleVariablesUpdated(true);
+                }
+	}
+    
+      public Object executeUpdateQuery(ProjectionSelectionDTO projectionSelectionDTO) {
+          for (Map.Entry<String, String> entry : projectionSelectionDTO.getUpdateQueryMap().entrySet()) {
+              HelperTableLocalServiceUtil.executeUpdateQuery(entry.getValue());
+              callManualEntry(projectionSelectionDTO, (entry.getKey()).split(",")[1].contains(Constant.SALES_SMALL) ? Constant.SALES_SMALL : Constant.UNITS_SMALL);
+          }
+        projectionSelectionDTO.getUpdateQueryMap().clear();
+        return true;
     }
 
     /**
@@ -2166,7 +2189,7 @@ public class SalesLogic {
      * @param projectionSelectionDTO
      * @param salesDTO
      * @param checkAll
-     * @throws Exception
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
     public void saveRecordsForManualEntry(String changedProperty, final ProjectionSelectionDTO projectionSelectionDTO, final SalesRowDto salesDTO, boolean checkAll) throws PortalException, SystemException {
 
@@ -2176,7 +2199,6 @@ public class SalesLogic {
             } else {
                 updateCheckedRecords(projectionSelectionDTO, salesDTO, true, checkAll);
             }
-            callManualEntry(projectionSelectionDTO, changedProperty.contains(Constant.SALES_SMALL) ? Constant.SALES_SMALL : Constant.UNITS_SMALL);
             if (!(Boolean) salesDTO.getPropertyValue(Constant.CHECK)) {
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
                     saveCheckedRecords(projectionSelectionDTO, salesDTO, false, checkAll);
@@ -3404,7 +3426,7 @@ public class SalesLogic {
                 key = Constant.S_SMALL + String.valueOf(obj[0]) + "-" + String.valueOf(obj[1]);
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[0])) - 1);
-                key = monthName.toLowerCase() + "-" + String.valueOf(obj[1]);
+                key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[1]);
             }
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualReturned%", String.valueOf(UNIT.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])) + Constant.PERCENT);
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualRPU", String.valueOf(MONEY.format(obj[NumericConstants.EIGHT] == null ? 0 : obj[NumericConstants.EIGHT])));
