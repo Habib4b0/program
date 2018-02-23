@@ -74,7 +74,7 @@ public class GtnWsTreeService {
      * Level NO
      *
      */
-    public GtnWsReportEngineTreeNode buildCCPTree(GtnWsReportEngineTreeNode customer, GtnWsReportEngineTreeNode product, List<Object[]> ccpResult,
+    public GtnWsReportEngineTreeNode formingTreeBasedOnInputs(GtnWsReportEngineTreeNode customer, GtnWsReportEngineTreeNode product, List<Object[]> ccpResult,
             List<Object[]> customViewInput, List<Object[]> deductionHierarchy) {
         GtnWsReportEngineTreeNode rootNode = new GtnWsReportEngineTreeNode();
         rootNode.setLevelNumber(0);
@@ -87,10 +87,10 @@ public class GtnWsTreeService {
                 for (GtnWsReportEngineTreeNode gtnWsTreeNode : nextCCPChildNode) {
                     switch (objects[1].toString()) {
                         case "C":
-                            addCCPJoinNode(customer, gtnWsTreeNode, objects, index, initialLevelNo, "C", ccpResult);
+                            addingInputNodeToParentNodeRecursive(customer, gtnWsTreeNode, objects, index, initialLevelNo, "C", ccpResult);
                             break;
                         case "P":
-                            addCCPJoinNode(product, gtnWsTreeNode, objects, index, initialLevelNo, "P", ccpResult);
+                            addingInputNodeToParentNodeRecursive(product, gtnWsTreeNode, objects, index, initialLevelNo, "P", ccpResult);
                             break;
                         case "D":
                             addCCPDiscountJoinNode(gtnWsTreeNode, objects, index, initialLevelNo, ccpResult, deductionHierarchy);
@@ -118,14 +118,14 @@ public class GtnWsTreeService {
         return resultNode;
     }
 
-    private void addCCPJoinNode(GtnWsReportEngineTreeNode treeNode, GtnWsReportEngineTreeNode rootNode, Object[] objects, int index, int initialLevelNo, String indicator, List<Object[]> ccpResult) {
+    private void addingInputNodeToParentNodeRecursive(GtnWsReportEngineTreeNode treeNode, GtnWsReportEngineTreeNode rootNode, Object[] objects, int index, int initialLevelNo, String indicator, List<Object[]> ccpResult) {
         int currentLevelNo = (int) objects[0];
         int customeViewLevelNo = (int) objects[3];
         if (treeNode.getLevelNumber() != 0 && currentLevelNo == treeNode.getLevelNumber()) {
-            addCCPChildrenRecc(ccpResult, indicator, rootNode, index, initialLevelNo, customeViewLevelNo, treeNode);
+            addingChildNodeToParentNodeRecursive(ccpResult, indicator, rootNode, index, initialLevelNo, customeViewLevelNo, treeNode);
         } else {
             for (GtnWsReportEngineTreeNode childNode : treeNode.getChildren()) {
-                addCCPJoinNode(childNode, rootNode, objects, index, initialLevelNo, indicator, ccpResult);
+                addingInputNodeToParentNodeRecursive(childNode, rootNode, objects, index, initialLevelNo, indicator, ccpResult);
             }
         }
     }
@@ -166,18 +166,18 @@ public class GtnWsTreeService {
         }
 
         for (GtnWsReportEngineTreeNode gtnWsTreeNode : deductionTree) {
-            addCCPChildrenRecc(ccpResult, "D", rootNode, index, initialLevelNo, customeViewLevelNo, gtnWsTreeNode);
+            addingChildNodeToParentNodeRecursive(ccpResult, "D", rootNode, index, initialLevelNo, customeViewLevelNo, gtnWsTreeNode);
         }
 
     }
 
-    private void addCCPChildrenRecc(List<Object[]> ccpResult, String indicator, GtnWsReportEngineTreeNode rootNode,
+    private void addingChildNodeToParentNodeRecursive(List<Object[]> ccpResult, String indicator, GtnWsReportEngineTreeNode rootNode,
             int index, int initialLevelNo, int customeViewLevelNo, GtnWsReportEngineTreeNode treeNode) {
         int ccpIndex = "D".equals(indicator) ? 3 : "C".equals(indicator) ? 1 : 2;
         for (Object[] objects : ccpResult) {
             if (objects[ccpIndex] != null && (objects[ccpIndex].toString().startsWith(treeNode.getHierarchyNo())
                     || ("D".equals(indicator) && objects[ccpIndex] != null
-                    && treeNode.getRsIds() != null && treeNode.getRsIds().contains(Integer.parseInt(objects[ccpIndex].toString())))) && parentCheck(rootNode, objects)) {
+                    && treeNode.getRsIds() != null && treeNode.getRsIds().contains(Integer.parseInt(objects[ccpIndex].toString())))) && checkingParentNodeRecursively(rootNode, objects)) {
                 GtnWsReportEngineTreeNode newNode = new GtnWsReportEngineTreeNode();
                 newNode.setHierarchyNo(treeNode.getHierarchyNo());
                 newNode.setLevelValue(treeNode.getLevelValue());
@@ -200,7 +200,7 @@ public class GtnWsTreeService {
         }
     }
 
-    private boolean parentCheck(GtnWsReportEngineTreeNode rootNode, Object[] objects) {
+    private boolean checkingParentNodeRecursively(GtnWsReportEngineTreeNode rootNode, Object[] objects) {
         boolean returnFlag = false;
         int ccpIndex = "D".equals(rootNode.getIndicator()) ? 3 : "C".equals(rootNode.getIndicator()) ? 1 : 2;
         if ("D".equals(rootNode.getIndicator())) {
@@ -211,12 +211,12 @@ public class GtnWsTreeService {
             } else if (objects[ccpIndex] != null
                     && rootNode.getRsIds() != null && rootNode.getRsIds().contains(Integer.parseInt(objects[ccpIndex].toString()))
                     && rootNode.getCcpIds() != null && rootNode.getCcpIds().contains(Integer.parseInt(objects[0].toString()))) {
-                returnFlag = parentCheck(rootNode.getParent(), objects);
+                returnFlag = checkingParentNodeRecursively(rootNode.getParent(), objects);
             }
         } else if (rootNode.getParent() == null && objects[ccpIndex].toString().startsWith(rootNode.getHierarchyNo())) {
             returnFlag = true;
         } else if (objects[ccpIndex].toString().startsWith(rootNode.getHierarchyNo())) {
-            returnFlag = parentCheck(rootNode.getParent(), objects);
+            returnFlag = checkingParentNodeRecursively(rootNode.getParent(), objects);
         }
 
         return returnFlag;

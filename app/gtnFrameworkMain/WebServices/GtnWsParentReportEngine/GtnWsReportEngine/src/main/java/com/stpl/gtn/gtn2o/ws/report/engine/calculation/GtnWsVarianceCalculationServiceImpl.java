@@ -1,25 +1,25 @@
 package com.stpl.gtn.gtn2o.ws.report.engine.calculation;
 
 import com.stpl.gtn.gtn2o.ws.report.engine.bean.GtnWsVariableCategoryBean;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCalculationValidation;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCalculationValidationService;
 import java.util.List;
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
-import org.bson.Document;
 
-public class GtnWsVarianceCalculation implements GtnWsCalculation {
+public class GtnWsVarianceCalculationServiceImpl implements GtnWsCalculationInterface {
 
     private GtnWsVariableCategoryBean variableCategoryBean;
-    private Document newDocument;
+    private GtnWsAttributeBean newAttribute;
     private String variableCategory;
-    private final GtnWsCalculationValidation gtnWsCalculationValidation = GtnWsCalculationValidation.getInstance();
+    private final GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService.getInstance();
     private int projectionId;
-    private static final Evaluator evaluator = new Evaluator();
+    private static final Evaluator EVALUATOR = new Evaluator();
 
     @Override
     public void initiateCalculation(GtnWsVariableCategoryBean variableCategoryBean) {
         setVariableCategoryBean(variableCategoryBean);
-        setDocument(this.variableCategoryBean.getCalculatedDocument());
+        setNewAttribute(this.variableCategoryBean.getCalculatedNodeAttribute());
         setVariableCategoryStr(this.variableCategoryBean.getVariableCategory());
         setProjectionId(this.variableCategoryBean.getProjectionId());
         calculateVariance();
@@ -29,8 +29,8 @@ public class GtnWsVarianceCalculation implements GtnWsCalculation {
         this.variableCategoryBean = variableCategoryBean;
     }
 
-    private void setDocument(Document newDocument) {
-        this.newDocument = newDocument;
+    private void setNewAttribute(GtnWsAttributeBean newAttribute) {
+        this.newAttribute = newAttribute;
     }
 
     private void setVariableCategoryStr(String variableCategory) {
@@ -45,7 +45,7 @@ public class GtnWsVarianceCalculation implements GtnWsCalculation {
         List<String[]> comparisonBasis = gtnWsCalculationValidation.getComparisonBasis(variableCategoryBean.getComparisonBasis());
         for (String[] basis : comparisonBasis) {
             for (String selectColumn : this.variableCategoryBean.getComparisonBasisArray()) {
-                this.newDocument.append(selectColumn + basis[1] + this.variableCategory + this.projectionId, executeCalculation(selectColumn + basis[0], selectColumn + basis[1]));
+                this.newAttribute.putAttributes(selectColumn + basis[1] + this.variableCategory + this.projectionId, executeCalculation(selectColumn + basis[0], selectColumn + basis[1]));
             }
         }
 
@@ -54,12 +54,12 @@ public class GtnWsVarianceCalculation implements GtnWsCalculation {
     @Override
     public Double executeCalculation(String currentProperty, String priorProperty) {
         try {
-            Object currentObject = this.variableCategoryBean.getCurrentDocument().get(currentProperty);
-            Object priorObject = this.variableCategoryBean.getPriorDocument().get(priorProperty);
+            Object currentObject = this.variableCategoryBean.getCurrentNodeAttribute().getAttributes(currentProperty);
+            Object priorObject = this.variableCategoryBean.getPriorNodeAttribute().getAttributes(priorProperty);
             String current = gtnWsCalculationValidation.getDoubleValue(currentObject);
             String prior = gtnWsCalculationValidation.getDoubleValue(priorObject);
             String formula = prior + "-" + current;
-            return evaluator.getNumberResult(formula);
+            return EVALUATOR.getNumberResult(formula);
         } catch (EvaluationException ex) {
             ex.printStackTrace();
             return 0.0;

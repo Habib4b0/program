@@ -6,11 +6,11 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTr
 
 public class GtnGenerateReportEngine {
 
-    public GtnWsReportEngineTreeNode generateReportOutput(GtnWsReportEngineTreeNode input, GtnWsReportEngineBean engineBean) {
+    public GtnWsReportEngineTreeNode generateReportOutput(GtnWsReportEngineBean engineBean) {
 
-        GtnWsMongoCalculation mongoCalc = new GtnWsMongoCalculation();
-        mongoCalc.setNodeData(input, engineBean);
-        mongoCalc.setVariableCategory(input, engineBean);
-        return input;
+        GtnWsMongoCalculation calculation = new GtnWsMongoCalculation(engineBean);
+        calculation.nodeData();
+        GtnWsReportEngineTreeNode calculatedOutputTree = calculation.variableCategoryCalculation();
+        return calculatedOutputTree;
     }
 }

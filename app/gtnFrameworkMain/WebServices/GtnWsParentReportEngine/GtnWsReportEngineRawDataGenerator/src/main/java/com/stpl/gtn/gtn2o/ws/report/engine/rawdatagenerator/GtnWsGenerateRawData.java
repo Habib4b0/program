@@ -20,7 +20,7 @@ public class GtnWsGenerateRawData {
 
     public static final GtnWsCustomSqlClass SQL_INSTANCE = GtnWsCustomSqlClass.getInstance();
 
-    public List<Object[]> getRawData(int start, int offset) {
+    public List<Object[]> generateRawData(int start, int offset) {
         String query = "IF Object_id('TEMPDB..#tempSales') IS NOT NULL\n"
                 + "DROP TABLE #tempSales\n"
                 + "\n"

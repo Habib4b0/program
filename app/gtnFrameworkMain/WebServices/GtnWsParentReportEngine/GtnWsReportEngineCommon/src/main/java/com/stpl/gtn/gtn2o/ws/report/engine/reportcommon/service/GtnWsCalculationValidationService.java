@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GtnWsCalculationValidation {
+public class GtnWsCalculationValidationService {
 
-    private static volatile GtnWsCalculationValidation gtnWsCalculationValidation;
+    private static GtnWsCalculationValidationService gtnWsCalculationValidation;
     private static final Map<String, List<String[]>> COMPARISON_BASIS = new HashMap<>();
     private static final String DECIMAL_DEFAULT = "0.0";
 
-    private GtnWsCalculationValidation() {
+    private GtnWsCalculationValidationService() {
         super();
     }
 
-    public static synchronized GtnWsCalculationValidation getInstance() {
+    public static GtnWsCalculationValidationService getInstance() {
         if (gtnWsCalculationValidation == null) {
-            gtnWsCalculationValidation = new GtnWsCalculationValidation();
+            gtnWsCalculationValidation = new GtnWsCalculationValidationService();
             loadComparisonBasisMap();
         }
         return gtnWsCalculationValidation;

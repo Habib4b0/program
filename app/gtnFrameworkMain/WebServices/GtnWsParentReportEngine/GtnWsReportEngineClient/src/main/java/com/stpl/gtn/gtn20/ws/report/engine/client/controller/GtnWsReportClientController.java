@@ -33,23 +33,24 @@ public class GtnWsReportClientController {
     private GtnWsReportEngineTreeNode getGtnGeneratedReportOutput(GtnWsReportEngineTreeNode input, List<GtnWsProjectionBean> customizedRawList) {
         writeRawDataToMongo("D:\\Jayaram\\report0.json", customizedRawList);
         GtnGenerateReportEngine engine = new GtnGenerateReportEngine();
-        GtnWsReportEngineBean engineBean = getGtnWsReportEngineBean();
-        GtnWsReportEngineTreeNode output = engine.generateReportOutput(input, engineBean);
+        GtnWsReportEngineBean engineBean = getGtnWsReportEngineBean(input);
+        GtnWsReportEngineTreeNode output = engine.generateReportOutput(engineBean);
         GtnWsReportInputGenerator.shutdown();
         return output;
     }
 
     private void writeRawDataToMongo(String filename, List<GtnWsProjectionBean> rawData) {
-        JSON_SERVICE_INSTANCE.jsonWrite(filename, rawData);
+        JSON_SERVICE_INSTANCE.writeToJsonFile(filename, rawData);
     }
 
-    private GtnWsReportEngineBean getGtnWsReportEngineBean() {
+    private GtnWsReportEngineBean getGtnWsReportEngineBean(GtnWsReportEngineTreeNode input) {
         GtnWsReportEngineBean engineBean = new GtnWsReportEngineBean();
         engineBean.setSelectedProjectionId(0);
         engineBean.setComparisonBasis("Actuals");
-        engineBean.addCollection("calculation");
-        engineBean.addCollection("calculation1");
-//        engineBean.addCollection("calculation2");
+        engineBean.setInput(input);
+        engineBean.addCollection("projection");
+        engineBean.addCollection("projection1");
+        engineBean.addCollection("projection2");
         return engineBean;
     }
 }

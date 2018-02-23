@@ -22,7 +22,7 @@ public class GtnWsJsonService {
         return JSON_SERVICE;
     }
 
-    public List jsonRead(String filePath, Class className) {
+    public List convertJsonToList(String filePath, Class className) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -34,7 +34,7 @@ public class GtnWsJsonService {
         }
     }
 
-    public void jsonWrite(String filePath, Object obj) {
+    public void writeToJsonFile(String filePath, Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             // Convert object to JSON string and save into a file directly

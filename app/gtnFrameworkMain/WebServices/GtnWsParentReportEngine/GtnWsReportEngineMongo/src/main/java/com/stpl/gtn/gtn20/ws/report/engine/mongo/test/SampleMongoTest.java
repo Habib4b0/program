@@ -9,18 +9,20 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.in;
 
-import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnection;
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnectionService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.bson.Document;
+import static com.mongodb.client.model.Filters.in;
+import static com.mongodb.client.model.Filters.in;
 import static com.mongodb.client.model.Filters.in;
 
 public class SampleMongoTest {
 
     public static void main(String[] args) throws InterruptedException {
         SampleMongoTest test = new SampleMongoTest();
-        MongoDatabase instance = GtnWsMongoDBConnection.getDBInstance();
+        MongoDatabase instance = GtnWsMongoDBConnectionService.getDBInstance();
         System.out.println(instance.getName());
 //        instance.createCollection("sample");
         MongoCollection<Document> ins = instance.getCollection("test1");

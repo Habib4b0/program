@@ -12,12 +12,9 @@ public class GtnWsRawDataCustomiseService {
     private static final GtnWsGenerateRawData RAW_DATA_INSTANCE = GtnWsGenerateRawData.getInstance();
 
     public List<GtnWsProjectionBean> generateApprovedData() {
-        List<Object[]> rawList = RAW_DATA_INSTANCE.getRawData(0, 0);
+        List<Object[]> rawList = RAW_DATA_INSTANCE.generateRawData(0, 0);
         List<GtnWsProjectionBean> customizedRawList = customizeRawApprovedData(rawList);
         return customizedRawList;
-//        JSON_SERVICE_INSTANCE.jsonWrite("D:\\Jayaram\\report0.json", customizedRawList);
-
-        //Need to call mongo import
     }
 
     private List<GtnWsProjectionBean> customizeRawApprovedData(List<Object[]> rawList) {
@@ -27,8 +24,8 @@ public class GtnWsRawDataCustomiseService {
         String rsOldValue = "", rsNewValue = "";
         int oldPeriod = 0, newPeriod = 0;
         List<GtnWsProjectionBean> returnList = new ArrayList<>();
-        GtnWsProjectionBean bean = null;
-        GtnWsProjectionDetailsValuesBean detailsBean = null;
+        GtnWsProjectionBean projectionBean = null;
+        GtnWsProjectionDetailsValuesBean projectionDetailsValuesBean = null;
         GtnWsDiscountBean discountBean = null;
         int size = rawList.size();
         for (int i = 0; i < size; i++) {
@@ -37,54 +34,54 @@ public class GtnWsRawDataCustomiseService {
             rsNewValue = obj[2] + "";
             newPeriod = Integer.parseInt(obj[1] + "");
             if (!oldValue.equals(newValue)) {
-                bean = new GtnWsProjectionBean();
-                detailsBean = new GtnWsProjectionDetailsValuesBean();
+                projectionBean = new GtnWsProjectionBean();
+                projectionDetailsValuesBean = new GtnWsProjectionDetailsValuesBean();
                 discountBean = new GtnWsDiscountBean();
-                bean.setCcpId(Integer.parseInt(newValue));
-                detailsBean.setPeriodSid(Integer.parseInt(obj[1] + ""));
-                detailsBean.setSalesActuals(setDoubleValue(obj[3]));
-                detailsBean.setSalesProjection(setDoubleValue(obj[5]));
-                detailsBean.setSalesUnitsActuals(setDoubleValue(obj[4]));
-                detailsBean.setSalesUnitsProjection(setDoubleValue(obj[6]));
-                detailsBean.setQuarter(setIntValue(obj[9]));
-                detailsBean.setSemiAnnual(setIntValue(obj[10]));
-                detailsBean.setYear(setIntValue(obj[11]));
-                detailsBean.setExfactoryActuals(setDoubleValue(obj[12]));
-                detailsBean.setExfactoryProjection(setDoubleValue(obj[13]));
+                projectionBean.setCcpId(Integer.parseInt(newValue));
+                projectionDetailsValuesBean.setPeriodSid(Integer.parseInt(obj[1] + ""));
+                projectionDetailsValuesBean.setSalesActuals(getDoubleValue(obj[3]));
+                projectionDetailsValuesBean.setSalesProjection(getDoubleValue(obj[5]));
+                projectionDetailsValuesBean.setSalesUnitsActuals(getDoubleValue(obj[4]));
+                projectionDetailsValuesBean.setSalesUnitsProjection(getDoubleValue(obj[6]));
+                projectionDetailsValuesBean.setQuarter(getIntValue(obj[9]));
+                projectionDetailsValuesBean.setSemiAnnual(getIntValue(obj[10]));
+                projectionDetailsValuesBean.setYear(getIntValue(obj[11]));
+                projectionDetailsValuesBean.setExfactoryActuals(getDoubleValue(obj[12]));
+                projectionDetailsValuesBean.setExfactoryProjection(getDoubleValue(obj[13]));
                 if (!"null".equals(rsNewValue)) {
                     discountBean.setRsId(Integer.parseInt(rsNewValue));
-                    discountBean.setDiscountActuals(setDoubleValue(obj[7]));
-                    discountBean.setDiscountProjection(setDoubleValue(obj[8]));
-                    detailsBean.addDiscountBean(discountBean);
+                    discountBean.setDiscountActuals(getDoubleValue(obj[7]));
+                    discountBean.setDiscountProjection(getDoubleValue(obj[8]));
+                    projectionDetailsValuesBean.addDiscountBean(discountBean);
                 }
-                bean.addProjectionDetailsValues(detailsBean);
-                returnList.add(bean);
+                projectionBean.addProjectionDetailsValues(projectionDetailsValuesBean);
+                returnList.add(projectionBean);
             } else if (oldPeriod != newPeriod) {
-                detailsBean = new GtnWsProjectionDetailsValuesBean();
-                detailsBean.setPeriodSid(Integer.parseInt(obj[1] + ""));
-                detailsBean.setSalesActuals(setDoubleValue(obj[3]));
-                detailsBean.setSalesProjection(setDoubleValue(obj[5]));
-                detailsBean.setSalesUnitsActuals(setDoubleValue(obj[4]));
-                detailsBean.setSalesUnitsProjection(setDoubleValue(obj[6]));
-                detailsBean.setQuarter(setIntValue(obj[9]));
-                detailsBean.setSemiAnnual(setIntValue(obj[10]));
-                detailsBean.setYear(setIntValue(obj[11]));
-                detailsBean.setExfactoryActuals(setDoubleValue(obj[12]));
-                detailsBean.setExfactoryProjection(setDoubleValue(obj[13]));
+                projectionDetailsValuesBean = new GtnWsProjectionDetailsValuesBean();
+                projectionDetailsValuesBean.setPeriodSid(Integer.parseInt(obj[1] + ""));
+                projectionDetailsValuesBean.setSalesActuals(getDoubleValue(obj[3]));
+                projectionDetailsValuesBean.setSalesProjection(getDoubleValue(obj[5]));
+                projectionDetailsValuesBean.setSalesUnitsActuals(getDoubleValue(obj[4]));
+                projectionDetailsValuesBean.setSalesUnitsProjection(getDoubleValue(obj[6]));
+                projectionDetailsValuesBean.setQuarter(getIntValue(obj[9]));
+                projectionDetailsValuesBean.setSemiAnnual(getIntValue(obj[10]));
+                projectionDetailsValuesBean.setYear(getIntValue(obj[11]));
+                projectionDetailsValuesBean.setExfactoryActuals(getDoubleValue(obj[12]));
+                projectionDetailsValuesBean.setExfactoryProjection(getDoubleValue(obj[13]));
                 if (!"null".equals(rsNewValue) && !rsOldValue.equals(rsNewValue)) {
                     discountBean = new GtnWsDiscountBean();
                     discountBean.setRsId(Integer.parseInt(rsNewValue));
-                    discountBean.setDiscountActuals(setDoubleValue(obj[7]));
-                    discountBean.setDiscountProjection(setDoubleValue(obj[8]));
-                    detailsBean.addDiscountBean(discountBean);
+                    discountBean.setDiscountActuals(getDoubleValue(obj[7]));
+                    discountBean.setDiscountProjection(getDoubleValue(obj[8]));
+                    projectionDetailsValuesBean.addDiscountBean(discountBean);
                 }
-                bean.addProjectionDetailsValues(detailsBean);
+                projectionBean.addProjectionDetailsValues(projectionDetailsValuesBean);
             } else if (!"null".equals(rsNewValue) && !rsOldValue.equals(rsNewValue)) {
                 discountBean = new GtnWsDiscountBean();
                 discountBean.setRsId(Integer.parseInt(rsNewValue));
-                discountBean.setDiscountActuals(setDoubleValue(obj[7]));
-                discountBean.setDiscountProjection(setDoubleValue(obj[8]));
-                detailsBean.addDiscountBean(discountBean);
+                discountBean.setDiscountActuals(getDoubleValue(obj[7]));
+                discountBean.setDiscountProjection(getDoubleValue(obj[8]));
+                projectionDetailsValuesBean.addDiscountBean(discountBean);
             }
             oldValue = newValue;
             rsOldValue = rsNewValue;
@@ -96,7 +93,7 @@ public class GtnWsRawDataCustomiseService {
         return returnList;
     }
 
-    public Double setDoubleValue(Object obj) {
+    public Double getDoubleValue(Object obj) {
         if (obj == null) {
             return null;
         }
@@ -104,7 +101,7 @@ public class GtnWsRawDataCustomiseService {
 
     }
 
-    public int setIntValue(Object obj) {
+    public int getIntValue(Object obj) {
         if (obj == null) {
             return 0;
         }

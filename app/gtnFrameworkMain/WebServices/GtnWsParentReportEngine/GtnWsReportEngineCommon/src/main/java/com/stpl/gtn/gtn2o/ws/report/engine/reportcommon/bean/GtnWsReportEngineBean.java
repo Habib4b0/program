@@ -5,11 +5,13 @@ import java.util.List;
 
 public class GtnWsReportEngineBean {
 
-    List<String> collection = new ArrayList();
+    private List<String> collection = new ArrayList();
 
-    int selectedProjectionId;
+    private int selectedProjectionId;
 
-    String comparisonBasis;
+    private String comparisonBasis;
+
+    private GtnWsReportEngineTreeNode input;
 
     public List<String> getCollection() {
         return collection;
@@ -33,6 +35,14 @@ public class GtnWsReportEngineBean {
 
     public void setComparisonBasis(String comparisonBasis) {
         this.comparisonBasis = comparisonBasis;
+    }
+
+    public GtnWsReportEngineTreeNode getInput() {
+        return input;
+    }
+
+    public void setInput(GtnWsReportEngineTreeNode input) {
+        this.input = input;
     }
 
 }

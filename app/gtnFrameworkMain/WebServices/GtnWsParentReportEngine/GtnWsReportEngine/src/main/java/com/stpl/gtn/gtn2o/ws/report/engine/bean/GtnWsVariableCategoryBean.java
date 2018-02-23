@@ -1,14 +1,13 @@
 package com.stpl.gtn.gtn2o.ws.report.engine.bean;
 
-import com.stpl.gtn.gtn2o.ws.report.engine.calculation.GtnWsCalculationType;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import java.text.DecimalFormat;
-import org.bson.Document;
 
 public class GtnWsVariableCategoryBean {
 
-    private Document currentDocument;
-    private Document priorDocument;
-    private Document calculatedDocument;
+    private GtnWsAttributeBean currentNodeAttribute;
+    private GtnWsAttributeBean priorNodeAttribute;
+    private GtnWsAttributeBean calculatedNodeAttribute;
     private GtnWsCalculationType calculationType;
     private String variableCategory;
     private DecimalFormat decimalFormat;
@@ -19,28 +18,28 @@ public class GtnWsVariableCategoryBean {
 //        "grossContractSalesPerExFactory", "deductionPerExfactory", "netContractSalesPerExfactory", "netExfactorySales", "contractSalesPerTotalContractSales",
 //        "netExfactorySalesPerTotalExfactory"};
 
-    public Document getCurrentDocument() {
-        return currentDocument;
+    public GtnWsAttributeBean getCurrentNodeAttribute() {
+        return currentNodeAttribute;
     }
 
-    public void setCurrentDocument(Document currentDocument) {
-        this.currentDocument = currentDocument;
+    public void setCurrentNodeAttribute(GtnWsAttributeBean currentNodeAttribute) {
+        this.currentNodeAttribute = currentNodeAttribute;
     }
 
-    public Document getPriorDocument() {
-        return priorDocument;
+    public GtnWsAttributeBean getPriorNodeAttribute() {
+        return priorNodeAttribute;
     }
 
-    public void setPriorDocument(Document priorDocument) {
-        this.priorDocument = priorDocument;
+    public void setPriorNodeAttribute(GtnWsAttributeBean priorNodeAttribute) {
+        this.priorNodeAttribute = priorNodeAttribute;
     }
 
-    public Document getCalculatedDocument() {
-        return calculatedDocument;
+    public GtnWsAttributeBean getCalculatedNodeAttribute() {
+        return calculatedNodeAttribute;
     }
 
-    public void setCalculatedDocument(Document calculatedDocument) {
-        this.calculatedDocument = calculatedDocument;
+    public void setCalculatedNodeAttribute(GtnWsAttributeBean calculatedNodeAttribute) {
+        this.calculatedNodeAttribute = calculatedNodeAttribute;
     }
 
     public GtnWsCalculationType getCalculationType() {

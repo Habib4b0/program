@@ -47,7 +47,7 @@ public class GtnWsReportInputGenerator {
     }
 
     private GtnWsReportEngineTreeNode buildStructure(int caseNo, GtnWsReportEngineTreeNode customerRootNode, GtnWsReportEngineTreeNode productrootNode, List<Object[]> ccpResult, List<Object[]> deductionList) {
-        GtnWsReportEngineTreeNode ccpNode = TREE_SERVICE.buildCCPTree(customerRootNode, productrootNode, ccpResult, QUERY.getCustomViewWithDiscountLevel(caseNo), deductionList);
+        GtnWsReportEngineTreeNode ccpNode = TREE_SERVICE.formingTreeBasedOnInputs(customerRootNode, productrootNode, ccpResult, QUERY.getCustomViewWithDiscountLevel(caseNo), deductionList);
         displayNodeValues(ccpNode);
         return ccpNode;
     }
