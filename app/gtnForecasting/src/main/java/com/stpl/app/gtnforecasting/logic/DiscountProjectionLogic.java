@@ -20,7 +20,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getMonthForInt;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.MSalesProjectionMasterLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
@@ -186,17 +185,17 @@ public class DiscountProjectionLogic {
         levelNo = Integer.parseInt(String.valueOf(detailsList.get(0)));
         hierarchyNo = String.valueOf(detailsList.get(1));
         treeLevelNo = Integer.parseInt(String.valueOf(detailsList.get(NumericConstants.TWO)));
-        LOGGER.debug(" isCount " + isCount);
-        LOGGER.debug(" level no " + levelNo);
-        LOGGER.debug(" customTreeLevelNo " + treeLevelNo);
-        LOGGER.info(" Hierarchy No " + hierarchyNo);
-        LOGGER.debug(" Hierarchy Indicator " + hierarchyIndicator);
-        LOGGER.debug("Start:" + start);
-        LOGGER.debug(" history " + history);
-        LOGGER.debug(" rightDto " + rightDto);
-        LOGGER.debug(" relationshipBuilderSid " + relationshipBuilderSid);
-        LOGGER.debug(" isRefresh " + isRefresh);
-        LOGGER.debug("Offset:" + offset);
+        LOGGER.debug(" isCount= {} " , isCount);
+        LOGGER.debug(" level no= {} " , levelNo);
+        LOGGER.debug(" customTreeLevelNo= {} " , treeLevelNo);
+        LOGGER.info(" Hierarchy No= {} " , hierarchyNo);
+        LOGGER.debug(" Hierarchy Indicator= {} " , hierarchyIndicator);
+        LOGGER.debug("Start= {}" , start);
+        LOGGER.debug(" history= {} " , history);
+        LOGGER.debug(" rightDto= {} " , rightDto);
+        LOGGER.debug(" relationshipBuilderSid= {} " , relationshipBuilderSid);
+        LOGGER.debug(" isRefresh= {} " , isRefresh);
+        LOGGER.debug("Offset= {}" , offset);
         List discountProjectionList = Collections.EMPTY_LIST;
         if (levelNo != 0) {
             if (CommonUtil.isValueEligibleForLoading() && !isCustom) {
@@ -207,7 +206,6 @@ public class DiscountProjectionLogic {
                         hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup);
             }
         }
-        //To Return the list as it is for the getCount method of Pagination table
         if (isCount) {
             return discountProjectionList;
         }
@@ -303,7 +301,6 @@ public class DiscountProjectionLogic {
                             }
                         }
 
-                        // To handle count for various discounts
                         if (!isCustom) {
                             if (!discountName.equals(String.valueOf(obj[NumericConstants.FOUR]))) {
                                 discountName = String.valueOf(obj[NumericConstants.FOUR]);
@@ -332,7 +329,6 @@ public class DiscountProjectionLogic {
                         } else if (frequency.equals(ANNUALLY.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
-                        // For Triple Header
                         String commonColumn = StringUtils.EMPTY;
                         if (!isCustom) {
                             commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + column;
@@ -367,10 +363,10 @@ public class DiscountProjectionLogic {
                     }
                 }
             }
-            LOGGER.debug(" projectionPeriodorder " + projectionPeriodorder);
-            LOGGER.debug(" year " + year);
-            LOGGER.debug(" refreshHierarchyNumbers " + refreshHierarchyNumbers);
-            LOGGER.debug(" isParent " + isParent);
+            LOGGER.debug(" projectionPeriodorder= {} " , projectionPeriodorder);
+            LOGGER.debug(" year= {} " , year);
+            LOGGER.debug(" refreshHierarchyNumbers= {} " , refreshHierarchyNumbers);
+            LOGGER.debug(" isParent= {} " , isParent);
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
@@ -460,7 +456,7 @@ public class DiscountProjectionLogic {
             String query = SQlUtil.getQuery("discount-adjustment-query-Validation");
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             return list.get(0) != null ? (Integer.parseInt(String.valueOf(list.get(0))) > 1) : false;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
              LOGGER.error(e.getMessage());
         }
         return false;
@@ -591,12 +587,12 @@ public class DiscountProjectionLogic {
                 productHierachyNo = dto.getProductHierarchyNo();
                 deductionHierachyNo = dto.getDeductionHierarchyNo();
 
-                LOGGER.debug(" SaveDTO - Custom hierarchy --- \n customId " + customId);
-                LOGGER.debug(" SaveDTO - Hierarchy indicator " + dto.getHierarchyIndicator());
-                LOGGER.debug(" SaveDTO - customerLevelNo " + customerLevelNo);
-                LOGGER.debug(" SaveDTO - customerHierarchyNo " + customerHierarchyNo);
-                LOGGER.debug(" SaveDTO - productLevelNo " + productLevelNo);
-                LOGGER.debug(" SaveDTO - productHierarchyNo " + productHierachyNo);
+                LOGGER.debug(" SaveDTO - Custom hierarchy --- \n customId= {} " , customId);
+                LOGGER.debug(" SaveDTO - Hierarchy indicator= {} " , dto.getHierarchyIndicator());
+                LOGGER.debug(" SaveDTO - customerLevelNo= {} " , customerLevelNo);
+                LOGGER.debug(" SaveDTO - customerHierarchyNo= {} " , customerHierarchyNo);
+                LOGGER.debug(" SaveDTO - productLevelNo= {} " , productLevelNo);
+                LOGGER.debug(" SaveDTO - productHierarchyNo= {} " , productHierachyNo);
                 customViewDetails.add(StringUtils.EMPTY + customId);
                 customViewDetails.add(customerLevelNo);
                 customViewDetails.add(customerHierarchyNo);
@@ -807,14 +803,14 @@ public class DiscountProjectionLogic {
      */
     public boolean callDPProcedure(SessionDTO session, ProjectionSelectionDTO projectionSelection) {
         LOGGER.debug("Entering callDPProcedure  : PRC_NM_DISCOUNT_PROJECTION");
-        LOGGER.debug("Projection ID " + session.getProjectionId());
-        LOGGER.debug("Frequency                " + String.valueOf(session.getFrequency()));
-        LOGGER.debug("UserId                   " + session.getUserId());
-        LOGGER.debug("Session Id               " + session.getSessionId());
-        LOGGER.debug("Forecast Start               " + projectionSelection.getFromDateDdlb());
-        LOGGER.debug("Forecast End              " + projectionSelection.getToDateDdlb());
-        LOGGER.debug("Calc Based              " + projectionSelection.getCalcBased());
-        LOGGER.debug("DEDUCTION  " + ((projectionSelection.getSessionDTO().getDeductionInclusion() == null || ALL.equals(projectionSelection.getSessionDTO().getDeductionInclusion())) ? null : projectionSelection.getSessionDTO().getDeductionInclusion()));
+        LOGGER.debug("Projection ID= {}            " , session.getProjectionId());
+        LOGGER.debug("Frequency= {}                " , String.valueOf(session.getFrequency()));
+        LOGGER.debug("UserId= {}                   " , session.getUserId());
+        LOGGER.debug("Session Id= {}               " , session.getSessionId());
+        LOGGER.debug("Forecast Start= {}           " , projectionSelection.getFromDateDdlb());
+        LOGGER.debug("Forecast End= {}             " , projectionSelection.getToDateDdlb());
+        LOGGER.debug("Calc Based= {}               " , projectionSelection.getCalcBased());
+        LOGGER.debug("DEDUCTION= {}                " , ((projectionSelection.getSessionDTO().getDeductionInclusion() == null || ALL.equals(projectionSelection.getSessionDTO().getDeductionInclusion())) ? null : projectionSelection.getSessionDTO().getDeductionInclusion()));
 
         DataSource datasource = null;
 
@@ -873,7 +869,7 @@ public class DiscountProjectionLogic {
     }
 
     public DiscountProjectionDTO getTotalProjectionList(String userId, String sesionId, String view, String frequency, DiscountProjectionDTO totalDTO, List<Integer> startAndEndPeriods, String detailsValue) {
-        LOGGER.debug("Details Id:==========>" + detailsValue);
+        LOGGER.debug("Details Id:==========>= {}" , detailsValue);
         String queryList = SQlUtil.getQuery("getAlternateHistoryProjectionTotal");
         queryList = queryList.replace("[@PROJECTION_DETAILS_SID]", detailsValue);
         queryList = queryList.replace("[@Frequency]", frequency);
@@ -909,7 +905,6 @@ public class DiscountProjectionLogic {
                     } else if (frequency.equals(ANNUALLY.getConstant())) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }
-                    // For Triple Header
                     commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + commonColumn;
                     String ACTUAL_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.THREE])) ? DASH : String.valueOf(obj[NumericConstants.THREE]);
                     String PROJ_AMT_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOUR])) ? DASH : String.valueOf(obj[NumericConstants.FOUR]);
@@ -943,7 +938,6 @@ public class DiscountProjectionLogic {
                         discountName = StringUtils.EMPTY;
                         levelId = String.valueOf(obj[NumericConstants.THREE]);
                         discountDto.setHierarchyNo(String.valueOf(obj[NumericConstants.TWO]));
-//                        discountDto.setLevelName(session.getLevelValueDiscription(discountDto.getHierarchyNo(), hierarchyIndicator));
                         discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
                         discountDto.setAlternatePivotList(discountProjectionList);
                         if (isCustom) {
@@ -969,7 +963,6 @@ public class DiscountProjectionLogic {
                             discountDto.addStringProperties(Constant.GROUP, group);
                         }
                     }
-                    // To handle count for various discounts
                     if (!discountName.equals(String.valueOf(obj[NumericConstants.SEVEN]))) {
                         discountName = String.valueOf(obj[NumericConstants.SEVEN]);
                         ccpCountForDiscount.put(discountName, Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));

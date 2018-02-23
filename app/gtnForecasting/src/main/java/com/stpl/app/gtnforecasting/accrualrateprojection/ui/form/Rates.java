@@ -99,7 +99,7 @@ public class Rates extends CustomComponent {
 
     private ExtContainer<AccrualRateProjectionDTO> resultBeanContainer;
 
-    private static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    private static final ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
 
     private final AccrualRateProjectionLogic accrualRateProjectionLogic = AccrualRateProjectionLogic.getInstance();
 

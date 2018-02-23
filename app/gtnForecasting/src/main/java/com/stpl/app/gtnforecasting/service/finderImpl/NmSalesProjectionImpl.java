@@ -34,7 +34,7 @@ public class NmSalesProjectionImpl {
         try {
 
             String method = (String) inputs[8];
-            LOGGER.debug("method : "+method);
+            LOGGER.debug("method = {} ",method);
             if (method.equals("fetchSalesResult")) {
 
                 String projectionId = String.valueOf(inputs[0]);
@@ -60,31 +60,7 @@ public class NmSalesProjectionImpl {
                 String methodology=(String) inputs[21];
                String baseLine=(String) inputs[22];
                 
-//                LOGGER.debug("input  0------- >>>"+inputs[0]);
-//                LOGGER.debug("input  1------- >>>"+inputs[1]);
-//                LOGGER.debug("input  2------- >>>"+inputs[2]);
-//                LOGGER.debug("input  3------- >>>"+inputs[3]);
-//                LOGGER.debug("input  4------- >>>"+inputs[4]);
-//                LOGGER.debug("input  5------- >>>"+inputs[5]);
-//                LOGGER.debug("input  6------- >>>"+inputs[6]);
-//                LOGGER.debug("input  7-------  >>"+inputs[7]);
-//                LOGGER.debug("input  8-------  >>"+inputs[8]);
-//                LOGGER.debug("input  9-------  >>"+inputs[9]);
-//                LOGGER.debug("input  10------- >>>"+inputs[10]);
-//                LOGGER.debug("input  11------- >>>"+inputs[11]);
-//                LOGGER.debug("input  12------- >>>"+inputs[12]);
-//                LOGGER.debug("input  13------- >>>"+inputs[13]);
-//                LOGGER.debug("input  14------- >>>"+inputs[14]);
-//                LOGGER.debug("input  15------- >>>"+inputs[15]);
-//                LOGGER.debug("input  16------- >>>"+inputs[16]);
-//                LOGGER.debug("input  17------- >>>"+inputs[17]);
-//                LOGGER.debug("input  18------- >>>"+inputs[18]);
-//                LOGGER.debug("input  19------- >>>"+inputs[19]);
-//                LOGGER.debug("input  20------- >>>"+inputs[20]);
-//                  LOGGER.debug("input  21------- >>>"+inputs[21]);
-//                LOGGER.debug("input  22------- >>>"+inputs[22]);
              
-        //    -
                 if (!iscustom) {
                     parentLevel = levelNo - 1;
 
@@ -140,33 +116,21 @@ public class NmSalesProjectionImpl {
                             + "sum(nm_ac.HISTORY_PROJECTION_SALES) as historySales ,  sum(nm_ac.HISTORY_PROJECTION_UNITS) as historyUnits ,   \n  \n");
                     queryBuilder1.append("      min(CASE(CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,rld.LEVEL_Name as hierarchyLecel,    ");
                       
-                    queryBuilder1.append("  count(distinct case when  nm_mas.CALCULATION_PERIODS is null then '1' else  nm_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,    ");
-                    queryBuilder1.append("  count(distinct case when  nm_mas.METHODOLOGY is null then '1' else  nm_mas.METHODOLOGY end)     AS methoCount,    ");
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATE);
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_METHODOLOGY);
                     queryBuilder1.append(" count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount, SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT    ");
                 }
                 queryBuilder1.append("     FROM   projection_details pd     \n   \n");
                 if (!iscustom) {
-//                    if (viewType.equals("C")) {
-//
-//                        queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY ph  \n   \n");
-//
-//                    } else {
-//
-//                        queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY ph   \n  \n");
-//
-//                    }
-//
-//                    queryBuilder1.append("   ON pd.PROJECTION_MASTER_SID = ph.PROJECTION_MASTER_SID      \n  \n");
 
-             //   queryBuilder1.append("   ON ph.RELATIONSHIP_LEVEL_SID = rld.RELATIONSHIP_LEVEL_SID   \n  \n");
                     queryBuilder1.append("        JOIN (SELECT distinct LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from     \n  \n");
                     queryBuilder1.append("   (SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from     \n  \n");
                     queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID    \n   \n");
                     queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD     \n  \n");
                     queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID     \n \n");
-                    queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'    \n  \n");
+                    queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'    \n  \n");
                     queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID     \n  \n");
-                    queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,     \n  \n");
+                    queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,     \n  \n");
                     queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID    \n  \n");
                     queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1      \n \n");
 
@@ -180,8 +144,8 @@ public class NmSalesProjectionImpl {
 
                     }
                     queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID     \n  \n");
-                    queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n \n");
-                    queryBuilder1.append("   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n");
+                    queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'      \n \n");
+                    queryBuilder1.append(WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                     queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP    \n  \n");
                     queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in     \n  \n");
                     queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO      \n \n");
@@ -197,7 +161,7 @@ public class NmSalesProjectionImpl {
                     }
 
                     queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID      \n \n");
-                    queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'     \n  \n");
+                    queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'     \n  \n");
                     queryBuilder1.append("   WHERE RLD2.LEVEL_NO='" + (levelNo) + "')) CCP    \n  \n");
 
                 } else {
@@ -276,7 +240,6 @@ public class NmSalesProjectionImpl {
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID    \n");
 
                 if (!iscustom) {
-//                    queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  ph.RELATIONSHIP_LEVEL_SID = rld.RELATIONSHIP_LEVEL_SID AND CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID ");
                     queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID ");
                 } else {
                     queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID ");
@@ -284,7 +247,6 @@ public class NmSalesProjectionImpl {
 
                 queryBuilder1.append("   JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas     \n \n");
                 queryBuilder1.append("   ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID       \n\n");
-//                queryBuilder1.append("   JOIN HIERARCHY_LEVEL_DEFINITION HLD  ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=rld.HIERARCHY_LEVEL_DEFINITION_SID    \n\n");
                 queryBuilder1.append("   JOIN  ST_NM_ACTUAL_SALES nm_ac     \n");
                 queryBuilder1.append("   ON nm_mas.PROJECTION_DETAILS_SID = nm_ac.PROJECTION_DETAILS_SID     \n \n");
                 queryBuilder1.append("   JOIN PERIOD p     \n");
@@ -327,31 +289,24 @@ public class NmSalesProjectionImpl {
                     queryBuilder1.append("    min(CASE(CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,rld.LEVEL_Name as hierarchyLecel,     ");
                     
                   
-                    queryBuilder1.append("  count(distinct case when  nm_mas.CALCULATION_PERIODS is null then '1' else  nm_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,    ");
-                    queryBuilder1.append("  count(distinct case when  nm_mas.METHODOLOGY is null then '1' else  nm_mas.METHODOLOGY end)     AS methoCount,    ");
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATE);
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_METHODOLOGY);
                     queryBuilder1.append(" count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount, SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT      "); 
                     
                     queryBuilder1.append("     FROM   projection_details pd   \n");
 
                     if (!iscustom) {
-//                        if (viewType.equals("C")) {
-//                            queryBuilder1.append("     JOIN PROJECTION_CUST_HIERARCHY ph     \n");
-//                        } else {
-//                            queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY ph     \n");
-//                        }
-//
-//                        queryBuilder1.append("  ON pd.PROJECTION_MASTER_SID = ph.PROJECTION_MASTER_SID    \n");
 
                         queryBuilder1.append("        JOIN (SELECT distinct LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from       \n");
                         queryBuilder1.append("   (SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from       \n");
                         queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                         queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                         queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                        queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                        queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
 
                         queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                        queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                        queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                         queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                         queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -365,8 +320,8 @@ public class NmSalesProjectionImpl {
 
                         }
                         queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                        queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-                        queryBuilder1.append("   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n");
+                        queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
+                        queryBuilder1.append(WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                         queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                         queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
                         queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO       \n");
@@ -382,7 +337,7 @@ public class NmSalesProjectionImpl {
                         }
 
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                         queryBuilder1.append("   WHERE RLD2.LEVEL_NO='" + (levelNo) + "')) CCP      \n");
 
                     } else {
@@ -461,14 +416,12 @@ public class NmSalesProjectionImpl {
                     queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID    \n");
 
                     if (!iscustom) {
-//                        queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  ph.RELATIONSHIP_LEVEL_SID = rld.RELATIONSHIP_LEVEL_SID AND CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID ");
                         queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID ");
                     } else {
                         queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID ");
                     }
                     queryBuilder1.append("  JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas   \n");
                     queryBuilder1.append("  ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID   \n");
-//                    queryBuilder1.append("   JOIN HIERARCHY_LEVEL_DEFINITION HLD  ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=rld.HIERARCHY_LEVEL_DEFINITION_SID    \n\n");
                     queryBuilder1.append("  JOIN ST_NM_SALES_PROJECTION nm_sp \n");
                     queryBuilder1.append("  ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID    \n");
                     queryBuilder1.append("  JOIN PERIOD p  ON p.period_sid = nm_sp.PERIOD_SID     WHERE  pd.PROJECTION_MASTER_SID =  '" + (projectionId) + "'  \n");
@@ -493,7 +446,6 @@ public class NmSalesProjectionImpl {
                      
                     
                     queryBuilder1.append("  GROUP  BY rld.RELATIONSHIP_LEVEL_VALUES,p.QUARTER ,rld.LEVEL_NO,p.\"YEAR\"  ,rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO ,rld.LEVEL_NAME \n");
-//                            + " order by rld.RELATIONSHIP_LEVEL_VALUES,p.\"YEAR\",p.QUARTER     \n");
 
 
                     queryBuilder1.append("   ) Q) MAINQ WHERE  MAINQ.TEMP_INDEX > @Start AND MAINQ.TEMP_INDEX <= ( @Start + @End )  \n");
@@ -583,11 +535,11 @@ public class NmSalesProjectionImpl {
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
 
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -601,7 +553,7 @@ public class NmSalesProjectionImpl {
 
                 }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 if (!checkAll) {
                     queryBuilder1.append("    " + hierarchyNos + "       \n");
                 }
@@ -620,10 +572,7 @@ public class NmSalesProjectionImpl {
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-//                if (!checkAll) {
-//                    queryBuilder1.append("   WHERE RLD2.RELATIONSHIP_LEVEL_VALUES in ( " + levelValues + " )       \n");
-//                }
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append(" ) ) )  AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "'  \n");
 
             } else if (method.equals("saveBfrCalculation")) {
@@ -648,9 +597,9 @@ if(!custom){
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
                 if (viewType.equals("C")) {
@@ -659,7 +608,7 @@ if(!custom){
                 queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH     \n");
                   }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append("     " + hierarchyNos + " ) HLD      \n");
                 queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                 queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
@@ -671,8 +620,7 @@ if(!custom){
                 queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n");
                  }
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-           //     queryBuilder1.append("   WHERE RLD2.RELATIONSHIP_LEVEL_VALUES in ( " + levelValues + " )     \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                  queryBuilder1.append("   ) ) ) AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "' AND  CHECK_RECORD=1 \n");
 }else{
 
@@ -682,7 +630,6 @@ if(!custom){
                 int parentLevel = 0;
                 String viewType = (String) inputs[2];
                 boolean checkAll = (Boolean) inputs[6];
-               // String checkUncheck = (String) inputs[7];
 
                 String userid = (String) inputs[4];
                 String sessionId = (String) inputs[5];
@@ -697,27 +644,6 @@ if(!custom){
                  String calcPeriods = (String) inputs[15];
                  String calcBased = (String) inputs[16];
                    
-//                LOGGER.debug("input  0------- >>>"+inputs[0]);
-//                LOGGER.debug("input  1------- >>>"+inputs[1]);
-//                LOGGER.debug("input  2------- >>>"+inputs[2]);
-//                LOGGER.debug("input  3------- >>>"+inputs[3]);
-//                LOGGER.debug("input  4------- >>>"+inputs[4]);
-//                LOGGER.debug("input  5------- >>>"+inputs[5]);
-//                LOGGER.debug("input  6------- >>>"+inputs[6]);
-//                LOGGER.debug("input  7-------  >>"+inputs[7]);
-//                LOGGER.debug("input  8-------  >>"+inputs[8]);
-//                LOGGER.debug("input  9-------  >>"+inputs[9]);
-//                LOGGER.debug("input  10------- >>>"+inputs[10]);
-//                LOGGER.debug("input  11------- >>>"+inputs[11]);
-//                LOGGER.debug("input  12------- >>>"+inputs[12]);
-//                LOGGER.debug("input  13------- >>>"+inputs[13]);
-//               LOGGER.debug("input  14------- >>>"+inputs[14]);
-//                LOGGER.debug("input  15------- >>>"+inputs[15]);
-//                LOGGER.debug("input  16------- >>>"+inputs[16]);
-//                LOGGER.debug("input  17------- >>>"+inputs[17]);
-//                LOGGER.debug("input  18------- >>>"+inputs[18]);
-//                LOGGER.debug("input  19------- >>>"+inputs[19]);
-//                LOGGER.debug("input  20------- >>>"+inputs[20]);
              
                 parentLevel = levelNo - 1;
  
@@ -749,25 +675,13 @@ if(!custom){
                 queryBuilder1.append("   JOIN    (SELECT distinct HLD" + (parentViewType) + ".RELATIONSHIP_LEVEL_SID,HLD" + (parentViewType) + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM     \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'   \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'   \n");
                 queryBuilder1.append("   ) CCPMAPC   \n");
                
                 
-//                    if (parentViewType.equals("C")) {
-//                      //  prodHier = hierarchyNo + "%";
-//                       
-//                        custHier = lastCustomerHierarchyno + "%";
-//                        
-//                    } else {
-//                        prodHier = lastProductHierarchyno + "%";
-//                       
-//                       // custHier = hierarchyNo + "%";
-//                    }
-
-                queryBuilder1.append("   JOIN   \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
                 queryBuilder1.append("   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID   \n");
                 queryBuilder1.append("   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD   \n");
                 queryBuilder1.append("   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + "'  AND CVD.LEVEL_NO  like '" + (customerLevel) + "'    \n");
@@ -826,20 +740,10 @@ if(!custom){
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
-//                if (viewType.equals("C")) {
-//
-//                    queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH1     \n");
-//
-//                } else {
-//
-//                    queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH1     \n");
-//
-//                }
-//                queryBuilder1.append("  ON  RLD.RELATIONSHIP_LEVEL_SID=PCH1.RELATIONSHIP_LEVEL_SID  \n");
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -853,7 +757,7 @@ if(!custom){
 
                 }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append("   " + hierarchyNos + " ) HLD      \n");
                 queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                 queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
@@ -870,8 +774,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-             //   queryBuilder1.append("   WHERE RLD2.RELATIONSHIP_LEVEL_VALUES in ( " + levelValues + " )       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                 queryBuilder1.append("  )) ) AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "'  \n");
 }else{
@@ -881,7 +784,6 @@ if(!custom){
                 int parentLevel = 0;
                 String viewType = (String) inputs[2];
                 boolean checkAll = (Boolean) inputs[6];
-               // String checkUncheck = (String) inputs[7];
 
                 String userid = (String) inputs[4];
                 String sessionId = (String) inputs[5];
@@ -891,34 +793,12 @@ if(!custom){
                 String parentViewType = (String) inputs[10];
                 String lastCustomerHierarchyno=(String)inputs[11];
                 String lastProductHierarchyno=(String) inputs[13];
-                 //  String CurrentViewType=(String) inputs[13];
                 String adjType = (String) inputs[14];
                 String adjVal = (String) inputs[15];
                 String adjBasis = (String) inputs[16];
                 String adsVar = (String) inputs[17];
                 String adsMeth = (String) inputs[18];
                    
-//                LOGGER.debug("input  0------- >>>"+inputs[0]);
-//                LOGGER.debug("input  1------- >>>"+inputs[1]);
-//                LOGGER.debug("input  2------- >>>"+inputs[2]);
-//                LOGGER.debug("input  3------- >>>"+inputs[3]);
-//                LOGGER.debug("input  4------- >>>"+inputs[4]);
-//                LOGGER.debug("input  5------- >>>"+inputs[5]);
-//                LOGGER.debug("input  6------- >>>"+inputs[6]);
-//                LOGGER.debug("input  7-------  >>"+inputs[7]);
-//                LOGGER.debug("input  8-------  >>"+inputs[8]);
-//                LOGGER.debug("input  9-------  >>"+inputs[9]);
-//                LOGGER.debug("input  10------- >>>"+inputs[10]);
-//                LOGGER.debug("input  11------- >>>"+inputs[11]);
-//                LOGGER.debug("input  12------- >>>"+inputs[12]);
-//                LOGGER.debug("input  13------- >>>"+inputs[13]);
-//               LOGGER.debug("input  14------- >>>"+inputs[14]);
-//                LOGGER.debug("input  15------- >>>"+inputs[15]);
-//                LOGGER.debug("input  16------- >>>"+inputs[16]);
-//                LOGGER.debug("input  17------- >>>"+inputs[17]);
-//                LOGGER.debug("input  18------- >>>"+inputs[18]);
-//                LOGGER.debug("input  19------- >>>"+inputs[19]);
-//                LOGGER.debug("input  20------- >>>"+inputs[20]);
              
                 parentLevel = levelNo - 1;
  
@@ -954,25 +834,13 @@ if(!custom){
                 queryBuilder1.append("   JOIN    (SELECT distinct HLD" + (parentViewType) + ".RELATIONSHIP_LEVEL_SID,HLD" + (parentViewType) + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM     \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'   \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'   \n");
                 queryBuilder1.append("   ) CCPMAPC   \n");
                
                 
-//                    if (parentViewType.equals("C")) {
-//                      //  prodHier = hierarchyNo + "%";
-//                       
-//                        custHier = lastCustomerHierarchyno + "%";
-//                        
-//                    } else {
-//                        prodHier = lastProductHierarchyno + "%";
-//                       
-//                       // custHier = hierarchyNo + "%";
-//                    }
-
-                queryBuilder1.append("   JOIN   \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
                 queryBuilder1.append("   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID   \n");
                 queryBuilder1.append("   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD   \n");
                 queryBuilder1.append("   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + "'  AND CVD.LEVEL_NO  like '" + (customerLevel) + "'    \n");
@@ -1058,21 +926,7 @@ if(!custom){
 
             }  else if (method.equals("fetchByHierarchyNo")) {
 
-//                LOGGER.debug("inputs[0]" + inputs[0]);
-//                LOGGER.debug("inputs[1]" + inputs[1]);
-//                LOGGER.debug("inputs[2]" + inputs[2]);
-//                LOGGER.debug("inputs[3]" + inputs[3]);
-//                LOGGER.debug("inputs[4]" + inputs[4]);
-//                LOGGER.debug("inputs[5]" + inputs[5]);
-//                LOGGER.debug("inputs[6]" + inputs[6]);
-//                LOGGER.debug("inputs[7]" + inputs[7]);
-//                LOGGER.debug("inputs[8]" + inputs[8]);
-//                LOGGER.debug("inputs[9]" + inputs[9]);
-//                LOGGER.debug("inputs[10]" + inputs[10]);
-//                LOGGER.debug("inputs[11]" + inputs[11]);
                 String projectionId = String.valueOf(inputs[0]);
-                //  int levelNo = Integer.parseInt(String.valueOf(inputs[1]));
-                //  String levelName = String.valueOf(inputs[2]);
                 int startIndex = (Integer) inputs[5];
                 int endIndex = (Integer) inputs[6];
 
@@ -1120,44 +974,21 @@ if(!custom){
                             + "rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO,COUNT (*)  AS RCOUNT,1 as actualProj,sum(nm_ac.HISTORY_PROJECTION_SALES) as historySales ,  sum(nm_ac.HISTORY_PROJECTION_UNITS) as historyUnits,          \n");
                     queryBuilder1.append("      min(CASE(CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,rld.LEVEL_Name as hierarchyLevel,                   ");
                           
-                    queryBuilder1.append("  count(distinct case when  nm_mas.CALCULATION_PERIODS is null then '1' else  nm_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,    ");
-                    queryBuilder1.append("  count(distinct case when  nm_mas.METHODOLOGY is null then '1' else  nm_mas.METHODOLOGY end)     AS methoCount,    ");
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATE);
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_METHODOLOGY);
                     queryBuilder1.append(" count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount , SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT      ");
                 }
                 queryBuilder1.append("     FROM   projection_details pd      \n");
-//                if (viewType.equals("C")) {
-//
-//                    queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY ph     \n");
-//
-//                } else {
-//
-//                    queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY ph     \n");
-//
-//                }
-//
-//                queryBuilder1.append("   ON pd.PROJECTION_MASTER_SID = ph.PROJECTION_MASTER_SID    JOIN RELATIONSHIP_LEVEL_DEFINITION rld     \n");
 
-//                queryBuilder1.append("   ON ph.RELATIONSHIP_LEVEL_SID = rld.RELATIONSHIP_LEVEL_SID      \n");
 
                 queryBuilder1.append("        JOIN (SELECT distinct LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from       \n");
                 queryBuilder1.append("   (SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from       \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
-//
-//                if (viewType.equals("C")) {
-//
-//                    queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH1     \n");
-//
-//                } else {
-//
-//                    queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH1     \n");
-//
-//                }
-     //           queryBuilder1.append("  ON  RLD.RELATIONSHIP_LEVEL_SID=PCH1.RELATIONSHIP_LEVEL_SID  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -1171,8 +1002,8 @@ if(!custom){
 
                 }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-                queryBuilder1.append("   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
+                queryBuilder1.append(WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                 queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
                 queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO       \n");
@@ -1188,13 +1019,12 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append("  )) CCP      \n");
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("    JOIN RELATIONSHIP_LEVEL_DEFINITION rld   ON CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID  \n");
                 queryBuilder1.append("   JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas      \n");
                 queryBuilder1.append("   ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID      \n");
-//                queryBuilder1.append("   JOIN HIERARCHY_LEVEL_DEFINITION HLD  ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=rld.HIERARCHY_LEVEL_DEFINITION_SID    \n\n");
                 queryBuilder1.append("   JOIN  ST_NM_ACTUAL_SALES nm_ac     \n");
                 queryBuilder1.append("   ON nm_mas.PROJECTION_DETAILS_SID = nm_ac.PROJECTION_DETAILS_SID  AND nm_ac.PROJECTION_DETAILS_SID=nm_mas.PROJECTION_DETAILS_SID  AND nm_mas.USER_ID = nm_ac.USER_ID AND nm_mas.SESSION_ID = nm_ac.SESSION_ID    \n");
                 queryBuilder1.append("   JOIN PERIOD p     \n");
@@ -1215,9 +1045,6 @@ if(!custom){
                     queryBuilder1.append("    and nm_mas.METHODOLOGY= '" + (methodology) + "'          \n\n");
                 }     
                     
-//                if (!levelName.equalsIgnoreCase("empty")) {
-//                    queryBuilder1.append("    and RLD.PARENT_NODE= '" + (parentLevel) + "~" + levelName + "'\n");
-//                }
                 if (!count) {
                     queryBuilder1.append(" GROUP  BY rld.RELATIONSHIP_LEVEL_VALUES,p.QUARTER, rld.RELATIONSHIP_LEVEL_SID ,rld.LEVEL_NO,p.\"YEAR\" ,rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO ,rld.LEVEL_NAME    \n");
 
@@ -1232,39 +1059,22 @@ if(!custom){
                     queryBuilder1.append("  min(nm_mas.USER_GROUP) as userGroup,min(nm_mas.CALCULATION_PERIODS) as baseLine,min(nm_mas.METHODOLOGY) as methodology,rld.RELATIONSHIP_LEVEL_SID ,CCP.HIERARCHY_NO,COUNT (*)  AS RCOUNT ,0 as actualProj ,null as historySales , null as historyUnits,      \n");
                     queryBuilder1.append("      min(CASE(CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec ,rld.LEVEL_Name as hierarchyLevel,                  ");
                       
-                    queryBuilder1.append("  count(distinct case when  nm_mas.CALCULATION_PERIODS is null then '1' else  nm_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,    ");
-                    queryBuilder1.append("  count(distinct case when  nm_mas.METHODOLOGY is null then '1' else  nm_mas.METHODOLOGY end)     AS methoCount,    ");
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATE);
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_METHODOLOGY);
                     queryBuilder1.append(" count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount , SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT     ");
                     queryBuilder1.append("     FROM   projection_details pd      \n");
 
-//                    if (viewType.equals("C")) {
-//                        queryBuilder1.append("     JOIN PROJECTION_CUST_HIERARCHY ph     \n");
-//                    } else {
-//                        queryBuilder1.append("       JOIN PROJECTION_PROD_HIERARCHY ph     \n");
-//                    }
 
-//                    queryBuilder1.append("  ON pd.PROJECTION_MASTER_SID = ph.PROJECTION_MASTER_SID    JOIN RELATIONSHIP_LEVEL_DEFINITION rld  \n");
-//                    queryBuilder1.append("  ON ph.RELATIONSHIP_LEVEL_SID = rld.RELATIONSHIP_LEVEL_SID   \n");
 
                     queryBuilder1.append("        JOIN (SELECT distinct LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from       \n");
                     queryBuilder1.append("   (SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from       \n");
                     queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                     queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                     queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                    queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                    queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
-//                    if (viewType.equals("C")) {
-//
-//                        queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH1     \n");
-//
-//                    } else {
-//
-//                        queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH1     \n");
-//
-//                    }
-//                    queryBuilder1.append("  ON  RLD.RELATIONSHIP_LEVEL_SID=PCH1.RELATIONSHIP_LEVEL_SID  \n");
                     queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                    queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                    queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                     queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                     queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -1278,8 +1088,8 @@ if(!custom){
 
                     }
                     queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                    queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-                    queryBuilder1.append("   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n");
+                    queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
+                    queryBuilder1.append(WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                     queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                     queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
                     queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO       \n");
@@ -1290,14 +1100,14 @@ if(!custom){
 
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                     } else if (viewType.equals("P")) {
 
                         queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n");
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                     } else {
                         queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH   ON PCH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID    \n");
@@ -1308,7 +1118,7 @@ if(!custom){
 
                         queryBuilder1.append("   ON PPH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                         queryBuilder1.append("   AND PPH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
 
@@ -1319,7 +1129,6 @@ if(!custom){
                     queryBuilder1.append("    JOIN RELATIONSHIP_LEVEL_DEFINITION rld   ON CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID  \n");
                     queryBuilder1.append("  JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas   \n");
                     queryBuilder1.append("  ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID   \n");
-//                    queryBuilder1.append("   JOIN HIERARCHY_LEVEL_DEFINITION HLD  ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=rld.HIERARCHY_LEVEL_DEFINITION_SID    \n\n");
                     queryBuilder1.append("  JOIN ST_NM_SALES_PROJECTION nm_sp \n");
                     queryBuilder1.append("  ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID   AND nm_sp.PROJECTION_DETAILS_SID=nm_mas.PROJECTION_DETAILS_SID  AND nm_mas.USER_ID = nm_sp.USER_ID AND nm_mas.SESSION_ID = nm_sp.SESSION_ID    \n");
                     queryBuilder1.append("  JOIN PERIOD p  ON p.period_sid = nm_sp.PERIOD_SID     WHERE  pd.PROJECTION_MASTER_SID =  '" + (projectionId) + "' AND nm_mas.USER_ID = '" + userid + "' AND nm_mas.SESSION_ID = '" + sessionId + "'   \n");
@@ -1339,7 +1148,6 @@ if(!custom){
                    
                     
                     queryBuilder1.append("  GROUP  BY rld.RELATIONSHIP_LEVEL_VALUES,p.QUARTER ,rld.LEVEL_NO,p.\"YEAR\"  ,rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO,rld.LEVEL_NAME \n");
-//                            + "    order by  rld.RELATIONSHIP_LEVEL_VALUES,p.\"YEAR\",p.QUARTER    \n");
                     
                     queryBuilder1.append("   ) Q) MAINQ WHERE  MAINQ.TEMP_INDEX > @Start AND MAINQ.TEMP_INDEX <= ( @Start + @End )  \n");
                     queryBuilder1.append("   ORDER  BY MAINQ.rlv,MAINQ.YEARS,MAINQ.PERIODS   \n");
@@ -1441,8 +1249,6 @@ if(!custom){
                  queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n  ");
                  queryBuilder1.append("   JOIN "+CommonUtils.getViewTableName(hierarchy)+" PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n  ");
                  queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID = "+projectionId+"\n  ");
-//                 queryBuilder1.append("   WHERE RLD.HIERARCHY_NO LIKE '"+hierarchyNo+"%' and RLD.LEVEL_NO = "+(selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length())+") \n  ");
-                queryBuilder1.append("   WHERE RLD.HIERARCHY_NO LIKE '"+hierarchyNo+"%' and RLD.LEVEL_NO = "+(selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length()+1)+") \n  ");//
                  queryBuilder1.append("   TEMP where TEMP.HIERARCHY_NO='"+selectedHiearchyNo+"' \n  ");
         
               }else if(method.equals("getCount")){
@@ -1519,8 +1325,8 @@ if(!custom){
                     queryBuilder1.append("   min(nm_mas.USER_GROUP) as userGroup,min(nm_mas.CALCULATION_PERIODS) as baseLine,min(nm_mas.METHODOLOGY) as methodology,rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO,COUNT (*)  AS RCOUNT,1 as actualProj,sum(nm_ac.HISTORY_PROJECTION_SALES) as historySales ,  sum(nm_ac.HISTORY_PROJECTION_UNITS) as historyUnits,          \n");
                     queryBuilder1.append("      min(CASE(CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,rld.LEVEL_Name as hierarchyLecel,                  ");
                     
-                    queryBuilder1.append("  count(distinct case when  nm_mas.CALCULATION_PERIODS is null then '1' else  nm_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,    ");
-                    queryBuilder1.append("  count(distinct case when  nm_mas.METHODOLOGY is null then '1' else  nm_mas.METHODOLOGY end)     AS methoCount,    ");
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATE);
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_METHODOLOGY);
                     queryBuilder1.append(" count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount , SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT     ");
                 
                 queryBuilder1.append("     FROM   projection_details pd      \n");
@@ -1543,10 +1349,10 @@ if(!custom){
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -1560,8 +1366,8 @@ if(!custom){
 
                 }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-                queryBuilder1.append("   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
+                queryBuilder1.append(WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                 queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
                 queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO       \n");
@@ -1577,13 +1383,12 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append("  )) CCP      \n");
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID AND CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID      \n");
 
                 queryBuilder1.append("   JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas      \n");
                 queryBuilder1.append("   ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID      \n");
-//                queryBuilder1.append("   JOIN HIERARCHY_LEVEL_DEFINITION HLD  ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=rld.HIERARCHY_LEVEL_DEFINITION_SID    \n\n");
                 queryBuilder1.append("   JOIN  ST_NM_ACTUAL_SALES nm_ac     \n");
                 queryBuilder1.append("   ON nm_mas.PROJECTION_DETAILS_SID = nm_ac.PROJECTION_DETAILS_SID  AND nm_ac.PROJECTION_DETAILS_SID=nm_mas.PROJECTION_DETAILS_SID  AND nm_mas.USER_ID = nm_ac.USER_ID AND nm_mas.SESSION_ID = nm_ac.SESSION_ID    \n");
                 queryBuilder1.append("   JOIN PERIOD p     \n");
@@ -1617,8 +1422,8 @@ if(!custom){
                     queryBuilder1.append("  min(nm_mas.USER_GROUP) as userGroup,min(nm_mas.CALCULATION_PERIODS) as baseLine,min(nm_mas.METHODOLOGY) as methodology,rld.RELATIONSHIP_LEVEL_SID ,CCP.HIERARCHY_NO,COUNT (*)  AS RCOUNT ,0 as actualProj ,null as historySales , null as historyUnits,      \n");
                     queryBuilder1.append("      min(CASE(CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS checkrec,rld.LEVEL_Name as hierarchyLecel,                  ");
                     
-                    queryBuilder1.append("  count(distinct case when  nm_mas.CALCULATION_PERIODS is null then '1' else  nm_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,    ");
-                    queryBuilder1.append("  count(distinct case when  nm_mas.METHODOLOGY is null then '1' else  nm_mas.METHODOLOGY end)     AS methoCount,    ");
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATE);
+                    queryBuilder1.append(COUNT_DISTINCT_CASE_WHEN_NM_MAS_METHODOLOGY);
                     queryBuilder1.append(" count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount , SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT     ");
                  
                     queryBuilder1.append("     FROM   projection_details pd      \n");
@@ -1637,20 +1442,10 @@ if(!custom){
                     queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                     queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                     queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                    queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                    queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
-//                    if (viewType.equals("C")) {
-//
-//                        queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH1     \n");
-//
-//                    } else {
-//
-//                        queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH1     \n");
-//
-//                    }
-//                    queryBuilder1.append("  ON  RLD.RELATIONSHIP_LEVEL_SID=PCH1.RELATIONSHIP_LEVEL_SID  \n");
                     queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                    queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                    queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                     queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                     queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -1664,8 +1459,8 @@ if(!custom){
 
                     }
                     queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                    queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-                    queryBuilder1.append("   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n");
+                    queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
+                    queryBuilder1.append(WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                     queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                     queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
                     queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO       \n");
@@ -1676,14 +1471,14 @@ if(!custom){
 
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                     } else if (viewType.equals("P")) {
 
                         queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n");
                         queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                     } else {
                         queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH   ON PCH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID    \n");
@@ -1694,7 +1489,7 @@ if(!custom){
 
                         queryBuilder1.append("   ON PPH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                        queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                         queryBuilder1.append("   AND PPH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
 
@@ -1705,7 +1500,6 @@ if(!custom){
 
                     queryBuilder1.append("  JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas   \n");
                     queryBuilder1.append("  ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID   \n");
-//                    queryBuilder1.append("   JOIN HIERARCHY_LEVEL_DEFINITION HLD  ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=rld.HIERARCHY_LEVEL_DEFINITION_SID    \n\n");
                     queryBuilder1.append("  JOIN ST_NM_SALES_PROJECTION nm_sp \n");
                     queryBuilder1.append("  ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID   AND nm_sp.PROJECTION_DETAILS_SID=nm_mas.PROJECTION_DETAILS_SID  AND nm_mas.USER_ID = nm_sp.USER_ID AND nm_mas.SESSION_ID = nm_sp.SESSION_ID    \n");
                     queryBuilder1.append("  JOIN PERIOD p  ON p.period_sid = nm_sp.PERIOD_SID     WHERE  pd.PROJECTION_MASTER_SID =  '" + (projectionId) + "' AND nm_mas.USER_ID = '" + userid + "' AND nm_mas.SESSION_ID = '" + sessionId + "'   \n");
@@ -1730,7 +1524,6 @@ if(!custom){
 
             }else if (method.equals("saveGroup")) {
 
-             //   String projectionId = String.valueOf(inputs[0]);
              
               
                 String projectionId = String.valueOf(inputs[0]);
@@ -1755,11 +1548,10 @@ if(!custom){
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
-//              
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -1773,7 +1565,7 @@ if(!custom){
 
                 }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append("     " + hierarchyNos + " ) HLD      \n");
                 queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                 queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
@@ -1790,13 +1582,11 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-             //   queryBuilder1.append("   WHERE RLD2.RELATIONSHIP_LEVEL_VALUES in ( " + levelValues + " )       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
 
                 queryBuilder1.append("    )) ) AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "'  \n");
 
             }  else if(method.equals("loadGroupValues")){
-             //    String projectionId = String.valueOf(inputs[0]);
                 String sessionId = (String) inputs[1];
                 String userid = (String) inputs[2];
                  String attribute = (String) inputs[3];
@@ -1829,7 +1619,6 @@ if(!custom){
                  
                  }
              
-                // editedGroupValues
 
                 queryBuilder1.append("  where PROJECTION_DETAILS_SID  ");
 
@@ -1842,7 +1631,7 @@ if(!custom){
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       ");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       ");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      ");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      ");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      ");
 
                 if (viewType.equals("C")) {
 
@@ -1855,7 +1644,7 @@ if(!custom){
                 }
                 queryBuilder1.append("  ON  RLD.RELATIONSHIP_LEVEL_SID=PCH1.RELATIONSHIP_LEVEL_SID  ");
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PCH1.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       ");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       ");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       ");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      ");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       ");
 
@@ -1869,7 +1658,7 @@ if(!custom){
 
                 }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       ");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       ");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       ");
                 queryBuilder1.append("    "+tempHierarchyNos+" ) HLD      ");
                 queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like concat(HLD.HIERARCHY_NO,'%') ) LCCP      ");
                 queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       ");
@@ -1887,7 +1676,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       ");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       ");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       ");
                 queryBuilder1.append("   WHERE RLD2.HIERARCHY_NO in ("+hierarchyNos+"))       ");
 
                 queryBuilder1.append(" ) ) AND USER_ID = '" + userid + "'  AND SESSION_ID ='" +sessionId+ "' ");
@@ -1930,7 +1719,7 @@ if(!custom){
 
    queryBuilder1.append("  JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID     \n");
 
-  queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "' ) CCPMAP,     \n");
+  queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "' ) CCPMAP,     \n");
 
    queryBuilder1.append("  (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID     \n");
 
@@ -1998,9 +1787,7 @@ if(!custom){
                 }else{
                    queryBuilder1.append(" CHECK_RECORD=0 ");   
                  }
-             //   if(checkUncheck.equals("check")){
                 queryBuilder1.append(" where PROJECTION_DETAILS_SID  IN (  \n");
-              //  }
                
                 
                 queryBuilder1.append("  SELECT PROJECTION_DETAILS_SID FROM  PROJECTION_DETAILS WHERE CCP_DETAILS_SID IN  \n");
@@ -2010,11 +1797,11 @@ if(!custom){
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
 
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -2028,7 +1815,7 @@ if(!custom){
 
                 }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 if (!checkAll) {
                     queryBuilder1.append("    " + hierarchyNos + "       \n");
                 }
@@ -2047,10 +1834,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-//                if (!checkAll) {
-//                    queryBuilder1.append("   WHERE RLD2.RELATIONSHIP_LEVEL_VALUES in ( " + levelValues + " )       \n");
-//                }
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append(" ) ) )  AND USER_ID = '" + userid + "' AND SESSION_ID = '" + sessionId + "'  \n");
                 if (!tempFilterValues[0].equalsIgnoreCase("empty")) {
                     queryBuilder1.append("    AND USER_GROUP= '" + (tempFilterValues[0]) + "'         \n");
@@ -2084,27 +1868,6 @@ if(!custom){
                 String lastProductHierarchyno=(String) inputs[12];
                    String CurrentViewType=(String) inputs[13];
                    
-//                LOGGER.debug("input  0------- >>>"+inputs[0]);
-//                LOGGER.debug("input  1------- >>>"+inputs[1]);
-//                LOGGER.debug("input  2------- >>>"+inputs[2]);
-//                LOGGER.debug("input  3------- >>>"+inputs[3]);
-//                LOGGER.debug("input  4------- >>>"+inputs[4]);
-//                LOGGER.debug("input  5------- >>>"+inputs[5]);
-//                LOGGER.debug("input  6------- >>>"+inputs[6]);
-//                LOGGER.debug("input  7-------  >>"+inputs[7]);
-//                LOGGER.debug("input  8-------  >>"+inputs[8]);
-//                LOGGER.debug("input  9-------  >>"+inputs[9]);
-//                LOGGER.debug("input  10------- >>>"+inputs[10]);
-//                LOGGER.debug("input  11------- >>>"+inputs[11]);
-//                LOGGER.debug("input  12------- >>>"+inputs[12]);
-//                LOGGER.debug("input  13------- >>>"+inputs[13]);
-//                LOGGER.debug("input  14------- >>>"+inputs[14]);
-//                LOGGER.debug("input  15------- >>>"+inputs[15]);
-//                LOGGER.debug("input  16------- >>>"+inputs[16]);
-//                LOGGER.debug("input  17------- >>>"+inputs[17]);
-//                LOGGER.debug("input  18------- >>>"+inputs[18]);
-//                LOGGER.debug("input  19------- >>>"+inputs[19]);
-//                LOGGER.debug("input  20------- >>>"+inputs[20]);
              
                 parentLevel = levelNo - 1;
  
@@ -2134,7 +1897,6 @@ if(!custom){
                 }else{
                    queryBuilder1.append(" CHECK_RECORD=0 ");   
                  }
-             //   if(checkUncheck.equals("check")){
                 queryBuilder1.append(" where PROJECTION_DETAILS_SID  IN (  \n");
                 
                 queryBuilder1.append("   SELECT distinct pd.PROJECTION_DETAILS_SID   \n");
@@ -2142,12 +1904,12 @@ if(!custom){
                 queryBuilder1.append("   JOIN    (SELECT distinct HLD" + (parentViewType) + ".RELATIONSHIP_LEVEL_SID,HLD" + (parentViewType) + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM     \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'   \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'   \n");
                 queryBuilder1.append("   ) CCPMAPC   \n");
                 queryBuilder1.append("   JOIN   \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
                 queryBuilder1.append("   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID   \n");
                 queryBuilder1.append("   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD   \n");
                 queryBuilder1.append("   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + "'  AND CVD.LEVEL_NO  like '" + (customerLevel) + "'    \n");
@@ -2203,27 +1965,6 @@ if(!custom){
                 String lastProductHierarchyno=(String) inputs[12];
                    String CurrentViewType=(String) inputs[13];
                    
-//                LOGGER.debug("input  0------- >>>"+inputs[0]);
-//                LOGGER.debug("input  1------- >>>"+inputs[1]);
-//                LOGGER.debug("input  2------- >>>"+inputs[2]);
-//                LOGGER.debug("input  3------- >>>"+inputs[3]);
-//                LOGGER.debug("input  4------- >>>"+inputs[4]);
-//                LOGGER.debug("input  5------- >>>"+inputs[5]);
-//                LOGGER.debug("input  6------- >>>"+inputs[6]);
-//                LOGGER.debug("input  7-------  >>"+inputs[7]);
-//                LOGGER.debug("input  8-------  >>"+inputs[8]);
-//                LOGGER.debug("input  9-------  >>"+inputs[9]);
-//                LOGGER.debug("input  10------- >>>"+inputs[10]);
-//                LOGGER.debug("input  11------- >>>"+inputs[11]);
-//                LOGGER.debug("input  12------- >>>"+inputs[12]);
-//                LOGGER.debug("input  13------- >>>"+inputs[13]);
-//                LOGGER.debug("input  14------- >>>"+inputs[14]);
-//                LOGGER.debug("input  15------- >>>"+inputs[15]);
-//                LOGGER.debug("input  16------- >>>"+inputs[16]);
-//                LOGGER.debug("input  17------- >>>"+inputs[17]);
-//                LOGGER.debug("input  18------- >>>"+inputs[18]);
-//                LOGGER.debug("input  19------- >>>"+inputs[19]);
-//                LOGGER.debug("input  20------- >>>"+inputs[20]);
              
                 parentLevel = levelNo - 1;
  
@@ -2263,11 +2004,11 @@ if(!custom){
                 queryBuilder1.append("   JOIN    (SELECT distinct HLD" + (parentViewType) + ".RELATIONSHIP_LEVEL_SID,HLD" + (parentViewType) + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM  \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD  \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID  \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
                 queryBuilder1.append("   ) CCPMAPC  JOIN  \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD  \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID  \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
                 queryBuilder1.append("   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID  \n");
                 queryBuilder1.append("   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD  \n");
                 queryBuilder1.append("   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + "'  AND CVD.LEVEL_NO  like '" + (customerLevel) + "'   \n");
@@ -2313,12 +2054,12 @@ if(!custom){
                 queryBuilder1.append("   JOIN    (SELECT distinct HLD" + (parentViewType) + ".RELATIONSHIP_LEVEL_SID,HLD" + (parentViewType) + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM  \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD  \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID  \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
                 queryBuilder1.append("   ) CCPMAPC  \n");
                 queryBuilder1.append("   JOIN  \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD  \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID  \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
                 queryBuilder1.append("   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID  \n");
                 queryBuilder1.append("   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD  \n");
                 queryBuilder1.append("   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + "'  AND CVD.LEVEL_NO  like '" + (customerLevel) + "'   \n");
@@ -2368,10 +2109,10 @@ if(!custom){
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
 
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
@@ -2379,7 +2120,7 @@ if(!custom){
 
                
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
               
                 queryBuilder1.append("    " + hierarchyNos + "       \n");
                
@@ -2394,9 +2135,8 @@ if(!custom){
                 
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 
-              //  queryBuilder1.append("   WHERE RLD2.RELATIONSHIP_LEVEL_VALUES in ( " + levelValues + " )       \n");
                 
                 queryBuilder1.append(" ) )   \n");
 
@@ -2429,9 +2169,9 @@ if(!custom){
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      \n");
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-                queryBuilder1.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+                queryBuilder1.append(WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       \n");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
                 if (viewType.equals("C")) {
@@ -2440,7 +2180,7 @@ if(!custom){
                 queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH     \n");
                   }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+                queryBuilder1.append(AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                 queryBuilder1.append("     " + hierarchyNos + " ) HLD      \n");
                 queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
                 queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       \n");
@@ -2452,8 +2192,7 @@ if(!custom){
                 queryBuilder1.append("    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n");
                  }
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-                queryBuilder1.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
-              //  queryBuilder1.append("   WHERE RLD2.RELATIONSHIP_LEVEL_VALUES in ( " + levelValues + " )      \n");
+                queryBuilder1.append(AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       \n");
                  queryBuilder1.append("  )  ) )  \n");
 }else{
 
@@ -2505,14 +2244,14 @@ if(!custom){
                 queryBuilder1.append("   JOIN    (SELECT distinct HLD" + (parentViewType) + ".RELATIONSHIP_LEVEL_SID,HLD" + (parentViewType) + ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM     \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'   \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'   \n");
                 queryBuilder1.append("   ) CCPMAPC   \n");
                
 
                 queryBuilder1.append("   JOIN   \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
-                queryBuilder1.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'  \n");
+                queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
                 queryBuilder1.append("   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID   \n");
                 queryBuilder1.append("   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD   \n");
                 queryBuilder1.append("   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + "'  AND CVD.LEVEL_NO  like '" + (customerLevel) + "'    \n");
@@ -2556,8 +2295,7 @@ if(!custom){
 
             }
 
-//             LOGGER.debug("Query:\n" + queryBuilder1.toString() + "\n\nquery hit list size: " + list.size() + "\n\n\n");
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(queryBuilder1.toString());
 
@@ -2566,6 +2304,13 @@ if(!custom){
         return list;
 
     }
+    public static final String AND_PC_H2_PROJECTION_MASTER_SID = "   AND PCH2.PROJECTION_MASTER_SID='";
+    public static final String WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD = "   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n";
+    public static final String AND_P_CH_PROJECTION_MASTER_SID = "   AND PCH.PROJECTION_MASTER_SID='";
+    public static final String WHERE_PM_PROJECTION_MASTER_SID = "   WHERE PM.PROJECTION_MASTER_SID='";
+    public static final String JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP = "   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='";
+    public static final String COUNT_DISTINCT_CASE_WHEN_NM_MAS_METHODOLOGY = "  count(distinct case when  nm_mas.METHODOLOGY is null then '1' else  nm_mas.METHODOLOGY end)     AS methoCount,    ";
+    public static final String COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATE = "  count(distinct case when  nm_mas.CALCULATION_PERIODS is null then '1' else  nm_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,    ";
 
     public List getAssumptionResult(List input, String queryName) {
         List list = new ArrayList();
@@ -2577,14 +2322,12 @@ if(!custom){
                 for (int i = 1; i < input.size(); i++) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(input.get(i)));
                 }
-//            	LOGGER.debug("Query After Change : "+sql);
                 HelperTableLocalServiceUtil.executeUpdateQuery(sql.toString());
             } else {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
                 
-//                LOGGER.debug("Query After Change : "+sql);
                 list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             }
 
@@ -2607,8 +2350,6 @@ if(!custom){
         String userId = String.valueOf(inputs[7]);
         String sessionId = String.valueOf(inputs[8]);
         StringBuilder queryBuilder = new StringBuilder();
-//        LOGGER.debug("level no in finder impl is ----->" + levelNo);
-//        LOGGER.debug("indicator in finder impl is --------->" + indicator);
         
         try {
             queryBuilder.append("select H.LEVEL_NO, H.RELATIONSHIP_LEVEL_VALUES, I.\"YEAR\" \n");
@@ -2672,7 +2413,6 @@ if(!custom){
             queryBuilder.append(",NULL as ACTUAL_SALES,NULL as ACTUAL_UNITS,NULL as HISTORY_PROJECTION_SALES,NULL as HISTORY_PROJECTION_UNITS");
             queryBuilder.append(",sum(A.PROJECTION_SALES) as PROJECTION_SALES,sum(A.PROJECTION_UNITS) as PROJECTION_UNITS ");
             queryBuilder.append("from ST_NM_SALES_PROJECTION A,  ST_NM_SALES_PROJECTION_MASTER B, PROJECTION_DETAILS E , PROJECTION_MASTER F,");
-//        queryBuilder.append("PROJECTION_CUST_HIERARCHY G, RELATIONSHIP_LEVEL_DEFINITION H, \"PERIOD\" I where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID");
             if ("customer".equalsIgnoreCase(viewType) || "c".equalsIgnoreCase(indicator)) {
                 queryBuilder.append("PROJECTION_CUST_HIERARCHY G,");
             } else if ("product".equalsIgnoreCase(viewType) || "p".equalsIgnoreCase(indicator)) {
@@ -2710,9 +2450,7 @@ if(!custom){
                 queryBuilder.append(",I.SEMI_ANNUAL\n");
             }
            
-//            LOGGER.debug("Query is ------->" + queryBuilder.toString());
             list =HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString()) ;
-//            LOGGER.debug("List size is -------->" + list.size());
         } catch (Exception ex) {
             LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(queryBuilder.toString());
@@ -2749,7 +2487,6 @@ if(!custom){
             queryBuilder.append(" group by H.LEVEL_NO , H.RELATIONSHIP_LEVEL_VALUES ,H.LEVEL_NAME,H.HIERARCHY_NO");
             queryBuilder.append(" Union  select H.LEVEL_NO, H.RELATIONSHIP_LEVEL_VALUES,H.HIERARCHY_NO");
             queryBuilder.append(" from ST_NM_SALES_PROJECTION A,  ST_NM_SALES_PROJECTION_MASTER B, PROJECTION_DETAILS E , PROJECTION_MASTER F,");
-//        queryBuilder.append("PROJECTION_CUST_HIERARCHY G, RELATIONSHIP_LEVEL_DEFINITION H, \"PERIOD\" I where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID");
             if ((Constants.CUSTOMER).equalsIgnoreCase(viewType) || "c".equalsIgnoreCase(indicator)) {
                 queryBuilder.append("PROJECTION_CUST_HIERARCHY G,");
             } else if ((Constants.PRODUCT).equalsIgnoreCase(viewType) || "p".equalsIgnoreCase(indicator)) {
@@ -2764,11 +2501,8 @@ if(!custom){
             queryBuilder.append(" and A.PERIOD_SID = I.PERIOD_SID and H.LEVEL_NO =").append(levelNo);
             queryBuilder.append(" group by H.LEVEL_NO , H.RELATIONSHIP_LEVEL_VALUES ,H.HIERARCHY_NO");
             
-//            LOGGER.debug("Query is ------->" + queryBuilder.toString());
             list = HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
-//            LOGGER.debug("List size is -------->" + list.size());
         } catch (Exception e) {
-//            e.printStackTrace();
             LOGGER.error(StringUtils.EMPTY,e);
             LOGGER.error(queryBuilder.toString());
         } 
@@ -2779,7 +2513,6 @@ if(!custom){
         
         String customQuery = "";
         try {
-//                String customSql = SQlUtil.getQuery(getClass(),"findViewByName\n");
             String selectClause = " select H.LEVEL_NO, H.LEVEL_NAME, H.RELATIONSHIP_LEVEL_VALUES, I.\"YEAR\" , ";
             String whereClause = "";
             String groupBy = ",H.LEVEL_NAME , I.\"YEAR\"";
@@ -2792,7 +2525,6 @@ if(!custom){
             int endYear = 0;
 
             if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
-//                LOGGER.debug(" startAndEndPeriods " + startAndEndPeriods.toString());
                 startFreq = startAndEndPeriods.get(0);
                 endFreq = startAndEndPeriods.get(1);
                 startYear = startAndEndPeriods.get(2);
@@ -2827,7 +2559,6 @@ if(!custom){
                 groupBy += ", I.\"MONTH\"";
             }
 
-            // To filter the data according to selected period
             String periodFilter = "";
             if (!CommonUtils.isInteger(year)) {
                 periodFilter = " and  I.PERIOD_SID in (SELECT period_sid FROM \"PERIOD\" WHERE PERIOD_DATE>=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE " + selectedHistoryFrequency + " YEAR=" + startYear + " ORDER BY PERIOD_SID)"
@@ -2849,7 +2580,6 @@ if(!custom){
             String futureQuery = selectClause + " NULL as ACTUAL_" + sales + ", sum(A.PROJECTION_" + sales + ") as PROJECTION_" + sales + " from ST_NM_SALES_PROJECTION A," + customSql;
 
             customQuery = historyQuery + " Union " + futureQuery;
-//            LOGGER.debug(SALES_SMALL + "  ---  " + customQuery);
             return HelperTableLocalServiceUtil.executeSelectQuery(customQuery);
         } catch (Exception ex) {
             LOGGER.error(StringUtils.EMPTY,ex);

@@ -72,7 +72,7 @@ public class NotesTabLogic {
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         List<DocDetails> docDetailsList;
         NotesDTO attachmentDTO;
-        LOGGER.debug("getAttachmentDTOList with projectionId - " + projectionId + " moduleName - " + moduleName);
+        LOGGER.debug("getAttachmentDTOList with projectionId= {}, moduleName= {} " , projectionId, moduleName);
         docDetailsList = DocDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
         if (docDetailsList != null && !docDetailsList.isEmpty()) {
             for (final Iterator<DocDetails> iterator = docDetailsList.iterator(); iterator.hasNext();) {
@@ -94,7 +94,7 @@ public class NotesTabLogic {
             }
         }
         LOGGER.debug("End of getAttachmentDTOList method");
-        LOGGER.debug("In getAttachmentDTOList() --size of attachmentDTOList" + attachmentDTOList.size());
+        LOGGER.debug("In getAttachmentDTOList() --size of attachmentDTOList= {}" , attachmentDTOList.size());
         return attachmentDTOList;
     }
 
@@ -115,7 +115,7 @@ public class NotesTabLogic {
         }
         File file = new File(fileName);
         isFileExists=file.delete();
-        LOGGER.info("File deleted successfully : "+isFileExists);
+        LOGGER.info("File deleted successfully= {} ",isFileExists);
         return true;
     }
 
@@ -133,8 +133,7 @@ public class NotesTabLogic {
         List<DocDetails> docDetailsList;
         DocDetails docDetails;
 
-        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName"
-                + moduleName);
+        LOGGER.debug("Entering saveUploadedFile method with projectionId= {}, fileName= {}, uploadedBy= {}, fileSize= {}, moduleName= {} " , projectionId, fileName, uploadedBy, fileSize, moduleName);
 
         docDetailsList = DocDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
 
@@ -154,7 +153,7 @@ public class NotesTabLogic {
             docDetails.setFileSize(formatter.format(fileSize));
             DocDetailsLocalServiceUtil.addDocDetails(docDetails);
         } else {
-            LOGGER.debug("In saveUploadedFile() --size of docDetailsList" + docDetailsList.size());
+            LOGGER.debug("In saveUploadedFile() --size of docDetailsList+ {}" , docDetailsList.size());
             docDetails = docDetailsList.get(0);
             if (fileName.indexOf('.') == -1) {
                 docDetails.setFileName(fileName);
@@ -187,7 +186,7 @@ public class NotesTabLogic {
      * @throws Exception the exception
      */
     public Boolean saveNotes(final int projectionId, final String createdBy, final String notes, final String moduleName) throws SystemException {
-        LOGGER.debug("Entering saveNotes method with with projectionId " + projectionId + " createdBy " + createdBy + " notes " + notes + " moduleName " + moduleName);
+        LOGGER.debug("Entering saveNotes method with with projectionId= {}, createdBy= {}, notes= {}, moduleName= {} " , projectionId, createdBy, notes, moduleName);
         final AdditionalNotes additionalNotes = AdditionalNotesLocalServiceUtil.createAdditionalNotes(0);
         additionalNotes.setCreatedDate(new Date());
         additionalNotes.setCreatedBy(CommonUtils.getUserNameById(createdBy));
@@ -210,7 +209,7 @@ public class NotesTabLogic {
      */
     public List<NotesDTO> addUserFile(final List<NotesDTO> list) {
         final List<NotesDTO> finalList = new ArrayList<>();
-        LOGGER.debug("Entering addUserFile method with list size " + list.size());
+        LOGGER.debug("Entering addUserFile method with list size= {} " , list.size());
         for (final Iterator<NotesDTO> iterator = list.iterator(); iterator.hasNext();) {
             final NotesDTO dto = iterator.next();
 
@@ -232,7 +231,7 @@ public class NotesTabLogic {
      */
     public String getNotes(final int projectionId, final String moduleName, List<String> notesListTemp) throws SystemException {
 
-        LOGGER.debug("Entering getNotes method with projectionId " + projectionId + " moduleName " + moduleName);
+        LOGGER.debug("Entering getNotes method with projectionId= {}, moduleName= {} " , projectionId, moduleName);
 
         final StringBuilder notes = new StringBuilder();
         notes.append(StringUtils.EMPTY);
@@ -249,7 +248,7 @@ public class NotesTabLogic {
                 notes.append(additionalNotes.getNotes() + "\n");
                 notesListTemp.add(additionalNotes.getNotes() + "\n");
             }
-            LOGGER.debug("In getNotes() --size of additionalNotesList" + notesList.size());
+            LOGGER.debug("In getNotes() --size of additionalNotesList= {}" , notesList.size());
         }
         LOGGER.debug("End of getNotes method");
 

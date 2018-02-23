@@ -46,7 +46,7 @@ public class ArchiveLogic {
      * @throws Exception the exception
      */
     public List<ArchiveDTO> getTableName(final String tableName) throws SystemException {
-        LOGGER.debug("getTableName started with P1:String tableName=" + tableName);
+        LOGGER.debug("getTableName started with P1:String tableName= {}" , tableName);
         final List<ArchiveDTO> lookUpList = new ArrayList<>();
         final DynamicQuery vwUserTablesDynamicQuery = VwUserTablesLocalServiceUtil.dynamicQuery();
         ArchiveDTO lookUp;
@@ -65,7 +65,7 @@ public class ArchiveLogic {
             lookUp.setFieldName(dto.getColumnName());
             lookUpList.add(lookUp);
         }
-        LOGGER.debug("getTableName return List<TableFieldLookUpDTO> lookUpList=" + lookUpList.size());
+        LOGGER.debug("getTableName return List<TableFieldLookUpDTO> lookUpList= {}" , lookUpList.size());
         return lookUpList;
     }
 
@@ -80,7 +80,7 @@ public class ArchiveLogic {
      * @throws Exception the exception
      */
     public List<ArchiveDTO> getLevelValues(final String tableName, final String fieldName) throws SystemException {
-        LOGGER.debug("getLevelValues started with P1:String tableName=" + tableName + " P2:String fieldName=" + fieldName + " P3:List hierDTO");
+        LOGGER.debug("getLevelValues started with P1:String tableName= {}, P2:String fieldName={}" , tableName , fieldName);
         final List<ArchiveDTO> levelList = new ArrayList<>();
 
         ArchiveDTO dto;
@@ -90,7 +90,7 @@ public class ArchiveLogic {
             dto.setValue(String.valueOf(valueList.get(i)));
             levelList.add(dto);
         }
-        LOGGER.debug("getLevelValues return List<LevelDTO> levelList=" + levelList.size());
+        LOGGER.debug("getLevelValues return List<LevelDTO> levelList= {}" , levelList.size());
         return levelList;
     }
 

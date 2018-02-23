@@ -1018,7 +1018,7 @@ public class ProjectionResultsLogic {
 
 
     public List<ProjectionResultsDTO> getProjectionResults(int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        LOGGER.debug("= = = Inside getProjectionResults = = = start"+start+" offset - "+offset);
+        LOGGER.debug("= = = Inside getProjectionResults = = = start= {} and offeset = {}", start, offset);
         int started = start;
         int neededRecord = offset;
         int mayBeAdded = 0;
@@ -1492,7 +1492,7 @@ public class ProjectionResultsLogic {
                         }
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size();
                     }
-                    LOGGER.debug("= = = Ending Period = = = neededRecord > 0 =started =" + started + "= neededRecord =" + neededRecord + "= maybeadded= " + mayBeAdded);
+                    LOGGER.debug("= = = Ending Period = = = neededRecord > 0 =started = {} and neededRecord= {} and maybeadded= {} ", started, neededRecord, mayBeAdded);
                 }
 
             } else if (neededRecord > 0) {

@@ -35,7 +35,7 @@ public class ResultsTableLogic extends PageTreeTableLogic {
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {} and start= {} and offset= {}", firstGenerated, start, offset);
         Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated && offset > 0) {
             try {
@@ -55,13 +55,13 @@ public class ResultsTableLogic extends PageTreeTableLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
-        LOGGER.debug("loadData ended " + map.size());
+        LOGGER.debug("loadData ended= {} ", map.size());
         return map;
     }
 
     @Override
     public int getCount() {
-        LOGGER.debug("getCount initiated with firstGenerated=" + firstGenerated);
+        LOGGER.debug("getCount initiated with firstGenerated= {}", firstGenerated);
         int count = 0;
         if (firstGenerated) {
             try {
@@ -70,7 +70,7 @@ public class ResultsTableLogic extends PageTreeTableLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
-        LOGGER.debug("getCount ended with count=" + count);
+        LOGGER.debug("getCount ended with count= {}", count);
         return count;
     }
 
@@ -226,15 +226,15 @@ public class ResultsTableLogic extends PageTreeTableLogic {
     private int getCountByForecastName(final Object parentId) { 
         int count;
         count = projectionResultsLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
-        LOGGER.debug("===count==========================>>>>>"+count);
+        LOGGER.debug("===count==========================>>>>> {}", count);
         return count;
     }
 
     private List<ProjectionResultsDTO> loadDataByForecastName(final Object parentId, final int start, final int offset)  {
         List<ProjectionResultsDTO> list;
         String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
-        LOGGER.debug("Screen Name is " + screenName);
-        LOGGER.debug("Projection results load data method with start = " + start + " and offset = " + offset);
+        LOGGER.debug("Screen Name= {}", screenName);
+        LOGGER.debug("Projection results load data method with start = {} and offset = {}", start, offset);
         list = projectionResultsLogic.getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
         return list;
     }

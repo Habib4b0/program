@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AccrualRateUtils {
     
-    private final static Logger LOGGER = LoggerFactory.getLogger(AccrualRateUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateUtils.class);
 
     public static final String ADJUSTED_DEMAND = "Forecasted Adjusted Demand";
     public static final String DEMAND = "Forecasted Demand";
@@ -255,7 +255,7 @@ public class AccrualRateUtils {
                 value = reminder != 0 ? quarter : quarter + 1;
                 break;
             default:
-                LOGGER.debug("Invalid Period Basis: " + periodBasis);
+                LOGGER.debug("Invalid Period Basis= {} " , periodBasis);
                 value = quarter + 1;
                 break;
         }
@@ -363,7 +363,7 @@ public class AccrualRateUtils {
                 createHeadersForDetails(historyStartPeriod, filterStartindex, filterEndIndex, tableHeaderDTO, accrualRateSelectionDTO, recordHeaderDTO);
                 break;
             default:
-                LOGGER.warn("screenName is not valid: " + screenName);
+                LOGGER.warn("screenName is not valid= {} " , screenName);
                 break;
         }
     }

@@ -170,6 +170,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             addStyleName(Constants.BOOTSTRAP_UI);
             addStyleName(Constants.BOOTSTRAP);
             addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
+            addStyleName("body-fixed");
             setContent(Clara.create(getClass().getResourceAsStream("/cff/CffApprovalDetailsForm.xml"), this));
             configureFields();
             if (sessionDTO.getAction().equals("view")) {
@@ -322,7 +323,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                                         projectionResults.saveProjectionResultsSelection(sessionDTO);
                                         projectionVariance.savePvSelections(sessionDTO);
 
-                                    } catch (Exception ex) {
+                                    } catch (PortalException | SystemException | InterruptedException | ExecutionException ex) {
                                         java.util.logging.Logger.getLogger(CffApprovalDetailsForm.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
@@ -381,7 +382,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 submitBtn.setEnabled(true);
 
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
 
         }

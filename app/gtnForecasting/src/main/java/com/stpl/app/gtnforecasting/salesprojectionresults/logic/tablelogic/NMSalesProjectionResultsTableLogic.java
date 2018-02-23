@@ -47,7 +47,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
 
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {}, and start= {}, and offset={}" , firstGenerated, start, offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         try {
             if (firstGenerated && offset > 0) {
@@ -62,7 +62,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        LOGGER.debug("loadData ends with record size=" + map.size());
+        LOGGER.debug("loadData ends with record size= {}" , map.size());
         return map;
     }
 
@@ -96,7 +96,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
-        LOGGER.debug("count= " + count);
+        LOGGER.debug("count= {} " , count);
         return count;
     }
 

@@ -76,7 +76,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                             }
                         });
 
-                    } catch (Exception ex) {
+                    } catch (IllegalArgumentException | NullPointerException ex) {
                         LOGGER.error(ex.getMessage());
                     }
                 }

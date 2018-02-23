@@ -34,7 +34,7 @@ public class ViewLogic {
     /**
      * The data selection.
      */
-	private static DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
+	private static final DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
 
     /**
      * The Constant LOGGER.
@@ -50,11 +50,11 @@ public class ViewLogic {
      * @throws Exception the exception
      */
     public boolean isDuplicateView(final String viewName) throws SystemException {
-        LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
+        LOGGER.debug("Entering isDuplicateView method with viewName= {}", viewName);
         final DynamicQuery dynamicQuery = CffViewMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.VIEW_NAME, viewName));
         final long count = dataSelection.getForecastViewMasterdynamicQueryCount(dynamicQuery);
-        LOGGER.debug("End of isDuplicateView with size: " + count);
+        LOGGER.debug("End of isDuplicateView with size: {}", count);
         return count > Constants.ZERO;
     }
 
@@ -68,7 +68,7 @@ public class ViewLogic {
      * @throws Exception the exception
      */
     public static User getUserById(final String userId) throws PortalException, SystemException {
-        LOGGER.debug("Entering getUserById method with userId " + userId);
+        LOGGER.debug("Entering getUserById method with userId= {}", userId);
         return dataSelection.getUser(Long.valueOf(userId));
     }
 
@@ -83,7 +83,7 @@ public class ViewLogic {
      * @throws Exception the exception
      */
     public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws PortalException, SystemException {
-        LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId='" + projectionId + "' and view id: " + String.valueOf(saveViewDTO.getViewId()));
+        LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId= {} and viewId= {}", projectionId, String.valueOf(saveViewDTO.getViewId()));
         String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
         CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);
         if (saveViewDTO.getViewId() != 0) {
@@ -114,7 +114,7 @@ public class ViewLogic {
             // Update Forecast View Master
             viewMaster = dataSelection.updateForecastingViewMaster(viewMaster);
         }
-        LOGGER.debug("End of saveForecastViewMaster method with view id: " + viewMaster.getCffViewMasterSid());
+        LOGGER.debug("End of saveForecastViewMaster method with view id= {} ", viewMaster.getCffViewMasterSid());
         return viewMaster.getCffViewMasterSid();
     }
 
@@ -167,7 +167,7 @@ public class ViewLogic {
             updatedViewMaster = dataSelection.updateForecastingViewMaster(viewMaster);
             return updatedViewMaster;
 
-        } catch (Exception e) {
+        } catch (SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
             return updatedViewMaster;
         }

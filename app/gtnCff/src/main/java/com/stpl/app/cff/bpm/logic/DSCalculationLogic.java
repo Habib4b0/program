@@ -1,6 +1,5 @@
 package com.stpl.app.cff.bpm.logic;
 
-import org.slf4j.LoggerFactory;
 
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
@@ -19,12 +18,6 @@ public class DSCalculationLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
-
-	
-
-	
-
 	public static GtnWsCommonWorkflowResponse startWorkflow(SessionDTO session, String userId) {
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsCFFSubmitRequest submitRequest = new GtnWsCFFSubmitRequest();

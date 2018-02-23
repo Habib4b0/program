@@ -41,7 +41,7 @@ public class PPAProjectionLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
     private static Thread procedureThread;
     private static RunnableJob runnableJob;
-    private CommonLogic commonLogic=new CommonLogic();
+    private final CommonLogic commonLogic=new CommonLogic();
 
     public List getInputForMassUpdate(int startQuater, int endQuater, int startYear, int endYear, Object columnValue, String columnName, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
