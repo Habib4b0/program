@@ -691,9 +691,9 @@ public class NationalAssumptionsForm extends CustomComponent {
         closeBtn.setTabIndex(index + NumericConstants.FOUR);
     }
         private void callFileInsertProcedure() {
-            LOGGER.info("sessionDTO.getProjectionId() = " + sessionDTO.getProjectionId());
-            LOGGER.info("sessionDTO.getUserId() = " + sessionDTO.getUserId());
-            LOGGER.info("sessionDTO.getSessionId() = " + sessionDTO.getSessionId());
+            LOGGER.info("sessionDTO.getProjectionId() = {}" , sessionDTO.getProjectionId());
+            LOGGER.info("sessionDTO.getUserId() = {} " , sessionDTO.getUserId());
+            LOGGER.info("sessionDTO.getSessionId() = {} " , sessionDTO.getSessionId());
             sessionDTO.addFutureMap(Constant.NA_FILE_INSERT, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, SalesUtils.PRC_NA_WAC_DATA, sessionDTO.getProjectionId(), sessionDTO.getUserId(), sessionDTO.getSessionId(),NATIONAL_ASSUMPTIONS.getConstant()))
         });
 }

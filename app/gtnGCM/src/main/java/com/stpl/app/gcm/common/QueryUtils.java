@@ -26,7 +26,6 @@ import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.filter.Between;
@@ -430,29 +429,29 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  cfp.CFP_STATUS "
                 + " JOIN CFP_DETAILS cfd on cfp.CFP_MODEL_SID=cfd.CFP_MODEL_SID  where cfp.INBOUND_STATUS <> 'D'";
 
-        if (CFPCompanyDTO.getCompanyFamilyPlanId().toString() != StringUtils.EMPTY) {
-            CFPid = CFPCompanyDTO.getCompanyFamilyPlanId().toString();
+        if (CFPCompanyDTO.getCompanyFamilyPlanId() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanId().equals(StringUtils.EMPTY)) {
+            CFPid = CFPCompanyDTO.getCompanyFamilyPlanId();
             Query = Query + " and  cfp.CFP_ID like '" + CFPid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (CFPCompanyDTO.getCompanyFamilyPlanNo().toString() != StringUtils.EMPTY) {
-            CFPNO = CFPCompanyDTO.getCompanyFamilyPlanNo().toString();
+        if (CFPCompanyDTO.getCompanyFamilyPlanNo() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanNo().equals(StringUtils.EMPTY)) {
+            CFPNO = CFPCompanyDTO.getCompanyFamilyPlanNo();
             Query = Query + " and  cfp.CFP_NO like '" + CFPNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (CFPCompanyDTO.getCompanyFamilyPlanName().toString() != StringUtils.EMPTY) {
-            CFPName = CFPCompanyDTO.getCompanyFamilyPlanName().toString();
+        if (CFPCompanyDTO.getCompanyFamilyPlanName() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanName().equals(StringUtils.EMPTY)) {
+            CFPName = CFPCompanyDTO.getCompanyFamilyPlanName();
             Query = Query + " and  cfp.CFP_NAME like '" + CFPName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
 
-        if (CFPCompanyDTO.getCompanyFamilyPlanTypeValue().toString() != StringUtils.EMPTY) {
-            CFPType = CFPCompanyDTO.getCompanyFamilyPlanTypeValue().toString();
+        if (CFPCompanyDTO.getCompanyFamilyPlanTypeValue() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanTypeValue().equals(StringUtils.EMPTY)) {
+            CFPType = CFPCompanyDTO.getCompanyFamilyPlanTypeValue();
             Query = Query + " and  cfp.CFP_TYPE=" + CFPType;
 
         }
-        if (CFPCompanyDTO.getCompanyFamilyPlanStatusValue().toString() != StringUtils.EMPTY) {
-            CFPStatus = CFPCompanyDTO.getCompanyFamilyPlanStatusValue().toString();
+        if (CFPCompanyDTO.getCompanyFamilyPlanStatusValue() == null ? StringUtils.EMPTY != null : !CFPCompanyDTO.getCompanyFamilyPlanStatusValue().equals(StringUtils.EMPTY)) {
+            CFPStatus = CFPCompanyDTO.getCompanyFamilyPlanStatusValue();
             Query = Query + " and  cfp.CFP_STATUS=" + CFPStatus;
 
         }
@@ -534,18 +533,18 @@ public class QueryUtils {
               
                 + "                WHERE ifp.INBOUND_STATUS <> 'D'";
     
-        if (IFPItemDTO.getItemFamilyplanId().toString() != StringUtils.EMPTY) {
-            IFPid = IFPItemDTO.getItemFamilyplanId().toString();
+        if (IFPItemDTO.getItemFamilyplanId() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanId().equals(StringUtils.EMPTY)) {
+            IFPid = IFPItemDTO.getItemFamilyplanId();
             sql = sql + " and  ifp.IFP_ID like '" + IFPid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (IFPItemDTO.getItemFamilyplanNo().toString() != StringUtils.EMPTY) {
-            IFPNO = IFPItemDTO.getItemFamilyplanNo().toString();
+        if (IFPItemDTO.getItemFamilyplanNo() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanNo().equals(StringUtils.EMPTY)) {
+            IFPNO = IFPItemDTO.getItemFamilyplanNo();
             sql = sql + " and  ifp.IFP_NO like '" + IFPNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (IFPItemDTO.getItemFamilyplanName().toString() != StringUtils.EMPTY) {
-            IFPName = IFPItemDTO.getItemFamilyplanName().toString();
+        if (IFPItemDTO.getItemFamilyplanName() == null ? StringUtils.EMPTY != null : !IFPItemDTO.getItemFamilyplanName().equals(StringUtils.EMPTY)) {
+            IFPName = IFPItemDTO.getItemFamilyplanName();
             sql = sql + " and  ifp.IFP_NAME like '" + IFPName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
@@ -582,18 +581,18 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hdesign on hdesign.HELPER_TABLE_SID=ps.PS_DESIGNATION"
                 + " LEFT JOIN HELPER_TABLE htrade on htrade.HELPER_TABLE_SID=ps.PS_TRADE_CLASS"
                 + " WHERE ps.INBOUND_STATUS <> 'D' ";
-        if (PSIFPDTO.getPriceScheduleIdValue().toString() != StringUtils.EMPTY) {
-            Pid = PSIFPDTO.getPriceScheduleIdValue().toString();
+        if (PSIFPDTO.getPriceScheduleIdValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleIdValue().equals(StringUtils.EMPTY)) {
+            Pid = PSIFPDTO.getPriceScheduleIdValue();
             sql = sql + " and  ps.PS_ID like '" + Pid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (PSIFPDTO.getPriceScheduleNoValue().toString() != StringUtils.EMPTY) {
-            PNO = PSIFPDTO.getPriceScheduleNoValue().toString();
+        if (PSIFPDTO.getPriceScheduleNoValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleNoValue().equals(StringUtils.EMPTY)) {
+            PNO = PSIFPDTO.getPriceScheduleNoValue();
             sql = sql + " and  ps.PS_NO like '" + PNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (PSIFPDTO.getPriceScheduleNameValue().toString() != StringUtils.EMPTY) {
-            PName = PSIFPDTO.getPriceScheduleNameValue().toString();
+        if (PSIFPDTO.getPriceScheduleNameValue() == null ? StringUtils.EMPTY != null : !PSIFPDTO.getPriceScheduleNameValue().equals(StringUtils.EMPTY)) {
+            PName = PSIFPDTO.getPriceScheduleNameValue();
             sql = sql + " and  ps.PS_NAME like '" + PName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
@@ -669,22 +668,22 @@ public class QueryUtils {
                 + " LEFT JOIN HELPER_TABLE hcategory on hcategory.HELPER_TABLE_SID =  rs.RS_CATEGORY"
                 + " LEFT JOIN HELPER_TABLE hdesignation on hdesignation.HELPER_TABLE_SID =  rs.RS_DESIGNATION"
                 + " WHERE rs.INBOUND_STATUS != 'D'";
-        if (RsIfpDto.getRebateScheduleId().toString() != StringUtils.EMPTY) {
-            Pid = RsIfpDto.getRebateScheduleId().toString();
+        if (RsIfpDto.getRebateScheduleId() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleId().equals(StringUtils.EMPTY)) {
+            Pid = RsIfpDto.getRebateScheduleId();
             sql = sql + " and  rs.RS_ID like '" + Pid.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebateScheduleNo().toString() != StringUtils.EMPTY) {
-            PNO = RsIfpDto.getRebateScheduleNo().toString();
+        if (RsIfpDto.getRebateScheduleNo() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleNo().equals(StringUtils.EMPTY)) {
+            PNO = RsIfpDto.getRebateScheduleNo();
             sql = sql + " and  rs.RS_NO like '" + PNO.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebateScheduleName().toString() != StringUtils.EMPTY) {
-            PName = RsIfpDto.getRebateScheduleName().toString();
+        if (RsIfpDto.getRebateScheduleName() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebateScheduleName().equals(StringUtils.EMPTY)) {
+            PName = RsIfpDto.getRebateScheduleName();
             sql = sql + " and  rs.RS_NAME like '" + PName.replace(CHAR_ASTERISK, CHAR_PERCENT) + "'";
 
         }
-        if (RsIfpDto.getRebatetype() != StringUtils.EMPTY) {
+        if (RsIfpDto.getRebatetype() == null ? StringUtils.EMPTY != null : !RsIfpDto.getRebatetype().equals(StringUtils.EMPTY)) {
             PType = RsIfpDto.getRebatetype();
             sql = sql + " and  rs.RS_TYPE=" + PType;
 
@@ -1256,7 +1255,7 @@ public class QueryUtils {
         return select;
     }
 
-    public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
+    public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);

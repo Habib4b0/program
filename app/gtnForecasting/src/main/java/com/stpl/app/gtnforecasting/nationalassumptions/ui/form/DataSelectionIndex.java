@@ -451,7 +451,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     VaadinSession.getCurrent().setAttribute(Constant.MODE, Constant.EDIT_SMALL);
                     VaadinSession.getCurrent().setAttribute("SessionDate", modifiedDate);
                     getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
-                    LOGGER.debug("projectionId in edit Button ------------------------>" + projectionId);
+                    LOGGER.debug("projectionId in edit Button ------------------------>= {}" , projectionId);
                 } else if (resultTable.getValue() == null) {
                     AbstractNotificationUtils.getErrorNotification(Constant.SELECT_RECORD, Constant.NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN);
                 }
@@ -874,7 +874,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
     @UiHandler("generateBtn")
     public void generateBtn(Button.ClickEvent event)  {
         try {
-            LOGGER.debug("generateBtn ClickEvent starts with company value   " + company.getValue());
+            LOGGER.debug("generateBtn ClickEvent starts with company value= {}  " , company.getValue());
             if (StringUtils.isBlank(projectionName.getValue()) || "0".equals(company.getValue()) || company.getValue() == null|| "0".equals(businessUnit.getValue()) || businessUnit.getValue() == null) {
                 AbstractNotificationUtils.getErrorNotification("Missing Data", "Please select all required fields before clicking the Generate button.");
             } else if (selectedProducts.size() == 0) {

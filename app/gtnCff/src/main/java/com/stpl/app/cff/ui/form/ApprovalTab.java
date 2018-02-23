@@ -40,6 +40,7 @@ import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.TableResultCustom;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -191,6 +192,10 @@ public class ApprovalTab extends CustomComponent {
     private CFFPagedFilterTable resultTable;
     private ExtPagedFilterTable excelTable = new ExtPagedFilterTable();
     /**
+     * The excel export image.
+     */
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
+    /**
      * Approval Table Container
      */
     private BeanItemContainer<ApprovalDetailsDTO> approvalContainer = new BeanItemContainer<>(ApprovalDetailsDTO.class);
@@ -284,6 +289,7 @@ public class ApprovalTab extends CustomComponent {
             excelTable.setFilterDecorator(new ExtDemoFilterDecorator());
             excelTable.addStyleName(Constants.FILTER_TABLE);
             excelTable.setVisible(false);
+            excelExport.setIcon(excelExportImage);
 
             latestEstimateName.setImmediate(true);
             latestEstimateName.addValidator(new StringLengthValidator("Latest Estimate name should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
@@ -520,7 +526,7 @@ public class ApprovalTab extends CustomComponent {
         }
         disableFieldsOnview();
 
-        excelExport.setIcon(new ThemeResource("img/excel.png"));
+        excelExport.setIcon(excelExportImage);
         excelExport.setStyleName("link");
         excelExport.setDescription("Export to excel");
         excelExport.setIconAlternateText("Excel export");
@@ -604,7 +610,7 @@ public class ApprovalTab extends CustomComponent {
                 link.setDescription("Open Commercial Forecasting");
             }
             furl += parameter;
-            LOGGER.debug("Redirecting to URL Ready : --------------" + furl);
+            LOGGER.debug("Redirecting to URL Ready : --------------{}",furl);
             link.setResource(new ExternalResource(furl));
         } else {
             projectionIdHidden = null;

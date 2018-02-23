@@ -58,7 +58,7 @@ public class DiscountLogic {
     /**
      * The dao.
      */
-    final private static FileManagementLogicDAO FMDAO = new FileManagementLogicDAOImpl();
+    private static final FileManagementLogicDAO FMDAO = new FileManagementLogicDAOImpl();
 
     private static HashMap<String, String> columnNames = new HashMap<String, String>();
 
@@ -209,7 +209,7 @@ public class DiscountLogic {
      */
     public List<DiscountSearchDTO> getDeductionGroupDetails(final int deductionGroupSid) throws SystemException, PortalException {
         List<DiscountSearchDTO> itemDetailsList;
-        LOGGER.debug("saveItemGroupDetails started with P1:int deductionGroupSid=" + deductionGroupSid);
+        LOGGER.debug("saveItemGroupDetails started with P1:int deductionGroupSid= {}" , deductionGroupSid);
         List<DeductionGroupDetails> resultList;
         List<RsModel> itemsList;
         final List items = new ArrayList();
@@ -229,7 +229,7 @@ public class DiscountLogic {
         }
         itemsList = DAO.getRebateScheduleList(rsModelDynamicQuery);
         itemDetailsList = getCustomizedDetailsResults(itemsList, itemsMap);
-        LOGGER.debug("saveDeductionGroupDetails return List<ItemDetailsDTO> deductionDetailsList=" + itemDetailsList.size());
+        LOGGER.debug("saveDeductionGroupDetails return List<ItemDetailsDTO> deductionDetailsList= {}" , itemDetailsList.size());
         return itemDetailsList;
     }
 
@@ -352,11 +352,11 @@ public class DiscountLogic {
     public List<HelperDTO> getDropDownList(final String listName) throws SystemException {
         List<HelperTable> list = null;
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("getDropDownList listName=" + listName);
+        LOGGER.debug("getDropDownList listName= {}" , listName);
         list = DAO.getHelperTableDetailsByListName(listName);
         
         if (list != null) {
-            LOGGER.debug("getDropDownList listSize=" + list.size());
+            LOGGER.debug("getDropDownList listSize= {}" , list.size());
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
@@ -439,7 +439,7 @@ public class DiscountLogic {
      * @throws Exception the exception
      */
     private List<DiscountSearchDTO> getCustomizedDetailsResults(final List<RsModel> resultList, final Map resultList1) throws SystemException, PortalException {
-        LOGGER.debug("getCustomizedItemResults started with P1:List<ItemMaster> resultList" + resultList.size() + "and P2:HashMap resultList1 size" + resultList1.size());
+        LOGGER.debug("getCustomizedItemResults started with P1:List<ItemMaster> resultList= {}, P2:HashMap resultList1 size= {}" , resultList.size(), resultList1.size());
         final List<DiscountSearchDTO> rebateDetailsList = new ArrayList<>();
         if (!resultList.isEmpty()) {
             for (int i = 0; i < resultList.size(); i++) {
@@ -459,7 +459,7 @@ public class DiscountLogic {
 
             }
         }
-        LOGGER.debug("getCustomizedItemResults return List<ItemDetailsDTO> itemDetailsList=" + rebateDetailsList.size());
+        LOGGER.debug("getCustomizedItemResults return List<ItemDetailsDTO> itemDetailsList= {}" , rebateDetailsList.size());
         return rebateDetailsList;
     }
 
@@ -549,7 +549,7 @@ public class DiscountLogic {
      * @throws PortalException the portal exception
      */
     public String deletedeductionGroup(final int deductionGroupSystemId) throws SystemException, PortalException {
-        LOGGER.debug("deletededuction started with P1:int itemdeductionSystemId=" + deductionGroupSystemId);
+        LOGGER.debug("deletededuction started with P1:int itemdeductionSystemId= {}" , deductionGroupSystemId);
 
         DeductionGroup deductionGroup;
         String deletedItemGroupName;
@@ -565,7 +565,7 @@ public class DiscountLogic {
         }
         deductionGroup = DAO.deleteDeductionGroup(deductionGroupSystemId);
         deletedItemGroupName = deductionGroup.getDeductionGroupName();
-        LOGGER.debug("deleteDeductionGroup return String deletedItemGroupName=" + deletedItemGroupName);
+        LOGGER.debug("deleteDeductionGroup return String deletedItemGroupName= {}" , deletedItemGroupName);
         return deletedItemGroupName;
 
     }

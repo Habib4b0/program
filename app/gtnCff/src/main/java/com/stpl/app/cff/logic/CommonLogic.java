@@ -74,6 +74,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.custommenubar.CustomMenuBar;
@@ -316,7 +317,7 @@ public class CommonLogic {
                     String sql = CommonQueryUtils.getAppQuery(list, "insertCustomViewMaster");
                     sql += cffCustomViewDetailsSaveLogic(customId, levelList, false);
                     dao.executeUpdateQuery(sql);
-                } catch (Exception ex) {
+                } catch (PortalException | SystemException ex) {
                     LOGGER.error(ex.getMessage());
                 }
             } else {
@@ -365,7 +366,7 @@ public class CommonLogic {
             }
 
             list = commonDao.getCustomViewList(query);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return list;
@@ -657,7 +658,7 @@ public class CommonLogic {
      * @return
      */
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name " + procedureName);
+        LOGGER.debug("Procedure Name= {} ", procedureName);
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -686,7 +687,6 @@ public class CommonLogic {
                 procedureToCall.append("}");
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
-                    LOGGER.debug(i + " -- " + orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 rs = statement.executeQuery();
@@ -694,7 +694,7 @@ public class CommonLogic {
                 objectList = convertResultSetToList(rs);
 
             }
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
            
             LOGGER.error(ex.getMessage());
         } finally {
@@ -702,25 +702,25 @@ public class CommonLogic {
                 if (rs != null) {
                     rs.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
             try {
                 statement.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
             try {
                 connection.close();
 
-            } catch (Exception ex) {
+            } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
         return objectList;
     }
     public static  void callProcedureUpdate(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name " + procedureName);
+        LOGGER.debug("Procedure Name= {} ", procedureName);
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -749,7 +749,6 @@ public class CommonLogic {
                 procedureToCall.append("}");
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
-                    LOGGER.debug(i + " -- " + orderedArgs[i]);
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
@@ -757,25 +756,25 @@ public class CommonLogic {
                 
 
             }
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
                 if (rs != null) {
                     rs.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
             try {
                 statement.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
             try {
                 connection.close();
 
-            } catch (Exception ex) {
+            } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
@@ -807,7 +806,7 @@ public class CommonLogic {
                 }
                 objList.add(str);
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
@@ -937,7 +936,7 @@ public class CommonLogic {
     public void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate, String tableName) {
         Object[] obj = map.keySet().toArray();
         StringBuilder queryBuilder = new StringBuilder();
-        LOGGER.debug("saveOrUpdate >> " + saveOrUpdate);
+        LOGGER.debug("saveOrUpdate= {} ", saveOrUpdate);
         if ("save".equalsIgnoreCase(saveOrUpdate)) {
             for (int i = 0; i < map.size(); i++) {
                 queryBuilder.append("INSERT INTO ").append(tableName).append(" (CFF_MASTER_SID,SCREEN_NAME,FIELD_NAME,FIELD_VALUES) VALUES ");
@@ -951,7 +950,7 @@ public class CommonLogic {
                 queryBuilder.append(" WHERE CFF_MASTER_SID = '").append(projectionID).append(" ' AND SCREEN_NAME = '").append(screenName).append("' AND FIELD_NAME ='").append(obj[i]).append("'\n");
             }
         }
-        LOGGER.debug("save / update query >> " + queryBuilder);
+        LOGGER.debug("Save / update query >> {}", queryBuilder);
         HelperTableLocalServiceUtil.executeUpdateQuery(queryBuilder.toString());
     }
 
@@ -1384,7 +1383,7 @@ public class CommonLogic {
                 Object ob = list.get(0);
                 levelNo = Integer.parseInt(String.valueOf(ob));
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -1509,7 +1508,7 @@ public class CommonLogic {
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LEVEL_NO, levelNo));
         try {
             list = commonDao.getCustomViewDetailsList(query);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         if (list != null && !list.isEmpty()) {
@@ -1527,7 +1526,7 @@ public class CommonLogic {
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, viewName));
         try {
             list = commonDao.getCustomViewDetailsList(query);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return list.size();
@@ -1675,7 +1674,7 @@ public class CommonLogic {
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
         try {
-            LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+            LOGGER.debug("entering getDropDownList method with paramater listType= {}", listType);
             final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like("listName", listType), RestrictionsFactoryUtil.like("listName", "ALL")));
             cfpDynamicQuery.addOrder(OrderFactoryUtil.asc("description"));
@@ -1690,7 +1689,7 @@ public class CommonLogic {
                 }
             }
 
-            LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+            LOGGER.debug("getDropDownList method ends with return value strList size = {}", helperList.size());
 
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -2369,13 +2368,13 @@ public class CommonLogic {
                     sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 default:
-                    LOGGER.warn("Invalid Hierarchy Indicator: " + currentHierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator= {}", currentHierarchyIndicator);
             }
         } else {
             sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         }
         sql = sql.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
-        LOGGER.debug("Group Filter Value:" + projSelDTO.getGroupFilter());
+        LOGGER.debug("Group Filter Value= {}", projSelDTO.getGroupFilter());
         return sql;
 
     }
@@ -2435,7 +2434,7 @@ public class CommonLogic {
                     break;
                 default:
 
-                    LOGGER.warn("Invalid Hierarchy Indicator:" + hierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator: {}", hierarchyIndicator);
             }
 
         } else {
@@ -2654,7 +2653,7 @@ public class CommonLogic {
         if (list != null && !list.isEmpty()) {
             count = Integer.parseInt(list.get(0).toString());
         }
-        LOGGER.debug("Count is  "+count);
+        LOGGER.debug("Count is= {}", count);
         return count;
     }
     public String insertAvailableHierarchyNo(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,boolean isCustomHierarchy,
@@ -2771,7 +2770,7 @@ public class CommonLogic {
         } else {
             throw new IllegalArgumentException("Invalid Hierarchy Indicator :" + hierarchyIndicator);
         }
-        LOGGER.debug("Count is "+count);
+        LOGGER.debug("Count is= {} ", count);
         return count;
 
     }
@@ -3104,7 +3103,7 @@ public class CommonLogic {
                     joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 ";
                     break;
                 case 10:
-                    selectClause = " RS.RS_ID,RS.RS_CONTRACT_SID ";
+                    selectClause = " RS.RS_ID,RS.RS_NAME,RS.RS_CONTRACT_SID ";
                     joinClause = StringUtils.EMPTY;
                     udcJoinClause=StringUtils.EMPTY;
                     break;
@@ -3236,7 +3235,7 @@ public class CommonLogic {
     public static List<String[]> getDeductionLevel(int projectionId) {
         List<String[]> deductionList = new ArrayList<>();
         try {
-            LOGGER.debug("projectionId " + projectionId);
+            LOGGER.debug("projectionId= {}", projectionId);
             String levelQuery = SQlUtil.getQuery("deduction-loading").replace("@PROJID", String.valueOf(projectionId));
             deductionList = (List<String[]>) HelperTableLocalServiceUtil.executeSelectQuery(levelQuery);
         } catch (SystemException ex) {
@@ -3324,6 +3323,47 @@ public class CommonLogic {
             columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ";       
         }
         return columnName;
+    }
+    
+     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+        String newLevel=StringUtils.EMPTY;
+        String oldLevel = StringUtils.EMPTY;
+        String listOfSids = StringUtils.EMPTY;
+        CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
+        customerlevelCustomItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
+        customerlevelCustomItem[0].setCheckable(true);
+        customerlevelCustomItem[0].setItemClickable(true);
+        customerlevelCustomItem[0].setItemClickNotClosable(true);
+        customerlevelCustomItem[0].setCheckAll(true);
+        for (int i = 1; i < listOfLevelFilter.size(); i++) {
+            MenuItemDTO dto = null;
+            Object[] obj = listOfLevelFilter.get(i);
+            String firstIndex = obj[0].toString();
+            String secondIndex = obj[1].toString();
+            newLevel = firstIndex + " - " + secondIndex;
+            if (oldLevel.equals(newLevel)) {
+                listOfSids += "," + obj[1].toString();
+                oldLevel = newLevel;
+            } else {
+                if (i != 1) {
+                    dto = new MenuItemDTO(listOfSids, oldLevel);
+                     listOfSids = "";
+                    customerlevelCustomItem[i] = filterValues.addItem(dto, null);
+                    customerlevelCustomItem[i].setCheckable(true);
+                    customerlevelCustomItem[i].setItemClickable(true);
+                    customerlevelCustomItem[i].setItemClickNotClosable(true);
+                }
+                listOfSids += obj[2].toString();
+                oldLevel = newLevel;
+            }
+            if (i == listOfLevelFilter.size() - 1) {
+                dto = new MenuItemDTO(listOfSids, newLevel);
+                customerlevelCustomItem[i] = filterValues.addItem(dto, null);
+                customerlevelCustomItem[i].setCheckable(true);
+                customerlevelCustomItem[i].setItemClickable(true);
+                customerlevelCustomItem[i].setItemClickNotClosable(true);
+            }
+        }
     }
 }
 

@@ -297,7 +297,7 @@ public class ExistingDiscountTab extends CustomComponent {
 
     }
 
-    private void LoadDashBoardTree() throws SystemException {
+    private void LoadDashBoardTree() {
         LOGGER.debug("Entering getProcessedTree method");
         final CommonLogic commonLogic = new CommonLogic();
         dashboardTreeTable.markAsDirty();
@@ -734,7 +734,7 @@ public class ExistingDiscountTab extends CustomComponent {
     }
 
     @UiHandler("addToTree")
-    public void addToTreeLogic(Button.ClickEvent event) throws SystemException {
+    public void addToTreeLogic(Button.ClickEvent event) {
         try {
             Object id = componentTypeDdlb.getValue();
             if (id != null) {
@@ -787,7 +787,7 @@ public class ExistingDiscountTab extends CustomComponent {
         }
     }
 
-    private boolean addToTreeMethod(ContractsDetailsDto srcTableBean) throws SystemException {
+    private boolean addToTreeMethod(ContractsDetailsDto srcTableBean)  {
         ContractsDetailsDto treeBean;
         boolean returnFlag = false;
         if (srcTableBean == null) {

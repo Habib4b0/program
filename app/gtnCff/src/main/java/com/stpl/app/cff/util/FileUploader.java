@@ -93,13 +93,13 @@ public class FileUploader implements Upload.Receiver {
 				outputStream = new FileOutputStream(file);
 				return outputStream;// Return the output stream to write to
 			}
-			LOGGER.info("File is deleted successfully : "+ isFileExists);
-			LOGGER.info("File is created successfully : "+ isFileCreated);
+			LOGGER.info("File is deleted successfully : {} ", isFileExists);
+			LOGGER.info("File is created successfully : {} ", isFileCreated);
 		} catch (final java.io.FileNotFoundException e) {
 			LOGGER.error(e.getMessage());
 			return NULL_OUTPUT_STREAM;
 
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			LOGGER.error(ex.getMessage());
 			new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());

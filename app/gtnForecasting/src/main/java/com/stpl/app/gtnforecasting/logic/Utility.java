@@ -225,7 +225,7 @@ public class Utility {
         } else {
             levelNo = sessionDTO.getTradingPartner();
         }
-        LOGGER.debug("projectionIdOrCustomId"+projectionIdOrCustomId);
+        LOGGER.debug("projectionIdOrCustomId= {}",projectionIdOrCustomId);
         return levelNo;
     }
 

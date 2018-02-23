@@ -49,7 +49,6 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.event.ItemClickEvent;
@@ -514,20 +513,20 @@ public class Exixtingcomponent extends CustomComponent {
     public void BtnsearchECClick(Button.ClickEvent event) {
         LOGGER.debug("Entered search method");
 
-        if (ComponenttypeNC.getValue() != null && SearchfieldEC.getValue() != null && (!SearchvaluedEC.getValue().toString().equalsIgnoreCase(StringUtils.EMPTY) || SearchfieldECDDlb.getValue() != null)) {
+        if (ComponenttypeNC.getValue() != null && SearchfieldEC.getValue() != null && (!SearchvaluedEC.getValue().equalsIgnoreCase(StringUtils.EMPTY) || SearchfieldECDDlb.getValue() != null)) {
             List input = new ArrayList();
             if (SearchfieldEC.getValue().toString().contains("ID")) {
-                input.add(SearchvaluedEC.getValue().toString().replace(CHAR_ASTERISK, CHAR_PERCENT));
+                input.add(SearchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
             } else {
                 input.add(Constants.PERCENT);
             }
             if (SearchfieldEC.getValue().toString().contains("No")) {
-                input.add(SearchvaluedEC.getValue().toString().replace(CHAR_ASTERISK, CHAR_PERCENT));
+                input.add(SearchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
             } else {
                 input.add(Constants.PERCENT);
             }
             if (SearchfieldEC.getValue().toString().contains("Name")) {
-                input.add(SearchvaluedEC.getValue().toString().replace(CHAR_ASTERISK, CHAR_PERCENT));
+                input.add(SearchvaluedEC.getValue().replace(CHAR_ASTERISK, CHAR_PERCENT));
             } else {
                 input.add(Constants.PERCENT);
             }
@@ -906,7 +905,7 @@ public class Exixtingcomponent extends CustomComponent {
         return 1;
     }
     
-    public void savecontract(Object item) throws SystemException, PortalException {
+    public void savecontract(Object item) throws PortalException {
         
         String contractsidvalue;
         Object[] itemIds = {item};
