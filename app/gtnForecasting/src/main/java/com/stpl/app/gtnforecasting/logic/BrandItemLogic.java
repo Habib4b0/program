@@ -46,7 +46,7 @@ public class BrandItemLogic {
         String brandName = null;
         final Collection<Object> itemNos = new ArrayList<>();
         final Collection<Object> itemNames = new ArrayList<>();
-        LOGGER.debug("Entering getBrand method with list size" + selectedProducts.size());
+        LOGGER.debug("Entering getBrand method with list size= {}" , selectedProducts.size());
 
         for (int i = 0; i < selectedProducts.size(); i++) {
             itemNos.add(selectedProducts.get(i).getProductNo());

@@ -183,7 +183,7 @@ public class StChSalesProjectionImpl  {
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage() + " While assembling query for " + parameters.get(Constants.INDICATOR));
+            LOGGER.error("{}, While assembling query for= {} " , ex.getMessage(), parameters.get(Constants.INDICATOR));
             LOGGER.error(queryString.toString());
             return null;
         } 

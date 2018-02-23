@@ -44,7 +44,7 @@ public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
      */
     @Override
     public List loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated= and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated start= {}, and offset= {}" , start, offset);
         Map<Integer, Object> map = new HashMap<>();
         List<AlternateHistoryDTO> list = null;
         if (offset > 0) {
@@ -59,7 +59,7 @@ public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
-        LOGGER.debug("loadData ended  " + map.size());
+        LOGGER.debug("loadData ended= {}  " , map.size());
         return list;
     }
 
@@ -75,7 +75,7 @@ public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
         if(isFirst){
             count = logic.alternateSelectionCount(session, getFilters());
         }
-        LOGGER.debug("getCount ended with count=" + count);
+        LOGGER.debug("getCount ended with count= {}" , count);
         return count;
     }
     @Override

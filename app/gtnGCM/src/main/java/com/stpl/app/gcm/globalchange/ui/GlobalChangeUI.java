@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 public class GlobalChangeUI extends UI {
 
     private Navigator navigator;
+
     /**
      * The Constant LOGGER.
      */

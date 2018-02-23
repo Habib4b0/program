@@ -5,10 +5,6 @@
 package com.stpl.app.gcm.util;
 
 import java.util.ResourceBundle;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.vaadin.ui.AbstractOrderedLayout;
 
 /**
@@ -16,7 +12,6 @@ import com.vaadin.ui.AbstractOrderedLayout;
  * @author alok.v
  */
 public class UiUtils {
-
 
 	private static ResourceBundle resourceBundle;
 	public static final String COMPANY_CATEGORY = "COMPANY_CATEGORY";

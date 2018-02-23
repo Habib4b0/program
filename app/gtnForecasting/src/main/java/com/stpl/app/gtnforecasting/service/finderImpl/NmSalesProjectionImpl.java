@@ -34,7 +34,7 @@ public class NmSalesProjectionImpl {
         try {
 
             String method = (String) inputs[8];
-            LOGGER.debug("method : "+method);
+            LOGGER.debug("method = {} ",method);
             if (method.equals("fetchSalesResult")) {
 
                 String projectionId = String.valueOf(inputs[0]);

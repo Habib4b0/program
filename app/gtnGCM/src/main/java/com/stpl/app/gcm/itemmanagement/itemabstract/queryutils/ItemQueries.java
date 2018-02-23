@@ -186,7 +186,7 @@ public class ItemQueries {
         StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));
         try {
             String query = getQuery(sql, dto);
-            Integer count = (Integer) ITEMDAO.executeUpdate(query.toString());
+            Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
                 return Boolean.TRUE;
             } else {
@@ -733,7 +733,7 @@ public class ItemQueries {
         return query;
     }
 
-    public static int getHelperCode(String listName, String description) throws SystemException {
+    public static int getHelperCode(String listName, String description) {
         ContractHeaderDAO DAO = new ContractHeaderLogicDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();

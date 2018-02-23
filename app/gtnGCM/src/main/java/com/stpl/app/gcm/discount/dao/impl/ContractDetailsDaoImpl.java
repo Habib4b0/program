@@ -53,10 +53,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery it filter by contractSystemId
      * @return List of data from CfpDetailsAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List cfpDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List cfpDetailsDynamicQuery(final DynamicQuery dynamicQuery)  {
         return CfpContractDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -65,10 +65,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param cfpDetailsAttached to add in CompanyFamilyplanDetails table
      * @return added row from CompanyFamilyplanDetails table
-     * @throws SystemException
+     * @
      */
     @Override
-    public CfpContractDetails addCfpDetailsAttached(final CfpContractDetails cfpDetailsAttached) throws SystemException {
+    public CfpContractDetails addCfpDetailsAttached(final CfpContractDetails cfpDetailsAttached)  {
         return CfpContractDetailsLocalServiceUtil.addCfpContractDetails(cfpDetailsAttached);
     }
 
@@ -79,10 +79,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @param cfpDetailsAttached is to remove from CompanyFamilyplanDetails
      * table
      * @return the row that was removed from CompanyFamilyplanDetails table
-     * @throws SystemException
+     * @
      */
     @Override
-    public CfpContractDetails deleteCfpDetailsAttached(final CfpContractDetails cfpDetailsAttached) throws SystemException {
+    public CfpContractDetails deleteCfpDetailsAttached(final CfpContractDetails cfpDetailsAttached)  {
         return CfpContractDetailsLocalServiceUtil.deleteCfpContractDetails(cfpDetailsAttached);
     }
 
@@ -93,10 +93,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @param dynamicQuery based on contractSystemId in CfpDetailsAttached table
      * @return row of data corresponding to the contractSystemId in
      * CfpMasterAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List cfpMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List cfpMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return CfpContractLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -105,10 +105,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param cfpMasterAttached to add in CfpMasterAttached table
      * @return list of data based on the query from CfpMasterAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public CfpContract addCfpMasterAttached(final CfpContract cfpMasterAttached) throws SystemException {
+    public CfpContract addCfpMasterAttached(final CfpContract cfpMasterAttached)  {
         return CfpContractLocalServiceUtil.addCfpContract(cfpMasterAttached);
     }
 
@@ -118,10 +118,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param cfpMasterAttached to delete from CfpMasterAttached table
      * @return removed data from CfpMasterAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public CfpContract deleteCfpMasterAttached(final CfpContract cfpMasterAttached) throws SystemException {
+    public CfpContract deleteCfpMasterAttached(final CfpContract cfpMasterAttached)  {
         return CfpContractLocalServiceUtil.deleteCfpContract(cfpMasterAttached);
     }
 
@@ -132,10 +132,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @param dynamicQuery to fetch data based on companyFamilyPlanSystemId
      * table
      * @return list of data retrived form CompanyFamilyplanDetails table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List companyFamilyplanDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List companyFamilyplanDetailsDynamicQuery(final DynamicQuery dynamicQuery)  {
         return CfpDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -146,10 +146,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @param dynamicQuery to execute based on companyFamilyPlanNo from
      * CompanyFamilyplanMaster table
      * @return list of data retrived from the CompanyFamilyplanMastertable
-     * @throws SystemException
+     * @
      */
     @Override
-    public List companyFamilyplanMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List companyFamilyplanMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return CfpModelLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -158,11 +158,11 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param id it is like internal id
      * @return list of data from company plan master table
-     * @throws SystemException
+     * @
      * @throws PortalException
      */
     @Override
-    public CfpModel getCompanyFamilyplanMaster(final int systemId) throws SystemException, PortalException {
+    public CfpModel getCompanyFamilyplanMaster(final int systemId) throws PortalException {
         return CfpModelLocalServiceUtil.getCfpModel(systemId);
     }
 
@@ -172,10 +172,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @param dynamicQuery based on contractSystemId from IfpDetailsAttached
      * table
      * @return list of data from IfpDetailsAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List ifpDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List ifpDetailsDynamicQuery(final DynamicQuery dynamicQuery)  {
         return IfpContractDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -184,10 +184,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param ifpDetailsAttached to delete from table IfpDetailsAttached table
      * @return deleted row from the table IfpDetailsAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public IfpContractDetails deleteIfpDetailsAttached(final IfpContractDetails ifpDetailsAttached) throws SystemException {
+    public IfpContractDetails deleteIfpDetailsAttached(final IfpContractDetails ifpDetailsAttached)  {
         return IfpContractDetailsLocalServiceUtil.deleteIfpContractDetails(ifpDetailsAttached);
     }
 
@@ -196,10 +196,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param ifpDetailsAttached to add to IfpDetailsAttached table
      * @return added value from IfpDetailsAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public IfpContractDetails addIfpDetailsAttached(final IfpContractDetails ifpDetailsAttached) throws SystemException {
+    public IfpContractDetails addIfpDetailsAttached(final IfpContractDetails ifpDetailsAttached)  {
         return IfpContractDetailsLocalServiceUtil.addIfpContractDetails(ifpDetailsAttached);
     }
 
@@ -209,10 +209,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @param dynamicQuery to retrieve data from the table IfpDetailsAttached
      * table
      * @return list of data retrieved from IfpDetailsAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List ifpMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List ifpMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return IfpContractLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -222,10 +222,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param ifpMasterAttached to delete from IfpMasterAttached table
      * @return deleted row of IfpMasterAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public IfpContract deleteIfpMasterAttached(final IfpContract ifpMasterAttached) throws SystemException {
+    public IfpContract deleteIfpMasterAttached(final IfpContract ifpMasterAttached)  {
         return IfpContractLocalServiceUtil.deleteIfpContract(ifpMasterAttached);
     }
 
@@ -234,10 +234,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param ifpMasterAttached to add to IfpMasterAttached table
      * @return added value to IfpMasterAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public IfpContract addIfpMasterAttached(final IfpContract ifpMasterAttached) throws SystemException {
+    public IfpContract addIfpMasterAttached(final IfpContract ifpMasterAttached)  {
         return IfpContractLocalServiceUtil.addIfpContract(ifpMasterAttached);
     }
 
@@ -249,7 +249,7 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * SystemException
      */
     @Override
-    public List itemFamilyPlanDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List itemFamilyPlanDetailsDynamicQuery(final DynamicQuery dynamicQuery)  {
         return IfpDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -258,10 +258,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery to retrieve the data from ItemFamilyplanMaster table.
      * @return list of data retrieved from the ItemFamilyplanMaster table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List itemFamilyPlanMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List itemFamilyPlanMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return IfpModelLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -270,11 +270,11 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param id to retrieve the data from ItemFamilyplanMaster table
      * @return ItemFamilyPlanMasterbased on id it is like internal is
-     * @throws SystemException
+     * @
      * @throws com.liferay.portal.kernel.exception.PortalException
      */
     @Override
-    public IfpModel getItemFamilyPlanMaster(final int systemId) throws SystemException, PortalException {
+    public IfpModel getItemFamilyPlanMaster(final int systemId) throws PortalException {
         return IfpModelLocalServiceUtil.getIfpModel(systemId);
     }
 
@@ -284,10 +284,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery to get the data from PriceScheduleDetails table
      * @return list of data retrieved from the PriceScheduleDetails table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List priceScheduleDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List priceScheduleDetailsDynamicQuery(final DynamicQuery dynamicQuery)  {
         return PsDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -297,10 +297,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery to get the data from PriceScheduleMaster table
      * @return list of data retrieved from the PriceScheduleMaster table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List priceScheduleMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List priceScheduleMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return PsDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -309,11 +309,11 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param id to retrieve the data from PriceScheduleMaster
      * @return ItemFamilyPlanMasterbased on id like internal id
-     * @throws SystemException
+     * @
      * @throws PortalException
      */
     @Override
-    public PsModel getPriceScheduleMaster(final int systemId) throws SystemException, PortalException {
+    public PsModel getPriceScheduleMaster(final int systemId) throws PortalException {
         return PsModelLocalServiceUtil.getPsModel(systemId);
     }
 
@@ -322,10 +322,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery to get the data from PsDetailsAttached table
      * @return list of data retrieved from the PsDetailsAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List psDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List psDetailsDynamicQuery(final DynamicQuery dynamicQuery)  {
         return PsContractDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -334,10 +334,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param psDetailsAttached is to remove from PsDetailsAttached
      * @return deleted psDetails that was removed from PsDetailsAttached
-     * @throws SystemException
+     * @
      */
     @Override
-    public PsContractDetails deletePsDetailsAttached(final PsContractDetails psDetailsAttached) throws SystemException {
+    public PsContractDetails deletePsDetailsAttached(final PsContractDetails psDetailsAttached)  {
         return PsContractDetailsLocalServiceUtil.deletePsContractDetails(psDetailsAttached);
     }
 
@@ -346,10 +346,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param psDetailsAttached this data is to be add to the database
      * @return added data to database
-     * @throws SystemException
+     * @
      */
     @Override
-    public PsContractDetails addPsDetailsAttached(final PsContractDetails psDetailsAttached) throws SystemException {
+    public PsContractDetails addPsDetailsAttached(final PsContractDetails psDetailsAttached)  {
         return PsContractDetailsLocalServiceUtil.addPsContractDetails(psDetailsAttached);
     }
 
@@ -358,10 +358,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery to get the data from PsDetailsAttached
      * @return list of data retrieved from the PsDetailsAttached
-     * @throws SystemException
+     * @
      */
     @Override
-    public List psMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List psMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return PsContractLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -370,10 +370,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param psMasterAttached is to remove from PsMasterAttached
      * @return deleted psDetails that was removed from PsMasterAttached
-     * @throws SystemException
+     * @
      */
     @Override
-    public PsContract deletePsMasterAttached(final PsContract psMasterAttached) throws SystemException {
+    public PsContract deletePsMasterAttached(final PsContract psMasterAttached)  {
         return PsContractLocalServiceUtil.deletePsContract(psMasterAttached);
     }
 
@@ -382,10 +382,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param psMasterAttached this data is to be add to the PsMasterAttached
      * @return added data to PsMasterAttached
-     * @throws SystemException
+     * @
      */
     @Override
-    public PsContract addPsMasterAttached(final PsContract psMasterAttached) throws SystemException {
+    public PsContract addPsMasterAttached(final PsContract psMasterAttached)  {
         return PsContractLocalServiceUtil.addPsContract(psMasterAttached);
     }
 
@@ -394,10 +394,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery o get the data from RebateScheduleDetails
      * @return list of data retrieved from the RebateScheduleDetails
-     * @throws SystemException
+     * @
      */
     @Override
-    public List rebateScheduleDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List rebateScheduleDetailsDynamicQuery(final DynamicQuery dynamicQuery)  {
         return RsDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -406,10 +406,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery to get the data from RebateScheduleMaster
      * @return list of data retrieved from the RebateScheduleMaster
-     * @throws SystemException
+     * @
      */
     @Override
-    public List rebateScheduleMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List rebateScheduleMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return RsModelLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -418,11 +418,11 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param id - rebateSchedule Id .it is like InternalId
      * @return row of
-     * @throws SystemException
+     * @
      * @throws PortalException
      */
     @Override
-    public RsModel getRebateScheduleMaster(final int systemId) throws SystemException, PortalException {
+    public RsModel getRebateScheduleMaster(final int systemId) throws PortalException {
         return RsModelLocalServiceUtil.getRsModel(systemId);
     }
 
@@ -431,10 +431,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery o get the data from RsDetailsAttached
      * @return list of data retrieved from the RsDetailsAttached
-     * @throws SystemException
+     * @
      */
     @Override
-    public List rsDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List rsDetailsDynamicQuery(final DynamicQuery dynamicQuery)  {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -443,10 +443,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param rsDetailsAttached to delete from RsDetailsAttached
      * @return deleted row of IfpMasterAttached from RsDetailsAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public RsContractDetails deleteRsDetailsAttached(final RsContractDetails rsDetailsAttached) throws SystemException {
+    public RsContractDetails deleteRsDetailsAttached(final RsContractDetails rsDetailsAttached)  {
         return RsContractDetailsLocalServiceUtil.deleteRsContractDetails(rsDetailsAttached);
     }
 
@@ -455,10 +455,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param rsDetailsAttached this data is to be add to the RsDetailsAttached
      * @return added data to RsDetailsAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public RsContractDetails addRsDetailsAttached(final RsContractDetails rsDetailsAttached) throws SystemException {
+    public RsContractDetails addRsDetailsAttached(final RsContractDetails rsDetailsAttached)  {
         return RsContractDetailsLocalServiceUtil.addRsContractDetails(rsDetailsAttached);
     }
 
@@ -467,10 +467,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQueryto get the data from RsMasterAttached table
      * @return list of data retrieved from the RsMasterAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List rsMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List rsMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return RsContractLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -479,10 +479,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param rsMasterAttached to delete from RsMasterAttached table
      * @return deleted row of IfpMasterAttached from RsMasterAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public RsContract deleteRsMasterAttached(final RsContract rsMasterAttached) throws SystemException {
+    public RsContract deleteRsMasterAttached(final RsContract rsMasterAttached)  {
         return RsContractLocalServiceUtil.deleteRsContract(rsMasterAttached);
     }
 
@@ -491,10 +491,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param rsMasterAttached this data is to be add to the RsMasterAttached
      * @return added data to RsMasterAttached table
-     * @throws SystemException
+     * @
      */
     @Override
-    public RsContract addRsMasterAttached(final RsContract rsMasterAttached) throws SystemException {
+    public RsContract addRsMasterAttached(final RsContract rsMasterAttached)  {
         return RsContractLocalServiceUtil.addRsContract(rsMasterAttached);
     }
 
@@ -504,10 +504,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param dynamicQuery to get the data from ContractMaster table
      * @return list of data retrieved from the ContractMaster table
-     * @throws SystemException
+     * @
      */
     @Override
-    public List contractMasterDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
+    public List contractMasterDynamicQuery(final DynamicQuery dynamicQuery)  {
         return ContractMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -516,11 +516,11 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param id to retrieve data based on the id from contract master
      * @return data retrieved from contract master table
-     * @throws SystemException
+     * @
      * @throws PortalException
      */
     @Override
-    public ContractMaster getContractMaster(final int systemId) throws SystemException, PortalException {
+    public ContractMaster getContractMaster(final int systemId) throws PortalException {
         return ContractMasterLocalServiceUtil.getContractMaster(systemId);
     }
 
@@ -530,10 +530,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param contractMaster to add or update the ContractMaster table
      * @return updated or added ContractMaster row
-     * @throws SystemException
+     * @
      */
     @Override
-    public ContractMaster updateContractMaster(final ContractMaster contractMaster) throws SystemException {
+    public ContractMaster updateContractMaster(final ContractMaster contractMaster)  {
         return ContractMasterLocalServiceUtil.updateContractMaster(contractMaster);
     }
 
@@ -544,10 +544,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @param dynamicQuery to get the count of data present from ContractMaster
      * table
      * @return no of data
-     * @throws SystemException
+     * @
      */
     @Override
-    public long contractMasterDynamicQueryCount(final DynamicQuery dynamicQuery) throws SystemException {
+    public long contractMasterDynamicQueryCount(final DynamicQuery dynamicQuery)  {
         return ContractMasterLocalServiceUtil.dynamicQueryCount(dynamicQuery);
     }
 
@@ -558,7 +558,7 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
     @Override
-    public int getContractMasterCount() throws SystemException {
+    public int getContractMasterCount()  {
         return ContractMasterLocalServiceUtil.getContractMastersCount();
     }
 
@@ -568,10 +568,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param cfpMasterAttached to add or update the CfpMasterAttached table
      * @return updated or added CfpMasterAttached row
-     * @throws SystemException
+     * @
      */
     @Override
-    public CfpContract updateCfpMasterAttached(final CfpContract cfpMasterAttached) throws SystemException {
+    public CfpContract updateCfpMasterAttached(final CfpContract cfpMasterAttached)  {
         return CfpContractLocalServiceUtil.updateCfpContract(cfpMasterAttached);
     }
 
@@ -581,10 +581,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param cfpDetailsAttached to add or update the CfpDetailsAttached table
      * @return updated or added CfpDetailsAttached row
-     * @throws SystemException
+     * @
      */
     @Override
-    public CfpContractDetails updateCfpDetailsAttached(final CfpContractDetails cfpDetailsAttached) throws SystemException {
+    public CfpContractDetails updateCfpDetailsAttached(final CfpContractDetails cfpDetailsAttached)  {
         return CfpContractDetailsLocalServiceUtil.updateCfpContractDetails(cfpDetailsAttached);
     }
 
@@ -594,10 +594,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param ifpMasterAttached to add or update the IfpMasterAttached table
      * @return updated or added IfpMasterAttached row
-     * @throws SystemException
+     * @
      */
     @Override
-    public IfpContract updateIfpMasterAttached(final IfpContract ifpMasterAttached) throws SystemException {
+    public IfpContract updateIfpMasterAttached(final IfpContract ifpMasterAttached)  {
         return IfpContractLocalServiceUtil.updateIfpContract(ifpMasterAttached);
     }
 
@@ -607,10 +607,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param ifpDetailsAttached to add or update the IfpDetailsAttached table
      * @return updated or added IfpDetailsAttached row
-     * @throws SystemException
+     * @
      */
     @Override
-    public IfpContractDetails updateIfpDetailsAttached(final IfpContractDetails ifpDetailsAttached) throws SystemException {
+    public IfpContractDetails updateIfpDetailsAttached(final IfpContractDetails ifpDetailsAttached)  {
         return IfpContractDetailsLocalServiceUtil.updateIfpContractDetails(ifpDetailsAttached);
     }
 
@@ -620,10 +620,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param psMasterAttached to add or update the PsMasterAttached table
      * @return updated or added PsMasterAttached row
-     * @throws SystemException
+     * @
      */
     @Override
-    public PsContract updatePsMasterAttached(final PsContract psMasterAttached) throws SystemException {
+    public PsContract updatePsMasterAttached(final PsContract psMasterAttached)  {
         return PsContractLocalServiceUtil.updatePsContract(psMasterAttached);
     }
 
@@ -633,10 +633,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param psDetailsAttached to add or update the PsDetailsAttached table
      * @return updated or added PsDetailsAttached row
-     * @throws SystemException
+     * @
      */
     @Override
-    public PsContractDetails updatePsDetailsAttached(final PsContractDetails psDetailsAttached) throws SystemException {
+    public PsContractDetails updatePsDetailsAttached(final PsContractDetails psDetailsAttached)  {
         return PsContractDetailsLocalServiceUtil.updatePsContractDetails(psDetailsAttached);
     }
 
@@ -646,10 +646,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param rsMasterAttached to add or update the RsMasterAttached table
      * @return updated or added RsMasterAttached row
-     * @throws SystemException
+     * @
      */
     @Override
-    public RsContract updateRsMasterAttached(final RsContract rsMasterAttached) throws SystemException {
+    public RsContract updateRsMasterAttached(final RsContract rsMasterAttached)  {
         return RsContractLocalServiceUtil.updateRsContract(rsMasterAttached);
     }
 
@@ -659,10 +659,10 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      * @param rsDetailsAttached to add or update the RsDetailsAttached table
      * @return updated or added RsDetailsAttached row
-     * @throws SystemException
+     * @
      */
     @Override
-    public RsContractDetails updateRsDetailsAttached(final RsContractDetails rsDetailsAttached) throws SystemException {
+    public RsContractDetails updateRsDetailsAttached(final RsContractDetails rsDetailsAttached)  {
         return RsContractDetailsLocalServiceUtil.updateRsContractDetails(rsDetailsAttached);
     }
 }

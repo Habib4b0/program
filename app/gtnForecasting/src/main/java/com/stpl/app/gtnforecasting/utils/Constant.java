@@ -48,6 +48,7 @@ public class Constant {
      * The Constant ZERO.
      */
     public static final int ZERO = 0;
+    public static final String TEN_STRING = "10";
     /**
      * The Constant ZERO String
      */
@@ -788,6 +789,8 @@ public class Constant {
     public static final String FREQUENCY_SMALL = "Frequency";
     public static final String PERIOD_ORDER = "Period Order";
     public static final String VARIABLES = "Variables";
+    public static final String LEVELNAME = "levelName";
+    public static final String LEVEL_NAME_HEADER = "Level Name";
     public static final String LEVEL_NAME = "levelName";
     public static final String UPDATE_SMALL = "Update";
     public static final String EDIT_CAPS = "EDIT";

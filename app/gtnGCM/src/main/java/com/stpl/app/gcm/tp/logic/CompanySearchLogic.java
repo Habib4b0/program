@@ -53,7 +53,7 @@ public class CompanySearchLogic {
      */
     private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchLogic.class);
 
-    public int companySearchCount(TradingPartnerDTO tpDto, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId) throws SystemException {
+    public int companySearchCount(TradingPartnerDTO tpDto, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId) {
         Map<String, Object> parameters = new HashMap<>();
         List resultList;
         parameters.put(LAZY_LOAD_RESULTS, null);
@@ -139,7 +139,7 @@ public class CompanySearchLogic {
         return Integer.parseInt(String.valueOf(resultList.get(0)));
     }
 
-    public List<TradingPartnerDTO> searchCompaniesLazy(final TradingPartnerDTO tpDTO, int startIndex, int offset, List<SortByColumn> sortByColumns, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId,boolean isProjectionSelected) throws SystemException, ParseException {
+    public List<TradingPartnerDTO> searchCompaniesLazy(final TradingPartnerDTO tpDTO, int startIndex, int offset, List<SortByColumn> sortByColumns, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId,boolean isProjectionSelected) throws ParseException {
         Map<String, Object> parameters = new HashMap<>();
         List resultList;
         List<TradingPartnerDTO> returnList = null;

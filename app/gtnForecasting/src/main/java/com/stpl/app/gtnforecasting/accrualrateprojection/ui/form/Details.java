@@ -292,7 +292,7 @@ public class Details extends CustomComponent {
                 comboBox.select(null);
                 break;
             default:
-                LOGGER.warn("ddlbName is not valid: " + ddlbName);
+                LOGGER.warn("ddlbName is not valid= {} " , ddlbName);
                 break;
         }
 

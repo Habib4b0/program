@@ -162,7 +162,7 @@ public class CustomerSelection extends VerticalLayout {
     /**
      * The data selection binder.
      */
-    protected ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tpDto));
+    private ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tpDto));
    
     public CustomerSelection(SessionDTO session, TransferTPForm form) {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/customerSelection.xml"), this));

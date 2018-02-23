@@ -112,8 +112,8 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
 
     @Override
     protected void loadFrequency() {
-        LOGGER.debug("DPR ValueChangeEvent initiated with frequency -->"
-                + frequencyDdlb.getValue());
+        LOGGER.debug("DPR ValueChangeEvent initiated with frequency -->= {}"
+                , frequencyDdlb.getValue());
         if (frequencyDdlb.getValue() == null) {
             historyDdlb.removeAllItems();
             historyDdlb.addItem(SELECT_ONE);
@@ -603,7 +603,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
                     }
                     int suppIndex = columnIndex;
                     if (event.getPropertyId().equals(Constant.TOTALDISCOUNT)) {
-                        LOGGER.debug(event.getPropertyId().toString() + "=====" + !event.isExpanded());
+                        LOGGER.debug("===== {}, ===== {}", event.getPropertyId().toString(), !event.isExpanded());
                         rightTable.setDoubleHeaderColumnCollapsed(getRightHeader().getDoubleColumns().get(1), !event.isExpanded());
                         rightTable.setDoubleHeaderColumnCollapsed(getRightHeader().getDoubleColumns().get(suppIndex), !event.isExpanded());
                         if (!event.isExpanded()) {

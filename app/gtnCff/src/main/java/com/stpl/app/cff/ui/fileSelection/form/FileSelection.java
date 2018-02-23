@@ -39,6 +39,7 @@ import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.TableResultCustom;
+import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -63,6 +64,7 @@ public class FileSelection extends CustomComponent {
     private final BeanItemContainer<FileSelectionDTO> searchContainer = new BeanItemContainer<>(FileSelectionDTO.class);
     private final SessionDTO sessionDTO;
     private final Button excelExport = new Button();
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private final CFFLogic cffLogic = new CFFLogic();
     private final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static final Logger LOGGER = LoggerFactory.getLogger(FileSelection.class);
@@ -127,6 +129,7 @@ public class FileSelection extends CustomComponent {
                 resultsTable.setColumnWidth(propertyId, -1);
             }
             resultsTable.setEditable(true);
+            excelExport.setIcon(excelExportImage);
             excelExport.addClickListener(new Button.ClickListener() {
                 /**
                  * calls excelExportLogic method on button click
@@ -160,7 +163,7 @@ public class FileSelection extends CustomComponent {
     @SuppressWarnings("serial")
     private Component addResultTable() {
         excelExport.setCaption(StringUtils.EMPTY);
-        excelExport.setIcon(new ThemeResource("img/excel.png"));
+        excelExport.setIcon(excelExportImage);
         excelExport.setStyleName("link");
         excelExport.setDescription("Export to excel");
         excelExport.setIconAlternateText("Excel export");

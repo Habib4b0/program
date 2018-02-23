@@ -126,7 +126,7 @@ public class CommonUtils {
             String finalPath = path.substring(0, path.lastIndexOf("."));
             finalPath = finalPath.replaceAll("\\.", "\\" + File.separator);
             finalPath += xmlClassResourceFileName;
-            LOGGER.debug("Path to XML:" + finalPath);
+            LOGGER.debug("Path to XML= {}" , finalPath);
             xml = Thread.currentThread().getContextClassLoader().getResource(finalPath).openStream();
             LOGGER.debug("createClara method ends");
             return Clara.create(xml, controller, attributeFilters);

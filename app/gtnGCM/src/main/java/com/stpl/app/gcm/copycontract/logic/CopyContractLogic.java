@@ -56,7 +56,7 @@ public class CopyContractLogic {
     private final TradingPartnerDAO ccDao = new TradingPartnerDAOImpl();
     private final SimpleDateFormat sdfSource = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
-    public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
+    public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
@@ -99,7 +99,7 @@ public class CopyContractLogic {
         return select;
     }
 
-    public List loadSearchFieldDDLB(String Tablename) throws SystemException {
+    public List loadSearchFieldDDLB(String Tablename) {
         final List items = dao.getColumnNames(Tablename);
         return items;
     }
@@ -1433,7 +1433,7 @@ public class CopyContractLogic {
         }
     }
         
-     public static String getDescription(int code) throws SystemException {
+     public static String getDescription(int code) {
         try {
             HelperTable table = HelperTableLocalServiceUtil.getHelperTable(code);
             return table.getDescription();

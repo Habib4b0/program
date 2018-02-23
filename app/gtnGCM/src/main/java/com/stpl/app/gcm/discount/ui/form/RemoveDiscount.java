@@ -393,7 +393,7 @@ public class RemoveDiscount extends CustomComponent {
             parentList.clear();
             levelValue = 0;
             dashBoardTreeContainer.removeAllItems();
-            dashBoardTreeContainer = commonLogic.getLevel1Hierarchy(removeList.get(0).toString(), dashBoardTreeContainer, null);
+            dashBoardTreeContainer = commonLogic.getLevel1Hierarchy(removeList.get(0), dashBoardTreeContainer, null);
             dashboardTreeTable.setContainerDataSource(dashBoardTreeContainer);
             setProcessedTableHeader();
 
@@ -581,7 +581,7 @@ public class RemoveDiscount extends CustomComponent {
                 switch (contractDetails.getLevel()) {
                     case ContractsDetailsDto.LEVEL1:
                         levelValue = 0;
-                        dashBoardTreeContainer = commonLogic.getLevel1Hierarchy(removeList.get(0).toString(), dashBoardTreeContainer, null);
+                        dashBoardTreeContainer = commonLogic.getLevel1Hierarchy(removeList.get(0), dashBoardTreeContainer, null);
                         setProcessedTableHeader();
                         break;
                     case ContractsDetailsDto.LEVEL2:
