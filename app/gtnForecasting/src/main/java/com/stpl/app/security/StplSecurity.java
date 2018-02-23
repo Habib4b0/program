@@ -397,5 +397,5 @@ public StplSecurityDAO getDto() {
         map.put(Constant.EDIT_SMALL, "EDIT_FLAG");
         map.put(Constant.VIEW, "VIEW_FLAG");
         return map;
-}
+    }
 }

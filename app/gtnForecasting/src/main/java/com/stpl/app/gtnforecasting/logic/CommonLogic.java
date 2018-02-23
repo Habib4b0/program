@@ -4811,7 +4811,7 @@ public class CommonLogic {
                     joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 ";
                     break;
                 case 10:
-                    selectClause = " RS.RS_ID,RS.RS_CONTRACT_SID ";
+                    selectClause = " RS.RS_ID,RS.RS_NAME,RS.RS_CONTRACT_SID ";
                     joinClause = StringUtils.EMPTY;
                     udcJoinClause=StringUtils.EMPTY;
                     break;
