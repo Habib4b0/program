@@ -36,7 +36,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 	private static final String FORMULA_TYPE = "formulaType";
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnUiFrameworkNsfFormulaTypeChangeAction.class);
 	private static final String SELECTED_DEDUCTIONS_RESULT_TABLE = "selectedDeductionsResultTable";
-	GtnUIFrameworkNsfFormulaType formulaTypeValue = GtnUIFrameworkNsfFormulaType.getInstance();
+	private GtnUIFrameworkNsfFormulaType formulaTypeValue = GtnUIFrameworkNsfFormulaType.getInstance();
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
