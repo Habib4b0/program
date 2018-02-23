@@ -989,6 +989,7 @@ public class Exixtingcomponent extends CustomComponent {
                     cfpMasterAttached.setCfpContractAttachedDate(new Date());
                     cfpMasterAttached.setRecordLockStatus(false);
                     cfpMasterAttached.setInboundStatus("A");
+                    cfpMasterAttached.setSalesInclusion(companyFamily.getSalesInclusion());
                     CfpContract cm1 = CfpContractLocalServiceUtil.addCfpContract(cfpMasterAttached);
                     SaveCFP(String.valueOf(cm1.getCfpContractSid()), companyFamily.getCfpModelSid());
                     dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(cm1.getCfpContractSid()));
@@ -1021,7 +1022,7 @@ public class Exixtingcomponent extends CustomComponent {
                     ifpMasterAttached.setModifiedDate(new Date());
                     ifpMasterAttached.setRecordLockStatus(false);
                     ifpMasterAttached.setInboundStatus("A");
-
+                   
                     Object parentItem = dashboardResultsTable.getParent(itemIds[i]);
                     String parentCFPId = String.valueOf(dashboardResultsTable.getContainerProperty(parentItem, SAVED_SYSTEM_ID).getValue());
                     ifpMasterAttached.setCfpContractSid(parentCFPId);
