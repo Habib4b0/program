@@ -168,7 +168,7 @@ public class CommonLogic {
         HelperDTO ht = new HelperDTO();
         try {
             String query = "Select distinct BM.BRAND_MASTER_SID,BM.BRAND_NAME from dbo.BRAND_MASTER BM join dbo.ITEM_MASTER IM on BM.BRAND_MASTER_SID= \n"
-                    + "IM.BRAND_MASTER_SID where IM.ndc9 = '" + ndc + "'";
+                    + "IM.BRAND_MASTER_SID where IM.ndc9 = (SELECT ITEM_MASTER_SID FROM ITEM_MASTER WHERE ITEM_ID ='" + ndc + "')";
             List result = (List) DAO.executeSelectQuery(query);
             if (result != null && !result.isEmpty()) {
                 Object[] obj = (Object[]) result.get(0);
