@@ -97,6 +97,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1750,7 +1751,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(getTableLogic().getTreeLevelonCurrentPage(itemId));
-                                } catch (Exception ex) {
+                                } catch (PortalException | SystemException | NumberFormatException ex) {
                                     LOGGER.error(ex.getMessage());
                                 }
                             }
@@ -2283,7 +2284,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     endPeriod.select(endPeriodValue);
                 }
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -3611,7 +3612,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     TextField baseFilter = new TextField();
                     baseFilter.setWidth("100%");
                     return baseFilter;
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setWidth("100%");
                     return levelField;
@@ -3670,7 +3671,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     filterForBaseline.setWidth("100%");
                     return filterForBaseline;
 
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");
@@ -3812,7 +3813,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             return false;
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException | ParseException ex) {
             LOGGER.error(ex.getMessage());
             return false;
         }

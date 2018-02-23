@@ -491,7 +491,7 @@ public class WorkflowLogic {
 			FileInputStream fileIS = null;
 			fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
 			prop.load(fileIS);
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("getPropertyFile===================>ends");

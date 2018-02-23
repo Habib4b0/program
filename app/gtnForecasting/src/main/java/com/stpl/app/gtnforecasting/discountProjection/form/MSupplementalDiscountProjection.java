@@ -1155,7 +1155,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         }
     }
 
-    private Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
         @Override
         public void valueChange(Property.ValueChangeEvent event) {

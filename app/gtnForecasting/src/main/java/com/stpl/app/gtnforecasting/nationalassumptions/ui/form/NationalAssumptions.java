@@ -1,3 +1,8 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -98,7 +103,6 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NationalAssumptions.
  */
@@ -295,7 +299,6 @@ public class NationalAssumptions extends CustomComponent implements View {
             forecastMethodologyLayout.addComponent(wacvalue, 1, 3, 1, 3);
 
             forecastMethodologyLayout.addComponent(priceBasisDdlb, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
-//            forecastMethodologyLayout.addComponent(growthLabel, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
             forecastMethodologyLayout.addComponent(growthValue, 1, NumericConstants.FIVE, 1, NumericConstants.FIVE);
             forecastMethodologyLayout.addComponent(frequencyDdlb, 1, NumericConstants.SIX, 1, NumericConstants.SIX);
         } else {
@@ -396,11 +399,9 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypeDdlb.addItem(BEST_PRICE.getConstant());
             priceTypeDdlb.addItem(CPI_U.getConstant());
             priceTypeDdlb.addItem(AMP.getConstant());
-//        priceTypeDdlb.addItem("FSS(OGA)"); Commented for CEL-370 CR
             priceTypeDdlb.addItem(Constant.ANNUAL_FSS);
             priceTypeDdlb.addItem(NON_FAMP.getConstant());
             priceTypeDdlb.select(AMP.getConstant());
-//            priceTypeDdlb.addStyleName("table-header-center");
 
             baselineMethodology.addItem(SINGLE_PERIOD.getConstant());
             baselineMethodology.addItem(AVERAGE.getConstant());
@@ -1436,7 +1437,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                         ndcDesc = String.valueOf(obj[1]);
                     }
 
-                    ndcList.add(ndcDesc);// for showing ndcs in notification
                     listItemNo.add(ndcDesc);
                     itemMasterSidMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDesc);
                     nonFampMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FIVE]));
@@ -1739,7 +1739,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                 logic.deletePriceTypeMain(removed);
             }
         }
-        // reload the table 
         reloadTable();
         removedList.clear();
     }
@@ -1782,7 +1781,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                     @Override
                     public void noMethod() {
 
-                        // TODO Auto-generated method stub
                     }
                 }.getConfirmationMessage("Delete Confirmation",
                         "Are you sure you want to delete this Price Type Projection? All associated projected Price Types will be lost.");

@@ -687,7 +687,6 @@ public class CommonLogic {
 
         List<Object> queryInputs = new ArrayList<>();
         queryInputs.add(hierarchyIndicator);
-//        queryInputs.add(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator) ? "CUST_RELATIONSHIP_BUILDER_SID" : "PROD_RELATIONSHIP_BUILDER_SID");
         queryInputs.add(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator) ? "CUST_RELATIONSHIP_BUILDER_SID" : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator) ? "PROD_RELATIONSHIP_BUILDER_SID" : "DED_RELATIONSHIP_BULDER_SID");
         queryInputs.add(projectionId);
         queryInputs.add(levelNo);
@@ -763,7 +762,7 @@ public class CommonLogic {
             DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
+            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
             projectionListFrom.add(ProjectionFactoryUtil.property(LEVEL_NO));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = commonDao.getRelationshipLevels(query);
@@ -989,7 +988,6 @@ public class CommonLogic {
                     masterTableQuery += " and D_MASTER.RS_CONTRACT_SID IN ( " + CommonUtils.CollectionToString(discountList, true) + " )";
                 }
             }
-            //If Joins Needed for Sales (or) any other screen, it can be written here
         }
         return masterTableQuery;
     }
@@ -1262,7 +1260,6 @@ public class CommonLogic {
                 + String.format("%02d", projSelDTO.getStartMonth()) + "-"
                 + String.format("%02d", projSelDTO.getStartDay());
         String periodFilter = StringUtils.EMPTY;
-        //Need to remove once the dynamic changes is done in Government
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(projSelDTO.getScreenName())) {
             if (!CommonUtils.isInteger(projSelDTO.getYear())) {
                 periodFilter = " PERIOD_DATE BETWEEN ( '" + startDate + "') and ( '" + endDate + "') \n ";
@@ -2755,7 +2752,7 @@ public class CommonLogic {
             DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
+            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
             projectionListFrom.add(ProjectionFactoryUtil.property(LEVEL_NO));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery(query);
@@ -2892,7 +2889,6 @@ public class CommonLogic {
         return null;
     }
 
-// For mandated
     public static String getMandatedTempCCPQueryForCOGS(PVSelectionDTO pvsDTO) {
         List fromToList = CommonLogic.getPeriodRestrictionPR(pvsDTO);
         String query = " DECLARE @FROM_DATE DATE\n"
@@ -3459,7 +3455,6 @@ public class CommonLogic {
         return ccpQuery;
     }
 
-    //  ----------------   Added for performance Improvement ----------------
     /**
      * Method used to get the Level Name based on the Level No. Level Details
      * are maintained in a List(List&lt;Leveldto&gt;).

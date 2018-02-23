@@ -37,7 +37,7 @@ public class ViewLogic {
     /**
      * The data selection.
      */
-	private static DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
+	private static final DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
 
     /**
      * The Constant LOGGER.

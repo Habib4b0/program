@@ -341,7 +341,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                     customizeResult(levelList, count, treeLevel, expandLevelNo, true, indicator, hierarchyNo, productHierarchyNo, customerHierarchyNo);
                 }
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
