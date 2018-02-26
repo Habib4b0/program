@@ -18,8 +18,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
 @Component(service = UI.class, property = {
         "com.liferay.portlet.display-category=GtnFrameworkRebatePlan",
-        "javax.portlet.name=RebatePlan",
-        "javax.portlet.display-name=RebatePlan",
+        "javax.portlet.name=Rebate Plan",
+        "javax.portlet.display-name=Rebate Plan",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkRebatePlanPortlet extends UI {
 

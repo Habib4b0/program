@@ -40,8 +40,8 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List cfpDetailsDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List cfpDetailsDynamicQuery(DynamicQuery dynamicQuery);
+            
 
     /**
      * <!-- begin-UML-doc -->
@@ -55,7 +55,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     CfpContractDetails addCfpDetailsAttached(
-            CfpContractDetails cfpDetailsAttached) throws SystemException;
+            CfpContractDetails cfpDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -69,7 +69,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     CfpContractDetails deleteCfpDetailsAttached(
-            CfpContractDetails cfpDetailsAttached) throws SystemException;
+            CfpContractDetails cfpDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -82,8 +82,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List cfpMasterDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List cfpMasterDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -96,8 +95,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    CfpContract addCfpMasterAttached(CfpContract cfpMasterAttached)
-            throws SystemException;
+    CfpContract addCfpMasterAttached(CfpContract cfpMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -110,8 +108,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    CfpContract deleteCfpMasterAttached(CfpContract cfpMasterAttached)
-            throws SystemException;
+    CfpContract deleteCfpMasterAttached(CfpContract cfpMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -124,8 +121,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List companyFamilyplanDetailsDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List companyFamilyplanDetailsDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -138,8 +134,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List companyFamilyplanMasterDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List companyFamilyplanMasterDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -153,8 +148,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    CfpModel getCompanyFamilyplanMaster(int systemId) throws SystemException,
-            PortalException;
+    CfpModel getCompanyFamilyplanMaster(int systemId) throws PortalException;
 
     /**
      * <!-- begin-UML-doc -->
@@ -167,8 +161,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List ifpDetailsDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List ifpDetailsDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -182,7 +175,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     IfpContractDetails deleteIfpDetailsAttached(
-            IfpContractDetails ifpDetailsAttached) throws SystemException;
+            IfpContractDetails ifpDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -196,7 +189,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     IfpContractDetails addIfpDetailsAttached(
-            IfpContractDetails ifpDetailsAttached) throws SystemException;
+            IfpContractDetails ifpDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -209,8 +202,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List ifpMasterDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List ifpMasterDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -223,8 +215,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    IfpContract deleteIfpMasterAttached(IfpContract ifpMasterAttached)
-            throws SystemException;
+    IfpContract deleteIfpMasterAttached(IfpContract ifpMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -237,8 +228,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    IfpContract addIfpMasterAttached(IfpContract ifpMasterAttached)
-            throws SystemException;
+    IfpContract addIfpMasterAttached(IfpContract ifpMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -251,8 +241,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List itemFamilyPlanDetailsDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List itemFamilyPlanDetailsDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -265,8 +254,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List itemFamilyPlanMasterDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List itemFamilyPlanMasterDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -280,8 +268,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    IfpModel getItemFamilyPlanMaster(int systemId) throws SystemException,
-            PortalException;
+    IfpModel getItemFamilyPlanMaster(int systemId) throws PortalException;
 
     /**
      * <!-- begin-UML-doc -->
@@ -294,8 +281,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List priceScheduleDetailsDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List priceScheduleDetailsDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -308,8 +294,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List priceScheduleMasterDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List priceScheduleMasterDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -323,8 +308,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    PsModel getPriceScheduleMaster(int systemId) throws SystemException,
-            PortalException;
+    PsModel getPriceScheduleMaster(int systemId) throws PortalException;
 
     /**
      * <!-- begin-UML-doc -->
@@ -337,8 +321,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List psDetailsDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List psDetailsDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -352,7 +335,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     PsContractDetails deletePsDetailsAttached(
-            PsContractDetails psDetailsAttached) throws SystemException;
+            PsContractDetails psDetailsAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -365,8 +348,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    PsContractDetails addPsDetailsAttached(PsContractDetails psDetailsAttached)
-            throws SystemException;
+    PsContractDetails addPsDetailsAttached(PsContractDetails psDetailsAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -379,7 +361,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List psMasterDynamicQuery(DynamicQuery dynamicQuery) throws SystemException;
+    List psMasterDynamicQuery(DynamicQuery dynamicQuery) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -392,8 +374,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    PsContract deletePsMasterAttached(PsContract psMasterAttached)
-            throws SystemException;
+    PsContract deletePsMasterAttached(PsContract psMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -406,8 +387,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    PsContract addPsMasterAttached(PsContract psMasterAttached)
-            throws SystemException;
+    PsContract addPsMasterAttached(PsContract psMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -420,8 +400,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List rebateScheduleDetailsDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List rebateScheduleDetailsDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -434,8 +413,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List rebateScheduleMasterDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List rebateScheduleMasterDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -449,8 +427,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    RsModel getRebateScheduleMaster(int systemId) throws SystemException,
-            PortalException;
+    RsModel getRebateScheduleMaster(int systemId) throws PortalException;
 
     /**
      * <!-- begin-UML-doc -->
@@ -463,8 +440,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List rsDetailsDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List rsDetailsDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -478,7 +454,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     RsContractDetails deleteRsDetailsAttached(
-            RsContractDetails rsDetailsAttached) throws SystemException;
+            RsContractDetails rsDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -491,8 +467,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    RsContractDetails addRsDetailsAttached(RsContractDetails rsDetailsAttached)
-            throws SystemException;
+    RsContractDetails addRsDetailsAttached(RsContractDetails rsDetailsAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -505,7 +480,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List rsMasterDynamicQuery(DynamicQuery dynamicQuery) throws SystemException;
+    List rsMasterDynamicQuery(DynamicQuery dynamicQuery) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -518,8 +493,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    RsContract deleteRsMasterAttached(RsContract rsMasterAttached)
-            throws SystemException;
+    RsContract deleteRsMasterAttached(RsContract rsMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -532,8 +506,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    RsContract addRsMasterAttached(RsContract rsMasterAttached)
-            throws SystemException;
+    RsContract addRsMasterAttached(RsContract rsMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -546,8 +519,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    List contractMasterDynamicQuery(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List contractMasterDynamicQuery(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -561,8 +533,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    ContractMaster getContractMaster(int systemId) throws SystemException,
-            PortalException;
+    ContractMaster getContractMaster(int systemId) throws PortalException;
 
     /**
      * <!-- begin-UML-doc -->
@@ -575,8 +546,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    ContractMaster updateContractMaster(ContractMaster contractMaster)
-            throws SystemException;
+    ContractMaster updateContractMaster(ContractMaster contractMaster);
 
     /**
      * <!-- begin-UML-doc -->
@@ -589,8 +559,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    long contractMasterDynamicQueryCount(DynamicQuery dynamicQuery)
-            throws SystemException;
+    long contractMasterDynamicQueryCount(DynamicQuery dynamicQuery);
 
     /**
      * <!-- begin-UML-doc -->
@@ -603,8 +572,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    CfpContract updateCfpMasterAttached(CfpContract cfpMasterAttached)
-            throws SystemException;
+    CfpContract updateCfpMasterAttached(CfpContract cfpMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -618,7 +586,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     CfpContractDetails updateCfpDetailsAttached(
-            CfpContractDetails cfpDetailsAttached) throws SystemException;
+            CfpContractDetails cfpDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -631,8 +599,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    IfpContract updateIfpMasterAttached(IfpContract ifpMasterAttached)
-            throws SystemException;
+    IfpContract updateIfpMasterAttached(IfpContract ifpMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -646,7 +613,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     IfpContractDetails updateIfpDetailsAttached(
-            IfpContractDetails ifpDetailsAttached) throws SystemException;
+            IfpContractDetails ifpDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -659,8 +626,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    PsContract updatePsMasterAttached(PsContract psMasterAttached)
-            throws SystemException;
+    PsContract updatePsMasterAttached(PsContract psMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -674,7 +640,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     PsContractDetails updatePsDetailsAttached(
-            PsContractDetails psDetailsAttached) throws SystemException;
+            PsContractDetails psDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -687,8 +653,7 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    RsContract updateRsMasterAttached(RsContract rsMasterAttached)
-            throws SystemException;
+    RsContract updateRsMasterAttached(RsContract rsMasterAttached);
 
     /**
      * <!-- begin-UML-doc -->
@@ -702,7 +667,7 @@ public interface ContractDetailsDAO {
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
     RsContractDetails updateRsDetailsAttached(
-            RsContractDetails rsDetailsAttached) throws SystemException;
+            RsContractDetails rsDetailsAttached) ;
 
     /**
      * <!-- begin-UML-doc -->
@@ -711,6 +676,6 @@ public interface ContractDetailsDAO {
      * @generated "UML to JPA
      * (com.ibm.xtools.transform.uml2.ejb3.java.jpa.internal.UML2JPATransform)"
      */
-    public int getContractMasterCount() throws SystemException;
+    public int getContractMasterCount() ;
 
 }

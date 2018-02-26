@@ -6,6 +6,7 @@
 
 package com.stpl.app.cff.ui.fileSelection.logic.tableLogic;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.ui.fileSelection.dto.ItemSearchDTO;
 import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
 import com.vaadin.v7.data.Container;
@@ -38,7 +39,7 @@ public class ItemSearchTableLogic extends PageTableLogic {
             }
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
         return count;
@@ -50,7 +51,7 @@ public class ItemSearchTableLogic extends PageTableLogic {
         if (isFirstLoad) {
             try {
                 list = (List) searchLogic.getItemSearchResults(resultDTO, start, offset, this.getSortByColumns(), this.getFilters(), false);
-            } catch (Exception ex) {
+            } catch (SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }

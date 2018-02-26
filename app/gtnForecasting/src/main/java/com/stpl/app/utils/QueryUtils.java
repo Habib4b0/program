@@ -749,7 +749,7 @@ public class QueryUtils {
     }
 
     private void updateBaseLinePeriods(String baselinePeriods, ProjectionSelectionDTO projectionSelection, String discountName,Boolean isProgram) {
-       LOGGER.debug("  Baseline Periods " + baselinePeriods);
+       LOGGER.debug("  Baseline Periods= {} " , baselinePeriods);
        String masterTableUpdateQuery;
                 masterTableUpdateQuery = SQlUtil.getQuery("BASELINE_UPDATE_QUERY_NEW");
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@CALCULATION_PERIODS", baselinePeriods);
@@ -765,7 +765,7 @@ public class QueryUtils {
     }
     
     private void updateBaseLinePeriodsCustom(String baselinePeriods, ProjectionSelectionDTO projectionSelection) {
-       LOGGER.info(" Baseline Periods " + baselinePeriods);
+       LOGGER.info(" Baseline Periods= {} " , baselinePeriods);
        String masterTableUpdateQuery;
                 masterTableUpdateQuery = SQlUtil.getQuery("BASELINE_UPDATE_QUERY_CUSTOM");
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@CALCULATION_PERIODS", baselinePeriods);

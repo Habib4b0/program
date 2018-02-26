@@ -25,7 +25,6 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -409,7 +408,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
      * @param event
      */
     @UiHandler("addBtn")
-    public void addBtnClick(Button.ClickEvent event) throws SystemException{
+    public void addBtnClick(Button.ClickEvent event) {
         boolean check = true;
         if (selecteditemList.size() > 0) {
             int contractSys = selecteditemList.get(0).getContractSid();

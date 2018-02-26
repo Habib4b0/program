@@ -812,7 +812,7 @@ FROM   IFP_CONTRACT IFP_C
     <entity id="IFP Abstract">
         <query>
 		<![CDATA[
-                SELECT DISTINCT IFP_NO,
+                SELECT DISTINCT IFP_C.IFP_NO,
                 IFP_C.IFP_NAME,
                 IFP_TYPE.description AS IFP_TYPE,
                 IFP_Cat.DESCRIPTION  AS IFP_CAt,

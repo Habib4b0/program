@@ -6,7 +6,6 @@
  */
 package com.stpl.app.gcm.util.xmlparser;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -46,7 +45,7 @@ public class SQlUtil {
         return sqlUtil;
     }
 
-    private void getResources(Enumeration<URL> urls) throws JAXBException, IOException {
+    private void getResources(Enumeration<URL> urls) throws JAXBException  {
         if (urls == null) {
             return;
         }
@@ -54,7 +53,7 @@ public class SQlUtil {
         while (urls.hasMoreElements()) {
             URL tempUrl = urls.nextElement();
             if (tempUrl.getFile() != null && tempUrl.getFile().contains(".xml")) {
-                Map<String, Object> properties = new HashMap<String, Object>(1);
+                Map<String, Object> properties = new HashMap<>(1);
 //                properties.put("javax.xml.bind.context.factory",
 //                        "org.eclipse.persistence.jaxb.JAXBContextFactory");
                 JAXBContext jaxbContext = JAXBContext.newInstance(Sql.class);

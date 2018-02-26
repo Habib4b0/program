@@ -23,11 +23,10 @@ public class ForecastingViewMasterImpl {
         Session session = null;
         String customSql = StringUtils.EMPTY;
         try {
-            LOGGER.debug("Entering findViewByName method with viewName " + viewName + " forecastType " + forecastType + " userId " + userId + " viewType " + viewType);
+            LOGGER.debug("Entering findViewByName method with viewName= {}, forecastType= {}, userId= {}, viewType= {}  " , viewName, forecastType, userId, viewType);
 
 
             customSql = SQlUtil.getQuery(getClass(),"findViewByNameJoin");
-//            customSql += " PM.projection_Master_Sid = FVM.projection_Id "; 
             if (StringUtils.isNotEmpty(viewType)
                     && StringUtils.isNotBlank(viewType)) {
                 customSql += " FVM.view_Type ='" + viewType + "' ";
@@ -47,7 +46,6 @@ public class ForecastingViewMasterImpl {
                     customSql += "AND FVM.created_By = " + userId;
                 }
             }
-//            LOGGER.debug("\n\nSearch query is -----> " + customSql + "\n\n");
             LOGGER.debug("End of findViewByName method");
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {

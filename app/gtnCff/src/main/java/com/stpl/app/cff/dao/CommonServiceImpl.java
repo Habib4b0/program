@@ -13,9 +13,11 @@ import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Constants.IndicatorConstants;
 import com.stpl.app.cff.util.ConstantsUtil;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,9 +65,9 @@ public class CommonServiceImpl {
 
             if (version.contains("~")) {
                 String[] versionArray = version.split("~");
-                sqlString = sqlString.concat(" AND ").concat(" (FM.FORECAST_VER='").concat(versionArray[0]).concat("' or FM.FORECAST_VER='").concat(versionArray[1]).concat("')");
+                sqlString = sqlString.concat(StringConstantsUtil.AND).concat(" (FM.FORECAST_VER='").concat(versionArray[0]).concat("' or FM.FORECAST_VER='").concat(versionArray[1]).concat("')");
             } else {
-                sqlString = sqlString.concat(" AND ").concat(" FM.FORECAST_VER='").concat(version).concat("'");
+                sqlString = sqlString.concat(StringConstantsUtil.AND).concat(" FM.FORECAST_VER='").concat(version).concat("'");
             }
             sqlString = sqlString.concat(" ORDER BY FM.FORECAST_YEAR");
             return HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
@@ -89,11 +91,11 @@ public class CommonServiceImpl {
         try {
             sql = SQlUtil.getQuery("com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.functionPermission");
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += StringConstantsUtil.UDM_BUSINESS_ROLE_MASTER_SID
                         + businessRoleId + ")";
             }
             if (mod.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+                sql += StringConstantsUtil.AND_SPM_MODULE_NAME + mod + "') ";
             }
 
             if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
@@ -126,11 +128,11 @@ public class CommonServiceImpl {
                 sql = SQlUtil.getQuery("com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.fieldPermission");
             }
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += StringConstantsUtil.UDM_BUSINESS_ROLE_MASTER_SID
                         + businessRoleId + ")";
             }
             if (mod.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+                sql += StringConstantsUtil.AND_SPM_MODULE_NAME + mod + "') ";
             }
             if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
                 sql += " AND spm.TAB_NAME like ('" + str[1] + "') ";
@@ -156,12 +158,12 @@ public class CommonServiceImpl {
 
             sql = SQlUtil.getQuery("com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.tabPermission");
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += StringConstantsUtil.UDM_BUSINESS_ROLE_MASTER_SID
                         + businessRoleId + ")";
             }
 
             if (moduleName.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + moduleName + "') ";
+                sql += StringConstantsUtil.AND_SPM_MODULE_NAME + moduleName + "') ";
             }
 
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -174,21 +176,21 @@ public class CommonServiceImpl {
 
     public List executeQuery(final Map<String, Object> parameters) {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-        if (parameters.get("indicator") != null && "hasTradingPartner".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("hasTradingPartner"));
+        if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.HAS_TRADING_PARTNER));
             queryString.append("'");
-            queryString.append(String.valueOf(parameters.get("projectionId")));
+            queryString.append(String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
             queryString.append("'");
-        } else if (parameters.get("indicator") != null && "getUnsavedProjectionIds".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("getUnsavedProjectionIds"));
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_UNSAVED_PROJECTION_IDS));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
-        } else if (parameters.get("indicator") != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
 
-            if ("PROJECTION_PROD_HIERARCHY".equals(parameters.get("tableName"))) {
-                List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
+            if ("PROJECTION_PROD_HIERARCHY".equals(parameters.get(StringConstantsUtil.TABLE_NAME))) {
+                List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
                 StringBuilder hierarchyInclusion = new StringBuilder();
                 for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
-                    hierarchyInclusion.append("HIERARCHY_NO LIKE '");
+                    hierarchyInclusion.append(StringConstantsUtil.HIERARCHY_NO_LIKE);
                     hierarchyInclusion.append(rlSids.get(loop));
                     hierarchyInclusion.append("%'");
                     if (loop != (limit - 1)) {
@@ -198,11 +200,11 @@ public class CommonServiceImpl {
                 String hierarchyExclusion = CommonUtils.stringListToString(rlSids);
                 String query = SQlUtil.getQuery("get-lower-levels-based-on-hierarchy-no");
                 query = query.replace("[?BU_COMPANY_MASTER_SID]", StringUtils.EMPTY + parameters.get("businessUnit"));
-                query = query.replace("[?PROJECTION_MASTER_SID]", StringUtils.EMPTY + parameters.get("projectionId"));
+                query = query.replace("[?PROJECTION_MASTER_SID]", StringUtils.EMPTY + parameters.get(StringConstantsUtil.PROJECTION_ID));
                 query = query.replace("[?HIERARCHY_INCLUDE]", hierarchyInclusion);
                 query = query.replace("[?HIERARCHY_EXCLUDE]", hierarchyExclusion);
 
-                if (parameters.get("module") != null && "cff".equalsIgnoreCase(String.valueOf(parameters.get("module")))) {
+                if (parameters.get(StringConstantsUtil.MODULE) != null && "cff".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.MODULE)))) {
                     query = query.replace("[?HIERARCHY_TABLE]", "CFF_PROD_HIERARCHY");
                     query = query.replace("[?MASTER_TABLE_SID_COLUMN]", "CFF_MASTER_SID");
                 } else {
@@ -210,13 +212,13 @@ public class CommonServiceImpl {
                     query = query.replace("[?MASTER_TABLE_SID_COLUMN]", "PROJECTION_MASTER_SID");
                 }
                 queryString.append(query);
-            } else if (parameters.get("rlSids") != null) {
-                List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
+            } else if (parameters.get(StringConstantsUtil.RL_SIDS) != null) {
+                List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
                 if (rlSids != null && !rlSids.isEmpty()) {
                     queryString.append(SQlUtil.getQuery("getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
                     for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
-                        queryString.append("HIERARCHY_NO LIKE '");
+                        queryString.append(StringConstantsUtil.HIERARCHY_NO_LIKE);
                         queryString.append(rlSids.get(loop));
                         queryString.append("%'");
                         if (loop != (limit - 1)) {
@@ -227,21 +229,21 @@ public class CommonServiceImpl {
                     queryString.append(CommonUtils.stringListToString(rlSids));
                     queryString.append(")");
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
-                    queryString.append(String.valueOf(parameters.get("tableName")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.TABLE_NAME)));
 
-                    if (parameters.get("module") != null && "cff".equalsIgnoreCase(String.valueOf(parameters.get("module")))) {
+                    if (parameters.get(StringConstantsUtil.MODULE) != null && "cff".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.MODULE)))) {
                         queryString.append(" PH WHERE PH.CFF_MASTER_SID = ");
                     } else {
                         queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
                     }
-                    queryString.append(String.valueOf(parameters.get("projectionId")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
                     queryString.append(")");
                 }
             }
-        } else if (parameters.get("indicator") != null && "getChildLevelRL".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
             if (rlSids != null && !rlSids.isEmpty()) {
-                queryString.append(SQlUtil.getQuery("getChildLevelRL"));
+                queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_CHILD_LEVEL_RL));
                 queryString.append(" and (");
                 for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
                     queryString.append("HIERARCHY_NO like '");
@@ -253,37 +255,37 @@ public class CommonServiceImpl {
                 }
                 queryString.append(") and HIERARCHY_NO not in (");
                 queryString.append(CommonUtils.stringListToString(rlSids));
-                if (parameters.get("availableHierNo") != null) {
-                    List<String> availableHierNo = (ArrayList<String>) parameters.get("availableHierNo");
+                if (parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO) != null) {
+                    List<String> availableHierNo = (ArrayList<String>) parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO);
                     queryString.append(", ");
                     queryString.append(CommonUtils.stringListToString(availableHierNo));
                 }
                 queryString.append(") ");
             }
-        } else if (parameters.get("indicator") != null && "getRemovableChildren".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("getRemovableChildren"));
-            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
-            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
-        } else if (parameters.get("indicator") != null && "deleteTempOnUpdate".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_REMOVABLE_CHILDREN.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_REMOVABLE_CHILDREN));
+            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get(StringConstantsUtil.REMOVE_LEVELS)));
+            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get(StringConstantsUtil.REMOVE_LEVELS)));
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             String hNos = String.valueOf(parameters.get("hNos"));
-            String projectionId = String.valueOf(parameters.get("projectionId"));
+            String projectionId = String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID));
             String projectionHierarchyTable = String.valueOf(parameters.get("projectionHierarchyTable"));
             for (String table : getTempTableList()) {
-                queryString.append(SQlUtil.getQuery("deleteTempOnUpdate"));
-                queryString.replace(queryString.indexOf("?DTBL"), queryString.indexOf("?DTBL") + 5, table);
+                queryString.append(SQlUtil.getQuery(StringConstantsUtil.DELETE_TEMP_ON_UPDATE));
+                queryString.replace(queryString.indexOf(StringConstantsUtil.DTBL), queryString.indexOf(StringConstantsUtil.DTBL) + 5, table);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
-                queryString.replace(queryString.indexOf("?HTBL"), queryString.indexOf("?HTBL") + 5, projectionHierarchyTable);
+                queryString.replace(queryString.indexOf(StringConstantsUtil.HTBL), queryString.indexOf(StringConstantsUtil.HTBL) + 5, projectionHierarchyTable);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
-                queryString.replace(queryString.indexOf("?HTBL"), queryString.indexOf("?HTBL") + 5, projectionHierarchyTable);
+                queryString.replace(queryString.indexOf(StringConstantsUtil.HTBL), queryString.indexOf(StringConstantsUtil.HTBL) + 5, projectionHierarchyTable);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
                 queryString.replace(queryString.indexOf("?HNO"), queryString.indexOf("?HNO") + 4, hNos);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
             }
-        } else if (parameters.get("indicator") != null && "getFSValue".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("getFSValue"));
-            queryString.replace(queryString.indexOf("?RLC?"), queryString.indexOf("?RLC?") + 5, String.valueOf(parameters.get("relationshipLevelValue")));
-        } else if (parameters.get("indicator") != null && "companyFilter".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("companyFilter"));
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_FS_VALUE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_FS_VALUE));
+            queryString.replace(queryString.indexOf(StringConstantsUtil.RLC), queryString.indexOf(StringConstantsUtil.RLC) + 5, String.valueOf(parameters.get("relationshipLevelValue")));
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.COMPANY_FILTER));
             queryString.append("'");
             queryString.append(String.valueOf(parameters.get("companySid")));
             queryString.append("'");
@@ -291,8 +293,8 @@ public class CommonServiceImpl {
             queryString.append(String.valueOf(parameters.get("query")));
         }
         try {
-            if (parameters.get("indicator") != null
-                    && ("deleteTempOnUpdate".equalsIgnoreCase(String.valueOf(parameters.get("indicator"))))) {
+            if (parameters.get(StringConstantsUtil.INDICATOR) != null
+                    && (StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) {
                 List<Integer> list = new ArrayList<Integer>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
                 list.add(returnValue);
@@ -302,7 +304,7 @@ public class CommonServiceImpl {
             }
 
         } catch (Exception ex) {
-            LOGGER.error("In executeQuery  ->" + ex.getMessage());
+            LOGGER.error("In executeQuery  -> {}", ex.getMessage());
             LOGGER.error(queryString.toString());
             return null;
         }
@@ -348,9 +350,9 @@ public class CommonServiceImpl {
         StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
 
         try {
-            if (parameters.get("indicator") != null && !StringUtils.isBlank(String.valueOf(parameters.get("indicator")))
-                    && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("indicator")))
-                    && "getParentLevelsWithHierarchyNo".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+            if (parameters.get(StringConstantsUtil.INDICATOR) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))
+                    && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))
+                    && "getParentLevelsWithHierarchyNo".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
                 queryBuilder.append(SQlUtil.getQuery("getParentLevelsWithHierarchyNo"));
                 queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNos")));
             } else {
@@ -367,7 +369,7 @@ public class CommonServiceImpl {
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         } catch (Exception ex) {
-            LOGGER.error("In getParentLevels ->" + ex.getMessage());
+            LOGGER.error("In getParentLevels -> {}", ex.getMessage());
             LOGGER.error(queryBuilder.toString());
             return null;
         }
@@ -376,13 +378,13 @@ public class CommonServiceImpl {
     public List getInnerLevel(Map<String, Object> parameters) {
         StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
         try {
-            if ((parameters.get("isNdc") != null && "true".equals(String.valueOf(parameters.get("isNdc"))))
+            if ((parameters.get(StringConstantsUtil.IS_NDC) != null && "true".equals(String.valueOf(parameters.get(StringConstantsUtil.IS_NDC))))
                     || (!CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(parameters.get("screenName"))
-                    && parameters.get("level") != null && ("Ndc".equalsIgnoreCase(String.valueOf(parameters.get("level")))
-                    || "Item".equalsIgnoreCase(String.valueOf(parameters.get("level"))) || "Product".equalsIgnoreCase(String.valueOf(parameters.get("level")))))) {
+                    && parameters.get(StringConstantsUtil.DUP_LEVEL) != null && ("Ndc".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.DUP_LEVEL)))
+                    || "Item".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.DUP_LEVEL))) || StringConstantsUtil.PROD.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.DUP_LEVEL)))))) {
 
                 queryBuilder.append(SQlUtil.getQuery("get-inner-level-products"));
-                if ("Product".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
+                if (StringConstantsUtil.PROD.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) {
                     queryBuilder.append(" AND ( RLD.LEVEL_NAME='PRODUCT') ");
                 } else {
                     queryBuilder.append(" AND ( RLD.LEVEL_NAME='NDC') ");
@@ -392,108 +394,108 @@ public class CommonServiceImpl {
                 queryBuilder.append(" AND GLC.COMPANY_CODE = CM.COMPANY_ID AND IM.NDC8 = GLC.NDC8 ");
                 queryBuilder.append(" AND IM.ORGANIZATION_KEY = ");
                 queryBuilder.append(String.valueOf(parameters.get("businessUnit"))).append(" ");
-            } else if (parameters.get("levelName") != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get("isNdc")))
-                    && "company".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
+            } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_NDC)))
+                    && "company".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) {
                 queryBuilder.append(SQlUtil.getQuery("get-inner-level-companies"));
-            } else if (parameters.get("levelName") != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get("isNdc")))
-                    && ("therapeutic class".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))
-                    || "brand".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {
+            } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_NDC)))
+                    && ("therapeutic class".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))
+                    || "brand".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))))) {
                 queryBuilder.append(SQlUtil.getQuery("get-inner-level-brand-therapeutic-class"));
-            } else if (parameters.get("level") != null && Constants.INDICATOR_LEVEL_CUSTOMER.equalsIgnoreCase(String.valueOf(parameters.get("level")))) {
+            } else if (parameters.get(StringConstantsUtil.DUP_LEVEL) != null && Constants.INDICATOR_LEVEL_CUSTOMER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.DUP_LEVEL)))) {
                 queryBuilder.append(SQlUtil.getQuery("getInnerLevelCustomer"));
-            } else if (parameters.get("level") != null && Constants.INDICATOR_LEVEL_CONTRACT.equalsIgnoreCase(String.valueOf(parameters.get("level")))) {
+            } else if (parameters.get(StringConstantsUtil.DUP_LEVEL) != null && Constants.INDICATOR_LEVEL_CONTRACT.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.DUP_LEVEL)))) {
                 queryBuilder.append(SQlUtil.getQuery("getInnerLevelContract"));
             } else {
                 queryBuilder.append(SQlUtil.getQuery("getInnerLevel"));
             }
-            if (parameters.get("hierarchyDefinitionSid") != null) {
+            if (parameters.get(StringConstantsUtil.HIERARCHY_DEFINITION_SID) != null) {
                 queryBuilder.append(" and RB.hierarchy_Definition_Sid = ");
-                queryBuilder.append(String.valueOf(parameters.get("hierarchyDefinitionSid")));
+                queryBuilder.append(String.valueOf(parameters.get(StringConstantsUtil.HIERARCHY_DEFINITION_SID)));
             }
-            if (parameters.get("levelName") != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get("isNdc")))) {
+            if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_NDC)))) {
                 queryBuilder.append(" and RLD.level_Name = '");
-                queryBuilder.append(String.valueOf(parameters.get("levelName")));
+                queryBuilder.append(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)));
                 queryBuilder.append("'");
             }
-            if (parameters.get("relationshipSid") != null && !StringUtils.isBlank(String.valueOf(parameters.get("relationshipSid")))
-                    && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("relationshipSid"))) && !"0".equals(String.valueOf(parameters.get("relationshipSid")))) {
+            if (parameters.get(StringConstantsUtil.RELATIONSHIP_SID) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.RELATIONSHIP_SID)))
+                    && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.RELATIONSHIP_SID))) && !"0".equals(String.valueOf(parameters.get(StringConstantsUtil.RELATIONSHIP_SID)))) {
                 queryBuilder.append(" and RLD.RELATIONSHIP_BUILDER_SID = '");
-                queryBuilder.append(String.valueOf(parameters.get("relationshipSid")));
+                queryBuilder.append(String.valueOf(parameters.get(StringConstantsUtil.RELATIONSHIP_SID)));
                 queryBuilder.append("'");
             }
-            if ("AccrualRateProjection".equalsIgnoreCase(String.valueOf(parameters.get("screenName"))) && (!"Segment Group".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) && !"Segment".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) && !"Segments".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) && !"Company".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) && !"GL Company".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) && !"Business Unit".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
+            if ("AccrualRateProjection".equalsIgnoreCase(String.valueOf(parameters.get("screenName"))) && (!"Segment Group".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) && !"Segment".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) && !"Segments".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) && !"Company".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) && !"GL Company".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) && !"Business Unit".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) {
                 queryBuilder.append("and RLD.relationship_Level_Values IN (");
-                if (parameters.get("levelName") != null && ("Market Type".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) || "MarketType".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {
+                if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && ("Market Type".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) || "MarketType".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))))) {
                     queryBuilder.append("Select Distinct  CM.CONTRACT_TYPE from CONTRACT_MASTER CM \n"
-                            + "Join RS_CONTRACT RS_C_TYPE ON RS_C_TYPE.CONTRACT_MASTER_SID=CM.CONTRACT_MASTER_SID AND \n"
-                            + "RS_C_TYPE." + String.valueOf(parameters.get("deductionLevel")) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where DESCRIPTION like'" + String.valueOf(parameters.get("deductionValue")) + "' AND LIST_NAME='" + String.valueOf(parameters.get("deductionLevel")) + "'  )");
-                } else if (parameters.get("levelName") != null && "Contract".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
+                            + StringConstantsUtil.JOIN_RS_CNT_RS_C_TYPE
+                            + StringConstantsUtil.RS_C_TYPE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.SELECT_HELPER_TABLE_SID + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "'  )");
+                } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && "Contract".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) {
                     queryBuilder.append("\n"
                             + "                    Select Distinct  RS_C_TYPE.CONTRACT_MASTER_SID from CONTRACT_MASTER CM \n"
-                            + "Join RS_CONTRACT RS_C_TYPE ON RS_C_TYPE.CONTRACT_MASTER_SID=CM.CONTRACT_MASTER_SID AND \n"
-                            + "RS_C_TYPE." + String.valueOf(parameters.get("deductionLevel")) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where DESCRIPTION like'" + String.valueOf(parameters.get("deductionValue")) + "' AND LIST_NAME='" + String.valueOf(parameters.get("deductionLevel")) + "'    )");
+                            + StringConstantsUtil.JOIN_RS_CNT_RS_C_TYPE
+                            + StringConstantsUtil.RS_C_TYPE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.SELECT_HELPER_TABLE_SID + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "'    )");
 
-                } else if (parameters.get("levelName") != null && "Contract Holder".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
+                } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && "Contract Holder".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) {
                     queryBuilder.append("\n"
                             + "                    Select Distinct  CM.CONT_HOLD_COMPANY_MASTER_SID from CONTRACT_MASTER CM \n"
-                            + "Join RS_CONTRACT RS_C_TYPE ON RS_C_TYPE.CONTRACT_MASTER_SID=CM.CONTRACT_MASTER_SID AND \n"
-                            + "RS_C_TYPE." + String.valueOf(parameters.get("deductionLevel")) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where DESCRIPTION like'" + String.valueOf(parameters.get("deductionValue")) + "' AND LIST_NAME='" + String.valueOf(parameters.get("deductionLevel")) + "'    )");
+                            + StringConstantsUtil.JOIN_RS_CNT_RS_C_TYPE
+                            + StringConstantsUtil.RS_C_TYPE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.SELECT_HELPER_TABLE_SID + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "'    )");
 
-                } else if (parameters.get("levelName") != null && ("Trading Partner".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) || "Customer".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {
+                } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && ("Trading Partner".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) || "Customer".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))))) {
                     queryBuilder.append("\n"
                             + "Select Distinct  CFP_CD_SID.COMPANY_MASTER_SID from CONTRACT_MASTER CM \n"
                             + "Join CFP_CONTRACT CFP_SID ON CM.CONTRACT_MASTER_SID = CFP_SID.CONTRACT_MASTER_SID\n"
                             + "Join  CFP_CONTRACT_DETAILS CFP_CD_SID  ON  CFP_CD_SID.CFP_CONTRACT_SID=CFP_SID.CFP_CONTRACT_SID\n"
-                            + "AND\n"
+                            + StringConstantsUtil.AND_NEW_LINE
                             + "CFP_SID.CONTRACT_MASTER_SID IN (Select Distinct CONTRACT_MASTER_SID from RS_CONTRACT\n"
-                            + "where " + String.valueOf(parameters.get("deductionLevel")) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
-                            + "-- LIST_NAME like'" + String.valueOf(parameters.get("deductionLevel")) + "'\n"
-                            + "DESCRIPTION like'" + String.valueOf(parameters.get("deductionValue")) + "' AND LIST_NAME='" + String.valueOf(parameters.get("deductionLevel")) + "' \n"
+                            + StringConstantsUtil.WHERE_SPACE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER
+                            + "-- LIST_NAME like'" + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "'\n"
+                            + "DESCRIPTION like'" + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "' \n"
                             + "))");
-                } else if (parameters.get("levelName") != null && ("Company".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {
+                } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && ("Company".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))))) {
                     queryBuilder.append("\n"
                             + "Select Distinct  CFP_CD_SID.COMPANY_MASTER_SID from CONTRACT_MASTER CM \n"
                             + "Join CFP_CONTRACT CFP_SID ON CM.CONTRACT_MASTER_SID = CFP_SID.CONTRACT_MASTER_SID\n"
                             + "Join  CFP_CONTRACT_DETAILS CFP_CD_SID  ON  CFP_CD_SID.CFP_CONTRACT_SID=CFP_SID.CFP_CONTRACT_SID\n"
-                            + "AND\n"
+                            + StringConstantsUtil.AND_NEW_LINE
                             + "CFP_SID.CONTRACT_MASTER_SID IN (Select Distinct CONTRACT_MASTER_SID from RS_CONTRACT\n"
-                            + "where " + String.valueOf(parameters.get("deductionLevel")) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
-                            + "-- LIST_NAME like'" + String.valueOf(parameters.get("deductionLevel")) + "'\n"
-                            + "DESCRIPTION like'" + String.valueOf(parameters.get("deductionValue")) + "' AND LIST_NAME='" + String.valueOf(parameters.get("deductionLevel")) + "' \n"
+                            + StringConstantsUtil.WHERE_SPACE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER
+                            + "-- LIST_NAME like'" + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "'\n"
+                            + "DESCRIPTION like'" + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "' \n"
                             + "))" + "  JOIN COMPANY_MASTER COM_MAS ON COM_MAS.COMPANY_MASTER_SID=CFP_CD_SID.COMPANY_MASTER_SID\n"
                             + "                            AND COM_MAS.COMPANY_TYPE IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
                             + "                            DESCRIPTION like'GLCOMP' AND LIST_NAME='COMPANY_TYPE')");
-                } else if (parameters.get("levelName") != null && ("Item".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) || "Product".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) || "Ndc".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {
+                } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && ("Item".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) || StringConstantsUtil.PROD.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) || "Ndc".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))))) {
                     queryBuilder.append("\n"
                             + "Select Distinct  IFP_CD_SID.ITEM_MASTER_SID from CONTRACT_MASTER CM \n"
-                            + "Join IFP_CONTRACT IFP_SID ON CM.CONTRACT_MASTER_SID = IFP_SID.CONTRACT_MASTER_SID\n"
-                            + "Join  IFP_CONTRACT_DETAILS IFP_CD_SID  ON  IFP_CD_SID.IFP_CONTRACT_SID=IFP_SID.IFP_CONTRACT_SID\n"
-                            + "AND\n"
-                            + "IFP_SID.CONTRACT_MASTER_SID IN (Select CONTRACT_MASTER_SID from RS_CONTRACT\n"
-                            + "where " + String.valueOf(parameters.get("deductionLevel")) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where  "
-                            + "DESCRIPTION like '" + String.valueOf(parameters.get("deductionValue")) + "' AND LIST_NAME='" + String.valueOf(parameters.get("deductionLevel")) + "' )) \n");
-                } else if (parameters.get("levelName") != null && ("Brand".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {
+                            + StringConstantsUtil.JOIN_IFP_CONTRACT_IFP_SID_ON_CMCONTRACT
+                            + StringConstantsUtil.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON
+                            + StringConstantsUtil.AND_NEW_LINE
+                            + StringConstantsUtil.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
+                            + StringConstantsUtil.WHERE_SPACE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA
+                            + StringConstantsUtil.DESCRIPTION_LIKE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "' )) \n");
+                } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && ("Brand".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))))) {
                     queryBuilder.append("Select Distinct  IM.BRAND_MASTER_SID from CONTRACT_MASTER CM\n"
-                            + "Join IFP_CONTRACT IFP_SID ON CM.CONTRACT_MASTER_SID = IFP_SID.CONTRACT_MASTER_SID\n"
-                            + "Join  IFP_CONTRACT_DETAILS IFP_CD_SID  ON  IFP_CD_SID.IFP_CONTRACT_SID=IFP_SID.IFP_CONTRACT_SID\n"
+                            + StringConstantsUtil.JOIN_IFP_CONTRACT_IFP_SID_ON_CMCONTRACT
+                            + StringConstantsUtil.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON
                             + "Join  ITEM_MASTER  IM ON IM.ITEM_MASTER_SID=IFP_CD_SID.ITEM_MASTER_SID AND\n"
-                            + "IFP_SID.CONTRACT_MASTER_SID IN (Select CONTRACT_MASTER_SID from RS_CONTRACT\n"
-                            + "where " + String.valueOf(parameters.get("deductionLevel")) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where  "
-                            + "DESCRIPTION like '" + String.valueOf(parameters.get("deductionValue")) + "' AND LIST_NAME='" + String.valueOf(parameters.get("deductionLevel")) + "' ))");
-                } else if (parameters.get("levelName") != null && ("Therapeutic Class".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {
+                            + StringConstantsUtil.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
+                            + StringConstantsUtil.WHERE_SPACE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA
+                            + StringConstantsUtil.DESCRIPTION_LIKE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "' ))");
+                } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && ("Therapeutic Class".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))))) {
                     queryBuilder.append("Select Distinct  IM.THERAPEUTIC_CLASS from CONTRACT_MASTER CM\n"
-                            + "Join IFP_CONTRACT IFP_SID ON CM.CONTRACT_MASTER_SID = IFP_SID.CONTRACT_MASTER_SID\n"
-                            + "Join  IFP_CONTRACT_DETAILS IFP_CD_SID  ON  IFP_CD_SID.IFP_CONTRACT_SID=IFP_SID.IFP_CONTRACT_SID\n"
+                            + StringConstantsUtil.JOIN_IFP_CONTRACT_IFP_SID_ON_CMCONTRACT
+                            + StringConstantsUtil.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON
                             + "Join  ITEM_MASTER  IM ON IM.ITEM_MASTER_SID=IFP_CD_SID.ITEM_MASTER_SID AND\n"
-                            + "IFP_SID.CONTRACT_MASTER_SID IN (Select CONTRACT_MASTER_SID from RS_CONTRACT\n"
-                            + "where " + String.valueOf(parameters.get("deductionLevel")) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where  "
-                            + "DESCRIPTION like '" + String.valueOf(parameters.get("deductionValue")) + "' AND LIST_NAME='" + String.valueOf(parameters.get("deductionLevel")) + "' ))");
+                            + StringConstantsUtil.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
+                            + StringConstantsUtil.WHERE_SPACE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA
+                            + StringConstantsUtil.DESCRIPTION_LIKE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "' ))");
                 }
                 queryBuilder.append(")");
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage() + " in getInnerLevel()");
+            LOGGER.error(" in getInnerLevel()= {}", ex.getMessage());
             LOGGER.error(queryBuilder.toString());
             return null;
         }
@@ -503,31 +505,31 @@ public class CommonServiceImpl {
         StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
         try {
             LOGGER.debug("Entering getCcpMap method ");
-            if (parameters.get("indicator") != null && "getRbId".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+            if (parameters.get(StringConstantsUtil.INDICATOR) != null && "getRbId".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
                 customSql.append(SQlUtil.getQuery("getRbIdFromHier"));
-                if (parameters.get("hierarchyDefinitionSid") != null) {
-                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyDefinitionSid")));
+                if (parameters.get(StringConstantsUtil.HIERARCHY_DEFINITION_SID) != null) {
+                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get(StringConstantsUtil.HIERARCHY_DEFINITION_SID)));
                 }
-            } else if (parameters.get("indicator") != null && "saveCcp".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+            } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && "saveCcp".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
                 customSql.append(SQlUtil.getQuery("saveCcpMerge"));
-                if (parameters.get("projectionId") != null) {
-                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("projectionId")));
+                if (parameters.get(StringConstantsUtil.PROJECTION_ID) != null) {
+                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
                 }
                 if (parameters.get("hierarchyNo") != null) {
                     customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
                 }
-                if (parameters.get("projectionId") != null) {
-                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("projectionId")));
+                if (parameters.get(StringConstantsUtil.PROJECTION_ID) != null) {
+                    customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
                 }
             }
-            if (parameters.get("indicator") != null && "saveCcp".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+            if (parameters.get(StringConstantsUtil.INDICATOR) != null && "saveCcp".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
                 HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());
                 return null;
             } else {
                 return HelperTableLocalServiceUtil.executeSelectQuery(customSql.toString());
             }
         } catch (Exception e) {
-            LOGGER.error(e.getMessage() + " in getCcpMap");
+            LOGGER.error(" in getCcpMap= {}",e.getMessage());
             LOGGER.error(customSql.toString());
             return null;
         }
@@ -578,7 +580,7 @@ public class CommonServiceImpl {
             }
             return temp;
         } catch (Exception e) {
-            LOGGER.error("In tempOperation ->" + e.getMessage());
+            LOGGER.error("In tempOperation -> {}", e.getMessage());
             LOGGER.error(customSql);
             return null;
         }
@@ -625,22 +627,22 @@ public class CommonServiceImpl {
 
     public List executeQueryforchannel(final Map<String, Object> parameters) {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-        if (parameters.get("indicator") != null && "hasTradingPartner".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("hasTradingPartner"));
+        if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.HAS_TRADING_PARTNER));
             queryString.append("'");
-            queryString.append(String.valueOf(parameters.get("projectionId")));
+            queryString.append(String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
             queryString.append("'");
-        } else if (parameters.get("indicator") != null && "getUnsavedProjectionIds".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("getUnsavedProjectionIds"));
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_UNSAVED_PROJECTION_IDS));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
-        } else if (parameters.get("indicator") != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            if (parameters.get("rlSids") != null) {
-                List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            if (parameters.get(StringConstantsUtil.RL_SIDS) != null) {
+                List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
                 if (rlSids != null && !rlSids.isEmpty()) {
                     queryString.append(SQlUtil.getQuery("getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
                     for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
-                        queryString.append("HIERARCHY_NO LIKE '");
+                        queryString.append(StringConstantsUtil.HIERARCHY_NO_LIKE);
                         queryString.append(rlSids.get(loop));
                         queryString.append("%'");
                         if (loop != (limit - 1)) {
@@ -651,16 +653,16 @@ public class CommonServiceImpl {
                     queryString.append(CommonUtils.stringListToString(rlSids));
                     queryString.append(")");
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
-                    queryString.append(String.valueOf(parameters.get("tableName")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.TABLE_NAME)));
                     queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
-                    queryString.append(String.valueOf(parameters.get("projectionId")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
                     queryString.append(")");
                 }
             }
-        } else if (parameters.get("indicator") != null && "getChildLevelRL".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            List<String> rlSids = (ArrayList<String>) parameters.get(StringConstantsUtil.RL_SIDS);
             if (rlSids != null && !rlSids.isEmpty()) {
-                queryString.append(SQlUtil.getQuery("getChildLevelRL"));
+                queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_CHILD_LEVEL_RL));
                 queryString.append(" and (");
                 for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
                     queryString.append("HIERARCHY_NO like '");
@@ -672,235 +674,235 @@ public class CommonServiceImpl {
                 }
                 queryString.append(") and HIERARCHY_NO not in (");
                 queryString.append(CommonUtils.stringListToString(rlSids));
-                if (parameters.get("availableHierNo") != null) {
-                    List<String> availableHierNo = (ArrayList<String>) parameters.get("availableHierNo");
+                if (parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO) != null) {
+                    List<String> availableHierNo = (ArrayList<String>) parameters.get(StringConstantsUtil.AVAILABLE_HIER_NO);
                     queryString.append(", ");
                     queryString.append(CommonUtils.stringListToString(availableHierNo));
                 }
                 queryString.append(") ");
             }
-        } else if (parameters.get("indicator") != null && "getRemovableChildren".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("getRemovableChildren"));
-            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
-            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
-        } else if (parameters.get("indicator") != null && "deleteTempOnUpdate".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_REMOVABLE_CHILDREN.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_REMOVABLE_CHILDREN));
+            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get(StringConstantsUtil.REMOVE_LEVELS)));
+            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get(StringConstantsUtil.REMOVE_LEVELS)));
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             String hNos = String.valueOf(parameters.get("hNos"));
-            String projectionId = String.valueOf(parameters.get("projectionId"));
+            String projectionId = String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID));
             String projectionHierarchyTable = String.valueOf(parameters.get("projectionHierarchyTable"));
             for (String table : getTempTableList()) {
-                queryString.append(SQlUtil.getQuery("deleteTempOnUpdate"));
-                queryString.replace(queryString.indexOf("?DTBL"), queryString.indexOf("?DTBL") + 5, table);
+                queryString.append(SQlUtil.getQuery(StringConstantsUtil.DELETE_TEMP_ON_UPDATE));
+                queryString.replace(queryString.indexOf(StringConstantsUtil.DTBL), queryString.indexOf(StringConstantsUtil.DTBL) + 5, table);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
-                queryString.replace(queryString.indexOf("?HTBL"), queryString.indexOf("?HTBL") + 5, projectionHierarchyTable);
+                queryString.replace(queryString.indexOf(StringConstantsUtil.HTBL), queryString.indexOf(StringConstantsUtil.HTBL) + 5, projectionHierarchyTable);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
-                queryString.replace(queryString.indexOf("?HTBL"), queryString.indexOf("?HTBL") + 5, projectionHierarchyTable);
+                queryString.replace(queryString.indexOf(StringConstantsUtil.HTBL), queryString.indexOf(StringConstantsUtil.HTBL) + 5, projectionHierarchyTable);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
                 queryString.replace(queryString.indexOf("?HNO"), queryString.indexOf("?HNO") + 4, hNos);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
             }
-        } else if (parameters.get("indicator") != null && "getFSValue".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("getFSValue"));
-            queryString.replace(queryString.indexOf("?RLC?"), queryString.indexOf("?RLC?") + 5, String.valueOf(parameters.get("relationshipLevelValue")));
-        } else if (parameters.get("indicator") != null && "companyFilter".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(SQlUtil.getQuery("companyFilter"));
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_FS_VALUE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_FS_VALUE));
+            queryString.replace(queryString.indexOf(StringConstantsUtil.RLC), queryString.indexOf(StringConstantsUtil.RLC) + 5, String.valueOf(parameters.get("relationshipLevelValue")));
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(StringConstantsUtil.COMPANY_FILTER));
             queryString.append("'");
             queryString.append(String.valueOf(parameters.get("companySid")));
             queryString.append("'");
-        } else if (parameters.get("indicator") != null
-                && ("getHierarchyGroup".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))
-                || "getHierarchyGroupCount".equalsIgnoreCase(String.valueOf(parameters.get("indicator"))))) { //searchGroup
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null
+                && ("getHierarchyGroup".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))
+                || "getHierarchyGroupCount".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) { //searchGroup
             String query = SQlUtil.getQuery("getHierarchyGroup");
 
-            if (parameters.get("action") != null && !StringUtils.isBlank(String.valueOf(parameters.get("action")))
-                    && !"count".equals(String.valueOf(parameters.get("action")))) {
-                query = query.replace("?SELECTION?", " C.HIERARCHY_DEFINITION_SID AS SID, C.HIERARCHY_NAME AS NAME, A.LEVEL_NAME AS LEVEL, "
+            if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
+                    && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
+                query = query.replace(StringConstantsUtil.SELECTION, " C.HIERARCHY_DEFINITION_SID AS SID, C.HIERARCHY_NAME AS NAME, A.LEVEL_NAME AS LEVEL, "
                         + "A.LEVEL_NO AS HIGH_LEVEL, B.LEVEL_NO AS LOW_LEVEL, C.CREATED_DATE AS CREATED_DATE, C.MODIFIED_DATE AS MODIFIED_DATE, C.VERSION_NO AS VERSION ");
             } else {
-                query = query.replace("?SELECTION?", " COUNT(C.HIERARCHY_DEFINITION_SID) AS SID_COUNT ");
+                query = query.replace(StringConstantsUtil.SELECTION, " COUNT(C.HIERARCHY_DEFINITION_SID) AS SID_COUNT ");
             }
             if (!StringUtils.isBlank(String.valueOf(parameters.get("customerOrProduct"))) && "Customer Hierachy".equals(String.valueOf(parameters.get("customerOrProduct")))) {
                 query = query.replace("?HIERARCHY_TYPE?", "Customer Hierarchy");
             } else {
                 query = query.replace("?HIERARCHY_TYPE?", "Product Hierarchy");
             }
-            if (parameters.get("hierarchyName") != null && !"null".equals(String.valueOf(parameters.get("hierarchyName"))) && !StringUtils.isBlank(String.valueOf(parameters.get("hierarchyName")))) {
-                query = query.replace("?HIERARCHY_NAME_CONDITION?", " AND C.HIERARCHY_NAME like '" + String.valueOf(parameters.get("hierarchyName")) + "' ");
+            if (parameters.get(StringConstantsUtil.HIERARCHY_NAME) != null && !"null".equals(String.valueOf(parameters.get(StringConstantsUtil.HIERARCHY_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.HIERARCHY_NAME)))) {
+                query = query.replace("?HIERARCHY_NAME_CONDITION?", " AND C.HIERARCHY_NAME like '" + String.valueOf(parameters.get(StringConstantsUtil.HIERARCHY_NAME)) + "' ");
             } else {
                 query = query.replace("?HIERARCHY_NAME_CONDITION?", StringUtils.EMPTY);
             }
-            if (parameters.get("hierarchyType") != null && !"null".equals(String.valueOf(parameters.get("hierarchyType"))) && !StringUtils.isBlank(String.valueOf(parameters.get("hierarchyType")))) {
+            if (parameters.get(StringConstantsUtil.HIERARCHY_TYPE) != null && !"null".equals(String.valueOf(parameters.get(StringConstantsUtil.HIERARCHY_TYPE))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.HIERARCHY_TYPE)))) {
                 query = query.replace("?HIERARCHY_TYPE_CONDITION?", " AND C.HIERARCHY_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT where HT.DESCRIPTION LIKE '"
-                        + String.valueOf(parameters.get("hierarchyType")) + "') ");
+                        + String.valueOf(parameters.get(StringConstantsUtil.HIERARCHY_TYPE)) + "') ");
             } else {
                 query = query.replace("?HIERARCHY_TYPE_CONDITION?", StringUtils.EMPTY);
             }
             try {
-                if (parameters.get("action") != null && !StringUtils.isBlank(String.valueOf(parameters.get("action")))
-                        && !"count".equals(String.valueOf(parameters.get("action")))) {
-                    if (String.valueOf(parameters.get("isFiltered")).equals("true")) {
+                if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
+                        && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
+                    if (String.valueOf(parameters.get(StringConstantsUtil.IS_FILTERED)).equals("true")) {
                         StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
-                        if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                                && (parameters.get("filter~createdDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+                        if ((parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND C.CREATED_DATE BETWEEN '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))));
                             filterAppender.append(from);
-                            filterAppender.append("' AND '");
-                            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
+                            filterAppender.append(StringConstantsUtil.UNQUOTE_AND_QUOTE);
+                            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))));
                             filterAppender.append(to);
                             filterAppender.append("' ");
-                        } else if ((parameters.get("filter~createdDateSearch~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                                || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                                && (parameters.get("filter~createdDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+                        } else if ((parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM)))
+                                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND C.CREATED_DATE < '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))));
                             filterAppender.append(to);
                             filterAppender.append("' ");
-                        } else if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                                && (parameters.get("filter~createdDateSearch~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                                || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+                        } else if ((parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO)))
+                                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND C.CREATED_DATE > '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))));
                             filterAppender.append(from);
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~modifiedDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                                && parameters.get("filter~modifiedDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM)))
+                                && parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO)))) {
                             filterAppender.append(" AND C.MODIFIED_DATE BETWEEN '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
-                            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))));
+                            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))));
                             filterAppender.append(from);
-                            filterAppender.append("' AND '");
+                            filterAppender.append(StringConstantsUtil.UNQUOTE_AND_QUOTE);
                             filterAppender.append(to);
                             filterAppender.append("' ");
-                        } else if ((parameters.get("filter~modifiedDateSearch~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                                || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                                && (parameters.get("filter~modifiedDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+                        } else if ((parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM)))
+                                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND C.MODIFIED_DATE < '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))));
                             filterAppender.append(to);
                             filterAppender.append("' ");
-                        } else if ((parameters.get("filter~modifiedDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                                && (parameters.get("filter~modifiedDateSearch~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                                || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+                        } else if ((parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO)))
+                                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND C.MODIFIED_DATE > '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))));
                             filterAppender.append(from);
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~hierarchyName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~hierarchyName")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~hierarchyName")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_HIERARCHY_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_HIERARCHY_NAME)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_HIERARCHY_NAME)))) {
                             filterAppender.append(" AND C.HIERARCHY_NAME like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~hierarchyName")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_HIERARCHY_NAME)));
                             filterAppender.append("' ");
                         }
 
-                        if (parameters.get("filter~highestLevel") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~highestLevel")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~highestLevel")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_HIGHEST_LEVEL) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_HIGHEST_LEVEL)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_HIGHEST_LEVEL)))) {
                             filterAppender.append(" AND A.LEVEL_NO like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~highestLevel")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_HIGHEST_LEVEL)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~lowestLevel") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~lowestLevel")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~lowestLevel")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_LOWEST_LEVEL) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_LOWEST_LEVEL)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_LOWEST_LEVEL)))) {
                             filterAppender.append(" AND B.LEVEL_NO like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~lowestLevel")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_LOWEST_LEVEL)));
                             filterAppender.append("' ");
                         }
-                        query = query.replace("?FILTER?", filterAppender.toString());
+                        query = query.replace(StringConstantsUtil.Q_FILTER, filterAppender.toString());
                     } else {
-                        query = query.replace("?FILTER?", StringUtils.EMPTY);
+                        query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                     }
-                    if ((parameters.get("isOrdered") == null || "false".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered"))))) {
-                        query = query.replace("?ORDER_BY?", " ORDER BY C.CREATED_DATE ");
-                    } else if (parameters.get("isOrdered") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) {
+                    if ((parameters.get(StringConstantsUtil.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED))))) {
+                        query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY C.CREATED_DATE ");
+                    } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) {
                         StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
-                        if (parameters.get("orderBy~hierarchyName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~hierarchyName")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~hierarchyName")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_HIERARCHY_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_HIERARCHY_NAME)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_HIERARCHY_NAME)))) {
                             orderByAppender.append(" ORDER BY C.HIERARCHY_NAME ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~hierarchyName")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_HIERARCHY_NAME)));
                         }
 
-                        if (parameters.get("orderBy~highestLevel") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~highestLevel")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~highestLevel")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_HIGHEST_LEVEL) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_HIGHEST_LEVEL)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_HIGHEST_LEVEL)))) {
                             orderByAppender.append(" ORDER BY A.LEVEL_NO ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~highestLevel")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_HIGHEST_LEVEL)));
                         }
 
-                        if (parameters.get("orderBy~lowestLevel") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~lowestLevel")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~lowestLevel")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_LOWEST_LEVEL) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_LOWEST_LEVEL)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_LOWEST_LEVEL)))) {
                             orderByAppender.append(" ORDER BY B.LEVEL_NO ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~lowestLevel")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_LOWEST_LEVEL)));
                         }
 
-                        if (parameters.get("orderBy~createdDateSearch") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~createdDateSearch")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~createdDateSearch")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CREATED_DATE_SEARCH) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_DATE_SEARCH)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_DATE_SEARCH)))) {
                             orderByAppender.append(" ORDER BY C.CREATED_DATE ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~createdDateSearch")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_DATE_SEARCH)));
                         }
 
-                        if (parameters.get("orderBy~modifiedDateSearch") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~modifiedDateSearch")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~modifiedDateSearch")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BYMODIFIED_DATE_SEARCH) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMODIFIED_DATE_SEARCH)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMODIFIED_DATE_SEARCH)))) {
                             orderByAppender.append(" ORDER BY C.MODIFIED_DATE ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~modifiedDateSearch")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMODIFIED_DATE_SEARCH)));
                         }
-                        query = query.replace("?ORDER_BY?", orderByAppender.toString());
+                        query = query.replace(StringConstantsUtil.ORDER_BY, orderByAppender.toString());
                     }
-                    if (parameters.get("start") != null && parameters.get("offset") != null) {
-                        int startIndex = Integer.parseInt(String.valueOf(parameters.get("start")));
-                        int offset = Integer.parseInt(String.valueOf(parameters.get("offset")));
-                        query = query + " OFFSET " + startIndex + " ROWS FETCH NEXT " + offset + " ROWS ONLY ";
+                    if (parameters.get(StringConstantsUtil.START) != null && parameters.get(StringConstantsUtil.OFFSET_WO_SPACE) != null) {
+                        int startIndex = Integer.parseInt(String.valueOf(parameters.get(StringConstantsUtil.START)));
+                        int offset = Integer.parseInt(String.valueOf(parameters.get(StringConstantsUtil.OFFSET_WO_SPACE)));
+                        query = query + StringConstantsUtil.OFFSET_W_SPACE + startIndex + StringConstantsUtil.ROWS_FETCH_NEXT + offset + StringConstantsUtil.ROWS_ONLY_W_SPACE;
                     }
 
                 } else {
-                    query = query.replace("?ORDER_BY?", StringUtils.EMPTY);
-                    query = query.replace("?FILTER?", StringUtils.EMPTY);
+                    query = query.replace(StringConstantsUtil.ORDER_BY, StringUtils.EMPTY);
+                    query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                 }
 
-            } catch (Exception ex) {
-                LOGGER.error(ex.getMessage() + " in execute query");
+            } catch (NumberFormatException | ParseException ex) {
+                LOGGER.error("Exception= {} and Query= {}", ex.getMessage(), StringConstantsUtil.IN_EXECUTE_QUERY);
             }
             queryString.append(query);
             queryString.append(";");
-        } else if (parameters.get("indicator") != null
-                && ("searchGroup".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))
-                || "searchGroupCount".equalsIgnoreCase(String.valueOf(parameters.get("indicator"))))) {
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null
+                && ("searchGroup".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))
+                || "searchGroupCount".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) {
             queryString.append(prepareSearchGroupQuery(parameters));
-        } else if (parameters.get("indicator") != null
-                && ("searchView".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))
-                || "searchViewCount".equalsIgnoreCase(String.valueOf(parameters.get("indicator"))))) {
+        } else if (parameters.get(StringConstantsUtil.INDICATOR) != null
+                && ("searchView".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))
+                || "searchViewCount".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) {
             queryString.append(prepareSearchViewQuery(parameters));
         } else {
             queryString.append(String.valueOf(parameters.get("query")));
         }
         try {
-            if (parameters.get("indicator") != null
-                    && (("deleteTempOnUpdate".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))))) {
+            if (parameters.get(StringConstantsUtil.INDICATOR) != null
+                    && ((StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))))) {
                 List<Integer> list = new ArrayList<Integer>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
                 list.add(returnValue);
@@ -909,330 +911,331 @@ public class CommonServiceImpl {
                 return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage() + " in execute query");
+            LOGGER.error("Message from Exception= {} and IN_EXECUTE QUERY= {}", ex.getMessage(), StringConstantsUtil.IN_EXECUTE_QUERY);
             LOGGER.error(queryString.toString());
             return null;
         }
     }
+    
 
     private String prepareSearchViewQuery(final Map<String, Object> parameters) {
         String query = StringUtils.EMPTY;
         try {
             StringBuilder queryString = new StringBuilder(SQlUtil.getQuery("findViewByNameJoin"));
-            if (parameters.get("viewType") != null
-                    && !StringUtils.isEmpty(String.valueOf(parameters.get("viewType")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("viewType")))) {
+            if (parameters.get(StringConstantsUtil.VIEW_TYPE) != null
+                    && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.VIEW_TYPE)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.VIEW_TYPE)))) {
                 queryString.append(" FVM.VIEW_TYPE LIKE '");
-                queryString.append(String.valueOf(parameters.get("viewType")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.VIEW_TYPE)));
                 queryString.append("' ");
 
-                if (String.valueOf(parameters.get("viewType")).equalsIgnoreCase("private")
-                        && parameters.get("userId") != null
-                        && !StringUtils.isBlank(String.valueOf(parameters.get("userId")))) {
+                if (String.valueOf(parameters.get(StringConstantsUtil.VIEW_TYPE)).equalsIgnoreCase("private")
+                        && parameters.get(StringConstantsUtil.USER_ID) != null
+                        && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.USER_ID)))) {
                     queryString.append(" AND FVM.CREATED_BY = ");
-                    queryString.append(String.valueOf(parameters.get("userId")));
+                    queryString.append(String.valueOf(parameters.get(StringConstantsUtil.USER_ID)));
                 }
 
             }
-            if (parameters.get("viewName") != null
-                    && !StringUtils.isEmpty(String.valueOf(parameters.get("viewName")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("viewName")))) {
+            if (parameters.get(StringConstantsUtil.VIEW_NAME) != null
+                    && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.VIEW_NAME)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.VIEW_NAME)))) {
                 queryString.append(" AND FVM.VIEW_NAME LIKE '");
-                queryString.append(String.valueOf(parameters.get("viewName")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.VIEW_NAME)));
                 queryString.append("' ");
             }
 
-            if (parameters.get("forecastType") != null
-                    && !StringUtils.isEmpty(String.valueOf(parameters.get("forecastType")))
-                    && !StringUtils.isBlank(String.valueOf(parameters.get("forecastType")))) {
+            if (parameters.get(StringConstantsUtil.FORECAST_TYPE) != null
+                    && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.FORECAST_TYPE)))
+                    && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FORECAST_TYPE)))) {
                 queryString.append(" AND PM.FORECASTING_TYPE ='");
-                queryString.append(String.valueOf(parameters.get("forecastType")));
+                queryString.append(String.valueOf(parameters.get(StringConstantsUtil.FORECAST_TYPE)));
                 queryString.append("' ");
             }
 
-            queryString.append("?FILTER?");
-            queryString.append("?ORDER_BY?");
+            queryString.append(StringConstantsUtil.Q_FILTER);
+            queryString.append(StringConstantsUtil.ORDER_BY);
             query = queryString.toString();
 
             try {
-                if (parameters.get("action") != null && !StringUtils.isBlank(String.valueOf(parameters.get("action")))
-                        && !"count".equals(String.valueOf(parameters.get("action")))) {
-                    query = query.replace("?SELECTION?", SQlUtil.getQuery("searchViewFindSelection"));
-                    if (String.valueOf(parameters.get("isFiltered")).equals("true")) {
+                if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
+                        && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
+                    query = query.replace(StringConstantsUtil.SELECTION, SQlUtil.getQuery("searchViewFindSelection"));
+                    if (String.valueOf(parameters.get(StringConstantsUtil.IS_FILTERED)).equals("true")) {
                         StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
-                        if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                                && (parameters.get("filter~createdDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+                        if ((parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND PM.CREATED_DATE BETWEEN '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))));
                             filterAppender.append(from);
-                            filterAppender.append("' AND '");
-                            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
+                            filterAppender.append(StringConstantsUtil.UNQUOTE_AND_QUOTE);
+                            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))));
                             filterAppender.append(to);
                             filterAppender.append("' ");
-                        } else if ((parameters.get("filter~createdDateSearch~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                                || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                                && (parameters.get("filter~createdDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+                        } else if ((parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM)))
+                                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND PM.CREATED_DATE < '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))));
                             filterAppender.append(to);
                             filterAppender.append("' ");
-                        } else if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~from"))))
-                                && (parameters.get("filter~createdDateSearch~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
-                                || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
+                        } else if ((parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO)))
+                                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND PM.CREATED_DATE > '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))));
                             filterAppender.append(from);
                             filterAppender.append("' ");
                         }
 
-                        if (parameters.get("filter~modifiedDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                                && parameters.get("filter~modifiedDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM)))
+                                && parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))) && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO)))) {
                             filterAppender.append(" AND PM.MODIFIED_DATE BETWEEN '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
-                            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))));
+                            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))));
                             filterAppender.append(from);
-                            filterAppender.append("' AND '");
+                            filterAppender.append(StringConstantsUtil.UNQUOTE_AND_QUOTE);
                             filterAppender.append(to);
                             filterAppender.append("' ");
-                        } else if ((parameters.get("filter~modifiedDateSearch~from") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                                || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                                && (parameters.get("filter~modifiedDateSearch~to") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+                        } else if ((parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM)))
+                                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND PM.MODIFIED_DATE < '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String to = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))));
                             filterAppender.append(to);
                             filterAppender.append("' ");
-                        } else if ((parameters.get("filter~modifiedDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))))
-                                && (parameters.get("filter~modifiedDateSearch~to") == null || Constants.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
-                                || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
+                        } else if ((parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))))
+                                && (parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO) == null || Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO)))
+                                || StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_TO))))) {
                             filterAppender.append(" AND PM.MODIFIED_DATE > '");
-                            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                            String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
+                            SimpleDateFormat parse = new SimpleDateFormat(StringConstantsUtil.EEE_MMM_DD_H_HMMSS_Z_YYYY);
+                            SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.M_MDDYYYY);
+                            String from = format.format(parse.parse(String.valueOf(parameters.get(StringConstantsUtil.FILTER_MODIFIED_DATE_SEARCH_FROM))));
                             filterAppender.append(from);
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~viewName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~viewName")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~viewName")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_VIEW_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_VIEW_NAME)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_VIEW_NAME)))) {
                             filterAppender.append(" AND FVM.VIEW_NAME like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~viewName")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_VIEW_NAME)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~viewName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~description")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~description")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_VIEW_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_DESCRIPTION)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_DESCRIPTION)))) {
                             filterAppender.append(" AND PM.PROJECTION_DESCRIPTION like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~description")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_DESCRIPTION)));
                             filterAppender.append("' ");
                         }
 
-                        if (parameters.get("filter~customerHierarchy") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~customerHierarchy")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~customerHierarchy")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_CUSTOMER_HIERARCHY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_HIERARCHY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_HIERARCHY)))) {
                             filterAppender.append(" AND CUST_HD.HIERARCHY_NAME like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~customerHierarchy")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_HIERARCHY)));
                             filterAppender.append("' ");
                         }
 
-                        if (parameters.get("filter~customerLevel") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~customerLevel")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~customerLevel")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_CUSTOMER_LEVEL) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_LEVEL)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_LEVEL)))) {
                             filterAppender.append(" AND PM.CUSTOMER_HIERARCHY_LEVEL like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~customerLevel")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_LEVEL)));
                             filterAppender.append("' ");
                         }
 
-                        if (parameters.get("filter~customerGroup") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~customerGroup")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~customerGroup")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP)))) {
                             filterAppender.append(" AND CMG.COMPANY_GROUP_NAME like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~customerGroup")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP)));
                             filterAppender.append("' ");
                         }
 
-                        if (parameters.get("filter~company") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~company")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~company")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_COMPANY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_COMPANY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_COMPANY)))) {
                             filterAppender.append(" AND CM.COMPANY_NAME like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~company")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_COMPANY)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~brandType") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~brandType")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~brandType")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_BRAND_TYPE) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_BRAND_TYPE)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_BRAND_TYPE)))) {
                             filterAppender.append(" AND PM.BRAND_TYPE like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~brandType")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_BRAND_TYPE)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~productHierarchy") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~productHierarchy")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~productHierarchy")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_PRODUCT_HIERARCHY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_HIERARCHY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_HIERARCHY)))) {
                             filterAppender.append(" AND PROD_HD.HIERARCHY_NAME like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~productHierarchy")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_HIERARCHY)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~productLevel") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~productLevel")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~productLevel")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_PRODUCT_LEVEL) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_LEVEL)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_LEVEL)))) {
                             filterAppender.append(" AND PM.PRODUCT_HIERARCHY_LEVEL like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~productLevel")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_LEVEL)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~productGroup") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~productGroup")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~productGroup")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP)))) {
                             filterAppender.append(" AND IG.ITEM_GROUP_NAME like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~productGroup")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~createdBy") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdBy")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdBy")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_CREATED_BY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_BY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_BY)))) {
                             filterAppender.append(" AND PM.CREATED_BY in (");
-                            filterAppender.append(String.valueOf(parameters.get("filter~createdBy")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_BY)));
                             filterAppender.append(") ");
                         }
 
-                        query = query.replace("?FILTER?", filterAppender.toString());
+                        query = query.replace(StringConstantsUtil.Q_FILTER, filterAppender.toString());
                     } else {
-                        query = query.replace("?FILTER?", StringUtils.EMPTY);
+                        query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                     }
-                    if ((parameters.get("isOrdered") == null || "false".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered"))))) {
-                        query = query.replace("?ORDER_BY?", " ORDER BY PM.CREATED_DATE ");
-                    } else if (parameters.get("isOrdered") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) {
+                    if ((parameters.get(StringConstantsUtil.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED))))) {
+                        query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY PM.CREATED_DATE ");
+                    } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) {
                         StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
-                        if (parameters.get("orderBy~viewName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~viewName")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~viewName")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_VIEW_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_VIEW_NAME)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_VIEW_NAME)))) {
                             orderByAppender.append(" ORDER BY FVM.VIEW_NAME ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~viewName")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_VIEW_NAME)));
                         }
 
-                        if (parameters.get("orderBy~description") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~description")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~description")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_DESCRIPTION) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_DESCRIPTION)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_DESCRIPTION)))) {
                             orderByAppender.append(" ORDER BY PM.PROJECTION_DESCRIPTION ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~description")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_DESCRIPTION)));
                         }
 
-                        if (parameters.get("orderBy~from") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~from")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~from")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_FROM) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_FROM)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_FROM)))) {
                             orderByAppender.append(" ORDER BY PM.FROM_DATE ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~from")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_FROM)));
                         }
 
-                        if (parameters.get("orderBy~to") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~to")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~to")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_TO) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_TO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_TO)))) {
                             orderByAppender.append(" ORDER BY PM.TO_DATE ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~to")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_TO)));
                         }
 
-                        if (parameters.get("orderBy~customerHierarchy") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~customerHierarchy")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~customerHierarchy")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_HIERARCHY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_HIERARCHY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_HIERARCHY)))) {
                             orderByAppender.append(" ORDER BY CUST_HD.HIERARCHY_NAME ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~customerHierarchy")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_HIERARCHY)));
                         }
 
-                        if (parameters.get("orderBy~customerLevel") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~customerLevel")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~customerLevel")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_LEVEL) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_LEVEL)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_LEVEL)))) {
                             orderByAppender.append(" ORDER BY PM.CUSTOMER_HIERARCHY_LEVEL ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~customerLevel")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_LEVEL)));
                         }
 
-                        if (parameters.get("orderBy~customerGroup") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~customerGroup")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~customerGroup")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP)))) {
                             orderByAppender.append(" ORDER BY CMG.COMPANY_GROUP_NAME ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~customerGroup")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP)));
                         }
 
-                        if (parameters.get("orderBy~company") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~company")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~company")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_COMPANY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_COMPANY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_COMPANY)))) {
                             orderByAppender.append(" ORDER BY CM.COMPANY_NAME  ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~company")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_COMPANY)));
                         }
 
-                        if (parameters.get("orderBy~brandType") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~brandType")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~brandType")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_BRAND_TYPE) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_BRAND_TYPE)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_BRAND_TYPE)))) {
                             orderByAppender.append(" ORDER BY PM.BRAND_TYPE  ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~brandType")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_BRAND_TYPE)));
                         }
 
-                        if (parameters.get("orderBy~productHierarchy") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productHierarchy")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productHierarchy")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_HIERARCHY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_HIERARCHY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_HIERARCHY)))) {
                             orderByAppender.append(" ORDER BY PROD_HD.HIERARCHY_NAME  ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~productHierarchy")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_HIERARCHY)));
                         }
 
-                        if (parameters.get("orderBy~productLevel") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productLevel")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productLevel")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_LEVEL) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_LEVEL)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_LEVEL)))) {
                             orderByAppender.append(" ORDER BY PM.PRODUCT_HIERARCHY_LEVEL  ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~productLevel")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_LEVEL)));
                         }
 
-                        if (parameters.get("orderBy~productGroup") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productGroup")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productGroup")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP)))) {
                             orderByAppender.append(" ORDER BY IG.ITEM_GROUP_NAME  ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~productGroup")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP)));
                         }
-                        if (parameters.get("orderBy~createdDateSearch") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~createdDateSearch")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~createdDateSearch")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CREATED_DATE_SEARCH) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_DATE_SEARCH)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_DATE_SEARCH)))) {
                             orderByAppender.append(" ORDER BY PM.CREATED_DATE ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~createdDateSearch")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_DATE_SEARCH)));
                         }
 
-                        if (parameters.get("orderBy~modifiedDateSearch") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~modifiedDateSearch")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~modifiedDateSearch")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BYMODIFIED_DATE_SEARCH) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMODIFIED_DATE_SEARCH)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMODIFIED_DATE_SEARCH)))) {
                             orderByAppender.append(" ORDER BY PM.MODIFIED_DATE ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~modifiedDateSearch")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BYMODIFIED_DATE_SEARCH)));
                         }
-                        if (parameters.get("orderBy~createdBy") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~createdBy")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~createdBy")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CREATED_BY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_BY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_BY)))) {
                             orderByAppender.append(" ORDER BY PM.CREATED_BY ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~createdBy")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CREATED_BY)));
                         }
-                        query = query.replace("?ORDER_BY?", orderByAppender.toString());
+                        query = query.replace(StringConstantsUtil.ORDER_BY, orderByAppender.toString());
                     }
-                    if (parameters.get("start") != null && parameters.get("offset") != null) {
-                        int startIndex = Integer.parseInt(String.valueOf(parameters.get("start")));
-                        int offset = Integer.parseInt(String.valueOf(parameters.get("offset")));
-                        query = query + " OFFSET " + startIndex + " ROWS FETCH NEXT " + offset + " ROWS ONLY ";
+                    if (parameters.get(StringConstantsUtil.START) != null && parameters.get(StringConstantsUtil.OFFSET_WO_SPACE) != null) {
+                        int startIndex = Integer.parseInt(String.valueOf(parameters.get(StringConstantsUtil.START)));
+                        int offset = Integer.parseInt(String.valueOf(parameters.get(StringConstantsUtil.OFFSET_WO_SPACE)));
+                        query = query + StringConstantsUtil.OFFSET_W_SPACE + startIndex + StringConstantsUtil.ROWS_FETCH_NEXT + offset + StringConstantsUtil.ROWS_ONLY_W_SPACE;
                     }
                 } else {
-                    query = query.replace("?SELECTION?", " COUNT (DISTINCT FVM.VIEW_ID) ");
-                    query = query.replace("?ORDER_BY?", StringUtils.EMPTY);
-                    query = query.replace("?FILTER?", StringUtils.EMPTY);
+                    query = query.replace(StringConstantsUtil.SELECTION, " COUNT (DISTINCT FVM.VIEW_ID) ");
+                    query = query.replace(StringConstantsUtil.ORDER_BY, StringUtils.EMPTY);
+                    query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                 }
-            } catch (Exception ex) {
-                LOGGER.error(ex.getMessage() + " in execute query");
+            } catch (NumberFormatException | ParseException ex) {
+                LOGGER.error("Exception message from method= {} and StringConstandsUtil:Query= {}", ex.getMessage(), StringConstantsUtil.IN_EXECUTE_QUERY);
                 LOGGER.error(query);
             }
         } catch (Exception e) {
@@ -1251,7 +1254,7 @@ public class CommonServiceImpl {
             String desc = null;
             String sids = null;
             StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-            if (parameters.get("groupIdentifier") != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get("groupIdentifier")))) {
+            if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
                 queryString.append(SQlUtil.getQuery("getCustomerGroupPaged"));
                 name = " CG.COMPANY_GROUP_NAME ";
                 no = " CG.COMPANY_GROUP_NO ";
@@ -1267,7 +1270,7 @@ public class CommonServiceImpl {
             if (parameters.get("no") != null
                     && !StringUtils.isEmpty(String.valueOf(parameters.get("no")))
                     && !StringUtils.isBlank(String.valueOf(parameters.get("no")))) {
-                queryString.append(" AND ");
+                queryString.append(StringConstantsUtil.AND);
                 queryString.append(no);
                 queryString.append(" LIKE '");
                 queryString.append(String.valueOf(parameters.get("no")));
@@ -1276,168 +1279,167 @@ public class CommonServiceImpl {
             if (parameters.get("name") != null
                     && !StringUtils.isEmpty(String.valueOf(parameters.get("name")))
                     && !StringUtils.isBlank(String.valueOf(parameters.get("name")))) {
-                queryString.append(" AND ");
+                queryString.append(StringConstantsUtil.AND);
                 queryString.append(name);
                 queryString.append(" LIKE '");
                 queryString.append(String.valueOf(parameters.get("name")));
                 queryString.append("'");
             }
             if (parameters.get("sids") != null && !"null".equals(String.valueOf(parameters.get("sids")))) {
-                queryString.append(" AND ");
+                queryString.append(StringConstantsUtil.AND);
                 queryString.append(sids);
                 queryString.append(" in (");
                 queryString.append(String.valueOf(parameters.get("sids")));
                 queryString.append(")");
             }
 
-            queryString.append("?FILTER?");
-            queryString.append("?ORDER_BY?");
+            queryString.append(StringConstantsUtil.Q_FILTER);
+            queryString.append(StringConstantsUtil.ORDER_BY);
 
             query = queryString.toString();
             try {
-                if (parameters.get("action") != null && !StringUtils.isBlank(String.valueOf(parameters.get("action")))
-                        && !"count".equals(String.valueOf(parameters.get("action")))) {
-                    if (parameters.get("groupIdentifier") != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get("groupIdentifier")))) {
-                        query = query.replace("?SELECTION?", " DISTINCT CG.COMPANY_GROUP_SID, CG.COMPANY_GROUP_NO, CG.COMPANY_GROUP_NAME, CG.VERSION_NO, CG.COMPANY_GROUP_DESCRIPTION ");
+                if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
+                        && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
+                    if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
+                        query = query.replace(StringConstantsUtil.SELECTION, " DISTINCT CG.COMPANY_GROUP_SID, CG.COMPANY_GROUP_NO, CG.COMPANY_GROUP_NAME, CG.VERSION_NO, CG.COMPANY_GROUP_DESCRIPTION ");
                     } else {
-                        query = query.replace("?SELECTION?", " DISTINCT IG.ITEM_GROUP_SID, IG.ITEM_GROUP_NO, IG.ITEM_GROUP_NAME, CM.COMPANY_NAME, IG.VERSION_NO, IG.ITEM_GROUP_DESCRIPTION ");
+                        query = query.replace(StringConstantsUtil.SELECTION, " DISTINCT IG.ITEM_GROUP_SID, IG.ITEM_GROUP_NO, IG.ITEM_GROUP_NAME, CM.COMPANY_NAME, IG.VERSION_NO, IG.ITEM_GROUP_DESCRIPTION ");
                     }
-                    if (String.valueOf(parameters.get("isFiltered")).equals("true")) {
+                    if (String.valueOf(parameters.get(StringConstantsUtil.IS_FILTERED)).equals("true")) {
                         StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
-                        if (parameters.get("filter~customerGroupName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~customerGroupName")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~customerGroupName")))) {
-                            filterAppender.append(" AND ");
+                        if (parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NAME)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NAME)))) {
+                            filterAppender.append(StringConstantsUtil.AND);
                             filterAppender.append(name);
-                            filterAppender.append(" like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~customerGroupName")));
+                            filterAppender.append(StringConstantsUtil.LIKE_QUOTE);
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NAME)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~productGroupName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~productGroupName")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~productGroupName")))) {
-                            filterAppender.append(" AND ");
+                        if (parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_NAME)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_NAME)))) {
+                            filterAppender.append(StringConstantsUtil.AND);
                             filterAppender.append(name);
-                            filterAppender.append(" like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~productGroupName")));
+                            filterAppender.append(StringConstantsUtil.LIKE_QUOTE);
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_NAME)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~customerGroupNo") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~customerGroupNo")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~customerGroupNo")))) {
-                            filterAppender.append(" AND ");
+                        if (parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NO) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NO)))) {
+                            filterAppender.append(StringConstantsUtil.AND);
                             filterAppender.append(no);
-                            filterAppender.append(" like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~customerGroupNo")));
+                            filterAppender.append(StringConstantsUtil.LIKE_QUOTE);
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NO)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~productGroupNo") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~productGroupNo")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~productGroupNo")))) {
-                            filterAppender.append(" AND ");
+                        if (parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_NO) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_NO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_NO)))) {
+                            filterAppender.append(StringConstantsUtil.AND);
                             filterAppender.append(no);
-                            filterAppender.append(" like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~productGroupNo")));
+                            filterAppender.append(StringConstantsUtil.LIKE_QUOTE);
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_NO)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~customergroupDescription") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~customergroupDescription")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~customergroupDescription")))) {
-                            filterAppender.append(" AND ");
+                        if (parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_DESCRIPTION) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_DESCRIPTION)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_DESCRIPTION)))) {
+                            filterAppender.append(StringConstantsUtil.AND);
                             filterAppender.append(desc);
-                            filterAppender.append(" like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~customergroupDescription")));
+                            filterAppender.append(StringConstantsUtil.LIKE_QUOTE);
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_DESCRIPTION)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~productgroupDescription") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~productgroupDescription")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~productgroupDescription")))) {
-                            filterAppender.append(" AND ");
+                        if (parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_DESCRIPTION) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_DESCRIPTION)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_DESCRIPTION)))) {
+                            filterAppender.append(StringConstantsUtil.AND);
                             filterAppender.append(desc);
-                            filterAppender.append(" like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~productgroupDescription")));
+                            filterAppender.append(StringConstantsUtil.LIKE_QUOTE);
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_PRODUCT_GROUP_DESCRIPTION)));
                             filterAppender.append("' ");
                         }
-                        if (parameters.get("filter~company") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("filter~company")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("filter~company")))) {
+                        if (parameters.get(StringConstantsUtil.FILTER_COMPANY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_COMPANY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_COMPANY)))) {
                             filterAppender.append(" AND CM.COMPANY_NAME like '");
-                            filterAppender.append(String.valueOf(parameters.get("filter~company")));
+                            filterAppender.append(String.valueOf(parameters.get(StringConstantsUtil.FILTER_COMPANY)));
                             filterAppender.append("' ");
                         }
-                        query = query.replace("?FILTER?", filterAppender.toString());
+                        query = query.replace(StringConstantsUtil.Q_FILTER, filterAppender.toString());
                     } else {
-                        query = query.replace("?FILTER?", StringUtils.EMPTY);
+                        query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                     }
-                    if ((parameters.get("isOrdered") == null || "false".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered"))))) {
-                        if (parameters.get("groupIdentifier") != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get("groupIdentifier")))) {
-                            query = query.replace("?ORDER_BY?", " ORDER BY CG.COMPANY_GROUP_SID ");
+                    if ((parameters.get(StringConstantsUtil.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED))))) {
+                        if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
+                            query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY CG.COMPANY_GROUP_SID ");
                         } else {
-                            query = query.replace("?ORDER_BY?", " ORDER BY IG.ITEM_GROUP_SID ");
+                            query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY IG.ITEM_GROUP_SID ");
                         }
-                    } else if (parameters.get("isOrdered") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("isOrdered")))) {
+                    } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) {
                         StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
-                        if (parameters.get("orderBy~customerGroupName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~customerGroupName")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~customerGroupName")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NAME)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NAME)))) {
                             orderByAppender.append(" ORDER BY CG.COMPANY_GROUP_NAME ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~customerGroupName")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NAME)));
                         }
-                        if (parameters.get("orderBy~customerGroupNo") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~customerGroupNo")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~customerGroupNo")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NO) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NO)))) {
                             orderByAppender.append(" ORDER BY CG.COMPANY_GROUP_NO ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~customerGroupNo")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NO)));
                         }
-                        if (parameters.get("orderBy~customergroupDescription") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~customergroupDescription")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~customergroupDescription")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_DESCRIPTION) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_DESCRIPTION)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_DESCRIPTION)))) {
                             orderByAppender.append(" ORDER BY CG.COMPANY_GROUP_DESCRIPTION ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~customergroupDescription")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_DESCRIPTION)));
                         }
-                        if (parameters.get("orderBy~productGroupName") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productGroupName")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productGroupName")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_NAME) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_NAME)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_NAME)))) {
                             orderByAppender.append(" ORDER BY IG.ITEM_GROUP_NAME ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~productGroupName")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_NAME)));
                         }
-                        if (parameters.get("orderBy~productGroupNo") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productGroupNo")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productGroupNo")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_NO) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_NO)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_NO)))) {
                             orderByAppender.append(" ORDER BY IG.ITEM_GROUP_NO ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~productGroupNo")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_NO)));
                         }
-                        if (parameters.get("orderBy~productgroupDescription") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~productgroupDescription")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~productgroupDescription")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_DESCRIPTION) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_DESCRIPTION)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_DESCRIPTION)))) {
                             orderByAppender.append(" ORDER BY IG.ITEM_GROUP_DESCRIPTION ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~productgroupDescription")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_PRODUCT_GROUP_DESCRIPTION)));
                         }
-                        if (parameters.get("orderBy~company") != null
-                                && !Constants.NULL.equals(String.valueOf(parameters.get("orderBy~company")))
-                                && !StringUtils.isBlank(String.valueOf(parameters.get("orderBy~company")))) {
+                        if (parameters.get(StringConstantsUtil.ORDER_BY_COMPANY) != null
+                                && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_COMPANY)))
+                                && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_COMPANY)))) {
                             orderByAppender.append(" ORDER BY CM.COMPANY_NAME ");
-                            orderByAppender.append(String.valueOf(parameters.get("orderBy~company")));
+                            orderByAppender.append(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_COMPANY)));
                         }
-                        query = query.replace("?ORDER_BY?", orderByAppender.toString());
+                        query = query.replace(StringConstantsUtil.ORDER_BY, orderByAppender.toString());
                     }
-                    if (parameters.get("start") != null && parameters.get("offset") != null) {
-                        int startIndex = Integer.parseInt(String.valueOf(parameters.get("start")));
-                        int offset = Integer.parseInt(String.valueOf(parameters.get("offset")));
-                        query = query + " OFFSET " + startIndex + " ROWS FETCH NEXT " + offset + " ROWS ONLY ";
+                    if (parameters.get(StringConstantsUtil.START) != null && parameters.get(StringConstantsUtil.OFFSET_WO_SPACE) != null) {
+                        int startIndex = Integer.parseInt(String.valueOf(parameters.get(StringConstantsUtil.START)));
+                        int offset = Integer.parseInt(String.valueOf(parameters.get(StringConstantsUtil.OFFSET_WO_SPACE)));
+                        query = query + StringConstantsUtil.OFFSET_W_SPACE + startIndex + StringConstantsUtil.ROWS_FETCH_NEXT + offset + StringConstantsUtil.ROWS_ONLY_W_SPACE;
                     }
                 } else {
-                    if (parameters.get("groupIdentifier") != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get("groupIdentifier")))) {
-                        query = query.replace("?SELECTION?", " COUNT (DISTINCT CG.COMPANY_GROUP_SID) ");
+                    if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
+                        query = query.replace(StringConstantsUtil.SELECTION, " COUNT (DISTINCT CG.COMPANY_GROUP_SID) ");
                     } else {
-                        query = query.replace("?SELECTION?", " COUNT (DISTINCT IG.ITEM_GROUP_SID) ");
+                        query = query.replace(StringConstantsUtil.SELECTION, " COUNT (DISTINCT IG.ITEM_GROUP_SID) ");
                     }
-                    query = query.replace("?ORDER_BY?", StringUtils.EMPTY);
-                    query = query.replace("?FILTER?", StringUtils.EMPTY);
+                    query = query.replace(StringConstantsUtil.ORDER_BY, StringUtils.EMPTY);
+                    query = query.replace(StringConstantsUtil.Q_FILTER, StringUtils.EMPTY);
                 }
-            } catch (Exception ex) {
-                LOGGER.error(ex.getMessage() + " in execute query");
-                LOGGER.error(query);
+            } catch (NumberFormatException ex) {
+                LOGGER.error("Exception= {} and Query= {} and Message= {}", ex.getMessage(), query, StringConstantsUtil.IN_EXECUTE_QUERY);
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -1446,5 +1448,5 @@ public class CommonServiceImpl {
         return query;
 
     }
-
+    
 }

@@ -98,12 +98,12 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
 
             int treeLevelNo = 0;
             List customDetailsList = new ArrayList();
-            LOGGER.debug(" Custom hierarcht is bool " + isCustomHierarchy);
+            LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
             if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
-                LOGGER.debug(" dto.getLevelNo() " + dto.getTreeLevelNo());
+                LOGGER.debug(" dto.getLevelNo()= {} " , dto.getTreeLevelNo());
                 Leveldto levelDto = CommonLogic.getNextLevel(dto.getTreeLevelNo() + 1, currentHierarchy);
                 if (levelDto != null) {
                     if (isCustomHierarchy) {
@@ -132,7 +132,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
                 // For parent
                 if (currentHierarchy != null) {
                     LOGGER.debug(" This is parent");
-                    LOGGER.debug(" level No" + levelNo);
+                    LOGGER.debug(" level No= {}" , levelNo);
                     Leveldto levelDto = CommonLogic.getNextLevel(levelNo, currentHierarchy);
 
                     if (levelDto != null) {
@@ -166,24 +166,24 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
                     productLevelNo = String.valueOf(treeLevelNo);
                 }
 
-                LOGGER.debug(" Custom hierarchy --- \n customId " + customId);
-                LOGGER.debug(" customerLevelNo " + customerLevelNo);
-                LOGGER.debug(" customerHierarchyNo " + customerHierarchyNo);
-                LOGGER.debug(" productLevelNo " + productLevelNo);
-                LOGGER.debug(" productHierarchyNo " + productHierarchyNo);
+                LOGGER.debug(" Custom hierarchy --- \n customId= {} " , customId);
+                LOGGER.debug(" customerLevelNo= {} " , customerLevelNo);
+                LOGGER.debug(" customerHierarchyNo= {} " , customerHierarchyNo);
+                LOGGER.debug(" productLevelNo= {} " , productLevelNo);
+                LOGGER.debug(" productHierarchyNo= {} " , productHierarchyNo);
                 customViewDetails.add(StringUtils.EMPTY + customId);
                 customViewDetails.add(customerLevelNo);
                 customViewDetails.add(customerHierarchyNo);
                 customViewDetails.add(productLevelNo);
                 customViewDetails.add(productHierarchyNo);
             } else {
-                LOGGER.debug(" Hierarchy No === " + hierarchyNo);
-                LOGGER.debug(" level No ===" + levelNumber);
-                LOGGER.debug(" Hierarchy indicator ===" + tempHierarchyIndicator);
+                LOGGER.debug(" Hierarchy No === {} " , hierarchyNo);
+                LOGGER.debug(" level No === {}" , levelNumber);
+                LOGGER.debug(" Hierarchy indicator === {}" , tempHierarchyIndicator);
             }
-            LOGGER.debug(" customTreeLevelNo ===" + treeLevelNo);
+            LOGGER.debug(" customTreeLevelNo === {}" , treeLevelNo);
 
-            LOGGER.debug("Exiting loadData method ------------------------------------------------------" + list.size());
+            LOGGER.debug("Exiting loadData method ------------------------------------------------------= {}" , list.size());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -210,12 +210,12 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
 
             int treeLevelNo = 0;
             List customDetailsList = new ArrayList();
-            LOGGER.debug(" Custom hierarcht is bool " + isCustomHierarchy);
+            LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
             if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
-                LOGGER.debug(" dto.getLevelNo() " + dto.getTreeLevelNo() + "---->>" + currentHierarchy);
+                LOGGER.debug(" dto.getLevelNo()= {}, ---->>= {} " , dto.getTreeLevelNo(), currentHierarchy);
                 Leveldto levelDto = CommonLogic.getNextLevel(dto.getTreeLevelNo() + 1, currentHierarchy);
                 if (levelDto != null) {
                     if (isCustomHierarchy) {
@@ -245,7 +245,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
                 // For parent
                 if (currentHierarchy != null) {
                     LOGGER.debug(" This is parent");
-                    LOGGER.debug(" level No " + levelNo);
+                    LOGGER.debug(" level No= {} " , levelNo);
                     Leveldto levelDto = CommonLogic.getNextLevel(levelNo, currentHierarchy);
 
                     if (levelDto != null) {
@@ -265,10 +265,10 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             customDetailsList.add(levelNumber);
             customDetailsList.add(hierarchyNo);
             customDetailsList.add(treeLevelNo);
-            LOGGER.debug(" Hierarchy No === " + hierarchyNo);
-            LOGGER.debug(" level No ===" + levelNumber);
-            LOGGER.debug(" Hierarchy indicator ===" + tempHierarchyIndicator);
-            LOGGER.debug(" customTreeLevelNo ===" + treeLevelNo);
+            LOGGER.debug(" Hierarchy No === {} " , hierarchyNo);
+            LOGGER.debug(" level No === {}" , levelNumber);
+            LOGGER.debug(" Hierarchy indicator === {}" , tempHierarchyIndicator);
+            LOGGER.debug(" customTreeLevelNo === {}" , treeLevelNo);
 
             List<String> customViewDetails = new ArrayList<>();
             if (isCustomHierarchy) {
@@ -283,11 +283,11 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
                     productLevelNo = String.valueOf(treeLevelNo);
                 }
 
-                LOGGER.debug(" Custom hierarchy --- \n customId " + customId);
-                LOGGER.debug(" customerLevelNo " + customerLevelNo);
-                LOGGER.debug(" customerHierarchyNo " + customerHierarchyNo);
-                LOGGER.debug(" productLevelNo " + productLevelNo);
-                LOGGER.debug(" productHierarchyNo " + productHierarchyNo);
+                LOGGER.debug(" Custom hierarchy --- \n customId= {} " , customId);
+                LOGGER.debug(" customerLevelNo= {} " , customerLevelNo);
+                LOGGER.debug(" customerHierarchyNo= {} " , customerHierarchyNo);
+                LOGGER.debug(" productLevelNo= {} " , productLevelNo);
+                LOGGER.debug(" productHierarchyNo= {} " , productHierarchyNo);
                 customViewDetails.add(StringUtils.EMPTY + customId);
                 customViewDetails.add(customerLevelNo);
                 customViewDetails.add(customerHierarchyNo);

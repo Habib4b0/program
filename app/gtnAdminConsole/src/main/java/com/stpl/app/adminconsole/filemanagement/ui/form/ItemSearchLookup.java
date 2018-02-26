@@ -129,7 +129,7 @@ public class ItemSearchLookup extends Window {
         super("Item Search");
         this.itemNumber = itemNo;
         this.itemLookupName = itemLookupName;
-        LOGGER.info("Sessiondto "+sessionDTO);
+        LOGGER.info("Sessiondto= {} ", sessionDTO);
     }
 
     public int getMasterSid() {

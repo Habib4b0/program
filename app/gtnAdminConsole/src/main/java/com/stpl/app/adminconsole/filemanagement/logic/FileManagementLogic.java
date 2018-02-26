@@ -79,13 +79,13 @@ public class FileManagementLogic {
 
 	private static final Criterion NULLCREATION = null;
 
-	final private static FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
+	private static final FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
 
 	private static int foecastYearCount;
 
 	public static final String ITEM_QUAL_NAME = "itemQualifierName";
 
-	public final static String ITEM_QUALIFIER_SID = "itemQualifierSid";
+	public static final  String ITEM_QUALIFIER_SID = "itemQualifierSid";
 
 	public static final String COMPANY_NAME = "companyName";
 	public static final String SELECT_ONE = "-Select One-";
@@ -161,8 +161,8 @@ public class FileManagementLogic {
 
 		Criterion criterion;
 		String sqlString;
-		LOGGER.debug("getDetailsSumm started with P1:String fileName=" + fileName + " P2:String version=" + version
-				+ " P3:String fileType=" + fileType + " P4:String country" + country);
+		LOGGER.debug("getDetailsSumm started with P1:String fileName= {}, P2:String version= {}, P3:String fileType= {}, P4:String country= {} " , fileName, version
+				, fileType, country);
 		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_NAME, fileName));
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
@@ -280,8 +280,8 @@ public class FileManagementLogic {
 	public String saveFileMgtHist(final FileMananagementResultDTO fileMgtDTO, final HelperDTO fileType,
 			final SessionDTO sessionDTO) throws SystemException {
 		final String userId = (String) sessionDTO.getUserId();
-		LOGGER.debug("saveFileMgtHist started with P1:FileMananagementResultDTO fileMgtDTO and P2:String fileType="
-				+ fileType);
+		LOGGER.debug("saveFileMgtHist started with P1:FileMananagementResultDTO fileMgtDTO and P2:String fileType= {}",
+				fileType);
 		FileManagement fileManagement = FileManagementLocalServiceUtil.createFileManagement(0);
 		fileManagement.setForecastName(fileMgtDTO.getFileName());
 		fileManagement.setForecastSource(fileMgtDTO.getType());
@@ -333,7 +333,7 @@ public class FileManagementLogic {
 		DAO.addFiles(fileManagement);
 		final String msg = ConstantsUtils.SUCCESS;
 
-		LOGGER.debug("saveFileMgtHist return String msg=" + msg);
+		LOGGER.debug("saveFileMgtHist return String msg= {}" , msg);
 		return msg;
 	}
 
@@ -356,7 +356,7 @@ public class FileManagementLogic {
 			Object companyMasterSystemId) throws SystemException {
 
 		final FileManagementDTO fileMgtDTO = new FileManagementDTO();
-		LOGGER.debug("getCurrentFileInfo started with P1:String fileType=" + fileType + "Business Unit" + businessUnit);
+		LOGGER.debug("getCurrentFileInfo started with P1:String fileType= {}, Business Unit= {}" , fileType, businessUnit);
 		List<FileManagement> resultsList;
 		final DynamicQuery dynamicQuery = FileManagementLocalServiceUtil.dynamicQuery();
 		final Order defaultOrder = OrderFactoryUtil.desc(ConstantsUtils.CREATE_DATE);
@@ -416,7 +416,7 @@ public class FileManagementLogic {
 	public static int getForecastYearCount(final String filterText) throws SystemException {
 
 		final String filter = StringUtils.trimToEmpty(filterText);
-		LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filter);
+		LOGGER.debug("Entering getLazyPriceTypeCount method with filterText= {}" , filter);
 		List<Object[]> qualifierList;
 		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 		if (!filter.equals(ConstantsUtils.EMPTY)) {
@@ -450,7 +450,7 @@ public class FileManagementLogic {
 			throws SystemException {
 		final List<HelperDTO> list = new ArrayList<>();
 		final String filterText = StringUtils.trimToEmpty(filter) + "%";
-		LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :" + filterText);
+		LOGGER.debug("Entering getLazyPriceTypeResults method with filterText= {}" , filterText);
 		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.setLimit(startIndex, end);
 		dynamicQuery.setProjection(
@@ -467,7 +467,7 @@ public class FileManagementLogic {
 			helperTable = new HelperDTO(value == null ? StringUtils.EMPTY : String.valueOf(value));
 			list.add(helperTable);
 		}
-		LOGGER.debug("Ending getLazyPriceTypeResults  return list size :" + +list.size());
+		LOGGER.debug("Ending getLazyPriceTypeResults  return list size= {}" , list.size());
 		return list;
 	}
 
@@ -587,9 +587,8 @@ public class FileManagementLogic {
 
 	public String saveForecastDetails(List<FileMananagementResultDTO> itemIds, String source, String country,
 			String version, String forecastName, HelperDTO fileType, String businessUnit) {
-		LOGGER.debug("Entering Save Forecast Details with File Name" + forecastName + "File Type"
-				+ fileType.getDescription().equals(ConstantsUtils.EX_FACTORY_SALES) + StringConstantUtils.SOURCE1
-				+ source + "Country" + country);
+		LOGGER.debug("Entering Save Forecast Details with File Name forecastName= {}, File Type= {}, Country={}, source={} " , forecastName, 
+				fileType.getDescription().equals(ConstantsUtils.EX_FACTORY_SALES), source, country);
 		Boolean flag = false;
 		String item;
 		String totalDemand;
@@ -939,7 +938,7 @@ public class FileManagementLogic {
 
 		final List<HelperDTO> helperList = new ArrayList<>();
 
-		LOGGER.debug("Entering getItemType P1:" + listType);
+		LOGGER.debug("Entering getItemType P1= {}" , listType);
 		final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 		cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME, listType));
 		cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
@@ -952,7 +951,7 @@ public class FileManagementLogic {
 
 			}
 		}
-		LOGGER.debug("returns size " + helperList.size());
+		LOGGER.debug("returns size= {}" , helperList.size());
 
 		return helperList;
 	}
@@ -990,7 +989,7 @@ public class FileManagementLogic {
 				list.add(dto);
 			}
 		}
-		LOGGER.debug("return CompanyQualifier size -" + list.size());
+		LOGGER.debug("return CompanyQualifier size= {}" , list.size());
 		return list;
 	}
 
@@ -1026,7 +1025,7 @@ public class FileManagementLogic {
 			dto.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
 			list.add(dto);
 		}
-		LOGGER.debug("return Brand size -" + list.size());
+		LOGGER.debug("return Brand size= {}" , list.size());
 		return list;
 	}
 
@@ -1230,7 +1229,7 @@ public class FileManagementLogic {
 			object = resultsListDTO;
 		}
 
-		LOGGER.debug("getFileHistoryResults return resultsListDTO=" + resultsListDTO.size());
+		LOGGER.debug("getFileHistoryResults return resultsListDTO= {}" , resultsListDTO.size());
 		return object;
 	}
 
@@ -1274,11 +1273,8 @@ public class FileManagementLogic {
 			String type = resultDTO.getType();
 			String version = resultDTO.getVersion();
 
-			LOGGER.debug("getResults started with P1:String fileType=" + resultDTO.getHelperType().getDescription()
-					+ " P2:String country=" + resultDTO.getCountry() + " P3:String fileName=" + fileName
-					+ " P4:String type" + type + " P5:String version" + version + " P6:String forecastYear"
-					+ resultDTO.getForecastYear() + " P7:Date fromDate" + resultDTO.getFromPeriod() + " Date toDate"
-					+ resultDTO.getToPeriod());
+			LOGGER.debug("getResults started with P1:String fileType= {}, P2:String country= {}, P3:String fileName= {}, P4:String type= {}, P5:String version= {}, P6:String forecastYear= {}, P7:Date fromDate= {}, Date toDate= {} ", resultDTO.getHelperType().getDescription(), resultDTO.getCountry(), fileName, 
+					type, version, resultDTO.getForecastYear(), resultDTO.getFromPeriod(), resultDTO.getToPeriod());
 
 			if (ConstantsUtils.EX_FACTORY_SALES.equals(resultDTO.getHelperType().getDescription())
 					&& ConstantsUtils.COUNTRY_US.equals(resultDTO.getCountry())) {
@@ -1500,10 +1496,10 @@ public class FileManagementLogic {
 				}
 				object = resultsListDTO;
 				LOGGER.debug(
-						"getResults return List<FileMananagementResultDTO> resultsListDTO=" + resultsListDTO.size());
+						"getResults return List<FileMananagementResultDTO> resultsListDTO= {}" , resultsListDTO.size());
 			} else {
 				object = resultsList.get(0);
-				LOGGER.debug("getResults return List<FileMananagementResultDTO> resultsList=" + resultsList.size());
+				LOGGER.debug("getResults return List<FileMananagementResultDTO> resultsList= {}" , resultsList.size());
 			}
 
 		} catch (Exception e) {
@@ -1550,10 +1546,9 @@ public class FileManagementLogic {
 		List resultsList;
 		final List<FileMananagementResultDTO> resultsListDTO = new ArrayList<>();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		LOGGER.debug("getDetailsResults started with P1:String fileName=" + detailsResultDTO.getFileName()
-				+ " P2:String version=" + detailsResultDTO.getVersion() + " P3:String fileType="
-				+ detailsResultDTO.getHelperType() + " P4:String country=" + detailsResultDTO.getCountry()
-				+ " startIndex=" + startIndex + " endIndex=" + endIndex);
+		LOGGER.debug("getDetailsResults started with P1:String fileName= {}, P2:String version= {}, P3:String fileType= {}, P4:String country= {}, startIndex= {}, endIndex={} " , detailsResultDTO.getFileName()
+				, detailsResultDTO.getVersion(), detailsResultDTO.getHelperType(), detailsResultDTO.getCountry(),
+				startIndex, endIndex);
 		if (detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.DEMAND)) {
 			resultsList = (List) getDemandDetailsResults(detailsResultDTO, startIndex, endIndex, sortByColumns,
 					filterSet, isCount, isRecordLock);
@@ -1604,7 +1599,7 @@ public class FileManagementLogic {
 			}
 			detailsObj = resultsListDTO;
 			LOGGER.debug(
-					"getDetailsResults return List<FileMananagementResultDTO> resultsListDTO=" + resultsListDTO.size());
+					"getDetailsResults return List<FileMananagementResultDTO> resultsListDTO= {}" , resultsListDTO.size());
 		} else if (!isCount && detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.DEMAND)) {
 			for (Object resultsList1 : resultsList) {
 				final Object[] obj = (Object[]) resultsList1;
@@ -1866,7 +1861,7 @@ public class FileManagementLogic {
 				fmDTO.setCheck(false);
 				resultsListDTO.add(fmDTO);
 			}
-			LOGGER.debug("resultsListDTO" + resultsListDTO.size());
+			LOGGER.debug("resultsListDTO= {}" , resultsListDTO.size());
 			detailsObj = resultsListDTO;
 		} else if (!isCount
 				&& detailsResultDTO.getHelperType().getDescription().equals(ConstantsUtils.ADJUSTED_DEMAND)) {
@@ -1942,7 +1937,7 @@ public class FileManagementLogic {
 			detailsObj = resultsListDTO;
 		} else {
 			detailsObj = resultsList.get(0);
-			LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> detailsObj=" + detailsObj);
+			LOGGER.debug("getDetailsResults return List<FileMananagementResultDTO> detailsObj= {}" , detailsObj);
 		}
 		return detailsObj;
 	}
@@ -2058,7 +2053,7 @@ public class FileManagementLogic {
 			finalQuery = finalQuery + lockStatus;
 		}
 		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
-		LOGGER.debug("getDetailsResults return List list=" + list.size());
+		LOGGER.debug("getDetailsResults return List list= {}" , list.size());
 		return list;
 	}
 
@@ -3324,7 +3319,7 @@ public class FileManagementLogic {
 			finalQuery = finalQuery + lockStatus;
 		}
 		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
-		LOGGER.debug("getDetailsResults return List list=" + list.size());
+		LOGGER.debug("getDetailsResults return List list= {}" , list.size());
 		if (isExcelFlag) {
 			return finalQuery;
 		} else {

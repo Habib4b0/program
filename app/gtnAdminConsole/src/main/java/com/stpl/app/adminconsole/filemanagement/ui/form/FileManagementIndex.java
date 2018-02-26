@@ -653,7 +653,7 @@ public class FileManagementIndex extends CustomComponent implements View {
         fileType.addValueChangeListener(new Property.ValueChangeListener() {
 
             public void valueChange(final Property.ValueChangeEvent event) {
-                LOGGER.debug("In configureFields fileType.addValueChangeListener started" + fileType.getValue());
+                LOGGER.debug("In configureFields fileType.addValueChangeListener started= {}" , fileType.getValue());
                 if (fileType.getValue() == null
                         || ConstantsUtils.SELECT_ONE.equals(fileType.getValue())
                         || "null".equals(fileType.getValue().toString().trim())

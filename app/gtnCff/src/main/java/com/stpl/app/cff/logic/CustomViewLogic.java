@@ -88,7 +88,7 @@ public class CustomViewLogic {
     }
 
     private void executeInsertOrUpdate(String projectionId, String customViewMasterSid, String queryName) {
-        LOGGER.debug("Insert the Data in CUSTOM_CCP_MAP table :"+customViewMasterSid+"  query name==="+queryName);
+        LOGGER.debug("Insert the Data in CUSTOM_CCP_MAP table: {} and queryName= {}", customViewMasterSid, queryName);
         String query = SQlUtil.getQuery(queryName);
         query = query.replace("[$PROJECTION_MASTER_SID]", projectionId);
         query = query.replace(StringConstantsUtil.DOLLAR_CUSTOM_VIEW_MASTER_SID, customViewMasterSid);
@@ -251,7 +251,7 @@ public class CustomViewLogic {
             }
 
             formHierarchy();
-        } catch (Exception e) {
+        } catch (CloneNotSupportedException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
 
