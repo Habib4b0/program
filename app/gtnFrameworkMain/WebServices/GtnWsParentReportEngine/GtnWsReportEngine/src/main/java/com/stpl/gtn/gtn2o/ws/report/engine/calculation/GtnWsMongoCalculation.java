@@ -74,11 +74,11 @@ public class GtnWsMongoCalculation {
                 GtnWsTreeNodeAttributeBean priorAttributes = null;
                 GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
 
-                GtnWsAttributeBean newDoc = new GtnWsAttributeBean();
-                newDoc.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
-                newDoc.putAttributes("parentHierarchyNo", gtnWsTreeNode.getParent().getHierarchyNo());
-                newDoc.putAttributes("RsId", gtnWsTreeNode.getRsIds());
-                newDoc.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
+                GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
+                newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
+                newAttributes.putAttributes("parentHierarchyNo", gtnWsTreeNode.getParent().getHierarchyNo());
+                newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
+                newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
 
                 for (GtnWsAttributeBean currectProjection : currentAttributes.getAttributeBeanList()) {
                     categoryBean.setCurrentNodeAttribute(currectProjection);
@@ -90,18 +90,18 @@ public class GtnWsMongoCalculation {
                                 categoryBean.setPriorNodeAttribute(priorProjection);
                                 categoryBean.setVariableCategory("Value");
                                 categoryBean.setCalculationType(GtnWsCalculationType.VALUE);
-                                calculateVariableCategory(currectProjection, priorProjection, categoryBean, newDoc);
+                                calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
                                 categoryBean.setVariableCategory("Variance");
                                 categoryBean.setCalculationType(GtnWsCalculationType.VARIANCE);
-                                calculateVariableCategory(currectProjection, priorProjection, categoryBean, newDoc);
+                                calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
                                 categoryBean.setVariableCategory("PerChange");
                                 categoryBean.setCalculationType(GtnWsCalculationType.PER_CHANGE);
-                                calculateVariableCategory(currectProjection, priorProjection, categoryBean, newDoc);
+                                calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
                             }
                         }
                     }
                 }
-                calculatedAttributes.addAttributeBeanToList(newDoc);
+                calculatedAttributes.addAttributeBeanToList(newAttributes);
                 gtnWsTreeNode.setNodeData(calculatedAttributes);
             }
             if (gtnWsTreeNode.getChildren() != null) {
