@@ -13,7 +13,6 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -174,7 +173,7 @@ public class AddDiscountForm extends CustomComponent implements View {
      *
      * @param tabPosition the tab position
      */
-    protected void onTabChange() throws PortalException, SystemException {
+    protected void onTabChange() throws PortalException {
         return;
     }
 

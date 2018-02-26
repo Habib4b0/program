@@ -293,12 +293,12 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	private Class<?>[] getPricingTableDataTypeArray(boolean isEditable) {
 		if (isEditable) {
 			return new Class<?>[] { Boolean.class, String.class, String.class, String.class, String.class,
-					Integer.class, Date.class, Date.class, Integer.class, String.class, String.class, String.class,
+					Integer.class, Date.class, Date.class, Integer.class, String.class, String.class,String.class, String.class,
 					Date.class, Date.class };
 
 		} else {
 			return new Class<?>[] { String.class, String.class, String.class, String.class, String.class, Date.class,
-					Date.class, String.class, String.class, String.class, String.class, Date.class, Date.class };
+					Date.class, String.class, String.class, String.class, String.class,String.class, Date.class, Date.class };
 		}
 	}
 
@@ -307,12 +307,12 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			return new Object[] { GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.ITEM_ID,
 					GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,
 					GtnFrameworkCommonConstants.BRAND_NAME, "psStatus", "cpStartDate", "cpEndDate", "priceType",
-					"psPrice", "suggestedPrice", GtnFrameworkCommonConstants.CREATED_BY, "psCreatedDate",
+					"psPrice", "suggestedPrice","source", GtnFrameworkCommonConstants.CREATED_BY, "psCreatedDate",
 					GtnFrameworkCommonConstants.PS_ATTACHED_DATE };
 		} else {
 			return new Object[] { GtnFrameworkCommonConstants.ITEM_ID, GtnFrameworkCommonConstants.ITEM_NO,
 					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkCommonConstants.BRAND_NAME, "psStatusDes",
-					"cpStartDate", "cpEndDate", "priceTypeDes", "psPrice", "suggestedPrice",
+					"cpStartDate", "cpEndDate", "priceTypeDes", "psPrice", "suggestedPrice","source",
 					GtnFrameworkCommonConstants.CREATED_BY, "psCreatedDate",
 					GtnFrameworkCommonConstants.PS_ATTACHED_DATE };
 		}
@@ -322,12 +322,12 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	private String[] getPricingHeaderArray(boolean isEditable) {
 		if (isEditable) {
 			return new String[] { "", "Item ID", "Item NO", GtnFrameworkCommonConstants.LABEL_ITEM_NAME, "Brand Name",
-					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price", "Created By",
+					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price","Source", "Created By",
 					"Created Date", "Attached Date" };
 		} else {
 
 			return new String[] { "Item ID", "Item NO", GtnFrameworkCommonConstants.LABEL_ITEM_NAME, "Brand Name",
-					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price", "Created By",
+					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price", "Source","Created By",
 					"Created Date", "Attached Date" };
 		}
 

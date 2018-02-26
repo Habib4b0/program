@@ -9,7 +9,6 @@ import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.discount.ui.form.AddDiscountForm;
 import com.stpl.app.gcm.discount.ui.layout.AddDiscountWindow;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class AddDiscountAddView extends VerticalLayout {
      * @param editWindow
      * @throws java.lang.Exception
      */
-    public AddDiscountAddView(final AddDiscountWindow addWindow, final SessionDTO session, List<RemoveDiscountDto> removeList) throws SystemException {
+    public AddDiscountAddView(final AddDiscountWindow addWindow, final SessionDTO session, List<RemoveDiscountDto> removeList)  {
         this.addWindow = addWindow;
         this.session = session;
         addDiscountForm = new AddDiscountForm(this.addWindow, removeList, this.session);

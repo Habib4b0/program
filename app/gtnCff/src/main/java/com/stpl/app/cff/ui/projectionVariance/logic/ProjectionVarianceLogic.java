@@ -70,7 +70,6 @@ import org.slf4j.LoggerFactory;
 public class ProjectionVarianceLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionVarianceLogic.class);
-    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     /**
      * The Constant AMOUNT.
      */
@@ -319,38 +318,38 @@ public class ProjectionVarianceLogic {
         query.append(" where ");
         if (comparisonLookup.getContract() != null && !comparisonLookup.getContract().isEmpty()) {
             query.append(" CONTRACT LIKE ").append("'").append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(" CONTRACT LIKE ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getMarketType() != null && !comparisonLookup.getMarketType().isEmpty()) {
             query.append(andOperator).append("  MARKET_TYPE LIKE  ").append("'").append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  MARKET_TYPE LIKE  ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getCustomer() != null && !comparisonLookup.getCustomer().isEmpty()) {
             query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append("'").append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getNdcName() != null && !comparisonLookup.getNdcName().isEmpty()) {
             query.append(andOperator).append("  ITEM_NAME LIKE   ").append("'").append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  ITEM_NAME LIKE   ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getNdcNo() != null && !comparisonLookup.getNdcNo().isEmpty()) {
             query.append(andOperator).append("  ITEM_NO LIKE ").append("'").append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  ITEM_NO LIKE ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getBrand() != null && !comparisonLookup.getBrand().isEmpty()) {
             query.append(andOperator).append("   BRAND LIKE ").append("'").append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append("' ");
@@ -472,39 +471,39 @@ public class ProjectionVarianceLogic {
         query.append(" where ");
         if (comparisonLookup.getContract() != null && !comparisonLookup.getContract().isEmpty()) {
             query.append(" CONTRACT LIKE  ").append("'").append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(" CONTRACT LIKE  ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getMarketType() != null && !comparisonLookup.getMarketType().isEmpty()) {
             query.append(andOperator).append("  MARKET_TYPE LIKE ").append("'").append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  MARKET_TYPE LIKE ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
 
         }
         if (comparisonLookup.getCustomer() != null && !comparisonLookup.getCustomer().isEmpty()) {
             query.append(andOperator).append("  CONTRACT_HOLDER LIKE  ").append("'").append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  CONTRACT_HOLDER LIKE  ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getNdcName() != null && !comparisonLookup.getNdcName().isEmpty()) {
             query.append(andOperator).append("  ITEM_NAME LIKE ").append("'").append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  ITEM_NAME LIKE ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getNdcNo() != null && !comparisonLookup.getNdcNo().isEmpty()) {
             query.append(andOperator).append("  ITEM_NO LIKE  ").append("'").append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append("'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  ITEM_NO LIKE  ").append("'%'");
-            andOperator = StringConstantsUtil.SPACE_AND_SPACE;
+            andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getBrand() != null && !comparisonLookup.getBrand().isEmpty()) {
             query.append(andOperator).append("  BRAND LIKE ").append("'").append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append("'");
@@ -1449,7 +1448,7 @@ public class ProjectionVarianceLogic {
             LOGGER.debug("Inside getConfiguredProjectionVariance");
             List<ProjectionVarianceDTO> list;
             list = getProjVariance(projSelDTO, parentId, start, offset);
-            LOGGER.debug("list size in getConfiguredProjectionVariance " + list.size());
+            LOGGER.debug("list size in getConfiguredProjectionVariance= {}", list.size());
             LOGGER.debug("Ending getConfiguredProjectionVariance");
             return list;
         } catch (Exception ex) {
@@ -2642,7 +2641,7 @@ public class ProjectionVarianceLogic {
 
                     try {
                         runnableJob.wait();
-                    } catch (Exception e) {
+                    } catch (InterruptedException e) {
                         LOGGER.error(e.getMessage());
                     }
                 }
@@ -2690,7 +2689,7 @@ public class ProjectionVarianceLogic {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
         return pvDTO;
@@ -2738,7 +2737,7 @@ public class ProjectionVarianceLogic {
                 }
             }
         }
-        LOGGER.debug("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = >" + resultDto.size());
+        LOGGER.debug("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = > {}", resultDto.size());
         return resultDto;
     }
 
@@ -2797,9 +2796,9 @@ public class ProjectionVarianceLogic {
         String ccpQuery = SQlUtil.getQuery(Constants.PARENTVALIDATE);
         ccpQuery = ccpQuery.replace(Constants.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
         ccpQuery += insertAvailableHierarchyNo(projSelDTO);
-        ccpQuery += commonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator());
+        ccpQuery += CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator());
         ccpQuery += SQlUtil.getQuery("get-ccp-query");
-        ccpQuery = ccpQuery.replace(Constants.RELJOIN, commonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator()));
+        ccpQuery = ccpQuery.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator()));
         ccpQuery += " SELECT * FROM #SELECTED_HIERARCHY_NO_TEMP SH  JOIN ST_CCP_DEDUCTION_HIERARCHY SND ON SND.CCP_DETAILS_SID=SH.CCP_DETAILS_SID WHERE FILTER_CCPD=1 ";
         return QueryUtil.replaceTableNames(ccpQuery, projSelDTO.getSessionDTO().getCurrentTableNames());
     }
@@ -3014,7 +3013,7 @@ public class ProjectionVarianceLogic {
             query = query.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
             query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
             query = query.replace("[?TAB_BASED_JOIN]", SQlUtil.getQuery("discount-join-filter"));
-            query += commonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator());
+            query += CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator());
             query += WHERE_FILTER_CCPD;
             query += SQlUtil.getQuery("custom-view-count-condition-query");
             query = query.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator()));
@@ -3026,7 +3025,7 @@ public class ProjectionVarianceLogic {
             throw new IllegalArgumentException("Invalid Hierarchy Indicator :" + hierarchyIndicator);
         }
         
-        LOGGER.info("Count is "+count);
+        LOGGER.info("Count is= {}", count);
         return count;
 
     }
@@ -3049,13 +3048,13 @@ public class ProjectionVarianceLogic {
                     sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 default:
-                    LOGGER.warn("Invalid Hierarchy Indicator: " + currentHierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator: {}", currentHierarchyIndicator);
             }
         } else {
             sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         }
         sql = sql.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
-        LOGGER.debug("Group Filter Value:" + projSelDTO.getGroupFilter());
+        LOGGER.debug("Group Filter Value: {}", projSelDTO.getGroupFilter());
         return sql;
 
     }
@@ -3121,7 +3120,7 @@ public class ProjectionVarianceLogic {
                     break;
                 default:
 
-                    LOGGER.warn("Invalid Hierarchy Indicator:" + hierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator: {}", hierarchyIndicator);
             }
 
         } else {
@@ -3149,7 +3148,7 @@ public class ProjectionVarianceLogic {
         query += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
         query += WHERE_FILTER_CCPD ;
         query += SQlUtil.getQuery("custom-view-condition-query");
-        query = query.replace(Constants.RELJOIN, commonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO)));
+        query = query.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO)));
         query = query.replace("[?START]", String.valueOf(start));
         query = query.replace("[?END]", String.valueOf(end));    
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));

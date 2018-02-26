@@ -469,7 +469,7 @@ public class DSLogic {
 
     public void callARPApprovalProcedure(int projectionId) {
         LOGGER.debug("Procedure Name: PRC_ARP_OUTBOUND");
-        LOGGER.debug("Projection Id:" + projectionId);
+        LOGGER.debug("Projection Id= {}" , projectionId);
         final Object[] parameters = {projectionId};
         AccrualRateProjectionLogic logic = AccrualRateProjectionLogic.getInstance();
         logic.callARPProcedure(parameters, "PRC_ARP_OUTBOUND");

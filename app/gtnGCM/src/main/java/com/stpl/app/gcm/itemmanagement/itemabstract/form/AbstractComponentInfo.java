@@ -25,8 +25,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -139,7 +137,7 @@ public class AbstractComponentInfo extends CustomComponent {
     private final ExtPagedTable currentComponentTable = new ExtPagedTable(tablelogic);
     private final BeanItemContainer<ComponentInfoDTO> searchContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     private String layoutIndicator = new String();
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private final Object[] ifpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY};
     private final String[] ifpHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ATTACHED_DATE_FIELD};
     private final Object[] cfpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, "itemStatus", Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
@@ -164,12 +162,12 @@ public class AbstractComponentInfo extends CustomComponent {
 
     public final Object[] rsCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
     public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
-    ComponentInfoDTO binderDto = new ComponentInfoDTO();
+    public final ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection;
-    AbstractLogic abstractLogic = AbstractLogic.getInstance();
-    String componentFlag = StringUtils.EMPTY;
+    private SelectionDTO selection;
+    public final AbstractLogic abstractLogic = AbstractLogic.getInstance();
+    private String componentFlag = StringUtils.EMPTY;
     private BeanItemContainer<ComponentInfoDTO> contractExcelResultBean = new BeanItemContainer<>(ComponentInfoDTO.class);
     private ExtCustomTable contractExcelTable;
     private final VerticalLayout contractDashboardLay = new VerticalLayout();
@@ -775,7 +773,7 @@ public class AbstractComponentInfo extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         if (resultTable.size() != 0) {
             binderDto.setIsCount(false);

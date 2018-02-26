@@ -56,7 +56,7 @@ public class PhsQueryUtils {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsAmountForView" : "getPhsAmount");
         }
         for (Map.Entry<String, Object> entry : input.entrySet()) {
-            LOGGER.debug(" Key : " + entry.getKey());
+            LOGGER.debug(" Key = {} " , entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
 
@@ -84,7 +84,7 @@ public class PhsQueryUtils {
         String customSql = SQlUtil.getQuery(getClass(),queryName);
 
         for (Map.Entry<String, Object> entry : input.entrySet()) {
-            LOGGER.debug(" Key : " + entry.getKey());
+            LOGGER.debug(" Key = {} " , entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
         if (parentLevelId != 0) {
@@ -128,7 +128,7 @@ public class PhsQueryUtils {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsWorkSheetForView" : "getPhsWorkSheet");
         }
         for (Map.Entry<String, Object> entry : input.entrySet()) {
-            LOGGER.debug("Key : " + entry.getKey());
+            LOGGER.debug("Key = {} " , entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
 
@@ -248,7 +248,7 @@ public class PhsQueryUtils {
             customSql = SQlUtil.getQuery(getClass(),"getPhsParent");
         }
         for (Map.Entry<String, Object> entry : input.entrySet()) {
-            LOGGER.debug("Key : " + entry.getKey());
+            LOGGER.debug("Key = {} " , entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
 

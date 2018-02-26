@@ -32,7 +32,7 @@ public class FileReadWriteService {
 		try {
 			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			rootConfig = (Arrays.asList(mapper.readValue(new File(fileName), GtnFrameworkHierarchyQueryBean[].class)));
-		} catch (Exception e) {
+		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
 		}
 		return rootConfig;
@@ -53,11 +53,11 @@ public class FileReadWriteService {
 		try {
 			mapper.writeValue(file, obj);
 		} catch (JsonGenerationException e) {
-			LOGGER.error("JsonGenerationException Exception" + e.getMessage());
+			LOGGER.error("JsonGenerationException Exception= {}", e.getMessage());
 		} catch (JsonMappingException e) {
-			LOGGER.error("JsonMappingException Exception" + e.getMessage());
+			LOGGER.error("JsonMappingException Exception= {}", e.getMessage());
 		} catch (IOException e) {
-			LOGGER.error("IO Exception" + e.getMessage());
+			LOGGER.error("IO Exception= {}", e.getMessage());
 		}
 	}
 

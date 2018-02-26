@@ -80,7 +80,7 @@ public class ManualLogic {
         List<ProcessSchedulerDTO> returnList = new ArrayList<>();
         SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         if (list != null && !list.isEmpty()) {
-            LOGGER.debug("Entering getCustomizedSchedulerProcessing" + list.size());
+            LOGGER.debug("Entering getCustomizedSchedulerProcessing= {}" , list.size());
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
                 ProcessSchedulerDTO dto = new ProcessSchedulerDTO();
@@ -95,7 +95,7 @@ public class ManualLogic {
                 returnList.add(dto);
             }
         }
-        LOGGER.debug("Ending getCustomizedSchedulerProcessing" + returnList.size());
+        LOGGER.debug("Ending getCustomizedSchedulerProcessing= {}" , returnList.size());
         return returnList;
     }
 

@@ -8,7 +8,6 @@ import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.model.HelperTable;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,11 +22,11 @@ public interface PromoteTpDAO {
      *
      * @param parameters
      * @return
-     * @throws SystemException
+     * @
      */
-    public List companyCount(final Map<String, Object> parameters) throws SystemException;
+    public List companyCount(final Map<String, Object> parameters) ;
 
-    public List searchTPCompanies(final Map<String, Object> parameters) throws SystemException;
+    public List searchTPCompanies(final Map<String, Object> parameters) ;
 
     public List loadCompanyTypeDDLB(Map<String, Object> parameters);
 
@@ -35,15 +34,15 @@ public interface PromoteTpDAO {
 
     public List<Object[]> getCompanyTypes(DynamicQuery dynamicQuery);
 
-    public List searchCurrentContracts(final Map<String, Object> parameters) throws SystemException;
+    public List searchCurrentContracts(final Map<String, Object> parameters) ;
 
     public List getComponentInfo(String component, String rebateId);
 
     public void updateSubmitFlag(String contractType, String userId, String sessionId, boolean flag,CurrentContractDTO dto);
 
-    public Object executeSelectQuery(String query) throws SystemException, PortalException;
+    public Object executeSelectQuery(String query) throws PortalException;
 
-    List<HelperTable> getHelperTableList(DynamicQuery dynamicQuery) throws SystemException;
+    List<HelperTable> getHelperTableList(DynamicQuery dynamicQuery) ;
 
     public void updateCFP(List<Object> input);
 
@@ -53,7 +52,7 @@ public interface PromoteTpDAO {
 
     public void updateRS(List<Object> input);
 
-    public List getItems(String query) throws SystemException;
+    public List getItems(String query) ;
 
     public List getComponentInformation(String component, String[] id);
 
@@ -61,5 +60,5 @@ public interface PromoteTpDAO {
 
     public List isAnyRecordSelected(String userId, String sessionId, String screenName);
 
-    public List searchCompanies(final Map<String, Object> parameters) throws SystemException;
+    public List searchCompanies(final Map<String, Object> parameters) ;
 }

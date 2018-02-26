@@ -18,7 +18,6 @@ import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItem;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,7 +71,7 @@ public class ContractSearchLogic {
         return retList;
     }
 
-    public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
+    public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Helper Table listType=" + listType);
         final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();

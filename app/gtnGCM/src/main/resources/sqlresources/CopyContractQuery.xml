@@ -189,7 +189,7 @@
         <![CDATA[
        
         
-       SELECT
+       SELECT DISTINCT
 CM.CONT_HOLD_COMPANY_MASTER_SID AS contractHolder,
                 COMP.COMPANY_NAME               AS companyName,
                 CM.CONTRACT_NAME                AS contractName,
@@ -264,7 +264,7 @@ WHERE  Isnull(CM.CONT_HOLD_COMPANY_MASTER_SID, '0') LIKE '?'
         <![CDATA[
        SELECT COUNT(*) FROM (
         
-       SELECT
+       SELECT DISTINCT 
 CM.CONT_HOLD_COMPANY_MASTER_SID AS contractHolder,
                 COMP.COMPANY_NAME               AS companyName,
                 CM.CONTRACT_NAME                AS contractName,

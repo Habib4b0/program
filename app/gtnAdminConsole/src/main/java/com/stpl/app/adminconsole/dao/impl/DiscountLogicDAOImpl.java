@@ -66,7 +66,7 @@ public class DiscountLogicDAOImpl implements DiscountLogicDAO{
     }
 
     public DeductionGroup getDeductionGroup(int systemId) throws PortalException, SystemException {
-       LOGGER.debug("In query-getdeductionGroup started with P1:int systemId=" + systemId);
+       LOGGER.debug("In query-getdeductionGroup started with P1:int systemId= {}" , systemId);
 		return DeductionGroupLocalServiceUtil.getDeductionGroup(systemId);
     }
 

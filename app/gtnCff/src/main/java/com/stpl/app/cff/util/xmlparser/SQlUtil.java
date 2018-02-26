@@ -33,7 +33,7 @@ public class SQlUtil {
         try {
             Enumeration<URL> urls = FrameworkUtil.getBundle(SQlUtil.class).getBundleContext().getBundle().findEntries("/sqlresources", "*", false);
             getResources(urls);
-        } catch (Exception e) {
+        } catch (IOException | JAXBException e) {
             LOGGER.error(e.getMessage());
         }
 

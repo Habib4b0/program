@@ -60,8 +60,8 @@ public class FileManagementUI extends UI {
 			sessionDTO.setUserId(userId);
 			final String sessionId = request.getWrappedSession().getId();
 			sessionDTO.setSessionId(sessionId);
-			LOGGER.info("USER_ID: " + userId);
-			LOGGER.info("SESSION_ID: " + sessionId);
+			LOGGER.info("USER_ID= {} " , userId);
+			LOGGER.info("SESSION_ID= {} " , sessionId);
 			navigator = new Navigator(this, this);
 			HelperListUtil helperListUtil = HelperListUtil.getInstance();
 			helperListUtil.loadValuesWithListName("filemanagement");
