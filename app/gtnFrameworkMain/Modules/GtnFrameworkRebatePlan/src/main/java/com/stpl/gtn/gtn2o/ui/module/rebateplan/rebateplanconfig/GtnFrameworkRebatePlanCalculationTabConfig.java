@@ -865,7 +865,6 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 				.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX));
 		complexFromActionBlurConfigList.add(complexFromActionBlurConfig);
 		fromConfigComplex.setBlurActionConfigList(complexFromActionBlurConfigList);
-
 		componentList.add(fromComplex);
 	}
 
