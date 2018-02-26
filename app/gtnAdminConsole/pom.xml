@@ -118,16 +118,8 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.2.2</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
-			<scope>provided</scope>
+			<version>2.3.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -241,50 +233,39 @@
 		<finalName>${artifactId}</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.0.0</version>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+				<version>3.3.0</version>
 				<executions>
 					<execution>
-						<id>copy</id>
-						<phase>prepare-package</phase>
+						<id>default-bnd-process</id>
 						<goals>
-							<goal>copy</goal>
+							<goal>bnd-process</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<artifactItems>
-						<artifactItem>
-							<groupId>org.slf4j</groupId>
-							<artifactId>slf4j-api</artifactId>
-							<version>1.7.2</version>
-							<type>jar</type>
-							<overWrite>false</overWrite>
-						</artifactItem>
-						<artifactItem>
-							<groupId>org.quartz-scheduler</groupId>
-							<artifactId>quartz</artifactId>
-							<version>2.2.2</version>
-							<type>jar</type>
-							<overWrite>false</overWrite>
-						</artifactItem>
-					</artifactItems>
-					<outputDirectory>${basedir}/target/gtnAdminConsole/WEB-INF/lib</outputDirectory>
-					<overWriteReleases>false</overWriteReleases>
-					<overWriteSnapshots>true</overWriteSnapshots>
-				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>biz.aQute.bnd</groupId>
+						<artifactId>biz.aQute.bndlib</artifactId>
+						<version>3.3.0</version>
+					</dependency>
+					<dependency>
+						<groupId>com.liferay</groupId>
+						<artifactId>com.liferay.ant.bnd</artifactId>
+						<version>2.0.41</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.3</version>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
 				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<archive>
-						<manifestEntries>
-							<Dependencies>com.stpl.shared.library</Dependencies>
-						</manifestEntries>
+						<manifestFile>
+							${project.build.outputDirectory}/META-INF/MANIFEST.MF
+						</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>
