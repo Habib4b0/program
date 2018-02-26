@@ -204,19 +204,19 @@ public class PmpyLogic {
             resultList.add(lookedUpTP);
         }
 
-        LOGGER.debug("Ending getTPLookedUp return  size ::::" + resultList.size());
+        LOGGER.debug("Ending getTPLookedUp return  size ::::= {}" , resultList.size());
 
         return resultList;
     }
 
-    private final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
+    private static final PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
 
     public static List getGroupList() {
         return new ArrayList();
     }
 
     List getPmpyData(List input, String queryName, final int index, final int next, final List<SortByColumn> sortByColumns, boolean isCount, Map<String, String> parameters) {
-        LOGGER.debug("Inside getPmpyData queryName=" + queryName);
+        LOGGER.debug("Inside getPmpyData queryName= {}" , queryName);
         HashMap<String, String> tpColumnName = loadDbColumnName();
         List list = new ArrayList();
         StringBuilder sql = new StringBuilder();

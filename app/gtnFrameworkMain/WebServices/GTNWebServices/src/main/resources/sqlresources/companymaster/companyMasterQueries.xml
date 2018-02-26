@@ -230,10 +230,6 @@ WHERE  CM.INBOUND_STATUS <> 'D'
                     ]]>
 		</query>
 	</entity>
-
-	
-	
-	
 	<entity id="updateForManualInEditMode">
 		<query> 
             <![CDATA[     
@@ -251,7 +247,17 @@ UPDATE IMTD_COMPANY_FINANCIAL_CLOSE SET COMPANY_MASTER_SID=? WHERE USERS_ID=? an
             <![CDATA[     
                   
 
-SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' and CM.INBOUND_STATUS<>'D'
+SELECT COUNT(*) FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' and CM.INBOUND_STATUS<>'D'
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="checkCompanyIDStatusNotDNotSameSystemId">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT COUNT(*) FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' and CM.INBOUND_STATUS<>'D' and CM.COMPANY_MASTER_SID<>'?'
             
                     ]]>
 		</query>
@@ -261,7 +267,17 @@ SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' and CM.INBOUND_STATUS<>'
             <![CDATA[     
                   
 
-SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_NO='?' and CM.INBOUND_STATUS<>'D' 
+SELECT COUNT(*) FROM COMPANY_MASTER CM WHERE CM.COMPANY_NO='?' and CM.INBOUND_STATUS<>'D' 
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="checkCompanyNoStatusNotDNotSameSystemId">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT COUNT(*) FROM COMPANY_MASTER CM WHERE CM.COMPANY_NO='?' and CM.INBOUND_STATUS<>'D' and CM.COMPANY_MASTER_SID<>'?'
             
                     ]]>
 		</query>
@@ -271,7 +287,7 @@ SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_NO='?' and CM.INBOUND_STATUS<>'
             <![CDATA[     
                   
 
-SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' AND CM.INBOUND_STATUS LIKE 'D' 
+SELECT COUNT(*) FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' AND CM.INBOUND_STATUS LIKE 'D' 
             
                     ]]>
 		</query>
@@ -296,5 +312,88 @@ UPDATE COMPANY_MASTER SET INBOUND_STATUS='A' WHERE COMPANY_ID='?' AND INBOUND_ST
                     ]]>
 		</query>
 	</entity>
-	
+	<entity id="checkCompanyGroupDetailsTradeClassExists">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT 1 FROM COMPANY_GROUP_DETAILS WHERE COMPANY_TRADECLASS_SID =?
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getCompanyTradeClassSid">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT COMPANY_TRADE_CLASS_SID FROM COMPANY_TRADE_CLASS WHERE COMPANY_MASTER_SID =?
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="deleteCompanyTradeClassForCompanyMasterSid">
+		<query> 
+            <![CDATA[     
+                  
+
+IF NOT EXISTS(
+	SELECT
+		1
+	FROM
+		COMPANY_GROUP_DETAILS
+	WHERE
+		COMPANY_MASTER_SID = ?
+) BEGIN DELETE
+FROM
+	COMPANY_TRADE_CLASS
+WHERE
+	COMPANY_MASTER_SID = ?
+END  
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getCompanyParentDetailsSid">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT COMPANY_PARENT_DETAILS_SID FROM COMPANY_PARENT_DETAILS WHERE COMPANY_MASTER_SID =?
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="checkCompanyGroupDetailsParentDetailsExists">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT 1 FROM COMPANY_GROUP_DETAILS WHERE COMPANY_PARENT_DETAILS_SID =?
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="deleteCompanyParentDetailsForCompanyMasterSid">
+		<query> 
+            <![CDATA[     
+                  
+
+IF NOT EXISTS(
+	SELECT
+		1
+	FROM
+		COMPANY_GROUP_DETAILS
+	WHERE
+		COMPANY_MASTER_SID = ?
+) BEGIN DELETE
+FROM
+	COMPANY_PARENT_DETAILS
+WHERE
+	COMPANY_MASTER_SID = ?
+END  
+            
+                    ]]>
+		</query>
+	</entity>
 </sql>

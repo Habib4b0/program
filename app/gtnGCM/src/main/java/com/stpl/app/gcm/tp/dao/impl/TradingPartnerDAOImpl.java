@@ -5,7 +5,6 @@ import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.impl.CompanyMasterImpl;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import java.util.List;
@@ -66,7 +65,7 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
     }
 
     @Override
-    public List searchCompanies(Map<String, Object> parameters) throws SystemException {
+    public List searchCompanies(Map<String, Object> parameters) {
         return CompanyMasterImpl.searchCompanies(parameters);
     }
 

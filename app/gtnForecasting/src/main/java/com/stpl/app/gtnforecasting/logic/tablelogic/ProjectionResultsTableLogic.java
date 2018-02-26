@@ -37,7 +37,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
 
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {},and start= {}, and offset= {} " , firstGenerated,  start, offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         if (firstGenerated && offset > 0) {
             List<String> indexList = new ArrayList<>();  
@@ -62,12 +62,12 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
 
     @Override
     public int getCount() {
-        LOGGER.debug("getCount initiated with firstGenerated=" + firstGenerated);
+        LOGGER.debug("getCount initiated with firstGenerated= {}" , firstGenerated);
         int count = 0;
         if (firstGenerated) {
             count = projResLogic.getConfiguredProjectionResultsCount(getLastParent(), projSelDTO, true);
         }
-        LOGGER.debug("getCount ended with count=" + count);
+        LOGGER.debug("getCount ended with count= {}" , count);
         return count;
     }
 

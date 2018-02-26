@@ -52,7 +52,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         int projectionId = session.getProjectionId();
         String selecthistoryQuery = StringUtils.EMPTY;
         String selectfutureQuery = StringUtils.EMPTY;
-        LOGGER.debug(" Entering getDiscountProjection with discount Type" + projectionSelection.getDiscountName());
+        LOGGER.debug(" Entering getDiscountProjection with discount Type= {}" , projectionSelection.getDiscountName());
         try {
 
             String freq = StringUtils.EMPTY;
@@ -141,14 +141,14 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     }
                 }
                 Map<String, Object> input = new HashMap<>();
-                LOGGER.debug("?SID" + session.getSessionId());
-                LOGGER.debug("?PM" + session.getProjectionId());
-                LOGGER.debug("?HIE" + hierarchyNo);
-                LOGGER.debug("?HIST" + selecthistoryQuery);
-                LOGGER.debug("?FUT" + selectfutureQuery);
-                LOGGER.debug("?EP" + DBDate.format(projectionSelection.getToDates()));
-                LOGGER.debug("?SP" + DBDate.format(projectionSelection.getStartDate()));
-                LOGGER.debug("?FRE" + freq);
+                LOGGER.debug("?SID= {}" , session.getSessionId());
+                LOGGER.debug("?PM= {}" , session.getProjectionId());
+                LOGGER.debug("?HIE= {}" , hierarchyNo);
+                LOGGER.debug("?HIST= {}" , selecthistoryQuery);
+                LOGGER.debug("?FUT= {}" , selectfutureQuery);
+                LOGGER.debug("?EP= {}" , DBDate.format(projectionSelection.getToDates()));
+                LOGGER.debug("?SP= {}" , DBDate.format(projectionSelection.getStartDate()));
+                LOGGER.debug("?FRE= {}" , freq);
 
                 input.put("?UID", session.getUserId());
                 input.put("?SID", session.getSessionId());
@@ -163,7 +163,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 String custSql = SQlUtil.getQuery(getClass(),"ch.generateQuery");
 
                 for (String key : input.keySet()) {
-                    LOGGER.debug("Key : " + key);
+                    LOGGER.debug("Key= {} " , key);
                     custSql = custSql.replace(key, String.valueOf(input.get(key)));
                 }
                 customQuery = custSql;
@@ -176,7 +176,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                         + "        FROM " + ccpDetails;
             }
             List<DiscountProjectionDTO> list = (List<DiscountProjectionDTO>) HelperTableLocalServiceUtil.executeSelectQuery(customQuery);
-            LOGGER.debug(" Fetching Discount Data" + list.size());
+            LOGGER.debug(" Fetching Discount Data= {}" , list.size());
             return list;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -387,7 +387,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     startMonth = NumericConstants.TEN;
                     break;
                 default:
-                    LOGGER.warn("startFreq is not valid: " + startFreq);
+                    LOGGER.warn("startFreq is not valid= {} " , startFreq);
                     break;
             }
             switch (endFreq) {
@@ -404,7 +404,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     endMonth = NumericConstants.TWELVE;
                     break;
                 default:
-                    LOGGER.warn("endFreq is not valid: " + endFreq);
+                    LOGGER.warn("endFreq is not valid= {} " , endFreq);
                     break;
             }
         }
@@ -417,7 +417,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     startMonth = NumericConstants.SEVEN;
                     break;
                 default:
-                    LOGGER.warn("startFreq is not valid: " + startFreq);
+                    LOGGER.warn("startFreq is not valid= {} " , startFreq);
                     break;
             }
             switch (endFreq) {
@@ -428,7 +428,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     endMonth = NumericConstants.TWELVE;
                     break;
                 default:
-                    LOGGER.warn("endFreq is not valid: " + endFreq);
+                    LOGGER.warn("endFreq is not valid= {} " , endFreq);
                     break;
             }
         }
@@ -462,8 +462,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             baselinePeriods = CommonUtils.CollectionToString(baselinePeriodsList, false, true);
             selectedPeriods = CommonUtils.CollectionToString(selectedPeriodsList, false, true);
 
-            LOGGER.debug(" Baseline Periods " + baselinePeriods);
-            LOGGER.debug(" Selected Periods " + selectedPeriods);
+            LOGGER.debug(" Baseline Periods= {} " , baselinePeriods);
+            LOGGER.debug(" Selected Periods= {} " , selectedPeriods);
             masterTableUpdateQuery = queryUtils.masterTableUpdateQuery(baselinePeriods, projectionId, discountName, selectedPeriods);
 
            HelperTableLocalServiceUtil.executeUpdateQuery(masterTableUpdateQuery);
@@ -628,7 +628,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
     public List getAlternateContract(String contractquery) {
 
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(contractquery);
-        LOGGER.debug(" getAlternate values" + list.size());
+        LOGGER.debug(" getAlternate values= {}" , list.size());
         return list;
     }
 
@@ -641,7 +641,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
     @Override
     public List<String> getCompanyForAlternate(String query) {
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug(" getCompany values" + list.size());
+        LOGGER.debug(" getCompany values= {}" , list.size());
         return list;
     }
 
@@ -649,10 +649,10 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
     @Override
     public void getCalculation(ProjectionSelectionDTO projectionSelectionDTO) {
         LOGGER.debug(" Entering getCalculation");
-        LOGGER.debug(" getCompany values" + projectionSelectionDTO.getMethodology());
-        LOGGER.debug(" projectionSelectionDTO.getProjectionType()" + projectionSelectionDTO.getProjectionType());
-        LOGGER.debug(" projectionSelectionDTO.getDiscountType()" + projectionSelectionDTO.getDiscountType());
-        LOGGER.debug(" projectionSelectionDTO.getDiscountTypeId()" + projectionSelectionDTO.getDiscountTypeId());
+        LOGGER.debug(" getCompany values= {}" , projectionSelectionDTO.getMethodology());
+        LOGGER.debug(" projectionSelectionDTO.getProjectionType()= {}" , projectionSelectionDTO.getProjectionType());
+        LOGGER.debug(" projectionSelectionDTO.getDiscountType()= {}" , projectionSelectionDTO.getDiscountType());
+        LOGGER.debug(" projectionSelectionDTO.getDiscountTypeId()= {}" , projectionSelectionDTO.getDiscountTypeId());
         String updateQuery = "UPDATE CHDP \n"
                 + "SET CHDP.PROJECTED_TYPE = '" + projectionSelectionDTO.getProjectionType() + "',\n"
                 + "    CHDP.DISCOUNT_TYPE = '" + projectionSelectionDTO.getDiscountType() + "',\n"
@@ -674,11 +674,11 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         LOGGER.debug(" Entering discountPopulate");
 
         try {
-            LOGGER.debug("Query Name : " + queryName);
+            LOGGER.debug("Query Name= {} " , queryName);
             String customSql = SQlUtil.getQuery(getClass(),queryName);
 
             for (String key : input.keySet()) {
-                LOGGER.debug("Key : " + key);
+                LOGGER.debug("Key= {} " , key);
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
            HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());

@@ -499,7 +499,7 @@ public class CommonUtils {
             String finalPath = path.substring(0, path.lastIndexOf("."));
             finalPath = finalPath.replaceAll("\\.", "\\" + File.separator);
             finalPath += xmlClassResourceFileName;
-            LOGGER.debug("Path to XML:" + finalPath);
+            LOGGER.debug("Path to XML= {}" , finalPath);
             xml = Thread.currentThread().getContextClassLoader().getResource(finalPath).openStream();
             LOGGER.debug("createClara method ends");
             return Clara.create(xml, controller, attributeFilters);
@@ -1628,7 +1628,7 @@ public class CommonUtils {
     }
 
     public static String getReturnsProperties(String key) {
-        LOGGER.debug("getReturnsProperties--> " + key);
+        LOGGER.debug("getReturnsProperties-->= {} " , key);
         return returnsProperties.getString(key);
     }
 
@@ -1648,7 +1648,7 @@ public class CommonUtils {
 
     /* This method is used to form the date based on selected from/to period */
     public String formDate(String value, String freq, boolean isFromDate) {
-        LOGGER.debug("formDate method Starts----->" + freq);
+        LOGGER.debug("formDate method Starts----->= {}" , freq);
         String date = StringUtils.EMPTY;
         String year = value.substring(value.length() - NumericConstants.FOUR, value.length());
         if (freq.equals(Constant.QUARTERLY)) {

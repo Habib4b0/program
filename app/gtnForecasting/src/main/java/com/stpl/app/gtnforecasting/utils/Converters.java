@@ -49,7 +49,7 @@ public class Converters {
      */
     public static List<ViewDTO> getCustomizedViews(final List list, boolean flagValue) throws ParseException, PortalException, SystemException {
         final List<ViewDTO> results = new ArrayList<>();
-        LOGGER.debug("Entering getCustomizedViews method with list size  " + list.size());
+        LOGGER.debug("Entering getCustomizedViews method with list size= {}  " , list.size());
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
             final ViewDTO result = new ViewDTO();

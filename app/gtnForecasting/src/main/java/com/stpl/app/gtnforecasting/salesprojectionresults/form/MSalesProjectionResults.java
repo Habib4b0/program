@@ -343,8 +343,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     @Override
     protected void loadFrequency() {
-        LOGGER.debug("SalesProjectionResults ValueChangeEvent initiated with frequency -->"
-                + frequency.getValue());
+        LOGGER.debug("SalesProjectionResults ValueChangeEvent initiated with frequency -->= {}"
+                , frequency.getValue());
         if (frequency.getValue() == null) {
             history.removeAllItems();
             history.addItem(SELECT_ONE);

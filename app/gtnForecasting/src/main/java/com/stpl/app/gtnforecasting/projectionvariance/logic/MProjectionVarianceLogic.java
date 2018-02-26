@@ -2009,7 +2009,7 @@ public class MProjectionVarianceLogic {
     }
 
     public int getProgramCodeCount(PVSelectionDTO projSelDTO, ProjectionVarianceDTO projectionVarianceDTO, String levelNo) throws PortalException,SystemException {
-        LOGGER.info(" inside getProgramCodeCount method--levelNo->" + levelNo);
+        LOGGER.info(" inside getProgramCodeCount method--levelNo->= {}" , levelNo);
         int count = 0;
 
         List<Object> list = discountProgramMap.get(projectionVarianceDTO.getHierarchyNo());
@@ -2021,7 +2021,7 @@ public class MProjectionVarianceLogic {
             count = list.size();
             periodPcNames = list;
         }
-        LOGGER.info(" getProgramCodeCount method ends count" + count);
+        LOGGER.info(" getProgramCodeCount method ends count= {}" , count);
         return count;
     }
 

@@ -122,7 +122,7 @@ public final class CommonUtil {
         if (enteredDate == null || EMPTY.equals(enteredDate)) {
             temp = enteredDate;
         } else {
-            LOGGER.debug("entering convert2DigitTo4DigitYearFormat with P1:Date enteredDate" + enteredDate);
+            LOGGER.debug("entering convert2DigitTo4DigitYearFormat with P1:Date enteredDate= {}" , enteredDate);
             final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
             final SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
             final Calendar cal = Calendar.getInstance();
@@ -130,7 +130,7 @@ public final class CommonUtil {
             sdf.set2DigitYearStart(cal.getTime());
             final String datesVal = sdf.format(enteredDate);
             temp = CommonUtil.convertStringToDate(fmt.format(sdf.parse(datesVal)));
-            LOGGER.debug("convert2DigitTo4DigitYearFormat return enteredDate" + enteredDate);
+            LOGGER.debug("convert2DigitTo4DigitYearFormat return enteredDate={}" , enteredDate);
         }
         return temp;
     }
@@ -145,13 +145,13 @@ public final class CommonUtil {
      */
     public static Date convertStringToDate(final String strDate) throws ParseException {
         Date aDate;
-        LOGGER.debug("Entering convertStringToDate with P1:String strDate=" + strDate);
+        LOGGER.debug("Entering convertStringToDate with P1:String strDate= {}" , strDate);
         if (strDate == null || strDate.equals(EMPTY) || strDate.equals(STRING_NULL)) {
             LOGGER.debug("convertStringToDate return null");
             aDate = NULLOBJECT;
         } else {
             aDate = convertStringToDate(MMDDYYYY, strDate);
-            LOGGER.debug("convertStringToDate return aDate" + aDate);
+            LOGGER.debug("convertStringToDate return aDate = {}" , aDate);
         }
 
         return aDate;
@@ -166,10 +166,10 @@ public final class CommonUtil {
      * @throws ParseException the parse exception
      */
     public static Date convertStringToDate(final String aMask, final String strDate) throws ParseException {
-        LOGGER.debug("Entering convertStringToDate Started with p1:aMask =" + aMask + ", p2:strDate = " + strDate);
+        LOGGER.debug("Entering convertStringToDate Started with p1:aMask = {}, p2:strDate = {}" , aMask ,strDate);
         final SimpleDateFormat dateFormat = new SimpleDateFormat(aMask);
         final Date date = dateFormat.parse(strDate);
-        LOGGER.debug("Return converted String Date " + date);
+        LOGGER.debug("Return converted String Date= {} " , date);
         return date;
     }
 
@@ -181,7 +181,7 @@ public final class CommonUtil {
      * @return the formatted table
      */
     public static ExtFilterTable getFormattedTable(final ExtFilterTable table, final Object... formatCols) {
-        LOGGER.debug("Entering getFormattedTable with p1:table ,p2:formatCols length" + formatCols.length);
+        LOGGER.debug("Entering getFormattedTable with p1:table ,p2:formatCols length= {}" , formatCols.length);
         for (int i = 0; i < formatCols.length; i++) {
             table.setColumnAlignment(formatCols[i], ExtFilterTable.Align.CENTER);
         }
@@ -197,7 +197,7 @@ public final class CommonUtil {
      * @return the formatted table
      */
     public static ExtPagedTable getFormattedTable(final ExtPagedTable table, final Object... formatCols) {
-        LOGGER.debug("Entering getFormattedTable with p1:table ,p2:formatCols length" + formatCols.length);
+        LOGGER.debug("Entering getFormattedTable with p1:table ,p2:formatCols length={}" , formatCols.length);
         for (int i = 0; i < formatCols.length; i++) {
             table.setColumnAlignment(formatCols[i], ExtPagedTable.Align.CENTER);
         }
@@ -217,7 +217,7 @@ public final class CommonUtil {
     public static NativeSelect getDropDown(final NativeSelect select, final String listName) throws SystemException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("Entering getDropDown P1:select  and P2:listName=" + listName);
+        LOGGER.debug("Entering getDropDown P1:select  and P2:listName= {}" , listName);
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
@@ -249,7 +249,7 @@ public final class CommonUtil {
     public static ComboBox getComboBox(final ComboBox select, final String listName) throws SystemException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("Entering getDropDown P1:select and P2:listName=" + listName);
+        LOGGER.debug("Entering getDropDown P1:select and P2:listName= {}" , listName);
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
@@ -268,7 +268,7 @@ public final class CommonUtil {
             select.addItem(helperDTO);
         }
         select.select(0);
-        LOGGER.debug("getDropDown RETURN NativeSelect select" + select.size());
+        LOGGER.debug("getDropDown RETURN NativeSelect select= {}" , select.size());
 
         return select;
     }
@@ -276,7 +276,7 @@ public final class CommonUtil {
     public static ComboBox getFileTypeComboBox(final ComboBox select, final String listName, List<HelperDTO> fileTypeList) throws SystemException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("Entering getDropDown  P1:select and P2:listName=" + listName);
+        LOGGER.debug("Entering getDropDown  P1:select and P2:listName= {}" , listName);
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         final HelperDTO fileTypeNullDto = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
         Map<Integer, String> aliasNameMap  = new HashMap<>();
@@ -305,7 +305,7 @@ public final class CommonUtil {
             fileTypeList.add(helperDTO);
         }
         select.select(0);
-        LOGGER.debug("getDropDown RETURN NativeSelect  select" + select.size());
+        LOGGER.debug("getDropDown RETURN NativeSelect  select= {}" , select.size());
 
         return select;
     }
@@ -327,7 +327,7 @@ public final class CommonUtil {
             final User user = iterator.next();
             userMap.put(String.valueOf(user.getUserId()), user.getLastName() + " " + user.getFirstName());
         }
-        LOGGER.debug("getCreatedByUser return HashMap<String, String> userMap size" + userMap.size());
+        LOGGER.debug("getCreatedByUser return HashMap<String, String> userMap size= {}" , userMap.size());
         return userMap;
     }
 
@@ -362,7 +362,7 @@ public final class CommonUtil {
      */
     public static int getIDFromHelper(final String listName) throws SystemException {
 
-        LOGGER.debug("Entering getIDFromHelper() --->> " + listName);
+        LOGGER.debug("Entering getIDFromHelper()= {} " , listName);
         int helperId = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -375,7 +375,7 @@ public final class CommonUtil {
         for (int i = 0; i < ids.size(); i++) {
             helperId = (Integer) ids.get(i);
         }
-        LOGGER.debug("getIDFromHelper return ID  " + helperId);
+        LOGGER.debug("getIDFromHelper return ID= {}  " , helperId);
         return helperId;
     }
 
@@ -484,7 +484,7 @@ public final class CommonUtil {
         for (int i = 0; i < ids.size(); i++) {
             helperId = (Integer) ids.get(i);
         }
-        LOGGER.debug("getIDFromHelper return ID  " + helperId);
+        LOGGER.debug("getIDFromHelper return ID= {}  " , helperId);
         return helperId;
     }
 
@@ -623,7 +623,7 @@ public final class CommonUtil {
         final List<Object> objResultList = new ArrayList();
         final List<String> objResultHeaderList = new ArrayList();
 
-        LOGGER.debug("Entering modifyTableResult with obj length:" + obj.length + ", header length:" + header.length + ", fieldHM size:" + fieldHM.size());
+        LOGGER.debug("Entering modifyTableResult with obj length= {}, header length= {}, fieldHM size= {} " ,obj.length, header.length, fieldHM.size());
         for (int i = 0; i < obj.length; i++) {
             str = String.valueOf(obj[i]);
             if (fieldHM.get(str) != null) {

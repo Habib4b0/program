@@ -73,7 +73,7 @@ public class CommonUtils {
      */
     public static final char CHAR_ASTERISK = '*';
 
-    final private static FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
+    private static final FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
     
     private static CommonDAO commonDao = new CommonDAOImpl();
 
@@ -81,25 +81,25 @@ public class CommonUtils {
     /**
      * The WorkFlowStatus list name.
      */
-    public final static String WORKFLOW_STATUS = "WorkFlowStatus";
+    public static final String WORKFLOW_STATUS = "WorkFlowStatus";
     private static HashMap<Long, String> userMap = new HashMap<Long, String>();
     
-    public final static String SUCCESSFULLY_DELETED = " has been deleted Successfully";
-    public final static String PRIMARY = "Primary";
-    public final static String FORECAST = "Forecast";
-    public final static String ARCHIVE_ERROR = "Archive Error";
-    public final static String USER_DEFINED = "User Defined";
-    public final static String SEARCH_ERROR = "Search Error";
-    public final static String PLEASE_CLICK_RECORD = "Please click on a record within the results list view";
-    public final static String LEVELVALUE_LISTENER = "In configureFields levelValueReference.addValueChangeListener started";
-    public final static String DETAILS_ERROR = "Details Error";
-    public final static String LEVELVALUE_BLURLISTENER = "In configureFields levelValueReference.addBlurListener started";
-    public final static String ONLY_NUMBERSAREALLOWED = "Only Numbers are allowed";
-    public final static String REMOVE_ERROR = "Remove Error";
-    public final static String HISTORY = "History";
-    public final static String ENTERED_FUTUREPERIOD = "The entered Future period is beyond the GTS file. All periods beyond the GTS file will display zeros in the Forecast";
-    public final static String MODIFIED_DATE = "modifiedDate";
-    public final static String CREATED_DATE = "createdDate";
+    public static final String SUCCESSFULLY_DELETED = " has been deleted Successfully";
+    public static final String PRIMARY = "Primary";
+    public static final String FORECAST = "Forecast";
+    public static final String ARCHIVE_ERROR = "Archive Error";
+    public static final String USER_DEFINED = "User Defined";
+    public static final String SEARCH_ERROR = "Search Error";
+    public static final String PLEASE_CLICK_RECORD = "Please click on a record within the results list view";
+    public static final String LEVELVALUE_LISTENER = "In configureFields levelValueReference.addValueChangeListener started";
+    public static final String DETAILS_ERROR = "Details Error";
+    public static final String LEVELVALUE_BLURLISTENER = "In configureFields levelValueReference.addBlurListener started";
+    public static final String ONLY_NUMBERSAREALLOWED = "Only Numbers are allowed";
+    public static final String REMOVE_ERROR = "Remove Error";
+    public static final String HISTORY = "History";
+    public static final String ENTERED_FUTUREPERIOD = "The entered Future period is beyond the GTS file. All periods beyond the GTS file will display zeros in the Forecast";
+    public static final String MODIFIED_DATE = "modifiedDate";
+    public static final String CREATED_DATE = "createdDate";
     public static final String VERSION = "version";
     public static final String FROM_PERIOD = "fromPeriod";
     public static final String FORECAST_NAME = "forecastName";
@@ -700,7 +700,7 @@ public class CommonUtils {
             final Object[] obj = resultList.get(i);
             results.put(String.valueOf(obj[0]), String.valueOf(obj[1]));
         }
-        LOGGER.debug("getHierarchyInfo return HashMap results size:" + results.size());
+        LOGGER.debug("getHierarchyInfo return HashMap results size= {}" , results.size());
         return results;
     }
 }

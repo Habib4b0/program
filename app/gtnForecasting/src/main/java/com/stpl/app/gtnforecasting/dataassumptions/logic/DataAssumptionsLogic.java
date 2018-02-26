@@ -40,7 +40,7 @@ public class DataAssumptionsLogic {
     public static final String D_FLAG = "D";
     public static final String C_FLAG = "C";
 
-    private SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    private final SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
     public List getCustomizedData(List<Object[]> list) {
         List<DataAssumptionDTO> finalList = new ArrayList<>();

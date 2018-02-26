@@ -5,7 +5,6 @@
 package com.stpl.app.cff.ui.dataSelection.logic;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -25,23 +24,16 @@ import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
 import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
 import com.stpl.app.cff.util.CommonUtils;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
+import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.DataTypeConverter;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
-import com.stpl.app.model.BrandMaster;
-import com.stpl.app.model.CcpDetails;
-import com.stpl.app.model.CompanyGroupDetails;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.ForecastConfig;
-import com.stpl.app.model.HelperTable;
-import com.stpl.app.model.ItemGroupDetails;
 import com.stpl.app.model.ItemMaster;
-import com.stpl.app.model.RelationshipBuilder;
-import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.parttwo.model.CffCustHierarchy;
 import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffProdHierarchy;
@@ -103,7 +95,6 @@ public class DataSelectionLogic {
 	private final DataSelectionDAO dataSelectionDaoImpl = new DataSelectionDAOImpl();
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
-	private final CommonDAO vSalesProjectionDao = new CommonDAOImpl();
 	private final DataSelectionDAO vDataSelectionDao = new DataSelectionDAOImpl();
 	public static final String FILTER = "filter~";
 	public static final String HIERARCHY_NO = "hierarchyNo";
@@ -216,7 +207,7 @@ public class DataSelectionLogic {
 				resultList.add(leveldto);
 			}
 		} catch (final Exception e) {
-			LOGGER.error(e + " in DSLogic - loadCustomerForecastLevel");
+			LOGGER.error(" in DSLogic - loadCustomerForecastLevel= {}", e);
 		}
 		return resultList;
 	}
@@ -438,7 +429,7 @@ public class DataSelectionLogic {
 	public void saveProductHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids,
 			final int projectionId, final List<String> addLevels, final String indicator,
 			DataSelectionDTO dataSelectionDTO) throws SystemException {
-		LOGGER.debug("saveProductHierarchyLogic endLevelSids projectionId " + projectionId);
+		LOGGER.debug("saveProductHierarchyLogic endLevelSids projectionId= {} ", projectionId);
 		final Map<String, Object> parameters = new HashMap<>();
 		parameters.put(INDICATOR, "getChildLevelRLSid");
 		parameters.put(StringConstantsUtil.RL_SIDS, endLevelSids);
@@ -474,8 +465,8 @@ public class DataSelectionLogic {
 					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchy);
 				}
 			}
-		} catch (final Exception e) {
-			LOGGER.error(e + " saveProductHierarchyLogic");
+		} catch (final SystemException e) {
+			LOGGER.error(" saveProductHierarchyLogic= {}", e);
 		}
 	}
 
@@ -538,12 +529,15 @@ public class DataSelectionLogic {
 	 *
 	 * @param levelList
 	 *            the level list
+     * @param endLevelSids
 	 * @param projectionId
+     * @param addLevels
+     * @param indicator
 	 * @throws java.lang.Exception
 	 */
 	public void saveCustomerHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids,
 			final int projectionId, final List<String> addLevels, final String indicator) throws SystemException {
-		LOGGER.debug("saveCustomerHierarchyLogic endLevelSids  projectionId " + projectionId);
+		LOGGER.debug("saveCustomerHierarchyLogic endLevelSids  projectionId= {}", projectionId);
 		final Map<String, Object> parameters = new HashMap<>();
 		parameters.put(INDICATOR, "getChildLevelRLSid");
 		parameters.put(PROJECTION_ID, projectionId);
@@ -578,8 +572,8 @@ public class DataSelectionLogic {
 					vDataSelectionDao.addProjectionCustHierarchy(cffCustHierarchy);
 				}
 			}
-		} catch (final Exception e) {
-			LOGGER.error(e + " in saveCustomerHierarchyLogic");
+		} catch (final SystemException e) {
+			LOGGER.error(" in saveCustomerHierarchyLogic={}", e);
 		}
 	}
 
@@ -757,8 +751,8 @@ public class DataSelectionLogic {
 
 				resultList.add(dto);
 			}
-		} catch (final Exception ex) {
-			LOGGER.error(ex + " in getRelationShipValues");
+		} catch (final NumberFormatException ex) {
+			LOGGER.error(" in getRelationShipValues=[}", ex);
 		}
 		return resultList;
 	}
@@ -789,7 +783,7 @@ public class DataSelectionLogic {
 				dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 				resultList.add(dto);
 			}
-		} catch (final Exception ex) {
+		} catch (final SystemException | NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
@@ -818,7 +812,7 @@ public class DataSelectionLogic {
 			dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 			dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 			dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
-		} catch (final Exception ex) {
+		} catch (final SystemException | NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
 
 		}
@@ -846,11 +840,7 @@ public class DataSelectionLogic {
 
 			user = dataSelectionDaoImpl.getUser(Long.valueOf(userId));
 
-		} catch (final PortalException ex) {
-			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (final SystemException ex) {
-			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (final Exception ex) {
+		} catch (final PortalException | SystemException | NumberFormatException ex) {
 			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return user;
@@ -1189,7 +1179,7 @@ public class DataSelectionLogic {
 					resultList.add(dto);
 				}
 			}
-		} catch (final Exception ex) {
+		} catch (final NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
@@ -1316,7 +1306,7 @@ public class DataSelectionLogic {
 					resultList.add(dto);
 				}
 			}
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
@@ -1411,8 +1401,8 @@ public class DataSelectionLogic {
 		try {
 			list = dataSelectionDaoImpl.executeQuery(parameters);
 			return list;
-		} catch (final Exception e) {
-			LOGGER.error(e + "in getFSValue");
+		} catch (final SystemException e) {
+			LOGGER.error("in getFSValue={}", e);
 			return Collections.emptyList();
 		}
 	}
@@ -1502,7 +1492,7 @@ public class DataSelectionLogic {
 				companies.add(companyDdlbDto);
 			}
 		}
-		LOGGER.debug("companies return size " + companies.size());
+		LOGGER.debug("Companies return size= {}", companies.size());
 		return companies;
 	}
 
@@ -1659,10 +1649,10 @@ public class DataSelectionLogic {
 
 	public void callSalesInsertProcedure(int projectionId, String userId, String sessionId, String procedureName) {
 		LOGGER.debug("In callSalesInsertProcedure");
-		LOGGER.debug("ProcedureName---> " + procedureName);
-		LOGGER.debug("ProjectionId----> " + projectionId);
-		LOGGER.debug("UserId----------> " + userId);
-		LOGGER.debug("SessionId-------> " + sessionId);
+		LOGGER.debug("ProcedureName---> {} ", procedureName);
+		LOGGER.debug("ProjectionId----> {} ", projectionId);
+		LOGGER.debug("UserId----------> {} ", userId);
+		LOGGER.debug("SessionId-------> {} ", sessionId);
 
 		GtnSqlUtil.procedureCallService(procedureName, new Object[] { projectionId, userId, sessionId });
 	}
@@ -1727,13 +1717,13 @@ public class DataSelectionLogic {
 				start, offset, filters, sortByColumns);
 		resultList = dataSelectionDaoImpl.executeQueryforchannel(parameters);
 		try {
-			if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(groupIdentifier)) {
+			if (Constants.CUSTOMER_GROUP.equals(groupIdentifier)) {
 				returnList = Converters.convertCustomerGroupList(resultList);
 			} else {
 				returnList = Converters.convertItemGroupList(resultList);
 			}
 		} catch (final Exception ex) {
-			LOGGER.error(ex + " in searchGroup");
+			LOGGER.error(" in searchGroup={}", ex);
 		}
 		return returnList;
 	}

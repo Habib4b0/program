@@ -406,7 +406,7 @@ public class Allocation extends CustomComponent implements View {
                                 public void focus(FocusEvent event) {
                                     
                                     focusValue = String.valueOf(container.getContainerProperty(itemId, propertyId).getValue()).replace(" ", StringUtils.EMPTY);
-                                    LOGGER.debug(" focus Value" + focusValue);
+                                    LOGGER.debug(" focus Value= {}" , focusValue);
                                 }
                             });
                             
@@ -415,7 +415,7 @@ public class Allocation extends CustomComponent implements View {
                                 public void blur(BlurEvent event) {
                                     blurValue = String.valueOf(container.getContainerProperty(itemId, propertyId).getValue()).replace(" ", StringUtils.EMPTY);
                                     
-                                    LOGGER.debug(" blur Value" + blurValue);
+                                    LOGGER.debug(" blur Value= {}" , blurValue);
                                        String propValue=String.valueOf(propertyId);
                                        String currentProperty=getSelectedColumn(propValue);
                                     if (!focusValue.equals(blurValue)) {
@@ -975,8 +975,8 @@ public class Allocation extends CustomComponent implements View {
             end_stamp.setMonth(startTo);
             end_stamp.setDate(1);
         }
-        LOGGER.debug("Start_stamp :" + start_stamp);
-        LOGGER.debug("End_stamp :" + end_stamp);
+        LOGGER.debug("Start_stamp = {}" , start_stamp);
+        LOGGER.debug("End_stamp = {}" , end_stamp);
     }
     
     public void setAllocatedPeriods(final List allocatedPeriods) {

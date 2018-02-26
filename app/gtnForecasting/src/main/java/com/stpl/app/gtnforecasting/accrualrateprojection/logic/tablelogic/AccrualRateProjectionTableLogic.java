@@ -42,7 +42,7 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
 
     @Override
     public int getCount() {
-        LOGGER.debug("Inside Count: "+tabName);
+        LOGGER.debug("Inside Count= {} " ,tabName);
         int count = 0;
         switch (tabName) {
             case AccrualRateUtils.SALES:
@@ -56,10 +56,10 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
                 count = variableList.contains(AccrualRateUtils.DetailsVariables.CHECK_ALL.getConstant()) ? variableList.size() - 1 : variableList.size();
                 break;
             default:
-                LOGGER.warn("Count - Tab Name is not valid: " + tabName);
+                LOGGER.warn("Count - Tab Name is not valid= {} " , tabName);
                 break;
         }
-        LOGGER.debug("Count: " + count);
+        LOGGER.debug("Count= {} " , count);
         return count;
     }
 
@@ -79,7 +79,7 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
                     list = searchLogic.getDataForDetails(accrualRateSelectionDTO, start, offset, false, isViewMode);
                     break;
                 default:
-                    LOGGER.warn("Load Data - Tab Name is not valid: " + tabName);
+                    LOGGER.warn("Load Data - Tab Name is not valid= {} " , tabName);
                     break;
             }
 

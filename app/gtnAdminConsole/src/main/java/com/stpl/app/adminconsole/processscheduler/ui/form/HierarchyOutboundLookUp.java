@@ -326,7 +326,7 @@ public final class HierarchyOutboundLookUp extends Window {
             }
 
             
-           LOGGER.debug(" checked Ids="+checkedIds);
+           LOGGER.debug(" checked Ids= {}", checkedIds);
             if (StringUtils.isNotBlank(checkedIds)) {
                 excelLogic(checkedIds, false);
             }
@@ -334,8 +334,8 @@ public final class HierarchyOutboundLookUp extends Window {
                 excelLogic(checkedIds, true);
             }
             Long endTime = System.currentTimeMillis();
-            LOGGER.debug("____Hierarchy Definition______Total Time taken===in milli sesconds=" + (endTime - startTime));
-            LOGGER.debug("_____Hierarchy Definition_____Total Time taken==in seconds==" + TimeUnit.MILLISECONDS.toSeconds(endTime - startTime));
+            LOGGER.debug("____Hierarchy Definition______Total Time taken===in milli sesconds= {}" , (endTime - startTime));
+            LOGGER.debug("_____Hierarchy Definition_____Total Time taken==in seconds= {}" , TimeUnit.MILLISECONDS.toSeconds(endTime - startTime));
 
             }
         } catch (Exception e) {
@@ -359,7 +359,7 @@ public final class HierarchyOutboundLookUp extends Window {
         if (levelCount != null && !levelCount.isEmpty()) {
             maxLevel = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(levelCount.get(0))) ? String.valueOf(levelCount.get(0)) : "0");
         }
-        LOGGER.debug(" Maximum Level=" + maxLevel);
+        LOGGER.debug(" Maximum Level={}" , maxLevel);
         CommonUtil.getHdOutboundCalculatedColumns(fullHeader, maxLevel);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLayout.addComponent(exceltable);

@@ -1,3 +1,8 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -99,7 +104,6 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NationalAssumptions.
  */
@@ -296,7 +300,6 @@ public class NationalAssumptions extends CustomComponent implements View {
             forecastMethodologyLayout.addComponent(wacvalue, 1, 3, 1, 3);
 
             forecastMethodologyLayout.addComponent(priceBasisDdlb, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
-//            forecastMethodologyLayout.addComponent(growthLabel, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
             forecastMethodologyLayout.addComponent(growthValue, 1, NumericConstants.FIVE, 1, NumericConstants.FIVE);
             forecastMethodologyLayout.addComponent(frequencyDdlb, 1, NumericConstants.SIX, 1, NumericConstants.SIX);
         } else {
@@ -397,11 +400,9 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypeDdlb.addItem(BEST_PRICE.getConstant());
             priceTypeDdlb.addItem(CPI_U.getConstant());
             priceTypeDdlb.addItem(AMP.getConstant());
-//        priceTypeDdlb.addItem("FSS(OGA)"); Commented for CEL-370 CR
             priceTypeDdlb.addItem(Constant.ANNUAL_FSS);
             priceTypeDdlb.addItem(NON_FAMP.getConstant());
             priceTypeDdlb.select(AMP.getConstant());
-//            priceTypeDdlb.addStyleName("table-header-center");
 
             baselineMethodology.addItem(SINGLE_PERIOD.getConstant());
             baselineMethodology.addItem(AVERAGE.getConstant());
@@ -443,9 +444,11 @@ public class NationalAssumptions extends CustomComponent implements View {
             });
             if (PRICE_TRENDING.getConstant().equals(String.valueOf(forecastMethodology.getValue()))) {
                 frequencyDdlb.setEnabled(false);
+                forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                 growthValue.setEnabled(false);
                 if (CommonUtil.isValueEligibleForLoading()) {
                     priceBasisDdlb.setEnabled(false);
+                    forecastMethodology.setItemEnabled("Price Basis", false);
                     wacvalue.setEnabled(false);
                 }
             }
@@ -456,6 +459,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 public void valueChange(ValueChangeEvent event) {
                     LOGGER.debug("Inside forecastMethodology listener");
                     priceBasisDdlb.setEnabled(true);
+                    forecastMethodology.setItemEnabled("Price Basis", true);
                     String forecastMethodologyValue = String.valueOf(forecastMethodology.getValue());
                     if (GROWTH.getConstant().equals(forecastMethodologyValue)) {
                         cpiCompounding.setEnabled(true);
@@ -463,12 +467,15 @@ public class NationalAssumptions extends CustomComponent implements View {
 
                             if (cpiCompounding.getValue() != null && ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
                                 frequencyDdlb.setEnabled(false);
+                                forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                             } else {
                                 frequencyDdlb.setEnabled(true);
+                                forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), true);
                             }
                         }
                         growthValue.setEnabled(true);
                         priceBasisDdlb.setEnabled(false);
+                        forecastMethodology.setItemEnabled("Price Basis", false);
                         if (CommonUtil.isValueEligibleForLoading()) {
                             priceTrendDdlb.setEnabled(false);
                             wacvalue.setEnabled(false);
@@ -479,6 +486,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                         frequencyDdlb.select(ANNUAL.getConstant());
                         growthValue.setValue(EMPTYSTRING.getConstant());
                         frequencyDdlb.setEnabled(false);
+                        forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                         growthValue.setEnabled(false);
                         if (CommonUtil.isValueEligibleForLoading()) {
                             priceBasisDdlb.select(SELECT_ONE.getConstant());
@@ -495,7 +503,9 @@ public class NationalAssumptions extends CustomComponent implements View {
                                     rollingAvgOnChange();
                                 }
                                 priceBasisDdlb.setEnabled(false);
+                                forecastMethodology.setItemEnabled("Price Basis", false);
                                 frequencyDdlb.setEnabled(false);
+                                forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                                 growthValue.setEnabled(false);
                                 if (CommonUtil.isValueEligibleForLoading()) {
                                     priceTrendDdlb.setEnabled(false);
@@ -508,8 +518,10 @@ public class NationalAssumptions extends CustomComponent implements View {
                                 AbstractNotificationUtils.getInfoNotification("Rolling Average", "Rolling Average is not available because there are new NDC's in the projection that do not have multiple periods with price type data available");
                                 forecastMethodology.select(PRICE_TRENDING.getConstant());
                                 priceBasisDdlb.setEnabled(true);
+                                forecastMethodology.setItemEnabled("Price Basis", true);
                                 priceBasisDdlb.setImmediate(true);
                                 frequencyDdlb.setEnabled(false);
+                                forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                                 frequencyDdlb.setImmediate(true);
                                 growthValue.setEnabled(false);
                                 growthValue.setImmediate(true);
@@ -530,8 +542,10 @@ public class NationalAssumptions extends CustomComponent implements View {
                         if (PRICE_TRENDING.getConstant().equals(forecastMethodologyValue)) {
                             priceTrendDdlb.setEnabled(true);
                             priceBasisDdlb.setEnabled(false);
+                            forecastMethodology.setItemEnabled("Price Basis", false);
                             wacvalue.setEnabled(false);
                             frequencyDdlb.setEnabled(false);
+                            forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                             growthValue.setEnabled(false);
                             priceBasisDdlb.select(SELECT_ONE.getConstant());
                             wacvalue.setValue(EMPTYSTRING.getConstant());
@@ -542,8 +556,10 @@ public class NationalAssumptions extends CustomComponent implements View {
                             priceTrendDdlb.setEnabled(false);
                             wacvalue.setEnabled(true);
                             priceBasisDdlb.setEnabled(true);
+                            forecastMethodology.setItemEnabled("Price Basis", true);
                             periodsForRollingAvgTable.setEnabled(false);
                             frequencyDdlb.setEnabled(false);
+                            forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                             growthValue.setEnabled(false);
                             priceTrendDdlb.select(SELECT_ONE.getConstant());
                             baselineStartPeriod.setEnabled(false);
@@ -557,7 +573,9 @@ public class NationalAssumptions extends CustomComponent implements View {
                         }
                     } else if (PRICE_TRENDING.getConstant().equals(forecastMethodologyValue)) {
                         priceBasisDdlb.setEnabled(true);
+                        forecastMethodology.setItemEnabled("Price Basis", true);
                         frequencyDdlb.setEnabled(false);
+                        forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                         growthValue.setEnabled(false);
                     }
 
@@ -616,8 +634,10 @@ public class NationalAssumptions extends CustomComponent implements View {
                         if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
                             frequencyDdlb.select(ANNUAL.getConstant());;
                             frequencyDdlb.setEnabled(false);
+                            forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                         } else {
                             frequencyDdlb.setEnabled(true);
+                            forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), true);
                         }
                     }
                 }
@@ -1418,7 +1438,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                         ndcDesc = String.valueOf(obj[1]);
                     }
 
-                    ndcList.add(ndcDesc);// for showing ndcs in notification
                     listItemNo.add(ndcDesc);
                     itemMasterSidMap.put(DataTypeConverter.convertObjectToInt(obj[0]), ndcDesc);
                     nonFampMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FIVE]));
@@ -1585,6 +1604,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.setEnabled(false);
         growthValue.setEnabled(false);
         frequencyDdlb.setEnabled(false);
+        forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
         effectiveStartPeriod.setEnabled(false);
         effectiveEndPeriod.setEnabled(false);
         priceTypesTable.setSelectable(false);
@@ -1594,6 +1614,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         resetBtn.setEnabled(false);
         ndcBtn.setEnabled(false);
         priceBasisDdlb.setEnabled(false);
+        forecastMethodology.setItemEnabled("Price Basis", false);
         priceTrendDdlb.setEnabled(false);
         reloadTable();
     }
@@ -1610,8 +1631,10 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForBaselineTable.setEnabled(true);
         forecastMethodology.setEnabled(true);
         priceBasisDdlb.setEnabled(true);
+        forecastMethodology.setItemEnabled("Price Basis", true);
         periodsForRollingAvgTable.setEnabled(true);
         frequencyDdlb.setEnabled(true);
+        forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), true);
         growthValue.setEnabled(true);
         effectiveStartPeriod.removeAllItems();
         effectiveEndPeriod.removeAllItems();
@@ -1626,11 +1649,14 @@ public class NationalAssumptions extends CustomComponent implements View {
             forecastMethodology.setItemEnabled(PER_OF_WAC.getConstant(), false);
             priceBasisDdlb.setValue(SELECT_ONE.getConstant());
             priceBasisDdlb.setEnabled(false);
+            forecastMethodology.setItemEnabled("Price Basis", false);
             if ((GROWTH.getConstant()).equalsIgnoreCase(forecastMethodologyValue)) {
                 if (ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
                     frequencyDdlb.setEnabled(false);
+                    forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), false);
                 } else {
                     frequencyDdlb.setEnabled(true);
+                    forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), true);
                 }
             }
             wacvalue.setEnabled(false);
@@ -1644,6 +1670,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             periodsForBaselineTable.setEnabled(false);
             forecastMethodology.setEnabled(false);
             priceBasisDdlb.setEnabled(false);
+            forecastMethodology.setItemEnabled("Price Basis", false);
             priceTrendDdlb.setEnabled(false);
             periodsForRollingAvgTable.setEnabled(false);
             frequencyDdlb.setEnabled(false);
@@ -1660,8 +1687,10 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTrendDdlb.setEnabled(false);
             wacvalue.setEnabled(false);
             priceBasisDdlb.setEnabled(false);
+            forecastMethodology.setItemEnabled("Price Basis", false);
             if (GROWTH.getConstant().equals(forecastMethodologyValue) && !ANNUAL.getConstant().equalsIgnoreCase(String.valueOf(cpiCompounding.getValue()))) {
                 frequencyDdlb.setEnabled(true);
+                forecastMethodology.setItemEnabled(FREQUENCY.getConstant(), true);
             } else {
                 frequencyDdlb.setEnabled(false);
             }
@@ -1674,6 +1703,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 priceTrendDdlb.setEnabled(false);
                 wacvalue.setEnabled(true);
                 priceBasisDdlb.setEnabled(true);
+                forecastMethodology.setItemEnabled("Price Basis", true);
                 periodsForRollingAvgTable.setEnabled(false);
                 frequencyDdlb.setEnabled(false);
                 growthValue.setEnabled(false);
@@ -1710,7 +1740,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                 logic.deletePriceTypeMain(removed);
             }
         }
-        // reload the table 
         reloadTable();
         removedList.clear();
     }
@@ -1753,7 +1782,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                     @Override
                     public void noMethod() {
 
-                        // TODO Auto-generated method stub
                     }
                 }.getConfirmationMessage("Delete Confirmation",
                         "Are you sure you want to delete this Price Type Projection? All associated projected Price Types will be lost.");

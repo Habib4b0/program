@@ -77,9 +77,7 @@ public class NmPpaProjectionMasterImpl {
                 sql.append(" E.LEVEL_NAME=");
                 sql.append(levelName);
             }
-//            LOGGER.debug("sql--->>>>" + sql);
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
-//            LOGGER.debug("resultList.size--->>>" + resultList.size());
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
@@ -133,8 +131,6 @@ public class NmPpaProjectionMasterImpl {
             {
             sql.append(" and A.CHECK_RECORD=1");
             }
-//            sql.append(" AND E.PARENT_NODE ='");
-//            sql.append(parentNode);
             sql.append(" AND Apr.PERIOD_SID in (SELECT PERIOD_SID FROM \"PERIOD\"  where PERIOD_SID in \n"
                     + "(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" >=");
             sql.append(startYear);
@@ -160,10 +156,8 @@ public class NmPpaProjectionMasterImpl {
               {
                    sql.append("PA.NM_PPA_PROJECTION_SID);");
               }
-//            LOGGER.debug("sql-->>" + sql);
             int a = HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
-//            LOGGER.debug("a--->>>>" + a);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
         }
@@ -177,10 +171,8 @@ public class NmPpaProjectionMasterImpl {
           Integer startYear=0;
          Integer endYear=0;
           String custOrProd = input.get(5);
-//         LOGGER.debug("");
         if(frequency.equals(Constants.MONTHLY))
         {
-//              LOGGER.debug("input-->>"+ input );
              startYear = Integer.valueOf(input.get(1));
               endYear = Integer.valueOf(input.get(3));
         }
@@ -474,9 +466,7 @@ public class NmPpaProjectionMasterImpl {
                 sql.append(",MONTH\n");
             }
             
-//            LOGGER.debug("sql--->>>>" + sql);
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
-//            LOGGER.debug("resultList.size--->>>" + resultList.size());
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
@@ -507,9 +497,7 @@ public class NmPpaProjectionMasterImpl {
                     +parent
                     + "' group by RLD.RELATIONSHIP_LEVEL_VALUES,RLD.LEVEL_NO,\n"
                     + "RLD.PARENT_NODE,RLD.HIERARCHY_LEVEL_DEFINITION_SID,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n" );
-//            LOGGER.debug("sql--->>>>" + sql);
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
-//            LOGGER.debug("resultList.size--->>>" + resultList.size());
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
@@ -538,9 +526,7 @@ public class NmPpaProjectionMasterImpl {
                     +parent
                     + "' group by RLD.RELATIONSHIP_LEVEL_VALUES,RLD.LEVEL_NO,\n"
                     + "RLD.PARENT_NODE,RLD.HIERARCHY_LEVEL_DEFINITION_SID,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n" );
-//            LOGGER.debug("sql of level values--->>>>" + sql);
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString()); 
-//            LOGGER.debug("resultList.size--->>>" + resultList.size());
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());

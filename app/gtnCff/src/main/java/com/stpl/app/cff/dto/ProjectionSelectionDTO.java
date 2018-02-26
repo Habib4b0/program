@@ -6,7 +6,6 @@
  */
 package com.stpl.app.cff.dto;
 
-import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;

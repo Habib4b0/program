@@ -364,7 +364,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         rightTable.setDoubleHeaderMap(rightHeader.getDoubleHeaderMaps());
         leftTable.setDoubleHeaderMap(leftHeader.getDoubleHeaderMaps());
         for (Object obj : leftHeader.getSingleColumns()) {
-            if (String.valueOf(obj).contains(Constant.LEVELNAME)) {
+            if (String.valueOf(obj).contains(Constant.LEVEL_NAME)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_FIVE);
             } else if (String.valueOf(obj).contains(Constant.BASELINE)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj,  NumericConstants.ONE_THREE_FIVE);
@@ -435,8 +435,8 @@ public class MSalesProjection extends ForecastSalesProjection {
         customId = CommonLogic.customDdlbOptionChange(viewDdlb, editBtn, level);
         currentHierarchy = CommonLogic.getCustomTree(customId);
         CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
-        LOGGER.debug(" customId  " + customId);
-        LOGGER.debug(" currentHierarchy " + currentHierarchy.size());
+        LOGGER.debug(" customId= {} " , customId);
+        LOGGER.debug(" currentHierarchy= {} " , currentHierarchy.size());
         projectionDTO.setCustomId(customId);
         if (customId != 0) {
             session.setCustomId(customId);

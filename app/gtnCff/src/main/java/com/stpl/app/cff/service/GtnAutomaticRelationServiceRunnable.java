@@ -17,15 +17,15 @@ import java.util.concurrent.Callable;
 
 public class GtnAutomaticRelationServiceRunnable implements Callable<Boolean> {
 
-    private Object value;
-    private int hierarchySid;
+    private final Object value;
+    private final int hierarchySid;
     private static String userId;
 
     public GtnAutomaticRelationServiceRunnable(Object value, int hierarchySid, String userId) {
         super();
         this.value = value;
         this.hierarchySid = hierarchySid;
-        this.userId= userId;
+        GtnAutomaticRelationServiceRunnable.userId= userId;
     }
 
     public static void testWebservice() {

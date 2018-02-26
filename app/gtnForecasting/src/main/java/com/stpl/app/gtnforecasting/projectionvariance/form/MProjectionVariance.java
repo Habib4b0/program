@@ -255,7 +255,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      */
     @Override
     protected void loadFrequency() {
-        LOGGER.debug("ProjectionVariance ValueChangeEvent initiated with frequency -->" + frequency.getValue());
+        LOGGER.debug("ProjectionVariance ValueChangeEvent initiated with frequency -->= {}" , frequency.getValue());
         if (frequency.getValue() != null && !"null".equals(String.valueOf(frequency.getValue())) && !"".equals(String.valueOf(frequency.getValue()))) {
             loadProjectionSelection();
             fullHeader = new CustomTableHeaderDTO();
@@ -815,7 +815,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         if (!generated && firstGenerated) {
             generateLogic();
         }
-        LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends with customId=" + customId);
+        LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends with customId= {}" , customId);
     }
 
     @Override
@@ -1127,9 +1127,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
                 addViewBtn.setVisible(Boolean.FALSE);
                 editViewBtn.setVisible(Boolean.FALSE);
             }
-        } catch (com.liferay.portal.kernel.exception.PortalException ex) {
-            LoggerFactory.getLogger(MProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);
-        } catch (SystemException ex) {
+        } catch (com.liferay.portal.kernel.exception.PortalException | SystemException ex) {
             LoggerFactory.getLogger(MProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }

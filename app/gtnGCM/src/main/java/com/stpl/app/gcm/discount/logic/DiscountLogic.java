@@ -211,7 +211,7 @@ public class DiscountLogic {
         return levelsDetails;
     }
 
-    public int getItemSearchCount()throws SystemException {
+    public int getItemSearchCount() {
         int count = 0;
         DynamicQuery query = ItemMasterLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.in("brandMasterSid", new Object[]{NumericConstants.FOUR, NumericConstants.SIX, NumericConstants.TEN, NumericConstants.EIGHTY_FIVE}));
@@ -220,7 +220,7 @@ public class DiscountLogic {
         return count;
     }
 
-    public List<ContractsDetailsDto> getItemSearch(ContractsDetailsDto removeDiscountDto) throws SystemException {
+    public List<ContractsDetailsDto> getItemSearch(ContractsDetailsDto removeDiscountDto)  {
         List<ContractsDetailsDto> searchList;
         DynamicQuery query = ItemMasterLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.in("brandMasterSid", new Object[]{NumericConstants.FOUR, NumericConstants.SIX, NumericConstants.TEN, NumericConstants.EIGHTY_FIVE}));
@@ -231,7 +231,7 @@ public class DiscountLogic {
         return searchList;
     }
 
-    private List<ContractsDetailsDto> getSearchResult(List<ItemMaster> resultList) throws SystemException {
+    private List<ContractsDetailsDto> getSearchResult(List<ItemMaster> resultList)  {
         List<ContractsDetailsDto> searchList = new ArrayList<>();
         for (ItemMaster resultList1 : resultList) {
             ContractsDetailsDto dto = new ContractsDetailsDto();
@@ -305,7 +305,7 @@ public class DiscountLogic {
         return summaryList;
     }
 
-    public List<ContractsDetailsDto> getRebateSchedule(ContractsDetailsDto newDiscountTabDto) throws SystemException{
+    public List<ContractsDetailsDto> getRebateSchedule(ContractsDetailsDto newDiscountTabDto) {
         List<ContractsDetailsDto> searchList;
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
@@ -441,7 +441,7 @@ public class DiscountLogic {
         return searchList;
     }
 
-    public List<ContractsDetailsDto> getItemsFromRs(ContractsDetailsDto newDiscountTabDto) throws SystemException  {
+    public List<ContractsDetailsDto> getItemsFromRs(ContractsDetailsDto newDiscountTabDto)   {
         List<ContractsDetailsDto> searchList;
         Map<String, String> inputMap = new HashMap<>();
         List results = new ArrayList();
@@ -629,7 +629,7 @@ public class DiscountLogic {
         return count;
     }
 
-    public int getRebateScheduleCount(ContractsDetailsDto newDiscountTabDto) throws SystemException {
+    public int getRebateScheduleCount(ContractsDetailsDto newDiscountTabDto)  {
         List results = new ArrayList();
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
@@ -677,7 +677,7 @@ public class DiscountLogic {
         return results.size();
     }
 
-    public int getItemsFromRsCount(ContractsDetailsDto newDiscountTabDto) throws SystemException {
+    public int getItemsFromRsCount(ContractsDetailsDto newDiscountTabDto)  {
         List results = new ArrayList();
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(newDiscountTabDto.getInternalId()));
@@ -697,14 +697,14 @@ public class DiscountLogic {
         return results.size();
     }
 
-    public List<RemoveDiscountDto> getItems(RemoveDiscountDto discountDto, int start, int offset, boolean flag) throws SystemException {
+    public List<RemoveDiscountDto> getItems(RemoveDiscountDto discountDto, int start, int offset, boolean flag)  {
         String query = queryUtils.getItems(discountDto.getContractSid(), discountDto.getRsSid(), flag, start, offset);
         List itemList = (List<RemoveDiscountDto>) discountDAO.getRebates(query);
 
         return setItemValues(itemList);
     }
 
-    public int getItemsCount(RemoveDiscountDto discountDto, int start, int offset) throws SystemException {
+    public int getItemsCount(RemoveDiscountDto discountDto, int start, int offset)  {
         int count = 0;
         String query = queryUtils.getItems(discountDto.getContractSid(), discountDto.getRsSid(), true, start, offset);
         List itemList = (List<RemoveDiscountDto>) discountDAO.getRebates(query);
@@ -712,7 +712,7 @@ public class DiscountLogic {
         return count;
     }
 
-    public List<RemoveDiscountDto> getTreeItems(int contractSid, int rsId) throws SystemException {
+    public List<RemoveDiscountDto> getTreeItems(int contractSid, int rsId)  {
         String query = queryUtils.getItems(contractSid, rsId, true, 0, 0);
         List itemList = (List<RemoveDiscountDto>) discountDAO.getRebates(query);
 
@@ -887,7 +887,7 @@ public class DiscountLogic {
         return retList;
     }
 
-    public static void saveRS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final int psSystemId, final ContractsDetailsDto contractMember,boolean flag) throws SystemException, PortalException {
+    public static void saveRS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final int psSystemId, final ContractsDetailsDto contractMember,boolean flag) throws  PortalException {
         LOGGER.debug("Entering saveRS method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()-----------------"+contractMember.getModelSysId());
          int rsId = flag ? Integer.valueOf(contractMember.getRsSid()) : contractMember.getModelSysId();
         final RsModel rebateMaster = discountDAO.getRebateScheduleMaster(rsId);
@@ -1104,7 +1104,7 @@ public class DiscountLogic {
 
     }
 
-    public int getCommonCountForNewTab(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO) throws SystemException {
+    public int getCommonCountForNewTab(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO)  {
         Map<String, String> inputMap = new HashMap<>();
         Map<String, String> inputMapToAppend = new HashMap<>();
         String searchField = newDiscountTabDto.getSearchField().split("-")[0];
@@ -1221,7 +1221,7 @@ public class DiscountLogic {
         return ret;
     }
 
-    public List<ContractsDetailsDto> getCommonSearchList(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO) throws SystemException {
+    public List<ContractsDetailsDto> getCommonSearchList(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO)  {
         List<ContractsDetailsDto> searchList;
         Map<String, String> inputMap = new HashMap<>();
         Map<String, String> inputMapToAppend = new HashMap<>();
@@ -1477,7 +1477,7 @@ public class DiscountLogic {
         }
     }
 
-    public int getCommonCountForSelectedResult(ContractsDetailsDto newDiscountTabDto) throws SystemException {
+    public int getCommonCountForSelectedResult(ContractsDetailsDto newDiscountTabDto)  {
         List results = new ArrayList();
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.SID_QUESTION, String.valueOf(newDiscountTabDto.getInternalId()));
@@ -1572,7 +1572,7 @@ public class DiscountLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
-    public static List<ContractsDetailsDto> getCommonResults(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO, boolean isSelectedTable) throws SystemException {
+    public static List<ContractsDetailsDto> getCommonResults(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO, boolean isSelectedTable)  {
         LOGGER.debug("Inside getCommonResults ");
         List<ContractsDetailsDto> searchList;
         Map<String, String> inputMap = new HashMap<>();
@@ -1728,7 +1728,7 @@ public class DiscountLogic {
 
     }
 
-    public List<HelperDTO> getDropDownList(final String listType, HelperDTO dto) throws SystemException {
+    public List<HelperDTO> getDropDownList(final String listType, HelperDTO dto)  {
         final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
@@ -1773,7 +1773,7 @@ public class DiscountLogic {
 
     }
 
-    public int getFormulaSearchCount(LookupDTO binderDto) throws SystemException {
+    public int getFormulaSearchCount(LookupDTO binderDto)  {
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.FORMULA_ID_QUESTION, "%");
         inputMap.put(StringConstantsUtil.FORMULA_NO_QUESTION, "%");
@@ -1797,7 +1797,7 @@ public class DiscountLogic {
         return obj == null ? 0 : (Integer) obj;
     }
 
-    public List<LookupDTO> getFormulaSearchResults(LookupDTO binderDto) throws SystemException {
+    public List<LookupDTO> getFormulaSearchResults(LookupDTO binderDto)  {
         Map<String, String> inputMap = new HashMap<>();
         List<LookupDTO> resultsList = new ArrayList<>();
         inputMap.put(StringConstantsUtil.FORMULA_ID_QUESTION, "%");
@@ -1848,7 +1848,7 @@ public class DiscountLogic {
         return resultsList;
     }
 
-    public int getRebateSearchCount(LookupDTO binderDto) throws SystemException {
+    public int getRebateSearchCount(LookupDTO binderDto)  {
         Map<String, String> inputMap = new HashMap<>();
         inputMap.put(StringConstantsUtil.REBATE_PLAN_ID_QUESTION, "%");
         inputMap.put(StringConstantsUtil.REBATE_PLAN_NO_QUESTION, "%");
@@ -1880,7 +1880,7 @@ public class DiscountLogic {
         return obj == null ? 0 : (Integer) obj;
     }
 
-    public List<LookupDTO> getRebateSearchResults(LookupDTO binderDto) throws SystemException {
+    public List<LookupDTO> getRebateSearchResults(LookupDTO binderDto)  {
         Map<String, String> inputMap = new HashMap<>();
         List<LookupDTO> resultsList = new ArrayList<>();
         inputMap.put(StringConstantsUtil.REBATE_PLAN_ID_QUESTION, "%");
@@ -2058,7 +2058,7 @@ public class DiscountLogic {
      * @param ifpSystemId the ifp system id
      * @param contractMember the contract member
      */
-    public static void savePS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final ContractsDetailsDto contractMember,boolean flag) throws SystemException, PortalException {
+    public static void savePS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final ContractsDetailsDto contractMember,boolean flag) throws PortalException {
         LOGGER.debug("Entering getChildNodeOfPriorContractSales method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()=========="+contractMember.getModelSysId());
         try {
            int psId = flag ? Integer.valueOf(contractMember.getPsSid()) : contractMember.getModelSysId();
@@ -2171,7 +2171,7 @@ public class DiscountLogic {
 
     }
 
-    public static void saveIFP(final int contractSystemId, final int cfpSystemId, final ContractsDetailsDto contractMember,boolean flag) throws SystemException, PortalException {
+    public static void saveIFP(final int contractSystemId, final int cfpSystemId, final ContractsDetailsDto contractMember,boolean flag) throws PortalException {
 
         LOGGER.debug("Entering saveIFP method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()-------------"+contractMember.getModelSysId());
         int ifpId = flag ? contractMember.getIfpId() : contractMember.getModelSysId();
@@ -2245,10 +2245,10 @@ public class DiscountLogic {
      *
      * @param contractSystemId
      * @param contractMember
-     * @throws SystemException
+     * @
      * @throws PortalException
      */
-    public static void saveCFp(final int contractSystemId, final ContractsDetailsDto contractMember , boolean flag) throws SystemException, PortalException {
+    public static void saveCFp(final int contractSystemId, final ContractsDetailsDto contractMember , boolean flag) throws PortalException {
         LOGGER.debug("Entering saveCFp method with contractSystemId=" + contractSystemId + "======" + contractMember.getCfpId() + "contractMember.getModelSysId()" +contractMember.getModelSysId());
         int cpdId = flag ? contractMember.getCfpId() : contractMember.getModelSysId();
        

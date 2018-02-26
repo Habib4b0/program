@@ -99,7 +99,7 @@ public class NMSalesProjectionResultsLogic {
 
 	public List<List> generateSalesProjectionResults(Object[] selections, String salesOrUnits, String actualOrProj,
 			List<Object> headerList, String pivotView) {
-		LOGGER.debug("generateSalesProjectionResults method starts" + actualOrProj);
+		LOGGER.debug("generateSalesProjectionResults method starts= {}" , actualOrProj);
 		List sprList;
 		List levelCount = new ArrayList();
 		SalesProjectionResultsDTO sprDTO = new SalesProjectionResultsDTO();

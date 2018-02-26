@@ -1981,7 +1981,7 @@ public class CommmonLogic {
 
     }
 
-    public void saveIdentifiersList(final List<CompanyCrtIdentifierDTO> identifierList, final CompanyMaster result) throws SystemException {
+    public void saveIdentifiersList(final List<CompanyCrtIdentifierDTO> identifierList, final CompanyMaster result) {
 
         if (identifierList != null) {
             for (int i = 0; i < identifierList.size(); i++) {

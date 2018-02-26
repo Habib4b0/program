@@ -579,7 +579,7 @@ public class NMProjectionVarianceLogic {
     }
 
     public List<ProjectionVarianceDTO> getPeriodResults(PVSelectionDTO pVSelectionDTO, PVSelectionDTO baseVariables, int start, int offset, ProjectionVarianceDTO parentDto) {
-        LOGGER.info("Inside getPeriodResults" + start + ":Offset:===" + offset);
+        LOGGER.info("Inside getPeriodResults :start:= {}, :offset:= {}" , start, offset);
         List<ProjectionVarianceDTO> projDTOList = new ArrayList<>();
         List<ProjectionVarianceDTO> tobeAddedList = new ArrayList<>();
         int neededRecord = offset;
@@ -2526,7 +2526,7 @@ public class NMProjectionVarianceLogic {
                 resultDto.add(pvDTO);
             }
         }
-        LOGGER.info("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = >" + resultDto.size());
+        LOGGER.info("Ending getCustomisedProjectionResultsTotalDiscount with list size  = = = {}" , resultDto.size());
         return resultDto;
     }
 
@@ -2791,14 +2791,14 @@ public class NMProjectionVarianceLogic {
                     sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo,false));
                     break;
                 default:
-                    LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator= {}" , currentHierarchyIndicator);
             }
         } else {
             sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         }
         sql = sql.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
 
-        LOGGER.debug("Group Filter Value :  " + projSelDTO.getGroupFilter());
+        LOGGER.debug("Group Filter Value = {} " , projSelDTO.getGroupFilter());
         return sql;
 
     }
@@ -2856,7 +2856,7 @@ public class NMProjectionVarianceLogic {
                     break;
                 default:
 
-                    LOGGER.warn("Invalid Hierarchy Indicator: " + hierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator= {} " , hierarchyIndicator);
             }
 
         } else {
@@ -2911,7 +2911,7 @@ public class NMProjectionVarianceLogic {
         } else {
             throw new IllegalArgumentException("Invalid Hierarchy Indicator :" + projSelDTO.getHierarchyIndicator());
         }
-        LOGGER.debug("Count is " + count);
+        LOGGER.debug("Count is= {} " , count);
         return count;
 
     }

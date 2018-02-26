@@ -474,7 +474,7 @@ public class AbstractLogic {
 
     }
     
-      public static String getDescription(int code) throws SystemException {
+      public static String getDescription(int code) {
         try {
             HelperTable table = HelperTableLocalServiceUtil.getHelperTable(code);
             return table.getDescription();

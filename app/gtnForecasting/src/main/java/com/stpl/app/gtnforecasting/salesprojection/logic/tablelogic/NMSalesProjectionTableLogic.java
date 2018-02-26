@@ -49,7 +49,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
      */
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
-        LOGGER.info("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.info("loadData initiated with firstGenerated= {}, and start= {}, and offset= {} " , firstGenerated, start, offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         return map;
     }
@@ -61,7 +61,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
      */
     @Override
     public int getCount() {
-        LOGGER.info("getCount initiated with firstGenerated=" + firstGenerated);
+        LOGGER.info("getCount initiated with firstGenerated= {}" , firstGenerated);
         int count = 0;
         if (firstGenerated) {
             tree = new SalesProjectionTree();

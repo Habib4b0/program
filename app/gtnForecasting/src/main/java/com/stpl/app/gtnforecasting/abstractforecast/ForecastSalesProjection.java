@@ -98,6 +98,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -444,6 +445,25 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected int uncheckRecordCount;
 
     public static final String SELECT_ALL_LABEL = "Select All";
+    private String changedProperty;
+    private boolean refresh = false;
+    private boolean valueChange = false;
+
+    public boolean isRefresh() {
+        return refresh;
+    }
+
+    public void setRefresh(boolean refresh) {
+        this.refresh = refresh;
+    }
+
+    public boolean isValueChange() {
+        return valueChange;
+    }
+
+    public void setValueChange(boolean valueChange) {
+        this.valueChange = valueChange;
+    }
 
 
     /**
@@ -782,13 +802,25 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         refreshBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                getTableLogic().setRefresh(false);
-                refreshTableData(getCheckedRecordsHierarchyNo());
-                getTableLogic().setRefresh(true);
-                final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);
-                notif.setPosition(Position.TOP_CENTER);
-                notif.setStyleName(ConstantsUtils.MY_STYLE);
-                notif.show(Page.getCurrent());
+                setRefresh(true);
+                if (!projectionDTO.isMultipleVariablesUpdated) {
+                    salesLogic.executeUpdateQuery(projectionDTO);
+                    getTableLogic().setRefresh(false);
+                    refreshTableData(getCheckedRecordsHierarchyNo());
+                    getTableLogic().setRefresh(true);
+                    final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);
+                    notif.setPosition(Position.TOP_CENTER);
+                    notif.setStyleName(ConstantsUtils.MY_STYLE);
+                    notif.show(Page.getCurrent());
+                    projectionDTO.getMultipleVariableCheckMap().clear();
+                } else {
+                    AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
+                            "Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
+                    projectionDTO.setIsMultipleVariablesUpdated(false);
+                    refreshTableData(getCheckedRecordsHierarchyNo());
+                    projectionDTO.getMultipleVariableCheckMap().clear();
+                    projectionDTO.getUpdateQueryMap().clear();
+                }
 
             }
         });
@@ -1270,7 +1302,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         selection.put(Constant.A_GROWTH, Constant.TRUE);
                         break;
                     default:
-                        LOGGER.warn("value is not valid: " + value);
+                        LOGGER.warn("value is not valid= {} " , value);
                         break;
 
                 }
@@ -1421,7 +1453,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * in the Custom DDLB.
      */
     protected void loadCustomDDLB() {
-        LOGGER.debug("loadCustomDDLB initiated " + customIdToSelect);
+        LOGGER.debug("loadCustomDDLB initiated= {} " , customIdToSelect);
         viewDdlb.setEnabled(true);
         newBtn.setEnabled(true);
         editBtn.setEnabled(false);
@@ -1688,6 +1720,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(((TextField) event.getComponent()).getValue());
+                            setValueChange(true);
                             newValue = newValue.replace("$", StringUtils.EMPTY);
                             newValue = newValue.replace(",", StringUtils.EMPTY);
                             newValue = newValue.replace(Constant.PERCENT, StringUtils.EMPTY);
@@ -1706,7 +1739,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     String tempArray[] = tempValue.split("-");
                                     tempValue = projectionDTO.getFrequencyDivision() == 1 ? tempArray[1] : tempArray[NumericConstants.TWO];
                                     String tempArray1[] = tempValue.split("~");
-                                    String changedProperty = tempArray1[0];
+                                    changedProperty = tempArray1[0];
 
                                     String changedValue = ((TextField) event.getComponent()).getValue();
                                     changedValue = StringUtils.isBlank(changedValue) || Constant.NULL.equals(changedValue) ? "0.0" : changedValue;
@@ -1719,7 +1752,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(getTableLogic().getTreeLevelonCurrentPage(itemId));
-                                } catch (Exception ex) {
+                                } catch (PortalException | SystemException | NumberFormatException ex) {
                                     LOGGER.error(ex.getMessage());
                                 }
                             }
@@ -2252,7 +2285,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     endPeriod.select(endPeriodValue);
                 }
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -2535,7 +2568,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     condition = tempYear < currentYear;
                     break;
                 default:
-                    LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
+                    LOGGER.warn("SELECTED_FREQ_IS_NOT_VALID= {} " , selectedFreq);
                     break;
             }
             if ((condition) && (checkBoxMap.get(key))) {
@@ -2586,7 +2619,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         condition = tempYear >= projStartYear;
                         break;
                     default:
-                        LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
+                        LOGGER.warn("SELECTED_FREQ_IS_NOT_VALID= {} " , selectedFreq);
                         break;
                 }
                 if (condition) {
@@ -2637,7 +2670,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     condition = tempYear >= projStartYear;
                     break;
                 default:
-                    LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
+                    LOGGER.warn("SELECTED_FREQ_IS_NOT_VALID= {} " , selectedFreq);
                     break;
             }
 
@@ -2825,7 +2858,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             } else if (setMethodologiesValuesVal.contains(String.valueOf(methodology.getValue())) && !checkHistorySelectedCount(1)) {
                 NotificationUtils.getErrorNotification(Constant.ERROR, "Please select only one period for the Single Period methodology.");
             }
-            LOGGER.debug("CALC Methodology :" + calcMethodology);
+            LOGGER.debug("CALC Methodology= {}" , calcMethodology);
             session.setIsSalesCalculated(true);
             session.setIsSPCalculationDoneAgain(true);
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
@@ -2956,7 +2989,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * @param history
      */
     public void loadFrequency(final ComboBox frequency, final ComboBox history) {
-        LOGGER.debug("loadFrequency for " + String.valueOf(frequency.getValue()));
+        LOGGER.debug("loadFrequency for= {} " , String.valueOf(frequency.getValue()));
         CommonUtils.frequenceValueChange(String.valueOf(frequency.getValue()), history, session);
         LOGGER.debug("loadFrequency ends ");
     }
@@ -2999,7 +3032,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         proGrowth = true;
                         break;
                     default:
-                        LOGGER.warn("Value is not valid: " + value);
+                        LOGGER.warn("Value is not valid= {} " , value);
                         break;
                 }
             }
@@ -3114,7 +3147,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     }
 
     protected void levelFilterDdlbChangeOption(boolean excelExport) {
-        LOGGER.debug("excelExport" + excelExport);
+        LOGGER.debug("excelExport: {} " , excelExport);
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
         int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
@@ -3396,7 +3429,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     @UiHandler("methodologyDdlb")
     public void methodologyDdlb(Property.ValueChangeEvent event) {
-        LOGGER.debug("methodologyDdlb ValueChangeEvent initiated " + methodology.getValue());
+        LOGGER.debug("methodologyDdlb ValueChangeEvent initiated= {} " , methodology.getValue());
 
         if (methodology.getValue() != null && (Constant.PERCOFDEMAND.equals(methodology.getValue()) || Constant.PERCOFEXFACTORY.equals(methodology.getValue())
                 || Constant.PERCOFEXFACTORYSALES.equals(methodology.getValue()) || Constant.PERCOFINVENTORYWITHDRAWAL.equals(methodology.getValue())
@@ -3580,7 +3613,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     TextField baseFilter = new TextField();
                     baseFilter.setWidth("100%");
                     return baseFilter;
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setWidth("100%");
                     return levelField;
@@ -3639,7 +3672,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     filterForBaseline.setWidth("100%");
                     return filterForBaseline;
 
-                } else if (Constant.LEVELNAME.equals(propertyId)) {
+                } else if (Constant.LEVEL_NAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");
@@ -3697,7 +3730,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
                 break;
             default:
-                LOGGER.warn("frequencyDivision is not valid: " + frequencyDivision);
+                LOGGER.warn("frequencyDivision is not valid= {} " , frequencyDivision);
                 break;
         }
         return periods;
@@ -3781,7 +3814,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             return false;
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException | ParseException ex) {
             LOGGER.error(ex.getMessage());
             return false;
         }

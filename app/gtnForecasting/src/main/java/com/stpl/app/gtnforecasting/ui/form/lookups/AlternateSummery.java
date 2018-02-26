@@ -607,7 +607,7 @@ public class AlternateSummery extends CustomComponent {
      * in the Custom DDLB.
      */
     protected void loadCustomDDLB() {
-        LOGGER.debug("loadCustomDDLB initiated " + customIdToSelect);
+        LOGGER.debug("loadCustomDDLB initiated= {} " , customIdToSelect);
         viewDdlb.setEnabled(true);
         newBtn.setEnabled(true);
         editBtn.setEnabled(false);
@@ -726,7 +726,7 @@ public class AlternateSummery extends CustomComponent {
      * @param history
      */
     public void loadFrequency(final ComboBox frequency, final ComboBox history) {
-        LOGGER.debug("loadFrequency for " + String.valueOf(frequency.getValue()));
+        LOGGER.debug("loadFrequency for= {} " , String.valueOf(frequency.getValue()));
         CommonUtils.frequenceValueChange(String.valueOf(frequency.getValue()), history, session);
         LOGGER.debug("loadFrequency ends ");
     }
@@ -773,7 +773,7 @@ public class AlternateSummery extends CustomComponent {
         List<Object> visibleColumns = new ArrayList<>();
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
 
-        visibleColumns.add(Constant.LEVELNAME);
+        visibleColumns.add(Constant.LEVEL_NAME);
         columnHeader.add("Level");
         visibleColumns.add(Constant.BASELINE);
         columnHeader.add("Base Line");
@@ -797,7 +797,7 @@ public class AlternateSummery extends CustomComponent {
     }
 
     protected void levelFilterDdlbChangeOption(boolean excelExport) {
-        LOGGER.debug("excelExport"+excelExport);
+        LOGGER.debug("excelExport= {}",excelExport);
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
         int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
@@ -972,7 +972,7 @@ public class AlternateSummery extends CustomComponent {
     }
 
     public void init() throws PortalException {
-        LOGGER.debug("Inside NMSalesProjection Screen " + session.getUserId());
+        LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
         configureProjectionDTO();
@@ -1017,8 +1017,8 @@ public class AlternateSummery extends CustomComponent {
         customId = CommonLogic.customDdlbOptionChange(viewDdlb, editBtn, level);
         currentHierarchy = CommonLogic.getCustomTree(customId);
         CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
-        LOGGER.debug(" customId  " + customId);
-        LOGGER.debug(" currentHierarchy " + currentHierarchy.size());
+        LOGGER.debug(" customId= {}  " , customId);
+        LOGGER.debug(" currentHierarchy= {} " , currentHierarchy.size());
         projectionDTO.setCustomId(customId);
         generateLogic();
         if (viewDdlb.getValue() != null
@@ -1121,7 +1121,7 @@ public class AlternateSummery extends CustomComponent {
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.THREE_HUNDRED);
-            } else if (String.valueOf(obj).contains(Constant.LEVELNAME)) {
+            } else if (String.valueOf(obj).contains(Constant.LEVEL_NAME)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.THREE_HUNDRED);
             }
         }

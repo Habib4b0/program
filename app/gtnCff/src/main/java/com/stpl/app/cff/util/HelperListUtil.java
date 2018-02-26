@@ -217,7 +217,7 @@ public class HelperListUtil {
                     }
                 }
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
