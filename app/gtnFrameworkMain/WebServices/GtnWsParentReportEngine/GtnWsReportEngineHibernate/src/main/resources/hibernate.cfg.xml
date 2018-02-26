@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-    <property name="hibernate.connection.url">jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APP_UNIT</property>
-    <property name="hibernate.connection.username">bpigtn_agn_unit</property>
-    <property name="hibernate.connection.password">*U6s5ZKW~C4\Mdev</property>
-    <property name="hibernate.c3p0.min_size">1</property>
-    <property name="hibernate.c3p0.max_size">2</property>
-  </session-factory>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+		<property name="hibernate.connection.url">jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APP_UNIT</property>
+		<property name="hibernate.connection.username">bpigtn_agn_unit</property>
+		<property name="hibernate.connection.password">*U6s5ZKW~C4\Mdev</property>
+		<property name="hibernate.c3p0.min_size">1</property>
+		<property name="hibernate.c3p0.max_size">2</property>
+	</session-factory>
 </hibernate-configuration>

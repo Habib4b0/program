@@ -2,32 +2,32 @@ package com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean;
 
 public class GtnWsDiscountBean {
 
-    private int rsId;
-    private Double discountActuals;
-    private Double discountProjection;
+	private int rsId;
+	private Double discountActuals;
+	private Double discountProjection;
 
-    public int getRsId() {
-        return rsId;
-    }
+	public int getRsId() {
+		return rsId;
+	}
 
-    public void setRsId(int rsId) {
-        this.rsId = rsId;
-    }
+	public void setRsId(int rsId) {
+		this.rsId = rsId;
+	}
 
-    public Double getDiscountActuals() {
-        return discountActuals;
-    }
+	public Double getDiscountActuals() {
+		return discountActuals;
+	}
 
-    public void setDiscountActuals(Double discountActuals) {
-        this.discountActuals = discountActuals;
-    }
+	public void setDiscountActuals(Double discountActuals) {
+		this.discountActuals = discountActuals;
+	}
 
-    public Double getDiscountProjection() {
-        return discountProjection;
-    }
+	public Double getDiscountProjection() {
+		return discountProjection;
+	}
 
-    public void setDiscountProjection(Double discountProjection) {
-        this.discountProjection = discountProjection;
-    }
+	public void setDiscountProjection(Double discountProjection) {
+		this.discountProjection = discountProjection;
+	}
 
 }

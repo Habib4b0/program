@@ -5,17 +5,17 @@ import java.util.List;
 
 public class GtnWsTreeNodeAttributeBean {
 
-    List<GtnWsAttributeBean> attributeBeanList = null;
+	List<GtnWsAttributeBean> attributeBeanList = null;
 
-    public List<GtnWsAttributeBean> getAttributeBeanList() {
-        return attributeBeanList;
-    }
+	public List<GtnWsAttributeBean> getAttributeBeanList() {
+		return attributeBeanList;
+	}
 
-    public void addAttributeBeanToList(GtnWsAttributeBean attributeBean) {
-        if (attributeBeanList == null) {
-            attributeBeanList = new ArrayList<>();
-        }
-        this.attributeBeanList.add(attributeBean);
-    }
+	public void addAttributeBeanToList(GtnWsAttributeBean attributeBean) {
+		if (attributeBeanList == null) {
+			attributeBeanList = new ArrayList<>();
+		}
+		this.attributeBeanList.add(attributeBean);
+	}
 
 }
