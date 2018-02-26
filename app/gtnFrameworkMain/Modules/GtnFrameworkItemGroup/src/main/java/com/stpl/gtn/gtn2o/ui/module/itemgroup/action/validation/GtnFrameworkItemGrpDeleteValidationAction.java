@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.module.itemgroup.action.validation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -52,6 +53,8 @@ public class GtnFrameworkItemGrpDeleteValidationAction implements GtnUIFrameWork
 					.add(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_CONFIRMATION_MSG + " " + itemGrpName + " ?");
 			GtnUIFrameWorkActionConfig itemGrpDeleteActionConfig = new GtnUIFrameWorkActionConfig();
 			itemGrpDeleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			itemGrpDeleteActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ITEM_GROUP_NAME, GtnFrameworkCommonConstants.ITEM_GROUP_NO,
+					GtnFrameworkCommonConstants.ITEM_GROUP_DESC, GtnFrameworkCommonConstants.I_GRP_INFO_COMPANY));
 			itemGrpDeleteActionConfig.addActionParameter(GtnFrameworkItemGrpClassContants.ITEM_GRP_DELETE_ACTION);
 			itemGrpOnSucessActionConfigList.add(itemGrpDeleteActionConfig);
 

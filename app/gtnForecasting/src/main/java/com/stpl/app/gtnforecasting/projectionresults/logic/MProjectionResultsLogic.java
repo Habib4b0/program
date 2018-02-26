@@ -2101,7 +2101,7 @@ public class MProjectionResultsLogic {
                 projSelDTO.setLevelCount(levelCount);
             }
         }
-        LOGGER.debug("Ends getProjectionResultsCount " + count);
+        LOGGER.debug("Ends getProjectionResultsCount= {} " , count);
         return count;
     }
 
@@ -2138,7 +2138,7 @@ public class MProjectionResultsLogic {
                 }
         count = count + levelCount;
         projSelDTO.setLevelCount(levelCount);
-        LOGGER.debug("Ends configureLevelsCount " + count);
+        LOGGER.debug("Ends configureLevelsCount= {} " , count);
         return count;
     }
 
@@ -2158,7 +2158,7 @@ public class MProjectionResultsLogic {
     }
 
     public void getCustomizedProgramCode(List<Object[]> list, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException{
-        LOGGER.debug("Enters getCustomizedProgramCode with size = " + list.size());
+        LOGGER.debug("Enters getCustomizedProgramCode with size = {} " , list.size());
 
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         List<ProjectionResultsDTO> projDolManDTOList = new ArrayList<>();
@@ -3707,7 +3707,7 @@ public class MProjectionResultsLogic {
         sql += SQlUtil.getQuery(getClass(),"m.program-code-count-query");
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
         List list = (List) dao.executeSelectQuery(QueryUtil.replaceTableNames(sql, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
-        LOGGER.debug("getProgramCodeCount = = = = =" + (Integer) list.get(NumericConstants.ZERO));
+        LOGGER.debug("getProgramCodeCount = = = = = {}" , (Integer) list.get(NumericConstants.ZERO));
         return (Integer) list.get(NumericConstants.ZERO);
     }
 
@@ -3721,8 +3721,8 @@ public class MProjectionResultsLogic {
         for (Object obj : list) {
             finalList.add(obj);
         }
-        LOGGER.debug("getProgramCodeList query custom sql = = = =" + sql);
-        LOGGER.debug("getProgramCodeList = = = = =" + finalList.size());
+        LOGGER.debug("getProgramCodeList query custom sql = = = = {}" , sql);
+        LOGGER.debug("getProgramCodeList = = = = = {}" , finalList.size());
         return finalList;
     }
 

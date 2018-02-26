@@ -11,6 +11,7 @@ import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -736,8 +737,8 @@ public class PVQueryUtils {
             customSql.append(" group by  pm.projection_name,pm.projection_description,ht.description ,cm.company_no  ,c.contract_no  ,pm.projection_master_sid,PM.created_date,PM.created_by ");
 
             return customSql.toString();
-        } catch (Exception e) {
-            LOGGER.error(e + " at PvQueryUtils -> getComparisonSearch");
+        } catch (ParseException e) {
+            LOGGER.error(" at PvQueryUtils -> getComparisonSearch= {}", e);
             return null;
         }
     }
@@ -760,7 +761,7 @@ public class PVQueryUtils {
             customSql += (" group by  pm.projection_name,pm.projection_description,ht.description ,pm.projection_master_sid,PM.created_date,PM.created_by ");
             return customSql;
         } catch (Exception e) {
-            LOGGER.error(e + " at PvQueryUtils -> getComparisonSearch");
+            LOGGER.error(" at PvQueryUtils -> getComparisonSearch= {}", e);
             return null;
         }
     }
@@ -813,9 +814,9 @@ public class PVQueryUtils {
 
         // To handle the scenario where any discount is not selected in program selection lookup
         String discountTypeColumnName = "'Total discounts' as DISCOUNTS";
-        LOGGER.debug("Discount Level " + projSelDTO.getDiscountLevel());
+        LOGGER.debug("Discount Level= {}",projSelDTO.getDiscountLevel());
         if (projSelDTO.getDiscountLevel().equals("Program Category")) {
-            LOGGER.debug("projSelDTO.getDiscountNameList() " + projSelDTO.getDiscountNameList().size() + " projSelDTO.isIsTotal() " + projSelDTO.isIsTotal());
+            LOGGER.debug("projSelDTO.getDiscountNameList()= {} and projSelDTO.isIsTotal()= {} ", projSelDTO.getDiscountNameList().size(), projSelDTO.isIsTotal());
             if (projSelDTO.getDiscountNameList() != null && !projSelDTO.getDiscountNameList().isEmpty()) {
                 if (!projSelDTO.isIsTotal()) {
                     discountTypeColumnName = " B.PRICE_GROUP_TYPE AS DISCOUNTS";

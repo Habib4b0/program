@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class AppDataUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppDataUtils.class);
-    private final static CommonDao ITEMDAO = CommonImpl.getInstance();
+    private static final CommonDao ITEMDAO = CommonImpl.getInstance();
 
     public static List getAppData(List input, String queryName, String queryName2) {
         LOGGER.debug("Inside item get data");

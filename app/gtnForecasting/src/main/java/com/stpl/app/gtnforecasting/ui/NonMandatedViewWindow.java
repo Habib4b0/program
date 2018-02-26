@@ -50,7 +50,7 @@ public class NonMandatedViewWindow extends CustomWindow {
             loadSessionDTO();
             setContent(new NonMandatedView(session, dataSelectionDTO));
         }  catch (Exception ex) {
-            LOGGER.error(ex+" NonMandatedViewWindow");
+            LOGGER.error("NonMandatedViewWindow= {}", ex);
         }
     }
 
@@ -64,7 +64,7 @@ public class NonMandatedViewWindow extends CustomWindow {
                 session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
                 session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
             } catch (ParseException ex) {
-            LOGGER.error(ex+" NonMandatedViewWindow - loadSessionDTO");
+            LOGGER.error("NonMandatedViewWindow - loadSessionDTO= {}", ex);
             }
 
         } else {

@@ -505,6 +505,13 @@ ORDER  BY [SOURCE],
 
  DECLARE @NA_PROJ_MASTER_SID INT=?PID,
                   @NDC9   VARCHAR(30)= ?NDC9
+                  
+  SET @NDC9 = (
+		SELECT ITEM_MASTER_SID
+		FROM ITEM_MASTER
+		WHERE ITEM_ID = @NDC9
+		)                  
+                  
 SELECT PRICE_TYPE,
        Min(ACTUAL_PRICE) AS ACTUAL_PRICE,
        0                 AS PROJECTION_PRICE,
@@ -564,6 +571,13 @@ ORDER  BY [source],
 
  DECLARE @NA_PROJ_MASTER_SID INT=?PID,
                   @NDC9   VARCHAR(30)= ?NDC9
+                  
+                  
+SET @NDC9 = (
+		SELECT ITEM_MASTER_SID
+		FROM ITEM_MASTER
+		WHERE ITEM_ID = @NDC9
+		)  
 SELECT PRICE_TYPE,
        MIN(ACTUAL_PRICE) AS ACTUAL_PRICE,
        0                 AS PROJECTION_PRICE,
@@ -620,7 +634,13 @@ ORDER  BY [SOURCE],
 <query> <![CDATA[
 
  DECLARE @NA_PROJ_MASTER_SID INT=?PID,
-                  @NDC9   VARCHAR(30)= ?NDC9			
+                  @NDC9   VARCHAR(30)= ?NDC9	
+                  
+  SET @NDC9 = (
+		SELECT ITEM_MASTER_SID
+		FROM ITEM_MASTER
+		WHERE ITEM_ID = @NDC9
+		)  		
                         
 SELECT PRICE_TYPE,
        MIN(ACTUAL_PRICE) AS ACTUAL_PRICE,
@@ -828,6 +848,13 @@ WHERE  ROWNUM >= @OFFSET AND ROWNUM < @OFFSET + @LIMIT
 
  DECLARE @NA_PROJ_MASTER_SID INT=?PID,
                   @NDC9   VARCHAR(30)= ?NDC9
+                  
+                  
+  SET @NDC9 = (
+		SELECT ITEM_MASTER_SID
+		FROM ITEM_MASTER
+		WHERE ITEM_ID = @NDC9
+		)  
                   
 SELECT PRICE_TYPE,
        Min(ACTUAL_PRICE) AS ACTUAL_PRICE,

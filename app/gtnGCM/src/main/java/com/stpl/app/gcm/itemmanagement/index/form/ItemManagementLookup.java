@@ -566,7 +566,7 @@ public class ItemManagementLookup extends CustomWindow {
                         tempTransferList = logic.copyProjection(fromProjection, false, null, null, null, session);
                     }
 
-                    int transferFromProjection = Integer.parseInt(tempTransferList.get(NumericConstants.TWO).toString());
+                    int transferFromProjection = Integer.parseInt(tempTransferList.get(NumericConstants.TWO));
 
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
                         tempTransferList1 = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), toProjection, (List<String>) transferContract.get(1), Boolean.FALSE, Boolean.FALSE, session);
@@ -642,7 +642,7 @@ public class ItemManagementLookup extends CustomWindow {
 
     }
 
-    public void changeTab() throws FieldGroup.CommitException {
+    public void changeTab() {
         if ((selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER) && tabPosition != 0)
                 || (!selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER) && (tabPosition == 0
                 || tabPosition == 1 || tabPosition == NumericConstants.TWO))) {

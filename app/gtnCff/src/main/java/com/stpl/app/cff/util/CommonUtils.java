@@ -378,7 +378,7 @@ public class CommonUtils {
                         } else if ("Update Cycle".equals(desription)) {
                             cffResultsDTO.setPriorUpdateCycle(latestEstimet[0]);
                         }
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException | NumberFormatException ex) {
                         LOGGER.error(ex.getMessage());
                     }
                 }
@@ -1180,7 +1180,7 @@ public class CommonUtils {
         if (enteredDate == null) {
             temp = enteredDate;
         } else {
-            LOGGER.debug("entering convert2DigitTo4DigitYearFormat with P1:Date enteredDate" + enteredDate);
+            LOGGER.debug("entering convert2DigitTo4DigitYearFormat with P1:Date enteredDate= {}", enteredDate);
             final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
             final SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
             final Calendar cal = Calendar.getInstance();
@@ -1188,30 +1188,30 @@ public class CommonUtils {
             sdf.set2DigitYearStart(cal.getTime());
             final String datesVal = sdf.format(enteredDate);
             temp = CommonUtils.convertStringToDate(fmt.format(sdf.parse(datesVal)));
-            LOGGER.debug("convert2DigitTo4DigitYearFormat return enteredDate" + enteredDate);
+            LOGGER.debug("convert2DigitTo4DigitYearFormat return enteredDate= {}", enteredDate);
         }
         return temp;
     }
 
     public static Date convertStringToDate(final String strDate) throws ParseException {
         Date aDate;
-        LOGGER.debug("Entering convertStringToDate with P1:String strDate=" + strDate);
+        LOGGER.debug("Entering convertStringToDate with P1:String strDate= {}", strDate);
         if (strDate == null || strDate.equals(EMPTY) || strDate.equals(STRING_NULL)) {
             LOGGER.debug("convertStringToDate return null");
             aDate = NULLOBJECT;
         } else {
             aDate = convertStringToDate(MMDDYYYY, strDate);
-            LOGGER.debug("convertStringToDate return aDate" + aDate);
+            LOGGER.debug("convertStringToDate return aDate= {}", aDate);
         }
 
         return aDate;
     }
 
     public static Date convertStringToDate(final String aMask, final String strDate) throws ParseException {
-        LOGGER.debug("Entering convertStringToDate Started with p1:aMask =" + aMask + ", p2:strDate = " + strDate);
+        LOGGER.debug("Entering convertStringToDate Started with p1:aMask = {}; p2:strDate = {}", aMask, strDate);
         final SimpleDateFormat dateFormat = new SimpleDateFormat(aMask);
         final Date date = dateFormat.parse(strDate);
-        LOGGER.debug("Return converted String Date " + date);
+        LOGGER.debug("Return converted String Date= {} ", date);
         return date;
     }
 
@@ -1500,7 +1500,7 @@ public class CommonUtils {
             }
             select.select(Constants.CONVERSION_FACTOR_DEFALUT_VALUE);
             return select;
-        } catch (Exception e) {
+        } catch (UnsupportedOperationException e) {
             LOGGER.error(e.getMessage());
         }
         return null;

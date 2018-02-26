@@ -8,7 +8,7 @@
             <column name="STAG_ITEM_UOM_SID" />
             <generator class="native" />
         </id>
-        <property name="itemUomConversionId" type="big_decimal">
+        <property name="itemUomConversionId" type="double">
             <column name="ITEM_UOM_CONVERSION_ID" precision="38" scale="0" not-null="true" />
         </property>
         <property name="itemId" type="string">

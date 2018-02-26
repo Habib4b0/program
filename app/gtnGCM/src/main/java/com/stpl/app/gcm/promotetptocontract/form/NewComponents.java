@@ -1187,7 +1187,7 @@ public class NewComponents extends CustomComponent implements View {
      * @param event
      */
     @UiHandler("addToTreeBtn1")
-    public void addToTreeBtnLogic(Button.ClickEvent event) throws SystemException {
+    public void addToTreeBtnLogic(Button.ClickEvent event)  {
         String component = String.valueOf(componentType.getValue());
 
         /*used to check whether all component selection fields are entered or not */
@@ -1396,7 +1396,7 @@ public class NewComponents extends CustomComponent implements View {
     }
     
 
-    public void addToContDashboardTree() throws SystemException {
+    public void addToContDashboardTree()  {
         if (contractDashboardResultsTable.getItemIds().isEmpty()) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Add Contract Header Node");
         } else {
@@ -1597,7 +1597,7 @@ public class NewComponents extends CustomComponent implements View {
         }
     }
 
-    public List<Integer> saveNewContract() throws SystemException, PortalException, ParseException {
+    public List<Integer> saveNewContract() throws  PortalException, ParseException {
         int contractMasterSid = 0;
         List<Integer> returnList = new ArrayList<>();
         try {
@@ -2068,7 +2068,7 @@ public class NewComponents extends CustomComponent implements View {
     /*
      This method is used to create work sheet
      */
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         if ("ComponentDetails".equals(moduleName)) {
             header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY); //used to remove checkbox header in excel

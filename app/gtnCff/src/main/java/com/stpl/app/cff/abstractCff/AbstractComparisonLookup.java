@@ -18,6 +18,7 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DateField;
@@ -433,7 +434,7 @@ public abstract class AbstractComparisonLookup extends Window {
             } else {
                 MessageBox.showPlain(Icon.INFO, "Error", "No Data is available to submit", ButtonId.OK);
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException ex) {
             LOGGER.error(ex.getMessage());
         }
     }

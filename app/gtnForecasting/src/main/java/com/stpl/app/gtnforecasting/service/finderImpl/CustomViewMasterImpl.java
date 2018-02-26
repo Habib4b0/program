@@ -35,8 +35,6 @@ public class CustomViewMasterImpl {
                 customSql = selectClause+" from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_LEVEL_SID in ("+selectClause1+")"
                         +" and HIERARCHY_LEVEL_DEFINITION_SID="+hierarchyLevelDefId
                         +" and LEVEL_NO="+levelNo;
-//                LOGGER.debug("-------sql query update----------------------->>>>>"+customSql);
-                //LOGGER.debug("hierarchy customSql="+customSql);
                 return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
             } catch (Exception e) {
                 LOGGER.error(e.getMessage());

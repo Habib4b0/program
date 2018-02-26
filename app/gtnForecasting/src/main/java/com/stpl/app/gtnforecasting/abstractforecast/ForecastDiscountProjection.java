@@ -444,26 +444,26 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     /**
      * The bean for loading Start Period drop down.
      */
-    final protected BeanItemContainer<String> startPeriodBean = new BeanItemContainer<>(String.class);
+    protected final BeanItemContainer<String> startPeriodBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading End Period drop down.
      */
-    final protected BeanItemContainer<String> endPeriodBean = new BeanItemContainer<>(String.class);
+    protected final BeanItemContainer<String> endPeriodBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading Start Period drop down.
      */
-    final protected BeanItemContainer<String> forecaststartBean = new BeanItemContainer<>(String.class);
+    protected final BeanItemContainer<String> forecaststartBean = new BeanItemContainer<>(String.class);
     /**
      * The bean for loading End Period drop down.
      */
-    final protected BeanItemContainer<String> forecastendBean = new BeanItemContainer<>(String.class);
-    final protected Property.ValueChangeListener propertyVlaueChangeListener = new Property.ValueChangeListener() {
+    protected final BeanItemContainer<String> forecastendBean = new BeanItemContainer<>(String.class);
+    protected final Property.ValueChangeListener propertyVlaueChangeListener = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
             propertyVlaueChange(event);
         }
     };
-    final protected Button.ClickListener buttonClickListener = new Button.ClickListener() {
+    protected final Button.ClickListener buttonClickListener = new Button.ClickListener() {
         @Override
         public void buttonClick(Button.ClickEvent event) {
             buttonClickEvent(event);
@@ -637,7 +637,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 nonMandatedScreenLoad();
                 break;
             default:
-                LOGGER.warn("screenName is not valid: " + screenName);
+                LOGGER.warn("screenName is not valid= {} " , screenName);
                 break;
                            
             }
@@ -824,7 +824,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                     fieldDdlbValueChangeLogic(event);
                     break;
                 default:
-                LOGGER.warn("data is not valid: " + data);
+                LOGGER.warn("data is not valid= {} " , data);
                 break;
                
             }
@@ -883,7 +883,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 collapseBtnClickLogic();
                 break;
             default:
-                LOGGER.warn("data is not valid: " + data);
+                LOGGER.warn("data is not valid= {} " , data);
                 break;
            
         }

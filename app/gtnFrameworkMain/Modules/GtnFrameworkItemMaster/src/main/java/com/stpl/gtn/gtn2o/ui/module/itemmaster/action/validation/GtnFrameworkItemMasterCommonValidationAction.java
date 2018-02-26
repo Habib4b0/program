@@ -196,6 +196,8 @@ public class GtnFrameworkItemMasterCommonValidationAction implements GtnUIFrameW
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_NDC8)
 				.validate();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabItemCode").validate();
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabBaselineAMP").validate();
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabBaseCPI").validate();
 
 	}
 

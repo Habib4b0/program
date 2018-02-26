@@ -56,11 +56,10 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @param fileType the file type
      * @param country the country
      * @return the forecast details
-     * @throws Exception the exception
      */
     @Override
     public List getForecastDetails(final String fileName, final String version, final String fileType, final String country, int year) throws SystemException {
-        LOGGER.debug("In query-getForecastDetails started with P1:String fileName=" + fileName + " P2:String version=" + version + " P3:String fileType" + fileType + " P4:String country" + country);
+        LOGGER.debug("In query-getForecastDetails started with P1:String fileName= {} and P2:String version= {} and P3:String fileType={} and P4:String country={}", fileName, version, fileType, country);
         return CommonServiceImpl.getInstance().getDetailsResults(fileName, version, fileType, country, year);
     }
 

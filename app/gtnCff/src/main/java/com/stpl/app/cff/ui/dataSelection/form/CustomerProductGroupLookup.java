@@ -142,7 +142,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
         if (results != null && results.getValue() != null) {
             DataSelectionLogic logic = new DataSelectionLogic();
             List<String> sidsFromDetails;
-            if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
+            if (Constants.CUSTOMER_GROUP.equals(indicator)) {
                 setSelectedCustHierarchy((GroupDTO) results.getValue());
 
                 if (itemsOrCompanySids != null && !itemsOrCompanySids.isEmpty()) {
@@ -151,7 +151,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
                         sidsFromDetails = logic.getCustomerGroupDetails(Integer.parseInt(selectedCustHierarchy.getCustomerGroupSid()));
                         finalCompanySids.retainAll(sidsFromDetails);
                         setFilteredSids(finalCompanySids);
-                    } catch (Exception ex) {
+                    } catch (SystemException | NumberFormatException ex) {
                         Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
@@ -166,7 +166,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
                         sidsFromDetails = logic.getItemGroupDetails(Integer.parseInt(selectedProdHierarchy.getProductGroupSid()));
                         finalItemSids.retainAll(sidsFromDetails);
                         setFilteredSids(finalItemSids);
-                    } catch (Exception ex) {
+                    } catch (SystemException | NumberFormatException ex) {
                         Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
@@ -191,14 +191,14 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
         if ((StringUtils.EMPTY.equals(groupName.getValue()) || Constants.NULL.equals(groupName.getValue()))
                 && (StringUtils.EMPTY.equals(groupNo.getValue()) || Constants.NULL.equals(groupNo.getValue()))) {
             resultBean.removeAllItems();
-            if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
+            if (Constants.CUSTOMER_GROUP.equals(indicator)) {
                 AbstractNotificationUtils.getErrorNotification(noRecords, "There are no Customer Groups that match the search criteria.");
             } else if (INDICATOR_PRODUCT_GROUP.getConstant().equals(indicator)) {
                 AbstractNotificationUtils.getErrorNotification(noRecords, "There are no Product Groups that match the search criteria.");
             }
         } else {
             if (!tableLogic.fireSetData(itemsOrCompanySids, groupName.getValue(), groupNo.getValue(), indicator, false)) {
-                if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
+                if (Constants.CUSTOMER_GROUP.equals(indicator)) {
                     AbstractNotificationUtils.getErrorNotification(noRecords, "There are no Customer Groups that match the search criteria.");
                 } else if (INDICATOR_PRODUCT_GROUP.getConstant().equals(indicator)) {
                     AbstractNotificationUtils.getErrorNotification(noRecords, "There are no Product Groups that match the search criteria.");
