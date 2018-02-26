@@ -971,6 +971,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             group.setEnabled(false);
             levelFilter.setEnabled(false);
             view.setEnabled(false);
+            customDdlb.setEnabled(false);
+            editViewBtn.setEnabled(false);
+            addViewBtn.setEnabled(false);
         } else {
             levelDdlb.setEnabled(true);
             group.setEnabled(false);
