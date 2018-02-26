@@ -1,6 +1,7 @@
 package com.stpl.app.serviceUtils;
 
 import com.vaadin.v7.ui.NativeSelect;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -168,45 +169,8 @@ public class CommonUtils {
     /**
      * Null representation of HelperDTO (Select one item)
      */
-//    public static final HelperDTO NULL_HELPER_DTO = new HelperDTO(ConstantsUtils.SELECT_ONE);
 
    
-//    /**
-//     * Add items to the NativeSelect from list of HelperDTO.
-//     *
-//     * @param select - NativeSelect
-//     * @param helperList - List of HelperDTO.
-//     * @return NativeSelect with added items.
-//     */
-//    public NativeSelect getNativeSelect(final NativeSelect select,
-//            final List<HelperDTO> helperList) {
-//        try{
-//            
-//        for (final HelperDTO helperDTO : helperList) {
-//            select.addItem(helperDTO.getId());
-//            select.setItemCaption(helperDTO.getId(),helperDTO.getDescription());
-//            
-//        }
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//        }
-//        return select;
-//    }
-//    
-//    public ComboBox getComboBoxV1(final ComboBox select,
-//            final List<HelperDTO> helperList) {
-//        try{
-//            
-//        for (final HelperDTO helperDTO : helperList) {
-//            select.addItem(helperDTO.getId());
-//            select.setItemCaption(helperDTO.getId(),helperDTO.getDescription());
-//            
-//        }
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//        }
-//        return select;
-//    }    
 
     /**
      * Add the items to NativeSelect and returns it.
@@ -218,7 +182,7 @@ public class CommonUtils {
         try{
         select.addItem("Active");
         select.addItem("Inactive");
-         } catch (Exception e) {
+         } catch (UnsupportedOperationException e) {
             LOGGER.error(e.getMessage());
         }
         return select;
@@ -276,7 +240,7 @@ public class CommonUtils {
         
         dateFormat = new SimpleDateFormat(aMask);
         date = dateFormat.parse(strDate);
-         } catch (Exception e) {
+         } catch (ParseException e) {
             LOGGER.error(e.getMessage());
         }
         return date;
@@ -302,7 +266,7 @@ public class CommonUtils {
                 final String datesVal = sdf.format(enterDate);
                 final Date temp = CommonUtils.convertStringToDate(fmt.format(sdf.parse(datesVal)));
                 enterDate = temp;
-            } catch (Exception e) {
+            } catch (ParseException e) {
                 LOGGER.error(e.getMessage());
             }
         }

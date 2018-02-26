@@ -42,7 +42,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
 
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
-        LOGGER.debug("Load Data Start=" + start + " and offset" + offset);
+        LOGGER.debug("Load Data Start= {},  and offset= {} " , start, offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         List<DiscountProjectionResultsDTO> list = new ArrayList<>();
         if (firstGenerated && offset > 0) {
@@ -65,7 +65,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                         list = commercialDPRLogic.getConfiguredProjectionResults(getLastParent(), start, offset, projSelDTO);
                         break;
                     default:
-                        LOGGER.warn("screenName is not valid: " + screenName);
+                        LOGGER.warn("screenName is not valid= {} " , screenName);
                         break;
                 }
 
@@ -79,7 +79,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
-        LOGGER.debug("Load Data end with record=" + map.size());
+        LOGGER.debug("Load Data end with record= {}" , map.size());
         return map;
     }
 
@@ -101,7 +101,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                         count = commercialDPRLogic.getConfiguredProjectionResultsCount(getLastParent(), projSelDTO, true);
                         break;
                     default:
-                        LOGGER.warn("screenName is not valid : " + screenName);
+                        LOGGER.warn("screenName is not valid= {} " , screenName);
                         break;
                 }
                
@@ -109,7 +109,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
-        LOGGER.debug("Return Count " + count);
+        LOGGER.debug("Return Count= {} " , count);
         return count;
     }
 
@@ -200,7 +200,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 nmExpandData(parentId, treeLevel, expandLevelNo);
                 break;
             default:
-                LOGGER.warn("screenName is not valid in default: " + screenName);
+                LOGGER.warn("screenName is not valid in default= {} " , screenName);
                 break;
         }
 

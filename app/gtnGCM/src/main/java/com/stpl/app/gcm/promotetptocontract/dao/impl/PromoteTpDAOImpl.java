@@ -39,14 +39,14 @@ import org.slf4j.LoggerFactory;
 public class PromoteTpDAOImpl implements PromoteTpDAO {
 public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.class);
     @Override
-    public List companyCount(final Map<String, Object> parameters) throws SystemException {
+    public List companyCount(final Map<String, Object> parameters)  {
 
         return CompanyMasterImpl.searchTPCompanies(parameters);
 
     }
 
     @Override
-    public List searchTPCompanies(final Map<String, Object> parameters) throws SystemException {
+    public List searchTPCompanies(final Map<String, Object> parameters) {
 
         return CompanyMasterImpl.searchTPCompanies(parameters);
 
@@ -79,7 +79,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
     }
 
     @Override
-    public List searchCurrentContracts(final Map<String, Object> parameters) throws SystemException {
+    public List searchCurrentContracts(final Map<String, Object> parameters) {
 
         return ContractMasterImpl.searchContractsForPromoteTp(parameters);
     }
@@ -122,13 +122,13 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
     }
 
 @Override
-    public Object executeSelectQuery(String query) throws SystemException, PortalException {
+    public Object executeSelectQuery(String query) throws  PortalException {
 
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
 @Override
-    public List<HelperTable> getHelperTableList(final DynamicQuery dynamicQuery) throws SystemException {
+    public List<HelperTable> getHelperTableList(final DynamicQuery dynamicQuery)  {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
@@ -181,7 +181,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
     }
 
 @Override
-    public List getItems(String query) throws SystemException {
+    public List getItems(String query) {
         return (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
   
@@ -330,7 +330,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
     }
 
 @Override
-    public List searchCompanies(Map<String, Object> parameters) throws SystemException {
+    public List searchCompanies(Map<String, Object> parameters) {
         return CompanyMasterImpl.searchCompanies(parameters);
     }
 }

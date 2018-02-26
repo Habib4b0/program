@@ -36,7 +36,7 @@ public class MedicaidQueryUtils {
 
     private static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
 
-    private String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     /**
      * The Constant LOGGER.
      */

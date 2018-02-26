@@ -1422,7 +1422,7 @@ public class ForecastForm extends AbstractForm {
 	 * Saves the projection.
 	 */
 	private void saveProjection() {
-		LOGGER.debug("Entering SaveProjection method---->> " + session.getProjectionId());
+		LOGGER.debug("Entering SaveProjection method---->>= {} " , session.getProjectionId());
 		try {
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 
@@ -1541,8 +1541,8 @@ public class ForecastForm extends AbstractForm {
 			String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");;
 			if (!autoApproval.isEmpty() && !noOfUsers.isEmpty()) {
 
-				LOGGER.debug("autoApproval  : " + autoApproval);
-				LOGGER.debug("no of users : " + noOfUsers);
+				LOGGER.debug("autoApproval  = {} " , autoApproval);
+				LOGGER.debug("no of users = {} " , noOfUsers);
 				String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
 				String approvedFlag;
 				logic.deleteTempBySession();

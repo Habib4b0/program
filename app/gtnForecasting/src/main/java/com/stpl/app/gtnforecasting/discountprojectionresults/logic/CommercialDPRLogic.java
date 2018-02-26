@@ -254,7 +254,7 @@ public class CommercialDPRLogic {
                 countQuery = countQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(selection.getSessionDTO(), selection.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                 break;
             default:
-                LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
+                LOGGER.warn("Invalid Hierarchy Indicator+ {}" , currentHierarchyIndicator);
         }
         Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(selection.getCustomerHierarchyNo(), selection.getProductHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(selection));
         countQuery = countQuery.replace("[?CURRENT_HIERARCHY_NO]", customHierarchyRestriction.get(Constant.CURRENT_HIERARCHY));
@@ -300,7 +300,7 @@ public class CommercialDPRLogic {
                 }
                 break;
             default:
-                LOGGER.warn("Invalid hierarchy Indicator:" + hierarchyIndicator);
+                LOGGER.warn("Invalid hierarchy Indicator= {}" , hierarchyIndicator);
         }
 
         return map;
@@ -587,7 +587,7 @@ public class CommercialDPRLogic {
                         query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                         break;
                     default:
-                        LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
+                        LOGGER.warn("Invalid Hierarchy Indicator= {}" , currentHierarchyIndicator);
                 }
 
                 Map<String, String> customHierarchyRestriction = getHierarchyDetailsForCustomView(projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator);

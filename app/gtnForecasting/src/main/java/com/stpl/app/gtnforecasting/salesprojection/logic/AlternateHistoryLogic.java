@@ -74,7 +74,7 @@ public class AlternateHistoryLogic {
             Set<Container.Filter> filters, SessionDTO session) {
 
         Map<String, Object> parameters = new HashMap<>();
-        LOGGER.debug("--customer No-----" + altHistoryDTO.getCustomerNo());
+        LOGGER.debug("--customer No-----= {}" , altHistoryDTO.getCustomerNo());
         if (isValidCriteria(altHistoryDTO.getContractHolder())) {
             String contractHolder = altHistoryDTO.getContractHolder();
             contractHolder = contractHolder.replace(CommonUtils.CHAR_ASTERISK, '%');
@@ -1039,7 +1039,7 @@ public class AlternateHistoryLogic {
      * @return
      */
     public boolean altHistInsert(SessionDTO session, String projDetailsSid, final String ccpDetailsId) {
-        LOGGER.debug("Entering altHistInsert" + session.getSessionId() + projDetailsSid);
+        LOGGER.debug("Entering altHistInsert= {}, {}" , session.getSessionId(), projDetailsSid);
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
@@ -1104,7 +1104,7 @@ public class AlternateHistoryLogic {
             query.append("SELECT Count(DISTINCT CCPD.ITEM_MASTER_SID )");
         }
         query.append(" FROM CCP_DETAILS CCPD JOIN ST_NM_SALES_PROJECTION_MASTER MAS ON MAS.CCP_DETAILS_SID = CCPD.CCP_DETAILS_SID WHERE CHECK_RECORD=1");
-        LOGGER.debug("_____Count query_______________" + query.toString());
+        LOGGER.debug("_____Count query_______________= {}" , query.toString());
         return query.toString();
     }
 
@@ -1150,7 +1150,7 @@ public class AlternateHistoryLogic {
         List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
 
         if (list != null && list.isEmpty()) {
-            LOGGER.debug("--list size---->>>>" + list.size());
+            LOGGER.debug("--list size---->>>>= {}" , list.size());
             StringBuilder ccps = new StringBuilder(StringUtils.EMPTY);
 
             flag = false;
@@ -1162,7 +1162,7 @@ public class AlternateHistoryLogic {
                     ccps.append(String.valueOf(ccpid));
                 }
             }
-            LOGGER.debug("--actual ccps------------------>>>>>>" + ccps);
+            LOGGER.debug("--actual ccps------------------>>>>>>= {}" , ccps);
             session.setActualccp(ccps.toString());
             list.clear();
         }

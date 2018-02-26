@@ -14,7 +14,6 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 
 import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
@@ -63,7 +62,7 @@ public class DataAssumptions extends CustomComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataAssumptions.class);
     protected DataAssumptionstableLogic tableLogic = new DataAssumptionstableLogic();
     private final ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<DataAssumptionDTO> resultsContainer = new BeanItemContainer<>(DataAssumptionDTO.class);
+    private final BeanItemContainer<DataAssumptionDTO> resultsContainer = new BeanItemContainer<>(DataAssumptionDTO.class);
 
     protected SessionDTO session;
     protected DataAssumptionDTO dataAssumptionDTO;

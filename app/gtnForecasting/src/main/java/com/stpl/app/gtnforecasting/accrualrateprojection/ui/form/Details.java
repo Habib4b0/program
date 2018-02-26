@@ -113,7 +113,7 @@ public class Details extends CustomComponent {
 
     private final AccrualRateProjectionLogic accrualRateProjectionLogic = AccrualRateProjectionLogic.getInstance();
 
-    private static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    private static final ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
 
     private boolean isFilterLoadNeeded = true;
 
@@ -292,7 +292,7 @@ public class Details extends CustomComponent {
                 comboBox.select(null);
                 break;
             default:
-                LOGGER.warn("ddlbName is not valid: " + ddlbName);
+                LOGGER.warn("ddlbName is not valid= {} " , ddlbName);
                 break;
         }
 

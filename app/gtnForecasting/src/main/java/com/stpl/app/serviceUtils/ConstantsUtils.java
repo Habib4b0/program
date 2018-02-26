@@ -1,6 +1,5 @@
 package com.stpl.app.serviceUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains the Universal String Constant.
  */
@@ -384,7 +383,6 @@ public final class ConstantsUtils {
      */
     public static final String EMPTY = "empty";
 
-    // CFP MODULE
     /**
      * The cfp id.
      */
@@ -1547,7 +1545,6 @@ public final class ConstantsUtils {
     /**
      * The rebate plan master id.
      */
-// 	public static final String REBATE_PLAN_MASTER_ID = "rebatePlanMasterId";
     // REBATE SCHEDULE
     /**
      * The attached status.

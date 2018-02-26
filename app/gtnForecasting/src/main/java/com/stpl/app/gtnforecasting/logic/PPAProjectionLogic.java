@@ -527,15 +527,15 @@ public class PPAProjectionLogic {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup("java:jboss/datasources/jdbc/appDataPool");
         } catch (NamingException ex) {
-            LOGGER.debug("nonMandatedPPAProjectionInsert: " + ex);
+            LOGGER.debug("nonMandatedPPAProjectionInsert= {} " , ex);
         }
         if (datasource != null) {
             try (Connection connection = datasource.getConnection();
                     CallableStatement statement = connection.prepareCall("{call PRC_NM_PPA_INSERT(?,?,?)}")) {
                 LOGGER.debug(" Executing Discount Insert procedure ");
-                LOGGER.debug("Projection ID--> " + projectionId);
-                LOGGER.debug("User Id      --> " + userId);
-                LOGGER.debug("Session ID   --> " + sessionId);
+                LOGGER.debug("Projection ID-->= {} " , projectionId);
+                LOGGER.debug("User Id      -->= {} " , userId);
+                LOGGER.debug("Session ID   -->= {} " , sessionId);
                 statement.setInt(1, projectionId);
                 statement.setInt(NumericConstants.TWO, userId);
                 statement.setInt(NumericConstants.THREE, sessionId);
@@ -579,7 +579,7 @@ public class PPAProjectionLogic {
 
     public static int getPriceTypeCount(final String filterText, final HelperDTO priceType) throws SystemException {
         final String filter = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
-        LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filterText);
+        LOGGER.debug("Entering getLazyPriceTypeCount method with filterText= {}" , filterText);
         List<Object[]> qualifierList;
         final DynamicQuery cfpDynamicQuery = ItemPricingQualifierLocalServiceUtil.dynamicQuery();
         if (priceType != null && priceType.getId() != 0) {
@@ -590,13 +590,13 @@ public class PPAProjectionLogic {
         cfpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.ITEM_PRICING_QUAL_NAME));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.ITEM_PRICING_QUAL_NAME, StringUtils.EMPTY)));
         qualifierList = DAO.getItemPricingTypeList(cfpDynamicQuery);
-        LOGGER.debug("Ending getLazyPriceTypeCount method with filterText with count :" + qualifierList.get(0));
+        LOGGER.debug("Ending getLazyPriceTypeCount method with filterText with count= {}" , qualifierList.get(0));
         return Integer.parseInt(String.valueOf(qualifierList.get(0)));
     }
 
     public static List<HelperDTO> getPriceTypeResults(final int startIndex, final int end, final String filter, final HelperDTO priceType) throws SystemException {
         final List<HelperDTO> list = new ArrayList<>();
-        LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :" + filter);
+        LOGGER.debug("Entering getLazyPriceTypeResults method with filterText= {}" , filter);
         final String filterString = StringUtils.trimToEmpty(filter) + Constant.PERCENT;
         final DynamicQuery cfpDynamicQuery = ItemPricingQualifierLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.setLimit(startIndex, end);
@@ -634,7 +634,7 @@ public class PPAProjectionLogic {
                 list.add(helperTable);
             }
         }
-        LOGGER.debug("Ending getLazyPriceTypeResults  return list size :" + +list.size());
+        LOGGER.debug("Ending getLazyPriceTypeResults  return list size= {}" , list.size());
         return list;
     }
 
@@ -647,7 +647,7 @@ public class PPAProjectionLogic {
      * @return
      */
     public Object loadRSFormula(final RSFormulaDTO rsFormulaDTO, final int start, final int offset, final boolean isCount, final Set<Container.Filter> filterSet) {
-        LOGGER.debug("Start--> " + start + " and Offset--> " + offset);
+        LOGGER.debug("Start-->= {}, and offset= {} " , start, offset);
         String query;
 
         if (isCount) {
@@ -734,7 +734,7 @@ public class PPAProjectionLogic {
 
     public Object loadDetailsTable(int forectastingFormulaSid, final int start, final int offset, final boolean isCount, final Set<Container.Filter> filterSet) {
 
-        LOGGER.debug("Start--> " + start + " and Offset--> " + offset);
+        LOGGER.debug("Start-->= {}, and offset= {} " , start, offset);
         String query;
 
         if (isCount) {
