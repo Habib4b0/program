@@ -365,12 +365,12 @@ public class PromoteTPLogic {
     private List getSearchSelection(CurrentContractDTO binderDto) {
         List<Object> input = new ArrayList();
         if (binderDto.getContractNo() != null && !binderDto.getContractNo().isEmpty()) {
-            input.add(binderDto.getContractNo().replace("*", "%"));
+            input.add(binderDto.getContractNo().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDto.getContractName() != null && !binderDto.getContractName().isEmpty()) {
-            input.add(binderDto.getContractName().replace("*", "%"));
+            input.add(binderDto.getContractName().replace('*', '%'));
         }
         if (binderDto.getIsCount()) {
             input.add(binderDto.getStartIndex());
@@ -1249,7 +1249,7 @@ public class PromoteTPLogic {
         query.append(" AND TEMP_TABLE.USERS_SID='").append(userId).append("' AND TEMP_TABLE.SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
-            query.append(" AND TEMP_TABLE.OPERATION = '").append(conSelDTO.getScreenName()).append("'");
+            query.append(" AND TEMP_TABLE.OPERATION = '").append(conSelDTO.getScreenName()).append('\'');
         }
 
         String udcValue = "1";
@@ -2793,13 +2793,13 @@ public class PromoteTPLogic {
         query.append("AND USER_ID ='").append(session.getUserId()).append("'  ");
         query.append("AND SESSION_ID ='").append(session.getSessionId()).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME= '").append(contractType).append("'");
+            query.append("AND SCREEN_NAME= '").append(contractType).append('\'');
         }
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         if (list.size() > 0) {
             /*This query is used to update the record */
             query = new StringBuilder("   ");
-            query.append("UPDATE GCM_GLOBAL_DETAILS SET  CHECK_RECORD='").append(checkValue ? 1 : 0).append("'");
+            query.append("UPDATE GCM_GLOBAL_DETAILS SET  CHECK_RECORD='").append(checkValue ? 1 : 0).append('\'');
             query.append("WHERE CONTRACT_MASTER_SID='").append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0).append("'  ");
             query.append("AND CFP_CONTRACT_SID='").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
             query.append("AND IFP_CONTRACT_SID='").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append("'  ");
@@ -2809,7 +2809,7 @@ public class PromoteTPLogic {
             query.append("AND USER_ID= '").append(session.getUserId()).append("'  ");
             query.append("AND SESSION_ID ='").append(session.getSessionId()).append("'  ");
             if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-                query.append("AND SCREEN_NAME= '").append(contractType).append("'");
+                query.append("AND SCREEN_NAME= '").append(contractType).append('\'');
             }
             count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         } else {
@@ -2817,11 +2817,11 @@ public class PromoteTPLogic {
             query = new StringBuilder("   ");
             query.append("INSERT INTO dbo.GCM_GLOBAL_DETAILS(CONTRACT_MASTER_SID,CFP_CONTRACT_SID,IFP_CONTRACT_SID,PS_CONTRACT_SID,RS_CONTRACT_SID,"
                     + "PROJECTION_MASTER_SID,CHECK_RECORD,USER_ID,SESSION_ID,SCREEN_NAME)VALUES(");
-            query.append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0).append(",");
-            query.append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append(",");
-            query.append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append(",");
+            query.append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0).append(',');
+            query.append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append(',');
+            query.append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append(',');
             query.append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0).append(", ");
-            query.append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0).append(",");
+            query.append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0).append(',');
             query.append(!dto.getProjectionId().equals(StringUtils.EMPTY) ? dto.getProjectionId() : 0).append(",'");
             query.append(checkValue ? 1 : 0).append("','");
             query.append(session.getUserId()).append("','");
@@ -2851,17 +2851,17 @@ public class PromoteTPLogic {
         }
 
         query.append(VALUES);
-        query.append("'").append(checkValue ? 1 : 0).append("'");
-        query.append(",").append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0);
-        query.append(",").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
-        query.append(",").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
-        query.append(",").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
-        query.append(",").append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
-        query.append(",").append(!dto.getProjectionId().equals(StringUtils.EMPTY) ? dto.getProjectionId() : 0);
-        query.append(",'").append(session.getUserId()).append("'");
-        query.append(",'").append(session.getSessionId()).append("'");
+        query.append('\'').append(checkValue ? 1 : 0).append('\'');
+        query.append(',').append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0);
+        query.append(',').append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
+        query.append(',').append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
+        query.append(',').append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
+        query.append(',').append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
+        query.append(',').append(!dto.getProjectionId().equals(StringUtils.EMPTY) ? dto.getProjectionId() : 0);
+        query.append(",'").append(session.getUserId()).append('\'');
+        query.append(",'").append(session.getSessionId()).append('\'');
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append(",'").append(contractType).append("'");
+            query.append(",'").append(contractType).append('\'');
         }
         query.append("  )");
         LOGGER.debug("insert query " + query.toString());
@@ -2918,7 +2918,7 @@ public class PromoteTPLogic {
         query.append("AND USER_ID='").append(userId).append("'  ");
         query.append("AND SESSION_ID='").append(sessionId).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME='").append(contractType).append("'");
+            query.append("AND SCREEN_NAME='").append(contractType).append('\'');
         }
         LOGGER.debug("update query " + query.toString());
 
@@ -2942,7 +2942,7 @@ public class PromoteTPLogic {
         SimpleDateFormat dateFormater = new SimpleDateFormat(StringConstantsUtil.YYYY_MM_DD_HH_MM_SS_SSS);
         StringBuilder query = new StringBuilder("   ");
 
-        query.append("UPDATE GCM_GLOBAL_DETAILS SET  ").append(startOrEnd).append("='").append(dateFormater.format(date)).append("'");
+        query.append("UPDATE GCM_GLOBAL_DETAILS SET  ").append(startOrEnd).append("='").append(dateFormater.format(date)).append('\'');
         query.append("WHERE CONTRACT_MASTER_SID='").append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0).append("'  ");
         query.append("AND CFP_CONTRACT_SID='").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
         query.append("AND IFP_CONTRACT_SID='").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append("'  ");
@@ -2952,7 +2952,7 @@ public class PromoteTPLogic {
         query.append("AND USER_ID='").append(session.getUserId()).append("'  ");
         query.append("AND SESSION_ID='").append(session.getSessionId()).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME='").append(contractType).append("'");
+            query.append("AND SCREEN_NAME='").append(contractType).append('\'');
         }
         LOGGER.debug("update query " + query.toString());
 
@@ -2983,17 +2983,17 @@ public class PromoteTPLogic {
         }
 
         query.append(VALUES);
-        query.append("'").append(dateFormater.format(date)).append("'");
-        query.append(",").append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0);
-        query.append(",").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
-        query.append(",").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
-        query.append(",").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
-        query.append(",").append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
-        query.append(",").append(!dto.getProjectionId().equals(StringUtils.EMPTY) ? dto.getProjectionId() : 0);
-        query.append(",'").append(session.getUserId()).append("'");
-        query.append(",'").append(session.getSessionId()).append("'");
+        query.append('\'').append(dateFormater.format(date)).append('\'');
+        query.append(',').append(!dto.getContractSid().equals(StringUtils.EMPTY) ? dto.getContractSid() : 0);
+        query.append(',').append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
+        query.append(',').append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
+        query.append(',').append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
+        query.append(',').append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
+        query.append(',').append(!dto.getProjectionId().equals(StringUtils.EMPTY) ? dto.getProjectionId() : 0);
+        query.append(",'").append(session.getUserId()).append('\'');
+        query.append(",'").append(session.getSessionId()).append('\'');
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append(",'").append(contractType).append("'");
+            query.append(",'").append(contractType).append('\'');
         }
         query.append("  )");
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
@@ -3158,11 +3158,11 @@ public class PromoteTPLogic {
         query.append("INSERT INTO IMTD_COMPANY_CONTRACT_DETAILS ");
         query.append(" (CHECK_RECORD,COMPANY_MASTER_SID,COMPANY_NAME, OPERATION, SESSION_ID)  ");
         query.append(VALUES);
-        query.append("'").append(checkValue ? 1 : 0).append("'");
-        query.append(",").append(!dto.getCompanySystemId().equals(StringUtils.EMPTY) ? dto.getCompanySystemId() : 0);
-        query.append(",").append("'").append(dto.getCompanyName()).append("'");
-        query.append(",").append("'").append(updateType).append("'");
-        query.append(",").append("'").append(searchSessionId).append("'");
+        query.append('\'').append(checkValue ? 1 : 0).append('\'');
+        query.append(',').append(!dto.getCompanySystemId().equals(StringUtils.EMPTY) ? dto.getCompanySystemId() : 0);
+        query.append(',').append('\'').append(dto.getCompanyName()).append('\'');
+        query.append(',').append('\'').append(updateType).append('\'');
+        query.append(',').append('\'').append(searchSessionId).append('\'');
         query.append("  )");
      
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
@@ -3173,10 +3173,10 @@ public class PromoteTPLogic {
     public int callCompanyUpdate(boolean checkValue, PromoteTpToChDto dto, String updateType, String searchSessionId) {
         int count = 0;
         StringBuilder query = new StringBuilder("   ");
-        query.append("UPDATE IMTD_COMPANY_CONTRACT_DETAILS SET CHECK_RECORD='").append(checkValue ? 1 : 0).append("'");
+        query.append("UPDATE IMTD_COMPANY_CONTRACT_DETAILS SET CHECK_RECORD='").append(checkValue ? 1 : 0).append('\'');
         query.append("WHERE COMPANY_MASTER_SID='").append(!dto.getCompanySystemId().equals(StringUtils.EMPTY) ? dto.getCompanySystemId() : 0).append("'  ");
-        query.append(" AND OPERATION = '").append(updateType).append("'");
-        query.append(" AND SESSION_ID = '").append(searchSessionId).append("'");
+        query.append(" AND OPERATION = '").append(updateType).append('\'');
+        query.append(" AND SESSION_ID = '").append(searchSessionId).append('\'');
 
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;

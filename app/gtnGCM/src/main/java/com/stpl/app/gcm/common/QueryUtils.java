@@ -1403,7 +1403,7 @@ public class QueryUtils {
                     + " HELPER_TABLE HTCD ON CM.CFP_DESIGNATION = HTCD.HELPER_TABLE_SID LEFT JOIN \n"
                     + " HELPER_TABLE HTTC ON CM.CFP_TRADE_CLASS = HTTC.HELPER_TABLE_SID"
                     + " Where CM.CFP_ID like '" + astToPerConverter(binderDTO.getCfpId()) + "' AND CM.CFP_NO like '" + astToPerConverter(binderDTO.getCfpNo()) + "'  AND CM.CFP_NAME like '" + astToPerConverter(binderDTO.getCfpName()) + "'"
-                    + " AND CM.CFP_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpType() == null ? StringUtils.EMPTY : binderDTO.getCfpType().getId())) + "' AND CM.CFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpCategory() == null ? StringUtils.EMPTY : binderDTO.getCfpCategory().getId())) + "' AND CM.CFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpStatus() == null ? StringUtils.EMPTY : binderDTO.getCfpStatus().getId())) + "'";
+                    + " AND CM.CFP_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpType() == null ? StringUtils.EMPTY : binderDTO.getCfpType().getId())) + "' AND CM.CFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpCategory() == null ? StringUtils.EMPTY : binderDTO.getCfpCategory().getId())) + "' AND CM.CFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpStatus() == null ? StringUtils.EMPTY : binderDTO.getCfpStatus().getId())) + '\'';
             if (binderDTO.getCfpStartDate() != null) {
                 query += "AND CM.CFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.CFP_START_DATE).getValue()) + "'\n";
             }
@@ -1511,7 +1511,7 @@ public class QueryUtils {
                     + " HELPER_TABLE HTCAT ON IM.IFP_CATEGORY = HTCAT.HELPER_TABLE_SID LEFT JOIN \n"
                     + " HELPER_TABLE HTDE ON IM.IFP_DESIGNATION = HTDE.HELPER_TABLE_SID "
                     + " Where IM.IFP_NO like '" + astToPerConverter(binderDTO.getIfpNo()) + "'  AND IM.IFP_NAME like '" + astToPerConverter(binderDTO.getIfpName()) + "'"
-                    + StringConstantsUtil.IFP_TYPE + zeroToPerConverter(String.valueOf(binderDTO.getIfpType() == null ? StringUtils.EMPTY : binderDTO.getIfpType().getId())) + "' AND IM.IFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpCategory() == null ? StringUtils.EMPTY : binderDTO.getIfpCategory().getId())) + "' AND IM.IFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpStatus() == null ? StringUtils.EMPTY : binderDTO.getIfpStatus().getId())) + "'";
+                    + StringConstantsUtil.IFP_TYPE + zeroToPerConverter(String.valueOf(binderDTO.getIfpType() == null ? StringUtils.EMPTY : binderDTO.getIfpType().getId())) + "' AND IM.IFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpCategory() == null ? StringUtils.EMPTY : binderDTO.getIfpCategory().getId())) + "' AND IM.IFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpStatus() == null ? StringUtils.EMPTY : binderDTO.getIfpStatus().getId())) + '\'';
             if (binderDTO.getIfpStartDate() != null) {
                 query += "AND IM.IFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.IFP_START_DATE).getValue()) + "'\n";
             }
@@ -1611,7 +1611,7 @@ public class QueryUtils {
                     + "  HELPER_TABLE HTTC ON PS.PS_TRADE_CLASS = HTTC.HELPER_TABLE_SID LEFT JOIN\n"
                     + "  HELPER_TABLE HTDE ON PS.PS_DESIGNATION = HTDE.HELPER_TABLE_SID"
                     + " Where PS.PS_NO like '" + astToPerConverter(binderDTO.getPsNo()) + "'  AND PS.PS_NAME like '" + astToPerConverter(binderDTO.getPsName()) + "'"
-                    + " AND PS.PS_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsType() == null ? StringUtils.EMPTY : binderDTO.getPsType().getId())) + "' AND PS.PS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsCategory() == null ? StringUtils.EMPTY : binderDTO.getPsCategory().getId())) + "' AND PS.PS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsStatus() == null ? StringUtils.EMPTY : binderDTO.getPsStatus().getId())) + "'";
+                    + " AND PS.PS_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsType() == null ? StringUtils.EMPTY : binderDTO.getPsType().getId())) + "' AND PS.PS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsCategory() == null ? StringUtils.EMPTY : binderDTO.getPsCategory().getId())) + "' AND PS.PS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsStatus() == null ? StringUtils.EMPTY : binderDTO.getPsStatus().getId())) + '\'';
             if (binderDTO.getPsStartDate() != null) {
                 query += "AND PS.PS_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.PS_START_DATE).getValue()) + "'\n";
             }
@@ -1722,7 +1722,7 @@ public class QueryUtils {
                     + "  HELPER_TABLE HTTC ON RS.RS_TRADE_CLASS = HTTC.HELPER_TABLE_SID JOIN"
                     + "  HELPER_TABLE HTDES ON RS.RS_DESIGNATION = HTDES.HELPER_TABLE_SID "
                     + " AND RS.RS_ID like  '" + astToPerConverter(binderDTO.getRsId()) + "' AND RS.RS_NO like '" + astToPerConverter(binderDTO.getRsNo()) + "'  AND RS.RS_NAME like '" + astToPerConverter(binderDTO.getRsName()) + "'"
-                    + " AND RS.RS_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsType() == null ? StringUtils.EMPTY : binderDTO.getRsType().getId())) + "' AND RS.RS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsCategory() == null ? StringUtils.EMPTY : binderDTO.getRsCategory().getId())) + "' AND RS.RS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsStatus() == null ? StringUtils.EMPTY : binderDTO.getRsStatus().getId())) + "' AND RS.REBATE_PROGRAM_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRebateProgramType() == null ? StringUtils.EMPTY : binderDTO.getRebateProgramType().getId())) + "'";
+                    + " AND RS.RS_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsType() == null ? StringUtils.EMPTY : binderDTO.getRsType().getId())) + "' AND RS.RS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsCategory() == null ? StringUtils.EMPTY : binderDTO.getRsCategory().getId())) + "' AND RS.RS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsStatus() == null ? StringUtils.EMPTY : binderDTO.getRsStatus().getId())) + "' AND RS.REBATE_PROGRAM_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRebateProgramType() == null ? StringUtils.EMPTY : binderDTO.getRebateProgramType().getId())) + '\'';
             if (binderDTO.getRsStartDate() != null) {
 
                 query += " AND CONVERT(VARCHAR, RS.RS_START_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDB_DATE((Date) discountChBinder.getField(Constants.RS_START_DATE).getValue()) + "%'\n";
@@ -1850,7 +1850,7 @@ public class QueryUtils {
             query += "select distinct CM.CFP_MODEL_SID\n"
                     + " from CFP_MODEL CM \n"
                     + " WHERE CM.CFP_ID like '" + astToPerConverter(binderDTO.getCfpId()) + "' AND CM.CFP_NO like '" + astToPerConverter(binderDTO.getCfpNo()) + "'  AND CM.CFP_NAME like '" + astToPerConverter(binderDTO.getCfpName()) + "'"
-                    + " AND CM.CFP_TYPE  like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpType() == null ? StringUtils.EMPTY : binderDTO.getCfpType().getId())) + "' AND CM.CFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpCategory() == null ? StringUtils.EMPTY : binderDTO.getCfpCategory().getId())) + "' AND CM.CFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpStatus() == null ? StringUtils.EMPTY : binderDTO.getCfpStatus().getId())) + "'";
+                    + " AND CM.CFP_TYPE  like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpType() == null ? StringUtils.EMPTY : binderDTO.getCfpType().getId())) + "' AND CM.CFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpCategory() == null ? StringUtils.EMPTY : binderDTO.getCfpCategory().getId())) + "' AND CM.CFP_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getCfpStatus() == null ? StringUtils.EMPTY : binderDTO.getCfpStatus().getId())) + '\'';
             if (binderDTO.getCfpStartDate() != null) {
                 query += "AND CM.CFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.CFP_START_DATE).getValue()) + "'\n";
             }
@@ -1906,7 +1906,7 @@ public class QueryUtils {
                     + " AND IM.IFP_TYPE like  '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpType() == null ? StringUtils.EMPTY : binderDTO.getIfpType().getId())) 
                     + "' AND IM.IFP_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getIfpCategory() == null ? StringUtils.EMPTY : binderDTO.getIfpCategory().getId())) 
                     + "' AND IM.IFP_STATUS like '" 
-                    + zeroToPerConverter(String.valueOf(binderDTO.getIfpStatus() == null ? StringUtils.EMPTY : binderDTO.getIfpStatus().getId())) + "'";
+                    + zeroToPerConverter(String.valueOf(binderDTO.getIfpStatus() == null ? StringUtils.EMPTY : binderDTO.getIfpStatus().getId())) + '\'';
             if (binderDTO.getIfpStartDate() != null) {
                 query += "AND IM.IFP_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.IFP_START_DATE).getValue()) + "'\n";
             }
@@ -1950,7 +1950,7 @@ public class QueryUtils {
             query = "select DISTINCT PS.PS_MODEL_SID\n"
                     + " from PS_MODEL PS \n"
                     + " WHERE PS.PS_NO like '" + astToPerConverter(binderDTO.getPsNo()) + "'  AND PS.PS_NAME like '" + astToPerConverter(binderDTO.getPsName()) + "'"
-                    + " AND PS.PS_TYPE  like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsType() == null ? StringUtils.EMPTY : binderDTO.getPsType().getId())) + "' AND PS.PS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsCategory() == null ? StringUtils.EMPTY : binderDTO.getPsCategory().getId())) + "' AND PS.PS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsStatus() == null ? StringUtils.EMPTY : binderDTO.getPsStatus().getId())) + "'";
+                    + " AND PS.PS_TYPE  like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsType() == null ? StringUtils.EMPTY : binderDTO.getPsType().getId())) + "' AND PS.PS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsCategory() == null ? StringUtils.EMPTY : binderDTO.getPsCategory().getId())) + "' AND PS.PS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getPsStatus() == null ? StringUtils.EMPTY : binderDTO.getPsStatus().getId())) + '\'';
             if (binderDTO.getPsStartDate() != null) {
                 query += "AND PS.PS_START_DATE = '" + getDB_DATE((Date) discountChBinder.getField(Constants.PS_START_DATE).getValue()) + "'\n";
             }
@@ -1998,7 +1998,7 @@ public class QueryUtils {
             query = "select DISTINCT RS.RS_MODEL_SID \n"
                     + " from RS_MODEL RS \n"
                     + " WHERE RS.RS_ID like '" + astToPerConverter(binderDTO.getRsId()) + "' AND RS.RS_NO like '" + astToPerConverter(binderDTO.getRsNo()) + "'  AND RS.RS_NAME like '" + astToPerConverter(binderDTO.getRsName()) + "'"
-                    + " AND RS.RS_TYPE like  '" + zeroToPerConverter(String.valueOf(binderDTO.getRsType() == null ? StringUtils.EMPTY : binderDTO.getRsType().getId())) + "' AND RS.RS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsCategory() == null ? StringUtils.EMPTY : binderDTO.getRsCategory().getId())) + "' AND RS.RS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsStatus() == null ? StringUtils.EMPTY : binderDTO.getRsStatus().getId())) + "' AND RS.REBATE_PROGRAM_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRebateProgramType() == null ? StringUtils.EMPTY : binderDTO.getRebateProgramType().getId())) + "'";
+                    + " AND RS.RS_TYPE like  '" + zeroToPerConverter(String.valueOf(binderDTO.getRsType() == null ? StringUtils.EMPTY : binderDTO.getRsType().getId())) + "' AND RS.RS_CATEGORY like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsCategory() == null ? StringUtils.EMPTY : binderDTO.getRsCategory().getId())) + "' AND RS.RS_STATUS like '" + zeroToPerConverter(String.valueOf(binderDTO.getRsStatus() == null ? StringUtils.EMPTY : binderDTO.getRsStatus().getId())) + "' AND RS.REBATE_PROGRAM_TYPE like '" + zeroToPerConverter(String.valueOf(binderDTO.getRebateProgramType() == null ? StringUtils.EMPTY : binderDTO.getRebateProgramType().getId())) + '\'';
             if (binderDTO.getRsStartDate() != null) {
                 query += " AND CONVERT(VARCHAR, RS.RS_START_DATE, NumericConstants.ONE_TWO_ZERO) like '" + getDB_DATE((Date) discountChBinder.getField(Constants.RS_START_DATE).getValue()) + "%'\n";
             }
@@ -2104,11 +2104,11 @@ public class QueryUtils {
     }
 
     public String astToPerConverter(final String inputString) {
-        return StringUtils.isBlank(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace("*", "%");
+        return StringUtils.isBlank(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace('*', '%');
     }
 
     public String zeroToPerConverter(final String inputString) {
-        return StringUtils.isBlank(inputString) || Constants.ZEROSTRING.equals(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace("*", "%");
+        return StringUtils.isBlank(inputString) || Constants.ZEROSTRING.equals(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace('*', '%');
     }
 
     public String getPureValue(final String inputString) {

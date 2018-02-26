@@ -74,7 +74,7 @@ public class GcmtFilterLogic {
                     }
                 }
             }
-            sql.append(")");
+            sql.append(')');
         }
         return sql;
     }

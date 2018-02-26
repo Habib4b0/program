@@ -676,7 +676,7 @@ public class CopyContractLogic {
 
             switch (componentInnerType) {
                 case "Company Status":
-                    selection.setCompanyStatus(searchValue.replace("*", Constants.PERCENT));
+                    selection.setCompanyStatus(searchValue.replace('*', '%'));
                     break;
                 case "Trade Class":
                     selection.setTradeClass(searchValue);
@@ -685,13 +685,13 @@ public class CopyContractLogic {
                     selection.setCompanyType(searchValue);
                     break;
                 case "Company ID":
-                    selection.setCompanyId(searchValue.replace("*", Constants.PERCENT));
+                    selection.setCompanyId(searchValue.replace('*', '%'));
                     break;
                 case "Company Name":
-                    selection.setCompanyName(searchValue.replace("*", Constants.PERCENT));
+                    selection.setCompanyName(searchValue.replace('*', '%'));
                     break;
                 case "Company No":
-                    selection.setCompanyNo(searchValue.replace("*", Constants.PERCENT));
+                    selection.setCompanyNo(searchValue.replace('*', '%'));
                     break;
                 default:
                     break;
@@ -734,13 +734,13 @@ public class CopyContractLogic {
                     selection.setTherapyClass(searchValue);
                     break;
                 case "Item ID":
-                    selection.setItemId(searchValue.replace("*", Constants.PERCENT));
+                    selection.setItemId(searchValue.replace('*', '%'));
                     break;
                 case "Item Name":
-                    selection.setItemName(searchValue.replace("*", Constants.PERCENT));
+                    selection.setItemName(searchValue.replace('*', '%'));
                     break;
                 case "Item No":
-                    selection.setItemNo(searchValue.replace("*", Constants.PERCENT));
+                    selection.setItemNo(searchValue.replace('*', '%'));
                     break;
                 case "Brand":
                     selection.setBrand(searchValue);
@@ -768,13 +768,13 @@ public class CopyContractLogic {
         selection.setIfpType(Constants.PERCENT);
         switch (componentInnerType) {
             case "IFP ID":
-                selection.setIfpId(searchValue.replace("*", Constants.PERCENT));
+                selection.setIfpId(searchValue.replace('*', '%'));
                 break;
             case "IFP No":
-                selection.setIfpNo(searchValue.replace("*", Constants.PERCENT));
+                selection.setIfpNo(searchValue.replace('*', '%'));
                 break;
             case "IFP Name":
-                selection.setIfpName(searchValue.replace("*", Constants.PERCENT));
+                selection.setIfpName(searchValue.replace('*', '%'));
                 break;
             case "IFP Status":
                 selection.setIfpStatus(searchValue);

@@ -182,7 +182,7 @@ public class CompanyMasterImpl {
                 sql = new StringBuilder(SQlUtil.getQuery("com.companymaster.service.persistence.CompanyMasterFinder.findCompanyMasterWithIdentifier"));
                 sql.append(" where ");
                 if (identifierType != 0) {
-                    sql.append(" crti.COMPANY_QUALIFIER_SID=").append(identifierType).append(" ");
+                    sql.append(" crti.COMPANY_QUALIFIER_SID=").append(identifierType).append(' ');
                     andOperator = CONST_AND;
                 }
                 if (identifier.length() != 0) {
@@ -482,7 +482,7 @@ public class CompanyMasterImpl {
                 String operator = value1[1];
                 if (operator.equals(">0")) {
                     sql.append(" AND (cm.COMPANY_MASTER_SID >'").append(companySid).append("' ").append(" or");
-                    sql.append(" cm.COMPANY_MASTER_SID ='").append("0").append("' )");
+                    sql.append(" cm.COMPANY_MASTER_SID ='").append('0').append("' )");
                 }
                 if (operator.equals(">")) {
                     sql.append(" AND cm.COMPANY_MASTER_SID >'").append(companySid).append("' ");
@@ -495,7 +495,7 @@ public class CompanyMasterImpl {
                 String operator = value1[1];
                 if (operator.equals("<0")) {
                     sql.append(" AND (cm.COMPANY_MASTER_SID <'").append(companySid).append("' ").append(" or");
-                    sql.append(" cm.COMPANY_MASTER_SID ='").append("0").append("') ");
+                    sql.append(" cm.COMPANY_MASTER_SID ='").append('0').append("') ");
                 }
                 if (operator.equals("<")) {
                     sql.append(" AND cm.COMPANY_MASTER_SID <'").append(companySid).append("' ");
@@ -518,9 +518,9 @@ public class CompanyMasterImpl {
                 String companySidLesser = lesser1[0];
                 String companySidGreater = greater1[0];
                 sql.append(" AND CM.COMPANY_MASTER_SID > '");
-                sql.append(companySidGreater).append("'");
+                sql.append(companySidGreater).append('\'');
                 sql.append(" AND CM.COMPANY_MASTER_SID < '");
-                sql.append(companySidLesser).append("'");
+                sql.append(companySidLesser).append('\'');
             }
 
             if (index != null && next != null) {
@@ -796,7 +796,7 @@ public class CompanyMasterImpl {
                 cType = cType.replaceAll("%", "");
                 queryString.append(" AND CM.COMPANY_TYPE in (");
                 queryString.append(cType);
-                queryString.append(")");
+                queryString.append(')');
             }
 
             if (parameters.get(FILTER_COMPANY_CATEGORY) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_COMPANY_CATEGORY)))) {
@@ -804,7 +804,7 @@ public class CompanyMasterImpl {
                 category = category.replaceAll("%", "");
                 queryString.append(" AND CM.COMPANY_CATEGORY in (");
                 queryString.append(category);
-                queryString.append(")");
+                queryString.append(')');
             }
 
             if (parameters.get(FILTER_TRADE_CLASS) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(FILTER_TRADE_CLASS))) && !StringUtils.isBlank(String.valueOf(parameters.get(FILTER_TRADE_CLASS)))) {
@@ -1097,7 +1097,7 @@ public class CompanyMasterImpl {
                 queryString.append(" ORDER BY CM.CREATED_DATE DESC ");
             } else if (parameters.get(IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(IS_ORDERED)))) {
                 if (parameters.get(ORDER_BY_COMP_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(ORDER_BY_COMP_NAME)))) {
-                    queryString.append(" ORDER BY ").append(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))).append(" ");
+                    queryString.append(" ORDER BY ").append(String.valueOf(parameters.get(ORDER_BY_COMP_NAME))).append(' ');
                     queryString.append(String.valueOf(parameters.get("orderBy")));
                 }
             }
@@ -1260,7 +1260,7 @@ public class CompanyMasterImpl {
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
-                                        tempLogic.append("'");
+                                        tempLogic.append('\'');
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
@@ -1280,7 +1280,7 @@ public class CompanyMasterImpl {
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
-                                        tempLogic.append("'");
+                                        tempLogic.append('\'');
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
@@ -1345,7 +1345,7 @@ public class CompanyMasterImpl {
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
-                                        tempLogic.append("'");
+                                        tempLogic.append('\'');
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);

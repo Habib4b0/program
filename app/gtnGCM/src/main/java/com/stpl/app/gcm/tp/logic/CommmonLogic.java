@@ -195,7 +195,7 @@ public class CommmonLogic {
         query.append("                                                                                         WHERE USER_ID='").append(userId).append("' \n AND SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
-            query.append(" AND SCREEN_NAME = '").append(conSelDTO.getScreenName()).append("'");
+            query.append(" AND SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
         }
         query.append(") \n");
 
@@ -241,7 +241,7 @@ public class CommmonLogic {
         query.append(" AND TEMP_TABLE.USER_ID ='").append(userId).append("' AND  TEMP_TABLE.SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
-            query.append(" AND TEMP_TABLE.SCREEN_NAME = '").append(conSelDTO.getScreenName()).append("'");
+            query.append(" AND TEMP_TABLE.SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
         }
 
         String udcValue = "1";
@@ -288,7 +288,7 @@ public class CommmonLogic {
         if (!conSelDTO.getContractNo().equals(StringUtils.EMPTY) && !conSelDTO.getContractNo().equals(Constants.NULL)) {
             String contractNo = conSelDTO.getContractNo().replace('*', '%');
             if (where) {
-                query.append(" AND CON.CONTRACT_NO  like '").append(contractNo).append("'");
+                query.append(" AND CON.CONTRACT_NO  like '").append(contractNo).append('\'');
             } else {
                 query.append(" WHERE CON.CONTRACT_NO  like '").append(contractNo).append(SLASH_N_SPACE);
                 where = true;
@@ -818,7 +818,7 @@ public class CommmonLogic {
         query.append("                                                                                         WHERE USER_ID='").append(userId).append("' \n AND SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
-            query.append(" AND SCREEN_NAME = '").append(conSelDTO.getScreenName()).append("'");
+            query.append(" AND SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
         }
         query.append(") \n");
 
@@ -895,7 +895,7 @@ public class CommmonLogic {
         if (!conSelDTO.getContractNo().equals(StringUtils.EMPTY) && !conSelDTO.getContractNo().equals(Constants.NULL)) {
             String contractNo = conSelDTO.getContractNo().replace('*', '%');
             if (where) {
-                query.append(" AND CON.CONTRACT_NO like '").append(contractNo).append("'");
+                query.append(" AND CON.CONTRACT_NO like '").append(contractNo).append('\'');
             } else {
                 query.append(" WHERE CON.CONTRACT_NO like '").append(contractNo).append(SLASH_N_SPACE);
                 where = true;
@@ -1344,7 +1344,7 @@ public class CommmonLogic {
     public int callCheckRecUpdate(boolean checkValue, ContractResultDTO dto, String contractType, SessionDTO session) {
         int count = 0;
         StringBuilder query = new StringBuilder("   ");
-        query.append("UPDATE IMTD SET  CHECK_RECORD='").append(checkValue ? 1 : 0).append("'");
+        query.append("UPDATE IMTD SET  CHECK_RECORD='").append(checkValue ? 1 : 0).append('\'');
         query.append("FROM   GCM_GLOBAL_DETAILS IMTD\n"
                 + " WHERE CONTRACT_MASTER_SID='").append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0).append("'  ");
         query.append("AND CFP_CONTRACT_SID= '").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
@@ -1357,7 +1357,7 @@ public class CommmonLogic {
         query.append("AND USER_ID= '").append(session.getUserId()).append("'  ");
         query.append("AND SESSION_ID= '").append(session.getSessionId()).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME ='").append(contractType).append("'");
+            query.append("AND SCREEN_NAME ='").append(contractType).append('\'');
         }
 
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
@@ -1375,16 +1375,16 @@ public class CommmonLogic {
         }
 
         query.append("VALUES (  ");
-        query.append("'").append(checkValue ? 1 : 0).append("'");
-        query.append(",").append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0);
-        query.append(",").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
-        query.append(",").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
-        query.append(",").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
-        query.append(",").append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
-        query.append(",'").append(session.getUserId()).append("'");
-        query.append(",'").append(session.getSessionId()).append("'");
+        query.append('\'').append(checkValue ? 1 : 0).append('\'');
+        query.append(',').append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0);
+        query.append(',').append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
+        query.append(',').append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
+        query.append(',').append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
+        query.append(',').append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
+        query.append(",'").append(session.getUserId()).append('\'');
+        query.append(",'").append(session.getSessionId()).append('\'');
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append(",'").append(contractType).append("'");
+            query.append(",'").append(contractType).append('\'');
         }
         query.append("  )");
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
@@ -1397,7 +1397,7 @@ public class CommmonLogic {
         SimpleDateFormat dateFormater = new SimpleDateFormat(YYYY_M_MDD_H_HMMSS_SSS);
         StringBuilder query = new StringBuilder("   ");
 
-        query.append("UPDATE GCM_GLOBAL_DETAILS SET  ").append(startOrEnd).append("='").append(dateFormater.format(date)).append("'");
+        query.append("UPDATE GCM_GLOBAL_DETAILS SET  ").append(startOrEnd).append("='").append(dateFormater.format(date)).append('\'');
         query.append("WHERE CONTRACT_MASTER_SID='").append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0).append("'  ");
         query.append("AND CFP_CONTRACT_SID='").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0).append("'  ");
         query.append("AND IFP_CONTRACT_SID='").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0).append("'  ");
@@ -1407,7 +1407,7 @@ public class CommmonLogic {
         query.append("AND USER_ID= '").append(session.getUserId()).append("'  ");
         query.append("AND SESSION_ID= '").append(session.getSessionId()).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME= '").append(contractType).append("'");
+            query.append("AND SCREEN_NAME= '").append(contractType).append('\'');
         }
 
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
@@ -1427,16 +1427,16 @@ public class CommmonLogic {
         }
 
         query.append("VALUES (  ");
-        query.append("'").append(dateFormater.format(date)).append("'");
-        query.append(",").append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0);
-        query.append(",").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
-        query.append(",").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
-        query.append(",").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
-        query.append(",").append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
-        query.append(",'").append(session.getUserId()).append("'");
-        query.append(",'").append(session.getSessionId()).append("'");
+        query.append('\'').append(dateFormater.format(date)).append('\'');
+        query.append(',').append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0);
+        query.append(',').append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
+        query.append(',').append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
+        query.append(',').append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
+        query.append(',').append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
+        query.append(",'").append(session.getUserId()).append('\'');
+        query.append(",'").append(session.getSessionId()).append('\'');
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append(",'").append(contractType).append("'");
+            query.append(",'").append(contractType).append('\'');
         }
         query.append("  )");
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
@@ -1457,7 +1457,7 @@ public class CommmonLogic {
         query.append("AND USER_ID='").append(session.getUserId()).append("'  ");
         query.append("AND SESSION_ID='").append(session.getSessionId()).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME='").append(contractType).append("'");
+            query.append("AND SCREEN_NAME='").append(contractType).append('\'');
         }
 
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
@@ -1475,16 +1475,16 @@ public class CommmonLogic {
         }
 
         query.append("VALUES(  ");
-        query.append("'").append(status).append("'");
-        query.append(",").append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0);
-        query.append(",").append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
-        query.append(",").append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
-        query.append(",").append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
-        query.append(",").append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
-        query.append(",'").append(session.getUserId()).append("'");
-        query.append(",'").append(session.getSessionId()).append("'");
+        query.append('\'').append(status).append('\'');
+        query.append(',').append(!dto.getContractMasterSid().equals(StringUtils.EMPTY) ? dto.getContractMasterSid() : 0);
+        query.append(',').append(!dto.getCfpContSid().equals(StringUtils.EMPTY) ? dto.getCfpContSid() : 0);
+        query.append(',').append(!dto.getIfpContSid().equals(StringUtils.EMPTY) ? dto.getIfpContSid() : 0);
+        query.append(',').append(!dto.getRsContSid().equals(StringUtils.EMPTY) ? dto.getRsContSid() : 0);
+        query.append(',').append(!dto.getPsContSid().equals(StringUtils.EMPTY) ? dto.getPsContSid() : 0);
+        query.append(",'").append(session.getUserId()).append('\'');
+        query.append(",'").append(session.getSessionId()).append('\'');
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append(",'").append(contractType).append("'");
+            query.append(",'").append(contractType).append('\'');
         }
         query.append("  )");
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
@@ -1519,7 +1519,7 @@ public class CommmonLogic {
         query.append("AND USER_ID='").append(userId).append("'  ");
         query.append("AND SESSION_ID='").append(sessionId).append("'  ");
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append("AND SCREEN_NAME='").append(contractType).append("'");
+            query.append("AND SCREEN_NAME='").append(contractType).append('\'');
         }
 
         HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
@@ -1544,7 +1544,7 @@ public class CommmonLogic {
         query.append(" AND SESSION_ID='").append(sessionId).append("'  ");
 
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
-            query.append(" AND SCREEN_NAME='").append(contractType).append("'");
+            query.append(" AND SCREEN_NAME='").append(contractType).append('\'');
         }
 
         int count = CommonUtils.convertToInteger(String.valueOf(((List) DAO.executeSelect(query.toString())).get(0)));
@@ -2144,10 +2144,10 @@ public class CommmonLogic {
     public int callCompanyUpdate(boolean checkValue, TradingPartnerDTO dto, String updateType, String searchSessionId) {
         int count = 0;
         StringBuilder query = new StringBuilder("   ");
-        query.append("UPDATE GCM_COMPANY_DETAILS SET CHECK_RECORD='").append(checkValue ? 1 : 0).append("'");
+        query.append("UPDATE GCM_COMPANY_DETAILS SET CHECK_RECORD='").append(checkValue ? 1 : 0).append('\'');
         query.append("WHERE COMPANY_MASTER_SID='").append(!dto.getCompanySystemId().equals(StringUtils.EMPTY) ? dto.getCompanySystemId() : 0).append("'  ");
-        query.append(" AND OPERATION = '").append(updateType).append("'");
-        query.append(" AND SESSION_ID = '").append(searchSessionId).append("'");
+        query.append(" AND OPERATION = '").append(updateType).append('\'');
+        query.append(" AND SESSION_ID = '").append(searchSessionId).append('\'');
 
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;
@@ -2159,11 +2159,11 @@ public class CommmonLogic {
         query.append("INSERT INTO GCM_COMPANY_DETAILS ");
         query.append(" (CHECK_RECORD,COMPANY_MASTER_SID,COMPANY_NAME, OPERATION, SESSION_ID)  ");
         query.append("VALUES(  ");
-        query.append("'").append(checkValue ? 1 : 0).append("'");
-        query.append(",").append(!dto.getCompanySystemId().equals(StringUtils.EMPTY) ? dto.getCompanySystemId() : 0);
-        query.append(",").append("'").append(dto.getCompanyName()).append("'");
-        query.append(",").append("'").append(updateType).append("'");
-        query.append(",").append("'").append(searchSessionId).append("'");
+        query.append('\'').append(checkValue ? 1 : 0).append('\'');
+        query.append(',').append(!dto.getCompanySystemId().equals(StringUtils.EMPTY) ? dto.getCompanySystemId() : 0);
+        query.append(',').append('\'').append(dto.getCompanyName()).append('\'');
+        query.append(',').append('\'').append(updateType).append('\'');
+        query.append(',').append('\'').append(searchSessionId).append('\'');
         query.append("  )");
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 

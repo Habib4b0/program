@@ -2332,7 +2332,7 @@ public class DiscountLogic {
         if (!rebateList.isEmpty()) {
             query = query.replace("?", ItemQueries.getQuery(setRebateInput(rebateList), "rebateSub"));
         } else {
-            query = query.replace("?", " ");
+            query = query.replace('?', ' ');
         }
         if(dto != null && dto.getRemovedRsList() != null && !dto.getRemovedRsList().isEmpty()) {
             query = query.replace(StringConstantsUtil.RS_SID_CHECK, getRsContractFromRSContractList(dto));            
@@ -2368,7 +2368,7 @@ public class DiscountLogic {
         if (!rebateList.isEmpty()) {
             query = query.replace("?", ItemQueries.getQuery(setRebateInput(rebateList), "rebateSub"));
         } else {
-            query = query.replace("?", " ");
+            query = query.replace('?', ' ');
         }
         if(dto.getRemovedRsList().isEmpty()){
             query = query.replace(StringConstantsUtil.RS_SID_CHECK, StringUtils.EMPTY);
