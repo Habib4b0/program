@@ -272,7 +272,7 @@ public class BusinessRoleModuleImpl {
 				}
 				sql+=" order by SPM.CATEGORY_NAME";
 				
-				LOGGER.debug("Final sql statement----------->"+sql);
+				LOGGER.debug("Final sql statement----------->= {}",sql);
 				return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -302,7 +302,7 @@ public class BusinessRoleModuleImpl {
 					}
 					
 					sql+=" order by SPM.CATEGORY_NAME";
-	                                LOGGER.debug("Final sql statement----------->"+sql);
+	                                LOGGER.debug("Final sql statement----------->= {}",sql);
 					return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 				} catch (Exception e) {                            
 					LOGGER.error(e.getMessage());
@@ -336,7 +336,7 @@ public class BusinessRoleModuleImpl {
 					}
 					
 					
-					LOGGER.debug("Final sql statement----------->"+sql);
+					LOGGER.debug("Final sql statement----------->= {}",sql);
 					return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 				} catch (Exception e) {
 					LOGGER.error(e.getMessage());
@@ -366,7 +366,7 @@ public class BusinessRoleModuleImpl {
 						}
 						
 						
-						LOGGER.debug("Final sql statement----------->"+sql);
+						LOGGER.debug("Final sql statement----------->= {}",sql);
 						return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 					} catch (Exception e) {
 						LOGGER.error(e.getMessage());

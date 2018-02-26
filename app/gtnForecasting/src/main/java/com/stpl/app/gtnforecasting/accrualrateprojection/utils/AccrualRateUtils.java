@@ -255,7 +255,7 @@ public class AccrualRateUtils {
                 value = reminder != 0 ? quarter : quarter + 1;
                 break;
             default:
-                LOGGER.debug("Invalid Period Basis: " + periodBasis);
+                LOGGER.debug("Invalid Period Basis= {} " , periodBasis);
                 value = quarter + 1;
                 break;
         }
@@ -363,7 +363,7 @@ public class AccrualRateUtils {
                 createHeadersForDetails(historyStartPeriod, filterStartindex, filterEndIndex, tableHeaderDTO, accrualRateSelectionDTO, recordHeaderDTO);
                 break;
             default:
-                LOGGER.warn("screenName is not valid: " + screenName);
+                LOGGER.warn("screenName is not valid= {} " , screenName);
                 break;
         }
     }

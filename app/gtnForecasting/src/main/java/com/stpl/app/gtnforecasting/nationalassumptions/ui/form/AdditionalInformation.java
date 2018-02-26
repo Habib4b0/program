@@ -335,7 +335,7 @@ public class AdditionalInformation extends CustomComponent {
             @Override
             public void uploadSucceeded(final Upload.SucceededEvent event) {
                 try {
-                    LOGGER.debug("uploadSucceeded method in addSucceededListener started , the user id is " + userId);
+                    LOGGER.debug("uploadSucceeded method in addSucceededListener started , the user id is= {} " , userId);
                     String fileName = event.getFilename();
                     String[] format = {"doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpeg"};
                     List<String> formatList = Arrays.asList(format);
@@ -530,7 +530,7 @@ public class AdditionalInformation extends CustomComponent {
                             File file = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
                                     + File.separator + tableBean.getDocumentName());
                             isFileExists=file.delete();
-                            LOGGER.info("File deleted successfully"+isFileExists);
+                            LOGGER.info("File deleted successfully= {}",isFileExists);
                             resultsTable.removeItem(tableBeanId);
                             tableBeanId = null;
                             tableBean = (AttachmentDTO) null;
@@ -557,7 +557,7 @@ public class AdditionalInformation extends CustomComponent {
         // Creates directory
         Resource wordRes;
         Resource pdfRes;
-        LOGGER.debug("Inside AdditionalInformation create Export Docs mehtod " + filePath);
+        LOGGER.debug("Inside AdditionalInformation create Export Docs mehtod= {} " , filePath);
         if (!filePath.exists()) {
             filePath.mkdirs();
         }

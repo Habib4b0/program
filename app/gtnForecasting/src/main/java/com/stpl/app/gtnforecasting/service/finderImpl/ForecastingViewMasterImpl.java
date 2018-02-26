@@ -23,7 +23,7 @@ public class ForecastingViewMasterImpl {
         Session session = null;
         String customSql = StringUtils.EMPTY;
         try {
-            LOGGER.debug("Entering findViewByName method with viewName " + viewName + " forecastType " + forecastType + " userId " + userId + " viewType " + viewType);
+            LOGGER.debug("Entering findViewByName method with viewName= {}, forecastType= {}, userId= {}, viewType= {}  " , viewName, forecastType, userId, viewType);
 
 
             customSql = SQlUtil.getQuery(getClass(),"findViewByNameJoin");
