@@ -15,7 +15,6 @@ import com.stpl.app.gcm.itemmanagement.remove.form.SalesAndRebates;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
@@ -125,7 +124,7 @@ public class SummaryLookUp extends CustomComponent {
         }
     }
 
-    public void loadSummaryTable() throws FieldGroup.CommitException {
+    public void loadSummaryTable() {
         itemDetails.loadData();
     }
 

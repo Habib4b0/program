@@ -687,7 +687,6 @@ public class CommonLogic {
 
         List<Object> queryInputs = new ArrayList<>();
         queryInputs.add(hierarchyIndicator);
-//        queryInputs.add(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator) ? "CUST_RELATIONSHIP_BUILDER_SID" : "PROD_RELATIONSHIP_BUILDER_SID");
         queryInputs.add(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator) ? "CUST_RELATIONSHIP_BUILDER_SID" : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator) ? "PROD_RELATIONSHIP_BUILDER_SID" : "DED_RELATIONSHIP_BULDER_SID");
         queryInputs.add(projectionId);
         queryInputs.add(levelNo);
@@ -763,7 +762,7 @@ public class CommonLogic {
             DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
+            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
             projectionListFrom.add(ProjectionFactoryUtil.property(LEVEL_NO));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = commonDao.getRelationshipLevels(query);
@@ -845,7 +844,7 @@ public class CommonLogic {
      * @return
      */
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
-        LOGGER.info("Procedure Name " + procedureName);
+        LOGGER.info("Procedure Name= {} " , procedureName);
         try {
 			return GtnSqlUtil.getResultFromProcedure(getQuery(procedureName, orderedArgs), orderedArgs);
 		} catch (GtnFrameworkGeneralException e) {
@@ -855,7 +854,7 @@ public class CommonLogic {
     }
 
     public static void callProcedureforUpdate(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name " + procedureName);
+        LOGGER.debug("Procedure Name= {} " , procedureName);
         GtnSqlUtil.procedureCallService(getQuery(procedureName, orderedArgs), orderedArgs);
 
     }
@@ -989,7 +988,6 @@ public class CommonLogic {
                     masterTableQuery += " and D_MASTER.RS_CONTRACT_SID IN ( " + CommonUtils.CollectionToString(discountList, true) + " )";
                 }
             }
-            //If Joins Needed for Sales (or) any other screen, it can be written here
         }
         return masterTableQuery;
     }
@@ -1262,7 +1260,6 @@ public class CommonLogic {
                 + String.format("%02d", projSelDTO.getStartMonth()) + "-"
                 + String.format("%02d", projSelDTO.getStartDay());
         String periodFilter = StringUtils.EMPTY;
-        //Need to remove once the dynamic changes is done in Government
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(projSelDTO.getScreenName())) {
             if (!CommonUtils.isInteger(projSelDTO.getYear())) {
                 periodFilter = " PERIOD_DATE BETWEEN ( '" + startDate + "') and ( '" + endDate + "') \n ";
@@ -1916,7 +1913,7 @@ public class CommonLogic {
      * @return list
      */
     public static List<Leveldto> getCustomerHierarchy(int projectionId, final int levelNo, final Object rbID) {
-        LOGGER.debug(PROJECTION_ID + projectionId);
+        LOGGER.debug("PROJECTION_ID= {}" , projectionId);
         return getHierarchy(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, levelNo, rbID);
     }
 
@@ -1927,7 +1924,7 @@ public class CommonLogic {
      * @return list
      */
     public static List<Leveldto> getProductHierarchy(int projectionId, final int levelNo, final Object rbID) {
-        LOGGER.debug(PROJECTION_ID + projectionId);
+        LOGGER.debug("PROJECTION_ID= {}" , projectionId);
         return getHierarchy(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY, levelNo, rbID);
     }
     /**
@@ -1940,7 +1937,7 @@ public class CommonLogic {
         List<String[]> deductionList = new ArrayList<>();
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-            LOGGER.debug(PROJECTION_ID + projectionId);
+            LOGGER.debug("PROJECTION_ID= {}" , projectionId);
             String levelQuery = SQlUtil.getQuery("deduction-loading").replace("@PROJID", String.valueOf(projectionId));
             deductionList = (List<String[]>) salesProjectionDAO.executeSelectQuery(levelQuery);
         } catch (SystemException | PortalException ex) {
@@ -2612,7 +2609,7 @@ public class CommonLogic {
         final List<HelperDTO> helperList = new ArrayList<>();
         try {
             SalesProjectionDAO dao = new SalesProjectionDAOImpl();
-            LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+            LOGGER.debug("entering getDropDownList method with paramater listType= {}" , listType);
             final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constant.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constant.LIST_NAME, "ALL")));
             cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constant.DESCRIPTION));
@@ -2628,7 +2625,7 @@ public class CommonLogic {
                 }
             }
 
-            LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+            LOGGER.debug(" getDropDownList method ends with return value strList size = {}" , helperList.size());
 
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -2755,7 +2752,7 @@ public class CommonLogic {
             DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
+            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
             projectionListFrom.add(ProjectionFactoryUtil.property(LEVEL_NO));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery(query);
@@ -2892,7 +2889,6 @@ public class CommonLogic {
         return null;
     }
 
-// For mandated
     public static String getMandatedTempCCPQueryForCOGS(PVSelectionDTO pvsDTO) {
         List fromToList = CommonLogic.getPeriodRestrictionPR(pvsDTO);
         String query = " DECLARE @FROM_DATE DATE\n"
@@ -3459,7 +3455,6 @@ public class CommonLogic {
         return ccpQuery;
     }
 
-    //  ----------------   Added for performance Improvement ----------------
     /**
      * Method used to get the Level Name based on the Level No. Level Details
      * are maintained in a List(List&lt;Leveldto&gt;).
@@ -3506,7 +3501,7 @@ public class CommonLogic {
             throw new IllegalArgumentException("Invalid Hierarchy Indicator :" + hierarchyIndicator);
 
         }
-        LOGGER.debug("Count is " + count);
+        LOGGER.debug("Count is= {} " , count);
         return count;
 
     }
@@ -3571,7 +3566,7 @@ public class CommonLogic {
         } else {
             throw new IllegalArgumentException("Invalid Hierarchy Indicator :" + projSelDTO.getHierarchyIndicator());
         }
-        LOGGER.debug("Count is " + count);
+        LOGGER.debug("Count is= {} " , count);
         return count;
 
     }
@@ -3601,7 +3596,7 @@ public class CommonLogic {
         } else {
             throw new IllegalArgumentException("Invalid Hierarchy Indicator for Excel :" + projSelDTO.getHierarchyIndicator());
         }
-        LOGGER.debug("Countforexcel is " + countforexcel);
+        LOGGER.debug("Countforexcel is= {} " , countforexcel);
         return countforexcel;
     } 
     /**
@@ -3629,7 +3624,7 @@ public class CommonLogic {
         if (list != null && !list.isEmpty()) {
             count = Integer.parseInt(list.get(0).toString());
         }
-        LOGGER.debug("Count is  " + count);
+        LOGGER.debug("Count is= {}  " , count);
         return count;
     }
 
@@ -3898,7 +3893,7 @@ public class CommonLogic {
                     break;
                 default:
 
-                    LOGGER.warn("Invalid Hierarchy Indicator: " + hierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator= {} " , hierarchyIndicator);
             }
 
         } else {
@@ -3981,7 +3976,7 @@ public class CommonLogic {
                     sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 default:
-                    LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator= {}" , currentHierarchyIndicator);
             }
         } else {
             sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
@@ -3992,7 +3987,7 @@ public class CommonLogic {
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
             sql += AND_SPMFILTER_CC_P1;
         }
-        LOGGER.debug("Group Filter Value :  " + projSelDTO.getGroupFilter());
+        LOGGER.debug("Group Filter Value = {} " , projSelDTO.getGroupFilter());
         return sql;
 
     }
@@ -4013,7 +4008,7 @@ public class CommonLogic {
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
             sql += " AND SPM.FILTER_CCP=1 ";
         }
-        LOGGER.debug("Group Filter Value:" + projSelDTO.getGroupFilter());
+        LOGGER.debug("Group Filter Value= {}" , projSelDTO.getGroupFilter());
         return sql;
     }
 
@@ -4089,7 +4084,7 @@ public class CommonLogic {
             sql += AND_SPMFILTER_CC_P1;
         }
 
-        LOGGER.debug("Group Filter Value:" + projSelDTO.getGroupFilter());
+        LOGGER.debug("Group Filter Value= {}" , projSelDTO.getGroupFilter());
         return sql;
     }
 
@@ -4816,7 +4811,7 @@ public class CommonLogic {
                     joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 ";
                     break;
                 case 10:
-                    selectClause = " RS.RS_ID,RS.RS_CONTRACT_SID ";
+                    selectClause = " RS.RS_ID,RS.RS_NAME,RS.RS_CONTRACT_SID ";
                     joinClause = StringUtils.EMPTY;
                     udcJoinClause=StringUtils.EMPTY;
                     break;
@@ -5037,7 +5032,7 @@ public class CommonLogic {
                     joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST + customerHierarchyNo + HIERARCHY_NO_JOIN);
                     break;
                 default:
-                    LOGGER.warn("Invalid Hierarchy Indicator: " + hierarchyIndicator);
+                    LOGGER.warn("Invalid Hierarchy Indicator= {} " , hierarchyIndicator);
             }
 
         } else {
@@ -5221,4 +5216,45 @@ public class CommonLogic {
 		finalQuery.append(",'%')");
 		return finalQuery.toString();
 	}
+    
+     public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
+        String newLevel = StringUtils.EMPTY;
+        String oldLevel = StringUtils.EMPTY;
+        String listOfSids = StringUtils.EMPTY;
+        CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
+        customerlevelCustomItem[0] = filterValues.addItem(new MenuItemDTO(listOfLevelFilter.get(0)[0], listOfLevelFilter.get(0)[1].toString()), null);
+        customerlevelCustomItem[0].setCheckable(true);
+        customerlevelCustomItem[0].setItemClickable(true);
+        customerlevelCustomItem[0].setItemClickNotClosable(true);
+        customerlevelCustomItem[0].setCheckAll(true);
+        for (int i = 1; i < listOfLevelFilter.size(); i++) {
+            MenuItemDTO dto = null;
+            Object[] obj = listOfLevelFilter.get(i);
+            String firstIndex = obj[0].toString();
+            String secondIndex = obj[1].toString();
+            newLevel = firstIndex + " - " + secondIndex;
+            if (oldLevel.equals(newLevel)) {
+                listOfSids += "," + obj[1].toString();
+                oldLevel = newLevel;
+            } else {
+                if (i != 1) {
+                    dto = new MenuItemDTO(listOfSids, oldLevel);
+                    listOfSids = "";
+                    customerlevelCustomItem[i] = filterValues.addItem(dto, null);
+                    customerlevelCustomItem[i].setCheckable(true);
+                    customerlevelCustomItem[i].setItemClickable(true);
+                    customerlevelCustomItem[i].setItemClickNotClosable(true);
+                }
+                listOfSids += obj[2].toString();
+                oldLevel = newLevel;
+            }
+            if (i == listOfLevelFilter.size() - 1) {
+                dto = new MenuItemDTO(listOfSids, newLevel);
+                customerlevelCustomItem[i] = filterValues.addItem(dto, null);
+                customerlevelCustomItem[i].setCheckable(true);
+                customerlevelCustomItem[i].setItemClickable(true);
+                customerlevelCustomItem[i].setItemClickNotClosable(true);
+            }
+        }
+    }
 }

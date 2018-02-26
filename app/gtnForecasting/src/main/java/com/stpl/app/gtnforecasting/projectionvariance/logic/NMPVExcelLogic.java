@@ -1054,7 +1054,7 @@ public class NMPVExcelLogic {
             netProfitPer = pvList.get(listIndex++);
             calculate(Constant.PVVariables.VAR_NET_PROFITE.toString(), Constant.CHANGE, obj, isTotal ? NumericConstants.FIFTY_FIVE : NumericConstants.FORTY_SIX, netProfitPer, selection, RATE_PER);
         }
-        LOGGER.debug("List Index----------" + listIndex);
+        LOGGER.debug("List Index----------= {}" , listIndex);
 
     }
 
@@ -1966,7 +1966,7 @@ public class NMPVExcelLogic {
             }
         }
 
-        LOGGER.info("Ending getCustomisedProjectionResultsTotalDiscount with dataList list size  = = >" + dataList.size());
+        LOGGER.info("Ending getCustomisedProjectionResultsTotalDiscount with dataList list size  = = {}" , dataList.size());
     }
 
     private void commonCustomizationForTotalDiscount(String group, List<Object> dataList, PVSelectionDTO projSelDTO, boolean isDetail, int indexValue, boolean isPer, boolean isConversionNeeded) {

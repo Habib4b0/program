@@ -23,7 +23,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
@@ -407,7 +406,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     }
 
     // For CSV Export. Do not delete
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws SystemException, PortalException {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  PortalException {
         LOGGER.info("Entering createWorkSheetContent with start " + start + " end " + end);
         try {
 

@@ -29,7 +29,6 @@ public class HierarchyDefinitionImpl {
         StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
         try {
 
-//            if (Constants.ButtonConstants.BTN_SEARCH.getConstant().equals(action)) {
             queryBuilder.append("SELECT distinct c.HIERARCHY_DEFINITION_SID,c.HIERARCHY_NAME,a.LEVEL_NAME, a.LEVEL_NO , ");
             queryBuilder.append("b.LEVEL_NO , c.CREATED_DATE, c.MODIFIED_DATE, c.VERSION_NO ");
             queryBuilder.append("from HIERARCHY_LEVEL_DEFINITION a , HIERARCHY_LEVEL_DEFINITION b ,HIERARCHY_DEFINITION c ");
@@ -55,9 +54,7 @@ public class HierarchyDefinitionImpl {
                 queryBuilder.append(hierarchyType);
                 queryBuilder.append("') ");
             }
-//            LOGGER.debug("CUSTOMER/PRODUCT GROUP QUERY: " + queryBuilder.toString());
             list.add(HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString()));
-//            LOGGER.debug("Query:\n" + queryBuilder.toString() + "\n\nquery hit list size: " + list.size() + "\n\n");
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             LOGGER.error(queryBuilder.toString());
@@ -78,7 +75,6 @@ public class HierarchyDefinitionImpl {
                 customSql += String.valueOf(parameters.get("hierarchyId")).trim();
             }
             customSql += SQlUtil.getQuery(getClass(),"getLevelsFromHierarchy2");
-//            LOGGER.debug("\n\nSearch query is -----> " + customSql + "\n\n");
             LOGGER.debug("End of findViewByName method");
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {

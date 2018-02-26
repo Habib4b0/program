@@ -45,8 +45,6 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.UI;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -357,7 +355,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException, SystemException, PortalException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
         ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());

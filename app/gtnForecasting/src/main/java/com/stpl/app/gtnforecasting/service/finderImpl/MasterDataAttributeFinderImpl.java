@@ -32,11 +32,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(MasterDataAttribute
             queryBuilder.append(" JOIN CCP_DETAILS CCP  ON C.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID JOIN PROJECTION_DETAILS P ON CCP.CCP_DETAILS_SID=P.CCP_DETAILS_SID  ");
             queryBuilder.append(" where M.MASTER_TYPE='COMPANY_MASTER' AND M.MASTER_ATTRIBUTE LIKE'%COV_LIVES%' and P.PROJECTION_MASTER_SID=" + inputs[0] + "   ");
 
-            // where projectionMasterSid=81
-//            LOGGER.debug("Query:\n" + queryBuilder.toString());
             list = HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
 
-//            LOGGER.debug("Query:\n" + queryBuilder.toString() + "\n\nquery hit list size: " + list.size() + "\n\n");
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             LOGGER.error(queryBuilder.toString());

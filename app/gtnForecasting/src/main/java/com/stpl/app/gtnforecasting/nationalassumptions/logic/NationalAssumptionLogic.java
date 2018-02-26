@@ -434,7 +434,7 @@ public class NationalAssumptionLogic {
                     statement.setInt(1, projectionId);
                     resultSet = statement.executeQuery();
                     objectList = convertResultSetToList(resultSet);
-                    LOGGER.debug("After Converting objectList size" + objectList.size());
+                    LOGGER.debug("After Converting objectList size= {}" , objectList.size());
                 }
              catch (NumberFormatException | SQLException ex)
                     {
