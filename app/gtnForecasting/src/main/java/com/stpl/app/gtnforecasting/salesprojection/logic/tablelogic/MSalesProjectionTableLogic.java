@@ -43,7 +43,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
      */
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {}, and start= {}, and offset= {}" , firstGenerated, start, offset);
         GtnSmallHashMap map = new GtnSmallHashMap();
         if (firstGenerated && offset > 0) {
             try {
@@ -57,7 +57,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
                 LOGGER.error(ex.getMessage());
             }
         }
-        LOGGER.debug("loadData ended  " + map.size());
+        LOGGER.debug("loadData ended= {} " , map.size());
         return map;
     }
 
@@ -68,12 +68,12 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
      */
     @Override
     public int getCount() {
-        LOGGER.debug("getCount initiated with firstGenerated=" + firstGenerated);
+        LOGGER.debug("getCount initiated with firstGenerated= {}" , firstGenerated);
         int count = 0;
         if (firstGenerated) {
             count = salesLogic.getConfiguredSalesProjectionCount(getLastParent(), projSelDTO, true, initialProjSelDTO);
         }
-        LOGGER.debug("getCount ended with count=" + count);
+        LOGGER.debug("getCount ended with count= {}" , count);
         return count;
     }
 

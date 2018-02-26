@@ -872,7 +872,7 @@ public class LoadTabLogic {
                 + "                        AND C.CONTRACT_MASTER_SID=" + session.getContMasteSid() + "\n"
                 + "                        AND C.COMPANY_MASTER_SID in(" + compSid + ");\n";
 
-        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
     }
 

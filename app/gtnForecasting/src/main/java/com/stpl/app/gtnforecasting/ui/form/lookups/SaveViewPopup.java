@@ -196,7 +196,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * @throws Exception the exception
      */
     private boolean isDuplicateView(final String viewName) throws SystemException {
-        LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
+        LOGGER.debug("Entering isDuplicateView method with viewName= {} " , viewName);
         return viewLogic.isDuplicateView(viewName);
     }
 

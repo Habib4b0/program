@@ -42,7 +42,6 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -88,10 +87,10 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 	private Resource wordRes;
 	private Resource pdfRes;
 	protected FileDownloader wordDownloader;
-	protected FileDownloader pdfDownloader;
-	protected String basepath = (VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
-			? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
-			: "");
+	protected FileDownloader pdfDownloader;       
+
+	protected String basepath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);			
+        
 	protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
 	protected Image pdfPngImage = new Image(null, new ThemeResource("img/pdf.png"));
 	protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
@@ -772,7 +771,8 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 	public void intailizingObject() {
 		uploadReceiver = new FileUploader(moduleName);
 		uploadComponent = new Upload(null, uploadReceiver);
-		filePath = GtnFileNameUtils.getFile(basepath + File.separator + "Documents" + File.separator + moduleName);
+		filePath = GtnFileNameUtils.getFile(basepath + File.separator + GtnFrameworkCommonStringConstants.ATTACHMENTS
+				+ File.separator + moduleName);
 		wordFile = GtnFileNameUtils.getFile(filePath + File.separator + fileName + ExportWord.DOC_EXT);
 		pdfFile = GtnFileNameUtils.getFile(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
 		fileUploadPath = FileUploader.FILE_PATH + moduleName + GtnFrameworkCommonStringConstants.STR_SLASH;

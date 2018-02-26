@@ -6,7 +6,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -16,7 +16,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -33,6 +33,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -61,21 +66,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2015&#47;09&#47;21 12:26:33.734</created_date>
+  <created_date>2015&#x2f;09&#x2f;21 12&#x3a;26&#x3a;33.734</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2015&#47;09&#47;21 12:26:33.734</modified_date>
+  <modified_date>2015&#x2f;09&#x2f;21 12&#x3a;26&#x3a;33.734</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>db</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -92,13 +99,13 @@
   </connection>
   <connection>
     <name>staging</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -115,13 +122,13 @@
   </connection>
   <connection>
     <name>sys_db</name>
-    <server>${BPI_SYS_HOST}</server>
+    <server>&#x24;&#x7b;BPI_SYS_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_SYS_DB}</database>
+    <database>&#x24;&#x7b;BPI_SYS_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_SYS_USER}</username>
-    <password>${BPI_SYS_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_SYS_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_SYS_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -137,12 +144,43 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>Y</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type 2</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Data Validator</to><enabled>Y</enabled> </hop>  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables</to><enabled>N</enabled> </hop>  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>N</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2 2</from><to>SNAPSHOT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>INVALID_TABLE 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field Type 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2 2 2</from><to>SNAPSHOT 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2 2</from><to>INVALID_TABLE 2 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type 2</from><to>Replace in string</to><enabled>Y</enabled> </hop>  <hop> <from>Replace in string</from><to>Table output 3</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database join</from><to>If field value is null</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Database join</to><enabled>Y</enabled> </hop>
+  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Field Type 2</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table output 3</from><to>Data Validator</to><enabled>Y</enabled> </hop>
+  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table output 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Get Variables</to><enabled>N</enabled> </hop>
+  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>N</enabled> </hop>
+  <hop> <from>IS_NULLABLE 8</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID_TABLE 2 2 2 2</from><to>SNAPSHOT 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2</from><to>INVALID_TABLE 2 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Field Length</from><to>Invalid Field Type 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID_TABLE 2 2 2 2 2</from><to>SNAPSHOT 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 2</from><to>INVALID_TABLE 2 2 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Field Type 2</from><to>Replace in string</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Table output 3</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -160,19 +198,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -193,6 +231,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -209,6 +248,7 @@
         <nullif>Missing Required Field</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Invalid Field Length_description</name>
@@ -220,6 +260,7 @@
         <nullif>Invalid Field Length</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Invalid Field Type_description</name>
@@ -231,6 +272,7 @@
         <nullif>Invalid Field Type</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Record Duplicate_description</name>
@@ -242,6 +284,7 @@
         <nullif>Record Duplicate</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -257,6 +300,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -273,6 +317,7 @@
         <nullif>E01</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>error_field</name>
@@ -284,12 +329,13 @@
         <nullif>Item ID and Brand Id is NULL</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>254</xloc>
-      <yloc>502</yloc>
+      <xloc>253</xloc>
+      <yloc>501</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -299,6 +345,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -315,6 +362,7 @@
         <nullif>E01</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>error_field</name>
@@ -326,6 +374,7 @@
         <nullif>PROVISION_ID,ACCRUAL_CATEGORY, ACCRUAL_SCHEDULE_TYPE, ACCRUAL_PROGRAM_TYPE, ACCRUAL_UDC1, ACCRUAL_UDC2, ACCRUAL_UDC3ACCRUAL_UDC4, ACCRUAL_UDC5, ACCRUAL_UDC6 Is NULL</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -341,6 +390,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -357,6 +407,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -368,6 +419,7 @@
         <nullif>ACCRUAL_INBOUND_INTERFACE</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -383,17 +435,18 @@
     <type>CsvInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>${FILE_LOCAL_PATH}&#47;ACCRUAL_INBOUND_INTERFACE1.csv</filename>
+    <filename>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;ACCRUAL_INBOUND_INTERFACE1.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>|</separator>
-    <enclosure>&quot;</enclosure>
+    <separator>&#x7c;</separator>
+    <enclosure>&#x22;</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
     <lazy_conversion>N</lazy_conversion>
@@ -1032,6 +1085,7 @@
     <type>Validator</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1039,7 +1093,7 @@
            </partitioning>
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
-<concat_separator>|</concat_separator>
+<concat_separator>&#x7c;</concat_separator>
        <validator_field><name>ACCRUAL_PERIOD_START_DATE</name>
 <validation_name>ACCRUAL_PERIOD_START_DATE</validation_name>
 <max_length/>
@@ -1079,6 +1133,7 @@
     <type>DBJoin</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1086,9 +1141,7 @@
            </partitioning>
     <connection>sys_db</connection>
     <rowlimit>0</rowlimit>
-    <sql>
-SELECT userid as userid
-FROM user_ where screenname=&apos;etluser&apos; </sql>
+    <sql>&#xa;SELECT userid as userid&#xa;FROM user_ where screenname&#x3d;&#x27;etluser&#x27; </sql>
     <outer_join>Y</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -1106,6 +1159,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1146,6 +1200,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1242,6 +1297,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>GetVariable</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1250,7 +1306,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <fields>
       <field>
         <name>userid</name>
-        <variable>${userid}</variable>
+        <variable>&#x24;&#x7b;userid&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -1274,6 +1330,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1547,6 +1604,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1820,6 +1878,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2093,6 +2152,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2366,6 +2426,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2639,6 +2700,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2912,6 +2974,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2972,32 +3035,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>GL_ACCOUNT</name>
-<validation_name>GL_ACCOUNT</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>GL_ACCOUNT</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
        <validator_field><name>COMPANY_ID</name>
 <validation_name>COMPANY_ID</validation_name>
 <max_length/>
@@ -3020,58 +3057,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <regular_expression_not_allowed/>
 <error_code>E01</error_code>
 <error_description>COMPANY_ID</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
-       <validator_field><name>COMPANY_NO</name>
-<validation_name>COMPANY_NO</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>COMPANY_NO</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
-       <validator_field><name>COMPANY_COST_CENTER</name>
-<validation_name>COMPANY_COST_CENTER</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>COMPANY_COST_CENTER</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -3154,58 +3139,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>CONTRACT_ID</name>
-<validation_name>CONTRACT_ID</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>CONTRACT_ID</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
-       <validator_field><name>ACCOUNT_ID</name>
-<validation_name>ACCOUNT_ID</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>ACCOUNT_ID</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
        <validator_field><name>ACCRUAL_PERIOD_END_DATE</name>
 <validation_name>ACCRUAL_PERIOD_END_DATE</validation_name>
 <max_length/>
@@ -3258,84 +3191,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>SUB_LEDGER</name>
-<validation_name>SUB_LEDGER</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>SUB_LEDGER</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
-       <validator_field><name>SUB_LEDGER_TYPE</name>
-<validation_name>SUB_LEDGER_TYPE</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>SUB_LEDGER_TYPE</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
-       <validator_field><name>DOCUMENT_TYPE</name>
-<validation_name>DOCUMENT_TYPE</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E01</error_code>
-<error_description>DOCUMENT_TYPE</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
        <validator_field><name>BUSINESS_UNIT_ID</name>
 <validation_name>BUSINESS_UNIT_ID</validation_name>
 <max_length/>
@@ -3369,7 +3224,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
-<data_type>-</data_type>
+<data_type>None</data_type>
 <data_type_verified>N</data_type_verified>
 <conversion_mask/>
 <decimal_symbol/>
@@ -3401,6 +3256,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>IfNull</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3410,6 +3266,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       <replaceAllMask/>
       <selectFields>Y</selectFields>
       <selectValuesType>N</selectValuesType>
+      <setEmptyStringAll>N</setEmptyStringAll>
     <valuetypes>
       </valuetypes>
     <fields>
@@ -3417,6 +3274,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <name>userid</name>
         <value>1</value>
         <mask/>
+        <set_empty_string>N</set_empty_string>
         </field>
       </fields>
      <cluster_schema/>
@@ -3432,6 +3290,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3496,7 +3355,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>GL_ACCOUNT</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -3548,7 +3407,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>COMPANY_NO</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -3600,7 +3459,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>COMPANY_COST_CENTER</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -3626,7 +3485,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>ACCOUNT_ID</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -3938,7 +3797,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>SUB_LEDGER</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -3964,7 +3823,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>CONTRACT_ID</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -4042,7 +3901,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>SUB_LEDGER_TYPE</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -4068,7 +3927,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>DOCUMENT_TYPE</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -4610,6 +4469,32 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
+       <validator_field><name>ACCRUAL_INBOUND_INTERFACE_ID</name>
+<validation_name>ACCRUAL_INBOUND_INTERFACE_ID</validation_name>
+<max_length>4</max_length>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>ACCRUAL_INBOUND_INTERFACE_ID</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>308</xloc>
@@ -4623,6 +4508,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4687,7 +4573,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>GL_ACCOUNT</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -4739,7 +4625,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>COMPANY_NO</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -4791,7 +4677,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>COMPANY_COST_CENTER</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -4817,7 +4703,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>ACCOUNT_ID</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -5129,7 +5015,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>SUB_LEDGER</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -5155,7 +5041,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>CONTRACT_ID</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -5233,7 +5119,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>SUB_LEDGER_TYPE</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -5259,7 +5145,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>DOCUMENT_TYPE</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>N</null_allowed>
+<null_allowed>Y</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -5814,6 +5700,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5842,10 +5729,65 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </step>
 
   <step>
+    <name>Replace in string</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>DEDUCTION_AMOUNT</in_stream_name>
+        <out_stream_name>DEDUCTION_AMOUNT_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>&#x24;</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>SALES_AMOUNT</in_stream_name>
+        <out_stream_name>SALES_AMOUNT_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>&#x24;</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>QUANTITY</in_stream_name>
+        <out_stream_name>QUANTITY_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>&#x24;</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>333</xloc>
+      <yloc>918</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>SNAPSHOT</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -6095,6 +6037,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -6344,6 +6287,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -6593,6 +6537,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -6842,6 +6787,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -7091,6 +7037,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -7340,6 +7287,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -7596,56 +7544,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </GUI>
     </step>
 
-  <step>
-    <name>Replace in string</name>
-    <type>ReplaceString</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>DEDUCTION_AMOUNT</in_stream_name>
-        <out_stream_name>DEDUCTION_AMOUNT_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>SALES_AMOUNT</in_stream_name>
-        <out_stream_name>SALES_AMOUNT_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>QUANTITY</in_stream_name>
-        <out_stream_name>QUANTITY_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>333</xloc>
-      <yloc>918</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step_error_handling>
       <error>
         <source_step>Data Validator</source_step>
@@ -7711,4 +7609,5 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>

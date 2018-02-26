@@ -22,7 +22,7 @@ public interface TradingPartnerDAO {
      * @return the projection master result list
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
-    public List searchCompanies(final Map<String, Object> parameters) throws SystemException;
+    public List searchCompanies(final Map<String, Object> parameters);
 
     Object executeSelectQuery(String query);
 

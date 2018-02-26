@@ -173,7 +173,7 @@ public class ItemSearchLookup extends Window {
             itemNumber.setValue(dto.getItemNo());
             itemLookupName.setValue(dto.getItemName());
             close();
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException e) {
             LOGGER.error(e.getMessage());
 
         }
@@ -407,13 +407,14 @@ public class ItemSearchLookup extends Window {
             /**
              * called when item has clicked
              */
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 try {
                     Object obj = resultsTable.getItem(event.getItemId());
                     ItemSearchDTO dto = getBeanFromId(obj);
                     itemNumber.setValue(dto.getItemNo());
                     itemLookupName.setValue(dto.getItemName());
-                } catch (Exception e) {
+                } catch (Property.ReadOnlyException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
@@ -423,6 +424,7 @@ public class ItemSearchLookup extends Window {
              * method to listen the action
              *
              */
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 if (event.isDoubleClick()) {
                     addDoubleClick(event);

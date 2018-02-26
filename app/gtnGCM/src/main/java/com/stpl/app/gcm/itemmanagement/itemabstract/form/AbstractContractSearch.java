@@ -33,8 +33,6 @@ import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -177,7 +175,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
      @UiField("baseWacDate")
     public PopupDateField baseWacDate;
    
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
     protected ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(getBinderDto()));
     public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContractSearch.class);
@@ -493,7 +491,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         List<String> visibleList = Arrays.asList(getContractSelectionTable().getColumnHeaders()).subList(1, getContractSelectionTable().getVisibleColumns().length);
         selection.setFilters(getContractSelectionTableLogic().getFilters());

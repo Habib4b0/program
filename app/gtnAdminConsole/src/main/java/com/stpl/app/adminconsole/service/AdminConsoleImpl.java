@@ -131,7 +131,7 @@ public class AdminConsoleImpl {
     }
     
     public List getDetailsResults(String fileName, String version, String fileType, String country,int year) {
-        LOGGER.debug("Entering getDetailsResults with P1:String fileName=" + fileName + " P2:String version=" + version + " P3:String fileType=" + fileType + " P4:String country" + country);
+        LOGGER.debug("Entering getDetailsResults with P1:String fileName= {}, P2:String version= {], P3:String fileType= {}, P4:String country= {} ", fileName, version, fileType, country);
         List list = new ArrayList();
         String sqlString = StringUtils.EMPTY;
         try {

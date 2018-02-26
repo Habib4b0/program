@@ -40,7 +40,7 @@ public class AbstractAllItemLookup extends CustomWindow {
     private final BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
     private final Button close = new Button("CLOSE");
     private final Button export = new Button(StringUtils.EMPTY);
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private ExtCustomTable exportPeriodViewTable;
     private final String excelName = "All Item Information";
     private BeanItemContainer<ItemIndexDto> excelResultBean = new BeanItemContainer<>(ItemIndexDto.class);

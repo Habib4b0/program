@@ -20,7 +20,7 @@ public class GtnWsCallEtlService {
 	}
 
 	public void runShellScript(String scriptUrl) {
-		LOGGER.info("Entering runShellScript with " + scriptUrl);
+		LOGGER.info("Entering runShellScript with= {} " , scriptUrl);
 		try {
 			URL url = new URL(scriptUrl);
 			URLConnection urlConnection = url.openConnection();

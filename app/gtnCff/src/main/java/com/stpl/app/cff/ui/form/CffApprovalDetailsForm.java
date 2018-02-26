@@ -323,7 +323,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                                         projectionResults.saveProjectionResultsSelection(sessionDTO);
                                         projectionVariance.savePvSelections(sessionDTO);
 
-                                    } catch (Exception ex) {
+                                    } catch (PortalException | SystemException | InterruptedException | ExecutionException ex) {
                                         java.util.logging.Logger.getLogger(CffApprovalDetailsForm.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
@@ -382,7 +382,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 submitBtn.setEnabled(true);
 
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
 
         }

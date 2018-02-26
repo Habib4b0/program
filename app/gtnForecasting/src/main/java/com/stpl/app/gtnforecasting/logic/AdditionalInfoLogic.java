@@ -44,7 +44,7 @@ public class AdditionalInfoLogic {
      * The additional info logic dao.
      */
     private final AdditionalInfoDAO addInfoDao = new AdditionalInfoDAOImpl();
-    private SimpleDateFormat wordFormat = new SimpleDateFormat("<MM/dd/yyyy> <hh:mm:ss a>");
+    private final SimpleDateFormat wordFormat = new SimpleDateFormat("<MM/dd/yyyy> <hh:mm:ss a>");
     private boolean isFileExists;
     /**
      * method to Save uploaded file .
@@ -77,8 +77,8 @@ public class AdditionalInfoLogic {
         List<DocDetails> docDetailsList;
         DocDetails docDetails;
 
-        LOGGER.debug("Entering saveUploadedFile method with projectionId " + projectionId + " fileName " + fileName + " uploadedBy " + uploadedBy + " fileSize " + fileSize + " moduleName  "
-                + moduleName);
+        LOGGER.debug("Entering saveUploadedFile method with projectionId= {}, fileName= {}, uploadedBy= {}, fileSize= {}, moduleName= {} " , projectionId, fileName, uploadedBy, fileSize, 
+                moduleName);
 
         docDetailsList = addInfoDao.getAttachmentDTOList(dynamicQuery);
 
@@ -98,7 +98,7 @@ public class AdditionalInfoLogic {
             docDetails.setFileSize(formatter.format(fileSize));
             addInfoDao.addDocDetails(docDetails);
         } else {
-            LOGGER.debug("In saveUploadedFile() --size of docDetailsList" + docDetailsList.size());
+            LOGGER.debug("In saveUploadedFile() --size of docDetailsList= {}" , docDetailsList.size());
             docDetails = docDetailsList.get(0);
             if (fileName.indexOf('.') == -1) {
                 docDetails.setFileName(fileName);
@@ -137,7 +137,7 @@ public class AdditionalInfoLogic {
         List<DocDetails> docDetailsList;
         AttachmentDTO attachmentDTO;
 
-        LOGGER.debug("getAttachmentDTOList with projectionId - " + projectionId + " moduleName - " + moduleName);
+        LOGGER.debug("getAttachmentDTOList with projectionId = {}, moduleName = {} " , projectionId, moduleName);
 
         docDetailsList = addInfoDao.getAttachmentDTOList(dynamicQuery);
 
@@ -159,7 +159,7 @@ public class AdditionalInfoLogic {
             }
         }
         LOGGER.debug("End of getAttachmentDTOList method");
-        LOGGER.debug("In getAttachmentDTOList() --size of attachmentDTOList" + attachmentDTOList.size());
+        LOGGER.debug("In getAttachmentDTOList() --size of attachmentDTOList= {}" , attachmentDTOList.size());
         return attachmentDTOList;
     }
 
@@ -174,10 +174,10 @@ public class AdditionalInfoLogic {
      * @throws Exception the exception
      */
     public Boolean deleteUploadedFile(final int docDetailsId, final File file) throws SystemException, PortalException{
-        LOGGER.debug("Entering deleteUploadedFile method with docDetailsId " + docDetailsId + " file " + file);
+        LOGGER.debug("Entering deleteUploadedFile method with docDetailsId= {}, file= {} " , docDetailsId, file);
         addInfoDao.deleteDocDetails(docDetailsId);
         isFileExists=file.delete();
-        LOGGER.info("File deleted successfully : "+isFileExists);
+        LOGGER.info("File deleted successfully= {} ",isFileExists);
         LOGGER.debug("End of deleteUploadedFile method");
         return true;
     }
@@ -202,7 +202,7 @@ public class AdditionalInfoLogic {
         additionalNotes.setProjectionId(projectionId);
         additionalNotes.setNotes(notes);
 
-        LOGGER.debug("Entering saveNotes method with with projectionId " + projectionId + " createdBy " + createdBy + " notes " + notes + " moduleName " + moduleName);
+        LOGGER.debug("Entering saveNotes method with with projectionId= {}, createdBy= {}, notes= {}, moduleName= {} " , projectionId, createdBy, notes, moduleName);
         addInfoDao.saveNotes(additionalNotes);
 
         LOGGER.debug("End of saveNotes method");
@@ -220,7 +220,7 @@ public class AdditionalInfoLogic {
     public List<AttachmentDTO> addUserFile(final List<AttachmentDTO> list, final String userName) {
         final List<AttachmentDTO> finalList = new ArrayList<>();
 
-        LOGGER.debug("Entering addUserFile method with list size " + list.size() + " userName " + userName);
+        LOGGER.debug("Entering addUserFile method with list size= {}, userName= {} " , list.size(), userName);
         for (final Iterator<AttachmentDTO> iterator = list.iterator(); iterator.hasNext();) {
             final AttachmentDTO dto = iterator.next();
 
@@ -249,7 +249,7 @@ public class AdditionalInfoLogic {
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         List<AdditionalNotes> notesList;
 
-        LOGGER.debug("Entering getNotes method with projectionId " + projectionId + " moduleName " + moduleName + " userName " + userName);
+        LOGGER.debug("Entering getNotes method with projectionId= {}, modilename= {}, userName= {} " , projectionId, moduleName, userName);
 
         notesList = addInfoDao.getNotes(dynamicQuery);
         if (notesList != null && !notesList.isEmpty()) {
@@ -263,7 +263,7 @@ public class AdditionalInfoLogic {
                     wordList.add(str);
                 }
             }
-            LOGGER.debug("In getNotes() --size of additionalNotesList" + notesList.size());
+            LOGGER.debug("In getNotes() --size of additionalNotesList= {}" , notesList.size());
         }
         LOGGER.debug("End of getNotes method");
 

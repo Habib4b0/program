@@ -41,7 +41,7 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
    
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {}, and start = {}, and offset= {} " , firstGenerated, start, offset);
         Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated && offset > 0) {
             List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
@@ -67,7 +67,7 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
         if (firstGenerated) {
             count = sdpLogic.getConfiguredSupplementalDiscountCount(getLastParent(), projSelDTO);
         }
-        LOGGER.debug("Return Count " + count);
+        LOGGER.debug("Return Count= {} " , count);
         return count;
     }
 

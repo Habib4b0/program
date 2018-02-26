@@ -479,7 +479,7 @@ public class UiUtils {
 	}
 
 	public static Date parseDate(String value, String format) throws ParseException {
-		LOGGER.debug("UiUtils - parseDate period: " + value + " format: " + format);
+		LOGGER.debug("UiUtils - parseDate period: {} and format={}", value, format);
 		Date date = null;
 		value = convertNullToEmpty(value);
 		SimpleDateFormat parse = new SimpleDateFormat(format);

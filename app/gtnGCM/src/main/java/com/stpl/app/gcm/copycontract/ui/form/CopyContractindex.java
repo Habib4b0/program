@@ -25,7 +25,6 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -114,7 +113,7 @@ public class CopyContractindex extends VerticalLayout {
     private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     private ContractSearchDTO binderDTO;
     private final List<ContractSearchDTO> selectionList = new ArrayList<>();
-    public CopyContractindex() throws SystemException {
+    public CopyContractindex() {
         addComponent(Clara.create(getClass().getResourceAsStream("/CopyContract.xml"), this));
         configuretable();
         binder = getBinder();
