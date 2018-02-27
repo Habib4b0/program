@@ -353,14 +353,14 @@ public class NmDiscountImpl {
                             + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
                             + Constant.SPACE_JOIN_NEW_LINE
                             + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
                             + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                             + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                             + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
                             + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
                             + Constant.SPACE_JOIN_NEW_LINE
                             + "    ( SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n"
-                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
                             + "        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID \n"
                             + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                             + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
@@ -504,14 +504,14 @@ public class NmDiscountImpl {
                             + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
                             + Constant.SPACE_JOIN_NEW_LINE
                             + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
                             + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                             + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                             + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
                             + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
                             + Constant.SPACE_JOIN_NEW_LINE
                             + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                            + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
                             + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                             + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                             + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
@@ -606,14 +606,14 @@ public class NmDiscountImpl {
                     + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
                     + Constant.SPACE_JOIN_NEW_LINE
                     + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                    + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                    + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
                     + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                     + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                     + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
                     + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
                     + Constant.SPACE_JOIN_NEW_LINE
                     + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                    + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                    + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
                     + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                     + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                     + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
@@ -888,14 +888,14 @@ public class NmDiscountImpl {
                         + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
                         + Constant.SPACE_JOIN_NEW_LINE
                         + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
                         + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                         + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                         + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
                         + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
                         + Constant.SPACE_JOIN_NEW_LINE
                         + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
                         + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                         + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                         + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
@@ -1357,14 +1357,14 @@ public class NmDiscountImpl {
                         + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
                         + Constant.SPACE_JOIN_NEW_LINE
                         + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
                         + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                         + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                         + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
                         + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
                         + Constant.SPACE_JOIN_NEW_LINE
                         + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
                         + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                         + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                         + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
@@ -1502,14 +1502,14 @@ public class NmDiscountImpl {
                         + Constant.ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D
                         + Constant.SPACE_JOIN_NEW_LINE
                         + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + customerLevelNo + "'\n"
                         + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                         + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                         + Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC + projectionId + "\n"
                         + Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + customerHierarchyNo + Constant.HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE
                         + Constant.SPACE_JOIN_NEW_LINE
                         + Constant.SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH
-                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
+                        + Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER + customId + Constant.AND_CVD_LEVEL_NO_LIKE + productLevelNo + "'\n"
                         + Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION
                         + Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITIO
                         + Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC + projectionId + "\n"
