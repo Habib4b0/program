@@ -677,8 +677,7 @@ if(!custom){
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
                 queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'   \n");
                 queryBuilder1.append("   ) CCPMAPC   \n");
-               
-                
+                queryBuilder1.append(" JOIN \n");                        
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
                 queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
@@ -836,8 +835,7 @@ if(!custom){
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
                 queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'   \n");
                 queryBuilder1.append("   ) CCPMAPC   \n");
-               
-                
+                queryBuilder1.append(" JOIN \n");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n");
                 queryBuilder1.append(JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'  \n");
@@ -1249,6 +1247,7 @@ if(!custom){
                  queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n  ");
                  queryBuilder1.append("   JOIN "+CommonUtils.getViewTableName(hierarchy)+" PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n  ");
                  queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID = "+projectionId+"\n  ");
+                 queryBuilder1.append("   WHERE RLD.HIERARCHY_NO LIKE '"+hierarchyNo+"%' and RLD.LEVEL_NO = "+(selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length()+1)+") \n  ");
                  queryBuilder1.append("   TEMP where TEMP.HIERARCHY_NO='"+selectedHiearchyNo+"' \n  ");
         
               }else if(method.equals("getCount")){
