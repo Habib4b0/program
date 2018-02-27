@@ -1439,6 +1439,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                         ndcDesc = String.valueOf(obj[1]);
                     }
 
+                    ndcList.add(ndcDesc);
                     listItemNo.add(ndcDesc);
                     itemMasterSidMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDesc);
                     nonFampMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FIVE]));
