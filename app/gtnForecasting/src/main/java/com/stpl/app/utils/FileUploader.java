@@ -54,8 +54,8 @@ public class FileUploader implements Receiver {
                 }
                 isFileCreated=file.createNewFile();
                 outputStream = new FileOutputStream(file);
-                LOGGER.info("File deleted successfully"+isFileExists);
-                LOGGER.info("File created successfully"+isFileCreated);
+                LOGGER.info("File deleted successfully= {}",isFileExists);
+                LOGGER.info("File created successfully= {}",isFileCreated);
             }
         } catch (final java.io.FileNotFoundException e) {
             LOGGER.error(e.getMessage());
@@ -71,11 +71,10 @@ public class FileUploader implements Receiver {
     }
 
     public static String getFilePath() {
-    	 StringBuilder path = new StringBuilder(System.getProperty("com.stpl.gtnframework.base.path"));
-         path.append("/");
-         path.append("Attachments");
-         path.append("/");
-         return path.toString();
+        StringBuilder path = new StringBuilder(System.getProperty("com.stpl.gtnframework.base.path"));
+        path.append("Attachments");
+        path.append("/");
+        return path.toString();
     }
 
     /**

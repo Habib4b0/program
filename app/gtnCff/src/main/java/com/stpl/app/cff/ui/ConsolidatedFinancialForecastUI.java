@@ -86,13 +86,13 @@ public class ConsolidatedFinancialForecastUI extends UI {
 			VaadinSession.getCurrent().setAttribute(ConstantsUtil.SESSION_ID, sessionId);
 			VaadinSession.getCurrent().setAttribute(ConstantsUtil.USER_ID, userId);
 			StplSecurity.getUserName();
-			LOGGER.info("USER_ID: " + userId);
-			LOGGER.info("SESSION_ID: " + sessionId);
+			LOGGER.info("USER_ID: {}", userId);
+			LOGGER.info("SESSION_ID: {} ", sessionId);
 			navigator.addView(ConsolidatedFinancialForecastView.NAME, new ConsolidatedFinancialForecastView());
 
 			navigator.setErrorView(new ConsolidatedFinancialForecastView());
 			LOGGER.debug("init method ends");
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error("",ex);
 		}
 

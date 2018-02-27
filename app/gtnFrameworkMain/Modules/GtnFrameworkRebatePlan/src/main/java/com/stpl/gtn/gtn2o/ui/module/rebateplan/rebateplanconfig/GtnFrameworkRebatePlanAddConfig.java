@@ -281,7 +281,7 @@ public class GtnFrameworkRebatePlanAddConfig {
 				"rebatePlanAddViewAddSaveButton", true, "rebatePlanAddViewAddSaveButtonlayout",
 				GtnUIFrameworkComponentType.BUTTON);
 		saveButtonConfig.setAuthorizationIncluded(true);
-		saveButtonConfig.setComponentName("Save");
+        saveButtonConfig.setComponentName("SAVE");
 		componentList.add(saveButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> saveActionConfigList = new ArrayList<>();

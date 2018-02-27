@@ -32,17 +32,7 @@
         </dependency>
         <dependency>
             <groupId>com.stpl.gtn.gtn2o.ui</groupId>
-            <artifactId>GtnFrameworkCDR</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.stpl.gtn.gtn2o.ui</groupId>
             <artifactId>GtnFrameworkCalendarConfiguration</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.stpl.gtn.gtn2o.ui</groupId>
-            <artifactId>GtnFrameworkCommercialForecasting</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
@@ -118,11 +108,6 @@
         <dependency>
             <groupId>com.stpl.gtn.gtn2o.ui</groupId>
             <artifactId>GtnFrameworkProcessMonitor</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.stpl.gtn.gtn2o.ui</groupId>
-            <artifactId>GtnFrameworkProcessScheduler</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

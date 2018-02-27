@@ -26,7 +26,6 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -1014,7 +1013,7 @@ public class Copycomponents extends CustomComponent {
         }
     }
 
-    public void savecontract(Object item) throws SystemException {
+    public void savecontract(Object item) {
         try {
             String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.SESSION_ID));
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));

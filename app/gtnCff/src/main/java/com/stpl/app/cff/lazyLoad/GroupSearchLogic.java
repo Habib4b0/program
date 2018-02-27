@@ -4,6 +4,7 @@
  */
 package com.stpl.app.cff.lazyLoad;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.vaadin.v7.data.Container;
@@ -35,8 +36,8 @@ public class GroupSearchLogic extends PageTableLogic{
         if (loadData) {
             try {
                 count = logic.searchGroupCount(groupName, groupNo, itemsOrCompanySids, "searchGroupCount", groupIdentifier, "count");
-            } catch (Exception ex) {
-                LOGGER.error(ex + " in getCount");
+            } catch (SystemException ex) {
+                LOGGER.error(" in getCount= {}", ex);
             }
         }
         return count;
@@ -47,8 +48,8 @@ public class GroupSearchLogic extends PageTableLogic{
         List<GroupDTO> resultList = new ArrayList<>();
         try {
             resultList = logic.searchGroup(groupName, groupNo, itemsOrCompanySids, "searchGroup", groupIdentifier, "find", start, offset, getFilters(), getSortByColumns());
-        } catch (Exception ex) {
-            LOGGER.error(ex + " in loadData");
+        } catch (SystemException ex) {
+            LOGGER.error(" in loadData= {}", ex);
         }
         return resultList;
     }

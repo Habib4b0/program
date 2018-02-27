@@ -93,13 +93,13 @@ public class FileUploader implements Upload.Receiver {
 				outputStream = new FileOutputStream(file);
 				return outputStream;// Return the output stream to write to
 			}
-			LOGGER.info("File is deleted successfully : "+ isFileExists);
-			LOGGER.info("File is created successfully : "+ isFileCreated);
+			LOGGER.info("File is deleted successfully : {} ", isFileExists);
+			LOGGER.info("File is created successfully : {} ", isFileCreated);
 		} catch (final java.io.FileNotFoundException e) {
 			LOGGER.error(e.getMessage());
 			return NULL_OUTPUT_STREAM;
 
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			LOGGER.error(ex.getMessage());
 			new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
@@ -216,11 +216,10 @@ public class FileUploader implements Upload.Receiver {
 	}
 
 	public static String getFilePath() {
-		String path = "";
-		String jbossHome = System.getProperty("jboss.home.dir");
-		String[] ftppath = jbossHome.split("jboss-7.1.1");
-		path = ftppath[0];
-		return path;
+            StringBuilder path = new StringBuilder(System.getProperty("com.stpl.gtnframework.base.path"));
+            path.append("Attachments");
+            path.append("/");
+            return path.toString();
 	}
 
 }

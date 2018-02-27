@@ -78,7 +78,7 @@ public class CustomViewLogic {
     }
 
     private List<Object[]> executeQuery(String projectionId, String customViewMasterSid, String queryName) {
-        LOGGER.debug("select the Data from CUSTOM_CCP_MAP  table :"+queryName);
+        LOGGER.debug("select the Data from CUSTOM_CCP_MAP  table = {}",queryName);
         String query = SQlUtil.getQuery(queryName);
         query = query.replace("[$PROJECTION_MASTER_SID]", projectionId);
         query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, customViewMasterSid);

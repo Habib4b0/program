@@ -10,7 +10,6 @@ import com.stpl.app.gcm.copycontract.dto.PSIFPDTO;
 import com.stpl.app.gcm.copycontract.dto.RsIfpDto;
 import com.stpl.app.model.HelperTable;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
@@ -21,11 +20,10 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
  */
 public interface ContractHeaderDAO {
 
-    List<HelperTable> getHelperTableList(DynamicQuery dynamicQuery)
-            throws SystemException;
+    List<HelperTable> getHelperTableList(DynamicQuery dynamicQuery);
+            
 
-    List getColumnNames(String tableName)
-            throws SystemException;
+    List getColumnNames(String tableName);
 
     public int getCFPCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc);
 

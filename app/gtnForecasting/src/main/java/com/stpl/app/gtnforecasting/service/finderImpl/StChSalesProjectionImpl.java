@@ -28,9 +28,6 @@ public class StChSalesProjectionImpl  {
     
 
 
-//        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
-//            LOGGER.debug(entry.getKey() + "/" + entry.getValue());
-//        }
         
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get(Constants.INDICATOR) != null && "getListViewProductLevel".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
@@ -107,7 +104,6 @@ public class StChSalesProjectionImpl  {
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
-//            query = query.replace("?PMSID?", String.valueOf(parameters.get("projectionId")));
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "expandCollapseSalesProjection".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             parameters.put(Constants.QUERY_NAME, "generateSalesProjection");
@@ -175,7 +171,6 @@ public class StChSalesProjectionImpl  {
 
         try {
 
-//            LOGGER.debug("executeQuery queryString for: " + parameters.get(Constants.INDICATOR) + ":\n " + queryString.toString());
 
             if (parameters.get(Constants.INDICATOR) != null) {
                 if ("saveCheckRecord".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
@@ -188,7 +183,7 @@ public class StChSalesProjectionImpl  {
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage() + " While assembling query for " + parameters.get(Constants.INDICATOR));
+            LOGGER.error("{}, While assembling query for= {} " , ex.getMessage(), parameters.get(Constants.INDICATOR));
             LOGGER.error(queryString.toString());
             return null;
         } 

@@ -638,8 +638,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			editBtn.setEnabled(false);
 			viewBtn.setEnabled(false);
 			deleteBtn.setEnabled(false);
-			publicView.setWidth(HeaderUtils.TWO_ONE_SEVEN_PX);
-			privateView.setWidth(HeaderUtils.TWO_ONE_SEVEN_PX);
+			publicView.setWidth(HeaderUtils.TWO_ZERO_ZERO_PX);
+			privateView.setWidth(HeaderUtils.TWO_ZERO_ZERO_PX);
+                        fromPeriod.setWidth(HeaderUtils.ONE_FIVE_FIVE_PX);
+                        toPeriod.setWidth(HeaderUtils.ONE_FIVE_FIVE_PX);
 			toPeriod.setEnabled(false);
 			modeOption.setImmediate(true);
 			modeOption.addItem(UIUtil.MODE_ADD);
@@ -720,15 +722,14 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	}
 
 	private void resizeDdlb() {
-		String width = "250px";
-		customerLevel.setWidth(width);
-		productLevel.setWidth(width);
-		level.setWidth(width);
-		productlevelDdlb.setWidth(width);
-		customerRelationComboBox.setWidth(width);
-		productRelation.setWidth(width);
-		company.setWidth(width);
-		businessUnit.setWidth(width);
+		customerLevel.setWidth(HeaderUtils.TWO_THIRTY_FIVE_PX);
+		productLevel.setWidth(HeaderUtils.TWO_THIRTY_FIVE_PX);
+		level.setWidth(HeaderUtils.TWO_THIRTY_FIVE_PX);
+		productlevelDdlb.setWidth(HeaderUtils.TWO_THIRTY_FIVE_PX);
+		customerRelationComboBox.setWidth(HeaderUtils.TWO_THIRTY_FIVE_PX);
+		productRelation.setWidth(HeaderUtils.TWO_THIRTY_FIVE_PX);
+		company.setWidth(HeaderUtils.TWO_ZERO_FIVE_PX);
+		businessUnit.setWidth(HeaderUtils.TWO_ZERO_FIVE_PX);
 	}
 
 	protected abstract void resetTwo();
@@ -1471,6 +1472,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			modeOption.setStyleName(HeaderUtils.HORIZONTAL);
 			layoutG1.addComponent(modeOption);
 			GridLayout layoutG2 = new GridLayout(NumericConstants.SIX, NumericConstants.TWO);
+                        layoutG2.setSpacing(true);
 			layoutG2.addComponent(new Label(HeaderUtils.PRIVATE_VIEWS) {
 				{
 					setWidth(HeaderUtils.ONE_ZERO_ZERO_PX);
@@ -1532,7 +1534,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 */
 	private void configureCustomerSelection() {
 		selectedCustomer.setSortEnabled(false);
-		customerHierarchy.setWidth(HeaderUtils.TWO_ONE_SEVEN_PX);
+		customerHierarchy.setWidth(HeaderUtils.TWO_ZERO_FIVE_PX);
 		customerLevel.setImmediate(true);
 		level.setImmediate(true);
 		availableCustomer.setContainerDataSource(availableCustomerContainer);
@@ -1629,7 +1631,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 */
 	private void configureProductSelection() {
 		selectedProduct.setSortEnabled(false);
-		productHierarchy.setWidth(HeaderUtils.TWO_ONE_SEVEN_PX);
+		productHierarchy.setWidth(HeaderUtils.TWO_ZERO_FIVE_PX);
 		availableProduct.setContainerDataSource(availableProductContainer);
 		selectedProduct.setContainerDataSource(selectedProductContainer);
 		availableProduct.setImmediate(true);

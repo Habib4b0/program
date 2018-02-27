@@ -2323,7 +2323,7 @@ public class DPRLogic {
 
     public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException, SystemException {
 
-        LOGGER.debug("Session--->" + sessionDTO.getUserId() + " || " + sessionDTO.getSessionId() + " || " + sessionDTO.getProjectionId());
+        LOGGER.debug("Session--->= {}, {}, {}" , sessionDTO.getUserId(), sessionDTO.getSessionId(), sessionDTO.getProjectionId());
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
 
         String queryString = "DECLARE @USER_ID               INT = " + sessionDTO.getUserId() + ",\n"

@@ -21,8 +21,6 @@ import com.stpl.app.gcm.util.CustomerFilterGenerator;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
@@ -284,7 +282,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtFilterTable resultTable) throws SystemException, PortalException {
+    public void createWorkSheet(String moduleName, ExtFilterTable resultTable)  {
         try {
             long recordCount = 0;
             CommmonLogic logic = new CommmonLogic();

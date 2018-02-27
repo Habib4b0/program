@@ -1490,7 +1490,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         }
     }
 
-    public void createWorkSheet(String fileName, ExtFilterTable resultTable) throws ParseException, SystemException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException, PortalException {
+    public void createWorkSheet(String fileName, ExtFilterTable resultTable) throws ParseException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException  {
 
         long recordCount = 0;
         CommmonLogic logic = new CommmonLogic();
@@ -1543,12 +1543,12 @@ public class UpdatedContractSelection extends VerticalLayout {
             if (componentInformationContainer.size() > 0) {
                 createWorkSheetInfo("Component_Information", componentInformationTable);
             }
-        } catch (SystemException | PortalException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (SystemException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             LOGGER.error(e + "at excel export");
         }
     }
 
-    public void createWorkSheetInfo(String fileName, ExtFilterTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheetInfo(String fileName, ExtFilterTable resultTable) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
 
         long recordCount = 0;
         if (resultTable.size() != 0) {

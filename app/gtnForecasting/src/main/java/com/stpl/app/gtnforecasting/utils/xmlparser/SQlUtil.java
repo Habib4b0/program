@@ -33,7 +33,7 @@ public class SQlUtil {
 			Enumeration<URL> urls = FrameworkUtil.getBundle(SQlUtil.class).getBundleContext().getBundle()
 					.findEntries("/sqlresources", "*", false);
 			getResources(urls);
-		} catch (Exception e) {
+		} catch (IOException | JAXBException e) {
 			LOGGER.error(e.getMessage());
 		}
 
@@ -55,15 +55,13 @@ public class SQlUtil {
 			URL tempUrl = urls.nextElement();
 			if (tempUrl.getFile() != null && tempUrl.getFile().contains(".xml")) {
 				Map<String, Object> properties = new HashMap<String, Object>(1);
-				// properties.put("javax.xml.bind.context.factory",
-				// "org.eclipse.persistence.jaxb.JAXBContextFactory");
 				JAXBContext jaxbContext = JAXBContext.newInstance(Sql.class);
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 				Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);
 				List<SqlEntity> list = que.getSqlEntity();
 				for (SqlEntity ans : list) {
 					if (QUERY_MAP.get(ans.getSqlID()) != null && ans.getSqlID() != null && ans.getSqlID().isEmpty()) {
-						LOGGER.error("Duplicate sql tag id found - " + ans.getSqlID());
+						LOGGER.error("Duplicate sql tag id found -= {} " , ans.getSqlID());
 					}
 					QUERY_MAP.put(ans.getSqlID(), ans.getSqlQuery());
 				}

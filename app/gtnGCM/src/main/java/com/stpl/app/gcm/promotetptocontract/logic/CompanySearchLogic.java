@@ -12,7 +12,6 @@ import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.Converters;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class CompanySearchLogic {
      * The Constant LOGGER.
      */
 
-    public int companySearchCount(PromoteTpToChDto tpDto, Set<Container.Filter> filters) throws  SystemException {
+    public int companySearchCount(PromoteTpToChDto tpDto, Set<Container.Filter> filters) {
         Map<String, Object> parameters = new HashMap<>();
         List resultList;
         parameters.put(StringConstantsUtil.LAZY_LOAD_RESULTS, null);
@@ -103,7 +102,7 @@ public class CompanySearchLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public List<PromoteTpToChDto> searchCompaniesLazy(final PromoteTpToChDto tpDTO, int startIndex, int offset, Set<Container.Filter> filters, String searchSessionId) throws SystemException {
+    public List<PromoteTpToChDto> searchCompaniesLazy(final PromoteTpToChDto tpDTO, int startIndex, int offset, Set<Container.Filter> filters, String searchSessionId) {
         Map<String, Object> parameters = new HashMap<>();
         List resultList;
         List<PromoteTpToChDto> returnList = null;

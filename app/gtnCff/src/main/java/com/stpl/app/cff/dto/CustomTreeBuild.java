@@ -73,7 +73,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             customId = returnBack;
         }
          
-        LOGGER.debug("customTreeSelectLogic ended" + returnBack);
+        LOGGER.debug("customTreeSelectLogic ended= {}", returnBack);
         return returnBack;
     }
 
@@ -179,7 +179,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                     if (treeTable.removeItem(treeItemId)) {
                         table.addItem(treeItemId);
                     }
-                } catch (Exception e) {
+                } catch (UnsupportedOperationException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
@@ -191,11 +191,11 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 
     private boolean isValidTree(Table table, String hierarchyIndicator) {
         Object treeLastItem = treeTable.lastItemId();
-          LOGGER.debug("treeLastItem.getLevelNo()=" + ((Leveldto) treeLastItem).getLevelNo());
+          LOGGER.debug("treeLastItem.getLevelNo()= {}", ((Leveldto) treeLastItem).getLevelNo());
         Object movingItem = table.getValue();
           
         if (movingItem != null && getLastLevelNo(hierarchyIndicator, treeLastItem) < ((Leveldto) movingItem).getLevelNo()) {
-            LOGGER.debug("movingItem.getLevelNo()=" + ((Leveldto) movingItem).getLevelNo());
+            LOGGER.debug("movingItem.getLevelNo()= {}", ((Leveldto) movingItem).getLevelNo());
                 return true;
         }
         return false;
@@ -250,7 +250,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                 AbstractNotificationUtils.getErrorNotification("Empty view name", "Please enter a view name");
             }
             customId = returnBack;
-            LOGGER.debug("customTreeSaveLogic ended" + returnBack);
+            LOGGER.debug("customTreeSaveLogic ended= {}", returnBack);
             return returnBack;
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -288,9 +288,9 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         if (customerContainer == null) {
             customerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
         }
-        LOGGER.debug("loadCustomers projectionId=" + session.getProjectionId()+"session level number========"+session.getCustomerLevelNumber());
+        LOGGER.debug("loadCustomers projectionId= {} and session level number= {}", session.getProjectionId(), session.getCustomerLevelNumber());
         List customerList = CommonLogic.getCustomerHierarchy(session.getProjectionId(), Integer.parseInt(session.getCustomerLevelNumber()));
-        LOGGER.debug("loadCustomers customerList size=" + customerList.size());
+        LOGGER.debug("loadCustomers customerList size= {}", customerList.size());
         int size = customerList.size();
         for (int i = 0; i < size; i++) {
             Object obj = customerList.get(i);
@@ -301,7 +301,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             }
         }
 
-        LOGGER.debug("loadCustomers customerList size=" + customerList.size());
+        LOGGER.debug("loadCustomers customerList size= {}", customerList.size());
         customerContainer.addAll(customerList);
     }
 
@@ -313,9 +313,9 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         if (productContainer == null) {
             productContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
         }
-        LOGGER.debug("loadProducts projectionId=" + session.getProjectionId()+"=====product level number======="+session.getProductLevelNumber());
+        LOGGER.debug("loadProducts projectionId= {} and Product level number= {} ", session.getProjectionId(), session.getProductLevelNumber());
         List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), Integer.parseInt(session.getProductLevelNumber()));
-        LOGGER.debug("loadProducts productList Start size=" + productList.size());
+        LOGGER.debug("loadProducts productList Start size= {}", productList.size());
         int size = productList.size();
         for (int i = 0; i < size; i++) {
             Object obj = productList.get(i);
@@ -325,7 +325,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                 i--;
             }
         }
-        LOGGER.debug("loadProducts productList End size=" + productList.size());
+        LOGGER.debug("loadProducts productList End size= {}", productList.size());
         productContainer.addAll(productList);
     }
     
@@ -342,7 +342,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
         Object[] res = (Object[])list.get(0);
         List deductionList = CommonLogic.getDeductionHierarchy(session.getProjectionId(), Integer.parseInt(res[0].toString()));
-        LOGGER.debug("load Deductions productList Start size=" + deductionList.size());
+        LOGGER.debug("load Deductions productList Start size= {}", deductionList.size());
         int size = deductionList.size();
         for (int i = 0; i < size; i++) {
             Object obj = deductionList.get(i);
@@ -352,9 +352,9 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                 i--;
             }
         }
-        LOGGER.debug("load Deductions productList End size=" + deductionList.size());
+        LOGGER.debug("load Deductions productList End size= {}", deductionList.size());
         deductionContainer.addAll(deductionList);
-        }catch(Exception e){
+        }catch(IllegalArgumentException e){
         	LOGGER.error(e.getMessage());
         }
     }

@@ -131,7 +131,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
     protected FileDownloader wordDownloader;
     protected FileDownloader pdfDownloader;
     AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
-    protected String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : "";
+    protected String basepath = System.getProperty("com.stpl.gtnframework.base.path");	
     protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
     protected Image pdfPngImage = new Image(null, new ThemeResource("img/pdf.png"));
     private File logo = new File(basepath + "/WEB-INF/images/company_logo.png");
