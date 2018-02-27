@@ -517,7 +517,7 @@ public class PPAProjection extends CustomComponent implements View {
                 Field component = null;
 
                 String tempProId = ExtListDTO.getPropertyId(propertyId.toString());
-                String customizedPropertyId = tempProId.substring(tempProId.indexOf(Constant.Q_SMALL) + NumericConstants.SIX);
+                String customizedPropertyId = tempProId.substring(tempProId.indexOf('q') + NumericConstants.SIX);
 
                 final PPAProjectionDTO dto = (PPAProjectionDTO) itemId;
                 try {

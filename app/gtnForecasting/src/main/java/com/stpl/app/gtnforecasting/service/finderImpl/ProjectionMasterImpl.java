@@ -95,12 +95,12 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             if (parameters.get(Constant.BUSINESS_UNIT) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(Constant.BUSINESS_UNIT))) && !ConstantsUtils.ZERO.equals(String.valueOf(parameters.get(Constant.BUSINESS_UNIT)))) {
                 queryString.append(" AND PM.BUSINESS_UNIT = ");
                 queryString.append(String.valueOf(parameters.get(Constant.BUSINESS_UNIT)));
-                queryString.append(" ");
+                queryString.append(' ');
             }
             if (parameters.get(Constant.COMPANY_SID) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(Constant.COMPANY_SID))) && !ConstantsUtils.ZERO.equals(String.valueOf(parameters.get(Constant.COMPANY_SID)))) {
                 queryString.append(" AND PM.COMPANY_MASTER_SID = ");
                 queryString.append(String.valueOf(parameters.get(Constant.COMPANY_SID)));
-                queryString.append(" ");
+                queryString.append(' ');
             }
             if (Constant.ACCRUAL_RATE_PROJECTION.equals(parameters.get(Constant.MODULE_NAME))) {
 
@@ -126,9 +126,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         queryString.append(" AND PCH.RELATIONSHIP_LEVEL_SID in (");
 
                         for (int loop = 0, limit = selectedCustomerRelationSid.size(); loop < limit; loop++) {
-                            queryString.append("'");
+                            queryString.append('\'');
                             queryString.append(selectedCustomerRelationSid.get(loop));
-                            queryString.append("'");
+                            queryString.append('\'');
                             if (loop != (limit - 1)) {
                                 queryString.append(", ");
                             }
@@ -152,9 +152,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     queryString.append(" AND PPH.RELATIONSHIP_LEVEL_SID in (");
 
                     for (int loop = 0, limit = selectedProductRelationSid.size(); loop < limit; loop++) {
-                        queryString.append("'");
+                        queryString.append('\'');
                         queryString.append(selectedProductRelationSid.get(loop));
-                        queryString.append("'");
+                        queryString.append('\'');
                         if (loop != (limit - 1)) {
                             queryString.append(", ");
                         }
@@ -319,7 +319,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTER_DISCOUNT)))) {
                 queryString.append(" AND PM.DISCOUNT_TYPE in (");
                 queryString.append(String.valueOf(parameters.get(Constant.FILTER_DISCOUNT)));
-                queryString.append(")");
+                queryString.append(')');
             }
             if (parameters.get(Constant.FILTER_BUSINESS_UNIT_NAME) != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(Constant.FILTER_BUSINESS_UNIT_NAME)))
                     && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTER_BUSINESS_UNIT_NAME)))) {
@@ -439,7 +439,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 customSql.append(" ProjectionProdHierarchy PH where PH.projectionMasterSid='");
             }
             customSql.append(String.valueOf(parameters.get(Constant.PROJECTION_ID)));
-            customSql.append("'");
+            customSql.append('\'');
             customSql.append(SQlUtil.getQuery(getClass(),"getRelationForCCP2"));
             if (parameters.get("projectionCustHierarchy") != null) {
                 customSql.append(" ProjectionCustHierarchy PHT where PHT.projectionMasterSid='");
@@ -447,7 +447,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 customSql.append(" ProjectionProdHierarchy PHT where PHT.projectionMasterSid='");
             }
             customSql.append(String.valueOf(parameters.get(Constant.PROJECTION_ID)));
-            customSql.append("'");
+            customSql.append('\'');
             customSql.append(SQlUtil.getQuery(getClass(),"getRelationForCCP3"));
 
             LOGGER.debug("End of getRelationshipHierarchy method");
@@ -490,23 +490,23 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.CUSTOMER_NO)))) {
                     queryString.append(" AND CG.companyGroupNo LIKE '");
                     queryString.append(String.valueOf(parameters.get(Constant.CUSTOMER_NO)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
                 if (parameters.get(Constant.CUSTOMER_NAME) != null
                         && !StringUtils.isEmpty(String.valueOf(parameters.get(Constant.CUSTOMER_NAME)))
                         && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.CUSTOMER_NAME)))) {
                     queryString.append(" AND CG.companyGroupName LIKE '");
                     queryString.append(String.valueOf(parameters.get(Constant.CUSTOMER_NAME)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
                 if (parameters.get("companySids") != null) {
                     List<String> companySids = (ArrayList<String>) (parameters.get("companySids"));
                     StringBuilder companiesList = new StringBuilder(StringUtils.EMPTY);
                     if (companySids != null && !companySids.isEmpty()) {
                         for (int loop = 0, limit = companySids.size(); loop < limit; loop++) {
-                            companiesList.append("'");
+                            companiesList.append('\'');
                             companiesList.append(companySids.get(loop));
-                            companiesList.append("'");
+                            companiesList.append('\'');
                             if (loop != (limit - 1)) {
                                 companiesList.append(", ");
                             }
@@ -531,7 +531,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.PRODUCT_NAME)))) {
                     queryString.append(" AND IG.itemGroupName LIKE '");
                     queryString.append(String.valueOf(parameters.get(Constant.PRODUCT_NAME)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
 
                 if (parameters.get("itemSids") != null) {
@@ -540,9 +540,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         StringBuilder itemsList = new StringBuilder(StringUtils.EMPTY);
                         if (itemSids != null && !itemSids.isEmpty()) {
                             for (int loop = 0, limit = itemSids.size(); loop < limit; loop++) {
-                                itemsList.append("'");
+                                itemsList.append('\'');
                                 itemsList.append(itemSids.get(loop));
-                                itemsList.append("'");
+                                itemsList.append('\'');
                                 if (loop != (limit - 1)) {
                                     itemsList.append(", ");
                                 }
@@ -714,9 +714,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get(Constant.INDICATOR) != null && Constant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(getClass(), Constant.HAS_TRADING_PARTNER));
-            queryString.append("'");
+            queryString.append('\'');
             queryString.append(String.valueOf(parameters.get(Constant.PROJECTION_ID)));
-            queryString.append("'");
+            queryString.append('\'');
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(getClass(), Constant.UNSAVED_PROJECTION_IDS));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
@@ -763,7 +763,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     }
                     queryString.append(") AND HIERARCHY_NO NOT IN (");
                     queryString.append(CommonUtils.stringListToString(rlSids));
-                    queryString.append(")");
+                    queryString.append(')');
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
                     queryString.append(String.valueOf(parameters.get(Constant.TABLE_NAME)));
 
@@ -773,7 +773,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
                     }
                     queryString.append(String.valueOf(parameters.get(Constant.PROJECTION_ID)));
-                    queryString.append(")");
+                    queryString.append(')');
                 }
             }
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
@@ -822,9 +822,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             queryString.replace(queryString.indexOf(Constant.RLC), queryString.indexOf(Constant.RLC) + 5, String.valueOf(parameters.get("relationshipLevelValue")));
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(getClass(), Constant.COMPANY_FILTER));
-            queryString.append("'");
+            queryString.append('\'');
             queryString.append(String.valueOf(parameters.get(Constant.COMPANY_SID)));
-            queryString.append("'");
+            queryString.append('\'');
         } else {
             queryString.append(String.valueOf(parameters.get("query")));
         }
@@ -866,9 +866,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             if (itemMasterSids != null && !itemMasterSids.isEmpty()) {
                 queryBuilder.append(" and IM.itemMasterSid in (");
                 for (int loop = 0, limit = itemMasterSids.size(); loop < limit; loop++) {
-                    queryBuilder.append("'");
+                    queryBuilder.append('\'');
                     queryBuilder.append(itemMasterSids.get(loop));
-                    queryBuilder.append("'");
+                    queryBuilder.append('\'');
                     if (loop != (limit - 1)) {
                         queryBuilder.append(", ");
                     }
@@ -902,7 +902,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 queryBuilder.append(String.valueOf(parameters.get("glCompId")));
                 queryBuilder.append(" AND GLC.COMPANY_CODE = CM.COMPANY_ID AND IM.NDC8 = GLC.NDC8 ");
                 queryBuilder.append(" AND IM.ORGANIZATION_KEY = ");
-                queryBuilder.append(String.valueOf(parameters.get(Constant.BUSINESS_UNIT))).append(" ");
+                queryBuilder.append(String.valueOf(parameters.get(Constant.BUSINESS_UNIT))).append(' ');
 
             } else if (parameters.get(Constant.LEVEL_NAME) != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_NDC))) && "company".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME)))) {
 
@@ -931,14 +931,14 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             if (parameters.get(Constant.LEVEL_NAME) != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_NDC)))) {
                 queryBuilder.append(" and RLD.level_Name = '");
                 queryBuilder.append(String.valueOf(parameters.get(Constant.LEVEL_NAME)));
-                queryBuilder.append("'");
+                queryBuilder.append('\'');
             }
 
             if (parameters.get(Constant.RELATIONSHIP_SID) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.RELATIONSHIP_SID)))
                     && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(Constant.RELATIONSHIP_SID))) && !"0".equals(String.valueOf(parameters.get(Constant.RELATIONSHIP_SID)))) {
                 queryBuilder.append(" and RLD.RELATIONSHIP_BUILDER_SID = '");
                 queryBuilder.append(String.valueOf(parameters.get(Constant.RELATIONSHIP_SID)));
-                queryBuilder.append("'");
+                queryBuilder.append('\'');
             }
             if (Constant.ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(String.valueOf(parameters.get(Constant.SCREEN_NAME))) && (!"Segment Group".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) && !"Segment".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME)))) && !"Segments".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) && !"Company".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) && !"GL Company".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) && !"Business Unit".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME)))) {
                 queryBuilder.append("and RLD.relationship_Level_Values IN (");
@@ -1010,7 +1010,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                             + Constant.DESCRIPTION_LIKE + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "' ))");
                 }
 
-                queryBuilder.append(")");
+                queryBuilder.append(')');
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         } catch (Exception ex) {
@@ -1171,7 +1171,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
-                                        tempLogic.append("'");
+                                        tempLogic.append('\'');
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
@@ -1191,7 +1191,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
-                                        tempLogic.append("'");
+                                        tempLogic.append('\'');
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
@@ -1256,7 +1256,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                                         tempLogic.append(tempRow[6]);
                                         tempLogic.append("='");
                                         tempLogic.append(tempRow[1]);
-                                        tempLogic.append("'");
+                                        tempLogic.append('\'');
                                     } else {
                                         tempLogic.append(", ");
                                         tempLogic.append(tempRow[5]);
@@ -1400,9 +1400,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get(Constant.INDICATOR) != null && Constant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(getClass(), Constant.HAS_TRADING_PARTNER));
-            queryString.append("'");
+            queryString.append('\'');
             queryString.append(String.valueOf(parameters.get(Constant.PROJECTION_ID)));
-            queryString.append("'");
+            queryString.append('\'');
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(getClass(), Constant.UNSAVED_PROJECTION_IDS));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
@@ -1422,12 +1422,12 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     }
                     queryString.append(") AND HIERARCHY_NO NOT IN (");
                     queryString.append(CommonUtils.stringListToString(rlSids));
-                    queryString.append(")");
+                    queryString.append(')');
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
                     queryString.append(String.valueOf(parameters.get(Constant.TABLE_NAME)));
                     queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
                     queryString.append(String.valueOf(parameters.get(Constant.PROJECTION_ID)));
-                    queryString.append(")");
+                    queryString.append(')');
                 }
             }
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
@@ -1476,9 +1476,9 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             queryString.replace(queryString.indexOf(Constant.RLC), queryString.indexOf(Constant.RLC) + 5, String.valueOf(parameters.get("relationshipLevelValue")));
         } else if (parameters.get(Constant.INDICATOR) != null && Constant.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(getClass(), Constant.COMPANY_FILTER));
-            queryString.append("'");
+            queryString.append('\'');
             queryString.append(String.valueOf(parameters.get(Constant.COMPANY_SID)));
-            queryString.append("'");
+            queryString.append('\'');
         } else if (parameters.get(Constant.INDICATOR) != null
                 && (Constant.GET_HIERARCHY_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))
                 || "getHierarchyGroupCount".equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))) { //searchGroup
@@ -1663,7 +1663,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 LOGGER.error("in execute query= {}", ex.getMessage());
             }
             queryString.append(query);
-            queryString.append(";");
+            queryString.append(';');
         } else if (parameters.get(Constant.INDICATOR) != null
                 && ("searchGroup".equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))
                 || "searchGroupCount".equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))) {
@@ -1735,7 +1735,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 queryString.append(no);
                 queryString.append(" LIKE '");
                 queryString.append(String.valueOf(parameters.get("no")));
-                queryString.append("'");
+                queryString.append('\'');
             }
             if (parameters.get("name") != null
                     && !StringUtils.isEmpty(String.valueOf(parameters.get("name")))
@@ -1744,14 +1744,14 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 queryString.append(name);
                 queryString.append(" LIKE '");
                 queryString.append(String.valueOf(parameters.get("name")));
-                queryString.append("'");
+                queryString.append('\'');
             }
             if (parameters.get("sids") != null && !"null".equals(String.valueOf(parameters.get("sids")))) {
                 queryString.append(Constant.SPACE_AND_SPACE);
                 queryString.append(sids);
                 queryString.append(" in (");
                 queryString.append(String.valueOf(parameters.get("sids")));
-                queryString.append(")");
+                queryString.append(')');
             }
 
             queryString.append(Constant.QUESTION_FILTER_QUESTION);

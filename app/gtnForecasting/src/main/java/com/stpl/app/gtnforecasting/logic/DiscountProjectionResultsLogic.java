@@ -1012,7 +1012,7 @@ public class DiscountProjectionResultsLogic {
                                         }
                                     } else {
                                         String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                        if (periodList.contains(column.replace(Constant.Q, Constant.Q_SMALL))) {
+                                        if (periodList.contains(column.replace('Q', 'q'))) {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
                                                 arate = 0.0;
@@ -1042,7 +1042,7 @@ public class DiscountProjectionResultsLogic {
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
-                                            periodList.remove(column.replace(Constant.Q, Constant.Q_SMALL));
+                                            periodList.remove(column.replace('Q', 'q'));
                                         }
                                         actualSales = 0;
                                         actualAmount = 0;
@@ -1074,7 +1074,7 @@ public class DiscountProjectionResultsLogic {
                                     }
                                     if (i == list.size() - 1) {
                                         String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                        if (periodList.contains(column.replace(Constant.Q, Constant.Q_SMALL))) {
+                                        if (periodList.contains(column.replace('Q', 'q'))) {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
                                                 arate = 0.0;
@@ -1104,7 +1104,7 @@ public class DiscountProjectionResultsLogic {
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
-                                            periodList.remove(column.replace(Constant.Q, Constant.Q_SMALL));
+                                            periodList.remove(column.replace('Q', 'q'));
                                         }
                                     }
                                 }
@@ -1114,7 +1114,7 @@ public class DiscountProjectionResultsLogic {
                                     DiscountProjectionResultsDTO projDTO = new DiscountProjectionResultsDTO();
                                     projDTO.setParent(0);
                                     projDTO.setProjectionTotal(1);
-                                    String group = String.valueOf(periodList.get(i).replace(Constant.Q_SMALL, Constant.Q));
+                                    String group = String.valueOf(periodList.get(i).replace('q', 'Q'));
                                     String year = group.substring(group.length() - NumericConstants.FOUR, group.length());
                                     String frequency = group.replace(year, StringUtils.EMPTY);
                                     group = frequency + " " + year;
@@ -1281,7 +1281,7 @@ public class DiscountProjectionResultsLogic {
                                         }
                                     } else {
                                         String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                        periodList.contains(column.replace(Constant.S, Constant.S_SMALL));
+                                        periodList.contains(column.replace('S', 's'));
                                         {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
@@ -1312,7 +1312,7 @@ public class DiscountProjectionResultsLogic {
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
-                                            periodList.remove(column.replace(Constant.S, Constant.S_SMALL));
+                                            periodList.remove(column.replace('S', 's'));
                                         }
                                         actualSales = 0;
                                         actualAmount = 0;
@@ -1344,7 +1344,7 @@ public class DiscountProjectionResultsLogic {
                                     }
                                     if (i == list.size() - 1) {
                                         String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                        if (periodList.contains(column.replace(Constant.S, Constant.S_SMALL))) {
+                                        if (periodList.contains(column.replace('S', 's'))) {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
                                                 arate = 0.0;
@@ -1374,7 +1374,7 @@ public class DiscountProjectionResultsLogic {
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
-                                            periodList.remove(column.replace(Constant.S, Constant.S_SMALL));
+                                            periodList.remove(column.replace('S', 's'));
                                         }
                                     }
                                 }
@@ -1384,7 +1384,7 @@ public class DiscountProjectionResultsLogic {
                                     DiscountProjectionResultsDTO projDTO = new DiscountProjectionResultsDTO();
                                     projDTO.setParent(0);
                                     projDTO.setProjectionTotal(1);
-                                    String group = String.valueOf(periodList.get(i).replace(Constant.S_SMALL, Constant.S));
+                                    String group = String.valueOf(periodList.get(i).replace('s', 'S'));
                                     String year = group.substring(group.length() - NumericConstants.FOUR, group.length());
                                     String frequency = group.replace(year, StringUtils.EMPTY);
                                     group = frequency + " " + year;
@@ -2237,7 +2237,7 @@ public class DiscountProjectionResultsLogic {
                                     }
                                 } else {
                                     String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                    if (periodList.contains(String.valueOf(column).replace(Constant.Q, Constant.Q_SMALL))) {
+                                    if (periodList.contains(String.valueOf(column).replace('Q', 'q'))) {
                                         Double arate = actualAmount / actualSales;
                                         if (arate.isNaN()) {
                                             arate = 0.0;
@@ -2270,7 +2270,7 @@ public class DiscountProjectionResultsLogic {
                                             discountDto = putHyphenForDiscount(tmpList, discountDto);
                                         }
                                         discountProjList.add(discountDto);
-                                        periodList.remove(String.valueOf(column).replace(Constant.Q, Constant.Q_SMALL));
+                                        periodList.remove(String.valueOf(column).replace('Q', 'q'));
                                         tmpList.clear();
                                         tmpList.addAll(discountList);
                                     }
@@ -2305,7 +2305,7 @@ public class DiscountProjectionResultsLogic {
                                 }
                                 if (i == list.size() - 1) {
                                     String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                    if (periodList.contains(String.valueOf(column).replace(Constant.Q, Constant.Q_SMALL))) {
+                                    if (periodList.contains(String.valueOf(column).replace('Q', 'q'))) {
                                         Double arate = actualAmount / actualSales;
                                         if (arate.isNaN()) {
                                             arate = 0.0;
@@ -2340,7 +2340,7 @@ public class DiscountProjectionResultsLogic {
                                         discountProjList.add(discountDto);
                                         tmpList.clear();
                                         tmpList.addAll(discountList);
-                                        periodList.remove(String.valueOf(column).replace(Constant.Q, Constant.Q_SMALL));
+                                        periodList.remove(String.valueOf(column).replace('Q', 'q'));
                                     }
                                 }
                             }
@@ -2350,7 +2350,7 @@ public class DiscountProjectionResultsLogic {
                                 DiscountProjectionResultsDTO projDTO = new DiscountProjectionResultsDTO();
                                 projDTO.setParent(0);
                                 projDTO.setProjectionTotal(1);
-                                String group = String.valueOf(periodList.get(i).replace(Constant.Q_SMALL, Constant.Q));
+                                String group = String.valueOf(periodList.get(i).replace('q', 'Q'));
                                 String year = group.substring(group.length() - NumericConstants.FOUR, group.length());
                                 String frequency = group.replace(year, StringUtils.EMPTY);
                                 group = frequency + " " + year;
@@ -2521,7 +2521,7 @@ public class DiscountProjectionResultsLogic {
                                     }
                                 } else {
                                     String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                    if (periodList.contains(String.valueOf(column).replace(Constant.S, Constant.S_SMALL))) {
+                                    if (periodList.contains(String.valueOf(column).replace('S', 's'))) {
                                         Double arate = actualAmount / actualSales;
                                         if (arate.isNaN()) {
                                             arate = 0.0;
@@ -2554,7 +2554,7 @@ public class DiscountProjectionResultsLogic {
                                             discountDto = putHyphenForDiscount(tmpList, discountDto);
                                         }
                                         discountProjList.add(discountDto);
-                                        periodList.remove(String.valueOf(column).replace(Constant.S, Constant.S_SMALL));
+                                        periodList.remove(String.valueOf(column).replace('S', 's'));
                                         tmpList.clear();
                                         tmpList.addAll(discountList);
                                     }
@@ -2589,7 +2589,7 @@ public class DiscountProjectionResultsLogic {
                                 }
                                 if (i == list.size() - 1) {
                                     String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                    if (periodList.contains(String.valueOf(column).replace(Constant.S, Constant.S_SMALL))) {
+                                    if (periodList.contains(String.valueOf(column).replace('S', 's'))) {
                                         Double arate = actualAmount / actualSales;
                                         if (arate.isNaN()) {
                                             arate = 0.0;
@@ -2622,7 +2622,7 @@ public class DiscountProjectionResultsLogic {
                                             discountDto = putHyphenForDiscount(tmpList, discountDto);
                                         }
                                         discountProjList.add(discountDto);
-                                        periodList.remove(String.valueOf(column).replace(Constant.S, Constant.S_SMALL));
+                                        periodList.remove(String.valueOf(column).replace('S', 's'));
 
                                     }
                                 }
@@ -2633,7 +2633,7 @@ public class DiscountProjectionResultsLogic {
                                 DiscountProjectionResultsDTO projDTO = new DiscountProjectionResultsDTO();
                                 projDTO.setParent(0);
                                 projDTO.setProjectionTotal(1);
-                                String group = String.valueOf(periodList.get(i).replace(Constant.S_SMALL, Constant.S));
+                                String group = String.valueOf(periodList.get(i).replace('s', 'S'));
                                 String year = group.substring(group.length() - NumericConstants.FOUR, group.length());
                                 String frequency = group.replace(year, StringUtils.EMPTY);
                                 group = frequency + " " + year;

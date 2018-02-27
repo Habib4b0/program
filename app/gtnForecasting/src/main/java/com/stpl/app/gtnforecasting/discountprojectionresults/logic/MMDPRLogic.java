@@ -2343,7 +2343,7 @@ public class MMDPRLogic {
                     if (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
                         projSelDTO.setPivotValue(projSelDTO.getGroup().replace(projSelDTO.getGroup().substring(0, NumericConstants.THREE), map.get(projSelDTO.getGroup().substring(0, NumericConstants.THREE))));
                     } else {
-                        projSelDTO.setPivotValue(projSelDTO.getGroup().contains(Constant.Q) ? projSelDTO.getGroup().replace(Constant.Q, " ") : projSelDTO.getGroup().replace(Constant.S, " "));
+                        projSelDTO.setPivotValue(projSelDTO.getGroup().contains(Constant.Q) ? projSelDTO.getGroup().replace('Q', ' ') : projSelDTO.getGroup().replace('S', ' '));
                     }
                     list = dqLogic.getLevelValue(projSelDTO);
                 } else {
@@ -2355,7 +2355,7 @@ public class MMDPRLogic {
                             projSelDTO.setPivotValue(monValue);
                         }
                     } else {
-                        projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace(Constant.Q, " ") : projSelDTO.getPivotValue().replace(Constant.S, " "));
+                        projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace('Q', ' ') : projSelDTO.getPivotValue().replace('S', ' '));
                     }
                     if (Constant.BRAND_CAPS.equals(projSelDTO.getSupplementalLevelName())) {
                         list = dqLogic.getBrandLevelValue(projSelDTO);
@@ -2369,7 +2369,7 @@ public class MMDPRLogic {
                     if (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
                         projSelDTO.setPivotValue(projSelDTO.getGroup().replace(projSelDTO.getGroup().substring(0, NumericConstants.THREE), map.get(projSelDTO.getGroup().substring(0, NumericConstants.THREE))));
                     } else {
-                        projSelDTO.setPivotValue(projSelDTO.getGroup().contains(Constant.Q) ? projSelDTO.getGroup().replace(Constant.Q, " ") : projSelDTO.getGroup().replace(Constant.S, " "));
+                        projSelDTO.setPivotValue(projSelDTO.getGroup().contains(Constant.Q) ? projSelDTO.getGroup().replace('Q', ' ') : projSelDTO.getGroup().replace('S', ' '));
                     }
                     list = dqLogic.getSuppLevelValue(projSelDTO);
                 } else {
@@ -2380,7 +2380,7 @@ public class MMDPRLogic {
                             projSelDTO.setPivotValue(projSelDTO.getPivotValue());
                         }
                     } else {
-                        projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace(Constant.Q, " ") : projSelDTO.getPivotValue().replace(Constant.S, " "));
+                        projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace('Q', ' ') : projSelDTO.getPivotValue().replace('S', ' '));
                     }
                     if (Constant.BRAND_CAPS.equals(projSelDTO.getSupplementalLevelName())) {
                         list = dqLogic.getSuppBrandLevelValue(projSelDTO);

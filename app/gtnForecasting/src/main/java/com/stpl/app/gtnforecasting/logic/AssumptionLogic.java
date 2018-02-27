@@ -154,8 +154,8 @@ public class AssumptionLogic {
                 tempDto.setGrossSalePriorPV(dollZeroDec.format(grossSalePrior.doubleValue()));
                 tempDto.setGrossSaleProjectedPV(dollZeroDec.format(grossSaleProjected.doubleValue()));
                 tempDto.setGrossSaleChangePV(perOneDec.format(grossSaleChange.doubleValue()) + Constant.PERCENT);
-                tempDto.setTotalDiscountPriorPV(perOneDec.format(totalDiscountPrior.isNaN() ? 0 : totalDiscountPrior.doubleValue()) + Constant.PERCENT);
-                tempDto.setTotalDiscountProjectedPV(perOneDec.format(totalDiscountProjected.isNaN() ? 0 : totalDiscountProjected.doubleValue()) + Constant.PERCENT);
+                tempDto.setTotalDiscountPriorPV(perOneDec.format(totalDiscountPrior.isNaN() ? 0 : totalDiscountPrior.doubleValue()) + '%');
+                tempDto.setTotalDiscountProjectedPV(perOneDec.format(totalDiscountProjected.isNaN() ? 0 : totalDiscountProjected.doubleValue()) + '%');
                 tempDto.setTotalDiscountChangePV(perOneDec.format(totalDiscountChange.doubleValue()) + Constant.PERCENT);
                 tempDto.setNetSalePriorPV(dollZeroDec.format(netSalePrior.doubleValue()));
                 tempDto.setNetSaleProjectedPV(dollZeroDec.format(netSaleProjected.doubleValue()));

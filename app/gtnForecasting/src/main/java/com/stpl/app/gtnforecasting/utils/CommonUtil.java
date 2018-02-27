@@ -508,8 +508,8 @@ public class CommonUtil {
                 waitsForOtherThreadsToComplete(session.getFutureValue(Constant.PPA_PROCEDURE_CALL));
                 StringBuilder query = new StringBuilder("EXEC ");
                 query.append(procedureName);
-                query.append(Constant.SPACE).append(session.getProjectionId()).append(COMMA);
-                query.append(session.getUserId()).append(",'").append(session.getSessionId()).append("'");
+                query.append(Constant.SPACE).append(session.getProjectionId()).append(',');
+                query.append(session.getUserId()).append(",'").append(session.getSessionId()).append('\'');
                 HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
             }
         };

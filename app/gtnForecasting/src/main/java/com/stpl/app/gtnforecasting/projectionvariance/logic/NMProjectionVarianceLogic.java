@@ -1265,7 +1265,7 @@ public class NMProjectionVarianceLogic {
                     ccps.append(String.valueOf(obj[0]));
                     flag = false;
                 } else {
-                    ccps.append(",").append(obj[0]);
+                    ccps.append(',').append(obj[0]);
                 }
             }
         }
@@ -3051,7 +3051,7 @@ public class NMProjectionVarianceLogic {
             if (key.startsWith(str.trim())) {
                 stringBuilder.append("('");
                 stringBuilder.append(key);
-                stringBuilder.append("',").append(i++).append(")");
+                stringBuilder.append("',").append(i++).append(')');
                 return stringBuilder.toString();
             }
         }
@@ -3077,7 +3077,7 @@ public class NMProjectionVarianceLogic {
                     }
                     stringBuilder.append("('");
                     stringBuilder.append(entry.getKey());
-                    stringBuilder.append("',").append(i++).append(")");
+                    stringBuilder.append("',").append(i++).append(')');
                     isNotFirstElement = true;
                 }
             } else if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()))) {

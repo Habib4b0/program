@@ -1471,7 +1471,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
     public void getNDCSetup(String projectionId) throws NamingException, SQLException {
         callNDCPopupProcedure();
-        String ndcNo = Arrays.toString(ndcList.toArray()).replace("[", " ").replace("]", " ");
+        String ndcNo = Arrays.toString(ndcList.toArray()).replace('[', ' ').replace(']', ' ');
         if (StringUtils.isNotBlank(ndcNo)) {
             if (logic.isAFSSPriceTypeAvailable(projectionId)) {
                 new AbstractNotificationUtils() {

@@ -956,8 +956,8 @@ public class AltHistorySelection extends CustomComponent implements View {
 
             String freq = String.valueOf(frequency.getValue());
             if (freq.equals(Constant.QUARTERLY)) {
-                startPeriod = startPeriod.replace(Constant.Q_SMALL, Constant.Q);
-                endPeriod = endPeriod.replace(Constant.Q_SMALL, Constant.Q);
+                startPeriod = startPeriod.replace('q', 'Q');
+                endPeriod = endPeriod.replace('q', 'Q');
             }
             String stDate = formDate(startPeriod, freq, true);
             String eDate = formDate(endPeriod, freq, false);
@@ -989,7 +989,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         List<AlternateHistoryDTO> list = altHistLogic.alternateSelectionList(session, altHistoryDTO, null,0,0,true,ccpSet);
         excelResultBean.addAll(list);
         ForecastUI.setEXCEL_CLOSE(true);
-        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
+        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
         excel.export();
         historyAllocationLayout.removeComponent(exportPeriodViewTable);
     }

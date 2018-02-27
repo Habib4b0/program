@@ -708,7 +708,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             if (i++ == 0) {
                 ids.append(dto.getItemMasterSid());
             } else {
-                ids.append(",").append(dto.getItemMasterSid());
+                ids.append(',').append(dto.getItemMasterSid());
             }
         }
         return ids.toString();

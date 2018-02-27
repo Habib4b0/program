@@ -376,7 +376,7 @@ public class DiscountQueryBuilder {
                 for (String[] strings : massUpdateData) {
                     levelNo = strings[3];
                     hierarIndicator = strings[1];
-                    relValue = strings[4].contains("~") ? strings[4].substring(strings[4].lastIndexOf("~") + 1) : strings[4];
+                    relValue = strings[4].contains("~") ? strings[4].substring(strings[4].lastIndexOf('~') + 1) : strings[4];
                 }
                 }else{
                 levelNo = String.valueOf(session.getSelectedDeductionLevelNo());
@@ -437,11 +437,11 @@ public class DiscountQueryBuilder {
                 if (hierarchyData[2].isEmpty()) {
                     stringBuilder.append("NULL");
                 } else {
-                    stringBuilder.append("'").append(hierarchyData[2]).append("'");
+                    stringBuilder.append('\'').append(hierarchyData[2]).append('\'');
                 }
 
-                stringBuilder.append(",").append("'").append(hierarchyData[1]).append("',").append(i++);
-                stringBuilder.append(")");
+                stringBuilder.append(',').append('\'').append(hierarchyData[1]).append("',").append(i++);
+                stringBuilder.append(')');
                 isNotFirstElement = true;
             } else {
                 List<String> hierarchyNo = Arrays.asList((String.valueOf(hierarchyData[0])).split("\\,"));
@@ -455,11 +455,11 @@ public class DiscountQueryBuilder {
                 if (hierarchyData[2].isEmpty()) {
                     stringBuilder.append("NULL");
                 } else {
-                    stringBuilder.append("'").append(hierarchyData[2]).append("'");
+                    stringBuilder.append('\'').append(hierarchyData[2]).append('\'');
                 }
 
-                stringBuilder.append(",").append("'").append(hierarchyData[1]).append("',").append(i++);
-                stringBuilder.append(")");
+                stringBuilder.append(',').append('\'').append(hierarchyData[1]).append("',").append(i++);
+                stringBuilder.append(')');
                 isNotFirstElement = true;  
                 }
 
@@ -1041,7 +1041,7 @@ public class DiscountQueryBuilder {
         List<String> levelNoList =  levelNo == 10 ? HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(levelNoQuery,session.getCurrentTableNames())):getRSHierarchyNo(discountList,session);
         StringBuilder levelNoFromQuery = new StringBuilder();
         for (String value : levelNoList) {
-            levelNoFromQuery.append("('").append(value).append("')").append(",");
+            levelNoFromQuery.append("('").append(value).append("')").append(',');
         }
         levelNoFromQuery = levelNoFromQuery.replace(levelNoFromQuery.lastIndexOf(","), levelNoFromQuery.length(), StringUtils.EMPTY);
         return levelNoFromQuery.toString();

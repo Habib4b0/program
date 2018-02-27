@@ -984,7 +984,7 @@ public class MPmpyCalculator extends Window {
         List<MPmpyDTO> list = (List) selectedProductsTable.getItemIds();
         for (MPmpyDTO pmpyDTO : list) {
             if (flag) {
-                productIds.append(",");                
+                productIds.append(',');                
             }
             flag = true;
             

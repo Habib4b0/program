@@ -147,56 +147,56 @@ public class PVQueryUtils {
             if (marketType == null || marketType.equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = marketType.replace(asterik, percent);
+                marketTypeVal = marketType.replace('*', '%');
                 marketTypeVal = quotes + marketTypeVal + quotes;
             }
             customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE  " + marketTypeVal + ")");
             if (brand == null || brand.equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
-                brandVal = brand.replace(asterik, percent);
+                brandVal = brand.replace('*', '%');
                 brandVal = quotes + brandVal + quotes;
             }
             customSql.append("   AND (BM.BRAND_NAME LIKE " + brandVal + " or BM.BRAND_NAME is null)");
             if (projName == null || projName.equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
-                projNameVal = projName.replace(asterik, percent);
+                projNameVal = projName.replace('*', '%');
                 projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE " + projNameVal + " or PM.PROJECTION_NAME is null)");
             if (contHldr == null || contHldr.equals(StringUtils.EMPTY)) {
                 contHldrVal = "'%'";
             } else {
-                contHldrVal = contHldr.replace(asterik, percent);
+                contHldrVal = contHldr.replace('*', '%');
                 contHldrVal = quotes + contHldrVal + quotes;
             }
             customSql.append("AND  (C.CONTRACT_NO LIKE " + contHldrVal + " or C.CONTRACT_NO is null)");
             if (ndcName == null || ndcName.equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
-                ndcNameVal = ndcName.replace(asterik, percent);
+                ndcNameVal = ndcName.replace('*', '%');
                 ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND  (IM.ITEM_NAME LIKE " + ndcNameVal + " or IM.ITEM_NAME is null)");
             if (ndcNo == null || ndcNo.equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
-                ndcNoVal = ndcNo.replace(asterik, percent);
+                ndcNoVal = ndcNo.replace('*', '%');
                 ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND  (IM.ITEM_NO LIKE " + ndcNoVal + "or  IM.ITEM_NO is null)");
             if (contract == null || contract.equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
-                contractVal = contract.replace(asterik, percent);
+                contractVal = contract.replace('*', '%');
                 contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND (CM.COMPANY_NO LIKE " + contractVal + "or CM.COMPANY_NO is null)");
             if (desc == null || desc.equals(StringUtils.EMPTY)) {
                 descVal = "'%'";
             } else {
-                descVal = desc.replace(asterik, percent);
+                descVal = desc.replace('*', '%');
                 descVal = quotes + descVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE " + descVal + "or PM.PROJECTION_NAME is null)");
@@ -375,63 +375,63 @@ public class PVQueryUtils {
             if (comparisonLookupDTO.getMarketType() == null || comparisonLookupDTO.getMarketType().equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = comparisonLookupDTO.getMarketType().replace(asterik, percent);
+                marketTypeVal = comparisonLookupDTO.getMarketType().replace('*', '%');
                 marketTypeVal = quotes + marketTypeVal + quotes;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(")");
+            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(')');
             if (comparisonLookupDTO.getBrand() == null || comparisonLookupDTO.getBrand().equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
-                brandVal = comparisonLookupDTO.getBrand().replace(asterik, percent);
+                brandVal = comparisonLookupDTO.getBrand().replace('*', '%');
                 brandVal = quotes + brandVal + quotes;
             }
             customSql.append(" AND (BM.BRAND_NAME LIKE ").append(brandVal).append(" or BM.BRAND_NAME is null)");
             if (comparisonLookupDTO.getProjectionName() == null || comparisonLookupDTO.getProjectionName().equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
-                projNameVal = comparisonLookupDTO.getProjectionName().replace(asterik, percent);
+                projNameVal = comparisonLookupDTO.getProjectionName().replace('*', '%');
                 projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND  (PM.PROJECTION_NAME LIKE ").append(projNameVal).append(" or PM.PROJECTION_NAME is null)");
             if (comparisonLookupDTO.getCustomer() == null || comparisonLookupDTO.getCustomer().equals(StringUtils.EMPTY)) {
                 contHldrVal = "'%'";
             } else {
-                contHldrVal = comparisonLookupDTO.getCustomer().replace(asterik, percent);
+                contHldrVal = comparisonLookupDTO.getCustomer().replace('*', '%');
                 contHldrVal = quotes + contHldrVal + quotes;
             }
             customSql.append("AND (C.CONTRACT_NO LIKE ").append(contHldrVal).append(" or C.CONTRACT_NO is null)");
             if (comparisonLookupDTO.getNdcName() == null || comparisonLookupDTO.getNdcName().equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
-                ndcNameVal = comparisonLookupDTO.getNdcName().replace(asterik, percent);
+                ndcNameVal = comparisonLookupDTO.getNdcName().replace('*', '%');
                 ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NAME LIKE ").append(ndcNameVal).append(" or IM.ITEM_NAME is null)");
             if (comparisonLookupDTO.getNdcNo() == null || comparisonLookupDTO.getNdcNo().equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
-                ndcNoVal = comparisonLookupDTO.getNdcNo().replace(asterik, percent);
+                ndcNoVal = comparisonLookupDTO.getNdcNo().replace('*', '%');
                 ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NO LIKE ").append(ndcNoVal).append("or  IM.ITEM_NO is null)");
             if (comparisonLookupDTO.getContract() == null || comparisonLookupDTO.getContract().equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
-                contractVal = comparisonLookupDTO.getContract().replace(asterik, percent);
+                contractVal = comparisonLookupDTO.getContract().replace('*', '%');
                 contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND (CM.COMPANY_NO LIKE ").append(contractVal).append("or CM.COMPANY_NO is null)");
             if (comparisonLookupDTO.getProjectionDescription() == null || comparisonLookupDTO.getProjectionDescription().equals(StringUtils.EMPTY)) {
                 descVal = "'%'";
             } else {
-                descVal = comparisonLookupDTO.getProjectionDescription().replace(asterik, percent);
+                descVal = comparisonLookupDTO.getProjectionDescription().replace('*', '%');
                 descVal = quotes + descVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(descVal).append("or  PM.PROJECTION_DESCRIPTION is null)");
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not  in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = ").append(quotes).append(comparisonLookupDTO.getWorkflowStatus()).append(quotes);
+                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
             if ((comparisonLookupDTO.getCreatedDateFrom() != null && !StringUtils.EMPTY.equals(String.valueOf(comparisonLookupDTO.getCreatedDateFrom())) && !Constants.CommonConstants.NULL.getConstant().equals(String.valueOf(comparisonLookupDTO.getCreatedDateFrom())))
                     && (comparisonLookupDTO.getCreatedDateTo() == null || StringUtils.EMPTY.equals(String.valueOf(comparisonLookupDTO.getCreatedDateTo())) || Constants.CommonConstants.NULL.getConstant().equals(String.valueOf(comparisonLookupDTO.getCreatedDateTo())))) {
@@ -501,7 +501,7 @@ public class PVQueryUtils {
                     String userID = CommonUtils.CollectionToString(strList, false);
                     customSql.append("AND (PM.CREATED_BY IN (").append(userID).append(") ) ");
             }
-            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(comparisonLookupDTO.getCurrentProjId()).append(")");
+            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(comparisonLookupDTO.getCurrentProjId()).append(')');
             customSql.append("AND CUR_PD.PROJECTION_MASTER_SID IN (").append(comparisonLookupDTO.getCurrentProjId()).append(") ");
             customSql.append("AND PM.FORECASTING_TYPE='").append(screenName).append("' ");
             customSql.append(" group by  pm.projection_name,pm.projection_description,pm.projection_master_sid,PM.created_date,PM.created_by ) RSLT ");
@@ -558,60 +558,60 @@ public class PVQueryUtils {
                 marketTypeVal = comparisonLookupDTO.getMarketType().replace(asterik, percent);
                 marketTypeVal = quotes + marketTypeVal + quotes;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(")");
+            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(')');
             if (comparisonLookupDTO.getBrand() == null || comparisonLookupDTO.getBrand().equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
-                brandVal = comparisonLookupDTO.getBrand().replace(asterik, percent);
+                brandVal = comparisonLookupDTO.getBrand().replace('*', '%');
                 brandVal = quotes + brandVal + quotes;
             }
             customSql.append("  AND (BM.BRAND_NAME LIKE ").append(brandVal).append(" or BM.BRAND_NAME is  null)");
             if (comparisonLookupDTO.getProjectionName() == null || comparisonLookupDTO.getProjectionName().equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
-                projNameVal = comparisonLookupDTO.getProjectionName().replace(asterik, percent);
+                projNameVal = comparisonLookupDTO.getProjectionName().replace('*', '%');
                 projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND  (PM.PROJECTION_NAME LIKE ").append(projNameVal).append(" or PM.PROJECTION_NAME is  null)");
             if (comparisonLookupDTO.getCustomer() == null || comparisonLookupDTO.getCustomer().equals(StringUtils.EMPTY)) {
                 contHldrVal = "'%'";
             } else {
-                contHldrVal = comparisonLookupDTO.getCustomer().replace(asterik, percent);
+                contHldrVal = comparisonLookupDTO.getCustomer().replace('*', '%');
                 contHldrVal = quotes + contHldrVal + quotes;
             }
             customSql.append("AND (C.CONTRACT_NO LIKE ").append(contHldrVal).append(" or  C.CONTRACT_NO is null)");
             if (comparisonLookupDTO.getNdcName() == null || comparisonLookupDTO.getNdcName().equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
-                ndcNameVal = comparisonLookupDTO.getNdcName().replace(asterik, percent);
+                ndcNameVal = comparisonLookupDTO.getNdcName().replace('*', '%');
                 ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NAME LIKE ").append(ndcNameVal).append(" or IM.ITEM_NAME is  null)");
             if (comparisonLookupDTO.getNdcNo() == null || comparisonLookupDTO.getNdcNo().equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
-                ndcNoVal = comparisonLookupDTO.getNdcNo().replace(asterik, percent);
+                ndcNoVal = comparisonLookupDTO.getNdcNo().replace('*', '%');
                 ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NO LIKE ").append(ndcNoVal).append("or IM.ITEM_NO is null)");
             if (comparisonLookupDTO.getContract() == null || comparisonLookupDTO.getContract().equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
-                contractVal = comparisonLookupDTO.getContract().replace(asterik, percent);
+                contractVal = comparisonLookupDTO.getContract().replace('*', '%');
                 contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND  (CM.COMPANY_NO LIKE ").append(contractVal).append("or  CM.COMPANY_NO is null)");
             if (comparisonLookupDTO.getProjectionDescription() == null || comparisonLookupDTO.getProjectionDescription().equals(StringUtils.EMPTY)) {
                 descVal = "'%'";
             } else {
-                descVal = comparisonLookupDTO.getProjectionDescription().replace(asterik, percent);
+                descVal = comparisonLookupDTO.getProjectionDescription().replace('*', '%');
                 descVal = quotes + descVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(descVal).append("or PM.PROJECTION_DESCRIPTION is null)");
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name =  'WorkFlowStatus' and ht1.description = ").append(quotes).append(comparisonLookupDTO.getWorkflowStatus()).append(quotes);
+                customSql.append("AND HT1.list_name =  'WorkFlowStatus' and ht1.description = ").append(quotes).append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
             if ((comparisonLookupDTO.getCreatedDateFrom() != null && !StringUtils.EMPTY.equals(String.valueOf(comparisonLookupDTO.getCreatedDateFrom())) && !Constants.CommonConstants.NULL.getConstant().equals(String.valueOf(comparisonLookupDTO.getCreatedDateFrom())))
                     && (comparisonLookupDTO.getCreatedDateTo() == null || StringUtils.EMPTY.equals(String.valueOf(comparisonLookupDTO.getCreatedDateTo())) || Constants.CommonConstants.NULL.getConstant().equals(String.valueOf(comparisonLookupDTO.getCreatedDateTo())))) {
@@ -681,7 +681,7 @@ public class PVQueryUtils {
                 String userID = CommonUtils.CollectionToString(strList, false);
                 customSql.append("AND (PM.CREATED_BY IN (").append(userID).append(") ) ");
             }
-            customSql.append("AND PM.PROJECTION_MASTER_SID  NOT IN (").append(comparisonLookupDTO.getCurrentProjId()).append(")");
+            customSql.append("AND PM.PROJECTION_MASTER_SID  NOT IN (").append(comparisonLookupDTO.getCurrentProjId()).append(')');
             customSql.append("AND CUR_PD.PROJECTION_MASTER_SID IN (").append(comparisonLookupDTO.getCurrentProjId()).append(") ");
             customSql.append("AND PM.FORECASTING_TYPE='").append(screenName).append("' ");
             customSql.append(" group by  pm.projection_name,pm.projection_description,pm.projection_master_sid,PM.created_date,PM.created_by ");
@@ -697,7 +697,7 @@ public class PVQueryUtils {
                         customSql.append(", ");
                         temp = Boolean.TRUE;
                     }
-                    customSql.append(columns.get(sortByColumn.getName())).append(" ").append(sortByColumn.getType());
+                    customSql.append(columns.get(sortByColumn.getName())).append(' ').append(sortByColumn.getType());
                 }
             }
 
@@ -767,46 +767,46 @@ public class PVQueryUtils {
             if (isProjectionStatus) {
                 customSql.append(" PM.IS_APPROVED NOT IN ('Y','C','A','R')");
             } else {
-                customSql.append(" HT1.list_name = 'WorkFlowStatus' and HT1.description = ").append(quotes).append(comparisonLookupDTO.getWorkflowStatus()).append(quotes);
+                customSql.append(" HT1.list_name = 'WorkFlowStatus' and HT1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
 
             if (isValidateSearchCriteria(comparisonLookupDTO.getMarketType())) {
-                marketTypeVal = comparisonLookupDTO.getMarketType().replace(asterik, percent);
+                marketTypeVal = comparisonLookupDTO.getMarketType().replace('*', '%');
                 marketTypeVal = quotes + marketTypeVal + quotes;
-                customSql.append(" AND ( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(")");
+                customSql.append(" AND ( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(')');
             }
             if (isValidateSearchCriteria(comparisonLookupDTO.getBrand())) {
-                brandVal = comparisonLookupDTO.getBrand().replace(asterik, percent);
+                brandVal = comparisonLookupDTO.getBrand().replace('*', '%');
                 brandVal = quotes + brandVal + quotes;
                 customSql.append("  AND (BM.BRAND_NAME LIKE ").append(brandVal).append(" or BM.BRAND_NAME  is null)");
             }
             if (isValidateSearchCriteria(comparisonLookupDTO.getProjectionName())) {
-                projNameVal = comparisonLookupDTO.getProjectionName().replace(asterik, percent);
+                projNameVal = comparisonLookupDTO.getProjectionName().replace('*', '%');
                 projNameVal = quotes + projNameVal + quotes;
                 customSql.append(" AND (PM.PROJECTION_NAME LIKE ").append(projNameVal).append(" or PM.PROJECTION_NAME  is null)");
             }
             if (isValidateSearchCriteria(comparisonLookupDTO.getCustomer())) {
-                contHldrVal = comparisonLookupDTO.getCustomer().replace(asterik, percent);
+                contHldrVal = comparisonLookupDTO.getCustomer().replace('*', '%');
                 contHldrVal = quotes + contHldrVal + quotes;
                 customSql.append(" AND (C.CONTRACT_NO LIKE ").append(contHldrVal).append(" or  C.CONTRACT_NO is null)");
             }
             if (isValidateSearchCriteria(comparisonLookupDTO.getNdcName())) {
-                ndcNameVal = comparisonLookupDTO.getNdcName().replace(asterik, percent);
+                ndcNameVal = comparisonLookupDTO.getNdcName().replace('*', '%');
                 ndcNameVal = quotes + ndcNameVal + quotes;
                 customSql.append(" AND (IM.ITEM_NAME LIKE ").append(ndcNameVal).append(" or IM.ITEM_NAME  is null)");
             }
             if (isValidateSearchCriteria(comparisonLookupDTO.getNdcNo())) {
-                ndcNoVal = comparisonLookupDTO.getNdcNo().replace(asterik, percent);
+                ndcNoVal = comparisonLookupDTO.getNdcNo().replace('*', '%');
                 ndcNoVal = quotes + ndcNoVal + quotes;
                 customSql.append(" AND (IM.ITEM_NO LIKE ").append(ndcNoVal).append("or IM.ITEM_NO is null)");
             }
             if (isValidateSearchCriteria(comparisonLookupDTO.getContract())) {
-                contractVal = comparisonLookupDTO.getContract().replace(asterik, percent);
+                contractVal = comparisonLookupDTO.getContract().replace('*', '%');
                 contractVal = quotes + contractVal + quotes;
                 customSql.append(" AND (CM.COMPANY_NO LIKE ").append(contractVal).append("or  CM.COMPANY_NO is null)");
             }
             if (isValidateSearchCriteria(comparisonLookupDTO.getProjectionDescription())) {
-                descVal = comparisonLookupDTO.getProjectionDescription().replace(asterik, percent);
+                descVal = comparisonLookupDTO.getProjectionDescription().replace('*', '%');
                 descVal = quotes + descVal + quotes;
                 customSql.append(" AND (PM.PROJECTION_DESCRIPTION LIKE ").append(descVal).append("or PM.PROJECTION_DESCRIPTION is null)");
             }
@@ -897,7 +897,7 @@ public class PVQueryUtils {
                             customSql.append(", ");
                             temp = Boolean.TRUE;
                         }
-                        customSql.append(columns.get(sortByColumn.getName())).append(" ").append(sortByColumn.getType());
+                        customSql.append(columns.get(sortByColumn.getName())).append(' ').append(sortByColumn.getType());
                     }
                 }
 

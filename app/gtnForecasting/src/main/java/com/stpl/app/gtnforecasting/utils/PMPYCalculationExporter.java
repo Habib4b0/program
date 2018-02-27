@@ -262,7 +262,7 @@ public class PMPYCalculationExporter {
             fileOut.flush();
             fileOut.close();
 
-            Page.getCurrent().open(new TemporaryFileDownloadResource(UI.getCurrent(), FILE_NAME.replace(" ", "_") + ".xls", EXCEL_MIME_TYPE, tempFile), WINDOW_NAME, true);
+            Page.getCurrent().open(new TemporaryFileDownloadResource(UI.getCurrent(), FILE_NAME.replace(' ', '_') + ".xls", EXCEL_MIME_TYPE, tempFile), WINDOW_NAME, true);
             tempFile.deleteOnExit();
             LOGGER.debug("End of export method");
         } catch (Exception e) {

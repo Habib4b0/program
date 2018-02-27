@@ -460,8 +460,8 @@ public class MSalesProjection extends ForecastSalesProjection {
             String salesOrUnitsProperty;
 
             if (StringUtils.isNotBlank(hierarchyNo) && StringUtils.isNotEmpty(hierarchyNo)) {
-                updatePeriod = updatePeriod.replace(Constant.Q, Constant.Q_SMALL);
-                updatePeriod = updatePeriod.replace(" ", "-");
+                updatePeriod = updatePeriod.replace('Q', 'q');
+                updatePeriod = updatePeriod.replace(' ', '-');
                 if (salesOrUnits) {
                     updatePeriod = updatePeriod + "-ProjectedSales";
                     salesOrUnitsProperty = Constant.SALES_SMALL;

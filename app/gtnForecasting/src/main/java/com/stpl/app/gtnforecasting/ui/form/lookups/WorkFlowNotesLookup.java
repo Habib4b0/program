@@ -176,13 +176,13 @@ public class WorkFlowNotesLookup extends Window {
                         fileUpload = CommonUtil.getFilePath(fileUploadPath + value);
                         String name = fileUpload.getAbsolutePath();
                         if (name.contains("\\")) {
-                            String replace = name.replace("\\", ",");
+                            String replace = name.replace('\\', ',');
                             String[] array = replace.split(",");
                             String filename = array[array.length - 1];
                             uploader.setValue(filename);
                             fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? filename.substring(0, filename.lastIndexOf('.')) : fileNameField.getValue());
                         } else if (name.contains("/")) {
-                            final String replace = name.replace("/", ",");
+                            final String replace = name.replace('/', ',');
                             final String[] array = replace.split(",");
                             final String filename = array[array.length - 1];
                             uploader.setValue(filename);
@@ -328,7 +328,7 @@ public class WorkFlowNotesLookup extends Window {
                 attachmentsListBean.addBean(attachmentDTO);
                 fileNameField.setValue(StringUtils.EMPTY);
                 uploader.setValue(StringUtils.EMPTY);
-                CommonUIUtils.successNotification(attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf(".")) + " uploaded successfully");
+                CommonUIUtils.successNotification(attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf('.')) + " uploaded successfully");
             } else {
                 AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
                 uploader.setValue(StringUtils.EMPTY);
@@ -360,7 +360,7 @@ public class WorkFlowNotesLookup extends Window {
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);
                     fileNameField.setValue(StringUtils.EMPTY);
-                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf(".")))) {
+                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.')))) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);

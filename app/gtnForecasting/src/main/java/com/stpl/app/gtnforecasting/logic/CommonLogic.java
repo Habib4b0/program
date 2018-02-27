@@ -410,10 +410,10 @@ public class CommonLogic {
                 for (int i = 0; i < customDetailsList.size(); i++) {
                     relationShipLevelQry.append(customDetailsList.get(i).getHierarchyId());
                     if (i != customDetailsList.size() - 1) {
-                        relationShipLevelQry.append(CommonUtil.COMMA);
+                        relationShipLevelQry.append(',');
                     }
                 }
-                relationShipLevelQry.append(CommonUtil.CLOSE_PARANTHESIS);
+                relationShipLevelQry.append(')');
                 List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
 
                 for (CustomViewDetails ob : customDetailsList) {
@@ -864,16 +864,16 @@ public class CommonLogic {
 		int noOfArgs = orderedArgs.length;
 		for (int i = 0; i < noOfArgs; i++) {
 			if (i == 0) {
-				procedureToCall.append(CommonUtil.OPEN_PARANTHESIS);
+				procedureToCall.append('(');
 			}
 			procedureToCall.append("?,");
 			if (i == noOfArgs - 1) {
-				procedureToCall.append(CommonUtil.CLOSE_PARANTHESIS);
+				procedureToCall.append(')');
 			}
 		}
 		procedureToCall.replace(procedureToCall.lastIndexOf(CommonUtil.COMMA),
 				procedureToCall.lastIndexOf(CommonUtil.COMMA) + 1, StringUtils.EMPTY);
-		procedureToCall.append("}");
+		procedureToCall.append(')');
 		return procedureToCall.toString();
     }
 
@@ -1034,7 +1034,7 @@ public class CommonLogic {
         } else {
             for (int i = 0; i < map.size(); i++) {
                 queryBuilder.append("UPDATE ").append(tableName).append(" SET FIELD_NAME = '");
-                queryBuilder.append(obj[i]).append("',").append("FIELD_VALUES = '").append(map.get(obj[i])).append("'");
+                queryBuilder.append(obj[i]).append("',").append("FIELD_VALUES = '").append(map.get(obj[i])).append('\'');
                 queryBuilder.append(" WHERE PROJECTION_MASTER_SID = '").append(projectionID).append(" ' AND SCREEN_NAME = '").append(screenName).append("' AND FIELD_NAME ='").append(obj[i]).append("'\n");
             }
         }
@@ -1601,7 +1601,7 @@ public class CommonLogic {
             extraDot = ".";
         }
         String hierarchyNo = hierarchyNos.substring(0, len - 1);
-        int lin = hierarchyNo.lastIndexOf(".");
+        int lin = hierarchyNo.lastIndexOf('.');
         if (lin > 0) {
             hierarchyNo = hierarchyNo.substring(0, lin) + extraDot;
         } else {
@@ -4042,11 +4042,11 @@ public class CommonLogic {
             if (previousOppositeHierarchy.isEmpty()) {
                 stringBuilder.append("NULL");
             } else {
-                stringBuilder.append("'").append(parentHierarchy.trim()).append("'");
+                stringBuilder.append('\'').append(parentHierarchy.trim()).append('\'');
             }
 
-            stringBuilder.append(",").append("'").append(treeNode.getHierarchyIndicator()).append("',").append(i++);
-            stringBuilder.append(")");
+            stringBuilder.append(',').append('\'').append(treeNode.getHierarchyIndicator()).append("',").append(i++);
+            stringBuilder.append(')');
             isNotFirstElement = true;
             }
         }else{
@@ -4062,11 +4062,11 @@ public class CommonLogic {
             if (previousOppositeHierarchy.isEmpty()) {
                 stringBuilder.append("NULL");
             } else {
-                stringBuilder.append("'").append(previousOppositeHierarchy.trim()).append("'");
+                stringBuilder.append('\'').append(previousOppositeHierarchy.trim()).append('\'');
             }
 
-            stringBuilder.append(",").append("'").append(treeNode.getHierarchyIndicator()).append("',").append(i++);
-            stringBuilder.append(")");
+            stringBuilder.append(',').append('\'').append(treeNode.getHierarchyIndicator()).append("',").append(i++);
+            stringBuilder.append(')');
             isNotFirstElement = true;
         }
         }
@@ -4167,7 +4167,7 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                stringBuilder.append("',").append(i++).append(")");
+                stringBuilder.append("',").append(i++).append(')');
                 isNotFirstElement = true;
 
                 }
@@ -4432,10 +4432,10 @@ public class CommonLogic {
         StringBuilder stringBuilder = new StringBuilder();
         List<String> discountIdList = selection.getDiscountList().get(0);
         for (String rsId : discountIdList) {
-            stringBuilder.append(CommonUtil.OPEN_PARANTHESIS);
+            stringBuilder.append('(');
             stringBuilder.append(rsId);
-            stringBuilder.append(CommonUtil.CLOSE_PARANTHESIS);
-            stringBuilder.append(ConstantsUtils.COMMA);
+            stringBuilder.append(')');
+            stringBuilder.append(',');
         }
         return stringBuilder.substring(0, stringBuilder.length() - 1);
     }
@@ -4869,7 +4869,7 @@ public class CommonLogic {
         String helperJoin = gtnFrameworkHierarchyServiceImpl.addTableJoin(singleColumnRelationBean);
         String relationShipsid = isCustomer ? projectionDto.getSessionDTO().getCustRelationshipBuilderSid() : projectionDto.getSessionDTO().getProdRelationshipBuilderSid();
             if (helperJoin.isEmpty()) {
-                formedQuery.append("SELECT DISTINCT ").append(aliasNameField).append(",").append(keyField).append(" FROM ");
+                formedQuery.append("SELECT DISTINCT ").append(aliasNameField).append(',').append(keyField).append(" FROM ");
                 formedQuery.append(joinQuery);
                 if (isCustomer) {
                     formedQuery.append(" JOIN CCP_DETAILS AS CCP_DETAILS ON CCP_DETAILS.COMPANY_MASTER_SID = COMPANY_MASTER.COMPANY_MASTER_SID");
@@ -4882,7 +4882,7 @@ public class CommonLogic {
                 formedQuery.append(getHierarchyNoForRelationShip(levelList,((List<Leveldto>)Leveldto.getBeanByLevelNo(levelList, selectedLevelNo).get(1)).get(0),relationShipsid));
             } else {
                 List<String> columnList = gtnFrameworkHierarchyServiceImpl.getMappingColumns(singleColumnRelationBean);
-                formedQuery.append("SELECT DISTINCT ").append(columnList.get(0)).append(",").append(columnList.get(1)).append(" FROM ");
+                formedQuery.append("SELECT DISTINCT ").append(columnList.get(0)).append(',').append(columnList.get(1)).append(" FROM ");
                 formedQuery.append(joinQuery);
                 formedQuery.append(helperJoin);
                 if (isCustomer) {
@@ -5132,7 +5132,7 @@ public class CommonLogic {
         if (StringUtils.isEmpty(hierarchyNo)) {
             percentHierarchy = "%";
         } else {
-            percentHierarchy = hierarchyNo.contains("~") ? "%"+hierarchyNo.replace("~","%")+"%" : "%"+hierarchyNo+"%";
+            percentHierarchy = hierarchyNo.contains("~") ? '%'+hierarchyNo.replace("~","%")+'%' : '%'+hierarchyNo+'%';
         }
         return percentHierarchy;
     }
@@ -5203,7 +5203,7 @@ public class CommonLogic {
 				tempQuery.append(",'.'");
 				continue;
 }
-			tempQuery.append(",");
+			tempQuery.append(',');
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
 			tempQuery.append(singleColumnRelationBean.getActualTtableName().concat(".")

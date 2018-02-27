@@ -821,7 +821,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 / ((isCustomHierarchy ? ccpsCount : discountLevelccpCount) * frequencyDiv);
                         blurValue = String.valueOf(finalValue);
                         if (blurValue.contains("E")) {
-                            blurValue = blurValue.substring(0, blurValue.lastIndexOf("E"));
+                            blurValue = blurValue.substring(0, blurValue.lastIndexOf('E'));
                         }
                     } else if (property.contains(Constant.GROWTH)) {
                         refreshName = "GROWTH";
@@ -2232,7 +2232,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<String> checkedDiscountNames = new ArrayList<>();
             List<String> checkedDiscountNamesList = new ArrayList<>();
             if (endPeriodForecastTab.getValue() != null) {
-                endValue = endPeriodForecastTab.getValue().toString().replace(" ", "~").trim();
+                endValue = endPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
             } else {
                 endValue = forecaststartBean.getIdByIndex(forecaststartBean.size() - 1);
             }
@@ -2248,7 +2248,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 && (checkBoxMap.size() == 0 || checkedDiscountsPropertyIds.size() != checkBoxMap.size()) && !PER_EX_FACTORY_SALES.getConstant().equals(methodologyDdlb.getValue())) {
                             NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED, PLEASE_SELECT_A_HISTORIC_ALERT);
                         } else if (baseLineCalc(startPeriodForecastTab.getValue().toString(),
-                                endValue.replace("~", " "))
+                                endValue.replace('~', ' '))
                                 || methodologyDdlb.getValue().equals(CONTRACT_DETAILS.getConstant())) {
                             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                             boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY
@@ -2316,7 +2316,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                         String.valueOf(startPeriodForecastTab.getValue()),
                                                         String.valueOf(frequencyDdlb.getValue()), "Min"));
                                                 projectionSelection
-                                                        .setToDateDdlb(logic.getPeriodSid(endValue.replace("~", " "),
+                                                        .setToDateDdlb(logic.getPeriodSid(endValue.replace('~', ' '),
                                                                 String.valueOf(frequencyDdlb.getValue()), "Max"));
                                                 projectionSelection.setCalcBased(calcBase);
                                                 projectionSelection
@@ -2421,7 +2421,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<String> checkedDiscountNames = new ArrayList<>();
             List<String> checkedDiscountNamesList = new ArrayList<>();
             if (endPeriodForecastTab.getValue() != null) {
-                endValue = endPeriodForecastTab.getValue().toString().replace(" ", "~").trim();
+                endValue = endPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
             } else {
                 endValue = forecaststartBean.getIdByIndex(forecaststartBean.size() - 1);
             }
@@ -2438,7 +2438,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED,
                                     "Please select a Historic Period .");
                         } else if (baseLineCalc(startPeriodForecastTab.getValue().toString(),
-                                endValue.replace("~", " "))
+                                endValue.replace('~', ' '))
                                 || methodologyDdlb.getValue().equals(CONTRACT_DETAILS.getConstant())) {
                             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                             boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY
@@ -2497,7 +2497,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                         String.valueOf(startPeriodForecastTab.getValue()),
                                                         String.valueOf(frequencyDdlb.getValue()), "Min"));
                                                 projectionSelection
-                                                        .setToDateDdlb(logic.getPeriodSid(endValue.replace("~", " "),
+                                                        .setToDateDdlb(logic.getPeriodSid(endValue.replace('~', ' '),
                                                                 String.valueOf(frequencyDdlb.getValue()), "Max"));
                                                 projectionSelection.setCalcBased(calcBase);
                                                 projectionSelection
@@ -3894,8 +3894,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         String discountPgmName = StringUtils.EMPTY;
         String discountPgmSids = StringUtils.EMPTY;
         for (String rsSids : discountProgramsList) {
-            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ",";
-            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ",";
+            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ',';
+            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ',';
         }
         discountPgmName = discountPgmName.substring(0, discountPgmName.length() - 1);
         discountPgmSids = discountPgmSids.substring(0, discountPgmSids.length() - 1);
@@ -3909,8 +3909,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         String discountPgmName = StringUtils.EMPTY;
         String discountPgmSids = StringUtils.EMPTY;
         for (String rsSids : discountProgramsList) {
-            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ",";
-            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ",";
+            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ',';
+            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ',';
         }
         discountPgmName = discountPgmName.substring(0, discountPgmName.length() - 1);
         discountPgmSids = discountPgmSids.substring(0, discountPgmSids.length() - 1);
@@ -4317,7 +4317,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(
                     String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")),
-                    getCommercialConstant() + "," + UISecurityUtil.DISCOUNT_PROJECTION);
+                    getCommercialConstant() + ',' + UISecurityUtil.DISCOUNT_PROJECTION);
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null
                     && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
                 generateBtn.setVisible(false);
@@ -4516,8 +4516,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 return Boolean.FALSE;
             }
             if (!frequencyDdlb.getValue().equals(ANNUALLY.getConstant())) {
-                String startValue = startPeriodForecastTab.getValue().toString().replace(" ", "~").trim();
-                String endValue = valueEnd.replace(" ", "~").trim();
+                String startValue = startPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
+                String endValue = valueEnd.replace(' ', '~').trim();
                 String startValue1[] = startValue.split("~");
                 String endValue1[] = endValue.split("~");
                 if (Integer.parseInt(startValue1[1].trim()) > Integer.parseInt(endValue1[1].trim())) {

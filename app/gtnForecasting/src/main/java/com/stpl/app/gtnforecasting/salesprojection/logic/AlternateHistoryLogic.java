@@ -1158,7 +1158,7 @@ public class AlternateHistoryLogic {
                 if (ccps.length() == 0) {
                     ccps.append(String.valueOf(ccpid));
                 } else {
-                    ccps.append(",");
+                    ccps.append(',');
                     ccps.append(String.valueOf(ccpid));
                 }
             }
@@ -1253,36 +1253,36 @@ public class AlternateHistoryLogic {
         //For Filters
         if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
 
-            query = query + (isWhereClaues ? whereClause : andClause) + " CM1.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + "'";
+            query = query + (isWhereClaues ? whereClause : andClause) + " CM1.COMPANY_NO like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)) + '\'';
             isWhereClaues = false;
         }
 
         if (parameters.containsKey(Constant.FILTERCONTRACT_HOLDER) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_HOLDER)))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  CM.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_HOLDER)) + "'";
+            query = query + (isWhereClaues ? whereClause : andClause) + "  CM.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_HOLDER)) + '\'';
             isWhereClaues = false;
         }
 
         if (parameters.containsKey(Constant.FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)) + "'";
+            query = query + (isWhereClaues ? whereClause : andClause) + "  CON_M.CONTRACT_NO like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)) + '\'';
             isWhereClaues = false;
         }
 
         if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "   CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + "'";
+            query = query + (isWhereClaues ? whereClause : andClause) + "   CON_M.CONTRACT_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)) + '\'';
             isWhereClaues = false;
         }
 
         if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  CM1.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + "'";
+            query = query + (isWhereClaues ? whereClause : andClause) + "  CM1.COMPANY_NAME like '" + String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)) + '\'';
             isWhereClaues = false;
         }
 
         if (parameters.containsKey(Constant.FILTERMARKET_TYPE) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  HT.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)) + "'";
+            query = query + (isWhereClaues ? whereClause : andClause) + "  HT.DESCRIPTION like '" + String.valueOf(parameters.get(Constant.FILTERMARKET_TYPE)) + '\'';
             isWhereClaues = false;
         }
         if (parameters.containsKey(Constant.FILTERCHECK) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCHECK)))) {
-            query = query + (isWhereClaues ? whereClause : andClause) + "  CS.SELECTED_CHECKBOX like '" + String.valueOf(parameters.get(Constant.FILTERCHECK)) + "'";
+            query = query + (isWhereClaues ? whereClause : andClause) + "  CS.SELECTED_CHECKBOX like '" + String.valueOf(parameters.get(Constant.FILTERCHECK)) + '\'';
         }
         if (isCount) {
             query += ") TEMP_DETAILS ;";
@@ -1907,27 +1907,27 @@ public class AlternateHistoryLogic {
         StringBuilder filter = new StringBuilder();
 
         if (parameters.containsKey(Constant.FILTERCONTRACT_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NO)))) {
-            filter.append(" AND CO.CONTRACT_NO like '").append(parameters.get(Constant.FILTERCONTRACT_NO)).append("'");
+            filter.append(" AND CO.CONTRACT_NO like '").append(parameters.get(Constant.FILTERCONTRACT_NO)).append('\'');
         }
 
         if (parameters.containsKey(Constant.FILTERCONTRACT_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCONTRACT_NAME)))) {
-            filter.append(" AND CO.CONTRACT_NAME like '").append(parameters.get(Constant.FILTERCONTRACT_NAME)).append("'");
+            filter.append(" AND CO.CONTRACT_NAME like '").append(parameters.get(Constant.FILTERCONTRACT_NAME)).append('\'');
         }
 
         if (parameters.containsKey(Constant.FILTERCUSTOMER_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NO)))) {
-            filter.append(" AND CM.COMPANY_NO like '").append(parameters.get(Constant.FILTERCUSTOMER_NO)).append("'");
+            filter.append(" AND CM.COMPANY_NO like '").append(parameters.get(Constant.FILTERCUSTOMER_NO)).append('\'');
         }
 
         if (parameters.containsKey(Constant.FILTERCUSTOMER_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERCUSTOMER_NAME)))) {
-            filter.append(" AND  CM.COMPANY_NAME like '").append(parameters.get(Constant.FILTERCUSTOMER_NAME)).append("'");
+            filter.append(" AND  CM.COMPANY_NAME like '").append(parameters.get(Constant.FILTERCUSTOMER_NAME)).append('\'');
         }
 
         if (parameters.containsKey(Constant.FILTERITEM_NO) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NO)))) {
-            filter.append(" AND IM.ITEM_NO like '").append(parameters.get(Constant.FILTERITEM_NO)).append("'");
+            filter.append(" AND IM.ITEM_NO like '").append(parameters.get(Constant.FILTERITEM_NO)).append('\'');
         }
 
         if (parameters.containsKey(Constant.FILTERITEM_NAME) && !Constant.NULL.equals(String.valueOf(parameters.get(Constant.FILTERITEM_NAME)))) {
-            filter.append(" AND  IM.ITEM_NAME like '").append(parameters.get(Constant.FILTERITEM_NAME)).append("'");
+            filter.append(" AND  IM.ITEM_NAME like '").append(parameters.get(Constant.FILTERITEM_NAME)).append('\'');
         }
         return filter.toString();
     }

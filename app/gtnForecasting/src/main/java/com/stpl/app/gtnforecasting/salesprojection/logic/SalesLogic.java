@@ -1304,7 +1304,7 @@ public class SalesLogic {
                 if (object != null && !NULL.getConstant().equals(String.valueOf(object)) && !StringUtils.isBlank(String.valueOf(object))) {
                     builder.append(String.valueOf(object));
                     if (loop != (limit - 1)) {
-                        builder.append(",");
+                        builder.append(',');
                     }
                 }
             }
@@ -1549,9 +1549,9 @@ public class SalesLogic {
                         + "WHERE PROJECTION_DETAILS_SID in \n"
                         + "( Select PROJECTION_DETAILS_SID FROM PROJECTION_DETAILS WHERE PROJECTION_MASTER_SID=").append(projectionSelectionDTO.getProjectionId());
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
-                    queryBuilder1.append("  AND USER_ID='").append(projectionSelectionDTO.getUserId()).append("' AND SESSION_ID='").append(projectionSelectionDTO.getSessionId()).append("'");
+                    queryBuilder1.append("  AND USER_ID='").append(projectionSelectionDTO.getUserId()).append("' AND SESSION_ID='").append(projectionSelectionDTO.getSessionId()).append('\'');
                 }
-                queryBuilder1.append(")");
+                queryBuilder1.append(')');
                 SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
 
                 salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
@@ -1937,10 +1937,10 @@ public class SalesLogic {
                 case "ProjectedSales":
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES=PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(")");
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES=PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(')');
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES='").append(finalvalue.toString()).append("'");
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES='").append(finalvalue.toString()).append('\'');
                     }
                     break;
                 case Constant.PROJECTED_UNITS1:
@@ -1999,7 +1999,7 @@ public class SalesLogic {
                 updateQuery.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       ");
                 updateQuery.append("   AND PCH2.PROJECTION_MASTER_SID='").append(projectionSelectionDTO.getProjectionId()).append("'       ");
                 updateQuery.append("   WHERE RLD2.HIERARCHY_NO = '").append(hierarchyNo).append("')       ");
-                updateQuery.append(" ) AND PROJECTION_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append(" ");
+                updateQuery.append(" ) AND PROJECTION_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append(' ');
             }
             updateQuery.append(") ");
             if (frequencyDivision == 1) {
@@ -2080,7 +2080,7 @@ public class SalesLogic {
                 case "ProjectedSales":
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        updateLine.append(" PROJECTION_SALES = PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(")");
+                        updateLine.append(" PROJECTION_SALES = PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(')');
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         updateLine.append(" PROJECTION_SALES=").append(finalvalue.toString()).append("");
@@ -2092,14 +2092,14 @@ public class SalesLogic {
                         if (CommonUtil.isValueEligibleForLoading()) {
                             updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append("))/COALESCE(NULLIF(UOM_VALUE,0),1) ");
                         } else {
-                            updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append(")");
+                            updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append(')');
                         }
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(" ");
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(' ');
                         } else {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append(" ");
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append(' ');
                         }
 
                     }
@@ -2110,7 +2110,7 @@ public class SalesLogic {
 
             StringBuilder periodRestriction = new StringBuilder();
             if (frequencyDivision == 1) {
-                periodRestriction.append(Constant.WHERE_YEAR_EQUAL).append(year).append(" ");
+                periodRestriction.append(Constant.WHERE_YEAR_EQUAL).append(year).append(' ');
             } else if (frequencyDivision == NumericConstants.FOUR) {
                 periodRestriction.append(Constant.WHERE_YEAR_EQUAL).append(year).append(" AND QUARTER = ").append(frequency);
             } else if (frequencyDivision == NumericConstants.TWO) {
@@ -2324,7 +2324,7 @@ public class SalesLogic {
             updateQuery = updateQuery.replace(Constant.COLUMN_NAME, "USER_GROUP");
             updateQuery = updateQuery.replace(Constant.AT_TABLE_NAME, "SPM");
             StringBuilder finalValue = new StringBuilder();
-            finalValue.append("'").append(String.valueOf(value)).append("'");
+            finalValue.append('\'').append(String.valueOf(value)).append('\'');
             updateQuery = updateQuery.replace(Constant.VALUE1_AT, finalValue.toString());
         }
         switch (projectionSelectionDTO.getFrequencyDivision()) {
@@ -2361,7 +2361,7 @@ public class SalesLogic {
         List<String> hierarchyList = (List<String>) salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(sqlQuery, sessionDto.getCurrentTableNames()));
 
         for (String hierarchy : hierarchyList) {
-            hierarchyNumber.append("('").append(hierarchy).append("')").append(",");
+            hierarchyNumber.append("('").append(hierarchy).append("')").append(',');
         }
         hierarchyNumber.replace(hierarchyNumber.lastIndexOf(","), hierarchyNumber.length(), "");
         String sqlUnitsQuery = com.stpl.app.utils.QueryUtils.getQuery(input, "mass-update-sales-units");
@@ -2620,20 +2620,20 @@ public class SalesLogic {
 
     public List searchAlternateContract(ContractBrandDTO contractBrandDTO) throws PortalException, SystemException {
 
-        String companyNo = contractBrandDTO.getCustomer().replace("*", Constant.PERCENT);
+        String companyNo = contractBrandDTO.getCustomer().replace('*', '%');
         String contractName = contractBrandDTO.getContractName();
         String contractNo = contractBrandDTO.getContractNumber();
 
         if (companyNo.contains("*")) {
-            companyNo = companyNo.replace("*", Constant.PERCENT);
+            companyNo = companyNo.replace('*', '%');
         }
 
         if (contractName.contains("*")) {
-            contractName = contractName.replace("*", Constant.PERCENT);
+            contractName = contractName.replace('*', '%');
         }
 
         if (contractNo.contains("*")) {
-            contractNo = contractNo.replace("*", Constant.PERCENT);
+            contractNo = contractNo.replace('*', '%');
         }
 
         StringBuilder query = new StringBuilder();
@@ -2685,7 +2685,7 @@ public class SalesLogic {
     public List loadAlternateBrand(String brandName) throws PortalException, SystemException {
 
         if (brandName.contains("*")) {
-            brandName = brandName.replace("*", Constant.PERCENT);
+            brandName = brandName.replace('*', '%');
         }
 
         StringBuilder query = new StringBuilder();
@@ -3346,7 +3346,7 @@ public class SalesLogic {
         StringBuilder query = new StringBuilder();
         query.append(SQlUtil.getQuery(queryName));
         queryResult = query.toString().replace("@PROJECTION_SID", String.valueOf(projSelDTO.getProjectionId()));
-        queryResult = queryResult.replace("@RD_SID", StringUtils.isEmpty(returnDetailsSID) ? "RETURNS_DETAILS_SID LIKE '%'" : "RETURNS_DETAILS_SID IN (" + returnDetailsSID.substring(0, returnDetailsSID.lastIndexOf(",")) + ")");
+        queryResult = queryResult.replace("@RD_SID", StringUtils.isEmpty(returnDetailsSID) ? "RETURNS_DETAILS_SID LIKE '%'" : "RETURNS_DETAILS_SID IN (" + returnDetailsSID.substring(0, returnDetailsSID.lastIndexOf(',')) + ')');
         queryResult = queryResult.replace(Constant.LEVEL_NO1, String.valueOf(projSelDTO.getLevelNo()));
 
         if (projSelDTO.getFrequencyDivision() == 1) {
@@ -3428,28 +3428,28 @@ public class SalesLogic {
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[0])) - 1);
                 key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[1]);
             }
-            salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualReturned%", String.valueOf(UNIT.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])) + Constant.PERCENT);
+            salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualReturned%", String.valueOf(UNIT.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])) + '%');
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualRPU", String.valueOf(MONEY.format(obj[NumericConstants.EIGHT] == null ? 0 : obj[NumericConstants.EIGHT])));
             salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualReturnedAmount", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.NINE] == null ? 0 : obj[NumericConstants.NINE])));
             if (!projSelDTO.getCommonColumn().isEmpty()) {
                 for (String col : projSelDTO.getCommonColumn()) {
                     if (col.contains(key)) {
-                        salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedReturn%", String.valueOf(UNIT.format(obj[NumericConstants.TEN] == null ? 0 : obj[NumericConstants.TEN])) + Constant.PERCENT);
+                        salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedReturn%", String.valueOf(UNIT.format(obj[NumericConstants.TEN] == null ? 0 : obj[NumericConstants.TEN])) + '%');
                         salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedRPU", String.valueOf(MONEY.format(obj[NumericConstants.ELEVEN] == null ? 0 : obj[NumericConstants.ELEVEN])));
                         salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedReturnAmount", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.TWELVE] == null ? 0 : obj[NumericConstants.TWELVE])));
-                        salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryGrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + Constant.PERCENT);
+                        salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryGrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + '%');
                     } else {
-                        salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturn%", String.valueOf(UNIT.format(obj[NumericConstants.TEN] == null ? 0 : obj[NumericConstants.TEN])) + Constant.PERCENT);
+                        salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturn%", String.valueOf(UNIT.format(obj[NumericConstants.TEN] == null ? 0 : obj[NumericConstants.TEN])) + '%');
                         salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedRPU", String.valueOf(MONEY.format(obj[NumericConstants.ELEVEN] == null ? 0 : obj[NumericConstants.ELEVEN])));
                         salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturnAmount", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.TWELVE] == null ? 0 : obj[NumericConstants.TWELVE])));
-                        salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-GrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + Constant.PERCENT);
+                        salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-GrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + '%');
                     }
                 }
             } else {
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturn%", String.valueOf(UNIT.format(obj[NumericConstants.TEN] == null ? 0 : obj[NumericConstants.TEN])) + Constant.PERCENT);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturn%", String.valueOf(UNIT.format(obj[NumericConstants.TEN] == null ? 0 : obj[NumericConstants.TEN])) + '%');
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedRPU", String.valueOf(MONEY.format(obj[NumericConstants.ELEVEN] == null ? 0 : obj[NumericConstants.ELEVEN])));
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedReturnAmount", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.TWELVE] == null ? 0 : obj[NumericConstants.TWELVE])));
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-GrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + Constant.PERCENT);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-GrowthRate", String.valueOf(UNIT.format(obj[NumericConstants.THIRTEEN] == null ? 0 : obj[NumericConstants.THIRTEEN])) + '%');
             }
             salesRowDto.addBooleanProperties(Constant.CHECK, Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])) == 0 ? new Boolean(false) : new Boolean(true));
             if (i == (resulList.size() - 1)) {

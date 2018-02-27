@@ -85,11 +85,11 @@ public class Utility {
                     for (int i = 0; i < customDetailsList.size(); i++) {
                         relationShipLevelQry.append(customDetailsList.get(i).getHierarchyId());
                         if (i != customDetailsList.size() - 1) {
-                            relationShipLevelQry.append(",");
+                            relationShipLevelQry.append(',');
                         }
                     }
 
-                    relationShipLevelQry.append(")");
+                    relationShipLevelQry.append(')');
                     List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
                     /**
                      * assign null to Object , To be destroyed By JVM *

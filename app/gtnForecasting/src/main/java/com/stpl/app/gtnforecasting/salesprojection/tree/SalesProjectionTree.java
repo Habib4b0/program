@@ -219,7 +219,7 @@ public class SalesProjectionTree {
             String[] istParent = hierarchy.split("\\.");
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < istParent.length - 1; i++) {
-                builder.append(istParent[i]).append(".");
+                builder.append(istParent[i]).append('.');
             }
             parent = getParent(builder.toString(), dataMap, currentLevel - 1, startLevel, apex);
         }

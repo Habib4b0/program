@@ -2394,7 +2394,7 @@ public class DataSelectionLogic {
 					}
 					queryString.append(") AND HIERARCHY_NO NOT IN (");
 					queryString.append(stringListToString(rlSids));
-					queryString.append(")");
+					queryString.append(')');
 					queryString
 							.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
 					queryString.append(String.valueOf(parameters.get(Constant.TABLE_NAME)));
@@ -2406,7 +2406,7 @@ public class DataSelectionLogic {
 						queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
 					}
 					queryString.append(String.valueOf(parameters.get(Constant.PROJECTION_ID)));
-					queryString.append(")");
+					queryString.append(')');
 				}
 			}
 
@@ -2418,9 +2418,9 @@ public class DataSelectionLogic {
 		StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
 		if (stringList != null && !stringList.isEmpty()) {
 			for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
-				builder.append("'");
+				builder.append('\'');
 				builder.append(stringList.get(loop));
-				builder.append("'");
+				builder.append('\'');
 				if (loop != (limit - 1)) {
 					builder.append(", ");
 				}
@@ -2452,9 +2452,9 @@ public class DataSelectionLogic {
 		StringBuilder query = new StringBuilder("EXEC ");
 		try {
 			query.append(procedureName);
-			query.append(Constant.SPACE);
+			query.append(' ');
 			query.append(projectionId);
-			query.append(",");
+			query.append(',');
 			query.append(userId);
 			query.append(",'");
 			query.append(sessionId);
@@ -2463,7 +2463,7 @@ public class DataSelectionLogic {
 				query.append("','");
 				query.append(screenName);
 			}
-			query.append("'");
+			query.append('\'');
 			HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
@@ -2563,7 +2563,7 @@ public class DataSelectionLogic {
 		if (!list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				Object[] obj = (Object[]) list.get(i);
-				name.append(String.valueOf(obj[1])).append(" - ").append(String.valueOf(obj[3])).append(",");
+				name.append(String.valueOf(obj[1])).append(" - ").append(String.valueOf(obj[3])).append(',');
 				fileStatus = 0;
 			}
 			session.setFileName(!name.toString().isEmpty() ? name.substring(0, name.length() - 1) : StringUtils.EMPTY);

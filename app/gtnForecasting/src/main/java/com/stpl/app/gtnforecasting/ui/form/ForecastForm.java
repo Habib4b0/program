@@ -2558,8 +2558,8 @@ public class ForecastForm extends AbstractForm {
 						.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROCEDURE_CALL));
 				StringBuilder query = new StringBuilder("EXEC ");
 				query.append(Constant.PRC_CONTRACT_DETAILS_REBATE);
-				query.append(Constant.SPACE).append(session.getProjectionId()).append(COMMA);
-				query.append(session.getUserId()).append(",'").append(session.getSessionId()).append("'");
+				query.append(Constant.SPACE).append(session.getProjectionId()).append(',');
+				query.append(session.getUserId()).append(",'").append(session.getSessionId()).append('\'');
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 			}
 		};
