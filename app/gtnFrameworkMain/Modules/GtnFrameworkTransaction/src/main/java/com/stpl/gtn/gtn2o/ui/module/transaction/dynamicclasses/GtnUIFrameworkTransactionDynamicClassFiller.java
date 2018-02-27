@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransaction
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionEnableDisableAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionInvalidIntegrationLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionInvalidViewLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionReprocessInVisibleAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionReprocessRemoveAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionResetBeanAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionViewAction;
@@ -56,6 +57,8 @@ public class GtnUIFrameworkTransactionDynamicClassFiller implements GtnUIDynamic
 				new GtnUIFrameworkTransactionViewAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameWorkTransactionTableColumnFormatAction.class.getName(),
 				new GtnUIFrameWorkTransactionTableColumnFormatAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTransactionReprocessInVisibleAction.class.getName(),
+				new GtnUIFrameworkTransactionReprocessInVisibleAction());
 
 	}
 
