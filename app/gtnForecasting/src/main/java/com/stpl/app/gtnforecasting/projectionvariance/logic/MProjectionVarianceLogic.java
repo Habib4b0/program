@@ -157,7 +157,7 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getMarketType() == null || lookUpDTO.getMarketType().equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = lookUpDTO.getMarketType().replace(asterik, percent);
+                marketTypeVal = lookUpDTO.getMarketType().replace('*', '%');
                 marketTypeVal = quotes + marketTypeVal + quotes;
             }
             customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(')');

@@ -5132,7 +5132,7 @@ public class CommonLogic {
         if (StringUtils.isEmpty(hierarchyNo)) {
             percentHierarchy = "%";
         } else {
-            percentHierarchy = hierarchyNo.contains("~") ? '%'+hierarchyNo.replace("~","%")+'%' : '%'+hierarchyNo+'%';
+            percentHierarchy = hierarchyNo.contains("~") ? '%'+hierarchyNo.replace('~','%')+'%' : '%'+hierarchyNo+'%';
         }
         return percentHierarchy;
     }

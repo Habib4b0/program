@@ -555,7 +555,7 @@ public class PVQueryUtils {
             if (comparisonLookupDTO.getMarketType() == null || comparisonLookupDTO.getMarketType().equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = comparisonLookupDTO.getMarketType().replace(asterik, percent);
+                marketTypeVal = comparisonLookupDTO.getMarketType().replace('*', '%');
                 marketTypeVal = quotes + marketTypeVal + quotes;
             }
             customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(')');
@@ -611,7 +611,7 @@ public class PVQueryUtils {
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name =  'WorkFlowStatus' and ht1.description = ").append(quotes).append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
+                customSql.append("AND HT1.list_name =  'WorkFlowStatus' and ht1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
             if ((comparisonLookupDTO.getCreatedDateFrom() != null && !StringUtils.EMPTY.equals(String.valueOf(comparisonLookupDTO.getCreatedDateFrom())) && !Constants.CommonConstants.NULL.getConstant().equals(String.valueOf(comparisonLookupDTO.getCreatedDateFrom())))
                     && (comparisonLookupDTO.getCreatedDateTo() == null || StringUtils.EMPTY.equals(String.valueOf(comparisonLookupDTO.getCreatedDateTo())) || Constants.CommonConstants.NULL.getConstant().equals(String.valueOf(comparisonLookupDTO.getCreatedDateTo())))) {
