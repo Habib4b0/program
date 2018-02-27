@@ -64,6 +64,7 @@ import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -636,11 +637,13 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDTO.setProjectionName(String.valueOf(temp[0]));
 					sessionDTO.setProdRelationshipBuilderSid(String.valueOf(temp[1]));
 					sessionDTO.setCustRelationshipBuilderSid(String.valueOf(temp[NumericConstants.TWO]));
-                                        sessionDTO.setCffEligibleDate(new Date(String.valueOf(temp[NumericConstants.THREE])));
+                                        if(temp[NumericConstants.THREE]!=null){ 
+                                        sessionDTO.setCffEligibleDate(new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY).parse(String.valueOf(temp[NumericConstants.THREE])));
+                  }
 				}
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));
 
-			} catch (final SystemException ex) {
+			} catch (final SystemException  | ParseException ex) {
 				LOGGER.error(ex + " NonMandatedEditWindow - loadSessionDTO");
 			}
 		}

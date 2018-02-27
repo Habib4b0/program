@@ -768,11 +768,9 @@ public class DataSelection extends ForecastDataSelection {
 							selectionDTO.getDiscount(), true);
 					loadDiscountDdlb(selectionDTO.getDiscountSid(), selectedDiscountDTO);
 				}
-                                 if (selectionDTO.getForecastEligibleDate() != null) {
+                                
                                 forecastEligibleDate.setValue(selectionDTO.getForecastEligibleDate());
-                                } else {
-                                   forecastEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration()); 
-                                }
+                               
 			}
 
 		} catch (Property.ReadOnlyException ex) {
