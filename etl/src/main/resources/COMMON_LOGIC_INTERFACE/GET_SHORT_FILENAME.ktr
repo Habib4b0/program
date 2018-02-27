@@ -105,7 +105,7 @@
     <dynamic_include_subfolders>N</dynamic_include_subfolders>
     <limit>0</limit>
     <file>
-      <name>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;_DECRYPT.csv</name>
+      <name>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;_DECRYPT.csv</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
