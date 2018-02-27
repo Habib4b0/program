@@ -405,4 +405,8 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
         this.listColumnIndexable = listColumnIndexable;
     }
     
+    public boolean isEmpty() {
+        return super.getItemIds().isEmpty();
+    }
+    
 }

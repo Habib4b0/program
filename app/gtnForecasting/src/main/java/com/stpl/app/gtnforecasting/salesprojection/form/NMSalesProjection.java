@@ -799,11 +799,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     public boolean getSubmitFlag() {
-        if (getCustomContainer().getItemIds().size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return !getCustomContainer().isEmpty();
     }
 
     @Override
