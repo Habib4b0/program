@@ -3,14 +3,13 @@ package com.stpl.gtn.gtn2o.ws.service.property;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityPropertyBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.service.jwt.GtnWsSecuritySecretKey;
 
 public class GtnWsSecurityPropertyReaderService {
 	private static volatile GtnWsSecurityPropertyBean gtnWsSecurityPropertyBean;
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsSecurityPropertyReaderService.class);
 
 	private GtnWsSecurityPropertyReaderService() {
-		super();
+		super();	
 	}
 
 	public static GtnWsSecurityPropertyBean getProperyBean() {

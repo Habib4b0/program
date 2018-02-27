@@ -63,6 +63,8 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -619,7 +621,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			}
 
 		} catch (final Exception ex) {
-			LOGGER.error(ex.getMessage());
+			LOGGER.error("Exception on building windows",ex);
 		}
 	}
 
@@ -636,8 +638,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDTO.setProjectionName(String.valueOf(temp[0]));
 					sessionDTO.setProdRelationshipBuilderSid(String.valueOf(temp[1]));
 					sessionDTO.setCustRelationshipBuilderSid(String.valueOf(temp[NumericConstants.TWO]));
-                  if(temp[NumericConstants.THREE]!=null){ 
-                                        sessionDTO.setCffEligibleDate(new Date(String.valueOf(temp[NumericConstants.THREE])));
+                  if(temp[NumericConstants.THREE]!=null && temp[NumericConstants.THREE] instanceof Timestamp){ 
+                	  Timestamp sqlTime = (Timestamp) temp[NumericConstants.THREE];
+                                        sessionDTO.setCffEligibleDate(new Date(sqlTime.getTime()));
                   }
 				}
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));
