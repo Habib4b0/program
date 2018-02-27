@@ -100,7 +100,7 @@ public class NotesTabLogic {
 
 
     /**
-     * Method to Delete the Uploaded File
+     * Method o Delete the Uploaded File
      *
      * @param docDetailsId
      * @param moduleName

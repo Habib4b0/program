@@ -1569,3 +1569,7 @@
 .v-auto-height-window {
     height: auto !important;
 }
+
+.body-fixed{
+	position: fixed !important;
+}

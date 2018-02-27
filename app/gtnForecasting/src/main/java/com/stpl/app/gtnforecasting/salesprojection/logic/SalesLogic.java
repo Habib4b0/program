@@ -2755,7 +2755,12 @@ public class SalesLogic {
                 } else {
                     statement = connection.prepareCall("{call PRC_SALES_ADJUSTMENT (?,?,?,?,?,?,?,?,?,?,?)}");
                 }
+                statement.setObject(1, historyPeriods); //@BASLINE_PERIODS 
+                statement.setObject(NumericConstants.TWO, projectionPeriods); //@SELECTED_PERIODS
+                statement.setObject(NumericConstants.THREE, projectionSelectionDTO.getProjectionId()); //@PROJECTION_SID
                 statement.setObject(NumericConstants.FOUR, projectionSelectionDTO.getFrequency());//Frequency
+                statement.setObject(NumericConstants.FIVE, projectionSelectionDTO.getUserId()); //@USER_ID
+                statement.setObject(NumericConstants.SIX, projectionSelectionDTO.getSessionDTO().getSessionId()); //@SESSION_ID
                 statement.setObject(NumericConstants.SEVEN, adjType);
                 statement.setObject(NumericConstants.EIGHT, adjBasis);
                 statement.setObject(NumericConstants.NINE, adsVar);
@@ -3549,9 +3554,12 @@ public class SalesLogic {
 
                 statement = connection.prepareCall("{call PRC_RETURNS_REFRESH (?,?,?,?,?,?)}");
 
+                statement.setObject(1, projectionId); //@PROJECTION_SID
                 statement.setObject(NumericConstants.TWO, selectedItems);
                 statement.setObject(NumericConstants.THREE, refreshedPeriods);
                 statement.setObject(NumericConstants.FOUR, flag);
+                statement.setObject(NumericConstants.FIVE, userId); //@USER_ID
+                statement.setObject(NumericConstants.SIX, sessionId); //@SESSION_ID
 
                 statement.execute();
             }

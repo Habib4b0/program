@@ -988,7 +988,7 @@ public class GtnWsCMasterAdd {
 	private boolean isCompanyExistCheck(boolean isCompExist, List<Integer> resultsDb4) {
 		boolean isCompanyExist = isCompExist;
 		if (!resultsDb4.isEmpty()) {
-			isCompanyExist = resultsDb4.get(0) > (Integer) 0;
+			isCompanyExist = resultsDb4.get(0) > 0;
 		}
 		return isCompanyExist;
 	}
