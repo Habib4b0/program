@@ -102,8 +102,8 @@ public class WorkflowLogic {
      */
     public String saveWorkflow(int projectionId, String userId, String notes, int noOfLevels, String screenName, List<NotesDTO> getUploadedData, String description) {
     	 java.util.Properties path =getPropertyFile(System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
-    	 String filePath2 =path.getProperty("Workflowpath");
-         String moduleName = StringUtils.EMPTY;
+    	 String filePath2=path.getProperty("Workflowpath");
+        String moduleName = StringUtils.EMPTY;
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             moduleName = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
@@ -491,7 +491,7 @@ public class WorkflowLogic {
 			FileInputStream fileIS = null;
 			fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
 			prop.load(fileIS);
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("getPropertyFile===================>ends");

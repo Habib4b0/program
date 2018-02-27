@@ -331,6 +331,7 @@ public class StringConstantsUtil {
     public static final String CONTRACT_NO  = "contractNo";
     public static final String IS_ORDERED  = "isOrdered";
     public static final String ROWS_FETCH_NEXT  = " ROWS FETCH NEXT ";
+    public static final String SELECT_ONE = "-Select One-";
 
     private StringConstantsUtil() {
         /*

@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
     public static final String SPAN_STYLECOLOR = " <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>";
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
@@ -60,7 +60,7 @@ public class ResponsiveUtils {
     }
 
     public static Label makeLabel(String value, String styleName, boolean isMandatory) {
-        LOGGER.debug("styleName"+styleName);
+        LOGGER.debug("styleName= {}",styleName);
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
         sb.append(value);
         if (isMandatory) {
@@ -72,7 +72,7 @@ public class ResponsiveUtils {
     }
 
     public static Label makeLabel(String value, boolean isMandatory, String width) {
-        LOGGER.debug("width"+width);
+        LOGGER.debug("width= {}",width);
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
         sb.append(value);
         if (isMandatory) {
@@ -1007,7 +1007,7 @@ public class ResponsiveUtils {
     }
 
     public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout, boolean flag) {
-        LOGGER.debug("Inside getResponsiveControls"+flag);
+        LOGGER.debug("Inside getResponsiveControls= {}",flag);
         HorizontalLayout controlBar = new HorizontalLayout();
         controlBar.setStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);

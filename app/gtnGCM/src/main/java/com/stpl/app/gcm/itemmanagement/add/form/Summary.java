@@ -113,7 +113,7 @@ public class Summary extends CustomComponent {
     private SelectionDTO selection;
     private ContractDashboardDTO componentInfoDTO = new ContractDashboardDTO();
     private SummaryDTO summaryItem = new SummaryDTO();
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private final BeanItemContainer<SummaryDTO> contractContainer = new BeanItemContainer<>(SummaryDTO.class);
     private ComponentInfo component;
     private ExtFilterTreeTable leftTable;

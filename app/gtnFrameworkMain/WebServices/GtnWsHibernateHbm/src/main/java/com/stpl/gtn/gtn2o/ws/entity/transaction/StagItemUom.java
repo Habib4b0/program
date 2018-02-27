@@ -12,7 +12,7 @@ public class StagItemUom  implements java.io.Serializable {
 
 
      private int stagItemUomSid;
-     private BigDecimal itemUomConversionId;
+     private Double itemUomConversionId;
      private String itemId;
      private String itemNo;
      private String itemName;
@@ -36,7 +36,7 @@ public class StagItemUom  implements java.io.Serializable {
     }
 
 	
-    public StagItemUom(int stagItemUomSid, BigDecimal itemUomConversionId, String itemId, BigDecimal primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, BigDecimal secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String addChgDelIndicator, String batchId) {
+    public StagItemUom(int stagItemUomSid, Double itemUomConversionId, String itemId, BigDecimal primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, BigDecimal secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String addChgDelIndicator, String batchId) {
         this.stagItemUomSid = stagItemUomSid;
         this.itemUomConversionId = itemUomConversionId;
         this.itemId = itemId;
@@ -51,7 +51,7 @@ public class StagItemUom  implements java.io.Serializable {
         this.addChgDelIndicator = addChgDelIndicator;
         this.batchId = batchId;
     }
-    public StagItemUom(int stagItemUomSid, BigDecimal itemUomConversionId, String itemId, String itemNo, String itemName, BigDecimal primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, BigDecimal secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source) {
+    public StagItemUom(int stagItemUomSid, Double itemUomConversionId, String itemId, String itemNo, String itemName, BigDecimal primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, BigDecimal secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source) {
        this.stagItemUomSid = stagItemUomSid;
        this.itemUomConversionId = itemUomConversionId;
        this.itemId = itemId;
@@ -81,11 +81,11 @@ public class StagItemUom  implements java.io.Serializable {
     public void setStagItemUomSid(int stagItemUomSid) {
         this.stagItemUomSid = stagItemUomSid;
     }
-    public BigDecimal getItemUomConversionId() {
+    public Double getItemUomConversionId() {
         return this.itemUomConversionId;
     }
     
-    public void setItemUomConversionId(BigDecimal itemUomConversionId) {
+    public void setItemUomConversionId(Double itemUomConversionId) {
         this.itemUomConversionId = itemUomConversionId;
     }
     public String getItemId() {

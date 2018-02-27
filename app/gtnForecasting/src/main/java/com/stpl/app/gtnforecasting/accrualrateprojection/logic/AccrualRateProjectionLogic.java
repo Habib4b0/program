@@ -217,7 +217,7 @@ public final class AccrualRateProjectionLogic {
                         break;
                     default:
                         rateBasis = Constant.GROSS_TRADE_SALES;
-                        LOGGER.warn("Accrual Rate Details: Rate Basis is Empty." + rateBasis);
+                        LOGGER.warn("Accrual Rate Details: Rate Basis is Empty= {}" , rateBasis);
                 }
             } else {
                 rateBasis = Constant.GROSS_TRADE_SALES;
@@ -225,7 +225,7 @@ public final class AccrualRateProjectionLogic {
             query = query.replace("#SELECTED_RATE_BASIS", rateBasis);
         } catch (Exception e) {           
             LOGGER.error(e.getMessage());
-            LOGGER.error("ARP DETAILS QUERY: " + query);
+            LOGGER.error("ARP DETAILS QUERY= {} " , query);
         }        
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         return customizeDetailsToDTO(accrualRateSelectionDTO, list, start, offset, isExcelExport);
@@ -501,7 +501,6 @@ public final class AccrualRateProjectionLogic {
         }
         query.append("WHERE SD.PROJECTION_MASTER_SID=").append(accrualRateSelectionDTO.getProjectionId()).append("\n");
         query.append(" ORDER BY SA.ITEM_MASTER_SID,IM.ITEM_NO,IM.ITEM_NAME,P.YEAR,P.MONTH");
-        LOGGER.debug("QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()) = " + QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         return customizeSalesToDTO(list, accrualRateSelectionDTO);
     }
@@ -605,9 +604,9 @@ public final class AccrualRateProjectionLogic {
                 StringBuilder procedureBuilder = new StringBuilder("{CALL ");
                 procedureBuilder.append(procedureName).append(args);
                 statement = connection.prepareCall(procedureBuilder.toString());
-                LOGGER.debug("Procedure Name: " + procedureName);
+                LOGGER.debug("Procedure Name= {} " , procedureName);
                 for (int i = 0; i < parameters.length; i++) {
-                    LOGGER.debug("Parameter: " + (i + 1) + " ---- " + parameters[i]);
+                    LOGGER.debug("Parameter= {},  ----={}  " , (i + 1), parameters[i]);
                     statement.setObject(i + 1, parameters[i]);
                 }
                 statement.execute();

@@ -340,7 +340,7 @@ public class FcpResults extends CustomComponent implements View {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
 
-                    LOGGER.debug("therapeuticDdlb ValueChangeEvent initiated " + therapeuticDdlb.getValue());
+                    LOGGER.debug("therapeuticDdlb ValueChangeEvent initiated= {} " , therapeuticDdlb.getValue());
 
                     if (therapeuticDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(String.valueOf(therapeuticDdlb.getValue()))) {
                         HelperDTO helperDTO = (HelperDTO) therapeuticDdlb.getValue();
@@ -348,7 +348,7 @@ public class FcpResults extends CustomComponent implements View {
                         projectionDTO.setTherapeuticSid(helperDTO);
                         brandContainer.removeAllItems();
                         loadBrand();
-                        LOGGER.debug("therapeuticDdlb ValueChangeEvent ends theraupeuticId   " + theraupeuticId);
+                        LOGGER.debug("therapeuticDdlb ValueChangeEvent ends theraupeuticId= {}  " , theraupeuticId);
 
                     }
                 }
@@ -359,14 +359,14 @@ public class FcpResults extends CustomComponent implements View {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
 
-                    LOGGER.debug("brandDdlb ValueChangeEvent initiated " + brandDdlb.getValue());
+                    LOGGER.debug("brandDdlb ValueChangeEvent initiated= {} " , brandDdlb.getValue());
 
                     if (brandDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(String.valueOf(brandDdlb.getValue()))) {
                         HelperDTO helperDTO = (HelperDTO) brandDdlb.getValue();
                         int brandSid = helperDTO.getId();
                         projectionDTO.setBrandSid(helperDTO);
                         projectionDTO.setBrandMasterId(brandSid);
-                        LOGGER.debug("brandDdlb ValueChangeEvent ends brandDdlb   " + brandSid);
+                        LOGGER.debug("brandDdlb ValueChangeEvent ends brandDdlb= {}  " , brandSid);
 
                     }
                 }

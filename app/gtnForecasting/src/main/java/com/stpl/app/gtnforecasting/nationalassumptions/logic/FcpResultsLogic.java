@@ -135,7 +135,7 @@ public class FcpResultsLogic {
     }
 
     public List<TableDTO> getFcpResults(int start, int offset, ProjectionSelectionDTO projSelDTO) {
-        LOGGER.debug("getFcpResults start=" + start + "   offset = " + offset);
+        LOGGER.debug("getFcpResults start= {}, offset= {}" , start, offset);
         List<TableDTO> projDTOList = getFcp(projSelDTO);
         LOGGER.debug("getFcpResults ends");
         return projDTOList;
@@ -366,7 +366,7 @@ public class FcpResultsLogic {
     }
 
     public List<TableDTO> getFcpChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, int parentSid, SessionDTO session) {
-        LOGGER.debug("getFcpChildren start=" + start + " offset=" + offset);
+        LOGGER.debug("getFcpChildren start= {}, offset= {}" , start, offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
@@ -529,7 +529,7 @@ public class FcpResultsLogic {
     }
 
     public List<TableDTO> getNonFampResults(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
-        LOGGER.debug("getNonFampResults start=" + start + "  offset =" + offset);
+        LOGGER.debug("getNonFampResults start= {}, offset= {}" , start, offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
@@ -738,7 +738,7 @@ public class FcpResultsLogic {
     }
 
     public List<TableDTO> getFcpWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
-        LOGGER.debug("getFcpResults start=" + start + "   offset=" + offset);
+        LOGGER.debug("getFcpResults start= {}, offset= {}" , start, offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
@@ -754,7 +754,7 @@ public class FcpResultsLogic {
     }
 
     public List<TableDTO> getFcpWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
-        LOGGER.debug("getFcpWorksheetChildren start=" + start + "offset = " + offset);
+        LOGGER.debug("getFcpWorksheetChildren start= {}, offset= {}" , start, offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
@@ -962,7 +962,7 @@ public class FcpResultsLogic {
                         CallableStatement statement = connection.prepareCall("{call PRC_MASTER_FCP_WORKSHEET(?,?,?,?)}"))
                 {
                 LOGGER.debug("Failed in FCP datasource.");
-                LOGGER.debug("Got Connection " + connection.toString()+ ", ");
+                LOGGER.debug("Got Connection= {} " , connection.toString());
                 statement.setInt(1, session.getProjectionId());
                 statement.setObject(NumericConstants.TWO, priceBasis);
                 statement.setInt(NumericConstants.THREE, Integer.parseInt(session.getUserId()));

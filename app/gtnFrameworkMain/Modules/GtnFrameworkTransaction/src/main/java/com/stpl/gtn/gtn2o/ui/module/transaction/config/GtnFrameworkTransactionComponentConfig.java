@@ -154,7 +154,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				List<GtnUIFrameworkComponentConfig> reprocessAndRemoveComponentList = new ArrayList<>();
 				addReprocessButtonComponent(reprocessAndRemoveComponentList,
 						componentBean.getReprocessingWebServiceURL(), componentBean, portletName);
-				addRemoveButtonComponent(reprocessAndRemoveComponentList,componentBean);
+				addRemoveButtonComponent(reprocessAndRemoveComponentList,componentBean,portletName);
 				transactionBean.setReprocessAndRemoveComponentList(reprocessAndRemoveComponentList);
 			}
 			List<GtnUIFrameworkComponentConfig> excelBtnComponentList = new ArrayList<>();
@@ -843,7 +843,7 @@ public class GtnFrameworkTransactionComponentConfig {
 	}
 
 	private void addRemoveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, 
-			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean,String portletName) {
 		GtnUIFrameworkComponentConfig resetButtonConfig = new GtnUIFrameworkComponentConfig();
 		resetButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setComponentId("gtnRemove01");
@@ -857,7 +857,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		removeAlertAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		removeAlertAction
 				.setActionParameterList(Arrays.asList(GtnFrameworkTransactionReprocessRemoveValidation.class.getName(),
-						remove, GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT));
+						remove, GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT,componentBean.isOutBoundModule(),portletName));
 		gtnUIFrameworkRemoveConfigList.add(removeAlertAction);
 		List<GtnUIFrameWorkActionConfig> removeActionList = new ArrayList<>();
 

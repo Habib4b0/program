@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.ws.entity.transaction;
 // Generated Feb 6, 2018 3:06:35 PM by Hibernate Tools 4.3.1
 
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -12,7 +11,7 @@ public class IvldItemUom  implements java.io.Serializable {
 
 
      private int ivldItemUomSid;
-     private BigDecimal itemUomConversionId;
+     private Double itemUomConversionId;
      private String itemId;
      private String itemNo;
      private String itemName;
@@ -42,11 +41,11 @@ public class IvldItemUom  implements java.io.Serializable {
     }
 
 	
-    public IvldItemUom(int ivldItemUomSid, BigDecimal itemUomConversionId) {
+    public IvldItemUom(int ivldItemUomSid, Double itemUomConversionId) {
         this.ivldItemUomSid = ivldItemUomSid;
         this.itemUomConversionId = itemUomConversionId;
     }
-    public IvldItemUom(int ivldItemUomSid, BigDecimal itemUomConversionId, String itemId, String itemNo, String itemName, String primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, String secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate, String errorCode, String errorField, String reprocessedFlag, Boolean checkRecord) {
+    public IvldItemUom(int ivldItemUomSid, Double itemUomConversionId, String itemId, String itemNo, String itemName, String primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, String secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate, String errorCode, String errorField, String reprocessedFlag, Boolean checkRecord) {
        this.ivldItemUomSid = ivldItemUomSid;
        this.itemUomConversionId = itemUomConversionId;
        this.itemId = itemId;
@@ -82,11 +81,11 @@ public class IvldItemUom  implements java.io.Serializable {
     public void setIvldItemUomSid(int ivldItemUomSid) {
         this.ivldItemUomSid = ivldItemUomSid;
     }
-    public BigDecimal getItemUomConversionId() {
+    public Double getItemUomConversionId() {
         return this.itemUomConversionId;
     }
     
-    public void setItemUomConversionId(BigDecimal itemUomConversionId) {
+    public void setItemUomConversionId(Double itemUomConversionId) {
         this.itemUomConversionId = itemUomConversionId;
     }
     public String getItemId() {

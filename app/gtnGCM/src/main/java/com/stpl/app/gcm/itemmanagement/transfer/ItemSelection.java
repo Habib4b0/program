@@ -21,8 +21,6 @@ import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.ui.ComboBox;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -123,7 +121,7 @@ public class ItemSelection extends CustomComponent {
     private Button exportBtncur;
     @UiField("SelectItemTableLayout")
     private VerticalLayout selectItemTableLayout;
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     @UiField("resultTableLayout")
     private VerticalLayout resultTableLayout;
     @UiField("transferItemsTable")
@@ -195,7 +193,7 @@ public class ItemSelection extends CustomComponent {
         }
     }
     
-    public void createWorkSheet(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = selecteditemList.size();
         List<String> visibleList = Arrays.asList(itemFromLS.getColumnHeaders()).subList(1, itemFromLS.getVisibleColumns().length);
         excelName = StringConstantsUtil.SELECTED_ITEMS;
@@ -305,7 +303,7 @@ public class ItemSelection extends CustomComponent {
             LOGGER.error("",e);
         }
     }
-    public void createWorkSheetItemResults(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheetItemResults(String moduleName) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         binderDto.setIsCount(false);
         ItemLogic logic = new ItemLogic();
@@ -361,7 +359,7 @@ public class ItemSelection extends CustomComponent {
             LOGGER.error("",e);
         }
     }
-    public void createWorkSheetTransferItem(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheetTransferItem(String moduleName) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         
         List<ItemIndexDto> list = transferContainer.getItemIds();
