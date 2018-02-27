@@ -182,9 +182,12 @@ public class GtnWsCMasterAdd {
 				countCheckList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(
 						gtnWsSqlService.getQuery(Arrays.asList(tradeClassSid),
 								"checkCompanyGroupDetailsTradeClassExists"));
+				if(!countCheckList.isEmpty())
+				{
 				int countCheck=countCheckList.get(0);
 				if (countCheck == 1) {
 					tradeClassSidList.add(tradeClassSid);
+				}
 				}
 			} catch (GtnFrameworkGeneralException e) {
 				LOGGER.error("Exception:" + e);
@@ -964,7 +967,7 @@ public class GtnWsCMasterAdd {
 
 	private int performUpdateForCompanyIdWithStatusD(GtnCMasterBean masterbean) {
 		boolean isCompanyExist = false;
-		List<Long> resultsDb4 = checkIfCompanyIdExistsWithStatusD(masterbean);
+		List<Integer> resultsDb4 = checkIfCompanyIdExistsWithStatusD(masterbean);
 		if (resultsDb4 != null) {
 			isCompanyExist = isCompanyExistCheck(isCompanyExist, resultsDb4);
 		}
@@ -982,10 +985,10 @@ public class GtnWsCMasterAdd {
 		return countUpdate;
 	}
 
-	private boolean isCompanyExistCheck(boolean isCompExist, List<Long> resultsDb4) {
+	private boolean isCompanyExistCheck(boolean isCompExist, List<Integer> resultsDb4) {
 		boolean isCompanyExist = isCompExist;
 		if (!resultsDb4.isEmpty()) {
-			isCompanyExist = resultsDb4.get(0) > (long) 0;
+			isCompanyExist = resultsDb4.get(0) > (Integer) 0;
 		}
 		return isCompanyExist;
 	}
@@ -1007,13 +1010,13 @@ public class GtnWsCMasterAdd {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Long> checkIfCompanyIdExistsWithStatusD(GtnCMasterBean masterbean) {
+	private List<Integer> checkIfCompanyIdExistsWithStatusD(GtnCMasterBean masterbean) {
 		List<String> compNoCriteria = new ArrayList<>();
 		compNoCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
 
-		List<Long> resultsDb3 = new ArrayList<>();
+		List<Integer> resultsDb3 = new ArrayList<>();
 		try {
-			resultsDb3 = (List<Long>) gtnSqlQueryEngine
+			resultsDb3 = (List<Integer>) gtnSqlQueryEngine
 					.executeSelectQuery(gtnWsSqlService.getQuery(compNoCriteria, "getCompanyIdWithStatusD"));
 
 		} catch (GtnFrameworkGeneralException e) {
