@@ -35,4 +35,13 @@ public class GtnWsCommonCalculationService {
 				.getDoubleValue(EVALUATOR.getNumberResult(numeratorStr + "-" + denominatorStr));
 	}
 
+	public double getMultipiedValue(Object first, Object second, boolean convertToPercent) throws EvaluationException {
+		String numeratorStr = gtnWsCalculationValidation.getDoubleValue(first);
+		String denominatorStr = gtnWsCalculationValidation.getDoubleValue(second);
+		String expression = convertToPercent ? numeratorStr + "*" + denominatorStr + "*100"
+				: numeratorStr + "*" + denominatorStr;
+		return gtnWsCalculationValidation
+				.getDoubleValue(EVALUATOR.getNumberResult(expression));
+	}
+
 }

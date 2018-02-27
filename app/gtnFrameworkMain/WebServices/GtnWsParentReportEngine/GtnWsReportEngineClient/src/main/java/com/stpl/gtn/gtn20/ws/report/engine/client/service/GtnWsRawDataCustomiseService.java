@@ -14,8 +14,7 @@ public class GtnWsRawDataCustomiseService {
 
 	public List<GtnWsProjectionBean> generateApprovedData() {
 		List<Object[]> rawList = RAW_DATA_INSTANCE.generateRawData(0, 0);
-		List<GtnWsProjectionBean> customizedRawList = customizeRawApprovedData(rawList);
-		return customizedRawList;
+		return customizeRawApprovedData(rawList);
 	}
 
 	private List<GtnWsProjectionBean> customizeRawApprovedData(List<Object[]> rawList) {

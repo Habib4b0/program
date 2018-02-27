@@ -108,7 +108,7 @@ public class GtnWsMongoService {
 		Document project = new Document("$project", selectClause);
 		Document sort = new Document("$sort", new Document("_id.year", 1).append("_id.semiAnnual", 1));
 
-		List conditions = new ArrayList<>();
+		List<Document> conditions = new ArrayList<>();
 		conditions.add(match);
 		conditions.add(new Document("$unwind", "$projectionDetailsValues"));
 		conditions.add(group);
@@ -196,20 +196,22 @@ public class GtnWsMongoService {
 		Document project = new Document("$project", selectClause);
 		Document sort = new Document("$sort", new Document("_id.year", 1).append("_id.semiAnnual", 1));
 
-		List conditions = new ArrayList<>();
+		List<Document> conditions = new ArrayList<>();
 		conditions.add(match);
 		conditions.add(new Document("$unwind", "$projectionDetailsValues"));
 		conditions.add(new Document("$unwind", "$projectionDetailsValues.discountBean"));
 		conditions.add(group);
 		conditions.add(project);
 		conditions.add(sort);
-		AggregateIterable itr = getCollection(collectionName).aggregate(conditions).batchSize(1000);
-		MongoCursor cr = itr.iterator();
+		AggregateIterable<Document> itr = getCollection(collectionName).aggregate(conditions).batchSize(1000);
+		MongoCursor cursor = itr.iterator();
 		GtnWsAttributeBean attributeBean = new GtnWsAttributeBean();
-		while (cr.hasNext()) {
-			Document doc = (Document) cr.next();
+		while (cursor.hasNext()) {
+			Document doc = (Document) cursor.next();
 			Document frequencyDocument = (Document) doc.remove("_id");
 			if (frequencyDocument != null) {
+				attributeBean.putAttributes("_id",
+						ccpNode.getHierarchyNo() + frequencyDocument.get("semiAnnual") + frequencyDocument.get("year"));
 				attributeBean.putAllAttributes(frequencyDocument);
 			}
 			attributeBean.putAllAttributes(doc);
@@ -258,6 +260,18 @@ public class GtnWsMongoService {
 								gtnWsCommonCalculation.getDividedValue(
 										currentDoc.getAttributes("netExfactorySalesProjection"),
 										currentDoc.getAttributes("exfactoryProjection")));
+						double weightedGtnActualDividedValue = gtnWsCommonCalculation.getDividedValue(
+								currentDoc.getAttributes("exfactoryActuals"),
+								currentDoc.getAttributes("totalExfactoryActuals"));
+						currentDoc.putAttributes("weightedGtnActuals",
+								gtnWsCommonCalculation.getMultipiedValue(weightedGtnActualDividedValue,
+										currentDoc.getAttributes("deductionPerExfactoryActuals"), true));
+						double weightedGtnProjectionDividedValue = gtnWsCommonCalculation.getDividedValue(
+								currentDoc.getAttributes("exfactoryProjection"),
+								currentDoc.getAttributes("totalExfactoryProjection"));
+						currentDoc.putAttributes("weightedGtnProjection",
+								gtnWsCommonCalculation.getMultipiedValue(weightedGtnProjectionDividedValue,
+										currentDoc.getAttributes("deductionPerExfactoryProjection"), true));
 						break;
 					}
 				}
@@ -268,13 +282,12 @@ public class GtnWsMongoService {
 	}
 
 	public Document dividedResult(Object numerator, Object denominator) {
-		List condition = new ArrayList();
+		List<Object> condition = new ArrayList();
 		condition.add(new Document("$gt", Arrays.asList(denominator, 0)));
 		condition.add(new Document("$multiply",
 				Arrays.asList(new Document("$divide", Arrays.asList(numerator, denominator)), 100)));
 		condition.add(0.0);
-		Document divide = new Document("$cond", condition);
-		return divide;
+		return new Document("$cond", condition);
 	}
 
 	private List<Document> convertGtnWsTreeNodeAttributeToDocument(List<GtnWsAttributeBean> attributeBeanList) {

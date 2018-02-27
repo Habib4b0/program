@@ -73,46 +73,46 @@ public class GtnWsMongoCalculation {
 				categoryBean.setComparisonBasis(engineBean.getComparisonBasis());
 				List<GtnWsTreeNodeAttributeBean> finalNode = (List<GtnWsTreeNodeAttributeBean>) gtnWsTreeNode
 						.getNodeData();
-				GtnWsTreeNodeAttributeBean currentAttributes = (GtnWsTreeNodeAttributeBean) finalNode
-						.get(engineBean.getSelectedProjectionId());
-				GtnWsTreeNodeAttributeBean priorAttributes = null;
+				GtnWsTreeNodeAttributeBean currentAttributes = finalNode.get(engineBean.getSelectedProjectionId());
 				GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
-
 				GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
 				newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
 				newAttributes.putAttributes("parentHierarchyNo", gtnWsTreeNode.getParent().getHierarchyNo());
 				newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
 				newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
-
-				for (GtnWsAttributeBean currectProjection : currentAttributes.getAttributeBeanList()) {
-					categoryBean.setCurrentNodeAttribute(currectProjection);
-					for (int i = 0; i < finalNode.size(); i++) {
-						if (!"Latest Projection".equals(categoryBean.getComparisonBasis())) {
-							priorAttributes = finalNode.get(i);
-							categoryBean.setProjectionId(i);
-							for (GtnWsAttributeBean priorProjection : priorAttributes.getAttributeBeanList()) {
-								categoryBean.setPriorNodeAttribute(priorProjection);
-								categoryBean.setVariableCategory("Value");
-								categoryBean.setCalculationType(GtnWsCalculationType.VALUE);
-								calculateVariableCategory(currectProjection, priorProjection, categoryBean,
-										newAttributes);
-								categoryBean.setVariableCategory("Variance");
-								categoryBean.setCalculationType(GtnWsCalculationType.VARIANCE);
-								calculateVariableCategory(currectProjection, priorProjection, categoryBean,
-										newAttributes);
-								categoryBean.setVariableCategory("PerChange");
-								categoryBean.setCalculationType(GtnWsCalculationType.PER_CHANGE);
-								calculateVariableCategory(currectProjection, priorProjection, categoryBean,
-										newAttributes);
-							}
-						}
-					}
-				}
+				callVariableCategoryLogic(currentAttributes, newAttributes, finalNode, categoryBean);
 				calculatedAttributes.addAttributeBeanToList(newAttributes);
 				gtnWsTreeNode.setNodeData(calculatedAttributes);
 			}
 			if (gtnWsTreeNode.getChildren() != null) {
 				variableCategoryCalculationRecursion(gtnWsTreeNode);
+			}
+		}
+	}
+
+	private void callVariableCategoryLogic(GtnWsTreeNodeAttributeBean currentAttributes,
+			GtnWsAttributeBean newAttributes, List<GtnWsTreeNodeAttributeBean> finalNode,
+			GtnWsVariableCategoryBean categoryBean) {
+		for (GtnWsAttributeBean currectProjection : currentAttributes.getAttributeBeanList()) {
+			categoryBean.setCurrentNodeAttribute(currectProjection);
+			newAttributes.putAttributes("_id", currectProjection.getAttributes("_id"));
+			for (int i = 0; i < finalNode.size(); i++) {
+				if (!"Latest Projection".equals(categoryBean.getComparisonBasis())) {
+					GtnWsTreeNodeAttributeBean priorAttributes = finalNode.get(i);
+					categoryBean.setProjectionId(i);
+					for (GtnWsAttributeBean priorProjection : priorAttributes.getAttributeBeanList()) {
+						categoryBean.setPriorNodeAttribute(priorProjection);
+						categoryBean.setVariableCategory("Value");
+						categoryBean.setCalculationType(GtnWsCalculationType.VALUE);
+						calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
+						categoryBean.setVariableCategory("Variance");
+						categoryBean.setCalculationType(GtnWsCalculationType.VARIANCE);
+						calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
+						categoryBean.setVariableCategory("PerChange");
+						categoryBean.setCalculationType(GtnWsCalculationType.PER_CHANGE);
+						calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
+					}
+				}
 			}
 		}
 	}
