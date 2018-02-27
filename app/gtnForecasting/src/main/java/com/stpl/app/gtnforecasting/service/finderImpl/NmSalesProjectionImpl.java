@@ -670,7 +670,6 @@ if(!custom){
               
                 queryBuilder1.append("   UPDATE ST_NM_SALES_PROJECTION_MASTER  SET METHODOLOGY='" + methodology + "' ,CALCULATION_PERIODS='" + calcPeriods + "',CALCULATION_BASED='" + calcBased + "'   WHERE  PROJECTION_DETAILS_SID \n");
                 queryBuilder1.append(Constant.IN_NEW_LINE);
-                
                 queryBuilder1.append(Constant.SELECT_DISTINCT_PD_PROJECTION_DETAILS);
                 queryBuilder1.append(Constant.FROM_PROJECTION_DETAILS_PD);
                 queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD + (parentViewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (parentViewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
@@ -704,8 +703,7 @@ if(!custom){
                 queryBuilder1.append(Constant.ON_NM_MAS_PROJECTION_DETAILS_SID_NM_SP);
                 queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE + (projectionId) + Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.AND_NM_SP_USER_ID + userid + Constant.AND_NM_SP_SESSION_ID + sessionId + Constant.AND_RLD_HIERARCHY_NO + hierarchyNo + Constant.SPACE_NEW_LINE);
-
-               queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID + userid + Constant.COLON_AND_SESSION_ID + sessionId + "' AND  CHECK_RECORD=1   \n");
+                queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID + userid + Constant.COLON_AND_SESSION_ID + sessionId + "' AND  CHECK_RECORD=1   \n");
 
 }
                 
@@ -828,7 +826,6 @@ if(!custom){
 
                 queryBuilder1.append("  where PROJECTION_DETAILS_SID  \n");
                 queryBuilder1.append(Constant.IN_NEW_LINE);
-                
                 queryBuilder1.append(Constant.SELECT_DISTINCT_PD_PROJECTION_DETAILS);
                 queryBuilder1.append(Constant.FROM_PROJECTION_DETAILS_PD);
                 queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD + (parentViewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (parentViewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
@@ -864,7 +861,6 @@ if(!custom){
                 queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.AND_NM_SP_USER_ID + userid + Constant.AND_NM_SP_SESSION_ID + sessionId + Constant.AND_RLD_HIERARCHY_NO+hierarchyNo+Constant.SPACE_NEW_LINE);
 
                queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
-
 
 }
             } else if (method.equals("getProjDetailSid")) {
