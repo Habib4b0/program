@@ -71,11 +71,10 @@ public class FileUploader implements Receiver {
     }
 
     public static String getFilePath() {
-    	 StringBuilder path = new StringBuilder(System.getProperty("com.stpl.gtnframework.base.path"));
-         path.append('/');
-         path.append("Attachments");
-         path.append('/');
-         return path.toString();
+        StringBuilder path = new StringBuilder(System.getProperty("com.stpl.gtnframework.base.path"));
+        path.append("Attachments");
+        path.append('/');
+        return path.toString();
     }
 
     /**

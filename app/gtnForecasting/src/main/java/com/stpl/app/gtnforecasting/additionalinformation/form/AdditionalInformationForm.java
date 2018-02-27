@@ -21,6 +21,7 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
+import com.stpl.ifs.util.GtnFileUtil;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
@@ -98,12 +99,12 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     public void intailizingObject() {
 
         uploadReceiver = (Receiver) new FileUploader(moduleName + "/" + userId);
-        uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-        filePath = CommonUtil.getFilePath(CommonUtil.getJbossHome() + File.separator + "Documents" + File.separator + moduleName);
-        wordFile = CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT);
-        pdfFile = CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
+        uploadComponent = new Upload(null, (FileUploader) uploadReceiver);       
+        filePath = GtnFileUtil.getFile(basepath + File.separator + "Attachments" + File.separator + moduleName);
+        wordFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportWord.DOC_EXT);
+        pdfFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
         fileUploadPath = FileUploader.FILE_PATH + moduleName + "/" + userId + "/";
-
+                
         if (isViewMode) {
             removeAndDisablingComponents();
         }
