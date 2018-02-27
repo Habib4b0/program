@@ -503,7 +503,7 @@ public class PRExcelLogic {
         //Net Profit
         netProfit = pvList.get(listIndex++);
         calculate(Constants.PVVariables.VAR_NET_PROFITE.toString(), obj, isTotal ? NumericConstants.FORTY_FIVE : NumericConstants.FORTY_SEVEN, netProfit,  AMOUNT, isTotal,true);
-        LOGGER.debug("End of Method" + listIndex);
+        LOGGER.debug("End of Method={}", listIndex);
     }
 
     private void calculate(String varaibleName, Object[] obj, int index, ProjectionResultsDTO pvDTO, DecimalFormat format,boolean isTotal,boolean salesInclusionFlag) {

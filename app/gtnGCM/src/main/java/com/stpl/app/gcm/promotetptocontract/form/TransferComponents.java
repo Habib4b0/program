@@ -1077,7 +1077,7 @@ public class TransferComponents extends CustomComponent implements View {
      * @throws PortalException
      * @throws ParseException
      */
-    public List<Integer> saveTransferContract() throws SystemException, PortalException, ParseException {
+    public List<Integer> saveTransferContract() throws  PortalException, ParseException {
 
         int contractMasterSid = 0;
         List<Integer> returnList = new ArrayList<>();
@@ -1416,7 +1416,7 @@ public class TransferComponents extends CustomComponent implements View {
         this.transferCompContainer1 = transferCompContainer1;
     }
 
-    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws   NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
         ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.toUpperCase());

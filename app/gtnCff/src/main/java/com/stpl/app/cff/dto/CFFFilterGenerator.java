@@ -103,7 +103,7 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                     comboBox.setNullSelectionAllowed(true);
                     comboBox.setNullSelectionItemId(0);
                     return comboBox;
-            } catch (Exception ex) {
+            } catch (UnsupportedOperationException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -1914,7 +1914,6 @@ public final class ConstantsUtils {
     public static final String RS_SEARCH_FORM = "RS_SEARCH_FORM";
     public static final String PS_SEARCH_FORM = "PS_SEARCH_FORM";
     public static final String IM_SEARCH_FORM = "IM_SEARCH_FORM";
-    public static Object UDC = "udc";
     public static final String MANUFACTURE_CM_SID = "manfCompanyMasterSid";
     public static final String COMPANY_IDENTIFIER_SID = "companyIdentifierSid";
     public static final String PARENT_COMPANY_IDENTIFIER_SID = "parentCompanyMasterSid";

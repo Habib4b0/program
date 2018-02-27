@@ -82,7 +82,7 @@ public class CFFLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CFFLogic.class);
-    public CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
+    private final CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
     /**
      * The common utils.
      */
@@ -134,7 +134,7 @@ public class CFFLogic {
      * @throws Exception the exception
      */
     public static List<HelperDTO> getDropDownList(final String listName) throws PortalException, SystemException {
-        LOGGER.debug("Entering getDropDownList p1:" + listName);
+        LOGGER.debug("Entering getDropDownList p1: {}", listName);
         final List<HelperDTO> helperList = new ArrayList<>();
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(listName);
         if (list != null) {
@@ -144,7 +144,7 @@ public class CFFLogic {
 
             }
         }
-        LOGGER.debug("return DropDownList :" + helperList.size());
+        LOGGER.debug("return DropDownList : {}", helperList.size());
         return helperList;
     }
 
@@ -173,10 +173,8 @@ public class CFFLogic {
             }
         }
 
-        LOGGER.debug("returns helperList size" + helperList.size());
-
+        LOGGER.debug("returns helperList size= {}", helperList.size());
         return helperList;
-
     }
 
     /**
@@ -352,7 +350,7 @@ public class CFFLogic {
 
             DAO.executeUpdateQuery(sql);
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
             return null;
         }
@@ -426,7 +424,7 @@ public class CFFLogic {
             input.add(workFlowId);
             input.add(noOfLevel);
             CommonQueryUtils.updateAppData(input, "updatePendingdetails");
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
             return CommonUtils.FAIL;
         }
@@ -489,7 +487,7 @@ public class CFFLogic {
             input.add(cffId);
             CommonQueryUtils.updateAppData(input, "updateapprovaldetails");
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
             resultList.add(CommonUtils.FAIL);
             return resultList;
@@ -581,7 +579,7 @@ public class CFFLogic {
         parameters.add(filterQuery);
         resultCountList = CommonQueryUtils.getAppData(parameters, "getCffSearchCount", null);
         count = getCount(resultCountList);
-        LOGGER.debug("Count For method" + count);
+        LOGGER.debug("Count For method= {}", count);
         return count;
     }
 
@@ -744,7 +742,7 @@ public class CFFLogic {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex + " in CommonUtils ~ getAllUsers");
+            LOGGER.error(" in CommonUtils ~ getAllUsers= {}", ex);
         }
         return userMap;
     }
@@ -797,7 +795,7 @@ public class CFFLogic {
                             dto.setFileManagementSid(String.valueOf(obj[NumericConstants.TWO]));
                             dto.setFileName(String.valueOf(obj[NumericConstants.THREE]));
                             dto.setVersion(String.valueOf(obj[NumericConstants.FOUR]));
-                            dto.setFileType(String.valueOf(obj[NumericConstants.SEVEN]));
+                            dto.setFileType(obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : StringUtils.EMPTY);
                             if (obj[NumericConstants.FIVE] != null) {
                                 dto.setActiveFromDate((Date) obj[NumericConstants.FIVE]);
                             } else {
@@ -817,7 +815,7 @@ public class CFFLogic {
                     list.add(sessionDTO.getCompanySystemId());
                     if (filters != null) {
                         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionMap()).toString();
-                        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.SPACE_AND_SPACE);
+                        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.AND);
                         list.add(filterQuery);
                     } else {
                         list.add(StringUtils.EMPTY);
@@ -831,7 +829,7 @@ public class CFFLogic {
                         dto.setFileManagementSid(String.valueOf(obj[0]));
                         dto.setFileName(String.valueOf(obj[1]));
                         dto.setVersion(String.valueOf(obj[NumericConstants.THREE]));
-                        dto.setFileType(String.valueOf(obj[NumericConstants.TWO]));
+                        dto.setFileType(obj[NumericConstants.TWO] != null ? String.valueOf(obj[NumericConstants.TWO]) : StringUtils.EMPTY);
                         dto.setActiveFromDate((Date) obj[NumericConstants.FOUR]);
                         dto.setActiveToDate((Date) obj[NumericConstants.FIVE]);
                         dto.setFileTypeId(String.valueOf(obj[NumericConstants.SIX]));
@@ -852,7 +850,7 @@ public class CFFLogic {
                     list.add(sessionDTO.getCompanySystemId());
                     if (filters != null) {
                         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionMap()).toString();
-                        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.SPACE_AND_SPACE);
+                        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.AND);
                         list.add(filterQuery);
                     } else {
                         list.add(StringUtils.EMPTY);
@@ -963,7 +961,7 @@ public class CFFLogic {
      * @throws java.lang.Exception
      */
     public void saveProductHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids, final int projectionId, final List<String> addLevels, final String indicator) throws SystemException {
-        LOGGER.debug("saveProductHierarchyLogic projectionId" + projectionId);
+        LOGGER.debug("saveProductHierarchyLogic projectionId= {}", projectionId);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(StringConstantsUtil.INDICATOR, "getChildLevelRLSid");
         parameters.put("rlSids", endLevelSids);
@@ -1003,8 +1001,8 @@ public class CFFLogic {
                     dataSelectionDAO.addProjectionProdHierarchy(cffProdHierarchy);
                 }
             }
-        } catch (Exception e) {
-            LOGGER.debug(e + " saveProductHierarchyLogic");
+        } catch (SystemException e) {
+            LOGGER.debug("SaveProductHierarchyLogic= {}", e);
         }
     }
     
@@ -1017,7 +1015,7 @@ public class CFFLogic {
      * @throws java.lang.Exception
      */
     public void saveCustomerHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids, final int projectionId, final List<String> addLevels, final String indicator) throws SystemException {
-        LOGGER.debug("saveCustomerHierarchyLogic  projectionId " + projectionId);
+        LOGGER.debug("saveCustomerHierarchyLogic  projectionId= {}", projectionId);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(StringConstantsUtil.INDICATOR, "getChildLevelRLSid");
         parameters.put(StringConstantsUtil.PROJECTION_ID, projectionId);
@@ -1057,8 +1055,8 @@ public class CFFLogic {
                     dataSelectionDAO.addProjectionCustHierarchy(cffCustHierarchy);
                 }
             }
-        } catch (Exception e) {
-            LOGGER.error(e + " in saveCustomerHierarchyLogic");
+        } catch (SystemException e) {
+            LOGGER.error(" in saveCustomerHierarchyLogic={}", e);
         }
     }
 
@@ -1088,7 +1086,7 @@ public class CFFLogic {
         LOGGER.debug("Entering searchView method");
         List list = null;
         List inputList = new ArrayList();
-        final String userId = (String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID);
+        final String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID);
         if (StringUtils.isNotEmpty(viewType)
                 && StringUtils.isNotBlank(viewType)) {
             inputList.add(viewType);
@@ -1126,7 +1124,7 @@ public class CFFLogic {
      * @throws Exception the exception
      */
     public static void deleteView(final int viewId) {
-        LOGGER.debug("Entering deleteView method with viewId " + viewId);
+        LOGGER.debug("Entering deleteView method with viewId= {} ", viewId);
         List ipnput = new ArrayList();
         ipnput.add(viewId);
         CommonQueryUtils.updateAppData(ipnput, "deleteView");
@@ -1149,7 +1147,7 @@ public class CFFLogic {
                     try {
                         GtnWsCommonWorkflowResponse taskSummary = DSCalculationLogic.startAndCompleteTask(sessionDTO,userId);
                         processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
-                    } catch (Exception e) {
+                    } catch (NumberFormatException e) {
                         LOGGER.error(e.getMessage());
                     }
                     VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
@@ -1205,7 +1203,7 @@ public class CFFLogic {
         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionFilterMap()).toString();
         String query = SQlUtil.getQuery("getFileSelectionCount");
         query = query.replace("?", cffMasterId);
-        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.SPACE_AND_SPACE);
+        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.AND);
         query += filterQuery;
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null) {
@@ -1223,7 +1221,7 @@ public class CFFLogic {
         String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionFilterMap()).toString();
         String query = SQlUtil.getQuery("getFileSelection");
         query = query.replace("?", cffMasterId);
-        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.SPACE_AND_SPACE);
+        filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.AND);
         query += filterQuery;
         list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
@@ -1364,6 +1362,9 @@ public class CFFLogic {
                 case "Trading Partner":
                 case "Customer":
                     customerList.add(new Object[]{dto.getHierarchyNo(), dto.getRelationshipLevelValue(), dto.getLevelNo()});
+                    break;
+                default:
+                    LOGGER.debug("Invalid state inside getCustomerSelectionHierarchy");
                     break;
             }
             if (customerLevel == dto.getLevelNo()) {

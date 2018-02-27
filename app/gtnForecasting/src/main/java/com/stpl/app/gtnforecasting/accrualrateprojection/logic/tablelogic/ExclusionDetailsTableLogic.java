@@ -44,7 +44,7 @@ public class ExclusionDetailsTableLogic  extends PageTableLogic {
                  count = searchLogic.getExcludedCompanysCount(accrualRateSelectionDTO, this.getFilters(), isViewMode);
                 break;           
             default:
-                LOGGER.warn("Count - Table Name is not valid: " + tableName);
+                LOGGER.warn("Count - Table Name is not valid= {} " , tableName);
                 break;
         }
         return count;
@@ -62,7 +62,7 @@ public class ExclusionDetailsTableLogic  extends PageTableLogic {
                  list = searchLogic.getExcluededCompanys(accrualRateSelectionDTO, this.getSortByColumns(), this.getFilters(), start, offset, isViewMode);
                 break;           
             default:
-                LOGGER.warn("Count - Table Name is not valid: " + tableName);
+                LOGGER.warn("Count - Table Name is not valid= {} " , tableName);
                 break;
         }
         

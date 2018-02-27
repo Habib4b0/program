@@ -105,7 +105,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected FileDownloader wordDownloader;
     protected FileDownloader pdfDownloader;
     protected AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
-    protected static String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
+    protected static String basepath = System.getProperty("com.stpl.gtnframework.base.path");	
     protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
     protected Image pdfPngImage = new Image(null, new ThemeResource("img//pdf.png"));
     protected final File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
@@ -126,7 +126,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      * The module name.
      */
-    public final static String MODULE_NAME = "National Assumptions";
+    public static final String MODULE_NAME = "National Assumptions";
     /**
      * The move back.
      */
@@ -418,10 +418,9 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             setValues(mode.equalsIgnoreCase(ACTION_EDIT.getConstant()) || mode.equalsIgnoreCase(ACTION_VIEW.getConstant()) ? true : false);
         } catch (Exception ex) {
-            ex.printStackTrace();
              StackTraceElement[] trace = ex.getStackTrace();
             for (StackTraceElement traceElement : trace)
-                LOGGER.error("\tat " + traceElement);
+                LOGGER.error("\tat={} ", traceElement);
             LOGGER.error(ex.getMessage());
 
         }
@@ -490,7 +489,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         if (wordFile.exists() != true) {
             try {
                 isFileCreated=wordFile.createNewFile();
-                LOGGER.info("WordFile created successfully : "+isFileCreated);
+                LOGGER.info("WordFile created successfully= {} ", isFileCreated);
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -498,7 +497,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         if (pdfFile.exists() != true) {
             try {
             	isFileCreated=pdfFile.createNewFile();
-            	LOGGER.info("PdfFile created successfully : "+isFileCreated);
+            	LOGGER.info("PdfFile created successfully= {} ", isFileCreated);
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }

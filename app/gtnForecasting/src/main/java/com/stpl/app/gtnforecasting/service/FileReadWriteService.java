@@ -53,11 +53,11 @@ public class FileReadWriteService {
 		try {
 			mapper.writeValue(file, obj);
 		} catch (JsonGenerationException e) {
-			LOGGER.error("JsonGenerationException Exception" + e.getMessage());
+			LOGGER.error("JsonGenerationException Exception= {}" , e.getMessage());
 		} catch (JsonMappingException e) {
-			LOGGER.error("JsonMappingException Exception" + e.getMessage());
+			LOGGER.error("JsonMappingException Exception= {}" , e.getMessage());
 		} catch (IOException e) {
-			LOGGER.error("IO Exception" + e.getMessage());
+			LOGGER.error("IO Exception = {}" , e.getMessage());
 		}
 	}
 

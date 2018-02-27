@@ -1,9 +1,9 @@
 package com.stpl.gtn.gtn2o.ws.module.companymaster.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +44,8 @@ public class GtnWsCMasterAdd {
 		 */
 	}
 
+	private List<Integer> tradeClassSidList = new ArrayList<>();
+	private List<Integer> parentDetailsSidList = new ArrayList<>();
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsCMasterAdd.class);
 
 	@Autowired
@@ -78,18 +80,119 @@ public class GtnWsCMasterAdd {
 	public GtnUIFrameworkWebserviceResponse saveCompanyMaster(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		LOGGER.info("Enter saveCompanyMaster");
-		int count=performUpdateForCompanyIdWithStatusD(gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean());
-		if(count==1)
-		{
-		int automatedSystemId=getSysIdForCompanyIdWithStatusD(gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean());
-		gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean().getGtnCMasterInformationBean().setCompanyMasterSystemId(automatedSystemId);
-		
+		int count = 0;
+		if (gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean().getGtnCMasterInformationBean()
+				.getCompanyMasterSystemId() == 0) {
+			count = performUpdateForCompanyIdWithStatusD(gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean());
+		}
+		if (gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean().getGtnCMasterInformationBean()
+				.getCompanyMasterSystemId() > 0) {
+			int companyMasterSid=gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean().getGtnCMasterInformationBean()
+					.getCompanyMasterSystemId() ;
+			checkTradeClassList(companyMasterSid);
+			checkParentDetailsList(companyMasterSid);
+			
+		}
+		if (count == 1) {
+			int automatedSystemId = getSysIdForCompanyIdWithStatusD(
+					gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean());
+			gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean().getGtnCMasterInformationBean()
+					.setCompanyMasterSystemId(automatedSystemId);
 		}
 		GtnFrameworkQueryEngineMainConfig mainConfig = new GtnFrameworkQueryEngineMainConfig();
 		mainConfig = configureDataArray(mainConfig, gtnWsRequest);
 		mainConfig = buildQueryConfigForCMaster(mainConfig, gtnWsRequest);
 		LOGGER.info("Exit saveCompanyMaster");
 		return executeQuery(mainConfig);
+	}
+
+	private void checkParentDetailsList(int companyMasterSid) {
+		
+		List<Integer> parentClassList;
+		parentClassList = findParentDetailsSidFromTable(companyMasterSid);
+		for(Integer parentDetailsSid:parentClassList)
+		{
+			createParentDetailsListNotDeleteSupported(parentDetailsSid);
+		}
+	
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createParentDetailsListNotDeleteSupported(Integer parentDetailsSid) {
+		List<Integer> countCheckParentDetailsList;
+		if (parentDetailsSid != 0) {
+			try {
+				countCheckParentDetailsList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(
+						gtnWsSqlService.getQuery(Arrays.asList(parentDetailsSid),
+								"checkCompanyGroupDetailsParentDetailsExists"));
+				int countCheck=countCheckParentDetailsList.get(0);
+				if (countCheck == 1) {
+					parentDetailsSidList.add(parentDetailsSid);
+				}
+			} catch (GtnFrameworkGeneralException e) {
+				LOGGER.error("Exception in createParentDetailsListNotDeleteSupported method:" + e);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Integer> findParentDetailsSidFromTable(int companyMasterSid) {
+		List<Integer> parentDetailsListFromTable=new ArrayList<>();
+		try {
+			parentDetailsListFromTable=(List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(
+							Arrays.asList(companyMasterSid) , "getCompanyParentDetailsSid"));
+		} catch (GtnFrameworkGeneralException e) {
+			
+			LOGGER.error("Exception in Find ParentDetails Sid method:" + e);
+		}
+		return parentDetailsListFromTable;
+	}
+
+	private void checkTradeClassList(int companyMasterSid) {
+		List<Integer> tradeClassList;
+			tradeClassList = findTradeClassSidFromTable(companyMasterSid);
+			for(Integer tradeSid:tradeClassList)
+			{
+				createTradeClassListNotDeleteSupported(tradeSid);
+			}
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Integer> findTradeClassSidFromTable(int companyMasterSid
+			) {
+		List<Integer> tradeClassListFromTable=new ArrayList<>();
+		try {
+			tradeClassListFromTable=(List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(
+							Arrays.asList(companyMasterSid) , "getCompanyTradeClassSid"));
+		} catch (GtnFrameworkGeneralException e) {
+			
+			LOGGER.error("Exception:" + e);
+		}
+		return tradeClassListFromTable;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createTradeClassListNotDeleteSupported(int tradeClassSid) {
+		List<Integer> countCheckList;
+		if (tradeClassSid != 0) {
+			try {
+				countCheckList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(
+						gtnWsSqlService.getQuery(Arrays.asList(tradeClassSid),
+								"checkCompanyGroupDetailsTradeClassExists"));
+				if(!countCheckList.isEmpty())
+				{
+				int countCheck=countCheckList.get(0);
+				if (countCheck == 1) {
+					tradeClassSidList.add(tradeClassSid);
+				}
+				}
+			} catch (GtnFrameworkGeneralException e) {
+				LOGGER.error("Exception:" + e);
+			}
+		}
 	}
 
 	public GtnUIFrameworkWebserviceResponse executeQuery(GtnFrameworkQueryEngineMainConfig mainConfig) {
@@ -136,7 +239,7 @@ public class GtnWsCMasterAdd {
 	public GtnFrameworkQueryEngineMainConfig buildQueryConfigForCMaster(GtnFrameworkQueryEngineMainConfig mainConfig,
 			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		LOGGER.info("Enter buildQueryConfigForCMaster");
-		
+
 		GtnCMasterBean companyMasterBean = gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean();
 		GtnCMasterInformationBean companyInformationBean = companyMasterBean.getGtnCMasterInformationBean();
 		int currentParamPos = 0;
@@ -175,8 +278,14 @@ public class GtnWsCMasterAdd {
 			GtnFrameworkQueryEngineConfig cmTradeClassConfig = new GtnFrameworkQueryEngineConfig();
 			LOGGER.info(GtnFrameworkWebserviceConstant.CURRENT_PARAM_POSITION + currentParamPos);
 			LOGGER.debug(companyTradeClassBean.toString());
-			currentParamPos = getCmTradeClassQueryConfig(cmTradeClassConfig, currentParamPos,
-					companyMasterIdentifierPosition);
+			if (!tradeClassSidList.isEmpty()) {
+				currentParamPos = getCmUpdateTradeClassQueryConfig(cmTradeClassConfig, currentParamPos,
+						companyMasterIdentifierPosition, tradeClassSidList.get(tradeClassSidList.size()-1));
+				tradeClassSidList.remove(tradeClassSidList.size() - 1);
+			} else {
+				currentParamPos = getCmTradeClassQueryConfig(cmTradeClassConfig, currentParamPos,
+						companyMasterIdentifierPosition);
+			}
 			childQueryConfigList.add(cmTradeClassConfig);
 		}
 		List<GtnCMasterCompanyParentBean> cmCompanyParentBeanList = companyMasterBean
@@ -185,12 +294,18 @@ public class GtnWsCMasterAdd {
 			GtnFrameworkQueryEngineConfig cmCompanyParentBeanConfig = new GtnFrameworkQueryEngineConfig();
 			LOGGER.info(GtnFrameworkWebserviceConstant.CURRENT_PARAM_POSITION + currentParamPos);
 			LOGGER.debug(companyParentBean.toString());
+			if (!parentDetailsSidList.isEmpty()) {
+				currentParamPos = getCmUpdateParentDetailsQueryConfig(cmCompanyParentBeanConfig, currentParamPos,
+						companyMasterIdentifierPosition, parentDetailsSidList.get(parentDetailsSidList.size()-1));
+				parentDetailsSidList.remove(parentDetailsSidList.size() - 1);
+			}
+			else{
 			currentParamPos = getCmParentDetailsQueryConfig(cmCompanyParentBeanConfig, currentParamPos,
 					companyMasterIdentifierPosition);
+			}
 			childQueryConfigList.add(cmCompanyParentBeanConfig);
 		}
-		List<NotesTabBean> cmNotesTabBeanList = companyMasterBean
-				.getGtnCMasterCompanyNotesTabBeanList();
+		List<NotesTabBean> cmNotesTabBeanList = companyMasterBean.getGtnCMasterCompanyNotesTabBeanList();
 		for (NotesTabBean companyNotesTabBean : cmNotesTabBeanList) {
 			GtnFrameworkQueryEngineConfig cmNotesTabBeanConfig = new GtnFrameworkQueryEngineConfig();
 			LOGGER.info(GtnFrameworkWebserviceConstant.CURRENT_PARAM_POSITION + currentParamPos);
@@ -204,7 +319,54 @@ public class GtnWsCMasterAdd {
 		return mainConfig;
 	}
 
-	
+	private int getCmUpdateParentDetailsQueryConfig(GtnFrameworkQueryEngineConfig cmParentDetailsUpdateQueryConfig,
+			int currentParamPos, int companyMasterIdentifierPosition, Integer parentDetailsSid) {
+		LOGGER.info("Enter getCmParentDetailsQueryConfig");
+		int currentPosParentDetailsUpdate;
+		List<GtnFrameworkQueryConfig> cmParentDetailsUpdateQueries = new ArrayList<>();
+		cmParentDetailsUpdateQueryConfig.setQueryConfigList(cmParentDetailsUpdateQueries);
+		GtnFrameworkQueryConfig cmParentDetailsUpdate = new GtnFrameworkQueryConfig();
+		String cmParentDetailsUpdateQuery = "UPDATE COMPANY_PARENT_DETAILS SET COMPANY_MASTER_SID=?, PARENT_COMPANY_MASTER_SID=?, PARENT_START_DATE=?, PARENT_END_DATE=?, PRIOR_PARENT_CMPY_MASTER_SID=?, PRIOR_PARENT_START_DATE=?, LAST_UPDATED_DATE=?,"
+				+ "INBOUND_STATUS=?, RECORD_LOCK_STATUS=?, BATCH_ID=?,\"SOURCE\"=?, CREATED_BY=?, CREATED_DATE=?, MODIFIED_BY=?, MODIFIED_DATE=?"
+				+" WHERE COMPANY_PARENT_DETAILS_SID="+parentDetailsSid+" ;";
+		cmParentDetailsUpdate.setQuery(cmParentDetailsUpdateQuery);
+		cmParentDetailsUpdate.setInsertOrSelectQuery(true);
+		cmParentDetailsUpdate.setDataTypeArray(new String[] { GtnFrameworkWebserviceConstant.INTEGER,
+				GtnFrameworkWebserviceConstant.INTEGER, "Date", "Date", GtnFrameworkWebserviceConstant.STRING, "Date",
+				"Date", GtnFrameworkWebserviceConstant.STRING, GtnFrameworkWebserviceConstant.INTEGER,
+				GtnFrameworkWebserviceConstant.STRING, GtnFrameworkWebserviceConstant.STRING,
+				GtnFrameworkWebserviceConstant.INTEGER, "Date", GtnFrameworkWebserviceConstant.INTEGER, "Date" });
+		currentPosParentDetailsUpdate = cmParentDetailsUpdate.setParamPositionArray(new int[] { companyMasterIdentifierPosition },
+				currentParamPos, currentParamPos + (cmParentDetailsUpdate.getDataTypeArray().length - 1));
+		cmParentDetailsUpdateQueries.add(cmParentDetailsUpdate);
+		LOGGER.info("Exit getCmParentDetailsQueryConfig");
+		return currentPosParentDetailsUpdate;
+	}
+
+	private int getCmUpdateTradeClassQueryConfig(GtnFrameworkQueryEngineConfig cmTradeClassConfig, int currentParamPos,
+			int companyMasterIdentifierPosition, Integer tradeClassSid) {
+		LOGGER.info("Enter getCmTradeClassUpdateQueryConfig");
+		int currentUpdatePos;
+		List<GtnFrameworkQueryConfig> tradeclassUpdateQueries = new ArrayList<>();
+		cmTradeClassConfig.setQueryConfigList(tradeclassUpdateQueries);
+		GtnFrameworkQueryConfig tradeClassUpdate = new GtnFrameworkQueryConfig();
+		String cmTradeclassUpdateQuery = "UPDATE COMPANY_TRADE_CLASS SET "
+				+ "COMPANY_MASTER_SID=?, TRADE_CLASS_START_DATE=?, TRADE_CLASS_END_DATE=?, COMPANY_TRADE_CLASS=?, PRIOR_TRADE_CLASS=?, PRIOR_TRADE_CLASS_START_DATE=?, LAST_UPDATED_DATE=?, INBOUND_STATUS=?, RECORD_LOCK_STATUS=?, BATCH_ID=?,\"SOURCE\"=? ,CREATED_BY=?, CREATED_DATE=?, MODIFIED_BY=?, MODIFIED_DATE=? WHERE COMPANY_TRADE_CLASS_SID= "
+				+ tradeClassSid+" ;";
+		tradeClassUpdate.setQuery(cmTradeclassUpdateQuery);
+		tradeClassUpdate.setUpdateOrDeleteQuery(true);
+		tradeClassUpdate.setDataTypeArray(new String[] { GtnFrameworkWebserviceConstant.INTEGER, "Date", "Date",
+				GtnFrameworkWebserviceConstant.INTEGER, GtnFrameworkWebserviceConstant.STRING,
+				GtnFrameworkWebserviceConstant.STRING, "Date", GtnFrameworkWebserviceConstant.STRING,
+				GtnFrameworkWebserviceConstant.INTEGER, GtnFrameworkWebserviceConstant.STRING,
+				GtnFrameworkWebserviceConstant.STRING, GtnFrameworkWebserviceConstant.INTEGER, "Date",
+				GtnFrameworkWebserviceConstant.INTEGER, "Date" });
+		currentUpdatePos = tradeClassUpdate.setParamPositionArray(new int[] { companyMasterIdentifierPosition },
+				currentParamPos, currentParamPos + (tradeClassUpdate.getDataTypeArray().length - 1));
+		tradeclassUpdateQueries.add(tradeClassUpdate);
+		LOGGER.info("Exit getCmTradeClassUpdateQueryConfig");
+		return currentUpdatePos;
+	}
 
 	private GtnFrameworkQueryEngineMainConfig configureDataArray(GtnFrameworkQueryEngineMainConfig mainConfig,
 			GtnUIFrameworkWebserviceRequest request) {
@@ -557,7 +719,8 @@ public class GtnWsCMasterAdd {
 		return saveDataList;
 	}
 
-	private GtnFrameworkQueryEngineConfig getCompanyMasterEditQueryConfig(GtnCMasterInformationBean companyInformationBean) {
+	private GtnFrameworkQueryEngineConfig getCompanyMasterEditQueryConfig(
+			GtnCMasterInformationBean companyInformationBean) {
 		LOGGER.info("Enter getCompanyMasterQueryConfig");
 		GtnFrameworkQueryConfig cmUpdateConfig = new GtnFrameworkQueryConfig();
 		String cmUpdateQuery = "UPDATE COMPANY_MASTER SET COMPANY_ID= ?, COMPANY_NO = ?, COMPANY_NAME = ?, COMPANY_TYPE = ?, COMPANY_STATUS = ?,COMPANY_CATEGORY = ?, COMPANY_GROUP = ?,"
@@ -640,13 +803,97 @@ public class GtnWsCMasterAdd {
 	}
 
 	public String getParentDetailsDeleteQuery(GtnCMasterInformationBean companyInformationBean) {
+		
+		String queryToAppendParentDetails = queryGenerateParentDetails(companyInformationBean);
+		if(queryToAppendParentDetails!=null)
+		{
 		return "DELETE FROM COMPANY_PARENT_DETAILS WHERE COMPANY_MASTER_SID="
-				+ companyInformationBean.getCompanyMasterSystemId();
+				+ companyInformationBean.getCompanyMasterSystemId()+queryToAppendParentDetails;
+		}
+		return gtnWsSqlService.getQuery(Arrays.asList(companyInformationBean.getCompanyMasterSystemId(),companyInformationBean.getCompanyMasterSystemId()), "deleteCompanyParentDetailsForCompanyMasterSid");
+		
+	}
+
+	private String queryGenerateParentDetails(GtnCMasterInformationBean companyInformationBean) {
+		
+		List<Integer>parentDetailsSid=findParentDetailsSidFromTable(companyInformationBean.getCompanyMasterSystemId());
+		LOGGER.info("ParentDetailsSidList size:"+parentDetailsSidList.size());
+		LOGGER.info("ParentDetails Sid List Size:"+parentDetailsSid.size());
+		if(!parentDetailsSidList.isEmpty() && !parentDetailsSid.isEmpty())
+		{
+		parentDetailsSid.removeAll(parentDetailsSidList);
+		}
+		StringBuilder queryBuilderParentDetails = new StringBuilder();
+		String queryToAppendParentDetails=null;
+		if(!parentDetailsSid.isEmpty())
+		{
+		queryBuilderParentDetails = buildDeleteParentDetailsQuery(parentDetailsSid, queryBuilderParentDetails);
+		queryToAppendParentDetails=queryBuilderParentDetails.toString();
+		}
+		return queryToAppendParentDetails;
+	}
+
+	private StringBuilder buildDeleteParentDetailsQuery(List<Integer> parentDetailsSid,
+			StringBuilder queryBuilderParentDetails) {
+		StringBuilder queryParentDetailsStringBuilder=queryBuilderParentDetails;
+		for(int i=0;i<=parentDetailsSid.size()-1;i++)
+		{
+			if(i==0)
+			{
+				queryParentDetailsStringBuilder=new StringBuilder(" AND COMPANY_PARENT_DETAILS_SID=");
+                                queryParentDetailsStringBuilder.append(parentDetailsSid.get(0));
+			}
+			else
+			{
+				queryParentDetailsStringBuilder.append(" OR  COMPANY_PARENT_DETAILS_SID=").append(parentDetailsSid.get(i));
+			}
+		}
+		return queryParentDetailsStringBuilder;
 	}
 
 	public String getTradeClassDeleteQuery(GtnCMasterInformationBean companyInformationBean) {
+		String queryToAppend = queryGenerateTradeClass(companyInformationBean);
+		if(queryToAppend!=null)
+		{
 		return "DELETE FROM COMPANY_TRADE_CLASS WHERE COMPANY_MASTER_SID="
-				+ companyInformationBean.getCompanyMasterSystemId();
+				+ companyInformationBean.getCompanyMasterSystemId()+queryToAppend;
+		}
+		return gtnWsSqlService.getQuery(Arrays.asList(companyInformationBean.getCompanyMasterSystemId(),companyInformationBean.getCompanyMasterSystemId()), "deleteCompanyTradeClassForCompanyMasterSid");
+	}
+
+	private String queryGenerateTradeClass(GtnCMasterInformationBean companyInformationBean) {
+		List<Integer>tradeclassSid=findTradeClassSidFromTable(companyInformationBean.getCompanyMasterSystemId());
+		LOGGER.info("tradeClassSidList size:"+tradeClassSidList.size());
+		LOGGER.info("tradeClass Sid List Size:"+tradeclassSid.size());
+		if(!tradeClassSidList.isEmpty() && !tradeclassSid.isEmpty())
+		{
+		tradeclassSid.removeAll(tradeClassSidList);
+		}
+		StringBuilder queryBuilder = new StringBuilder();
+		String queryToAppend=null;
+		if(!tradeclassSid.isEmpty())
+		{
+		queryBuilder = buildDeleteQuery(tradeclassSid, queryBuilder);
+		queryToAppend=queryBuilder.toString();
+		}
+		return queryToAppend;
+	}
+
+	private StringBuilder buildDeleteQuery(List<Integer> tradeclassSid, StringBuilder stringBuilder) {
+		StringBuilder query=stringBuilder;
+		for(int i=0;i<=tradeclassSid.size()-1;i++)
+		{
+			if(i==0)
+			{
+				query=new StringBuilder(" AND COMPANY_TRADE_CLASS_SID=");
+                                query.append(tradeclassSid.get(0));
+			}
+			else
+			{
+				query.append(" OR  COMPANY_TRADE_CLASS_SID=").append(tradeclassSid.get(i));
+			}
+		}
+		return query;
 	}
 
 	public String getIdentifierDeleteQuery(GtnCMasterInformationBean companyInformationBean) {
@@ -711,62 +958,72 @@ public class GtnWsCMasterAdd {
 
 		StringBuilder sql = new StringBuilder();
 		sql.append(gtnWsSqlService.getQuery("getFetchCurrentMonthQuery"));
-		sql.append("WHERE DESCRIPTION = '").append(gtnWsRequest.getGtnWsGeneralRequest().getExtraParameter()).append("'");
+		sql.append("WHERE DESCRIPTION = '").append(gtnWsRequest.getGtnWsGeneralRequest().getExtraParameter())
+				.append("'");
 
 		return sql.toString();
 
 	}
-	
+
 	private int performUpdateForCompanyIdWithStatusD(GtnCMasterBean masterbean) {
 		boolean isCompanyExist = false;
-		List<Long> resultsDb4 = checkIfCompanyIdExistsWithStatusD(masterbean);
+		List<Integer> resultsDb4 = checkIfCompanyIdExistsWithStatusD(masterbean);
 		if (resultsDb4 != null) {
-			isCompanyExist = (long) resultsDb4.size() == 1;
+			isCompanyExist = isCompanyExistCheck(isCompanyExist, resultsDb4);
 		}
-		 List<String> compIdCriteria = new ArrayList<>();
-		 compIdCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
+		List<String> compIdCriteria = new ArrayList<>();
+		compIdCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
 		int countUpdate = 0;
 		if (isCompanyExist) {
 			try {
-				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery(compIdCriteria, "updateCompanyIdWithStatusD"));
+				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(
+						gtnWsSqlService.getQuery(compIdCriteria, "updateCompanyIdWithStatusD"));
 			} catch (GtnFrameworkGeneralException e) {
 				LOGGER.info("Error in Updating");
 			}
 		}
 		return countUpdate;
 	}
-	@SuppressWarnings("unchecked")
-	private int getSysIdForCompanyIdWithStatusD(GtnCMasterBean masterbean) {
-		    List<Integer> sysId=new ArrayList<>();
-		    List<String> compIdCriteria = new ArrayList<>();
-		    compIdCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
-			try {
-				sysId=(List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(gtnWsSqlService.getQuery(compIdCriteria, "getSysIdWithStatusD")));
-				
-			} catch (GtnFrameworkGeneralException e) {
-				LOGGER.info("Error in Updating");
-			}
-		
-		return sysId.get(0);
+
+	private boolean isCompanyExistCheck(boolean isCompExist, List<Integer> resultsDb4) {
+		boolean isCompanyExist = isCompExist;
+		if (!resultsDb4.isEmpty()) {
+			isCompanyExist = resultsDb4.get(0) > 0;
+		}
+		return isCompanyExist;
 	}
-	
 
 	@SuppressWarnings("unchecked")
-	private List<Long> checkIfCompanyIdExistsWithStatusD(GtnCMasterBean masterbean) {
+	private int getSysIdForCompanyIdWithStatusD(GtnCMasterBean masterbean) {
+		List<Integer> sysId = new ArrayList<>();
+		List<String> compIdCriteria = new ArrayList<>();
+		compIdCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
+		try {
+			sysId = (List<Integer>) (gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(compIdCriteria, "getSysIdWithStatusD")));
+
+		} catch (GtnFrameworkGeneralException e) {
+			LOGGER.info("Error in Updating");
+		}
+
+		return sysId.get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Integer> checkIfCompanyIdExistsWithStatusD(GtnCMasterBean masterbean) {
 		List<String> compNoCriteria = new ArrayList<>();
 		compNoCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
-		
-		List<Long> resultsDb3 = new ArrayList<>();
+
+		List<Integer> resultsDb3 = new ArrayList<>();
 		try {
-			resultsDb3 = (List<Long>) gtnSqlQueryEngine
+			resultsDb3 = (List<Integer>) gtnSqlQueryEngine
 					.executeSelectQuery(gtnWsSqlService.getQuery(compNoCriteria, "getCompanyIdWithStatusD"));
-			
+
 		} catch (GtnFrameworkGeneralException e) {
 
 			LOGGER.error("Exception Occured while Checking Whetehr Company Exists");
 		}
 		return resultsDb3;
 	}
-	
-	
+
 }

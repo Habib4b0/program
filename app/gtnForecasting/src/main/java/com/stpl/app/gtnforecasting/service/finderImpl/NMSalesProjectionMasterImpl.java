@@ -68,14 +68,12 @@ public class NMSalesProjectionMasterImpl {
                 for (int i = 1; i < input.size(); i++) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(input.get(i)));
                 }
-//            	LOGGER.debug("Query After Change : "+sql);
                 HelperTableLocalServiceUtil.executeUpdateQuery(sql.toString());
             } else {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
 
-//                LOGGER.debug("Query After Change : "+sql);
                 list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             }
 

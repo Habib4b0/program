@@ -27,8 +27,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
@@ -144,7 +142,7 @@ public class ItemManagementIndex extends CustomComponent {
     private final List<ItemIndexDto> selecteditemList = new ArrayList<>();
     private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png"); 
 
     private final StplSecurity stplSecurity = new StplSecurity();
     
@@ -428,7 +426,7 @@ public class ItemManagementIndex extends CustomComponent {
         }
     }
 
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws NoSuchMethodException, IllegalAccessException,  InvocationTargetException  {
         long recordCount = 0;
         List<String> visibleList = Arrays.asList(itemResults.getColumnHeaders()).subList(1, itemResults.getVisibleColumns().length);
         if (resultTable.size() != 0) {

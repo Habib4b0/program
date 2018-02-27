@@ -409,7 +409,7 @@ public class SPRCommonLogic {
      * @return
      */
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name " + procedureName);
+        LOGGER.debug("Procedure Name= {} " , procedureName);
         DataSource datasource = null;
         ResultSet rs = null;
         List<Object[]> objectList = new ArrayList<>();
@@ -809,7 +809,7 @@ public class SPRCommonLogic {
 			DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
-            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
+            projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVEL_NAME));
             projectionListFrom.add(ProjectionFactoryUtil.property(LEVEL_NO_PROPERTY));
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = commonDao.getRelationshipLevels(query);
@@ -1746,7 +1746,7 @@ public class SPRCommonLogic {
         final List<HelperDTO> helperList = new ArrayList<>();
         try {
             SalesProjectionDAO dao = new SalesProjectionDAOImpl();
-            LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+            LOGGER.debug("entering getDropDownList method with paramater listType= {}" , listType);
 			final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constant.LIST_NAME, listType),
                     RestrictionsFactoryUtil.like(Constant.LIST_NAME, "ALL")));
@@ -1762,7 +1762,7 @@ public class SPRCommonLogic {
                 }
             }
 
-            LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+            LOGGER.debug(" getDropDownList method ends with return value strList size = {}" , helperList.size());
 
         } catch (PortalException | SystemException ex) {
 			LOGGER.error(ex.getMessage());

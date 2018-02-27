@@ -71,7 +71,7 @@ public abstract class Summary extends CustomComponent {
     private final ComboBox history = new ComboBox();
     private final SummaryTableLogic deletetableLogic = new SummaryTableLogic();
     private FreezePagedTreeTable deletedetailtable = new FreezePagedTreeTable(deletetableLogic);
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightDTO;
     protected SelectionDTO selection;

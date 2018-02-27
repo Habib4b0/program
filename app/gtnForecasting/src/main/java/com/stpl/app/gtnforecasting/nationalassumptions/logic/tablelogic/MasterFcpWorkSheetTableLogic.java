@@ -37,7 +37,7 @@ public class MasterFcpWorkSheetTableLogic  extends PageTreeTableLogic {
     private final Logger LOGGER = LoggerFactory.getLogger(MasterFcpWorkSheetTableLogic.class);
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
-        LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);
+        LOGGER.debug("loadData initiated with firstGenerated= {}, and start= {}, and offset= {}" , firstGenerated, start, offset);
         Map<Integer, Object> map = new HashMap<>();
         if (firstGenerated) {
              List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());

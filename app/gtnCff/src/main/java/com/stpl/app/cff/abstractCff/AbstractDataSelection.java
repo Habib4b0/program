@@ -499,7 +499,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			productGroup.setImmediate(true);
 			addValidations();
 
-		} catch (Exception e) {
+		} catch (UnsupportedOperationException e) {
 			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("configureFields ENDS---");
@@ -1159,7 +1159,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 				try {
 					String selectedLevel = String.valueOf(event.getProperty().getValue());
-					LOGGER.debug("product inner Level - ValueChangeListener selectedLevel " + selectedLevel);
+					LOGGER.debug("product inner Level - ValueChangeListener selectedLevel: {}", selectedLevel);
 					productLevelDdlbValueChange(selectedLevel, false);
 				} catch (Exception e) {
 					LOGGER.error(e.getMessage());

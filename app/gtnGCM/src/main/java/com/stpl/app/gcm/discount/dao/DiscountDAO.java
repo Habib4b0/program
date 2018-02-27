@@ -19,7 +19,6 @@ import com.stpl.app.model.RsContractDetails;
 import com.stpl.app.model.RsModel;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.Container;
 import java.util.List;
@@ -39,31 +38,31 @@ public interface DiscountDAO {
 
     public int getContractsCount(ErrorfulFieldGroup removeDiscountDto, Set<Container.Filter> filters);
 
-    public List<RsContractDetails> getContractDetails(DynamicQuery contractQuery) throws SystemException;
+    public List<RsContractDetails> getContractDetails(DynamicQuery contractQuery) ;
 
-    public ItemMaster getItemDetails(int itemId) throws SystemException, PortalException;
+    public ItemMaster getItemDetails(int itemId) throws PortalException;
 
-    public List getHelperTableListNames(final DynamicQuery dynamicQuery) throws SystemException;
+    public List getHelperTableListNames(final DynamicQuery dynamicQuery) ;
 
-    public int getItemsCount(DynamicQuery query) throws SystemException;
+    public int getItemsCount(DynamicQuery query) ;
 
-    public List getItems(DynamicQuery query) throws SystemException;
+    public List getItems(DynamicQuery query) ;
 
-    public List getRebates(String query) throws SystemException;
+    public List getRebates(String query) ;
 
-    public List<IfpDetails> getItemsFromRs(DynamicQuery query) throws SystemException;
+    public List<IfpDetails> getItemsFromRs(DynamicQuery query) ;
 
-    public List getValues(String query) throws SystemException;
+    public List getValues(String query) ;
 
-    public List<CfpModel> getCfpDetails(DynamicQuery cfpDynamicQuery) throws SystemException;
+    public List<CfpModel> getCfpDetails(DynamicQuery cfpDynamicQuery) ;
 
-    public List<IfpModel> getIfpDetails(DynamicQuery cfpDynamicQuery) throws SystemException;
+    public List<IfpModel> getIfpDetails(DynamicQuery cfpDynamicQuery) ;
 
-    RsModel getRebateScheduleMaster(int systemId) throws SystemException, PortalException;
+    RsModel getRebateScheduleMaster(int systemId) throws PortalException;
 
-    RsContract updateRsMasterAttached(RsContract rsMasterAttached) throws SystemException;
+    RsContract updateRsMasterAttached(RsContract rsMasterAttached) ;
 
-    RsContract addRsMasterAttached(RsContract rsMasterAttached) throws SystemException;
+    RsContract addRsMasterAttached(RsContract rsMasterAttached) ;
 
     public void updateRebate(String query);
 
@@ -73,27 +72,21 @@ public interface DiscountDAO {
 
     public int getSearchCount(ErrorfulFieldGroup discountChBinder, String moduleName, Set<Container.Filter> filters);
 
-    public PsModel getPriceScheduleMaster(int modelSysId) throws SystemException, PortalException;
+    public PsModel getPriceScheduleMaster(int modelSysId) throws PortalException;
 
-    public PsContract updatePsMasterAttached(PsContract psMasterAttached) throws SystemException;
+    public PsContract updatePsMasterAttached(PsContract psMasterAttached) ;
 
-    public PsContract addPsMasterAttached(PsContract psMasterAttached) throws SystemException;
+    public PsContract addPsMasterAttached(PsContract psMasterAttached) ;
 
-    IfpModel getItemFamilyPlanMaster(int systemId) throws SystemException,
-            PortalException;
+    IfpModel getItemFamilyPlanMaster(int systemId) throws  PortalException;
 
-    IfpContract updateIfpMasterAttached(IfpContract ifpMasterAttached)
-            throws SystemException;
+    IfpContract updateIfpMasterAttached(IfpContract ifpMasterAttached);
 
-    IfpContract addIfpMasterAttached(IfpContract ifpMasterAttached)
-            throws SystemException;
+    IfpContract addIfpMasterAttached(IfpContract ifpMasterAttached);
 
-    CfpModel getCompanyFamilyplanMaster(int systemId) throws SystemException,
-            PortalException;
+    CfpModel getCompanyFamilyplanMaster(int systemId) throws PortalException;
 
-    CfpContract updateCfpMasterAttached(CfpContract cfpMasterAttached)
-            throws SystemException;
+    CfpContract updateCfpMasterAttached(CfpContract cfpMasterAttached);
 
-    CfpContract addCfpMasterAttached(CfpContract cfpMasterAttached)
-            throws SystemException;
+    CfpContract addCfpMasterAttached(CfpContract cfpMasterAttached);
 }

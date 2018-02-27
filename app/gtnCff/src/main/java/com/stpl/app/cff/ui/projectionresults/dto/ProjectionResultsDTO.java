@@ -248,7 +248,7 @@ public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<Projec
 
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
             
         }

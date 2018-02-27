@@ -700,7 +700,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		changeCaptionActionConfig
 				.addActionParameter(Arrays.asList(GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON));
-		changeCaptionActionConfig.addActionParameter(Arrays.asList("Save"));
+		changeCaptionActionConfig.addActionParameter(Arrays.asList("SAVE"));
 		actionConfigList.add(changeCaptionActionConfig);
 
 		GtnUIFrameWorkActionConfig visbleAction = new GtnUIFrameWorkActionConfig();
@@ -1008,7 +1008,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		changeCaptionActionConfig
 				.addActionParameter(Arrays.asList(GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON));
-		changeCaptionActionConfig.addActionParameter(Arrays.asList("Save"));
+		changeCaptionActionConfig.addActionParameter(Arrays.asList("SAVE"));
 		copyActionConfigList.add(changeCaptionActionConfig);
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();

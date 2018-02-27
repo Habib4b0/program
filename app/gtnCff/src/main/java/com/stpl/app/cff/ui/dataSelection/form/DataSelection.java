@@ -19,7 +19,6 @@ import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
@@ -55,6 +54,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.ComboBox;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -63,6 +63,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -93,7 +94,7 @@ public class DataSelection extends AbstractDataSelection {
 	private Map<String, String> productDescriptionMap = null;
 	private boolean dismantleCustomerSelection = true;
 	private boolean dismantleProductSelection = true;
-	private static Map<String, String> relationLevelValues = new HashMap<>();
+	private static final Map<String, String> relationLevelValues = new HashMap<>();
 	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private final List<Integer> customerBeanList = new ArrayList<>();
 	private final List<Integer> productBeanList = new ArrayList<>();
@@ -146,7 +147,7 @@ public class DataSelection extends AbstractDataSelection {
 			}
 			company.setValue(Integer.valueOf(dataSelectionDTO.getCompanySid()));
 			getBusinessUnit().setValue(dataSelectionDTO.getBusinessUnitSystemId());
-		} catch (final Exception e) {
+		} catch (final Property.ReadOnlyException | NumberFormatException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -286,7 +287,7 @@ public class DataSelection extends AbstractDataSelection {
         @Override
 	protected void levelValueChangeListener(Object value) {
 
-		LOGGER.debug("customer inner Level - ValueChangeListener  " + value);
+		LOGGER.debug("customer inner Level - ValueChangeListener: {} ", value);
 		try {
 			availableCustomerContainer.removeAllItems();
 			String levelName = StringConstantsUtil.LEVEL;
@@ -324,8 +325,8 @@ public class DataSelection extends AbstractDataSelection {
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(StringConstantsUtil.FILTER_TABLE);
 			}
-		} catch (Exception ex) {
-			LOGGER.error(ex + " level  ValueChangeListener ");
+		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
+			LOGGER.error(" level  ValueChangeListener= {}", ex);
 		}
 	}
 
@@ -378,7 +379,7 @@ public class DataSelection extends AbstractDataSelection {
 						customerHierarchyDto.getHierarchyId());
 
 			} catch (Exception ex) {
-				LOGGER.error(ex + " in customerRelation value change");
+				LOGGER.error(" in customerRelation value change= {}", ex);
 			}
 		} else if ((value == null || SELECT_ONE.equals(String.valueOf(value)))) {
 			availableCustomer.removeAllItems();
@@ -398,7 +399,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	@Override
 	protected void productRelationValueChange(Object value) {
-		LOGGER.debug("productRelation - ValueChangeListener " + value);
+		LOGGER.debug("productRelation - ValueChangeListener: {} ", value);
 		if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
 			try {
 				selectedProduct.removeAllItems();
@@ -415,8 +416,8 @@ public class DataSelection extends AbstractDataSelection {
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
 				productDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(productRelation.getValue()),
 						productHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
-			} catch (Exception ex) {
-				LOGGER.error(ex + " in productRelation value change");
+			} catch (NumberFormatException ex) {
+				LOGGER.error(" in productRelation value change= {}", ex);
 			}
 		} else if ((value == null && SELECT_ONE.equals(String.valueOf(value)))) {
 			selectedProduct.removeAllItems();
@@ -498,7 +499,7 @@ public class DataSelection extends AbstractDataSelection {
 			tabSheet.setSelectedTab(1);
 			sessionDTO.setIsGenerated(Boolean.TRUE);
 
-		} catch (Exception ex) {
+		} catch (InterruptedException | NumberFormatException | ExecutionException ex) {
 			Logger.getLogger(DataSelection.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
@@ -518,8 +519,8 @@ public class DataSelection extends AbstractDataSelection {
 					publicView.setValue(viewDTO.getViewName().trim());
 					try {
 						loadView(viewDTO);
-					} catch (Exception ex) {
-						LOGGER.error(ex + " publicView close");
+					} catch (SystemException ex) {
+						LOGGER.error(" publicView close= {}", ex);
 					}
 				}
 
@@ -541,8 +542,8 @@ public class DataSelection extends AbstractDataSelection {
 					privateView.setValue(viewDTO.getViewName().trim());
 					try {
 						loadView(viewDTO);
-					} catch (Exception ex) {
-						LOGGER.error(ex + " privateView close");
+					} catch (SystemException ex) {
+						LOGGER.error(" privateView close= {}", ex);
 					}
 				}
 
@@ -574,7 +575,7 @@ public class DataSelection extends AbstractDataSelection {
 	@Override
 	protected void loadCustomerGroup() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		final CustomerProductGroupLookup customerGroupLookupWindow = new CustomerProductGroupLookup(
-				INDICATOR_CUSTOMER_GROUP.getConstant(), WINDOW_CUSTOMER_GROUP_LOOKUP.getConstant(), customerGroup,
+				Constants.CUSTOMER_GROUP, WINDOW_CUSTOMER_GROUP_LOOKUP.getConstant(), customerGroup,
 				DataSelectionUtil.getCustomerSidFromHierarchy(getCustomersFromHierarchy()));
 		UI.getCurrent().addWindow(customerGroupLookupWindow);
 		customerGroupLookupWindow.addCloseListener(new Window.CloseListener() {
@@ -620,7 +621,7 @@ public class DataSelection extends AbstractDataSelection {
 					getProductHierarchyEndLevelsHierNo(selectedProductContainer), viewDTO, customerListEndSids,
 					productListEndSids, sessionDTO);
 			UI.getCurrent().addWindow(saveViewPopup);
-		} catch (Exception e) {
+		} catch (IllegalArgumentException | NullPointerException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -1096,7 +1097,7 @@ public class DataSelection extends AbstractDataSelection {
 				AbstractNotificationUtils.getErrorNotification("No Customer hierarchy level Selected",
 						"No Level was selected to move. Please try again.");
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -1645,7 +1646,7 @@ public class DataSelection extends AbstractDataSelection {
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -2225,7 +2226,7 @@ public class DataSelection extends AbstractDataSelection {
 				}
 				DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -2304,7 +2305,7 @@ public class DataSelection extends AbstractDataSelection {
 						"No Level was selected to move. Please try again. ");
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex + " in moveRightProduct");
+			LOGGER.error(" in moveRightProduct= {}", ex);
 		}
 	}
 
@@ -2775,7 +2776,7 @@ public class DataSelection extends AbstractDataSelection {
 				AbstractNotificationUtils.getErrorNotification("No Product hierarchy level Selected",
 						"No Level was selected to move. Please try again.");
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -2805,7 +2806,7 @@ public class DataSelection extends AbstractDataSelection {
 						resetOne();
 					}
 
-				} catch (Exception exception) {
+				} catch (NumberFormatException exception) {
 					LOGGER.error(exception.getMessage());
 				}
 			}
@@ -2962,7 +2963,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	public static void loadRelationDdlb(final int hierarchyDefinitionSid,
 			final RelationshipDdlbDto selectedRelationshipDdlbDto, final ComboBox relationship) {
-		LOGGER.debug("Logging - loadRelationDdlb hierarchyDefinitionSid " + hierarchyDefinitionSid);
+		LOGGER.debug("Logging - loadRelationDdlb hierarchyDefinitionSid: {} ", hierarchyDefinitionSid);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			List<RelationshipDdlbDto> relationshipSidList = logic.getRelationshipSid(hierarchyDefinitionSid);
@@ -2979,7 +2980,7 @@ public class DataSelection extends AbstractDataSelection {
 			relationship.setImmediate(true);
 			relationship.setNullSelectionAllowed(true);
 			relationship.setInputPrompt("-Select One-");
-		} catch (Exception ex) {
+		} catch (PortalException | SystemException | UnsupportedOperationException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 	}
@@ -3034,8 +3035,8 @@ public class DataSelection extends AbstractDataSelection {
 							company.getValue(), getBusinessUnit().getValue());
 				}
 			}
-		} catch (Exception ex) {
-			LOGGER.error(ex + " in getCompanySidFromHierarchy");
+		} catch (SystemException ex) {
+			LOGGER.error(" in getCompanySidFromHierarchy= {}", ex);
 		}
 		return innerLevelValues;
 	}
@@ -3111,9 +3112,9 @@ public class DataSelection extends AbstractDataSelection {
 			availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableProduct.setStyleName(StringConstantsUtil.FILTER_TABLE);
 
-		} catch (Exception ex) {
+		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
 
-			LOGGER.error(ex + " - in loadFilteredProductSelection");
+			LOGGER.error(" - in loadFilteredProductSelection= {}", ex);
 		}
 	}
 
@@ -3165,8 +3166,8 @@ public class DataSelection extends AbstractDataSelection {
 							company.getValue(), getBusinessUnit().getValue());
 				}
 			}
-		} catch (Exception ex) {
-			LOGGER.error(ex + " in getItemSidFromHierarchy");
+		} catch (SystemException ex) {
+			LOGGER.error(" in getItemSidFromHierarchy= {}", ex);
 		}
 		return innerLevelValues;
 	}
@@ -3196,8 +3197,8 @@ public class DataSelection extends AbstractDataSelection {
 					filterCustomerOnGroupSelect();
 				}
 			}
-		} catch (Exception ex) {
-			LOGGER.error(ex + " at triggerCustGrpOnView");
+		} catch (SystemException | NumberFormatException ex) {
+			LOGGER.error(" at triggerCustGrpOnView= {}", ex);
 		}
 	}
 
@@ -3226,8 +3227,8 @@ public class DataSelection extends AbstractDataSelection {
 					loadFilteredProductSelection(String.valueOf(productlevelDdlb.getValue()));
 				}
 			}
-		} catch (Exception ex) {
-			LOGGER.error(ex + " at triggerProdGrpOnView");
+		} catch (SystemException | NumberFormatException ex) {
+			LOGGER.error(" at triggerProdGrpOnView= {}", ex);
 		}
 	}
 
@@ -3279,7 +3280,7 @@ public class DataSelection extends AbstractDataSelection {
 									}
 								}
 							} catch (Exception ex) {
-								LOGGER.error(ex + " level ValueChangeListener ");
+								LOGGER.error(" level ValueChangeListener = {}", ex);
 							}
 
 						}
@@ -3293,8 +3294,8 @@ public class DataSelection extends AbstractDataSelection {
 			availableCustomer.setContainerDataSource(availableCustomerContainer);
 			availableCustomer.setVisibleColumns(StringConstantsUtil.DISPLAY_VALUE);
 			availableCustomer.setColumnHeaders(levelName);
-		} catch (final Exception ex) {
-			LOGGER.error(ex + " filterCustomerOnGroupSelect ");
+		} catch (final SystemException | NumberFormatException ex) {
+			LOGGER.error(" filterCustomerOnGroupSelect = {}", ex);
 		}
 	}
 
@@ -3323,8 +3324,8 @@ public class DataSelection extends AbstractDataSelection {
 							company.getValue(), getBusinessUnit().getValue());
 				}
 			}
-		} catch (Exception ex) {
-			LOGGER.error(ex + " in getCustomersFromHierarchy");
+		} catch (SystemException ex) {
+			LOGGER.error(" in getCustomersFromHierarchy= {}", ex);
 		}
 		return innerLevelValues;
 	}
@@ -3429,8 +3430,7 @@ public class DataSelection extends AbstractDataSelection {
 				productHierarchyEndLevels.add(DataSelectionUtil.getBeanFromId(item));
 			}
 		}
-		LOGGER.debug("-- getProductHierarchyEndLevels size------------------------->>>>>"
-				+ productHierarchyEndLevels.size());
+		LOGGER.debug("-- getProductHierarchyEndLevels size------------------------->>>>> {}", productHierarchyEndLevels.size());
 		return productHierarchyEndLevels;
 	}
 
@@ -3464,7 +3464,7 @@ public class DataSelection extends AbstractDataSelection {
 		List<Leveldto> reslistOne;
 		reslistOne = relationLogic.getRelationShipValues(projectionId, Boolean.FALSE, productLevel,
 				productDescriptionMap);
-		LOGGER.debug("relist===========" + reslistOne.toString());
+		LOGGER.debug("relist===========: {}", reslistOne.toString());
 
 		productBeanList.clear();
 		for (final Leveldto dto : reslistOne) {
@@ -3625,8 +3625,8 @@ public class DataSelection extends AbstractDataSelection {
                                       cffEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration());
                                 }
 			}
-		} catch (Exception ex) {
-			LOGGER.error(ex + " in initializeFromDto ");
+		} catch (Property.ReadOnlyException | Converter.ConversionException ex) {
+			LOGGER.error(" in initializeFromDto = {}", ex);
 		}
 	}
 
@@ -3773,7 +3773,7 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	public void loadCustomerLevel(final String hierarchyId, final String innerLevel, final int hierarchyVersion) {
-		LOGGER.debug("Logging - loadCustomerLevel hierarchyId " + hierarchyId + " innerLevel " + innerLevel);
+		LOGGER.debug("Logging - loadCustomerLevel hierarchyId: {} and innerLevel: {}", hierarchyId, innerLevel);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			innerCustLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId),
@@ -3789,14 +3789,14 @@ public class DataSelection extends AbstractDataSelection {
 			customerLevel.setContainerDataSource(customerForecastLevelContainer);
 			customerLevel.select(StringConstantsUtil.LEVEL_SPACE + (levelNo) + " - " + selectedLevelName);
 			setSelectedCustomerLevel(StringConstantsUtil.LEVEL_SPACE + (levelNo) + " - " + selectedLevelName);
-		} catch (Exception ex) {
-			LOGGER.error(ex + " in loadCustomerLevel");
+		} catch (NumberFormatException ex) {
+			LOGGER.error(" in loadCustomerLevel = {}", ex);
 		}
 
 	}
 
 	public void loadProductLevel(final String hierarchyId, final String innerLevel, final int hierarchyVersion) {
-		LOGGER.debug("Logging - loadProductLevel hierarchyId " + hierarchyId + " innerLevel " + innerLevel);
+		LOGGER.debug("Logging - loadProductLevel hierarchyId: {} and innerLevel: {} ", hierarchyId, innerLevel);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
 			innerProdLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId),
@@ -3811,8 +3811,8 @@ public class DataSelection extends AbstractDataSelection {
 			productLevel.setContainerDataSource(productForecastLevelContainer);
 			productLevel.select(StringConstantsUtil.LEVEL_SPACE + (levelNo) + " - " + selectedLevelName);
 			setSelectedProductLevel(StringConstantsUtil.LEVEL_SPACE + (levelNo) + " - " + selectedLevelName);
-		} catch (Exception ex) {
-			LOGGER.error(ex + " loadProductLevel");
+		} catch (NumberFormatException ex) {
+			LOGGER.error(" loadProductLevel= {}", ex);
 		}
 	}
 
@@ -3936,7 +3936,7 @@ public class DataSelection extends AbstractDataSelection {
 				setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
 				cffLogic.saveCcp(getCustomerHierarchyEndLevels(selectedCustomerContainer), String.valueOf(projectionId),
 						tempTableNames);
-			} catch (Exception ex) {
+			} catch (SystemException ex) {
 				Logger.getLogger(DataSelection.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}

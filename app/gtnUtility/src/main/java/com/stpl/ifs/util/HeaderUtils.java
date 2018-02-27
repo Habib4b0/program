@@ -118,6 +118,10 @@ public class HeaderUtils {
     public static final String PROJECTED = " Projected ";
     public static final String ACTUALS = " Actuals ";
     public static final String THE_SIZE_OF_COLUMNS_AND_HEADERS_MUST_SAME = "The size of columns and headers must same";
+    public static final String TWO_ZERO_ZERO_PX = "200px";
+    public static final String ONE_FIVE_FIVE_PX = "155px";
+    public static final String TWO_ZERO_FIVE_PX = "205px";
+    public static final String TWO_THIRTY_FIVE_PX = "235px";
 
    public static class NonMantaded {
 

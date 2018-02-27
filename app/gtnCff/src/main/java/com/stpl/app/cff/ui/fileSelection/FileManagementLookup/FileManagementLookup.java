@@ -64,6 +64,7 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.data.validator.AbstractValidator;
 import com.vaadin.v7.data.validator.RegexpValidator;
 import com.vaadin.v7.data.validator.StringLengthValidator;
@@ -257,7 +258,7 @@ public class FileManagementLookup extends Window {
 	/**
 	 * The excel image.
 	 */
-	private final ThemeResource excelImage = new ThemeResource("../../icons/excel.png");
+	private final ThemeResource excelImage = new ThemeResource("img/excel.png");
 	/**
 	 * The results bean.
 	 */
@@ -936,7 +937,7 @@ public class FileManagementLookup extends Window {
 				LOGGER.debug("In searchButton searchButtonClickLogic started");
 				try {
 					searchButtonClickLogic();
-				} catch (Exception e) {
+				} catch (ParseException e) {
 					LOGGER.error(e.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
@@ -1135,7 +1136,7 @@ public class FileManagementLookup extends Window {
 				}
 
 			}
-		} catch (Exception e) {
+		} catch (SystemException | Property.ReadOnlyException e) {
 			LOGGER.error(e.getMessage());
 
 		}
@@ -1283,7 +1284,7 @@ public class FileManagementLookup extends Window {
 													fileMgtIndexDTO.setFileType(fileMgtDTO.getFileType());
 													fileMgtIndexDTO.setType(fileMgtDTO.getType());
 													close();
-												} catch (Exception ex) {
+												} catch (Property.ReadOnlyException ex) {
 													java.util.logging.Logger
 															.getLogger(FileManagementLookup.class.getName())
 															.log(Level.SEVERE, null, ex);
@@ -1315,7 +1316,7 @@ public class FileManagementLookup extends Window {
 							close();
 						}
 					}
-				} catch (Exception e) {
+				} catch (Property.ReadOnlyException e) {
 					LOGGER.error(e.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4007));
@@ -1364,7 +1365,7 @@ public class FileManagementLookup extends Window {
 										toDate.setValue(null);
 										SearchForecastddlb.select(ConstantsUtils.SELECT_ONE);
 										country.select(ConstantsUtils.COUNTRY_US);
-									} catch (Exception e) {
+									} catch (Property.ReadOnlyException | Converter.ConversionException e) {
 										LOGGER.error(e.getMessage());
 										AbstractNotificationUtils.getErrorNotification(
 												ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
@@ -1805,7 +1806,7 @@ public class FileManagementLookup extends Window {
 												LOGGER.error(ex.getMessage());
 											}
 										}
-									} catch (Exception ex) {
+									} catch (SystemException ex) {
 										LOGGER.error(ex.getMessage());
 									}
 								}
@@ -1889,7 +1890,7 @@ public class FileManagementLookup extends Window {
 					table.setColumnCollapsed(propertyId, true);
 				}
 			}
-		} catch (Exception ex) {
+		} catch (IllegalStateException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 	}
@@ -2586,7 +2587,7 @@ public class FileManagementLookup extends Window {
 								final ItemSearchLookup lookUp = new ItemSearchLookup(itemNo, lookupItemName);
 								try {
 									lookUp.init();
-								} catch (Exception ex) {
+								} catch (PortalException | SystemException ex) {
 									LOGGER.error(ex.getMessage());
 								}
 								UI.getCurrent().addWindow(lookUp);

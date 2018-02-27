@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 @JavaScript("js/WorkflowInboxListener.js")
 public class GlobalChangeUI extends UI {
 
-    Navigator navigator;
+    private Navigator navigator;
 //    PortletMode customMode;
     /**
      * The Constant LOGGER.

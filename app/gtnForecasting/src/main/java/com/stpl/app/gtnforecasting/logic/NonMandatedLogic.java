@@ -186,7 +186,7 @@ public class NonMandatedLogic {
 	 *             the exception
 	 */
 	public static String deleteView(final int viewId) throws SystemException, PortalException {
-		LOGGER.debug("Entering deleteView method with viewId " + viewId);
+		LOGGER.debug("Entering deleteView method with viewId= {} " , viewId);
 		final ForecastingViewMaster fvm = dataSelection.deleteForecastingViewMaster(viewId);
 		LOGGER.debug("End of deleteView method");
 		return fvm.getViewName();
@@ -350,7 +350,7 @@ public class NonMandatedLogic {
 					.in(ContractMasterLocalServiceUtil.dynamicQuery()
 							.setProjection(ProjectionFactoryUtil.property("contHoldCompanyMasterSid"))));
 			resultTPList = dataSelection.getCompanyMasterList(dynamicQuery);
-			LOGGER.debug("Size of resultTPList " + resultTPList.size());
+			LOGGER.debug("Size of resultTPList= {} " , resultTPList.size());
 
 			List<AlternateHistoryDTO> temp;
 			temp = getAlternateTP(resultTPList);
@@ -371,7 +371,7 @@ public class NonMandatedLogic {
 
 			resultBrandList = dataSelection.getBrandMasterList(brandDynamicQuery);
 
-			LOGGER.debug("Size of resultBrandList " + resultBrandList.size());
+			LOGGER.debug("Size of resultBrandList= {} " , resultBrandList.size());
 
 			List<AlternateHistoryDTO> brand;
 			brand = getAlternateBrand(resultBrandList);
@@ -405,7 +405,7 @@ public class NonMandatedLogic {
 			resultList.add(alternateTP);
 		}
 
-		LOGGER.debug("Ending getAlternateTP return  size ::::" + resultList.size());
+		LOGGER.debug("Ending getAlternateTP return  size ::::= {}" , resultList.size());
 		return resultList;
 	}
 
@@ -429,7 +429,7 @@ public class NonMandatedLogic {
 			resultList.add(alternateBrand);
 		}
 
-		LOGGER.debug("Ending getAlternateBrand return  size ::::" + resultList.size());
+		LOGGER.debug("Ending getAlternateBrand return  size ::::= {}" , resultList.size());
 
 		return resultList;
 	}
@@ -498,7 +498,7 @@ public class NonMandatedLogic {
 			resultList.add(lookedUpTP);
 		}
 
-		LOGGER.debug("Ending getTPLookedUp return  size ::::" + resultList.size());
+		LOGGER.debug("Ending getTPLookedUp return  size ::::= {}" , resultList.size());
 
 		return resultList;
 	}
@@ -612,7 +612,7 @@ public class NonMandatedLogic {
 			LOGGER.debug("Ending manualEntrysalesCalculation    ::::");
 
 		} catch (SQLException | NamingException ex) {
-			LOGGER.error(new Date() + ex.getMessage());
+			LOGGER.error("{}, {}",new Date() , ex.getMessage());
 			throw new SystemException(ex);
 		} finally {
 			try {
@@ -887,7 +887,7 @@ public class NonMandatedLogic {
 			}
 		}
 
-		LOGGER.debug("Ending getChList return  size ::::" + resultList.size());
+		LOGGER.debug("Ending getChList return  size ::::= {}" , resultList.size());
 		return resultList;
 	}
 
@@ -1114,7 +1114,7 @@ public class NonMandatedLogic {
 			}
 		}
 
-		LOGGER.debug("Ending getTpList return  size ::::" + resultList.size());
+		LOGGER.debug("Ending getTpList return  size ::::= {}" , resultList.size());
 
 		return resultList;
 	}
@@ -1136,7 +1136,7 @@ public class NonMandatedLogic {
 			value = String.valueOf(obj);
 		}
 
-		LOGGER.debug("Ending emptyChecker return  STRING ::::" + value);
+		LOGGER.debug("Ending emptyChecker return  STRING ::::= {}" , value);
 
 		return value;
 	}
@@ -1157,7 +1157,7 @@ public class NonMandatedLogic {
 		value = Double.valueOf(String.valueOf(obj));
 		format.format(value);
 
-		LOGGER.debug("Ending getSales return  DOUBLE ::::" + value);
+		LOGGER.debug("Ending getSales return  DOUBLE ::::= {}" , value);
 
 		return value;
 	}
@@ -1178,7 +1178,7 @@ public class NonMandatedLogic {
 		value = Double.valueOf(String.valueOf(obj));
 		format.format(value);
 
-		LOGGER.debug("Ending getUnits return  DOUBLE ::::" + value);
+		LOGGER.debug("Ending getUnits return  DOUBLE ::::= {}" , value);
 
 		return value;
 	}
@@ -2331,7 +2331,7 @@ public class NonMandatedLogic {
 			SalesProjectionDAO salesProjDAO = new SalesProjectionDAOImpl();
 			salesProjDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
 		} catch (PortalException | SystemException e) {
-			LOGGER.error("Query:======================>" + insertQuery);
+			LOGGER.error("Query:======================>= {}" , insertQuery);
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -2346,7 +2346,7 @@ public class NonMandatedLogic {
 			SalesProjectionDAO insertDAO = new SalesProjectionDAOImpl();
 			insertDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
 		} catch (PortalException | SystemException e) {
-			LOGGER.error("Query:======================>" + insertQuery);
+			LOGGER.error("Query:======================>= {}" , insertQuery);
 			LOGGER.error(e.getMessage());
 		}
 	}
