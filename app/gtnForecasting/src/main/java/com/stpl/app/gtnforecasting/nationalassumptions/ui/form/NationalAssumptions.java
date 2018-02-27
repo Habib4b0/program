@@ -667,6 +667,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForBaselineTable.setContainerDataSource(baselineResultsBean);
         periodsForBaselineTable.addStyleName(Constant.FILTER_TABLE);
         periodsForBaselineTable.addStyleName("valo-theme-extfiltertable");
+        periodsForBaselineTable.addStyleName("border-zero-table");
         periodsForBaselineTable.setVisibleColumns(CommonUiUtils.getBaselinePeriodColumns());
         periodsForBaselineTable.setColumnHeaders(CommonUiUtils.getBaselinePeriodHeader());
         periodsForBaselineTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
@@ -730,6 +731,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.addStyleName("table-header-padding");
         periodsForRollingAvgTable.addStyleName(Constant.FILTER_TABLE);
         periodsForRollingAvgTable.addStyleName("valo-theme-extfiltertable");
+        periodsForRollingAvgTable.addStyleName("border-zero-table");
         periodsForRollingAvgTable.setHeight("228px");
         periodsForRollingAvgTable.setWidth("292px");
         periodsForRollingAvgTable.setPageLength(NumericConstants.FIVE);
@@ -737,8 +739,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.setVisibleColumns(CommonUiUtils.getBaselinePeriodColumns());
         periodsForRollingAvgTable.setColumnHeaders(CommonUiUtils.getBaselinePeriodHeader());
         periodsForRollingAvgTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
-        periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.NINTY_FIVE);
-        periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
+        periodsForRollingAvgTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.NINTY_FIVE);
+        periodsForRollingAvgTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
         periodsForRollingAvgTable.setColumnCheckBox(CHECK.getConstant(), true);
         periodsForRollingAvgTable.setTableFieldFactory(new DefaultFieldFactory() {
             /**
