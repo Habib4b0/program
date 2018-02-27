@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionInvalidIntegrationLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionReprocessInVisibleAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.constants.GtnTransactionUIConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -139,6 +140,10 @@ public class GtnFrameworkTransactionInvalidComponentConfig {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyStatusConfig.setComboBoxType("INVALID_MODULE_NAME");
 		interfaceNameComboBox.setGtnComboboxConfig(companyStatusConfig);
+		GtnUIFrameWorkActionConfig customReprocessInVisibleAction = new GtnUIFrameWorkActionConfig();
+		customReprocessInVisibleAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customReprocessInVisibleAction
+				.addActionParameter(GtnUIFrameworkTransactionReprocessInVisibleAction.class.getName());
 
 		List<GtnUIFrameWorkActionConfig> gtnUiFramwworkActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig gtnUiFramwworkActionConfig = new GtnUIFrameWorkActionConfig();
@@ -150,6 +155,7 @@ public class GtnFrameworkTransactionInvalidComponentConfig {
 				"resultlayout", "searchButtonlayout", "reprocessButtonlayout", "intefaceName",
 				GtnTransactionUIConstants.SEARCH_CRITERIA_LAYOUT, "gtnExcelButtonlayout"));
 		gtnUiFramwworkActionConfigList.add(gtnUiFramwworkActionConfig);
+		gtnUiFramwworkActionConfigList.add(customReprocessInVisibleAction);
 
 		interfaceNameComboBox.setGtnUIFrameWorkActionConfigList(gtnUiFramwworkActionConfigList);
 
