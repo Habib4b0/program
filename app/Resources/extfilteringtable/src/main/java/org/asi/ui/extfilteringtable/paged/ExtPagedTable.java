@@ -28,7 +28,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  * @param <T> the generic type
  */
 public class ExtPagedTable<T extends Container.Indexed & Container.Filterable & Container.ItemSetChangeNotifier>
-        extends ExtFilterTable implements ExtPagedTableBase{
+        extends ExtFilterTable {
     // --------------fields for pagination control ---------------
 
     /**
@@ -106,7 +106,6 @@ public class ExtPagedTable<T extends Container.Indexed & Container.Filterable & 
      * @param prop the new filter change
      * @param addedFilters the added filters
      */
-    @Override
     public void setFilterChange(Object prop,Set<Container.Filter> addedFilters) {
         getContainerLogic().beforeHandleFilterChange();
         getContainerLogic().setFilters(addedFilters);
@@ -121,7 +120,6 @@ public class ExtPagedTable<T extends Container.Indexed & Container.Filterable & 
      *
      * @param addedFilters the new filter change
      */
-    @Override
     public void setFilterChange(Set<Container.Filter> addedFilters) {
         getContainerLogic().beforeHandleFilterChange();
         getContainerLogic().setFilters(addedFilters);
@@ -212,17 +210,4 @@ public class ExtPagedTable<T extends Container.Indexed & Container.Filterable & 
         }
         return true;
     }
-    
- /**
-     * Gets the cache rate.
-     *
-     * @return the current cache rate value
-     * @see #setCacheRate(double)
-     */
-    @Override
-    public double getCacheRate() {        
-        double tempItemsPerPage=itemsPerPage;
-        double newCacheRate=tempItemsPerPage/getPageLength();
-        return newCacheRate;
     } 
-}

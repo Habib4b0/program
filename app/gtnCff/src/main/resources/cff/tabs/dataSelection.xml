@@ -30,7 +30,7 @@ and open the template in the editor.
                         <b:CustomTextField id="customerGP" styleName="searchText"/>
                         <Label id ="customerRelationVersionLabel" caption="Relationship Version:" contentMode="HTML" width="100px" ></Label>
                         <ComboBox id="customerRelationVersion" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
-                        <Label id ="cffEligibleDateLB" caption="Cff Eligible Date:" contentMode="HTML" width="100px" ></Label>
+                        <Label id ="cffEligibleDateLB" caption="Forecast Eligibility Date:" contentMode="HTML" width="100px" ></Label>
                         <PopupDateField id="cffEligibleDate" nullSelectionAllowed="true" immediate = "true" width="130px" />
                     </GridLayout>
                 </HorizontalLayout>

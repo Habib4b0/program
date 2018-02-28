@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.action;
 
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.v7.ui.AbstractField;
 
@@ -54,15 +56,28 @@ public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
 		for (int i = 0; i < inputColumIds.size(); i++) {
 			AbstractField<Object> vaadinField = (AbstractField<Object>) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId).getComponent();
-			Object newValue;
-			if (dto.getPropertyValue(inputColumIds.get(i)) != null) {
+			Object newValue = null;
+			if (dto != null && dto.getPropertyValue(inputColumIds.get(i)) != null) {
 				newValue = dto.getPropertyValue(inputColumIds.get(i));
-			} else {
+			}
+                        else if(dto==null){
+                            newValue= "null";
+                            GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
+			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			List<Object> alertMsgParamsList = new ArrayList<>();
+			alertMsgParamsList.add("Select Error");
+			alertMsgParamsList.add("Please select a row from the Results list view to proceed");
+			alertActionConfig.setActionParameterList(alertMsgParamsList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
+                        
+                        throw new GtnFrameworkValidationFailedException("IsRecordSelected  validation Failed");
+                        }
+                        else {
 				newValue = dto.getPropertyValueByIndex(Integer.parseInt(inputColumIds.get(i)));
 			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId)
 					.getComponentData().setCustomData(dto);
-			if (vaadinField != null) {
+			if (vaadinField != null && newValue!=null && !"null".equals(newValue)) {
 				boolean isReadOnly = vaadinField.isReadOnly();
 				vaadinField.setReadOnly(false);
 				vaadinField.setValue(String.valueOf(newValue));
