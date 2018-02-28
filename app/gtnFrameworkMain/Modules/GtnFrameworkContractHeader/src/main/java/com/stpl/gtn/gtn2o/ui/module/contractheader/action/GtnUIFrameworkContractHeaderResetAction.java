@@ -222,6 +222,8 @@ public class GtnUIFrameworkContractHeaderResetAction
 				.loadDateValue(info.getPriceprotectionStartDate());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabPriceProtectionEndDate")
 				.loadDateValue(info.getPriceprotectionEndDate());
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabForecastEligibleDate")
+				.loadDateValue(info.getContractEligibleDate());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTaManufacturerNo")
 				.loadComboBoxComponentValue(info.getCompanyMasterByManfCompanyMasterSid());
 	}

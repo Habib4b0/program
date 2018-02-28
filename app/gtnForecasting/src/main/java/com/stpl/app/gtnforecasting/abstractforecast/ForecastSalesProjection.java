@@ -1118,7 +1118,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiHandler("excelExport")
     public void excelExportListener(Button.ClickEvent event) {
         projectionDTO.setExcel(Boolean.TRUE);
-        excelExportLogic();
+        if (CommonUtil.isValueEligibleForLoading()) {
+            excelExportLogic();
+        } else {
+            excelExportBtnClickLogic();
+        }
+        
         projectionDTO.setExcel(Boolean.FALSE);
     }
 
@@ -1203,6 +1208,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected abstract void levelFilterDdlbChangeOption();
 
     protected abstract void excelExportLogic();
+    
+    protected abstract void excelExportBtnClickLogic();
 
     protected abstract void enableDisableFields();
 
