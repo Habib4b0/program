@@ -2828,16 +2828,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
                 if (!adjustmentValue.replace(" ", StringUtils.EMPTY).isEmpty()) {
 
-                    if (tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM) == null) {
+                    if (tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL) == null) {
                         NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED,
                                 Constant.ADJUSTMENT_CONFIRMATION);
                         return;
                     }
 
                     if (Constant.HISTORICAL_OF_BUSINESS.equals(allocationMethodology)) {
-                        baselinePeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM).get("H");
+                        baselinePeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL).get("H");
                     } else {
-                        baselinePeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM)
+                        baselinePeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL)
                                 .get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     }
 
@@ -2848,9 +2848,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         return;
                     }
 
-                    List<String> selectedPeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM)
+                    List<String> selectedPeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL)
                             .get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-                    List<String> selectedHistPeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM)
+                    List<String> selectedHistPeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL)
                             .get("H");
                     if (selectedHistPeriods != null && !selectedHistPeriods.isEmpty()) {
                         selectedDoubleList.addAll(selectedHistPeriods);
@@ -3096,7 +3096,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatterMap = new HashMap<>();
             formatterMap.put("percentThreeDecimal", "Rate");
             formatterMap.put("currencyTwoDecimal", "RPU");
-            formatterMap.put("amountTwoDecimal", "Amount");
+            formatterMap.put("amountTwoDecimal", AMOUNT);
             excelTable.setRefresh(Boolean.TRUE);
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
@@ -3155,7 +3155,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatterMap);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap);
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -3167,7 +3167,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatterMap);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap);
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
@@ -4000,7 +4000,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 checkedDoubleHeaders.put("H", checkedHistoryList);
             }
             tripleHeaderForCheckedDoubleHeader.put(discountName, checkedDoubleHeaders);
-            tripleHeaderForCheckedDoubleHeaderCustom.put(Constant.CUSTOM, checkedDoubleHeaders);
+            tripleHeaderForCheckedDoubleHeaderCustom.put(Constant.CUSTOM_LABEL, checkedDoubleHeaders);
         } else {
             if (rightHeader.getDoubleProjectedColumns().contains(propertyId)) {
                 checkedProjectionList.remove(checkedColumnName);
@@ -4016,7 +4016,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             }
             tripleHeaderForCheckedDoubleHeader.put(discountName, checkedDoubleHeaders);
-            tripleHeaderForCheckedDoubleHeaderCustom.put(Constant.CUSTOM, checkedDoubleHeaders);
+            tripleHeaderForCheckedDoubleHeaderCustom.put(Constant.CUSTOM_LABEL, checkedDoubleHeaders);
         }
         if (checkedDoubleHeaders.isEmpty()) {
             tripleHeaderForCheckedDoubleHeader.remove(discountName);
@@ -5471,9 +5471,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     private void callAdjustmentProcedure(SessionDTO session) {
         if (session.isActualAdjustment()) {
-            logic.adjustDiscountProjection(session, "Override", "Amount", "0", "0", baselinePeriods);
+            logic.adjustDiscountProjection(session, "Override", AMOUNT, "0", "0", baselinePeriods);
         }
     }
+    public static final String AMOUNT = "Amount";
 
     protected void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
@@ -5663,7 +5664,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatter = new HashMap<>();
             formatter.put("percentThreeDecimal", "Rate");
             formatter.put("currencyTwoDecimal", "RPU");
-            formatter.put("amountTwoDecimal", "Amount");
+            formatter.put("amountTwoDecimal", AMOUNT);
             excelTable.setRefresh(Boolean.TRUE);
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
@@ -5707,7 +5708,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter);
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -5719,7 +5720,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter);
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
@@ -5727,4 +5728,5 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         LOGGER.debug("excel ends");
     }
+    public static final String DISCOUNT_PROJECTION_XLS = "Discount_Projection.xls";
 }

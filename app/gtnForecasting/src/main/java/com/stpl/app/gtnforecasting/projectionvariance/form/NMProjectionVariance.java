@@ -594,7 +594,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
                         comparisonBasis.addItem(j);
                         comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
-                        comparisonBasis.select("Current Projection");
+                        comparisonBasis.select(CURRENT_PROJECTION);
                     }
                 }
             }
@@ -602,6 +602,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         LOGGER.info("Comparision lookup ends");
     }
+    public static final String CURRENT_PROJECTION = "Current Projection";
 
     /**
      * Excel export button click method.
@@ -1042,7 +1043,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setDiscountLevel(String.valueOf(discountLevel.getValue()));
         pvSelectionDTO.setPivotView(String.valueOf(pivotView.getValue()));
         pvSelectionDTO.setFromDate(String.valueOf(fromDate.getValue()));
-        pvSelectionDTO.setCurrentProjectionName("Current Projection");
+        pvSelectionDTO.setCurrentProjectionName(CURRENT_PROJECTION);
         pvSelectionDTO.setProjIdList(projIdList);
         pvSelectionDTO.setProjectionMap(projectionMap);
         pvSelectionDTO.setVariableCategory(variableCategoryValue);
@@ -1810,7 +1811,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
                     comparisonBasis.addItem(j);
                     comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
-                    comparisonBasis.select("Current Projection");
+                    comparisonBasis.select(CURRENT_PROJECTION);
                 }
             }
         }
