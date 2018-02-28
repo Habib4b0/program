@@ -28,6 +28,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 /**
  *
@@ -37,6 +38,9 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 
 	private static final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider
 			.getInstance();
+
+	private final static GtnWSLogger gtnLogger = GtnWSLogger
+			.getGTNLogger(GtnFrameworkRebateScheduleSetUpTabConfig.class);
 
 	public void addPriceSchedulePriocingTab(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider.getVerticalLayoutConfig(
@@ -408,6 +412,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 	public static List<GtnUIFrameworkComponentConfig> createTableFieldFactoryComponents(List<String> propertyIds) {
 		List<GtnUIFrameworkComponentConfig> editableFields = new ArrayList<>();
 		for (String propertyId : propertyIds) {
+			gtnLogger.info("ppropertyId" + propertyId);
 			GtnUIFrameworkComponentType gtnUIFrameworkComponentType;
 			if (GtnFrameworkRSConstants.getTextFieldProperties().contains(propertyId)) {
 				gtnUIFrameworkComponentType = GtnUIFrameworkComponentType.TEXTBOX;
@@ -431,6 +436,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 			if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.POPUPTEXTFIELD)) {
 				fieldConfig.addComponentStyle("searchicon");
 				fieldConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+
 			} else {
 				fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(actionConfigList);
 			}

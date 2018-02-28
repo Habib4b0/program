@@ -89,7 +89,7 @@ public class GtnFrameworkRSConstants {
 	public static final String EVALUATION_RULE_BUNDLE1 = "evaluationRuleBundle";
 	public static final String CALCULATION_RULE_BUNDLE1 = "calculationRuleBundle";
 	private static final List<String> TEXT_FIELD_PROPERTIES = Arrays.asList(GtnFrameworkCommonConstants.ITEM_NO,
-			GtnFrameworkCommonConstants.ITEM_NAME, DEDUCTION_NO, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_BUNDLE1,
+			GtnFrameworkCommonConstants.ITEM_NAME, "deductionName", EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_BUNDLE1,
 			FORMULA_NAME, RS_BUNDLE_NO);
 	private static final String NET_SALES_FORMULA_NAME = "netSalesFormulaName";
 	public static final String NET_SALES_RULE_NAME = "netSalesRuleName";
