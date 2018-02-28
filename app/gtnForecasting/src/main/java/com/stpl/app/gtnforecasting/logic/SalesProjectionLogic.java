@@ -108,18 +108,18 @@ public class SalesProjectionLogic {
             LOGGER.debug("Entering callAdjustmentProcedure  ::::");
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_SALES_MANUAL_ADJUSTMENT (?,?,?,?,?)}");
-                statement.setObject(1, inputs[0]); //  @BASLINE_PERIODS 
-                statement.setObject(NumericConstants.TWO, inputs[1]); //  @SELECTED_PERIODS
-                statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.FOUR, Integer.parseInt((String) inputs[NumericConstants.THREE])); //  @USER_ID
-                statement.setObject(NumericConstants.FIVE, Integer.parseInt((String) inputs[NumericConstants.FOUR])); //  @SESSION_ID
+                statement.setObject(1, inputs[0]);  
+                statement.setObject(NumericConstants.TWO, inputs[1]); 
+                statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]); 
+                statement.setObject(NumericConstants.FOUR, Integer.parseInt((String) inputs[NumericConstants.THREE])); 
+                statement.setObject(NumericConstants.FIVE, Integer.parseInt((String) inputs[NumericConstants.FOUR])); 
 
                 status = statement.execute();
             }
 
             LOGGER.debug("Ending callAdjustmentProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("{}, {}",new Date(), ex.getMessage());
+            LOGGER.error("Error from callAdjustmentProcedure: ", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
@@ -177,13 +177,12 @@ public class SalesProjectionLogic {
                 statement.setObject(1, inputs[0]);
                 statement.setObject(NumericConstants.TWO, Integer.parseInt((String) inputs[NumericConstants.NINE]));
                 statement.setObject(NumericConstants.THREE, Integer.parseInt((String) inputs[NumericConstants.TEN]));
-//  @PROJECTION_SID
                 status = statement.execute();
             }
 
             LOGGER.debug("Ending callCalculationProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("{}, {}",new Date(), ex.getMessage());
+            LOGGER.error("Error from callCalculationProcedure: ", ex.getMessage());
             throw new SystemException(ex);
 
         } finally {
@@ -319,7 +318,7 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callAlternateHistoryProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("{}, {}",new Date(), ex.getMessage());
+            LOGGER.error("Error from callAlternateHistoryProcedure: ", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
@@ -355,7 +354,7 @@ public class SalesProjectionLogic {
 
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::= {}" , status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error("{}, {}",new Date(), ex.getMessage());
+            LOGGER.error("Error from callAlternateHistoryProcedure: ", ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
@@ -597,8 +596,7 @@ public class SalesProjectionLogic {
                 list = calculateResultSet(statement);
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
         } catch (NumberFormatException | SQLException | NamingException ex) {
-               LOGGER.error(ex.getMessage());
-            LOGGER.error("{}, {}",new Date(), ex.getMessage());
+                 LOGGER.error("Error from callPMPYProcedure: ", ex.getMessage());
 
         } 
         return list;

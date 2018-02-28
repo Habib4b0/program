@@ -49,7 +49,7 @@ public class CustomWindow extends Window {
      */
     public CustomWindow(String caption) {
         this(caption, null);
-        }
+    }
 
     /**
      * Creates a new, empty window with the given content and title.
@@ -95,7 +95,7 @@ public class CustomWindow extends Window {
             final Boolean minimized = (Boolean) variables.get("minimizeClickEvent");
             minimize = minimized;
             if (getMinimizeTray() != null) {
-                setVisiblility(false);
+                setVisible(false);
             }
             fireEvent(new MinimizeClickEvent(this, getMinimize()));
         }
@@ -213,7 +213,7 @@ public class CustomWindow extends Window {
     public void setMinimize(boolean minimize) {
         this.minimize = minimize;
         if (getMinimizeTray() != null) {
-            setVisiblility(!getMinimize());
+            setVisible(!getMinimize());
         }
     }
 
@@ -248,7 +248,7 @@ public class CustomWindow extends Window {
             myTray = createMinimizeTray(null);
         }
         if (myTray != null) {
-            setVisiblility(!getMinimize());
+            setVisible(!getMinimize());
             myTray.addWindowItem(this);
             addCloseListener(closelistener);
         }
@@ -387,26 +387,5 @@ public class CustomWindow extends Window {
     public void setMinimizeBtnVisible(boolean minimizeBtnVisible) {
         this.minimizeBtnVisible = minimizeBtnVisible;
     }
-    void setVisiblility(boolean isVisible){
-        int value = 0;
-        int positionX = myTray.getPositionX();
-        int positionY = myTray.getPositionY();
-        if (isVisible) {
-            value = 100;
-            positionX = 0;
-            positionY = 0;
-        }
-  
-        setWidth(value, Unit.PERCENTAGE);
-        setHeight(value, Unit.PERCENTAGE);
-        setPositionX(positionX);
-        setPositionY(positionY);
-         if (!isVisible) {
-            myTray.bringToFront();
-        }
-        
-    }
-  public void bringToFront() {
-            super.bringToFront();
-  }
+
 }

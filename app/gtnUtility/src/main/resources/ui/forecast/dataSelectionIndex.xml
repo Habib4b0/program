@@ -63,7 +63,7 @@ and open the template in the editor.
                         <b:CustomTextField id="customerGP" styleName="searchText"/>
                         <Label id ="customerRelationVersionLabel" caption="Relationship Version:" contentMode="HTML" width="100px" ></Label>
                         <ComboBox id="customerRelationVersion" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
-                        <Label id ="forecastEligibleDateLB" caption="Forecast Eligible Date:" contentMode="HTML" width="100px" ></Label>
+                        <Label id ="forecastEligibleDateLB" caption="Forecast Eligibility Date:" contentMode="HTML" width="100px" ></Label>
                         <PopupDateField id="forecastEligibleDate" nullSelectionAllowed="true" immediate = "true" width="130px" />
                     </GridLayout>
                 </HorizontalLayout>

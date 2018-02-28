@@ -176,7 +176,7 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 			setPopupBean(popUpBean, "rebatePlanPopUpSearchView", "rpPopUpSearchResultTable",
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, GtnFrameworkRSConstants.REBATE_PLAN_NO,
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, "rebatePlanPopUpViewSelectButton");
-			popUpBean.setCaption("Rebate Plan No Lookup");
+			popUpBean.setCaption("Rebate Plan ID Lookup");
 		} else {
 			setPopupBean(popUpBean, "netSalesFormulaPopUpView", "netSalesSearchResultTable",
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, GtnFrameworkCommonConstants.FORMULA_NAME,
