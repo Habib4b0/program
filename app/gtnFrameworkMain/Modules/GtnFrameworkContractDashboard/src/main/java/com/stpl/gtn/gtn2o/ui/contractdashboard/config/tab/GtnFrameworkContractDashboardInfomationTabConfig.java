@@ -645,7 +645,7 @@ public class GtnFrameworkContractDashboardInfomationTabConfig {
 		GtnUIFrameworkComponentConfig componentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.DATEFIELD);
 		componentConfig.setAuthorizationIncluded(true);
-		componentConfig.setComponentName("Contract Eligible Date");
+		componentConfig.setComponentName("Forecast Eligibility Date");
 		cdInformationComponentList.add(componentConfig);
 		componentIdList.add(componentConfig.getComponentId());
 	}
