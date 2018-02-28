@@ -950,7 +950,6 @@ public final class Constants {
     /**
      * The price tolerance SP.
      */
-    public static final String PRICE_TOLERANCE_SP = "Price Tolerance";
     /**
      * The ifp start date.
      */
@@ -1117,7 +1116,6 @@ public final class Constants {
     public final static String MASS_NET_PRICE_TYPE = "Net Price Type";
     public final static String MASS_NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
     public final static String MASS_PRICE_PROTECTION_END_DATE = "Price Protection End Date";
-    public final static String MASS_PRICE_TOLERENCE = "Price Tolerance";
     public final static String MASS_BASE_PRICE = "Base Price";
     
     public static final String DB_STATUS = "STATUS";

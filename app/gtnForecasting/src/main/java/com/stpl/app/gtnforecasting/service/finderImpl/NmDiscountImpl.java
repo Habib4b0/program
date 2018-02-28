@@ -320,7 +320,7 @@ public class NmDiscountImpl {
                             + Constant.RL_D1RELA
                             + Constant.RL_D1_LEVEL
                             + Constant.FROM_RELATIONSHIP_RELATION
-                            + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                            + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1 + projectionId + " \n"
                             + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                             + " WHERE " + levelSelectionStatement + connector + " HLD.HIERARCHY_NO in(" + hierarchyNumbers + ")\n";
                     if (isAltHistory) {
@@ -462,7 +462,7 @@ public class NmDiscountImpl {
                 String discountTypeQuery = "";
                 if (discountList != null && !discountList.isEmpty()) {
                     String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
-                    discountTypeQuery = " JOIN  " + masterTableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
+                    discountTypeQuery = Constant.JOIN + masterTableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                     if (!viewFlag) {
                         discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                     }
@@ -470,7 +470,7 @@ public class NmDiscountImpl {
                         discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                         discountTypeQuery += isAltHistory ? altHisCountClause : StringUtils.EMPTY;
                     } else {
-                        discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + ")  \n";
+                        discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + Constant.CLOSE_BRACKET_NEW_LINE;
                     }
                     if (!userGroup.trim().isEmpty()) {
                         discountTypeQuery += " AND DP.USER_GROUP = '" + userGroup + "' \n";
@@ -569,7 +569,7 @@ public class NmDiscountImpl {
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
                 String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
-                discountTypeQuery = SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
+                discountTypeQuery = Constant.SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                 if (!mode) {
                     discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                 }
@@ -579,7 +579,7 @@ public class NmDiscountImpl {
                 if (isProgram) {
                     discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
-                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + ")  \n";
+                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + Constant.CLOSE_BRACKET_NEW_LINE;
                 }
             }
 
@@ -638,7 +638,6 @@ public class NmDiscountImpl {
             LOGGER.debug(" exiting getHierarchyListForCustomView");
         }
     }
-    public static final String SPACE_JOIN_SPACE = " JOIN ";
 
     private List getHierarchyList(int projectionId, String hierarchy, String hierarchyNo, String relationshipBuilderSid, int levelNo, String userGroup,
             List<String> discountList, String userId, String sessionId, boolean isProgram, int startIndex, int endIndex, boolean isAlternate, boolean mode) {
@@ -655,7 +654,7 @@ public class NmDiscountImpl {
             String discountTypeQuery = "";
             if (discountList != null && !discountList.isEmpty()) {
                 String selectedDiscounts = CommonUtils.CollectionToString(discountList, true);
-                discountTypeQuery = SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
+                discountTypeQuery = Constant.SPACE_JOIN_SPACE + tableName + Constant.DP_ON_PD_PROJ_DETAILS_SID_DP_PROJ;
                 if (!mode) {
                     discountTypeQuery += Constant.AND_DP_USER_ID + userId + Constant.AND_DP_SESSION_ID + sessionId + "\n";
                 }
@@ -666,7 +665,7 @@ public class NmDiscountImpl {
                 if (isProgram) {
                     discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
-                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + ")  \n";
+                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + Constant.CLOSE_BRACKET_NEW_LINE;
                 }
             }
 
@@ -684,7 +683,7 @@ public class NmDiscountImpl {
                     + Constant.RL_D1RELA
                     + Constant.RL_D1LEVE
                     + Constant.FROM_RELATIONSHIP_RELATION
-                    + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                    + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1 + projectionId + " \n"
                     + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                     + levelSelectionStatement + " \n"
                     + Constant.CCP;
@@ -717,7 +716,7 @@ public class NmDiscountImpl {
             customSql = "select TEMP.TEMP_INDEX from(SELECT RLD.HIERARCHY_NO, RLD.RELATIONSHIP_LEVEL_VALUES, \n"
                     + " ROW_NUMBER() OVER (ORDER BY RLD.RELATIONSHIP_LEVEL_VALUES ASC) AS TEMP_INDEX"
                     + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-                    + SPACE_JOIN_SPACE + CommonUtils.getViewTableName(hierarchyIndicator) + " PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
+                    + Constant.SPACE_JOIN_SPACE + CommonUtils.getViewTableName(hierarchyIndicator) + " PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
                     + " AND PCH.PROJECTION_MASTER_SID = " + projectionId + " \n"
                     + " WHERE RLD.HIERARCHY_NO LIKE '" + hierarchyNo + "%' and RLD.LEVEL_NO = " + (selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length()) + ") "
                     + " TEMP where TEMP.HIERARCHY_NO='" + selectedHiearchyNo + "'";
@@ -747,7 +746,7 @@ public class NmDiscountImpl {
                 if (isProgram) {
                     discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
-                    discountTypeQuery += " WHERE DP.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
+                    discountTypeQuery += " WHERE DP.PRICE_GROUP_TYPE in (" + selectedDiscounts + Constant.CLOSE_BRACKET_NEW_LINE;
                 }
             }
 
@@ -858,7 +857,7 @@ public class NmDiscountImpl {
                     discountTable = " RS_MODEL RS,";
                     discountTypeQuery += " AND M.RS_MODEL_SID = RS.RS_MODEL_SID  AND RS.RS_NAME  in (" + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
-                    discountTypeQuery += " AND M.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")  \n";
+                    discountTypeQuery += " AND M.PRICE_GROUP_TYPE in (" + selectedDiscounts + Constant.CLOSE_BRACKET_NEW_LINE;
                 }
             }
 
@@ -910,7 +909,7 @@ public class NmDiscountImpl {
                         + Constant.AND_M_SESSION_ID + sessionId + "\n"
                         + Constant.AND_EPROJECTION_MASTER_SID + projectionId + "' \n"
                         + Constant.AND_EPROJECTION_DETAILS_SID_MPROJECTION
-                        + Constant.AND_M_PROJECTION_DETAILS_SID__CCP_PROJECTI
+                        + Constant.AND_M_PROJECTION_DETAILS_SID_CCP_PROJ
                         + discountTypeQuery;
 
                 if (!userGroup.trim().isEmpty()) {
@@ -932,7 +931,7 @@ public class NmDiscountImpl {
                         + Constant.RL_D1RELA
                         + Constant.RL_D1_LEVEL
                         + Constant.FROM_RELATIONSHIP_RELATION
-                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1 + projectionId + " \n"
                         + "                         AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n"
                         + "  WHERE HLD.HIERARCHY_NO in('" + hierarchyNo + "'))CCP";
 
@@ -943,7 +942,7 @@ public class NmDiscountImpl {
                         + Constant.AND_M_SESSION_ID + sessionId + "\n"
                         + Constant.AND_EPROJECTION_MASTER_SID + projectionId + "' \n"
                         + Constant.AND_EPROJECTION_DETAILS_SID_MPROJECTION
-                        + Constant.AND_M_PROJECTION_DETAILS_SID__CCP_PROJECTI
+                        + Constant.AND_M_PROJECTION_DETAILS_SID_CCP_PROJ
                         + discountTypeQuery;
 
                 if (!userGroup.trim().isEmpty()) {
@@ -1152,7 +1151,7 @@ public class NmDiscountImpl {
                 + Constant.WHEN_END_MONTH_10_THEN_CONVERT_DATE
                 + Constant.WHEN_END_MONTH_11_THEN_CONVERT_DATE
                 + Constant.WHEN_END_MONTH_12_THEN_CONVERT_DATE
-                + " END\n ";
+                + Constant.SPACE_END_NEW_LINE;
         return period;
     }
 
@@ -1327,7 +1326,7 @@ public class NmDiscountImpl {
                 if (isProgram) {
                     discountTypeQuery += Constant.JOIN_RS_MODEL_RS_ON_DP_RS_MODEL_SID + selectedDiscounts + Constant.OPEN_BRACKET_NEW_LINE;
                 } else {
-                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + ")  \n";
+                    discountTypeQuery += Constant.AND_DP_PRICE_GROUP_TYPE_IN + selectedDiscounts + Constant.CLOSE_BRACKET_NEW_LINE;
                 }
             }
 
@@ -1386,7 +1385,7 @@ public class NmDiscountImpl {
                         + Constant.RL_D1RELA
                         + Constant.RL_D1_LEVEL
                         + Constant.FROM_RELATIONSHIP_RELATION
-                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1 + projectionId + " \n"
                         + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                         + Constant.WHERE_HLDHIERARCHY_NO + hierarchyNo + "')";
             }
@@ -1534,7 +1533,7 @@ public class NmDiscountImpl {
                         + Constant.RL_D1RELA
                         + Constant.RL_D1_LEVEL
                         + Constant.FROM_RELATIONSHIP_RELATION
-                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 + projectionId + " \n"
+                        + Constant.SPACE_JOIN_SPACE + hierarchy + Constant.PCH_ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1 + projectionId + " \n"
                         + Constant.AND_RL_D1HIERARC + hierarchyNo + Constant.HLD_ON_CCPMAPHIERARCHY_NO_LIKE_HLDHIERAR
                         + Constant.WHERE_HLDHIERARCHY_NO + hierarchyNo + "') CCP";
 
@@ -1657,7 +1656,7 @@ public class NmDiscountImpl {
             projectionQuery = Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_000_AS_ACTUAL_SALES_000_AS_ACTUAL
                     + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,0.0 AS ACTUAL_UNITS,"
                     + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
-                    + " JOIN  " + tableName + "NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n";
+                    + Constant.JOIN + tableName + "NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n";
             if (!viewFlag) {
                 projectionQuery += " AND NMDP.USER_ID = NMDPM.USER_ID AND NMDP.SESSION_ID = NMDPM.SESSION_ID";
             }
@@ -1676,18 +1675,18 @@ public class NmDiscountImpl {
             }
 
             projectionQuery += Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
-                    + " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + forecastEndPeriod + ""
+                    + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountString + ")"
                     + " GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID"
                     + Constant.UNION_ALL
-                    + SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                     + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
                     + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
                     + " Sum(ACTUAL_UNITS) as ACTUAL_UNITS,"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS"
                     + " FROM PROJECTION_DETAILS PD\n"
-                    + " JOIN  " + tableName + "NM_DISCOUNT_PROJ_MASTER NMADM ON  NMADM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
-                    + " JOIN  " + tableName + "NM_ACTUAL_DISCOUNT NMAD ON NMAD.PROJECTION_DETAILS_SID =NMADM.PROJECTION_DETAILS_SID\n";
+                    + Constant.JOIN + tableName + "NM_DISCOUNT_PROJ_MASTER NMADM ON  NMADM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n"
+                    + Constant.JOIN + tableName + "NM_ACTUAL_DISCOUNT NMAD ON NMAD.PROJECTION_DETAILS_SID =NMADM.PROJECTION_DETAILS_SID\n";
             if (!viewFlag) {
                 projectionQuery += " AND NMAD.USER_ID = NMADM.USER_ID AND NMAD.SESSION_ID = NMADM.SESSION_ID ";
             }
@@ -2048,7 +2047,7 @@ public class NmDiscountImpl {
                     + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
                     + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                     + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
-                    + " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n"
+                    + Constant.JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP
                     + Constant.AND_NM_DP_USER_ID_NM_DP_M_USER_ID
                     + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID
                     + Constant.JOIN_ST_NM_SALES_PROJECTION_MASTER_NM_SP
@@ -2058,11 +2057,11 @@ public class NmDiscountImpl {
                     + Constant.AND_RS_M_RS_MODEL_SID_NM_DP_RS_MODEL_SID_WH + idString + ") "
                     + Constant.AND_NM_DP_MUSER_ID + userId + Constant.AND_NM_DP_M_SESSION_ID + sessionId + " "
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
-                    + " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + forecastEndPeriod + ""
+                    + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
                     + " GROUP BY PR.YEAR,PR." + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME"
                     + Constant.UNION_ALL
-                    + SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                     + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
                     + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME,SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE,"
                     + " Sum(ACTUAL_UNITS) as ACTUAL_UNITS,"
@@ -2107,7 +2106,6 @@ public class NmDiscountImpl {
         }
         return null;
     }
-    public static final String SELECT_PR_YEAR_PR = " SELECT PR.YEAR,PR.";
 
     public List getSubDiscount(List<Integer> projectionDetailsId, String frequency, String discountList, List<Integer> startAndEndPeriods, int userId, int sessionId) {
         {
@@ -2172,7 +2170,7 @@ public class NmDiscountImpl {
                         + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
                         + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                         + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
-                        + " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n"
+                        + Constant.JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP
                         + Constant.AND_NM_DP_USER_ID_NM_DP_M_USER_ID
                         + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID
                         + Constant.JOIN_ST_NM_SALES_PROJECTION_MASTER_NM_SP
@@ -2182,11 +2180,11 @@ public class NmDiscountImpl {
                         + Constant.AND_RS_M_RS_MODEL_SID_NM_DP_RS_MODEL_SID_WH + idString + ") "
                         + Constant.AND_NM_DP_MUSER_ID + userId + Constant.AND_NM_DP_M_SESSION_ID + sessionId + " "
                         + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
-                        + " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + forecastEndPeriod + ""
+                        + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                         + Constant.AND_RS_M_RS_NAME_IN + discountList + ") "
                         + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
                         + Constant.UNION_ALL
-                        + SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                        + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                         + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
                         + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
                         + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS "
@@ -2337,7 +2335,7 @@ public class NmDiscountImpl {
                         + Constant.WHEN_END_MONTH_10_THEN_CONVERT_DATE
                         + Constant.WHEN_END_MONTH_11_THEN_CONVERT_DATE
                         + Constant.WHEN_END_MONTH_12_THEN_CONVERT_DATE
-                        + " END\n ";
+                        + Constant.SPACE_END_NEW_LINE;
 
                 if (actualsOrProjections.equals(Constant.ACTUALS)) {
                     sql = "Select J.RS_NAME from ST_NM_DISCOUNT_PROJ_MASTER A,PERIOD I,RS_MODEL J WHERE  A.USER_ID=" + userId + " and  A.SESSION_ID=" + sessionId + " and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS where PROJECTION_MASTER_SID='" + projectionMasterId + "') " + periodFilter + "group by J.RS_NAME";
@@ -2577,7 +2575,7 @@ public class NmDiscountImpl {
                     + Constant.WHEN_END_MONTH_10_THEN_CONVERT_DATE
                     + Constant.WHEN_END_MONTH_11_THEN_CONVERT_DATE
                     + Constant.WHEN_END_MONTH_12_THEN_CONVERT_DATE
-                    + " END\n ";
+                    + Constant.SPACE_END_NEW_LINE;
 
             if (actualsOrProjections.equals(Constant.ACTUALS)) {
                 sql = Constant.SELECT_JRS_NAME_YEAR + frequency + ", sum(C.ACTUAL_SALES) As ACTUAL_SALES,sum(C.ACTUAL_RATE) As ACTUAL_RATE from ST_NM_DISCOUNT_PROJ_MASTER A,ST_NM_DISCOUNT_PROJECTION B,ST_NM_ACTUAL_DISCOUNT C,PERIOD I,RS_MODEL J WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID and A.PROJECTION_DETAILS_SID=C.PROJECTION_DETAILS_SID and J.RS_MODEL_SID=A.RS_MODEL_SID and A.PROJECTION_DETAILS_SID in (" + idString + ") " + periodFilter + Constant.GROUP_BY_I + frequency + Constant.I_YEAR_RS_NAME_ORDER_BY_JRS_NAME;
@@ -2676,7 +2674,7 @@ public class NmDiscountImpl {
                     + Constant.AS_PROJECTION_SALES_SUM_NM_DP_PROJECTION_SAL + frequency + Constant.PR_MONTH_RS_M_RS_NAME
                     + Constant.SUM_NM_SP_PROJECTION_UNITS_AS_PROJECTION_UN
                     + Constant.FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM
-                    + " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n"
+                    + Constant.JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP
                     + Constant.AND_NM_DP_USER_ID_NM_DP_M_USER_ID
                     + Constant.JOIN_PERIOD_PR_ON_PR_PERIOD_SID
                     + Constant.JOIN_ST_NM_SALES_PROJECTION_MASTER_NM_SP
@@ -2686,11 +2684,11 @@ public class NmDiscountImpl {
                     + Constant.AND_RS_M_RS_MODEL_SID_NM_DP_RS_MODEL_SID_WH + idString + ") "
                     + Constant.AND_NM_DP_MUSER_ID + userId + Constant.AND_NM_DP_M_SESSION_ID + sessionId + " "
                     + Constant.AND_CAST_PR_YEAR_AS_VARCHAR_RIGHT_CAST_PR + forecastStartPeriod + ""
-                    + " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=" + forecastEndPeriod + ""
+                    + Constant.AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST + forecastEndPeriod + ""
                     + Constant.AND_RS_M_RS_NAME_IN + discountName + ")"
                     + Constant.GROUP_BY_PR_YEAR + frequency + ",PR.MONTH,PD.PROJECTION_DETAILS_SID,RSM.RS_NAME "
                     + Constant.UNION_ALL
-                    + SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
+                    + Constant.SELECT_PR_YEAR_PR + frequency + Constant.AS_BASE_MAX_NM_AS_ACTUAL_SALES
                     + Constant.AS_ACTUAL_DISCOUNT_MAX_IS_NULL_NM_SP
                     + Constant.AS_PROJECTION_DISCOUNT_PR + frequency + ",PR.MONTH, RSM.RS_NAME, SUM(NMDP.PROJECTION_RATE) AS PROJECTION_RATE, Sum(ACTUAL_UNITS) as ACTUAL_UNITS,\n"
                     + " Sum(NMSP.PROJECTION_UNITS) as PROJECTION_UNITS  FROM PROJECTION_DETAILS PD \n"

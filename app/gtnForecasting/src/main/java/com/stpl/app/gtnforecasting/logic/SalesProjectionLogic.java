@@ -108,11 +108,11 @@ public class SalesProjectionLogic {
             LOGGER.debug("Entering callAdjustmentProcedure  ::::");
             if (connection != null) {
                 statement = connection.prepareCall("{call PRC_SALES_MANUAL_ADJUSTMENT (?,?,?,?,?)}");
-                statement.setObject(1, inputs[0]); //  @BASLINE_PERIODS 
-                statement.setObject(NumericConstants.TWO, inputs[1]); //  @SELECTED_PERIODS
-                statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]); //  @PROJECTION_SID
-                statement.setObject(NumericConstants.FOUR, Integer.parseInt((String) inputs[NumericConstants.THREE])); //  @USER_ID
-                statement.setObject(NumericConstants.FIVE, Integer.parseInt((String) inputs[NumericConstants.FOUR])); //  @SESSION_ID
+                statement.setObject(1, inputs[0]);  
+                statement.setObject(NumericConstants.TWO, inputs[1]); 
+                statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]); 
+                statement.setObject(NumericConstants.FOUR, Integer.parseInt((String) inputs[NumericConstants.THREE])); 
+                statement.setObject(NumericConstants.FIVE, Integer.parseInt((String) inputs[NumericConstants.FOUR])); 
 
                 status = statement.execute();
             }
