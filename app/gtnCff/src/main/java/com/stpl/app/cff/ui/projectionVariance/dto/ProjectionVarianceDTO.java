@@ -40,6 +40,8 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
     private String ccpIds;
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectionVarianceDTO.class);
     private String parentHierarchyNo = StringUtils.EMPTY;
+    private String dfLevelNumber = StringUtils.EMPTY;
+    private String dfLevelName = StringUtils.EMPTY;
 
     public Integer getOnExpandTotalRow() {
         return onExpandTotalRow;
@@ -234,6 +236,22 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
 
     public void setParentHierarchyNo(String parentHierarchyNo) {
         this.parentHierarchyNo = parentHierarchyNo;
+    }
+
+    public String getDfLevelNumber() {
+        return dfLevelNumber;
+    }
+
+    public void setDfLevelNumber(String dfLevelNumber) {
+        this.dfLevelNumber = dfLevelNumber;
+    }
+
+    public String getDfLevelName() {
+        return dfLevelName;
+    }
+
+    public void setDfLevelName(String dfLevelName) {
+        this.dfLevelName = dfLevelName;
     }
     
     

@@ -1489,6 +1489,8 @@ public class ProjectionVarianceLogic {
                     columnList.remove(StringConstantsUtil.GROUP_PROPERTY);
                     ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
                     projDTO.setGroup(commonHeader);
+                    projDTO.setDfLevelNumber(commonHeader);
+                    projDTO.setDfLevelName(commonHeader);
                     //Exfactory Sales
                     if ((pvsdto.isVarExFacSales())) {
                         if (pvsdto.isColValue()) {
@@ -2663,6 +2665,8 @@ public class ProjectionVarianceLogic {
             int frequencyDivision = pvsdto.getFrequencyDivision();
             boolean isPer = FORMAT.equals(RATE);
             pvDTO.setGroup(groupName.concat(varibaleCat));
+            pvDTO.setDfLevelNumber(groupName.concat(varibaleCat));
+            pvDTO.setDfLevelName(groupName.concat(varibaleCat));
             if (!pvsdto.getDiscountLevel().equals("Total Discount") && (pvDTO.getGroup().contains("Discount") || pvDTO.getGroup().contains("RPU"))) {
                 pvDTO.setParent(1);
             }

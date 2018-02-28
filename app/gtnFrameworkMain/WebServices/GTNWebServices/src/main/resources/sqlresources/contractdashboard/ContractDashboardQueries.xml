@@ -3546,14 +3546,20 @@ WHERE
                             COUNT(DISTINCT rs.RS_MODEL_SID)
                      FROM
                                 RS_MODEL rs
-                        LEFT JOIN HELPER_TABLE ht on
+                       LEFT JOIN HELPER_TABLE ht on
                                 ht.HELPER_TABLE_SID = rs.RS_TYPE
-                        LEFT JOIN HELPER_TABLE hst on
+                       LEFT JOIN HELPER_TABLE hst on
                                 hst.HELPER_TABLE_SID = rs.RS_STATUS
-                        LEFT JOIN HELPER_TABLE hct on
+                       LEFT JOIN HELPER_TABLE hct on
                                 hct.HELPER_TABLE_SID = rs.RS_CATEGORY
-                        LEFT JOIN HELPER_TABLE hd on
+                       LEFT JOIN HELPER_TABLE hd on
                                 hd.HELPER_TABLE_SID = rs.RS_DESIGNATION
+                       LEFT OUTER JOIN  RS_CONTRACT rsc on 
+                                rsc.RS_MODEL_SID=rs.RS_MODEL_SID
+                       LEFT OUTER JOIN RS_CONTRACT_DETAILS rscd on 
+                                rsc.RS_CONTRACT_SID=rscd.RS_CONTRACT_SID
+                       LEFT OUTER JOIN ITEM_MASTER itm on 
+                                itm.ITEM_MASTER_SID=rscd.ITEM_MASTER_SID       
                         WHERE
                                 rs.INBOUND_STATUS <> 'D'
                             ?
@@ -3587,6 +3593,12 @@ WHERE
                                 hct.HELPER_TABLE_SID = rs.RS_CATEGORY AND hct.DESCRIPTION  NOT like '%Select One%'
                         LEFT JOIN HELPER_TABLE hd on
                                 hd.HELPER_TABLE_SID = rs.RS_DESIGNATION AND hd.DESCRIPTION  NOT like '%Select One%'
+                        LEFT OUTER JOIN  RS_CONTRACT rsc on 
+                                rsc.RS_MODEL_SID=rs.RS_MODEL_SID
+                        LEFT OUTER JOIN RS_CONTRACT_DETAILS rscd on 
+                                rsc.RS_CONTRACT_SID=rscd.RS_CONTRACT_SID
+                        LEFT OUTER JOIN ITEM_MASTER itm on 
+                                itm.ITEM_MASTER_SID=rscd.ITEM_MASTER_SID    
                         WHERE
                                 rs.INBOUND_STATUS <> 'D'
                             ?

@@ -120,6 +120,11 @@ public class MSalesProjection extends ForecastSalesProjection {
     protected void enableDisableFields() {
         return;
     }
+    
+    @Override
+    protected void excelExportBtnClickLogic() {
+        return;
+    }
 
     @Override
     protected void populateBtnLogic() {

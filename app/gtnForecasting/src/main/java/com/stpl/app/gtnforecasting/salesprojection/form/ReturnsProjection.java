@@ -166,6 +166,11 @@ public class ReturnsProjection extends ForecastSalesProjection {
     protected void populateBtnLogic() {
         populateButtonLogic();
     }
+    
+    @Override
+    protected void excelExportBtnClickLogic() {
+        populateButtonLogic();
+    }
 
     @Override
     protected void adjustmentLogic() {

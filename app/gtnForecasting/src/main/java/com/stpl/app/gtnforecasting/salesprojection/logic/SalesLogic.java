@@ -144,7 +144,7 @@ public class SalesLogic {
     protected ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.tablename");
     public static final String ACTUAL_SALES = "-ActualSales";
     public static final String FREQ_VAL = "@FREVAL@";
-    public static final String PROJECTED_SALES = "-ProjectedSales";
+    public static final String DASH_PROJECTED_SALES = "-ProjectedSales";
     public static final String PRODUCT_GROWTH = "-ProductGrowth";
     public static final String ACCOUNT_GROWTH = "-AccountGrowth";
     public static final String HISTORY_PROJECTED_SALES = "-HistoryProjectedSales";
@@ -819,18 +819,18 @@ public class SalesLogic {
         if (!doubleColumnList.contains(key)) {
             if (Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE])) == 0) {
                 if (CommonUtil.isValueEligibleForLoading() && salesRowDto.getSalesInclusion().isEmpty()) {
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + DASH_PROJECTED_SALES, StringUtils.EMPTY);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, StringUtils.EMPTY);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, StringUtils.EMPTY);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, StringUtils.EMPTY);
-                    headerMapValue.remove(key + PROJECTED_SALES);
+                    headerMapValue.remove(key + DASH_PROJECTED_SALES);
                     headerMapValue.remove(key + PROJECTED_UNITS1);
                 } else {
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.TWO], true));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + DASH_PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.TWO], true));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.THREE] == null ? 0 : obj[NumericConstants.THREE])));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, String.valueOf(UNITTWODECIMAL.format(obj[1] == null ? 0 : obj[1])) + Constant.PERCENT);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, String.valueOf(UNITTWODECIMAL.format(obj[0] == null ? 0 : obj[0])) + Constant.PERCENT);
-                    headerMapValue.remove(key + PROJECTED_SALES);
+                    headerMapValue.remove(key + DASH_PROJECTED_SALES);
                     headerMapValue.remove(key + PROJECTED_UNITS1);
                 }
             } else {
@@ -852,11 +852,11 @@ public class SalesLogic {
             }
         } else {
             if (Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE])) == 0) {
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + DASH_PROJECTED_SALES, StringUtils.EMPTY);
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, StringUtils.EMPTY);
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, StringUtils.EMPTY);
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, StringUtils.EMPTY);
-                headerMapValue.remove(key + PROJECTED_SALES);
+                headerMapValue.remove(key + DASH_PROJECTED_SALES);
                 headerMapValue.remove(key + PROJECTED_UNITS1);
             } else {
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, StringUtils.EMPTY);
@@ -1933,7 +1933,7 @@ public class SalesLogic {
                 case "ProductGrowth":
                     saveQuery.append(UPDATE).append(table).append(" SET PRODUCT_GROWTH='").append(value.toString()).append("' ");
                     break;
-                case "ProjectedSales":
+                case PROJECTED_SALES:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
                         saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES=PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(")");
@@ -1952,6 +1952,8 @@ public class SalesLogic {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS='").append(finalvalue.toString()).append("' ");
                     }
+                    break;
+                default:
                     break;
             }
             updateQuery.append("  where PROJECTION_DETAILS_SID  ");
@@ -2027,6 +2029,7 @@ public class SalesLogic {
         }
 
     }
+    public static final String PROJECTED_SALES = "ProjectedSales";
     
     public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
 
@@ -2076,7 +2079,7 @@ public class SalesLogic {
                 case "ProductGrowth":
                     updateLine.append(" PRODUCT_GROWTH='").append(value.toString()).append("' ");
                     break;
-                case "ProjectedSales":
+                case PROJECTED_SALES:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
                         updateLine.append(" PROJECTION_SALES = PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(")");
@@ -2156,7 +2159,7 @@ public class SalesLogic {
 
             String finalQuery = hierarchyInserQuery + updateQuery;
             projectionSelectionDTO.getUpdateQueryMap().put(key+","+changedValue,QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
-            if (column.equals("ProjectedSales") || column.equals(Constant.PROJECTED_UNITS1)) {
+            if (column.equals(PROJECTED_SALES) || column.equals(Constant.PROJECTED_UNITS1)) {
                 checkMultiVariables(key.trim(), column, projectionSelectionDTO);
             }
         }
@@ -2347,6 +2350,9 @@ public class SalesLogic {
                 updateQuery = updateQuery.replace(Constant.START_FREQUENCY_AT, " AND SEMI_ANNUAL < " + startQuarter);
                 updateQuery = updateQuery.replace(Constant.END_FREQUENCY, " AND SEMI_ANNUAL > " + endQuarter);
                 break;
+            default:
+                break;
+            
         }
 
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
@@ -2428,6 +2434,9 @@ public class SalesLogic {
                             .replace(Constant.END_FREQUENCY, " AND SEMI_ANNUAL > " + endQuarter);
                     frequency = "P.SEMI_ANNUAL,";
                     break;
+                default:
+                    break;
+
             }
             updateQuery = updateQuery.replace("@PERIOD_QUERY", periodQuery);
             if (updateVariable.equals(Constant.PROJECTED_RETURN_AMT)) {
@@ -2754,7 +2763,12 @@ public class SalesLogic {
                 } else {
                     statement = connection.prepareCall("{call PRC_SALES_ADJUSTMENT (?,?,?,?,?,?,?,?,?,?,?)}");
                 }
+                statement.setObject(1, historyPeriods); //@BASLINE_PERIODS 
+                statement.setObject(NumericConstants.TWO, projectionPeriods); //@SELECTED_PERIODS
+                statement.setObject(NumericConstants.THREE, projectionSelectionDTO.getProjectionId()); //@PROJECTION_SID
                 statement.setObject(NumericConstants.FOUR, projectionSelectionDTO.getFrequency());//Frequency
+                statement.setObject(NumericConstants.FIVE, projectionSelectionDTO.getUserId()); //@USER_ID
+                statement.setObject(NumericConstants.SIX, projectionSelectionDTO.getSessionDTO().getSessionId()); //@SESSION_ID
                 statement.setObject(NumericConstants.SEVEN, adjType);
                 statement.setObject(NumericConstants.EIGHT, adjBasis);
                 statement.setObject(NumericConstants.NINE, adsVar);
@@ -3547,9 +3561,12 @@ public class SalesLogic {
 
                 statement = connection.prepareCall("{call PRC_RETURNS_REFRESH (?,?,?,?,?,?)}");
 
+                statement.setObject(1, projectionId); //@PROJECTION_SID
                 statement.setObject(NumericConstants.TWO, selectedItems);
                 statement.setObject(NumericConstants.THREE, refreshedPeriods);
                 statement.setObject(NumericConstants.FOUR, flag);
+                statement.setObject(NumericConstants.FIVE, userId); //@USER_ID
+                statement.setObject(NumericConstants.SIX, sessionId); //@SESSION_ID
 
                 statement.execute();
             }
@@ -3721,6 +3738,9 @@ public class SalesLogic {
             case NumericConstants.TWO:
                 query = query.replace(Constant.FREQUENCY1_AT, " AND SEMI_ANNUAL = " + period);
                 break;
+            default:
+                break;
+
         }
         return query;
     }

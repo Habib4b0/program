@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
@@ -22,8 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class StChSalesProjectionImpl  {
       private static final Logger LOGGER = LoggerFactory.getLogger(StChSalesProjectionImpl.class);
-      public static ResourceBundle tableNameBundle = ResourceBundle.getBundle("properties.tablename");
-    public List executeQuery(Map<String, Object> parameters) {
+      public List executeQuery(Map<String, Object> parameters) {
     
     
 
@@ -72,12 +72,12 @@ public class StChSalesProjectionImpl  {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
-        } else if (parameters.get(Constants.INDICATOR) != null && "generateSalesProjection".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            parameters.put(Constants.QUERY_NAME, "generateSalesProjection");
+        } else if (parameters.get(Constants.INDICATOR) != null && Constant.GENERATE_SALES_PROJECTION.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+            parameters.put(Constants.QUERY_NAME, Constant.GENERATE_SALES_PROJECTION);
             queryString.append(generateQuery(parameters, true));
-        } else if (parameters.get(Constants.INDICATOR) != null && "generateSalesProjectionCount".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            parameters.put(Constants.QUERY_NAME, "generateSalesProjectionCount");
-            String query = SQlUtil.getQuery(getClass(),"generateSalesProjectionCount");
+        } else if (parameters.get(Constants.INDICATOR) != null && Constant.GENERATE_SALES_PROJECTION_COUNT.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+            parameters.put(Constants.QUERY_NAME, Constant.GENERATE_SALES_PROJECTION_COUNT);
+            String query = SQlUtil.getQuery(getClass(), Constant.GENERATE_SALES_PROJECTION_COUNT);
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
@@ -106,13 +106,13 @@ public class StChSalesProjectionImpl  {
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "expandCollapseSalesProjection".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            parameters.put(Constants.QUERY_NAME, "generateSalesProjection");
+            parameters.put(Constants.QUERY_NAME, Constant.GENERATE_SALES_PROJECTION);
             queryString.append(generateQuery(parameters, true));
-        } else if (parameters.get(Constants.INDICATOR) != null && "prepareProcedureCall".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            parameters.put(Constants.QUERY_NAME, "prepareProcedureCall");
+        } else if (parameters.get(Constants.INDICATOR) != null && Constant.PREPARE_PROCEDURE_CALL.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+            parameters.put(Constants.QUERY_NAME, Constant.PREPARE_PROCEDURE_CALL);
             queryString.append(generateQuery(parameters, true));
-        } else if (parameters.get(Constants.INDICATOR) != null && "saveCheckRecord".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            parameters.put(Constants.QUERY_NAME, "saveCheckRecord");
+        } else if (parameters.get(Constants.INDICATOR) != null && Constant.SAVE_CHECK_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+            parameters.put(Constants.QUERY_NAME, Constant.SAVE_CHECK_RECORD);
             queryString.append(generateQuery(parameters, true));
         } else if (parameters.get(Constants.INDICATOR) != null && "gettherapeuticclass".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             String query = SQlUtil.getQuery(getClass(),"gettherapeuticclass");
@@ -122,8 +122,8 @@ public class StChSalesProjectionImpl  {
         } else if (parameters.get(Constants.INDICATOR) != null && "checkHundredPercentage".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             parameters.put(Constants.QUERY_NAME, "checkHundredPercentage");
             queryString.append(generateQuery(parameters, true));
-        } else if (parameters.get(Constants.INDICATOR) != null && "updateRecord".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            parameters.put(Constants.QUERY_NAME, "updateRecord");
+        } else if (parameters.get(Constants.INDICATOR) != null && Constant.UPDATE_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+            parameters.put(Constants.QUERY_NAME, Constant.UPDATE_RECORD);
             queryString.append(generateQuery(parameters, true));
         } else if (parameters.get(Constants.INDICATOR) != null && "getSelectedBaseLine".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             parameters.put(Constants.QUERY_NAME, "getSelectedBaseLine");
@@ -164,8 +164,8 @@ public class StChSalesProjectionImpl  {
         } else if (parameters.get(Constants.INDICATOR) != null && "getNDCLabel".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             parameters.put(Constants.QUERY_NAME, "getNDCLabel");
             queryString.append(generateQuery(parameters, true));
-        } else if (parameters.get(Constants.INDICATOR) != null && "uncheckAll".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            parameters.put(Constants.QUERY_NAME, "uncheckAll");
+        } else if (parameters.get(Constants.INDICATOR) != null && Constant.UNCHECK_ALL.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+            parameters.put(Constants.QUERY_NAME, Constant.UNCHECK_ALL);
             queryString.append(generateQuery(parameters, true));
         }
 
@@ -173,10 +173,10 @@ public class StChSalesProjectionImpl  {
 
 
             if (parameters.get(Constants.INDICATOR) != null) {
-                if ("saveCheckRecord".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
-                        || "uncheckAll".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
-                        || "prepareProcedureCall".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
-                        || "updateRecord".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
+                if (Constant.SAVE_CHECK_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
+                        || Constant.UNCHECK_ALL.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
+                        || Constant.PREPARE_PROCEDURE_CALL.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
+                        || Constant.UPDATE_RECORD.equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
                     HelperTableLocalServiceUtil.executeUpdateQuery(queryString.toString());
                     return null;
                 }
@@ -192,9 +192,9 @@ public class StChSalesProjectionImpl  {
      private String generateQuery(final Map<String, Object> parameters, final boolean joinAllowed) {
         String query = SQlUtil.getQuery(getClass(),String.valueOf(parameters.get(Constants.QUERY_NAME)));
         Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
-        inputs.put("?MASTER_TABLE?", tableNameBundle.getString(Constants.ST_CH_SALES_PROJECTION_MASTER));
-        inputs.put("?PROJECTION_TABLE?", tableNameBundle.getString(Constants.ST_CH_SALES_PROJECTION));
-        inputs.put("?ACTUALS_TABLE?", tableNameBundle.getString(Constants.ST_CH_ACTUAL_SALES));
+        inputs.put("?MASTER_TABLE?", Constant.TABLE_NAME_BUNDLE.getString(Constants.ST_CH_SALES_PROJECTION_MASTER));
+        inputs.put("?PROJECTION_TABLE?", Constant.TABLE_NAME_BUNDLE.getString(Constants.ST_CH_SALES_PROJECTION));
+        inputs.put("?ACTUALS_TABLE?", Constant.TABLE_NAME_BUNDLE.getString(Constants.ST_CH_ACTUAL_SALES));
         if (joinAllowed) {
             Map<String, Object> joinMap = (HashMap<String, Object>) parameters.get(Constants.JOIN_MAP);
             if (joinMap != null) {
