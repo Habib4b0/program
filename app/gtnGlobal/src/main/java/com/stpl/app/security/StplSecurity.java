@@ -108,7 +108,7 @@ public StplSecurityDAO getDto() {
                     businessRoleIds=String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
                 } else {
                     final StringBuffer tempStringBuffer = new StringBuffer();
-                    businessRoleIds = tempStringBuffer.append(businessRoleIds).append(ConstantsUtils.COMMA).append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
+                    businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                     tempStringBuffer.delete(0, tempStringBuffer.length());
                 } 
             }

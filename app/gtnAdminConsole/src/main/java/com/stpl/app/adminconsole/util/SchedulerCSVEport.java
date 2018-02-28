@@ -34,7 +34,7 @@ public class SchedulerCSVEport {
 
 	private static final String CREATE_WORK_SHEET_CONTENT = "createWorkSheetContent";
 	private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
-	public final static String QUOTE = "\"";
+	public final static char QUOTE = '\"';
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerCSVEport.class);
 	private static boolean isFileCreated;
 
@@ -154,7 +154,7 @@ public class SchedulerCSVEport {
 				if (visibleColumns.length == i) {
 					builder.append(QUOTE).append(methodStringValue).append(QUOTE);
 				} else {
-					builder.append(QUOTE).append(methodStringValue).append(QUOTE).append(ExcelExportUtil.COMMA);
+					builder.append(QUOTE).append(methodStringValue).append(QUOTE).append(',');
 				}
 			}
 			printWriter.println(builder);

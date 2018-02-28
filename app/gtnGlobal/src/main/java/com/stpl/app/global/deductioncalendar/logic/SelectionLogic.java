@@ -170,7 +170,7 @@ public class SelectionLogic {
             queryString = new StringBuilder(SQLUtil.getQuery(isCount ? "selected-customer-search-count" : "selected-customer-search-results"));
             queryString.append("WHERE  CM.INBOUND_STATUS <> 'D' ");
 
-            queryString.append(" AND ST.USER_ID = ").append(selectionDTO.getUserId()).append(" AND ST.SESSION_ID = '").append(selectionDTO.getSessionId()).append("'");
+            queryString.append(" AND ST.USER_ID = ").append(selectionDTO.getUserId()).append(" AND ST.SESSION_ID = '").append(selectionDTO.getSessionId()).append('\'');
         }
 
         if (filterSet != null) {
@@ -373,50 +373,50 @@ public class SelectionLogic {
             queryString.append(" AND CM2.COMPANY_NO LIKE '%").append(String.valueOf(parameters.get(ConstantsUtils.PRIOR_PARENT_CUSTOMER_NUMBER))).append("%'");
         }
         if (parameters.get(ConstantsUtils.TC_SD_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TC_SD_FROM)))) {
-            queryString.append(" AND CTS.TRADE_CLASS_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.TC_SD_FROM))).append("'");
+            queryString.append(" AND CTS.TRADE_CLASS_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.TC_SD_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.TC_SD_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TC_SD_TO)))) {
-            queryString.append(" AND CTS.TRADE_CLASS_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.TC_SD_TO))).append("'");
+            queryString.append(" AND CTS.TRADE_CLASS_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.TC_SD_TO))).append('\'');
         }
         if (parameters.get(ConstantsUtils.TC_ED_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TC_ED_FROM)))) {
-            queryString.append(" AND CTS.TRADE_CLASS_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.TC_ED_FROM))).append("'");
+            queryString.append(" AND CTS.TRADE_CLASS_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.TC_ED_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.TC_ED_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TC_ED_TO)))) {
-            queryString.append(" AND CTS.TRADE_CLASS_END_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.TC_ED_TO))).append("'");
+            queryString.append(" AND CTS.TRADE_CLASS_END_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.TC_ED_TO))).append('\'');
         }
 
         if (parameters.get(ConstantsUtils.CUSTOMER_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_FROM)))) {
-            queryString.append(" AND CM.COMPANY_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_FROM))).append("'");
+            queryString.append(" AND CM.COMPANY_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.CUSTOMER_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_TO)))) {
-            queryString.append(" AND CM.COMPANY_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_TO))).append("'");
+            queryString.append(" AND CM.COMPANY_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_TO))).append('\'');
         }
         if (parameters.get(ConstantsUtils.CUSTOMER_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_FROM)))) {
-            queryString.append(" AND CM.COMPANY_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_FROM))).append("'");
+            queryString.append(" AND CM.COMPANY_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.CUSTOMER_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_TO)))) {
-            queryString.append(" AND CM.COMPANY_END_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_TO))).append("'");
+            queryString.append(" AND CM.COMPANY_END_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_TO))).append('\'');
         }
 
         if (parameters.get(ConstantsUtils.PARENT_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_FROM)))) {
-            queryString.append(" AND CPD.PARENT_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_FROM))).append("'");
+            queryString.append(" AND CPD.PARENT_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.PARENT_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_TO)))) {
-            queryString.append(" AND CPD.PARENT_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_TO))).append("'");
+            queryString.append(" AND CPD.PARENT_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_TO))).append('\'');
         }
 
         if (parameters.get(ConstantsUtils.PARENT_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM)))) {
-            queryString.append(" AND CPD.PARENT_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM))).append("'");
+            queryString.append(" AND CPD.PARENT_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.PARENT_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_TO)))) {
-            queryString.append(" AND CPD.PARENT_END_DATE LIKE <='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_TO))).append("'");
+            queryString.append(" AND CPD.PARENT_END_DATE LIKE <='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_TO))).append('\'');
         }
 
         if (parameters.get(ConstantsUtils.PARENT_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM)))) {
-            queryString.append(" AND CPD.PRIOR_PARENT_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM))).append("'");
+            queryString.append(" AND CPD.PRIOR_PARENT_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.PRIOR_PARENT_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PRIOR_PARENT_START_DATE_TO)))) {
-            queryString.append(" AND CPD.PRIOR_PARENT_START_DATE LIKE <='").append(String.valueOf(parameters.get(ConstantsUtils.PRIOR_PARENT_START_DATE_TO))).append("'");
+            queryString.append(" AND CPD.PRIOR_PARENT_START_DATE LIKE <='").append(String.valueOf(parameters.get(ConstantsUtils.PRIOR_PARENT_START_DATE_TO))).append('\'');
         }
 
         dbColumnName = "COMPANY_ID";
@@ -444,7 +444,7 @@ public class SelectionLogic {
         }
 
         if (!isCount) {
-            queryString.append(" ORDER BY ").append(dbColumnName).append(" ").append(orderBy).append(" OFFSET ").append(start).append(" ROWS FETCH NEXT ")
+            queryString.append(" ORDER BY ").append(dbColumnName).append(' ').append(orderBy).append(" OFFSET ").append(start).append(" ROWS FETCH NEXT ")
                     .append(offset).append(" ROWS ONLY");
         }
         final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
@@ -979,29 +979,29 @@ public class SelectionLogic {
             Set<String> keys = criteria.keySet();
             for (String fields : keys) {
                 if ("itemTypeDdlb".equals(fields) && selectionDTO.getItemTypeDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getItemTypeDdlb().getDescription().toString()) && !selectionDTO.getItemTypeDdlb().getDescription().toString().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getItemTypeDdlb().getId()).append("'");
+                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getItemTypeDdlb().getId()).append('\'');
                 }
                 if ("brandDdlb".equals(fields) && selectionDTO.getBrandDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getBrandDdlb().getDescription().toString()) && !selectionDTO.getBrandDdlb().getDescription().toString().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getBrandDdlb().getId()).append("'");
+                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getBrandDdlb().getId()).append('\'');
                 }
                 if ("formDdlb".equals(fields) && selectionDTO.getFormDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getFormDdlb().getDescription().toString()) && !selectionDTO.getFormDdlb().getDescription().toString().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getFormDdlb().getId()).append("'");
+                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getFormDdlb().getId()).append('\'');
                 }
                 if ("strengthDdlb".equals(fields) && selectionDTO.getStrengthDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getStrengthDdlb().getDescription().toString()) && !selectionDTO.getStrengthDdlb().getDescription().toString().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getStrengthDdlb().getId()).append("'");
+                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getStrengthDdlb().getId()).append('\'');
                 }
                 if ("therapeuticclassDdlb".equals(fields) && selectionDTO.getTherapeuticclassDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getTherapeuticclassDdlb().getDescription().toString()) && !selectionDTO.getTherapeuticclassDdlb().getDescription().toString().trim().isEmpty()) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getTherapeuticclassDdlb().getId()).append("'");
+                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getTherapeuticclassDdlb().getId()).append('\'');
                 }
                 if (ConstantsUtils.ITEM_DESC.equals(fields) && selectionDTO.getItemDesc() != null && !selectionDTO.getItemDesc().trim().isEmpty() &&!"*".equals(selectionDTO.getItemDesc().trim())) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItemDesc().trim())).append("'");
+                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItemDesc().trim())).append('\'');
                 }
                 if ("item".equals(fields) && selectionDTO.getItem() != null && !selectionDTO.getItem().toString().trim().isEmpty() &&!"*".equals(selectionDTO.getItem().trim())) {
-                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItem().trim())).append("'");
+                        queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItem().trim())).append('\'');
                 }
             }
         } else {
-            queryBuilder.append(ConstantsUtils.AND).append("ITEM_MASTER_SID in (").append(itemSystemId).append(")");
+            queryBuilder.append(ConstantsUtils.AND).append("ITEM_MASTER_SID in (").append(itemSystemId).append(')');
         }
         String filterQuery = StringUtils.EMPTY;
         HashMap<String, String> detailsColumn = new HashMap<>();
@@ -1520,7 +1520,7 @@ public class SelectionLogic {
     public void deleteDedutionCalendar(int deducationCalendarSid) {
         final StringBuilder queryString = new StringBuilder();
         queryString.append("UPDATE DEDUCTION_CALENDAR_MASTER SET INBOUND_STATUS = 'D' WHERE DEDUCTION_CALENDAR_MASTER_SID = ")
-                .append(deducationCalendarSid).append(";");
+                .append(deducationCalendarSid).append(';');
          HelperTableLocalServiceUtil.executeUpdateQuery(queryString.toString());
     }
 
@@ -1761,50 +1761,50 @@ public class SelectionLogic {
             queryString.append(" AND CM2.COMPANY_NO LIKE '%").append(String.valueOf(parameters.get(ConstantsUtils.PRIOR_PARENT_CUSTOMER_NUMBER))).append("%'");
         }
         if (parameters.get(ConstantsUtils.TC_SD_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TC_SD_FROM)))) {
-            queryString.append(" AND CTS.TRADE_CLASS_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.TC_SD_FROM))).append("'");
+            queryString.append(" AND CTS.TRADE_CLASS_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.TC_SD_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.TC_SD_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TC_SD_TO)))) {
-            queryString.append(" AND CTS.TRADE_CLASS_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.TC_SD_TO))).append("'");
+            queryString.append(" AND CTS.TRADE_CLASS_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.TC_SD_TO))).append('\'');
         }
         if (parameters.get(ConstantsUtils.TC_ED_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TC_ED_FROM)))) {
-            queryString.append(" AND CTS.TRADE_CLASS_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.TC_ED_FROM))).append("'");
+            queryString.append(" AND CTS.TRADE_CLASS_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.TC_ED_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.TC_ED_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.TC_ED_TO)))) {
-            queryString.append(" AND CTS.TRADE_CLASS_END_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.TC_ED_TO))).append("'");
+            queryString.append(" AND CTS.TRADE_CLASS_END_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.TC_ED_TO))).append('\'');
         }
 
         if (parameters.get(ConstantsUtils.CUSTOMER_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_FROM)))) {
-            queryString.append(" AND CM.COMPANY_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_FROM))).append("'");
+            queryString.append(" AND CM.COMPANY_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.CUSTOMER_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_TO)))) {
-            queryString.append(" AND CM.COMPANY_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_TO))).append("'");
+            queryString.append(" AND CM.COMPANY_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_START_DATE_TO))).append('\'');
         }
         if (parameters.get(ConstantsUtils.CUSTOMER_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_FROM)))) {
-            queryString.append(" AND CM.COMPANY_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_FROM))).append("'");
+            queryString.append(" AND CM.COMPANY_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.CUSTOMER_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_TO)))) {
-            queryString.append(" AND CM.COMPANY_END_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_TO))).append("'");
+            queryString.append(" AND CM.COMPANY_END_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.CUSTOMER_END_DATE_TO))).append('\'');
         }
 
         if (parameters.get(ConstantsUtils.PARENT_START_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_FROM)))) {
-            queryString.append(" AND CPD.PARENT_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_FROM))).append("'");
+            queryString.append(" AND CPD.PARENT_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.PARENT_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_TO)))) {
-            queryString.append(" AND CPD.PARENT_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_TO))).append("'");
+            queryString.append(" AND CPD.PARENT_START_DATE <='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_START_DATE_TO))).append('\'');
         }
 
         if (parameters.get(ConstantsUtils.PARENT_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM)))) {
-            queryString.append(" AND CPD.PARENT_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM))).append("'");
+            queryString.append(" AND CPD.PARENT_END_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.PARENT_END_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_TO)))) {
-            queryString.append(" AND CPD.PARENT_END_DATE LIKE <='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_TO))).append("'");
+            queryString.append(" AND CPD.PARENT_END_DATE LIKE <='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_TO))).append('\'');
         }
 
         if (parameters.get(ConstantsUtils.PARENT_END_DATE_FROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM)))) {
-            queryString.append(" AND CPD.PRIOR_PARENT_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM))).append("'");
+            queryString.append(" AND CPD.PRIOR_PARENT_START_DATE >='").append(String.valueOf(parameters.get(ConstantsUtils.PARENT_END_DATE_FROM))).append('\'');
         }
         if (parameters.get(ConstantsUtils.PRIOR_PARENT_START_DATE_TO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ConstantsUtils.PRIOR_PARENT_START_DATE_TO)))) {
-            queryString.append(" AND CPD.PRIOR_PARENT_START_DATE LIKE <='").append(String.valueOf(parameters.get(ConstantsUtils.PRIOR_PARENT_START_DATE_TO))).append("'");
+            queryString.append(" AND CPD.PRIOR_PARENT_START_DATE LIKE <='").append(String.valueOf(parameters.get(ConstantsUtils.PRIOR_PARENT_START_DATE_TO))).append('\'');
         }
       return queryString.toString();
     }
