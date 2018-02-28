@@ -77,7 +77,6 @@
 			<id>Install-Dependency</id>
 			<modules>
 				<module>GtnLogger</module>
-				<module>Resources</module>
 				<module>Security</module>
 				<module>GtnFrameWorkPropertyManager</module>
 				<module>GtnFrameworkCommon</module>
@@ -110,7 +109,6 @@
 			<id>Release-Build</id>
 			<modules>
 				<module>GtnLogger</module>
-				<module>Resources</module>
 				<module>Security</module>
 				<module>GtnFrameWorkPropertyManager</module>
 				<module>GtnFrameworkCommon</module>
@@ -168,7 +166,6 @@
 			<id>SonarBuild</id>
 			<modules>
 				<module>GtnLogger</module>
-				<module>Resources</module>
 				<module>Security</module>
 				<module>GtnFrameWorkPropertyManager</module>
 				<module>GtnFrameworkCommon</module>
@@ -207,7 +204,6 @@
 			<id>Release-Build-Parallel</id>
 			<modules>
 				<module>Modules</module>
-				<module>Resources\GtnVaadinWidgetset</module>
 			</modules>
 			<activation>
 				<property>

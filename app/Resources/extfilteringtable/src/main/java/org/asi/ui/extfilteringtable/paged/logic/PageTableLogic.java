@@ -110,7 +110,13 @@ public abstract class PageTableLogic {
      * The required count.
      */
     protected boolean requiredCount = true;
+
     /**
+	 * Total checked record
+	 */
+	private double checkedRecordCount = 0;
+
+	/**
      * The value change listener.
      */
     protected Map<ExtPagedTable, Property.ValueChangeListener> valueChangeListener = new HashMap<ExtPagedTable, Property.ValueChangeListener>();
@@ -434,8 +440,7 @@ public abstract class PageTableLogic {
         if (itemsPerPageSelect.containsId(getItemsPerPage())) {
             itemsPerPageSelect.select(getItemsPerPage());
         } else {
-            itemsPerPageSelect.select(itemsPerPageSelect.getItemIds()
-                    .iterator().next());
+			itemsPerPageSelect.select(itemsPerPageSelect.getItemIds().iterator().next());
         }
         currentPageTextField.setValue(String.valueOf(getCurrentPage()));
         currentPageTextField.setConverter(new StringToIntegerConverter());
@@ -446,12 +451,10 @@ public abstract class PageTableLogic {
             private static final long serialVersionUID = -2255853716069800092L;
 
             @Override
-            public void valueChange(
-                    com.vaadin.v7.data.Property.ValueChangeEvent event) {
+			public void valueChange(com.vaadin.v7.data.Property.ValueChangeEvent event) {
                 try {
-                 if (event.getProperty().getValue() != null && !"null".equals(event.getProperty().getValue())) { // Added for GAL-8160
-                     String val=event.getProperty().getValue().toString();
-                    val=val.trim().replace(" ", "").replace(",", "");
+					String val = event.getProperty().getValue().toString();
+					val = val.trim().replace(" ", "").replace(",", "");
                     int cpage = Integer.valueOf(val);
                     if (cpage >= 1 && cpage <= getTotalAmountOfPages()) {
                         if (getCurrentPage() != cpage) {
@@ -460,9 +463,7 @@ public abstract class PageTableLogic {
                     } else {
                         currentPageTextField.setValue("" + getCurrentPage());
                     }
-                } else {
-                     currentPageTextField.setValue("" + getCurrentPage());
-                 }
+
                 } catch (NumberFormatException e) {
                     currentPageTextField.setValue("" + getCurrentPage());
                 }
@@ -529,8 +530,7 @@ public abstract class PageTableLogic {
         pageSize.addComponent(itemsPerPageLabel);
         pageSize.addComponent(itemsPerPageSelect);
         pageSize.setComponentAlignment(itemsPerPageLabel, Alignment.MIDDLE_LEFT);
-        pageSize.setComponentAlignment(itemsPerPageSelect,
-                Alignment.MIDDLE_LEFT);
+		pageSize.setComponentAlignment(itemsPerPageSelect, Alignment.MIDDLE_LEFT);
         pageSize.setSpacing(true);
         pageManagement.addComponent(first);
         pageManagement.addComponent(previous);
@@ -543,22 +543,18 @@ public abstract class PageTableLogic {
         pageManagement.setComponentAlignment(first, Alignment.MIDDLE_LEFT);
         pageManagement.setComponentAlignment(previous, Alignment.MIDDLE_LEFT);
         pageManagement.setComponentAlignment(pageLabel, Alignment.MIDDLE_LEFT);
-        pageManagement.setComponentAlignment(currentPageTextField,
-                Alignment.MIDDLE_LEFT);
-        pageManagement.setComponentAlignment(separatorLabel,
-                Alignment.MIDDLE_LEFT);
-        pageManagement.setComponentAlignment(totalPagesLabel,
-                Alignment.MIDDLE_LEFT);
+		pageManagement.setComponentAlignment(currentPageTextField, Alignment.MIDDLE_LEFT);
+		pageManagement.setComponentAlignment(separatorLabel, Alignment.MIDDLE_LEFT);
+		pageManagement.setComponentAlignment(totalPagesLabel, Alignment.MIDDLE_LEFT);
         pageManagement.setComponentAlignment(next, Alignment.MIDDLE_LEFT);
         pageManagement.setComponentAlignment(last, Alignment.MIDDLE_LEFT);
         pageManagement.setWidth(null);
         pageManagement.setSpacing(true);
         controlBar.addComponent(pageSize);
         controlBar.addComponent(pageManagement);
-//        controlBar.setComponentAlignment(pageManagement,
-//                Alignment.MIDDLE_CENTER);
+		controlBar.setComponentAlignment(pageManagement, Alignment.MIDDLE_CENTER);
         controlBar.setWidth(100, Sizeable.Unit.PERCENTAGE);
-//        controlBar.setExpandRatio(pageSize, 1);
+        controlBar.setExpandRatio(pageSize, 1);
 
         addListener(new PageChangeListener() {
             private boolean inMiddleOfValueChange;
@@ -573,10 +569,8 @@ public abstract class PageTableLogic {
                     }
                     int page = (total / getItemsPerPage()) + 1;
                     setCurrentPage(page);
-                    currentPageTextField.setValue(String
-                            .valueOf(page));
-                    totalPagesLabel.setValue(Integer
-                            .toString(getTotalAmountOfPages()));
+					currentPageTextField.setValue(String.valueOf(page));
+					totalPagesLabel.setValue(Integer.toString(getTotalAmountOfPages()));
                     Integer i = getItemsPerPage();
                     Item a = itemsPerPageSelect.getItem(i);
                     if (a == null) {
@@ -1027,7 +1021,7 @@ public abstract class PageTableLogic {
      *
      * @return the record count
      */
-    protected double getRecordCount() {
+	public double getRecordCount() {
         return recordCount;
     }
 
@@ -1096,4 +1090,34 @@ public abstract class PageTableLogic {
     public Container getContainerDataSource(){
         return container;
 }
+
+	protected void incrementCheckedRecordCount(int totalNoChange) {
+		checkedRecordCount += totalNoChange;
+}
+
+	public void perFormCheckAll(Object propertyId) {
+		String propertyIdString = String.valueOf(propertyId);
+		if("null".equalsIgnoreCase(propertyIdString) || propertyIdString.trim().isEmpty()){
+			return;
+		}
+		for (ExtPagedTable<?> table : getTables()) {
+			table.setCheckAll(propertyId, ((int) recordCount) == ((int) checkedRecordCount));
+		}
+	}
+
+	protected void decrementCheckedRecordCount(int totalNoChange) {
+		checkedRecordCount -= totalNoChange;
+	}
+
+	protected void clearCheckedRecordCount() {
+		checkedRecordCount = 0D;
+	}
+    public double getCheckRecordCount() {
+        return checkedRecordCount;
+    }
+
+    public void setCheckedRecordCount(double checkedRecordCount) {
+        this.checkedRecordCount = checkedRecordCount;
+    }
+
 }
