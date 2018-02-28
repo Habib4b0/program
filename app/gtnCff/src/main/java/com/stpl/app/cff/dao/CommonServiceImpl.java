@@ -393,7 +393,7 @@ public class CommonServiceImpl {
                 queryBuilder.append(String.valueOf(parameters.get("glCompId")));
                 queryBuilder.append(" AND GLC.COMPANY_CODE = CM.COMPANY_ID AND IM.NDC8 = GLC.NDC8 ");
                 queryBuilder.append(" AND IM.ORGANIZATION_KEY = ");
-                queryBuilder.append(String.valueOf(parameters.get("businessUnit"))).append(" ");
+                queryBuilder.append(String.valueOf(parameters.get("businessUnit"))).append(' ');
             } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_NDC)))
                     && "company".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) {
                 queryBuilder.append(SQlUtil.getQuery("get-inner-level-companies"));

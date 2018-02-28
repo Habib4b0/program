@@ -317,42 +317,42 @@ public class ProjectionVarianceLogic {
         StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, "comparisonLoadData");
         query.append(" where ");
         if (comparisonLookup.getContract() != null && !comparisonLookup.getContract().isEmpty()) {
-            query.append(" CONTRACT LIKE ").append("'").append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append("'");
+            query.append(" CONTRACT LIKE ").append('\'').append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(" CONTRACT LIKE ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getMarketType() != null && !comparisonLookup.getMarketType().isEmpty()) {
-            query.append(andOperator).append("  MARKET_TYPE LIKE  ").append("'").append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  MARKET_TYPE LIKE  ").append('\'').append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  MARKET_TYPE LIKE  ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getCustomer() != null && !comparisonLookup.getCustomer().isEmpty()) {
-            query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append("'").append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append('\'').append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  CONTRACT_HOLDER LIKE ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getNdcName() != null && !comparisonLookup.getNdcName().isEmpty()) {
-            query.append(andOperator).append("  ITEM_NAME LIKE   ").append("'").append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  ITEM_NAME LIKE   ").append('\'').append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  ITEM_NAME LIKE   ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getNdcNo() != null && !comparisonLookup.getNdcNo().isEmpty()) {
-            query.append(andOperator).append("  ITEM_NO LIKE ").append("'").append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  ITEM_NO LIKE ").append('\'').append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  ITEM_NO LIKE ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getBrand() != null && !comparisonLookup.getBrand().isEmpty()) {
-            query.append(andOperator).append("   BRAND LIKE ").append("'").append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append("' ");
+            query.append(andOperator).append("   BRAND LIKE ").append('\'').append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append("' ");
         } else {
             query.append(andOperator).append("   BRAND LIKE ").append("'%' ");
         }
@@ -470,14 +470,14 @@ public class ProjectionVarianceLogic {
         StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, "comparisonSearchCount");
         query.append(" where ");
         if (comparisonLookup.getContract() != null && !comparisonLookup.getContract().isEmpty()) {
-            query.append(" CONTRACT LIKE  ").append("'").append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append("'");
+            query.append(" CONTRACT LIKE  ").append('\'').append(comparisonLookup.getContract().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(" CONTRACT LIKE  ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getMarketType() != null && !comparisonLookup.getMarketType().isEmpty()) {
-            query.append(andOperator).append("  MARKET_TYPE LIKE ").append("'").append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  MARKET_TYPE LIKE ").append('\'').append(comparisonLookup.getMarketType().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  MARKET_TYPE LIKE ").append("'%'");
@@ -485,28 +485,28 @@ public class ProjectionVarianceLogic {
 
         }
         if (comparisonLookup.getCustomer() != null && !comparisonLookup.getCustomer().isEmpty()) {
-            query.append(andOperator).append("  CONTRACT_HOLDER LIKE  ").append("'").append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  CONTRACT_HOLDER LIKE  ").append('\'').append(comparisonLookup.getCustomer().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  CONTRACT_HOLDER LIKE  ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getNdcName() != null && !comparisonLookup.getNdcName().isEmpty()) {
-            query.append(andOperator).append("  ITEM_NAME LIKE ").append("'").append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  ITEM_NAME LIKE ").append('\'').append(comparisonLookup.getNdcName().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  ITEM_NAME LIKE ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getNdcNo() != null && !comparisonLookup.getNdcNo().isEmpty()) {
-            query.append(andOperator).append("  ITEM_NO LIKE  ").append("'").append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  ITEM_NO LIKE  ").append('\'').append(comparisonLookup.getNdcNo().replace(ASTERIK, PERCENT)).append('\'');
             andOperator = StringConstantsUtil.AND;
         } else {
             query.append(andOperator).append("  ITEM_NO LIKE  ").append("'%'");
             andOperator = StringConstantsUtil.AND;
         }
         if (comparisonLookup.getBrand() != null && !comparisonLookup.getBrand().isEmpty()) {
-            query.append(andOperator).append("  BRAND LIKE ").append("'").append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append("'");
+            query.append(andOperator).append("  BRAND LIKE ").append('\'').append(comparisonLookup.getBrand().replace(ASTERIK, PERCENT)).append('\'');
         } else {
             query.append(andOperator).append("  BRAND LIKE ").append("'%'");
         }
