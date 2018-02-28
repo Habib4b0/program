@@ -1485,6 +1485,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 pvSelectionDTO.setExcelFilterLevelNo(0);
             }
             getDate();
+            configureTable();
             configureExcelTable();
             excelLogic.getPVData();
             excelParentRecords.clear();
