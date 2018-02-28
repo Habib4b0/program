@@ -1953,6 +1953,8 @@ public class SalesLogic {
                         saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS='").append(finalvalue.toString()).append("' ");
                     }
                     break;
+                default:
+                    break;
             }
             updateQuery.append("  where PROJECTION_DETAILS_SID  ");
             updateQuery.append("  in ( ");
@@ -2348,6 +2350,9 @@ public class SalesLogic {
                 updateQuery = updateQuery.replace(Constant.START_FREQUENCY_AT, " AND SEMI_ANNUAL < " + startQuarter);
                 updateQuery = updateQuery.replace(Constant.END_FREQUENCY, " AND SEMI_ANNUAL > " + endQuarter);
                 break;
+            default:
+                break;
+            
         }
 
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
@@ -2429,6 +2434,9 @@ public class SalesLogic {
                             .replace(Constant.END_FREQUENCY, " AND SEMI_ANNUAL > " + endQuarter);
                     frequency = "P.SEMI_ANNUAL,";
                     break;
+                default:
+                    break;
+
             }
             updateQuery = updateQuery.replace("@PERIOD_QUERY", periodQuery);
             if (updateVariable.equals(Constant.PROJECTED_RETURN_AMT)) {
@@ -3730,6 +3738,9 @@ public class SalesLogic {
             case NumericConstants.TWO:
                 query = query.replace(Constant.FREQUENCY1_AT, " AND SEMI_ANNUAL = " + period);
                 break;
+            default:
+                break;
+
         }
         return query;
     }

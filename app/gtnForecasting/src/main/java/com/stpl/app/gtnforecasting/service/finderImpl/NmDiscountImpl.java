@@ -171,6 +171,8 @@ public class NmDiscountImpl {
                         case 4:
                             startMonth = 10;
                             break;
+                        default:
+                            break;
                     }
                     switch (endFreq) {
                         case 1:
@@ -184,6 +186,8 @@ public class NmDiscountImpl {
                             break;
                         case 4:
                             endMonth = 12;
+                            break;
+                        default:
                             break;
                     }
                     selectClause += "I.QUARTER, ";
@@ -212,6 +216,8 @@ public class NmDiscountImpl {
                         case 2:
                             startMonth = 7;
                             break;
+                        default:
+                            break;
                     }
                     switch (endFreq) {
                         case 1:
@@ -220,6 +226,9 @@ public class NmDiscountImpl {
                         case 2:
                             endMonth = 12;
                             break;
+                        default:
+                            break;
+
                     }
                     selectClause += "I.SEMI_ANNUAL, ";
                     groupBy += Constant.I_SEMI_ANNUAL;
@@ -1030,6 +1039,9 @@ public class NmDiscountImpl {
                         case 4:
                             startMonth = 10;
                             break;
+                        default:
+                            break;
+
                     }
                     switch (endFreq) {
                         case 1:
@@ -1044,6 +1056,9 @@ public class NmDiscountImpl {
                         case 4:
                             endMonth = 12;
                             break;
+                        default:
+                            break;
+
                     }
                 }
                 if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
@@ -1054,6 +1069,9 @@ public class NmDiscountImpl {
                         case 2:
                             startMonth = 7;
                             break;
+                        default:
+                            break;
+                 
                     }
                     switch (endFreq) {
                         case 1:
@@ -1061,6 +1079,8 @@ public class NmDiscountImpl {
                             break;
                         case 2:
                             endMonth = 12;
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -1447,6 +1467,9 @@ public class NmDiscountImpl {
                         startMonth = 10;
                         endMonth = 12;
                         break;
+                    default:
+                            break;
+
                 }
             }
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
@@ -1459,6 +1482,9 @@ public class NmDiscountImpl {
                         startMonth = 7;
                         endMonth = 12;
                         break;
+                    default:
+                            break;
+
                 }
             }
             if (frequency.equals(MONTHLY.getConstant())) {
@@ -1782,6 +1808,9 @@ public class NmDiscountImpl {
                     case 4:
                         startMonth = 10;
                         break;
+                    default:
+                            break;
+
                 }
                 switch (endFreq) {
                     case 1:
@@ -1796,6 +1825,9 @@ public class NmDiscountImpl {
                     case 4:
                         endMonth = 12;
                         break;
+                    default:
+                            break;
+
                 }
 
             }
@@ -1813,6 +1845,9 @@ public class NmDiscountImpl {
                     case 2:
                         startMonth = 7;
                         break;
+                    default:
+                            break;
+
                 }
                 switch (endFreq) {
                     case 1:
@@ -1821,6 +1856,9 @@ public class NmDiscountImpl {
                     case 2:
                         endMonth = 12;
                         break;
+                    default:
+                            break;
+
                 }
 
             }
@@ -2254,6 +2292,9 @@ public class NmDiscountImpl {
                         case 4:
                             startMonth = 10;
                             break;
+                        default:
+                            break;
+
                     }
                     switch (endFreq) {
                         case 1:
@@ -2268,6 +2309,9 @@ public class NmDiscountImpl {
                         case 4:
                             endMonth = 12;
                             break;
+                        default:
+                            break;
+
                     }
                 }
                 if (frequency.equals(Constant.ANNUALLY)) {
@@ -2284,6 +2328,9 @@ public class NmDiscountImpl {
                         case 2:
                             startMonth = 7;
                             break;
+                        default:
+                            break;
+
                     }
                     switch (endFreq) {
                         case 1:
@@ -2292,6 +2339,9 @@ public class NmDiscountImpl {
                         case 2:
                             endMonth = 12;
                             break;
+                        default:
+                            break;
+
                     }
 
                 }
@@ -2492,6 +2542,9 @@ public class NmDiscountImpl {
                     case 4:
                         startMonth = 10;
                         break;
+                    default:
+                        break;
+
                 }
                 switch (endFreq) {
                     case 1:
@@ -2506,6 +2559,9 @@ public class NmDiscountImpl {
                     case 4:
                         endMonth = 12;
                         break;
+                    default:
+                        break;
+
                 }
 
             }
@@ -2523,6 +2579,9 @@ public class NmDiscountImpl {
                     case 2:
                         startMonth = 7;
                         break;
+                    default:
+                        break;
+
                 }
                 switch (endFreq) {
                     case 1:
@@ -2531,6 +2590,9 @@ public class NmDiscountImpl {
                     case 2:
                         endMonth = 12;
                         break;
+                    default:
+                        break;
+
                 }
 
             }
