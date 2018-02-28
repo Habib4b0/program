@@ -53,15 +53,15 @@ public class GtnFrameworkUdcStringConstants {
 	}
 	
 	public static Class<?>[] getUdcFileTypeTableColumnType() {
-		return UDC_FILETYPETABLE_COLUMN_TYPE;
+		return UDC_FILETYPETABLE_COLUMN_TYPE.clone();
 	}
 	
 	public static Object[] getUdcFileTypeTableColumns() {
-		return UDC_FILETYPETABLE_COLUMNS;
+		return UDC_FILETYPETABLE_COLUMNS.clone();
 	}
 	
 	public static String[] getUdcFileTypeTableColumnHeader() {
-		return UDC_FILETYPETABLE_HEADER;
+		return UDC_FILETYPETABLE_HEADER.clone();
 	}
 
 }

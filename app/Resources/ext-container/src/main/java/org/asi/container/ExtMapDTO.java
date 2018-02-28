@@ -6,6 +6,7 @@
 
 package org.asi.container;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Map;
  *
  * @author Abhiram
  */
-public class ExtMapDTO{
+public class ExtMapDTO implements Serializable{
     private Map<Object, Object> properties=new HashMap<Object, Object>();
 
     public Map<Object, Object> getProperties() {
@@ -58,5 +59,7 @@ public class ExtMapDTO{
         return properties.get(propertyId);
     }
    
-  
+     public void addAllStringProperties(Map<Object, Object> properties) {
+        this.properties.putAll(properties);
+}
 }

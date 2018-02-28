@@ -1831,4 +1831,4 @@ public class NationalAssumptions extends CustomComponent implements View {
         }
 
     }
-}
+ }

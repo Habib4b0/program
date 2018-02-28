@@ -491,14 +491,17 @@ public class GtnWsContractDashboardCommonLogic {
 		rsColumnNameMap.put("CDRSView_ProgramType", "rs.REBATE_PROGRAM_TYPE");
 		rsColumnNameMap.put("CDRSView_RSType", "rs.RS_TYPE");
 		rsColumnNameMap.put("CDRSView_RSStatus", "rs.RS_STATUS");
-		rsColumnNameMap.put("rsType", GtnFrameworkWebserviceConstant.HT_DESCRIPTION);
-		rsColumnNameMap.put("rsStatus", GtnFrameworkWebserviceConstant.HST_DESCRIPTION);
+		rsColumnNameMap.put("rsType", GtnFrameworkWebserviceConstant.HT_HELPER_SID);
+		rsColumnNameMap.put("rsStatus", GtnFrameworkWebserviceConstant.HST_HELPER_SID);
 		rsColumnNameMap.put("rsCategory", GtnFrameworkWebserviceConstant.HCT_DESCRIPTION);
 		rsColumnNameMap.put(GtnFrameworkCommonConstants.START_DATE, "rs.RS_START_DATE");
 		rsColumnNameMap.put(GtnFrameworkCommonConstants.END_DATE, "rs.RS_END_DATE");
 		rsColumnNameMap.put("rsDesignation", GtnFrameworkWebserviceConstant.HD_DESCRIPTION);
 		rsColumnNameMap.put("parentRsId", "rs.PARENT_RS_ID");
 		rsColumnNameMap.put("parentRsName", "rs.PARENT_RS_NAME");
+		rsColumnNameMap.put("RSPopupItemId", "itm.ITEM_ID");
+		rsColumnNameMap.put("RSItemNo", "itm.ITEM_NO");
+		rsColumnNameMap.put("RSItemName", "itm.ITEM_NAME");
 	}
 
 	private void addRuleColumns() {

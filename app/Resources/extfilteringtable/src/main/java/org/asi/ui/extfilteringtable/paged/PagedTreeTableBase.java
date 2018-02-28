@@ -17,7 +17,7 @@ import org.asi.ui.extfilteringtable.paged.logic.TreeLogicBase;
  *
  * @author Abhiram
  */
-public abstract class PagedTreeTableBase extends ExtFilterTreeTable implements ExtPagedTableBase {
+public abstract class PagedTreeTableBase extends ExtFilterTreeTable{
     
     // --------------fields for pagination control ---------------
     /** The logic. */
@@ -124,7 +124,6 @@ public abstract class PagedTreeTableBase extends ExtFilterTreeTable implements E
      * @param prop the new filter change
      * @param addedFilters the added filters
      */
-    @Override
     public void setFilterChange(Object prop,Set<Container.Filter> addedFilters) {
         getContainerLogic().beforeHandleFilterChange();
         getContainerLogic().setFilters(addedFilters);
@@ -138,7 +137,6 @@ public abstract class PagedTreeTableBase extends ExtFilterTreeTable implements E
      *
      * @param addedFilters the new filter change
      */
-    @Override
     public void setFilterChange(Set<Container.Filter> addedFilters) {
         getContainerLogic().beforeHandleFilterChange();
         getContainerLogic().setFilters(addedFilters);

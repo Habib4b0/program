@@ -228,12 +228,10 @@ public class GtnFrameworkNSSearchConfig {
 		netSalesSearchActionConfigList.add(loadDataTableActionConfig);
 
 		GtnUIFrameWorkActionConfig notificationActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-		List<Object> notificationParams = new ArrayList<>();
-		notificationParams.add(" Search Completed ");
-		notificationParams.add("");
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+		notificationActionConfig.addActionParameter(GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
+		actionParams.add(notificationActionConfig);
 
-		notificationActionConfig.setActionParameterList(notificationParams);
 		netSalesSearchActionConfigList.add(notificationActionConfig);
 		netSalesSearchBtnConfig.setGtnUIFrameWorkActionConfigList(netSalesSearchActionConfigList);
 
