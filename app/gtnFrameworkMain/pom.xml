@@ -231,7 +231,6 @@
 		<profile>
 			<id>Build-Subsystem</id>
 			<modules>
-				<module>Resources/Resource-subsystem</module>
 				<module>Gtn-base-subsystem</module>
 				<module>Modules/GtnModules-Subsystem</module>
 			</modules>
