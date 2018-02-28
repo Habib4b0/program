@@ -862,7 +862,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage());
                         AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
-                                "Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
+                                "Multiple variables for the same row and time period combination have been changed. Please only change one variable for a single row and time period combination.");
                         tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).setValue(focusValue);
                     }
 
@@ -1127,7 +1127,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
                     } else {
                         AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
-                                "Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
+                                "Multiple variables for the same row and time period combination have been changed. Please only change one variable for a single row and time period combination.");
                         isMultipleVariablesUpdated = false;
                         refreshTableData(getCheckedRecordsHierarchyNo());
                         multipleVariableCheckMap.clear();

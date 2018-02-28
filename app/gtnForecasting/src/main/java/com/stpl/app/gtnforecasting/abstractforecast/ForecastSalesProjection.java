@@ -814,7 +814,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     projectionDTO.getMultipleVariableCheckMap().clear();
                 } else {
                     AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
-                            "Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
+                            "Multiple variables for the same row and time period combination have been changed. Please only change one variable for a single row and time period combination.");
                     projectionDTO.setIsMultipleVariablesUpdated(false);
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     projectionDTO.getMultipleVariableCheckMap().clear();
