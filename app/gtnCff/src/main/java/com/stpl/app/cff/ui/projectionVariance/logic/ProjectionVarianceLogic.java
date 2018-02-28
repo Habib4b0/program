@@ -310,8 +310,8 @@ public class ProjectionVarianceLogic {
     }
 
     public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup) throws PortalException, SystemException {
-        String ASTERIK = "*";
-        String PERCENT = "%";
+        char ASTERIK = '*';
+        char PERCENT = '%';
         String andOperator;
         List inputList = getComparisonInput(comparisonLookup);
         StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, "comparisonLoadData");
@@ -463,8 +463,8 @@ public class ProjectionVarianceLogic {
     }
 
     public Integer getComparisonCount(ComparisonLookupDTO comparisonLookup) {
-        String ASTERIK = "*";
-        String PERCENT = "%";
+        char ASTERIK = '*';
+        char PERCENT = '%';
         String andOperator;
         List inputList = getComparisonInput(comparisonLookup);
         StringBuilder query = CommonQueryUtils.getSqlQuery(inputList, "comparisonSearchCount");
@@ -2804,8 +2804,8 @@ public class ProjectionVarianceLogic {
     }
 
     private List getComparisonInput(final ComparisonLookupDTO comparisonLookup) {
-        String ASTERIK = "*";
-        String PERCENT = "%";
+        char ASTERIK = '*';
+        char PERCENT = '%';
         List inputList = new ArrayList();
         if (comparisonLookup.getWorkflowStatus() != null && !comparisonLookup.getWorkflowStatus().equals(Constants.SELECT_ONE_LABEL)) { //Added for GAL-9231
             if (!comparisonLookup.getWorkflowStatus().equals("Saved")) {
@@ -2886,11 +2886,11 @@ public class ProjectionVarianceLogic {
     private String getCommonColumn(int frequencyDivision, String column) {
         String returnString;
         if (frequencyDivision == NumericConstants.FOUR) {
-            returnString = column.replace("q", "Q");
+            returnString = column.replace('q', 'Q');
             return returnString;
         }
         if (frequencyDivision == NumericConstants.TWO) {
-            returnString = column.replace("s", "S");
+            returnString = column.replace('s', 'S');
             return returnString;
         }
         if (frequencyDivision == NumericConstants.TWELVE) {
@@ -2903,9 +2903,9 @@ public class ProjectionVarianceLogic {
     private String getCommonColumn(String column, int frequencyDivision) {
         if (frequencyDivision == 1) {
         } else if (frequencyDivision == NumericConstants.FOUR) {
-            column = column.replace("q", "Q");
+            column = column.replace('q', 'Q');
         } else if (frequencyDivision == NumericConstants.TWO) {
-            column = column.replace("s", "S");
+            column = column.replace('s', 'S');
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             column = column.toLowerCase(Locale.ENGLISH);
         }
@@ -3189,7 +3189,7 @@ public class ProjectionVarianceLogic {
 						rsIds.append(String.valueOf(obj));
 						flag = false;
 					} else {
-						rsIds.append(",").append(String.valueOf(obj));
+						rsIds.append(',').append(String.valueOf(obj));
 					}
 				}
 			}

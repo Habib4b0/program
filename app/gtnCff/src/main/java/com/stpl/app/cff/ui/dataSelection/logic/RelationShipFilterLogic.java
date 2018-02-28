@@ -302,7 +302,7 @@ public class RelationShipFilterLogic {
 		GtnFrameworkSingleColumnRelationBean keyRealtionBean = masterBean.getKeyRelationBeanUsingTableIdAndColumnName(
 				selectedHierarchyLevelDto.getTableName(), selectedHierarchyLevelDto.getFieldName());
 		query.append(keyRealtionBean.getActualTtableName());
-		query.append(".");
+		query.append('.');
 		query.append(keyRealtionBean.getWhereClauseColumn());
 		finalQueryBean.addWhereClauseBean(query.toString(), null, GtnFrameworkOperatorType.IN,
 				GtnFrameworkDataType.NULL_ALLOWED, "?");
@@ -602,7 +602,7 @@ public class RelationShipFilterLogic {
 				query.append(",'.'");
 				continue;
 			}
-			query.append(",");
+			query.append(',');
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
 			query.append(singleColumnRelationBean.getActualTtableName() + "."
@@ -611,7 +611,7 @@ public class RelationShipFilterLogic {
 		}
 		finalQuery.append("concat( RELATIONSHIP_BUILDER_SID,'-'");
 		finalQuery.append(query);
-		finalQuery.append(")");
+		finalQuery.append(')');
 		return finalQuery;
 	}
 

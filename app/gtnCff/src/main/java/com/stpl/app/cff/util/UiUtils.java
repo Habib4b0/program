@@ -447,9 +447,9 @@ public class UiUtils {
 		StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
 		if (stringList != null && !stringList.isEmpty()) {
 			for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
-				builder.append("'");
+				builder.append('\'');
 				builder.append(stringList.get(loop));
-				builder.append("'");
+				builder.append('\'');
 				if (loop != (limit - 1)) {
 					builder.append(", ");
 				}

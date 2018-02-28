@@ -3444,9 +3444,9 @@ public class DataSelection extends AbstractDataSelection {
 		}
 		if (!productHierarchyEndLevelsHierNo.isEmpty()) {
 			for (int loop = 0, limit = productHierarchyEndLevelsHierNo.size(); loop < limit; loop++) {
-				returnString.append("'");
+				returnString.append('\'');
 				returnString.append(productHierarchyEndLevelsHierNo.get(loop));
-				returnString.append("'");
+				returnString.append('\'');
 				if (loop != (limit - 1)) {
 					returnString.append(", ");
 				}
