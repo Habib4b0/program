@@ -348,6 +348,8 @@ public class GtnFrameworkNetSaleRulePopupConfig {
 		comboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.RULE_TYPE);
+		comboBoxConfig.setHasDefaultValue(true);
+		comboBoxConfig.setDefaultDesc("Net Sales");
 		componentConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentIdList.add(componentConfig.getComponentId());
 		componentConfig.setGtnUIFrameworkValidationConfig(validationConfig);

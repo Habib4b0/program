@@ -153,7 +153,7 @@ public class GtnFrameworkNSSearchConfig {
 				GtnFrameworkCommonConstants.FORMULA_NO, true, GtnFrameworkCommonConstants.FORMULA_NO_LAYOUT,
 				GtnUIFrameworkComponentType.TEXTBOX);
 		netSalesFormulaNo.setAuthorizationIncluded(true);
-		netSalesFormulaNo.setComponentName("Net Sales Formula No");
+		netSalesFormulaNo.setComponentName("Net Sales Formula NO");
 
 		GtnUIFrameworkValidationConfig netSalesFormulaNoValidationConfig = new GtnUIFrameworkValidationConfig();
 		List<GtnUIFrameworkConditionalValidationType> conditions = new ArrayList<>();
@@ -294,7 +294,7 @@ public class GtnFrameworkNSSearchConfig {
 				String.class, GtnFrameworkCommonConstants.JAVAUTIL_DATE, String.class,
 				GtnFrameworkCommonConstants.JAVAUTIL_DATE, String.class });
 		netSalesResultTable.setTableVisibleHeader(
-				new String[] { "Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula No",
+				new String[] { "Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula NO",
 						"Net Sales Formula Name", "Creation Date", "Created By", "Modified Date", "Modified By" });
 		netSalesResultTable.setTableColumnMappingId(new Object[] { GtnFrameworkCommonConstants.PROPERTY_FORMULA_TYPE,
 				GtnFrameworkCommonConstants.FORMULA_ID, GtnFrameworkCommonConstants.FORMULA_NO,

@@ -277,7 +277,7 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 				itemsTable.setContainerProperty(itemId, "rebatePlanName", rpname);
 				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
-						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 2))));
+						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
 			} else if ("formulaNo".equals(propertyId)) {
 				name = dto.getPropertyValue("formulaNo").toString();
 				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);

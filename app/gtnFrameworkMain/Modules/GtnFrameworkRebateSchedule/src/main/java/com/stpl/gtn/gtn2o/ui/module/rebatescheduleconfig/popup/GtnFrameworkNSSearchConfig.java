@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
@@ -90,8 +91,8 @@ public class GtnFrameworkNSSearchConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider
 				.getCssLayoutConfig(GtnFrameworkCommonConstants.NET_SALES_FORMULA_SEARCH_BUTTON_LAYOUT, false, null);
 		componentList.add(gtnLayout);
-		addNsSearchButtonComponent(componentList);
 		addNsResetButtonComponent(componentList);
+		addNsSearchButtonComponent(componentList);
 	}
 
 	private void addNsFieldComponent(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -301,7 +302,7 @@ public class GtnFrameworkNSSearchConfig {
 		nsSearchPopupResultsTableConfig.setTableColumnDataType(new Class[] { String.class, String.class, String.class,
 				String.class, Date.class, String.class, Date.class, String.class });
 		nsSearchPopupResultsTableConfig.setTableVisibleHeader(
-				new String[] { "Net Sales Formula Type", "Net Sales Formula Id", "Net Sales Formula No",
+				new String[] { "Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula NO",
 						"Net Sales Formula Name", "Creation Date", "Created By", "Modified Date", "Modified By" });
 		nsSearchPopupResultsTableConfig.setTableColumnMappingId(new Object[] { GtnFrameworkCommonConstants.FORMULA_TYPE,
 				GtnFrameworkCommonConstants.FORMULA_ID, GtnFrameworkCommonConstants.FORMULA_NO,
@@ -320,6 +321,7 @@ public class GtnFrameworkNSSearchConfig {
 		componentList.add(gtnLayout);
 		addNsSelectButtonComponent(componentList);
 		addNsCloseButtonComponent(componentList);
+		addNsExportButtonComponent(componentList);
 	}
 
 	private void addNsSelectButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -370,6 +372,23 @@ public class GtnFrameworkNSSearchConfig {
 
 		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
+	}
+
+	private void addNsExportButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig exportButtonConfig = configProvider.getUIFrameworkComponentConfig(
+				"netSalesFormulaPopUpExportButton", true,
+				GtnFrameworkCommonConstants.NET_SALES_FORMULA_ACTION_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
+		exportButtonConfig.setComponentName("EXPORT");
+		exportButtonConfig.setAuthorizationIncluded(true);
+		componentList.add(exportButtonConfig);
+
+		GtnUIFrameworkExcelButtonConfig excelButtonConfig = configProvider.getExcelBtnconfig("Rebate Setup", true,
+				GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE, false);
+		exportButtonConfig.setGtnUIFrameworkExcelButtonConfig(excelButtonConfig);
+		GtnUIFrameWorkActionConfig excelExportAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
+		excelExportAction.addActionParameter(excelButtonConfig);
+		exportButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelExportAction));
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getNsPopupCustomFilterConfig() {
