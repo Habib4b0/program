@@ -134,9 +134,9 @@ public class Allocation extends CustomComponent implements View {
     @UiField("exportBtn")
     private Button exportBtn;
     
-    private DataFormatConverter percentFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_PERCENT);
-    private DataFormatConverter salesFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_DOLLAR);
-    private DataFormatConverter salesFormatallocation = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, StringUtils.EMPTY);
+    private DataFormatConverter percentFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT, DataFormatConverter.INDICATOR_PERCENT);
+    private DataFormatConverter salesFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT, DataFormatConverter.INDICATOR_DOLLAR);
+    private DataFormatConverter salesFormatallocation = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT, StringUtils.EMPTY);
     private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<>(
             AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
     private ExtContainer<AlternateHistoryDTO> resultDetBean = new ExtContainer<>(

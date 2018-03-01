@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import static com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic.TWO_DECIMAL_FORMAT;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
@@ -28,8 +27,8 @@ public class PVCommonLogic {
 
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String ZERO = "0";
-    private static final DecimalFormat RATE_PER = new DecimalFormat(TWO_DECIMAL_FORMAT);
-    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(TWO_DECIMAL_FORMAT);
+    private static final DecimalFormat RATE_PER = new DecimalFormat(Constant.TWO_DECIMAL_FORMAT);
+    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(Constant.TWO_DECIMAL_FORMAT);
     private static final String CURRENT = "Current";
     private static final String ACCRUAL = "Accrual";
     private static final String ACTUAL = "Actual";
@@ -155,7 +154,7 @@ public class PVCommonLogic {
     }
 
     public static String getPerChange(String actualValue, String priorVal, DecimalFormat format) {
-        DecimalFormat formatter = new DecimalFormat(TWO_DECIMAL_FORMAT);
+        DecimalFormat formatter = new DecimalFormat(Constant.TWO_DECIMAL_FORMAT);
         Double val = Double.valueOf(isNull(actualValue));
         Double val1 = Double.valueOf(isNull(priorVal));
         String value;

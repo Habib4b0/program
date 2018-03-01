@@ -1660,7 +1660,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
 
             } catch (NumberFormatException | ParseException ex) {
-                LOGGER.error("in execute query= {}", ex.getMessage());
+                LOGGER.error("executeQueryforchannel= {}", ex.getMessage());
             }
             queryString.append(query);
             queryString.append(';');
@@ -1699,7 +1699,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
             }
         } catch (Exception ex) {
-            LOGGER.error("in execute query= {}", ex.getMessage());
+            LOGGER.error("in execute query channel= {}", ex.getMessage());
             LOGGER.error(queryString.toString());
             return null;
         } 
@@ -1900,7 +1900,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     query = query.replace(Constant.QUESTION_FILTER_QUESTION, StringUtils.EMPTY);
                 }
             } catch (NumberFormatException ex) {
-                LOGGER.error("in execute query= {}", ex.getMessage());
+                LOGGER.error("prepareSearchGroupQuery= {}", ex.getMessage());
                 LOGGER.error(query);
             }
         } catch (Exception e) {
@@ -2228,7 +2228,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     query = query.replace(Constant.QUESTION_FILTER_QUESTION, StringUtils.EMPTY);
                 }
             } catch (NumberFormatException | ParseException ex) {
-                LOGGER.error("in execute query= {}", ex.getMessage());
+                LOGGER.error("prepareSearchViewQuery= {}", ex.getMessage());
                 LOGGER.error(query);
             }
         } catch (Exception e) {
@@ -2239,4 +2239,3 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
     }
     
 }
-

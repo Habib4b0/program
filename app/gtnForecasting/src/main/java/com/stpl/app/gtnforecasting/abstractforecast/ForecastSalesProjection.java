@@ -140,7 +140,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public abstract class ForecastSalesProjection extends CustomComponent implements View {
 
     private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
-	private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
+    
+    private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
 	/**
      * View name for navigation.
      */
@@ -803,7 +804,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 setRefresh(true);
-                if (!projectionDTO.isMultipleVariablesUpdated) {
+                if (!projectionDTO.isMultipleVariablesUpdated()) {
                     salesLogic.executeUpdateQuery(projectionDTO);
                     getTableLogic().setRefresh(false);
                     refreshTableData(getCheckedRecordsHierarchyNo());
@@ -2334,7 +2335,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         for (Object propertyId : checkedDiscountsPropertyIds) {
             String tripleHeader = resultsTable.getRightFreezeAsTable().getTripleHeaderColumnHeader(propertyId);
             if (tripleHeaderForCheckedDoubleHeader.get(tripleHeader) == null) {
-                NotificationUtils.getErrorNotification("No period selected", "Please select which periods need to be included in the adjustment.");
+                NotificationUtils.getErrorNotification(NO_PERIOD_SELECTED, "Please select which periods need to be included in the adjustment.");
                 return;
             }
         }
@@ -2369,7 +2370,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
             }
             if (String.valueOf(getSelectedHistoryPeriods()).equals(StringUtils.EMPTY) && String.valueOf(getSelectedProjectionPeriods()).equals(StringUtils.EMPTY)) {
-            NotificationUtils.getErrorNotification("No period selected", "Please select which periods need to be included in the adjustment.");
+            NotificationUtils.getErrorNotification(NO_PERIOD_SELECTED, "Please select which periods need to be included in the adjustment.");
             return;
             }
             if (adjPeriod.equals(Constant.ALL)) {
@@ -2531,6 +2532,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
         }
     }
+    public static final String NO_PERIOD_SELECTED = "No period selected";
 
     /**
      * Gets the selected History periods that can be used for the adjustment and
@@ -2568,7 +2570,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     condition = tempYear < currentYear;
                     break;
                 default:
-                    LOGGER.warn("SELECTED_FREQ_IS_NOT_VALID= {} " , selectedFreq);
+                    LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID , selectedFreq);
                     break;
             }
             if ((condition) && (checkBoxMap.get(key))) {
@@ -2619,7 +2621,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         condition = tempYear >= projStartYear;
                         break;
                     default:
-                        LOGGER.warn("SELECTED_FREQ_IS_NOT_VALID= {} " , selectedFreq);
+                        LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID , selectedFreq);
                         break;
                 }
                 if (condition) {
@@ -2670,7 +2672,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     condition = tempYear >= projStartYear;
                     break;
                 default:
-                    LOGGER.warn("SELECTED_FREQ_IS_NOT_VALID= {} " , selectedFreq);
+                    LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID , selectedFreq);
                     break;
             }
 
@@ -2764,7 +2766,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 AbstractNotificationUtils.getErrorNotification(Constant.ERROR, alertMsg.getString("SP_MSG_ID_03"));
                 return;
             case NumericConstants.FOUR:
-                AbstractNotificationUtils.getErrorNotification("No period selected", "Please select at least two historic periods to use as a baseline for each selected discount.");
+                AbstractNotificationUtils.getErrorNotification(NO_PERIOD_SELECTED, "Please select at least two historic periods to use as a baseline for each selected discount.");
                 return;
             default:
                 LOGGER.warn("Baseline period is not valid: ");

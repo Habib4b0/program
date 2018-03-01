@@ -466,7 +466,7 @@ public class PPAProjection extends CustomComponent implements View {
                 } else if (propertyId.equals(Constant.PRICEPROTECTIONSTARTDATE) || propertyId.equals(Constant.PRICEPROTECTIONENDDATE)) {
                     final CustomDateField date = new CustomDateField();
                     date.setImmediate(true);
-                    date.setDateFormat(Constant.DATE);
+                    date.setDateFormat(Constant.MM_DD_YYYY);
                     if (propertyId.equals(Constant.PRICEPROTECTIONSTARTDATE)) {
                         date.setValue(((PPAProjectionDTO) itemId).getPriceProtectionStartDate());
                     } else if (propertyId.equals(Constant.PRICEPROTECTIONENDDATE)) {
@@ -613,7 +613,7 @@ public class PPAProjection extends CustomComponent implements View {
                             final CustomDateField dateField = new CustomDateField();
                             dateField.setImmediate(true);
                             dateField.setWidth("100%");
-                            dateField.setDateFormat(Constant.DATE);
+                            dateField.setDateFormat(Constant.MM_DD_YYYY);
                             Object val = dto.getPropertyValue(propertyId.toString());
                             if (val != null) {
                                 dateField.setValue((Date) val);
@@ -926,7 +926,7 @@ public class PPAProjection extends CustomComponent implements View {
         valueDdlb.setImmediate(Boolean.TRUE);
         valueDdlb.addBlurValue(Boolean.TRUE);
         massDate.setImmediate(true);
-        massDate.setDateFormat(Constant.DATE);
+        massDate.setDateFormat(Constant.MM_DD_YYYY);
 
         if (resultBeanContainer.getItemIds().size() > 0) {
             LOGGER.debug("PPASubmitFlag: True"); 

@@ -739,7 +739,7 @@ public class NationalAssumptionLogic {
 
             projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_MASTER_SID));
             projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_NO));
-            projectionList.add(ProjectionFactoryUtil.property("itemDesc"));
+            projectionList.add(ProjectionFactoryUtil.property(ITEM_DESC));
             ndcQuery.setProjection(projectionList);
             ndcQuery.addOrder(OrderFactoryUtil.asc(Constant.ITEM_NO));
             ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
@@ -813,6 +813,7 @@ public class NationalAssumptionLogic {
         }
         return list;
     }
+    public static final String ITEM_DESC = "itemDesc";
 
     public static DynamicQuery getNdcDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag) throws SystemException, PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
@@ -959,10 +960,10 @@ public class NationalAssumptionLogic {
 
             projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_MASTER_SID));
             projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_NO));
-            projectionList.add(ProjectionFactoryUtil.property("itemDesc"));
+            projectionList.add(ProjectionFactoryUtil.property(ITEM_DESC));
             ndcQuery.setProjection(projectionList);
 
-            ndcQuery.addOrder(OrderFactoryUtil.asc("itemDesc"));
+            ndcQuery.addOrder(OrderFactoryUtil.asc(ITEM_DESC));
             ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
 
             qualifierList = DAO.getItemList(ndcQuery);

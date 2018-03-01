@@ -1212,6 +1212,8 @@ public class NMPVExcelLogic {
                     String gorupName = common.get(1);
                     ProjectionVarianceDTO frequencyBasedDTO = new ProjectionVarianceDTO();
                     frequencyBasedDTO.setGroup(gorupName);
+                    frequencyBasedDTO.setDfLevelName(gorupName);
+                    frequencyBasedDTO.setDfLevelNumber(gorupName);
                     if (i++ == 0) {
                         addList_pivot(pvList, obj, frequencyBasedDTO, NumericConstants.TWO, "");
 
@@ -1246,9 +1248,22 @@ public class NMPVExcelLogic {
                 groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), hierarchy.trim(),
                             selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
             }
-
-            detail.setGroup(groupName);
-            pvList.add(detail);
+            if (groupName.contains("-")) {
+                String[] tempArr = groupName.split("-");
+                detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+            } else if (selection.getDisplayFormat().length > 0) {
+                int index = (int) selection.getDisplayFormat()[0];
+                if (index == 0) {
+                    detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                } else {
+                    detail.addStringProperties(DF_LEVEL_NAME, groupName);
+                }
+            } else {
+                detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+            }
+        detail.setGroup(groupName);
+        pvList.add(detail);
         }
 
         pvList.add(frequencyBasedDTO);
@@ -1578,6 +1593,8 @@ public class NMPVExcelLogic {
                 String gorupName = common.get(1);
                 ProjectionVarianceDTO freVarianceDTO = new ProjectionVarianceDTO();
                 freVarianceDTO.setGroup(gorupName);
+                freVarianceDTO.setDfLevelName(gorupName);
+                freVarianceDTO.setDfLevelNumber(gorupName);
                 if (pvList == null) {
                     //To check condition total or details values
                     pvList = new ArrayList();

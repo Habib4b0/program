@@ -424,7 +424,7 @@ public class SalesProjectionResultsTree {
     class SalesProjectionResultsTreeBuildCreteria {
 
         private String salesUnitVariable;
-        public String frequency;
+        private String frequency;
         private String history;
         private String actualProjection;
         private String cpIndicator;

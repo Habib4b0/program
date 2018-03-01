@@ -821,6 +821,8 @@ public class AlternateHistoryLogic {
                 freqQuery = " I.\"YEAR\",I.\"YEAR\" ";
                 annualFreq = " I.\"YEAR\" as period1,I.\"YEAR\" as period2 ";
                 break;
+            default:
+                break;
 
         }
         Map<String, Object> parameters = new HashMap<>();

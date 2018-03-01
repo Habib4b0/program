@@ -1,6 +1,7 @@
 package com.stpl.app.adminconsole.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,7 +21,7 @@ public class GtnWsCallEtlService {
 	}
 
 	public void runShellScript(String scriptUrl) {
-		LOGGER.info("Entering runShellScript with= {} " , scriptUrl);
+		LOGGER.info("Entering runShellScript with");
 		try {
 			URL url = new URL(scriptUrl);
 			URLConnection urlConnection = url.openConnection();
@@ -39,9 +40,8 @@ public class GtnWsCallEtlService {
 				urlString.append(current);
 			}
 			in.close();
-			LOGGER.info(urlString.toString());
-		} catch (Exception e) {
-			LOGGER.error("Exception while running script.", e);
+		} catch (IOException e) {
+			LOGGER.error("Exception while running script= {}", e);
 		}
 	}
 	
