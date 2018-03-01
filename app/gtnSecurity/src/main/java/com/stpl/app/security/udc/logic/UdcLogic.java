@@ -313,7 +313,7 @@ public class UdcLogic {
     	Map<String,String> columnIdMap = getBrandColumnIdMap();
     	if(columns != null && !columns.isEmpty()) {
     		for (OrderByColumn orderByColumn : columns) {
-    			orderBuilder.append(" ").append(columnIdMap.get(orderByColumn.getName())).append(" ").append(orderByColumn.getType()).append(",");
+    			orderBuilder.append(' ').append(columnIdMap.get(orderByColumn.getName())).append(' ').append(orderByColumn.getType()).append(',');
 			}
     		
     		return orderBuilder.toString().substring(0, orderBuilder.length()-1);

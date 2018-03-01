@@ -94,6 +94,12 @@ if [ $count != 0 ]
 then 
 cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.esa $RPM_BUILD_ROOT%{prefix}/tempdeploy/
 fi
+count=`ls -1 $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.war 2>/dev/null | wc -l`
+if [ $count != 0 ]
+then
+cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/stpl-theme.war $RPM_BUILD_ROOT%{prefix}/tempdeploy/
+fi
+
 mkdir $RPM_BUILD_ROOT%{prefix}/deploy/
 chmod 777 $RPM_BUILD_ROOT%{prefix}/deploy/
 

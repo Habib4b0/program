@@ -2816,6 +2816,8 @@ public class DataSelection extends AbstractDataSelection {
 
 	@Override
 	protected void resetButtonLogic() {
+             DataSelectionLogic logic = new DataSelectionLogic();
+             cffEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration());
 		company.setValue(0);
 		getBusinessUnit().setValue(0);
 		customerBeanList.clear();
@@ -3444,9 +3446,9 @@ public class DataSelection extends AbstractDataSelection {
 		}
 		if (!productHierarchyEndLevelsHierNo.isEmpty()) {
 			for (int loop = 0, limit = productHierarchyEndLevelsHierNo.size(); loop < limit; loop++) {
-				returnString.append("'");
+				returnString.append('\'');
 				returnString.append(productHierarchyEndLevelsHierNo.get(loop));
-				returnString.append("'");
+				returnString.append('\'');
 				if (loop != (limit - 1)) {
 					returnString.append(", ");
 				}
@@ -3836,11 +3838,11 @@ public class DataSelection extends AbstractDataSelection {
         public void loadCFFEligibleDate() {
             DataSelectionLogic logic = new DataSelectionLogic();
             if (sessionDTO.getCffEligibleDate() != null) {
-                cffEligibleDate.setValue(sessionDTO.getCffEligibleDate());
+             cffEligibleDate.setValue(sessionDTO.getCffEligibleDate());           
             } else {
                 cffEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration());
             }
-            cffEligibleDate.addValueChangeListener(new Property.ValueChangeListener() {
+             cffEligibleDate.addValueChangeListener(new Property.ValueChangeListener() {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                   sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());

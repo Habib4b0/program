@@ -166,7 +166,7 @@ public class PPAProjectionLogic {
 
     private static String createColumn(String quater, String year, String columnName) {
         StringBuilder column = new StringBuilder();
-        column.append(Constant.Q_SMALL).append(quater).append(year).append(columnName);
+        column.append('q').append(quater).append(year).append(columnName);
         return column.toString();
     }
 

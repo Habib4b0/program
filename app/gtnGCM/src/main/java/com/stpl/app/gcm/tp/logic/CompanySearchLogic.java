@@ -357,7 +357,7 @@ public class CompanySearchLogic {
         query.append("With TEMP as (");
         query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
         query.append(") INSERT into GCM_COMPANY_DETAILS(CHECK_RECORD, COMPANY_MASTER_SID,COMPANY_NO,COMPANY_NAME,SESSION_ID,SUB_MODULE_NAME,Created_Date)");
-        query.append("SELECT '0', companyMasterSid,companyNo,companyName,'").append(searchSessionId).append("','").append(updateType).append("'");
+        query.append("SELECT '0', companyMasterSid,companyNo,companyName,'").append(searchSessionId).append("','").append(updateType).append('\'');
         query.append(" ,getdate()");
         query.append(" FROM TEMP;");
         query.append(" delete  FROM GCM_COMPANY_DETAILS where getdate()-1>CREATED_DATE");
@@ -370,7 +370,7 @@ public class CompanySearchLogic {
         query.append("With TEMP as (");
         query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
         query.append(") INSERT into GCM_COMPANY_DETAILS(CHECK_RECORD, COMPANY_MASTER_SID,COMPANY_NO,COMPANY_NAME,SESSION_ID,SUB_MODULE_NAME,Created_Date)");
-        query.append("SELECT '0', companyMasterSid,companyNo,companyName,'").append(searchSessionId).append("','").append(updateType).append("'");
+        query.append("SELECT '0', companyMasterSid,companyNo,companyName,'").append(searchSessionId).append("','").append(updateType).append('\'');
         query.append(" ,getdate()");
         query.append(" FROM TEMP;");
         query.append(" delete  FROM GCM_COMPANY_DETAILS where getdate()-1>CREATED_DATE");

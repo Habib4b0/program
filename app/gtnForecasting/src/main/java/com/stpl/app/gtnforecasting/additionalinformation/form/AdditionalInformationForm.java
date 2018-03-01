@@ -177,7 +177,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 attachmentsListBean.addBean(attachmentDTO);
                 fileNameField.setValue(StringUtils.EMPTY);
                 uploader.setValue(StringUtils.EMPTY);
-                CommonUIUtils.successNotification(attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf(".")) + " uploaded successfully");
+                CommonUIUtils.successNotification(attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf('.')) + " uploaded successfully");
             } else {
                 AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
                 uploader.setValue(StringUtils.EMPTY);
@@ -210,7 +210,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);
                     fileNameField.setValue(StringUtils.EMPTY);
-                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf(".")))) {
+                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.')))) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);

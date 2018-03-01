@@ -49,7 +49,7 @@ public class CommonQueryUtils {
           
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
             if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                sql.append(" ");
+                sql.append(' ');
                 sql.append(SQlUtil.getQuery(quaryName2));
             }
 

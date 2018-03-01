@@ -88,8 +88,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
     protected String ALL = "ALL";
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
-    SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
 
+    public static final String SELECT_LEVEL_LABEL = "-Select Level-";
     public static final String SELECT_ALL_LABEL = "Select All";
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -134,11 +135,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
             CommonUtil commonUtils = CommonUtil.getInstance();
             commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
         }
+        init();
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(false);
         }
 
-        init();
     }
 
     /**
@@ -674,12 +675,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setCustRelationshipBuilderSid(projectionDTO.getSessionDTO().getCustRelationshipBuilderSid());
         projectionDTO.setProdRelationshipBuilderSid(projectionDTO.getSessionDTO().getProdRelationshipBuilderSid());
         projectionDTO.setCustomerLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getCustomerLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getCustomerLevelNumber())
-                ? 1 : Integer.valueOf(projectionDTO.getSessionDTO().getCustomerLevelNumber()));
+                ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getCustomerLevelNumber()));
         projectionDTO.setProductLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getProductLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getProductLevelNumber())
-                ? 1 : Integer.valueOf(projectionDTO.getSessionDTO().getProductLevelNumber()));
+                ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getProductLevelNumber()));
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
-        projectionDTO.setUserId(Integer.valueOf(projectionDTO.getSessionDTO().getUserId()));
-        projectionDTO.setSessionId(Integer.valueOf(projectionDTO.getSessionDTO().getSessionId()));
+        projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
+        projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
@@ -688,7 +689,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
-            historyNum = Integer.valueOf(projectionDTO.getHistory());
+            historyNum = Integer.parseInt(projectionDTO.getHistory());
         }
 
         if (toHist) {
@@ -813,11 +814,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     public boolean getSubmitFlag() {
-        if (getCustomContainer().getItemIds().size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return !getCustomContainer().isEmpty();
     }
 
     @Override
@@ -841,7 +838,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void loadProductLevel() {
 
-        int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+        int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
         Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, NAME);
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
@@ -863,9 +860,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
         productFilterDdlb.removeSubMenuCloseListener(productListener);
         productFilterDdlb.removeItems();
-        String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
-        productFilterValues = productFilterDdlb.addItem(productMenuItemValue, null);
-
+        productFilterValues = productFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
         if (!levelNo.isEmpty()) {
             productLevelFilter.add(0, new Object[]{0, SELECT_ALL});
             productLevelFilter.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionDTO, (List) generateCustomerToBeLoaded, Collections.emptyList(), String.valueOf(session.getProductRelationVersion())));
@@ -874,12 +869,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
         productFilterDdlb.setScrollable(true);
         productFilterDdlb.setPageLength(NumericConstants.TEN);
         CommonLogic.loadMenuBar(generateProductToBeLoaded, productFilterValues);
+        String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
         productFilterDdlb.addSubMenuCloseListener(productListener);
     }
     public static final String SELECT_ALL = "Select All";
 
     private void loadCustomerLevel() {
-        int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+        int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
 
@@ -901,8 +898,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         List<Object[]> customerLevelFilter = new ArrayList<>();
         customerFilterDdlb.removeSubMenuCloseListener(cutomerListener);
         customerFilterDdlb.removeItems();
-        String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
-        customerFilterValues = customerFilterDdlb.addItem(customerMenuItemValue, null);
+        customerFilterValues = customerFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
         if (!levelNo.isEmpty()) {
             customerLevelFilter.add(0, new Object[]{0, SELECT_ALL});
             customerLevelFilter.addAll(commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionDTO, (List) generateProductToBeLoaded, new ArrayList<>(), String.valueOf(session.getCustomerRelationVersion())));
@@ -911,6 +907,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
         customerFilterDdlb.setScrollable(true);
         customerFilterDdlb.setPageLength(NumericConstants.TEN);
         CommonLogic.loadMenuBar(generateCustomerToBeLoaded, customerFilterValues);
+        String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
         customerFilterDdlb.addSubMenuCloseListener(cutomerListener);
     }
 
@@ -964,9 +962,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatDdlb.removeItems();
-        displayFormatValues = displayFormatDdlb.addItem("Both", null);
+        displayFormatValues = displayFormatDdlb.addItem("-Select Values-", null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
+        String displayFormatMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
     }
 

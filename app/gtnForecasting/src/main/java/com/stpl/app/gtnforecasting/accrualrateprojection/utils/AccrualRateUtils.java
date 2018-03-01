@@ -186,8 +186,8 @@ public class AccrualRateUtils {
             month = calendar.get(Calendar.MONTH); // 1 should be added to get month number as the index start from 0. In some place, index itself used in calculation.
             Object column = M + (month + 1) + DASH + year + DOT + j;
             periodBasisQuarter = generatePeriodBasis(accrualRateSelectionDTO.getPeriodBasis(), (month + 1) % NumericConstants.THREE, month/ NumericConstants.THREE + 1);
-            tableHeaderDTO.addSingleColumn(column, Q + (periodBasisQuarter == NumericConstants.FIVE ? 1 : periodBasisQuarter) + SPACE + (periodBasisQuarter == NumericConstants.FIVE ? year + 1 : year), Object.class);
-            recordHeaderDTO.addSingleColumn(column, Q + (periodBasisQuarter == NumericConstants.FIVE ? 1 : periodBasisQuarter) + SPACE + (periodBasisQuarter == NumericConstants.FIVE ? year + 1 : year), Object.class);
+            tableHeaderDTO.addSingleColumn(column, Q + (periodBasisQuarter == NumericConstants.FIVE ? 1 : periodBasisQuarter) + ' ' + (periodBasisQuarter == NumericConstants.FIVE ? year + 1 : year), Object.class);
+            recordHeaderDTO.addSingleColumn(column, Q + (periodBasisQuarter == NumericConstants.FIVE ? 1 : periodBasisQuarter) + ' ' + (periodBasisQuarter == NumericConstants.FIVE ? year + 1 : year), Object.class);
             tableHeaderDTO.addDoubleColumn(column, months[month] + SPACE + year);
             recordHeaderDTO.addDoubleColumn(column, months[month] + SPACE + year);
             list.add(column);            
@@ -215,8 +215,8 @@ public class AccrualRateUtils {
             month = calendar.get(Calendar.MONTH); // 1 should be added to get month number as the index start from 0. In some place, index itself used in calculation.
             Object column = M + (month + 1) + DASH + year + DOT + j;
             periodBasisQuarter = generatePeriodBasis(accrualRateSelectionDTO.getPeriodBasis(), (month + 1) % NumericConstants.THREE, month / NumericConstants.THREE + 1);
-            tableHeaderDTO.addSingleColumn(column, Q + (periodBasisQuarter == NumericConstants.FIVE ? 1 : periodBasisQuarter) + SPACE + (periodBasisQuarter == NumericConstants.FIVE ? year + 1 : year), Object.class);
-            recordHeaderDTO.addSingleColumn(column, Q + (periodBasisQuarter == NumericConstants.FIVE ? 1 : periodBasisQuarter) + SPACE + (periodBasisQuarter == NumericConstants.FIVE ? year + 1 : year), Object.class);
+            tableHeaderDTO.addSingleColumn(column, Q + (periodBasisQuarter == NumericConstants.FIVE ? 1 : periodBasisQuarter) + ' ' + (periodBasisQuarter == NumericConstants.FIVE ? year + 1 : year), Object.class);
+            recordHeaderDTO.addSingleColumn(column, Q + (periodBasisQuarter == NumericConstants.FIVE ? 1 : periodBasisQuarter) + ' ' + (periodBasisQuarter == NumericConstants.FIVE ? year + 1 : year), Object.class);
             tableHeaderDTO.addDoubleColumn(column, months[month] + SPACE + year);
             recordHeaderDTO.addDoubleColumn(column, months[month] + SPACE + year);
             list.add(column);

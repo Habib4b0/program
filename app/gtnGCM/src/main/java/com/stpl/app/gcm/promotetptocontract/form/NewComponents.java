@@ -2075,7 +2075,7 @@ public class NewComponents extends CustomComponent implements View {
         } else {
             header = (String[]) ArrayUtils.removeElement(header, Constants.SPACE);
         }
-        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
     }
 
     /*

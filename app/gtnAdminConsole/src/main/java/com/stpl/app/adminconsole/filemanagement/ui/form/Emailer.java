@@ -9,6 +9,7 @@ import com.stpl.ifs.util.constants.GlobalConstants;
 import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -98,9 +99,8 @@ public class Emailer {
                 Transport.send(message);
                 LOGGER.debug("Mail sent succesfully.!");
             }
-        } catch (Exception e) {
+        } catch (MessagingException e) {
             LOGGER.error(e.getMessage());
-            e.printStackTrace();
             ret = "error";
         }
         return ret;

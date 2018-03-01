@@ -975,7 +975,7 @@ public class NMPmpyCalculator extends Window {
         }
         final String tempValuePerLifeValue = String.valueOf(valuePerLife.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
 
-        Double valuePerLifeValue = 1.0;
+        double valuePerLifeValue = 1.0;
 
         if (valuePerLife.getValue() != null && !StringUtils.EMPTY.equals(tempValuePerLifeValue) && !Constant.NULL.equals(tempValuePerLifeValue) && isNumeric(tempValuePerLifeValue)
                 && Double.parseDouble(tempValuePerLifeValue) != 0.0) {
