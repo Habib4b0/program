@@ -80,7 +80,7 @@ public class GtnWsBcpFileUploader {
 			GTNLOGGER.debug(Boolean.toString(isExecutable) + isWritable + isReadable);
 			commandArray = new String[1];
 			commandArray[0] = shellFile.getAbsolutePath();
-			builder = GtnWsProcessService.createProcess(new String[] {strb.toString()});
+			builder = GtnWsProcessService.createProcess(commandArray);
 			File dir = GtnFileNameUtils.getFile(cumulativeBasePath);
 			if (!dir.exists()) {
 				dir.mkdir();
@@ -89,7 +89,6 @@ public class GtnWsBcpFileUploader {
 				isReadable = dir.setReadable(true, false);
 				GTNLOGGER.debug(Boolean.toString(isExecutable) + isWritable + isReadable);
 			}
-                        
 			builder.directory(dir);
 
 		}
@@ -118,10 +117,8 @@ public class GtnWsBcpFileUploader {
 	private StringBuilder createLinuxCommand(String query, String finalFile, String schemaName, String serverName,
 			String userName, String password, String logPath) {
 		StringBuilder strb = new StringBuilder();
-		strb.append("\"/usr/bin/\"");
-		strb.append(", \"-c\", \"");
+		strb.append(System.getProperty("bcp.location"));
 		strb.append(" ");
-		strb.append(" bcp ");
 		strb.append(query);
 		strb.append(finalFile);
 		strb.append(" -c ");
