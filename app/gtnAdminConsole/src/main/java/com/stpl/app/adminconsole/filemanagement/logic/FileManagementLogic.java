@@ -196,10 +196,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM DEMAND_FORECAST DF WHERE FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_COUNTRY_LIKE + country
 					+ StringConstantUtils.AND_FORECAST_VER_LIKE + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -209,10 +209,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT INW.FORECAST_NAME,INW.FORECAST_VER,INW.CREATED_DATE FROM INVENTORY_WD_PROJ_MAS INW WHERE INW.FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_INW_COUNTRY_LIKE + country + "' AND INW.FORECAST_VER like '"
 					+ version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -222,10 +222,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT INW.FORECAST_NAME,INW.FORECAST_VER,INW.CREATED_DATE FROM INVENTORY_WD_PROJ_DT INW WHERE INW.FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_INW_COUNTRY_LIKE + country + "%' AND INW.FORECAST_VER like '"
 					+ version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -235,10 +235,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM CUSTOMER_GTS_FORECAST DF WHERE FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_COUNTRY_LIKE + country
 					+ StringConstantUtils.AND_FORECAST_VER_LIKE + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -248,10 +248,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT FORECAST_NAME, FORECAST_VER, CREATED_DATE FROM dbo.ADJUSTED_DEMAND_FORECAST WHERE FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_COUNTRY_LIKE + country
 					+ StringConstantUtils.AND_FORECAST_VER_LIKE + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
