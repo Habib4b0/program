@@ -1938,6 +1938,7 @@ public class Constant {
     public static final String GROUP_BY_I = " group by I.";
     public static final String AND_B_USER_ID = " and B.USER_ID=";
     public static final String PR_MONTH = ",PR.MONTH";
+    public static final String HIERVER = "@HIERVER";
     public static final String WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD = "   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n";
     public static final String JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP = "   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='";
     public static final String AND_P_CH_PROJECTION_MASTER_SID = "   AND PCH.PROJECTION_MASTER_SID='";

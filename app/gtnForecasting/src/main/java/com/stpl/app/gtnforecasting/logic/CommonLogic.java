@@ -3993,9 +3993,6 @@ public class CommonLogic {
         String queryNameforSales=CommonUtil.isValueEligibleForLoading()?"selected-hierarchy-no-custom-proj":"selected-hierarchy-no-custom";
         String sql;
         sql = SQlUtil.getQuery(queryNameforSales);
-        if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
-            sql += Constant.AND_SPMFILTER_CC_P1;
-        }
         sql = sql.replace("[?Hierarchy-Combination]", getCustomHierarchies(nodeSet));
         return sql;
     }
@@ -4636,7 +4633,7 @@ public class CommonLogic {
         try {
             tableFieldNameList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("sales-filter-customer")
                     .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
-                    .replace(Constant.LEVEL_CAPS, type));
+                    .replace(Constant.LEVEL_CAPS, type).replace(Constant.HIERVER, String.valueOf(projDto.getSessionDTO().getCustomerHierarchyVersion())));
             
             if (!tableFieldNameList.isEmpty()) {
                 String userDefined= userDefinedLevel(salesProjectionDao, projectionId, type,"C");
@@ -4701,7 +4698,7 @@ public class CommonLogic {
         List tableFieldNameList = new ArrayList<>();
         try {
             tableFieldNameList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("sales-filter-product")
-                    .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId)).replace(Constant.LEVEL_CAPS, type));
+                    .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId)).replace(Constant.LEVEL_CAPS, type).replace(Constant.HIERVER, String.valueOf(projectionDto.getSessionDTO().getProductHierarchyVersion())));
             if (!tableFieldNameList.isEmpty()) {
                 Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
 
