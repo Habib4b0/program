@@ -39,6 +39,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.SALES_PERC_OF_EX_FACTO
 import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.LabelConstants.UNITS;
 import static com.stpl.app.utils.Constants.LabelConstants.UNIT_VOL;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
@@ -118,7 +119,7 @@ public class NMSalesProjectionResultsLogic {
 						sprDTO = new SalesProjectionResultsDTO();
 						final Object[] levelObj = (Object[]) levelCount.get(j);
 						sprDTO.addStringProperties(Constant.LEVEL_VALUE_SMALL, String.valueOf(levelObj[1]));
-						sprDTO.setLevelNo(Integer.parseInt(String.valueOf(levelObj[0])));
+						sprDTO.setLevelNo(DataTypeConverter.convertObjectToInt(levelObj[0]));
 						sprDTO.setHierarchyNo(String.valueOf(levelObj[NumericConstants.TWO]));
 						salesDTO = new SalesProjectionResultsDTO();
 						unitsDTO = new SalesProjectionResultsDTO();
@@ -131,7 +132,7 @@ public class NMSalesProjectionResultsLogic {
 								commonColumn = Constant.S + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
 							} else if (frequency.equalsIgnoreCase(MONTHLY.getConstant())) {
 								String monthName = getMonthForInt(
-										Integer.valueOf(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
+										Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
 								commonColumn = monthName + obj[NumericConstants.TWO];
 							} else {
 								commonColumn = StringUtils.EMPTY + obj[NumericConstants.TWO];
@@ -215,8 +216,8 @@ public class NMSalesProjectionResultsLogic {
 				paramArray[0] = NumericConstants.TWO_SEVEN_EIGHT;
 				paramArray[1] = frequency;
 				paramArray[2] = StringUtils.EMPTY;
-				paramArray[3] = Integer.parseInt(String.valueOf(selections[NumericConstants.EIGHT]));
-				paramArray[4] = Integer.parseInt(String.valueOf(selections[NumericConstants.SEVEN]));
+				paramArray[3] = DataTypeConverter.convertObjectToInt(selections[NumericConstants.EIGHT]);
+				paramArray[4] = DataTypeConverter.convertObjectToInt(selections[NumericConstants.SEVEN]);
 				List gtsList = GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray);
 				if (sprList != null && !sprList.isEmpty()) {
 					List<List> list = getRowList(selections);
@@ -224,7 +225,7 @@ public class NMSalesProjectionResultsLogic {
 						sprDTO = new SalesProjectionResultsDTO();
 						final Object[] levelObj = (Object[]) levelCount.get(j);
 						sprDTO.addStringProperties(Constant.LEVEL_VALUE_SMALL, String.valueOf(levelObj[1]));
-						sprDTO.setLevelNo(Integer.parseInt(String.valueOf(levelObj[0])));
+						sprDTO.setLevelNo(DataTypeConverter.convertObjectToInt(levelObj[0]));
 						unitsDTO = new SalesProjectionResultsDTO();
 						for (int i = 0; i < sprList.size(); i++) {
 							salesDTO = new SalesProjectionResultsDTO();
@@ -236,7 +237,7 @@ public class NMSalesProjectionResultsLogic {
 								commonColumn = Constant.S + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
 							} else if (frequency.equalsIgnoreCase(MONTHLY.getConstant())) {
 								String monthName = getMonthForInt(
-										Integer.valueOf(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
+										Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
 								commonColumn = monthName + obj[NumericConstants.TWO];
 							} else {
 								commonColumn = StringUtils.EMPTY + obj[NumericConstants.TWO];
@@ -271,7 +272,7 @@ public class NMSalesProjectionResultsLogic {
 												+ gtsObj[NumericConstants.SIX];
 									} else if (frequency.equalsIgnoreCase(MONTHLY.getConstant())) {
 										String monthName = getMonthForInt(
-												Integer.valueOf(StringUtils.EMPTY + gtsObj[NumericConstants.FOUR]) - 1);
+												Integer.parseInt(StringUtils.EMPTY + gtsObj[NumericConstants.FOUR]) - 1);
 										gtsCommonColumn = monthName + gtsObj[NumericConstants.SIX];
 									} else {
 										gtsCommonColumn = StringUtils.EMPTY + gtsObj[NumericConstants.SIX];
@@ -348,8 +349,8 @@ public class NMSalesProjectionResultsLogic {
 		paramArray[0] = projectionID;
 		paramArray[1] = frequency;
 		paramArray[2] = StringUtils.EMPTY;
-		paramArray[3] = Integer.parseInt(sessionId);
-		paramArray[4] = Integer.parseInt(userId);
+		paramArray[3] = DataTypeConverter.convertStringToInteger(sessionId);
+		paramArray[4] = DataTypeConverter.convertStringToInteger(userId);
 
 		SalesProjectionResultsDTO gtsDTO = new SalesProjectionResultsDTO();
 		List<SalesProjectionResultsDTO> gtsList = new ArrayList<>();
@@ -367,7 +368,7 @@ public class NMSalesProjectionResultsLogic {
 							commonColumn = Constant.S + obj[NumericConstants.THREE] + obj[NumericConstants.SIX];
 						} else if (frequency.equalsIgnoreCase(MONTHLY.getConstant())) {
 							String monthName = getMonthForInt(
-									Integer.valueOf(StringUtils.EMPTY + obj[NumericConstants.FOUR]) - 1);
+									Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.FOUR]) - 1);
 							commonColumn = monthName + obj[NumericConstants.SIX];
 						} else {
 							commonColumn = StringUtils.EMPTY + obj[NumericConstants.SIX];
@@ -422,9 +423,9 @@ public class NMSalesProjectionResultsLogic {
 			current = curMonth / NumericConstants.THREE;
 			division = NumericConstants.FOUR;
 			try {
-				frequency = Integer.valueOf(
+				frequency = Integer.parseInt(
 						hist.replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-				projectFrequency = Integer.valueOf(projFreq.replace("Quarter", StringUtils.EMPTY)
+				projectFrequency = Integer.parseInt(projFreq.replace("Quarter", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
 			}
@@ -432,17 +433,17 @@ public class NMSalesProjectionResultsLogic {
 			current = curMonth / NumericConstants.SIX;
 			division = NumericConstants.TWO;
 			try {
-				frequency = Integer.valueOf(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
-				projectFrequency = Integer.valueOf(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+				frequency = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+				projectFrequency = Integer.parseInt(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
 			}
 		} else if (freq.equals(MONTHLY.getConstant())) {
 			current = curMonth;
 			division = NumericConstants.TWELVE;
 			try {
-				frequency = Integer.valueOf(
+				frequency = Integer.parseInt(
 						hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-				projectFrequency = Integer.valueOf(projFreq.replace("Month", StringUtils.EMPTY)
+				projectFrequency = Integer.parseInt(projFreq.replace("Month", StringUtils.EMPTY)
 						.replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
 			}
@@ -450,8 +451,8 @@ public class NMSalesProjectionResultsLogic {
 			current = curYear;
 			division = 1;
 			try {
-				frequency = Integer.valueOf(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
-				projectFrequency = Integer.valueOf(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
+				frequency = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
+				projectFrequency = Integer.parseInt(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
 			} catch (NumberFormatException e) {
 			}
 		}
@@ -1078,8 +1079,8 @@ public class NMSalesProjectionResultsLogic {
 				List<String> projHeaderValueList = new ArrayList<>();
 				final Object[] obj = (Object[]) list1;
 
-				int year = Integer.valueOf(String.valueOf(obj[col - 1]));
-				int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+				int year = Integer.parseInt(String.valueOf(obj[col - 1]));
+				int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
 				List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
 				String commonColumn = common.get(0);
 
@@ -1342,8 +1343,8 @@ public class NMSalesProjectionResultsLogic {
 		if (list != null && !list.isEmpty()) {
 			for (Object list1 : list) {
 				final Object[] obj = (Object[]) list1;
-				int year = Integer.valueOf(String.valueOf(obj[0]));
-				int period = Integer.valueOf(String.valueOf(obj[1]));
+				int year = Integer.parseInt(String.valueOf(obj[0]));
+				int period = Integer.parseInt(String.valueOf(obj[1]));
 				List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
 				String commonColumn = common.get(0);
 				int col = NumericConstants.TWO;
@@ -1470,8 +1471,8 @@ public class NMSalesProjectionResultsLogic {
 	private void generateContractUnitData(Object[] obj, int frequencyDivision, ProjectionSelectionDTO projSelDTO,
 			SalesProjectionResultsDTO projSalesDTO, SalesProjectionResultsDTO projUnitDTO,
 			SalesProjectionResultsDTO projExFac, List<String> columnList) {
-		int year = Integer.valueOf(String.valueOf(obj[0]));
-		int period = Integer.valueOf(String.valueOf(obj[1]));
+		int year = Integer.parseInt(String.valueOf(obj[0]));
+		int period = Integer.parseInt(String.valueOf(obj[1]));
 		List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
 		String commonColumn = common.get(0);
 		int col = NumericConstants.TWO;
@@ -1579,8 +1580,8 @@ public class NMSalesProjectionResultsLogic {
 		for (Object[] row : list) {
 
 			String column;
-			int year = Integer.valueOf(String.valueOf(row[col - 1]));
-			int period = Integer.valueOf(String.valueOf(row[NumericConstants.FOUR]));
+			int year = Integer.parseInt(String.valueOf(row[col - 1]));
+			int period = Integer.parseInt(String.valueOf(row[NumericConstants.FOUR]));
 			List<String> common;
 			if ("SPR".equals(projSelDTO.getProjTabName())) {
 				common = getCommonColumnHeaderSPR(frequencyDivision, year, period);
@@ -1738,8 +1739,8 @@ public class NMSalesProjectionResultsLogic {
 		for (Object rows : list) {
 			final Object[] row = (Object[]) rows;
 			String column;
-			int year = Integer.valueOf(String.valueOf(row[0]));
-			int period = Integer.valueOf(String.valueOf(row[1]));
+			int year = Integer.parseInt(String.valueOf(row[0]));
+			int period = Integer.parseInt(String.valueOf(row[1]));
 			List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
 			String pcommonColumn = common.get(0);
 			String commonHeader = common.get(1);
@@ -2642,8 +2643,8 @@ public class NMSalesProjectionResultsLogic {
 		for (Object[] row : list) {
 
 			String column;
-			int year = Integer.valueOf(String.valueOf(row[col - 1]));
-			int period = Integer.valueOf(String.valueOf(row[NumericConstants.THREE]));
+			int year = Integer.parseInt(String.valueOf(row[col - 1]));
+			int period = Integer.parseInt(String.valueOf(row[NumericConstants.THREE]));
 			List<String> common;
 			if ("SPR".equals(projSelDTO.getProjTabName())) {
 				common = getCommonColumnHeaderSPR(frequencyDivision, year, period);
@@ -2795,8 +2796,8 @@ public class NMSalesProjectionResultsLogic {
 			}
 			for (Object list1 : list) {
 				final Object[] obj = (Object[]) list1;
-				int year = Integer.valueOf(String.valueOf(obj[col - 1]));
-				int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+				int year = Integer.parseInt(String.valueOf(obj[col - 1]));
+				int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
 				List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
 				String commonColumn = common.get(0);
 
@@ -2920,8 +2921,8 @@ public class NMSalesProjectionResultsLogic {
 		if (list != null && !list.isEmpty()) {
 			for (Object list1 : list) {
 				final Object[] obj = (Object[]) list1;
-				int year = Integer.valueOf(String.valueOf(obj[0]));
-				int period = Integer.valueOf(String.valueOf(obj[1]));
+				int year = Integer.parseInt(String.valueOf(obj[0]));
+				int period = Integer.parseInt(String.valueOf(obj[1]));
 				List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
 				String commonColumn = common.get(0);
 				int col = NumericConstants.TWO;
@@ -3021,8 +3022,8 @@ public class NMSalesProjectionResultsLogic {
 		for (Object[] row : list) {
 
 			String column;
-			int year = Integer.valueOf(String.valueOf(row[0]));
-			int period = Integer.valueOf(String.valueOf(row[1]));
+			int year = Integer.parseInt(String.valueOf(row[0]));
+			int period = Integer.parseInt(String.valueOf(row[1]));
 			List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
 			String pcommonColumn = common.get(0);
 			String commonHeader = common.get(1);
@@ -3141,8 +3142,8 @@ public class NMSalesProjectionResultsLogic {
 		if (list != null && !list.isEmpty()) {
 			for (Object list1 : list) {
 				final Object[] obj = (Object[]) list1;
-				int year = Integer.valueOf(String.valueOf(obj[0]));
-				int period = Integer.valueOf(String.valueOf(obj[1]));
+				int year = Integer.parseInt(String.valueOf(obj[0]));
+				int period = Integer.parseInt(String.valueOf(obj[1]));
 				List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
 				String commonColumn = common.get(0);
 				int col = NumericConstants.TWO;

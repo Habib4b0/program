@@ -203,7 +203,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				fileNameField.setValue(StringUtils.EMPTY);
 				uploader.setValue(StringUtils.EMPTY);
 				CommonUIUtils.successNotification(
-						attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf("."))
+						attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf('.'))
 								+ " uploaded successfully");
 			} else {
 				AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
@@ -325,7 +325,7 @@ public class NotesTabForm extends AbstractNotesTab {
 			LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
 
 			int systemId = masterTableSidValue.equals(StringUtils.EMPTY) ? 0
-					: Integer.parseInt(masterTableSidValue.replace(",", " "));
+					: Integer.parseInt(masterTableSidValue.replace(',', ' '));
 			if (systemId != 0) {
 				attachmentsListBean.addAll(logic.getAttachmentDTOList(systemId, dbModuleName, fileUploadPath));
 			}

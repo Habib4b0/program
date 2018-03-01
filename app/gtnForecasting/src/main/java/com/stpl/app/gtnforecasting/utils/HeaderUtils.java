@@ -665,7 +665,7 @@ public class HeaderUtils {
             projectionOrder = NumericConstants.TWO;
         }
         String yearValue = projSelDTO.getYear();
-        int year = isInteger(yearValue) ? Integer.valueOf(yearValue) : 0;
+        int year = isInteger(yearValue) ? Integer.parseInt(yearValue) : 0;
         int historyStartIndex = -1;
         int projectionStartIndex = -1;
         int forecastStartIndex = -1;
@@ -1162,32 +1162,32 @@ public class HeaderUtils {
             current = curMonth / NumericConstants.THREE;
             division = NumericConstants.FOUR;
             try {
-                frequency = Integer.valueOf(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.valueOf(projFreq.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                frequency = Integer.parseInt(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectFrequency = Integer.parseInt(projFreq.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (freq.contains(Constant.SEMI_ANNUALLY)) {
             current = curMonth / NumericConstants.SIX;
             division = NumericConstants.TWO;
             try {
-                frequency = Integer.valueOf(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.valueOf(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+                frequency = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+                projectFrequency = Integer.parseInt(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (freq.contains(MONTHLY.getConstant())) {
             current = curMonth;
             division = NumericConstants.TWELVE;
             try {
-                frequency = Integer.valueOf(hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.valueOf(projFreq.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                frequency = Integer.parseInt(hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectFrequency = Integer.parseInt(projFreq.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (freq.contains(Constant.ANNUALLY)) {
             current = curYear;
             division = 1;
             try {
-                frequency = Integer.valueOf(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.valueOf(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
+                frequency = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
+                projectFrequency = Integer.parseInt(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         }
@@ -1842,8 +1842,8 @@ public class HeaderUtils {
         int division = NumericConstants.FOUR;
 
         try {
-            frequency = Integer.valueOf(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-            projectFrequency = Integer.valueOf(projFreq);
+            frequency = Integer.parseInt(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+            projectFrequency = Integer.parseInt(projFreq);
         } catch (NumberFormatException e) {
         }
 
@@ -3157,7 +3157,7 @@ public class HeaderUtils {
         String frequency = selection.get(Constant.FREQUENCY).toString();
         String projFreq = selection.get(Constant.PROJECT_FREQUENCY1).toString();
         String hist = selection.get(Constant.HISTORY).toString();
-        int projNum = Integer.valueOf(selection.get(PROJ_NUM).toString());
+        int projNum = Integer.parseInt(selection.get(PROJ_NUM).toString());
         Map<String, Integer> histProjMap = new HashMap<>();
         Calendar ob = Calendar.getInstance();
         int curMonth = ob.get(Calendar.MONTH);
@@ -3170,32 +3170,32 @@ public class HeaderUtils {
             currentPeriod = curMonth / NumericConstants.THREE;
             frequencyDivision = NumericConstants.FOUR;
             try {
-                historyNum = Integer.valueOf(hist.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.valueOf(projFreq.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (frequency.contains(SEMI_ANNUAL.getConstant())) {
             currentPeriod = curMonth / NumericConstants.SIX;
             frequencyDivision = NumericConstants.TWO;
             try {
-                historyNum = Integer.valueOf(hist.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.valueOf(projFreq.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (frequency.contains(MONTHLY.getConstant())) {
             currentPeriod = curMonth;
             frequencyDivision = NumericConstants.TWELVE;
             try {
-                historyNum = Integer.valueOf(hist.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.valueOf(projFreq.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (frequency.contains(ANNUAL.getConstant())) {
             currentPeriod = curYear;
             frequencyDivision = 1;
             try {
-                historyNum = Integer.valueOf(hist.toLowerCase().replace("year", StringUtils.EMPTY).trim());
-                projectionNum = Integer.valueOf(projFreq.toLowerCase().replace("year", StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase().replace("year", StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("year", StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         }

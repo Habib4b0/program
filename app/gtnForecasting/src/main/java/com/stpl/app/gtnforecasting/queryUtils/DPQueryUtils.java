@@ -80,7 +80,7 @@ public class DPQueryUtils {
         int count = Integer.parseInt(session.getTotalDiscountCount());
         String fieldValuequery;
         double val;
-        val = Double.valueOf(fieldValue);
+        val = Double.parseDouble(fieldValue);
         if ("Projected Rate".equals(selectedField)) {
             fieldValuequery = " \n UPDATE DPT SET DPT.DISCOUNT_RATE = ";
         } else if (Constant.PRODUCT_GROWTH.equals(selectedField)) {

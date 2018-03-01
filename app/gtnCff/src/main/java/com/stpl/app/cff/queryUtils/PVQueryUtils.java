@@ -628,8 +628,8 @@ public class PVQueryUtils {
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to, String notSearchProjId) {
         String quotes = "'";
-        String asterik = "*";
-        String percent = "%";
+        char asterik = '*';
+        char percent = '%';
         String marketTypeVal;
         String brandVal;
         String projNameVal;

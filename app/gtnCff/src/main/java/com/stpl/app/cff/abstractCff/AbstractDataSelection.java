@@ -658,9 +658,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 		}
 		if (!productHierarchyEndLevelsHierNo.isEmpty()) {
 			for (int loop = 0, limit = productHierarchyEndLevelsHierNo.size(); loop < limit; loop++) {
-				returnString.append("'");
+				returnString.append('\'');
 				returnString.append(productHierarchyEndLevelsHierNo.get(loop));
-				returnString.append("'");
+				returnString.append('\'');
 				if (loop != (limit - 1)) {
 					returnString.append(", ");
 				}

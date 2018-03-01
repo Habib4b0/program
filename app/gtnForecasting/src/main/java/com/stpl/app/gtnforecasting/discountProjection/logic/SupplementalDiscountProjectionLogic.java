@@ -735,7 +735,7 @@ public class SupplementalDiscountProjectionLogic {
                     queryBuilder1.append("INSERT INTO M_PARITY_LOOKUP (CONTRACT_MASTER_SID,ITEM_MASTER_SID,QUARTER,\"YEAR\",METHODOLOGY, \n");
                     queryBuilder1.append("CONTRACT_PRICE,DISCOUNT_RATE_1,DISCOUNT_RATE_2,CCP_DETAILS_SID) \n");
                     queryBuilder1.append(" VALUES (").append(dto.getContractMasterSid()).append(", ").append(dto.getItemMasterSid()).append(", ").append(dto.getQuarterValue()).append(", ").append(dto.getYearValue()).append(", '\n");
-                    queryBuilder1.append(dto.getMethodology()).append("', ").append(dto.getContract()).append(", ").append(dto.getDiscount1()).append(", ").append(dto.getDiscount2()).append(", ").append(dto.getCcpDetailsSid()).append(")");
+                    queryBuilder1.append(dto.getMethodology()).append("', ").append(dto.getContract()).append(", ").append(dto.getDiscount1()).append(", ").append(dto.getDiscount2()).append(", ").append(dto.getCcpDetailsSid()).append(')');
                     salesDAO.executeUpdateQuery(queryBuilder1.toString());
                 }
 
@@ -828,7 +828,7 @@ public class SupplementalDiscountProjectionLogic {
             if (propertyId.toString().contains(METHODOLOGY.getConstant())) {
                 updateMethodologyWithFormulaDetails(saveDto, propertyId, session, tableLogic);
             } else {
-                query.append("update ST_M_SUPPLEMENTAL_DISC_PROJ SET ").append(saveDto.getPropertyName()).append(" = '").append(saveDto.getPropertyValue(propertyId)).append("'");
+                query.append("update ST_M_SUPPLEMENTAL_DISC_PROJ SET ").append(saveDto.getPropertyName()).append(" = '").append(saveDto.getPropertyValue(propertyId)).append('\'');
                 query.append(" where CCP_DETAILS_SID in (").append(projDetailsID).append(") ");
                 query.append("AND PERIOD_SID in (select PERIOD_SID from \"PERIOD\" where \"YEAR\" = ").append(saveDto.getYear()).append(" and QUARTER = ").append(saveDto.getPeriod()).append(" )");
                 dao.executeUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
@@ -1189,7 +1189,7 @@ public class SupplementalDiscountProjectionLogic {
 
                     SimpleDateFormat sd = new SimpleDateFormat(DATE_FORMAT.getConstant());
                     String date = String.valueOf(obj[NumericConstants.NINE]);
-                    date = date.replace("-", "/");
+                    date = date.replace('-', '/');
                     try {
                         dto.setContractEndDate(String.valueOf(obj[NumericConstants.NINE] == null ? StringUtils.EMPTY : sd.format(sd.parse(date))));
                     } catch (ParseException ex) {

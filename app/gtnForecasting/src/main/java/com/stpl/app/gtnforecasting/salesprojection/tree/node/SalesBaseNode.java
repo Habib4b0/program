@@ -142,7 +142,7 @@ public abstract class SalesBaseNode implements TreeNode, Comparable<SalesBaseNod
         if (parentNode != null) {
             StringBuilder hierarchyBuilder = new StringBuilder();
             hierarchyBuilder.append(parentNode.isApex() ? "" : parentNode.getHierarchyForTable());
-            hierarchyBuilder.append(parentNode.getAllChildHierarchies().indexOf(this)+1).append(".");
+            hierarchyBuilder.append(parentNode.getAllChildHierarchies().indexOf(this)+1).append('.');
             hierarchyForTable = hierarchyBuilder.toString();
         }
     }

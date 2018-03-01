@@ -234,7 +234,7 @@ public class AbstractItemDetails extends CustomComponent {
         if (resultTable.size() != 0) {
             list = summaryLogic.getContractResults(selection, 0, Integer.MAX_VALUE);
         }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), list.size(), this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), list.size(), this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
     }
 
     Component ConfigureTransferItemTable() {

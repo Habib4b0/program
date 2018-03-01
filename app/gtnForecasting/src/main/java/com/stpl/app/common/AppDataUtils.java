@@ -22,7 +22,7 @@ public class AppDataUtils {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 if (queryName2 != null && !queryName2.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(' ');
                     sql.append(SQlUtil.getQuery(queryName2));
                 }
                 for (Object temp : input) {

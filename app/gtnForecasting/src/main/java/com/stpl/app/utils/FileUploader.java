@@ -73,7 +73,7 @@ public class FileUploader implements Receiver {
     public static String getFilePath() {
         StringBuilder path = new StringBuilder(System.getProperty("com.stpl.gtnframework.base.path"));
         path.append("Attachments");
-        path.append("/");
+        path.append('/');
         return path.toString();
     }
 

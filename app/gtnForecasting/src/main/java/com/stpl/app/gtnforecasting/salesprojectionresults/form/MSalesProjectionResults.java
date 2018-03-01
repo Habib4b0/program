@@ -461,15 +461,15 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
                 toHist = true;
                 if (freq.equals(QUARTERLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 } else if (freq.equals(SEMI_ANNUALLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(MONTHLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(ANNUALLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 }
                 projectionDTO.setHistory(hist.toString());
                 projectionDTO.setProjection(hist.toString());
@@ -479,8 +479,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             projectionId = session.getProjectionId();
             projectionDTO.setScreenName(screenName);
             projectionDTO.setHistoryNum(historyNum);
-            projectionDTO.setUserId(Integer.valueOf(session.getUserId()));
-            projectionDTO.setSessionId(Integer.valueOf(session.getSessionId()));
+            projectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+            projectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
             projectionDTO.setActualsOrProjections(actualOrProj.getValue().toString());
             projectionDTO.setProjectionId(projectionId);
             projectionDTO.setSalesOrUnit(salesOrUnits.getValue().toString());
@@ -489,8 +489,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             projectionDTO.setCustomId(customId);
             projectionDTO.setView(view.getValue().toString());
 
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             projectionDTO.setStartDate(session.getFromDate());
             projectionDTO.setStartDate(session.getToDate());
             if (session.getFromDate() != null && session.getToDate() != null) {
@@ -626,7 +626,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         LOGGER.debug("levelFilterDdlbChangeOption inititated");
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue(), true);
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -733,7 +733,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
 
     private void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo > 0) {
             if (projectionDTO.isIsFilter()) {
                 levelFilter.removeValueChangeListener(levelFilterChangeOption);

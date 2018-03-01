@@ -780,7 +780,7 @@ public class AbstractComponentInfo extends CustomComponent {
             selection.setFilters(tablelogic.getFilters());
             recordCount = logic.getComponentInfoCount(binderDto, selection);
         }
-        ExcelExportforBB.createWorkSheet(currentComponentTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(currentComponentTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
