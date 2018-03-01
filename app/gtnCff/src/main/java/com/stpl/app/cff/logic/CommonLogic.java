@@ -685,7 +685,7 @@ public class CommonLogic {
                     }
                 }
                 procedureToCall.replace(procedureToCall.lastIndexOf(ConstantsUtil.COMMA), procedureToCall.lastIndexOf(ConstantsUtil.COMMA) + 1, StringUtils.EMPTY);
-                procedureToCall.append(')');
+                procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
                     statement.setObject(i + 1, orderedArgs[i]);
@@ -747,7 +747,7 @@ public class CommonLogic {
                     }
                 }
                 procedureToCall.replace(procedureToCall.lastIndexOf(ConstantsUtil.COMMA), procedureToCall.lastIndexOf(ConstantsUtil.COMMA) + 1, StringUtils.EMPTY);
-                procedureToCall.append(')');
+                procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
                     statement.setObject(i + 1, orderedArgs[i]);

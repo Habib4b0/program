@@ -1290,7 +1290,7 @@ public class CommonServiceImpl {
                 queryString.append(sids);
                 queryString.append(" in (");
                 queryString.append(String.valueOf(parameters.get("sids")));
-                queryString.append('\'');
+                queryString.append(')');
             }
 
             queryString.append(StringConstantsUtil.Q_FILTER);
