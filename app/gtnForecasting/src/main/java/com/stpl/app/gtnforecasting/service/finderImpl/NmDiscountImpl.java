@@ -737,7 +737,7 @@ public class NmDiscountImpl {
             return 0;
         }
         if (list != null && !list.isEmpty()) {
-            return Integer.valueOf(String.valueOf(list.get(0)));
+            return Integer.parseInt(String.valueOf(list.get(0)));
         } else {
             return 0;
         }
@@ -770,7 +770,7 @@ public class NmDiscountImpl {
         }
 
         if (list != null && !list.isEmpty()) {
-            return Integer.valueOf(String.valueOf(list.get(0)));
+            return Integer.parseInt(String.valueOf(list.get(0)));
         } else {
             return -1;
         }
@@ -2469,7 +2469,7 @@ public class NmDiscountImpl {
 
         String sql = StringUtils.EMPTY;
         try {
-            int customViewNo = Integer.valueOf(customViewId);
+            int customViewNo = Integer.parseInt(customViewId);
             sql = "SELECT distinct CCPMAPC.CCP_DETAILS_SID FROM "
                     + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID"
                     + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"

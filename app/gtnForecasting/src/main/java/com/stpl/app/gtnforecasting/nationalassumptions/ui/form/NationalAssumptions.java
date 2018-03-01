@@ -50,6 +50,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
@@ -668,6 +669,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForBaselineTable.setContainerDataSource(baselineResultsBean);
         periodsForBaselineTable.addStyleName(Constant.FILTER_TABLE);
         periodsForBaselineTable.addStyleName("valo-theme-extfiltertable");
+        periodsForBaselineTable.addStyleName("border-zero-table");
         periodsForBaselineTable.setVisibleColumns(CommonUiUtils.getBaselinePeriodColumns());
         periodsForBaselineTable.setColumnHeaders(CommonUiUtils.getBaselinePeriodHeader());
         periodsForBaselineTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
@@ -731,6 +733,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.addStyleName("table-header-padding");
         periodsForRollingAvgTable.addStyleName(Constant.FILTER_TABLE);
         periodsForRollingAvgTable.addStyleName("valo-theme-extfiltertable");
+        periodsForRollingAvgTable.addStyleName("border-zero-table");
         periodsForRollingAvgTable.setHeight("228px");
         periodsForRollingAvgTable.setWidth("292px");
         periodsForRollingAvgTable.setPageLength(NumericConstants.FIVE);
@@ -738,8 +741,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.setVisibleColumns(CommonUiUtils.getBaselinePeriodColumns());
         periodsForRollingAvgTable.setColumnHeaders(CommonUiUtils.getBaselinePeriodHeader());
         periodsForRollingAvgTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
-        periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.NINTY_FIVE);
-        periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
+        periodsForRollingAvgTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.NINTY_FIVE);
+        periodsForRollingAvgTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
         periodsForRollingAvgTable.setColumnCheckBox(CHECK.getConstant(), true);
         periodsForRollingAvgTable.setTableFieldFactory(new DefaultFieldFactory() {
             /**
@@ -1439,7 +1442,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     }
                     ndcList.add(ndcDesc);
                     listItemNo.add(ndcDesc);
-                    itemMasterSidMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDesc);
+                    itemMasterSidMap.put(DataTypeConverter.convertObjectToInt(obj[0]), ndcDesc);
                     nonFampMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FIVE]));
                     fssMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.SIX]));
                     federalWacMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FOUR]));
@@ -1451,7 +1454,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     ndcDto.setNonFamp(String.valueOf(obj[NumericConstants.FIVE]));
                     ndcDto.setFssOGA(String.valueOf(obj[NumericConstants.SIX]));
                     ndcDto.setNdcDescription(ndcDesc);
-                    federalMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDto);
+                    federalMap.put(DataTypeConverter.convertObjectToInt(obj[0]), ndcDto);
                 }
 
             }
@@ -1471,7 +1474,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
     public void getNDCSetup(String projectionId) throws NamingException, SQLException {
         callNDCPopupProcedure();
-        String ndcNo = Arrays.toString(ndcList.toArray()).replace("[", " ").replace("]", " ");
+        String ndcNo = Arrays.toString(ndcList.toArray()).replace('[', ' ').replace(']', ' ');
         if (StringUtils.isNotBlank(ndcNo)) {
             if (logic.isAFSSPriceTypeAvailable(projectionId)) {
                 new AbstractNotificationUtils() {
