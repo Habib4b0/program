@@ -32,33 +32,25 @@ public class SchedulerExcelEport extends ExcelExport {
 		this.serverPAth = serverPAth;
 	}
 
-	@Override
-	public boolean sendConverted() {
-		File tempFile = null;
-		FileOutputStream fileOut = null;
-		try {
+	   @Override
+    public boolean sendConverted() {
+        File tempFile;
+        tempFile = GtnFileUtil.getFile(serverPAth + "/" + exportFileName);
+        if (!tempFile.exists()) {
+            tempFile.getParentFile().mkdirs();
 
-			tempFile = GtnFileUtil.getFile(serverPAth + "/" + exportFileName);
-			if (!tempFile.exists()) {
-				tempFile.getParentFile().mkdirs();
+        }
 
-			}
-			fileOut = new FileOutputStream(tempFile);
+        try (FileOutputStream fileOut = new FileOutputStream(tempFile)) {
+            workbook.write(fileOut);
+        } catch (final IOException e) {
+            LOGGER.error(e.getMessage());
+            return false;
+        } finally {
+            tempFile.deleteOnExit();
 
-			workbook.write(fileOut);
-
-		} catch (final IOException e) {
-			LOGGER.error(e.getMessage());
-			return false;
-		} finally {
-			tempFile.deleteOnExit();
-			try {
-				fileOut.close();
-			} catch (final IOException e) {
-				LOGGER.error(e.getMessage());
-			}
-		}
-		return true;
-	}
+        }
+        return true;
+    }
 
 }
