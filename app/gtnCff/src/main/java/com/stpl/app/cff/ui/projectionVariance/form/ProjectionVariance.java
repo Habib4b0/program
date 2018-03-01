@@ -1070,7 +1070,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 export.export();
             }
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
