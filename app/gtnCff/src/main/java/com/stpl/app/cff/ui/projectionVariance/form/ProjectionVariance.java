@@ -1068,7 +1068,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 export.export();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("",ex);
         }
 
     }
@@ -2223,8 +2223,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         listHeaders.remove(GROUP_PROPERTY);
 
         fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
-        fullHeader.getSingleColumns().remove(GROUP_PROPERTY);
-        fullHeader.getSingleHeaders().remove(0);
+        if (fullHeader.getSingleColumns().contains(GROUP_PROPERTY)) {
+            fullHeader.getSingleColumns().remove(GROUP_PROPERTY);
+            fullHeader.getSingleHeaders().remove(0);
+        }
 
         Object[] displayFormatIndex = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
         if (displayFormatIndex.length == 1) {
@@ -2235,12 +2237,12 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     listHeaders.remove("dfLevelName");
                     fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
                     fullHeader.getSingleColumns().remove("dfLevelName");
-                    fullHeader.getSingleHeaders().remove(1);
+                    fullHeader.getSingleHeaders().remove("Level Name");
                 } else {
                     listHeaders.remove("dfLevelNumber");
                     fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
                     fullHeader.getSingleColumns().remove("dfLevelNumber");
-                    fullHeader.getSingleHeaders().remove(0);
+                    fullHeader.getSingleHeaders().remove("Level Number");
                 }
 
             }

@@ -497,6 +497,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             uomLb.setWidth("120px");
             gridlay.addComponent(uomDdlb);
             gridlay.addComponent(displayFormatLabel);
+            displayFormatDdlb.setStyleName("custommenumulticheck");
+            displayFormatDdlb.setWidth("200px");
             displayFormatLabel.setWidth("120px");
             gridlay.addComponent(displayFormatDdlb);
         } else {
@@ -3049,15 +3051,17 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.info("COLUMNS-----------------= {}", Arrays.asList(leftTableExcelColumns));
 
             Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
+            String removeColumn = StringUtils.EMPTY;
             if (displayFormatIndex.length == 1) {
                 for (int i = 0; i < displayFormatIndex.length; i++) {
                     LOGGER.info("obj--------------= {}", i);
                     int index = (Integer) displayFormatIndex[i];
                     if (index == 0) {
+                        removeColumn = DF_LEVEL_NAME;
                         leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, DF_LEVEL_NAME);
                         objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, LEVEL_NAME_HEADER);
                     } else {
-
+                        removeColumn = DF_LEVEL_NUMBER;
                         leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, DF_LEVEL_NUMBER);
                         objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, LEVEL_NUMBER_HEADER);
 
@@ -3070,6 +3074,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<Object> listHeadersList = new ArrayList(Arrays.asList(singleHeaderArray));
             listHeadersList.remove(LEVEL_NAME_PROPERTY);
             listHeadersList.remove("group");
+            if (!removeColumn.isEmpty()) {
+                listHeadersList.remove(removeColumn);
+            }
             excelHeaderLeft.getDoubleHeaderMaps().put(GROUP_PROPERTY_ID, listHeadersList.toArray());
             excelTable.setDoubleHeaderVisible(true);
             excelTable
