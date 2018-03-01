@@ -545,7 +545,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                 if (company == null) {
                     tableLogic.clearAll();
                 } else {
-
+                	loadCurrentFile();
                     tableLogic.configureSearchData(CommonUtil.getSelectedFileType(fileType), String.valueOf(country.getValue()), String.valueOf(businessUnit.getValue()), company.getValue());
                 }
 
@@ -637,6 +637,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                         || "null".equals(fileType.getValue().toString().trim())
                         || "0".equals(fileType.getValue().toString().trim())) {
                 } else {
+                	loadCurrentFile();
                     tableLogic.configureSearchData(CommonUtil.getSelectedFileType(fileType), String.valueOf(country.getValue()), String.valueOf(businessUnit.getValue()), company.getValue());
                     fileHistoryTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     fileHistoryTable.setFilterGenerator(new FileManagementFilterGenerator());
@@ -664,7 +665,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                     effectiveDateStr.setValue(ConstantsUtils.EMPTY);
                     selectFile.setValue(ConstantsUtils.EMPTY);
                 } else {
-                    final FileManagementLogic fileMgtLogic = new FileManagementLogic();
+                    
                     try {
                         fileString[1] = String.valueOf(country.getValue());
                         tableLogic.configureSearchData(CommonUtil.getSelectedFileType(fileType), fileString[1], String.valueOf(businessUnit.getValue()), company.getValue());
@@ -676,14 +677,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                         fileHistoryTable.setSelectable(true);
                         fileHistoryTable.markAsDirtyRecursive();
 
-                        currentFile.setValue(ConstantsUtils.EMPTY);
-                        currentFileHidden.setValue(ConstantsUtils.EMPTY);
-                        effectiveDateStr.setValue(ConstantsUtils.EMPTY);
-                        selectFile.setValue(ConstantsUtils.EMPTY);
-                        final FileManagementDTO fileMgtDTO = fileMgtLogic.getCurrentFileInfo(CommonUtil.getSelectedFileType(fileType), String.valueOf(businessUnit.getValue()), company.getValue());
-                        currentFile.setValue(fileMgtDTO.getCurrentFile());
-                        currentFileHidden.setValue(fileMgtDTO.getCurrentFile());
-                        effectiveDateStr.setValue(fileMgtDTO.getEffectiveDate());
+                        loadCurrentFile();
 
                     } catch (SystemException e) {
 
@@ -853,6 +847,17 @@ public class FileManagementIndex extends CustomComponent implements View {
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
         }
+    }
+    private void loadCurrentFile() {
+    	final FileManagementLogic fileMgtLogic = new FileManagementLogic();
+    	 currentFile.setValue(ConstantsUtils.EMPTY);
+         currentFileHidden.setValue(ConstantsUtils.EMPTY);
+         effectiveDateStr.setValue(ConstantsUtils.EMPTY);
+         selectFile.setValue(ConstantsUtils.EMPTY);
+         final FileManagementDTO fileDTO = fileMgtLogic.getCurrentFileInfo(CommonUtil.getSelectedFileType(fileType), String.valueOf(businessUnit.getValue()), company.getValue());
+         currentFile.setValue(fileDTO.getCurrentFile());
+         currentFileHidden.setValue(fileDTO.getCurrentFile());
+         effectiveDateStr.setValue(fileDTO.getEffectiveDate());
     }
     
 }

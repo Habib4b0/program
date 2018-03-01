@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.module.netsales.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -189,7 +190,7 @@ public class GtnWsNsfService {
 			GtnWsGeneralRequest nsfSaveRequest = nsfSaveWsRequest.getGtnWsGeneralRequest();
 			NetSalesFormulaMaster formulaMaster = getNetSalesFormulaMasterModel(nsfInfoBean, nsfSaveRequest, session);
 			Integer nsfSystemId = (Integer) session.save(formulaMaster);
-			getNfsInfo(session, nsfSaveRequest, nsfSystemId);
+			getNfsInfo(session, nsfSaveRequest, nsfSystemId,false);
 			tx.commit();
 			return nsfSystemId;
 		} catch (Exception e) {
@@ -200,22 +201,44 @@ public class GtnWsNsfService {
 		}
 	}
 
-	private void getNfsInfo(Session session, GtnWsGeneralRequest nsfSaveRequest, Integer nsfSystemId)
+	private void getNfsInfo(Session session, GtnWsGeneralRequest nsfSaveRequest, Integer nsfSystemId,boolean isEdit)
 			throws GtnFrameworkGeneralException {
+		
 		String salesBasisQuery = gtnWsSqlService.getQuery("getNsfSalesBasisMergeQuery");
 		String deductionQuery = gtnWsSqlService.getQuery("getNsfDeductionsMergeQuery");
+		String updatedeductionQuery=gtnWsSqlService.getQuery("getDeductionsRemoveUpdateRecordQuery");
+		String updatedeductionQueryisEmpty=gtnWsSqlService.getQuery("getDeductionsRemoveUpdateRecordQueryisempty");
+		
 		String deleteTempQuery = gtnWsSqlService.getQuery("getNsfDeleteTempTableDataQuery");
+
 		Object[] params = { nsfSystemId, nsfSaveRequest.getUserId(), nsfSaveRequest.getSessionId() };
 		Object[] deleteQueryParams = { nsfSaveRequest.getUserId(), nsfSaveRequest.getSessionId() };
 		GtnFrameworkDataType[] types = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING };
 		GtnFrameworkDataType[] deleteQueryTypes = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING };
+		
+		if (isEdit) {
+			@SuppressWarnings("unchecked")
+			List<Integer> selectList = (List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(gtnWsSqlService.getQuery(
+					Arrays.asList(nsfSystemId, nsfSaveRequest.getUserId(), nsfSaveRequest.getSessionId()),
+					"getDeductionsupdateselectRecordQuery")));
+			Object[] paramsUpdate = { nsfSystemId, selectList };
+			GtnFrameworkDataType[] updateQueryTypes = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.IN_LIST };
+			Object[] paramsisempty = { nsfSystemId };
+			GtnFrameworkDataType[] isemptyTypes = { GtnFrameworkDataType.INTEGER };
+			if (selectList.isEmpty()) {
+				gtnSqlQueryEngine.executeInsertOrUpdateQuery(updatedeductionQueryisEmpty, paramsisempty, isemptyTypes,
+						session);
+			} else {
+				gtnSqlQueryEngine.executeInsertOrUpdateQuery(updatedeductionQuery, paramsUpdate, updateQueryTypes,
+						session);
+			}
+		}
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(salesBasisQuery, params, types, session);
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(deductionQuery, params, types, session);
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteTempQuery, deleteQueryParams, deleteQueryTypes, session);
 	}
-
-	public void updateNsfInfo(GtnUIFrameworkWebserviceRequest nsfRequest) throws GtnFrameworkGeneralException {
+		public void updateNsfInfo(GtnUIFrameworkWebserviceRequest nsfRequest) throws GtnFrameworkGeneralException {
 
 		Session session = getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -224,7 +247,7 @@ public class GtnWsNsfService {
 			GtnWsGeneralRequest generalRequest = nsfRequest.getGtnWsGeneralRequest();
 			NetSalesFormulaMaster formulaMaster = getNetSalesFormulaMasterModel(nsfInfoBean, generalRequest, session);
 			session.saveOrUpdate(formulaMaster);
-			getNfsInfo(session, generalRequest, nsfInfoBean.getSystemId());
+			getNfsInfo(session, generalRequest, nsfInfoBean.getSystemId(),true);
 			tx.commit();
 
 		} catch (Exception e) {
@@ -443,6 +466,7 @@ public class GtnWsNsfService {
 		Object[] params = { generalWSRequest.getUserId(), generalWSRequest.getSessionId() };
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, type);
 	}
+	
 
 	public String getRemoveRecordQuery(GtnWsNsfUpdateBean nsfUpdateBean) {
 		if (nsfUpdateBean.isSalesBasis()) {
@@ -452,7 +476,7 @@ public class GtnWsNsfService {
 		}
 
 	}
-
+	
 	public void deleteNsfRecord(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 		GtnWsNetSalesFormulaGeneralRequest gtnWsNetSalesGeneralRequest = gtnWsRequest.getGtnWsNetSalesGeneralRequest();
 		GtnUIFrameworkNsfInfoBean nSfInfoBean = gtnWsNetSalesGeneralRequest.getnSfInfoBean();

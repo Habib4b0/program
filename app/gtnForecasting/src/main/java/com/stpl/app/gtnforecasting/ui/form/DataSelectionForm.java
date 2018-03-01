@@ -4646,6 +4646,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	@Override
 	protected void resetButtonLogic() {
+                forecastEligibleDate.setValue(dsLogic.getDefaultEligibleDateFromForecastConfiguration());
 		discount.select(discountDdlbDefault);
 	}
 
