@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.util;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -55,11 +56,11 @@ public class GtnFrameworkRSConstants {
 	public static final String RS_NS_RULE_VIEW = "RSNSRuleView";
 	public static final String RS_STATUS = "rsStatus";
 
-	private static final String[] RS_LOOKUP_COLUMN = { "systemId", "rsId", "rsNo", "rsName", "rsType", RS_STATUS };
+	private static final String[] RS_LOOKUP_COLUMN = { "systemId", "rsId", "rsNo", "rsName", "rsType", "rsStatus","rsCategory",GtnFrameworkCommonConstants.START_DATE,GtnFrameworkCommonConstants.END_DATE,"rsDesignation","parentRsId","parentRsName"};
 	private static final String[] RS_LOOKUP_HEADER = { "System ID", "Rebate Schedule ID", "Rebate Schedule No",
-			"Rebate Schedule Name", "Rebate Schedule Type", "Rebate Schedule Status" };
+			"Rebate Schedule Name", "Rebate Schedule Type", "Rebate Schedule Status", "Rebate Schedule Category", "Start Date", "End Date", "Rebate Schedule Designation", "Parent ID", "Parent Name"};
 	private static final Class<?>[] RS_LOOKUP_COLUMN_TYPE = { String.class, String.class, String.class, String.class,
-			String.class, String.class };
+			String.class, String.class, String.class, Date.class, Date.class, String.class, String.class, String.class };
 
 	private static final String[] RULE_LOOKUP_COLUMN = { "ruleType", "ruleNo", "ruleName", "ruleCategory" };
 	private static final String[] RULE_LOOKUP_HEADER = { "Rule Type", "Rule No", "Rule Name", "Rule Category" };

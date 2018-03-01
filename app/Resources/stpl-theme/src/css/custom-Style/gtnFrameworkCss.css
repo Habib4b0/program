@@ -1569,3 +1569,15 @@
 .v-auto-height-window {
     height: auto !important;
 }
+
+.body-fixed{
+    position: fixed !important;
+}
+
+.border-zero-table{
+    border: 1px solid #d4d4d4;
+}
+
+.border-zero-table .v-table-header-wrap, .border-zero-table .v-table-body-wrapper.v-table-body{
+    border: 0px !important;
+}

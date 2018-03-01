@@ -24,7 +24,13 @@ public class GtnUIFrameworkPopupCloseAction implements GtnUIFrameWorkAction {
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId);
 		CustomWindow customWindow = componentData.getCustomWindow();
 		if (customWindow != null) {
+			try{
 			customWindow.close();
+			}
+			catch(Exception e)
+			{
+				logger.error("Exception:"+e.getMessage());
+			}
 		}
 
 		GtnUIFrameworkGlobalUI.removeViewFromNavigator(componentId);

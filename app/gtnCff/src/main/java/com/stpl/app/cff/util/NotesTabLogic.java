@@ -55,7 +55,7 @@ public class NotesTabLogic {
 					attachmentDTO.setDocDetailsId(docDetails.getMasterDataFilesSid());
 					String filePath = docDetails.getFilePath();
 					attachmentDTO.setDocumentFullPath(filePath);
-					attachmentDTO.setDocumentName(filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("_")) + filePath.substring(filePath.lastIndexOf(".")));
+					attachmentDTO.setDocumentName(filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_')) + filePath.substring(filePath.lastIndexOf('.')));
 					String tempfilePath = docDetails.getFilePath();
 					attachmentDTO.setDocumentFullPath(tempfilePath);
 					String fileNameWithId = tempfilePath.replace(filepath, "");

@@ -318,7 +318,7 @@ public class RelationshipOutboundProcess extends Window {
                     checkedAll = true;
                 } else if (!checkedHierarchy.isEmpty()) {
                     for (String keyId : checkedHierarchy.keySet()) {
-                        ids.append(",").append(keyId);
+                        ids.append(',').append(keyId);
                     }
                     checkedIds = ids.toString().replaceFirst(",", ConstantsUtils.EMPTY);
                 }

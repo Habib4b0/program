@@ -199,7 +199,7 @@ public class HeaderUtils {
                 String commonHeader = projectionHeaderList.get(i);
                 List<Object> dmap = new ArrayList<>();
                 
-                int tempYear=frequencyDivision==1 ? 0 :Integer.valueOf(commonHeader.trim().split(" ")[1]);
+                int tempYear=frequencyDivision==1 ? 0 :Integer.parseInt(commonHeader.trim().split(" ")[1]);
                 
                 if ((flag) && year!=tempYear) {
                     yearwiseColumns= new ArrayList<>();

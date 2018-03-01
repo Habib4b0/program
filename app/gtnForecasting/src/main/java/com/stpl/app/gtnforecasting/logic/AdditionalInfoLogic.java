@@ -147,7 +147,7 @@ public class AdditionalInfoLogic {
                 attachmentDTO = new AttachmentDTO();
                 if (docDetails.getFileType().trim().length() > Constant.ZERO) {
                     attachmentDTO.setDocumentName((docDetails.getFileName().contains("_".concat(String.valueOf(projectionId)))
-                            ? docDetails.getFileName().replace("_".concat(String.valueOf(projectionId)), StringUtils.EMPTY) : docDetails.getFileName()) + "." + docDetails.getFileType());
+                            ? docDetails.getFileName().replace("_".concat(String.valueOf(projectionId)), StringUtils.EMPTY) : docDetails.getFileName()) + '.' + docDetails.getFileType());
                 } else {
                     attachmentDTO.setDocumentName(docDetails.getFileName().contains("_".concat(String.valueOf(projectionId)))
                             ? docDetails.getFileName().replace("_".concat(String.valueOf(projectionId)), StringUtils.EMPTY) : docDetails.getFileName());

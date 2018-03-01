@@ -41,25 +41,26 @@ public enum WeekDay {
     /**
          * Gets the WeekDay.
          *
-         * @param int the day value
+     * @param day
          * @return the WeekDay
          */
         public static  WeekDay getWeekDay(int day) {
-            if (day == 0) {
+        switch (day) {
+            case 0:
                 return WeekDay.SUNDAY;
-            }else if (day == 1) {
+            case 1:
                 return WeekDay.MONDAY;
-            }else if (day == 2) {
+            case 2:
                 return WeekDay.TUESDAY;
-            }else if (day == 3) {
+            case 3:
                 return WeekDay.WEDNESDAY;
-            }else if (day == 4) {
+            case 4:
                 return WeekDay.THURSDAY;
-            }else if (day == 5) {
+            case 5:
                 return WeekDay.FRIDAY;
-            }else if (day == 6) {
+            case 6:
                 return WeekDay.SATURDAY;
-            }else {
+            default:
                 return null;
             }
         }

@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
@@ -43,7 +44,7 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		addRpPopupButtonLayout(rpPopupComponentList);
 		addRpPopupResultPanel(rpPopupComponentList);
 		addRpPopupActionButtonLayout(rpPopupComponentList);
-
+		addExcelButtonComponent(rpPopupComponentList);
 	}
 
 	private void addRpPopupSearchCriteriaPanel(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -124,7 +125,7 @@ public class GtnFrameworkRPPopUpSearchConfig {
 				GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NO, true, "rebatePlanNoLayout",
 				GtnUIFrameworkComponentType.TEXTBOX);
 		rebatePlanConfig.setAuthorizationIncluded(true);
-		rebatePlanConfig.setComponentName("Rebate Plan NO");
+		rebatePlanConfig.setComponentName("Rebate Plan No");
 
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
 		gtnUIFrameworkValidationConfig.setMaxLength(5);
@@ -401,4 +402,19 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		return customFilterConfigMap;
 	}
 
+	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig excelButtonConfig = configProvider.getUIFrameworkComponentConfig("rpLookupAddExcel",
+				true, GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT, GtnUIFrameworkComponentType.EXCEL_BUTTON);
+		excelButtonConfig.setAuthorizationIncluded(true);
+		excelButtonConfig.setComponentName("true;");
+		componentList.add(excelButtonConfig);
+		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonConfig = configProvider.getExcelBtnconfig(
+				"Rebate Plan", true, "rpPopUpSearchResultTable", false);
+		excelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonConfig);
+		GtnUIFrameWorkActionConfig excelAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
+		excelAction.addActionParameter(gtnUIFrameworkExcelButtonConfig);
+		excelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
+
+	}
 }

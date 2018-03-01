@@ -29,15 +29,14 @@
 			<version>0.9.1.2_1</version>
 		</dependency>
 		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.7.8</version>
+		</dependency>
+		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.2.2</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
+			<version>2.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.app</groupId>
@@ -53,16 +52,6 @@
 			<groupId>com.stpl.ifs</groupId>
 			<artifactId>gtnUtility</artifactId>
 			<version>1.0</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>dom4j</artifactId>
-					<groupId>dom4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>hibernate-validator</artifactId>
-					<groupId>org.hibernate</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>gtnHierarchyRouteBuilder</groupId>

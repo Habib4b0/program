@@ -190,6 +190,7 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String GREATER_THAN = ">";
 	public static final String CUMULATIVE_FILE_PATH = "cumulative.file.path";
 	public static final String ATTACHMENTS = "Attachments";
+        public static final String NET_SALES = "Net Sales";
 
 	private GtnFrameworkCommonStringConstants() {
 	}

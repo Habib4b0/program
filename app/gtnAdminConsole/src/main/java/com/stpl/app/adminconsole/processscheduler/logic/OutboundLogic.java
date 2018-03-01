@@ -126,14 +126,14 @@ public class OutboundLogic {
             if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
                     if (StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY.equalsIgnoreCase(fields)) {
 
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append('\'');
 
                     } else if (ConstantsUtils.CREATED_DATE_FROM.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append("'");
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else if (ConstantsUtils.CREATED_DATE_TO.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append("'");
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace("*", "%")).append("'");
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
                     }
             }
         }
@@ -587,13 +587,13 @@ public class OutboundLogic {
         for (String fields : keys) {
             if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
                     if (StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append('\'');
                     } else if (ConstantsUtils.CREATED_DATE_FROM.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append("'");
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else if (ConstantsUtils.CREATED_DATE_TO.equalsIgnoreCase(fields)) {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append("'");
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                     } else {
-                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace("*", "%")).append("'");
+                        queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
                     }
             }
         }
@@ -761,7 +761,7 @@ public class OutboundLogic {
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                allIds.append(",").append(String.valueOf(list.get(i)));
+                allIds.append(',').append(String.valueOf(list.get(i)));
             }
         }
         return allIds.toString().replaceFirst(",", "");
@@ -852,17 +852,17 @@ public class OutboundLogic {
                     if (StringConstantUtils.HIERARCHY_NAME_DDLB.equalsIgnoreCase(fields)) {
                         if (searchFields.getField(StringConstantUtils.HIERARCHY_NAME_DDLB).getValue() != null && StringUtils.isNotBlank(searchFields.getField(StringConstantUtils.HIERARCHY_NAME_DDLB).getValue().toString())
                                 && ((HelperDTO) searchFields.getField(StringConstantUtils.HIERARCHY_NAME_DDLB).getValue()).getId() != 0) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getDescription()).append("'");
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getDescription()).append('\'');
                         }
                     } else if (searchFields.getField(fields).getValue() != null && !String.valueOf(searchFields.getField(fields).getValue()).trim().isEmpty()) {
                         if (StringConstantUtils.RELATIONSHIP_TYPE_PROPERTY.equalsIgnoreCase(fields)) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" = '").append(hierarchyTypeMap.get(String.valueOf(searchFields.getField(fields).getValue()))).append("'");
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" = '").append(hierarchyTypeMap.get(String.valueOf(searchFields.getField(fields).getValue()))).append('\'');
                         } else if (StringConstantUtils.START_DATE_FROM.equalsIgnoreCase(fields) || StringConstantUtils.CREATION_DATE_FROM.equalsIgnoreCase(fields)) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append("'");
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" > '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                         } else if (StringConstantUtils.START_DATE_TO.equalsIgnoreCase(fields) || StringConstantUtils.CREATION_DATE_TO.equalsIgnoreCase(fields)) {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append("'");
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(" < '").append(DBDate.format((Date) searchFields.getField(fields).getValue())).append('\'');
                         } else {
-                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace("*", "%")).append("'");
+                            queryBuilder.append(StringConstantUtils.AND_SPACE).append(rbMap.get(fields)).append(StringConstantUtils.LIKE_QUOTE).append(String.valueOf(searchFields.getField(fields).getValue()).trim().replace('*', '%')).append('\'');
                         }
                     }
                 }

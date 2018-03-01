@@ -1881,7 +1881,7 @@ public class ConstantUtil {
      */
     public static final String COMPANY_SEARCH_FORM = "COMPANY_SEARCH_FORM";
     public static final String ITEM_SEARCH_FORM = "ITEM_SEARCH_FORM";
-    public static String ITEM_QUAL_NAME = "itemQualifierName";
+    public static final String ITEM_QUAL_NAME = "itemQualifierName";
     public static final String ITEM_PRICING_QUAL_NAME = "itemPricingQualifierName";
     public static final String BRAND_MASTER_SID = "brandMasterSid";
     public static final String REBATE_PLAN_SEARCH_FORM = "REBATE_PLAN_SEARCH_FORM";
@@ -1890,7 +1890,7 @@ public class ConstantUtil {
     public static final String RS_SEARCH_FORM = "RS_SEARCH_FORM";
     public static final String PS_SEARCH_FORM = "PS_SEARCH_FORM";
     public static final String IM_SEARCH_FORM = "IM_SEARCH_FORM";
-    public static Object UDC = "udc";
+    public static final Object UDC = "udc";
     /**
      * The user id.
      */

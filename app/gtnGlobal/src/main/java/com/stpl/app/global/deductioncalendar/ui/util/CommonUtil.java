@@ -143,15 +143,15 @@ public class CommonUtil {
             int noOfArgs = orderedArgs.length;
             for (int i = 0; i < noOfArgs; i++) {
                 if (i == 0) {
-                    procedureToCall.append("(");
+                    procedureToCall.append('(');
                 }
                 procedureToCall.append("?,");
                 if (i == noOfArgs - 1) {
-                    procedureToCall.append(ConstantsUtils.CLOSE_PARENTHESIS);
+                    procedureToCall.append(')');
                 }
             }
             procedureToCall.replace(procedureToCall.lastIndexOf(ConstantUtil.COMMA), procedureToCall.lastIndexOf(ConstantUtil.COMMA) + 1, StringUtils.EMPTY);
-            procedureToCall.append("}");
+            procedureToCall.append('}');
             try (Connection connection = datasource.getConnection();
                     CallableStatement statement = connection.prepareCall(procedureToCall.toString())) {
                 for (int i = 0; i < noOfArgs; i++) {

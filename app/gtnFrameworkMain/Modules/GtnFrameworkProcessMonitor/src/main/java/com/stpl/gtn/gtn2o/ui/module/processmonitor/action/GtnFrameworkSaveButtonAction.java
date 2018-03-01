@@ -43,10 +43,12 @@ public class GtnFrameworkSaveButtonAction
 			GtnWsProcessMonitorBean monitorBean = new GtnWsProcessMonitorBean();
 			GtnUIFrameworkBaseComponent component = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnWsProcessMonitorConstants.GTN_PROCESS_MONITOR_ADD_BUTTON);
-
+			
+			int slaCalendarMasterSid;
+			
 			String processName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("processName").getStringFromField();
 			Object processType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("processType").getStringFromField();
-			int calender = 1;
+			String calender = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("calender").getStringFromField();
 			Date startDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate").getDateFromDateField();
 			Date endDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("endDate").getDateFromDateField();
 
@@ -56,6 +58,16 @@ public class GtnFrameworkSaveButtonAction
 			String hours1Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("hours1Ddlb").getStringFromField();
 			String hours2Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("hours2Ddlb").getStringFromField();
 			String hours3Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("hours3Ddlb").getStringFromField();
+			
+			logger.info("calender name" + calender);
+			if(calender.equals("Holiday Schedule"))
+			{
+				 slaCalendarMasterSid=1;
+			}
+			else
+			{
+				 slaCalendarMasterSid=2;
+			}
 
 			monitorBean.setProcessName(processName);
 			monitorBean.setProcessDisplayName(processName);
@@ -65,7 +77,7 @@ public class GtnFrameworkSaveButtonAction
 			monitorBean.setActiveFlag(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_ACTIVE_FLAG);
 			monitorBean.setSchemaName(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_SCHEME_NAME);
 			monitorBean.setFrequency(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_FREQUENCY);
-			monitorBean.setSlaCalendarMasterSid(calender);
+			monitorBean.setSlaCalendarMasterSid(slaCalendarMasterSid);
 			monitorBean.setCreatedDate(new Date());
 			monitorBean.setModifiedDate(new Date());
 			monitorBean.setHours1(getDdlbDefaultValue(run1Ddlb));

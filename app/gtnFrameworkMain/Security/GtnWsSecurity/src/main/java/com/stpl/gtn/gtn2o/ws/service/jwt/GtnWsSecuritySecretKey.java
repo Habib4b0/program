@@ -11,7 +11,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.service.property.GtnWsSecurityPropertyReaderService;
 
 public class GtnWsSecuritySecretKey {
-	private static volatile String secretKey = getsecretkey();
+	private static volatile String secretKey;
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsSecuritySecretKey.class);
 
 	private GtnWsSecuritySecretKey() {
