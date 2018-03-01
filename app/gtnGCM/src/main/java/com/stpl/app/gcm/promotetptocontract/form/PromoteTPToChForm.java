@@ -341,38 +341,34 @@ public class PromoteTPToChForm extends CustomComponent implements View {
 
     public boolean callCcpInsertProcedure() {
         LOGGER.debug("calling CcpInsertProcedure");
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        DataSource datasource = null;
         String sessionValue = session.getSessionId();
         int sessionIdValue = Integer.parseInt(sessionValue);
-
+        
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup("java:jboss/datasources/jdbc/appDataPool");
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            } else {
-                LOGGER.debug("Failed to lookup datasource.");
+        } catch (NamingException namingEx) {
+            LOGGER.error(namingEx.getMessage());
         }
-            if (connection != null) {
-
-                LOGGER.debug("Got Connection " + connection.toString() + ", ");
+        
+        if (datasource != null) {
             StringBuilder statementBuilder = new StringBuilder("{call PRC_CCP_POPULATION('");
-            statementBuilder.append(sessionIdValue).append("')}");
-                statement = connection.prepareCall(statementBuilder.toString());
+            try (Connection connection = datasource.getConnection();
+                    CallableStatement statement = connection.prepareCall(statementBuilder.toString())) {
+                LOGGER.debug("Got Connection " + connection.toString() + ", ");
+
+                statementBuilder.append(sessionIdValue).append("')}");
+
                 statement.execute();
+            } catch (SQLException ex) {
+                LOGGER.error("", ex);
+                return false;
             }
-        } catch (SQLException | NamingException ex) {
-            LOGGER.error("",ex);
+        }
+        else {
+            LOGGER.debug("Data source is PromoteTPToChForm: CcpInsertProcedure: Data source is empty");
             return false;
-        } finally {
-            try {
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                LOGGER.error("",e);
-            }
         }
         LOGGER.debug("exiting CcpInsertProcedure");
         return true;
