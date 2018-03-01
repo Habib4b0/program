@@ -723,7 +723,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
         public static GtnWsColumnDetailsConfig columnStringConfig(String dbColumn, String tableAlias, String aliasName,
 			String whereClauseColumn){
             GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
-            return configProvider.getColumnStringConfig(dbColumn, tableAlias, aliasName);
+            return configProvider.getColumnStringConfig(dbColumn, tableAlias, aliasName, whereClauseColumn);
         }
 
 	@Override
