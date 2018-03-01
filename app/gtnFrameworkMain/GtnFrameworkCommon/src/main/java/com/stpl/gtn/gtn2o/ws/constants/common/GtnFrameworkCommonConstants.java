@@ -1114,4 +1114,6 @@ public class GtnFrameworkCommonConstants {
 	public static final String ALIAS_FILETYPE_LAYOUT = "aliasFileTypeLayout";
 	public static final String UDC_CATEGORY_FILETYPELAYOUT = "fileTypeLayout";
 	public static final String UDC_CATEGORY_FILETYPE_FIELDLAYOUT = "fileTypeFieldLayout";
+	public static final String REBATE_PLAN_STATUS = "rebatePlanStatus";
+	public static final String REBATE_PLAN_POPUP_TYPE = "rpPopUpRebatePlanType";     
 }
