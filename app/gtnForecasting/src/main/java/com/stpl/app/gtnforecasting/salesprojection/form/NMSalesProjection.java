@@ -135,11 +135,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
             CommonUtil commonUtils = CommonUtil.getInstance();
             commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
         }
+        init();
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(false);
         }
 
-        init();
     }
 
     /**
