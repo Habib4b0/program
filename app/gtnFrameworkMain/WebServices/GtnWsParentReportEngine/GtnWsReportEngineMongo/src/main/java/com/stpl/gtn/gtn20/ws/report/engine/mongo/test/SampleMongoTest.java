@@ -15,6 +15,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.bean.GtnWsMongodbConnectionBean;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnectionService;
 
 public class SampleMongoTest {
@@ -24,11 +25,25 @@ public class SampleMongoTest {
 		MongoDatabase instance = GtnWsMongoDBConnectionService.getDBInstance();
 		System.out.println(instance.getName());
 		// instance.createCollection("sample");
-		MongoCollection<Document> ins = instance.getCollection("test1");
+		// MongoCollection<Document> ins = instance.getCollection("test1234");
 		// test.insert(ins);
 		// test.searchAll(ins);
 		// test.delete(ins);
-		test.aggregation(ins);
+		// test.aggregation(ins);
+
+		MongoCollection<GtnWsMongodbConnectionBean> ins = instance.getCollection("testcustom",
+				GtnWsMongodbConnectionBean.class);
+		test.insertTest(ins);
+		test.searchAllTest(ins);
+	}
+
+	public void insertTest(MongoCollection<GtnWsMongodbConnectionBean> instance) {
+		GtnWsMongodbConnectionBean add = new GtnWsMongodbConnectionBean();
+		add.setDatabase("Test");
+		add.setHost("0.0.0");
+		add.setPortNo("1");
+		instance.insertOne(add);
+		
 	}
 
 	public void insert(MongoCollection<Document> instance) {
@@ -48,6 +63,15 @@ public class SampleMongoTest {
 		while (cr.hasNext()) {
 			Document doc = (Document) cr.next();
 			System.out.println(doc.toJson());
+		}
+	}
+	
+	public void searchAllTest(MongoCollection<GtnWsMongodbConnectionBean> instance) {
+		FindIterable itr = instance.find();
+		MongoCursor cr = itr.iterator();
+		while (cr.hasNext()) {
+			GtnWsMongodbConnectionBean doc = (GtnWsMongodbConnectionBean) cr.next();
+			System.out.println(doc.toString());
 		}
 	}
 
