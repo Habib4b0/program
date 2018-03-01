@@ -54,7 +54,7 @@ public class FileUploader implements Receiver {
 	/**
 	 * The user id.
 	 */
-	final private String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
+	private final String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
 
 	private boolean isFileExists;
 	private boolean isFileCreated;
@@ -97,8 +97,8 @@ public class FileUploader implements Receiver {
 				}
 				isFileCreated=file.createNewFile();
 				outputStream = new FileOutputStream(file);
-				LOGGER.info("File deleted successfully"+isFileExists);
-				LOGGER.info("File created successfully"+isFileCreated);
+				LOGGER.info("File deleted successfully= {}",isFileExists);
+				LOGGER.info("File created successfully= {}",isFileCreated);
 				return outputStream;
 			}
 		} catch (final java.io.FileNotFoundException e) {

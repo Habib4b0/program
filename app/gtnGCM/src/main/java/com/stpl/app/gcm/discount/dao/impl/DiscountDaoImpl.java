@@ -34,7 +34,6 @@ import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,37 +75,37 @@ public class DiscountDaoImpl implements DiscountDAO {
     }
 
     @Override
-    public List<RsContractDetails> getContractDetails(DynamicQuery contractQuery) throws SystemException {
+    public List<RsContractDetails> getContractDetails(DynamicQuery contractQuery)  {
         return RsContractDetailsLocalServiceUtil.dynamicQuery(contractQuery);
     }
 
     @Override
-    public ItemMaster getItemDetails(int itemMasterSid) throws SystemException, PortalException {
+    public ItemMaster getItemDetails(int itemMasterSid) throws PortalException {
         return ItemMasterLocalServiceUtil.getItemMaster(itemMasterSid);
     }
 
     @Override
-    public List getHelperTableListNames(final DynamicQuery dynamicQuery) throws SystemException {
+    public List getHelperTableListNames(final DynamicQuery dynamicQuery)  {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     @Override
-    public int getItemsCount(DynamicQuery query) throws SystemException {
+    public int getItemsCount(DynamicQuery query)  {
         return (int) ItemMasterLocalServiceUtil.dynamicQueryCount(query);
     }
 
     @Override
-    public List getItems(DynamicQuery query) throws SystemException {
+    public List getItems(DynamicQuery query)  {
         return ItemMasterLocalServiceUtil.dynamicQuery(query);
     }
 
     @Override
-    public List getRebates(String query) throws SystemException {
+    public List getRebates(String query)  {
         return (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     @Override
-    public List<IfpDetails> getItemsFromRs(DynamicQuery query) throws SystemException {
+    public List<IfpDetails> getItemsFromRs(DynamicQuery query)  {
         return IfpDetailsLocalServiceUtil.dynamicQuery(query);
     }
 
@@ -116,27 +115,27 @@ public class DiscountDaoImpl implements DiscountDAO {
     }
 
     @Override
-    public List<CfpModel> getCfpDetails(DynamicQuery cfpDynamicQuery) throws SystemException {
+    public List<CfpModel> getCfpDetails(DynamicQuery cfpDynamicQuery)  {
         return CfpModelLocalServiceUtil.dynamicQuery(cfpDynamicQuery);
     }
 
     @Override
-    public List<IfpModel> getIfpDetails(DynamicQuery cfpDynamicQuery) throws SystemException {
+    public List<IfpModel> getIfpDetails(DynamicQuery cfpDynamicQuery)  {
         return CfpModelLocalServiceUtil.dynamicQuery(cfpDynamicQuery);
     }
 
     @Override
-    public RsContract addRsMasterAttached(final RsContract rsMasterAttached) throws SystemException {
+    public RsContract addRsMasterAttached(final RsContract rsMasterAttached)  {
         return RsContractLocalServiceUtil.addRsContract(rsMasterAttached);
     }
 
     @Override
-    public RsContract updateRsMasterAttached(final RsContract rsMasterAttached) throws SystemException {
+    public RsContract updateRsMasterAttached(final RsContract rsMasterAttached)  {
         return RsContractLocalServiceUtil.updateRsContract(rsMasterAttached);
     }
 
     @Override
-    public RsModel getRebateScheduleMaster(final int systemId) throws SystemException, PortalException {
+    public RsModel getRebateScheduleMaster(final int systemId) throws PortalException {
         return RsModelLocalServiceUtil.getRsModel(systemId);
     }
 
@@ -168,47 +167,47 @@ public class DiscountDaoImpl implements DiscountDAO {
     }
 
     @Override
-    public PsModel getPriceScheduleMaster(final int systemId) throws SystemException, PortalException {
+    public PsModel getPriceScheduleMaster(final int systemId) throws PortalException {
         return PsModelLocalServiceUtil.getPsModel(systemId);
     }
 
     @Override
-    public PsContract updatePsMasterAttached(final PsContract psMasterAttached) throws SystemException {
+    public PsContract updatePsMasterAttached(final PsContract psMasterAttached)  {
         return PsContractLocalServiceUtil.updatePsContract(psMasterAttached);
     }
 
     @Override
-    public PsContract addPsMasterAttached(final PsContract psMasterAttached) throws SystemException {
+    public PsContract addPsMasterAttached(final PsContract psMasterAttached)  {
         return PsContractLocalServiceUtil.addPsContract(psMasterAttached);
     }
 
     @Override
-    public IfpContract addIfpMasterAttached(final IfpContract ifpMasterAttached) throws SystemException {
+    public IfpContract addIfpMasterAttached(final IfpContract ifpMasterAttached)  {
         return IfpContractLocalServiceUtil.addIfpContract(ifpMasterAttached);
     }
 
     @Override
-    public IfpContract updateIfpMasterAttached(final IfpContract ifpMasterAttached) throws SystemException {
+    public IfpContract updateIfpMasterAttached(final IfpContract ifpMasterAttached)  {
         return IfpContractLocalServiceUtil.updateIfpContract(ifpMasterAttached);
     }
 
     @Override
-    public IfpModel getItemFamilyPlanMaster(final int systemId) throws SystemException, PortalException {
+    public IfpModel getItemFamilyPlanMaster(final int systemId) throws PortalException {
         return IfpModelLocalServiceUtil.getIfpModel(systemId);
     }
 
     @Override
-    public CfpModel getCompanyFamilyplanMaster(final int systemId) throws SystemException, PortalException {
+    public CfpModel getCompanyFamilyplanMaster(final int systemId) throws PortalException {
         return CfpModelLocalServiceUtil.getCfpModel(systemId);
     }
 
     @Override
-    public CfpContract updateCfpMasterAttached(final CfpContract cfpMasterAttached) throws SystemException {
+    public CfpContract updateCfpMasterAttached(final CfpContract cfpMasterAttached)  {
         return CfpContractLocalServiceUtil.updateCfpContract(cfpMasterAttached);
     }
 
     @Override
-    public CfpContract addCfpMasterAttached(final CfpContract cfpMasterAttached) throws SystemException {
+    public CfpContract addCfpMasterAttached(final CfpContract cfpMasterAttached)  {
         return CfpContractLocalServiceUtil.addCfpContract(cfpMasterAttached);
     }
 }

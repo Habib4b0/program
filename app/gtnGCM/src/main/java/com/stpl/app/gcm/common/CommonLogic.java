@@ -123,7 +123,7 @@ public class CommonLogic {
 
     public ExtTreeContainer<ContractsDetailsDto> getLevel1Hierarchy(final String contractId,
             final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> cfpList)
-            throws SystemException {
+             {
         LOGGER.debug("Entering getLevel1Hierarchy method");
         final List<ContractsDetailsDto> contractList = getContractList(contractId, ContractsDetailsDto.LEVEL1, cfpList);
         container.removeAllItems();
@@ -149,7 +149,7 @@ public class CommonLogic {
      * @return the contract list
      */
     private List<ContractsDetailsDto> getContractList(final String contractId, final int level,
-            final List<ContractsDetailsDto> cfpList) throws SystemException {
+            final List<ContractsDetailsDto> cfpList)  {
         LOGGER.debug("Entering getContractList method");
 
         String contract;
@@ -216,7 +216,7 @@ public class CommonLogic {
      * @param contractSystemId the contract system id
      * @return true, if checks if is level2 list avlbl
      */
-    private boolean isLevel2ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+    private boolean isLevel2ListAvlbl(final int contractSystemId, final String category) {
         LOGGER.debug("Entering isLevel2ListAvlbl method");
         boolean available;
         if (!IndicatorConstants.CFP.getConstant().equals(category)
@@ -239,7 +239,7 @@ public class CommonLogic {
         return available;
     }
 
-    public int getCFPQueriedCount(final int contractSystemId) throws SystemException {
+    public int getCFPQueriedCount(final int contractSystemId) {
         LOGGER.debug("Entering getCFPQueriedCount method");
 
 		final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
@@ -251,7 +251,7 @@ public class CommonLogic {
         return (int) daoImpl.contractMasterDynamicQueryCount(cfpDynamicQuery);
     }
 
-    public int getIFPQueriedCount(final int contractSystemId) throws SystemException {
+    public int getIFPQueriedCount(final int contractSystemId) {
         LOGGER.debug("Entering getIFPQueriedCount method");
 
 		final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
@@ -270,7 +270,7 @@ public class CommonLogic {
 	 *            the contract system id
      * @return the PS queried count
      */
-    public int getPSQueriedCount(final int contractSystemId) throws SystemException {
+    public int getPSQueriedCount(final int contractSystemId)  {
         LOGGER.debug("Entering getPSQueriedCount method");
 
 		final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
@@ -282,7 +282,7 @@ public class CommonLogic {
         return (int) daoImpl.contractMasterDynamicQueryCount(psDynamicQuery);
     }
 
-    public int getRSQueriedCount(final int contractSystemId) throws SystemException {
+    public int getRSQueriedCount(final int contractSystemId) {
         LOGGER.debug("Entering getRSQueriedCount method");
 
 		final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
@@ -297,7 +297,7 @@ public class CommonLogic {
     public ExtTreeContainer<ContractsDetailsDto> getLevel2Hierarchy(final ContractsDetailsDto parent,
             final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> cfpList,
             final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
-            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+            final List<ContractsDetailsDto> rsList) throws PortalException {
         LOGGER.debug("Entering getLevel2Hierarchy method and CFP list size is ============");
         container.removeAllItems();
         container.addBean(parent);
@@ -329,8 +329,8 @@ public class CommonLogic {
      */
     public ExtTreeContainer<ContractsDetailsDto> getLevel3Hierarchy(final ContractsDetailsDto parent2,
             final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> ifpList,
-            final List<ContractsDetailsDto> psList, final List<ContractsDetailsDto> rsList)
-            throws SystemException, PortalException {
+            final List<ContractsDetailsDto> psList, final List<ContractsDetailsDto> rsList) throws PortalException
+             {
         LOGGER.debug("Entering getLevel3Hierarchy method");
         container.removeAllItems();
 
@@ -375,7 +375,7 @@ public class CommonLogic {
      */
     public ExtTreeContainer<ContractsDetailsDto> getLevel4Hierarchy(final ContractsDetailsDto parent3,
             final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> psList,
-            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+            final List<ContractsDetailsDto> rsList) throws PortalException  {
         LOGGER.debug("Entering getLevel4Hierarchy method");
 
         container.removeAllItems();
@@ -420,8 +420,8 @@ public class CommonLogic {
      * @throws SystemException
      */
     public ExtTreeContainer<ContractsDetailsDto> getLevel5Hierarchy(final ContractsDetailsDto parent4,
-            final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> rsList)
-            throws SystemException, PortalException {
+            final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> rsList) throws PortalException
+             {
         LOGGER.debug("Entering getLevel5Hierarchy method");
 
         container.removeAllItems();
@@ -458,7 +458,7 @@ public class CommonLogic {
 
     public List<ContractsDetailsDto> getLevel2List(final ContractsDetailsDto parent1, List<ContractsDetailsDto> cfpList,
             final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
-            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+            final List<ContractsDetailsDto> rsList) throws PortalException {
 
         LOGGER.debug("Entering getLevel2List method");
         List<ContractsDetailsDto> level2List;
@@ -486,7 +486,7 @@ public class CommonLogic {
      */
     public List<ContractsDetailsDto> getLevel3List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
             final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
-            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+            final List<ContractsDetailsDto> rsList) throws PortalException {
 
         LOGGER.debug("Entering getLevel3List method");
         List<ContractsDetailsDto> level3List;
@@ -517,7 +517,7 @@ public class CommonLogic {
      */
     public List<ContractsDetailsDto> getLevel4List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
             final ContractsDetailsDto parent3, final List<ContractsDetailsDto> psList,
-            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+            final List<ContractsDetailsDto> rsList) throws PortalException  {
         LOGGER.debug("Entering getLevel4List method");
 
         List<ContractsDetailsDto> level4List;
@@ -547,7 +547,7 @@ public class CommonLogic {
      */
     public List<ContractsDetailsDto> getLevel5List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
             final ContractsDetailsDto parent3, final ContractsDetailsDto parent4,
-            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+            final List<ContractsDetailsDto> rsList) throws PortalException {
 
         LOGGER.debug("Entering getLevel5List method");
 
@@ -569,7 +569,7 @@ public class CommonLogic {
      * @param contractSystemId the contract system id
      * @return true, if checks if is level3 list avlbl
      */
-    public boolean isLevel3ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+    public boolean isLevel3ListAvlbl(final int contractSystemId, final String category) {
 
         LOGGER.debug("Entering isLevel3ListAvlbl method");
         boolean available;
@@ -591,7 +591,7 @@ public class CommonLogic {
         return available;
     }
 
-    public boolean isLevel4Or5ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+    public boolean isLevel4Or5ListAvlbl(final int contractSystemId, final String category) {
 
         LOGGER.debug("Entering isLevel4ListAvlbl method");
         boolean available;
@@ -610,7 +610,7 @@ public class CommonLogic {
      * @param contractSystemId the contract system id
      * @return true, if checks if is level5 list avlbl
      */
-    private boolean isLevel5ListAvlbl(final int contractSystemId) throws SystemException {
+    private boolean isLevel5ListAvlbl(final int contractSystemId)  {
         LOGGER.debug("Entering isLevel5ListAvlbl method");
         if (getRSQueriedCount(contractSystemId) > Constants.ZERO) {
             return true;
@@ -620,7 +620,7 @@ public class CommonLogic {
     }
 
     private List<ContractsDetailsDto> getCFPList(final ContractsDetailsDto parent1, final int level,
-            List<ContractsDetailsDto> cfList) throws SystemException, PortalException {
+            List<ContractsDetailsDto> cfList) throws PortalException {
         LOGGER.debug("Entering getCFPList method");
 
         final List<ContractsDetailsDto> cfpList = new ArrayList<>();
@@ -658,7 +658,7 @@ public class CommonLogic {
     }
 
     private List<ContractsDetailsDto> getIFPList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
-            final int level, final List<ContractsDetailsDto> ifList) throws SystemException, PortalException {
+            final int level, final List<ContractsDetailsDto> ifList) throws PortalException {
         LOGGER.debug("Entering getIFPList method");
 
         final List<ContractsDetailsDto> ifpList = new ArrayList<>();
@@ -726,8 +726,8 @@ public class CommonLogic {
      * @return the PS list
      */
     private List<ContractsDetailsDto> getPSList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
-            final ContractsDetailsDto parent3, final int level, final List<ContractsDetailsDto> pList)
-            throws SystemException, PortalException {
+            final ContractsDetailsDto parent3, final int level, final List<ContractsDetailsDto> pList) throws PortalException
+             {
         LOGGER.debug("Entering getPSList method");
 
         final List<ContractsDetailsDto> psList = new ArrayList<>();
@@ -824,7 +824,7 @@ public class CommonLogic {
 
     private List<ContractsDetailsDto> getRSList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
             final ContractsDetailsDto parent3, final ContractsDetailsDto parent4, final int level,
-            final List<ContractsDetailsDto> rList) throws SystemException, PortalException {
+            final List<ContractsDetailsDto> rList) throws PortalException {
         LOGGER.debug("Entering getRSList method");
 
         final List<ContractsDetailsDto> rsList = new ArrayList<>();
@@ -984,7 +984,7 @@ public class CommonLogic {
         return rsList;
     }
 
-    public static String getDescriptionFromID(final int systemId) throws SystemException {
+    public static String getDescriptionFromID(final int systemId) {
 		DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("helperTableSid", systemId));
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -1122,7 +1122,7 @@ public class CommonLogic {
         return controlBar;
     }
 
-    public static List<HelperDTO> getDropDownList(final String listType) throws SystemException {
+    public static List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Helper Table listType=" + listType);
 		final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
@@ -1229,7 +1229,7 @@ public class CommonLogic {
         return convertedValue;
     }
 
-    public static List<HelperDTO> getPriceTypeResults() throws SystemException {
+    public static List<HelperDTO> getPriceTypeResults() {
         final List<HelperDTO> list = new ArrayList<>();
 
         String query = CommonUtil.getQuery(null, "ad.loadPriceType");
@@ -2109,10 +2109,10 @@ public class CommonLogic {
                     inputs[1] = session.getUserId();
                     inputs[NumericConstants.TWO] = session.getSessionId();
                     boolean flag = false;
-                    if (Constants.IndicatorConstants.NON_MANDATED.getConstant().toString()
+                    if (Constants.IndicatorConstants.NON_MANDATED.getConstant()
                             .equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
                         flag = true;
-                    } else if (Constants.IndicatorConstants.MANDATED.getConstant().toString()
+                    } else if (Constants.IndicatorConstants.MANDATED.getConstant()
                             .equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
                         if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
                                 && !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
@@ -2335,7 +2335,7 @@ public class CommonLogic {
 		HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
-    public static List<String> getDiscriptionList(final String listType) throws SystemException {
+    public static List<String> getDiscriptionList(final String listType) {
         final List<String> helperList = new ArrayList<>();
         LOGGER.debug("Helper Table listType=" + listType);
 		final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();

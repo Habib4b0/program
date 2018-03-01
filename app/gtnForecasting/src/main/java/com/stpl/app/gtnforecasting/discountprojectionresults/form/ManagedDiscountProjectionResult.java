@@ -437,8 +437,8 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
 
     @Override
     protected void loadFrequency() {
-        LOGGER.debug("DPR ValueChangeEvent initiated with frequency -->"
-                + frequencyDdlb.getValue());
+        LOGGER.debug("DPR ValueChangeEvent initiated with frequency -->= {}"
+                , frequencyDdlb.getValue());
         if (frequencyDdlb.getValue() == null) {
             historyDdlb.removeAllItems();
             historyDdlb.addItem(SELECT_ONE);

@@ -165,7 +165,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     /**
      * The bean for loading Field drop down.
      */
-    final private BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<>(String.class);
     private final DecimalFormat dollZeroDec = new DecimalFormat("$###,##0.00");
     private static final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
     private final HeaderUtils headerUtils = new HeaderUtils();
@@ -787,7 +787,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                 blurValue = blurValue.trim();
                             }
                             saveFromTableField(itemId, propertyId, blurValue, false);
-                            LOGGER.debug(" group blur Value" + String.valueOf(container.getContainerProperty(itemId, propertyId).getValue()).trim());
+                            LOGGER.debug(" group blur Value= {}" , String.valueOf(container.getContainerProperty(itemId, propertyId).getValue()).trim());
                         }
                     });
 
@@ -1092,8 +1092,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 }
             }
         }
-        LOGGER.debug("relatedCustomerId.size()  " + relatedCustomerId.size());
-        LOGGER.debug("relatedCcpDetailsId.size()  " + relatedCcpDetailsId.size());
+        LOGGER.debug("relatedCustomerId.size()= {} " , relatedCustomerId.size());
+        LOGGER.debug("relatedCcpDetailsId.size()= {} " , relatedCcpDetailsId.size());
         getRelatedCcpDetails(relatedCustomerId, finalHirarechyNo);
         getRelatedCcpDetails(relatedCcpDetailsId, finalHirarechyNo);
         return finalHirarechyNo;
@@ -1155,7 +1155,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         }
     }
 
-    private Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
@@ -1528,7 +1528,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
     @Override
     protected void levelFilterValueChangeLogic(Property.ValueChangeEvent event) {
-        LOGGER.debug("levelFilterDdlbChangeOption inititated " + levelFilterDdlb.getValue());
+        LOGGER.debug("levelFilterDdlbChangeOption inititated= {} " , levelFilterDdlb.getValue());
         tableLogic.setRefresh(false);
         if (SELECT_ONE.equals(levelFilterDdlb.getValue()) || levelFilterDdlb.getValue() == null) {
             projectionDTO.setIsFilter(false);

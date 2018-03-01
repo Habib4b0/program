@@ -383,7 +383,7 @@ public class PPAProjectionResultsLogic {
         } else {
             count = commonLogic.getCount(selection);
         }
-        LOGGER.debug("Level Count:" + count);
+        LOGGER.debug("Level Count= {}" , count);
         return count;
     }
 
@@ -949,7 +949,7 @@ public class PPAProjectionResultsLogic {
     }
 
     public List<PPAHelperDTO> getPPAItemDDLBResult(int startIndex, int end, PPADetailsDTO ppaDetailsDTO, String ddlbtype, final String filterText)  {
-        LOGGER.debug("Inside Item Load" + startIndex + "END INDEX" + end + "ppaDetailsDTO" + ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId());
+        LOGGER.debug("Inside Item Load= {}, END INDEX= {}, ppaDetailsDTO= {} " , startIndex, end, ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId());
         String query = StringUtils.EMPTY;
         String searchFilter;
         final List<PPAHelperDTO> list = new ArrayList<>();

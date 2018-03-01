@@ -323,7 +323,7 @@ public class RelationshipOutboundProcess extends Window {
                     checkedIds = ids.toString().replaceFirst(",", ConstantsUtils.EMPTY);
                 }
                 String csvName = "Relationship_Builder_Outbound_Process";
-                LOGGER.debug(" checked Ids=" + checkedIds);
+                LOGGER.debug(" checked Ids= {}" , checkedIds);
                 if (checkedAll) {
                     createWorkSheet(csvName, checkedIds, true);
                 }
@@ -331,8 +331,8 @@ public class RelationshipOutboundProcess extends Window {
                     createWorkSheet(csvName, checkedIds, false);
                 }
                 Long endTime = System.currentTimeMillis();
-                LOGGER.debug("_____Relationship builder_____Total Time taken===in milli sesconds=" + (endTime - startTime));
-                LOGGER.debug("____Relationship builder______Total Time taken==in seconds==" + TimeUnit.MILLISECONDS.toSeconds(endTime - startTime));
+                LOGGER.debug("_____Relationship builder_____Total Time taken===in milli sesconds= {}" , (endTime - startTime));
+                LOGGER.debug("____Relationship builder______Total Time taken==in seconds= {}" , TimeUnit.MILLISECONDS.toSeconds(endTime - startTime));
 
             }
 
@@ -360,7 +360,7 @@ public class RelationshipOutboundProcess extends Window {
 
     public void createWorkSheetContent(final Integer start,final Integer end, final PrintWriter printWriter) {
         try {
-             LOGGER.info("Start index of record is : "+start);
+             LOGGER.info("Start index of record is = {} ", start);
             if (end != 0) {
                 ExcelExportforBB.createFileContent(CommonUIUtil.getInstance().relationshipOutboundExcelColumns, rbCsvList, printWriter);
             }

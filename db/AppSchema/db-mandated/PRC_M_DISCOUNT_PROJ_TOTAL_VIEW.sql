@@ -124,14 +124,15 @@ AS
                       INSERT INTO #TEMP_ITEM
                                   (ITEM_MASTER_SID,
                                    PERIOD_SID,
-                                   PROJECTION_SALES,
-                                   PROJECTION_RATE,
-                                   PROJECTION_RPU)
+                                   PROJECTION_SALES--,
+                                 --  PROJECTION_RATE,
+                                  -- PROJECTION_RPU
+								  )
                       SELECT @ITEM,
                              P.PERIOD_SID,
-                             SUM(PROJECTION_SALES),
-                             AVG(PROJECTION_RATE),
-                             SUM(PROJECTION_RPU)
+                             SUM(PROJECTION_SALES)--,
+                            -- AVG(PROJECTION_RATE),
+                            -- SUM(PROJECTION_RPU)
                       FROM   [DBO].[NM_DISCOUNT_PROJECTION] B
                              JOIN PROJECTION_DETAILS PROJ
                                ON PROJ.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
@@ -167,14 +168,15 @@ AS
                       INSERT INTO #TEMP_ITEM_ACTUALS
                                   (ITEM_MASTER_SID,
                                    PERIOD_SID,
-                                   ACTUAL_SALES,
-                                   ACTUAL_RATE,
-                                   ACTUAL_RPU)
+                                   ACTUAL_SALES--,
+                                  -- ACTUAL_RATE,
+                                  -- ACTUAL_RPU
+								   )
                       SELECT @ITEM,
                              P.PERIOD_SID,
-                             SUM(ACTUAL_SALES),
-                             AVG(ACTUAL_RATE),
-                             SUM(ACTUAL_RATE)
+                             SUM(ACTUAL_SALES)--,
+                            -- AVG(ACTUAL_RATE),
+                            -- SUM(ACTUAL_RATE)
                       FROM   [DBO].[NM_ACTUAL_DISCOUNT] B
                              JOIN PROJECTION_DETAILS PROJ
                                ON PROJ.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
@@ -986,5 +988,4 @@ AS
       END CATCH
   END 
 GO
-
 

@@ -48,7 +48,8 @@ public class GtnFrameworkAddJSListenerAction implements GtnUIFrameWorkAction, Gt
                     @Override
                     public void call(JsonArray arguments) {
                       try {
-					if (arguments.getString(0).equals(businessProcess) && arguments.getBoolean(1)) {
+					if (arguments.getString(0).equals(businessProcess)
+							&& Boolean.parseBoolean(arguments.getString(1))) {
 						table.getLogicFromPagedDataTable()
 								.setCurrentPage(table.getLogicFromPagedDataTable().getCurrentPage());
 						historyBtn.setComponentEnable(false);

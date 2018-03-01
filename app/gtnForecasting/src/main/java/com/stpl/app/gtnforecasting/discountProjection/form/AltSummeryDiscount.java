@@ -454,7 +454,7 @@ public class AltSummeryDiscount extends CustomComponent {
     }
 
     public void getContent() {
-        LOGGER.debug("Inside getContent " + session.getAction());
+        LOGGER.debug("Inside getContent= {} " , session.getAction());
         configureFeildsForNm();
 
     }
@@ -479,7 +479,7 @@ public class AltSummeryDiscount extends CustomComponent {
         tableLogic.setContainerDataSource(resultBeanContainer);
         configureLeftTable();
 
-        LOGGER.debug(" session Action " + session.getAction());
+        LOGGER.debug(" session Action= {} " , session.getAction());
 
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
 
@@ -620,7 +620,7 @@ public class AltSummeryDiscount extends CustomComponent {
                     if (toSetCaption) {
                         levelFilterDdlb.addItem(Constant.DASH + levelDto.getTreeLevelNo());
                         levelFilterDdlb.setItemCaption(Constant.DASH + levelDto.getTreeLevelNo(), SELECT_ONE.getConstant());
-                        LOGGER.info("Level:"+i);
+                        LOGGER.info("Level= {}",i);
                         enableLevelFilterListener = false;
                         levelFilterDdlb.select(Constant.DASH + levelDto.getTreeLevelNo());
                         enableLevelFilterListener = true;
@@ -911,10 +911,10 @@ public class AltSummeryDiscount extends CustomComponent {
                     productLevelNo = String.valueOf(treeLevelNo);
                 }
 
-                LOGGER.debug(" EXCEL P- Custom hierarchy --- \n customId " + customId);
-                LOGGER.debug(" EXCEL P- customerLevelNo " + customerLevelNo);
+                LOGGER.debug(" EXCEL P- Custom hierarchy --- \n customId= {}" , customId);
+                LOGGER.debug(" EXCEL P- customerLevelNo= {} " , customerLevelNo);
                 LOGGER.debug(" EXCEL P- customerHierarchyNo");
-                LOGGER.debug(" EXCEL P- productLevelNo " + productLevelNo);
+                LOGGER.debug(" EXCEL P- productLevelNo= {} " , productLevelNo);
                 LOGGER.debug(" EXCEL P- productHierarchyNo");
                 customViewDetails.add(StringUtils.EMPTY + customId);
                 customViewDetails.add(customerLevelNo);
@@ -973,7 +973,7 @@ public class AltSummeryDiscount extends CustomComponent {
                 treeLevelNo = dto.getLevelNo() + 1;
             }
 
-            LOGGER.debug(" dto.getLevelNo() " + dto.getLevelNo());
+            LOGGER.debug(" dto.getLevelNo()= {} " , dto.getLevelNo());
             List customDetailsList = new ArrayList();
 
             List<String> discountToBeLoaded;
@@ -1008,11 +1008,11 @@ public class AltSummeryDiscount extends CustomComponent {
                     productLevelNo = String.valueOf(dto.getTreeLevelNo() + 1);
                 }
 
-                LOGGER.debug(" EXCEL - Custom hierarchy --- \n customId " + customId);
-                LOGGER.debug(" EXCEL - customerLevelNo " + customerLevelNo);
-                LOGGER.debug(" EXCEL - customerHierarchyNo " + customerHierarchyNo);
-                LOGGER.debug(" EXCEL - productLevelNo " + productLevelNo);
-                LOGGER.debug(" EXCEL - productHierarchyNo " + productHierachyNo);
+                LOGGER.debug(" EXCEL - Custom hierarchy --- \n customId= {} " , customId);
+                LOGGER.debug(" EXCEL - customerLevelNo= {} " , customerLevelNo);
+                LOGGER.debug(" EXCEL - customerHierarchyNo= {} " , customerHierarchyNo);
+                LOGGER.debug(" EXCEL - productLevelNo= {} " , productLevelNo);
+                LOGGER.debug(" EXCEL - productHierarchyNo= {} " , productHierachyNo);
                 customViewDetails.add(StringUtils.EMPTY + customId);
                 customViewDetails.add(customerLevelNo);
                 customViewDetails.add(customerHierarchyNo);
@@ -1129,8 +1129,8 @@ public class AltSummeryDiscount extends CustomComponent {
                     startMonthValue = startMonthValue.substring(0, 1).toUpperCase() + startMonthValue.substring(1);
                     endMonthValue = endMonthValue.substring(0, 1).toUpperCase() + endMonthValue.substring(1);
                 }
-                LOGGER.debug(" startMonthValue " + startMonthValue);
-                LOGGER.debug(" endMonthValue " + endMonthValue);
+                LOGGER.debug(" startMonthValue= {} " , startMonthValue);
+                LOGGER.debug(" endMonthValue= {} " , endMonthValue);
                 int startFreqNo = CommonUtils.getIntegerForMonth(startMonthValue);
                 int endFreqNo = CommonUtils.getIntegerForMonth(endMonthValue);
                 if (projectionSelection.getProjectionOrder().equals(ASCENDING.getConstant())) {
@@ -1208,8 +1208,8 @@ public class AltSummeryDiscount extends CustomComponent {
                     discountTableLogic.getDiscountList(), levelNo, true, discountTableLogic.getRightDto(), hierarchyIndicator, userGroup, currentHierarchy, Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equalsIgnoreCase(hierarchyIndicator), customId, relationshipBuilderSid);
 
         }
-        LOGGER.debug(" User Id --" + session.getUserId());
-        LOGGER.debug(" Session Id --" + session.getSessionId());
+        LOGGER.debug(" User Id --= {}" , session.getUserId());
+        LOGGER.debug(" Session Id --= {}" , session.getSessionId());
         LOGGER.debug("Ending loadDataInTable");
     }
 
@@ -1286,9 +1286,9 @@ public class AltSummeryDiscount extends CustomComponent {
     private void createRightHeader() {
         session.setForecastName(TabNameUtil.DISCOUNT_PROJECTION);
         excelHeader = new CustomTableHeaderDTO();
-        excelHeader.addSingleColumn(Constant.LEVELNAME, "  ", String.class);
+        excelHeader.addSingleColumn(Constant.LEVEL_NAME, "  ", String.class);
         excelHeader.addDoubleColumn(Constant.GROUP, StringUtils.EMPTY);
-        excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVELNAME});
+        excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVEL_NAME});
         rightHeader = HeaderUtils.getAlternateHistoryRightTableColumnsForDiscount(projectionSelection, session, excelHeader, rsName);
     }
 
@@ -1351,7 +1351,7 @@ public class AltSummeryDiscount extends CustomComponent {
     protected void levelFilterValueChangeLogic(Property.ValueChangeEvent event) {
         LOGGER.debug("levelFilterDdlbvalueChangeListener initiated ");
             if ((enableLevelFilterListener) && (event.getProperty() != null && !Constant.NULL.equals(String.valueOf(event.getProperty().getValue())))) {
-                LOGGER.debug(" event value " + event.getProperty().getValue());
+                LOGGER.debug(" event value= {} " , event.getProperty().getValue());
 
                 String levelNumber = String.valueOf(event.getProperty().getValue());
                 int levelNo = isInteger(levelNumber) ? Integer.parseInt(levelNumber) : 0;
@@ -1384,8 +1384,8 @@ public class AltSummeryDiscount extends CustomComponent {
         customId = CommonLogic.customDdlbOptionChange(viewDdlb, editBtn, levelDdlb);
         levelDdlb.setEnabled(customId != 0);
         currentHierarchy = CommonLogic.getCustomTree(customId);
-        LOGGER.debug(" customId  " + customId);
-        LOGGER.debug(" currentHierarchy " + currentHierarchy.size());
+        LOGGER.debug(" customId= {} " , customId);
+        LOGGER.debug(" currentHierarchy= {} " , currentHierarchy.size());
         if (customId != 0) {
             viewChangeGenerate();
         } else {

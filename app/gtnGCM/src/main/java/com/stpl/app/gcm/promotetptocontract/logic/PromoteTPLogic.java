@@ -64,7 +64,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
@@ -122,9 +121,9 @@ public class PromoteTPLogic {
      * @param sc
      * @return
      * @throws PortalException
-     * @throws SystemException
+     * @
      */
-    public int searchCompanyCount(final PromoteTpToChDto promoteTpToChDto) throws SystemException {
+    public int searchCompanyCount(final PromoteTpToChDto promoteTpToChDto) {
         Map<String, Object> parameters = new HashMap<>();
         List resultList;
         parameters.put(LAZY_LOAD_RESULTS, null);
@@ -197,7 +196,7 @@ public class PromoteTPLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public List<PromoteTpToChDto> searchCompaniesLazy(final PromoteTpToChDto promoteTpToChDto, int startIndex, int offset,List<OrderByColumn> orderByColumns) throws SystemException  {
+    public List<PromoteTpToChDto> searchCompaniesLazy(final PromoteTpToChDto promoteTpToChDto, int startIndex, int offset,List<OrderByColumn> orderByColumns)  {
         Map<String, Object> parameters = new HashMap<>();
         List resultList;
         List<PromoteTpToChDto> returnList = null;
@@ -422,7 +421,7 @@ public class PromoteTPLogic {
         return componentInfoMap;
     }
 
-    public ExtTreeContainer<CurrentContractDTO> getLevel1Hierarchy(final String contractId, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws SystemException {
+    public ExtTreeContainer<CurrentContractDTO> getLevel1Hierarchy(final String contractId, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end)  {
         LOGGER.debug("Entering getLevel1Hierarchy method");
         final List<CurrentContractDTO> contractList = getContractList(contractId, CurrentContractDTO.LEVEL1, start, end);
         container.removeAllItems();
@@ -451,7 +450,7 @@ public class PromoteTPLogic {
      * @param level the level
      * @return the contract list
      */
-    private List<CurrentContractDTO> getContractList(final String contractId, final int level, final int start, final int end) throws SystemException {
+    private List<CurrentContractDTO> getContractList(final String contractId, final int level, final int start, final int end)  {
         LOGGER.debug("Entering getContractList method");
 
         String contract;
@@ -521,7 +520,7 @@ public class PromoteTPLogic {
      * @param contractSystemId the contract system id
      * @return true, if checks if is level2 list avlbl
      */
-    private boolean isLevel2ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+    private boolean isLevel2ListAvlbl(final int contractSystemId, final String category)  {
         LOGGER.debug("Entering isLevel2ListAvlbl method");
         boolean available = false;
         try {
@@ -543,7 +542,7 @@ public class PromoteTPLogic {
         return available;
     }
 
-    public int getCFPQueriedCount(final int contractSystemId) throws SystemException {
+    public int getCFPQueriedCount(final int contractSystemId)  {
         LOGGER.debug("Entering getCFPQueriedCount method");
 
         final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
@@ -558,7 +557,7 @@ public class PromoteTPLogic {
 
     }
 
-    public int getIFPQueriedCount(final int contractSystemId) throws SystemException {
+    public int getIFPQueriedCount(final int contractSystemId)  {
         LOGGER.debug("Entering getIFPQueriedCount method");
 
         final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
@@ -574,7 +573,7 @@ public class PromoteTPLogic {
      * @param contractSystemId the contract system id
      * @return the PS queried count
      */
-    public int getPSQueriedCount(final int contractSystemId) throws SystemException {
+    public int getPSQueriedCount(final int contractSystemId)  {
         LOGGER.debug("Entering getPSQueriedCount method");
 
         final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
@@ -584,7 +583,7 @@ public class PromoteTPLogic {
         return (int) dao.contractMasterDynamicQueryCount(psDynamicQuery);
     }
 
-    public int getRSQueriedCount(final int contractSystemId) throws SystemException {
+    public int getRSQueriedCount(final int contractSystemId)  {
         LOGGER.debug("Entering getRSQueriedCount method");
 
         final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
@@ -630,7 +629,7 @@ public class PromoteTPLogic {
         return levelsDetails;
     }
 
-    public ExtTreeContainer<CurrentContractDTO> getLevel2Hierarchy(final CurrentContractDTO parent, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws SystemException, PortalException {
+    public ExtTreeContainer<CurrentContractDTO> getLevel2Hierarchy(final CurrentContractDTO parent, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel2Hierarchy method");
         container.removeAllItems();
         container.addBean(parent);
@@ -651,7 +650,7 @@ public class PromoteTPLogic {
         return container;
     }
 
-    public List<CurrentContractDTO> getLevel2List(final CurrentContractDTO parent1, final int start, final int end) throws SystemException, PortalException {
+    public List<CurrentContractDTO> getLevel2List(final CurrentContractDTO parent1, final int start, final int end) throws PortalException {
 
         LOGGER.debug("Entering getLevel2List method");
         List<CurrentContractDTO> level2List;
@@ -670,7 +669,7 @@ public class PromoteTPLogic {
         return level2List;
     }
 
-    private List<CurrentContractDTO> getCFPList(final CurrentContractDTO parent1, final int level, final int start, final int end) throws SystemException, PortalException {
+    private List<CurrentContractDTO> getCFPList(final CurrentContractDTO parent1, final int level, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getCFPList method");
 
         final List<CurrentContractDTO> cfpList = new ArrayList<>();
@@ -703,7 +702,7 @@ public class PromoteTPLogic {
         return cfpList;
     }
 
-    private List<CurrentContractDTO> getIFPList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final int level, final int start, final int end) throws SystemException, PortalException {
+    private List<CurrentContractDTO> getIFPList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final int level, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getIFPList method");
 
         final List<CurrentContractDTO> ifpList = new ArrayList<>();
@@ -753,7 +752,7 @@ public class PromoteTPLogic {
      * @param level the level
      * @return the PS list
      */
-    private List<CurrentContractDTO> getPSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final int level, final int start, final int end) throws SystemException, PortalException {
+    private List<CurrentContractDTO> getPSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final int level, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getPSList method");
 
         final List<CurrentContractDTO> psList = new ArrayList<>();
@@ -826,7 +825,7 @@ public class PromoteTPLogic {
     }
 
     private List<CurrentContractDTO> getRSList(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final CurrentContractDTO parent4, final int level, final int start, final int end)
-            throws SystemException, PortalException {
+            throws PortalException {
         LOGGER.debug("Entering getRSList method");
 
         final List<CurrentContractDTO> rsList = new ArrayList<>();
@@ -952,7 +951,7 @@ public class PromoteTPLogic {
      * @param contractSystemId the contract system id
      * @return true, if checks if is level3 list avlbl
      */
-    public boolean isLevel3ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+    public boolean isLevel3ListAvlbl(final int contractSystemId, final String category)  {
 
         LOGGER.debug("Entering isLevel3ListAvlbl method");
         boolean available;
@@ -975,9 +974,9 @@ public class PromoteTPLogic {
      * @param parent2
      * @param container
      * @return
-     * @throws SystemException
+     * @
      */
-    public ExtTreeContainer<CurrentContractDTO> getLevel3Hierarchy(final CurrentContractDTO parent2, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws SystemException, PortalException {
+    public ExtTreeContainer<CurrentContractDTO> getLevel3Hierarchy(final CurrentContractDTO parent2, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel3Hierarchy method");
         container.removeAllItems();
 
@@ -1016,7 +1015,7 @@ public class PromoteTPLogic {
      * @param parent2 the parent2
      * @return the level3 list
      */
-    public List<CurrentContractDTO> getLevel3List(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final int start, final int end) throws SystemException, PortalException {
+    public List<CurrentContractDTO> getLevel3List(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final int start, final int end) throws PortalException {
 
         LOGGER.debug("Entering getLevel3List method");
         List<CurrentContractDTO> level3List;
@@ -1034,7 +1033,7 @@ public class PromoteTPLogic {
         return level3List;
     }
 
-    public boolean isLevel4ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+    public boolean isLevel4ListAvlbl(final int contractSystemId, final String category)  {
 
         LOGGER.debug("Entering isLevel4ListAvlbl method");
         boolean available;
@@ -1050,9 +1049,9 @@ public class PromoteTPLogic {
      * @param parent3
      * @param container
      * @return
-     * @throws SystemException
+     * @
      */
-    public ExtTreeContainer<CurrentContractDTO> getLevel4Hierarchy(final CurrentContractDTO parent3, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws SystemException, PortalException {
+    public ExtTreeContainer<CurrentContractDTO> getLevel4Hierarchy(final CurrentContractDTO parent3, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel4Hierarchy method");
 
         container.removeAllItems();
@@ -1093,7 +1092,7 @@ public class PromoteTPLogic {
      * @param parent3 the parent3
      * @return the level4 list
      */
-    public List<CurrentContractDTO> getLevel4List(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final int start, final int end) throws SystemException, PortalException {
+    public List<CurrentContractDTO> getLevel4List(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel4List method");
 
         List<CurrentContractDTO> level4List;
@@ -1115,9 +1114,9 @@ public class PromoteTPLogic {
      * @param parent4
      * @param container
      * @return
-     * @throws SystemException
+     * @
      */
-    public ExtTreeContainer<CurrentContractDTO> getLevel5Hierarchy(final CurrentContractDTO parent4, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws SystemException, PortalException {
+    public ExtTreeContainer<CurrentContractDTO> getLevel5Hierarchy(final CurrentContractDTO parent4, final ExtTreeContainer<CurrentContractDTO> container, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel5Hierarchy method");
 
         container.removeAllItems();
@@ -1158,9 +1157,9 @@ public class PromoteTPLogic {
      * @param parent3
      * @param parent4
      * @return
-     * @throws SystemException
+     * @
      */
-    public List<CurrentContractDTO> getLevel5List(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final CurrentContractDTO parent4, final int start, final int end) throws SystemException, PortalException {
+    public List<CurrentContractDTO> getLevel5List(final CurrentContractDTO parent1, final CurrentContractDTO parent2, final CurrentContractDTO parent3, final CurrentContractDTO parent4, final int start, final int end) throws PortalException {
 
         LOGGER.debug("Entering getLevel5List method");
 
@@ -1181,7 +1180,7 @@ public class PromoteTPLogic {
      * @param contractSystemId the contract system id
      * @return true, if checks if is level5 list avlbl
      */
-    private boolean isLevel5ListAvlbl(final int contractSystemId) throws SystemException {
+    private boolean isLevel5ListAvlbl(final int contractSystemId)  {
         LOGGER.debug("Entering isLevel5ListAvlbl method");
         if (getRSQueriedCount(contractSystemId) > Constants.ZERO) {
             return true;
@@ -1200,7 +1199,7 @@ public class PromoteTPLogic {
         int count = 0;
         String query = getContractQuery(conSelDto, userId, sessionId, 0, 0, false);
         try {
-            List list = (List) daoImpl.executeSelect(query.toString());
+            List list = (List) daoImpl.executeSelect(query);
             if (!list.isEmpty()) {
                 count = list.size();
             }
@@ -1536,7 +1535,7 @@ public class PromoteTPLogic {
         return check;
     }
 
-    public List<ComponentInfoDTO> getRebateSchedule(ComponentInfoDTO newDiscountTabDto) throws SystemException, ParseException {
+    public List<ComponentInfoDTO> getRebateSchedule(ComponentInfoDTO newDiscountTabDto) throws ParseException {
         List<ComponentInfoDTO> searchList;
         List results = new ArrayList();
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.RS_VALUE.toString())) {
@@ -1562,7 +1561,7 @@ public class PromoteTPLogic {
         return searchList;
     }
 
-    private List<ComponentInfoDTO> getTpCustomisedDto(List results, ComponentInfoDTO newDiscountTabDto) throws ParseException, SystemException  {
+    private List<ComponentInfoDTO> getTpCustomisedDto(List results, ComponentInfoDTO newDiscountTabDto) throws ParseException {
 
         List<ComponentInfoDTO> searchList = new ArrayList<>();
         int size = results.size();
@@ -1643,7 +1642,7 @@ public class PromoteTPLogic {
         return count;
     }
 
-    public List<ComponentInfoDTO> getItemsFromRs(ComponentInfoDTO newDiscountTabDto) throws SystemException {
+    public List<ComponentInfoDTO> getItemsFromRs(ComponentInfoDTO newDiscountTabDto)  {
         List<ComponentInfoDTO> searchList;
         String component = newDiscountTabDto.getComponentValue();
         String query = queryUtils.getTpItemsFromRs(newDiscountTabDto);
@@ -1710,7 +1709,7 @@ public class PromoteTPLogic {
 
     }
 
-    public ExtTreeContainer<ComponentInfoDTO> getLevel1HierarchyForContDashboard(final String contractId, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws SystemException {
+    public ExtTreeContainer<ComponentInfoDTO> getLevel1HierarchyForContDashboard(final String contractId, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end)  {
         LOGGER.debug("Entering getLevel1Hierarchy method");
         final List<ComponentInfoDTO> contractList = getContractListForExisting(contractId, ComponentInfoDTO.LEVEL1, start, end);
         container.removeAllItems();
@@ -1732,7 +1731,7 @@ public class PromoteTPLogic {
         return container;
     }
 
-    private List<ComponentInfoDTO> getContractListForExisting(final String contractId, final int level, final int start, final int end) throws SystemException {
+    private List<ComponentInfoDTO> getContractListForExisting(final String contractId, final int level, final int start, final int end)  {
         LOGGER.debug("Entering getContractList method");
 
         String contract;
@@ -1766,7 +1765,7 @@ public class PromoteTPLogic {
         return contractList;
     }
 
-    public ExtTreeContainer<ComponentInfoDTO> getContDashboardLevel2Hierarchy(final ComponentInfoDTO parent, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws SystemException, PortalException {
+    public ExtTreeContainer<ComponentInfoDTO> getContDashboardLevel2Hierarchy(final ComponentInfoDTO parent, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel2Hierarchy method");
         container.removeAllItems();
         container.addBean(parent);
@@ -1787,7 +1786,7 @@ public class PromoteTPLogic {
         return container;
     }
 
-    public ExtTreeContainer<ComponentInfoDTO> getContDashboardLevel3Hierarchy(final ComponentInfoDTO parent2, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws SystemException, PortalException {
+    public ExtTreeContainer<ComponentInfoDTO> getContDashboardLevel3Hierarchy(final ComponentInfoDTO parent2, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel3Hierarchy method");
         container.removeAllItems();
 
@@ -1819,7 +1818,7 @@ public class PromoteTPLogic {
         return container;
     }
 
-    public List<ComponentInfoDTO> getDashboardLevel2List(final ComponentInfoDTO parent1, final int start, final int end) throws SystemException, PortalException {
+    public List<ComponentInfoDTO> getDashboardLevel2List(final ComponentInfoDTO parent1, final int start, final int end) throws PortalException {
 
         LOGGER.debug("Entering getDashboardLevel2List method");
         List<ComponentInfoDTO> level2List;
@@ -1838,7 +1837,7 @@ public class PromoteTPLogic {
         return level2List;
     }
 
-    private List<ComponentInfoDTO> getDashboardCFPList(final ComponentInfoDTO parent1, final int level, final int start, final int end) throws SystemException, PortalException {
+    private List<ComponentInfoDTO> getDashboardCFPList(final ComponentInfoDTO parent1, final int level, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getCFPList method");
 
         final List<ComponentInfoDTO> cfpList = new ArrayList<>();
@@ -1871,7 +1870,7 @@ public class PromoteTPLogic {
         return cfpList;
     }
 
-    private List<ComponentInfoDTO> getDashboardIFPList(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final int level, final int start, final int end) throws SystemException, PortalException {
+    private List<ComponentInfoDTO> getDashboardIFPList(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final int level, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getIFPList method");
 
         final List<ComponentInfoDTO> ifpList = new ArrayList<>();
@@ -1912,7 +1911,7 @@ public class PromoteTPLogic {
         return ifpList;
     }
 
-    private List<ComponentInfoDTO> getDashboardPSList(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final ComponentInfoDTO parent3, final int level, final int start, final int end) throws SystemException, PortalException {
+    private List<ComponentInfoDTO> getDashboardPSList(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final ComponentInfoDTO parent3, final int level, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getPSList method");
 
         final List<ComponentInfoDTO> psList = new ArrayList<>();
@@ -1985,7 +1984,7 @@ public class PromoteTPLogic {
     }
 
     private List<ComponentInfoDTO> getDashboardRSList(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final ComponentInfoDTO parent3, final ComponentInfoDTO parent4, final int level, final int start, final int end)
-            throws SystemException, PortalException {
+            throws PortalException {
         LOGGER.debug("Entering getRSList method");
 
         final List<ComponentInfoDTO> rsList = new ArrayList<>();
@@ -2105,7 +2104,7 @@ public class PromoteTPLogic {
         return rsList;
     }
 
-    public List<ComponentInfoDTO> getDashboardLevel3List(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final int start, final int end) throws SystemException, PortalException {
+    public List<ComponentInfoDTO> getDashboardLevel3List(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final int start, final int end) throws PortalException {
 
         LOGGER.debug("Entering getLevel3List method");
         List<ComponentInfoDTO> level3List;
@@ -2123,7 +2122,7 @@ public class PromoteTPLogic {
         return level3List;
     }
 
-    public ExtTreeContainer<ComponentInfoDTO> getContDashboardLevel4Hierarchy(final ComponentInfoDTO parent3, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws SystemException, PortalException {
+    public ExtTreeContainer<ComponentInfoDTO> getContDashboardLevel4Hierarchy(final ComponentInfoDTO parent3, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getcontDashboardLevel4Hierarchy method");
 
         container.removeAllItems();
@@ -2156,7 +2155,7 @@ public class PromoteTPLogic {
         return container;
     }
 
-    public List<ComponentInfoDTO> getDashboardLevel4List(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final ComponentInfoDTO parent3, final int start, final int end) throws SystemException, PortalException {
+    public List<ComponentInfoDTO> getDashboardLevel4List(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final ComponentInfoDTO parent3, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel4List method");
 
         List<ComponentInfoDTO> level4List;
@@ -2172,7 +2171,7 @@ public class PromoteTPLogic {
         return level4List;
     }
 
-    public ExtTreeContainer<ComponentInfoDTO> getContDashboardLevel5Hierarchy(final ComponentInfoDTO parent4, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws SystemException, PortalException {
+    public ExtTreeContainer<ComponentInfoDTO> getContDashboardLevel5Hierarchy(final ComponentInfoDTO parent4, final ExtTreeContainer<ComponentInfoDTO> container, final int start, final int end) throws PortalException {
         LOGGER.debug("Entering getLevel5Hierarchy method");
 
         container.removeAllItems();
@@ -2205,7 +2204,7 @@ public class PromoteTPLogic {
         return container;
     }
 
-    public List<ComponentInfoDTO> getDashboardLevel5List(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final ComponentInfoDTO parent3, final ComponentInfoDTO parent4, final int start, final int end) throws SystemException, PortalException {
+    public List<ComponentInfoDTO> getDashboardLevel5List(final ComponentInfoDTO parent1, final ComponentInfoDTO parent2, final ComponentInfoDTO parent3, final ComponentInfoDTO parent4, final int start, final int end) throws PortalException {
 
         LOGGER.debug("Entering getLevel5List method");
 
@@ -2279,9 +2278,9 @@ public class PromoteTPLogic {
      *
      * @param listType
      * @return
-     * @throws SystemException
+     * @
      */
-    public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
+    public List<HelperDTO> getDropDownList(final String listType)  {
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
@@ -3370,7 +3369,7 @@ public class PromoteTPLogic {
         }
         if (!StringUtils.EMPTY.equals(query)) {
             try {
-                List list = (List) daoImpl.executeSelect(query.toString());
+                List list = (List) daoImpl.executeSelect(query);
                 if (!list.isEmpty()) {
                     count = Integer.parseInt(String.valueOf(list.get(0)));
                     if (count > 0) {

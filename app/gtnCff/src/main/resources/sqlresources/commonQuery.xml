@@ -556,7 +556,7 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
         FROM   (SELECT FT.FORECAST_NAME,
                        FT.[VERSION],
                        FILE_MANAGEMENT_SID,
-                       HT.[DESCRIPTION]                       AS FILE_TYPE,
+                       HT.[ALIAS_NAME]                       AS FILE_TYPE,
                        FT.FROM_PERIOD,
                        FT.TO_PERIOD,
                        FT.FILE_TYPE                           AS ID,
@@ -577,7 +577,7 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
                    AND FT.COMPANY = ? ) AS A
         WHERE  RN = 1 ?)A
        INNER JOIN HELPER_TABLE H
-               ON A.FILE_TYPE = H.[DESCRIPTION]
+               ON A.FILE_TYPE = H.[ALIAS_NAME]
                   AND H.LIST_NAME = 'FILE_TYPE'  
 
      ]]>
@@ -1211,7 +1211,7 @@ ORDER  BY PROJECTION_MASTER_SID
                       WHEN A.FILE_MANAGEMENT_SID IS NULL THEN A.ACTIVE_TO
                       ELSE B.TO_PERIOD
                     END,
-          HT.DESCRIPTION AS FILE_TYPE
+          HT.ALIAS_NAME AS FILE_TYPE
 FROM      CFF_FILE_SELECTION A
 LEFT JOIN FILE_MANAGEMENT B ON A.FILE_MANAGEMENT_SID = B.FILE_MANAGEMENT_SID
 LEFT JOIN HELPER_TABLE HT ON A.FILE_TYPE=HT.HELPER_TABLE_SID 
@@ -1240,7 +1240,7 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
         FROM   (SELECT FT.FORECAST_NAME,
                        FT.[VERSION],
                        FILE_MANAGEMENT_SID,
-                       HT.[DESCRIPTION]                       AS FILE_TYPE,
+                       HT.[ALIAS_NAME]                        AS FILE_TYPE,
                        FT.FROM_PERIOD,
                        FT.TO_PERIOD,
                        FT.FILE_TYPE                           AS ID,
@@ -1260,7 +1260,7 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
                         AND FT.COMPANY = ? ) AS A
         WHERE  RN = 1 ?)A
        INNER JOIN HELPER_TABLE H
-               ON A.FILE_TYPE = H.[DESCRIPTION]
+               ON A.FILE_TYPE = H.[ALIAS_NAME]
                   AND H.LIST_NAME = 'FILE_TYPE'  ) as co
 
      ]]>

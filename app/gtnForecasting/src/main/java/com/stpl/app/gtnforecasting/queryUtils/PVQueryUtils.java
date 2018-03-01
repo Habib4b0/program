@@ -221,7 +221,7 @@ public class PVQueryUtils {
 
             return customSql.toString();
         } catch (ParseException e) {
-            LOGGER.error(e + "  at PvQueryUtils -> getComparisonSearch");
+            LOGGER.error("at PvQueryUtils -> getComparisonSearch= {}", e);
             return null;
         }
     }
@@ -245,7 +245,7 @@ public class PVQueryUtils {
 
             return customSql;
         } catch (Exception e) {
-            LOGGER.error(e + " at PvQueryUtils ->  getComparisonSearch");
+            LOGGER.error("at PvQueryUtils ->  getComparisonSearch= {}", e);
             return null;
         }
     }
@@ -507,7 +507,7 @@ public class PVQueryUtils {
             customSql.append(" group by  pm.projection_name,pm.projection_description,pm.projection_master_sid,PM.created_date,PM.created_by ) RSLT ");
             return customSql.toString();
         } catch (SystemException | ParseException e) {
-            LOGGER.error(e + " at PvQueryUtils -> getComparisonSearch");
+            LOGGER.error("at PvQueryUtils -> getComparisonSearch= {}", e);
             return null;
         }
     }
@@ -708,7 +708,7 @@ public class PVQueryUtils {
             customSql.append(" ROWS ONLY ;");
             return customSql.toString();
         } catch (SystemException | ParseException e) {
-            LOGGER.error(e + " at PvQueryUtils -> getComparisonSearch");
+            LOGGER.error("at PvQueryUtils -> getComparisonSearch= {}", e);
             return null;
         }
     }

@@ -1,8 +1,5 @@
 package com.stpl.app.serviceUtils;
 
-// TODO: Auto-generated Javadoc
-
-//import com.stpl.ifs.util.HelperDTO;
 
 /**
  * Class for String Constants.
@@ -1063,7 +1060,7 @@ public final class Constants {
         MONTHLY("Monthly"),
         MONTHS("Months"),
         QUARTERS("Quarters");
-        private String frequencyValue;
+        private final String frequencyValue;
 
         private FrequencyConstants(String frequencyValue) {
             this.frequencyValue = frequencyValue;
@@ -1083,7 +1080,6 @@ public final class Constants {
      * The Constructor.
      */
     private Constants() {
-        // empty constructor
     }
     /**
      * The alpha num validation.
@@ -1175,7 +1171,6 @@ public final class Constants {
      */
     public final static String DATE_FORMAT = "MM/dd/yyyy";
     
-//    public final static HelperDTO NULL_HELPER_DTO = new HelperDTO(Constants.SELECT_ONE);
     
         
     public final static String DB_RESET_ELIGIBLE="LOCKED_STATUS";

@@ -1,4 +1,3 @@
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -301,6 +300,7 @@ public class Constants {
             return constant;
         }
     }
+    public static final String CUSTOMER_GROUP = "Customer Group";
     public static final String DISABLE1 = "Disable";
     public static final String COMPANY_LABEL = "Company";
     public static final String CUSTOMER_LABEL = "Customer";
@@ -311,7 +311,7 @@ public class Constants {
     public static final String ENABLE_LABEL = "Enable";
     public static final String INDICATOR_LEVEL_CUSTOMER = "Customer Level";
     public static final String INDICATOR_LEVEL_CONTRACT = "Contract Level";
-    public static final String INDICATOR_CUSTOMER_GROUP = "Customer Group";
+
 
     /**
      * Enum for Button constants
@@ -377,7 +377,7 @@ public class Constants {
 
         INDICATOR_TIME_PERIOD_CHANGED("TIME CHANGED"),
         INDICATOR_REFRESH_UPDATE("Refresh"),
-        INDICATOR_CUSTOMER_GROUP("Customer Group"),
+
         INDICATOR_PRODUCT_GROUP("Product Group"),
         INDICATOR_CUSTOMER_HIERARCHY("Customer Hierachy"),
         INDICATOR_PRODUCT_HIERARCHY("Product Hierachy"),
@@ -1520,4 +1520,3 @@ public class Constants {
 		return AVAILABLE_ITEMS_VISIBLE_COLUMNS.clone();
 	}
 }
-

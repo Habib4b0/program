@@ -38,7 +38,7 @@ import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
  * @author Abhiram.Giri
  */
 public class GtnFrameworkContractDashBoardSubmitAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-
+    
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -270,6 +270,7 @@ public class GtnFrameworkContractDashBoardSubmitAction implements GtnUIFrameWork
 		List<String> psFieldMessageList = new ArrayList<>();
 		psFieldList.add(processDataBean.getPricingFieldList().get(0));
 		psFieldList.add(processDataBean.getPricingFieldList().get(1));
+		psFieldList.add(processDataBean.getPricingFieldList().get(2));
 		psFieldList.add(processDataBean.getPricingFieldList().get(3));
 		psFieldList.add(processDataBean.getPricingFieldList().get(4));
 

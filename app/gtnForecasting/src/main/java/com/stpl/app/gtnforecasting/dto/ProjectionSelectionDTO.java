@@ -8,6 +8,7 @@ package com.stpl.app.gtnforecasting.dto;
 import com.stpl.app.gtnforecasting.discountprojectionresults.dto.DiscountProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -280,6 +281,9 @@ public class ProjectionSelectionDTO {
     private String uomCode = StringUtils.EMPTY;
     private Object[] displayFormat = null;
     private Object conversionFactor = null;
+    private GtnSmallHashMap multipleVariableCheckMap = new GtnSmallHashMap();
+    public boolean isMultipleVariablesUpdated = false;
+    private Map<String,String> updateQueryMap = new HashMap<>();
     
     public List<String> getDeductionLevelFilter() {
         return deductionLevelFilter == null ? deductionLevelFilter : new ArrayList<>(deductionLevelFilter);
@@ -2381,4 +2385,28 @@ public class ProjectionSelectionDTO {
         this.conversionFactor = conversionFactor;
     }
 
+    public GtnSmallHashMap getMultipleVariableCheckMap() {
+        return multipleVariableCheckMap;
+    }
+
+    public void setMultipleVariableCheckMap(GtnSmallHashMap multipleVariableCheckMap) {
+        this.multipleVariableCheckMap = multipleVariableCheckMap;
+    }
+
+    public boolean isIsMultipleVariablesUpdated() {
+        return isMultipleVariablesUpdated;
+    }
+
+    public void setIsMultipleVariablesUpdated(boolean isMultipleVariablesUpdated) {
+        this.isMultipleVariablesUpdated = isMultipleVariablesUpdated;
+    }
+
+    public Map<String, String> getUpdateQueryMap() {
+        return updateQueryMap;
+    }
+
+    public void setUpdateQueryMap(Map<String, String> updateQueryMap) {
+        this.updateQueryMap = updateQueryMap;
+    }
+    
 }

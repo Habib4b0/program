@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.ui;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
@@ -51,7 +53,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
-// TODO: Auto-generated Javadoc
 /**
  * UI class of Non-Mandated.
  *
@@ -102,12 +103,12 @@ public class ForecastUI extends UI {
         VaadinSession.getCurrent().setAttribute(Constant.USER_ID, userId);
         sessionDto.setUserId(userId);
         sessionDto.setSessionId(sessionId);
-        LOGGER.info("USER_ID: " + userId);
-        LOGGER.info("SESSION_ID: " + sessionId);
+        LOGGER.info("USER_ID= {} " , userId);
+        LOGGER.info("SESSION_ID= {} " , sessionId);
         try {
             Collection<Object> userGroupId = stplSecurity.getUserGroupId(Long.parseLong(userId));
             VaadinSession.getCurrent().setAttribute("businessRoleIds", stplSecurity.getBusinessRoleIds(userGroupId));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
 
@@ -187,7 +188,7 @@ public class ForecastUI extends UI {
                         logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
                 projectionName = temp.getProjectionName();
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException | NumberFormatException ex) {
                 LOGGER.error(ex.getMessage());
             }
             sessionDto.setWorkflowId(Integer.valueOf(workflowId));
@@ -318,7 +319,6 @@ public class ForecastUI extends UI {
                 navigator.addView(AccrualRateProjectionView.ARP_VIEW, arpView);
             }
             ExecutorService serviec = Executors.newSingleThreadExecutor();
-//            serviec.submit(new BPMJob());
             if (projectionId != null
                     && !CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 				getUI().getNavigator().navigateTo(ForecastWorkflowView.NAME + "/" + pageParameters);
@@ -334,7 +334,6 @@ public class ForecastUI extends UI {
             LoggerFactory.getLogger(ForecastUI.class.getName()).error(StringUtils.EMPTY, ex);
         }
 
-        // Configure the error handler for the UI
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {

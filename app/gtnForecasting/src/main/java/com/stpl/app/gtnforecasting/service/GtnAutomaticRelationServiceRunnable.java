@@ -19,7 +19,7 @@ public class GtnAutomaticRelationServiceRunnable implements Callable {
 		super();
 		this.value = value;
 		this.hierarchySid = hierarchySid;
-                this.userId = userId;
+                GtnAutomaticRelationServiceRunnable.userId = userId;
 	}
 
 	public static void testWebservice() {

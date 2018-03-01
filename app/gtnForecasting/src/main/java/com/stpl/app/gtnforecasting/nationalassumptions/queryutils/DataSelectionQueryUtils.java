@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 public class DataSelectionQueryUtils {
 
      private static final NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
-     private String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+     private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
      public static final String AFALSE_STRING = "false";
      public static final String FILTERBUSINESS_UNIT_NAME = "filter~businessUnitName";
      public static final String FILTERCREATED_BY = "filter~createdBy";
@@ -749,7 +749,7 @@ public class DataSelectionQueryUtils {
         boolean whereAppend = true;
         if (StringUtils.isNotBlank(productGroupNo)) {
             if (whereAppend) {
-                sql = sql + Constant.WHERE_SPACE;
+                sql = sql + Constant.SPACE_WHERE;
                 whereAppend = false;
             }
             if (andAppend) {
@@ -761,7 +761,7 @@ public class DataSelectionQueryUtils {
 
         if (StringUtils.isNotBlank(productGroupName)) {
             if (whereAppend) {
-                sql = sql + Constant.WHERE_SPACE;
+                sql = sql + Constant.SPACE_WHERE;
                 whereAppend = false;
             }
             if (andAppend) {
@@ -772,7 +772,7 @@ public class DataSelectionQueryUtils {
         }
         if (parameters.containsKey(FILTER_PRODUCT_GROUP_NAME)) {
             if (whereAppend) {
-                sql = sql + Constant.WHERE_SPACE;
+                sql = sql + Constant.SPACE_WHERE;
                 whereAppend = false;
             }
             if (andAppend) {
@@ -785,7 +785,7 @@ public class DataSelectionQueryUtils {
 
         if (parameters.containsKey(Constant.FILTER_PRODUCT_GROUP)) {
             if (whereAppend) {
-                sql = sql + Constant.WHERE_SPACE;
+                sql = sql + Constant.SPACE_WHERE;
                 whereAppend = false;
             }
             if (andAppend) {
@@ -798,7 +798,7 @@ public class DataSelectionQueryUtils {
 
         if (parameters.containsKey(Constant.FILTER_COMPANY)) {
             if (whereAppend) {
-                sql = sql + Constant.WHERE_SPACE;
+                sql = sql + Constant.SPACE_WHERE;
             }
             if (andAppend) {
                 sql = sql + Constant.SPACE_AND_SPACE;
@@ -853,7 +853,7 @@ public class DataSelectionQueryUtils {
             boolean whereAppend = true;
             if (StringUtils.isNotBlank(productGroupNo)) {
                 if (whereAppend) {
-                    sql = sql + Constant.WHERE_SPACE;
+                    sql = sql + Constant.SPACE_WHERE;
                     whereAppend = false;
                 }
                 if (andAppend) {
@@ -865,7 +865,7 @@ public class DataSelectionQueryUtils {
 
             if (StringUtils.isNotBlank(productGroupName)) {
                 if (whereAppend) {
-                    sql = sql + Constant.WHERE_SPACE;
+                    sql = sql + Constant.SPACE_WHERE;
                     whereAppend = false;
                 }
                 if (andAppend) {
@@ -877,7 +877,7 @@ public class DataSelectionQueryUtils {
 
             if (parameters.containsKey(FILTER_PRODUCT_GROUP_NAME)) {
                 if (whereAppend) {
-                    sql = sql + Constant.WHERE_SPACE;
+                    sql = sql + Constant.SPACE_WHERE;
                     whereAppend = false;
                 }
                 if (andAppend) {
@@ -890,7 +890,7 @@ public class DataSelectionQueryUtils {
 
             if (parameters.containsKey(Constant.FILTER_PRODUCT_GROUP)) {
                 if (whereAppend) {
-                    sql = sql + Constant.WHERE_SPACE;
+                    sql = sql + Constant.SPACE_WHERE;
                     whereAppend = false;
                 }
                 if (andAppend) {
@@ -903,7 +903,7 @@ public class DataSelectionQueryUtils {
 
             if (parameters.containsKey("filter~productGroupDescription")) {
                 if (whereAppend) {
-                    sql = sql + Constant.WHERE_SPACE;
+                    sql = sql + Constant.SPACE_WHERE;
                     whereAppend = false;
                 }
                 if (andAppend) {
@@ -916,7 +916,7 @@ public class DataSelectionQueryUtils {
 
             if (parameters.containsKey(Constant.FILTER_COMPANY)) {
                 if (whereAppend) {
-                    sql = sql + Constant.WHERE_SPACE;
+                    sql = sql + Constant.SPACE_WHERE;
                 }
                 if (andAppend) {
                     sql = sql + Constant.SPACE_AND_SPACE;
@@ -943,9 +943,9 @@ public class DataSelectionQueryUtils {
             if (parameters.get(Constant.ISORDERED) == null || AFALSE_STRING.equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
                 sql = sql + (" ORDER BY ITEM_GROUP_NAME DESC ");
             } else if (parameters.get(Constant.ISORDERED) != null && Constant.TRUE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.ISORDERED)))) {
-                if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP_NAME) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_NAME)))) {
+                if (parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME)))) {
                     sql = sql + (" ORDER BY ITEM_GROUP_NAME ");
-                    sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_NAME)));
+                    sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_NAME)));
                 }
 
                 if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP) != null && !com.stpl.app.serviceUtils.Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP)))) {
@@ -956,9 +956,9 @@ public class DataSelectionQueryUtils {
                     sql = sql + (" ORDER BY CM.COMPANY_NAME ");
                     sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYCOMPANY)));
                 }
-                if (parameters.get(Constant.ORDER_BYPRODUCT_GROUP_DESCRIPTION) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_DESCRIPTION))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_DESCRIPTION)))) {
+                if (parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_DESCRIPTION) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_DESCRIPTION))) && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_DESCRIPTION)))) {
                     sql = sql + (" ORDER BY IG.ITEM_GROUP_DESCRIPTION ");
-                    sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BYPRODUCT_GROUP_DESCRIPTION)));
+                    sql = sql + (String.valueOf(parameters.get(Constant.ORDER_BY_PRODUCT_GROUP_DESCRIPTION)));
                 }
             }
             sql += (" OFFSET ") + (startIndex) + (Constant.ROWS_FETCH_NEXT_SPACE) + (offset) + (Constant.ROWS_ONLY_SPACE);

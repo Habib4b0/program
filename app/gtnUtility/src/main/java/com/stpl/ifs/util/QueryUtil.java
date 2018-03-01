@@ -61,7 +61,7 @@ public class QueryUtil {
         for (int i = 0; i < tableNameMap.size(); i++) {
             query = query.replaceAll("(?i:\\b" + tableNameMap.getIndex(i).getKey() + "\\b)", tableNameMap.getIndex(i).getValue().toString());
         }
-        return query;
+            return query;
     }
 
     /**

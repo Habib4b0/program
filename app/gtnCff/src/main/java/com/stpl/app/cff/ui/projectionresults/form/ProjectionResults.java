@@ -351,7 +351,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                     }
                 });
             }
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
