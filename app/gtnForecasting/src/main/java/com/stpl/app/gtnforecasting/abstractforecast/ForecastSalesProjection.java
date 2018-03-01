@@ -5,8 +5,66 @@
  */
 package com.stpl.app.gtnforecasting.abstractforecast;
 
+import static com.stpl.app.gtnforecasting.utils.CommonUtil.stringNullCheck;
+import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
+import static com.stpl.app.gtnforecasting.utils.Constant.ANNUAL;
+import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
+import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
+import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
+import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
+import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER;
+import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER_HIERARCHY;
+import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM_HIERARCHY;
+import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
+import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT_HIERARCHY;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_SALES_PROJECTION;
+import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeMap;
+
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterGenerator;
+import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -22,12 +80,8 @@ import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.ChangeCustomMenuBarValueUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import static com.stpl.app.gtnforecasting.utils.CommonUtil.stringNullCheck;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.ANNUAL;
-import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.gtnforecasting.utils.TabNameUtil;
 import com.stpl.app.gtnforecasting.utils.TotalLivesChart;
@@ -36,19 +90,6 @@ import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.Constants;
-import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
-import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
-import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
-import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
-import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
-import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER;
-import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER_HIERARCHY;
-import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM_HIERARCHY;
-import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
-import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT_HIERARCHY;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_SALES_PROJECTION;
-import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
@@ -93,44 +134,6 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.TreeMap;
-
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.custommenubar.CustomMenuBar;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -138,7 +141,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public abstract class ForecastSalesProjection extends CustomComponent implements View {
 
-    private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
+
+	private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
     
     private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
 	/**
@@ -814,8 +818,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     notif.show(Page.getCurrent());
                     projectionDTO.getMultipleVariableCheckMap().clear();
                 } else {
-                    AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
-                            "Multiple variables for the same row and time period combination have been changed. Please only change one variable for a single row and time period combination.");
+                	AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
+                    		AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
                     projectionDTO.setIsMultipleVariablesUpdated(false);
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     projectionDTO.getMultipleVariableCheckMap().clear();

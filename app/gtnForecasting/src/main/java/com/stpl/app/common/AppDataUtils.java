@@ -2,8 +2,16 @@ package com.stpl.app.common;
 
 import com.stpl.app.common.dao.CommonDao;
 import com.stpl.app.common.dao.impl.CommonImpl;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import org.slf4j.Logger;
@@ -37,5 +45,30 @@ public class AppDataUtils {
         LOGGER.debug("End of item get Data");
         return list;
     }
-
+    public static String getValueForKeyFromProperty(String string) {
+		FileInputStream fileInput = null;
+		Properties properties = new Properties();
+		String key=string;
+		String valueForKey=null;
+		File file = new File("");
+		try (InputStream inputStream=AppDataUtils.class.getResourceAsStream("/properties/alertmessage.properties");){
+			FileUtils.copyInputStreamToFile(inputStream, file);
+			fileInput = new FileInputStream(file);
+			properties.load(fileInput);
+			valueForKey = properties.getProperty(key);
+		} catch (IOException e1) {
+			LOGGER.error("Exception:"+e1.getMessage());
+		}
+		finally{
+			try {
+				if(fileInput!=null)
+				{
+				fileInput.close();
+				}
+			} catch (IOException exception) {
+				LOGGER.error("Exception Occurred:"+exception.getMessage());
+			}
+		}
+		return valueForKey;
+	}
 }
