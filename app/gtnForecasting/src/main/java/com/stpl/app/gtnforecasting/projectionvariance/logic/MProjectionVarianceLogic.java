@@ -157,15 +157,15 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getMarketType() == null || lookUpDTO.getMarketType().equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = lookUpDTO.getMarketType().replace(asterik, percent);
+                marketTypeVal = lookUpDTO.getMarketType().replace('*', '%');
                 marketTypeVal = quotes + marketTypeVal + quotes;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(")");
+            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(')');
 
             if (lookUpDTO.getBrand() == null || lookUpDTO.getBrand().equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
-                brandVal = lookUpDTO.getBrand().replace(asterik, percent);
+                brandVal = lookUpDTO.getBrand().replace('*', '%');
                 brandVal = quotes + brandVal + quotes;
             }
             customSql.append("  AND (BM.BRAND_NAME LIKE ").append(brandVal).append(" or BM.BRAND_NAME is null)");
@@ -173,7 +173,7 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getProjectionDescription() == null || lookUpDTO.getProjectionDescription().equals(StringUtils.EMPTY)) {
                 desc = "'%'";
             } else {
-                desc = lookUpDTO.getProjectionDescription().replace(asterik, percent);
+                desc = lookUpDTO.getProjectionDescription().replace('*', '%');
                 desc = quotes + desc + quotes;
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(desc).append(" or PM.PROJECTION_DESCRIPTION is null)");
@@ -181,7 +181,7 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getProjectionName() == null || lookUpDTO.getProjectionName().equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
-                projNameVal = lookUpDTO.getProjectionName().replace(asterik, percent);
+                projNameVal = lookUpDTO.getProjectionName().replace('*', '%');
                 projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE ").append(projNameVal).append(" or PM.PROJECTION_NAME is null)");
@@ -189,7 +189,7 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getContract() == null || lookUpDTO.getContract().equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
-                contractVal = lookUpDTO.getContract().replace(asterik, percent);
+                contractVal = lookUpDTO.getContract().replace('*', '%');
                 contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND (CO.CONTRACT_NO LIKE ").append(contractVal).append(" or CO.CONTRACT_NO is null)");
@@ -197,21 +197,21 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getNdcName() == null || lookUpDTO.getNdcName().equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
-                ndcNameVal = lookUpDTO.getNdcName().replace(asterik, percent);
+                ndcNameVal = lookUpDTO.getNdcName().replace('*', '%');
                 ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NAME LIKE ").append(ndcNameVal).append(" or IM.ITEM_NAME is null)");
             if (lookUpDTO.getNdcNo() == null || lookUpDTO.getNdcNo().equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
-                ndcNoVal = lookUpDTO.getNdcNo().replace(asterik, percent);
+                ndcNoVal = lookUpDTO.getNdcNo().replace('*', '%');
                 ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NO LIKE ").append(ndcNoVal).append("or IM.ITEM_NO is null)");
             if (lookUpDTO.getCustomer() == null || lookUpDTO.getCustomer().equals(StringUtils.EMPTY)) {
                 customer = "'%'";
             } else {
-                customer = lookUpDTO.getCustomer().replace(asterik, percent);
+                customer = lookUpDTO.getCustomer().replace('*', '%');
                 customer = quotes + customer + quotes;
             }
             customSql.append("AND (CM.COMPANY_NO LIKE ").append(customer).append("or CM.COMPANY_NO is null)");
@@ -230,7 +230,7 @@ public class MProjectionVarianceLogic {
             } else {
                 customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + quotes + lookUpDTO.getWorkflowStatus() + quotes);
             }
-            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(")");
+            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(')');
             customSql.append("AND CUR_PD.PROJECTION_MASTER_SID =").append(selectedProjectionIds);
             customSql.append(" AND PM.FORECASTING_TYPE='Mandated'");
             if (filterValue != null) {
@@ -269,7 +269,7 @@ public class MProjectionVarianceLogic {
                                 dynamicQuery.setProjection(productProjectionList);
                                 strList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
                                 String userID = CommonUtils.CollectionToString(strList, false);
-                                customSql.append("AND PM.CREATED_BY IN (").append(userID).append(")");
+                                customSql.append("AND PM.CREATED_BY IN (").append(userID).append(')');
                             }
                         }
                     } else if (filter instanceof Between) {
@@ -352,15 +352,15 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getMarketType().equals(Constant.NULL) || lookUpDTO.getMarketType().equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = lookUpDTO.getMarketType().replace(asterik, percent);
+                marketTypeVal = lookUpDTO.getMarketType().replace('*', '%');
                 marketTypeVal = quotes + marketTypeVal + quotes;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(")");
+            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(')');
 
             if (lookUpDTO.getBrand() == null || lookUpDTO.getBrand().equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
-                brandVal = lookUpDTO.getBrand().replace(asterik, percent);
+                brandVal = lookUpDTO.getBrand().replace('*', '%');
                 brandVal = quotes + brandVal + quotes;
             }
             customSql.append("  AND (BM.BRAND_NAME LIKE ").append(brandVal).append(" or BM.BRAND_NAME is null)");
@@ -368,14 +368,14 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getProjectionName() == null || lookUpDTO.getProjectionName().equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
-                projNameVal = lookUpDTO.getProjectionName().replace(asterik, percent);
+                projNameVal = lookUpDTO.getProjectionName().replace('*', '%');
                 projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE ").append(projNameVal).append(" or PM.PROJECTION_NAME is null)");
             if (lookUpDTO.getContract() == null || lookUpDTO.getContract().equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
-                contractVal = lookUpDTO.getContract().replace(asterik, percent);
+                contractVal = lookUpDTO.getContract().replace('*', '%');
                 contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND (CO.CONTRACT_NO LIKE ").append(contractVal).append(" or CO.CONTRACT_NO is null)");
@@ -383,7 +383,7 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getProjectionDescription() == null || lookUpDTO.getProjectionDescription().equals(StringUtils.EMPTY)) {
                 desc = "'%'";
             } else {
-                desc = lookUpDTO.getProjectionDescription().replace(asterik, percent);
+                desc = lookUpDTO.getProjectionDescription().replace('*', '%');
                 desc = quotes + desc + quotes;
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(desc).append(" or PM.PROJECTION_DESCRIPTION is null)");
@@ -391,21 +391,21 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getNdcName() == null || lookUpDTO.getNdcName().equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
-                ndcNameVal = lookUpDTO.getNdcName().replace(asterik, percent);
+                ndcNameVal = lookUpDTO.getNdcName().replace('*', '%');
                 ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NAME LIKE ").append(ndcNameVal).append(" or IM.ITEM_NAME is null)");
             if (lookUpDTO.getNdcNo() == null || lookUpDTO.getNdcNo().equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
-                ndcNoVal = lookUpDTO.getNdcNo().replace(asterik, percent);
+                ndcNoVal = lookUpDTO.getNdcNo().replace('*', '%');
                 ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NO LIKE ").append(ndcNoVal).append("or IM.ITEM_NO is null)");
             if (lookUpDTO.getCustomer() == null || lookUpDTO.getCustomer().equals(StringUtils.EMPTY)) {
                 customer = "'%'";
             } else {
-                customer = lookUpDTO.getCustomer().replace(asterik, percent);
+                customer = lookUpDTO.getCustomer().replace('*', '%');
                 customer = quotes + customer + quotes;
             }
             customSql.append("AND (CM.COMPANY_NO LIKE ").append(customer).append("or CM.COMPANY_NO is null)");
@@ -424,7 +424,7 @@ public class MProjectionVarianceLogic {
             } else {
                 customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + quotes + lookUpDTO.getWorkflowStatus() + quotes);
             }
-            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(")");
+            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(')');
             customSql.append("AND CUR_PD.PROJECTION_MASTER_SID =").append(selectedProjectionIds);
             customSql.append(" AND PM.FORECASTING_TYPE='Mandated'");
             String columnName = "PROJECTION_NAME";
@@ -497,7 +497,7 @@ public class MProjectionVarianceLogic {
                                 dynamicQuery.setProjection(productProjectionList);
                                 strList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
                                 String userID = CommonUtils.CollectionToString(strList, false);
-                                customSql.append("AND PM.CREATED_BY IN (").append(userID).append(")");
+                                customSql.append("AND PM.CREATED_BY IN (").append(userID).append(')');
                             }
                         }
                     } else if (filter instanceof Between) {
@@ -527,7 +527,7 @@ public class MProjectionVarianceLogic {
                     }
                 }
             }
-            customSql.append(" ORDER BY ").append(columnName).append(" ").append(orderBy);
+            customSql.append(" ORDER BY ").append(columnName).append(' ').append(orderBy);
             customSql.append(" OFFSET ");
             customSql.append(startIndex);
             customSql.append(Constant.ROWS_FETCH_NEXT_SPACE);
@@ -550,7 +550,7 @@ public class MProjectionVarianceLogic {
         for (int i = 0; i < list.size(); i++) {
             Object[] obj = (Object[]) list.get(i);
             ComparisonLookupDTO lookupDTO = new ComparisonLookupDTO();
-            lookupDTO.setProjectionId(Integer.valueOf(String.valueOf(obj[0])));
+            lookupDTO.setProjectionId(Integer.parseInt(String.valueOf(obj[0])));
             lookupDTO.setProjectionName(String.valueOf(obj[1]));
             lookupDTO.setProjectionDescription(String.valueOf(obj[NumericConstants.TWO]));
             lookupDTO.setMarketType(String.valueOf(obj[NumericConstants.THREE]));
@@ -1231,7 +1231,7 @@ public class MProjectionVarianceLogic {
                         List<Object> discountDataList = discountLevelMap.get(parentDto.getHierarchyNo());
                         String group = parentDto.getGroup();
                         if (group.startsWith(CommonUtils.VAR_DIS_AMOUNT)) {
-                            pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(" ") + 1));
+                            pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(' ') + 1));
 
                             if (discountDataList != null) {
                                 tobeAddedList.add(getManSuppDiscountAmount(pivotTotalList, discountDataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.TEN, NumericConstants.SEVEN, parentDto));
@@ -1241,7 +1241,7 @@ public class MProjectionVarianceLogic {
                                 tobeAddedList.add(getManSuppDiscountAmount(pivotTotalList, dataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.ELEVEN, NumericConstants.NINE, parentDto));
                             }
                         } else if (group.startsWith(CommonUtils.VAR_DIS_RATE)) {
-                            pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(" ") + 1));
+                            pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(' ') + 1));
                             if (discountDataList != null) {
                                 tobeAddedList.add(getManSuppDiscountPer(pivotTotalList, discountDataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.TWELVE, NumericConstants.EIGHT, parentDto));
                                 tobeAddedList.add(getManSuppDiscountPer(pivotTotalList, discountDataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.THIRTEEN, NumericConstants.TEN, parentDto));
@@ -1250,7 +1250,7 @@ public class MProjectionVarianceLogic {
                                 tobeAddedList.add(getManSuppDiscountPer(pivotTotalList, dataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.THIRTEEN, NumericConstants.TEN, parentDto));
                             }
                         } else if (group.startsWith("RPU")) {
-                            pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(" ") + 1));
+                            pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(' ') + 1));
                             if (discountDataList != null) {
                                 tobeAddedList.add(getManSuppRPU(pivotTotalList, discountDataList, pVSelectionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED, NumericConstants.SEVENTEEN, NumericConstants.TWELVE, parentDto));
                                 tobeAddedList.add(getManSuppRPU(pivotTotalList, discountDataList, pVSelectionDTO, Constant.SUPPLEMENTAL, NumericConstants.EIGHTEEN, NumericConstants.THIRTEEN, parentDto));
@@ -1262,7 +1262,7 @@ public class MProjectionVarianceLogic {
                         // For program Code
 
                         if ((group.startsWith(Constant.MANDATED_DISCOUNT) || group.startsWith(Constant.SUPPLEMENTAL_DISCOUNT_LABEL) || group.startsWith(Constant.MANDATED_RPU) || group.startsWith(SUPPLEMENTAL_RPU1)) && (!periodPcNames.isEmpty())) {
-                                pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(" ") + 1));
+                                pVSelectionDTO.setVarIndicator(group.substring(group.lastIndexOf(' ') + 1));
 
                                 List<Object> pcDataList = discountPcMap.get(parentDto.getHierarchyNo());
                                 if (pcDataList == null) {
@@ -1848,7 +1848,7 @@ public class MProjectionVarianceLogic {
 
             List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, resultStart, offset);
             for (String hierarchyNo : hierarchyNoList) {
-                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(2).toString()), relationshipLevelDetailsMap.get(hierarchyNo)));
+                resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(hierarchyNo).get(2).toString()), relationshipLevelDetailsMap.get(hierarchyNo)));
                 }
             }
         }
@@ -2280,8 +2280,8 @@ public class MProjectionVarianceLogic {
             for (int i = 0; i < results.size(); i++) {
                 final Object[] row = (Object[]) results.get(i);
                 final Object[] gtsRow = !gtsList.isEmpty() ? (Object[]) gtsList.get(i) : new Object[0];
-                int year = Integer.valueOf(String.valueOf(row[0]));
-                int period = Integer.valueOf(String.valueOf(row[1]));
+                int year = Integer.parseInt(String.valueOf(row[0]));
+                int period = Integer.parseInt(String.valueOf(row[1]));
                 List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, year, period);
                 String pcommonColumn = common.get(0);
                 String commonHeader = common.get(1);
@@ -2613,7 +2613,7 @@ public class MProjectionVarianceLogic {
                                     if (baseVariables.isColVariance()) {
                                         column = "mdProgramCodeSalesVar" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal = StringUtils.EMPTY + programCodeRow[mdProgramCodeSalesCount];
-                                        String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.THREE * (z + 1)])) - Double.valueOf(isNull(priorVal)));
+                                        String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.THREE * (z + 1)])) - Double.parseDouble(isNull(priorVal)));
                                         String baseValue = getFormattedValue(RATE_PER, variance);
                                         if (pvsdto.hasColumn(column)) {
                                             projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -2622,7 +2622,7 @@ public class MProjectionVarianceLogic {
 
                                         column = "sdProgramCodeSalesVar" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal1 = StringUtils.EMPTY + programCodeRow[sdProgramCodeSalesCount];
-                                        String variance1 = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.FIVE * (z + 1)])) - Double.valueOf(isNull(priorVal1)));
+                                        String variance1 = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.FIVE * (z + 1)])) - Double.parseDouble(isNull(priorVal1)));
                                         String baseValue1 = getFormattedValue(RATE_PER, variance1);
                                         if (pvsdto.hasColumn(column)) {
                                             projDTO.addStringProperties(column, baseValue1 + PERCENT);
@@ -2633,7 +2633,7 @@ public class MProjectionVarianceLogic {
                                     if (baseVariables.isColPercentage()) {
                                         column = "mdProgramCodeSalesPer" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal = StringUtils.EMPTY + programCodeRow[mdProgramCodeSalesCount];
-                                        Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.THREE * (z + 1)])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                        Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.THREE * (z + 1)])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                         if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                             perChange = 0.0;
                                         }
@@ -2646,7 +2646,7 @@ public class MProjectionVarianceLogic {
 
                                         column = "sdProgramCodeSalesPer" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal1 = StringUtils.EMPTY + programCodeRow[sdProgramCodeSalesCount];
-                                        Double perChange1 = (Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.FIVE * (z + 1)])) - Double.valueOf(isNull(priorVal1))) / Double.valueOf(isNull(priorVal1));
+                                        Double perChange1 = (Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.FIVE * (z + 1)])) - Double.parseDouble(isNull(priorVal1))) / Double.parseDouble(isNull(priorVal1));
                                         if (perChange1.isNaN() || perChange1.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange1))) {
                                             perChange1 = 0.0;
                                         }
@@ -2681,7 +2681,7 @@ public class MProjectionVarianceLogic {
                                     if (baseVariables.isColVariance()) {
                                         column = "mdProgramCodeAmountVar" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal = StringUtils.EMPTY + programCodeRow[mdProgramCodeAmountCount];
-                                        String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.TWO * (z + 1)])) - Double.valueOf(isNull(priorVal)));
+                                        String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.TWO * (z + 1)])) - Double.parseDouble(isNull(priorVal)));
                                         String baseValue = getFormattedValue(AMOUNT, variance);
                                         if (pvsdto.hasColumn(column)) {
                                             projDTO.addStringProperties(column, baseValue);
@@ -2690,7 +2690,7 @@ public class MProjectionVarianceLogic {
 
                                         column = "sdProgramCodeAmountVar" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal1 = StringUtils.EMPTY + programCodeRow[sdProgramCodeAmountper];
-                                        String variance1 = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.FOUR * (z + 1)])) - Double.valueOf(isNull(priorVal1)));
+                                        String variance1 = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.FOUR * (z + 1)])) - Double.parseDouble(isNull(priorVal1)));
                                         String baseValue1 = getFormattedValue(AMOUNT, variance1);
                                         if (pvsdto.hasColumn(column)) {
                                             projDTO.addStringProperties(column, baseValue1);
@@ -2700,7 +2700,7 @@ public class MProjectionVarianceLogic {
                                     if (baseVariables.isColPercentage()) {
                                         column = "mdProgramCodeAmountper" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal = StringUtils.EMPTY + programCodeRow[mdProgramCodeAmountCount];
-                                        Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.TWO * (z + 1)])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                        Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.TWO * (z + 1)])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                         if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                             perChange = 0.0;
                                         }
@@ -2713,7 +2713,7 @@ public class MProjectionVarianceLogic {
 
                                         column = "sdProgramCodeAmountper" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal1 = StringUtils.EMPTY + programCodeRow[sdProgramCodeAmountper];
-                                        Double perChange1 = (Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.TWO * (z + 1)])) - Double.valueOf(isNull(priorVal1))) / Double.valueOf(isNull(priorVal1));
+                                        Double perChange1 = (Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.TWO * (z + 1)])) - Double.parseDouble(isNull(priorVal1))) / Double.parseDouble(isNull(priorVal1));
                                         if (perChange1.isNaN() || perChange1.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange1))) {
                                             perChange1 = 0.0;
                                         }
@@ -2747,7 +2747,7 @@ public class MProjectionVarianceLogic {
                                     if (baseVariables.isColVariance()) {
                                         column = "mdProgramCodeRPUVar" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal = StringUtils.EMPTY + programCodeRow[mdProgramCodeAmountCount];
-                                        String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.SIX * (z + 1)])) - Double.valueOf(isNull(priorVal)));
+                                        String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.SIX * (z + 1)])) - Double.parseDouble(isNull(priorVal)));
                                         String baseValue = getFormattedValue(AMOUNT, variance);
                                         if (pvsdto.hasColumn(column)) {
                                             projDTO.addStringProperties(column, baseValue);
@@ -2756,7 +2756,7 @@ public class MProjectionVarianceLogic {
 
                                         column = "sdProgramCodeRPUVar" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal1 = StringUtils.EMPTY + programCodeRow[sdProgramCodeAmountper];
-                                        String variance1 = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.SEVEN * (z + 1)])) - Double.valueOf(isNull(priorVal1)));
+                                        String variance1 = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.SEVEN * (z + 1)])) - Double.parseDouble(isNull(priorVal1)));
                                         String baseValue1 = getFormattedValue(AMOUNT, variance1);
                                         if (pvsdto.hasColumn(column)) {
                                             projDTO.addStringProperties(column, baseValue1);
@@ -2766,7 +2766,7 @@ public class MProjectionVarianceLogic {
                                     if (baseVariables.isColPercentage()) {
                                         column = "mdProgramCodeRPUPer" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal = StringUtils.EMPTY + programCodeRow[mdProgramCodeAmountCount];
-                                        Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.SIX * (z + 1)])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                        Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.SIX * (z + 1)])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                         if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                             perChange = 0.0;
                                         }
@@ -2779,7 +2779,7 @@ public class MProjectionVarianceLogic {
 
                                         column = "sdProgramCodeRPUPer" + programCodeName.get(z) + priorProjGtsList.get(j);
                                         String priorVal1 = StringUtils.EMPTY + programCodeRow[sdProgramCodeAmountper];
-                                        Double perChange1 = (Double.valueOf(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.SEVEN * (z + 1)])) - Double.valueOf(isNull(priorVal1))) / Double.valueOf(isNull(priorVal1));
+                                        Double perChange1 = (Double.parseDouble(isNull(StringUtils.EMPTY + programCodeRow[NumericConstants.SEVEN * (z + 1)])) - Double.parseDouble(isNull(priorVal1))) / Double.parseDouble(isNull(priorVal1));
                                         if (perChange1.isNaN() || perChange1.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange1))) {
                                             perChange1 = 0.0;
                                         }
@@ -2819,7 +2819,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -2833,7 +2833,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                Double perChange = Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.TWO])) / (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                                Double perChange = Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.TWO])) / (Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -2865,7 +2865,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -2879,7 +2879,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                Double perChange = Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.THREE])) / (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
+                                Double perChange = Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.THREE])) / (Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal)));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -2911,7 +2911,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -2925,7 +2925,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                Double perChange = Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FOUR])) / (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                                Double perChange = Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FOUR])) / (Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal)));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -2957,7 +2957,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(RATE, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -2971,7 +2971,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                Double perChange = Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FIVE])) / (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
+                                Double perChange = Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FIVE])) / (Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal)));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3003,7 +3003,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(RATE, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -3017,7 +3017,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                Double perChange = Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SIX])) / (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
+                                Double perChange = Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SIX])) / (Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal)));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3049,7 +3049,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(RATE, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -3063,7 +3063,7 @@ public class MProjectionVarianceLogic {
                                 if (isGts) {
                                     priorVal = String.valueOf(gtsRow[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY)]);
                                 }
-                                Double perChange = Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SEVEN])) / (Double.valueOf(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal)));
+                                Double perChange = Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SEVEN])) / (Double.parseDouble(isNull(StringUtils.EMPTY + gtsRow[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorVal)));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3089,7 +3089,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "ContractSalesWACVar" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWO + ((j + 1) * NumericConstants.FOURTEEN)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3100,7 +3100,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "ContractSalesWACVarPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWO + ((j + 1) * NumericConstants.FOURTEEN)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3127,7 +3127,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "ContractUnitsVar" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.THREE + ((j + 1) * NumericConstants.FOURTEEN)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT_UNITS, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3137,7 +3137,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "ContractUnitsPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.THREE + ((j + 1) * NumericConstants.FOURTEEN)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3183,7 +3183,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "DiscountSalesVar" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FOUR + ((j + 1) * NumericConstants.FOURTEEN)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(RATE_PER, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -3192,7 +3192,7 @@ public class MProjectionVarianceLogic {
                                 if (Constant.COMPONENT.equals(baseVariables.getDiscountLevel())) {
                                     String valueM1 = StringUtils.EMPTY + row[NumericConstants.EIGHT + ((j + 1) * NumericConstants.FOURTEEN)];
                                     column = "mandatedDiscountSalesVar" + priorProjGtsList.get(j);
-                                    String mVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.valueOf(isNull(valueM1)));
+                                    String mVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.parseDouble(isNull(valueM1)));
                                     String baseMValue = getFormattedValue(RATE_PER, mVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseMValue + PERCENT);
@@ -3201,7 +3201,7 @@ public class MProjectionVarianceLogic {
 
                                     String valueS1 = StringUtils.EMPTY + row[NumericConstants.TEN + ((j + 1) * NumericConstants.FOURTEEN)];
                                     column = "supplementalDiscountSalesVar" + priorProjGtsList.get(j);
-                                    String sVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TEN])) - Double.valueOf(isNull(valueS1)));
+                                    String sVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TEN])) - Double.parseDouble(isNull(valueS1)));
                                     String baseSValue = getFormattedValue(RATE_PER, sVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseSValue + PERCENT);
@@ -3213,7 +3213,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "DiscountSalesPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FOUR + ((j + 1) * NumericConstants.FOURTEEN)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3228,7 +3228,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "mandatedDiscountSalesPer" + priorProjGtsList.get(j);
                                     String priorMVal = StringUtils.EMPTY + row[NumericConstants.EIGHT + ((j + 1) * NumericConstants.FOURTEEN)];
-                                    Double perMChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.valueOf(isNull(priorMVal))) / Double.valueOf(isNull(priorMVal));
+                                    Double perMChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.parseDouble(isNull(priorMVal))) / Double.parseDouble(isNull(priorMVal));
                                     if (perMChange.isNaN() || perMChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perMChange))) {
                                         perMChange = 0.0;
                                     }
@@ -3241,7 +3241,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "supplementalDiscountSalesPer" + priorProjGtsList.get(j);
                                     String priorSVal = StringUtils.EMPTY + row[NumericConstants.TEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                    Double perSChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TEN])) - Double.valueOf(isNull(priorSVal))) / Double.valueOf(isNull(priorSVal));
+                                    Double perSChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TEN])) - Double.parseDouble(isNull(priorSVal))) / Double.parseDouble(isNull(priorSVal));
                                     if (perSChange.isNaN() || perSChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perSChange))) {
                                         perSChange = 0.0;
                                     }
@@ -3290,7 +3290,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "DiscountAmountVar" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FIVE + ((j + 1) * NumericConstants.FOURTEEN)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3300,7 +3300,7 @@ public class MProjectionVarianceLogic {
                                 if (Constant.COMPONENT.equals(baseVariables.getDiscountLevel())) {
                                     column = "mandatedDiscountAmountVar" + priorProjGtsList.get(j);
                                     String priorMVal = StringUtils.EMPTY + row[NumericConstants.SEVEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                    String mVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorMVal)));
+                                    String mVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorMVal)));
                                     String baseMValue = getFormattedValue(AMOUNT, mVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseMValue);
@@ -3309,7 +3309,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "supplementalDiscountAmountVar" + priorProjGtsList.get(j);
                                     String priorSVal = StringUtils.EMPTY + row[NumericConstants.NINE + ((j + 1) * NumericConstants.FOURTEEN)];
-                                    String sVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.valueOf(isNull(priorSVal)));
+                                    String sVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.parseDouble(isNull(priorSVal)));
                                     String baseSValue = getFormattedValue(AMOUNT, sVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseSValue);
@@ -3321,7 +3321,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "DiscountAmountPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FIVE + ((j + 1) * NumericConstants.FOURTEEN)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3334,7 +3334,7 @@ public class MProjectionVarianceLogic {
                                 if (Constant.COMPONENT.equals(baseVariables.getDiscountLevel())) {
                                     column = "mandatedDiscountAmountPer" + priorProjGtsList.get(j);
                                     String priorMVal = StringUtils.EMPTY + row[NumericConstants.SEVEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                    Double perMChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorMVal))) / Double.valueOf(isNull(priorMVal));
+                                    Double perMChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorMVal))) / Double.parseDouble(isNull(priorMVal));
                                     if (perMChange.isNaN() || perMChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perMChange))) {
                                         perMChange = 0.0;
                                     }
@@ -3347,7 +3347,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "supplementalDiscountAmountPer" + priorProjGtsList.get(j);
                                     String priorSVal = StringUtils.EMPTY + row[NumericConstants.NINE + ((j + 1) * NumericConstants.FOURTEEN)];
-                                    Double perSChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.valueOf(isNull(priorSVal))) / Double.valueOf(isNull(priorSVal));
+                                    Double perSChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.parseDouble(isNull(priorSVal))) / Double.parseDouble(isNull(priorSVal));
                                     if (perSChange.isNaN() || perSChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perSChange))) {
                                         perSChange = 0.0;
                                     }
@@ -3395,7 +3395,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "PRUVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.ELEVEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.ELEVEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.ELEVEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3404,7 +3404,7 @@ public class MProjectionVarianceLogic {
                                 if (Constant.COMPONENT.equals(baseVariables.getDiscountLevel())) {
                                     String valueM1 = StringUtils.EMPTY + row[NumericConstants.TWELVE + ((j + 1) * NumericConstants.FOURTEEN)];
                                     column = "mandatedDiscountRPUVar" + priorProjGtsList.get(j);
-                                    String mVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWELVE])) - Double.valueOf(isNull(valueM1)));
+                                    String mVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWELVE])) - Double.parseDouble(isNull(valueM1)));
                                     String baseMValue = getFormattedValue(AMOUNT, mVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseMValue);
@@ -3413,7 +3413,7 @@ public class MProjectionVarianceLogic {
 
                                     String valueS1 = StringUtils.EMPTY + row[NumericConstants.THIRTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
                                     column = "supplementalRPUVar" + priorProjGtsList.get(j);
-                                    String sVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THIRTEEN])) - Double.valueOf(isNull(valueS1)));
+                                    String sVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.THIRTEEN])) - Double.parseDouble(isNull(valueS1)));
                                     String baseSValue = getFormattedValue(AMOUNT, sVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseSValue);
@@ -3425,7 +3425,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "PRUPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.ELEVEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.ELEVEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.ELEVEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3440,7 +3440,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "mandatedDiscountRPUPer" + priorProjGtsList.get(j);
                                     String priorMVal = StringUtils.EMPTY + row[NumericConstants.TWELVE + ((j + 1) * NumericConstants.FOURTEEN)];
-                                    Double perMChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWELVE])) - Double.valueOf(isNull(priorMVal))) / Double.valueOf(isNull(priorMVal));
+                                    Double perMChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWELVE])) - Double.parseDouble(isNull(priorMVal))) / Double.parseDouble(isNull(priorMVal));
                                     if (perMChange.isNaN() || perMChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perMChange))) {
                                         perMChange = 0.0;
                                     }
@@ -3453,7 +3453,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "supplementalRPUPer" + priorProjGtsList.get(j);
                                     String priorSVal = StringUtils.EMPTY + row[NumericConstants.THIRTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                    Double perSChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THIRTEEN])) - Double.valueOf(isNull(priorSVal))) / Double.valueOf(isNull(priorSVal));
+                                    Double perSChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.THIRTEEN])) - Double.parseDouble(isNull(priorSVal))) / Double.parseDouble(isNull(priorSVal));
                                     if (perSChange.isNaN() || perSChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perSChange))) {
                                         perSChange = 0.0;
                                     }
@@ -3483,7 +3483,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "NetSalesVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SIX + ((j + 1) * NumericConstants.FOURTEEN)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3493,7 +3493,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "NetSalesPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SIX + ((j + 1) * NumericConstants.FOURTEEN)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3519,7 +3519,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "COGCVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FOURTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOURTEEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FOURTEEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3529,7 +3529,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "COGCPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FOURTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOURTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FOURTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3555,7 +3555,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "NetProfitVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FIFTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIFTEEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FIFTEEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3565,7 +3565,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "NetProfitPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FIFTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIFTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FIFTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3621,10 +3621,10 @@ public class MProjectionVarianceLogic {
         if (results != null && !results.isEmpty()) {
             for (int i = 0; i < results.size(); i++) {
                 final Object[] row = (Object[]) results.get(i);
-                int year = Integer.valueOf(String.valueOf(row[0]));
+                int year = Integer.parseInt(String.valueOf(row[0]));
                 int period = 0;
                 if (frequencyDivision != 1) {
-                    period = Integer.valueOf(String.valueOf(row[1]));
+                    period = Integer.parseInt(String.valueOf(row[1]));
                 }
                 List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, year, period);
                 String pcommonColumn = common.get(0);
@@ -3838,7 +3838,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "ExFacVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3849,7 +3849,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "ExFacPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWO + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3875,7 +3875,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "DemandSalesVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3886,7 +3886,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "DemandSalesPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3912,7 +3912,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "InvWithVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -3923,7 +3923,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "InvWithPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3949,7 +3949,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "PerExFacVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(RATE, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -3960,7 +3960,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "PerExFacPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FIVE + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FIVE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -3986,7 +3986,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "PerDemandSalesVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(RATE, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -3997,7 +3997,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "PerDemandSalesPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SIX + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SIX])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4023,7 +4023,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "PerInvWithVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(RATE, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -4034,7 +4034,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "PerInvWithPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SEVEN + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SEVEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4060,7 +4060,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "ContractSalesWACVar" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.EIGHT + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -4071,7 +4071,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 commonDoubleColumn = "ContractSalesWACVarPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.EIGHT + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHT])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4097,7 +4097,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "ContractUnitsVar" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.NINE + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT_UNITS, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -4108,7 +4108,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "ContractUnitsPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.NINE + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.NINE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4155,7 +4155,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "DiscountSalesVar" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FIFTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOURTEEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FOURTEEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(RATE_PER, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue + PERCENT);
@@ -4165,7 +4165,7 @@ public class MProjectionVarianceLogic {
                                 if (Constant.COMPONENT.equals(baseVariables.getDiscountLevel())) {
                                     String valueM1 = StringUtils.EMPTY + row[NumericConstants.TWELVE + ((j + 1) * NumericConstants.TWENTY)];
                                     column = "mandatedDiscountSalesVar" + priorProjGtsList.get(j);
-                                    String mVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TEN])) - Double.valueOf(isNull(valueM1)));
+                                    String mVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TEN])) - Double.parseDouble(isNull(valueM1)));
                                     String baseMValue = getFormattedValue(RATE_PER, mVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseMValue + PERCENT);
@@ -4174,7 +4174,7 @@ public class MProjectionVarianceLogic {
 
                                     String valueS1 = StringUtils.EMPTY + row[NumericConstants.THIRTEEN + ((j + 1) * NumericConstants.TWENTY)];
                                     column = "supplementalDiscountSalesVar" + priorProjGtsList.get(j);
-                                    String sVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.ELEVEN])) - Double.valueOf(isNull(valueS1)));
+                                    String sVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.ELEVEN])) - Double.parseDouble(isNull(valueS1)));
                                     String baseSValue = getFormattedValue(RATE_PER, sVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseSValue + PERCENT);
@@ -4185,7 +4185,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "DiscountSalesPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FIFTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FOURTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FOURTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4199,7 +4199,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "mandatedDiscountSalesPer" + priorProjGtsList.get(j);
                                     String priorMVal = StringUtils.EMPTY + row[NumericConstants.TWELVE + ((j + 1) * NumericConstants.TWENTY)];
-                                    Double perMChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TEN])) - Double.valueOf(isNull(priorMVal))) / Double.valueOf(isNull(priorMVal));
+                                    Double perMChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TEN])) - Double.parseDouble(isNull(priorMVal))) / Double.parseDouble(isNull(priorMVal));
                                     if (perMChange.isNaN() || perMChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perMChange))) {
                                         perMChange = 0.0;
                                     }
@@ -4212,7 +4212,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "supplementalDiscountSalesPer" + priorProjGtsList.get(j);
                                     String priorSVal = StringUtils.EMPTY + row[NumericConstants.THIRTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                    Double perSChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.ELEVEN])) - Double.valueOf(isNull(priorSVal))) / Double.valueOf(isNull(priorSVal));
+                                    Double perSChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.ELEVEN])) - Double.parseDouble(isNull(priorSVal))) / Double.parseDouble(isNull(priorSVal));
                                     if (perSChange.isNaN() || perSChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perSChange))) {
                                         perSChange = 0.0;
                                     }
@@ -4260,7 +4260,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "DiscountAmountVar" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FOURTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIFTEEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FIFTEEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -4270,7 +4270,7 @@ public class MProjectionVarianceLogic {
                                 if (Constant.COMPONENT.equals(baseVariables.getDiscountLevel())) {
                                     column = "mandatedDiscountAmountVar" + priorProjGtsList.get(j);
                                     String priorMVal = StringUtils.EMPTY + row[NumericConstants.ELEVEN + ((j + 1) * NumericConstants.TWENTY)];
-                                    String mVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWELVE])) - Double.valueOf(isNull(priorMVal)));
+                                    String mVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWELVE])) - Double.parseDouble(isNull(priorMVal)));
                                     String baseMValue = getFormattedValue(AMOUNT, mVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseMValue);
@@ -4279,7 +4279,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "supplementalDiscountAmountVar" + priorProjGtsList.get(j);
                                     String priorSVal = StringUtils.EMPTY + row[NumericConstants.TWELVE + ((j + 1) * NumericConstants.TWENTY)];
-                                    String sVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THIRTEEN])) - Double.valueOf(isNull(priorSVal)));
+                                    String sVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.THIRTEEN])) - Double.parseDouble(isNull(priorSVal)));
                                     String baseSValue = getFormattedValue(AMOUNT, sVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseSValue);
@@ -4291,7 +4291,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "DiscountAmountPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.FOURTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.FIFTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.FIFTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4305,7 +4305,7 @@ public class MProjectionVarianceLogic {
                                 if (Constant.COMPONENT.equals(baseVariables.getDiscountLevel())) {
                                     column = "mandatedDiscountAmountPer" + priorProjGtsList.get(j);
                                     String priorMVal = StringUtils.EMPTY + row[NumericConstants.ELEVEN + ((j + 1) * NumericConstants.TWENTY)];
-                                    Double perMChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.TWELVE])) - Double.valueOf(isNull(priorMVal))) / Double.valueOf(isNull(priorMVal));
+                                    Double perMChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWELVE])) - Double.parseDouble(isNull(priorMVal))) / Double.parseDouble(isNull(priorMVal));
                                     if (perMChange.isNaN() || perMChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perMChange))) {
                                         perMChange = 0.0;
                                     }
@@ -4318,7 +4318,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "supplementalDiscountAmountPer" + priorProjGtsList.get(j);
                                     String priorSVal = StringUtils.EMPTY + row[NumericConstants.TWELVE + ((j + 1) * NumericConstants.TWENTY)];
-                                    Double perSChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.THIRTEEN])) - Double.valueOf(isNull(priorSVal))) / Double.valueOf(isNull(priorSVal));
+                                    Double perSChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.THIRTEEN])) - Double.parseDouble(isNull(priorSVal))) / Double.parseDouble(isNull(priorSVal));
                                     if (perSChange.isNaN() || perSChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perSChange))) {
                                         perSChange = 0.0;
                                     }
@@ -4366,7 +4366,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "PRUVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.NINETEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.NINETEEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.NINETEEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -4376,7 +4376,7 @@ public class MProjectionVarianceLogic {
                                 if (Constant.COMPONENT.equals(baseVariables.getDiscountLevel())) {
                                     String valueM1 = StringUtils.EMPTY + row[NumericConstants.SEVENTEEN + ((j + 1) * NumericConstants.TWENTY)];
                                     column = "mandatedDiscountRPUVar" + priorProjGtsList.get(j);
-                                    String mVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SEVENTEEN])) - Double.valueOf(isNull(valueM1)));
+                                    String mVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SEVENTEEN])) - Double.parseDouble(isNull(valueM1)));
                                     String baseMValue = getFormattedValue(AMOUNT, mVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseMValue);
@@ -4385,7 +4385,7 @@ public class MProjectionVarianceLogic {
 
                                     String valueS1 = StringUtils.EMPTY + row[NumericConstants.EIGHTEEN + ((j + 1) * NumericConstants.TWENTY)];
                                     column = "supplementalRPUVar" + priorProjGtsList.get(j);
-                                    String sVariance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHTEEN])) - Double.valueOf(isNull(valueS1)));
+                                    String sVariance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHTEEN])) - Double.parseDouble(isNull(valueS1)));
                                     String baseSValue = getFormattedValue(AMOUNT, sVariance);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseSValue);
@@ -4396,7 +4396,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "PRUPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.NINETEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.NINETEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.NINETEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4410,7 +4410,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "mandatedDiscountRPUPer" + priorProjGtsList.get(j);
                                     String priorMVal = StringUtils.EMPTY + row[NumericConstants.SEVENTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                    Double perMChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SEVENTEEN])) - Double.valueOf(isNull(priorMVal))) / Double.valueOf(isNull(priorMVal));
+                                    Double perMChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SEVENTEEN])) - Double.parseDouble(isNull(priorMVal))) / Double.parseDouble(isNull(priorMVal));
                                     if (perMChange.isNaN() || perMChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perMChange))) {
                                         perMChange = 0.0;
                                     }
@@ -4423,7 +4423,7 @@ public class MProjectionVarianceLogic {
 
                                     column = "supplementalRPUPer" + priorProjGtsList.get(j);
                                     String priorSVal = StringUtils.EMPTY + row[NumericConstants.EIGHTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                    Double perSChange = (Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHTEEN])) - Double.valueOf(isNull(priorSVal))) / Double.valueOf(isNull(priorSVal));
+                                    Double perSChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.EIGHTEEN])) - Double.parseDouble(isNull(priorSVal))) / Double.parseDouble(isNull(priorSVal));
                                     if (perSChange.isNaN() || perSChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perSChange))) {
                                         perSChange = 0.0;
                                     }
@@ -4451,7 +4451,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "NetSalesVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SIXTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[NumericConstants.SIXTEEN])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SIXTEEN])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -4462,7 +4462,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "NetSalesPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.SIXTEEN + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SIXTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.SIXTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -4488,7 +4488,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColVariance()) {
                                 column = "COGCVariance" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWENTY + ((j + 1) * NumericConstants.TWENTY)];
-                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY])) - Double.valueOf(isNull(priorVal)));
+                                String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY])) - Double.parseDouble(isNull(priorVal)));
                                 String baseValue = getFormattedValue(AMOUNT, variance);
                                 if (pvsdto.hasColumn(column)) {
                                     projDTO.addStringProperties(column, baseValue);
@@ -4499,7 +4499,7 @@ public class MProjectionVarianceLogic {
                             if (baseVariables.isColPercentage()) {
                                 column = "COGCPer" + priorProjGtsList.get(j);
                                 String priorVal = StringUtils.EMPTY + row[NumericConstants.TWENTY + ((j + 1) * NumericConstants.TWENTY)];
-                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                                Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + row[NumericConstants.TWENTY])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                                 if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                     perChange = 0.0;
                                 }
@@ -5013,7 +5013,7 @@ public class MProjectionVarianceLogic {
             List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(hierarchyIndicatorQuery);
             if (list != null && !list.isEmpty()) {
                 Object ob = list.get(0);
-                customCount = Integer.valueOf(String.valueOf(ob));
+                customCount = Integer.parseInt(String.valueOf(ob));
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -5315,7 +5315,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5333,13 +5333,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.EIGHT + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.EIGHT])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.EIGHT])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.EIGHT + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.EIGHT])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.EIGHT])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5364,7 +5364,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5380,13 +5380,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWO + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWO])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5438,7 +5438,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5454,13 +5454,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.NINE + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.NINE])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.NINE])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT_UNITS, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.NINE + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.NINE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.NINE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5484,7 +5484,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -5500,13 +5500,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.THREE + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT_UNITS, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.THREE + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -5612,7 +5612,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6866,7 +6866,7 @@ public class MProjectionVarianceLogic {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
 
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6882,13 +6882,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -6910,7 +6910,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -6926,13 +6926,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.THREE + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.THREE])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7001,13 +7001,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7045,13 +7045,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOUR + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOUR])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7215,7 +7215,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7231,13 +7231,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWENTY + ((j + 1) * NumericConstants.TWENTY)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWENTY])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWENTY])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.TWENTY + ((j + 1) * NumericConstants.TWENTY)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.TWENTY])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.TWENTY])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }
@@ -7261,7 +7261,7 @@ public class MProjectionVarianceLogic {
                     } else if (frequencyDivision == 1) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     } else if (frequencyDivision == NumericConstants.TWELVE) {
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName + obj[0];
                     }
                     if (pvsdto.getVarIndicator().equals(VALUE)) {
@@ -7277,13 +7277,13 @@ public class MProjectionVarianceLogic {
 
                         } else if (pvsdto.getVarIndicator().equals(VARIANCE)) {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOURTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                            String variance = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOURTEEN])) - Double.valueOf(isNull(priorVal)));
+                            String variance = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOURTEEN])) - Double.parseDouble(isNull(priorVal)));
                             String val = getFormattedValue(AMOUNT, variance);
                             pvDTO.addStringProperties(commonColumn + priorList.get(j), val);
 
                         } else {
                             String priorVal = StringUtils.EMPTY + obj[NumericConstants.FOURTEEN + ((j + 1) * NumericConstants.FOURTEEN)];
-                            Double perChange = (Double.valueOf(isNull(StringUtils.EMPTY + obj[NumericConstants.FOURTEEN])) - Double.valueOf(isNull(priorVal))) / Double.valueOf(isNull(priorVal));
+                            Double perChange = (Double.parseDouble(isNull(StringUtils.EMPTY + obj[NumericConstants.FOURTEEN])) - Double.parseDouble(isNull(priorVal))) / Double.parseDouble(isNull(priorVal));
                             if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
                                 perChange = 0.0;
                             }

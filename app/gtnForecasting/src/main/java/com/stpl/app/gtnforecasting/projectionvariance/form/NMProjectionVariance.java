@@ -49,6 +49,7 @@ import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -1723,7 +1724,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 CommonLogic.unCheckMultiSelect(deductionFilterValues);
             }
             value = map.get(Constant.CUSTOMER_LEVEL_DDLB);
-            customerlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
+            customerlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constant.CUSTOMER_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, customerFilterValues);
@@ -1733,7 +1734,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
             ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
             value = map.get(Constant.PRODUCT_LEVEL_DDLB);
-            productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
+            productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constant.PRODUCT_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, productFilterValues);
@@ -1743,7 +1744,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
             ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
             value = map.get(Constant.DEDUCTION_LEVEL_DDLB);
-            deductionlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
+            deductionlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constant.DEDUCTION_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, deductionFilterValues);

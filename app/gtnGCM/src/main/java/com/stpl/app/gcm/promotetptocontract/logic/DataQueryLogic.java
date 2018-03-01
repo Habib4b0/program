@@ -51,21 +51,21 @@ public class DataQueryLogic {
                         && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_ID)))) {
                     queryString.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID LIKE '");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_ID)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
                 if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NO) != null
                         && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NO)))
                         && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NO)))) {
                     queryString.append(" AND CM.COMPANY_NO LIKE '");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NO)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
                 if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NAME) != null
                         && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NAME)))
                         && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NAME)))) {
                     queryString.append(" AND CM.COMPANY_NAME LIKE '");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_NAME)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
 
                 if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_STATUS) != null && !Constants.NULL.equals(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_STATUS))) {
@@ -123,21 +123,21 @@ public class DataQueryLogic {
                         && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_ID)))) {
                     queryString.append(" AND RPM.REBATE_PLAN_ID LIKE '");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_ID)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
                 if (parameters.get(StringConstantsUtil.REBATE_PLAN_NO) != null
                         && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NO)))
                         && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NO)))) {
                     queryString.append(" AND RPM.REBATE_PLAN_NO LIKE '");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NO)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
                 if (parameters.get(StringConstantsUtil.REBATE_PLAN_NAME) != null
                         && !StringUtils.isEmpty(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NAME)))
                         && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NAME)))) {
                     queryString.append(" AND RPM.REBATE_PLAN_NAME LIKE '");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.REBATE_PLAN_NAME)));
-                    queryString.append("'");
+                    queryString.append('\'');
                 }
 
                 if (parameters.get(StringConstantsUtil.REBATE_PLAN_STATUS) != null && !Constants.NULL.equals(parameters.get(StringConstantsUtil.REBATE_PLAN_STATUS))) {

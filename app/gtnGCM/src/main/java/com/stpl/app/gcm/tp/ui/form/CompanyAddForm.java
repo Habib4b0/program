@@ -24,6 +24,7 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.event.ItemClickEvent;
@@ -434,7 +435,7 @@ public class CompanyAddForm extends VerticalLayout {
             LOGGER.error("",ex);
         }
 
-        String createdBy = StplSecurity.getUserMap().get(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
+        String createdBy = StplSecurity.getUserMap().get(DataTypeConverter.convertObjectToInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
 
         identForm.setCreatedBy(createdBy);
         identForm.setCreatedDate(new Date());
@@ -504,7 +505,7 @@ public class CompanyAddForm extends VerticalLayout {
         } catch (SystemException ex) {
             LOGGER.error("",ex);
         }
-        String createdBy = StplSecurity.getUserMap().get(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
+        String createdBy = StplSecurity.getUserMap().get(DataTypeConverter.convertObjectToInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID)));
 
         identForm.setCreatedBy(createdBy);
         identForm.setCreatedDate(new Date());

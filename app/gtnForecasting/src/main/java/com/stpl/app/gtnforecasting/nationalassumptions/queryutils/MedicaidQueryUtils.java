@@ -138,7 +138,7 @@ public class MedicaidQueryUtils {
                             queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
                         }
                         if (Constant.CPIURA.equals(pricetype)) {
-                            queryBuilder1.append(" , ADJUSTMENT_PRICE = '").append(finalvalue).append("'");
+                            queryBuilder1.append(" , ADJUSTMENT_PRICE = '").append(finalvalue).append('\'');
                         }
                     } else {
                         queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
@@ -159,7 +159,7 @@ public class MedicaidQueryUtils {
                 Constant.FROM_ITEM_MASTER +
                 Constant.WHERE_ITEM_ID).append(ndc9.trim());
 
-                queryBuilder1.append("')) AND PRICE_TYPE ='").append(pricetype).append("'");
+                queryBuilder1.append("')) AND PRICE_TYPE ='").append(pricetype).append('\'');
 
                 queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
 
@@ -261,7 +261,7 @@ public class MedicaidQueryUtils {
                 Constant.FROM_ITEM_MASTER +
                 Constant.WHERE_ITEM_ID).append(ndc9.trim());
 
-                queryBuilder1.append("')) AND PRICE_TYPE='").append(pricetype).append("'");
+                queryBuilder1.append("')) AND PRICE_TYPE='").append(pricetype).append('\'');
 
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);
@@ -429,7 +429,7 @@ public class MedicaidQueryUtils {
                 Constant.FROM_ITEM_MASTER +
                 Constant.WHERE_ITEM_ID + ndc9.trim());
 
-                queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[2] : priceType) + "'");
+                queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[2] : priceType) + '\'');
 
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);

@@ -172,10 +172,10 @@ public class CDRLogic {
         for (String fields : keys) {
 
             if ((ConstantsUtils.COMBO1.equals(fields) || ConstantsUtils.COMBO6.equals(fields)) && searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString())) {
-                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append(ConstantsUtils.SINGLE_QUOTE);
+                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append('\'');
 
             } else if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append(ConstantsUtils.SINGLE_QUOTE);
+                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append('\'');
             }
         }
         queryBuilder = new StringBuilder(queryBuilder.toString().replace("WHERE AND", " WHERE "));
@@ -241,9 +241,9 @@ public class CDRLogic {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (!"createdBy".equals(stringFilter.getPropertyId().toString()) && !"modifiedBy".equals(stringFilter.getPropertyId().toString())) {
-                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append('\'');
                     } else {
-                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(stringFilter.getPropertyId().toString())).append(" like '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(stringFilter.getPropertyId().toString())).append(" like '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append('\'');
                     }
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
@@ -287,19 +287,19 @@ public class CDRLogic {
                     if (object.getCdrDetailsSid() == 0) {
                         String value = (StringUtils.EMPTY.equals(object.getValueText()) || ConstantsUtils.NULL.equals(object.getValueText())) ? ConstantsUtils.ZERO : object.getValueText().replace(ConstantsUtils.COMMA, StringUtils.EMPTY).replace(ConstantsUtils.PERCENCTAGE, StringUtils.EMPTY).replace("$", StringUtils.EMPTY).trim();
                         detailsQuery.append(", ( ").append(sessionDTO.getSystemId())
-                                .append(ConstantsUtils.COMMA).
-                                append(ConstantsUtils.SINGLE_QUOTE).append(object.getLineTypeDdlb().getId()).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA).
-                                append(ConstantsUtils.SINGLE_QUOTE).append(object.getItemGroupDdlb().getId()).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA).
-                                append(ConstantsUtils.SINGLE_QUOTE).append(object.getKeywordDdlb().getId()).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA).
-                                append(ConstantsUtils.SINGLE_QUOTE).append(object.getOperatorDdlb().getId()).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA).
-                                append(ConstantsUtils.SINGLE_QUOTE).append(value).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA).
-                                append(ConstantsUtils.SINGLE_QUOTE).append(object.getComparisonDdlb() != null ? object.getComparisonDdlb().getId() : 0).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
-                                .append(ConstantsUtils.SINGLE_QUOTE).append(object.getLogicalOperatorDdlb() != null ? object.getLogicalOperatorDdlb().getId() : 0).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
-                                .append(ConstantsUtils.SINGLE_QUOTE).append(DB_DATE.format(new Date())).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
-                                .append(ConstantsUtils.SINGLE_QUOTE).append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
-                                .append(ConstantsUtils.SINGLE_QUOTE).append(DB_DATE.format(new Date())).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
-                                .append(ConstantsUtils.SINGLE_QUOTE).append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append(ConstantsUtils.SINGLE_QUOTE)
-                                .append(")");
+                                .append(',').
+                                append('\'').append(object.getLineTypeDdlb().getId()).append('\'').append(',').
+                                append('\'').append(object.getItemGroupDdlb().getId()).append('\'').append(',').
+                                append('\'').append(object.getKeywordDdlb().getId()).append('\'').append(',').
+                                append('\'').append(object.getOperatorDdlb().getId()).append('\'').append(',').
+                                append('\'').append(value).append('\'').append(',').
+                                append('\'').append(object.getComparisonDdlb() != null ? object.getComparisonDdlb().getId() : 0).append('\'').append(',')
+                                .append('\'').append(object.getLogicalOperatorDdlb() != null ? object.getLogicalOperatorDdlb().getId() : 0).append('\'').append(',')
+                                .append('\'').append(DB_DATE.format(new Date())).append('\'').append(',')
+                                .append('\'').append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append('\'').append(',')
+                                .append('\'').append(DB_DATE.format(new Date())).append('\'').append(',')
+                                .append('\'').append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append('\'')
+                                .append(')');
                     }
                 }
                 if (!detailsQuery.toString().isEmpty()) {

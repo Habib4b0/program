@@ -478,7 +478,7 @@ public final class AccrualRateProjectionLogic {
         if (!isExcel) {
             query.append(" JOIN ITEM I ON I.ITEM_MASTER_SID = SA.ITEM_MASTER_SID \n");
         }
-        query.append(" WHERE SA.PROJECTION_MASTER_SID=" + accrualRateSelectionDTO.getProjectionId()).append("\n");
+        query.append(" WHERE SA.PROJECTION_MASTER_SID=" + accrualRateSelectionDTO.getProjectionId()).append('\n');
         
         query.append( "UNION \n"
                 + "select SD.ITEM_MASTER_SID,IM.ITEM_NO,P.MONTH,P.YEAR,\n"
@@ -499,7 +499,7 @@ public final class AccrualRateProjectionLogic {
         if (!isExcel) {
             query.append(" JOIN ITEM I ON I.ITEM_MASTER_SID = SD.ITEM_MASTER_SID \n");
         }
-        query.append("WHERE SD.PROJECTION_MASTER_SID=").append(accrualRateSelectionDTO.getProjectionId()).append("\n");
+        query.append("WHERE SD.PROJECTION_MASTER_SID=").append(accrualRateSelectionDTO.getProjectionId()).append('\n');
         query.append(" ORDER BY SA.ITEM_MASTER_SID,IM.ITEM_NO,IM.ITEM_NAME,P.YEAR,P.MONTH");
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         return customizeSalesToDTO(list, accrualRateSelectionDTO);

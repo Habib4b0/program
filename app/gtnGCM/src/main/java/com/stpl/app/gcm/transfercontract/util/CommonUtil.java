@@ -25,11 +25,11 @@ public final class CommonUtil {
     public static final Logger LOGGER = LoggerFactory.getLogger(CommonUtil.class);
 
     public static String astToPerConverter(final String inputString) {
-        return StringUtils.isBlank(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace("*", "%");
+        return StringUtils.isBlank(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace('*', '%');
     }
 
     public static String zeroToPerConverter(final String inputString) {
-        return StringUtils.isBlank(inputString) || Constants.ZEROSTRING.equals(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace("*", "%");
+        return StringUtils.isBlank(inputString) || Constants.ZEROSTRING.equals(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace('*', '%');
     }
 
     public static String getPureValue(final String inputString) {
@@ -75,11 +75,11 @@ public final class CommonUtil {
     public static String getSystemIds(final Set<String> input) {
         StringBuilder retString = new StringBuilder();
         for (Iterator<String> it = input.iterator(); it.hasNext();) {
-            retString.append("'");
+            retString.append('\'');
             retString.append(it.next());
-            retString.append("'");
+            retString.append('\'');
             if (it.hasNext()) {
-                retString.append(",");
+                retString.append(',');
             }
         }
         return retString.toString();
@@ -109,9 +109,9 @@ public final class CommonUtil {
                 final String string = entry.getKey();
                 final String string1 = entry.getValue();
                 if (string.contains("DATE")) {
-                    queryString.append(" and ").append(string).append(" = '").append(string1).append("'");
+                    queryString.append(" and ").append(string).append(" = '").append(string1).append('\'');
                 } else {
-                    queryString.append(" and ").append(string).append(" like '").append(string1).append("'");
+                    queryString.append(" and ").append(string).append(" like '").append(string1).append('\'');
                 }
             }
         }

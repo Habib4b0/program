@@ -601,7 +601,7 @@ public class PromoteTP extends VerticalLayout {
     }
     
     public void createWorkSheet(String moduleName, ExtPagedTable resultTable,int count) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
-        ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
 
     }
     

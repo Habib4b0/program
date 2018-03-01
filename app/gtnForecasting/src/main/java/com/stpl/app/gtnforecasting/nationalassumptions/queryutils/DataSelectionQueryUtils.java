@@ -95,11 +95,11 @@ public class DataSelectionQueryUtils {
         Integer companyId = (Integer) companyValueId;
         Integer therapeuticId = (Integer) thearupeticValueId;
         Integer itemGroupId = (Integer) productGroupId;
-        projName = projName.replace("*", Constant.PERCENT);
+        projName = projName.replace('*', '%');
         String ids = getSelectedProducts;
         boolean flag = false;
         if (!ids.equals(StringUtils.EMPTY)) {
-            sql.append("where NAD.ITEM_MASTER_SID in(").append(ids).append(")");
+            sql.append("where NAD.ITEM_MASTER_SID in(").append(ids).append(')');
             flag = true;
         }
         if (!projName.equals(StringUtils.EMPTY)) {
@@ -441,11 +441,11 @@ public class DataSelectionQueryUtils {
         Integer companyId = (Integer) companyValueId;
         Integer therapeuticId = (Integer) thearupeticValueId;
         Integer itemGroupId = (Integer) productGroupId;
-        projName = projName.replace("*", Constant.PERCENT);
+        projName = projName.replace('*', '%');
         String ids = getSelectedProducts;
         boolean flag = false;
         if (!ids.equals(StringUtils.EMPTY)) {
-            sql.append("where NAD.ITEM_MASTER_SID in(").append(ids).append(")");
+            sql.append("where NAD.ITEM_MASTER_SID in(").append(ids).append(')');
             flag = true;
         }
         if (!projName.equals(StringUtils.EMPTY)) {
