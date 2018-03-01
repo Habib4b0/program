@@ -2767,9 +2767,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 
                                     session.setFrequency(projectionSelection.getFrequency());
-                                    String adjustActual = session.isActualAdjustment() ? "0" : "1";
                                     if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-                                            adjustmentValue, adjustActual, baselinePeriods)) {
+                                            adjustmentValue, Constant.STRING_ONE, baselinePeriods)) {
                                         LOGGER.debug(" Procedure executed Successfully");
                                         refreshTableData(getCheckedRecordsHierarchyNo());
                                     } else {
@@ -2912,9 +2911,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     logic.checkUncheckRebateBeforeAdjust(false, checkedDiscountList, session, true,
                                             isProgram);
                                     session.setFrequency(projectionSelection.getFrequency());
-                                    String adjustActual = session.isActualAdjustment() ? "0" : "1";
                                     if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-                                            adjustmentValue, adjustActual, baselinePeriods)) {
+                                            adjustmentValue, Constant.STRING_ONE, baselinePeriods)) {
                                         LOGGER.debug(" Procedure executed Successfully");
                                         logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
                                                 isProgram);
@@ -3470,6 +3468,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 logic.updateAllToZero(session);
             }
             hierarchyListForCheckRecord.clear();
+            session.setFrequency(projectionSelection.getFrequency());
             callAdjustmentProcedure(this.session);
             tableLogic.clearAll();
             tableLogic.setRefresh(false);// will become true once setcurrentpage
@@ -3499,7 +3498,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<String> checkedValues = getCheckedDeductionInclusionValues();
             session.setDeductionInclusion("ALL");
             if (checkedValues.size() == 1) {
-                session.setDeductionInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? "1" : "0");
+                session.setDeductionInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? Constant.STRING_ONE : "0");
             }
             session.setDiscountUom(uomDdlb.getValue() != null ? String.valueOf(uomDdlb.getValue()) : "EACH");
             session.setSelectedDeductionLevelNo(Integer.parseInt(String.valueOf(deductionlevelDdlb.getValue())));

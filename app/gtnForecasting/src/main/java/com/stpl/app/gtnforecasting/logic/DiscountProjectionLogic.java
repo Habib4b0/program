@@ -441,13 +441,13 @@ public class DiscountProjectionLogic {
             final String adjustmentBasis, final String adjustmentValue, final String actualOrSalesUnits, List<String> historyPeriods) {
         List<String> inputList = new ArrayList<>();
         inputList.add(session.getFrequency());
-        inputList.add(selectedPeriods);
+        inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? selectedPeriods : session.getActualAdjustmentPeriods());
         inputList.add(adjustmentBasis);
         inputList.add(adjustmentValue);
         inputList.add(adjustmentType);
         inputList.add(actualOrSalesUnits);
         inputList.add(ALL.equals(session.getDeductionInclusion()) ? null : session.getDeductionInclusion());
-        inputList.add(StringUtils.join(historyPeriods.iterator(), ","));
+        inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? StringUtils.join(historyPeriods.iterator(), ",") : session.getActualAdjustmentPeriods());
         com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "discount-adjustment-query", session);
         return true;
     }

@@ -105,8 +105,6 @@ public class CommonLogic {
     private static final String RELATIONSHIP_LEVEL_DEFINITION_JOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '";
     private static final String TAB_BASED_JOIN = "[?TAB_BASED_JOIN]";
     private static final String USER_DEFINED = "User Defined";
-    public static final String PROD_HIERARCHY_NO = "PROD_HIERARCHY_NO ";
-    public static final String CUST_HIERARCHY_NO = "CUST_HIERARCHY_NO ";
     public static final String LEVEL_VALUES = "@LEVELVALUES";
     
     RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
@@ -4016,9 +4014,6 @@ public class CommonLogic {
         String queryNameforSales=CommonUtil.isValueEligibleForLoading()?"selected-hierarchy-no-custom-proj":"selected-hierarchy-no-custom";
         String sql;
         sql = SQlUtil.getQuery(queryNameforSales);
-        if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
-            sql += AND_SPMFILTER_CC_P1;
-        }
         sql = sql.replace("[?Hierarchy-Combination]", getCustomHierarchies(nodeSet));
         return sql;
     }
@@ -4660,7 +4655,7 @@ public class CommonLogic {
         try {
             tableFieldNameList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("sales-filter-customer")
                     .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
-                    .replace(LEVEL_CAPS, type));
+                    .replace(LEVEL_CAPS, type).replace(Constant.HIERVER, String.valueOf(projDto.getSessionDTO().getCustomerHierarchyVersion())));
             
             if (!tableFieldNameList.isEmpty()) {
                 String userDefined= userDefinedLevel(salesProjectionDao, projectionId, type,"C");
@@ -4725,7 +4720,7 @@ public class CommonLogic {
         List tableFieldNameList = new ArrayList<>();
         try {
             tableFieldNameList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("sales-filter-product")
-                    .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId)).replace(LEVEL_CAPS, type));
+                    .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId)).replace(LEVEL_CAPS, type).replace(Constant.HIERVER, String.valueOf(projectionDto.getSessionDTO().getProductHierarchyVersion())));
             if (!tableFieldNameList.isEmpty()) {
                 Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
 
@@ -4878,7 +4873,7 @@ public class CommonLogic {
                     formedQuery.append(" JOIN CCP_DETAILS AS CCP_DETAILS ON CCP_DETAILS.ITEM_MASTER_SID = ITEM_MASTER.ITEM_MASTER_SID");
                 }
                 formedQuery.append(" JOIN ST_CCP_HIERARCHY AS ST_CCP_HIERARCHY ON ST_CCP_HIERARCHY.CCP_DETAILS_SID");
-                formedQuery.append(" = CCP_DETAILS.CCP_DETAILS_SID AND ST_CCP_HIERARCHY.").append(isCustomer ? CUST_HIERARCHY_NO : PROD_HIERARCHY_NO);
+                formedQuery.append(" = CCP_DETAILS.CCP_DETAILS_SID AND ST_CCP_HIERARCHY.").append(isCustomer ? Constant.CUST_HIERARCHY_NO : Constant.PROD_HIERARCHY_NO);
                 formedQuery.append(getHierarchyNoForRelationShip(levelList,((List<Leveldto>)Leveldto.getBeanByLevelNo(levelList, selectedLevelNo).get(1)).get(0),relationShipsid));
             } else {
                 List<String> columnList = gtnFrameworkHierarchyServiceImpl.getMappingColumns(singleColumnRelationBean);
@@ -4892,7 +4887,7 @@ public class CommonLogic {
                     formedQuery.append(" JOIN CCP_DETAILS AS CCP_DETAILS ON CCP_DETAILS.ITEM_MASTER_SID = ITEM_MASTER.ITEM_MASTER_SID");
                 }
                 formedQuery.append(" JOIN ST_CCP_HIERARCHY AS ST_CCP_HIERARCHY ON ST_CCP_HIERARCHY.CCP_DETAILS_SID");
-                formedQuery.append(" = CCP_DETAILS.CCP_DETAILS_SID AND ST_CCP_HIERARCHY.").append(isCustomer ? CUST_HIERARCHY_NO : PROD_HIERARCHY_NO);;
+                formedQuery.append(" = CCP_DETAILS.CCP_DETAILS_SID AND ST_CCP_HIERARCHY.").append(isCustomer ? Constant.CUST_HIERARCHY_NO : Constant.PROD_HIERARCHY_NO);;
                 formedQuery.append(getHierarchyNoForRelationShip(levelList,((List<Leveldto>)Leveldto.getBeanByLevelNo(levelList, selectedLevelNo).get(1)).get(0),relationShipsid));
 
             }

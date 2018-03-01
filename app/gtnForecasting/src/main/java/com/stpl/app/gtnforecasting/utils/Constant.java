@@ -1944,6 +1944,9 @@ public class Constant {
     public static final String GROUP_BY_I = " group by I.";
     public static final String AND_B_USER_ID = " and B.USER_ID=";
     public static final String PR_MONTH = ",PR.MONTH";
+    public static final String HIERVER = "@HIERVER";
+    public static final String PROD_HIERARCHY_NO = "PROD_HIERARCHY_NO ";
+    public static final String CUST_HIERARCHY_NO = "CUST_HIERARCHY_NO ";
 
     /**
      * Enum for Frequency constants
