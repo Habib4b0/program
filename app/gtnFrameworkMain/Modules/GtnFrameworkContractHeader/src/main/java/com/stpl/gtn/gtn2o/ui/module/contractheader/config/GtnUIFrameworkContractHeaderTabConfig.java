@@ -434,7 +434,7 @@ public class GtnUIFrameworkContractHeaderTabConfig {
 				"contractHeaderTabForecastEligibleDate", true, "contractHeaderTabForecastEligibleDatelayout",
 				GtnUIFrameworkComponentType.DATEFIELD);
 		addContractEligibleDate.setAuthorizationIncluded(true);
-		addContractEligibleDate.setComponentName("Forecast Eligible Date");
+		addContractEligibleDate.setComponentName("Forecast Eligibility Date");
 
 		componentList.add(addContractEligibleDate);
 

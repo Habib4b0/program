@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import static com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic.TWO_DECIMAL_FORMAT;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
@@ -28,8 +27,8 @@ public class PVCommonLogic {
 
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String ZERO = "0";
-    private static final DecimalFormat RATE_PER = new DecimalFormat(TWO_DECIMAL_FORMAT);
-    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(TWO_DECIMAL_FORMAT);
+    private static final DecimalFormat RATE_PER = new DecimalFormat(Constant.TWO_DECIMAL_FORMAT);
+    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(Constant.TWO_DECIMAL_FORMAT);
     private static final String CURRENT = "Current";
     private static final String ACCRUAL = "Accrual";
     private static final String ACTUAL = "Actual";
@@ -94,8 +93,8 @@ public class PVCommonLogic {
         String currValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index])));
 
         if (comparisonBasis) {
-            comparisonPriorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index + ((Integer.valueOf(pvsdto.getComparisonBasis()) + 1) * columnCountTotal)])));
-            priorComparison = visibleColumn.equals(commonColumn + pvsdto.getProjIdList().get(Integer.valueOf(pvsdto.getComparisonBasis())));
+            comparisonPriorVal = String.valueOf(Double.parseDouble(isNull(StringUtils.EMPTY + row[index + ((Integer.parseInt(pvsdto.getComparisonBasis()) + 1) * columnCountTotal)])));
+            priorComparison = visibleColumn.equals(commonColumn + pvsdto.getProjIdList().get(Integer.parseInt(pvsdto.getComparisonBasis())));
         }
         variableValueCustomization(variableCategory, priorVal, format, visibleColumn, pvsdto, projDTO, isPer);
         
@@ -145,33 +144,33 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.valueOf(value), 100) + "";
+            value = roundToFraction(Double.parseDouble(value), 100) + "";
             value = getFormattedValue(format, value);
         } else {
-            variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
+            variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = selectionDto.isConversionNeeded() ? CommonUtil.getConversionFormattedValue(selectionDto, variance, true) : getFormattedValue(format, variance);
         }
         return value;
     }
 
     public static String getPerChange(String actualValue, String priorVal, DecimalFormat format) {
-        DecimalFormat formatter = new DecimalFormat(TWO_DECIMAL_FORMAT);
+        DecimalFormat formatter = new DecimalFormat(Constant.TWO_DECIMAL_FORMAT);
         Double val = Double.valueOf(isNull(actualValue));
         Double val1 = Double.valueOf(isNull(priorVal));
         String value;
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.valueOf(value), 100) + "";
+            value = roundToFraction(Double.parseDouble(value), 100) + "";
         } else {
-            variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
+            variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = getFormattedValue(formatter, variance);
         }
         String priorval = getFormattedValue(formatter, priorVal);
 
         value = value.replace(",", StringUtils.EMPTY);
         priorval = priorval.replace(",", StringUtils.EMPTY);
-        Double perChange = Double.valueOf(value) / Double.valueOf(priorval);
+        Double perChange = Double.parseDouble(value) / Double.parseDouble(priorval);
         if (perChange.isNaN() || perChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perChange))) {
             perChange = 0.0;
         }

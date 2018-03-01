@@ -224,30 +224,30 @@ public class AbstractLogic {
             }
             
             dto.setNep(str[NumericConstants.FORTY_SEVEN] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_SEVEN]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FORTY_SEVEN])); // TEXT FIELD
-            dto.setPriceProtectionStatus(str[NumericConstants.FORTY_EIGHT] == null || Constants.NULL.equals(str[NumericConstants.FORTY_EIGHT]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.FORTY_EIGHT]))));
+            dto.setPriceProtectionStatus(str[NumericConstants.FORTY_EIGHT] == null || Constants.NULL.equals(str[NumericConstants.FORTY_EIGHT]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FORTY_EIGHT]))));
             dto.setNepFormula(str[NumericConstants.FORTY_NINE] == null || Constants.NULL.equals(str[NumericConstants.FORTY_NINE]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FORTY_NINE])); // Lookup
             dto.setMaxIncrementalChange(str[NumericConstants.FIFTY] == null || Constants.NULL.equals(str[NumericConstants.FIFTY]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIFTY])); // Lookup
-            dto.setResetEligible(str[NumericConstants.FIFTY_ONE] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_ONE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.FIFTY_ONE]))));
-            dto.setResetType(str[NumericConstants.FIFTY_TWO] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_TWO]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.FIFTY_TWO]))));
+            dto.setResetEligible(str[NumericConstants.FIFTY_ONE] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_ONE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FIFTY_ONE]))));
+            dto.setResetType(str[NumericConstants.FIFTY_TWO] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_TWO]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FIFTY_TWO]))));
             dto.setResetDate(str[NumericConstants.FIFTY_THREE] == null ? null : (Date) str[NumericConstants.FIFTY_THREE]);
-            dto.setResetInterval(str[NumericConstants.FIFTY_FOUR] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_FOUR]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.FIFTY_FOUR]))));
-            dto.setResetFrequency(str[NumericConstants.FIFTY_FIVE] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_FIVE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.FIFTY_FIVE]))));
-            dto.setNetPriceType(str[NumericConstants.FIFTY_SIX] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_SIX]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.FIFTY_SIX]))));
+            dto.setResetInterval(str[NumericConstants.FIFTY_FOUR] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_FOUR]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FIFTY_FOUR]))));
+            dto.setResetFrequency(str[NumericConstants.FIFTY_FIVE] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_FIVE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FIFTY_FIVE]))));
+            dto.setNetPriceType(str[NumericConstants.FIFTY_SIX] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_SIX]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FIFTY_SIX]))));
             dto.setNetPriceTypeFormula(str[NumericConstants.FIFTY_SEVEN] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_SEVEN]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FIFTY_SEVEN])); // Lookup
-            dto.setResetPriceType(str[NumericConstants.FIFTY_EIGHT] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_EIGHT]) ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.FIFTY_EIGHT])));
-            dto.setNetResetPriceType(str[NumericConstants.FIFTY_NINE] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_NINE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.FIFTY_NINE]))));
+            dto.setResetPriceType(str[NumericConstants.FIFTY_EIGHT] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_EIGHT]) ? 0 : Integer.parseInt(String.valueOf(str[NumericConstants.FIFTY_EIGHT])));
+            dto.setNetResetPriceType(str[NumericConstants.FIFTY_NINE] == null || Constants.NULL.equals(str[NumericConstants.FIFTY_NINE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FIFTY_NINE]))));
             dto.setNetResetPriceFormula(str[NumericConstants.SIXTY] == null || Constants.NULL.equals(str[NumericConstants.SIXTY]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTY])); // Lookup
-            dto.setBasePriceType(str[NumericConstants.SIXTY_ONE] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_ONE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_ONE]))));
-            dto.setSubsequentPeriodPriceType(str[NumericConstants.SIXTY_TWO] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_TWO]) ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_TWO])));
-            dto.setNetSubsequentPeriodPrice(str[NumericConstants.SIXTY_THREE] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_THREE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_THREE]))));
+            dto.setBasePriceType(str[NumericConstants.SIXTY_ONE] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_ONE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.SIXTY_ONE]))));
+            dto.setSubsequentPeriodPriceType(str[NumericConstants.SIXTY_TWO] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_TWO]) ? 0 : Integer.parseInt(String.valueOf(str[NumericConstants.SIXTY_TWO])));
+            dto.setNetSubsequentPeriodPrice(str[NumericConstants.SIXTY_THREE] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_THREE]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.SIXTY_THREE]))));
             dto.setNetSubsequentPeriodPriceFormula(str[NumericConstants.SIXTY_FOUR] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_FOUR]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTY_FOUR])); // Lookup
             dto.setNetBaselineWACFormula(str[NumericConstants.SIXTY_FIVE] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_FIVE]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTY_FIVE])); // Lookup
-            dto.setBaselineNetWAC(str[NumericConstants.SIXTY_SIX] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_SIX]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_SIX]))));
-            dto.setPriceType(str[NumericConstants.SIXTY_SEVEN] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_SEVEN]) ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_SEVEN])));
-            dto.setMeasurementPrice(str[NumericConstants.SIXTY_EIGHT] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_EIGHT]) ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_EIGHT])));
+            dto.setBaselineNetWAC(str[NumericConstants.SIXTY_SIX] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_SIX]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.SIXTY_SIX]))));
+            dto.setPriceType(str[NumericConstants.SIXTY_SEVEN] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_SEVEN]) ? 0 : Integer.parseInt(String.valueOf(str[NumericConstants.SIXTY_SEVEN])));
+            dto.setMeasurementPrice(str[NumericConstants.SIXTY_EIGHT] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_EIGHT]) ? 0 : Integer.parseInt(String.valueOf(str[NumericConstants.SIXTY_EIGHT])));
             dto.setBaseLineWacManual(str[NumericConstants.SIXTY_NINE] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_NINE]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTY_NINE])); // TEXT FIELD
             dto.setBaseLineWacDate(str[NumericConstants.SEVENTY] == null ? null : (Date) str[NumericConstants.SEVENTY]);
-            dto.setBaseLineWacPriceType(str[71] == null || Constants.NULL.equals(str[71]) ? 0 : Integer.valueOf(String.valueOf(str[71])));
+            dto.setBaseLineWacPriceType(str[71] == null || Constants.NULL.equals(str[71]) ? 0 : Integer.parseInt(String.valueOf(str[71])));
             
             String basePriceType = dto.getBasePriceType().getDescription();
             if (!Constants.EMPTY.equals(dto.getBaseLineWacManual()) && Constants.MANUAL_LABLE_NAME.equals(basePriceType)) {
@@ -624,17 +624,17 @@ public class AbstractLogic {
     private List getFormulaIdInput(FormulaDTO binderDto) {
         List<Object> input = new ArrayList();
         if (binderDto.getFormulaId() != null && !binderDto.getFormulaId().isEmpty()) {
-            input.add(binderDto.getFormulaId().replace("*", "%"));
+            input.add(binderDto.getFormulaId().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDto.getFormulaNo() != null && !binderDto.getFormulaNo().isEmpty()) {
-            input.add(binderDto.getFormulaNo().replace("*", "%"));
+            input.add(binderDto.getFormulaNo().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDto.getFormulaName() != null && !binderDto.getFormulaName().isEmpty()) {
-            input.add(binderDto.getFormulaName().replace("*", "%"));
+            input.add(binderDto.getFormulaName().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -1071,17 +1071,17 @@ public class AbstractLogic {
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
         if (binderDto.getContractNo_SID() != null && !binderDto.getContractNo_SID().isEmpty()) {
-            input.add(binderDto.getContractNo_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getContractNo_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getContractName_SID() != null && !binderDto.getContractName_SID().isEmpty()) {
-            input.add(binderDto.getContractName_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getContractName_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getContractHolder_SID() != null && !binderDto.getContractHolder_SID().isEmpty()) {
-            input.add(binderDto.getContractHolder_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getContractHolder_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1104,33 +1104,33 @@ public class AbstractLogic {
         }
 
         if (binderDto.getCfp_SID() != null && !binderDto.getCfp_SID().isEmpty()) {
-            input.add(binderDto.getCfp_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getCfp_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
-            input.add(binderDto.getCustomer_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getCustomer_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
-            input.add(binderDto.getCustomer_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getCustomer_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
 
         if (binderDto.getIfp_SID() != null && !binderDto.getIfp_SID().isEmpty()) {
-            input.add(binderDto.getIfp_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getIfp_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getPs_SID() != null && !binderDto.getPs_SID().isEmpty()) {
-            input.add(binderDto.getPs_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getPs_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getRs_SID() != null && !binderDto.getRs_SID().isEmpty()) {
-            input.add(binderDto.getRs_SID().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getRs_SID().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1217,18 +1217,18 @@ public class AbstractLogic {
     private List getCFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
         final List input = new ArrayList();
         if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
-            input.add(binderDto.getComponentId().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentId().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
-            input.add(binderDto.getComponentName().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
 
         if (binderDto.getCategory() != null && !binderDto.getCategory().isEmpty()) {
-            input.add(binderDto.getCategory().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getCategory().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1239,12 +1239,12 @@ public class AbstractLogic {
         }
 
         if (binderDto.getComponentNo() != null && !binderDto.getComponentNo().isEmpty()) {
-            input.add(binderDto.getComponentNo().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentNo().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentType() != null && !binderDto.getComponentType().isEmpty()) {
-            input.add(binderDto.getComponentType().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentType().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1282,17 +1282,17 @@ public class AbstractLogic {
     private List getIFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
         final List input = new ArrayList();
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
-            input.add(binderDto.getComponentName().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentNo() != null && !binderDto.getComponentNo().isEmpty()) {
-            input.add(binderDto.getComponentNo().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentNo().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentType() != null && !binderDto.getComponentType().isEmpty()) {
-            input.add(binderDto.getComponentType().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentType().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1302,7 +1302,7 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getCategory() != null && !binderDto.getCategory().isEmpty()) {
-            input.add(binderDto.getCategory().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getCategory().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1339,17 +1339,17 @@ public class AbstractLogic {
     private List getPSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
         final List input = new ArrayList();
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
-            input.add(binderDto.getComponentName().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentNo() != null && !binderDto.getComponentNo().isEmpty()) {
-            input.add(binderDto.getComponentNo().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentNo().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentType() != null && !binderDto.getComponentType().isEmpty()) {
-            input.add(binderDto.getComponentType().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentType().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1359,7 +1359,7 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getCategory() != null && !binderDto.getCategory().isEmpty()) {
-            input.add(binderDto.getCategory().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getCategory().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1396,17 +1396,17 @@ public class AbstractLogic {
     private List getRSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
         final List input = new ArrayList();
         if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
-            input.add(binderDto.getComponentId().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentId().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentNo() != null && !binderDto.getComponentNo().isEmpty()) {
-            input.add(binderDto.getComponentNo().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentNo().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
-            input.add(binderDto.getComponentName().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1416,7 +1416,7 @@ public class AbstractLogic {
             input.add(Constants.PERCENT);
         }
         if (binderDto.getComponentType() != null && !binderDto.getComponentType().isEmpty()) {
-            input.add(binderDto.getComponentType().replace(Constants.ASTRICK, Constants.PERCENT));
+            input.add(binderDto.getComponentType().replace('*', '%'));
         } else {
             input.add(Constants.PERCENT);
         }
@@ -1685,15 +1685,15 @@ public class AbstractLogic {
                 int noOfArgs = orderedArgs.length;
                 for (int i = 0; i < noOfArgs; i++) {
                     if (i == 0) {
-                        procedureToCall.append("(");
+                        procedureToCall.append('(');
                     }
                     procedureToCall.append("?,");
                     if (i == noOfArgs - 1) {
-                        procedureToCall.append(")");
+                        procedureToCall.append(')');
                     }
                 }
                 procedureToCall.replace(procedureToCall.lastIndexOf(COMMA), procedureToCall.lastIndexOf(COMMA) + 1, StringUtils.EMPTY);
-                procedureToCall.append("}");
+                procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
                     statement.setObject(i + 1, orderedArgs[i]);
@@ -1877,9 +1877,9 @@ public class AbstractLogic {
         List input = new ArrayList();
         StringBuilder filterQString = GcmtFilterLogic.getInstance().filterQueryGenerator(filterSet, getQueryMap());
 
-        input.add(binderDto.getFormulaId() != null && !binderDto.getFormulaId().isEmpty() ? binderDto.getFormulaId().replace(Constants.ASTRICK, Constants.PERCENT) : Constants.PERCENT);
-        input.add(binderDto.getFormulaNo() != null && !binderDto.getFormulaNo().isEmpty() ? binderDto.getFormulaNo().replace(Constants.ASTRICK, Constants.PERCENT) : Constants.PERCENT);
-        input.add(binderDto.getFormulaName() != null && !binderDto.getFormulaName().isEmpty() ? binderDto.getFormulaName().replace(Constants.ASTRICK, Constants.PERCENT) : Constants.PERCENT);
+        input.add(binderDto.getFormulaId() != null && !binderDto.getFormulaId().isEmpty() ? binderDto.getFormulaId().replace('*', '%') : Constants.PERCENT);
+        input.add(binderDto.getFormulaNo() != null && !binderDto.getFormulaNo().isEmpty() ? binderDto.getFormulaNo().replace('*', '%') : Constants.PERCENT);
+        input.add(binderDto.getFormulaName() != null && !binderDto.getFormulaName().isEmpty() ? binderDto.getFormulaName().replace('*', '%') : Constants.PERCENT);
         input.add(binderDto.getNetSalesformulaType() != null ? binderDto.getNetSalesformulaType().getId() : Constants.PERCENT);
         input.add(filterQString != null ? filterQString.toString().replace("where", "AND") : Constants.SPACE);
 
@@ -1901,7 +1901,7 @@ public class AbstractLogic {
             dto.setFormulaNo(str[1] == null ? StringUtils.EMPTY : String.valueOf(str[1]));
             dto.setFormulaName(str[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.TWO]));
             dto.setFormulaSid(str[NumericConstants.THREE] == null ? 0 : (Integer) (str[NumericConstants.THREE]));
-            dto.setNetSalesformulaType(str[NumericConstants.FOUR] == null || Constants.NULL.equals(str[NumericConstants.FOUR]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.FOUR]))));
+            dto.setNetSalesformulaType(str[NumericConstants.FOUR] == null || Constants.NULL.equals(str[NumericConstants.FOUR]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(String.valueOf(str[NumericConstants.FOUR]))));
             finalList.add(dto);
         }
         return finalList;

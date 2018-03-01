@@ -602,12 +602,12 @@ public class AlternateSummery extends CustomComponent {
 
     protected void loadLevelFilterValue(final String view) {
         if (view.equalsIgnoreCase(PRODUCT_HIERARCHY.getConstant())) {
-            int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+            int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
             currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
             loadLevelDdlb(level, true, currentHierarchy);
             loadLevelDdlb(levelFilter, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOMER_HIERARCHY.getConstant())) {
-            int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+            int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
             currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getCustRelationshipBuilderSid());
             loadLevelDdlb(level, true, currentHierarchy);
             loadLevelDdlb(levelFilter, false, currentHierarchy);
@@ -975,8 +975,8 @@ public class AlternateSummery extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 try {
                                     Double newNumber, oldNumber;
-                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
-                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
+                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
+                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
 
                                     Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
@@ -1052,7 +1052,7 @@ public class AlternateSummery extends CustomComponent {
                 }
                 if (tempId != null) {
                     SalesRowDto tempDto = (SalesRowDto) tempId;
-                    tempDto.setUncheckCount(checkClear ? 0 : Integer.valueOf(tempDto.getCcpCount()));
+                    tempDto.setUncheckCount(checkClear ? 0 : Integer.parseInt(tempDto.getCcpCount()));
                     updateChecks(tempId, isPresentInContainer);
                 }
             }
@@ -1189,7 +1189,7 @@ public class AlternateSummery extends CustomComponent {
             }
             if (itemId != null) {
                 int uncheckCount = ((SalesRowDto) itemId).getUncheckCount();
-                int ccpCount = Integer.valueOf(((SalesRowDto) itemId).getCcpCount());
+                int ccpCount = Integer.parseInt(((SalesRowDto) itemId).getCcpCount());
                 if (ccpCount != uncheckCount) {
                     finalHirarechyNo.add(tableTreeLevelNo);
                 }
@@ -1272,6 +1272,8 @@ public class AlternateSummery extends CustomComponent {
                 case ANNUAL:
                     condition = tempYear < currentYear;
                     break;
+                default:
+                    break;
             }
             if ((condition) && (checkBoxMap.get(key))) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
@@ -1320,6 +1322,8 @@ public class AlternateSummery extends CustomComponent {
                     case ANNUAL:
                         condition = tempYear >= projStartYear;
                         break;
+                    default:
+                        break;
                 }
                 if (condition) {
                     if (!selectedPeriods.equals(StringUtils.EMPTY)) {
@@ -1367,6 +1371,8 @@ public class AlternateSummery extends CustomComponent {
                     break;
                 case ANNUAL:
                     condition = tempYear >= projStartYear;
+                    break;
+                default:
                     break;
             }
 
@@ -1517,7 +1523,7 @@ public class AlternateSummery extends CustomComponent {
     protected void levelFilterDdlbChangeOption(boolean excelExport) {
         LOGGER.debug("Excel= {}" , excelExport);
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -1543,8 +1549,8 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
             projectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
             projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             projectionDTO.clearNonFetchableIndex();
             int count = 0;
 
@@ -1615,7 +1621,7 @@ public class AlternateSummery extends CustomComponent {
      */
     protected void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
 
         if (levelNo > 0) {
             Object val = levelFilter.getValue();
@@ -1878,7 +1884,7 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setIsFilter(true);
             projectionDTO.setLevelFilter(true);
             projectionDTO.setLevelFilterValue(String.valueOf(UiUtils.parseStringToInteger(String.valueOf(levelFilter.getValue()).split("-")[0].trim())));
-            projectionDTO.setFilterLevelNo(Integer.valueOf(projectionDTO.getLevelFilterValue()));
+            projectionDTO.setFilterLevelNo(Integer.parseInt(projectionDTO.getLevelFilterValue()));
             mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             projectionDTO.setLevelFilter(false);
         } else {
@@ -1997,7 +2003,7 @@ public class AlternateSummery extends CustomComponent {
                 inputParameters[0] = session.getProjectionId();
                 inputParameters[1] = hierarchyNo;
                 List<Object> projectionDetailsIdForPMPY = pmpyLogic.getNmProjectionDetId(inputParameters);
-                int projectionDetailsId = Integer.valueOf(projectionDetailsIdForPMPY.get(0).toString());
+                int projectionDetailsId = Integer.parseInt(projectionDetailsIdForPMPY.get(0).toString());
                 List list = pmpyLogic.getTradingPartnerInfo(projectionDetailsId);
 
                 String tradeName = String.valueOf(list.get(0) != null ? list.get(0) : " ");
@@ -2154,12 +2160,12 @@ public class AlternateSummery extends CustomComponent {
         projectionDTO.setCustRelationshipBuilderSid(projectionDTO.getSessionDTO().getCustRelationshipBuilderSid());
         projectionDTO.setProdRelationshipBuilderSid(projectionDTO.getSessionDTO().getProdRelationshipBuilderSid());
         projectionDTO.setCustomerLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getCustomerLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getCustomerLevelNumber())
-                ? 1 : Integer.valueOf(projectionDTO.getSessionDTO().getCustomerLevelNumber()));
+                ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getCustomerLevelNumber()));
         projectionDTO.setProductLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getProductLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getProductLevelNumber())
-                ? 1 : Integer.valueOf(projectionDTO.getSessionDTO().getProductLevelNumber()));
+                ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getProductLevelNumber()));
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
-        projectionDTO.setUserId(Integer.valueOf(projectionDTO.getSessionDTO().getUserId()));
-        projectionDTO.setSessionId(Integer.valueOf(projectionDTO.getSessionDTO().getSessionId()));
+        projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
+        projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
@@ -2169,7 +2175,7 @@ public class AlternateSummery extends CustomComponent {
         if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
-            historyNum = Integer.valueOf(projectionDTO.getHistory());
+            historyNum = Integer.parseInt(projectionDTO.getHistory());
         }
 
         if (toHist) {

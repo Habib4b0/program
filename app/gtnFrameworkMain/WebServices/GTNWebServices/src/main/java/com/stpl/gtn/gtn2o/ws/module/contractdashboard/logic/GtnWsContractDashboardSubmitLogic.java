@@ -291,11 +291,11 @@ public class GtnWsContractDashboardSubmitLogic {
 			contractMaster.setEndDate(getConvertedDateValue(bean.getPropertyValueByIndex(7)));
 			contractMaster
 					.setHelperTableByDocumentClass(session.load(HelperTable.class, bean.getIntegerPropertyByIndex(8)));
-			int companyId = bean.getIntegerPropertyByIndex(49);
+			int companyId = bean.getIntegerPropertyByIndex(50);
 			if (companyId != 0) {
 				contractMaster.setCompanyMasterByBunitCompanyMasterSid(session.load(CompanyMaster.class, companyId));
 			}
-			int tpId = bean.getIntegerPropertyByIndex(50);
+			int tpId = bean.getIntegerPropertyByIndex(51);
 			if (tpId != 0) {
 				contractMaster.setCompanyMasterByContHoldCompanyMasterSid(session.load(CompanyMaster.class, tpId));
 			}

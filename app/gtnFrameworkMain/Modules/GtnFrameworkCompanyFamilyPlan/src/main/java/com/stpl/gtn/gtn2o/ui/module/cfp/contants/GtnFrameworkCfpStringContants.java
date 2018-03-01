@@ -77,7 +77,7 @@ public class GtnFrameworkCfpStringContants {
 			.unmodifiableList(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY, "Company ID", "Company No",
 					"Company Name", "CFP Status", "CFP Start Date", "CFP End Date", "Company Status", "Company Type",
 					"Company TradeClass", "Company Category", "Trading Partner Contract No", "Attached Date",
-					"Modified Date", "Modified By", "Created Date", "Created By","CFP Eligible Date"));
+					"Modified Date", "Modified By", "Created Date", "Created By","Forecast Eligibility Date"));
 
 	public static final List<?> CFP_COMPANIES_COLUMN_LIST = Collections.unmodifiableList(Arrays.asList(
 			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.PROPERTY_COMPANY_ID,

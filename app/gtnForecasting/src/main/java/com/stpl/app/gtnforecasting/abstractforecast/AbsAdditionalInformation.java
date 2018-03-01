@@ -3,7 +3,6 @@ package com.stpl.app.gtnforecasting.abstractforecast;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.additionalinformation.logic.NotesTabLogic;
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.PROJECTION_ID;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
@@ -25,7 +24,6 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -105,7 +103,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected FileDownloader wordDownloader;
     protected FileDownloader pdfDownloader;
     protected AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
-    protected static String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
+    protected static String basepath = System.getProperty("com.stpl.gtnframework.base.path");	
     protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
     protected Image pdfPngImage = new Image(null, new ThemeResource("img//pdf.png"));
     protected final File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
@@ -283,13 +281,13 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                         fileUpload = CommonUtil.getFilePath(fileUploadPath + value);
                         String name = fileUpload.getAbsolutePath();
                         if (name.contains("\\")) {
-                            String replace = name.replace("\\", ",");
+                            String replace = name.replace('\\', ',');
                             String[] array = replace.split(",");
                             String filename = array[array.length - 1];
                             uploader.setValue(filename);
                             fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? filename.substring(0, filename.lastIndexOf('.')) : fileNameField.getValue());
                         } else if (name.contains("/")) {
-                            final String replace = name.replace("/", ",");
+                            final String replace = name.replace('/', ',');
                             final String[] array = replace.split(",");
                             final String filename = array[array.length - 1];
                             uploader.setValue(filename);
@@ -422,9 +420,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             for (StackTraceElement traceElement : trace)
                 LOGGER.error("\tat={} ", traceElement);
             LOGGER.error(ex.getMessage());
-
         }
-
     }
 
     /**
@@ -784,8 +780,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             String mode2 = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
             if (ACTION_EDIT.getConstant().equalsIgnoreCase(mode2) || ACTION_VIEW.getConstant().equalsIgnoreCase(mode2) || saveFlag) {
                 attachmentsListBean.removeAllItems();
-                if (projectionId == 0 && VaadinSession.getCurrent().getAttribute(PROJECTION_ID)!=null) {
-                    projectionId = (Integer) VaadinSession.getCurrent().getAttribute(PROJECTION_ID);
+                if (projectionId == 0 && VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID)!=null) {
+                    projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
                 }
 
                 final List<NotesDTO> allFiles = logic.getAttachmentDTOList(projectionId, moduleName, fileUploadPath);

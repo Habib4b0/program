@@ -316,10 +316,10 @@ public class CommercialDPRLogic {
         StringBuilder stringBuilder = new StringBuilder();
         List<String> discountIdList = selection.getDiscountList().get(0);
         for (String rsId : discountIdList) {
-            stringBuilder.append("(");
+            stringBuilder.append('(');
             stringBuilder.append(rsId);
-            stringBuilder.append(")");
-            stringBuilder.append(ConstantsUtils.COMMA);
+            stringBuilder.append(')');
+            stringBuilder.append(',');
         }
         return stringBuilder.substring(0, stringBuilder.length() - 1);
     }

@@ -59,7 +59,7 @@ public class CommonUtils {
         List<Integer> integerList = new ArrayList<>();
 
         for (String sid : stringList) {
-            integerList.add(Integer.parseInt(sid));
+            integerList.add(DataTypeConverter.convertStringToInteger(sid));
         }
 
         return integerList;
@@ -89,7 +89,7 @@ public class CommonUtils {
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "").replace("]", "");
             }

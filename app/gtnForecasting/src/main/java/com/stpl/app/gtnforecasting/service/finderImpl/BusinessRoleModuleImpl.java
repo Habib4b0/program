@@ -41,12 +41,12 @@ public class BusinessRoleModuleImpl {
 			
 			
 			if (businessRoleId.length()!=0) {
-				sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+				sql += AND_UBM_BUSINESSROLE_MASTER_SID_IN
 						+ businessRoleId+")";
 			}
 			
 			if (mod.length()!=0) {
-				sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+				sql += AND_SPM_MODULE_NAME_IN + mod + "') ";
 			}
                         
 			if(str!=null && !str[1].equals(StringUtils.EMPTY) && str[1].length()!=0){
@@ -62,6 +62,8 @@ public class BusinessRoleModuleImpl {
 		}
 		
 	}
+    public static final String AND_SPM_MODULE_NAME_IN = " AND spm.MODULE_NAME in ('";
+    public static final String AND_UBM_BUSINESSROLE_MASTER_SID_IN = " AND ubm.BUSINESSROLE_MASTER_SID in (";
 	public List getBusinessFieldPermission(String businessRoleId,String moduleName) {		
 		
                 String sql=StringUtils.EMPTY;
@@ -87,13 +89,13 @@ public class BusinessRoleModuleImpl {
 			
 			
 			if (businessRoleId.length()!=0) {
-				sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+				sql += AND_UBM_BUSINESSROLE_MASTER_SID_IN
 						+ businessRoleId+")";
 			}
 			
 			
 			if (mod.length()!=0) {
-				sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+				sql += AND_SPM_MODULE_NAME_IN + mod + "') ";
 			}
                         if(str!=null && !str[1].equals(StringUtils.EMPTY) && str[1].length()!=0){
                             sql += " AND spm.TAB_NAME like ('" + str[1] + "') ";
@@ -126,13 +128,13 @@ public class BusinessRoleModuleImpl {
 			
 			
 			if (businessRoleId.length()!=0) {
-				sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+				sql += AND_UBM_BUSINESSROLE_MASTER_SID_IN
 						+ businessRoleId+")";
 			}
 			
 			
 			if (moduleName.length()!=0) {
-				sql += " AND spm.MODULE_NAME in ('" + moduleName + "') ";
+				sql += AND_SPM_MODULE_NAME_IN + moduleName + "') ";
 			}
 
 
@@ -174,11 +176,11 @@ public class BusinessRoleModuleImpl {
 				sql = SQlUtil.getQuery(getClass(),"com.contract.businessRoleModule.service.persistence.BusinessRoleModuleFinder.functionPermission");
 
 				if (businessRoleId.length() != 0) {
-					sql += " AND ubm.BUSINESSROLE_MASTER_SID in (" + businessRoleId + ")";
+					sql += AND_UBM_BUSINESSROLE_MASTER_SID_IN + businessRoleId + ")";
 				}
 
 				if (moduleName.length() != 0) {
-					sql += " AND spm.MODULE_NAME in ('" + moduleName + "') ";
+					sql += AND_SPM_MODULE_NAME_IN + moduleName + "') ";
 				}
 
 				LOGGER.debug("End of getBusinessFunctionPermission()");
@@ -203,11 +205,11 @@ public class BusinessRoleModuleImpl {
 				sql = SQlUtil.getQuery(getClass(),"com.contract.businessRoleModule.service.persistence.BusinessRoleModuleFinder.fieldPermission");
 
 				if (businessRoleId.length() != 0) {
-					sql += " AND ubm.BUSINESSROLE_MASTER_SID in (" + businessRoleId + ")";
+					sql += AND_UBM_BUSINESSROLE_MASTER_SID_IN + businessRoleId + ")";
 				}
 
 				if (moduleName.length() != 0) {
-					sql += " AND spm.MODULE_NAME in ('" + moduleName + "') ";
+					sql += AND_SPM_MODULE_NAME_IN + moduleName + "') ";
 				}
 				LOGGER.debug("End of getBusinessFieldPermission()");
 				return HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -230,11 +232,11 @@ public class BusinessRoleModuleImpl {
 				sql = SQlUtil.getQuery(getClass(),"com.contract.businessRoleModule.service.persistence.BusinessRoleModuleFinder.tabPermission");
 
 				if (businessRoleId.length() != 0) {
-					sql += " AND ubm.BUSINESSROLE_MASTER_SID in (" + businessRoleId + ")";
+					sql += AND_UBM_BUSINESSROLE_MASTER_SID_IN + businessRoleId + ")";
 				}
 
 				if (moduleName.length() != 0) {
-					sql += " AND spm.MODULE_NAME in ('" + moduleName + "') ";
+					sql += AND_SPM_MODULE_NAME_IN + moduleName + "') ";
 				}
 
 				LOGGER.debug("End of getBusinessTabPermission()");
@@ -265,14 +267,13 @@ public class BusinessRoleModuleImpl {
 							+ businessRoleName + "'";
 				}
 				if (moduleName.length()!=0) {
-					sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
+					sql += AND_MSM_MODULE_NAME + moduleName + "' ";
 				}
 				if (subModuleName.length()!=0) {
-					sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
+					sql += AND_MSM_SUBMODULE_NAME + subModuleName + "' ";
 				}
 				sql+=" order by SPM.CATEGORY_NAME";
 				
-				LOGGER.debug("Final sql statement----------->= {}",sql);
 				return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 			} catch (Exception e) {
 				LOGGER.error(e.getMessage());
@@ -282,6 +283,8 @@ public class BusinessRoleModuleImpl {
 				
 			}
 		}
+    public static final String AND_MSM_SUBMODULE_NAME = " AND MSM.SUBMODULE_NAME = '";
+    public static final String AND_MSM_MODULE_NAME = " AND MSM.MODULE_NAME = '";
 			
 			@SuppressWarnings("rawtypes")
 			public List findsubmodulePropertyDetails(String businessRoleName,String moduleName,String subModuleName){
@@ -295,14 +298,13 @@ public class BusinessRoleModuleImpl {
 					
 
 					if (moduleName.length()!=0) {
-						sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
+						sql += AND_MSM_MODULE_NAME + moduleName + "' ";
 					}
 					if (subModuleName.length()!=0) {
-						sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
+						sql += AND_MSM_SUBMODULE_NAME + subModuleName + "' ";
 					}
 					
 					sql+=" order by SPM.CATEGORY_NAME";
-	                                LOGGER.debug("Final sql statement----------->= {}",sql);
 					return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 				} catch (Exception e) {                            
 					LOGGER.error(e.getMessage());
@@ -329,14 +331,13 @@ public class BusinessRoleModuleImpl {
 								+ businessRoleName + "'";
 					}
 					if (moduleName.length()!=0) {
-						sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
+						sql += AND_MSM_MODULE_NAME + moduleName + "' ";
 					}
 					if (subModuleName.length()!=0) {
-						sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
+						sql += AND_MSM_SUBMODULE_NAME + subModuleName + "' ";
 					}
 					
 					
-					LOGGER.debug("Final sql statement----------->= {}",sql);
 					return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 				} catch (Exception e) {
 					LOGGER.error(e.getMessage());
@@ -359,14 +360,13 @@ public class BusinessRoleModuleImpl {
 						
 
 						if (moduleName.length()!=0) {
-							sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
+							sql += AND_MSM_MODULE_NAME + moduleName + "' ";
 						}
 						if (subModuleName.length()!=0) {
-							sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
+							sql += AND_MSM_SUBMODULE_NAME + subModuleName + "' ";
 						}
 						
 						
-						LOGGER.debug("Final sql statement----------->= {}",sql);
 						return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 					} catch (Exception e) {
 						LOGGER.error(e.getMessage());

@@ -216,11 +216,10 @@ public class FileUploader implements Upload.Receiver {
 	}
 
 	public static String getFilePath() {
-		String path = "";
-		String jbossHome = System.getProperty("jboss.home.dir");
-		String[] ftppath = jbossHome.split("jboss-7.1.1");
-		path = ftppath[0];
-		return path;
+            StringBuilder path = new StringBuilder(System.getProperty("com.stpl.gtnframework.base.path"));
+            path.append("Attachments");
+            path.append('/');
+            return path.toString();
 	}
 
 }
