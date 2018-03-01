@@ -2030,6 +2030,7 @@ public class SalesLogic {
     
     public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
 
+        String key = StringUtils.EMPTY;
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
             StringBuilder updateLine = new StringBuilder(StringUtils.EMPTY);
@@ -2047,7 +2048,11 @@ public class SalesLogic {
             String hierarchyNo = salesDTO.getHierarchyNo();
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String[] keyarr = propertyId.split("-");
-            String key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
+            if (frequencyDivision != 1) {
+            key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
+            }else{
+            key = (keyarr[0])+"~"+salesDTO.getHierarchyNo();
+            }
             if (frequencyDivision == 1) {
                 year = Integer.valueOf(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
@@ -2173,7 +2178,7 @@ public class SalesLogic {
                 projectionSelectionDTO.setIsMultipleVariablesUpdated(true);
                 }
 	}
-    
+     
       public Object executeUpdateQuery(ProjectionSelectionDTO projectionSelectionDTO) {
           for (Map.Entry<String, String> entry : projectionSelectionDTO.getUpdateQueryMap().entrySet()) {
               HelperTableLocalServiceUtil.executeUpdateQuery(entry.getValue());
@@ -2208,7 +2213,7 @@ public class SalesLogic {
             }
         }
     }
-
+    
     public boolean callManualEntry(final ProjectionSelectionDTO projectionSelectionDTO, String changedProperty) {
         boolean status = false;
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
@@ -2231,6 +2236,9 @@ public class SalesLogic {
                 LOGGER.debug("4= {} " , changedProperty);
                 LOGGER.debug(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
 
+                statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
+                statement.setObject(NumericConstants.TWO, Integer.parseInt(session.getUserId())); //  @USER_ID
+                statement.setObject(NumericConstants.THREE, session.getSessionId()); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
                 if (!CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
                     statement.setObject(NumericConstants.FIVE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());

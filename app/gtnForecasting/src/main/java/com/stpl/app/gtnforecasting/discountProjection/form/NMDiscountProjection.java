@@ -5219,7 +5219,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	}
 
 	public boolean getSubmitFlag() {
-		if (resultBeanContainer.getItemIds().size() > 0) {
+		if (resultBeanContainer.size() > 0) {
 			return true;
 		} else {
 			return false;

@@ -2408,5 +2408,5 @@ public class ProjectionSelectionDTO {
     public void setUpdateQueryMap(Map<String, String> updateQueryMap) {
         this.updateQueryMap = updateQueryMap;
     }
-    
-}
+
+    }
