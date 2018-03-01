@@ -855,7 +855,7 @@ public class CommonLogic {
 		}
 		procedureToCall.replace(procedureToCall.lastIndexOf(CommonUtil.COMMA),
 				procedureToCall.lastIndexOf(CommonUtil.COMMA) + 1, StringUtils.EMPTY);
-		procedureToCall.append(')');
+		procedureToCall.append('}');
 		return procedureToCall.toString();
     }
 
