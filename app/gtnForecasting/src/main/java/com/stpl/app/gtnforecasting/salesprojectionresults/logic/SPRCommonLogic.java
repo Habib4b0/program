@@ -1297,27 +1297,6 @@ public class SPRCommonLogic {
         return count;
     }
 
-    public String[] getTableAndFieldName(String levelName) {
-
-        String query = "select LEVEL_NAME , \"TABLE_NAME\" ,FIELD_NAME from HIERARCHY_LEVEL_DEFINITION WHERE \n"
-                + " HIERARCHY_DEFINITION_SID in ";
-        String[] returnValues = new String[1];
-        List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
-        if (list != null && !list.isEmpty()) {
-            for (Object list1 : list) {
-                final Object[] obj = (Object[]) list1;
-
-                if (levelName.equals(obj[0])) {
-                    returnValues[0] = String.valueOf(obj[1]);
-                    returnValues[1] = String.valueOf(obj[NumericConstants.TWO]);
-                }
-
-            }
-
-        }
-        return returnValues;
-    }
-
     public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails,
             String CCP) {
         String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP
