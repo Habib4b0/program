@@ -77,7 +77,7 @@ public class CustomExcelExport extends ExcelExport {
                 Double d = 0.0;
                 try {
                     if (value != null) {
-                        d = Double.parseDouble(value.toString().replace("$", "").replace(",", "").replace("%", ""));
+                        d = DataTypeConverter.convertStringToDouble(value.toString().replace("$", "").replace(",", "").replace("%", ""));
                         sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         sheetCell.setCellValue(d);
                     }
@@ -108,7 +108,7 @@ public class CustomExcelExport extends ExcelExport {
                         }
                     } else {
                         try {
-                            final Double d = Double.parseDouble(value.toString());
+                            final Double d = DataTypeConverter.convertStringToDouble(value.toString());
                             sheetCell.setCellValue(d);
                             sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         } catch (final NumberFormatException nfe) {

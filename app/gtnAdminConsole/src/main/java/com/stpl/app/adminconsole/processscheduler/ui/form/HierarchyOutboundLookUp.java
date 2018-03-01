@@ -320,7 +320,7 @@ public final class HierarchyOutboundLookUp extends Window {
 
             } else if (!checkedHierarchy.isEmpty()) {
                 for (String keyId : checkedHierarchy.keySet()) {
-                    ids.append(",").append(keyId);
+                    ids.append(',').append(keyId);
                 }
                 checkedIds = ids.toString().replaceFirst(",", ConstantsUtils.EMPTY);
             }

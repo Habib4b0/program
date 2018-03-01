@@ -358,7 +358,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
     public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
-        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
 
     }
 

@@ -986,15 +986,15 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             toHist = true;
             projectionDTO.setHistory(hist.toString());
             String[] array = projectionDTO.getHistory().split(" ");
-            historyNum = Integer.valueOf(array[0]);
+            historyNum = Integer.parseInt(array[0]);
         }
         if (toFreq && toHist) {
             toRet = true;
             projectionDTO.setSessionDTO(session);
             projectionId = session.getProjectionId();
             projectionDTO.setScreenName(screenName);
-            projectionDTO.setUserId(Integer.valueOf(session.getUserId()));
-            projectionDTO.setSessionId(Integer.valueOf(session.getSessionId()));
+            projectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+            projectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
             projectionDTO.setCustRelationshipBuilderSid(session.getCustRelationshipBuilderSid());
             projectionDTO.setProdRelationshipBuilderSid(session.getProdRelationshipBuilderSid());
             projectionDTO.setActualsOrProjections(actualOrProj.getValue().toString());
@@ -1004,8 +1004,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             projectionDTO.setPivotView(pivotView.getValue().toString());
             projectionDTO.setCustomId(customId);
             projectionDTO.setView(view.getValue().toString());
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             projectionDTO.setForecastDTO(session.getForecastDTO());
             projectionDTO.setHistoryNum(historyNum);
             projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
@@ -1097,7 +1097,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     public void levelFilterDdlbChangeOption(boolean excelExport) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -1216,7 +1216,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     private void expandCollapseLevelOption(boolean isExpand, Object value) {
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo > 0) {
             
                 levelFilter.removeValueChangeListener(levelFilterChangeOption);

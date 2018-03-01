@@ -281,13 +281,13 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                         fileUpload = CommonUtil.getFilePath(fileUploadPath + value);
                         String name = fileUpload.getAbsolutePath();
                         if (name.contains("\\")) {
-                            String replace = name.replace("\\", ",");
+                            String replace = name.replace('\\', ',');
                             String[] array = replace.split(",");
                             String filename = array[array.length - 1];
                             uploader.setValue(filename);
                             fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? filename.substring(0, filename.lastIndexOf('.')) : fileNameField.getValue());
                         } else if (name.contains("/")) {
-                            final String replace = name.replace("/", ",");
+                            final String replace = name.replace('/', ',');
                             final String[] array = replace.split(",");
                             final String filename = array[array.length - 1];
                             uploader.setValue(filename);

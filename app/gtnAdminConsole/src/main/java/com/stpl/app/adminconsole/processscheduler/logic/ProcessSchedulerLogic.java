@@ -920,8 +920,8 @@ public class ProcessSchedulerLogic {
 						sb.append(" UNION ALL \n");
 					}
 				}
-				sb.append(" \n EXEC PRC_CFF_OUTBOUND @CFF_DETAILS_SID,").append(userId).append(",").append(sessionId)
-						.append(" , 'SCHEDULER' ").append(";");
+				sb.append(" \n EXEC PRC_CFF_OUTBOUND @CFF_DETAILS_SID,").append(userId).append(',').append(sessionId)
+						.append(" , 'SCHEDULER' ").append(';');
 				HelperTableLocalServiceUtil.executeUpdateQuery(sb.toString());
 				LOGGER.debug("Ending cffOutboundInsertProc");
 			} catch (Exception ex) {
