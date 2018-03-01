@@ -1272,6 +1272,8 @@ public class AlternateSummery extends CustomComponent {
                 case ANNUAL:
                     condition = tempYear < currentYear;
                     break;
+                default:
+                    break;
             }
             if ((condition) && (checkBoxMap.get(key))) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
@@ -1320,6 +1322,8 @@ public class AlternateSummery extends CustomComponent {
                     case ANNUAL:
                         condition = tempYear >= projStartYear;
                         break;
+                    default:
+                        break;
                 }
                 if (condition) {
                     if (!selectedPeriods.equals(StringUtils.EMPTY)) {
@@ -1367,6 +1371,8 @@ public class AlternateSummery extends CustomComponent {
                     break;
                 case ANNUAL:
                     condition = tempYear >= projStartYear;
+                    break;
+                default:
                     break;
             }
 

@@ -594,7 +594,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
                         comparisonBasis.addItem(j);
                         comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
-                        comparisonBasis.select("Current Projection");
+                        comparisonBasis.select(CURRENT_PROJECTION);
                     }
                 }
             }
@@ -602,6 +602,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         LOGGER.info("Comparision lookup ends");
     }
+    public static final String CURRENT_PROJECTION = "Current Projection";
 
     /**
      * Excel export button click method.
@@ -971,6 +972,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             group.setEnabled(false);
             levelFilter.setEnabled(false);
             view.setEnabled(false);
+            customDdlb.setEnabled(false);
+            editViewBtn.setEnabled(false);
+            addViewBtn.setEnabled(false);
         } else {
             levelDdlb.setEnabled(true);
             group.setEnabled(false);
@@ -1039,7 +1043,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setDiscountLevel(String.valueOf(discountLevel.getValue()));
         pvSelectionDTO.setPivotView(String.valueOf(pivotView.getValue()));
         pvSelectionDTO.setFromDate(String.valueOf(fromDate.getValue()));
-        pvSelectionDTO.setCurrentProjectionName("Current Projection");
+        pvSelectionDTO.setCurrentProjectionName(CURRENT_PROJECTION);
         pvSelectionDTO.setProjIdList(projIdList);
         pvSelectionDTO.setProjectionMap(projectionMap);
         pvSelectionDTO.setVariableCategory(variableCategoryValue);
@@ -1807,7 +1811,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
                     comparisonBasis.addItem(j);
                     comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
-                    comparisonBasis.select("Current Projection");
+                    comparisonBasis.select(CURRENT_PROJECTION);
                 }
             }
         }
@@ -2326,9 +2330,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeItems();
-        displayFormatValues = displayFormatDdlb.addItem("Both", null);
+        displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES_LABEL, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
+        String displayFormatMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
     }
     public static final String SELECT_VALUES_LABEL = "-Select Values-";
@@ -2377,8 +2383,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         productFilterDdlb.removeSubMenuCloseListener(productlistener);
 
         productFilterDdlb.removeItems();
-        String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
-        productFilterValues = productFilterDdlb.addItem(productMenuItemValue, null);
+        productFilterValues = productFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
 
         if (!levelNo.isEmpty()) {
             productLevelFilter.add(0, new Object[]{0, SELECT_ALL});
@@ -2389,6 +2394,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         productFilterDdlb.setScrollable(true);
         productFilterDdlb.setPageLength(NumericConstants.TEN);
         CommonLogic.loadMenuBar((List) generateProductToBeLoaded, productFilterValues);
+        String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
         productFilterDdlb.addSubMenuCloseListener(productlistener);
     }
     public static final String SELECT_LEVEL_LABEL = "-Select Level-";
@@ -2400,8 +2407,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
         deductionFilterDdlb.removeSubMenuCloseListener(deductionlistener);
         deductionFilterDdlb.removeItems();
-        String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
-        deductionFilterValues = deductionFilterDdlb.addItem(deductionMenuItemValue, null);
+        deductionFilterValues = deductionFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
 
         if (!levelNo.isEmpty()) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL});
@@ -2416,6 +2422,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         deductionFilterDdlb.setScrollable(true);
         deductionFilterDdlb.setPageLength(NumericConstants.TEN);
         CommonLogic.loadMenuBar((List) generateDiscountToBeLoaded, deductionFilterValues);
+        String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
         deductionFilterDdlb.addSubMenuCloseListener(deductionlistener);
     }
     public static final String SELECT_ALL = "Select All";
@@ -2445,8 +2453,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         customerFilterDdlb.removeSubMenuCloseListener(customerlistener);
         customerFilterDdlb.removeItems();
-        String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
-        customerFilterValues = customerFilterDdlb.addItem(customerMenuItemValue, null);
+        customerFilterValues = customerFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
         if (!levelNo.isEmpty()) {
             customerLevelFilter.add(0, new Object[]{0, SELECT_ALL});
             customerLevelFilter.addAll(commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateProductToBeLoaded, generateDiscountToBeLoaded, String.valueOf(session.getCustomerRelationVersion())));
@@ -2455,6 +2462,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         customerFilterDdlb.setScrollable(true);
         customerFilterDdlb.setPageLength(NumericConstants.TEN);
         CommonLogic.loadMenuBar((List) generateCustomerToBeLoaded, customerFilterValues);
+        String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
         customerFilterDdlb.addSubMenuCloseListener(customerlistener);
     }
 

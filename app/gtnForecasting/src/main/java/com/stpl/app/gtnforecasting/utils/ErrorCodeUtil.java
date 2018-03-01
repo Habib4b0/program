@@ -21,9 +21,9 @@ import org.apache.commons.lang.StringUtils;
 public class ErrorCodeUtil {
 
     /**
-     * The resouce bundle.
+     * The resource bundle.
      */
-    public static ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("errorcodes.errorcode");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("errorcodes.errorcode");
     /**
      * The HYPHEN.
      */

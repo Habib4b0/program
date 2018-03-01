@@ -102,7 +102,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	public void intailizingObject(String moduleName) {
 		uploadReceiver = (Upload.Receiver) new FileUploader(basepath, MODULE_NAME);
 		uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-		filePath = GtnFileUtil.getFile(basepath + File.separator + "Documents" + File.separator + MODULE_NAME);
+		filePath = GtnFileUtil.getFile(basepath + File.separator + "Attachments" + File.separator + MODULE_NAME);
 		wordFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportWord.DOC_EXT);
 		pdfFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
 		fileUploadPath = FileUploader.FILE_PATH + MODULE_NAME + "/";

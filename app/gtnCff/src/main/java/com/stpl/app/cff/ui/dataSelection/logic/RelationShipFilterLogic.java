@@ -572,7 +572,7 @@ public class RelationShipFilterLogic {
                 if(!isProduct){
                     List<Object> input1 = new ArrayList<>();
                    input1.add(projectionIdValue);
-                    query.append(CommonQueryUtils.getAppQuery(input1, "CFFfiltercontractsbasedoneligibledate")); 
+                    query.append(CommonQueryUtils.getAppQuery(input1,"CFFfiltercontractsbasedoneligibledate")); 
                 }
 		return CommonQueryUtils.getQuery(query.toString(), input);
 	}
