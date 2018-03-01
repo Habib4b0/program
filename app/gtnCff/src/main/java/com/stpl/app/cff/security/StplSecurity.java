@@ -11,7 +11,7 @@ import com.stpl.app.cff.dao.StplSecurityDAO;
 import com.stpl.app.cff.dao.impl.StplSecurityDAOImpl;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
-import com.stpl.app.cff.util.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.model.UsergroupDomainMaster;
 import com.stpl.app.security.permission.model.AppPermission;

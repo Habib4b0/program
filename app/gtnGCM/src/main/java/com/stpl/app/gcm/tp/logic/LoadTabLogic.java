@@ -18,7 +18,7 @@ import com.stpl.app.gcm.tp.dto.SummaryTemDTO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.gcm.util.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;

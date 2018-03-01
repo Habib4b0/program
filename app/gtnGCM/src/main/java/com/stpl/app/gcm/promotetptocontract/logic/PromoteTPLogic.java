@@ -64,7 +64,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.stpl.app.gcm.util.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;

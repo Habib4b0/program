@@ -16,7 +16,7 @@ import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.service.FileReadWriteService;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
-import com.stpl.app.cff.util.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;

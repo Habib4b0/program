@@ -24,7 +24,7 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gcm.util.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.event.ItemClickEvent;

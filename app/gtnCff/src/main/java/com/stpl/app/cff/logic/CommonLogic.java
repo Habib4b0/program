@@ -23,7 +23,7 @@ import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
-import com.stpl.app.cff.util.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
