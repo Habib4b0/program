@@ -111,7 +111,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> ifpItemAdditionColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> ifpItemAdditionColumnDetailsMap = new HashMap<>(17);
 
 		ifpItemAdditionColumnDetailsMap.put("ifpId", configProvider.getColumnStringConfig("IFP_ID", "IFP"));
 		ifpItemAdditionColumnDetailsMap.put("ifpNo", configProvider.getColumnStringConfig("IFP_NO", "IFP"));
@@ -130,15 +130,15 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		ifpItemAdditionColumnDetailsMap.put("ifpEndDate", configProvider.getColumnDateConfig("IFP_END_DATE", "IFP"));
 		ifpItemAdditionColumnDetailsMap.put("IFP END DATE", configProvider.getColumnDateConfig("IFP_END_DATE", "IFP"));
 		ifpItemAdditionColumnDetailsMap.put("ifpStartDate",
-				configProvider.getColumnDateConfig("IFP_START_DATE", "IFP"));
-		ifpItemAdditionColumnDetailsMap.put("IFP_START_DATE",
-				configProvider.getColumnDateConfig("IFP_START_DATE", "IFP"));
+				columnConfig(GtnFrameworkWebserviceConstant.PS_IFP_START_DATE, "IFP"));
+		ifpItemAdditionColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_IFP_START_DATE,
+				configProvider.getColumnDateConfig(GtnFrameworkWebserviceConstant.PS_IFP_START_DATE, "IFP"));
 		ifpItemAdditionColumnDetailsMap.put("IFP TYPE",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
 						GtnFrameworkWebserviceConstant.IFP_TYPE, GtnFrameworkWebserviceConstant.IFP_TYPE,
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
 		ifpItemAdditionColumnDetailsMap.put("ifpType",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
+				columnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
 						GtnFrameworkWebserviceConstant.IFP_TYPE, GtnFrameworkWebserviceConstant.IFP_TYPE,
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
 		ifpItemAdditionColumnDetailsMap.put("IFP CATEGORY",
@@ -146,7 +146,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 						GtnFrameworkWebserviceConstant.IFP_CATEGORY, GtnFrameworkWebserviceConstant.IFP_CATEGORY,
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
 		ifpItemAdditionColumnDetailsMap.put("ifpCategory",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
+				columnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
 						GtnFrameworkWebserviceConstant.IFP_CATEGORY, GtnFrameworkWebserviceConstant.IFP_CATEGORY,
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
 		ifpItemAdditionColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID,
@@ -714,6 +714,17 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 		searchQueryConfigMap.put("NEP Formula", gtnWebServiceSearchQueryContext);
 	}
+        
+        public static GtnWsColumnDetailsConfig columnConfig(String dbColumn, String tableAlias){
+            GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
+            return configProvider.getColumnDateConfig(dbColumn, tableAlias);
+        }
+        
+        public static GtnWsColumnDetailsConfig columnStringConfig(String dbColumn, String tableAlias, String aliasName,
+			String whereClauseColumn){
+            GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
+            return configProvider.getColumnStringConfig(dbColumn, tableAlias, aliasName);
+        }
 
 	@Override
 	public Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
