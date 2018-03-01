@@ -32,7 +32,6 @@ public class GtnUIFrameWorkLoadValueFormulaTypeComboBoxAction
 			throws GtnFrameworkGeneralException {
 		String resultValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanInformationTabformulaType")
 				.getCaptionFromComboBox();
-		String mode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
 		if (resultValue.equals("Complex")) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB)
 					.setWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);

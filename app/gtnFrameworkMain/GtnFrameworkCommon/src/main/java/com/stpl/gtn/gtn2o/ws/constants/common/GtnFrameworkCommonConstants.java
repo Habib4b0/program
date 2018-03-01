@@ -22,6 +22,8 @@ public class GtnFrameworkCommonConstants {
 	/**
 	 * Common For All Modules
 	 */
+        public static final String NET_SALES_FORMULA_ID = "Net Sales Formula ID";
+        public static final String NET_SALES_FORMULA_NO = "Net Sales Formula NO";
 	public static final String VALIDATION_ERROR = "Validation Error :";
 	public static final Class<?> JAVA_LANG_STRING = String.class;
 	public static final Class<?> JAVA_UTIL_DATE = Date.class;
@@ -823,7 +825,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String RULE_TYPE = "Rule Type";
 	public static final String ADD_LINE = "gtnAddLineButtonlayout";
 	public static final String PS_ALERT_MSG = "Add atleast One Item in Item Addition tab for PS";
-
+        
 	/**
 	 * Process Monitor
 	 */

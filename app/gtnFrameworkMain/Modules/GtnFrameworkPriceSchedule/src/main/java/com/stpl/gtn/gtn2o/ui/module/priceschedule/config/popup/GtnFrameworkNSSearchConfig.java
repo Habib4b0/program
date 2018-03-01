@@ -153,7 +153,7 @@ public class GtnFrameworkNSSearchConfig {
 				GtnFrameworkCommonConstants.FORMULA_NO, true, GtnFrameworkCommonConstants.FORMULA_NO_LAYOUT,
 				GtnUIFrameworkComponentType.TEXTBOX);
 		netSalesFormulaNo.setAuthorizationIncluded(true);
-		netSalesFormulaNo.setComponentName("Net Sales Formula NO");
+		netSalesFormulaNo.setComponentName(GtnFrameworkCommonConstants.NET_SALES_FORMULA_NO);
 
 		GtnUIFrameworkValidationConfig netSalesFormulaNoValidationConfig = new GtnUIFrameworkValidationConfig();
 		List<GtnUIFrameworkConditionalValidationType> conditions = new ArrayList<>();
