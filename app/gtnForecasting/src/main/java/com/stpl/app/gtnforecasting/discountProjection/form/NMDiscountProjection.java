@@ -78,6 +78,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.REBATE_PER_UNIT;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -289,6 +290,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private static final String LEVEL_NUMBER_HEADER = "Level Number";
     private static final String LEVEL_NAME_HEADER = "Level Name";
     private static final String GROUP_PROPERTY_ID = "group";
+    public static final String DISCOUNT_PROJECTION_XLS = "Discount_Projection.xls";
 
     private List<Object> generateDiscountToBeLoaded = new ArrayList<>();
     private List<Object> generateDiscountNamesToBeLoaded = new ArrayList<>();
@@ -497,6 +499,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             uomLb.setWidth("120px");
             gridlay.addComponent(uomDdlb);
             gridlay.addComponent(displayFormatLabel);
+            displayFormatDdlb.setStyleName("custommenumulticheck");
+            displayFormatDdlb.setWidth("200px");
             displayFormatLabel.setWidth("120px");
             gridlay.addComponent(displayFormatDdlb);
         } else {
@@ -820,7 +824,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 / ((isCustomHierarchy ? ccpsCount : discountLevelccpCount) * frequencyDiv);
                         blurValue = String.valueOf(finalValue);
                         if (blurValue.contains("E")) {
-                            blurValue = blurValue.substring(0, blurValue.lastIndexOf("E"));
+                            blurValue = blurValue.substring(0, blurValue.lastIndexOf('E'));
                         }
                     } else if (property.contains(Constant.GROWTH)) {
                         refreshName = "GROWTH";
@@ -1015,7 +1019,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     CommonLogic.unCheckMultiSelect(productFilterValues);
                 }
                 mapValue = map.get(Constant.CUSTOMER_LEVEL_DDLB);
-                customerlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : Integer.parseInt(mapValue.toString()));
+                customerlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
                 mapValue = map.get(Constant.CUSTOMER_LEVEL_VALUE);
                 if (!CommonUtil.nullCheck(mapValue)) {
                     CommonUtil.setCustomMenuBarValuesInEdit(mapValue, customerFilterValues);
@@ -1025,7 +1029,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
                 ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
                 mapValue = map.get(Constant.PRODUCT_LEVEL_DDLB);
-                productlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : Integer.parseInt(mapValue.toString()));
+                productlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
                 mapValue = map.get(Constant.PRODUCT_LEVEL_VALUE);
                 if (!CommonUtil.nullCheck(mapValue)) {
                     CommonUtil.setCustomMenuBarValuesInEdit(mapValue, productFilterValues);
@@ -1035,7 +1039,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
                 ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
                 mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
-                deductionlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : Integer.parseInt(mapValue.toString()));
+                deductionlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
                 mapValue = map.get(Constant.DEDUCTION_LEVEL_VALUE);
                 if (!CommonUtil.nullCheck(mapValue)) {
                     CommonUtil.setCustomMenuBarValuesInEdit(mapValue, deductionFilterValues);
@@ -2231,7 +2235,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<String> checkedDiscountNames = new ArrayList<>();
             List<String> checkedDiscountNamesList = new ArrayList<>();
             if (endPeriodForecastTab.getValue() != null) {
-                endValue = endPeriodForecastTab.getValue().toString().replace(" ", "~").trim();
+                endValue = endPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
             } else {
                 endValue = forecaststartBean.getIdByIndex(forecaststartBean.size() - 1);
             }
@@ -2247,7 +2251,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 && (checkBoxMap.size() == 0 || checkedDiscountsPropertyIds.size() != checkBoxMap.size()) && !PER_EX_FACTORY_SALES.getConstant().equals(methodologyDdlb.getValue())) {
                             NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED, PLEASE_SELECT_A_HISTORIC_ALERT);
                         } else if (baseLineCalc(startPeriodForecastTab.getValue().toString(),
-                                endValue.replace("~", " "))
+                                endValue.replace('~', ' '))
                                 || methodologyDdlb.getValue().equals(CONTRACT_DETAILS.getConstant())) {
                             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                             boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY
@@ -2315,7 +2319,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                         String.valueOf(startPeriodForecastTab.getValue()),
                                                         String.valueOf(frequencyDdlb.getValue()), "Min"));
                                                 projectionSelection
-                                                        .setToDateDdlb(logic.getPeriodSid(endValue.replace("~", " "),
+                                                        .setToDateDdlb(logic.getPeriodSid(endValue.replace('~', ' '),
                                                                 String.valueOf(frequencyDdlb.getValue()), "Max"));
                                                 projectionSelection.setCalcBased(calcBase);
                                                 projectionSelection
@@ -2420,7 +2424,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<String> checkedDiscountNames = new ArrayList<>();
             List<String> checkedDiscountNamesList = new ArrayList<>();
             if (endPeriodForecastTab.getValue() != null) {
-                endValue = endPeriodForecastTab.getValue().toString().replace(" ", "~").trim();
+                endValue = endPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
             } else {
                 endValue = forecaststartBean.getIdByIndex(forecaststartBean.size() - 1);
             }
@@ -2437,7 +2441,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED,
                                     "Please select a Historic Period .");
                         } else if (baseLineCalc(startPeriodForecastTab.getValue().toString(),
-                                endValue.replace("~", " "))
+                                endValue.replace('~', ' '))
                                 || methodologyDdlb.getValue().equals(CONTRACT_DETAILS.getConstant())) {
                             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                             boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY
@@ -2496,7 +2500,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                         String.valueOf(startPeriodForecastTab.getValue()),
                                                         String.valueOf(frequencyDdlb.getValue()), "Min"));
                                                 projectionSelection
-                                                        .setToDateDdlb(logic.getPeriodSid(endValue.replace("~", " "),
+                                                        .setToDateDdlb(logic.getPeriodSid(endValue.replace('~', ' '),
                                                                 String.valueOf(frequencyDdlb.getValue()), "Max"));
                                                 projectionSelection.setCalcBased(calcBase);
                                                 projectionSelection
@@ -2767,9 +2771,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 
                                     session.setFrequency(projectionSelection.getFrequency());
-                                    String adjustActual = session.isActualAdjustment() ? "0" : "1";
                                     if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-                                            adjustmentValue, adjustActual, baselinePeriods)) {
+                                            adjustmentValue, Constant.STRING_ONE, baselinePeriods)) {
                                         LOGGER.debug(" Procedure executed Successfully");
                                         refreshTableData(getCheckedRecordsHierarchyNo());
                                     } else {
@@ -2828,16 +2831,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
                 if (!adjustmentValue.replace(" ", StringUtils.EMPTY).isEmpty()) {
 
-                    if (tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM) == null) {
+                    if (tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL) == null) {
                         NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED,
                                 Constant.ADJUSTMENT_CONFIRMATION);
                         return;
                     }
 
                     if (Constant.HISTORICAL_OF_BUSINESS.equals(allocationMethodology)) {
-                        baselinePeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM).get("H");
+                        baselinePeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL).get("H");
                     } else {
-                        baselinePeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM)
+                        baselinePeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL)
                                 .get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     }
 
@@ -2848,9 +2851,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         return;
                     }
 
-                    List<String> selectedPeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM)
+                    List<String> selectedPeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL)
                             .get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-                    List<String> selectedHistPeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM)
+                    List<String> selectedHistPeriods = tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM_LABEL)
                             .get("H");
                     if (selectedHistPeriods != null && !selectedHistPeriods.isEmpty()) {
                         selectedDoubleList.addAll(selectedHistPeriods);
@@ -2912,9 +2915,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     logic.checkUncheckRebateBeforeAdjust(false, checkedDiscountList, session, true,
                                             isProgram);
                                     session.setFrequency(projectionSelection.getFrequency());
-                                    String adjustActual = session.isActualAdjustment() ? "0" : "1";
                                     if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-                                            adjustmentValue, adjustActual, baselinePeriods)) {
+                                            adjustmentValue, Constant.STRING_ONE, baselinePeriods)) {
                                         LOGGER.debug(" Procedure executed Successfully");
                                         logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
                                                 isProgram);
@@ -3049,15 +3051,17 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.info("COLUMNS-----------------= {}", Arrays.asList(leftTableExcelColumns));
 
             Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
+            String removeColumn = StringUtils.EMPTY;
             if (displayFormatIndex.length == 1) {
                 for (int i = 0; i < displayFormatIndex.length; i++) {
                     LOGGER.info("obj--------------= {}", i);
                     int index = (Integer) displayFormatIndex[i];
                     if (index == 0) {
+                        removeColumn = DF_LEVEL_NAME;
                         leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, DF_LEVEL_NAME);
                         objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, LEVEL_NAME_HEADER);
                     } else {
-
+                        removeColumn = DF_LEVEL_NUMBER;
                         leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, DF_LEVEL_NUMBER);
                         objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, LEVEL_NUMBER_HEADER);
 
@@ -3070,6 +3074,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<Object> listHeadersList = new ArrayList(Arrays.asList(singleHeaderArray));
             listHeadersList.remove(LEVEL_NAME_PROPERTY);
             listHeadersList.remove("group");
+            if (!removeColumn.isEmpty()) {
+                listHeadersList.remove(removeColumn);
+            }
             excelHeaderLeft.getDoubleHeaderMaps().put(GROUP_PROPERTY_ID, listHeadersList.toArray());
             excelTable.setDoubleHeaderVisible(true);
             excelTable
@@ -3096,7 +3103,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatterMap = new HashMap<>();
             formatterMap.put("percentThreeDecimal", "Rate");
             formatterMap.put("currencyTwoDecimal", "RPU");
-            formatterMap.put("amountTwoDecimal", "Amount");
+            formatterMap.put("amountTwoDecimal", AMOUNT);
             excelTable.setRefresh(Boolean.TRUE);
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
@@ -3155,7 +3162,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatterMap);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap);
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -3167,7 +3174,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatterMap);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap);
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
@@ -3470,6 +3477,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 logic.updateAllToZero(session);
             }
             hierarchyListForCheckRecord.clear();
+            session.setFrequency(projectionSelection.getFrequency());
             callAdjustmentProcedure(this.session);
             tableLogic.clearAll();
             tableLogic.setRefresh(false);// will become true once setcurrentpage
@@ -3893,8 +3901,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         String discountPgmName = StringUtils.EMPTY;
         String discountPgmSids = StringUtils.EMPTY;
         for (String rsSids : discountProgramsList) {
-            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ",";
-            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ",";
+            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ',';
+            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ',';
         }
         discountPgmName = discountPgmName.substring(0, discountPgmName.length() - 1);
         discountPgmSids = discountPgmSids.substring(0, discountPgmSids.length() - 1);
@@ -3908,8 +3916,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         String discountPgmName = StringUtils.EMPTY;
         String discountPgmSids = StringUtils.EMPTY;
         for (String rsSids : discountProgramsList) {
-            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ",";
-            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ",";
+            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ',';
+            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ',';
         }
         discountPgmName = discountPgmName.substring(0, discountPgmName.length() - 1);
         discountPgmSids = discountPgmSids.substring(0, discountPgmSids.length() - 1);
@@ -4000,7 +4008,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 checkedDoubleHeaders.put("H", checkedHistoryList);
             }
             tripleHeaderForCheckedDoubleHeader.put(discountName, checkedDoubleHeaders);
-            tripleHeaderForCheckedDoubleHeaderCustom.put(Constant.CUSTOM, checkedDoubleHeaders);
+            tripleHeaderForCheckedDoubleHeaderCustom.put(Constant.CUSTOM_LABEL, checkedDoubleHeaders);
         } else {
             if (rightHeader.getDoubleProjectedColumns().contains(propertyId)) {
                 checkedProjectionList.remove(checkedColumnName);
@@ -4016,7 +4024,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             }
             tripleHeaderForCheckedDoubleHeader.put(discountName, checkedDoubleHeaders);
-            tripleHeaderForCheckedDoubleHeaderCustom.put(Constant.CUSTOM, checkedDoubleHeaders);
+            tripleHeaderForCheckedDoubleHeaderCustom.put(Constant.CUSTOM_LABEL, checkedDoubleHeaders);
         }
         if (checkedDoubleHeaders.isEmpty()) {
             tripleHeaderForCheckedDoubleHeader.remove(discountName);
@@ -4515,8 +4523,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 return Boolean.FALSE;
             }
             if (!frequencyDdlb.getValue().equals(ANNUALLY.getConstant())) {
-                String startValue = startPeriodForecastTab.getValue().toString().replace(" ", "~").trim();
-                String endValue = valueEnd.replace(" ", "~").trim();
+                String startValue = startPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
+                String endValue = valueEnd.replace(' ', '~').trim();
                 String startValue1[] = startValue.split("~");
                 String endValue1[] = endValue.split("~");
                 if (Integer.parseInt(startValue1[1].trim()) > Integer.parseInt(endValue1[1].trim())) {
@@ -5212,11 +5220,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
 
     public boolean getSubmitFlag() {
-        if (resultBeanContainer.getItemIds().size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+            return !resultBeanContainer.isEmpty();
     }
 
     public void configure() {
@@ -5346,8 +5350,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         productFilterDdlb.removeSubMenuCloseListener(productlistener);
 
         productFilterDdlb.removeItems();
-        String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
-        productFilterValues = productFilterDdlb.addItem(productMenuItemValue, null);
+        productFilterValues = productFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
 
         if (!levelNo.isEmpty()) {
             productLevelFilter.add(0, new Object[]{0, SELECT_ALL_LABEL});
@@ -5359,6 +5362,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         productFilterDdlb.setScrollable(true);
         productFilterDdlb.setPageLength(NumericConstants.TEN);
         CommonLogic.loadMenuBar((List) generateProductToBeLoaded, productFilterValues);
+        String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
         productFilterDdlb.addSubMenuCloseListener(productlistener);
     }
 
@@ -5369,8 +5374,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         deductionFilterDdlb.removeSubMenuCloseListener(deductionlistener);
         deductionFilterDdlb.removeItems();
-        String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
-        deductionFilterValues = deductionFilterDdlb.addItem(deductionMenuItemValue, null);
+        deductionFilterValues = deductionFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
 
         if (!levelNo.isEmpty()) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL_LABEL});
@@ -5387,6 +5391,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         deductionFilterDdlb.setScrollable(true);
         deductionFilterDdlb.setPageLength(NumericConstants.TEN);
         CommonLogic.loadMenuBar((List) generateDiscountToBeLoaded, deductionFilterValues);
+        String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
         deductionFilterDdlb.addSubMenuCloseListener(deductionlistener);
     }
 
@@ -5425,8 +5431,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
         customerFilterDdlb.removeSubMenuCloseListener(customerlistener);
         customerFilterDdlb.removeItems();
-        String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
-        customerFilterValues = customerFilterDdlb.addItem(customerMenuItemValue, null);
+        customerFilterValues = customerFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
         if (!levelNo.isEmpty()) {
             customerLevelFilter.add(0, new Object[]{0, SELECT_ALL_LABEL});
             customerLevelFilter.addAll(
@@ -5436,6 +5441,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         customerFilterDdlb.setScrollable(true);
         customerFilterDdlb.setPageLength(NumericConstants.TEN);
         CommonLogic.loadMenuBar((List) generateCustomerToBeLoaded, customerFilterValues);
+        String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
         customerFilterDdlb.addSubMenuCloseListener(customerlistener);
     }
 
@@ -5472,18 +5479,21 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     private void callAdjustmentProcedure(SessionDTO session) {
         if (session.isActualAdjustment()) {
-            logic.adjustDiscountProjection(session, "Override", "Amount", "0", "0", baselinePeriods);
+            logic.adjustDiscountProjection(session, "Override", AMOUNT, "0", "0", baselinePeriods);
         }
     }
+    public static final String AMOUNT = "Amount";
 
     protected void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
         displayFormatDdlb.removeItems();
-        displayFormatValues = displayFormatDdlb.addItem("Both", null);
+        displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
+        String displayFormatMenuItemValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(displayFormatValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
     }
 
@@ -5662,7 +5672,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatter = new HashMap<>();
             formatter.put("percentThreeDecimal", "Rate");
             formatter.put("currencyTwoDecimal", "RPU");
-            formatter.put("amountTwoDecimal", "Amount");
+            formatter.put("amountTwoDecimal", AMOUNT);
             excelTable.setRefresh(Boolean.TRUE);
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
@@ -5706,7 +5716,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter);
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -5718,7 +5728,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter);
                 excel.export();
             }
         } catch (IllegalArgumentException e) {

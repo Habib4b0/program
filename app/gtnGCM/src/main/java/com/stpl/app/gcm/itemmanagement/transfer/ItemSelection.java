@@ -197,7 +197,7 @@ public class ItemSelection extends CustomComponent {
         long recordCount = selecteditemList.size();
         List<String> visibleList = Arrays.asList(itemFromLS.getColumnHeaders()).subList(1, itemFromLS.getVisibleColumns().length);
         excelName = StringConstantsUtil.SELECTED_ITEMS;
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_"));        
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_'));        
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException, NoSuchFieldException {
@@ -312,7 +312,7 @@ public class ItemSelection extends CustomComponent {
         }
         List<String> visibleList = Arrays.asList(itemResult.getColumnHeaders()).subList(1, itemResult.getVisibleColumns().length);
         excelName = StringConstantsUtil.ITEM_RESULTS;
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());        
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());        
     }
 
 

@@ -38,7 +38,7 @@ public class QueryUtils {
             try {
                 sql = new StringBuilder(SQLUtil.getQuery(queryName));
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(' ');
                     sql.append(SQLUtil.getQuery(quaryName2));
                 }
                 LOGGER.debug("Input -- >> " + input.size() + " Are --- >> " + input);

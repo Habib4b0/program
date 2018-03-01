@@ -21,6 +21,7 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
+import com.stpl.ifs.util.GtnFileUtil;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
@@ -98,12 +99,12 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     public void intailizingObject() {
 
         uploadReceiver = (Receiver) new FileUploader(moduleName + "/" + userId);
-        uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-        filePath = CommonUtil.getFilePath(CommonUtil.getJbossHome() + File.separator + "Documents" + File.separator + moduleName);
-        wordFile = CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT);
-        pdfFile = CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
+        uploadComponent = new Upload(null, (FileUploader) uploadReceiver);       
+        filePath = GtnFileUtil.getFile(basepath + File.separator + "Attachments" + File.separator + moduleName);
+        wordFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportWord.DOC_EXT);
+        pdfFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
         fileUploadPath = FileUploader.FILE_PATH + moduleName + "/" + userId + "/";
-
+                
         if (isViewMode) {
             removeAndDisablingComponents();
         }
@@ -176,7 +177,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 attachmentsListBean.addBean(attachmentDTO);
                 fileNameField.setValue(StringUtils.EMPTY);
                 uploader.setValue(StringUtils.EMPTY);
-                CommonUIUtils.successNotification(attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf(".")) + " uploaded successfully");
+                CommonUIUtils.successNotification(attachmentDTO.getDocumentName().substring(0, attachmentDTO.getDocumentName().lastIndexOf('.')) + " uploaded successfully");
             } else {
                 AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
                 uploader.setValue(StringUtils.EMPTY);
@@ -209,7 +210,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);
                     fileNameField.setValue(StringUtils.EMPTY);
-                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf(".")))) {
+                } else if (StringUtils.isBlank(file) && fileExists(event.getFilename().substring(0, event.getFilename().lastIndexOf('.')))) {
                     uploadComponent.interruptUpload();
                     AbstractNotificationUtils.getWarningNotification("Duplicate File", "File already exists");
                     uploader.setValue(StringUtils.EMPTY);

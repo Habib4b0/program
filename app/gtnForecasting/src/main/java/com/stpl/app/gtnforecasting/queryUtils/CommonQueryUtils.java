@@ -52,7 +52,7 @@ public class CommonQueryUtils {
         } else {
             for (int i = 0; i < map.size(); i++) {
                 queryBuilder.append("UPDATE NM_PROJECTION_SELECTION SET FIELD_NAME = '");
-                queryBuilder.append(obj[i]).append("',").append("FIELD_VALUES = '").append(map.get(obj[i])).append("'");
+                queryBuilder.append(obj[i]).append("',").append("FIELD_VALUES = '").append(map.get(obj[i])).append('\'');
                 queryBuilder.append(" WHERE PROJECTION_MASTER_SID = '").append(projectionID).append(" ' AND SCREEN_NAME = '").append(screenName).append("' AND FIELD_NAME ='").append(obj[i]).append("'\n");
             }
         }

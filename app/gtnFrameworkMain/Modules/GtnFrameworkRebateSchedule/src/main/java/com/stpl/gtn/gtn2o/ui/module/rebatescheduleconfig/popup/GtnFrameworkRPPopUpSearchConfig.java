@@ -12,12 +12,15 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnUIFrameWorkRSSearchNoticationAction;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -43,7 +46,7 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		addRpPopupButtonLayout(rpPopupComponentList);
 		addRpPopupResultPanel(rpPopupComponentList);
 		addRpPopupActionButtonLayout(rpPopupComponentList);
-
+		addExcelButtonComponent(rpPopupComponentList);
 	}
 
 	private void addRpPopupSearchCriteriaPanel(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -110,7 +113,9 @@ public class GtnFrameworkRPPopUpSearchConfig {
 				GtnUIFrameworkComponentType.TEXTBOX);
 		rebatePlanIdConfig.setAuthorizationIncluded(true);
 		rebatePlanIdConfig.setComponentName("Rebate Plan ID");
-
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		rebatePlanIdConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 		componentList.add(rebatePlanIdConfig);
 	}
 
@@ -124,9 +129,11 @@ public class GtnFrameworkRPPopUpSearchConfig {
 				GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NO, true, "rebatePlanNoLayout",
 				GtnUIFrameworkComponentType.TEXTBOX);
 		rebatePlanConfig.setAuthorizationIncluded(true);
-		rebatePlanConfig.setComponentName("Rebate Plan NO");
+		rebatePlanConfig.setComponentName("Rebate Plan No");
 
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+		gtnUIFrameworkValidationConfig
+				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		gtnUIFrameworkValidationConfig.setMaxLength(5);
 		rebatePlanConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
 
@@ -145,6 +152,9 @@ public class GtnFrameworkRPPopUpSearchConfig {
 				GtnUIFrameworkComponentType.TEXTBOX);
 		rebatePlanNameConfig.setAuthorizationIncluded(true);
 		rebatePlanNameConfig.setComponentName("Rebate Plan Name");
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		rebatePlanNameConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 
 		componentList.add(rebatePlanNameConfig);
 	}
@@ -158,6 +168,11 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		GtnUIFrameworkComponentConfig rebatePlanStatus = configProvider.getUIFrameworkComponentConfig(
 				"rebatePlanStatus", true, "rebatePlanStatuslayout", GtnUIFrameworkComponentType.COMBOBOX);
 		rebatePlanStatus.setComponentName("Rebate Plan Status");
+
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		rebatePlanStatus.setGtnUIFrameworkValidationConfig(validationConfig);
+
 		rebatePlanStatus.setAuthorizationIncluded(true);
 
 		componentList.add(rebatePlanStatus);
@@ -179,6 +194,11 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		GtnUIFrameworkComponentConfig rebatePlanType = configProvider.getUIFrameworkComponentConfig(
 				"rpPopUpRebatePlanType", true, "RebatePlanTypelayout", GtnUIFrameworkComponentType.COMBOBOX);
 		rebatePlanType.setComponentName("Rebate Plan Type");
+
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		rebatePlanType.setGtnUIFrameworkValidationConfig(validationConfig);
+
 		rebatePlanType.setAuthorizationIncluded(true);
 
 		componentList.add(rebatePlanType);
@@ -186,7 +206,7 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		GtnUIFrameworkComboBoxConfig rebatePlanTypeConfig = new GtnUIFrameworkComboBoxConfig();
 		rebatePlanTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		rebatePlanTypeConfig.setComboBoxType("COMPANY_TYPE");
+		rebatePlanTypeConfig.setComboBoxType("REBATE_PLAN_TYPE");
 		rebatePlanType.setGtnComboboxConfig(rebatePlanTypeConfig);
 	}
 
@@ -203,22 +223,22 @@ public class GtnFrameworkRPPopUpSearchConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
 
 		rpPopupSearchValidationActionConfig
-				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NO));
-
-		rpPopupSearchValidationActionConfig.addActionParameter(GtnUIFrameworkValidationType.OR);
-
-		List<GtnUIFrameWorkActionConfig> onFailure = new ArrayList<>();
+				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.REBATE_PLAN_ID,
+						GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NO,
+						GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NAME,
+						GtnFrameworkCommonConstants.REBATE_PLAN_STATUS,
+						GtnFrameworkCommonConstants.REBATE_PLAN_POPUP_TYPE));
 
 		GtnUIFrameWorkActionConfig rpPopupSearchAlertActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.WARNING_ACTION);
 		List<Object> alertParams = new ArrayList<>();
 		alertParams.add("No Search Criteria ");
 		alertParams.add("Please enter Search Criteria");
 
 		rpPopupSearchAlertActionConfig.setActionParameterList(alertParams);
 
-		onFailure.add(rpPopupSearchAlertActionConfig);
-		rpPopupSearchValidationActionConfig.addActionParameter(onFailure);
+		rpPopupSearchValidationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.OR, Arrays.asList(rpPopupSearchAlertActionConfig)));
 		rpPopupSearchActionConfigList.add(rpPopupSearchValidationActionConfig);
 
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider
@@ -228,18 +248,19 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		actionParams.add(GtnFrameworkCommonConstants.RP_POP_UP_SEARCH_RESULT_TABLE);
 
 		loadDataTableActionConfig.setActionParameterList(actionParams);
-		loadDataTableActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.REBATE_PLAN_ID));
+		loadDataTableActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.REBATE_PLAN_ID,
+				GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NO,
+				GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NAME, GtnFrameworkCommonConstants.REBATE_PLAN_STATUS,
+				GtnFrameworkCommonConstants.REBATE_PLAN_POPUP_TYPE));
 
 		rpPopupSearchActionConfigList.add(loadDataTableActionConfig);
 
-		GtnUIFrameWorkActionConfig rpPopupSearchNotificationActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-		List<Object> notificationParams = new ArrayList<>();
-		notificationParams.add(" Search Completed ");
-		notificationParams.add("");
+		GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		notificationActionConfig.addActionParameter(GtnUIFrameWorkRSSearchNoticationAction.class.getName());
+		notificationActionConfig.addActionParameter(GtnFrameworkCommonConstants.RP_POP_UP_SEARCH_RESULT_TABLE);
+		rpPopupSearchActionConfigList.add(notificationActionConfig);
 
-		rpPopupSearchNotificationActionConfig.setActionParameterList(notificationParams);
-		rpPopupSearchActionConfigList.add(rpPopupSearchNotificationActionConfig);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(rpPopupSearchActionConfigList);
 
 	}
@@ -254,15 +275,24 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		componentList.add(rpPopupResetButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> rpPopupResetActionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig rpPopupResetActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.RESET_ACTION);
+		GtnUIFrameWorkActionConfig rpPopupResetActionConfig = new GtnUIFrameWorkActionConfig();
+		rpPopupResetActionConfig.setActionType(GtnUIFrameworkActionType.RESET_ACTION);
 
-		rpPopupResetActionConfig.addActionParameter("Reset Confirmation");
-		rpPopupResetActionConfig
-				.addActionParameter("Are you sure you want to reset the values in the Search Criteria group box?");
-		rpPopupResetActionConfig
-				.addActionParameter(Arrays.asList(new String[] { "ruleName", "ruleNo", "ruleType", "ruleCategory" }));
-		rpPopupResetActionConfig.addActionParameter(Arrays.asList("", "", null, null));
+		List<Object> params = new ArrayList<>();
+		params.add("Reset Confirmation");
+		params.add("Are you sure you want to reset the values in the Search Criteria group box?");
+
+		params.add(Arrays.asList(GtnFrameworkCommonConstants.REBATE_PLAN_ID,
+				GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NO,
+				GtnFrameworkCommonConstants.SECONDARY_REBATE_PLAN_NAME, GtnFrameworkCommonConstants.REBATE_PLAN_STATUS,
+				GtnFrameworkCommonConstants.REBATE_PLAN_POPUP_TYPE,
+				GtnFrameworkCommonConstants.RP_POP_UP_SEARCH_RESULT_TABLE));
+		params.add(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
+				null, null));
+
+		rpPopupResetActionConfig.setActionParameterList(params);
+
 		rpPopupResetActionConfigList.add(rpPopupResetActionConfig);
 		rpPopupResetButtonConfig.setGtnUIFrameWorkActionConfigList(rpPopupResetActionConfigList);
 
@@ -401,4 +431,19 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		return customFilterConfigMap;
 	}
 
+	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig excelButtonConfig = configProvider.getUIFrameworkComponentConfig("rpLookupAddExcel",
+				true, GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT, GtnUIFrameworkComponentType.EXCEL_BUTTON);
+		excelButtonConfig.setAuthorizationIncluded(true);
+		excelButtonConfig.setComponentName("true;");
+		componentList.add(excelButtonConfig);
+		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonConfig = configProvider.getExcelBtnconfig(
+				"Rebate Plan", true, "rpPopUpSearchResultTable", false);
+		excelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonConfig);
+		GtnUIFrameWorkActionConfig excelAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
+		excelAction.addActionParameter(gtnUIFrameworkExcelButtonConfig);
+		excelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
+
+	}
 }

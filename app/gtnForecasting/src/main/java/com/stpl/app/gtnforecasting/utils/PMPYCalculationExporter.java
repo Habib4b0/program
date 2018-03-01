@@ -94,7 +94,7 @@ public class PMPYCalculationExporter {
             worksheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
 
             final HSSFCellStyle cellStyleCurrency = workbook.createCellStyle();
-            cellStyleCurrency.setDataFormat(Short.valueOf(String.valueOf(NumericConstants.SIX)));
+            cellStyleCurrency.setDataFormat(Short.parseShort(String.valueOf(NumericConstants.SIX)));
 
             final HSSFCellStyle cellStylePercentage = workbook.createCellStyle();
             final HSSFDataFormat dateformat = workbook.createDataFormat();
@@ -262,7 +262,7 @@ public class PMPYCalculationExporter {
             fileOut.flush();
             fileOut.close();
 
-            Page.getCurrent().open(new TemporaryFileDownloadResource(UI.getCurrent(), FILE_NAME.replace(" ", "_") + ".xls", EXCEL_MIME_TYPE, tempFile), WINDOW_NAME, true);
+            Page.getCurrent().open(new TemporaryFileDownloadResource(UI.getCurrent(), FILE_NAME.replace(' ', '_') + ".xls", EXCEL_MIME_TYPE, tempFile), WINDOW_NAME, true);
             tempFile.deleteOnExit();
             LOGGER.debug("End of export method");
         } catch (Exception e) {

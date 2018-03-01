@@ -1179,12 +1179,12 @@ public class AddContractSelection extends CustomComponent {
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
         if (binderDto.getContractNo_SID() != null && !binderDto.getContractNo_SID().isEmpty()) {
-            input.add(binderDto.getContractNo_SID().replace("*", "%"));
+            input.add(binderDto.getContractNo_SID().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDto.getContractName_SID() != null && !binderDto.getContractName_SID().isEmpty()) {
-            input.add(binderDto.getContractName_SID().replace("*", "%"));
+            input.add(binderDto.getContractName_SID().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -1202,7 +1202,7 @@ public class AddContractSelection extends CustomComponent {
         }
         input.add(AbstractLogic.getItemIds(selecteditemList));
         if (binderDto.getContractHolder_SID() != null && !binderDto.getContractHolder_SID().isEmpty()) {
-            input.add(binderDto.getContractHolder_SID().replace("*", "%"));
+            input.add(binderDto.getContractHolder_SID().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -1214,33 +1214,33 @@ public class AddContractSelection extends CustomComponent {
         }
 
         if (binderDto.getCfp_SID() != null && !binderDto.getCfp_SID().isEmpty()) {
-            input.add(binderDto.getCfp_SID().replace("*", "%"));
+            input.add(binderDto.getCfp_SID().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
-            input.add(binderDto.getCustomer_SID().replace("*", "%"));
+            input.add(binderDto.getCustomer_SID().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDto.getCustomer_SID() != null && !binderDto.getCustomer_SID().isEmpty()) {
-            input.add(binderDto.getCustomer_SID().replace("*", "%"));
+            input.add(binderDto.getCustomer_SID().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (binderDto.getIfp_SID() != null && !binderDto.getIfp_SID().isEmpty()) {
-            input.add(binderDto.getIfp_SID().replace("*", "%"));
+            input.add(binderDto.getIfp_SID().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDto.getPs_SID() != null && !binderDto.getPs_SID().isEmpty()) {
-            input.add(binderDto.getPs_SID().replace("*", "%"));
+            input.add(binderDto.getPs_SID().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDto.getRs_SID() != null && !binderDto.getRs_SID().isEmpty()) {
-            input.add(binderDto.getRs_SID().replace("*", "%"));
+            input.add(binderDto.getRs_SID().replace('*', '%'));
         } else {
             input.add("%");
         }

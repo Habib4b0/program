@@ -57,7 +57,7 @@ public class NotesTabLogic {
 					String filePath = docDetails.getFilePath();
 					attachmentDTO.setDocumentFullPath(filePath);
 					attachmentDTO.setDocumentName(
-							filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf(".")));
+							filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('.')));
 					String tempfilePath = docDetails.getFilePath();
 					attachmentDTO.setDocumentFullPath(tempfilePath);
 

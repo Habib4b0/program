@@ -78,13 +78,14 @@ public class GtnFrameworkRSItemAdditionConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig("RSItemmassupdatelayout",
 				true, GtnFrameworkRSConstants.RS_ITEM_ADDITION_INFORMATION_LAYOUT);
 		gtnLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		gtnLayout.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10));
+		gtnLayout.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.STPL_MARGIN_TOP_40,
+				GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_1));
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig companyQualifierName = configProvider.getUIFrameworkComponentConfig("RSMassCheck",
 				true, "RSItemmassupdatelayout", GtnUIFrameworkComponentType.OPTIONGROUP);
 		companyQualifierName.setAuthorizationIncluded(true);
-		companyQualifierName.setComponentName(" ");
+		companyQualifierName.setComponentName("Search Type");
 
 		componentList.add(companyQualifierName);
 
@@ -260,20 +261,24 @@ public class GtnFrameworkRSItemAdditionConfig {
 		alertParameterList.add(GtnUIFrameworkRsItemAdditionValidationAction.class.getName());
 		alertParameterList.add(GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE);
 		alertParameterList.add("");
-		alertParameterList.add(GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_FIELD);		
-		List<String> fieldIds=Arrays.asList(GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_TEXT,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_STATUS_DROP_DOWN,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_TYPE_DROP_DOWN,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_DATE,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_CATEGORY_DROP_DOWN);
+		alertParameterList.add(GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_FIELD);
+		List<String> fieldIds = Arrays.asList(GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_TEXT,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_STATUS_DROP_DOWN,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_TYPE_DROP_DOWN,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_DATE,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_CATEGORY_DROP_DOWN);
 		alertParameterList.add(fieldIds);
 		searchAlertActionConfig.setActionParameterList(alertParameterList);
-		
-		actionConfigList.add(searchAlertActionConfig);
-		
-		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION,GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE);
 
-		loadDataTableActionConfig.setFieldValues(Arrays.asList("RSItemAdditionSearchField","RSItemAdditionSearchValueText"));
+		actionConfigList.add(searchAlertActionConfig);
+
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider.getUIFrameworkActionConfig(
+				GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION, GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE);
+
+		loadDataTableActionConfig
+				.setFieldValues(Arrays.asList("RSItemAdditionSearchField", "RSItemAdditionSearchValueText"));
 		actionConfigList.add(loadDataTableActionConfig);
-		
+
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 	}
@@ -412,11 +417,11 @@ public class GtnFrameworkRSItemAdditionConfig {
 		rsItemAdditionleftResultConfig.setGtnPagedTableConfig(rsItemAdditionleftResults);
 		rsItemAdditionleftResults.setEditable(false);
 		rsItemAdditionleftResults.setTableColumnDataType(new Class<?>[] { String.class, String.class, String.class,
-				String.class, Date.class, String.class, String.class });
-		rsItemAdditionleftResults.setTableVisibleHeader(
-				new String[] { "IFP ID", "IFP No", "IFP Name", "IFP Status", "End Date", "IFP Type", "IFP Category" });
-		rsItemAdditionleftResults.setTableColumnMappingId(
-				new Object[] { "ifpId", "ifpNo", "ifpName", "ifpStatus", "ifpEndDate", "ifpType", "ifpCategory" });
+				String.class, Date.class, Date.class, String.class, String.class });
+		rsItemAdditionleftResults.setTableVisibleHeader(new String[] { "IFP ID", "IFP Number", "IFP Name", "IFP Status",
+				"IFP Start Date", "IFP End Date", "IFP Type", "IFP Category" });
+		rsItemAdditionleftResults.setTableColumnMappingId(new Object[] { "ifpId", "ifpNo", "ifpName", "ifpStatus",
+				"ifpStartDate", "ifpEndDate", "ifpType", "ifpCategory" });
 		rsItemAdditionleftResults.setExtraColumn(new Object[] { "systemId" });
 		rsItemAdditionleftResults.setExtraColumnDataType(new Class<?>[] { String.class });
 		rsItemAdditionleftResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.PRICE_SCHEDULE);
@@ -452,11 +457,11 @@ public class GtnFrameworkRSItemAdditionConfig {
 		rsItemAdditionRightResultConfig.setGtnPagedTableConfig(rsItemAdditionRightResultResults);
 		rsItemAdditionRightResultResults.setEditable(false);
 		rsItemAdditionRightResultResults.setTableColumnDataType(new Class<?>[] { String.class, String.class,
-				String.class, String.class, Date.class, String.class, String.class });
-		rsItemAdditionRightResultResults.setTableVisibleHeader(
-				new String[] { "IFP ID", "IFP No", "IFP Name", "IFP Status", "End Date", "IFP Type", "IFP Category" });
-		rsItemAdditionRightResultResults.setTableColumnMappingId(
-				new Object[] { "ifpId", "ifpNo", "ifpName", "ifpStatus", "ifpEndDate", "ifpType", "ifpCategory" });
+				String.class, String.class, Date.class, Date.class, String.class, String.class });
+		rsItemAdditionRightResultResults.setTableVisibleHeader(new String[] { "IFP ID", "IFP Number", "IFP Name",
+				"IFP Status", "IFP Start Date", "IFP End Date", "IFP Type", "IFP Category" });
+		rsItemAdditionRightResultResults.setTableColumnMappingId(new Object[] { "ifpId", "ifpNo", "ifpName",
+				"ifpStatus", "ifpStartDate", "ifpEndDate", "ifpType", "ifpCategory" });
 		rsItemAdditionRightResultResults.setExtraColumn(new Object[] { "companyMasterSid" });
 		rsItemAdditionRightResultResults.setExtraColumnDataType(new Class<?>[] { String.class });
 	}

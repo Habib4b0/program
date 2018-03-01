@@ -73,6 +73,7 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String POPULATE_ITEMS_VALUE = "populateItemsValue";
 	public static final String IMTDITEM_MASTER_SID = "IMTD.ITEM_MASTER_SID";
 	public static final String HT_DESCRIPTION = "ht.DESCRIPTION";
+	public static final String HT_HELPER_SID = "ht.HELPER_TABLE_SID";
 	public static final String HT = "HT";
 	public static final String WHERE = " WHERE ";
 	public static final String SYS_ID = "sysId";
@@ -81,6 +82,7 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String HD_DESCRIPTION = "hd.DESCRIPTION";
 	public static final String HCT_DESCRIPTION = "hct.DESCRIPTION";
 	public static final String HST_DESCRIPTION = "hst.DESCRIPTION";
+	public static final String HST_HELPER_SID = "hst.HELPER_TABLE_SID";
 	public static final String RECORD_LOCK_STATUS = "recordLockStatus";
 	public static final String CFPCO_CFP_CONTRACT_SID = "= cfpco.CFP_CONTRACT_SID";
 	public static final String IS_NULL = " IS NULL";
@@ -337,4 +339,8 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String STRING_HASH = " # ";
 	public static final String STRING_TILT = "~";
 	public static final String ZERO = "0";
+        /**
+         * Price Schedule Constant 
+         */
+        public static final String PS_IFP_START_DATE = "IFP_START_DATE";
 }

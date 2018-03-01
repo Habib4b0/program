@@ -34,9 +34,9 @@ and open the template in the editor.
 
                     </GridLayout>-->
                 </VerticalLayout>
-                <Panel id="timeperiod" caption="Time Period">
+                <Panel id="timeperiod" caption="Time Period" height="101px">
                    <VerticalLayout id="verticalLayoutTimeperiod"  spacing = "true" margin = "true" >
-                        <GridLayout id="gridLayoutTimeperiod" immediate="true" columns="4" rows="1">
+                        <GridLayout id="gridLayoutTimeperiod" immediate="true" columns="4" rows="1" spacing = "true">
                             <Label caption="From: " contentMode="HTML" width="50px"/>
                             <ComboBox id="fromDate" />
                             <Label caption="To: " contentMode="HTML" width="40px" styleName="labelresultalign"/>
@@ -52,7 +52,7 @@ and open the template in the editor.
         <Panel caption="Customer Selection"  id="customerSelection" spacing="true" styleName="ds-selection">
             <VerticalLayout  spacing = "true" margin = "true" styleName = "width-auto" >
                 <HorizontalLayout immediate="true">
-                    <GridLayout  spacing="false" immediate="true" columns="10" rows="1">
+                    <GridLayout  spacing="true" immediate="true" columns="10" rows="1">
                         <Label caption="Hierarchy:" contentMode="HTML" width="80px" />
                         <b:CustomTextField id="customerHierarchy" styleName="searchText" inputPrompt="" />
                         <Label caption="Relationship:" contentMode="HTML" width="100px" ></Label>
@@ -63,7 +63,7 @@ and open the template in the editor.
                         <b:CustomTextField id="customerGP" styleName="searchText"/>
                         <Label id ="customerRelationVersionLabel" caption="Relationship Version:" contentMode="HTML" width="100px" ></Label>
                         <ComboBox id="customerRelationVersion" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
-                        <Label id ="forecastEligibleDateLB" caption="Forecast Eligible Date:" contentMode="HTML" width="100px" ></Label>
+                        <Label id ="forecastEligibleDateLB" caption="Forecast Eligibility Date:" contentMode="HTML" width="100px" ></Label>
                         <PopupDateField id="forecastEligibleDate" nullSelectionAllowed="true" immediate = "true" width="130px" />
                     </GridLayout>
                 </HorizontalLayout>
@@ -104,7 +104,7 @@ and open the template in the editor.
                 </HorizontalLayout>
                 <HorizontalLayout id="ProdSelectionHLayout">
                     <VerticalLayout>
-                        <GridLayout id="productSelectionGrid2" spacing="false" immediate="true" columns="8" rows="1">
+                        <GridLayout id="productSelectionGrid2" spacing="true" immediate="true" columns="8" rows="1">
                             <Label caption="Hierarchy:" contentMode="HTML" width="80px" />
                             <b:CustomTextField id="productHierarchy" styleName="searchText" inputPrompt="" />
                             <Label caption="Relationship:" contentMode="HTML" width="100px"  ></Label>

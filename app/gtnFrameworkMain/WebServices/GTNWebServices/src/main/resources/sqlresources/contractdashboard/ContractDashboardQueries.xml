@@ -3546,14 +3546,20 @@ WHERE
                             COUNT(DISTINCT rs.RS_MODEL_SID)
                      FROM
                                 RS_MODEL rs
-                        LEFT JOIN HELPER_TABLE ht on
+                       LEFT JOIN HELPER_TABLE ht on
                                 ht.HELPER_TABLE_SID = rs.RS_TYPE
-                        LEFT JOIN HELPER_TABLE hst on
+                       LEFT JOIN HELPER_TABLE hst on
                                 hst.HELPER_TABLE_SID = rs.RS_STATUS
-                        LEFT JOIN HELPER_TABLE hct on
+                       LEFT JOIN HELPER_TABLE hct on
                                 hct.HELPER_TABLE_SID = rs.RS_CATEGORY
-                        LEFT JOIN HELPER_TABLE hd on
+                       LEFT JOIN HELPER_TABLE hd on
                                 hd.HELPER_TABLE_SID = rs.RS_DESIGNATION
+                       LEFT OUTER JOIN  RS_CONTRACT rsc on 
+                                rsc.RS_MODEL_SID=rs.RS_MODEL_SID
+                       LEFT OUTER JOIN RS_CONTRACT_DETAILS rscd on 
+                                rsc.RS_CONTRACT_SID=rscd.RS_CONTRACT_SID
+                       LEFT OUTER JOIN ITEM_MASTER itm on 
+                                itm.ITEM_MASTER_SID=rscd.ITEM_MASTER_SID       
                         WHERE
                                 rs.INBOUND_STATUS <> 'D'
                             ?
@@ -3587,6 +3593,12 @@ WHERE
                                 hct.HELPER_TABLE_SID = rs.RS_CATEGORY AND hct.DESCRIPTION  NOT like '%Select One%'
                         LEFT JOIN HELPER_TABLE hd on
                                 hd.HELPER_TABLE_SID = rs.RS_DESIGNATION AND hd.DESCRIPTION  NOT like '%Select One%'
+                        LEFT OUTER JOIN  RS_CONTRACT rsc on 
+                                rsc.RS_MODEL_SID=rs.RS_MODEL_SID
+                        LEFT OUTER JOIN RS_CONTRACT_DETAILS rscd on 
+                                rsc.RS_CONTRACT_SID=rscd.RS_CONTRACT_SID
+                        LEFT OUTER JOIN ITEM_MASTER itm on 
+                                itm.ITEM_MASTER_SID=rscd.ITEM_MASTER_SID    
                         WHERE
                                 rs.INBOUND_STATUS <> 'D'
                             ?
@@ -4420,7 +4432,7 @@ LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RS
             LEFT JOIN dbo.CFP_MODEL PCFM ON PCFM.CFP_MODEL_SID=CFC.PARENT_CFP_ID
             LEFT JOIN ?.dbo.User_ usr ON
                          usr.UserId = CFC.MODIFIED_BY
-            JOIN ?.dbo.User_ usr1 ON
+          left JOIN ?.dbo.User_ usr1 ON
                          usr1.UserId = CFC.CREATED_BY
             WHERE CFC.CFP_CONTRACT_SID=?;
                         ]]>
@@ -4452,7 +4464,7 @@ LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RS
                 JOIN dbo.IFP_MODEL IFM ON IFM.IFP_MODEL_SID=IFC.IFP_MODEL_SID
                 LEFT JOIN ?.dbo.User_ usr ON
                              usr.UserId = IFC.MODIFIED_BY
-                JOIN ?.dbo.User_ usr1 ON
+               LEFT JOIN ?.dbo.User_ usr1 ON
                              usr1.UserId = IFC.CREATED_BY
                 WHERE IFC.IFP_CONTRACT_SID=?;
                         ]]>
@@ -4486,7 +4498,7 @@ LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RS
             LEFT JOIN dbo.PS_MODEL PPSM ON PPSM.PS_MODEL_SID=PSC.PARENT_PS_ID
             LEFT JOIN ?.dbo.User_ usr ON
                          usr.UserId = PSC.MODIFIED_BY
-            JOIN ?.dbo.User_ usr1 ON
+           LEFT JOIN ?.dbo.User_ usr1 ON
                          usr1.UserId = PSC.CREATED_BY
             WHERE PSC.PS_CONTRACT_SID=?;
                         ]]>

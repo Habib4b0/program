@@ -472,7 +472,7 @@ public class WorkflowLogic {
 
             try {
                 DocDetails id = workFlowLogicDao.addDocDetails(docDetails);
-                docdetailsSids.append(id.getDocDetailsId()).append(",");
+                docdetailsSids.append(id.getDocDetailsId()).append(',');
             } catch (SystemException ex) {
                 LOGGER.error(ex.getMessage());
                 return CommonUtils.WORKFLOW_NOT_SAVED;
