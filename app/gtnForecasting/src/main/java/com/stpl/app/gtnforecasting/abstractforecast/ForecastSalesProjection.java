@@ -91,6 +91,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.Constants;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.app.utils.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
@@ -3361,7 +3362,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 CommonLogic.unCheckMultiSelect(productFilterValues);
             }
             value = map.get(Constant.CUSTOMER_LEVEL_DDLB);
-            customerlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
+            customerlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constant.CUSTOMER_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
                 generateCustomerToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.<String>emptyList() : generateCustomerToBeLoaded;
@@ -3370,7 +3371,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
             ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
             value = map.get(Constant.PRODUCT_LEVEL_DDLB);
-            productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
+            productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
             value = map.get(Constant.PRODUCT_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
                 generateProductToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.<String>emptyList() : generateProductToBeLoaded;

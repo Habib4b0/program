@@ -220,8 +220,8 @@ public class PVQueryUtils {
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to, String notSearchProjId) {
         String QUOTES = "'";
-        String ASTERIK = "*";
-        String PERCENT = "%";
+        char ASTERIK = '*';
+        char PERCENT = '%';
         String marketTypeVal;
         String brandVal;
         String projNameVal;
@@ -599,7 +599,7 @@ public class PVQueryUtils {
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "").replace("]", "");
             }

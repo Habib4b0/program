@@ -151,9 +151,9 @@ public class DeductionCalendarLogic {
     public Boolean deductionNoAndNameDuplicateCheck(final String value, final Boolean isName, SessionDTO sessionDTO) {
         StringBuilder queryString = new StringBuilder("SELECT COUNT(DEDUCTION_CALENDAR_NO) FROM DEDUCTION_CALENDAR_MASTER WHERE ");
         queryString.append(isName ? "DEDUCTION_CALENDAR_NAME" : "DEDUCTION_CALENDAR_NO");
-        queryString.append("='").append(value).append("'");
+        queryString.append("='").append(value).append('\'');
         if (ConstantsUtils.EDIT.equalsIgnoreCase(sessionDTO.getMode())) {
-            queryString.append(" AND DEDUCTION_CALENDAR_MASTER_SID<>'").append(sessionDTO.getSystemId()).append("'");
+            queryString.append(" AND DEDUCTION_CALENDAR_MASTER_SID<>'").append(sessionDTO.getSystemId()).append('\'');
         }
         final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         if (list != null && !list.isEmpty()) {

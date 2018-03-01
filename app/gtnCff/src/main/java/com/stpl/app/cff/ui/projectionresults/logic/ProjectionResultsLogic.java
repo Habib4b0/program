@@ -3715,7 +3715,7 @@ public class ProjectionResultsLogic {
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "").replace("]", "");
             }

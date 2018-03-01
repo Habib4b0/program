@@ -117,14 +117,14 @@ public class SalesProjectionTree {
             if (parentHierarchy.equals("null")) {
                 apexNode.addChild(salesNode);
                 salesNode.setHierarchyIndicator(String.valueOf(object[3]));
-                salesNode.setLevel(Integer.valueOf(String.valueOf(object[2])));
+                salesNode.setLevel(Integer.parseInt(String.valueOf(object[2])));
                 buildMap.put(hiearachy, salesNode);
             } else {
                 SalesProjectionNodeCustom parent = (SalesProjectionNodeCustom) buildMap.get(parentHierarchy);
                 salesNode.addParentNode(parent);
                 parent.addChild(salesNode);
                 salesNode.setHierarchyIndicator(String .valueOf(object[3]));
-                salesNode.setLevel(Integer.valueOf(String.valueOf(object[2])));
+                salesNode.setLevel(Integer.parseInt(String.valueOf(object[2])));
                 buildMap.put(parentHierarchy+"~ "+hiearachy, salesNode);
             }
         }
@@ -219,7 +219,7 @@ public class SalesProjectionTree {
             String[] istParent = hierarchy.split("\\.");
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < istParent.length - 1; i++) {
-                builder.append(istParent[i]).append(".");
+                builder.append(istParent[i]).append('.');
             }
             parent = getParent(builder.toString(), dataMap, currentLevel - 1, startLevel, apex);
         }
@@ -247,7 +247,7 @@ public class SalesProjectionTree {
         if (!hierarchy.isEmpty()) {
             String[] istParent = hierarchy.split("\\.");
             for (String tParent : istParent) {
-                apex = apex.getNthChild(Integer.valueOf(tParent) - 1);
+                apex = apex.getNthChild(Integer.parseInt(tParent) - 1);
             }
         }
         return apex;

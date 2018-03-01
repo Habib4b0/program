@@ -325,7 +325,7 @@ public class QuartzListener implements ServletContextListener {
 						printStr.append("[jobName] : " + jobName + " [groupName] : " + jobGroup + " - " + nextFireTime
 								+ " - First Fire time -" + trigger.getStartTime() + " -Final Fire Time- "
 								+ trigger.getEndTime());
-						printStr.append("\n");
+						printStr.append('\n');
 					}
 
 				}
