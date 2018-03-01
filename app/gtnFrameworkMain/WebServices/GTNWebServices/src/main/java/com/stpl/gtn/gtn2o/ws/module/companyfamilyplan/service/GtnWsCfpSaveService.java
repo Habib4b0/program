@@ -165,7 +165,9 @@ public class GtnWsCfpSaveService {
 			String column = getCompaniesTabUpdateColumns(bean.getColumnName());
 			Object value = bean.getValue();
 			String type = bean.getClassType();
+                        if(value != null){
 			value = "java.util.Date".equals(type) ? new Timestamp((long) value) : value;
+                        }
 			value = value != null ? " '" +  value.toString().trim() + "'" : null;
 			query = query.replace("[$UPDATE_CLAUSE]", column +" = "+  value );
 			if (bean.getImtdCfpDetailsSid() != null) {

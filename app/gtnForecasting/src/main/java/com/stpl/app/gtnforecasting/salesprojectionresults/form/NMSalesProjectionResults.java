@@ -378,6 +378,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     @Override
     public void enter(ViewChangeEvent event) {
+        LOGGER.debug("NMSalesProjectionResults: enter(): Inside overriden method");
     }
 
     /**

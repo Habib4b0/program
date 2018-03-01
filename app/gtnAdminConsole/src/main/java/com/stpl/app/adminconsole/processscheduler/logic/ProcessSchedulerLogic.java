@@ -298,7 +298,7 @@ public class ProcessSchedulerLogic {
 	}
 
 	public void runShellScript(String scriptUrl) {
-		LOGGER.info("Entering runShellScript with= {} " , scriptUrl);
+		LOGGER.info("Entering runShellScript ");
 		GtnWsCallEtlService  etlService=new GtnWsCallEtlService();
 		etlService.runShellScript(scriptUrl);
 	}

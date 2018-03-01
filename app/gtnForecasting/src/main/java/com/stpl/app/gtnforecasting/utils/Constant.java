@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -113,10 +115,6 @@ public class Constant {
      * The from.
      */
     public static final String FROM = "from";
-    /**
-     * The to.
-     */
-    public static final String TO_VAL = "toDate";
     /**
      * The Constant ONE.
      */
@@ -237,10 +235,6 @@ public class Constant {
      * The btn left.
      */
     public static final String BTN_LEFT = "<";
-    /**
-     * The date.
-     */
-    public static final String DATE = "MM/dd/yyyy";
     /**
      * The date.
      */
@@ -790,7 +784,10 @@ public class Constant {
     public static final String PERIOD_ORDER = "Period Order";
     public static final String VARIABLES = "Variables";
     public static final String LEVELNAME = "levelName";
+    public static final String DF_LEVEL_NAME = "dfLevelName";
+    public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     public static final String LEVEL_NAME_HEADER = "Level Name";
+    public static final String LEVEL_NUMBER_HEADER = "Level Number";
     public static final String LEVEL_NAME = "levelName";
     public static final String UPDATE_SMALL = "Update";
     public static final String EDIT_CAPS = "EDIT";
@@ -1304,7 +1301,6 @@ public class Constant {
     public static final String CUSTOMER_HIERARCHY_SID = "customerHierarchySid";
     public static final String FROM_DATE = "fromDate";
     public static final String SELECT_VALUE = "selectValue";
-    public static final String TO_DATE1 = "toDate";
     public static final String LEFT_JOIN_VALUE = "leftJoinValue";
     public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
     public static final String PMPY_CALCULATOR = "PMPY Calculator";
@@ -1469,7 +1465,6 @@ public class Constant {
     public static final String TWELVE_THIRTY_ONE = "-12-31";
     public static final String ACTUAL_PAYMENTS = "actualPayments";
     public static final String ACTUAL_UNITS_PROPERTY = "actualUnits";
-    public static final String TWO_DECIMAL_FORMAT_WITH_COMMA = "#,##0.00";
     public static final String TABLE_HEADER_CENTER = "table-header-center";
     public static final String DATA_SELECTION_VALUES_HAVE_CHANGED = "Data Selection values have changed. All other tabs will be updated and unsaved data will be lost. Continue?";
     public static final String RETURNS_PROJECTION = "Returns Projection";
@@ -1616,7 +1611,6 @@ public class Constant {
     public static final String ADJUSTMENT_CONFIRMATION = "Please select which periods need to be included in the adjustment for each of the selected discounts.";
     public static final String INCREMENTAL_ADJUSTMENT_CONFIRMATION = "Confirm Incremental adjustment";
     public static final String CONTINUE_CONFIRMATION = ". Are you sure you want to continue?";
-    public static final String CUSTOM = "Custom";
     public static final String CHECK_RECORD_REFERENCE = "@CHECK_RECORD";
     public static final String HIERARCHY_COLUMN = "@HIERARCHY_COLUMN";
     public static final String PROGRAMS_REF = "@PROGRAMS";
@@ -1671,10 +1665,10 @@ public class Constant {
     public static final String SELECT_RLDRELATIONSHIP_LEVEL_VALUES_R = "    (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n";
     public static final String FROM_RELATIONSHIP_RELATION = "                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n";
     public static final String RL_D1RELA = "                                 RLD1.RELATIONSHIP_LEVEL_SID,\n";
-    public static final String JOIN = "                          JOIN    ";
+    public static final String JOIN = " JOIN ";
     public static final String CCPMAP_JOIN = "                          ) CCPMAP JOIN \n";
     public static final String CCP_CCP_D = "                                 CCP.CCP_DETAILS_SID\n";
-    public static final String PCH_ON_PCHRELATIONSHIP_LEVEL_SID__RL_D1 = "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID =  ";
+    public static final String PCH_ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1 = "   PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID =  ";
     public static final String JOIN_PROJECTION_DETAILS_PD_ON_PDCCP_D = "    JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID=";
     public static final String HLDC_ON_CCPMAP_HIERARCHY_NO_LIKE_HLDCHIE = "%') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'\n";
     public static final String AND_PROJECTION_MASTER = "                     AND PROJECTION_MASTER_SID = ";
@@ -1686,7 +1680,7 @@ public class Constant {
     public static final String JOIN_CCP_MAP_CCP_ON_RLDRELATIONSHIP_L = "    JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n";
     public static final String UPDATE_ST_NM_DISCOUNT_PROJ_MASTER_SET_USE = "UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET USER_GROUP='";
     public static final String SELECT_RL_D1HIERA = "                         (SELECT RLD1.HIERARCHY_NO,\n";
-    public static final String CCP_MAP = ") CCPMAPP \n";
+    public static final String CCP_MAP = "   ) CCPMAPC   \n";
     public static final String JOIN_PROJECTION_CUST_HIERARCHY_PC = "        JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=";
     public static final String SPACE_JOIN_NEW_LINE = "    JOIN \n";
     public static final String JOIN_RELATIONSHIP_LEVEL_DEFINITIO = "        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID \n";
@@ -1694,7 +1688,7 @@ public class Constant {
     public static final String SPACE_JOIN_SPACE = "                          JOIN   ";
     public static final String RL_D1LEVE = "                                 RLD1.LEVEL_NO,RLD1.RELATIONSHIP_LEVEL_VALUES \n";
     public static final String SELECT_PROJECTION_DETAILS_SID_FROM_PROJE = " SELECT PROJECTION_DETAILS_SID FROM PROJECTION_DETAILS WHERE CCP_DETAILS_SID IN";
-    public static final String JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON = "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=";
+    public static final String JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CUSTOM_VIEW_MASTER = "        JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID=";
     public static final String CLOSE_BRACKET_CCP = ") CCP";
     public static final String SELECT_CCP_MAP_CCP_DETAILS_SID = "(SELECT CCPMAP.CCP_DETAILS_SID \n";
     public static final String SELECT_RL_D2_HIERARCHY_NORLD2_RELATIONSH = "    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n";
@@ -1704,7 +1698,7 @@ public class Constant {
     public static final String FROM_SELECT_RLD_HIERAR = "                  FROM   (SELECT RLD.HIERARCHY_NO,\n";
     public static final String CCPMAPC = ") CCPMAPC\n";
     public static final String AND_USER_ID = " AND USER_ID = ";
-    public static final String WHERE_PROJECTION_DETAILS_SID_IN = "  where PROJECTION_DETAILS_SID in ( \n";
+    public static final String WHERE_PROJECTION_DETAILS_SID_IN = " where PROJECTION_DETAILS_SID  IN (  \n";
     public static final String JOIN_PROJECTION = "                          JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ";
     public static final String ON_CCPMAPCCCP_DETAILS_SIDCCPMAPPCCP_D = "    ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID\n";
     public static final String RL_D1_LEVEL = "                                 RLD1.LEVEL_NO\n";
@@ -1716,7 +1710,7 @@ public class Constant {
     public static final String AND_CVD_LEVEL_NO_LIKE = " AND CVD.LEVEL_NO like '";
     public static final String FROM_ST_NM_DISCOUNT_PROJ_MASTER_M_PROJEC = " From ST_NM_DISCOUNT_PROJ_MASTER M, PROJECTION_DETAILS E, ";
     public static final String AND_MUSER_GROUP = " AND M.USER_GROUP = '";
-    public static final String AND_M_PROJECTION_DETAILS_SID__CCP_PROJECTI = " AND M.PROJECTION_DETAILS_SID = CCP.PROJECTION_DETAILS_SID \n";
+    public static final String AND_M_PROJECTION_DETAILS_SID_CCP_PROJ = " AND M.PROJECTION_DETAILS_SID = CCP.PROJECTION_DETAILS_SID \n";
     public static final String AND_M_SESSION_ID = " and M.SESSION_ID = ";
     public static final String AND_EPROJECTION_DETAILS_SID_MPROJECTION = " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID \n";
     public static final String SELECT_CCPMAPPROJECTION_DETAILS_SID = "(SELECT CCPMAP.PROJECTION_DETAILS_SID\n";
@@ -1921,7 +1915,7 @@ public class Constant {
     public static final String DOT_HIERARCHY_NO = ".HIERARCHY_NO = '";
     public static final String AND_NM_SPM_SESSION_ID_NM_AS_SESSION_ID = "  AND NMSPM.SESSION_ID = NMAS.SESSION_ID LEFT JOIN ST_NM_SALES_PROJECTION NMSP";
     public static final String FROM_PROJECTION_DETAILS_PD_JOIN_ST_NM = " FROM PROJECTION_DETAILS PD JOIN ST_NM_DISCOUNT_PROJ_MASTER NMDPM ON  NMDPM.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID\n";
-    public static final String JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL = " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n";
+    public static final String JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL = "   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID   \n";
     public static final String SPACE_END_NEW_LINE = " END \n ";
     public static final String ON_NM_SP_M_PROJECTION_DETAILS_SID_NM_AS_PROJ = " ON NMSPM.PROJECTION_DETAILS_SID = NMAS.PROJECTION_DETAILS_SID AND NMSPM.USER_ID = NMAS.USER_ID \n";
     public static final String AND_NM_AD_MUSER_ID = ") AND NMADM.USER_ID =";
@@ -1945,8 +1939,169 @@ public class Constant {
     public static final String AND_B_USER_ID = " and B.USER_ID=";
     public static final String PR_MONTH = ",PR.MONTH";
     public static final String HIERVER = "@HIERVER";
-    public static final String PROD_HIERARCHY_NO = "PROD_HIERARCHY_NO ";
+    public static final String WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD = "   WHERE RLD1.HIERARCHY_NO like '%' ) HLD      \n";
+    public static final String JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP = "   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='";
+    public static final String AND_P_CH_PROJECTION_MASTER_SID = "   AND PCH.PROJECTION_MASTER_SID='";
+    public static final String RELATIONSHIP_LEVEL_SID_HLD = ".RELATIONSHIP_LEVEL_SID,HLD";
+    public static final String WHERE_PM_PROJECTION_MASTER_SID = "   WHERE PM.PROJECTION_MASTER_SID='";
+    public static final String SPACE_NEW_LINE = "'     \n";
+    public static final String JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET = "  JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='";
+    public static final String SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RLD = "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD      \n";
+    public static final String COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATE = "  count(distinct case when  nm_mas.CALCULATION_PERIODS is null then '1' else  nm_mas.CALCULATION_PERIODS end)     AS calcPeriodCount,    ";
+    public static final String COUNT_DISTINCT_CASE_WHEN_NM_MAS_METHODOLOGY = "  count(distinct case when  nm_mas.METHODOLOGY is null then '1' else  nm_mas.METHODOLOGY end)     AS methoCount,    ";
+    public static final String HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM = ".HIERARCHY_NO, CCPMAPC.CCP_DETAILS_SID FROM     \n";
+    public static final String AND_PC_H2_PROJECTION_MASTER_SID = "   AND PCH2.PROJECTION_MASTER_SID='";
+    public static final String SPACE_DOUBLE_NEW_LINE = "'          \n\n";
+    public static final String SELECT_NEW_LINE = "  SELECT \n";
+    public static final String AND_NM_AC_SESSION_ID = "'  AND nm_ac.SESSION_ID = '";
+    public static final String AND_NM_MAS_SESSION_ID = "' AND nm_mas.SESSION_ID = '";
+    public static final String AND_NM_MAS_CALCULATION_PERIODS = "    and nm_mas.CALCULATION_PERIODS= '";
+    public static final String JOIN_SELECT_DISTINCT_L_CCPRELATION = "        JOIN (SELECT distinct LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from       \n";
+    public static final String AND_NM_MAS_USER_GROUP = "    and nm_mas.USER_GROUP= '";
+    public static final String JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD = "  JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID ";
+    public static final String AND_RLD_LEVEL_NO = "   and rld.LEVEL_NO = '";
+    public static final String WHERE_PD_PROJECTION_MASTER_SID = " WHERE  pd.PROJECTION_MASTER_SID =  '";
+    public static final String AND_NM_MAS_METHODOLOGY = "    and nm_mas.METHODOLOGY= '";
+    public static final String AVG_NM_SP_PRODUCT_GROWTH_SUM_NM_SP_PROJEC = "  avg(nm_sp.PRODUCT_GROWTH),   sum(nm_sp.PROJECTION_SALES),   sum(nm_sp.PROJECTION_UNITS), \n";
+    public static final String JOIN_PERIOD_P = "   JOIN PERIOD p     \n";
+    public static final String JOIN_ST_NM_ACTUAL_SALES_NM_AC = "   JOIN  ST_NM_ACTUAL_SALES nm_ac     \n";
+    public static final String AVG_NM_SP_ACCOUNT_GROWTH = "  avg(nm_sp.ACCOUNT_GROWTH),   \n";
+    public static final String SELECT_CCP_MAP_CCP_DETAILS_SID_HLD_HIER = "   (SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from       \n";
+    public static final String UNION_NEW_LINE = "   Union \n";
+    public static final String ON_PERIOD_SID_NM_AC_PERIOD_SID = "   ON p.period_sid = nm_ac.PERIOD_SID        \n";
+    public static final String JOIN_PROJECTION_PROD_HIERARCHY_PCH = "    JOIN PROJECTION_PROD_HIERARCHY PCH     \n";
+    public static final String WHERE = "WHERE";
+    public static final String FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD2 = "   FROM RELATIONSHIP_LEVEL_DEFINITION RLD2      \n";
+    public static final String JOIN_SELECT_DISTINCT_HLD = "   JOIN    (SELECT distinct HLD";
+    public static final String CHECK_RECORD_0 = " CHECK_RECORD=0 ";
+    public static final String ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL = "   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n";
+    public static final String BLANK_QUOTES = "     ";
+    public static final String COLON_AND_CVD_LEVEL_NO_LIKE = "' AND CVD.LEVEL_NO like '";
+    public static final String JOIN_PERIOD_P_ON_PERIOD_SID_NM_SP_PERIOD = "  JOIN PERIOD p  ON p.period_sid = nm_sp.PERIOD_SID     WHERE  pd.PROJECTION_MASTER_SID =  '";
+    public static final String SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP = "   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n";
+    public static final String SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL = "   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n";
+    public static final String JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC = "   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='";
+    public static final String ON_CCP_DETAILS_SI_DPD_CCP_DETAILS_SID = "   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID   \n";
+    public static final String JOIN_PROJECTION_CUST_HIERARCHY_PCH = "    JOIN PROJECTION_CUST_HIERARCHY PCH     \n";
+    public static final String JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD_JOIN_NM_SALES_PROJ = "   JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID   JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas   \n";
+    public static final String IN_NEW_LINE = "     in (  \n";
+    public static final String JOIN_ST_NM_SALES_PROJECTION_MASTER = "  JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas   \n";
+    public static final String WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER = "   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n";
+    public static final String JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE = "   JOIN PERIOD p  ON p.period_sid = nm_sp.PERIOD_SID     WHERE  pd.PROJECTION_MASTER_SID =  '";
+    public static final String SELECT_PROJECTION_DETAILS_SID_FROM_PROJ_DETAILS = "  SELECT PROJECTION_DETAILS_SID FROM  PROJECTION_DETAILS WHERE CCP_DETAILS_SID IN  \n";
+    public static final String FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1 = "   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n";
+    public static final String HLD_WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD = " ) HLD  WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n";
+    public static final String AND_NM_SP_SESSION_ID = "'  AND nm_sp.SESSION_ID = '";
+    public static final String JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD = "   JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID   \n";
+    public static final String WHERE_RLD2_HIERARCHY_NO_LIKE = "   WHERE RLD2.HIERARCHY_NO like  '";
+    public static final String JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 = "   JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='";
+    public static final String CCP_MAP_ON_CCP_MAP_CCP_DETAILS_SID = "   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID   \n";
+    public static final String SELECT_DISTINCT_PD_PROJECTION_DETAILS = "   SELECT distinct pd.PROJECTION_DETAILS_SID   \n";
+    public static final String SELECT_RLD_RELATIONSHIP_LEVEL_VALUES = "   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD   \n";
+    public static final String SELECT_LCCP_DETAILS_SID_FROM = "   (SELECT LCCP.CCP_DETAILS_SID from       \n";
+    public static final String AND_RLD_HIERARCHY_NO = "'  and rld.HIERARCHY_NO='";
+    public static final String HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD = "' ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'   \n";
+    public static final String HLD_NEW_LINE = " ) HLD      \n";
+    public static final String FROM_PROJECTION_DETAILS_PD = "   FROM   projection_details pd   \n";
+    public static final String JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD = "   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD   \n";
+    public static final String CCP_NEW_LINE = "   ) CCP   \n";
+    public static final String WHERE_L_CCP_HIERARCHY_NO_IN = "   WHERE LCCP.HIERARCHY_NO in       \n";
+    public static final String JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID = "   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n";
+    public static final String JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION = "   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n";
+    public static final String CVD_CUSTOM_VIEW_MASTER_SID = "   CVD.CUSTOM_VIEW_MASTER_SID='";
+    public static final String JOIN_PROJECTION_PROD_HIERARCHY_PCH2 = "    JOIN PROJECTION_PROD_HIERARCHY PCH2     \n";
+    public static final String FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD = "   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n";
+    public static final String ON_NM_MAS_PROJECTION_DETAILS_SID_NM_SP = "   ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID   \n";
+    public static final String JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 = "   JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='";
+    public static final String ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2 = "   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n";
+    public static final String HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD = "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'   \n";
+    public static final String JOIN_PROJECTION_CUST_HIERARCHY_PCH2 = "    JOIN PROJECTION_CUST_HIERARCHY PCH2     \n";
+    public static final String ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ_DETAILS_SID = "   ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID   \n";
+    public static final String CHECK_RECORD_1 = " CHECK_RECORD=1 ";
+    public static final String JOIN_ST_NM_SALES_PROJECTION_NM_SP = "  JOIN ST_NM_SALES_PROJECTION nm_sp \n";
+    public static final String JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD_REL_LEVEL = "   JOIN    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD   \n";
+    public static final String CCP_MAP_NEW_LINE = "') CCPMAP,       \n";
+    public static final String SELECT_RL_D2_HIERARCHY_NO = "   (SELECT RLD2.HIERARCHY_NO       \n";
+    public static final String AND_NM_SP_USER_ID = "'  AND nm_sp.USER_ID  = '";
+    public static final String ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ = "  ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID   \n";
+    public static final String COLON_AND_NM_MAS_USER_ID = "   AND nm_mas.USER_ID ='";
+    public static final String JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON = "   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON   \n";
+    public static final String CLOSE_BRACE_AND_USER_ID = "  )  AND USER_ID = '";
+    public static final String COLON_AND_SESSION_ID = "' AND SESSION_ID = '";
+    public static final String JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2 = "   JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID   \n";
+    public static final String PROJECTION_CUST_HIERARCHY_G = "PROJECTION_CUST_HIERARCHY G,";
+    public static final String AND_BUSER_ID = "' and B.USER_ID = '";
+    public static final String COUNT_DISTINCT_CASE_WHEN_NM_MAS_CALCULATION = " count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount , SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT     ";
+    public static final String NEW_LINE = "       \n";
+    public static final String AND_NM_MAS_USER_ID = "'  AND nm_mas.USER_ID = '";
+    public static final String PROJECTION_PROD_HIERARCHY_G = "PROJECTION_PROD_HIERARCHY G,";
+    public static final String AND_G_PROJECTION_MASTER_SID_PROJECTION = " and G.PROJECTION_MASTER_SID = F.PROJECTION_MASTER_SID and G.RELATIONSHIP_LEVEL_SID = H.RELATIONSHIP_LEVEL_SID";
+    public static final String AND_BSESSION_ID = "' and B.SESSION_ID = '";
+    public static final String AND_A_PERIOD_SID_IPERIOD_SID_AND_HLEVEL = " and A.PERIOD_SID = I.PERIOD_SID and H.LEVEL_NO =";
+    public static final String JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2_ON_HLD_HIER = "   JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID  \n";
+    public static final String COLON_AND_ASESSION_ID = "' and A.SESSION_ID = '";
+    public static final String COMMA_I_MONTH = ",I.MONTH\n";
+    public static final String SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RLD_HIER_NO = "   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD  \n";
+    public static final String UPDATE_RECORD = "updateRecord";
+    public static final String UNCHECK_ALL = "uncheckAll";
+    public static final String GENERATE_SALES_PROJECTION = "generateSalesProjection";
+    public static final String PREPARE_PROCEDURE_CALL = "prepareProcedureCall";
+    public static final ResourceBundle TABLE_NAME_BUNDLE = ResourceBundle.getBundle("properties.tablename");
+    public static final String SAVE_CHECK_RECORD = "saveCheckRecord";
+    public static final String GENERATE_SALES_PROJECTION_COUNT = "generateSalesProjectionCount";
+    public static final String JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP = " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n";
+    public static final String AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST = " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=";
+    public static final String CLOSE_BRACKET_NEW_LINE = ")  \n";
+    public static final int COLUMN_COUNT_TOTAL = 75;
+    /**
+     * The Constant AMOUNT.
+     */
+    public static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
+    public static final String WHERE_BRS_CONTRACT_SID_IN = "  WHERE B.RS_CONTRACT_SID IN ( ";
+    public static final String JOIN_SELECTED_HIERARCHY_NO_CCP = "        JOIN #SELECTED_HIERARCHY_NO CCP\n";
+    public static final String JOINQUERY = "@JOINQUERY";
+    public static final String CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST = "CROSS APPLY (SELECT TOKEN FROM UDF_SPLITSTRING('";
+    public static final String NM_DISCOUNT_PROJ_MASTER_B = "NM_DISCOUNT_PROJ_MASTER B\n";
+    public static final String CONCAT_CONDITION = "', ',') C WHERE CH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
+    public static final String TWO_DECIMAL_FORMAT = "#,##0.00";
+    /**
+     * RATE_PER_THREE
+     */
+    public static final DecimalFormat RATE_PER_THREE = new DecimalFormat(TWO_DECIMAL_FORMAT);
+    
+    public static final int COLUMN_COUNT_DISCOUNT = 12;
+    public static final String ON_BCCP_DETAILS_SID_CCP_DET = "          ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n";
+    public static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
+    public static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
+    public static final String SELECT_DISTINCT = "SELECT DISTINCT ";
+    public static final String INVALID_LEVEL_NO = "Invalid Level No:";
+    public static final String DEDUCTION = "DEDUCTION";
+    public static final String RELATIONSHIP_LEVEL_DEFINITION_JOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '";
+    public static final String TAB_BASED_JOIN = "[?TAB_BASED_JOIN]";
+    public static final String RELBUILD_SID = "@RELBUILDSID";
+    public static final String STRING_COMMA_ONE = "','1'";
+    public static final String JOIN_CCP_MAP_CCP_ON_RLDRELATIONSHIP_LEVEL = " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID \n";
+    public static final String PROJECTION_ID_FLOWER_BRACES = "PROJECTION_ID= {}";
+    public static final String BUILDERSID = "@BUILDERSID";
+    public static final String USER_DEFINED = "User Defined";
+    public static final String EACH = "EACH";
+    public static final String SELECT_RL_D2HIERARCHY_NORLD2RELATIONSHIP = " (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD \n";
+    public static final String IS_NULL_OPEN = "Isnull(";
+    public static final String LEVEL_CAPS = "@LEVEL";
+    public static final String LEVEL_VALUES = "@LEVELVALUES";
+    public static final String HIERARCHY_NO_JOIN = "', ',') C WHERE CCPH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
     public static final String CUST_HIERARCHY_NO = "CUST_HIERARCHY_NO ";
+    public static final String DEDLEVEL_VALUES = "@DEDLEVELVALUES";
+    public static final String AND_SPMFILTER_CC_P1 = " AND SPM.FILTER_CCP=1";
+    public static final String LEVEL_NO = "levelNo";
+    public static final String CCPMAP = ") CCPMAP,";
+    public static final boolean VIEW_FLAG = false;
+    public static final String JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT = " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=MAS.RS_CONTRACT_SID\n ";
+    public static final String PROD_HIERARCHY_NO = "PROD_HIERARCHY_NO ";
+    public static final String AND_PR_PARENT_HIERARCHY_LIKE_RLD_PARENT_HIER = " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
+    public static final String WHERE_ITEM_ID = "\t\tWHERE ITEM_ID ='";
+    public static final String FROM_ITEM_MASTER = "\t\tFROM ITEM_MASTER\n";
+    public static final String AND_NDC9_IN_SELECT_ITEM_MASTER_SID = "  AND NDC9 IN (SELECT ITEM_MASTER_SID\n";
 
     /**
      * Enum for Frequency constants
@@ -2165,7 +2320,7 @@ public class Constant {
         PERCENTAGE("Percentage"),
         CUSTOMER(CUSTOMER_SMALL),
         PRODUCT("Product"),
-        CUSTOM("Custom"),
+        CUSTOM(CUSTOM_LABEL),
         BRAND_SEARCH("Brand Search"),
         TIME_PERIOD("Time Period"),
         CUSTOMER_GROUP("Customer Group"),
@@ -2272,7 +2427,7 @@ public class Constant {
         METH_COMM("Methodology Commentary"),
         ACSS_COMM("Access Commentary"),
         PARITY_COMM("Parity Commentary"),
-        DATE_FORMAT("MM/dd/yyyy"),
+        DATE_FORMAT(MM_DD_YYYY),
         FREQUENCY("frequency"),
         HISTORY("history"),
         ACTUALSORPROJECTIONS("projection"),

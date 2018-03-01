@@ -24,7 +24,7 @@
         "isSearchCriteria": true,
         "isResultView": false,
         "componentType": "combobox",
-        "listName": "COMPANY_TYPE",
+        "listName": "COMPANY_NEW_TYPE",
         "loadDescription": true,
         "lengthValidator": true,
         "minLength": 0,
