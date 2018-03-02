@@ -190,7 +190,7 @@ public class GtnFrameworkRSPopupConfig {
 				.getCssLayoutConfig(namspacePrefix + "searchFieldLayout", true, parent);
 		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
 		componentList.add(gtnLayout);
-		addRsPopupFieldComponent(componentList, namspacePrefix, componentIdList, gtnLayout.getComponentId());
+		addRsPopupFieldComponent(componentList, componentIdList, gtnLayout.getComponentId());
 	}
 
 	private void addRsPopupResultPanel(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
@@ -225,23 +225,25 @@ public class GtnFrameworkRSPopupConfig {
 		componentConfig.setGtnUIFrameworkValidationConfig(nullValidationConfig);
 	}
 
-	private void addRsPopupFieldComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
+	private void addRsPopupFieldComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			List<String> componentIdList, String parent) {
 		GtnUIFrameworkValidationConfig emptyValidationConfig = new GtnUIFrameworkValidationConfig();
 		emptyValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		GtnUIFrameworkValidationConfig nullValidationConfig = new GtnUIFrameworkValidationConfig();
 		nullValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		addRsPopupRsId(componentList, namspacePrefix, componentIdList, parent, emptyValidationConfig);
-		addRsPopupRsNo(componentList, namspacePrefix, componentIdList, parent, emptyValidationConfig);
-		addRsPopupRsName(componentList, namspacePrefix, componentIdList, parent, emptyValidationConfig);
-		addRsPopupRsStatus(componentList, namspacePrefix, componentIdList, parent, nullValidationConfig);
-		addRsPopupRsType(componentList, namspacePrefix, componentIdList, parent, nullValidationConfig);
-		addRsPopupProgramType(componentList, namspacePrefix, componentIdList, parent, nullValidationConfig);
+		addRsPopupRsId(componentList, componentIdList, parent, emptyValidationConfig);
+		addRsPopupRsNo(componentList, componentIdList, parent, emptyValidationConfig);
+		addRsPopupRsName(componentList, componentIdList, parent, emptyValidationConfig);
+		addRsPopupRsStatus(componentList, componentIdList, parent, nullValidationConfig);
+		addRsPopupRsType(componentList, componentIdList, parent, nullValidationConfig);
+		addRsPopupItemId(componentList, componentIdList, parent, nullValidationConfig);
+		addRsPopupItemName(componentList, componentIdList, parent, nullValidationConfig);
+		addRsPopupItemNo(componentList, componentIdList, parent, nullValidationConfig);
 	}
 
-	private void addRsPopupRsType(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
+	private void addRsPopupRsType(List<GtnUIFrameworkComponentConfig> componentList,
 			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
-		String componentId = namspacePrefix + "RSType";
+		String componentId = "rsType";
 		GtnUIFrameworkComponentConfig gtnLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		componentList.add(gtnLayoutConfig);
@@ -261,9 +263,9 @@ public class GtnFrameworkRSPopupConfig {
 		componentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 	}
 
-	private void addRsPopupRsStatus(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
+	private void addRsPopupRsStatus(List<GtnUIFrameworkComponentConfig> componentList,
 			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
-		String componentId = namspacePrefix + "RSStatus";
+		String componentId = "rsStatus";
 		GtnUIFrameworkComponentConfig gtnLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		componentList.add(gtnLayoutConfig);
@@ -283,31 +285,10 @@ public class GtnFrameworkRSPopupConfig {
 		componentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 	}
 
-	private void addRsPopupProgramType(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
+
+	private void addRsPopupRsId(List<GtnUIFrameworkComponentConfig> componentList,
 			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
-		String componentId = namspacePrefix + "ProgramType";
-		GtnUIFrameworkComponentConfig gtnLayoutConfig = configProvider
-				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
-		componentList.add(gtnLayoutConfig);
-
-		GtnUIFrameworkComponentConfig componentConfig = configProvider.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
-		componentConfig.setAuthorizationIncluded(true);
-		componentConfig.setComponentName("Program Type");
-		componentList.add(componentConfig);
-
-		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
-		comboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.REBATE_PROGRAM_TYPE);
-		componentConfig.setGtnComboboxConfig(comboBoxConfig);
-		componentIdList.add(componentConfig.getComponentId());
-		componentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
-	}
-
-	private void addRsPopupRsId(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
-			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
-		String componentId = namspacePrefix + "RSID";
+		String componentId = "rsId";
 		GtnUIFrameworkComponentConfig gtnLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		componentList.add(gtnLayoutConfig);
@@ -321,9 +302,9 @@ public class GtnFrameworkRSPopupConfig {
 		rsIdcomponentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 	}
 
-	private void addRsPopupRsNo(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
+	private void addRsPopupRsNo(List<GtnUIFrameworkComponentConfig> componentList,
 			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
-		String componentId = namspacePrefix + "RSNo";
+		String componentId = "rsNo";
 		GtnUIFrameworkComponentConfig gtnLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		componentList.add(gtnLayoutConfig);
@@ -337,9 +318,9 @@ public class GtnFrameworkRSPopupConfig {
 		rsNocomponentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 	}
 
-	private void addRsPopupRsName(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
+	private void addRsPopupRsName(List<GtnUIFrameworkComponentConfig> componentList,
 			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
-		String componentId = namspacePrefix + "RSName";
+		String componentId = "rsName";
 		GtnUIFrameworkComponentConfig gtnLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		componentList.add(gtnLayoutConfig);
@@ -351,5 +332,53 @@ public class GtnFrameworkRSPopupConfig {
 		componentList.add(rsNamecomponentConfig);
 		componentIdList.add(rsNamecomponentConfig.getComponentId());
 		rsNamecomponentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
+	}
+	
+	private void addRsPopupItemId(List<GtnUIFrameworkComponentConfig> componentList,
+			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
+		String componentIdItemId = "RSPopupItemId";
+		GtnUIFrameworkComponentConfig gtnLayoutItemIdConfig = configProvider
+				.getHorizontalLayoutConfig(componentIdItemId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
+		componentList.add(gtnLayoutItemIdConfig);
+
+		GtnUIFrameworkComponentConfig itemIdcomponentConfig = configProvider.getUIFrameworkComponentConfig(componentIdItemId,
+				true, gtnLayoutItemIdConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
+		itemIdcomponentConfig.setAuthorizationIncluded(true);
+		itemIdcomponentConfig.setComponentName("Item ID");
+		componentList.add(itemIdcomponentConfig);
+		componentIdList.add(itemIdcomponentConfig.getComponentId());
+		itemIdcomponentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
+	}
+	
+	private void addRsPopupItemNo(List<GtnUIFrameworkComponentConfig> componentList,
+			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
+		String componentIdItemNo ="RSItemNo";
+		GtnUIFrameworkComponentConfig gtnLayoutItemNoConfig = configProvider
+				.getHorizontalLayoutConfig(componentIdItemNo + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
+		componentList.add(gtnLayoutItemNoConfig);
+
+		GtnUIFrameworkComponentConfig itemNocomponentConfig = configProvider.getUIFrameworkComponentConfig(componentIdItemNo,
+				true, gtnLayoutItemNoConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
+		itemNocomponentConfig.setAuthorizationIncluded(true);
+		itemNocomponentConfig.setComponentName("Item No");
+		componentList.add(itemNocomponentConfig);
+		componentIdList.add(itemNocomponentConfig.getComponentId());
+		itemNocomponentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
+	}
+	
+	private void addRsPopupItemName(List<GtnUIFrameworkComponentConfig> componentList,
+			List<String> componentIdList, String parent, GtnUIFrameworkValidationConfig validationConfig) {
+		String componentIdItemName ="RSItemName";
+		GtnUIFrameworkComponentConfig gtnLayoutItemNameConfig = configProvider
+				.getHorizontalLayoutConfig(componentIdItemName + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
+		componentList.add(gtnLayoutItemNameConfig);
+
+		GtnUIFrameworkComponentConfig itemNamecomponentConfig = configProvider.getUIFrameworkComponentConfig(componentIdItemName,
+				true, gtnLayoutItemNameConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
+		itemNamecomponentConfig.setAuthorizationIncluded(true);
+		itemNamecomponentConfig.setComponentName("Item Name");
+		componentList.add(itemNamecomponentConfig);
+		componentIdList.add(itemNamecomponentConfig.getComponentId()); 
+		itemNamecomponentConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 	}
 }

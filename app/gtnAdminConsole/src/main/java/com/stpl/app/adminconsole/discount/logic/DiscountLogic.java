@@ -111,17 +111,17 @@ public class DiscountLogic {
         final DynamicQuery discountgroupDynamicQuery = DeductionGroupLocalServiceUtil.dynamicQuery();
         if (binder.getField(ConstantsUtils.TEXT1).getValue() != null && StringUtils.isNotEmpty(binder.getField(ConstantsUtils.TEXT1).getValue().toString())) {
             final String discountName = String.valueOf(binder.getField(ConstantsUtils.TEXT1).getValue());
-            final String deductionGroupName = discountName.replace("*", "%");
+            final String deductionGroupName = discountName.replace('*', '%');
             discountgroupDynamicQuery.add(RestrictionsFactoryUtil.ilike(CommonUtil.DEDUCTION_GROUP_NAME, deductionGroupName));
         }
         if (binder.getField(ConstantsUtils.TEXT2).getValue() != null && StringUtils.isNotEmpty(binder.getField(ConstantsUtils.TEXT2).getValue().toString())) {
             final String discountNo = String.valueOf(binder.getField(ConstantsUtils.TEXT2).getValue());
-            final String deductionGroupNo = discountNo.replace("*", "%");
+            final String deductionGroupNo = discountNo.replace('*', '%');
             discountgroupDynamicQuery.add(RestrictionsFactoryUtil.ilike(CommonUtil.DEDUCTION_GROUP_NO, deductionGroupNo));
         }
         if (binder.getField(ConstantsUtils.TEXT3).getValue() != null && StringUtils.isNotEmpty(binder.getField(ConstantsUtils.TEXT3).getValue().toString())) {
             final String discountDesc = String.valueOf(binder.getField(ConstantsUtils.TEXT3).getValue());
-            final String deductionGroupDesc = discountDesc.replace("*", "%");
+            final String deductionGroupDesc = discountDesc.replace('*', '%');
             discountgroupDynamicQuery.add(RestrictionsFactoryUtil.ilike(CommonUtil.DEDUCTION_GROUP_DESCRIPTION, deductionGroupDesc));
         }
 
@@ -577,13 +577,13 @@ public class DiscountLogic {
         query += " DECLARE @V1 VARCHAR(50)='" + dto.getRebateScheduleCategory() + "'";
         query += " DECLARE @V2 VARCHAR(50)='" + dto.getRebateProgramType() + "'";
         query += " DECLARE @V3 VARCHAR(50)='" + dto.getRebateContractType() + "'";
-        query += " DECLARE @V4 VARCHAR(50)='" + dto.getItemNo().replace("*", "%") + "'";
-        query += " DECLARE @V5 VARCHAR(50)='" + dto.getItemName().replace("*", "%") + "'";
-        query += " DECLARE @V6 VARCHAR(50)='" + dto.getCustomerNo().replace("*", "%") + "'";
-        query += " DECLARE @V7 VARCHAR(50)='" + dto.getCustomerName().replace("*", "%") + "'";
-        query += " DECLARE @V8 VARCHAR(50)='" + dto.getContractNo().replace("*", "%") + "'";
-        query += " DECLARE @V9 VARCHAR(50)='" + dto.getContractName().replace("*", "%") + "'";
-        query += " DECLARE @V10 VARCHAR(50)='" + dto.getTradingPartner().replace("*", "%") + "'";
+        query += " DECLARE @V4 VARCHAR(50)='" + dto.getItemNo().replace('*', '%') + "'";
+        query += " DECLARE @V5 VARCHAR(50)='" + dto.getItemName().replace('*', '%') + "'";
+        query += " DECLARE @V6 VARCHAR(50)='" + dto.getCustomerNo().replace('*', '%') + "'";
+        query += " DECLARE @V7 VARCHAR(50)='" + dto.getCustomerName().replace('*', '%') + "'";
+        query += " DECLARE @V8 VARCHAR(50)='" + dto.getContractNo().replace('*', '%') + "'";
+        query += " DECLARE @V9 VARCHAR(50)='" + dto.getContractName().replace('*', '%') + "'";
+        query += " DECLARE @V10 VARCHAR(50)='" + dto.getTradingPartner().replace('*', '%') + "'";
         query += "SELECT DISCOUNT_ID,\n"
                 + "       DISCOUNT_NAME,\n"
                 + "       DISCOUNT_NO,\n"

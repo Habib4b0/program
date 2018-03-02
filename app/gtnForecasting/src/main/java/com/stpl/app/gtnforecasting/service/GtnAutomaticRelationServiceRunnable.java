@@ -42,7 +42,7 @@ public class GtnAutomaticRelationServiceRunnable implements Callable {
 		if (value == null)
 			return Boolean.FALSE;
 
-		Integer relationShipBuilderSid = Integer.parseInt(value.toString());
+		int relationShipBuilderSid = Integer.parseInt(value.toString());
 		GtnFrameworkAutomaticRelationshipRequest relationRequest = new GtnFrameworkAutomaticRelationshipRequest();
 		relationRequest.setRelationshipBuilderSid(relationShipBuilderSid);
 		relationRequest.setHierarchyBuilderSid(hierarchySid);

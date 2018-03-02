@@ -295,7 +295,7 @@ public class PPAProjectionLogic {
             String columnName;
             String customizedPropertyId;
             if (Constant.RIGHT.equals(dto.getTable())) {
-                customizedPropertyId = propertyId.substring(propertyId.indexOf(Constant.Q_SMALL) + NumericConstants.SIX);
+                customizedPropertyId = propertyId.substring(propertyId.indexOf('q') + NumericConstants.SIX);
                 columnName = dbColumnIdentifier.get(columnHeaderMap.get(customizedPropertyId));
                 if (populateIdentifier.get(Constant.DDLB_FIELD).contains(columnHeaderMap.get(customizedPropertyId))
                         || populateIdentifier.get(Constant.TEXT_FIELD).contains(columnHeaderMap.get(customizedPropertyId))

@@ -4,14 +4,25 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRODUCT_GROUP_LOOKUP;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
+
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProductGroupLookUpDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRODUCT_GROUP_LOOKUP;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -24,15 +35,6 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.util.Map;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class ProductGroupLookup.
@@ -268,7 +270,6 @@ public class ProductGroupLookup extends Window {
      *
      * @param event the event
      */
-    @UiHandler("search")
     private void searchButtonOnClick() {
         LOGGER.debug("searchButtonOnClick Methood Started");
         try {
@@ -294,7 +295,6 @@ public class ProductGroupLookup extends Window {
      *
      * @param event the event
      */
-    @UiHandler("select")
     private void selectButtonOnClick(Object selectedRecord) {
         LOGGER.debug("selectButtonOnClick Methood Started");
         if (selectedRecord == null) {
@@ -311,7 +311,6 @@ public class ProductGroupLookup extends Window {
      *
      * @param event the event
      */
-    @UiHandler("cancel")
     private void cancelButtonOnClick() {
         LOGGER.debug("cancelButtonOnClick Method Started");
 
@@ -325,7 +324,6 @@ public class ProductGroupLookup extends Window {
      *
      * @param event the event
      */
-    @UiHandler("resetTable")
     private void resetTableButtonOnClick() {
         LOGGER.debug("resetTableButtonOnClick Method Started");
         productGroupName.setValue(StringUtils.EMPTY);
@@ -340,7 +338,6 @@ public class ProductGroupLookup extends Window {
      *
      * @param event the event
      */
-    @UiHandler("reset")
     private void resetButtonOnClick() {
         LOGGER.debug("resetButtonOnClick Method Started");
         productGroupName.setValue(StringUtils.EMPTY);

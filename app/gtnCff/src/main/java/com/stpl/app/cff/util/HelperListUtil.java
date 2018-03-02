@@ -13,6 +13,7 @@ import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -210,8 +211,8 @@ public class HelperListUtil {
                 for (int i = 0; i < list.size(); i++) {
                     final Object[] obj = (Object[]) list.get(i);
                     helperList.add(new HelperDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1])));
-                    idDescMapBU.put(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
-                    idHelperDTOMapBU.put(Integer.parseInt(String.valueOf(obj[0])), new HelperDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1])));
+                    idDescMapBU.put(DataTypeConverter.convertObjectToInt(obj[0]), String.valueOf(obj[1]));
+                    idHelperDTOMapBU.put(DataTypeConverter.convertObjectToInt(obj[0]), new HelperDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1])));
                     if (i == list.size() - 1) {
                         listNameMapBU.put(currentListName, helperList);
                     }

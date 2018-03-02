@@ -3056,7 +3056,7 @@ public class NMProjectionResultsLogic {
         String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as SALES_ACTUAL_SALES,  \n"
                 + " 0 as  SALES_PROJECTION_SALES, \n"
                 + " sum(A.ACTUAL_UNITS)as ACTUAL_UNITS, \n"
-                + " 0 as PROJECTION_UNITS \n"
+                + ZERO_AS_PROJECTION_UNITS
                 + "    from #SELECTED_HIERARCHY_NO CCP"
                 + " INNER JOIN ST_NM_ACTUAL_SALES A ON \n "
                 + " A.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID INNER JOIN "
@@ -3078,6 +3078,7 @@ public class NMProjectionResultsLogic {
 
         return customQuery;
     }
+    public static final String ZERO_AS_PROJECTION_UNITS = " 0 as PROJECTION_UNITS \n";
     
     
     public String getProjectionResultsTotalDiscountSalesQuery(ProjectionSelectionDTO projSelDTO,Boolean period) {
@@ -3120,7 +3121,7 @@ public class NMProjectionResultsLogic {
         String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as SALES_ACTUAL_SALES, \n"
                 + " 0 as SALES_PROJECTION_SALES, \n"
                 + " sum(A.ACTUAL_UNITS)as ACTUAL_UNITS, \n"
-                + " 0 as PROJECTION_UNITS \n"
+                + ZERO_AS_PROJECTION_UNITS
                 + ",B.RS_CONTRACT_SID \n"
                 + ",RS_NAME "
                 + " from #SELECTED_HIERARCHY_NO CCP"
@@ -3197,7 +3198,7 @@ public class NMProjectionResultsLogic {
         String historyQuery = selectClause + " sum(A.ACTUAL_SALES) as SALES_ACTUAL_SALES, \n"
                 + " 0 as SALES_PROJECTION_SALES, \n"
                 + "  sum(A.ACTUAL_UNITS)as ACTUAL_UNITS, \n"
-                + " 0 as PROJECTION_UNITS \n"
+                + ZERO_AS_PROJECTION_UNITS
                 + ",B.RS_CONTRACT_SID\n"
                 + ",RS_NAME"
                 + " from #SELECTED_HIERARCHY_NO  CCP"

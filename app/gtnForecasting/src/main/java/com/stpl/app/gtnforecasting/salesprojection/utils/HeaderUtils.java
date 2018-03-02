@@ -413,7 +413,7 @@ public class HeaderUtils {
             projectionOrder = NumericConstants.TWO;
         }
         String yearValue = projSelDTO.getYear();
-        int year = isInteger(yearValue) ? Integer.valueOf(yearValue) : 0;
+        int year = isInteger(yearValue) ? Integer.parseInt(yearValue) : 0;
         int historyStartIndex = -1;
         int projectionStartIndex = -1;
         int forecastStartIndex = -1;
@@ -702,8 +702,8 @@ public class HeaderUtils {
         boolean projAllowed = true;
 
         int current = curMonth / NumericConstants.THREE;
-        int frequency = Integer.valueOf(hist.replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-        int projectFrequency = Integer.valueOf(projFreq);
+        int frequency = Integer.parseInt(hist.replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+        int projectFrequency = Integer.parseInt(projFreq);
         int division = NumericConstants.FOUR;
         int pastYear = curYear;
         int startFreq = current + 1;

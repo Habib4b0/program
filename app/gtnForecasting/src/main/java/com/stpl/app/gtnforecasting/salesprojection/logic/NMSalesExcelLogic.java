@@ -9,7 +9,6 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.ACTUAL_SALES;
-import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.PROJECTED_SALES;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.PROJECTED_UNITS1;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.UNITNODECIMAL;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.UNITTWODECIMAL;
@@ -23,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.DASH_PROJECTED_SALES;
 
 /**
  *
@@ -123,7 +123,7 @@ public class NMSalesExcelLogic {
             salesRowDto.addStringProperties(header + "-HistoryProjectedUnits", StringUtils.EMPTY);
 
         } else {
-            salesRowDto.addStringProperties(header + PROJECTED_SALES, StringUtils.EMPTY);
+            salesRowDto.addStringProperties(header + DASH_PROJECTED_SALES, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + PROJECTED_UNITS1, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-ProductGrowth", StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-AccountGrowth", StringUtils.EMPTY);
@@ -139,7 +139,7 @@ public class NMSalesExcelLogic {
             salesRowDto.addStringProperties(header + "-HistoryProjectedUnits", String.valueOf(0));
 
         } else {
-            salesRowDto.addStringProperties(header + PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.SEVEN], true));
+            salesRowDto.addStringProperties(header + DASH_PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.SEVEN], true));
             salesRowDto.addStringProperties(header + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.EIGHT] == null ? 0 : obj[NumericConstants.EIGHT])));
             salesRowDto.addStringProperties(header + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.SIX] == null ? 0 : obj[NumericConstants.SIX])) + Constant.PERCENT);
             salesRowDto.addStringProperties(header + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])) + Constant.PERCENT);

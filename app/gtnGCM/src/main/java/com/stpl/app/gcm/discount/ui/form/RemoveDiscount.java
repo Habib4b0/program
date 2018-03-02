@@ -787,14 +787,14 @@ public class RemoveDiscount extends CustomComponent {
             } else {
                 List<String> list = new ArrayList(NumericConstants.FIVE);
                 if (field.equals("Rebate Schedule ID")) {
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                     list.add(null);
                     list.add(null);
                     list.add(null);
                     list.add(null);
                 } else if (field.equals("Rebate Schedule No")) {
                     list.add(null);
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                     list.add(null);
                     list.add(null);
                     list.add(null);
@@ -802,7 +802,7 @@ public class RemoveDiscount extends CustomComponent {
                 if (field.equals("Rebate Schedule Name")) {
                     list.add(null);
                     list.add(null);
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                     list.add(null);
                     list.add(null);
                 }
@@ -810,7 +810,7 @@ public class RemoveDiscount extends CustomComponent {
                     list.add(null);
                     list.add(null);
                     list.add(null);
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                     list.add(null);
                 }
                 if (field.equals("Rebate Schedule Type")) {
@@ -818,7 +818,7 @@ public class RemoveDiscount extends CustomComponent {
                     list.add(null);
                     list.add(null);
                     list.add(null);
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                 }
                 loadComponentTable(list);
             }

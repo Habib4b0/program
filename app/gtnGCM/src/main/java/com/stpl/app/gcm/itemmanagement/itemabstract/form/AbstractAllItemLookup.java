@@ -106,7 +106,7 @@ public class AbstractAllItemLookup extends CustomWindow {
     public void itemInfoExport() {
         configureExcelResultTable();
         excelResultBean.addAll(selecteditemList);
-        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
+        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
         excel.export();
         layout.removeComponent(exportPeriodViewTable);
     }

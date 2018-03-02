@@ -13,6 +13,7 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_ASSUMPTIONS;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_PPA_PROJECTION;
 import static com.stpl.app.cff.util.Constants.RegexConstants.REGEX_EXTRACT_DIGITS;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.Position;
@@ -407,7 +408,7 @@ public class UiUtils {
 		List<Integer> integerList = new ArrayList<>();
 
 		for (String sid : stringList) {
-			integerList.add(Integer.parseInt(sid));
+			integerList.add(DataTypeConverter.convertStringToInteger(sid));
 		}
 
 		return integerList;
@@ -447,9 +448,9 @@ public class UiUtils {
 		StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
 		if (stringList != null && !stringList.isEmpty()) {
 			for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
-				builder.append("'");
+				builder.append('\'');
 				builder.append(stringList.get(loop));
-				builder.append("'");
+				builder.append('\'');
 				if (loop != (limit - 1)) {
 					builder.append(", ");
 				}

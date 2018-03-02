@@ -25,11 +25,11 @@ public class GlobalImpl {
         try {
             sql = SQLUtil.getQuery("tabPermission");
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += AND_UBM_BUSINESS_ROLE_MASTER_SID_IN
                         + businessRoleId + ")";
             }
             if (moduleName.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + moduleName + "') ";
+                sql += AND_SPM_MODULE_NAME_IN + moduleName + "') ";
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
@@ -38,6 +38,8 @@ public class GlobalImpl {
             return null;
         }
     }
+    public static final String AND_SPM_MODULE_NAME_IN = " AND spm.MODULE_NAME in ('";
+    public static final String AND_UBM_BUSINESS_ROLE_MASTER_SID_IN = " AND ubm.BUSINESSROLE_MASTER_SID in (";
 
     public List getBusinessFieldPermission(String businessRoleId, String moduleName) {
         String sql = StringUtils.EMPTY;
@@ -58,12 +60,12 @@ public class GlobalImpl {
             }
 
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += AND_UBM_BUSINESS_ROLE_MASTER_SID_IN
                         + businessRoleId + ")";
             }
 
             if (mod.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+                sql += AND_SPM_MODULE_NAME_IN + mod + "') ";
             }
             if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
                 sql += " AND spm.TAB_NAME like ('" + str[1] + "') ";
@@ -97,11 +99,11 @@ public class GlobalImpl {
         try {
             sql = SQLUtil.getQuery("functionPermission");
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += AND_UBM_BUSINESS_ROLE_MASTER_SID_IN
                         + businessRoleId + ")";
             }
             if (mod.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+                sql += AND_SPM_MODULE_NAME_IN + mod + "') ";
             }
 
             if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {

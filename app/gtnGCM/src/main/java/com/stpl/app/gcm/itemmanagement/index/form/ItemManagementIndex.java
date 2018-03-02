@@ -434,7 +434,7 @@ public class ItemManagementIndex extends CustomComponent {
             selection.setFilters(tableLogic.getFilters());
             recordCount = logic.getSearchCount(binderDto, selection);
         }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {

@@ -718,9 +718,12 @@ class ExtFilterFieldGenerator implements Serializable {
             propertyId = booleans.get(field);
         }
                 
-        if (owner instanceof ExtPagedTableBase) {
+        if (owner instanceof PagedTreeTableBase) {     
             doStuffOnFilter(field, propertyId, value);
-            ((ExtPagedTableBase) owner).setFilterChange(propertyId,addedFilters);       
+            ((PagedTreeTableBase) owner).setFilterChange(propertyId,addedFilters);            
+        }else if (owner instanceof ExtPagedTable) { 
+            doStuffOnFilter(field, propertyId, value);
+            ((ExtPagedTable) owner).setFilterChange(propertyId,addedFilters);            
         }else{
         owner.setRefreshingEnabled(false);
         doStuffOnFilter(field, propertyId, value);        
