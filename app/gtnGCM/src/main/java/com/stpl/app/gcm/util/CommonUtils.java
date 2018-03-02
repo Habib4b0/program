@@ -9,7 +9,6 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

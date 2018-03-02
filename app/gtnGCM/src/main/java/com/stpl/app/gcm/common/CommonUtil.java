@@ -9,7 +9,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
 import com.stpl.app.gcm.util.ConstantsUtils;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.gcm.util.ValidationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;

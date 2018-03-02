@@ -36,7 +36,7 @@ import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.app.cff.util.DataTypeConverter;
 import com.stpl.app.cff.util.HeaderUtils;
 import com.stpl.app.cff.util.PVQueryUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;

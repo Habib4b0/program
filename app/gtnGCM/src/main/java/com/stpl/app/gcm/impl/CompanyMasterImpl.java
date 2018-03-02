@@ -7,7 +7,7 @@ package com.stpl.app.gcm.impl;
 
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.text.DateFormat;

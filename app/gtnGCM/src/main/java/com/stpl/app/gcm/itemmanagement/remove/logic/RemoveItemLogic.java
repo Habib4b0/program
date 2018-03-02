@@ -17,7 +17,7 @@ import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.tp.logic.LoadTabLogic;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;

@@ -27,7 +27,7 @@ import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.DataSelectionUtil;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.app.cff.util.DataTypeConverter;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;

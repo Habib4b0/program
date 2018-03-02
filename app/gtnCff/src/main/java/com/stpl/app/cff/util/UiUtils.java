@@ -13,7 +13,6 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_ASSUMPTIONS;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_PPA_PROJECTION;
 import static com.stpl.app.cff.util.Constants.RegexConstants.REGEX_EXTRACT_DIGITS;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.Position;

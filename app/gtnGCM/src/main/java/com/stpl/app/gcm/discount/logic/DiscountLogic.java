@@ -70,7 +70,7 @@ import com.stpl.app.gcm.impl.CfpContractDetailsImpl;
 import com.stpl.app.gcm.impl.IfpContractDetailsImpl;
 import com.stpl.app.gcm.impl.PsContractDetailsImpl;
 import com.stpl.app.gcm.impl.RsContractDetailsImpl;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.server.VaadinSession;

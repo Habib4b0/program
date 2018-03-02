@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.app.gcm.util.DataTypeConverter;
 import com.vaadin.v7.ui.ComboBox;
 import java.text.DateFormat;
 import java.text.ParseException;
