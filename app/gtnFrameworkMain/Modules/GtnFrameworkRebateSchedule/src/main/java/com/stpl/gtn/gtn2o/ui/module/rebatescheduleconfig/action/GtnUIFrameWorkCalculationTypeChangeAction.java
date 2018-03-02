@@ -378,7 +378,6 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 	private void checkCopyMode(String componentId) {
 		if (componentId.toLowerCase(Locale.ENGLISH).contains(("COPY").toLowerCase(Locale.ENGLISH))) {
 			GtnUIFrameworkGlobalUI.addSessionProperty("mode", "EDIT");
-			GtnUIFrameworkGlobalUI.addSessionProperty("systemId", null);
 		}
 	}
 }
