@@ -290,6 +290,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private static final String LEVEL_NUMBER_HEADER = "Level Number";
     private static final String LEVEL_NAME_HEADER = "Level Name";
     private static final String GROUP_PROPERTY_ID = "group";
+    public static final String DISCOUNT_PROJECTION_XLS = "Discount_Projection.xls";
 
     private List<Object> generateDiscountToBeLoaded = new ArrayList<>();
     private List<Object> generateDiscountNamesToBeLoaded = new ArrayList<>();
@@ -498,6 +499,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             uomLb.setWidth("120px");
             gridlay.addComponent(uomDdlb);
             gridlay.addComponent(displayFormatLabel);
+            displayFormatDdlb.setStyleName("custommenumulticheck");
+            displayFormatDdlb.setWidth("200px");
             displayFormatLabel.setWidth("120px");
             gridlay.addComponent(displayFormatDdlb);
         } else {
@@ -2768,9 +2771,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 
                                     session.setFrequency(projectionSelection.getFrequency());
-                                    String adjustActual = session.isActualAdjustment() ? "0" : "1";
                                     if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-                                            adjustmentValue, adjustActual, baselinePeriods)) {
+                                            adjustmentValue, Constant.STRING_ONE, baselinePeriods)) {
                                         LOGGER.debug(" Procedure executed Successfully");
                                         refreshTableData(getCheckedRecordsHierarchyNo());
                                     } else {
@@ -2913,9 +2915,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                     logic.checkUncheckRebateBeforeAdjust(false, checkedDiscountList, session, true,
                                             isProgram);
                                     session.setFrequency(projectionSelection.getFrequency());
-                                    String adjustActual = session.isActualAdjustment() ? "0" : "1";
                                     if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-                                            adjustmentValue, adjustActual, baselinePeriods)) {
+                                            adjustmentValue, Constant.STRING_ONE, baselinePeriods)) {
                                         LOGGER.debug(" Procedure executed Successfully");
                                         logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
                                                 isProgram);
@@ -3050,15 +3051,17 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.info("COLUMNS-----------------= {}", Arrays.asList(leftTableExcelColumns));
 
             Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
+            String removeColumn = StringUtils.EMPTY;
             if (displayFormatIndex.length == 1) {
                 for (int i = 0; i < displayFormatIndex.length; i++) {
                     LOGGER.info("obj--------------= {}", i);
                     int index = (Integer) displayFormatIndex[i];
                     if (index == 0) {
+                        removeColumn = DF_LEVEL_NAME;
                         leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, DF_LEVEL_NAME);
                         objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, LEVEL_NAME_HEADER);
                     } else {
-
+                        removeColumn = DF_LEVEL_NUMBER;
                         leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, DF_LEVEL_NUMBER);
                         objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, LEVEL_NUMBER_HEADER);
 
@@ -3071,6 +3074,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<Object> listHeadersList = new ArrayList(Arrays.asList(singleHeaderArray));
             listHeadersList.remove(LEVEL_NAME_PROPERTY);
             listHeadersList.remove("group");
+            if (!removeColumn.isEmpty()) {
+                listHeadersList.remove(removeColumn);
+            }
             excelHeaderLeft.getDoubleHeaderMaps().put(GROUP_PROPERTY_ID, listHeadersList.toArray());
             excelTable.setDoubleHeaderVisible(true);
             excelTable
@@ -3471,6 +3477,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 logic.updateAllToZero(session);
             }
             hierarchyListForCheckRecord.clear();
+            session.setFrequency(projectionSelection.getFrequency());
             callAdjustmentProcedure(this.session);
             tableLogic.clearAll();
             tableLogic.setRefresh(false);// will become true once setcurrentpage
@@ -5729,5 +5736,4 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         LOGGER.debug("excel ends");
     }
-    public static final String DISCOUNT_PROJECTION_XLS = "Discount_Projection.xls";
 }

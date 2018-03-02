@@ -566,10 +566,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void comparisonLookupLogic() {
         LOGGER.info("Comparision lookup started");
-        if (editFlag || !comparisonProjId.isEmpty()) {
+        if (editFlag || !projIdList.isEmpty()) {
             editFlag = false;
             try {
-                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
+                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(projIdList), null, null);
                 selectedList = logic.getCustomizedPVComparisonList(list);
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());

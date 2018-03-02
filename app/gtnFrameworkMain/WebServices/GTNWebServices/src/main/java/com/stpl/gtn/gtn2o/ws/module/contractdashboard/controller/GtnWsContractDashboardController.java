@@ -42,7 +42,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
-import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**

@@ -61,7 +61,6 @@ public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
 				newValue = dto.getPropertyValue(inputColumIds.get(i));
 			}
                         else if(dto==null){
-                            newValue= "null";
                             GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			List<Object> alertMsgParamsList = new ArrayList<>();
@@ -77,7 +76,7 @@ public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
 			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId)
 					.getComponentData().setCustomData(dto);
-			if (vaadinField != null && newValue!=null && !"null".equals(newValue)) {
+			if (vaadinField != null && newValue!=null && !"null".equals(String.valueOf(newValue))) {
 				boolean isReadOnly = vaadinField.isReadOnly();
 				vaadinField.setReadOnly(false);
 				vaadinField.setValue(String.valueOf(newValue));
