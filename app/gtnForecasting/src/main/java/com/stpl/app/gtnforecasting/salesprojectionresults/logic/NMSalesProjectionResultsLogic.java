@@ -39,7 +39,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.SALES_PERC_OF_EX_FACTO
 import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.LabelConstants.UNITS;
 import static com.stpl.app.utils.Constants.LabelConstants.UNIT_VOL;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;

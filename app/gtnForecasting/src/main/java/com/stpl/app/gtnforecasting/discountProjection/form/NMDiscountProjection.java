@@ -78,7 +78,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.REBATE_PER_UNIT;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;

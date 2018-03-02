@@ -84,7 +84,7 @@ import static com.stpl.app.utils.Constants.StringConstants.PERCENT;
 import static com.stpl.app.utils.Constants.StringConstants.SPLIT_ARROW;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
