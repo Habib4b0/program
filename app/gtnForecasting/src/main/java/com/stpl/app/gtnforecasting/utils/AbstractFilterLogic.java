@@ -190,7 +190,7 @@ public class AbstractFilterLogic {
                     }
                 }
             }
-            sql.append(")");
+            sql.append(')');
         }
         return sql;
     }
@@ -398,7 +398,7 @@ public class AbstractFilterLogic {
                     }
                 }
             }
-            sql.append(")");
+            sql.append(')');
         }
         return sql;
     }

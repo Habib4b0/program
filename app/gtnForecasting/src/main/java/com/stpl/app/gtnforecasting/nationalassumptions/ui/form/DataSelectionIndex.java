@@ -18,6 +18,7 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.utils.Constants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.CommonUIUtils;
@@ -446,7 +447,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             public void buttonClick(Button.ClickEvent event) {
                 if (projectionId.getValue() != null && !StringUtils.EMPTY.equals(projectionId.getValue())) {
 
-                    VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, Integer.parseInt(projectionId.getValue().replaceAll(",", StringUtils.EMPTY)));
+                    VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, DataTypeConverter.convertStringToInteger(projectionId.getValue().replaceAll(",", StringUtils.EMPTY)));
                      sessionDTO.setProjectionId(Integer.parseInt(projectionId.getValue().replaceAll(",", StringUtils.EMPTY)));
                     VaadinSession.getCurrent().setAttribute(Constant.MODE, Constant.EDIT_SMALL);
                     VaadinSession.getCurrent().setAttribute("SessionDate", modifiedDate);
@@ -707,7 +708,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             if (i++ == 0) {
                 ids.append(dto.getItemMasterSid());
             } else {
-                ids.append(",").append(dto.getItemMasterSid());
+                ids.append(',').append(dto.getItemMasterSid());
             }
         }
         return ids.toString();
@@ -898,7 +899,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
                     msg = logic.saveProjection(values, selProducts, false,sessionDTO);
                     if (!Constant.FAIL.equalsIgnoreCase(msg)) {
-                        VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, Integer.parseInt(msg));
+                        VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, DataTypeConverter.convertStringToInteger(msg));
                         VaadinSession.getCurrent().setAttribute(Constant.MODE, Constant.ADD_FULL_SMALL);
                         sessionDTO.setProjectionId( Integer.parseInt(msg));
                         sessionDTO.setProjectionName(projectionName.getValue());
@@ -919,7 +920,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     selectedProductBean.removeAllItems();
                     availableProductBean.removeAllItems();
                     VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID,
-                            Integer.parseInt(msg));
+                            DataTypeConverter.convertStringToInteger(msg));
                     sessionDTO.setProjectionId(Integer.parseInt(msg));
 
                 }
@@ -1072,7 +1073,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 selectedProductBean.removeAllItems();
                 availableProductBean.removeAllItems();
                 VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID,
-                        Integer.parseInt(msg));
+                        DataTypeConverter.convertStringToInteger(msg));
                 sessionDTO.setProjectionId(Integer.parseInt(msg));
                 return true;
             } else {

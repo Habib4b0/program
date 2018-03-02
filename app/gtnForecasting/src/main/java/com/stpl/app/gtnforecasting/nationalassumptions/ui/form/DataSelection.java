@@ -21,6 +21,7 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.NaProjMasterLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.utils.Constants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -661,7 +662,7 @@ public class DataSelection extends CustomComponent implements View {
                     } catch (FieldGroup.CommitException e) {
                         LOGGER.error(e.getMessage());
                     }
-                    VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, Integer.parseInt(msg));
+                    VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, DataTypeConverter.convertStringToInteger(msg));
                     sessionDTO.setProjectionId(Integer.parseInt(msg));
                     getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
                     UI.getCurrent().setFocusedComponent(UI.getCurrent());
@@ -678,7 +679,7 @@ public class DataSelection extends CustomComponent implements View {
                     availableProductBean.removeAllItems();
                     availableProductBean.removeAllItems();
                     VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID,
-                            Integer.parseInt(msg));
+                            DataTypeConverter.convertStringToInteger(msg));
                     sessionDTO.setProjectionId(Integer.parseInt(msg));
 
                 } else {

@@ -7,6 +7,7 @@ package com.stpl.app.gcm.util;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import java.text.DateFormat;
@@ -59,7 +60,7 @@ public class CommonUtils {
         List<Integer> integerList = new ArrayList<>();
 
         for (String sid : stringList) {
-            integerList.add(Integer.parseInt(sid));
+            integerList.add(DataTypeConverter.convertStringToInteger(sid));
         }
 
         return integerList;
@@ -89,7 +90,7 @@ public class CommonUtils {
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "").replace("]", "");
             }

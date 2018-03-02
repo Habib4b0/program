@@ -336,14 +336,14 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                     StringBuilder errorMessage = new StringBuilder("Information for the following Mandatory fields need to be provided:" + ConstantsUtils.BREAK);
                     if (binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NO).getValue().toString().trim().isEmpty()) {
                         if (flag) {
-                            errorMessage.append(ConstantsUtils.COMMA);
+                            errorMessage.append(',');
                         }
                         errorMessage.append("DEDUCTION CALENDAR NO");
                         flag = true;
                     }
                     if (binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NAME).getValue().toString().trim().isEmpty()) {
                         if (flag) {
-                            errorMessage.append(ConstantsUtils.COMMA);
+                            errorMessage.append(',');
                         }
                         errorMessage.append("DEDUCTION CALENDAR NAME");
                         flag = true;

@@ -416,7 +416,7 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				"rebateScheduleAliasId1", true, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID_LAYOUT,
 				GtnUIFrameworkComponentType.TEXTBOX);
 		companyIdentifierConfig.setAuthorizationIncluded(true);
-		companyIdentifierConfig.setComponentName("Rebate Schedule Alias Id");
+		companyIdentifierConfig.setComponentName("Rebate Schedule Alias ID");
 
 		GtnUIFrameworkTextBoxConfig textboxConfig = configProvider.getTextBoxConfig(true, false, true);
 		companyIdentifierConfig.setGtnTextBoxConfig(textboxConfig);
@@ -529,7 +529,7 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 
 		GtnUIFrameworkComponentConfig parentCompanyNo = configProvider.getUIFrameworkComponentConfig(
 				"rsTransactionRefId", true, "rsTransactionRefIdLayout", GtnUIFrameworkComponentType.POPUPTEXTFIELD);
-		parentCompanyNo.setComponentName("Transaction Ref ID");
+		parentCompanyNo.setComponentName("RS Transaction Ref ID");
 		parentCompanyNo.setAuthorizationIncluded(true);
 
 		parentCompanyNo.setComponentStyle(Arrays.asList(new String[] { GtnFrameworkCommonConstants.SEARCHICON }));
@@ -538,8 +538,8 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 		GtnUIFrameWorkActionConfig popupActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
 		popupActionConfig.addActionParameter(GtnFrameworkRSConstants.RS_POPUP_VIEW);
-		popupActionConfig.addActionParameter("Rebate Schedule Reference No");
-		popupActionConfig.addActionParameter("70%");
+		popupActionConfig.addActionParameter("RS Transaction Ref ID Lookup");
+		popupActionConfig.addActionParameter("90%");
 		popupActionConfig.addActionParameter(null);
 		popupActionConfig.addActionParameter(null);
 		popupActionConfig.addActionParameter(Arrays.asList(parentCompanyNo.getComponentId(),

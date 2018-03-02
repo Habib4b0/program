@@ -91,7 +91,7 @@ public class SalesUtils {
         String year;
         quarter = period.substring(0, NumericConstants.TWO);
         year = period.substring(NumericConstants.TWO, period.length());
-        quarter = quarter.replace(Constant.Q_SMALL, Constant.Q);
+        quarter = quarter.replace('q', 'Q');
         return quarter + " " + year;
     }
        public static int[] getQuarterAndYear(String period) {

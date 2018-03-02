@@ -169,7 +169,7 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 			setPopupBean(popUpBean, "rebatePlanPopUpSearchView", "rpPopUpSearchResultTable",
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, GtnFrameworkRSConstants.REBATE_PLAN_NO,
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, "rebatePlanPopUpViewSelectButton");
-			popUpBean.setCaption("Rebate Plan No Lookup");
+			popUpBean.setCaption("Rebate Plan ID Lookup");
 		} else if(propertyId.equals(GtnFrameworkRSConstants.NET_SALES_FORMULA_NAME)){
 			setPopupBean(popUpBean, "netSalesFormulaPopUpView", "netSalesSearchResultTable",
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, GtnFrameworkCommonConstants.FORMULA_NAME,
@@ -270,7 +270,7 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 				itemsTable.setContainerProperty(itemId, "rebatePlanName", rpname);
 				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
-						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 2))));
+						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
 			} else if ("formulaNo".equals(propertyId)) {
 				name = dto.getPropertyValue("formulaNo").toString();
 				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);

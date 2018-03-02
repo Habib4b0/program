@@ -282,7 +282,7 @@ public class ProjectionSelectionDTO {
     private Object[] displayFormat = null;
     private Object conversionFactor = null;
     private GtnSmallHashMap multipleVariableCheckMap = new GtnSmallHashMap();
-    public boolean isMultipleVariablesUpdated = false;
+    private boolean isMultipleVariablesUpdated = false;
     private Map<String,String> updateQueryMap = new HashMap<>();
     
     public List<String> getDeductionLevelFilter() {
@@ -2393,7 +2393,7 @@ public class ProjectionSelectionDTO {
         this.multipleVariableCheckMap = multipleVariableCheckMap;
     }
 
-    public boolean isIsMultipleVariablesUpdated() {
+    public boolean isMultipleVariablesUpdated() {
         return isMultipleVariablesUpdated;
     }
 
@@ -2408,5 +2408,5 @@ public class ProjectionSelectionDTO {
     public void setUpdateQueryMap(Map<String, String> updateQueryMap) {
         this.updateQueryMap = updateQueryMap;
     }
-    
-}
+
+    }

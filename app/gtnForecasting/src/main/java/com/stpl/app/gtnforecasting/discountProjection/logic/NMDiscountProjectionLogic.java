@@ -124,7 +124,7 @@ public class NMDiscountProjectionLogic {
             if(ccpList.length()==0){
             ccpList.append(String.valueOf(ccpid));
             }else{
-            ccpList.append(",");
+            ccpList.append(',');
             ccpList.append(String.valueOf(ccpid));
             }
         }
@@ -194,7 +194,7 @@ public class NMDiscountProjectionLogic {
                 if (ccpList.length() == 0) {
             ccpList.append(String.valueOf(obj[0]));
             }else{
-            ccpList.append(",");
+            ccpList.append(',');
             ccpList.append(String.valueOf(obj[0]));
             }
             }

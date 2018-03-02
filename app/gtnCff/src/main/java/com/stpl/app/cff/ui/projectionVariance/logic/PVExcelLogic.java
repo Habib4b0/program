@@ -391,7 +391,9 @@ public class PVExcelLogic {
         int tempFrequencyDivision = selection.getFrequencyDivision();
         if (isTotal) {
             ProjectionVarianceDTO total = new ProjectionVarianceDTO();
-            total.setGroup("Projection Total");
+            total.setGroup(PROJECTION_TOTAL);
+            total.setDfLevelNumber(PROJECTION_TOTAL);
+            total.setDfLevelName(PROJECTION_TOTAL);
             pvList.add(total);
         } else {
             ProjectionVarianceDTO detail = new ProjectionVarianceDTO();
@@ -404,6 +406,22 @@ public class PVExcelLogic {
             } else {
                 groupName = CommonUtils.getDisplayFormattedName(obj[NumericConstants.TWO].toString(), selection.getHierarchyIndicator(),
                             selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+            }
+             if (groupName.contains("-")) {
+                String[] tempArr = groupName.split("-");
+                detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+            } else if (selection.getDisplayFormat().length > 0) {
+                int index = (int) selection.getDisplayFormat()[0];
+                if (index == 0) {
+                    detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                    
+                } else {
+                    detail.addStringProperties(DF_LEVEL_NAME, groupName);
+                }
+            } else {
+                detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                detail.addStringProperties(DF_LEVEL_NAME, groupName);
             }
             detail.setGroup(groupName);
             pvList.add(detail);
@@ -802,6 +820,7 @@ public class PVExcelLogic {
         }
 
     }
+    public static final String PROJECTION_TOTAL = "Projection Total";
 
     private void calculateForTotal(String variableName, String varibaleCat, Object[] obj, int index, ProjectionVarianceDTO pvDTO, PVSelectionDTO selection, DecimalFormat format) {
         PVCommonLogic.customizePeriod(variableName, varibaleCat, selection, pvDTO, format, index, obj, format.equals(RATE_PER));
@@ -820,6 +839,8 @@ public class PVExcelLogic {
             String groupId = common.get(1);
             ProjectionVarianceDTO freVarianceDTO = new ProjectionVarianceDTO();
             freVarianceDTO.setGroup(groupId);
+            freVarianceDTO.setDfLevelNumber(groupId);
+            freVarianceDTO.setDfLevelName(groupId);
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
@@ -1436,7 +1457,8 @@ public class PVExcelLogic {
             groupName = CommonUtils.getDisplayFormattedName(hierarchy.trim(), selection.getHierarchyIndicator(),
                             selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
             dto.setGroup(groupName);
-            if (groupName.contains("-")) {
+        }
+        if (groupName.contains("-")) {
                 String[] tempArr = groupName.split("-");
                 dto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
                 dto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
@@ -1452,7 +1474,6 @@ public class PVExcelLogic {
                 dto.addStringProperties(DF_LEVEL_NUMBER, groupName);
                 dto.addStringProperties(DF_LEVEL_NAME, groupName);
             }
-        }
         dto.setGroup(groupName);
         pvList.add(dto);
 
@@ -3314,6 +3335,8 @@ public class PVExcelLogic {
             String groupId = common.get(1);
             ProjectionVarianceDTO freVarianceDTO = new ProjectionVarianceDTO();
             freVarianceDTO.setGroup(groupId);
+            freVarianceDTO.setDfLevelName(groupId);
+            freVarianceDTO.setDfLevelNumber(groupId);
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();

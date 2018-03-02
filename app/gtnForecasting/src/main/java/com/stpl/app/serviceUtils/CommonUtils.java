@@ -349,7 +349,7 @@ public class CommonUtils {
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "").replace("]", "");
             }
@@ -396,9 +396,9 @@ public class CommonUtils {
         StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
         if (stringList != null && !stringList.isEmpty()) {
             for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
-                builder.append("'");
+                builder.append('\'');
                 builder.append(stringList.get(loop));
-                builder.append("'");
+                builder.append('\'');
                 if (loop != (limit - 1)) {
                     builder.append(", ");
                 }
@@ -434,7 +434,7 @@ public class CommonUtils {
     }
      
      public static String getDBinput(String identifier) {
-        return identifier.replace(INDICATOR_PERCENT, "[%]").replace("*", INDICATOR_PERCENT).replace("_", "[_]");
+        return identifier.replace(INDICATOR_PERCENT, "[%]").replace('*', '%').replace("_", "[_]");
     }
    
 }
