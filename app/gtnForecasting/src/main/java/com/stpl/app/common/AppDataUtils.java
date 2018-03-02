@@ -49,10 +49,9 @@ public class AppDataUtils {
 	public static String getValueForKeyFromProperty(String string) throws IOException {
 
 		Properties properties = new Properties();
-		String key = string;
 		try (InputStream inputStream = AppDataUtils.class.getResourceAsStream("/properties/alertmessage.properties");) {
 			properties.load(inputStream);
-			return properties.getProperty(key);
+			return properties.getProperty(string);
 		}
 	}
 

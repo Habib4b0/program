@@ -825,7 +825,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 								AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
 					} catch (IOException e) {
 						
-						LOGGER.error("Exception Occurred in fetching property value:"+e.getMessage());
+						LOGGER.error("Exception Occurred in fetching property value{}:",e.getMessage());
 					}
                     projectionDTO.setIsMultipleVariablesUpdated(false);
                     refreshTableData(getCheckedRecordsHierarchyNo());

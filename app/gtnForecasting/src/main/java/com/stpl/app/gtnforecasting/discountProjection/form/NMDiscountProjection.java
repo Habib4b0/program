@@ -873,7 +873,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     								AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
     					} catch (IOException e1) {
     						
-    						LOGGER.error("Exception Occurred:"+e1.getMessage());
+    						LOGGER.error("Exception Occurred{}:",e1.getMessage());
     					}
                         tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).setValue(focusValue);
                     }
@@ -1143,7 +1143,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     								AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
     					} catch (IOException e) {
     						
-    						LOGGER.error("Exception Occurred in Getting Property:"+e.getMessage());
+    						LOGGER.error("Exception Occurred in Getting Property value from Property File:{}",e.getMessage());
     					}
                         isMultipleVariablesUpdated = false;
                         refreshTableData(getCheckedRecordsHierarchyNo());
