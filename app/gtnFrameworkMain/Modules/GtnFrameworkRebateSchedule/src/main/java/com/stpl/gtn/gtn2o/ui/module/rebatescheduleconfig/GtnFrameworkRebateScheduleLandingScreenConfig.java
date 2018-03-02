@@ -1328,7 +1328,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig copyActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EDIT_ACTION);
-		List<Object> copyParameters = new ArrayList<>();
+		List<Object> copyParameters = new ArrayList<>(5);
 		copyParameters.add(GtnUIFrameWorkRSLoadAction.class.getName());
 		copyParameters.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
 		copyParameters.add("");
