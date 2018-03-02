@@ -429,7 +429,7 @@ public class PVQueryUtils {
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(descVal).append("or  PM.PROJECTION_DESCRIPTION is null)");
             if (isProjectionStatus) {
-                customSql.append("and pm.is_approved not  in ('Y','C','A','R')");
+                customSql.append("and ISNULL(PM.IS_APPROVED,'') not  in ('Y','C','A','R')");
             } else {
                 customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
@@ -609,7 +609,7 @@ public class PVQueryUtils {
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(descVal).append("or PM.PROJECTION_DESCRIPTION is null)");
             if (isProjectionStatus) {
-                customSql.append("and pm.is_approved not in ('Y','C','A','R')");
+                customSql.append("and ISNULL(PM.IS_APPROVED,'') not in ('Y','C','A','R')");
             } else {
                 customSql.append("AND HT1.list_name =  'WorkFlowStatus' and ht1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
@@ -765,7 +765,7 @@ public class PVQueryUtils {
             StringBuilder customSql = new StringBuilder(replaceQuery);
 
             if (isProjectionStatus) {
-                customSql.append(" PM.IS_APPROVED NOT IN ('Y','C','A','R')");
+                customSql.append(" ISNULL(PM.IS_APPROVED,'') NOT IN ('Y','C','A','R')");
             } else {
                 customSql.append(" HT1.list_name = 'WorkFlowStatus' and HT1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
