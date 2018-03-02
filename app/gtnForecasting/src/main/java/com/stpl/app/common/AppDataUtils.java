@@ -50,25 +50,10 @@ public class AppDataUtils {
 
 		Properties properties = new Properties();
 		String key = string;
-		String value = null;
-		File file = new File("");
 		try (InputStream inputStream = AppDataUtils.class.getResourceAsStream("/properties/alertmessage.properties");) {
-			FileUtils.copyInputStreamToFile(inputStream, file);
-			value = tryWithResourceForFileInputStream(properties, key, file);
+			properties.load(inputStream);
+			return properties.getProperty(key);
 		}
-		return value;
 	}
 
-	private static String tryWithResourceForFileInputStream(Properties properties, String key, File file)
-			throws IOException {
-		Properties prop = properties;
-		File fileNew = file;
-		String keyToLookUp = key;
-		String valueForKey = null;
-		try (FileInputStream fileInput = new FileInputStream(fileNew);) {
-			prop.load(fileInput);
-			valueForKey = prop.getProperty(keyToLookUp);
-		}
-		return valueForKey;
-	}
 }
