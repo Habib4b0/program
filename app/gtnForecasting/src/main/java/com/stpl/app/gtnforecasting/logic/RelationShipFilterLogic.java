@@ -6,7 +6,7 @@ import com.stpl.app.gtnforecasting.service.FileReadWriteService;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.QueryUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;

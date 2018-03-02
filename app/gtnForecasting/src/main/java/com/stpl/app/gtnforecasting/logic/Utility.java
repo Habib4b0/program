@@ -12,7 +12,7 @@ import static com.stpl.app.gtnforecasting.utils.CommonUtils.resetDdlb;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.ui.ComboBox;

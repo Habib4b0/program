@@ -2,7 +2,6 @@ package com.stpl.app.gtnforecasting.discountProjection.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
 import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountExcelLogic;
@@ -79,7 +78,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.REBATE_PER_UNIT;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -866,8 +865,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         }
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage());
-                        AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
-                        		AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
+                        AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
+                                "Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
                         tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).setValue(focusValue);
                     }
 
@@ -1131,8 +1130,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         }
 
                     } else {
-                    	AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
-                        		AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
+                        AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
+                                "Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
                         isMultipleVariablesUpdated = false;
                         refreshTableData(getCheckedRecordsHierarchyNo());
                         multipleVariableCheckMap.clear();
