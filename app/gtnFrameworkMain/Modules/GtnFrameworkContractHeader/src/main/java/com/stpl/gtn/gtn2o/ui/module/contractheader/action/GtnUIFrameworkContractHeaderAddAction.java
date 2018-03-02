@@ -117,7 +117,7 @@ public class GtnUIFrameworkContractHeaderAddAction
 				info.getPriceResetIndicator(), info.getCancellationClause(), info.getMostFavoredNation(),
 				info.getCategory(), info.getCurrency(), info.getMinimumOrder(), null, null, null,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				info.getTerm(), info.getPaymentTerms(), info.getAdvanceNoticeDays()
+				info.getTerm(), info.getPaymentTerms(), info.getAdvanceNoticeDays(), info.getContractEligibleDate()
 
 		}));
 		return chAddDefaultValueActionConfig;

@@ -319,7 +319,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     comparison.setReadOnly(false);
                     comparison.setValue(Constants.SELECT_ONE_LABEL);
                     comparison.setData(null);
-                    comparison.setImmediate(true);
                     comparison.setReadOnly(true);
                 }
                 isComparisonLookupOpened = true;

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -40,7 +41,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-
+		checkCopyMode(componentId);
 		String calculationType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("calculationType1")
 				.getCaptionFromComboBox();
 
@@ -373,5 +374,11 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 		customFilterConfigMap.put(rsCustomFilterConfig.getPropertId(), rsCustomFilterConfig);
 		return customFilterConfigMap;
 	}
-
+	
+	private void checkCopyMode(String componentId) {
+		if (componentId.toLowerCase(Locale.ENGLISH).contains(("COPY").toLowerCase(Locale.ENGLISH))) {
+			GtnUIFrameworkGlobalUI.addSessionProperty("mode", "EDIT");
+			GtnUIFrameworkGlobalUI.addSessionProperty("systemId", null);
+		}
+	}
 }
