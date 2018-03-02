@@ -28,7 +28,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 /**
  *
@@ -39,8 +38,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 	private static final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider
 			.getInstance();
 
-	private final static GtnWSLogger gtnLogger = GtnWSLogger
-			.getGTNLogger(GtnFrameworkRebateScheduleSetUpTabConfig.class);
+
 
 	public void addPriceSchedulePriocingTab(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider.getVerticalLayoutConfig(
@@ -307,6 +305,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 		attachButtonConfig.setComponentName("Populate All");
 		componentList.add(attachButtonConfig);
 		// GtnFrameworkrebateSetupTabPopulateAction
+ 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customAction = configProvider.getUIFrameworkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION, GtnFrameworkRSConstants.RS_POPULATE_ACTION, "populateAll");
@@ -373,7 +372,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 		attachResults.setRecordTypeComponentId(GtnFrameworkRSConstants.REBATE_SETUP_TAB_RECORD_TYPE);
 		attachResults.setRecordTypeStartDate("rsStartDate");
 		attachResults.setRecordTypeEndDate("rsEndDate");
-
+                
 		attachResults.setEditableField(createTableFieldFactoryComponents(attachResults.getEditableColumnList()));
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -382,7 +381,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 		checkAllAction.addActionParameter(GtnFrameworkRebateSetupCheckAllAction.class.getName());
 		actionConfigList.add(checkAllAction);
 		attachResults.setColumnCheckActionConfigList(actionConfigList);
-
+		
 	}
 
 	/**
@@ -412,7 +411,6 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 	public static List<GtnUIFrameworkComponentConfig> createTableFieldFactoryComponents(List<String> propertyIds) {
 		List<GtnUIFrameworkComponentConfig> editableFields = new ArrayList<>();
 		for (String propertyId : propertyIds) {
-			gtnLogger.info("ppropertyId" + propertyId);
 			GtnUIFrameworkComponentType gtnUIFrameworkComponentType;
 			if (GtnFrameworkRSConstants.getTextFieldProperties().contains(propertyId)) {
 				gtnUIFrameworkComponentType = GtnUIFrameworkComponentType.TEXTBOX;
@@ -439,8 +437,8 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 
 			} else {
 				fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(actionConfigList);
-			}
-
+			} 
+                        
 			if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.COMBOBOX)) {
 				GtnUIFrameworkComboBoxConfig comboBoxConfig = configProvider.getComboBoxConfig(
 						getComboBoxType(propertyId), GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -450,9 +448,10 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 
 			editableFields.add(fieldConfig);
 		}
-
+                
 		return editableFields;
 	}
+        
 
 	static String getComboBoxType(String propertyId) {
 		if (propertyId.equals(GtnFrameworkRSConstants.RS_STATUS)) {
