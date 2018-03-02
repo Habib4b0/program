@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
