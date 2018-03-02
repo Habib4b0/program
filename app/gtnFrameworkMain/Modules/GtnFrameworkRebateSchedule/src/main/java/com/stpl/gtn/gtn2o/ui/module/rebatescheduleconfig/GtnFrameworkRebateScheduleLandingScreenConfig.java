@@ -42,6 +42,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
  */
 public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
+	
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public GtnUIFrameworkViewConfig getSearchView() {
@@ -135,9 +136,13 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		companyIdConfig.setAuthorizationIncluded(true);
 		companyIdConfig.setComponentName("Rebate Schedule ID");
 
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		companyIdConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateScheduleIdGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+
+		List<GtnUIFrameworkConditionalValidationType> rebateScheduleIdConditions = new ArrayList<>();
+		rebateScheduleIdConditions.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
+
+		rebateScheduleIdGtnUIFrameworkValidationConfig.setConditionList(rebateScheduleIdConditions);
+		companyIdConfig.setGtnUIFrameworkValidationConfig(rebateScheduleIdGtnUIFrameworkValidationConfig);
 
 		componentList.add(companyIdConfig);
 	}
@@ -154,9 +159,13 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		companyNoConfig.setAuthorizationIncluded(true);
 		companyNoConfig.setComponentName("Rebate Schedule No");
 
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		companyNoConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateScheduleNoGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+
+		List<GtnUIFrameworkConditionalValidationType> rebateScheduleNoConditions = new ArrayList<>();
+		rebateScheduleNoConditions.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
+
+		rebateScheduleNoGtnUIFrameworkValidationConfig.setConditionList(rebateScheduleNoConditions);
+		companyNoConfig.setGtnUIFrameworkValidationConfig(rebateScheduleNoGtnUIFrameworkValidationConfig);
 
 		componentList.add(companyNoConfig);
 	}
@@ -172,9 +181,13 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnUIFrameworkComponentType.TEXTBOX);
 		companyNameConfig.setAuthorizationIncluded(true);
 		companyNameConfig.setComponentName("Rebate Schedule Name");
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		companyNameConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateScheduleNameGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+
+		List<GtnUIFrameworkConditionalValidationType> rebateScheduleNameConditions = new ArrayList<>();
+		rebateScheduleNameConditions.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
+
+		rebateScheduleNameGtnUIFrameworkValidationConfig.setConditionList(rebateScheduleNameConditions);
+		companyNameConfig.setGtnUIFrameworkValidationConfig(rebateScheduleNameGtnUIFrameworkValidationConfig);
 
 		componentList.add(companyNameConfig);
 	}
@@ -190,9 +203,11 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		companyType.setAuthorizationIncluded(true);
 		companyType.setComponentName("Rebate Schedule Type");
 
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		companyType.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateScheduleTypeGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+		List<GtnUIFrameworkConditionalValidationType> rebateScheduleTypeConditions = new ArrayList<>();
+		rebateScheduleTypeConditions.add(GtnUIFrameworkConditionalValidationType.NOT_NULL);
+		rebateScheduleTypeGtnUIFrameworkValidationConfig.setConditionList(rebateScheduleTypeConditions);
+		companyType.setGtnUIFrameworkValidationConfig(rebateScheduleTypeGtnUIFrameworkValidationConfig);
 		componentList.add(companyType);
 
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig("RS_TYPE",
@@ -212,9 +227,11 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		companyStatus.setAuthorizationIncluded(true);
 		companyStatus.setComponentName("Rebate Schedule Status");
 
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		companyStatus.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateScheduleStatusGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+		List<GtnUIFrameworkConditionalValidationType> rebateScheduleStatusConditions = new ArrayList<>();
+		rebateScheduleStatusConditions.add(GtnUIFrameworkConditionalValidationType.NOT_NULL);
+		rebateScheduleStatusGtnUIFrameworkValidationConfig.setConditionList(rebateScheduleStatusConditions);
+		companyStatus.setGtnUIFrameworkValidationConfig(rebateScheduleStatusGtnUIFrameworkValidationConfig);
 		componentList.add(companyStatus);
 
 		GtnUIFrameworkComboBoxConfig companyStatusConfig = configProvider.getComboBoxConfig("STATUS",
@@ -234,9 +251,11 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		companyStatus.setAuthorizationIncluded(true);
 		companyStatus.setComponentName("Rebate Program Type");
 
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		companyStatus.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateProgramTypeGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+		List<GtnUIFrameworkConditionalValidationType> rebateProgramTypeConditions = new ArrayList<>();
+		rebateProgramTypeConditions.add(GtnUIFrameworkConditionalValidationType.NOT_NULL);
+		rebateProgramTypeGtnUIFrameworkValidationConfig.setConditionList(rebateProgramTypeConditions);
+		companyStatus.setGtnUIFrameworkValidationConfig(rebateProgramTypeGtnUIFrameworkValidationConfig);
 		componentList.add(companyStatus);
 
 		GtnUIFrameworkComboBoxConfig companyStatusConfig = configProvider.getComboBoxConfig("REBATE_PROGRAM_TYPE",
@@ -256,9 +275,11 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		companyStatus.setAuthorizationIncluded(true);
 		companyStatus.setComponentName("Rebate Schedule Category");
 
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		companyStatus.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateScheduleCategoryGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+		List<GtnUIFrameworkConditionalValidationType> rebateScheduleCategoryConditions = new ArrayList<>();
+		rebateScheduleCategoryConditions.add(GtnUIFrameworkConditionalValidationType.NOT_NULL);
+		rebateScheduleCategoryGtnUIFrameworkValidationConfig.setConditionList(rebateScheduleCategoryConditions);
+		companyStatus.setGtnUIFrameworkValidationConfig(rebateScheduleCategoryGtnUIFrameworkValidationConfig);
 		componentList.add(companyStatus);
 
 		GtnUIFrameworkComboBoxConfig companyStatusConfig = configProvider.getComboBoxConfig("RS_CATEGORY",
@@ -281,9 +302,13 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		GtnUIFrameworkTextBoxConfig textboxConfig = configProvider.getTextBoxConfig(true, false, true);
 		companyIdentifierConfig.setVisible(true);
 		companyIdentifierConfig.setGtnTextBoxConfig(textboxConfig);
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		companyIdentifierConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateScheduleAliasIdGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+
+		List<GtnUIFrameworkConditionalValidationType> rebateScheduleAliasIdConditions = new ArrayList<>();
+		rebateScheduleAliasIdConditions.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
+
+		rebateScheduleAliasIdGtnUIFrameworkValidationConfig.setConditionList(rebateScheduleAliasIdConditions);
+		companyIdentifierConfig.setGtnUIFrameworkValidationConfig(rebateScheduleAliasIdGtnUIFrameworkValidationConfig);
 		componentList.add(companyIdentifierConfig);
 
 	}
@@ -299,9 +324,11 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		rebateFrequency.setAuthorizationIncluded(true);
 		rebateFrequency.setComponentName("Rebate Frequency");
 
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		rebateFrequency.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig rebateFrequencyGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+		List<GtnUIFrameworkConditionalValidationType> rebateFrequencyConditions = new ArrayList<>();
+		rebateFrequencyConditions.add(GtnUIFrameworkConditionalValidationType.NOT_NULL);
+		rebateFrequencyGtnUIFrameworkValidationConfig.setConditionList(rebateFrequencyConditions);
+		rebateFrequency.setGtnUIFrameworkValidationConfig(rebateFrequencyGtnUIFrameworkValidationConfig);
 		componentList.add(rebateFrequency);
 
 		GtnUIFrameworkComboBoxConfig companyStatusConfig = configProvider.getComboBoxConfig("REBATE_FREQUENCY",
@@ -321,9 +348,11 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		companyStatus.setAuthorizationIncluded(true);
 		companyStatus.setComponentName("Calculation Type");
 		companyStatus.setAddToParent(true);
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		companyStatus.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig calculationTypeGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+		List<GtnUIFrameworkConditionalValidationType> calculationTypeConditions = new ArrayList<>();
+		calculationTypeConditions.add(GtnUIFrameworkConditionalValidationType.NOT_NULL);
+		calculationTypeGtnUIFrameworkValidationConfig.setConditionList(calculationTypeConditions);
+		companyStatus.setGtnUIFrameworkValidationConfig(calculationTypeGtnUIFrameworkValidationConfig);
 		componentList.add(companyStatus);
 
 		GtnUIFrameworkComboBoxConfig companyStatusConfig = configProvider.getComboBoxConfig("CALCULATION_TYPE",
@@ -345,9 +374,13 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		GtnUIFrameworkTextBoxConfig textboxConfig = configProvider.getTextBoxConfig(true, false, true);
 		companyIdentifierConfig.setGtnTextBoxConfig(textboxConfig);
 		companyIdentifierConfig.setVisible(true);
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		companyIdentifierConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig itemNoGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+
+		List<GtnUIFrameworkConditionalValidationType> itemNoConditions = new ArrayList<>();
+		itemNoConditions.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
+
+		itemNoGtnUIFrameworkValidationConfig.setConditionList(itemNoConditions);
+		companyIdentifierConfig.setGtnUIFrameworkValidationConfig(itemNoGtnUIFrameworkValidationConfig);
 		componentList.add(companyIdentifierConfig);
 
 	}
@@ -365,9 +398,13 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		GtnUIFrameworkTextBoxConfig textboxConfig = configProvider.getTextBoxConfig(true, false, true);
 		companyIdentifierConfig.setVisible(true);
 		companyIdentifierConfig.setGtnTextBoxConfig(textboxConfig);
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
-				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		companyIdentifierConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkValidationConfig itemNameGtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
+
+		List<GtnUIFrameworkConditionalValidationType> itemNameConditions = new ArrayList<>();
+		itemNameConditions.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
+
+		itemNameGtnUIFrameworkValidationConfig.setConditionList(itemNameConditions);
+		companyIdentifierConfig.setGtnUIFrameworkValidationConfig(itemNameGtnUIFrameworkValidationConfig);
 
 		componentList.add(companyIdentifierConfig);
 
@@ -379,10 +416,8 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		searchButtonConfig.setComponentName("Search");
 		searchButtonConfig.setAuthorizationIncluded(true);
 
-		componentList.add(searchButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-
 		GtnUIFrameWorkActionConfig validationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
 
@@ -395,15 +430,19 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkCommonConstants.ITEM_NAME));
 		validationActionConfig.addActionParameter(GtnUIFrameworkValidationType.OR);
 
-		List<GtnUIFrameWorkActionConfig> onFailure = new ArrayList<>();
+		List<GtnUIFrameWorkActionConfig> onFailureList = new ArrayList<>();
 
-		GtnUIFrameWorkActionConfig alertActionConfig = configProvider.getUIFrameworkActionConfig(
-				GtnUIFrameworkActionType.ALERT_ACTION, "No Search Criteria ", "Please enter Search Criteria");
+		GtnUIFrameWorkActionConfig alertActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> alertParams = new ArrayList<>();
+		alertParams.add("No Search Criteria");
+		alertParams.add("Please enter Search Criteria.");
 
-		onFailure.add(alertActionConfig);
-
-		validationActionConfig.addActionParameter(onFailure);
+		alertActionConfig.setActionParameterList(alertParams);
+		onFailureList.add(alertActionConfig);
+		validationActionConfig.addActionParameter(onFailureList);
 		actionConfigList.add(validationActionConfig);
+
 
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider.getUIFrameworkActionConfig(
 				GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION, GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
@@ -415,7 +454,6 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_FREQUENCY, GtnFrameworkRSConstants.REBATE_CALCULATION_TYPE,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID, GtnFrameworkCommonConstants.ITEM_NO,
 				GtnFrameworkCommonConstants.ITEM_NAME));
-
 		actionConfigList.add(loadDataTableActionConfig);
 
 		GtnUIFrameWorkActionConfig notificationActionConfig = configProvider
@@ -424,6 +462,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		actionConfigList.add(notificationActionConfig);
 
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		componentList.add(searchButtonConfig);
 
 	}
 
@@ -442,8 +481,8 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.RESET_ACTION);
 
 		List<Object> params = new ArrayList<>();
-		params.add("Reset Confirmation");
-		params.add("Are you sure you want to reset the values in the Search Criteria group box?");
+		params.add("Confirmation");
+		params.add("Are you sure you want to reset the page to default/previous values?");
 
 		List<String> rsLandingScreenResetComponentIdList = new ArrayList<>();
 		List<Object> rsLandingScreenResetComponentValueList = new ArrayList<>();
@@ -646,6 +685,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		addAddButtonComponent(componentList);
 		addEditButtonComponent(componentList);
 		addViewButtonComponent(componentList);
+		addCopyButtonComponent(componentList);
 		addExcelButtonComponent(componentList);
 	}
 
@@ -761,7 +801,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		List<Object> actionParams = new ArrayList<>();
 		actionParams.add(GtnFrameworkFilterBarInvisibleAction.class.getName());
-		actionParams.add("psRebateSetupTabResultDataTable");
+		actionParams.add(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
 		Map<String, Boolean> filterInvisibleMap = new HashMap<>();
 		filterInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
 		actionParams.add(filterInvisibleMap);
@@ -891,7 +931,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		List<Object> actionParams = new ArrayList<>();
 		actionParams.add(GtnFrameworkFilterBarInvisibleAction.class.getName());
-		actionParams.add("psRebateSetupTabResultDataTable");
+		actionParams.add(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
 		Map<String, Boolean> filterInvisibleMap = new HashMap<>();
 		filterInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
 		actionParams.add(filterInvisibleMap);
@@ -1181,4 +1221,142 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		defaultFieldValueList.add(resetComponentValueListTemp);
 		return defaultFieldValueList;
 	}
+	
+	private void addCopyButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+
+		GtnUIFrameworkComponentConfig copyButtonConfig = configProvider.getUIFrameworkComponentConfig("gtnCopyButton",
+				true, GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT, GtnUIFrameworkComponentType.BUTTON);
+		copyButtonConfig.setComponentName("COPY");
+		copyButtonConfig.setAuthorizationIncluded(true);
+
+		componentList.add(copyButtonConfig);
+
+		List<GtnUIFrameWorkActionConfig> copyActionConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig setCopyModeActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.MODE_CHANGE);
+		setCopyModeActionConfig.addActionParameter(GtnUIFrameworkModeType.EDIT);
+		copyActionConfigList.add(setCopyModeActionConfig);
+
+		GtnUIFrameWorkActionConfig landingScreenCopyButtonAlertActionConfig = new GtnUIFrameWorkActionConfig();
+		landingScreenCopyButtonAlertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
+		List<Object> landingScreenCopyButtonAlertParamsList = new ArrayList<>();
+		landingScreenCopyButtonAlertParamsList.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
+		landingScreenCopyButtonAlertParamsList
+				.add(GtnFrameworkRSConstants.ERROR_MESSAGE_COPY_HEADER);
+		landingScreenCopyButtonAlertParamsList.add(GtnFrameworkRSConstants.ERROR_MESSAGE_COPY_MESSAGE);
+		landingScreenCopyButtonAlertActionConfig.setActionParameterList(landingScreenCopyButtonAlertParamsList);
+		copyActionConfigList.add(landingScreenCopyButtonAlertActionConfig);
+
+		
+		GtnUIFrameWorkActionConfig navigationCopyActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
+		navigationCopyActionConfig.setActionParameterList(
+				Arrays.asList(new Object[] { GtnFrameworkRSConstants.REBATE_SCHEDULE_ADD_VIEW }));
+		copyActionConfigList.add(navigationCopyActionConfig);
+		GtnUIFrameWorkActionConfig setCopyDefaultActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
+
+		setCopyDefaultActionConfig.setActionParameterList(getDefaultFieldValueList());
+		copyActionConfigList.add(setCopyDefaultActionConfig);
+
+		GtnUIFrameWorkActionConfig changeCaptionActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
+		List<String> componentIdList = new ArrayList<>();
+		componentIdList.add(GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON);
+		List<String> captionList = new ArrayList<>();
+		captionList.add("SAVE");
+		List<Object> actionParameterList = new ArrayList<>();
+		actionParameterList.add(componentIdList);
+		actionParameterList.add(captionList);
+		changeCaptionActionConfig.setActionParameterList(actionParameterList);
+		copyActionConfigList.add(changeCaptionActionConfig);
+		
+		GtnUIFrameWorkActionConfig enableCopyAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
+		Object[] enableCopyField = new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
+				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
+				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
+				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
+				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
+				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
+				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
+				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
+				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
+				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
+				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
+				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
+				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
+				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVERIGHT_BUTTONS,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVE_LEFT_BUTTONS,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_REBATE_PROCESSING_TYPE };
+
+		enableCopyAction.setActionParameterList(Arrays.asList(enableCopyField));
+		copyActionConfigList.add(enableCopyAction);
+
+		GtnUIFrameWorkActionConfig disableCopyAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
+		Object[] disableField = new Object[] { GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID };
+
+		disableCopyAction.setActionParameterList(Arrays.asList(disableField));
+		copyActionConfigList.add(disableCopyAction);
+
+		GtnUIFrameWorkActionConfig visibleCopyAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VISIBLE_ACTION);
+		String[] visibleFields = new String[] { GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_ADD_VIEW_A_ADD_RESET_BUTTON,
+				GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITION_INFORMATION_LAYOUT,
+				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
+
+		List<Object> visibleCopyParameters = new ArrayList<>();
+		visibleCopyParameters.add(true);
+		visibleCopyParameters.add(Arrays.asList(visibleFields));
+
+		visibleCopyAction.setActionParameterList(visibleCopyParameters);
+		copyActionConfigList.add(visibleCopyAction);
+
+		GtnUIFrameWorkActionConfig copyActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EDIT_ACTION);
+		List<Object> copyParameters = new ArrayList<>();
+		copyParameters.add(GtnUIFrameWorkRSLoadAction.class.getName());
+		copyParameters.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
+		copyParameters.add("");
+		copyParameters.add(true);
+		copyParameters.add(30);
+		copyActionConfig.setActionParameterList(copyParameters);
+		copyActionConfigList.add(copyActionConfig);
+
+		GtnUIFrameWorkActionConfig copyCalculationTypeActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		List<Object> customCopyActionParams = new ArrayList<>();
+		customCopyActionParams.add(GtnUIFrameWorkCalculationTypeChangeAction.class.getName());
+		copyCalculationTypeActionConfig.setActionParameterList(customCopyActionParams);
+		copyActionConfigList.add(copyCalculationTypeActionConfig);
+
+		GtnUIFrameWorkActionConfig filterBarCopyInvisibleAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		List<Object> actionCopyParams = new ArrayList<>();
+		actionCopyParams.add(GtnFrameworkFilterBarInvisibleAction.class.getName());
+		actionCopyParams.add(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
+		Map<String, Boolean> filterCopyInvisibleMap = new HashMap<>();
+		filterCopyInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
+		actionCopyParams.add(filterCopyInvisibleMap);
+		filterBarCopyInvisibleAction.setActionParameterList(actionCopyParams);
+		copyActionConfigList.add(filterBarCopyInvisibleAction);
+        
+		copyButtonConfig.setGtnUIFrameWorkActionConfigList(copyActionConfigList);
+
+	}
+
 }

@@ -20,7 +20,7 @@ import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.math.BigDecimal;
 import java.text.DateFormatSymbols;

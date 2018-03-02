@@ -412,7 +412,7 @@ public class SalesProjectionResultsTree {
             return staticDataLabel;
         }
 
-        public void setStaticData(SalesProjectionResultsDTO staticData) {
+        protected void setStaticData(SalesProjectionResultsDTO staticData) {
             this.staticData = staticData;
         }
 

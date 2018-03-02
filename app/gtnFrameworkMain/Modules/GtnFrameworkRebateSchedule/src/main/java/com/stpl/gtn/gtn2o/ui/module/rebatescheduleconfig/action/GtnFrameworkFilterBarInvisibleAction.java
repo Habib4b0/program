@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -29,7 +30,7 @@ public class GtnFrameworkFilterBarInvisibleAction implements GtnUIFrameWorkActio
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId).setFilterFieldVisible(object.getKey(),
 					object.getValue());
 		}
-
+		checkCopyMode(componentId);
 	}
 
 	@Override
@@ -37,4 +38,10 @@ public class GtnFrameworkFilterBarInvisibleAction implements GtnUIFrameWorkActio
 		return this;
 	}
 
+	private void checkCopyMode(String componentId) {
+		if (componentId.toLowerCase(Locale.ENGLISH).contains(("COPY").toLowerCase(Locale.ENGLISH))) {
+			GtnUIFrameworkGlobalUI.addSessionProperty("mode", "COPY");
+			GtnUIFrameworkGlobalUI.addSessionProperty("systemId", null);
+		}
+	}
 }
