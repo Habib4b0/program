@@ -629,6 +629,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 		final int projectionId = dto.getCffMasterSid();
 		final Map<String, Object> parameters = new HashMap<>();
 		final DataSelectionLogic logic = new DataSelectionLogic();
+                SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY); 
 		if (projectionId != 0) {
 			try {
 				parameters.put(StringConstantsUtil.PROJECTION_ID, projectionId);
@@ -639,7 +641,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDTO.setProdRelationshipBuilderSid(String.valueOf(temp[1]));
 					sessionDTO.setCustRelationshipBuilderSid(String.valueOf(temp[NumericConstants.TWO]));
                   if(temp[NumericConstants.THREE]!=null){ 
-                                        sessionDTO.setCffEligibleDate(new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY).parse(String.valueOf(temp[NumericConstants.THREE])));
+                                        sessionDTO.setCffEligibleDate(format.parse(format.format(parse.parse(String.valueOf(temp[NumericConstants.THREE]))))); 
                   }
 				}
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));

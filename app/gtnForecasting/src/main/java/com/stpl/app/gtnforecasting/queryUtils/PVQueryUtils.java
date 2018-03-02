@@ -765,7 +765,7 @@ public class PVQueryUtils {
             StringBuilder customSql = new StringBuilder(replaceQuery);
 
             if (isProjectionStatus) {
-                customSql.append(" PM.IS_APPROVED NOT IN ('Y','C','A','R')");
+                customSql.append(" PM.IS_APPROVED NOT IN ('Y','C','A','R') OR PM.IS_APPROVED IS NULL AND PM.SAVE_FLAG = 1 ");
             } else {
                 customSql.append(" HT1.list_name = 'WorkFlowStatus' and HT1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
