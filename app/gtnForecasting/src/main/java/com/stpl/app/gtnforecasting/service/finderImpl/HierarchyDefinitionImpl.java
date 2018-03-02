@@ -70,9 +70,9 @@ public class HierarchyDefinitionImpl {
             LOGGER.debug("Entering findViewByName method ");
 
             customSql = SQlUtil.getQuery(getClass(),"getLevelsFromHierarchy");
-            if (StringUtils.isNotEmpty(String.valueOf(parameters.get("hierarchyId")))
-                    && StringUtils.isNotBlank(String.valueOf(parameters.get("hierarchyId")))) {
-                customSql += String.valueOf(parameters.get("hierarchyId")).trim();
+            if (StringUtils.isNotEmpty(String.valueOf(parameters.get(HIERARCHY_ID)))
+                    && StringUtils.isNotBlank(String.valueOf(parameters.get(HIERARCHY_ID)))) {
+                customSql += String.valueOf(parameters.get(HIERARCHY_ID)).trim();
             }
             customSql += SQlUtil.getQuery(getClass(),"getLevelsFromHierarchy2");
             LOGGER.debug("End of findViewByName method");
@@ -83,4 +83,5 @@ public class HierarchyDefinitionImpl {
             return null;
         }
     }
+    public static final String HIERARCHY_ID = "hierarchyId";
 }

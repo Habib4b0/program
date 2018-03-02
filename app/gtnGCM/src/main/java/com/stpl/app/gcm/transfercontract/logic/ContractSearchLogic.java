@@ -104,28 +104,28 @@ public class ContractSearchLogic {
         List input = new ArrayList();
         String columnName = StringUtils.EMPTY;
         if (binderDTO.getAliasNumber() != null && !binderDTO.getAliasNumber().isEmpty()) {
-            input.add(binderDTO.getAliasNumber().replace("*", "%"));
+            input.add(binderDTO.getAliasNumber().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDTO.getAliastypecc() != null && !binderDTO.getAliastypecc().isEmpty()) {
-            input.add(binderDTO.getAliastypecc().replace("*", "%"));
+            input.add(binderDTO.getAliastypecc().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDTO.getCompanyFamilyPlan() != null && !binderDTO.getCompanyFamilyPlan().isEmpty()) {
-            input.add(binderDTO.getCompanyFamilyPlan().replace("*", "%"));
+            input.add(binderDTO.getCompanyFamilyPlan().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDTO.getItemFamilyPlan() != null && !binderDTO.getItemFamilyPlan().isEmpty()) {
-            input.add(binderDTO.getItemFamilyPlan().replace("*", "%"));
+            input.add(binderDTO.getItemFamilyPlan().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (binderDTO.getPriceSchedule() != null && !binderDTO.getPriceSchedule().isEmpty()) {
-            input.add(binderDTO.getPriceSchedule().replace("*", "%"));
+            input.add(binderDTO.getPriceSchedule().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -137,17 +137,17 @@ public class ContractSearchLogic {
             input.add("%");
         }
         if (binderDTO.getContractNo() != null && !binderDTO.getContractNo().isEmpty()) {
-            input.add(binderDTO.getContractNo().replace("*", "%"));
+            input.add(binderDTO.getContractNo().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDTO.getContractName() != null && !binderDTO.getContractName().isEmpty()) {
-            input.add(binderDTO.getContractName().replace("*", "%"));
+            input.add(binderDTO.getContractName().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (binderDTO.getMarketType() != null && !binderDTO.getMarketType().isEmpty()) {
-            input.add(binderDTO.getMarketType().replace("*", "%"));
+            input.add(binderDTO.getMarketType().replace('*', '%'));
         } else {
             input.add("%");
         }

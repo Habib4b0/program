@@ -296,8 +296,8 @@ public class MSalesProjectionResultsLogic {
         for (Object[] row : list) {
 
             String column;
-            int year = Integer.valueOf(String.valueOf(row[col - 1]));
-            int period = Integer.valueOf(String.valueOf(row[NumericConstants.THREE]));
+            int year = Integer.parseInt(String.valueOf(row[col - 1]));
+            int period = Integer.parseInt(String.valueOf(row[NumericConstants.THREE]));
             List<String> common;
             if ("SPR".equals(projSelDTO.getProjTabName())) {
                 common = getCommonColumnHeaderSPR(frequencyDivision, year, period);
@@ -444,8 +444,8 @@ public class MSalesProjectionResultsLogic {
             }
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                int year = Integer.valueOf(String.valueOf(obj[col - 1]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+                int year = Integer.parseInt(String.valueOf(obj[col - 1]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
 
@@ -584,8 +584,8 @@ public class MSalesProjectionResultsLogic {
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
-                int year = Integer.valueOf(String.valueOf(obj[0]));
-                int period = Integer.valueOf(String.valueOf(obj[1]));
+                int year = Integer.parseInt(String.valueOf(obj[0]));
+                int period = Integer.parseInt(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 int col = NumericConstants.TWO;
@@ -679,8 +679,8 @@ public class MSalesProjectionResultsLogic {
         for (Object[] row : list) {
 
             String column;
-            int year = Integer.valueOf(String.valueOf(row[0]));
-            int period = Integer.valueOf(String.valueOf(row[1]));
+            int year = Integer.parseInt(String.valueOf(row[0]));
+            int period = Integer.parseInt(String.valueOf(row[1]));
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
             String commonHeader = common.get(1);

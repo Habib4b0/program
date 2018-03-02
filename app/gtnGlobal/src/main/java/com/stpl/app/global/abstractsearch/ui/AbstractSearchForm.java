@@ -31,6 +31,7 @@ import com.stpl.app.util.ResponsiveUtils;
 import com.stpl.app.util.UISecurityUtil;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
@@ -778,7 +779,8 @@ public final class AbstractSearchForm extends CustomComponent {
                 String[] rules = String.valueOf(key).split(ConstantUtil.COMMA);
                 if (rules[0] != null && ValidationUtil.getMessage(rules[0]) != null && StringUtils.isNotEmpty(ValidationUtil.getMessage(rules[0]))) {
                     String[] temp = ValidationUtil.getMessage(rules[0]).split(ConstantUtil.COMMA);
-                    tempObj.addValidator(new StringLengthValidator(ValidationUtil.getMessage(rules[1]), Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Boolean.parseBoolean(temp[NumericConstants.TWO])));
+                    tempObj.addValidator(new StringLengthValidator(ValidationUtil.getMessage(rules[1]), 
+                            DataTypeConverter.convertStringToInteger(temp[0]), DataTypeConverter.convertStringToInteger(temp[1]), DataTypeConverter.convertStringToBoolean(temp[NumericConstants.TWO])));
                 }
                 if (!ConstantUtil.NULL.equalsIgnoreCase(rules[NumericConstants.TWO]) && ValidationUtil.getMessage(rules[NumericConstants.TWO]) != null && StringUtils.isNotEmpty(ValidationUtil.getMessage(rules[NumericConstants.TWO]))) {
                     tempObj.addValidator(new RegexpValidator(ValidationUtil.getMessage(rules[NumericConstants.TWO]), ValidationUtil.getMessage(rules[NumericConstants.THREE])));

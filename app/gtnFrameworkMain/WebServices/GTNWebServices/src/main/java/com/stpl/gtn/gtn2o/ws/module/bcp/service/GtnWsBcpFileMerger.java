@@ -72,7 +72,10 @@ public class GtnWsBcpFileMerger {
                 for (Closeable closeable : fileOperationList) {
                     closeable.close();
                 }
-
+                
+                for (String fileName : fileList) {
+			Files.delete(GtnFileNameUtils.getPath(fileName));
+		}
                 GTNLOGGER.info("Merge Time: " + (System.currentTimeMillis() - time));
             } catch (Exception ex) {
                 GTNLOGGER.error(ex.getMessage());

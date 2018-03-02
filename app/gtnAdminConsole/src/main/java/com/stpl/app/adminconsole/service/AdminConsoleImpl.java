@@ -26,11 +26,11 @@ public class AdminConsoleImpl {
         try {
             sql = SQlUtil.getQuery("tabPermission");
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += AND_UBM_BUSINESS_ROLE_MASTER_SID_IN
                         + businessRoleId + ")";
             }
             if (moduleName.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + moduleName + "') ";
+                sql += AND_SPM_MODULE_NAME_IN + moduleName + "') ";
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
@@ -39,6 +39,8 @@ public class AdminConsoleImpl {
             return null;
         }
     }
+    public static final String AND_SPM_MODULE_NAME_IN = " AND spm.MODULE_NAME in ('";
+    public static final String AND_UBM_BUSINESS_ROLE_MASTER_SID_IN = " AND ubm.BUSINESSROLE_MASTER_SID in (";
 
     public List getBusinessFieldPermission(String businessRoleId, String moduleName) {
         String sql = StringUtils.EMPTY;
@@ -59,12 +61,12 @@ public class AdminConsoleImpl {
             }
 
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += AND_UBM_BUSINESS_ROLE_MASTER_SID_IN
                         + businessRoleId + ")";
             }
 
             if (mod.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+                sql += AND_SPM_MODULE_NAME_IN + mod + "') ";
             }
             if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
                 sql += " AND spm.TAB_NAME like ('" + str[1] + "') ";
@@ -98,11 +100,11 @@ public class AdminConsoleImpl {
         try {
             sql = SQlUtil.getQuery("functionPermission");
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += AND_UBM_BUSINESS_ROLE_MASTER_SID_IN
                         + businessRoleId + ")";
             }
             if (mod.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+                sql += AND_SPM_MODULE_NAME_IN + mod + "') ";
             }
 
             if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
@@ -167,7 +169,7 @@ public class AdminConsoleImpl {
             if (queryName != null && !queryName.isEmpty()) {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(' ');
                     sql.append(SQlUtil.getQuery(quaryName2));
                 }
                 for (Object temp : input) {

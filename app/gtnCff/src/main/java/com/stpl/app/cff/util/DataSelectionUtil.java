@@ -115,9 +115,9 @@ public class DataSelectionUtil {
         if (items != null && !items.isEmpty()) {
             items = new ArrayList<>(new LinkedHashSet<String>(items));
             for (int loop = 0, limit = items.size(); loop < limit; loop++) {
-                itemList.append("'");
+                itemList.append('\'');
                 itemList.append(items.get(loop));
-                itemList.append("'");
+                itemList.append('\'');
                 if (loop != (limit - 1)) {
                     itemList.append(", ");
                 }
@@ -153,7 +153,7 @@ public class DataSelectionUtil {
 
                     query.append(itemList.toString());
 
-                    query.append(")");
+                    query.append(')');
                 }
 
 
@@ -543,14 +543,14 @@ public class DataSelectionUtil {
             if (!companyMasterValues.isEmpty()) {
                 query.append(" CCP.companyMasterSid IN (");
                 query.append(UiUtils.stringListToString(companyMasterValues));
-                query.append(")");
+                query.append(')');
                 and = " AND ";
             }
             if (!contractMasterValues.isEmpty()) {
                 query.append(and);
                 query.append(" CCP.contractMasterSid IN (");
                 query.append(UiUtils.stringListToString(contractMasterValues));
-                query.append(")");
+                query.append(')');
             }
         }
         return query.toString();

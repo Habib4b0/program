@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.Property;
 import java.util.Date;
@@ -89,7 +90,8 @@ public class ExportToExcel extends ExcelExport {
                 Double d = 0.0;
                 try {
                     if (null != value && !String.valueOf(value).equalsIgnoreCase(StringUtils.EMPTY) && !String.valueOf(value).equalsIgnoreCase(Constant.NULL)) {
-                        d = Double.parseDouble(value.toString().replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY).replace(Constant.PERCENT, StringUtils.EMPTY));
+                        String valueSring = value.toString().replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY).replace(Constant.PERCENT, StringUtils.EMPTY);
+                        d = DataTypeConverter.convertStringToDouble(valueSring);
                         sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         if (!String.valueOf(levelValue).contains(CommonUtils.COL_PERCENTAGE) && !String.valueOf(propId).endsWith("Per")
                                 && ((formatter.get(Constant.PERCENT_TWO_DECIMAL) != null
@@ -163,7 +165,7 @@ public class ExportToExcel extends ExcelExport {
                     } else {
                         try {
                             // parse all numbers as double, the format will determine how they appear
-                            final Double d = Double.parseDouble(value.toString());
+                            final Double d = DataTypeConverter.convertObjectToDouble(value);
                             sheetCell.setCellValue(d);
                             sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         } catch (final NumberFormatException nfe) {

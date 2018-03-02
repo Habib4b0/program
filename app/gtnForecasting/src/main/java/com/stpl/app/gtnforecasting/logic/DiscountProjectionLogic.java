@@ -237,7 +237,7 @@ public class DiscountProjectionLogic {
                             discountDto.setHierarchyNo(String.valueOf(obj[1]));
                             String relValue;
                             if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
-                                relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf("~") + 1) : discountDto.getHierarchyNo();
+                                relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf('~') + 1) : discountDto.getHierarchyNo();
                             } else {
                                 String hierarchy = discountDto.getHierarchyNo().contains(",") ? discountDto.getHierarchyNo().split(",")[0] : discountDto.getHierarchyNo();
                                 relValue = hierarchy.trim();
@@ -441,13 +441,13 @@ public class DiscountProjectionLogic {
             final String adjustmentBasis, final String adjustmentValue, final String actualOrSalesUnits, List<String> historyPeriods) {
         List<String> inputList = new ArrayList<>();
         inputList.add(session.getFrequency());
-        inputList.add(selectedPeriods);
+        inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? selectedPeriods : session.getActualAdjustmentPeriods());
         inputList.add(adjustmentBasis);
         inputList.add(adjustmentValue);
         inputList.add(adjustmentType);
         inputList.add(actualOrSalesUnits);
         inputList.add(ALL.equals(session.getDeductionInclusion()) ? null : session.getDeductionInclusion());
-        inputList.add(StringUtils.join(historyPeriods.iterator(), ","));
+        inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? StringUtils.join(historyPeriods.iterator(), ",") : session.getActualAdjustmentPeriods());
         com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "discount-adjustment-query", session);
         return true;
     }
@@ -745,7 +745,7 @@ public class DiscountProjectionLogic {
 
             discountIds = discountIds.substring(0, discountIds.length() - 1);
             query = "UPDATE ST_NM_DISCOUNT_PROJ_MASTER \n"
-                    + "SET CHECK_RECORD = " + (isCheck ? Constant.STRING_ONE : DASH) + "\n";
+                    + "SET CHECK_RECORD = " + (isCheck ? Constant.STRING_ONE : DASH) + '\n';
             if (session.getCustomId() != 0) {
                 String discountId = CommonUtils.CollectionToString(session.getSelectedRsForCustom(), false);
                 if (isCheckList) {

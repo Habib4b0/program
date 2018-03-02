@@ -163,7 +163,7 @@ public class FederalNdcPopup extends CustomComponent {
                             wac.setReadOnly(false);
                             wac.setValue(CommonUtils.DOLLAR + decimalFormat.format(convertedWAC));
                         } else {
-                            NewNdcDTO dto = (NewNdcDTO) federalMap.get(Integer.parseInt(String.valueOf(ndc.getValue())));
+                            NewNdcDTO dto = (NewNdcDTO) federalMap.get((Integer)ndc.getValue());
                             if (dto != null && !dto.equals(Constant.NULL)) {
                                 wac.setReadOnly(false);
                                 wac.setValue(dto.getWac());
@@ -184,7 +184,7 @@ public class FederalNdcPopup extends CustomComponent {
                             nonFamp.setValue(CommonUtils.DOLLAR + decimalFormat.format(convertedFamp));
 
                         } else {
-                            NewNdcDTO dto = (NewNdcDTO) federalMap.get(Integer.parseInt(String.valueOf(ndc.getValue())));
+                            NewNdcDTO dto = (NewNdcDTO) federalMap.get((Integer)ndc.getValue());
                             if (dto != null) {
 
                                 nonFamp.setValue(dto.getNonFamp());
@@ -199,7 +199,7 @@ public class FederalNdcPopup extends CustomComponent {
                             fss.setValue(CommonUtils.DOLLAR + decimalFormat.format(convertedFSS));
 
                         } else {
-                            NewNdcDTO dto = (NewNdcDTO) federalMap.get(Integer.parseInt(String.valueOf(ndc.getValue())));
+                            NewNdcDTO dto = (NewNdcDTO) federalMap.get((Integer)ndc.getValue());
                             if (dto != null) {
 
                                 fss.setValue(dto.getFssOGA());
@@ -290,7 +290,7 @@ public class FederalNdcPopup extends CustomComponent {
         newNDC.setNonFamp(nonFamp.getValue());
         newNDC.setFssOGA(fss.getValue());
 
-        String ndcNo = ndc.getItemCaption(Integer.parseInt(String.valueOf(ndc.getValue())));
+        String ndcNo = ndc.getItemCaption((Integer)ndc.getValue());
         if (ndcNo.contains(",")) {
             String[] ndcNo1 = ndcNo.split(",");
             newNDC.setItemNo(ndc.getItemCaption(ndcNo1[1].trim()));

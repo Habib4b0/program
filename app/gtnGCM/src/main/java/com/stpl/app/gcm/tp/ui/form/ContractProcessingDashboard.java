@@ -904,7 +904,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     @UiHandler("excelCompBtn")
     public void componentInfoExport(Button.ClickEvent event) {
         try {
-            CsvExportforPagedTable.createWorkSheet(componentInformationTable.getColumnHeaders(), componentInformationTable.getVisibleColumns(), tablelogic, excelName.replace(" ", "_"));
+            CsvExportforPagedTable.createWorkSheet(componentInformationTable.getColumnHeaders(), componentInformationTable.getVisibleColumns(), tablelogic, excelName.replace(' ', '_'));
         } catch (Exception e) {
             LOGGER.error("",e);
         }

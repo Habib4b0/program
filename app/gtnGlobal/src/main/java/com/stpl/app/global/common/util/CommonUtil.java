@@ -12,6 +12,7 @@ import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -172,7 +173,8 @@ public class CommonUtil {
                 String[] rules = String.valueOf(key).split(",");
                 if (rules[0] != null && ValidationUtil.getMessage(rules[0]) != null && StringUtils.isNotEmpty(ValidationUtil.getMessage(rules[0]))) {
                     String[] temp = ValidationUtil.getMessage(rules[0]).split(",");
-                    tempObj.addValidator(new StringLengthValidator(ValidationUtil.getMessage(rules[1]), Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Boolean.parseBoolean(temp[NumericConstants.TWO])));
+                    tempObj.addValidator(new StringLengthValidator(ValidationUtil.getMessage(rules[1]), 
+                            DataTypeConverter.convertStringToInteger(temp[0]), DataTypeConverter.convertStringToInteger(temp[1]), DataTypeConverter.convertStringToBoolean(temp[NumericConstants.TWO])));
                 }
                 if (!ConstantUtil.NULL.equalsIgnoreCase(rules[NumericConstants.TWO].trim()) && ValidationUtil.getMessage(rules[NumericConstants.TWO]) != null && StringUtils.isNotEmpty(ValidationUtil.getMessage(rules[NumericConstants.TWO]))) {
                     tempObj.addValidator(new RegexpValidator(ValidationUtil.getMessage(rules[NumericConstants.TWO]), ValidationUtil.getMessage(rules[NumericConstants.THREE])));

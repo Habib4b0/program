@@ -47,7 +47,7 @@ public class QueryUtils {
     public String periodQuery(String period, String fre, String order) {
         String startYearValue = period.substring(period.length() - NumericConstants.FOUR);
         String startFreqNoValue = period.substring(1, NumericConstants.TWO);
-        int startYear = isInteger(startYearValue) ? Integer.valueOf(startYearValue) : 0;
+        int startYear = isInteger(startYearValue) ? Integer.parseInt(startYearValue) : 0;
         String where;
 
         if (fre.equals(MONTHLY.getConstant())) {
@@ -222,7 +222,7 @@ public class QueryUtils {
             Object obj = list.get(0);
             String countValue = String.valueOf(obj);
 
-            count = Integer.valueOf(countValue);
+            count = Integer.parseInt(countValue);
 
         }
         return count;
@@ -783,7 +783,7 @@ public class QueryUtils {
           
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
             if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                sql.append(" ");
+                sql.append(' ');
                 sql.append(SQlUtil.getQuery(quaryName2));
             }
 

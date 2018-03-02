@@ -178,9 +178,9 @@ public class CommonServiceImpl {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(StringConstantsUtil.HAS_TRADING_PARTNER));
-            queryString.append("'");
+            queryString.append('\'');
             queryString.append(String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
-            queryString.append("'");
+            queryString.append('\'');
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_UNSAVED_PROJECTION_IDS));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
@@ -227,7 +227,7 @@ public class CommonServiceImpl {
                     }
                     queryString.append(") AND HIERARCHY_NO NOT IN (");
                     queryString.append(CommonUtils.stringListToString(rlSids));
-                    queryString.append(")");
+                    queryString.append(')');
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.TABLE_NAME)));
 
@@ -237,7 +237,7 @@ public class CommonServiceImpl {
                         queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
                     }
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
-                    queryString.append(")");
+                    queryString.append(')');
                 }
             }
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
@@ -286,9 +286,9 @@ public class CommonServiceImpl {
             queryString.replace(queryString.indexOf(StringConstantsUtil.RLC), queryString.indexOf(StringConstantsUtil.RLC) + 5, String.valueOf(parameters.get("relationshipLevelValue")));
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(StringConstantsUtil.COMPANY_FILTER));
-            queryString.append("'");
+            queryString.append('\'');
             queryString.append(String.valueOf(parameters.get("companySid")));
-            queryString.append("'");
+            queryString.append('\'');
         } else {
             queryString.append(String.valueOf(parameters.get("query")));
         }
@@ -393,7 +393,7 @@ public class CommonServiceImpl {
                 queryBuilder.append(String.valueOf(parameters.get("glCompId")));
                 queryBuilder.append(" AND GLC.COMPANY_CODE = CM.COMPANY_ID AND IM.NDC8 = GLC.NDC8 ");
                 queryBuilder.append(" AND IM.ORGANIZATION_KEY = ");
-                queryBuilder.append(String.valueOf(parameters.get("businessUnit"))).append(" ");
+                queryBuilder.append(String.valueOf(parameters.get("businessUnit"))).append(' ');
             } else if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_NDC)))
                     && "company".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) {
                 queryBuilder.append(SQlUtil.getQuery("get-inner-level-companies"));
@@ -415,13 +415,13 @@ public class CommonServiceImpl {
             if (parameters.get(StringConstantsUtil.LEVEL_NAME) != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_NDC)))) {
                 queryBuilder.append(" and RLD.level_Name = '");
                 queryBuilder.append(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)));
-                queryBuilder.append("'");
+                queryBuilder.append('\'');
             }
             if (parameters.get(StringConstantsUtil.RELATIONSHIP_SID) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.RELATIONSHIP_SID)))
                     && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.RELATIONSHIP_SID))) && !"0".equals(String.valueOf(parameters.get(StringConstantsUtil.RELATIONSHIP_SID)))) {
                 queryBuilder.append(" and RLD.RELATIONSHIP_BUILDER_SID = '");
                 queryBuilder.append(String.valueOf(parameters.get(StringConstantsUtil.RELATIONSHIP_SID)));
-                queryBuilder.append("'");
+                queryBuilder.append('\'');
             }
             if ("AccrualRateProjection".equalsIgnoreCase(String.valueOf(parameters.get("screenName"))) && (!"Segment Group".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) && !"Segment".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) && !"Segments".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) && !"Company".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) && !"GL Company".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME))) && !"Business Unit".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LEVEL_NAME)))) {
                 queryBuilder.append("and RLD.relationship_Level_Values IN (");
@@ -491,7 +491,7 @@ public class CommonServiceImpl {
                             + StringConstantsUtil.WHERE_SPACE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + StringConstantsUtil.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA
                             + StringConstantsUtil.DESCRIPTION_LIKE + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_VALUE)) + StringConstantsUtil.AND_LIST_NAME + String.valueOf(parameters.get(StringConstantsUtil.DEDUCTION_LEVEL)) + "' ))");
                 }
-                queryBuilder.append(")");
+                queryBuilder.append(')');
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         } catch (Exception ex) {
@@ -629,9 +629,9 @@ public class CommonServiceImpl {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(StringConstantsUtil.HAS_TRADING_PARTNER));
-            queryString.append("'");
+            queryString.append('\'');
             queryString.append(String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
-            queryString.append("'");
+            queryString.append('\'');
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(StringConstantsUtil.GET_UNSAVED_PROJECTION_IDS));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
@@ -651,12 +651,12 @@ public class CommonServiceImpl {
                     }
                     queryString.append(") AND HIERARCHY_NO NOT IN (");
                     queryString.append(CommonUtils.stringListToString(rlSids));
-                    queryString.append(")");
+                    queryString.append(')');
                     queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.TABLE_NAME)));
                     queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.PROJECTION_ID)));
-                    queryString.append(")");
+                    queryString.append(')');
                 }
             }
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.GET_CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
@@ -705,9 +705,9 @@ public class CommonServiceImpl {
             queryString.replace(queryString.indexOf(StringConstantsUtil.RLC), queryString.indexOf(StringConstantsUtil.RLC) + 5, String.valueOf(parameters.get("relationshipLevelValue")));
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(StringConstantsUtil.COMPANY_FILTER));
-            queryString.append("'");
+            queryString.append('\'');
             queryString.append(String.valueOf(parameters.get("companySid")));
-            queryString.append("'");
+            queryString.append('\'');
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null
                 && ("getHierarchyGroup".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))
                 || "getHierarchyGroupCount".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) { //searchGroup
@@ -888,7 +888,7 @@ public class CommonServiceImpl {
                 LOGGER.error("Exception= {} and Query= {}", ex.getMessage(), StringConstantsUtil.IN_EXECUTE_QUERY);
             }
             queryString.append(query);
-            queryString.append(";");
+            queryString.append(';');
         } else if (parameters.get(StringConstantsUtil.INDICATOR) != null
                 && ("searchGroup".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))
                 || "searchGroupCount".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) {
@@ -1274,7 +1274,7 @@ public class CommonServiceImpl {
                 queryString.append(no);
                 queryString.append(" LIKE '");
                 queryString.append(String.valueOf(parameters.get("no")));
-                queryString.append("'");
+                queryString.append('\'');
             }
             if (parameters.get("name") != null
                     && !StringUtils.isEmpty(String.valueOf(parameters.get("name")))
@@ -1283,14 +1283,14 @@ public class CommonServiceImpl {
                 queryString.append(name);
                 queryString.append(" LIKE '");
                 queryString.append(String.valueOf(parameters.get("name")));
-                queryString.append("'");
+                queryString.append('\'');
             }
             if (parameters.get("sids") != null && !"null".equals(String.valueOf(parameters.get("sids")))) {
                 queryString.append(StringConstantsUtil.AND);
                 queryString.append(sids);
                 queryString.append(" in (");
                 queryString.append(String.valueOf(parameters.get("sids")));
-                queryString.append(")");
+                queryString.append(')');
             }
 
             queryString.append(StringConstantsUtil.Q_FILTER);

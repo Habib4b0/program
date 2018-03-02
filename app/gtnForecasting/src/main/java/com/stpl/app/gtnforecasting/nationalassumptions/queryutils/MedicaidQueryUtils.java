@@ -138,7 +138,7 @@ public class MedicaidQueryUtils {
                             queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
                         }
                         if (Constant.CPIURA.equals(pricetype)) {
-                            queryBuilder1.append(" , ADJUSTMENT_PRICE = '").append(finalvalue).append("'");
+                            queryBuilder1.append(" , ADJUSTMENT_PRICE = '").append(finalvalue).append('\'');
                         }
                     } else {
                         queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
@@ -155,11 +155,11 @@ public class MedicaidQueryUtils {
 
                 queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID =").append(session.getProjectionId());
 
-                queryBuilder1.append("  AND NDC9 IN (SELECT ITEM_MASTER_SID\n" +
-"		FROM ITEM_MASTER\n" +
-"		WHERE ITEM_ID ='").append(ndc9.trim());
+                queryBuilder1.append(Constant.AND_NDC9_IN_SELECT_ITEM_MASTER_SID +
+                Constant.FROM_ITEM_MASTER +
+                Constant.WHERE_ITEM_ID).append(ndc9.trim());
 
-                queryBuilder1.append("')) AND PRICE_TYPE ='").append(pricetype).append("'");
+                queryBuilder1.append("')) AND PRICE_TYPE ='").append(pricetype).append('\'');
 
                 queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
 
@@ -257,11 +257,11 @@ public class MedicaidQueryUtils {
 
                 queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER  IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
 
-                queryBuilder1.append("  AND NDC9 IN (SELECT ITEM_MASTER_SID\n" +
-"		FROM ITEM_MASTER\n" +
-"		WHERE ITEM_ID ='").append(ndc9.trim());
+                queryBuilder1.append(Constant.AND_NDC9_IN_SELECT_ITEM_MASTER_SID +
+                Constant.FROM_ITEM_MASTER +
+                Constant.WHERE_ITEM_ID).append(ndc9.trim());
 
-                queryBuilder1.append("')) AND PRICE_TYPE='").append(pricetype).append("'");
+                queryBuilder1.append("')) AND PRICE_TYPE='").append(pricetype).append('\'');
 
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);
@@ -425,11 +425,11 @@ public class MedicaidQueryUtils {
 
                 queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID =  IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID= " + session.getProjectionId());
 
-                queryBuilder1.append("  AND NDC9 IN (SELECT ITEM_MASTER_SID\n" +
-"		FROM ITEM_MASTER\n" +
-"		WHERE ITEM_ID ='" + ndc9.trim());
+                queryBuilder1.append(Constant.AND_NDC9_IN_SELECT_ITEM_MASTER_SID +
+                Constant.FROM_ITEM_MASTER +
+                Constant.WHERE_ITEM_ID + ndc9.trim());
 
-                queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[2] : priceType) + "'");
+                queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[2] : priceType) + '\'');
 
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);

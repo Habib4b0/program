@@ -1649,8 +1649,8 @@ EXEC PRC_FILES_DATA
             WHERE  PROJECTION_MASTER_SID = @PROJECTION_ID 
             
             SELECT CASE 
-                     WHEN B.FILE_MANAGEMENT_SID = A.FILE_MANAGEMENT_SID THEN 1 
-                     ELSE 0 
+                     WHEN B.file_management_sid = A.file_management_sid THEN 0 
+                     ELSE 1  
                    END AS CHANGE_STATUS 
             FROM   (SELECT A.FILE_MANAGEMENT_SID, 
                            A.FILE_TYPE, 
