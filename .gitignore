@@ -25,6 +25,4 @@ app/gtnForecasting/nb-configuration.xml
 app/Resources/stpl-theme/.sass-cache/
 /app/Resources/VaadinWidgetSet_V7/vaadin-widgetset/src/main/resources/com/stpl/widgetset/vaadin/widgetset/excel.png
 app/Repository/
-Release/rpm/GtnSpecs/GTN-x-Setup.spec
-Release/rpm/GtnSpecs/GTN-x-Setup_v0.spec
-Release/rpm/GtnSpecs/GTN-x-WsSetup.spec
+
