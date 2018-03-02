@@ -49,7 +49,7 @@ import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -566,10 +566,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void comparisonLookupLogic() {
         LOGGER.info("Comparision lookup started");
-        if (editFlag || !comparisonProjId.isEmpty()) {
+        if (editFlag || !projIdList.isEmpty()) {
             editFlag = false;
             try {
-                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
+                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(projIdList), null, null);
                 selectedList = logic.getCustomizedPVComparisonList(list);
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());

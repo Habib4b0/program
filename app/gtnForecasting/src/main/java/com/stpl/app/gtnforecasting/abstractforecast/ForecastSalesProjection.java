@@ -50,7 +50,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.TAB_SALES_PROJECTION;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;

@@ -17,14 +17,13 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import java.util.concurrent.ConcurrentHashMap;

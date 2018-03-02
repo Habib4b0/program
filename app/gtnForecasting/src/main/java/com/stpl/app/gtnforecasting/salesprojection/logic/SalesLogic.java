@@ -84,7 +84,7 @@ import static com.stpl.app.utils.Constants.StringConstants.PERCENT;
 import static com.stpl.app.utils.Constants.StringConstants.SPLIT_ARROW;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
@@ -2034,6 +2034,7 @@ public class SalesLogic {
     
     public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
 
+        String key = StringUtils.EMPTY;
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
             StringBuilder updateLine = new StringBuilder(StringUtils.EMPTY);
@@ -2051,7 +2052,11 @@ public class SalesLogic {
             String hierarchyNo = salesDTO.getHierarchyNo();
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String[] keyarr = propertyId.split("-");
-            String key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
+            if (frequencyDivision != 1) {
+            key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
+            }else{
+            key = (keyarr[0])+"~"+salesDTO.getHierarchyNo();
+            }
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;

@@ -261,6 +261,13 @@ public class GtnUIFrameworkBaseComponent {
 		return (Collection<GtnWsRecordBean>) customData.getContainerDataSource().getItemIds();
 	}
 
+
+	public int getTableSize() {
+		GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) component.getData();
+		GtnUIFrameworkPagedTableLogic tableLogic = customData.getCurrentPageTableLogic();
+		return tableLogic.getCount();
+	}
+ 
 	public Set<Container.Filter> getFiltersFromPagedDataTable() {
 		return getLogicFromPagedDataTable().getFilters();
 	}

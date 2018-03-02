@@ -391,9 +391,9 @@ public class PVExcelLogic {
         int tempFrequencyDivision = selection.getFrequencyDivision();
         if (isTotal) {
             ProjectionVarianceDTO total = new ProjectionVarianceDTO();
-            total.setGroup("Projection Total");
-            total.setDfLevelNumber("Projection Total");
-            total.setDfLevelName("Projection Total");
+            total.setGroup(PROJECTION_TOTAL);
+            total.setDfLevelNumber(PROJECTION_TOTAL);
+            total.setDfLevelName(PROJECTION_TOTAL);
             pvList.add(total);
         } else {
             ProjectionVarianceDTO detail = new ProjectionVarianceDTO();
@@ -820,6 +820,7 @@ public class PVExcelLogic {
         }
 
     }
+    public static final String PROJECTION_TOTAL = "Projection Total";
 
     private void calculateForTotal(String variableName, String varibaleCat, Object[] obj, int index, ProjectionVarianceDTO pvDTO, PVSelectionDTO selection, DecimalFormat format) {
         PVCommonLogic.customizePeriod(variableName, varibaleCat, selection, pvDTO, format, index, obj, format.equals(RATE_PER));
