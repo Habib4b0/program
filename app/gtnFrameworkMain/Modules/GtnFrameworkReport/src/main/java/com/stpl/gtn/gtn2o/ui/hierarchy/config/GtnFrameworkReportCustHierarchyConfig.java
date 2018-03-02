@@ -122,7 +122,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		GtnUIFrameworkComponentConfig customerSelectionHierarchyLayout = configProvider.getHorizontalLayoutConfig("customerSelectionHierarchyLayout",
 				true, customerSelectionHierarchyRelationshipConfig.getComponentId());
 
-		GtnUIFrameworkComponentConfig customerSelectionHierarchy = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"hierarchy", true,
+		GtnUIFrameworkComponentConfig customerSelectionHierarchy = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerHierarchy", true,
 				customerSelectionHierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		customerSelectionHierarchy.setComponentName("Hierarchy: ");
 
@@ -142,7 +142,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionRelationship.setComponentName("Relationship: ");
 
 		GtnUIFrameworkComboBoxConfig customerSelectionRelationshipLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customerSelectionRelationship.setGtnComboboxConfig(customerSelectionRelationshipLoadConfig);
 

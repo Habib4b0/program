@@ -22,6 +22,8 @@ public class GtnFrameworkCommonConstants {
 	/**
 	 * Common For All Modules
 	 */
+        public static final String NET_SALES_FORMULA_ID = "Net Sales Formula ID";
+        public static final String NET_SALES_FORMULA_NO = "Net Sales Formula NO";
 	public static final String VALIDATION_ERROR = "Validation Error :";
 	public static final Class<?> JAVA_LANG_STRING = String.class;
 	public static final Class<?> JAVA_UTIL_DATE = Date.class;
@@ -823,7 +825,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String RULE_TYPE = "Rule Type";
 	public static final String ADD_LINE = "gtnAddLineButtonlayout";
 	public static final String PS_ALERT_MSG = "Add atleast One Item in Item Addition tab for PS";
-
+        
 	/**
 	 * Process Monitor
 	 */
@@ -1112,4 +1114,13 @@ public class GtnFrameworkCommonConstants {
 	public static final String ALIAS_FILETYPE_LAYOUT = "aliasFileTypeLayout";
 	public static final String UDC_CATEGORY_FILETYPELAYOUT = "fileTypeLayout";
 	public static final String UDC_CATEGORY_FILETYPE_FIELDLAYOUT = "fileTypeFieldLayout";
+	public static final String REBATE_PLAN_STATUS = "rebatePlanStatus";
+	public static final String REBATE_PLAN_POPUP_TYPE = "rpPopUpRebatePlanType";     
+	
+	/*
+	 * Report Module
+	 */
+	public static final String REPORT_TIME_PERIOD_INTERVAL_FOR_FROM_DATE = "ReportTimePeriodIntervalForFromDate";
+	public static final String REPORT_TIME_PERIOD_INTERVAL_FOR_TO_DATE = "ReportTimePeriodIntervalForToDate";
+	public static final String REPORT_TIME_PERIOD_HISTORY_FREQUENCY_DATE = "ReportTimePeriodHistoryFrequencyDate";
 }

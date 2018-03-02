@@ -14,6 +14,8 @@ import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -49,7 +51,7 @@ public class GtnWsCFFWorkFlowController {
     
     private static final String APPROVE_FLAG = "approveFlag";
     
-    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_START_TASK)
+    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_START_TASK,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse submitProjectionAndStartWorkFlow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -77,7 +79,7 @@ public class GtnWsCFFWorkFlowController {
     }
     
     
-    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_COMPLETE_TASK)
+    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_COMPLETE_TASK,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse cffCompleteTask(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -104,7 +106,7 @@ public class GtnWsCFFWorkFlowController {
         return gtnWsresponse;
     }
     
-    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_GET_VARIABLE)
+    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_GET_VARIABLE,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse getVariable(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -123,7 +125,7 @@ public class GtnWsCFFWorkFlowController {
         return gtnWsresponse;
     }
     
-    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_SUBMIT_WORKFLOW)
+    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_SUBMIT_WORKFLOW,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse submitWorkflow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -147,7 +149,7 @@ public class GtnWsCFFWorkFlowController {
         return gtnWsresponse;
     }
     
-    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_APPROVE_WORKFLOW)
+    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_APPROVE_WORKFLOW,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse approveWorkFlow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -169,7 +171,7 @@ public class GtnWsCFFWorkFlowController {
         return gtnWsresponseCFFApproveWorkFlow;
     }
     
-     @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_REJECT_WORKFLOW)
+     @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_REJECT_WORKFLOW,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse rejectWorkflow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -190,7 +192,7 @@ public class GtnWsCFFWorkFlowController {
         gtnWsresponseCFFRejectWorkflow.setGtnWsGeneralResponse(generalResponseCFFRejectWorkflow);
         return gtnWsresponseCFFRejectWorkflow;
     }
-     @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_WITHDRAW_WORKFLOW)
+     @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_WITHDRAW_WORKFLOW,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse withDrawWorkflow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -212,7 +214,7 @@ public class GtnWsCFFWorkFlowController {
         return gtnWsresponseCFFWithDrawWorkflow;
     }
     
-      @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_CANCEL_WORKFLOW)
+      @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_CANCEL_WORKFLOW,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse cancelWorkflow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -234,7 +236,7 @@ public class GtnWsCFFWorkFlowController {
         return gtnWsresponseCFFCancelWorkflow;
     }
     
-    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_IS_VALID_USER)
+    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_IS_VALID_USER,method = RequestMethod.POST)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse isValidWorkFlowUser(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {

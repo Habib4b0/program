@@ -120,7 +120,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkComponentConfig hierarchyLayout = configProvider.getHorizontalLayoutConfig("hierarchyLayout",
 				true, hierarchyRelationshipConfig.getComponentId());
 
-		GtnUIFrameworkComponentConfig hierarchy = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"hierarchy", true,
+		GtnUIFrameworkComponentConfig hierarchy = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"producthierarchy", true,
 				hierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		hierarchy.setComponentName("Hierarchy: ");
 

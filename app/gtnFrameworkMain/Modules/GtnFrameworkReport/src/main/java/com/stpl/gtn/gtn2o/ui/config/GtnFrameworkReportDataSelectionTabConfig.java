@@ -390,7 +390,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComboBoxConfig reportDataSelectionFromPeriodLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		reportDataSelectionFromPeriodLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		reportDataSelectionFromPeriodLoadConfig.setComboBoxType(GtnFrameworkReportStringConstants.TIME_PERIOD_FROM_DATE);
+		reportDataSelectionFromPeriodLoadConfig.setComboBoxType(GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_FROM_DATE);
 		reportDataSelectionFromPeriod.setGtnComboboxConfig(reportDataSelectionFromPeriodLoadConfig);
 		reportDataSelectionFromPeriodLoadConfig.setHasDefaultValue(true);
 	
@@ -421,7 +421,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComboBoxConfig reportDataSelectionToPeriodTypeLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		reportDataSelectionToPeriodTypeLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		reportDataSelectionToPeriodTypeLoadConfig.setComboBoxType(GtnFrameworkReportStringConstants.TIME_PERIOD_TO_DATE);
+		reportDataSelectionToPeriodTypeLoadConfig.setComboBoxType(GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_TO_DATE);
 		reportDataSelectionToPeriodTypeLoadConfig.setHasDefaultValue(true);
 		reportDataSelectionToPeriod.setGtnComboboxConfig(reportDataSelectionToPeriodTypeLoadConfig);
 		componentList.add(reportDataSelectionToPeriod);

@@ -134,9 +134,9 @@ public class Allocation extends CustomComponent implements View {
     @UiField("exportBtn")
     private Button exportBtn;
     
-    private DataFormatConverter percentFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_PERCENT);
-    private DataFormatConverter salesFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_DOLLAR);
-    private DataFormatConverter salesFormatallocation = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, StringUtils.EMPTY);
+    private DataFormatConverter percentFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT, DataFormatConverter.INDICATOR_PERCENT);
+    private DataFormatConverter salesFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT, DataFormatConverter.INDICATOR_DOLLAR);
+    private DataFormatConverter salesFormatallocation = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT, StringUtils.EMPTY);
     private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<>(
             AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
     private ExtContainer<AlternateHistoryDTO> resultDetBean = new ExtContainer<>(
@@ -880,7 +880,7 @@ public class Allocation extends CustomComponent implements View {
         List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, false, tableLogic.getFilters(), 0, 0, Boolean.TRUE);
         excelResultBean.addAll(list);
         ForecastUI.setEXCEL_CLOSE(true);
-        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
+        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
         excel.export();
         selectedCustomerTableLayout.removeComponent(exportTable);
     }
@@ -904,7 +904,7 @@ public class Allocation extends CustomComponent implements View {
         List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, true, tableDetLogic.getFilters(), 0, 0, Boolean.TRUE);
         excelResultBean.addAll(list);
         ForecastUI.setEXCEL_CLOSE(true);
-        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
+        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
         excel.export();
         allocationDetailsLayout.removeComponent(exportTable);
     }
@@ -937,29 +937,29 @@ public class Allocation extends CustomComponent implements View {
         if (Constant.ANNUALLY.equalsIgnoreCase(frequency_val)) {
             startFrom = 0;
             startTo = NumericConstants.ELEVEN;
-            yearFrom = Integer.valueOf(from_val.trim());
-            yearTo = Integer.valueOf(to_val.trim());
+            yearFrom = Integer.parseInt(from_val.trim());
+            yearTo = Integer.parseInt(to_val.trim());
         } else if (Constant.MONTHLY.equalsIgnoreCase(frequency_val)) {
             DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
             List<String> months = Arrays.asList(dateFormatSymbols.getShortMonths());
             startFrom = months.indexOf(StringUtils.capitalize(from_val.substring(0, NumericConstants.THREE))) ;
             startTo = months.indexOf(StringUtils.capitalize(to_val.substring(0, NumericConstants.THREE))) ;
-            yearFrom = Integer.valueOf(from_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
-            yearTo = Integer.valueOf(to_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            yearFrom = Integer.parseInt(from_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            yearTo = Integer.parseInt(to_val.substring(NumericConstants.THREE, NumericConstants.SEVEN));
         } else {
             if (Constant.QUARTERLY.equalsIgnoreCase(frequency_val)) {
-                startFrom = Integer.valueOf(from_val.substring(1, NumericConstants.TWO));
+                startFrom = Integer.parseInt(from_val.substring(1, NumericConstants.TWO));
                 startFrom = (startFrom * NumericConstants.THREE) - NumericConstants.THREE;
-                startTo = Integer.valueOf(to_val.substring(1, NumericConstants.TWO));
+                startTo = Integer.parseInt(to_val.substring(1, NumericConstants.TWO));
                 startTo = (startTo * NumericConstants.THREE)-1;
             } else {
-                startFrom = Integer.valueOf(from_val.substring(1, NumericConstants.TWO));
+                startFrom = Integer.parseInt(from_val.substring(1, NumericConstants.TWO));
                 startFrom = (startFrom * NumericConstants.SIX) - NumericConstants.SIX;
-                startTo = Integer.valueOf(to_val.substring(1, NumericConstants.TWO));
+                startTo = Integer.parseInt(to_val.substring(1, NumericConstants.TWO));
                 startTo = (startTo * NumericConstants.SIX)-1;
 }
-            yearFrom = Integer.valueOf(from_val.substring(NumericConstants.TWO, NumericConstants.SIX));
-            yearTo = Integer.valueOf(to_val.substring(NumericConstants.TWO, NumericConstants.SIX));
+            yearFrom = Integer.parseInt(from_val.substring(NumericConstants.TWO, NumericConstants.SIX));
+            yearTo = Integer.parseInt(to_val.substring(NumericConstants.TWO, NumericConstants.SIX));
         }
         if (start_stamp == null) {
             start_stamp = new Date(yearFrom - NumericConstants.ONE_NINE_ZERO_ZERO, startFrom, 1);

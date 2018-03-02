@@ -10,6 +10,7 @@ import com.stpl.app.util.Constants;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.domain.global.security.StplSecurityDAO;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -82,7 +83,7 @@ public StplSecurityDAO getDto() {
             final User user = dao.getUserByUserId(userId);
             for (int i = 0; i < user.getUserGroups().size(); i++) {
                 final Long userGroup = user.getUserGroups().get(i).getUserGroupId();
-                userGroupId.add(Integer.parseInt(userGroup.toString()));
+                userGroupId.add(DataTypeConverter.convertLongToInteger(userGroup));
             }
         return userGroupId;
     }
@@ -107,7 +108,7 @@ public StplSecurityDAO getDto() {
                     businessRoleIds=String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
                 } else {
                     final StringBuffer tempStringBuffer = new StringBuffer();
-                    businessRoleIds = tempStringBuffer.append(businessRoleIds).append(ConstantsUtils.COMMA).append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
+                    businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                     tempStringBuffer.delete(0, tempStringBuffer.length());
                 } 
             }

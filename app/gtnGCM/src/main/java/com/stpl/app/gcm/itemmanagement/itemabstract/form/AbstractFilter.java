@@ -275,7 +275,7 @@ public class AbstractFilter {
                 }
 
             }
-            sql.append(")");
+            sql.append(')');
         }
         return sql;
 

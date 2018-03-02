@@ -60,6 +60,7 @@ import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
@@ -407,7 +408,7 @@ public class DiscountLogic {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setCfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setCfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setNumber(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setName(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
@@ -423,7 +424,7 @@ public class DiscountLogic {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setIfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setIfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setNumber(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setName(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
@@ -1277,7 +1278,7 @@ public class DiscountLogic {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setIfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setIfpId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setNumber(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setName(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
@@ -1297,7 +1298,7 @@ public class DiscountLogic {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
 
-                tabDto.setInternalId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setInternalId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setItemNo(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setItemName(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setBrand(Converters.convertNullToEmpty(arr[NumericConstants.THREE]));
@@ -1315,7 +1316,7 @@ public class DiscountLogic {
             for (int i = 0; i < size; i++) {
                 Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
-                tabDto.setInternalId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
+                tabDto.setInternalId(DataTypeConverter.convertStringToInteger(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setTradingPartnerNo(Converters.convertNullToEmpty(arr[1]));
                 tabDto.setTradingPartnerName(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
                 tabDto.setTpContractNo(StringUtils.EMPTY);
@@ -2331,7 +2332,7 @@ public class DiscountLogic {
         if (!rebateList.isEmpty()) {
             query = query.replace("?", ItemQueries.getQuery(setRebateInput(rebateList), "rebateSub"));
         } else {
-            query = query.replace("?", " ");
+            query = query.replace('?', ' ');
         }
         if(dto != null && dto.getRemovedRsList() != null && !dto.getRemovedRsList().isEmpty()) {
             query = query.replace(StringConstantsUtil.RS_SID_CHECK, getRsContractFromRSContractList(dto));            
@@ -2367,7 +2368,7 @@ public class DiscountLogic {
         if (!rebateList.isEmpty()) {
             query = query.replace("?", ItemQueries.getQuery(setRebateInput(rebateList), "rebateSub"));
         } else {
-            query = query.replace("?", " ");
+            query = query.replace('?', ' ');
         }
         if(dto.getRemovedRsList().isEmpty()){
             query = query.replace(StringConstantsUtil.RS_SID_CHECK, StringUtils.EMPTY);

@@ -6,6 +6,8 @@
 package com.stpl.gtn.gtn2o.ws.module.contractdashboard.controller;
 
 import java.sql.Connection;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +42,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
-import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**
@@ -1534,9 +1535,9 @@ public class GtnWsContractDashboardController {
 			switch (expersion) {
 			case "BETWEEN":
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) >= '").append(GtnCommonUtil.getDate(value1)).append("' AND ");
+						.append(" as float)) as datetime) >= '").append(parseDate(value1)).append("' AND ");
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) <= '").append(GtnCommonUtil.getDate(value2)).append("'");
+						.append(" as float)) as datetime) <= '").append(parseDate(value2)).append("'");
 				break;
 			case "AND":
 				cdWhereClauseSql.append(field).append(" < '").append(value1).append("' AND ");
@@ -1544,11 +1545,11 @@ public class GtnWsContractDashboardController {
 				break;
 			case "GREATER_OR_EQUAL":
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) >= '").append(GtnCommonUtil.getDate(value1)).append("'");
+						.append(" as float)) as datetime) >= '").append(parseDate(value1)).append("'");
 				break;
 			case "LESS_OR_EQUAL":
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) <= '").append(GtnCommonUtil.getDate(value1)).append("'");
+						.append(" as float)) as datetime) <= '").append(parseDate(value1)).append("'");
 				break;
 			case "LIKE":
 				cdWhereClauseSql.append(field).append(" ").append(expersion).append(" '")
@@ -1572,6 +1573,19 @@ public class GtnWsContractDashboardController {
 		} catch (Exception ex) {
 			throw new GtnFrameworkGeneralException("Exception in getWhereClauseForAColumn", ex);
 		}
+	}
+
+	private String parseDate(String value1) {
+		DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+		Date date = null;
+		try {
+			date = inputFormat.parse(value1);
+		} catch (ParseException e) {
+			
+			logger.error("Date Parse Exception:"+e);
+		}
+		DateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		return outputFormat.format(date);
 	}
 
 	public String getSysSchemaCatalog() throws GtnFrameworkGeneralException {

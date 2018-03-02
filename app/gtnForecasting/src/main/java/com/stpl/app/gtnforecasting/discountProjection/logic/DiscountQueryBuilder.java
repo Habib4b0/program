@@ -376,7 +376,7 @@ public class DiscountQueryBuilder {
                 for (String[] strings : massUpdateData) {
                     levelNo = strings[3];
                     hierarIndicator = strings[1];
-                    relValue = strings[4].contains("~") ? strings[4].substring(strings[4].lastIndexOf("~") + 1) : strings[4];
+                    relValue = strings[4].contains("~") ? strings[4].substring(strings[4].lastIndexOf('~') + 1) : strings[4];
                 }
                 }else{
                 levelNo = String.valueOf(session.getSelectedDeductionLevelNo());
@@ -437,11 +437,11 @@ public class DiscountQueryBuilder {
                 if (hierarchyData[2].isEmpty()) {
                     stringBuilder.append("NULL");
                 } else {
-                    stringBuilder.append("'").append(hierarchyData[2]).append("'");
+                    stringBuilder.append('\'').append(hierarchyData[2]).append('\'');
                 }
 
-                stringBuilder.append(",").append("'").append(hierarchyData[1]).append("',").append(i++);
-                stringBuilder.append(")");
+                stringBuilder.append(',').append('\'').append(hierarchyData[1]).append("',").append(i++);
+                stringBuilder.append(')');
                 isNotFirstElement = true;
             } else {
                 List<String> hierarchyNo = Arrays.asList((String.valueOf(hierarchyData[0])).split("\\,"));
@@ -455,11 +455,11 @@ public class DiscountQueryBuilder {
                 if (hierarchyData[2].isEmpty()) {
                     stringBuilder.append("NULL");
                 } else {
-                    stringBuilder.append("'").append(hierarchyData[2]).append("'");
+                    stringBuilder.append('\'').append(hierarchyData[2]).append('\'');
                 }
 
-                stringBuilder.append(",").append("'").append(hierarchyData[1]).append("',").append(i++);
-                stringBuilder.append(")");
+                stringBuilder.append(',').append('\'').append(hierarchyData[1]).append("',").append(i++);
+                stringBuilder.append(')');
                 isNotFirstElement = true;  
                 }
 
@@ -520,7 +520,7 @@ public class DiscountQueryBuilder {
                         .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustomRel(hierarchyIndicator,hierarchyNo,session))
                         .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, isCustomHierarchy ? Constant.RS_CONTRACT_SID : isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE);
             } else if ("RPU".equalsIgnoreCase(refreshName)) {
-                String uomJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:" LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='"+session.getDiscountUom()+"' ";
+                String uomJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM+session.getDiscountUom()+"' ";
                 String uomDivJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:"/nullif(uom_value,0) ";
                 customSql = SQlUtil.getQuery("MANUAL_ENTRY_DISCOUNT").replace("@REFRESHAMT", fieldValue).replace(UOM_JOIN,uomJoin).replace(PERIOD_TABLE, queryPeriod)
                         .replace(RELATION_SID, discountName).replace(BUILDER_SID, session.getDedRelationshipBuilderSid())
@@ -551,6 +551,7 @@ public class DiscountQueryBuilder {
             return Boolean.FALSE;
         }
     }
+    public static final String LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='";
     
 
     public List<String> getGroupValues(SessionDTO session, List<String> discountList) {
@@ -668,7 +669,7 @@ public class DiscountQueryBuilder {
                 .replace("@DEDINCLNWHR", "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" WHERE DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
                 .replace("@UOMACTUAL",(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?" ACTUAL_UNITS=Sum(ACTUAL_UNITS) ":" SUM(ISNULL(S.ACTUAL_UNITS,0)*ISNULL(UOM.UOM_VALUE,0))  ACTUAL_UNITS ") // Selected RS
                 .replace("@UOMPROJ",(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?" PROJECTION_UNITS=SUM(PROJECTION_UNITS) ":" SUM(ISNULL(S.PROJECTION_UNITS,0)*ISNULL(UOM.UOM_VALUE,0))  PROJECTION_UNITS ") // Selected RS
-                .replace(UOM_JOIN,(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?StringUtils.EMPTY:" LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='"+session.getDiscountUom()+"'")
+                .replace(UOM_JOIN,(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?StringUtils.EMPTY:LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM+session.getDiscountUom()+"'")
                 .replace("@HASHDP",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?StringUtils.EMPTY:" ,DEDUCTION_INCLUSION ")
                 .replace("@SELCOLDED",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?",0 as DEDUCTION_INCLUSION":" ,DPM.DEDUCTION_INCLUSION ")
                 .replace(DEDCUST_JOIN, commonLogic.getDedCustomJoinGenerate(session, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, hierarchyIndicator, levelNo))
@@ -707,7 +708,7 @@ public class DiscountQueryBuilder {
                 .replace("@NEXTROW",String.valueOf(end)) 
                 .replace("@UOMACTUAL",(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?" ACTUAL_UNITS=Sum(ACTUAL_UNITS) ":" SUM(ISNULL(S.ACTUAL_UNITS,0)*ISNULL(UOM.UOM_VALUE,0))  ACTUAL_UNITS ") // Selected RS
                 .replace("@UOMPROJ",(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?" PROJECTION_UNITS=SUM(PROJECTION_UNITS) ":" SUM(ISNULL(S.PROJECTION_UNITS,0)*ISNULL(UOM.UOM_VALUE,0))  PROJECTION_UNITS ") // Selected RS
-                .replace(UOM_JOIN,(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?StringUtils.EMPTY:" LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='"+session.getDiscountUom()+"'")// Selected RS
+                .replace(UOM_JOIN,(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?StringUtils.EMPTY:LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM+session.getDiscountUom()+"'")// Selected RS
 
                 .replace("@HASHDP",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?StringUtils.EMPTY:" ,DEDUCTION_INCLUSION ")
                 .replace("@SELCOLDED",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?" ,0 as DEDUCTION_INCLUSION ":" ,DPM.DEDUCTION_INCLUSION ");
@@ -1041,7 +1042,7 @@ public class DiscountQueryBuilder {
         List<String> levelNoList =  levelNo == 10 ? HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(levelNoQuery,session.getCurrentTableNames())):getRSHierarchyNo(discountList,session);
         StringBuilder levelNoFromQuery = new StringBuilder();
         for (String value : levelNoList) {
-            levelNoFromQuery.append("('").append(value).append("')").append(",");
+            levelNoFromQuery.append("('").append(value).append("')").append(',');
         }
         levelNoFromQuery = levelNoFromQuery.replace(levelNoFromQuery.lastIndexOf(","), levelNoFromQuery.length(), StringUtils.EMPTY);
         return levelNoFromQuery.toString();

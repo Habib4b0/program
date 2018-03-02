@@ -157,7 +157,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
         try {
             this.binder = binder;
             this.fileName = "Notes_History_" + moduleName.replace(" ", "");
-            setCompositionRoot(Clara.create(FrameworkUtil.getBundle(AbstractNotesTab.class).getBundleContext().getBundle().getResource("/ui/notestabform.xml").openStream(), this));
+            setCompositionRoot(Clara.create(AbstractNotesTab.class.getResource("/ui/notestabform.xml").openStream(), this));
             intailizingObject(moduleName);
             init();
         } catch (Exception ex) {

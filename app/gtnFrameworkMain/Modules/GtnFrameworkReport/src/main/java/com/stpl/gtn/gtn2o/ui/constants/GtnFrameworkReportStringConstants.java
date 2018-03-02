@@ -5,6 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ui.constants;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 public final class GtnFrameworkReportStringConstants {
 
 	private GtnFrameworkReportStringConstants() {
@@ -29,6 +33,12 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String PRODUCT_HIERARCHY_GROUP_BUILDER = "Product Hierarchy Group Builder";
 
+	public static final String RESET_CONFIRMATION = "Reset Confirmation";
+	
+	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
+	
+	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
+	
 	public static final String RETURNS = "returns";
 	
 	public static final String NDC_LAYOUT = "ndcLayout";
@@ -38,6 +48,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String HIERARCHY_NO = "hierarchyNo";
 	
 	public static final String VIEW_DETAILS_LAYOUT = "viewDetailsLayout";
+	
+	public static final String PRODUCT_RELATIONSHIP = "ProductRelationship";
 	
 	public static final String PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "privateViewSearchLookupSearchAndResetLayout";
 	
@@ -58,8 +70,6 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_GENERATE_LOOKUP_VIEW = "reportGenerateLookupView";
 
 	public static final String PRODUCT_HIERARCHY_LOOKUP_NAME = "Product Hierarchy LookUp";
-
-	public static final String PRODUCT_RELATIONSHIP = "ProductRelationship";
 
 	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
 	
@@ -297,6 +307,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String TIME_PERIOD_FROM_DATE = "TimePeriodFromDate";
 
+	public static final String TIME_PERIOD_FROM_HISTORY_INTERVAL = "TimePeriodFromHistoryInterval";
+	
 	public static final String TIME_PERIOD_TO_DATE = "TimePeriodToDate";
 	
 	public static final String REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT="reportProfileControlPopUpButtonLayout";
@@ -304,4 +316,32 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_PROFILE_SEARCH_AND_RESET_BUTTON_LAYOUT="reportProfileSearchAndResetButtonLayout";
 	
 	public static final String REPORT_VIEW_SEARCH_CRITERIA_LAYOUT="reportViewSearchCriteriaLayout";
+	
+	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections","Consolidated Financial Forecasts","No Source");
+
+	private static final Class<?>[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] {
+		String.class, Integer.class, Integer.class, Date.class, Date.class };
+
+	private static final String[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_VISIBLE_HEADER = new String[] {
+		"Hierarchy Name", "Highest Level", "Lowest Level", "Created Date", "Modified Date" };
+
+	private static final Object[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_MAPPING_ID = new Object[] {
+			"custHierarchyLookupHierName", "custHierarchyLookupHighestLevel", "custHierarchyLookupLowestLevel",
+			"custHierarchyLookupCreatedDate", "custHierarchyLookupModifiedDate" };
+	
+	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
+		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();
+	}
+
+	public static String[] getReportCustomerHierarchyTableColumnsVisibleHeader() {
+		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_VISIBLE_HEADER.clone();
+	}
+
+	public static Object[] getReportCustomerHierarchyTableColumnsMappingId() {
+		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_MAPPING_ID.clone();
+	}
+
+	public static List<String> getReportDataSourceLoadCombobox() {
+		return REPORT_DATA_SOURCE_LOAD_COMBOBOX;
+	}
 }

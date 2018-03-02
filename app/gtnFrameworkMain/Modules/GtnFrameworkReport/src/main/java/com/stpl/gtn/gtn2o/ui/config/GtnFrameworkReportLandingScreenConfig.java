@@ -49,10 +49,10 @@ public class GtnFrameworkReportLandingScreenConfig {
 		addProductSelectionLayout(componentList, namespace);
 
 		GtnFrameworkReportCustHierarchyConfig customerSelection = new GtnFrameworkReportCustHierarchyConfig();
-		componentList.addAll(customerSelection.getCustomerSelectionLayoutComponents(namespace));
+		componentList.addAll(customerSelection.getCustomerSelectionLayoutComponents(namespace+"cust"));
 
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
-		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace));
+		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace+"prod"));
 
 		addControlButtonLayout(componentList, namespace);
 	}
@@ -238,9 +238,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
 
 		GtnUIFrameworkComboBoxConfig reportDataSourceLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		reportDataSourceLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		reportDataSourceLoadConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
+		reportDataSourceLoadConfig.setItemValues(GtnFrameworkReportStringConstants.getReportDataSourceLoadCombobox());
 		reportDataSource.setGtnComboboxConfig(reportDataSourceLoadConfig);
 
 		componentList.add(reportDataSource);
@@ -364,7 +362,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 		fromPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		fromPeriodConfig.setComboBoxType(GtnFrameworkReportStringConstants.TIME_PERIOD_FROM_DATE);
+		fromPeriodConfig.setComboBoxType(GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_FROM_DATE);
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 		fromPeriodConfig.setHasDefaultValue(true);
 
@@ -398,7 +396,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
 		toPeriodTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		toPeriodTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.TIME_PERIOD_TO_DATE);
+		toPeriodTypeConfig.setComboBoxType(GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_TO_DATE);
 		toPeriodTypeConfig.setHasDefaultValue(true);
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);

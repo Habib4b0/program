@@ -122,11 +122,11 @@ public class HeaderUtils {
      * The Constant DP_LEFT INNER COLUMNS.
      */
     protected static final Object[] dpLeftFirstColumns = new Object[]{Constant.CHECK, LEVEL1, Constant.GROUP};
-    protected static final String LEVEL_NAME1 = "Level Name";
+    protected static final String LEVEL_NAME = "Level Name";
     /**
      * The Constant DP_LEFT INNER HEADER.
      */
-    protected static final String[] dpLeftFirstHeaders = new String[]{" ", LEVEL_NAME1, Constant.GROUPFCAPS};
+    protected static final String[] dpLeftFirstHeaders = new String[]{" ", LEVEL_NAME, Constant.GROUPFCAPS};
     protected static final String HISTORY_COL1_ACTUAL_RATE = "historyCol1ActualRate";
     /**
      * The Constant DP_LEFT INNER COLUMNS.
@@ -234,7 +234,7 @@ public class HeaderUtils {
      * The Constant CUST_ID_TRANSF_HEADER.
      */
     protected static final String[] leftTableHeaderOneHeaders = new String[]{
-        StringUtils.EMPTY, LEVEL_NAME1};
+        StringUtils.EMPTY, LEVEL_NAME};
     /**
      * The Constant LEFT_TABLE__HEADER_SECOND_HEADERS.
      */
@@ -563,7 +563,7 @@ public class HeaderUtils {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
 
         tableHeaderDTO.addSingleColumn(Constant.CHECK, " ", Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME, String.class);
         tableHeaderDTO.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
         tableHeaderDTO.addSingleColumn(Constant.BASELINE, BASE_LINE1, String.class);
         tableHeaderDTO.addSingleColumn(Constant.METHODOLOGY, METHODOLOGY1, String.class);
@@ -580,7 +580,7 @@ public class HeaderUtils {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         CustomTableHeaderDTO excelDto = new CustomTableHeaderDTO();
 
-        excelDto.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
+        excelDto.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME, String.class);
         excelDto.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
         excelDto.addSingleColumn(Constant.BASELINE, BASE_LINE1, String.class);
         excelDto.addSingleColumn(Constant.METHODOLOGY, METHODOLOGY1, String.class);
@@ -591,7 +591,7 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getDiscountProjectionLeftTableColumns() {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn(Constant.CHECKRECORD, " ", Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME, String.class);
         tableHeaderDTO.addDoubleColumn(Constant.LEVEL_NAME, " ");
         tableHeaderDTO.addDoubleHeaderMap(Constant.LEVEL_NAME, new Object[]{Constant.LEVEL_NAME, Constant.CHECKRECORD});
         tableHeaderDTO.addTripleColumn(Constant.LEVEL_NAME, " ");
@@ -604,17 +604,17 @@ public class HeaderUtils {
         if (!isView) {
             tableHeaderDTO.addSingleColumn(Constant.CHECKRECORD, " ", Boolean.class);
         }
-        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME, String.class);
         tableHeaderDTO.addDoubleColumn(Constant.GROUP, " ");
         
         if (CommonUtil.isValueEligibleForLoading()) {
             excelHeader.addDoubleColumn(Constant.GROUP, " ");
             excelHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number", String.class);
-            excelHeader.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
+            excelHeader.addSingleColumn(DF_LEVEL_NAME, LEVEL_NAME, String.class);
             excelHeader.addDoubleHeaderMap(Constant.GROUP, new Object[]{Constant.LEVEL_NAME,DF_LEVEL_NUMBER, DF_LEVEL_NAME,Constant.GROUP});
             
         } else {
-            excelHeader.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
+            excelHeader.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME, String.class);
             excelHeader.addDoubleColumn(Constant.GROUP, " ");
         }
         if (!Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator)) {
@@ -665,7 +665,7 @@ public class HeaderUtils {
             projectionOrder = NumericConstants.TWO;
         }
         String yearValue = projSelDTO.getYear();
-        int year = isInteger(yearValue) ? Integer.valueOf(yearValue) : 0;
+        int year = isInteger(yearValue) ? Integer.parseInt(yearValue) : 0;
         int historyStartIndex = -1;
         int projectionStartIndex = -1;
         int forecastStartIndex = -1;
@@ -1162,32 +1162,32 @@ public class HeaderUtils {
             current = curMonth / NumericConstants.THREE;
             division = NumericConstants.FOUR;
             try {
-                frequency = Integer.valueOf(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.valueOf(projFreq.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                frequency = Integer.parseInt(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectFrequency = Integer.parseInt(projFreq.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (freq.contains(Constant.SEMI_ANNUALLY)) {
             current = curMonth / NumericConstants.SIX;
             division = NumericConstants.TWO;
             try {
-                frequency = Integer.valueOf(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.valueOf(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+                frequency = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
+                projectFrequency = Integer.parseInt(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (freq.contains(MONTHLY.getConstant())) {
             current = curMonth;
             division = NumericConstants.TWELVE;
             try {
-                frequency = Integer.valueOf(hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.valueOf(projFreq.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                frequency = Integer.parseInt(hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectFrequency = Integer.parseInt(projFreq.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (freq.contains(Constant.ANNUALLY)) {
             current = curYear;
             division = 1;
             try {
-                frequency = Integer.valueOf(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.valueOf(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
+                frequency = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
+                projectFrequency = Integer.parseInt(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         }
@@ -1619,7 +1619,7 @@ public class HeaderUtils {
     public static CustomTableHeaderDTO getPPAProjectionLeftTableColumns(CustomTableHeaderDTO fullHeader) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         tableHeaderDTO.addSingleColumn(Constant.CHECK_RECORD + ".0", Constant.SPACE, Boolean.class);
-        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME, String.class);
         tableHeaderDTO.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
         tableHeaderDTO.addSingleColumn(Constant.PRICEPROTECTIONSTATUS, "Price Protection Status", String.class);
 
@@ -1627,7 +1627,7 @@ public class HeaderUtils {
         tableHeaderDTO.addSingleColumn(Constant.PRICEPROTECTIONENDDATE, "Price Protection End Date", String.class);
         tableHeaderDTO.addDoubleColumn(GROUP1, " ");
         tableHeaderDTO.addDoubleHeaderMap(GROUP1, new Object[]{Constant.CHECK_RECORD + ".0", Constant.LEVEL_NAME, Constant.GROUP, "priceProtectionStatus", "priceProtectionStartDate", "priceProtectionEndDate"});
-        fullHeader.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME1, String.class);
+        fullHeader.addSingleColumn(Constant.LEVEL_NAME, LEVEL_NAME, String.class);
         fullHeader.addSingleColumn(Constant.GROUP, Constant.GROUPFCAPS, String.class);
 
         fullHeader.addSingleColumn(Constant.PRICEPROTECTIONSTATUS1, "Price Protection Status", String.class);
@@ -1842,8 +1842,8 @@ public class HeaderUtils {
         int division = NumericConstants.FOUR;
 
         try {
-            frequency = Integer.valueOf(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-            projectFrequency = Integer.valueOf(projFreq);
+            frequency = Integer.parseInt(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+            projectFrequency = Integer.parseInt(projFreq);
         } catch (NumberFormatException e) {
         }
 
@@ -2166,7 +2166,7 @@ public class HeaderUtils {
             fullHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
             fullHeaderDTO.addDoubleColumn(doubleCol, " ");
             fullHeaderDTO.addSingleColumn(DF_LEVEL_NUMBER, "Level Number",String.class);
-            fullHeaderDTO.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
+            fullHeaderDTO.addSingleColumn(DF_LEVEL_NAME, LEVEL_NAME, String.class);
             fullHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{singleCol[0],DF_LEVEL_NUMBER, DF_LEVEL_NAME});
         }else{
             fullHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
@@ -3157,7 +3157,7 @@ public class HeaderUtils {
         String frequency = selection.get(Constant.FREQUENCY).toString();
         String projFreq = selection.get(Constant.PROJECT_FREQUENCY1).toString();
         String hist = selection.get(Constant.HISTORY).toString();
-        int projNum = Integer.valueOf(selection.get(PROJ_NUM).toString());
+        int projNum = Integer.parseInt(selection.get(PROJ_NUM).toString());
         Map<String, Integer> histProjMap = new HashMap<>();
         Calendar ob = Calendar.getInstance();
         int curMonth = ob.get(Calendar.MONTH);
@@ -3170,32 +3170,32 @@ public class HeaderUtils {
             currentPeriod = curMonth / NumericConstants.THREE;
             frequencyDivision = NumericConstants.FOUR;
             try {
-                historyNum = Integer.valueOf(hist.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.valueOf(projFreq.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (frequency.contains(SEMI_ANNUAL.getConstant())) {
             currentPeriod = curMonth / NumericConstants.SIX;
             frequencyDivision = NumericConstants.TWO;
             try {
-                historyNum = Integer.valueOf(hist.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.valueOf(projFreq.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("semi-annual", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (frequency.contains(MONTHLY.getConstant())) {
             currentPeriod = curMonth;
             frequencyDivision = NumericConstants.TWELVE;
             try {
-                historyNum = Integer.valueOf(hist.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectionNum = Integer.valueOf(projFreq.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         } else if (frequency.contains(ANNUAL.getConstant())) {
             currentPeriod = curYear;
             frequencyDivision = 1;
             try {
-                historyNum = Integer.valueOf(hist.toLowerCase().replace("year", StringUtils.EMPTY).trim());
-                projectionNum = Integer.valueOf(projFreq.toLowerCase().replace("year", StringUtils.EMPTY).trim());
+                historyNum = Integer.parseInt(hist.toLowerCase().replace("year", StringUtils.EMPTY).trim());
+                projectionNum = Integer.parseInt(projFreq.toLowerCase().replace("year", StringUtils.EMPTY).trim());
             } catch (NumberFormatException e) {
             }
         }
@@ -4833,10 +4833,10 @@ public class HeaderUtils {
 
     public static CustomTableHeaderDTO getSalesProjectionResultsLeftTableColumnsChannel(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
-        tableHeaderDTO.addSingleColumn(LEVEL_VALUE_PROPERTY, LEVEL_NAME1, String.class);
+        tableHeaderDTO.addSingleColumn(LEVEL_VALUE_PROPERTY, LEVEL_NAME, String.class);
         tableHeaderDTO.addDoubleColumn(Constant.GROUP, StringUtils.EMPTY);
         tableHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{LEVEL_VALUE_PROPERTY});
-        fullHeaderDTO.addSingleColumn(LEVEL_VALUE_PROPERTY, LEVEL_NAME1, String.class);
+        fullHeaderDTO.addSingleColumn(LEVEL_VALUE_PROPERTY, LEVEL_NAME, String.class);
         fullHeaderDTO.addDoubleColumn(Constant.GROUP, StringUtils.EMPTY);
         fullHeaderDTO.addDoubleHeaderMap(Constant.GROUP, new Object[]{LEVEL_VALUE_PROPERTY});
         return tableHeaderDTO;

@@ -17,7 +17,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -86,7 +86,7 @@ public class StplSecurity {
         final User user = dto.getUserByUserId(userId);
         for (int i = 0; i < user.getUserGroups().size(); i++) {
             final Long userGroup = user.getUserGroups().get(i).getUserGroupId();
-            userGroupId.add(Integer.parseInt(userGroup.toString()));
+            userGroupId.add(DataTypeConverter.convertLongToInteger(userGroup));
         }
         return userGroupId;
     }
@@ -111,7 +111,7 @@ public class StplSecurity {
                 businessRoleIds = String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
             } else {
                 final StringBuffer tempStringBuffer = new StringBuffer();
-                businessRoleIds = tempStringBuffer.append(businessRoleIds).append(",").append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
+                businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                 tempStringBuffer.delete(0, tempStringBuffer.length());
             }
         }

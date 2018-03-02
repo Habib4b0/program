@@ -509,6 +509,34 @@
  			]]>
 		</query>
 	</entity>
+	<entity id="getDeductionsRemoveUpdateRecordQuery">
+		<query> 
+            <![CDATA[   
+
+         	 UPDATE  DEDUCTION_DETAILS SET INBOUND_STATUS='D' WHERE NET_SALES_FORMULA_MASTER_SID=? AND DEDUCTION_DETAILS_SID NOT IN (:inParameter);
+ 			]]>
+		</query>
+	</entity>
+	
+		<entity id="getDeductionsRemoveUpdateRecordQueryisempty">
+		<query> 
+            <![CDATA[   
+
+         	 UPDATE  DEDUCTION_DETAILS SET INBOUND_STATUS='D' WHERE NET_SALES_FORMULA_MASTER_SID=? ;
+ 			]]>
+		</query>
+	</entity>
+	
+		<entity id="getDeductionsupdateselectRecordQuery">
+		<query> 
+            <![CDATA[   
+             DECLARE   @NET_SALES_FORMULA_MASTER_SID INT= ?,
+                       @USERS_ID VARCHAR(10)= ?,
+            		   @SESSION_ID  VARCHAR(10)= ?  
+SELECT DEDUCTION_DETAILS_SID from IMTD_DEDUCTION_DETAILS where  NET_SALES_FORMULA_MASTER_SID= @NET_SALES_FORMULA_MASTER_SID  AND USERS_SID=@USERS_ID AND SESSION_ID=@SESSION_ID  and DEDUCTION_DETAILS_SID<>0 and NET_SALES_FORMULA_MASTER_SID<> 0;
+ 			]]>
+		</query>
+	</entity>
 	<entity id="getNsfDeleteQuery">
 		<query> 
             <![CDATA[

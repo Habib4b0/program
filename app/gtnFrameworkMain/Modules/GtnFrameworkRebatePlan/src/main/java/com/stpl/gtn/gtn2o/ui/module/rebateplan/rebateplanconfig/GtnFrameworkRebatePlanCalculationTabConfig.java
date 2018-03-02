@@ -136,6 +136,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComponentConfig ruleDetailsInformationLayoutSimple = configProvider.getCssLayoutConfig(
 				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT, true,
 				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_DETAILS_LAYOUT);
+                ruleDetailsInformationLayoutSimple.setComponentWidth(GtnFrameworkCssConstants.PIXEL_500);
 		List<String> styleList = new ArrayList<>();
 		styleList.add(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
 		ruleDetailsInformationLayoutSimple.setComponentStyle(styleList);
@@ -197,7 +198,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 				GtnFrameworkCommonConstants.REBATE_PLAN_COMPLEX_TABLE_CSSLAYOUT, GtnUIFrameworkComponentType.DATATABLE);
 		rpRuleDetailsResultDataTable.setAuthorizationIncluded(true);
 		rpRuleDetailsResultDataTable.setComponentName("Results");
-		rpRuleDetailsResultDataTable.setComponentHight("500px");
+		rpRuleDetailsResultDataTable.setComponentHight(GtnFrameworkCssConstants.PIXEL_500);
 
 		rpRuleDetailsResultDataTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(rpRuleDetailsResultDataTable);
@@ -254,7 +255,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		ruleDetailsResultDataTable.setAuthorizationIncluded(true);
 		ruleDetailsResultDataTable.setComponentName("Results");
 		ruleDetailsResultDataTable.setComponentHight("400px");
-		ruleDetailsResultDataTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		ruleDetailsResultDataTable.setComponentWidth(GtnFrameworkCssConstants.PIXEL_500);
 		componentList.add(ruleDetailsResultDataTable);
 
 		GtnUIFrameworkValidationConfig ruleDetailsResultTableValidationConfig = new GtnUIFrameworkValidationConfig();
