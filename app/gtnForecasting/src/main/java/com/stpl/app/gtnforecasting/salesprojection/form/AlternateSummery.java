@@ -977,8 +977,12 @@ public class AlternateSummery extends CustomComponent {
                                     Double newNumber, oldNumber;
                                     newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
                                     oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
-
-                                    Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
+                                     Double incOrDec;
+                                    if (oldNumber == 0.0) {
+                                        incOrDec = Double.POSITIVE_INFINITY;
+                                    } else {
+                                        incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
+                                    }
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
                                     String tempArray[] = tempValue.split("-");
                                     tempValue = tempArray[NumericConstants.TWO];
