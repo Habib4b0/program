@@ -30,7 +30,7 @@ import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;

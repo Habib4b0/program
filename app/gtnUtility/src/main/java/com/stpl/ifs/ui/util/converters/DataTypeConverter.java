@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.util;
+package com.stpl.ifs.ui.util.converters;
 
 /**
  *
@@ -72,5 +72,6 @@ public class DataTypeConverter {
     public static long convertIntegerToLong(Integer intInput) {
         return Long.parseLong(String.valueOf(intInput));
     }
+
     
 }

@@ -55,10 +55,11 @@ public class GtnFrameworkRSConstants {
 	public static final String RS_POPUP_VIEW = "RSPopUpView";
 	public static final String RS_NS_RULE_VIEW = "RSNSRuleView";
 	public static final String RS_STATUS = "rsStatus";
-
-	private static final String[] RS_LOOKUP_COLUMN = { "systemId", "rsId", "rsNo", "rsName", "rsType", "rsStatus","rsCategory",GtnFrameworkCommonConstants.START_DATE,GtnFrameworkCommonConstants.END_DATE,"rsDesignation","parentRsId","parentRsName"};
+	public static final String START_DATE = "Start Date";
+	public static final String END_DATE = "End Date";
+	private static final String[] RS_LOOKUP_COLUMN = { "systemId", "rsId", "rsNo", "rsName", "rsType", RS_STATUS,"rsCategory",GtnFrameworkCommonConstants.START_DATE,GtnFrameworkCommonConstants.END_DATE,"rsDesignation","parentRsId","parentRsName"};
 	private static final String[] RS_LOOKUP_HEADER = { "System ID", "Rebate Schedule ID", "Rebate Schedule No",
-			"Rebate Schedule Name", "Rebate Schedule Type", "Rebate Schedule Status", "Rebate Schedule Category", "Start Date", "End Date", "Rebate Schedule Designation", "Parent ID", "Parent Name"};
+			"Rebate Schedule Name", "Rebate Schedule Type", "Rebate Schedule Status", "Rebate Schedule Category", START_DATE, END_DATE, "Rebate Schedule Designation", "Parent ID", "Parent Name"};
 	private static final Class<?>[] RS_LOOKUP_COLUMN_TYPE = { String.class, String.class, String.class, String.class,
 			String.class, String.class, String.class, Date.class, Date.class, String.class, String.class, String.class };
 
@@ -290,9 +291,7 @@ public class GtnFrameworkRSConstants {
 	public static final String PAYMENT_LEVEL = "paymentLevel";
 	public static final String PAYMENT_FREQUENCY = "paymentFrequency";
 	public static final String SYS_ID = "SysId";
-	public static final String END_DATE = "End Date";
 	public static final String CALCULATION_RULE_BUNDLE2 = "Calculation Rule Bundle";
-	public static final String START_DATE = "Start Date";
 	public static final String REBATE_SCHEDULE_ALIAS_ID1 = "rebateScheduleAliasId1";
 	public static final String REBATE_SCHEDULE_DESIGNATION = "rebateScheduleDesignation";
 	public static final String REBATE_SETUP_TAB_MASS_DROP_DOWN = "rebateSetupTabMassDropDown";
@@ -314,6 +313,9 @@ public class GtnFrameworkRSConstants {
 	public static final String RS_NS_RULE_VIEW_RESULT_TABLE = "RSNSRuleView_"
 			+ GtnFrameworkCommonConstants.RESULT_TABLE;
 	public static final String TEMP_CHECKED_COUNT = "tempCheckedCount";
+	public static final String ERROR_MESSAGE_COPY_HEADER="Copy Error";
+	public static final String ERROR_MESSAGE_COPY_MESSAGE="Please select a record to copy.";
+	
 
 	public static String[] getRsLookUpColumn() {
 		return RS_LOOKUP_COLUMN.clone();

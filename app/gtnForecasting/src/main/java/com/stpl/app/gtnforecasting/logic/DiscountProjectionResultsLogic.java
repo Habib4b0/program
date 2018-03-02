@@ -26,7 +26,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.BOTH;
 import static com.stpl.app.utils.Constants.LabelConstants.DASH;
 import static com.stpl.app.utils.Constants.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
