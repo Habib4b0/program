@@ -1377,8 +1377,19 @@ public class Constants {
         "", "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand Name", "Item No", "Item Name","Item Identifier Type","Item Identifier"};
     public final Object[] availableItemsVisibleColumns = new Object[]{
         Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName","itemIdentifierType","itemIdentifier"};
-    
+    public static final String HIERVER = "@HIERVER";
+
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CATEGORY = "Program Category";
      public static final String MONTH = "Monthly";
+     private static final String COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_HEADER = "COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_HEADER";
+     private static final String COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_MESSAGE = "COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_MESSAGE";
+	
+     public static String getCommercialForecastingMultipleVariablesHeader() {
+		return COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_HEADER;
+	}
+	
+     public static String getCommercialForecastingMultipleVariablesMessage() {
+		return COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_MESSAGE;
+	}
         }

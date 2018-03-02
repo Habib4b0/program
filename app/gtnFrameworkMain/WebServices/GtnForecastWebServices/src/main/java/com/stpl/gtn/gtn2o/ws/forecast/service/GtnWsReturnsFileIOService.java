@@ -285,7 +285,7 @@ public class GtnWsReturnsFileIOService {
 	 */
 	public String getFilePath(final String moduleName, final String userId, final String sessionId, String testFilePath)
 			throws GtnFrameworkGeneralException {
-		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH));
+		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
 		filePath.append(GtnFrameworkCommonStringConstants.SERIALISED_FILE_PATH);
 		filePath.append(moduleName);
 		filePath.append("/");
