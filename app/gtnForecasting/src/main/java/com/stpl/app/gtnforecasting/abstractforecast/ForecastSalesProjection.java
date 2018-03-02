@@ -24,6 +24,7 @@ import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
@@ -819,8 +820,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     notif.show(Page.getCurrent());
                     projectionDTO.getMultipleVariableCheckMap().clear();
                 } else {
-                	AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
-                    		AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
+                	try {
+						AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
+								AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
+					} catch (IOException e) {
+						
+						LOGGER.error("Exception Occurred in fetching property value:"+e.getMessage());
+					}
                     projectionDTO.setIsMultipleVariablesUpdated(false);
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     projectionDTO.getMultipleVariableCheckMap().clear();
