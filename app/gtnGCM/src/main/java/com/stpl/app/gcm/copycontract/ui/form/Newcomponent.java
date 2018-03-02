@@ -1321,6 +1321,7 @@ public class Newcomponent extends CustomComponent {
                 String levelNo = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.LEVELNO).getValue());
                 int levelNumber = Integer.parseInt(levelNo);
                 String component = String.valueOf(componenttype.getValue());
+                String userID = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
                 if (component.equals(Constants.COMPANY_FAMILY_PLAN)) {
                     if (1 - levelNumber == 1) {
                         if (!cfpId.getValue().equals(Constants.EMPTY) && !cfpNo.getValue().equals(Constants.EMPTY) && !cfpName.getValue().equals(Constants.EMPTY) && cfpStatus.getValue() != null && cfpStartDate.getValue() != null && !cfpfileName.getValue().equals(Constants.EMPTY)) {
@@ -1411,9 +1412,9 @@ public class Newcomponent extends CustomComponent {
                                 imtdItemPriceRebateDetails.setItemStatusSid(Integer.parseInt(cfpStatus.getValue().toString()));
                                 imtdItemPriceRebateDetails.setStartDate(cfpStartDate.getValue());
                                 imtdItemPriceRebateDetails.setEndDate(cfpEndDate.getValue());
-                                imtdItemPriceRebateDetails.setCreatedBy(1);
+                                imtdItemPriceRebateDetails.setCreatedBy(Integer.parseInt(userID));
                                 imtdItemPriceRebateDetails.setCreatedDate(new Date());
-                                imtdItemPriceRebateDetails.setModifiedBy(1);
+                                imtdItemPriceRebateDetails.setModifiedBy(Integer.parseInt(userID));
                                 imtdItemPriceRebateDetails.setModifiedDate(new Date());
                                 GcmGlobalDetails imtdItemPriceRebateDetails1 = GcmGlobalDetailsLocalServiceUtil.addGcmGlobalDetails(imtdItemPriceRebateDetails);
                                 String hiddenId = String.valueOf(imtdItemPriceRebateDetails1.getGcmGlobalDetailsSid());
@@ -1548,9 +1549,9 @@ public class Newcomponent extends CustomComponent {
                                     imtdItemPriceRebateDetails.setStartDate(ifpStartDate.getValue());
                                     imtdItemPriceRebateDetails.setEndDate(ifpEndDate.getValue());
                                     imtdItemPriceRebateDetails.setItemType(ifptype.getValue().toString());
-                                    imtdItemPriceRebateDetails.setCreatedBy(1);
+                                    imtdItemPriceRebateDetails.setCreatedBy(Integer.parseInt(userID));
                                     imtdItemPriceRebateDetails.setCreatedDate(new Date());
-                                    imtdItemPriceRebateDetails.setModifiedBy(1);
+                                    imtdItemPriceRebateDetails.setModifiedBy(Integer.parseInt(userID));
                                     imtdItemPriceRebateDetails.setModifiedDate(new Date());
                                     GcmGlobalDetails imtdItemPriceRebateDetails1 = GcmGlobalDetailsLocalServiceUtil.addGcmGlobalDetails(imtdItemPriceRebateDetails);
                                     String hiddenId = String.valueOf(imtdItemPriceRebateDetails1.getGcmGlobalDetailsSid());
@@ -1574,7 +1575,7 @@ public class Newcomponent extends CustomComponent {
                                                 tempIFP.setItemStatus(itemStatus);
                                                 tempIFP.setIfpModelSid(Integer.parseInt(hiddenId));
                                                 tempIFP.setCreatedDate(new Date());
-                                                tempIFP.setCreatedBy(1);
+                                                tempIFP.setCreatedBy(Integer.parseInt(userID));
                                                 tempIFP.setItemStatusSid(Integer.parseInt(itemStatus));
                                                 tempIFP.setIfpDetailsStartDate(startDate);
                                                 tempIFP.setIfpDetailsEndDate(endDate);
@@ -1675,9 +1676,9 @@ public class Newcomponent extends CustomComponent {
                                 imtdItemPriceRebateDetails.setItemStatusSid(priceScheduleStatus);
                                 imtdItemPriceRebateDetails.setStartDate(psDate);
                                 imtdItemPriceRebateDetails.setFormulaName(fName);
-                                imtdItemPriceRebateDetails.setCreatedBy(1);
+                                imtdItemPriceRebateDetails.setCreatedBy(Integer.parseInt(userID));
                                 imtdItemPriceRebateDetails.setCreatedDate(new Date());
-                                imtdItemPriceRebateDetails.setModifiedBy(1);
+                                imtdItemPriceRebateDetails.setModifiedBy(Integer.parseInt(userID));
                                 imtdItemPriceRebateDetails.setModifiedDate(new Date());
                                 try {
                                     imtdItemPriceRebateDetails = GcmGlobalDetailsLocalServiceUtil.addGcmGlobalDetails(imtdItemPriceRebateDetails);
@@ -1719,9 +1720,9 @@ public class Newcomponent extends CustomComponent {
                                                 imtdPsDetails.setPsDtlsContPriceEnddate(df.parse(eDate));
                                             }
                                             imtdPsDetails.setPsDetailsPrice(Double.parseDouble(price));
-                                            imtdPsDetails.setCreatedBy(1);
+                                            imtdPsDetails.setCreatedBy(Integer.parseInt(userID));
                                             imtdPsDetails.setCreatedDate(new Date());
-                                            imtdPsDetails.setModifiedBy(1);
+                                            imtdPsDetails.setModifiedBy(Integer.parseInt(userID));
                                             imtdPsDetails.setModifiedDate(new Date());
                                             ImtdPsDetailsLocalServiceUtil.addImtdPsDetails(imtdPsDetails);
 
@@ -1821,9 +1822,9 @@ public class Newcomponent extends CustomComponent {
                                 imtdItemPriceRebateDetails.setFormulaName(rpLevel);
                                 imtdItemPriceRebateDetails.setPaymentMethod(payMethod);
                                 imtdItemPriceRebateDetails.setCalendar(cal);
-                                imtdItemPriceRebateDetails.setCreatedBy(1);
+                                imtdItemPriceRebateDetails.setCreatedBy(Integer.parseInt(userID));
                                 imtdItemPriceRebateDetails.setCreatedDate(new Date());
-                                imtdItemPriceRebateDetails.setModifiedBy(1);
+                                imtdItemPriceRebateDetails.setModifiedBy(Integer.parseInt(userID));
                                 imtdItemPriceRebateDetails.setModifiedDate(new Date());
                                 final Object rootId = dashboardResultsTable.addItem();
 
@@ -1858,9 +1859,9 @@ public class Newcomponent extends CustomComponent {
                                             imtdPsDetails.setItemMasterSid(Integer.parseInt(itemId));
                                             imtdPsDetails.setPsDtlsContPriceStartdate(df.parse(sDate));
                                             imtdPsDetails.setPsDetailsPrice(Double.parseDouble("10"));
-                                            imtdPsDetails.setCreatedBy(1);
+                                            imtdPsDetails.setCreatedBy(Integer.parseInt(userID));
                                             imtdPsDetails.setCreatedDate(new Date());
-                                            imtdPsDetails.setModifiedBy(1);
+                                            imtdPsDetails.setModifiedBy(Integer.parseInt(userID));
                                             imtdPsDetails.setModifiedDate(new Date());
                                             ImtdPsDetailsLocalServiceUtil.addImtdPsDetails(imtdPsDetails);
                                             clearPSFields();
@@ -1970,7 +1971,7 @@ public class Newcomponent extends CustomComponent {
                 CAM.setStartDate(AliasSDATE);
                 CAM.setEndDate(AliasEDATE);
                 CAM.setModifiedDate(new Date());
-                CAM.setCreatedBy(1);
+                CAM.setCreatedBy(Integer.parseInt(userId));
                 CAM.setCreatedDate(new Date());
                 CAM.setSource("BPI");
                 CAM.setInboundStatus("A");
@@ -2121,7 +2122,7 @@ public class Newcomponent extends CustomComponent {
                 cfpmodel.setCfpStatus(status);
                 cfpmodel.setCfpStartDate(startDate);
                 cfpmodel.setCfpType(contractType);
-                cfpmodel.setCreatedBy(1);
+                cfpmodel.setCreatedBy(Integer.parseInt(userId));
                 cfpmodel.setCreatedDate(new Date());
                 cfpmodel.setCfpEndDate(endDate);
                 cfpmodel.setSource("BPI");
@@ -2144,9 +2145,9 @@ public class Newcomponent extends CustomComponent {
                 cfpMasterAttached.setCfpTradeClass(companyFamily.getCfpTradeClass());
                 cfpMasterAttached.setCfpStartDate(companyFamily.getCfpStartDate());
                 cfpMasterAttached.setCfpEndDate(companyFamily.getCfpEndDate());
-                cfpMasterAttached.setCreatedBy(1);
+                cfpMasterAttached.setCreatedBy(Integer.parseInt(userId));
                 cfpMasterAttached.setCreatedDate(new Date());
-                cfpMasterAttached.setModifiedBy(1);
+                cfpMasterAttached.setModifiedBy(Integer.parseInt(userId));
                 cfpMasterAttached.setModifiedDate(new Date());
                 cfpMasterAttached.setCfpContractAttachedDate(new Date());
                 cfpMasterAttached.setRecordLockStatus(false);
@@ -2172,7 +2173,7 @@ public class Newcomponent extends CustomComponent {
                 ifpmodel.setIfpStartDate(startDate);
                 ifpmodel.setIfpEndDate(endDate);
                 ifpmodel.setIfpType(Type);
-                ifpmodel.setCreatedBy(1);
+                ifpmodel.setCreatedBy(Integer.parseInt(userId));
                 ifpmodel.setCreatedDate(new Date());
                 ifpmodel.setSource("BPI");
                 ifpmodel.setInboundStatus("A");
@@ -2195,9 +2196,9 @@ public class Newcomponent extends CustomComponent {
                 ifpMasterAttached.setIfpStartDate(itemFamily.getIfpStartDate());
                 ifpMasterAttached.setIfpEndDate(itemFamily.getIfpEndDate());
                 ifpMasterAttached.setIfpContractAttachedDate(new Date());
-                ifpMasterAttached.setCreatedBy(1);
+                ifpMasterAttached.setCreatedBy(Integer.parseInt(userId));
                 ifpMasterAttached.setCreatedDate(new Date());
-                ifpMasterAttached.setModifiedBy(1);
+                ifpMasterAttached.setModifiedBy(Integer.parseInt(userId));
                 ifpMasterAttached.setModifiedDate(new Date());
                 ifpMasterAttached.setRecordLockStatus(false);
                 ifpMasterAttached.setInboundStatus("A");

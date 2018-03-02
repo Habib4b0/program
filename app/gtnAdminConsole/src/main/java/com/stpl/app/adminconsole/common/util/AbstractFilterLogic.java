@@ -238,7 +238,7 @@ public class AbstractFilterLogic {
                 }
             }
             if (sql.length() != 0) {
-                sql.append(")");
+                sql.append(')');
             }
         }
         return sql;

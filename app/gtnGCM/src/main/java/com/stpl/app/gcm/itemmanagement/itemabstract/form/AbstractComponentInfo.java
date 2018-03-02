@@ -162,11 +162,11 @@ public class AbstractComponentInfo extends CustomComponent {
 
     public final Object[] rsCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
     public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
-    public final ComponentInfoDTO binderDto = new ComponentInfoDTO();
+    private ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     private SelectionDTO selection;
-    public final AbstractLogic abstractLogic = AbstractLogic.getInstance();
+    private AbstractLogic abstractLogic = AbstractLogic.getInstance();
     private String componentFlag = StringUtils.EMPTY;
     private BeanItemContainer<ComponentInfoDTO> contractExcelResultBean = new BeanItemContainer<>(ComponentInfoDTO.class);
     private ExtCustomTable contractExcelTable;
@@ -780,7 +780,7 @@ public class AbstractComponentInfo extends CustomComponent {
             selection.setFilters(tablelogic.getFilters());
             recordCount = logic.getComponentInfoCount(binderDto, selection);
         }
-        ExcelExportforBB.createWorkSheet(currentComponentTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(currentComponentTable.getColumnHeaders(), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {

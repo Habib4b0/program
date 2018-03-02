@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class NmPpaProjectionMasterImpl {
             if(priceCap instanceof Boolean)
             {
                 sql.append("UPDATE NM_PPA_PROJECTION_MASTER SET CHECK_RECORD=");
-                if(Boolean.valueOf(priceCap.toString()))
+                if(Boolean.parseBoolean(priceCap.toString()))
                 sql.append(1);
                 else
                     sql.append(0);
@@ -200,10 +201,10 @@ public class NmPpaProjectionMasterImpl {
                         + "        RLD.RELATIONSHIP_LEVEL_VALUES,");
             }
             
-            if (frequency.equals("Quarterly")) {
+            if (frequency.equals(Constant.QUARTERLY)) {
                 sql.append("PER.QUARTER,\n");
             }
-            if (frequency.equals("Semi-Annually")) {
+            if (frequency.equals(Constant.SEMI_ANNUALY)) {
                 sql.append("PER.SEMI_ANNUAL,\n");
             }
             if (frequency.equals(Constants.MONTHLY)) {
@@ -258,44 +259,44 @@ public class NmPpaProjectionMasterImpl {
             if (!frequency.equals(Constants.ANNUALLY)) {
                 sql.append(" and PER.PERIOD_SID in (SELECT period_sid \n"
                         + " FROM \"PERIOD\" WHERE PERIOD_DATE>=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE ");
-                if (frequency.equals("Quarterly")) {
+                if (frequency.equals(Constant.QUARTERLY)) {
                     sql.append("QUARTER=");
                     sql.append(startFrequency);
-                    sql.append(" AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(startYear);
                     
-                    sql.append(" ORDER BY PERIOD_SID)AND \n"
+                    sql.append(ORDER_BY_PERIOD_SID_AND
                             + " PERIOD_DATE<=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE QUARTER =");
                     sql.append(endFrequency);
-                    sql.append("AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(endYear);
-                    sql.append(" ORDER BY PERIOD_SID DESC))");
+                    sql.append(ORDER_BY_PERIOD_SID_DESC);
                 }
-                if (frequency.equals("Semi-Annually")) {
+                if (frequency.equals(Constant.SEMI_ANNUALY)) {
                     sql.append("SEMI_ANNUAL=");
                     sql.append(startFrequency);
-                    sql.append(" AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(startYear);
                     
-                    sql.append(" ORDER BY PERIOD_SID)AND \n"
+                    sql.append(ORDER_BY_PERIOD_SID_AND
                             + " PERIOD_DATE<=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE SEMI_ANNUAL =");
                     sql.append(endFrequency);
-                    sql.append("AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(endYear);
-                    sql.append(" ORDER BY PERIOD_SID DESC))");
+                    sql.append(ORDER_BY_PERIOD_SID_DESC);
                 }
                 if (frequency.equals(Constants.MONTHLY)) {
                     sql.append("MONTH=");
                     sql.append(startFrequency);
-                    sql.append(" AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(startYear);
                     
-                    sql.append(" ORDER BY PERIOD_SID)AND \n"
+                    sql.append(ORDER_BY_PERIOD_SID_AND
                             + " PERIOD_DATE<=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE MONTH =");
                     sql.append(endFrequency);
-                    sql.append("AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(endYear);
-                    sql.append(" ORDER BY PERIOD_SID DESC))");
+                    sql.append(ORDER_BY_PERIOD_SID_DESC);
                 }
             } else {
                 sql.append(" and PER.YEAR>=2015\n"
@@ -308,10 +309,10 @@ public class NmPpaProjectionMasterImpl {
                         + "           RLD.LEVEL_NAME,\n");
             }
             sql.append("             PER.YEAR \n");
-            if (frequency.equals("Quarterly")) {
+            if (frequency.equals(Constant.QUARTERLY)) {
                 sql.append(",PER.QUARTER \n");
             }
-            if (frequency.equals("Semi-Annually")) {
+            if (frequency.equals(Constant.SEMI_ANNUALY)) {
                 sql.append(",PER.SEMI_ANNUAL \n");
             }
             if (frequency.equals(Constants.MONTHLY)) {
@@ -332,10 +333,10 @@ public class NmPpaProjectionMasterImpl {
                         + "        RLD.LEVEL_NAME,\n"
                         + "        RLD.RELATIONSHIP_LEVEL_VALUES,\n");
             }
-            if (frequency.equals("Quarterly")) {
+            if (frequency.equals(Constant.QUARTERLY)) {
                 sql.append("PER.QUARTER,\n");
             }
-            if (frequency.equals("Semi-Annually")) {
+            if (frequency.equals(Constant.SEMI_ANNUALY)) {
                 sql.append("PER.SEMI_ANNUAL,\n");
             }
             if (frequency.equals(Constants.MONTHLY)) {
@@ -388,44 +389,44 @@ public class NmPpaProjectionMasterImpl {
             if (!frequency.equals(Constants.ANNUALLY)) {
                 sql.append(" and PER.PERIOD_SID in (SELECT period_sid \n"
                         + " FROM \"PERIOD\" WHERE PERIOD_DATE>=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE ");
-                if (frequency.equals("Quarterly")) {
+                if (frequency.equals(Constant.QUARTERLY)) {
                     sql.append("QUARTER=");
                     sql.append(startFrequency);
-                    sql.append(" AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(startYear);
                     
-                    sql.append(" ORDER BY PERIOD_SID)AND \n"
+                    sql.append(ORDER_BY_PERIOD_SID_AND
                             + " PERIOD_DATE<=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE QUARTER =");
                     sql.append(endFrequency);
-                    sql.append("AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(endYear);
-                    sql.append(" ORDER BY PERIOD_SID DESC))");
+                    sql.append(ORDER_BY_PERIOD_SID_DESC);
                 }
-                if (frequency.equals("Semi-Annually")) {
+                if (frequency.equals(Constant.SEMI_ANNUALY)) {
                     sql.append("SEMI_ANNUAL=");
                     sql.append(startFrequency);
-                    sql.append(" AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(startYear);
                     
-                    sql.append(" ORDER BY PERIOD_SID)AND \n"
+                    sql.append(ORDER_BY_PERIOD_SID_AND
                             + " PERIOD_DATE<=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE SEMI_ANNUAL =");
                     sql.append(endFrequency);
-                    sql.append("AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(endYear);
-                    sql.append(" ORDER BY PERIOD_SID DESC))");
+                    sql.append(ORDER_BY_PERIOD_SID_DESC);
                 }
                 if (frequency.equals(Constants.MONTHLY)) {
                     sql.append("MONTH=");
                     sql.append(startFrequency);
-                    sql.append(" AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(startYear);
                     
-                    sql.append(" ORDER BY PERIOD_SID)AND \n"
+                    sql.append(ORDER_BY_PERIOD_SID_AND
                             + " PERIOD_DATE<=(SELECT TOP 1 PERIOD_DATE FROM \"PERIOD\" WHERE MONTH =");
                     sql.append(endFrequency);
-                    sql.append("AND  YEAR=");
+                    sql.append(AND_YEAR);
                     sql.append(endYear);
-                    sql.append(" ORDER BY PERIOD_SID DESC))");
+                    sql.append(ORDER_BY_PERIOD_SID_DESC);
                 }
             } else {
                 sql.append(" and PER.YEAR>=2015\n"
@@ -438,10 +439,10 @@ public class NmPpaProjectionMasterImpl {
                         + "           RLD.LEVEL_NAME,\n");
             }
             sql.append("           PER.YEAR\n");
-            if (frequency.equals("Quarterly")) {
+            if (frequency.equals(Constant.QUARTERLY)) {
                 sql.append(",PER.QUARTER \n");
             }
-            if (frequency.equals("Semi-Annually")) {
+            if (frequency.equals(Constant.SEMI_ANNUALY)) {
                 sql.append(",PER.SEMI_ANNUAL \n");
             }
             if (frequency.equals(Constants.MONTHLY)) {
@@ -456,10 +457,10 @@ public class NmPpaProjectionMasterImpl {
             }
             sql.append(" )ORDER BY YEAR");
             
-            if (frequency.equals("Quarterly")) {
+            if (frequency.equals(Constant.QUARTERLY)) {
                 sql.append(",QUARTER\n");
             }
-            if (frequency.equals("Semi-Annually")) {
+            if (frequency.equals(Constant.SEMI_ANNUALY)) {
                 sql.append(",SEMI_ANNUAL\n");
             }
             if (frequency.equals(Constants.MONTHLY)) {
@@ -474,6 +475,9 @@ public class NmPpaProjectionMasterImpl {
         
         return resultList;
     }
+    public static final String ORDER_BY_PERIOD_SID_DESC = " ORDER BY PERIOD_SID DESC))";
+    public static final String ORDER_BY_PERIOD_SID_AND = " ORDER BY PERIOD_SID)AND \n";
+    public static final String AND_YEAR = " AND  YEAR=";
      
    public List getLevelValues(int projectionId, int levelNo, String parent) {
      

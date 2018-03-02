@@ -303,6 +303,8 @@ public class AlternateHistory extends CustomWindow {
                 }
                 tabSheet.setSelectedTab(lastPosition);
                 break; 
+            default:
+                break;
         }
     }
 

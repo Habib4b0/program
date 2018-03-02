@@ -72,8 +72,9 @@ import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.IMAGE_AS_CO
  */
 public class ExtCustomTable extends AbstractSelect implements Action.Container,
         Container.Ordered, Container.Sortable, ItemClickEvent.ItemClickNotifier, DragSource,
-        DropTarget, HasComponents{
-     /**
+        DropTarget, HasComponents {
+
+    /**
      * The logger.
      */
     private transient Logger logger = null;
@@ -294,8 +295,8 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
         INDEX(ItemCaptionMode.INDEX),
         /**
          * Row caption mode: Item captions are explicitly specified, but if the
-         * caption is missing, the item id objects
-         * <code>toString()</code> is used instead.
+         * caption is missing, the item id objects <code>toString()</code> is
+         * used instead.
          */
         EXPLICIT_DEFAULTS_ID(ItemCaptionMode.EXPLICIT_DEFAULTS_ID),
         /**
@@ -1715,9 +1716,8 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
 
     /**
      * Checks if the given column is collapsible. Note that even if this method
-     * returns
-     * <code>true</code>, the column can only be actually collapsed (via UI or
-     * with {@link #setColumnCollapsed(Object, boolean)
+     * returns <code>true</code>, the column can only be actually collapsed (via
+     * UI or with {@link #setColumnCollapsed(Object, boolean)
      * setColumnCollapsed()}) if {@link #isColumnCollapsingAllowed()} is also
      * true.
      *
@@ -2358,8 +2358,8 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
     private Object[][] getVisibleCellsInsertIntoCache(int firstIndex, int rows) {
         getLogger()
                 .log(Level.FINEST,
-                "Insert {0} rows at index {1} to existing page buffer requested",
-                new Object[]{rows, firstIndex});
+                        "Insert {0} rows at index {1} to existing page buffer requested",
+                        new Object[]{rows, firstIndex});
 
         int minPageBufferIndex = getMinPageBufferIndex();
         int maxPageBufferIndex = getMaxPageBufferIndex();
@@ -2475,10 +2475,10 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                     Level.FINEST,
                     "Page Buffer now contains {0} rows ({1}-{2})",
                     new Object[]{
-                pageBuffer[CELL_ITEMID].length,
-                pageBufferFirstIndex,
-                (pageBufferFirstIndex
-                + pageBuffer[CELL_ITEMID].length - 1)});
+                        pageBuffer[CELL_ITEMID].length,
+                        pageBufferFirstIndex,
+                        (pageBufferFirstIndex
+                        + pageBuffer[CELL_ITEMID].length - 1)});
         }
         return cells;
     }
@@ -2814,7 +2814,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                 Level.FINEST,
                 "Registered {0}: {1}",
                 new Object[]{component.getClass().getSimpleName(),
-            component.getCaption()});
+                    component.getCaption()});
         if (!equals(component.getParent())) {
             component.setParent(this);
         }
@@ -2938,7 +2938,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                 Level.FINEST,
                 "Unregistered {0}: {1}",
                 new Object[]{component.getClass().getSimpleName(),
-            component.getCaption()});
+                    component.getCaption()});
         component.setParent(null);
         /*
          * Also remove property data sources to unregister listeners keeping the
@@ -2963,10 +2963,10 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
      * The mode can be one of the following ones:
      * <ul>
      * <li>{@link #ROW_HEADER_MODE_HIDDEN}: The row captions are hidden.</li>
-     * <li>{@link #ROW_HEADER_MODE_ID}: Items Id-objects
-     * <code>toString()</code> is used as row caption.
-     * <li>{@link #ROW_HEADER_MODE_ITEM}: Item-objects
-     * <code>toString()</code> is used as row caption.
+     * <li>{@link #ROW_HEADER_MODE_ID}: Items Id-objects <code>toString()</code>
+     * is used as row caption.
+     * <li>{@link #ROW_HEADER_MODE_ITEM}: Item-objects <code>toString()</code>
+     * is used as row caption.
      * <li>{@link #ROW_HEADER_MODE_PROPERTY}: Property set with
      * {@link #setItemCaptionPropertyId(Object)} is used as row header.
      * <li>{@link #ROW_HEADER_MODE_EXPLICIT_DEFAULTS_ID}: Items Id-objects
@@ -3428,7 +3428,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                         Level.FINEST,
                         "Client wants rows {0}-{1}",
                         new Object[]{reqFirstRowToPaint,
-                    (reqFirstRowToPaint + reqRowsToPaint - 1)});
+                            (reqFirstRowToPaint + reqRowsToPaint - 1)});
             }
             clientNeedsContentRefresh = true;
         }
@@ -3497,7 +3497,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                 clientNeedsContentRefresh = true;
             }
         }
-       
+
         enableContentRefreshing(clientNeedsContentRefresh);
 
         // Actions
@@ -4585,7 +4585,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
 
             if ((iscomponent[currentColumn] || iseditable || cells[CELL_GENERATED_ROW][indexInRowbuffer] != null)
                     && Component.class.isInstance(cells[CELL_FIRSTCOL
-                    + currentColumn][indexInRowbuffer])) {
+                            + currentColumn][indexInRowbuffer])) {
                 final Component c = (Component) cells[CELL_FIRSTCOL
                         + currentColumn][indexInRowbuffer];
                 if (c == null
@@ -5005,8 +5005,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
     }
 
     /**
-     * Removes the Item identified by
-     * <code>ItemId</code> from the Container.
+     * Removes the Item identified by <code>ItemId</code> from the Container.
      *
      * @param itemId the item id
      * @return true, if successful
@@ -5954,28 +5953,28 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
      * @param clientVariables the client variables
      * @return the abstract select target details
      */
-   @Override
-	public AbstractSelectTargetDetails translateDropTargetDetails(Map<String, Object> clientVariables) {
-		return new DommyAbstractSelectTargetDetails(clientVariables);
-	}
+    @Override
+    public AbstractSelectTargetDetails translateDropTargetDetails(Map<String, Object> clientVariables) {
+        return new DommyAbstractSelectTargetDetails(clientVariables);
+    }
 
-	/**
-	 * TargetDetails implementation for subclasses of {@link AbstractSelect}
-	 * that implement {@link DropTarget}.
-	 * 
-	 * @since 6.3
-	 */
-	public class DommyAbstractSelectTargetDetails extends AbstractSelect.AbstractSelectTargetDetails {
+    /**
+     * TargetDetails implementation for subclasses of {@link AbstractSelect}
+     * that implement {@link DropTarget}.
+     *
+     * @since 6.3
+     */
+    public class DommyAbstractSelectTargetDetails extends AbstractSelect.AbstractSelectTargetDetails {
 
-		/**
-		 * Constructor that automatically converts itemIdOver key to
-		 * corresponding item Id
-		 * 
-		 */
-		protected DommyAbstractSelectTargetDetails(Map<String, Object> rawVariables) {
-			super(rawVariables);
-		}
-	}
+        /**
+         * Constructor that automatically converts itemIdOver key to
+         * corresponding item Id
+         *
+         */
+        protected DommyAbstractSelectTargetDetails(Map<String, Object> rawVariables) {
+            super(rawVariables);
+        }
+    }
 
     /**
      * Sets the behavior of how the multi-select mode should behave when the
@@ -6129,7 +6128,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                 // Set the header click method
                 HEADER_CLICK_METHOD = HeaderClickListener.class
                         .getDeclaredMethod("headerClick",
-                        new Class[]{HeaderClickEvent.class});
+                                new Class[]{HeaderClickEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -6182,7 +6181,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                 // Set the header click method
                 FOOTER_CLICK_METHOD = FooterClickListener.class
                         .getDeclaredMethod("footerClick",
-                        new Class[]{FooterClickEvent.class});
+                                new Class[]{FooterClickEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -6421,7 +6420,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_RESIZE_METHOD = ColumnResizeListener.class
                         .getDeclaredMethod("columnResize",
-                        new Class[]{ColumnResizeEvent.class});
+                                new Class[]{ColumnResizeEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -6939,6 +6938,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
     protected TableState getState(boolean markAsDirty) {
         return (TableState) super.getState(markAsDirty);
     }
+
     /**
      * Gets the logger.
      *
@@ -7760,7 +7760,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_RESIZE_METHOD = DoubleHeaderColumnResizeListener.class
                         .getDeclaredMethod("doubleHeaderColumnResize",
-                        new Class[]{DoubleHeaderColumnResizeEvent.class});
+                                new Class[]{DoubleHeaderColumnResizeEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -7905,7 +7905,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                 // Set the header click method
                 HEADER_CLICK_METHOD = DoubleHeaderClickListener.class
                         .getDeclaredMethod("doubleHeaderClick",
-                        new Class[]{DoubleHeaderClickEvent.class});
+                                new Class[]{DoubleHeaderClickEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -8023,7 +8023,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_CHECK_METHOD = ColumnCheckListener.class
                         .getDeclaredMethod("columnCheck",
-                        new Class[]{ColumnCheckEvent.class});
+                                new Class[]{ColumnCheckEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -8149,7 +8149,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_CHECK_METHOD = DoubleHeaderColumnCheckListener.class
                         .getDeclaredMethod("doubleHeaderColumnCheck",
-                        new Class[]{DoubleHeaderColumnCheckEvent.class});
+                                new Class[]{DoubleHeaderColumnCheckEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -8278,7 +8278,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_EXPAND_ICON_METHOD = ColumnExpandIconListener.class
                         .getDeclaredMethod("columnExpandIcon",
-                        new Class[]{ColumnExpandIconEvent.class});
+                                new Class[]{ColumnExpandIconEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -8405,7 +8405,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_EXPAND_ICON_METHOD = DoubleHeaderColumnExpandIconListener.class
                         .getDeclaredMethod("doubleHeaderColumnExpandIcon",
-                        new Class[]{DoubleHeaderColumnExpandIconEvent.class});
+                                new Class[]{DoubleHeaderColumnExpandIconEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -8534,7 +8534,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_RADIO_CHECK_METHOD = ColumnRadioCheckListener.class
                         .getDeclaredMethod("columnRadioCheck",
-                        new Class[]{ColumnRadioCheckEvent.class});
+                                new Class[]{ColumnRadioCheckEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -8710,7 +8710,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_RADIO_CHECK_METHOD = DoubleHeaderColumnRadioCheckListener.class
                         .getDeclaredMethod("doubleHeaderColumnRadioCheck",
-                        new Class[]{DoubleHeaderColumnRadioCheckEvent.class});
+                                new Class[]{DoubleHeaderColumnRadioCheckEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -9191,9 +9191,8 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
 
     /**
      * Checks if the given column is collapsible. Note that even if this method
-     * returns
-     * <code>true</code>, the column can only be actually collapsed (via UI or
-     * with {@link #setColumnCollapsed(Object, boolean)
+     * returns <code>true</code>, the column can only be actually collapsed (via
+     * UI or with {@link #setColumnCollapsed(Object, boolean)
      * setColumnCollapsed()}) if {@link #isColumnCollapsingAllowed()} is also
      * true.
      *
@@ -10419,7 +10418,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_RESIZE_METHOD = TripleHeaderColumnResizeListener.class
                         .getDeclaredMethod("tripleHeaderColumnResize",
-                        new Class[]{TripleHeaderColumnResizeEvent.class});
+                                new Class[]{TripleHeaderColumnResizeEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -10564,7 +10563,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
                 // Set the header click method
                 HEADER_CLICK_METHOD = TripleHeaderClickListener.class
                         .getDeclaredMethod("tripleHeaderClick",
-                        new Class[]{TripleHeaderClickEvent.class});
+                                new Class[]{TripleHeaderClickEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -10981,9 +10980,8 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
 
     /**
      * Checks if the given column is collapsible. Note that even if this method
-     * returns
-     * <code>true</code>, the column can only be actually collapsed (via UI or
-     * with {@link #setColumnCollapsed(Object, boolean)
+     * returns <code>true</code>, the column can only be actually collapsed (via
+     * UI or with {@link #setColumnCollapsed(Object, boolean)
      * setColumnCollapsed()}) if {@link #isColumnCollapsingAllowed()} is also
      * true.
      *
@@ -11590,7 +11588,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_CHECK_METHOD = TripleHeaderColumnCheckListener.class
                         .getDeclaredMethod("tripleHeaderColumnCheck",
-                        new Class[]{TripleHeaderColumnCheckEvent.class});
+                                new Class[]{TripleHeaderColumnCheckEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -11856,7 +11854,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_EXPAND_ICON_METHOD = TripleHeaderColumnExpandIconListener.class
                         .getDeclaredMethod("tripleHeaderColumnExpandIcon",
-                        new Class[]{TripleHeaderColumnExpandIconEvent.class});
+                                new Class[]{TripleHeaderColumnExpandIconEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -11982,7 +11980,7 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             try {
                 COLUMN_RADIO_CHECK_METHOD = TripleHeaderColumnRadioCheckListener.class
                         .getDeclaredMethod("tripleHeaderColumnRadioCheck",
-                        new Class[]{TripleHeaderColumnRadioCheckEvent.class});
+                                new Class[]{TripleHeaderColumnRadioCheckEvent.class});
             } catch (final java.lang.NoSuchMethodException e) {
                 // This should never happen
                 throw new java.lang.RuntimeException(e);
@@ -12319,7 +12317,10 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
      * The Enum Column Expand Icon Style.
      */
     public enum ColumnExpandIconStyle {
-        /** The Icon will look like [+] or [-] and those will be image. */
+
+        /**
+         * The Icon will look like [+] or [-] and those will be image.
+         */
         ICON_IMAGE_PLUS_MINUS(IMAGE_AS_COLUMN_EXPAND_ICON_PLUS_MINUS),
         /**
          * Icon will look like (->) or (<-).
@@ -12384,5 +12385,12 @@ public class ExtCustomTable extends AbstractSelect implements Action.Container,
             }
             addStyleName(columnExpandIconStyle.toString());
         }
-    }    
+    }
+
+    public void setCheckAll(Object propertyId, boolean isChecked) {
+        if (columncheckboxes.containsKey(propertyId)) {
+            columncheckboxes.put(propertyId, isChecked);
+            markAsDirty();
+        }
+    }
 }

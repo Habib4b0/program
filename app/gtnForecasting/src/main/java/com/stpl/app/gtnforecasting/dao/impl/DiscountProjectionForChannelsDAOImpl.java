@@ -530,6 +530,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                         startMonth = NumericConstants.TEN;
                         endMonth = NumericConstants.TWELVE;
                         break;
+                    default:
+                        break;
                 }
             }
             if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
@@ -541,6 +543,8 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     case NumericConstants.TWO:
                         startMonth = NumericConstants.SEVEN;
                         endMonth = NumericConstants.TWELVE;
+                        break;
+                    default:
                         break;
                 }
             }

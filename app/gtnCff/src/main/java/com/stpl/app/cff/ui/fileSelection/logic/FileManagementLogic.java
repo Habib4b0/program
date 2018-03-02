@@ -230,10 +230,10 @@ public class FileManagementLogic {
 		} else if (ConstantsUtils.DEMAND.equals(fileType)) {
 			sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM DEMAND_FORECAST DF WHERE FORECAST_NAME like '"
 					+ fileName + "' AND COUNTRY like '" + country + "' AND FORECAST_VER like  '" + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -242,10 +242,10 @@ public class FileManagementLogic {
 		} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(fileType)) {
 			sqlString = "SELECT INW.FORECAST_NAME,INW.FORECAST_VER,INW.CREATED_DATE FROM INVENTORY_WD_PROJ_MAS INW WHERE INW.FORECAST_NAME like '"
 					+ fileName + "' AND INW.COUNTRY like '" + country + "' AND INW.FORECAST_VER like '" + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -255,10 +255,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT INW.FORECAST_NAME,INW.FORECAST_VER,INW.CREATED_DATE FROM INVENTORY_WD_PROJ_DT INW WHERE INW.FORECAST_NAME like '"
 					+ fileName + "' AND INW.COUNTRY like '" + country + "%' AND INW.FORECAST_VER like '" + version
 					+ "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -267,10 +267,10 @@ public class FileManagementLogic {
 		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType)) {
 			sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM CUSTOMER_GTS_FORECAST DF WHERE FORECAST_NAME like '"
 					+ fileName + "' AND COUNTRY like '" + country + "' AND FORECAST_VER like '" + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -279,10 +279,10 @@ public class FileManagementLogic {
 		} else if (ConstantsUtils.ADJUSTED_DEMAND.equals(fileType)) {
 			sqlString = "SELECT FORECAST_NAME, FORECAST_VER, CREATED_DATE FROM dbo.ADJUSTED_DEMAND_FORECAST WHERE FORECAST_NAME like '"
 					+ fileName + "' AND  COUNTRY like '" + country + "' AND FORECAST_VER like '" + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -2120,7 +2120,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2257,7 +2257,7 @@ public class FileManagementLogic {
 			int x = 0, y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
-				String tmpString = versionArray[0].replace(".", "~");
+				String tmpString = versionArray[0].replace('.', '~');
 				version2Array = tmpString.split("~");
 				y = Integer.parseInt(version2Array[1]);
 			} else {
@@ -2266,7 +2266,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2390,7 +2390,7 @@ public class FileManagementLogic {
 			int x = 0, y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
-				String tmpString = versionArray[0].replace(".", "~");
+				String tmpString = versionArray[0].replace('.', '~');
 				version2Array = tmpString.split("~");
 				y = Integer.parseInt(version2Array[1]);
 			} else {
@@ -2399,7 +2399,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat("  INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2606,7 +2606,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2759,7 +2759,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER  in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;

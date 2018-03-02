@@ -274,30 +274,30 @@ public class NationalAssumptionLogic {
                                 + "	VALUES  ");
                         queryBuilder.append("('").append(projectionId).append("',");
 
-                        queryBuilder.append("'").append(priceType.getPriceType() != null ? priceType.getPriceType().equals(Constant.ANNUAL_FSS) ? "AFSS" : priceType.getPriceType() : StringUtils.EMPTY).append("',");
-                        queryBuilder.append("'").append(priceType.getBaselineMethodology() != null ? priceType.getBaselineMethodology() : StringUtils.EMPTY).append("',");
-                        queryBuilder.append("'").append(priceType
+                        queryBuilder.append('\'').append(priceType.getPriceType() != null ? priceType.getPriceType().equals(Constant.ANNUAL_FSS) ? "AFSS" : priceType.getPriceType() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getBaselineMethodology() != null ? priceType.getBaselineMethodology() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType
                                 .getForecastMethodology() != null ? priceType.getForecastMethodology() : StringUtils.EMPTY).append("',");
 
-                        queryBuilder.append("'").append(priceType.getBasePeriod() != null ? priceType.getBasePeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getBasePeriod() != null ? priceType.getBasePeriod() : StringUtils.EMPTY).append("',");
 
-                        queryBuilder.append("'").append(priceType.getRollingPeriod() != null ? priceType.getRollingPeriod() : StringUtils.EMPTY).append("',");
-                        queryBuilder.append("'").append(priceType.getStartPeriod() != null ? priceType.getStartPeriod() : StringUtils.EMPTY).append("',");
-                        queryBuilder.append("'").append(priceType.getEndPeriod() != null ? priceType.getEndPeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getRollingPeriod() != null ? priceType.getRollingPeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getStartPeriod() != null ? priceType.getStartPeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getEndPeriod() != null ? priceType.getEndPeriod() : StringUtils.EMPTY).append("',");
 
                         if (GROWTH.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())) {
                             String growthString = priceType.getGrowthRate();
                             growthString = StringUtils.isNotBlank(growthString) ? growthString.trim().replace(Constant.PERCENT, StringUtils.EMPTY) : Constant.DASH;
 
-                            queryBuilder.append("'").append(Double.valueOf(growthString)).append("',");
+                            queryBuilder.append('\'').append(Double.valueOf(growthString)).append("',");
                             if (priceType.getFrequency() != null && !ANNUAL.getConstant().equals(priceType.getCpiCompounding())) {
-                                queryBuilder.append("'").append(priceType.getFrequency()).append("',");
+                                queryBuilder.append('\'').append(priceType.getFrequency()).append("',");
                             } else {
                                 queryBuilder.append(" NULL ,");
                             }
 
                         } else {
-                            queryBuilder.append("'").append(0).append("',");
+                            queryBuilder.append('\'').append(0).append("',");
                             queryBuilder.append(" NULL ,");
                         }
 
@@ -320,12 +320,12 @@ public class NationalAssumptionLogic {
                                 default:
                                     break;
                             }
-                            queryBuilder.append("'").append(priceBasis).append("',");
+                            queryBuilder.append('\'').append(priceBasis).append("',");
                         } else {
-                            queryBuilder.append("'").append(StringUtils.EMPTY).append("',");
+                            queryBuilder.append('\'').append(StringUtils.EMPTY).append("',");
                         }
                         if (priceType.getCpiCompounding() != null) {
-                            queryBuilder.append("'").append(priceType.getCpiCompounding()).append("'");
+                            queryBuilder.append('\'').append(priceType.getCpiCompounding()).append('\'');
                         } else {
                             queryBuilder.append(" NULL ");
                         }
@@ -739,7 +739,7 @@ public class NationalAssumptionLogic {
 
             projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_MASTER_SID));
             projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_NO));
-            projectionList.add(ProjectionFactoryUtil.property("itemDesc"));
+            projectionList.add(ProjectionFactoryUtil.property(ITEM_DESC));
             ndcQuery.setProjection(projectionList);
             ndcQuery.addOrder(OrderFactoryUtil.asc(Constant.ITEM_NO));
             ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
@@ -813,6 +813,7 @@ public class NationalAssumptionLogic {
         }
         return list;
     }
+    public static final String ITEM_DESC = "itemDesc";
 
     public static DynamicQuery getNdcDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag) throws SystemException, PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
@@ -959,10 +960,10 @@ public class NationalAssumptionLogic {
 
             projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_MASTER_SID));
             projectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_NO));
-            projectionList.add(ProjectionFactoryUtil.property("itemDesc"));
+            projectionList.add(ProjectionFactoryUtil.property(ITEM_DESC));
             ndcQuery.setProjection(projectionList);
 
-            ndcQuery.addOrder(OrderFactoryUtil.asc("itemDesc"));
+            ndcQuery.addOrder(OrderFactoryUtil.asc(ITEM_DESC));
             ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
 
             qualifierList = DAO.getItemList(ndcQuery);

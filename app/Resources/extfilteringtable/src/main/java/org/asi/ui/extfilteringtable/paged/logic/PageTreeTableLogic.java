@@ -88,6 +88,11 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
     private boolean bulkDataLoadAllowed = false;
 
     /**
+     * The full bulk data load allowed.
+     */
+    private boolean fullBulkDataLoadAllowed = false;
+
+    /**
      * Gets the control table.
      *
      * @return the control table
@@ -646,6 +651,10 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
                                         nextAllowed = true;
                                     }
                                 }
+                                if (isFullBulkDataLoadAllowed()) {
+                                    bulkDataMap.put(childLevel, null);
+                                    nextAllowed = false;
+                                }
                                 if (nextAllowed) {
                                     fetchableList.add(new HierarchyString(childLevel));
                                 }
@@ -657,8 +666,11 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
                                 int index = getHierarchyIndex(childLevel) - 1;
                                 boolean nextAllowed = true;
                                 Object itemId = getAvailableData(childLevel);
-                                
-                                if (isBulkDataLoadAllowed() && isFetchableLevel(childLevel) && itemId != null) {
+                                if (isFullBulkDataLoadAllowed() && (isFetchableLevel(treeLevel) || itemId == null)) {
+                                    bulkDataMap.put(childLevel, itemId);
+                                    nextAllowed = false;
+                                }
+                                if (isBulkDataLoadAllowed() && isFetchableLevel(childLevel) && itemId != null && nextAllowed) {
                                     bulkDataMap.put(childLevel, itemId);
                                     nextAllowed = false;
                                 }
@@ -878,8 +890,9 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
      */
     protected int mannageExpandedTreeList(Object itemId, boolean isExpand) {
         int itemIndex = ((Indexed) getContainerDataSource()).indexOfId(itemId);
-        String treeLevel = currentPageTreeLevel.get(itemIndex);
         int page = getCurrentPage();
+        try {
+        String treeLevel = currentPageTreeLevel.get(itemIndex);
         if (isExpand) {
             addExpandedTreeList(treeLevel, itemId);
             if (itemIndex == getItemsPerPage() - 1) {
@@ -890,6 +903,9 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
             removeLevelRecursively(treeLevel, 1);
             parentTreeLevel = getParentHierarchyNo(treeLevel);
         }
+		} catch (Exception ex) {
+
+		}
         return page;
     }
 
@@ -1334,6 +1350,15 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
     }
 
     /**
+     * Checks if is full bulk data load allowed.
+     *
+     * @return true, if is bulk data load allowed
+     */
+    public boolean isFullBulkDataLoadAllowed() {
+        return fullBulkDataLoadAllowed;
+    }
+
+    /**
      * Sets the bulk data load allowed.
      *
      * @param bulkDataLoadAllowed the bulk data load allowed
@@ -1343,10 +1368,23 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
     }
 
     /**
+     * Sets the full bulk data load allowed.
+     *
+     * @param bulkDataLoadAllowed the bulk data load allowed
+     */
+    public void setFullBulkDataLoadAllowed(boolean fullBulkDataLoadAllowed) {
+        this.fullBulkDataLoadAllowed = bulkDataLoadAllowed;
+    }
+
+    /**
      * Handle filter change.
      */
     @Override
     public void handleFilterChange() {
         setCurrentPage(1);
     }
+
+    public String getLastParentTreeLevel() {
+        return parentTreeLevel;
+}
 }

@@ -716,7 +716,7 @@ public class Constants {
         HEADER_CREATED_DATE("Created Date"),
         HEADER_LAST_MODIFIED_DATE("Last Modified Date"),
         HEADER_CUSTOMER_HIERARCHY("Customer Hierarchy"),
-        HEADER_CUSTOMER_LEVEL("Customer Level"),
+        HEADER_CUSTOMER_LEVEL(INDICATOR_LEVEL_CUSTOMER),
         HEADER_PRODUCT_HIERARCHY("Product Hierarchy"),
         HEADER_PRODUCT_LEVEL("Product Level"),
         HEADER_LEVEL("Level"),

@@ -158,8 +158,8 @@ public class ExcelUtils {
 
     private static void getCustomizedDTO(final PPAProjectionResultsDTO dto, final Object[] obj, ProjectionSelectionDTO selection) {
         DecimalFormat FORMAT = new DecimalFormat();
-        int year = Integer.valueOf(String.valueOf(obj[NumericConstants.SIX]));
-        int period = Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN]));
+        int year = Integer.parseInt(String.valueOf(obj[NumericConstants.SIX]));
+        int period = Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN]));
         int dataNo = NumericConstants.EIGHT;
         int dataProjNo = NumericConstants.EIGHT;
         String per = StringUtils.EMPTY;
@@ -201,7 +201,7 @@ public class ExcelUtils {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year + caption;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.valueOf(quater) - 1).toLowerCase() + year + caption;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year + caption;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year + caption;
@@ -219,7 +219,7 @@ public class ExcelUtils {
         } else if (frequency.equals(Constant.ANNUALLY)) {
             constant = year;
         } else if (frequency.equals(Constant.MONTHLY)) {
-            constant = HeaderUtils.getMonthForInt(Integer.valueOf(quater) - 1).toLowerCase() + year;
+            constant = HeaderUtils.getMonthForInt(Integer.parseInt(quater) - 1).toLowerCase() + year;
 
         } else if (frequency.equals(Constant.SEMIANNUALLY)) {
             constant = Constant.S_SMALL + quater + year;
@@ -432,7 +432,7 @@ public class ExcelUtils {
         } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
             column = Constant.S_SMALL + String.valueOf(object[NumericConstants.TWO]) + String.valueOf(object[1]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
-            String monthName = getMonthForInt(Integer.valueOf(String.valueOf(object[NumericConstants.TWO])) - 1);
+            String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
             column = monthName.toLowerCase() + String.valueOf(object[1]);
         }
         return column;
@@ -457,7 +457,7 @@ public class ExcelUtils {
         } else if (SEMI_ANNUALLY.getConstant().equals(frequency)) {
             column = Constant.S + String.valueOf(object[NumericConstants.TWO]) + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
         } else if (MONTHLY.getConstant().equals(frequency)) {
-            String monthName = getMonthForInt(Integer.valueOf(String.valueOf(object[NumericConstants.TWO])) - 1);
+            String monthName = getMonthForInt(Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) - 1);
             column = monthName + Constants.CommonConstants.SPACE + String.valueOf(object[1]);
         }
         return column;

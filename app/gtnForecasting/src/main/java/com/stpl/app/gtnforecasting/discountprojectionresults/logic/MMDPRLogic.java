@@ -20,6 +20,7 @@ import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.math.BigDecimal;
 import java.text.DateFormatSymbols;
@@ -1215,19 +1216,19 @@ public class MMDPRLogic {
                             }
                             if (year == selectedYear && quarter == selectedQuarter) {
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
 
@@ -1236,20 +1237,20 @@ public class MMDPRLogic {
                                 quarter = selectedQuarter;
                                 commonColumn = Q + object[NumericConstants.SIX] + object[0];
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
 
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
 
@@ -1290,19 +1291,19 @@ public class MMDPRLogic {
                                 year = (Integer) object[0];
                                 quarter = (Integer) object[NumericConstants.SIX];
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                             }
@@ -1364,19 +1365,19 @@ public class MMDPRLogic {
                             }
                             if (year == selectedYear && semiAnnual == selectedSemiAnnual) {
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
 
@@ -1385,19 +1386,19 @@ public class MMDPRLogic {
                                 semiAnnual = selectedSemiAnnual;
                                 commonColumn = Constant.S_SMALL + object[1] + object[0];
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                             } else {
@@ -1433,19 +1434,19 @@ public class MMDPRLogic {
                                 year = (Integer) object[0];
                                 semiAnnual = (Integer) object[1];
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                             }
@@ -1493,19 +1494,19 @@ public class MMDPRLogic {
                             }
                             if (year == selectedYear) {
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
 
@@ -1513,19 +1514,19 @@ public class MMDPRLogic {
                                 year = selectedYear;
                                 commonColumn = StringUtils.EMPTY + object[0];
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                             } else {
@@ -1560,19 +1561,19 @@ public class MMDPRLogic {
                                 commonColumn = StringUtils.EMPTY + object[0];
                                 year = (Integer) object[0];
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                             }
@@ -1632,19 +1633,19 @@ public class MMDPRLogic {
                             }
                             if (year == selectedYear && month == selectedMonth) {
                                 if (obj[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (obj[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (obj[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (obj[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                             } else if (i == 0) {
@@ -1654,19 +1655,19 @@ public class MMDPRLogic {
                                 monthName = monthName.toLowerCase();
                                 commonColumn = monthName + obj[0];
                                 if (obj[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (obj[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (obj[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (obj[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                             } else {
@@ -1704,19 +1705,19 @@ public class MMDPRLogic {
                                 year = (Integer) obj[0];
                                 month = (Integer) obj[1];
                                 if (obj[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                    double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
                                     actualSales = actualSales + aSales;
                                 }
                                 if (obj[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                    double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (obj[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                    double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (obj[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                    double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                             }
@@ -2342,7 +2343,7 @@ public class MMDPRLogic {
                     if (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
                         projSelDTO.setPivotValue(projSelDTO.getGroup().replace(projSelDTO.getGroup().substring(0, NumericConstants.THREE), map.get(projSelDTO.getGroup().substring(0, NumericConstants.THREE))));
                     } else {
-                        projSelDTO.setPivotValue(projSelDTO.getGroup().contains(Constant.Q) ? projSelDTO.getGroup().replace(Constant.Q, " ") : projSelDTO.getGroup().replace(Constant.S, " "));
+                        projSelDTO.setPivotValue(projSelDTO.getGroup().contains(Constant.Q) ? projSelDTO.getGroup().replace('Q', ' ') : projSelDTO.getGroup().replace('S', ' '));
                     }
                     list = dqLogic.getLevelValue(projSelDTO);
                 } else {
@@ -2354,7 +2355,7 @@ public class MMDPRLogic {
                             projSelDTO.setPivotValue(monValue);
                         }
                     } else {
-                        projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace(Constant.Q, " ") : projSelDTO.getPivotValue().replace(Constant.S, " "));
+                        projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace('Q', ' ') : projSelDTO.getPivotValue().replace('S', ' '));
                     }
                     if (Constant.BRAND_CAPS.equals(projSelDTO.getSupplementalLevelName())) {
                         list = dqLogic.getBrandLevelValue(projSelDTO);
@@ -2368,7 +2369,7 @@ public class MMDPRLogic {
                     if (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
                         projSelDTO.setPivotValue(projSelDTO.getGroup().replace(projSelDTO.getGroup().substring(0, NumericConstants.THREE), map.get(projSelDTO.getGroup().substring(0, NumericConstants.THREE))));
                     } else {
-                        projSelDTO.setPivotValue(projSelDTO.getGroup().contains(Constant.Q) ? projSelDTO.getGroup().replace(Constant.Q, " ") : projSelDTO.getGroup().replace(Constant.S, " "));
+                        projSelDTO.setPivotValue(projSelDTO.getGroup().contains(Constant.Q) ? projSelDTO.getGroup().replace('Q', ' ') : projSelDTO.getGroup().replace('S', ' '));
                     }
                     list = dqLogic.getSuppLevelValue(projSelDTO);
                 } else {
@@ -2379,7 +2380,7 @@ public class MMDPRLogic {
                             projSelDTO.setPivotValue(projSelDTO.getPivotValue());
                         }
                     } else {
-                        projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace(Constant.Q, " ") : projSelDTO.getPivotValue().replace(Constant.S, " "));
+                        projSelDTO.setPivotValue(projSelDTO.getPivotValue().contains(Constant.Q) ? projSelDTO.getPivotValue().replace('Q', ' ') : projSelDTO.getPivotValue().replace('S', ' '));
                     }
                     if (Constant.BRAND_CAPS.equals(projSelDTO.getSupplementalLevelName())) {
                         list = dqLogic.getSuppBrandLevelValue(projSelDTO);

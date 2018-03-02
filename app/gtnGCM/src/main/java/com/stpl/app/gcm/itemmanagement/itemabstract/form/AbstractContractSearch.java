@@ -500,7 +500,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             input = getNewInput(input);
             getBinderDto().setIsCount(false);
             recordCount = getLogic().getContractCount(selection, input);
-            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+            ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
         }
     }
 
@@ -1046,18 +1046,18 @@ public abstract class AbstractContractSearch extends CustomComponent {
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
         if (getBinderDto().getContractNo() != null && !getBinderDto().getContractNo().isEmpty()) {
-            input.add(getBinderDto().getContractNo().replace("*", "%"));
+            input.add(getBinderDto().getContractNo().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (getBinderDto().getContractName() != null && !getBinderDto().getContractName().isEmpty()) {
-            input.add(getBinderDto().getContractName().replace("*", "%"));
+            input.add(getBinderDto().getContractName().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getContractHolder() != null && !getBinderDto().getContractHolder().isEmpty()) {
-            input.add(getBinderDto().getContractHolder().replace("*", "%"));
+            input.add(getBinderDto().getContractHolder().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -1067,30 +1067,30 @@ public abstract class AbstractContractSearch extends CustomComponent {
             input.add("%");
         }
         if (getBinderDto().getCfpNO() != null && !getBinderDto().getCfpNO().isEmpty()) {
-            input.add(getBinderDto().getCfpNO().replace("*", "%"));
+            input.add(getBinderDto().getCfpNO().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (getBinderDto().getIfpNo() != null && !getBinderDto().getIfpNo().isEmpty()) {
-            input.add(getBinderDto().getIfpNo().replace("*", "%"));
+            input.add(getBinderDto().getIfpNo().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getPsNo() != null && !getBinderDto().getPsNo().isEmpty()) {
-            input.add(getBinderDto().getPsNo().replace("*", "%"));
+            input.add(getBinderDto().getPsNo().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getRebateScheduleId() != null && !getBinderDto().getRebateScheduleId().isEmpty()) {
-            input.add(getBinderDto().getRebateScheduleId().replace("*", "%"));
+            input.add(getBinderDto().getRebateScheduleId().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getRebateScheduleName() != null && !getBinderDto().getRebateScheduleName().isEmpty()) {
-            input.add(getBinderDto().getRebateScheduleName().replace("*", "%"));
+            input.add(getBinderDto().getRebateScheduleName().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -1110,13 +1110,13 @@ public abstract class AbstractContractSearch extends CustomComponent {
             input.add("%");
         }
         if (getBinderDto().getRebateScheduleAlias() != null && !getBinderDto().getRebateScheduleAlias().isEmpty()) {
-            input.add(getBinderDto().getRebateScheduleAlias().replace("*", "%"));
+            input.add(getBinderDto().getRebateScheduleAlias().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getRebateScheduleNo() != null && !getBinderDto().getRebateScheduleNo().isEmpty()) {
-            input.add(getBinderDto().getRebateScheduleNo().replace("*", "%"));
+            input.add(getBinderDto().getRebateScheduleNo().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -1650,10 +1650,10 @@ public abstract class AbstractContractSearch extends CustomComponent {
             for (int i = 0; i < list.size(); i++) {
                 Object[] obj = (Object[]) list.get(i);
                 if (sb.length() > 0) {
-                    sb.append(",");
+                    sb.append(',');
                 }
-                sb.append("<").append(String.valueOf(obj[0])).append(",").
-                        append(String.valueOf(obj[1])).append(">");
+                sb.append('<').append(String.valueOf(obj[0])).append(',').
+                        append(String.valueOf(obj[1])).append('>');
 
             }
             return sb.toString();

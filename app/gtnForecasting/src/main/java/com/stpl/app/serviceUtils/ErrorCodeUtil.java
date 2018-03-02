@@ -13,8 +13,8 @@ import java.util.ResourceBundle;
  */
 public final class ErrorCodeUtil {
 
-	/** The resouce bundle. */
-	public static ResourceBundle resouceBundle = ResourceBundle.getBundle("errorcodes.errorcode");
+	/** The resource bundle. */
+	public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("errorcodes.errorcode");
 
 	/** HYPEN constant */
 	public static final String HYPHEN = " - ";
@@ -35,7 +35,7 @@ public final class ErrorCodeUtil {
 	 */
 	public static String getEC(final String key) {
 		try {
-			return resouceBundle.getString(key);
+			return RESOURCE_BUNDLE.getString(key);
 		} catch (MissingResourceException e) {
 			return "";
 		}

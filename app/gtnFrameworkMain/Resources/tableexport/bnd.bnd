@@ -1,8 +1,0 @@
-Bundle-Name: ${project.name}
-Bundle-Version: ${project.version}
-Bundle-SymbolicName: ${project.artifactId}
-Import-Package: !com.google*,\
-    !com.vaadin.client*,\
-	!com.vaadin.v7.client*,\
-    *
-Export-Package:com.stpl.addons.tableexport

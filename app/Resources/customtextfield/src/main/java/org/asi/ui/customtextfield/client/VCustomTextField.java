@@ -30,12 +30,10 @@ public class VCustomTextField extends VTextField implements ClickHandler{
     public VCustomTextField(){
         super();
         addClickHandler(this);
-        VConsole.log("I am added");
     }
     @Override
     public void onClick(ClickEvent event) {
         if (client != null && client.hasEventListeners(this, EventId.CLICK_EVENT_IDENTIFIER)) {
-        	  VConsole.log("variable added");
             client.updateVariable(paintableId, EventId.CLICK_EVENT_IDENTIFIER, "", true);
         }
     }
