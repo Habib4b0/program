@@ -1,11 +1,3 @@
-# Copy App Release Spec Function
-copy_app_release_spec()
-{
-echo you have chosen GTN  App Release
-cp $spec_path/GTN-x-AppRelease.spec $rpm_build_spec_path
-}
-
-
 #Scripts Starts
 
 GTNPathName=$1
@@ -31,11 +23,8 @@ cp $spec_path/GTN-x-Setup.spec $rpm_build_spec_path
 elif [[ $GTNPathName == *"GTN-"*"-AppRelease"* ]]; 
 then
 old_rpm=-AppRelease
-copy_app_release_spec
-elif [[ $GTNPathName == *"GTN-"*"-UiAppRelease"* ]];
-then
-old_rpm=-UiAppRelease
-copy_app_release_spec
+echo you have chosen GTN  App Release
+cp $spec_path/GTN-x-AppRelease.spec $rpm_build_spec_path
 elif [[ $GTNPathName == *"GTN-"*"-WsSetup"* ]]; 
 then
 old_rpm=-WsSetup
@@ -56,6 +45,7 @@ else
 echo Invalid input tar
 exit 0
 fi
+#do_Custom_File_Changes
 
 parentdir=$spec_name-1.0
 changeddir=${parentdir%-*}$( cat /dev/urandom | tr -dc 'A-Z0-9' | fold -w 5 | head -n 1 )-${parentdir##*-}

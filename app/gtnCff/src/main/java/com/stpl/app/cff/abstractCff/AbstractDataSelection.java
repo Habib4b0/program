@@ -454,7 +454,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 				}
 			});
 			getBusinessUnit().setPageLength(NumericConstants.SEVEN);
-			getBusinessUnit().setImmediate(true);
 			getBusinessUnit().addItem(0);
 			getBusinessUnit().setItemCaption(0, Constants.CommonConstants.SELECT_ONE.getConstant());
 			getBusinessUnit().setNullSelectionAllowed(true);
@@ -473,7 +472,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			getBusinessUnit().select(0);
 
 			company.setPageLength(NumericConstants.SEVEN);
-			company.setImmediate(true);
 			company.addItem(0);
 			company.setItemCaption(0, Constants.CommonConstants.SELECT_ONE.getConstant());
 			company.setNullSelectionAllowed(true);
@@ -491,12 +489,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			}
 			company.select(0);
 
-			privateView.setImmediate(true);
-			publicView.setImmediate(true);
-			customerHierarchy.setImmediate(true);
-			productHierarchy.setImmediate(true);
-			customerGroup.setImmediate(true);
-			productGroup.setImmediate(true);
 			addValidations();
 
 		} catch (UnsupportedOperationException e) {
@@ -609,14 +601,12 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 	private void resetCustomerRelation() {
 		customerRelation.removeAllItems();
-		customerRelation.setImmediate(true);
 		customerRelation.setNullSelectionAllowed(true);
 		customerRelation.setInputPrompt(UIUtil.SELECT_ONE);
 	}
 
 	private void resetProductRelation() {
 		productRelation.removeAllItems();
-		productRelation.setImmediate(true);
 		productRelation.setNullSelectionAllowed(true);
 		productRelation.setInputPrompt(UIUtil.SELECT_ONE);
 	}
@@ -1001,12 +991,8 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 		availableCustomer.setStyleName(Constants.FILTER_TABLE);
 		selectedCustomer.setSortEnabled(false);
 		customerHierarchy.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
-		customerLevel.setImmediate(true);
-		level.setImmediate(true);
 		availableCustomer.setContainerDataSource(availableCustomerContainer);
 		selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-		availableCustomer.setImmediate(true);
-		selectedCustomer.setImmediate(true);
 		availableCustomer.setVisibleColumns(new Object[] { StringConstantsUtil.DISPLAY_VALUE });
 		availableCustomer.setColumnHeaders(new String[] { StringConstantsUtil.LEVEL });
 		selectedCustomer.setVisibleColumns(new Object[] { StringConstantsUtil.DISPLAY_VALUE });
@@ -1092,8 +1078,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 		productHierarchy.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
 		availableProduct.setContainerDataSource(availableProductContainer);
 		selectedProduct.setContainerDataSource(selectedProductContainer);
-		availableProduct.setImmediate(true);
-		selectedProduct.setImmediate(true);
 		availableProduct.setVisibleColumns(new Object[] { StringConstantsUtil.DISPLAY_VALUE });
 		availableProduct.setColumnHeaders(new String[] { StringConstantsUtil.LEVEL });
 		selectedProduct.setVisibleColumns(new Object[] { StringConstantsUtil.DISPLAY_VALUE });

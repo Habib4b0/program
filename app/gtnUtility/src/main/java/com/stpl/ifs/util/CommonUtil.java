@@ -113,4 +113,8 @@ public class CommonUtil {
          public static String getJbossHome() {
 		return System.getProperty("jboss.home.dir");
     }
+         
+         public static String getGtnDataPath(){
+            return System.getProperty("gtn.app.data.path");
+         }
 }
