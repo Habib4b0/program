@@ -288,9 +288,9 @@ public class GtnWsAllListConfig {
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE,
 				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
 		comboBoxQueryMap.put("ReportTimePeriodIntervalForFromDate",
-				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
+				 GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
 		comboBoxQueryMap.put("ReportTimePeriodIntervalForToDate",
-				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
+				 GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
 		comboBoxQueryMap.put("ItemPricingQualifier",
 				"SELECT ITEM_PRICING_QUALIFIER_SID,ITEM_PRICING_QUALIFIER_NAME FROM ITEM_PRICING_QUALIFIER WHERE ITEM_PRICING_QUALIFIER_NAME IS NOT NULL AND ITEM_PRICING_QUALIFIER_NAME <> ''");
 		comboBoxQueryMap.put("Brands",

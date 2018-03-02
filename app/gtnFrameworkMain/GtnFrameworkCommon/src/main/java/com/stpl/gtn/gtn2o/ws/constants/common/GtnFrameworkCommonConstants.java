@@ -1117,6 +1117,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String REBATE_PLAN_STATUS = "rebatePlanStatus";
 	public static final String REBATE_PLAN_POPUP_TYPE = "rpPopUpRebatePlanType";     
 	
+	
 	/*
 	 * Report Module
 	 */
