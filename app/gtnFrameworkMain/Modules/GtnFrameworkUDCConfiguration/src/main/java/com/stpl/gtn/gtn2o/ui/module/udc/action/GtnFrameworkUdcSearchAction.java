@@ -125,7 +125,7 @@ public class GtnFrameworkUdcSearchAction
 	}
 
 	private void checkCondition(GtnUIFrameWorkActionConfig loadDataTableActionConfig, String udcCategory) {
-		if (!udcCategory.trim().equals("") && !udcCategory.equals(GtnFrameworkCommonConstants.FILE_TYPE)) {
+		if (!udcCategory.trim().isEmpty() && !udcCategory.equals(GtnFrameworkCommonConstants.FILE_TYPE)) {
 			loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
 		} else {
 			clearTableRecords(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
