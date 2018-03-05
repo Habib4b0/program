@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -40,7 +41,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-
+		checkCopyMode(componentId);
 		String calculationType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("calculationType1")
 				.getCaptionFromComboBox();
 
@@ -143,13 +144,13 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
-						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, "deductionName",
+						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, GtnFrameworkRSConstants.DEDUCTION_NAME,
 						GtnFrameworkRSConstants.DEDUCTION_NO, GtnFrameworkRSConstants.EVALUATION_RULE_NAME,
 						GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE1, GtnFrameworkRSConstants.CALCULATION_RULE_NAME,
 						GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE1, GtnFrameworkRSConstants.ATTACHED_DATE1);
 				fieldFactoryColumnList = Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID,
 						GtnFrameworkRSConstants.RS_STATUS, GtnFrameworkRSConstants.RS_START_DATE,
-						GtnFrameworkRSConstants.RS_END_DATE1, GtnFrameworkRSConstants.DEDUCTION_NO,
+						GtnFrameworkRSConstants.RS_END_DATE1, GtnFrameworkRSConstants.DEDUCTION_NO,GtnFrameworkRSConstants.DEDUCTION_NAME,
 						GtnFrameworkRSConstants.EVALUATION_RULE_NAME, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE1,
 						GtnFrameworkRSConstants.CALCULATION_RULE_NAME,
 						GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE1);
@@ -263,7 +264,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
-						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, "deductionName",
+						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, GtnFrameworkRSConstants.DEDUCTION_NAME,
 						GtnFrameworkRSConstants.DEDUCTION_NO, GtnFrameworkRSConstants.EVALUATION_RULE_NAME,
 						GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE1, GtnFrameworkRSConstants.CALCULATION_RULE_NAME,
 						GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE1, GtnFrameworkRSConstants.ATTACHED_DATE1);
@@ -330,7 +331,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 		List<GtnWebServiceSearchCriteria> additioanlSearchCriteriaList = new ArrayList<>();
 
-		if(mode != GtnUIFrameworkModeType.ADD){
+		
 		GtnWebServiceSearchCriteria userIdCriteria = new GtnWebServiceSearchCriteria();
 		GtnWebServiceSearchCriteria sessionIdCriteria = new GtnWebServiceSearchCriteria();
 		additioanlSearchCriteriaList.add(userIdCriteria);
@@ -346,7 +347,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 		tableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
 		tableLogic.startSearchProcess(new ArrayList<String>(), true);
-		}
+	
 	}
 
 	@Override
@@ -373,5 +374,10 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 		customFilterConfigMap.put(rsCustomFilterConfig.getPropertId(), rsCustomFilterConfig);
 		return customFilterConfigMap;
 	}
-
+	
+	private void checkCopyMode(String componentId) {
+		if (componentId.toLowerCase(Locale.ENGLISH).contains(("COPY").toLowerCase(Locale.ENGLISH))) {
+			GtnUIFrameworkGlobalUI.addSessionProperty("mode", "EDIT");
+		}
+	}
 }

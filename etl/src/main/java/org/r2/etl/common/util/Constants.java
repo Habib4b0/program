@@ -1,8 +1,5 @@
 package org.r2.etl.common.util;
 
-import static org.r2.etl.common.action.FileNameUtil.COMPANY_BUID_INTERFACE;
-
-
 /**
  * Constant Interface for setting the constants.
  * 
@@ -10,23 +7,24 @@ import static org.r2.etl.common.action.FileNameUtil.COMPANY_BUID_INTERFACE;
  * 
  */
 public final class Constants {
-	
+
 	/**
 	 * The variable used for fail return.
 	 */
-	public static final String FAIL = "Fail"; 
-	
+	public static final String FAIL = "Fail";
+
 	/**
 	 * The variable used for success return.
 	 */
-	public static final String SUCCESS = "Success"; 
-	
+	public static final String SUCCESS = "Success";
+
 	/** The Constant MESSAGE_BODY. */
-	public static final String MESSAGE_BODY="Hi,"+ "\n\nPlease find attachment for the Error log."+"\n\nThanks,"+"\nBPI Support";
-	
+	public static final String MESSAGE_BODY = "Hi," + "\n\nPlease find attachment for the Error log." + "\n\nThanks,"
+			+ "\nBPI Support";
+
 	/** The Constant APP_KEY. */
-	public static final String APP_KEY="21232f297a57a5a743894a0e4a801fc3";
-	
+	public static final String APP_KEY = "21232f297a57a5a743894a0e4a801fc3";
+
 	/**
 	 * variable for the ETLInterface.
 	 */
@@ -153,7 +151,7 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String COMPANY_TRADE = "COMPANY_TRADE_CLASS_INTERFACE";
-	
+
 	/**
 	 * variable for the ETLInterface.
 	 */
@@ -230,7 +228,7 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String ARP_OUTBOUND_INTERFACE = "ARP_OUTBOUND_INTERFACE";
-	
+
 	/**
 	 * variable for the ETLInterface.
 	 */
@@ -243,51 +241,47 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String ITEM_UOM_INTERFACE = "ITEM_UOM_INTERFACE";
-        
-        /**
+
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String RETURN_RATE_FORECAST_INTERFACE = "RETURN_RATE_FORECAST_INTERFACE";
-        
-           /**
+
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String TESTING_INTERFACE = "TESTING_INTERFACE";
-           /**
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String ACTUALS_CHARGEBACK_INTERFACE = "ACTUALS_CHARGEBACK_INTERFACE";
-           /**
+	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ACTUALS_MEDICAID_INTERFACE = "ACTUALS_MEDICAID_INTERFACE";   /**
+	public static final String ACTUALS_MEDICAID_INTERFACE = "ACTUALS_MEDICAID_INTERFACE";
+	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ACTUALS_REBATE_INTERFACE = "ACTUALS_REBATE_INTERFACE";   /**
+	public static final String ACTUALS_REBATE_INTERFACE = "ACTUALS_REBATE_INTERFACE";
+	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ACTUALS_COUPON_INTERFACE = "ACTUALS_COUPON_INTERFACE";   /**
+	public static final String ACTUALS_COUPON_INTERFACE = "ACTUALS_COUPON_INTERFACE";
+	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String PRODUCT_PROD_HIERARCHY_INTERFACE = "PRODUCT_PROD_HIERARCHY_INTERFACE";   /**
+	public static final String PRODUCT_PROD_HIERARCHY_INTERFACE = "PRODUCT_PROD_HIERARCHY_INTERFACE";
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String PRODUCT_PROD_BW_INTERFACE = "PRODUCT_PROD_BW_INTERFACE";
-        
-        
-        
-        
-              /**
+
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String COMPANY_BUID_INTERFACE = "COMPANY_BUID_INTERFACE";
-        
-        
-        
-        
-        
-        
-        	/**
+
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String COMPANY_BUNIT_INTERFACE = "COMPANY_BUNIT_INTERFACE";
@@ -315,7 +309,7 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String CONTRACT_CPGRP_INTERFACE = "CONTRACT_CPGRP_INTERFACE";
-	
+
 	/**
 	 * variable for the ETLInterface.
 	 */
@@ -328,29 +322,25 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String CONTRACT_CPGRP_PGMMKT_INTERFACE = "CONTRACT_CPGRP_PGMMKT_INTERFACE";
-        
-        /**
+
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String CONTRACT_PRGMMKT_INTERFACE = "CONTRACT_PRGMMKT_INTERFACE";
-        
-           /**
+
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String PSTG_SALES_MASTER_INTERFACE = "PSTG_SALES_MASTER_INTERFACE";
-           /**
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE = "PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE";
-              /**
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String PSTG_CUSTOMER_GTS_FORECAST_INTERFACE = "PSTG_CUSTOMER_GTS_FORECAST_INTERFACE";
-        
-        
-        
-        
-        
+
 	/**
 	 * variable for the ETLInterface.
 	 */
@@ -359,7 +349,7 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String CONSUMER_PRICE_INDEX_INTERFACE = "CONSUMER_PRICE_INDEX_INTERFACE";
-        /**
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String PSTG_GL_COST_CENTER_INTERFACE = "PSTG_GL_COST_CENTER_INTERFACE";
@@ -367,18 +357,17 @@ public final class Constants {
 	 * variable for the ETLInterface.
 	 */
 	public static final String UNIT_OF_MEASURE_INTERFACE = "UNIT_OF_MEASURE_INTERFACE";
-        
-        /**
+
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String ACCRUALS_INTERFACE = "ACCRUALS_INTERFACE";
-        
-           /**
+
+	/**
 	 * variable for the ETLInterface.
 	 */
 	public static final String PSTG_SALES_FORECAST_INTERFACE = "PSTG_SALES_FORECAST_INTERFACE";
-       
-	
-        private Constants(){
-        }
+
+	private Constants() {
+	}
 }
