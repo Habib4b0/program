@@ -4587,7 +4587,7 @@ LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RS
                     MDF.FILE_PATH,
                     MDF.CREATED_DATE,
                     MDF.CREATED_BY,
-                    usr1.firstName + ' ' + usr1.middleName + ' ' + usr1.lastName as CREATED_BY_VAL
+                    ISNULL(usr1.firstName,'') + ' ' + ISNULL(usr1.middleName,'') + ' ' + ISNULL(usr1.lastName ,'') as CREATED_BY_VAL
             FROM
                     MASTER_DATA_FILES MDF
             JOIN ?.dbo.User_ usr1 ON
