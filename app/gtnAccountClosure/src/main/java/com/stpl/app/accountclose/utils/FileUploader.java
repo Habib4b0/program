@@ -4,6 +4,7 @@
  */
 package com.stpl.app.accountclose.utils;
 
+import com.stpl.ifs.util.CommonUtil;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
@@ -48,7 +49,7 @@ public class FileUploader implements Upload.Receiver{
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
-    public static final String FILE_PATH="../../../../var/Attachments/";
+    public static final String FILE_PATH=CommonUtil.getGtnDataPath()+"/Attachments/";
     final String userId = (String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID);
     public  boolean upload=true;
     /**

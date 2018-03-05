@@ -55,10 +55,11 @@ public class GtnFrameworkRSConstants {
 	public static final String RS_POPUP_VIEW = "RSPopUpView";
 	public static final String RS_NS_RULE_VIEW = "RSNSRuleView";
 	public static final String RS_STATUS = "rsStatus";
-
-	private static final String[] RS_LOOKUP_COLUMN = { "systemId", "rsId", "rsNo", "rsName", "rsType", "rsStatus","rsCategory",GtnFrameworkCommonConstants.START_DATE,GtnFrameworkCommonConstants.END_DATE,"rsDesignation","parentRsId","parentRsName"};
+	public static final String START_DATE = "Start Date";
+	public static final String END_DATE = "End Date";
+	private static final String[] RS_LOOKUP_COLUMN = { "systemId", "rsId", "rsNo", "rsName", "rsType", RS_STATUS,"rsCategory",GtnFrameworkCommonConstants.START_DATE,GtnFrameworkCommonConstants.END_DATE,"rsDesignation","parentRsId","parentRsName"};
 	private static final String[] RS_LOOKUP_HEADER = { "System ID", "Rebate Schedule ID", "Rebate Schedule No",
-			"Rebate Schedule Name", "Rebate Schedule Type", "Rebate Schedule Status", "Rebate Schedule Category", "Start Date", "End Date", "Rebate Schedule Designation", "Parent ID", "Parent Name"};
+			"Rebate Schedule Name", "Rebate Schedule Type", "Rebate Schedule Status", "Rebate Schedule Category", START_DATE, END_DATE, "Rebate Schedule Designation", "Parent ID", "Parent Name"};
 	private static final Class<?>[] RS_LOOKUP_COLUMN_TYPE = { String.class, String.class, String.class, String.class,
 			String.class, String.class, String.class, Date.class, Date.class, String.class, String.class, String.class };
 
@@ -89,16 +90,17 @@ public class GtnFrameworkRSConstants {
 	public static final String DEDUCTION_NO = "deductionNo";
 	public static final String EVALUATION_RULE_BUNDLE1 = "evaluationRuleBundle";
 	public static final String CALCULATION_RULE_BUNDLE1 = "calculationRuleBundle";
-	private static final List<String> TEXT_FIELD_PROPERTIES = Arrays.asList(GtnFrameworkCommonConstants.ITEM_NO,
-			GtnFrameworkCommonConstants.ITEM_NAME, DEDUCTION_NO, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_BUNDLE1,
+	private static final List<String> TEXT_FIELD_PROPERTIES = Arrays.asList(DEDUCTION_NO,GtnFrameworkCommonConstants.ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_BUNDLE1,
 			FORMULA_NAME, RS_BUNDLE_NO);
-	private static final String NET_SALES_FORMULA_NAME = "netSalesFormulaName";
+	public static final String NET_SALES_FORMULA_NAME = "netSalesFormulaName";
 	public static final String NET_SALES_RULE_NAME = "netSalesRuleName";
 	public static final String EVALUATION_RULE_NAME = "evaluationRuleName";
 	public static final String CALCULATION_RULE_NAME = "calculationRuleName";
 	public static final String REBATE_PLAN_NO1 = "rebatePlanNo";
+	public static final String DEDUCTION_NAME = "deductionName";
 
-	private static final List<String> POP_UP_TEXT_FIELD_PROPERTIES = Arrays.asList(DEDUCTION_NO, EVALUATION_RULE_NAME,
+	private static final List<String> POP_UP_TEXT_FIELD_PROPERTIES = Arrays.asList(DEDUCTION_NAME, EVALUATION_RULE_NAME,
 			CALCULATION_RULE_NAME, NET_SALES_RULE_NAME, FORMULA_NO, NET_SALES_FORMULA_NAME, REBATE_PLAN_NO1);
 	public static final String REBATE_SETUP_FIELD_FACTORY_ACTION = "com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSTableFieldFactoryFieldUpdateAction";
 	public static final String EVALUATION_RULE_BUNDLE = "Evaluation Rule Bundle";
@@ -152,7 +154,7 @@ public class GtnFrameworkRSConstants {
 
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS = {
 			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.ITEM_NO,
-			GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE, RS_END_DATE1, "deductionName",
+			GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE, RS_END_DATE1, DEDUCTION_NAME,
 			DEDUCTION_NO, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME,
 			CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
 
@@ -290,9 +292,7 @@ public class GtnFrameworkRSConstants {
 	public static final String PAYMENT_LEVEL = "paymentLevel";
 	public static final String PAYMENT_FREQUENCY = "paymentFrequency";
 	public static final String SYS_ID = "SysId";
-	public static final String END_DATE = "End Date";
 	public static final String CALCULATION_RULE_BUNDLE2 = "Calculation Rule Bundle";
-	public static final String START_DATE = "Start Date";
 	public static final String REBATE_SCHEDULE_ALIAS_ID1 = "rebateScheduleAliasId1";
 	public static final String REBATE_SCHEDULE_DESIGNATION = "rebateScheduleDesignation";
 	public static final String REBATE_SETUP_TAB_MASS_DROP_DOWN = "rebateSetupTabMassDropDown";
@@ -314,6 +314,17 @@ public class GtnFrameworkRSConstants {
 	public static final String RS_NS_RULE_VIEW_RESULT_TABLE = "RSNSRuleView_"
 			+ GtnFrameworkCommonConstants.RESULT_TABLE;
 	public static final String TEMP_CHECKED_COUNT = "tempCheckedCount";
+
+        	public static final String FIELD_ERROR = "Field Error";
+	public static final String VALUE_ERROR = "Value Error";
+        public static final String FIELD_ERROR_MSG = "Please Select a Field";
+        public static final String VALUE_ERROR_MSG = "Please enter value for the";
+
+
+	public static final String ERROR_MESSAGE_COPY_HEADER="Copy Error";
+	public static final String ERROR_MESSAGE_COPY_MESSAGE="Please select a record to copy.";
+	
+
 
 	public static String[] getRsLookUpColumn() {
 		return RS_LOOKUP_COLUMN.clone();
@@ -468,7 +479,7 @@ public class GtnFrameworkRSConstants {
 			CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS_VIEW = {
 			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, DESCRIPTION, RS_START_DATE,
-			RS_END_DATE1, "deductionName", DEDUCTION_NO, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
+			RS_END_DATE1, DEDUCTION_NO,DEDUCTION_NAME, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
 			CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
 
 }

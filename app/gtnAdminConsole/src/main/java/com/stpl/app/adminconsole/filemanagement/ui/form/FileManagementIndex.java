@@ -396,13 +396,15 @@ public class FileManagementIndex extends CustomComponent implements View {
                      */
                     @SuppressWarnings("PMD")
                     public void yesMethod() {
-                        fileType.select(0);
+                    	company.setValue(null);
+                    	fileType.select(0);
                         country.setValue(null);
                         currentFile.setValue(ConstantsUtils.EMPTY);
                         effectiveDateStr.setValue(ConstantsUtils.EMPTY);
                         selectFile.setValue(ConstantsUtils.EMPTY);
                         businessUnit.setValue(null);
-                        company.setValue(null);
+                        
+                        
                     }
 
                     /**

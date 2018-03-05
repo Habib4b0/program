@@ -25,14 +25,11 @@ public class GtnUIFrameWorkRSSearchNoticationAction implements GtnUIFrameWorkAct
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+            logger.debug("inside GtnUIFrameWorkRSSearchNoticationAction");
 		return;
 
 	}
 
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
-	}
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -57,6 +54,11 @@ public class GtnUIFrameWorkRSSearchNoticationAction implements GtnUIFrameWorkAct
 			logger.error("Error in GtnUIFrameWorkRSSearchNoticationAction ");
 			new GtnFrameworkGeneralException(e);
 		}
+	}
+        
+        @Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
 	}
 
 }
