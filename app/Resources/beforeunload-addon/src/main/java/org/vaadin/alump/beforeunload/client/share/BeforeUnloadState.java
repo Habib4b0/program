@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.vaadin.alump.beforeunload.gwt.client.share;
+package org.vaadin.alump.beforeunload.client.share;
 
 import com.vaadin.shared.communication.SharedState;
 
@@ -25,5 +25,4 @@ import com.vaadin.shared.communication.SharedState;
  */
 public class BeforeUnloadState extends SharedState {
     public String message = null;
-//    public UI ui = null;
 }

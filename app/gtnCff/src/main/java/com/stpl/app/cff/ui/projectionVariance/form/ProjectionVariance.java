@@ -36,7 +36,6 @@ import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
-import com.stpl.app.cff.util.DataTypeConverter;
 import com.stpl.app.cff.util.HeaderUtils;
 import com.stpl.app.cff.util.PVQueryUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -48,6 +47,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
@@ -319,7 +319,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     comparison.setReadOnly(false);
                     comparison.setValue(Constants.SELECT_ONE_LABEL);
                     comparison.setData(null);
-                    comparison.setImmediate(true);
                     comparison.setReadOnly(true);
                 }
                 isComparisonLookupOpened = true;
@@ -328,7 +327,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
                         comparisonBasis.addItem(j);
                         comparisonBasis.setItemCaption(j, projectionMap.get(pvSelectionDTO.getProjIdList().get(j)));
-                        comparisonBasis.select("Current Projection");
+                        comparisonBasis.select(CURRENT_PROJECTION);
                     }
                 }
             }
@@ -336,6 +335,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
         LOGGER.debug("Comparision lookup ends");
     }
+    public static final String CURRENT_PROJECTION = "Current Projection";
 
     private void loadComparison() {
         if (isComparisonLookupOpened) {
@@ -376,7 +376,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setDiscountLevel(String.valueOf(discountLevel.getValue()));
             pvSelectionDTO.setPivotView(String.valueOf(pivotView.getValue()));
             pvSelectionDTO.setFromDate(String.valueOf(fromDate.getValue()));
-            pvSelectionDTO.setCurrentProjectionName("Current Projection");
+            pvSelectionDTO.setCurrentProjectionName(CURRENT_PROJECTION);
             pvSelectionDTO.setProjIdList(projIdList);
             pvSelectionDTO.setProjectionMap(projectionMap);
             pvSelectionDTO.setVariableCategory(variableCategoryValue);
@@ -1392,7 +1392,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
                     comparisonBasis.addItem(j);
                     comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
-                    comparisonBasis.select("Current Projection");
+                    comparisonBasis.select(CURRENT_PROJECTION);
                 }
             }
         }

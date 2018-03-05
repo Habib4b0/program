@@ -307,7 +307,7 @@ public class FixedDollarAdditionalInformation extends CustomComponent implements
                     tableBean = (AttachmentDTO) targetItem.getBean();
                     StringBuilder sb = new StringBuilder(tableBean.getDocumentName());
                     sb.insert(tableBean.getDocumentName().lastIndexOf("."), "_" + String.valueOf("0"));
-                    final File uploadedFile = new File("../../../../var/Attachments/" + File.separator + "FixedDollarAdjustment" + File.separator
+                    final File uploadedFile = new File(com.stpl.ifs.util.CommonUtil.getGtnDataPath()+"/Attachments/" + File.separator + "FixedDollarAdjustment" + File.separator
                             + userId + File.separator + sb.toString());
 
                     final Resource res = new FileResource(uploadedFile);
@@ -496,8 +496,8 @@ public class FixedDollarAdditionalInformation extends CustomComponent implements
                             uploader.setValue(StringUtils.EMPTY);
                             attachmentsListBean.addAll(allFiles);
                         }
-                        final File file = new File("../../../../var/Attachments/" + File.separator + "FixedDollarAdjustment" + File.separator + userId + File.separator + event.getFilename());
-                        final File newFile = new File("../../../../var/Attachments/" + File.separator + "FixedDollarAdjustment" + File.separator + userId + File.separator + sb.toString());
+                        final File file = new File(com.stpl.ifs.util.CommonUtil.getGtnDataPath()+"/Attachments/" + File.separator + "FixedDollarAdjustment" + File.separator + userId + File.separator + event.getFilename());
+                        final File newFile = new File(com.stpl.ifs.util.CommonUtil.getGtnDataPath()+"/Attachments/" + File.separator + "FixedDollarAdjustment" + File.separator + userId + File.separator + sb.toString());
                         file.renameTo(newFile);
                     } catch (SystemException e) {
                         final String errorMsg = ErrorCodeUtil.getErrorMessage(e);

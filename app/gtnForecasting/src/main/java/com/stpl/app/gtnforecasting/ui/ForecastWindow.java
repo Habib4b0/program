@@ -43,6 +43,7 @@ public class ForecastWindow extends CustomWindow {
         addStyleName(Constant.BOOTSTRAP);
         addStyleName(Constant.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         addStyleName("body-fixed");
+        setSizeFull();
         setClosable(false);
         addStyleName("valo-theme-customwindow");
         setMinimizeToTray();
