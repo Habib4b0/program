@@ -13,7 +13,7 @@
 	<appender name="general" class="org.apache.log4j.RollingFileAppender">
 		<param name="append" value="false" />
 		<param name="file"
-			value="${com.stpl.gtnframework.base.path}/gtnFramework-Logs/GTNFrameworkGeneral.log" />
+			value="${gtn.app.data.path}/gtnFramework-Logs/GTNFrameworkGeneral.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
 		</layout>

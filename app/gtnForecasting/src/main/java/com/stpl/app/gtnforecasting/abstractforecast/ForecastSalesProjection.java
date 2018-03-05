@@ -1752,7 +1752,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         newNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, newNumber);
                                         oldNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, oldNumber);
                                     }
-                                    Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
+                                    Double incOrDec;
+                                    if (oldNumber == 0.0) {
+                                        incOrDec = Double.POSITIVE_INFINITY;
+                                    } else {
+                                        incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
+                                    }
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
                                     String tempArray[] = tempValue.split("-");
                                     tempValue = projectionDTO.getFrequencyDivision() == 1 ? tempArray[1] : tempArray[NumericConstants.TWO];

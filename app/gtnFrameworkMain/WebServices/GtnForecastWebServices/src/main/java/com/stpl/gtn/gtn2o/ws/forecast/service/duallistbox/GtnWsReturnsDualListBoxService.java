@@ -111,7 +111,7 @@ public class GtnWsReturnsDualListBoxService {
 	 *         User_ID}/${Session_ID}/
 	 */
 	private String generateFilePath(List<Object> inputParameters, String testFilePath) {
-		StringBuilder fileName = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH));
+		StringBuilder fileName = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
 		fileName.append("/");
 		fileName.append(GtnFrameworkCommonStringConstants.SERIALISED_FILE_PATH);
 		fileName.append(inputParameters.get(7));

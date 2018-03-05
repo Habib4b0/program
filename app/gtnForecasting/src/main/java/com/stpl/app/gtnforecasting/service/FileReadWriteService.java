@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
+import com.stpl.ifs.util.CommonUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -62,7 +63,7 @@ public class FileReadWriteService {
 	}
 
 	private String getFolderName() {
-		return getFilePath() + "HierarchyQueries/";
+		return CommonUtil.getGtnDataPath() + "HierarchyQueries/";
 	}
 
 	private File getProperFile(String fileName) {
@@ -77,11 +78,6 @@ public class FileReadWriteService {
 
 	}
 
-	private String getFilePath() {
-
-		return System.getProperty("com.stpl.gtnframework.base.path");
-
-	}
 
 	public GtnFrameworkHierarchyQueryBean getQueryFromFile(int hierarchyId, String hierarchyLevelDefnId,
 			int hierarchyVersionNo) {
