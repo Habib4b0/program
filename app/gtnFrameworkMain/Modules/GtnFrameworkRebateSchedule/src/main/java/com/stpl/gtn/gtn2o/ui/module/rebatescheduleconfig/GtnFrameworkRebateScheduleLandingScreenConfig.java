@@ -758,7 +758,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		String[] visibleFields = new String[] { GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(false);
+		visibleParameters.add(Boolean.FALSE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 
 		visibleAction.setActionParameterList(visibleParameters);
@@ -803,7 +803,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		actionParams.add(GtnFrameworkFilterBarInvisibleAction.class.getName());
 		actionParams.add(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
 		Map<String, Boolean> filterInvisibleMap = new HashMap<>();
-		filterInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
+		filterInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID,Boolean.FALSE);
 		actionParams.add(filterInvisibleMap);
 		filterBarInvisibleAction.setActionParameterList(actionParams);
 		actionConfigList.add(filterBarInvisibleAction);
@@ -903,7 +903,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 
 		visibleAction.setActionParameterList(visibleParameters);
@@ -915,7 +915,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		parameters.add(GtnUIFrameWorkRSLoadAction.class.getName());
 		parameters.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(30);
 		editActionConfig.setActionParameterList(parameters);
 		editActionConfigList.add(editActionConfig);
@@ -933,7 +933,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		actionParams.add(GtnFrameworkFilterBarInvisibleAction.class.getName());
 		actionParams.add(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
 		Map<String, Boolean> filterInvisibleMap = new HashMap<>();
-		filterInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
+		filterInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, Boolean.FALSE);
 		actionParams.add(filterInvisibleMap);
 		filterBarInvisibleAction.setActionParameterList(actionParams);
 		editActionConfigList.add(filterBarInvisibleAction);
@@ -986,7 +986,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		parameters.add(GtnUIFrameWorkRSLoadAction.class.getName());
 		parameters.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(30);
 
 		editActionConfig.setActionParameterList(parameters);
@@ -1274,7 +1274,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		
 		GtnUIFrameWorkActionConfig enableCopyAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableCopyField = new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
+		 Object[] enableCopyField = new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
 				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
@@ -1320,7 +1320,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
 
 		List<Object> visibleCopyParameters = new ArrayList<>();
-		visibleCopyParameters.add(true);
+		visibleCopyParameters.add(Boolean.TRUE);
 		visibleCopyParameters.add(Arrays.asList(visibleFields));
 
 		visibleCopyAction.setActionParameterList(visibleCopyParameters);
@@ -1328,11 +1328,11 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig copyActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EDIT_ACTION);
-		List<Object> copyParameters = new ArrayList<>();
+		List<Object> copyParameters = new ArrayList<>(5);
 		copyParameters.add(GtnUIFrameWorkRSLoadAction.class.getName());
 		copyParameters.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
 		copyParameters.add("");
-		copyParameters.add(true);
+		copyParameters.add(Boolean.TRUE);
 		copyParameters.add(30);
 		copyActionConfig.setActionParameterList(copyParameters);
 		copyActionConfigList.add(copyActionConfig);
@@ -1350,7 +1350,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		actionCopyParams.add(GtnFrameworkFilterBarInvisibleAction.class.getName());
 		actionCopyParams.add(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
 		Map<String, Boolean> filterCopyInvisibleMap = new HashMap<>();
-		filterCopyInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
+		filterCopyInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, Boolean.FALSE);
 		actionCopyParams.add(filterCopyInvisibleMap);
 		filterBarCopyInvisibleAction.setActionParameterList(actionCopyParams);
 		copyActionConfigList.add(filterBarCopyInvisibleAction);

@@ -27,7 +27,7 @@ public class GtnFrameworkDeductionCalendarPopUpConfig {
 	public GtnUIFrameworkViewConfig getSearchView() {
 		GtnUIFrameworkViewConfig view = configProvider.getViewConfig(
 				GtnFrameworkCommonConstants.DEDUCTION_CALENDAR_POP_UP_SEARCH_VIEW,
-				GtnFrameworkCommonConstants.CDR_POP_UP_SEARCH_SEARCH_VIEW, false);
+				GtnFrameworkCommonConstants.DEDUCTION_CALENDAR_POP_UP_SEARCH_VIEW, false);
 		addDcComponentList(view);
 		return view;
 	}
