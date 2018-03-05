@@ -37,6 +37,7 @@ import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.util.service.SchedulerSynchronizer;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -73,6 +74,8 @@ public class CFFSearchLookUp extends Window {
     private ProcessSchedulerDTO psDTO = new ProcessSchedulerDTO();
 
     private CustomFieldGroup cffSearchBinder = new CustomFieldGroup(new BeanItem<>(psDTO));
+    
+    private BooleanConstant CONSTANT = new BooleanConstant();
 
     @UiField("financialForecastId")
     private TextField financialForecastId;
@@ -509,7 +512,7 @@ public class CFFSearchLookUp extends Window {
                     }
                 }
                 loadGrid();
-                resultTable.setColumnCheckBox(CHECK_RECORD, Boolean.TRUE, Boolean.FALSE);
+                resultTable.setColumnCheckBox(CHECK_RECORD, CONSTANT.getTrueFlag(), CONSTANT.getFalseFlag());
                 Notification notif = new Notification(displayName + confirmationMessage.getString("MSG_ID_045"), Notification.Type.HUMANIZED_MESSAGE);
                 notif.setPosition(Position.MIDDLE_CENTER);
                 notif.setStyleName(ConstantsUtils.MY_STYLE);

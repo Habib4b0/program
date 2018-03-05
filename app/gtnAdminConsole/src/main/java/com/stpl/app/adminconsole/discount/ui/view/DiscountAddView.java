@@ -6,6 +6,7 @@ import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.discount.ui.form.DiscountAddForm;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -51,6 +52,8 @@ public class DiscountAddView extends VerticalLayout implements View {
      * The available availableRebate bean.
      */
     private BeanItemContainer<DiscountSearchDTO> availableResultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
+    
+    private BooleanConstant booleanConstant = new BooleanConstant();
 
     private SessionDTO sessionDTO;
 
@@ -93,7 +96,7 @@ public class DiscountAddView extends VerticalLayout implements View {
                 if (!selectedRebate.isEmpty()) {
                     resultsBean.addAll(selectedRebate);
                     deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
-                    discountAddForm.groupInfo(deductionGroupDTO, false);
+                    discountAddForm.groupInfo(deductionGroupDTO, booleanConstant.getFalseFlag());
                 }
             } else if (pageName.equals("view")) {
                 List<DiscountSearchDTO> selectedRebate;
@@ -102,9 +105,9 @@ public class DiscountAddView extends VerticalLayout implements View {
                     resultsBean.addAll(selectedRebate);
                 }
                 deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
-                discountAddForm.groupInfo(deductionGroupDTO, false);
+                discountAddForm.groupInfo(deductionGroupDTO, booleanConstant.getFalseFlag());
             } else {
-                discountAddForm.groupInfo(new DiscountSearchDTO(), true);
+                discountAddForm.groupInfo(new DiscountSearchDTO(), booleanConstant.getTrueFlag());
             }
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());

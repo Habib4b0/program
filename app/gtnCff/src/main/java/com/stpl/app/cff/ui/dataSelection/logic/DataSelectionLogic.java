@@ -56,6 +56,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -93,6 +94,7 @@ public class DataSelectionLogic {
 	 * The data selection dao.
 	 */
 	private final DataSelectionDAO dataSelectionDaoImpl = new DataSelectionDAOImpl();
+        private static final BooleanConstant CONSTANT = new BooleanConstant();
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
 	private final DataSelectionDAO vDataSelectionDao = new DataSelectionDAOImpl();
@@ -1891,7 +1893,7 @@ public class DataSelectionLogic {
 		parameters.put(PROJECTION_ID, projectionId);
 		final List returnList = vDataSelectionDao.executeQuery(parameters);
 		if (returnList.isEmpty()) {
-			return true;
+			return CONSTANT.getTrueFlag();
 		} else {
 			return (Integer) returnList.get(0) >= 1;
 		}

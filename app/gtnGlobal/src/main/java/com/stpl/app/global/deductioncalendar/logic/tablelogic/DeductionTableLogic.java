@@ -11,6 +11,7 @@ import com.stpl.app.global.deductioncalendar.dto.DeductionDetailsDTO;
 import com.stpl.app.global.deductioncalendar.dto.TableDTO;
 import com.stpl.app.global.deductioncalendar.logic.DeductionDetailsLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,8 @@ public class DeductionTableLogic extends PageTreeTableLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionTableLogic.class); 
+    
+    private static final BooleanConstant CONSTANT = new BooleanConstant();
     /**
      * Deduction details logic instance
      */
@@ -110,13 +113,13 @@ public class DeductionTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(CONSTANT.getTrueFlag());
     }
 
     @Override

@@ -7,6 +7,7 @@ package com.stpl.app.cff.lazyLoad;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class GroupSearchLogic extends PageTableLogic{
     private String groupNo;
     private String groupIdentifier;
     private final DataSelectionLogic logic = new DataSelectionLogic();
+    private static final BooleanConstant CONSTANT = new BooleanConstant();
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GroupSearchLogic.class);
 
     @Override
@@ -83,11 +85,11 @@ public class GroupSearchLogic extends PageTableLogic{
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(CONSTANT.getTrueFlag());
     }
 }

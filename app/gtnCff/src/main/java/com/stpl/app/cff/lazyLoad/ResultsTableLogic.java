@@ -9,6 +9,7 @@ import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.ui.projectionresults.logic.ProjectionResultsLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ResultsTableLogic extends PageTreeTableLogic {
 
+    private static final BooleanConstant CONSTANT = new BooleanConstant();
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final ProjectionResultsLogic projectionResultsLogic = new ProjectionResultsLogic();
     private boolean firstGenerated = false;
@@ -199,13 +201,13 @@ public class ResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(CONSTANT.getTrueFlag());
     }
 
     @Override

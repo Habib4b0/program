@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 
@@ -33,8 +34,11 @@ public class CFFIndexTableLogic extends PageTableLogic {
      * The Cff logic
      */
     private final ProcessSchedulerLogic cffLogic = new ProcessSchedulerLogic();
-    private Boolean isGenerate = false;
+    private boolean isGenerate = false;
     private SessionDTO sessionDTO;
+    
+    private BooleanConstant booleanConstant = new BooleanConstant();
+    
     public CFFIndexTableLogic() {
     	LOGGER.info("Table logic invoked");
 	}
@@ -49,7 +53,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
         int count = 0;
         if (isGenerate) {
             try {
-                binderDto.setCount(Boolean.FALSE);
+                binderDto.setCount(booleanConstant.getFalseFlag());
                 binderDto.setFilters(getFilters());
                 count = cffLogic.getSearchCount(binderDto, sessionDTO);
             } catch (Exception ex) {
@@ -64,7 +68,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         LOGGER.debug(" Start= {}, offset= {} " , start, offset);
         try {
-            binderDto.setCount(Boolean.TRUE);
+            binderDto.setCount(booleanConstant.getTrueFlag());
             binderDto.setStartIndex(start);
             binderDto.setEndIndex(offset);
             binderDto.setFilters(getFilters());

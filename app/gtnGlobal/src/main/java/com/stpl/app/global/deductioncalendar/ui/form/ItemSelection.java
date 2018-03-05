@@ -40,6 +40,7 @@ import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.TableResultCustom;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -85,6 +86,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class ItemSelection extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelection.class);
+    
+    private static final BooleanConstant CONSTANT = new BooleanConstant();
 
     private final CommonUtil commonMsg = CommonUtil.getInstance();
 
@@ -164,7 +167,7 @@ public class ItemSelection extends CustomComponent {
     private final ItemSelectionTableLogic selectedTableLogic;
     private final SelectionLogic selectionLogic = new SelectionLogic();
     private final SessionDTO sessionDTO ;
-    private Boolean excelEligible = false;
+    private boolean excelEligible = false;
     /**
      * Available Customer ExtPagedTable
      */
@@ -178,7 +181,7 @@ public class ItemSelection extends CustomComponent {
      */
     private final ErrorfulFieldGroup binder;
     private final HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
-    private Boolean isSelected=false;
+    private boolean isSelected=false;
     private final HeaderUtils headerUtils = new HeaderUtils();
 
     
@@ -738,7 +741,7 @@ public class ItemSelection extends CustomComponent {
                             ids.add(selection.getItemSystemID());
                         }
                     }
-                    selectionLogic.removeItem(StringUtils.join(ids, ","), sessionDTO, false);
+                    selectionLogic.removeItem(StringUtils.join(ids, ","), sessionDTO, CONSTANT.getFalseFlag());
                     deductionCalendarForm.setNeedRefresh(true);
                     loadInEdit();
                 } catch (Exception ex) {
@@ -775,7 +778,7 @@ public class ItemSelection extends CustomComponent {
                 LOGGER.debug("Entering inside Remove All Item Method");
                 try {
                     // method to save to temp table
-                    selectionLogic.removeItem(HelperUtils.EMPTY, sessionDTO, true);
+                    selectionLogic.removeItem(HelperUtils.EMPTY, sessionDTO, CONSTANT.getTrueFlag());
                                 // here we are setting the lazyUtilDTO and getting inside the SelectedCompaniesContainer
                     // that is used to pass the  used id , sessionid
                     deductionCalendarForm.setNeedRefresh(true);
@@ -824,7 +827,7 @@ public class ItemSelection extends CustomComponent {
        brandDdlb.select(dto);
        itemDesc.setValue(StringUtils.EMPTY);
        item.setValue(StringUtils.EMPTY);
-       excelEligible = false;
+       excelEligible = CONSTANT.getFalseFlag();
        availableItemTable.setFilterGenerator(new ItemMasterGenerate());
        availableItemTable.setFilterDecorator(new ExtDemoFilterDecorator());
        availableTableLogic.clearAll();

@@ -34,6 +34,7 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.event.ItemClickEvent;
@@ -153,6 +154,7 @@ public class processSchedulerForm extends CustomComponent {
     @UiField("updateBtn")
     private Button updateBtn;
     private static final ResourceBundle confirmationMessage = ResourceBundle.getBundle("properties.message");
+    private BooleanConstant booleanConstant = new BooleanConstant();
     public final Object[] manualColumn = new Object[]{
         "processDisplayName", "manualLastRun"};
 
@@ -687,15 +689,15 @@ public class processSchedulerForm extends CustomComponent {
 
     private void setButtonLevelSecurity(Map<String, AppPermission> functionHM) {
         if (functionHM.get("updateBtn") != null && ((AppPermission) functionHM.get("updateBtn")).isFunctionFlag()) {
-            updateBtn.setVisible(Boolean.TRUE);
+            updateBtn.setVisible(booleanConstant.getTrueFlag());
         } else {
-            updateBtn.setVisible(Boolean.FALSE);
+            updateBtn.setVisible(booleanConstant.getFalseFlag());
         }
 
         if (functionHM.get("runBtn1") != null && ((AppPermission) functionHM.get("runBtn1")).isFunctionFlag()) {
-            run.setVisible(Boolean.TRUE);
+            run.setVisible(booleanConstant.getTrueFlag());
         } else {
-            run.setVisible(Boolean.FALSE);
+            run.setVisible(booleanConstant.getFalseFlag());
         }
     }
 

@@ -188,7 +188,7 @@ public class CustomerSelection extends CustomComponent {
     
     private String availableOrselected = StringUtils.EMPTY;
     
-    private Boolean excelEligible = false;
+    private boolean excelEligible = false;
     
     private final DeductionCalendarForm deductionCalendarForm;
     private final HeaderUtils headerUtils = new HeaderUtils();
