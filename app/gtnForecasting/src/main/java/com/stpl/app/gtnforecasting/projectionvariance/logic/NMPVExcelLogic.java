@@ -1932,6 +1932,8 @@ public class NMPVExcelLogic {
                     lastValue = String.valueOf(obj[NumericConstants.TWO]);
 
                     pvDTO.setGroup(lastValue);
+                    pvDTO.setDfLevelNumber(lastValue);
+                    pvDTO.setDfLevelName(lastValue);
                 } else {
                     if (!StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && obj[obj.length - 1] != null && !lastValue.equals(String.valueOf(obj[obj.length - 1]))) {
                         pvDTO.setGroup(lastGroupName);
@@ -1942,6 +1944,8 @@ public class NMPVExcelLogic {
                     lastValue = String.valueOf(obj[obj.length - 1]);
                     lastGroupName = String.valueOf(obj[NumericConstants.TWO]);
                     pvDTO.setGroup(lastGroupName);
+                    pvDTO.setDfLevelNumber(lastGroupName);
+                    pvDTO.setDfLevelName(lastGroupName);
                 }
                 String commonColumn = StringUtils.EMPTY;
                 switch (projSelDTO.getFrequencyDivision()) {
