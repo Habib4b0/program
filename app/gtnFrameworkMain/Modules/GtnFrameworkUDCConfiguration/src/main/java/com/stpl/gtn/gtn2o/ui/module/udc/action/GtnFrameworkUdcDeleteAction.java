@@ -83,16 +83,10 @@ public class GtnFrameworkUdcDeleteAction
 
 	private void checkConditionsPerformAction(String componentId, String categoryValue, boolean isBrand,
 			GtnUIFrameWorkActionConfig loadDataTableActionConfig) throws GtnFrameworkGeneralException {
-		if (isBrand) {
+		if (isBrand || categoryValue.equals(GtnFrameworkCommonConstants.FILE_TYPE)) {
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
-		} 
-		else if(categoryValue.equals(GtnFrameworkCommonConstants.FILE_TYPE))
-		{
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
-		}
-			else {
-			loadDataTableActionConfig
-					.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
+		} else {
+			loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
 		}
 	}
