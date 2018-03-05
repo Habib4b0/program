@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,6 +40,7 @@ public class NMDiscountExcelLogic {
     private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("#,##0.00%");
     private static final String DF_LEVEL_NAME = "dfLevelName";
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
+    public static final Logger LOGGER = LoggerFactory.getLogger(NMDiscountExcelLogic.class);
 
     public void getCustomizedExcelData(List<Object[]> discountExcelList, ProjectionSelectionDTO projectionSelection, List doubleProjectedAndHistoryCombinedUniqueList) {
         SessionDTO sessionDTO = projectionSelection.getSessionDTO();
@@ -94,23 +97,8 @@ public class NMDiscountExcelLogic {
                 discountProjectionDTO.setGroup(StringUtils.EMPTY);
             }
          if (CommonUtil.isValueEligibleForLoading()) {
-            String levelName = CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
-            discountProjectionDTO.setLevelName(levelName);
-            if (levelName.contains("-")) {
-                String[] tempArr = levelName.split("-");
-                discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
-                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
-            } else if (projectionSelection.getDisplayFormat().length == 1 && projectionSelection.getDisplayFormat().length > 0) {
-                int index = (int) projectionSelection.getDisplayFormat()[0];
-                if (index == 0) {
-                    discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName);
-                } else {
-                    discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName);
-                }
-            } else {
-                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName);
-                discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName);
-            }
+
+            excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchyNo, hierarchyIndicator, hierarchyLevelDetails);
 
         } else {
             discountProjectionDTO.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat()));
@@ -168,5 +156,29 @@ public class NMDiscountExcelLogic {
         }
     }
      
+        public void excelFormattedColumns(DiscountProjectionDTO discountProjectionDTO,ProjectionSelectionDTO projectionSelection,String hierarchyNo,String hierarchyIndicator,Map<String, List> hierarchyLevelDetails){
+            
+            List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
+            discountProjectionDTO.setLevelName(levelName.toString());
+            LOGGER.info("Size============="+levelName.size());
+                LOGGER.info("List============="+levelName);
+                if (projectionSelection.getDisplayFormat().length == 1 && projectionSelection.getDisplayFormat().length > 0) {
+                 int index = (int) projectionSelection.getDisplayFormat()[0];
+                 if (index == 0) {
+                     
+                     discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+                 } else {
+                     discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
+                 }
+             } else {
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+                if (levelName.size() == 2) {
+                    discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(1));
+                    discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+                }
+            }
+            
+        }
      
 }
