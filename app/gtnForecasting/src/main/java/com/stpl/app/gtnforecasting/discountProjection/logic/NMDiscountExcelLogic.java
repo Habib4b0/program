@@ -156,29 +156,29 @@ public class NMDiscountExcelLogic {
         }
     }
      
-        public void excelFormattedColumns(DiscountProjectionDTO discountProjectionDTO,ProjectionSelectionDTO projectionSelection,String hierarchyNo,String hierarchyIndicator,Map<String, List> hierarchyLevelDetails){
-            
-            List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
-            discountProjectionDTO.setLevelName(levelName.toString());
-            LOGGER.info("Size============="+levelName.size());
-                LOGGER.info("List============="+levelName);
-                if (projectionSelection.getDisplayFormat().length == 1 && projectionSelection.getDisplayFormat().length > 0) {
-                 int index = (int) projectionSelection.getDisplayFormat()[0];
-                 if (index == 0) {
-                     
-                     discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
-                 } else {
-                     discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
-                 }
-             } else {
-                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
+        public void excelFormattedColumns(DiscountProjectionDTO discountProjectionDTO, ProjectionSelectionDTO projectionSelection, String hierarchyNo, String hierarchyIndicator, Map<String, List> hierarchyLevelDetails) {
+
+        List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
+        discountProjectionDTO.setLevelName(levelName.toString());
+        LOGGER.info("Size=============" + levelName.size());
+        LOGGER.info("List=============" + levelName);
+        if (projectionSelection.getDisplayFormat().length == 1 && projectionSelection.getDisplayFormat().length > 0) {
+            int index = (int) projectionSelection.getDisplayFormat()[0];
+            if (index == 0) {
+
                 discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
-                if (levelName.size() == 2) {
-                    discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(1));
-                    discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
-                }
+            } else {
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
             }
-            
+        } else {
+            discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
+            discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+            if (levelName.size() == 2) {
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(1));
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+            }
         }
+
+    }
      
 }
