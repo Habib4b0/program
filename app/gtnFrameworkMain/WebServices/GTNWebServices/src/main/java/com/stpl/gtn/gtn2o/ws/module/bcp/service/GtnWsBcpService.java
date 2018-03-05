@@ -44,8 +44,7 @@ public class GtnWsBcpService {
 		GtnWsBcpServiceBean gtnWsBcpServiceBean = gtnWsBcpServiceRequest.getGtnWsBcpServiceBean();
 		String userId = gtnWsBcpServiceBean.getUserId();
 		String sessionId = gtnWsBcpServiceBean.getSessionId();
-		String finalFile = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH)
-				+ System.getProperty(GtnFrameworkCommonStringConstants.CUMULATIVE_FILE_PATH);
+		String finalFile = System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH);
 		boolean salesFlag = gtnWsBcpServiceBean.getSalesFlag();
 		List<Object[]> peocedureResultList = gtnWsSqlService.getResultFromProcedure("PRC_GROWTH_CALCULATION",
 				gtnWsBcpServiceBean.getProcedureInputs());
