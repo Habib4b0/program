@@ -445,6 +445,7 @@ public class NMProjectionVarianceLogic {
         } else if (isLevelsCount) {
             selectionDTO.setLevelNo(selectionDTO.getFilterLevelNo());
             selectionDTO.setTreeLevelNo(selectionDTO.getFilterLevelNo());
+            selectionDTO.setHierarchyNo(StringUtils.EMPTY);
             count += configureLevelsCount(selectionDTO);
         }
         return count;
