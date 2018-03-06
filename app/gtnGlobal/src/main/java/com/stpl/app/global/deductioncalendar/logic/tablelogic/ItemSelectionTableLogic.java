@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.deductioncalendar.dto.SelectionDTO;
 import com.stpl.app.global.deductioncalendar.logic.SelectionLogic;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 
@@ -28,6 +29,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
     private final SessionDTO sessionDTO;
     private final SelectionLogic selectionLogic=new SelectionLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     @Override
     public int getCount() {
@@ -74,12 +76,12 @@ public class ItemSelectionTableLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
    

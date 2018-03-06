@@ -20,6 +20,7 @@ import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -65,6 +66,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemSelection extends CustomComponent implements View {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @UiField("businessUnitNo")
     private TextField businessUnitNo;
     
@@ -114,8 +117,8 @@ public class ItemSelection extends CustomComponent implements View {
     private final AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelection.class);
     private final CustomFieldGroup itemSearchBinder = new CustomFieldGroup(new BeanItem<>(altHistoryDTO));
-    private Boolean contractExcelFlag = false;
-    private Boolean infoExcelFlag = false;
+    private boolean contractExcelFlag = false;
+    private boolean infoExcelFlag = false;
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private final CommonUtil commonMsg = CommonUtil.getInstance();
 
@@ -219,7 +222,7 @@ public class ItemSelection extends CustomComponent implements View {
         availableItemsTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         availableItemsTable.setPageLength(NumericConstants.FIVE);
         availableItemsTable.setSortEnabled(false);
-        availableItemTableLoic.setIsAvailable(Boolean.TRUE);
+        availableItemTableLoic.setIsAvailable(BOOLEAN_CONSTANT.getTrueFlag());
         availableItemTableLoic.setContainerDataSource(availableItemsContainer);
         availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
         availableItemsTable.setColumnHeaders(availableItemsHeaders);
@@ -305,7 +308,7 @@ public class ItemSelection extends CustomComponent implements View {
             }
         });
 
-        selectedItemsTableLoic.setIsAvailable(Boolean.FALSE);
+        selectedItemsTableLoic.setIsAvailable(BOOLEAN_CONSTANT.getFalseFlag());
         selectedItemsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         selectedItemsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         selectedItemsTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -520,7 +523,7 @@ public class ItemSelection extends CustomComponent implements View {
     public boolean getSelectedItems() {
         boolean flag = false;
         String ccpDetailsId = StringUtils.EMPTY;
-        Boolean first = true;
+        boolean first = true;
         for (Object items : selectedItemsContainer.getItemIds()) {
             Boolean checked = (Boolean) selectedItemsTable.getContainerProperty(items, Constant.CHECK).getValue();
             if (checked) {

@@ -9,6 +9,7 @@ import com.stpl.app.gcm.copycontract.dto.ContractSelectionDTO;
 import com.stpl.app.gcm.copycontract.dto.CopyComponentDTO;
 import com.stpl.app.gcm.copycontract.logic.CopyContractLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class CopyComponentsResultLogic extends PageTableLogic {
   private final CopyContractLogic logic = new CopyContractLogic();
   private int count;
   private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsResultLogic.class);
+  private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     @Override
     public int getCount() {
@@ -90,12 +92,12 @@ public class CopyComponentsResultLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
 }

@@ -467,6 +467,7 @@ public class GtnWsItemMasterSaveService {
 			itemMasterEditData.setNewFormulationEndDate(infoBean.getNewFormulationEndDate());
 			itemMasterEditData.setNewFormulation(infoBean.getNewFormulation());
 			itemMasterEditData.setInternalNotes(infoBean.getInternalNotes());
+			itemMasterEditData.setModifiedDate(new Date());
 			session.saveOrUpdate(itemMasterEditData);
 			saveOrUpdateUdcs(infoBean, session);
 			saveOrUpdateItemIdentifier(gtnWsRequest.getGtnWsItemMasterRequest(), session, infoBean.getItemMasterSid());

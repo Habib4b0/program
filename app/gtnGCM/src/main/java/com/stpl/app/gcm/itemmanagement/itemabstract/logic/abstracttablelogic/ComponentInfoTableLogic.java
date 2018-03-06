@@ -7,6 +7,7 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentInfoDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ComponentInfoTableLogic extends PageTableLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private ComponentInfoDTO binderDto = new ComponentInfoDTO();
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private boolean generate = true;
@@ -31,7 +33,7 @@ public class ComponentInfoTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         if (!generate) {
-            binderDto.setIsCount(false);
+            binderDto.setIsCount(BOOLEAN_CONSTANT.getFalseFlag());
             selection.setFilters(getFilters());
             return logic.getComponentInfoCount(binderDto, selection);
         }
@@ -49,7 +51,7 @@ public class ComponentInfoTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
-        binderDto.setIsCount(true);
+        binderDto.setIsCount(BOOLEAN_CONSTANT.getTrueFlag());
         selection.setFilters(getFilters());
         List<ComponentInfoDTO> resultList = logic.getComponentInfoResults(binderDto, selection);
         return resultList;

@@ -31,6 +31,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.server.VaadinSession;
 import de.steinwedel.messagebox.ButtonId;
@@ -54,7 +55,7 @@ import org.slf4j.LoggerFactory;
 public final class MProjectionResults extends ForecastProjectionResults {
    
     
-    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * LOGGER
      */
@@ -462,11 +463,11 @@ public final class MProjectionResults extends ForecastProjectionResults {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(Boolean.FALSE);
-                expandBtn.setVisible(Boolean.FALSE);
-                collapseBtn.setVisible(Boolean.FALSE);
-                newBtn.setVisible(Boolean.FALSE);
-                editBtn.setVisible(Boolean.FALSE);
+                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(MProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);

@@ -15,6 +15,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.CommonConstants.SELECT_ONE;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     protected boolean isRefresh;
     protected boolean isGenerated = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     public boolean isIsRefresh() {
         return isRefresh;
@@ -179,32 +181,32 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
     @Override
     protected void createCurrentPageStart() {
-        PPAProjection.setValueChangeAllowed(Boolean.FALSE);
+        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getFalseFlag());
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
-        PPAProjection.setValueChangeAllowed(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     @Override
     protected void expandCollapseStart(boolean isExpand) {
-        PPAProjection.setValueChangeAllowed(Boolean.FALSE);
+        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getFalseFlag());
         setExpandCollapseProgress(true);
     }
 
     @Override
     protected void expandCollapseEnd(boolean isExpand) {
         setExpandCollapseProgress(false);
-        PPAProjection.setValueChangeAllowed(Boolean.TRUE);
+        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
-        PPAProjection.setValueChangeAllowed(Boolean.FALSE);
+        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getFalseFlag());
         int count = logic.getPPAProjectionResultsCount(selection, parentId, session);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
@@ -221,7 +223,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             }
         }
-        PPAProjection.setValueChangeAllowed(Boolean.TRUE);
+        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     public void loadExpandData(int levelNo) {
@@ -259,16 +261,16 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
         if ((prop != null && Constant.GROUP.equals(prop.toString())) && (!ppaProjection.isGroupChangeFlag())) {
 
-                PPAProjection.setValueChangeAllowed(Boolean.FALSE);
-                ppaProjection.setValueChangeForColumnCheckBox(Boolean.TRUE);
+                PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getFalseFlag());
+                ppaProjection.setValueChangeForColumnCheckBox(BOOLEAN_CONSTANT.getTrueFlag());
                 String valu = Constant.NULL.equals(String.valueOf(value)) ? Constant.ALL_GROUP : String.valueOf(Constant.PPA + value);
                 selection.setGroupFilter(valu);
-                selection.setIsFilter(Boolean.FALSE);
+                selection.setIsFilter(BOOLEAN_CONSTANT.getFalseFlag());
                 setProjectionResultsData(true);
                 clearAll();
                 ppaProjection.setLevelFilterValue(SELECT_ONE);
-                PPAProjection.setValueChangeAllowed(Boolean.TRUE);
-                ppaProjection.setValueChangeForColumnCheckBox(Boolean.FALSE);
+                PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+                ppaProjection.setValueChangeForColumnCheckBox(BOOLEAN_CONSTANT.getFalseFlag());
         }
 
     }
