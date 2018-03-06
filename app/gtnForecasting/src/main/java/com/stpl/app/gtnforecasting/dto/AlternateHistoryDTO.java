@@ -56,7 +56,7 @@ public class AlternateHistoryDTO extends ExtMapDTO{
     /**
      * The Check.
      */
-    private Boolean check=false;
+    private boolean check=false;
 
     /**
      * The Market Type.
@@ -78,7 +78,7 @@ public class AlternateHistoryDTO extends ExtMapDTO{
      */
     private String customerName = StringUtils.EMPTY;
 
-    private Boolean reset = false;
+    private boolean reset = false;
 
     private Integer contractMasterSid = 0;
 
@@ -134,7 +134,7 @@ public class AlternateHistoryDTO extends ExtMapDTO{
     
     private final Set<String> selectedProductSet = new HashSet();
     
-    private Boolean checkRecord=false;
+    private boolean checkRecord=false;
     
     public String getActualsOrProjections() {
         return actualsOrProjections;

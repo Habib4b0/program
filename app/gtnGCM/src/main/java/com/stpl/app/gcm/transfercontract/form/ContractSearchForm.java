@@ -17,6 +17,7 @@ import com.stpl.app.gcm.util.Constants.MessageConstants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -123,6 +124,7 @@ public class ContractSearchForm extends VerticalLayout {
     private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     private final ContractSearchLogic logic = new ContractSearchLogic();
     public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final CommonUtil commonUtil=CommonUtil.getInstance();
     /**
      * The binder.
@@ -163,11 +165,11 @@ public class ContractSearchForm extends VerticalLayout {
         resultTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         resultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         resultTable.setPageLength(NumericConstants.FIVE);
-        resultTable.setEditable(Boolean.TRUE);
+        resultTable.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
         resultTable.setContainerDataSource(resultContainer);
         resultTable.setVisibleColumns(HeaderUtil.getInstance().contractSearchColumn);
         resultTable.setColumnHeaders(HeaderUtil.getInstance().contractSearchHeader);
-        resultTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
+        resultTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BOOLEAN_CONSTANT.getTrueFlag());
         resultTable.setTableFieldFactory(new TableFieldFactory() {
 
             @Override

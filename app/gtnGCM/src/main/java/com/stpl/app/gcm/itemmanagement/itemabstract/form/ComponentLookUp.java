@@ -14,6 +14,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -49,6 +50,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ComponentLookUp extends Window {
 public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.class);
+private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentId")
@@ -178,12 +180,12 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox status = new ComboBox();
-                    logic.LazyLoadDdlb(status, countFlag.get(0), loadDataFlag.get(0), true);
+                    logic.LazyLoadDdlb(status, countFlag.get(0), loadDataFlag.get(0), BOOLEAN_CONSTANT.getTrueFlag());
                     return status;
                 }
                 if ("componentType".equals(propertyId)) {
                     ComboBox type = new ComboBox();
-                    logic.LazyLoadDdlb(type, countFlag.get(1), loadDataFlag.get(1), true);
+                    logic.LazyLoadDdlb(type, countFlag.get(1), loadDataFlag.get(1), BOOLEAN_CONSTANT.getTrueFlag());
                     return type;
                 }
                 return null;
@@ -267,11 +269,11 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, countFlag.get(0), loadDataFlag.get(0), false);
+        logic.LazyLoadDdlb(componentStatus_DTO, countFlag.get(0), loadDataFlag.get(0), BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     private void loadComponentType() {
-        logic.LazyLoadDdlb(componentType_DTO, countFlag.get(1), loadDataFlag.get(1), false);
+        logic.LazyLoadDdlb(componentType_DTO, countFlag.get(1), loadDataFlag.get(1), BOOLEAN_CONSTANT.getFalseFlag());
     }
 
   

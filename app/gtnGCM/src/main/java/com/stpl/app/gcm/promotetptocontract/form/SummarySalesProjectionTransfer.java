@@ -18,6 +18,7 @@ import com.stpl.app.gcm.util.HeaderUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -57,6 +58,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(SummarySalesProjectionTransfer.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightDTO;
     private final ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -222,7 +224,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     public void excelButtonLogic(Button.ClickEvent event) {
         configureExcelResultTable();
         loadExcelResultTable();
-        exportPeriodViewTable.setRefresh(Boolean.TRUE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");
@@ -235,7 +237,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
         exportPeriodViewTable = new ExtFilterTreeTable();
         tradingPartnerSalesTableLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);

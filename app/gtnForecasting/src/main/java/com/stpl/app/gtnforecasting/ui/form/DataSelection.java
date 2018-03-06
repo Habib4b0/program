@@ -1659,6 +1659,7 @@ public class DataSelection extends ForecastDataSelection {
 			String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
 			String[] val = selectedLevel.split(" ");
 			forecastLevel = Integer.parseInt(val[1]);
+                        dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
 			customerHierarchyLevelDefinitionList = relationLogic
 					.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
 			Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
