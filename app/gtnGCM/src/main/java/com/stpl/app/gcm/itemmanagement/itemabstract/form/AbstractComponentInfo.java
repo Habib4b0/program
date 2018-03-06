@@ -25,6 +25,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -128,6 +129,7 @@ public class AbstractComponentInfo extends CustomComponent {
     private GridLayout itemSearchGrid;
     @UiField("exportBtn")
     private Button exportBtn;
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     protected final TextField rsTypeText = new TextField();
     protected final TextField rsProgramTypeText = new TextField();
     protected final TextField rsCategoryText = new TextField();
@@ -387,19 +389,19 @@ public class AbstractComponentInfo extends CustomComponent {
                 if (componentSelection.getValue() != null && !"null".equals(String.valueOf(componentSelection.getValue()))) {
                     if (componentSelection.getValue().equals(Constants.CFP) && (Constants.STATUS_S.equals(propertyId) || "itemStatus".equals(propertyId))) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BOOLEAN_CONSTANT.getTrueFlag());
                             return status;
                     }
 
                     if (componentSelection.getValue().equals(Constants.IFP)) {
                         if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BOOLEAN_CONSTANT.getTrueFlag());
                             return status;
                         }
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
+                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BOOLEAN_CONSTANT.getTrueFlag());
                             return brandDdlb;
                         }
                     }
@@ -407,17 +409,17 @@ public class AbstractComponentInfo extends CustomComponent {
                     if (componentSelection.getValue().equals(Constants.PS)) {
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
+                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BOOLEAN_CONSTANT.getTrueFlag());
                             return brandDdlb;
                         }
                         if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
                             ComboBox priceProtectionDdlb = new ComboBox();
-                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UiUtils.STATUS, true);
+                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UiUtils.STATUS, BOOLEAN_CONSTANT.getTrueFlag());
                             return priceProtectionDdlb;
                         }
                         if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
                             ComboBox basePriceType = new ComboBox();
-                            CommonUtil.getComboBoxByListName(basePriceType, Constants.BASE_PRICE_TYPE_COLUMN_NAME, true);
+                            CommonUtil.getComboBoxByListName(basePriceType, Constants.BASE_PRICE_TYPE_COLUMN_NAME, BOOLEAN_CONSTANT.getTrueFlag());
                             return basePriceType;
                         }
                         if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {
@@ -442,57 +444,57 @@ public class AbstractComponentInfo extends CustomComponent {
                         }
                         if (Constants.RESET_ELIGIBLE_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, BOOLEAN_CONSTANT.getTrueFlag());
                             return comboBox;
                         }
                         if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, Constants.RESET_TYPE_COLUMN_NAME, true);
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.RESET_TYPE_COLUMN_NAME, BOOLEAN_CONSTANT.getTrueFlag());
                             return comboBox;
                         }
                         if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, true);
+                            CommonUtil.getComboBoxByListName(comboBox, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, BOOLEAN_CONSTANT.getTrueFlag());
                             return comboBox;
                         }
                         if (Constants.RESET_FREQUENCY_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, true);
+                            CommonUtil.getComboBoxByListName(comboBox, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, BOOLEAN_CONSTANT.getTrueFlag());
                             return comboBox;
                         }
                         if (Constants.NET_RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, BOOLEAN_CONSTANT.getTrueFlag());
                             return comboBox;
                         }
                         if (Constants.NET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, BOOLEAN_CONSTANT.getTrueFlag());
                             return comboBox;
                         }
                         if (Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, BOOLEAN_CONSTANT.getTrueFlag());
                             return comboBox;
                         }
                         if (Constants.BASELINE_NET_WAC_PROPERTY.equals(propertyId)) {
                             ComboBox comboBox = new ComboBox();
-                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, BOOLEAN_CONSTANT.getTrueFlag());
                             return comboBox;
                         }
                         if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
                             ComboBox pricetolerenceintDdlb = new ComboBox();
-                            logic.LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", true);
+                            logic.LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BOOLEAN_CONSTANT.getTrueFlag());
                             return pricetolerenceintDdlb;
                         }
                         if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
                             ComboBox pricetolerencetypeDdlb = new ComboBox();
-                            logic.LazyLoadDdlb(pricetolerencetypeDdlb, "Load PS_TYPE Count", "Load PS_TYPE", true);
+                            logic.LazyLoadDdlb(pricetolerencetypeDdlb, "Load PS_TYPE Count", "Load PS_TYPE", BOOLEAN_CONSTANT.getTrueFlag());
                             return pricetolerencetypeDdlb;
                         }
                         if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
                             ComboBox pricetolerencefreqDdlb = new ComboBox();
-                            logic.LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", true);
+                            logic.LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", BOOLEAN_CONSTANT.getTrueFlag());
                             return pricetolerencefreqDdlb;
                         }
                     }
@@ -501,12 +503,12 @@ public class AbstractComponentInfo extends CustomComponent {
 
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
+                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BOOLEAN_CONSTANT.getTrueFlag());
                             return brandDdlb;
                         }
                         if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BOOLEAN_CONSTANT.getTrueFlag());
                             return status;
                         }
                     }
@@ -542,7 +544,7 @@ public class AbstractComponentInfo extends CustomComponent {
         tablelogic.clearAll();
         tablelogic.getFilters().clear();
         tablelogic.removeAllContainerFilters();
-        binderDto.setReset(false);
+        binderDto.setReset(BOOLEAN_CONSTANT.getFalseFlag());
         tablelogic.loadSetData(binderDto, selection);
     }
 
@@ -641,7 +643,7 @@ public class AbstractComponentInfo extends CustomComponent {
         paymentFrequencyText.setValue(StringUtils.EMPTY);
         rebatePlanLevelText.setValue(StringUtils.EMPTY);
         setReadOnlyComponents(Boolean.TRUE);
-        binderDto.setReset(true);
+        binderDto.setReset(BOOLEAN_CONSTANT.getTrueFlag());
         tablelogic.loadSetData(binderDto, selection);
     }
 
@@ -687,14 +689,14 @@ public class AbstractComponentInfo extends CustomComponent {
      * loadPaymentFrequency
      */
     private void loadPaymentFrequency() {
-        abstractLogic.LazyLoadDdlb(paymentFrequency_DTO, "LoadPaymentFreqCount", "LoadPaymentFreq", false);
+        abstractLogic.LazyLoadDdlb(paymentFrequency_DTO, "LoadPaymentFreqCount", "LoadPaymentFreq", BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     /**
      * loadRPLevel
      */
     private void loadRPLevel() {
-        abstractLogic.LazyLoadDdlb(rebatePlanLevel_DTO, "LoadRPLevelCount", "LoadRPLevel", false);
+        abstractLogic.LazyLoadDdlb(rebatePlanLevel_DTO, "LoadRPLevelCount", "LoadRPLevel", BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     public void fireComponentListener(final String value, final SelectionDTO selection) {
@@ -776,7 +778,7 @@ public class AbstractComponentInfo extends CustomComponent {
     public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         if (resultTable.size() != 0) {
-            binderDto.setIsCount(false);
+            binderDto.setIsCount(BOOLEAN_CONSTANT.getFalseFlag());
             selection.setFilters(tablelogic.getFilters());
             recordCount = logic.getComponentInfoCount(binderDto, selection);
         }
@@ -788,7 +790,7 @@ public class AbstractComponentInfo extends CustomComponent {
             if (end != 0) {
                 binderDto.setStartIndex(start);
                 binderDto.setEndIndex(end);
-                binderDto.setIsCount(true);
+                binderDto.setIsCount(BOOLEAN_CONSTANT.getTrueFlag());
                 selection.setFilters(tablelogic.getFilters());
                 List<ComponentInfoDTO> resultList = logic.getComponentInfoResults(binderDto, selection);
                 ExcelExportforBB.createFileContent(currentComponentTable.getVisibleColumns(), resultList, printWriter);
@@ -801,7 +803,7 @@ public class AbstractComponentInfo extends CustomComponent {
     public void excelExport() {
         try {
             configureContractExcelResultTable();
-            binderDto.setIsCount(true);
+            binderDto.setIsCount(BOOLEAN_CONSTANT.getTrueFlag());
             binderDto.setStartIndex(0);
             binderDto.setEndIndex(Integer.MAX_VALUE);
             List<ComponentInfoDTO> list = logic.getComponentInfoResults(binderDto, selection);
@@ -821,7 +823,7 @@ public class AbstractComponentInfo extends CustomComponent {
         contractExcelTable = new ExtCustomTable();
         tableLayout.addComponent(contractDashboardLay);
         contractDashboardLay.addComponent(contractExcelTable);
-        contractExcelTable.setRefresh(Boolean.FALSE);
+        contractExcelTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
         contractExcelTable.setVisible(false);
         contractExcelTable.setContainerDataSource(contractExcelResultBean);
         contractExcelTable.setVisibleColumns(currentComponentTable.getVisibleColumns());

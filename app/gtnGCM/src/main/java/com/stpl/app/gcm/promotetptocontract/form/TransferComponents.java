@@ -52,6 +52,7 @@ import com.stpl.app.gcm.impl.IfpContractDetailsImpl;
 import com.stpl.app.gcm.impl.PsContractDetailsImpl;
 import com.stpl.app.gcm.impl.RsContractDetailsImpl;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -111,6 +112,9 @@ public class TransferComponents extends CustomComponent implements View {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The Constant serialVersionUID.
      */
@@ -236,8 +240,8 @@ public class TransferComponents extends CustomComponent implements View {
     private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
     private String excelName = "Rebate Schedule Information";
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    private Boolean contractExcelFlag = false;
-    private Boolean infoExcelFlag = false;
+    private boolean contractExcelFlag = false;
+    private boolean infoExcelFlag = false;
     private final StplSecurity stplSecurity = new StplSecurity();
 
     /**
@@ -344,14 +348,14 @@ public class TransferComponents extends CustomComponent implements View {
         transferCompTable1.setVisibleColumns(Constants.getInstance().contractCompResultsColumns);
         transferCompTable1.setColumnHeaders(Constants.getInstance().contractCompResultsHeaders);
         transferCompTable1.setSizeFull();
-        transferCompTable1.setEditable(Boolean.TRUE);
+        transferCompTable1.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
         transferCompTable1.markAsDirty();
         transferCompTable1.setSelectable(true);
         transferCompTable1.setWidth("1660px");
         transferCompTable1.setHeight("290px");
 
         transferCompTable1.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        transferCompTable1.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
+        transferCompTable1.setColumnCheckBox(Constants.CHECK_RECORD, BOOLEAN_CONSTANT.getTrueFlag());
 
         transferCompTable1.setTableFieldFactory(new TableFieldFactory() {
             @Override
@@ -559,7 +563,7 @@ public class TransferComponents extends CustomComponent implements View {
 
             String ids = Constants.EMPTY;
             Collection<?> returnList = transferCompTable1.getItemIds();
-            Boolean flag = false;
+            boolean flag = false;
             for (Object item : returnList) {
                 Boolean checked = (Boolean) transferCompContainer1.getContainerProperty(item, Constants.CHECK_RECORD).getValue();
                 if (checked) {
@@ -625,7 +629,7 @@ public class TransferComponents extends CustomComponent implements View {
         } else if (componentSelectionValue.equals(Constants.REBATE_SCHEDULE)) {
             String ids = Constants.EMPTY;
             Collection<?> returnList = transferCompTable1.getItemIds();
-            Boolean flag = false;
+            boolean flag = false;
             for (Object item : returnList) {
                 Boolean checked = (Boolean) transferCompContainer1.getContainerProperty(item, Constants.CHECK_RECORD).getValue();
                 if (checked) {
@@ -731,7 +735,7 @@ public class TransferComponents extends CustomComponent implements View {
                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Component");
                 }
                 Collection<?> checkList = transferCompTable1.getItemIds();
-                Boolean flag = false;
+                boolean flag = false;
                 for (Object tmp : checkList) {
                     Boolean checked = (Boolean) transferCompContainer1.getContainerProperty(tmp, Constants.CHECK_RECORD).getValue();
                     if (checked) {

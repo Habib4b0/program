@@ -45,6 +45,7 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.ui.UI;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -66,6 +67,9 @@ public class SummaryTPDetails extends CustomComponent implements View {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The Constant serialVersionUID.
      */
@@ -97,8 +101,8 @@ public class SummaryTPDetails extends CustomComponent implements View {
     private boolean isRebateLoad = false;
     private PromoteTPLogic logic = new PromoteTPLogic();
     private List<CurrentContractDTO> transTpInfoList = new ArrayList<>();
-    private Boolean contractExcelFlag = false;
-    private Boolean infoExcelFlag = false;
+    private boolean contractExcelFlag = false;
+    private boolean infoExcelFlag = false;
     private final StplSecurity stplSecurity = new StplSecurity();
 
     public SummaryTPDetails() {
@@ -276,7 +280,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
         currentContractDTO.setIsCustomerDetailsTab(Boolean.TRUE);
         currentContractDTO.setReset(Boolean.FALSE);
         currentContractDTO.setCompanySystemId(session.getCompanyMasterSid());
-        currentContractDTO.setSearch(true);
+        currentContractDTO.setSearch(BOOLEAN_CONSTANT.getTrueFlag());
         tableLogic.loadSetData(currentContractDTO, session);
     }
 

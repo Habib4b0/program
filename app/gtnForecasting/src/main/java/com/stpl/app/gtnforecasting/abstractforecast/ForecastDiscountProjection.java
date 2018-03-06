@@ -41,6 +41,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
 import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -82,6 +83,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected SessionDTO session;
     protected String screenName;
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /* The Excel table */
     protected ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
     /* The excel export image */
@@ -855,7 +857,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 }
                 break;
             case "generateBtn":
-                generateBtnClickLogic(true);
+                generateBtnClickLogic(BOOLEAN_CONSTANT.getTrueFlag());
                 break;
             case "resetBtn":
                 resetBtnClickLogic();

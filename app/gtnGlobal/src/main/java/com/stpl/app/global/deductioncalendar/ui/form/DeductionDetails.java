@@ -22,6 +22,7 @@ import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
@@ -76,6 +77,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 public class DeductionDetails extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionDetails.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     @UiField("dataview")
     private OptionGroup dataview;
@@ -264,7 +267,7 @@ public class DeductionDetails extends CustomComponent {
             if (!ConstantsUtils.NULL.equals(detailsDto.getForecastToDate())&& !StringUtils.EMPTY.equals(detailsDto.getForecastToDate())) {
                 to.setValue(sdf.parse(detailsDto.getForecastToDate()));
             }
-            filterDdlb.setNullSelectionAllowed(Boolean.TRUE);
+            filterDdlb.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
             filterDdlb.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
             filterDdlb.addItem(ConstantsUtils.SELECT_ONE);
             dataview.addItem(ConstantsUtils.CUSTOMER);
@@ -304,7 +307,7 @@ public class DeductionDetails extends CustomComponent {
             variable.addItem("Dollar");
             variable.select(ConstantsUtils.DOLLARS);
             variable.addItem("Unit");
-            variable.setItemEnabled("Unit", Boolean.FALSE);
+            variable.setItemEnabled("Unit", BOOLEAN_CONSTANT.getFalseFlag());
             adjustmentPeriods.addItem("All");
             adjustmentPeriods.select(ConstantsUtils.ALL);
             adjustmentPeriods.addItem(ConstantsUtils.SELECT1);
@@ -633,11 +636,11 @@ public class DeductionDetails extends CustomComponent {
             }
             initializeResultTable();
             configureResultTable();
-            Boolean checkall = true;
+            Boolean checkall = BOOLEAN_CONSTANT.getTrueFlag();
             for (Object component : resultBeanContainer.getItemIds()) {
                 TableDTO dto = (TableDTO) component;
-                if (dto.getCheck() != null && dto.getCheck().equals(false)) {
-                    checkall = false;
+                if (dto.getCheck() != null && dto.getCheck().equals(BOOLEAN_CONSTANT.getFalseFlag())) {
+                    checkall = BOOLEAN_CONSTANT.getFalseFlag();
                     break;
                 }
             }
@@ -663,7 +666,7 @@ public class DeductionDetails extends CustomComponent {
             @Override
             public void buttonClick(ClickEvent event) {
                 try {
-                    detailsDto.setGenerated(Boolean.TRUE);
+                    detailsDto.setGenerated(BOOLEAN_CONSTANT.getTrueFlag());
                     loadStartAndEndPeriodDDLB();
                     Date foreFrom = CommonUtil.stringToDateFormat(detailsDto.getForecastFromDate());
                     Date foreTo = CommonUtil.stringToDateFormat(detailsDto.getForecastToDate());
