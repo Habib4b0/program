@@ -26,8 +26,8 @@ public class AltAllocTableLogic extends PageTableLogic {
     private AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
     private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
     private SessionDTO session = new SessionDTO();
-    private boolean isAvailable = Boolean.FALSE;
-    private boolean addToQueue = Boolean.FALSE;
+    private boolean isAvailable = false;
+    private boolean addToQueue = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(AltAllocTableLogic.class);
 
     @Override
@@ -53,7 +53,7 @@ public class AltAllocTableLogic extends PageTableLogic {
     @Override
     public List loadData(int start, int offset) {
         try {
-            return logic.getAlloc(altHistoryDTO, session, addToQueue, getFilters(), start, offset, Boolean.FALSE);
+            return logic.getAlloc(altHistoryDTO, session, addToQueue, getFilters(), start, offset, false);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             return Collections.emptyList();
