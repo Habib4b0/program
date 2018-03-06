@@ -19,6 +19,8 @@ import com.stpl.app.gcm.tp.logic.LoadTabLogic;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class RemoveItemLogic {
      * The Currency Zero Decimal Places Format.
      */
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     public static final String CONTRACT = "contract";
     public static final String COMPANY = "company";
     
@@ -64,10 +67,10 @@ public class RemoveItemLogic {
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             }
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getFalseFlag());
         } else {
             tabSelectionDTO.setParentLevel("new");
-            tabSelectionDTO.setIsProjectionTotal(Boolean.TRUE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getTrueFlag());
         }
         getIdAndForecastingType(tabSelectionDTO, selection);
         getParentLevels(tabSelectionDTO);
@@ -160,9 +163,9 @@ public class RemoveItemLogic {
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             }
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getFalseFlag());
         } else {
-            tabSelectionDTO.setIsProjectionTotal(Boolean.TRUE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getTrueFlag());
             tabSelectionDTO.setParentLevel("new");
         }
         List<Object> list;
@@ -225,7 +228,7 @@ public class RemoveItemLogic {
                     }
                     levelNo = String.valueOf(String.valueOf(obj[NumericConstants.SIX]));
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+                    salesTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     levelNo = String.valueOf(String.valueOf(obj[NumericConstants.SEVEN]));
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
@@ -258,7 +261,7 @@ public class RemoveItemLogic {
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setContractMasterSid((Integer) obj[0]);
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+                    salesTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setBrandMasterSid((Integer) obj[0]);
@@ -273,7 +276,7 @@ public class RemoveItemLogic {
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setContractMasterSid((Integer) obj[0]);
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    salesTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+                    salesTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
                     salesTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     salesTabDTO.setBrandMasterSid((Integer) obj[0]);
@@ -383,10 +386,10 @@ public class RemoveItemLogic {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
                 tabSelectionDTO.setRebateProgramType(pDto.getRebateProgramType());
             }
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getFalseFlag());
         } else {
             tabSelectionDTO.setParentLevel("new");
-            tabSelectionDTO.setIsProjectionTotal(Boolean.TRUE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getTrueFlag());
         }
         getIdAndForecastingType(tabSelectionDTO, selection);
         getParentLevelsForRebate(tabSelectionDTO);
@@ -470,10 +473,10 @@ public class RemoveItemLogic {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
                 tabSelectionDTO.setRebateProgramType(pDto.getRebateProgramType());
             }
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getFalseFlag());
         } else {
             tabSelectionDTO.setParentLevel("new");
-            tabSelectionDTO.setIsProjectionTotal(Boolean.TRUE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getTrueFlag());
         }
         List<Object> list;
         getParentLevelsForRebate(tabSelectionDTO);
@@ -535,7 +538,7 @@ public class RemoveItemLogic {
                     }
                     levelNo = String.valueOf(String.valueOf(obj[NumericConstants.SIX]));
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+                    rebateTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                     levelNo = String.valueOf(String.valueOf(obj[NumericConstants.SEVEN]));
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
@@ -574,7 +577,7 @@ public class RemoveItemLogic {
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setContractMasterSid((Integer) obj[0]);
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+                    rebateTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setBrandMasterSid((Integer) obj[0]);
@@ -595,7 +598,7 @@ public class RemoveItemLogic {
                 if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setContractMasterSid((Integer) obj[0]);
                 } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
-                    rebateTabDTO.setCompanyMasterSid(Integer.parseInt(String.valueOf(obj[0])));
+                    rebateTabDTO.setCompanyMasterSid(DataTypeConverter.convertObjectToInt(obj[0]));
                     rebateTabDTO.setContractMasterSid((Integer) obj[NumericConstants.SIX]);
                 } else if (Constants.BRAND_PROPERTY.equals(tabSelectionDTO.getParentLevel())) {
                     rebateTabDTO.setBrandMasterSid((Integer) obj[0]);

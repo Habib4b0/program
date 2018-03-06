@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Theme("stpl")
-@Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
 
 public class GtnFrameworkTransactionPortlet extends UI {
 

@@ -50,6 +50,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
@@ -1441,7 +1442,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     }
                     ndcList.add(ndcDesc);
                     listItemNo.add(ndcDesc);
-                    itemMasterSidMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDesc);
+                    itemMasterSidMap.put(DataTypeConverter.convertObjectToInt(obj[0]), ndcDesc);
                     nonFampMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FIVE]));
                     fssMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.SIX]));
                     federalWacMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FOUR]));
@@ -1453,7 +1454,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     ndcDto.setNonFamp(String.valueOf(obj[NumericConstants.FIVE]));
                     ndcDto.setFssOGA(String.valueOf(obj[NumericConstants.SIX]));
                     ndcDto.setNdcDescription(ndcDesc);
-                    federalMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDto);
+                    federalMap.put(DataTypeConverter.convertObjectToInt(obj[0]), ndcDto);
                 }
 
             }
@@ -1473,7 +1474,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
     public void getNDCSetup(String projectionId) throws NamingException, SQLException {
         callNDCPopupProcedure();
-        String ndcNo = Arrays.toString(ndcList.toArray()).replace("[", " ").replace("]", " ");
+        String ndcNo = Arrays.toString(ndcList.toArray()).replace('[', ' ').replace(']', ' ');
         if (StringUtils.isNotBlank(ndcNo)) {
             if (logic.isAFSSPriceTypeAvailable(projectionId)) {
                 new AbstractNotificationUtils() {

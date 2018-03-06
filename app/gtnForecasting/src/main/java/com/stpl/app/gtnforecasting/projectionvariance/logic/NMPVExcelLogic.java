@@ -1078,7 +1078,7 @@ public class NMPVExcelLogic {
                 commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
                 break;
             case NumericConstants.TWELVE:
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX])) - 1);
+                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX])) - 1);
                 commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
                 break;
             default:
@@ -1205,7 +1205,7 @@ public class NMPVExcelLogic {
 
             List<String> common = null;
             if (!"null".equalsIgnoreCase(String.valueOf(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX])) && !"null".equalsIgnoreCase(String.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX]))) {
-                common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
+                common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.parseInt(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.parseInt(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
                 String groupId = common.get(0);
 
                 if (periodList.contains(groupId)) {
@@ -1545,7 +1545,7 @@ public class NMPVExcelLogic {
                     commonColumn = String.valueOf(obj[NumericConstants.FOUR]);
                     break;
                 case NumericConstants.TWELVE:
-                    String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) - 1);
+                    String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) - 1);
                     commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FOUR];
                     break;
                 default:
@@ -1587,7 +1587,7 @@ public class NMPVExcelLogic {
                 key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
             }
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
-            List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
+            List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.parseInt(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.parseInt(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
             String groupId = common.get(0);
             if (periodList.contains(groupId)) {
                 String gorupName = common.get(1);
@@ -1893,7 +1893,7 @@ public class NMPVExcelLogic {
         } else if (frequencyDivision == 1) {
             commonColumn = String.valueOf(obj[NumericConstants.FOUR]);
         } else if (frequencyDivision == NumericConstants.TWELVE) {
-            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) - 1);
+            String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])) - 1);
             commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FOUR];
         }
         Map<String, ProjectionVarianceDTO> valueMap = pivotDiscountMap.get(key);
@@ -1955,7 +1955,7 @@ public class NMPVExcelLogic {
                         commonColumn = StringUtils.EMPTY + obj[0];
                         break;
                     case NumericConstants.TWELVE:
-                        String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
+                        String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                         commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                         break;
                     default:
@@ -2056,7 +2056,7 @@ public class NMPVExcelLogic {
                 commonColumn = StringUtils.EMPTY + obj[BASECOLUMN_YR_DISC_INDEX];
                 break;
             case NumericConstants.TWELVE:
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[BASECOLUMN_PERIOD_DISC_INDEX])) - 1);
+                String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[BASECOLUMN_PERIOD_DISC_INDEX])) - 1);
                 commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[BASECOLUMN_YR_DISC_INDEX];
                 break;
             default:
@@ -2444,7 +2444,7 @@ public class NMPVExcelLogic {
         } else if (frequencyDivision == 1) {
             commonColumn = StringUtils.EMPTY + obj[NumericConstants.THREE];
         } else if (frequencyDivision == NumericConstants.TWELVE) {
-            String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])) - 1);
+            String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])) - 1);
             commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.THREE];
         }
         return commonColumn;

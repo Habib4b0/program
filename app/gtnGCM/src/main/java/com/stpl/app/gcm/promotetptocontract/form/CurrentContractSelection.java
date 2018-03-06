@@ -58,6 +58,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
@@ -84,6 +85,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
      * View name for navigation.
      */
     public static final String NAME = StringUtils.EMPTY;
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The Constant LOGGER.
      */
@@ -226,8 +229,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     public static final String NUM = "Number :";
     private static List<CurrentContractDTO> selectedContract = new ArrayList<>();
-    private Boolean contractExcelFlag = false;
-    private Boolean infoExcelFlag = false;
+    private boolean contractExcelFlag = false;
+    private boolean infoExcelFlag = false;
     private List<Integer> contractid = new ArrayList<>();
     private final StplSecurity stplSecurity = new StplSecurity();
 
@@ -676,9 +679,9 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     MessageConstants.NO_SEARCH_CRITERIA_TP.getConstant());
             return;
         } else {
-            binderDto.setSearch(true);
+            binderDto.setSearch(BOOLEAN_CONSTANT.getTrueFlag());
         }
-        binderDto.setReset(false);
+        binderDto.setReset(BOOLEAN_CONSTANT.getFalseFlag());
         if (!tableLogic.loadSetData(binderDto, session)) {
             AbstractNotificationUtils.getErrorNotification("No Matching Records",
                     "There were no records matching the search criteria.  Please try again.");
@@ -1052,7 +1055,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
         header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY);
-        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
     }
 
     public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) {

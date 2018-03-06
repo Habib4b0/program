@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import org.slf4j.LoggerFactory;
 
 public class NotesTabLogic {
@@ -34,6 +35,8 @@ public class NotesTabLogic {
 	 */
 	private boolean isFileExists;
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
+        
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
 	public NotesTabLogic(){
 		super();
@@ -57,7 +60,7 @@ public class NotesTabLogic {
 					String filePath = docDetails.getFilePath();
 					attachmentDTO.setDocumentFullPath(filePath);
 					attachmentDTO.setDocumentName(
-							filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf(".")));
+							filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('.')));
 					String tempfilePath = docDetails.getFilePath();
 					attachmentDTO.setDocumentFullPath(tempfilePath);
 
@@ -98,7 +101,7 @@ public class NotesTabLogic {
 		File file = GtnFileUtil.getFile(fileName);
 		isFileExists=file.delete();
 		LOGGER.info("File is deleted successfully : "+isFileExists);
-		return true;
+		return BOOLEAN_CONSTANT.getTrueFlag();
 	}
 
 	public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName,

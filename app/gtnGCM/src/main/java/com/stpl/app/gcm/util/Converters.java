@@ -15,6 +15,7 @@ import com.stpl.app.gcm.util.Constants.DateFormatConstants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Converters {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * Set the Values to respective fields for Company Search
      *
@@ -178,7 +181,7 @@ public class Converters {
             for (int i = 0, limit = listSize; i < limit; i++) {
                 currentContractDTO = new CurrentContractDTO();
                 Object objects[] = (Object[]) resultList.get(i);
-                currentContractDTO.setCheckRecord(false);
+                currentContractDTO.setCheckRecord(BOOLEAN_CONSTANT.getFalseFlag());
                 currentContractDTO.setContractHolder(String.valueOf(objects[1]));
                 currentContractDTO.setContractNo(String.valueOf(objects[NumericConstants.TWO]));
                 currentContractDTO.setContractName(String.valueOf(objects[NumericConstants.THREE]));

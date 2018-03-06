@@ -26,6 +26,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.BOTH;
 import static com.stpl.app.utils.Constants.LabelConstants.DASH;
 import static com.stpl.app.utils.Constants.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
@@ -409,19 +410,19 @@ public class DiscountProjectionResultsLogic {
                         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
                         commonColumn = currentDiscount.replace(" ", StringUtils.EMPTY);
                         if (object[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (object[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (object[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (object[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
 
@@ -460,19 +461,19 @@ public class DiscountProjectionResultsLogic {
                                 String selectedDiscount = String.valueOf(obj[NumericConstants.EIGHT]);
                                 if (currentDiscount.equals(selectedDiscount)) {
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 } else {
@@ -512,20 +513,20 @@ public class DiscountProjectionResultsLogic {
                                     currentDiscount = selectedDiscount;
                                     commonColumn = currentDiscount.replace(" ", StringUtils.EMPTY);
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
 
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
@@ -621,19 +622,19 @@ public class DiscountProjectionResultsLogic {
                             discountDto.setGroup(String.valueOf(currentYear));
                             discountDto.setIsParent(ZERO_SYMBOL);
                             if (object[NumericConstants.TWO] != null) {
-                                Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                 actualSales = actualSales + aSales;
                             }
                             if (object[NumericConstants.THREE] != null) {
-                                Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                 actualAmount = actualAmount + aAmount;
                             }
                             if (object[NumericConstants.FOUR] != null) {
-                                Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                 projectedSales = projectedSales + pSales;
                             }
                             if (object[NumericConstants.FIVE] != null) {
-                                Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                 projectedAmount = projectedAmount + pAmount;
                             }
 
@@ -677,19 +678,19 @@ public class DiscountProjectionResultsLogic {
                                     if (currentYear == selectedYear) {
                                         if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                                             if (obj[NumericConstants.TWO] != null) {
-                                                Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                                Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                                 actualSales = actualSales + aSales;
                                             }
                                             if (obj[NumericConstants.THREE] != null) {
-                                                Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                                Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                                 actualAmount = actualAmount + aAmount;
                                             }
                                             if (obj[NumericConstants.FOUR] != null) {
-                                                Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                                Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                                 projectedSales = projectedSales + pSales;
                                             }
                                             if (obj[NumericConstants.FIVE] != null) {
-                                                Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                                Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                                 projectedAmount = projectedAmount + pAmount;
                                             }
                                         } else {
@@ -728,19 +729,19 @@ public class DiscountProjectionResultsLogic {
                                             currentDiscount = selectedDiscount;
                                             commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                             if (obj[NumericConstants.TWO] != null) {
-                                                Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                                Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                                 actualSales = actualSales + aSales;
                                             }
                                             if (obj[NumericConstants.THREE] != null) {
-                                                Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                                Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                                 actualAmount = actualAmount + aAmount;
                                             }
                                             if (obj[NumericConstants.FOUR] != null) {
-                                                Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                                Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                                 projectedSales = projectedSales + pSales;
                                             }
                                             if (obj[NumericConstants.FIVE] != null) {
-                                                Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                                Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                                 projectedAmount = projectedAmount + pAmount;
                                             }
 
@@ -789,19 +790,19 @@ public class DiscountProjectionResultsLogic {
                                         commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                         discountDto.setIsParent(ZERO_SYMBOL);
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     }
@@ -885,19 +886,19 @@ public class DiscountProjectionResultsLogic {
                             discountDto.setGroup(Constant.Q + object[1] + " " + object[0]);
                             discountDto.setIsParent(ZERO_SYMBOL);
                             if (object[NumericConstants.TWO] != null) {
-                                Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                 actualSales = actualSales + aSales;
                             }
                             if (object[NumericConstants.THREE] != null) {
-                                Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                 actualAmount = actualAmount + aAmount;
                             }
                             if (object[NumericConstants.FOUR] != null) {
-                                Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                 projectedSales = projectedSales + pSales;
                             }
                             if (object[NumericConstants.FIVE] != null) {
-                                Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                 projectedAmount = projectedAmount + pAmount;
                             }
 
@@ -941,19 +942,19 @@ public class DiscountProjectionResultsLogic {
                                     if (currentYear == selectedYear && currentQuarter == selectedQuarter) {
                                         if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                                             if (obj[NumericConstants.TWO] != null) {
-                                                Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                                Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                                 actualSales = actualSales + aSales;
                                             }
                                             if (obj[NumericConstants.THREE] != null) {
-                                                Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                                Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                                 actualAmount = actualAmount + aAmount;
                                             }
                                             if (obj[NumericConstants.FOUR] != null) {
-                                                Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                                Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                                 projectedSales = projectedSales + pSales;
                                             }
                                             if (obj[NumericConstants.FIVE] != null) {
-                                                Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                                Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                                 projectedAmount = projectedAmount + pAmount;
                                             }
                                         } else {
@@ -992,26 +993,26 @@ public class DiscountProjectionResultsLogic {
                                             commonColumn = selectedDiscount;
                                             currentDiscount = selectedDiscount;
                                             if (obj[NumericConstants.TWO] != null) {
-                                                Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                                Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                                 actualSales = actualSales + aSales;
                                             }
                                             if (obj[NumericConstants.THREE] != null) {
-                                                Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                                Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                                 actualAmount = actualAmount + aAmount;
                                             }
 
                                             if (obj[NumericConstants.FOUR] != null) {
-                                                Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                                Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                                 projectedSales = projectedSales + pSales;
                                             }
                                             if (obj[NumericConstants.FIVE] != null) {
-                                                Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                                Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                                 projectedAmount = projectedAmount + pAmount;
                                             }
                                         }
                                     } else {
                                         String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                        if (periodList.contains(column.replace(Constant.Q, Constant.Q_SMALL))) {
+                                        if (periodList.contains(column.replace('Q', 'q'))) {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
                                                 arate = 0.0;
@@ -1041,7 +1042,7 @@ public class DiscountProjectionResultsLogic {
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
-                                            periodList.remove(column.replace(Constant.Q, Constant.Q_SMALL));
+                                            periodList.remove(column.replace('Q', 'q'));
                                         }
                                         actualSales = 0;
                                         actualAmount = 0;
@@ -1055,25 +1056,25 @@ public class DiscountProjectionResultsLogic {
                                         commonColumn = selectedDiscount;
                                         discountDto.setIsParent(ZERO_SYMBOL);
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     }
                                     if (i == list.size() - 1) {
                                         String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                        if (periodList.contains(column.replace(Constant.Q, Constant.Q_SMALL))) {
+                                        if (periodList.contains(column.replace('Q', 'q'))) {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
                                                 arate = 0.0;
@@ -1103,7 +1104,7 @@ public class DiscountProjectionResultsLogic {
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
-                                            periodList.remove(column.replace(Constant.Q, Constant.Q_SMALL));
+                                            periodList.remove(column.replace('Q', 'q'));
                                         }
                                     }
                                 }
@@ -1113,7 +1114,7 @@ public class DiscountProjectionResultsLogic {
                                     DiscountProjectionResultsDTO projDTO = new DiscountProjectionResultsDTO();
                                     projDTO.setParent(0);
                                     projDTO.setProjectionTotal(1);
-                                    String group = String.valueOf(periodList.get(i).replace(Constant.Q_SMALL, Constant.Q));
+                                    String group = String.valueOf(periodList.get(i).replace('q', 'Q'));
                                     String year = group.substring(group.length() - NumericConstants.FOUR, group.length());
                                     String frequency = group.replace(year, StringUtils.EMPTY);
                                     group = frequency + " " + year;
@@ -1156,19 +1157,19 @@ public class DiscountProjectionResultsLogic {
                             discountDto.setGroup(Constant.S + object[1] + " " + object[0]);
                             discountDto.setIsParent(ZERO_SYMBOL);
                             if (object[NumericConstants.TWO] != null) {
-                                Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                 actualSales = actualSales + aSales;
                             }
                             if (object[NumericConstants.THREE] != null) {
-                                Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                 actualAmount = actualAmount + aAmount;
                             }
                             if (object[NumericConstants.FOUR] != null) {
-                                Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                 projectedSales = projectedSales + pSales;
                             }
                             if (object[NumericConstants.FIVE] != null) {
-                                Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                 projectedAmount = projectedAmount + pAmount;
                             }
                             if (list.size() == 1) {
@@ -1210,19 +1211,19 @@ public class DiscountProjectionResultsLogic {
                                     if (currentYear == selectedYear && currentQuarter == selectedQuarter) {
                                         if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                                             if (obj[NumericConstants.TWO] != null) {
-                                                Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                                Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                                 actualSales = actualSales + aSales;
                                             }
                                             if (obj[NumericConstants.THREE] != null) {
-                                                Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                                Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                                 actualAmount = actualAmount + aAmount;
                                             }
                                             if (obj[NumericConstants.FOUR] != null) {
-                                                Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                                Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                                 projectedSales = projectedSales + pSales;
                                             }
                                             if (obj[NumericConstants.FIVE] != null) {
-                                                Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                                Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                                 projectedAmount = projectedAmount + pAmount;
                                             }
                                         } else {
@@ -1261,26 +1262,26 @@ public class DiscountProjectionResultsLogic {
                                             currentDiscount = selectedDiscount;
                                             commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                             if (obj[NumericConstants.TWO] != null) {
-                                                Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                                Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                                 actualSales = actualSales + aSales;
                                             }
                                             if (obj[NumericConstants.THREE] != null) {
-                                                Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                                Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                                 actualAmount = actualAmount + aAmount;
                                             }
 
                                             if (obj[NumericConstants.FOUR] != null) {
-                                                Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                                Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                                 projectedSales = projectedSales + pSales;
                                             }
                                             if (obj[NumericConstants.FIVE] != null) {
-                                                Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                                Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                                 projectedAmount = projectedAmount + pAmount;
                                             }
                                         }
                                     } else {
                                         String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                        periodList.contains(column.replace(Constant.S, Constant.S_SMALL));
+                                        periodList.contains(column.replace('S', 's'));
                                         {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
@@ -1311,7 +1312,7 @@ public class DiscountProjectionResultsLogic {
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
-                                            periodList.remove(column.replace(Constant.S, Constant.S_SMALL));
+                                            periodList.remove(column.replace('S', 's'));
                                         }
                                         actualSales = 0;
                                         actualAmount = 0;
@@ -1325,25 +1326,25 @@ public class DiscountProjectionResultsLogic {
                                         commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                         discountDto.setIsParent(ZERO_SYMBOL);
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     }
                                     if (i == list.size() - 1) {
                                         String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                        if (periodList.contains(column.replace(Constant.S, Constant.S_SMALL))) {
+                                        if (periodList.contains(column.replace('S', 's'))) {
                                             Double arate = actualAmount / actualSales;
                                             if (arate.isNaN()) {
                                                 arate = 0.0;
@@ -1373,7 +1374,7 @@ public class DiscountProjectionResultsLogic {
                                             String proAmount = String.valueOf(projectedAmtAmt);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
-                                            periodList.remove(column.replace(Constant.S, Constant.S_SMALL));
+                                            periodList.remove(column.replace('S', 's'));
                                         }
                                     }
                                 }
@@ -1383,7 +1384,7 @@ public class DiscountProjectionResultsLogic {
                                     DiscountProjectionResultsDTO projDTO = new DiscountProjectionResultsDTO();
                                     projDTO.setParent(0);
                                     projDTO.setProjectionTotal(1);
-                                    String group = String.valueOf(periodList.get(i).replace(Constant.S_SMALL, Constant.S));
+                                    String group = String.valueOf(periodList.get(i).replace('s', 'S'));
                                     String year = group.substring(group.length() - NumericConstants.FOUR, group.length());
                                     String frequency = group.replace(year, StringUtils.EMPTY);
                                     group = frequency + " " + year;
@@ -1426,19 +1427,19 @@ public class DiscountProjectionResultsLogic {
                             discountDto.setGroup(CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + object[1] + " " + object[0]);
                             discountDto.setIsParent(ZERO_SYMBOL);
                             if (object[NumericConstants.TWO] != null) {
-                                Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                 actualSales = actualSales + aSales;
                             }
                             if (object[NumericConstants.THREE] != null) {
-                                Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                 actualAmount = actualAmount + aAmount;
                             }
                             if (object[NumericConstants.FOUR] != null) {
-                                Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                 projectedSales = projectedSales + pSales;
                             }
                             if (object[NumericConstants.FIVE] != null) {
-                                Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                 projectedAmount = projectedAmount + pAmount;
                             }
                             if (list.size() == 1) {
@@ -1480,19 +1481,19 @@ public class DiscountProjectionResultsLogic {
                                     if (currentYear == selectedYear && currentMonth == selectedMonth) {
                                         if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                                             if (obj[NumericConstants.TWO] != null) {
-                                                Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                                Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                                 actualSales = actualSales + aSales;
                                             }
                                             if (obj[NumericConstants.THREE] != null) {
-                                                Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                                Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                                 actualAmount = actualAmount + aAmount;
                                             }
                                             if (obj[NumericConstants.FOUR] != null) {
-                                                Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                                Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                                 projectedSales = projectedSales + pSales;
                                             }
                                             if (obj[NumericConstants.FIVE] != null) {
-                                                Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                                Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                                 projectedAmount = projectedAmount + pAmount;
                                             }
                                         } else {
@@ -1531,19 +1532,19 @@ public class DiscountProjectionResultsLogic {
                                             currentDiscount = selectedDiscount;
                                             commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                             if (obj[NumericConstants.TWO] != null) {
-                                                Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                                Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                                 actualSales = actualSales + aSales;
                                             }
                                             if (obj[NumericConstants.THREE] != null) {
-                                                Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                                Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                                 actualAmount = actualAmount + aAmount;
                                             }
                                             if (obj[NumericConstants.FOUR] != null) {
-                                                Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                                Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                                 projectedSales = projectedSales + pSales;
                                             }
                                             if (obj[NumericConstants.FIVE] != null) {
-                                                Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                                Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                                 projectedAmount = projectedAmount + pAmount;
                                             }
                                         }
@@ -1593,19 +1594,19 @@ public class DiscountProjectionResultsLogic {
                                         currentDiscount = selectedDiscount;
                                         discountDto.setIsParent(ZERO_SYMBOL);
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     }
@@ -1789,19 +1790,19 @@ public class DiscountProjectionResultsLogic {
                         discountDto.setIsParent(ZERO_SYMBOL);
                         discountDto.setParent(0);
                         if (object[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (object[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (object[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (object[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
 
@@ -1863,19 +1864,19 @@ public class DiscountProjectionResultsLogic {
                                 if (currentYear == selectedYear) {
                                     if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     } else {
@@ -1915,19 +1916,19 @@ public class DiscountProjectionResultsLogic {
                                         commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                         currentDiscount = selectedDiscount;
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     }
@@ -1994,19 +1995,19 @@ public class DiscountProjectionResultsLogic {
                                     discountDto.setIsParent(ZERO_SYMBOL);
                                     discountDto.setParent(0);
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
@@ -2105,19 +2106,19 @@ public class DiscountProjectionResultsLogic {
                         discountDto.setGroup(Constant.Q + object[1] + " " + object[0]);
                         discountDto.setIsParent(ZERO_SYMBOL);
                         if (object[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (object[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (object[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (object[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
                         if (list.size() == 1) {
@@ -2166,19 +2167,19 @@ public class DiscountProjectionResultsLogic {
                                 if (currentYear == selectedYear && currentQuarter == selectedQuarter) {
                                     if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     } else {
@@ -2218,25 +2219,25 @@ public class DiscountProjectionResultsLogic {
 
                                         currentDiscount = selectedDiscount;
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     }
                                 } else {
                                     String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                    if (periodList.contains(String.valueOf(column).replace(Constant.Q, Constant.Q_SMALL))) {
+                                    if (periodList.contains(String.valueOf(column).replace('Q', 'q'))) {
                                         Double arate = actualAmount / actualSales;
                                         if (arate.isNaN()) {
                                             arate = 0.0;
@@ -2269,7 +2270,7 @@ public class DiscountProjectionResultsLogic {
                                             discountDto = putHyphenForDiscount(tmpList, discountDto);
                                         }
                                         discountProjList.add(discountDto);
-                                        periodList.remove(String.valueOf(column).replace(Constant.Q, Constant.Q_SMALL));
+                                        periodList.remove(String.valueOf(column).replace('Q', 'q'));
                                         tmpList.clear();
                                         tmpList.addAll(discountList);
                                     }
@@ -2286,25 +2287,25 @@ public class DiscountProjectionResultsLogic {
                                     currentDiscount = selectedDiscount;
                                     discountDto.setIsParent(ZERO_SYMBOL);
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
                                 if (i == list.size() - 1) {
                                     String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                    if (periodList.contains(String.valueOf(column).replace(Constant.Q, Constant.Q_SMALL))) {
+                                    if (periodList.contains(String.valueOf(column).replace('Q', 'q'))) {
                                         Double arate = actualAmount / actualSales;
                                         if (arate.isNaN()) {
                                             arate = 0.0;
@@ -2339,7 +2340,7 @@ public class DiscountProjectionResultsLogic {
                                         discountProjList.add(discountDto);
                                         tmpList.clear();
                                         tmpList.addAll(discountList);
-                                        periodList.remove(String.valueOf(column).replace(Constant.Q, Constant.Q_SMALL));
+                                        periodList.remove(String.valueOf(column).replace('Q', 'q'));
                                     }
                                 }
                             }
@@ -2349,7 +2350,7 @@ public class DiscountProjectionResultsLogic {
                                 DiscountProjectionResultsDTO projDTO = new DiscountProjectionResultsDTO();
                                 projDTO.setParent(0);
                                 projDTO.setProjectionTotal(1);
-                                String group = String.valueOf(periodList.get(i).replace(Constant.Q_SMALL, Constant.Q));
+                                String group = String.valueOf(periodList.get(i).replace('q', 'Q'));
                                 String year = group.substring(group.length() - NumericConstants.FOUR, group.length());
                                 String frequency = group.replace(year, StringUtils.EMPTY);
                                 group = frequency + " " + year;
@@ -2391,19 +2392,19 @@ public class DiscountProjectionResultsLogic {
                         discountDto.setGroup(Constant.S + object[1] + " " + object[0]);
                         discountDto.setIsParent(ZERO_SYMBOL);
                         if (object[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (object[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (object[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (object[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
                         if (list.size() == 1) {
@@ -2450,19 +2451,19 @@ public class DiscountProjectionResultsLogic {
                                 if (currentYear == selectedYear && currentQuarter == selectedQuarter) {
                                     if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     } else {
@@ -2502,25 +2503,25 @@ public class DiscountProjectionResultsLogic {
                                         tmpList.remove(selectedDiscount);
                                         commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     }
                                 } else {
                                     String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                    if (periodList.contains(String.valueOf(column).replace(Constant.S, Constant.S_SMALL))) {
+                                    if (periodList.contains(String.valueOf(column).replace('S', 's'))) {
                                         Double arate = actualAmount / actualSales;
                                         if (arate.isNaN()) {
                                             arate = 0.0;
@@ -2553,7 +2554,7 @@ public class DiscountProjectionResultsLogic {
                                             discountDto = putHyphenForDiscount(tmpList, discountDto);
                                         }
                                         discountProjList.add(discountDto);
-                                        periodList.remove(String.valueOf(column).replace(Constant.S, Constant.S_SMALL));
+                                        periodList.remove(String.valueOf(column).replace('S', 's'));
                                         tmpList.clear();
                                         tmpList.addAll(discountList);
                                     }
@@ -2570,25 +2571,25 @@ public class DiscountProjectionResultsLogic {
                                     commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                     discountDto.setIsParent(ZERO_SYMBOL);
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
                                 if (i == list.size() - 1) {
                                     String column = discountDto.getGroup().replace(" ", StringUtils.EMPTY);
-                                    if (periodList.contains(String.valueOf(column).replace(Constant.S, Constant.S_SMALL))) {
+                                    if (periodList.contains(String.valueOf(column).replace('S', 's'))) {
                                         Double arate = actualAmount / actualSales;
                                         if (arate.isNaN()) {
                                             arate = 0.0;
@@ -2621,7 +2622,7 @@ public class DiscountProjectionResultsLogic {
                                             discountDto = putHyphenForDiscount(tmpList, discountDto);
                                         }
                                         discountProjList.add(discountDto);
-                                        periodList.remove(String.valueOf(column).replace(Constant.S, Constant.S_SMALL));
+                                        periodList.remove(String.valueOf(column).replace('S', 's'));
 
                                     }
                                 }
@@ -2632,7 +2633,7 @@ public class DiscountProjectionResultsLogic {
                                 DiscountProjectionResultsDTO projDTO = new DiscountProjectionResultsDTO();
                                 projDTO.setParent(0);
                                 projDTO.setProjectionTotal(1);
-                                String group = String.valueOf(periodList.get(i).replace(Constant.S_SMALL, Constant.S));
+                                String group = String.valueOf(periodList.get(i).replace('s', 'S'));
                                 String year = group.substring(group.length() - NumericConstants.FOUR, group.length());
                                 String frequency = group.replace(year, StringUtils.EMPTY);
                                 group = frequency + " " + year;
@@ -2677,19 +2678,19 @@ public class DiscountProjectionResultsLogic {
                         discountDto.setGroup(CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + object[1] + " " + object[0]);
                         discountDto.setIsParent(ZERO_SYMBOL);
                         if (object[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (object[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (object[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (object[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
                         if (list.size() == 1) {
@@ -2736,19 +2737,19 @@ public class DiscountProjectionResultsLogic {
                                 if (currentYear == selectedYear && currentMonth == selectedMonth) {
                                     if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     } else {
@@ -2788,20 +2789,20 @@ public class DiscountProjectionResultsLogic {
                                         tmpList.remove(selectedDiscount);
                                         commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                             actualSales = actualSales + aSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                             actualAmount = actualAmount + aAmount;
                                         }
 
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                             projectedSales = projectedSales + pSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                             projectedAmount = projectedAmount + pAmount;
                                         }
                                     }
@@ -2857,19 +2858,19 @@ public class DiscountProjectionResultsLogic {
                                     commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                     discountDto.setIsParent(ZERO_SYMBOL);
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
@@ -3006,19 +3007,19 @@ public class DiscountProjectionResultsLogic {
                             }
                             if (year == selectedYear && quarter == selectedQuarter) {
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                                 if (j == list.size() - 1) {
@@ -3062,19 +3063,19 @@ public class DiscountProjectionResultsLogic {
                                     quarter = selectedQuarter;
                                     commonColumn = Constant.Q + object[NumericConstants.SIX] + object[0];
                                     if (object[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (object[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (object[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (object[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
 
@@ -3115,19 +3116,19 @@ public class DiscountProjectionResultsLogic {
                                     year = (Integer) object[0];
                                     quarter = (Integer) object[NumericConstants.SIX];
                                     if (object[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (object[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (object[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (object[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
@@ -3154,19 +3155,19 @@ public class DiscountProjectionResultsLogic {
                             }
                             if (year == selectedYear && semiAnnual == selectedSemiAnnual) {
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                                 if (j == list.size() - 1) {
@@ -3208,19 +3209,19 @@ public class DiscountProjectionResultsLogic {
                                     semiAnnual = selectedSemiAnnual;
                                     commonColumn = Constant.S + object[1] + object[0];
                                     if (object[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (object[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (object[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (object[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 } else {
@@ -3256,19 +3257,19 @@ public class DiscountProjectionResultsLogic {
                                     year = (Integer) object[0];
                                     semiAnnual = (Integer) object[1];
                                     if (object[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (object[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (object[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (object[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
@@ -3290,19 +3291,19 @@ public class DiscountProjectionResultsLogic {
                             }
                             if (year == selectedYear) {
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                                 if (j == list.size() - 1) {
@@ -3342,19 +3343,19 @@ public class DiscountProjectionResultsLogic {
                                     year = selectedYear;
                                     commonColumn = StringUtils.EMPTY + object[0];
                                     if (object[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (object[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (object[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (object[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 } else {
@@ -3389,19 +3390,19 @@ public class DiscountProjectionResultsLogic {
                                     commonColumn = StringUtils.EMPTY + object[0];
                                     year = (Integer) object[0];
                                     if (object[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (object[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (object[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (object[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
@@ -3428,19 +3429,19 @@ public class DiscountProjectionResultsLogic {
                             }
                             if (year == selectedYear && month == selectedMonth) {
                                 if (object[NumericConstants.TWO] != null) {
-                                    Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                    Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                     actualSales = actualSales + aSales;
                                 }
                                 if (object[NumericConstants.THREE] != null) {
-                                    Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                    Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                     actualAmount = actualAmount + aAmount;
                                 }
                                 if (object[NumericConstants.FOUR] != null) {
-                                    Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                    Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                     projectedSales = projectedSales + pSales;
                                 }
                                 if (object[NumericConstants.FIVE] != null) {
-                                    Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                    Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                     projectedAmount = projectedAmount + pAmount;
                                 }
                                 if (j == list.size() - 1) {
@@ -3484,19 +3485,19 @@ public class DiscountProjectionResultsLogic {
                                     String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + object[1]) - 1);
                                     commonColumn = monthName + object[0];
                                     if (object[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (object[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (object[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (object[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 } else {
@@ -3533,19 +3534,19 @@ public class DiscountProjectionResultsLogic {
                                     year = (Integer) object[0];
                                     month = (Integer) object[1];
                                     if (object[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (object[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (object[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (object[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
@@ -4380,19 +4381,19 @@ public class DiscountProjectionResultsLogic {
 
                         tmpList.remove(currentDiscount);
                         if (object[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (object[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (object[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (object[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
                         commonColumn = currentDiscount.replace(" ", StringUtils.EMPTY);
@@ -4431,19 +4432,19 @@ public class DiscountProjectionResultsLogic {
                                 String selectedDiscount = String.valueOf(obj[NumericConstants.EIGHT]);
                                 if (currentDiscount.equals(selectedDiscount)) {
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 } else {
@@ -4484,19 +4485,19 @@ public class DiscountProjectionResultsLogic {
                                     tmpList.remove(currentDiscount);
                                     commonColumn = currentDiscount.replace(" ", StringUtils.EMPTY);
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                                         actualSales = actualSales + aSales;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                                         actualAmount = actualAmount + aAmount;
                                     }
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                                         projectedSales = projectedSales + pSales;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                                         projectedAmount = projectedAmount + pAmount;
                                     }
                                 }
@@ -4673,19 +4674,19 @@ public class DiscountProjectionResultsLogic {
             }
             if (year == selectedYear && quarter == selectedQuarter) {
                 if (obj[NumericConstants.TWO] != null) {
-                    Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                    Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                     actualSales = actualSales + aSales;
                 }
                 if (obj[NumericConstants.THREE] != null) {
-                    Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                    Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                     actualAmount = actualAmount + aAmount;
                 }
                 if (obj[NumericConstants.FOUR] != null) {
-                    Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                    Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                     projectedSales = projectedSales + pSales;
                 }
                 if (obj[NumericConstants.FIVE] != null) {
-                    Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                    Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                     projectedAmount = projectedAmount + pAmount;
                 }
             } else {
@@ -4694,20 +4695,20 @@ public class DiscountProjectionResultsLogic {
                     quarter = selectedQuarter;
                     commonColumn = freq + obj[NumericConstants.SIX] + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
 
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 } else {
@@ -4748,19 +4749,19 @@ public class DiscountProjectionResultsLogic {
                     year = (Integer) obj[0];
                     quarter = (Integer) obj[NumericConstants.SIX];
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 }
@@ -4825,19 +4826,19 @@ public class DiscountProjectionResultsLogic {
             }
             if (year == selectedYear) {
                 if (obj[NumericConstants.TWO] != null) {
-                    Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                    Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                     actualSales = actualSales + aSales;
                 }
                 if (obj[NumericConstants.THREE] != null) {
-                    Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                    Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                     actualAmount = actualAmount + aAmount;
                 }
                 if (obj[NumericConstants.FOUR] != null) {
-                    Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                    Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                     projectedSales = projectedSales + pSales;
                 }
                 if (obj[NumericConstants.FIVE] != null) {
-                    Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                    Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                     projectedAmount = projectedAmount + pAmount;
                 }
 
@@ -4846,19 +4847,19 @@ public class DiscountProjectionResultsLogic {
                     year = selectedYear;
                     commonColumn = StringUtils.EMPTY + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 } else {
@@ -4894,19 +4895,19 @@ public class DiscountProjectionResultsLogic {
                     commonColumn = StringUtils.EMPTY + obj[0];
                     year = (Integer) obj[0];
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 }
@@ -4973,19 +4974,19 @@ public class DiscountProjectionResultsLogic {
             }
             if (year == selectedYear && month == selectedMonth) {
                 if (obj[NumericConstants.TWO] != null) {
-                    Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                    Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                     actualSales = actualSales + aSales;
                 }
                 if (obj[NumericConstants.THREE] != null) {
-                    Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                    Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                     actualAmount = actualAmount + aAmount;
                 }
                 if (obj[NumericConstants.FOUR] != null) {
-                    Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                    Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                     projectedSales = projectedSales + pSales;
                 }
                 if (obj[NumericConstants.FIVE] != null) {
-                    Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                    Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                     projectedAmount = projectedAmount + pAmount;
                 }
 
@@ -4997,19 +4998,19 @@ public class DiscountProjectionResultsLogic {
                     monthName = monthName.toLowerCase();
                     commonColumn = monthName + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
 
@@ -5049,19 +5050,19 @@ public class DiscountProjectionResultsLogic {
                     year = (Integer) obj[0];
                     month = (Integer) obj[1];
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 }
@@ -5126,19 +5127,19 @@ public class DiscountProjectionResultsLogic {
             if (currentDiscount.equalsIgnoreCase(discountName)) {
                 if (year == selectedYear && quarter == selectedQuarter) {
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 } else {
@@ -5177,19 +5178,19 @@ public class DiscountProjectionResultsLogic {
                     projectedAmount = 0;
                     commonColumn = freq + obj[NumericConstants.SIX] + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                     year = selectedYear;
@@ -5206,19 +5207,19 @@ public class DiscountProjectionResultsLogic {
                     discountName = currentDiscount;
                     commonColumn = freq + obj[NumericConstants.SIX] + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 } else {
@@ -5266,19 +5267,19 @@ public class DiscountProjectionResultsLogic {
                     commonColumn = freq + obj[NumericConstants.SIX] + obj[0];
                     discountDto.setIsParent(ZERO_SYMBOL);
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 }
@@ -5348,19 +5349,19 @@ public class DiscountProjectionResultsLogic {
         discountList.remove(currentDiscount);
         commonColumn = StringUtils.EMPTY + object[0];
         if (object[NumericConstants.TWO] != null) {
-            Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
             actualSales = actualSales + aSales;
         }
         if (object[NumericConstants.THREE] != null) {
-            Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
             actualAmount = actualAmount + aAmount;
         }
         if (object[NumericConstants.FOUR] != null) {
-            Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
             projectedSales = projectedSales + pSales;
         }
         if (object[NumericConstants.FIVE] != null) {
-            Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
             projectedAmount = projectedAmount + pAmount;
         }
         if (list.size() == 1) {
@@ -5401,19 +5402,19 @@ public class DiscountProjectionResultsLogic {
                 if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                     if (currentYear == selectedYear) {
                         if (obj[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (obj[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (obj[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (obj[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
                     } else {
@@ -5458,19 +5459,19 @@ public class DiscountProjectionResultsLogic {
                         currentYear = selectedYear;
                         dto.setIsParent(ZERO_SYMBOL);
                         if (obj[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (obj[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (obj[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (obj[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
                     }
@@ -5518,19 +5519,19 @@ public class DiscountProjectionResultsLogic {
                     commonColumn = StringUtils.EMPTY + obj[0];
                     currentYear = selectedYear;
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 }
@@ -5604,19 +5605,19 @@ public class DiscountProjectionResultsLogic {
         dto.setGroup(currentDiscount);
         discountList.remove(currentDiscount);
         if (object[NumericConstants.TWO] != null) {
-            Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
+            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
             actualSales = actualSales + aSales;
         }
         if (object[NumericConstants.THREE] != null) {
-            Double aAmount = Double.parseDouble(String.valueOf(object[NumericConstants.THREE]));
+            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
             actualAmount = actualAmount + aAmount;
         }
         if (object[NumericConstants.FOUR] != null) {
-            Double pSales = Double.parseDouble(String.valueOf(object[NumericConstants.FOUR]));
+            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
             projectedSales = projectedSales + pSales;
         }
         if (object[NumericConstants.FIVE] != null) {
-            Double pAmount = Double.parseDouble(String.valueOf(object[NumericConstants.FIVE]));
+            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
             projectedAmount = projectedAmount + pAmount;
         }
         if (list.size() == 1) {
@@ -5658,19 +5659,19 @@ public class DiscountProjectionResultsLogic {
                 if (currentDiscount.equalsIgnoreCase(selectedDiscount)) {
                     if (currentYear == selectedYear && currentMonth == selectedMonth) {
                         if (obj[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (obj[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
                         if (obj[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (obj[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
                     } else {
@@ -5714,20 +5715,20 @@ public class DiscountProjectionResultsLogic {
                         currentMonth = selectedMonth;
                         dto.setIsParent(ZERO_SYMBOL);
                         if (obj[NumericConstants.TWO] != null) {
-                            Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                             actualSales = actualSales + aSales;
                         }
                         if (obj[NumericConstants.THREE] != null) {
-                            Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                             actualAmount = actualAmount + aAmount;
                         }
 
                         if (obj[NumericConstants.FOUR] != null) {
-                            Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                             projectedSales = projectedSales + pSales;
                         }
                         if (obj[NumericConstants.FIVE] != null) {
-                            Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                             projectedAmount = projectedAmount + pAmount;
                         }
                     }
@@ -5778,19 +5779,19 @@ public class DiscountProjectionResultsLogic {
                     currentYear = selectedYear;
                     currentMonth = selectedMonth;
                     if (obj[NumericConstants.TWO] != null) {
-                        Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
+                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
                         actualSales = actualSales + aSales;
                     }
                     if (obj[NumericConstants.THREE] != null) {
-                        Double aAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.THREE]));
+                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
                         actualAmount = actualAmount + aAmount;
                     }
                     if (obj[NumericConstants.FOUR] != null) {
-                        Double pSales = Double.parseDouble(String.valueOf(obj[NumericConstants.FOUR]));
+                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
                         projectedSales = projectedSales + pSales;
                     }
                     if (obj[NumericConstants.FIVE] != null) {
-                        Double pAmount = Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE]));
+                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
                         projectedAmount = projectedAmount + pAmount;
                     }
                 }

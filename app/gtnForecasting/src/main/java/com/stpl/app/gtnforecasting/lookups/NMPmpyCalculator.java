@@ -31,6 +31,7 @@ import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -82,6 +83,8 @@ public class NMPmpyCalculator extends Window {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NMPmpyCalculator.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     /**
      * The space.
@@ -270,7 +273,7 @@ public class NMPmpyCalculator extends Window {
     private final List<String> visiHeaders = new ArrayList<>();
     private final List<String> chtCheckBoxMap = new ArrayList<>();
     private final List<String> tptCheckBoxMap = new ArrayList<>();
-    private boolean valueChange = Boolean.TRUE;
+    private boolean valueChange = true;
 
     private String tradeName = StringUtils.EMPTY;
 
@@ -417,7 +420,7 @@ public class NMPmpyCalculator extends Window {
                 }
             });
 
-            effectivePeriod.setNullSelectionAllowed(Boolean.TRUE);
+            effectivePeriod.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
             effectivePeriod.setNullSelectionItemId(Constant.SELECT_ONE);
             effectivePeriod.addItem(Constant.SELECT_ONE);
             effectivePeriod.addItems(rightDto.getDoubleProjectedHeaders());
@@ -532,7 +535,7 @@ public class NMPmpyCalculator extends Window {
                         @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(Constant.YES)) {
-                                valueChange = Boolean.FALSE;
+                                valueChange = BOOLEAN_CONSTANT.getFalseFlag();
                                 sales.setValue(StringUtils.EMPTY);
                                 marketShare.setValue(STRING_HUNDRED_PERCENT);
                                 analogLives.setValue(StringUtils.EMPTY);
@@ -541,7 +544,7 @@ public class NMPmpyCalculator extends Window {
                                 projectedLives.setValue(StringUtils.EMPTY);
                                 totalSales.setValue(StringUtils.EMPTY);
                                 projectionPeriodTotal.setValue(StringUtils.EMPTY);
-                                valueChange = Boolean.TRUE;
+                                valueChange = BOOLEAN_CONSTANT.getTrueFlag();
                             }
                         }
                     }, ButtonId.YES, ButtonId.NO);
@@ -664,10 +667,10 @@ public class NMPmpyCalculator extends Window {
     public boolean isTpHistorySelected() {
         LOGGER.debug("Entering isTpHistorySelected method");
         if (tradingPartner.getValue() != null && !tradingPartner.getValue().toString().isEmpty()) {
-            return Boolean.TRUE;
+            return BOOLEAN_CONSTANT.getTrueFlag();
         }
         LOGGER.debug("End of isTpHistorySelected method");
-        return Boolean.FALSE;
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     /**
@@ -680,14 +683,14 @@ public class NMPmpyCalculator extends Window {
         LOGGER.debug("Entering isContractHistorySelected method");
         try {
             if (contract.getValue() != null && !contract.getValue().toString().isEmpty()) {
-                return Boolean.TRUE;
+                return BOOLEAN_CONSTANT.getTrueFlag();
             }
         } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of isContractHistorySelected method");
-        return Boolean.FALSE;
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     /**
@@ -750,7 +753,7 @@ public class NMPmpyCalculator extends Window {
      */
     private void loadContractHolder() {
         LOGGER.debug("Entering loadContractHolder method");
-        contract.setNullSelectionAllowed(Boolean.TRUE);
+        contract.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         contract.setNullSelectionItemId(Constant.SELECT_ONE);
         contract.addItem(Constant.SELECT_ONE);
         contract.select(Constant.SELECT_ONE);
@@ -975,7 +978,7 @@ public class NMPmpyCalculator extends Window {
         }
         final String tempValuePerLifeValue = String.valueOf(valuePerLife.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
 
-        Double valuePerLifeValue = 1.0;
+        double valuePerLifeValue = 1.0;
 
         if (valuePerLife.getValue() != null && !StringUtils.EMPTY.equals(tempValuePerLifeValue) && !Constant.NULL.equals(tempValuePerLifeValue) && isNumeric(tempValuePerLifeValue)
                 && Double.parseDouble(tempValuePerLifeValue) != 0.0) {

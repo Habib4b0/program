@@ -11,6 +11,7 @@ import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class PVQueryUtils {
      * The Constant LOGGER.
      */
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PVQueryUtils.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     public static final String TODIS = "TODIS";
     public static final String SALEPPA = "SALEPPA";
     
@@ -126,12 +128,12 @@ public class PVQueryUtils {
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setIsPrior(false);
-        customQuery += selectClause + " from   \n(" + getProjectionResultsDiscountsQuery(projSelDTO, Boolean.FALSE) + ")  C\n ";
+        customQuery += selectClause + " from   \n(" + getProjectionResultsDiscountsQuery(projSelDTO, BOOLEAN_CONSTANT.getFalseFlag()) + ")  C\n ";
         projSelDTO.setCurrentOrPrior("P");
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery += " LEFT JOIN (\n" + getProjectionResultsDiscountsQuery(projSelDTO, Boolean.TRUE) + "\n) " + "P" + i + " \n on C.DISCOUNTS=P" + i + ".DISCOUNTS  \n "
+            customQuery += " LEFT JOIN (\n" + getProjectionResultsDiscountsQuery(projSelDTO, BOOLEAN_CONSTANT.getTrueFlag()) + "\n) " + "P" + i + " \n on C.DISCOUNTS=P" + i + ".DISCOUNTS  \n "
                     + " AND C.YEARS=P" + i + ".YEARS  \n "
                     + " and C.PERIODS =P" + i + ".PERIODS  ";
         }
@@ -306,12 +308,12 @@ public class PVQueryUtils {
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setIsPrior(false);
-        customQuery += "  from  \n(" + getProjectionResultsPivotQuery(projSelDTO, Boolean.FALSE) + ") C \n ";
+        customQuery += "  from  \n(" + getProjectionResultsPivotQuery(projSelDTO, BOOLEAN_CONSTANT.getFalseFlag()) + ") C \n ";
         projSelDTO.setCurrentOrPrior("P");
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery += "  LEFT  JOIN (\n" + getProjectionResultsPivotQuery(projSelDTO, Boolean.TRUE) + "\n) " + "P" + i + " \n" + getPivotMainWhereCond("P" + i);
+            customQuery += "  LEFT  JOIN (\n" + getProjectionResultsPivotQuery(projSelDTO, BOOLEAN_CONSTANT.getTrueFlag()) + "\n) " + "P" + i + " \n" + getPivotMainWhereCond("P" + i);
         }
         customQuery += "  order by " + orderBy;
         projSelDTO.setIsPrior(false);
@@ -628,8 +630,8 @@ public class PVQueryUtils {
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to, String notSearchProjId) {
         String quotes = "'";
-        String asterik = "*";
-        String percent = "%";
+        char asterik = '*';
+        char percent = '%';
         String marketTypeVal;
         String brandVal;
         String projNameVal;

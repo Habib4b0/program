@@ -18,6 +18,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
@@ -51,6 +52,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AbstractItemDetails extends CustomComponent {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private Panel itemDetailsSummary = new Panel();
     private VerticalLayout lay = new VerticalLayout();
     private ItemDetailsTableLogic itemdetailstableLogic = new ItemDetailsTableLogic();
@@ -96,9 +98,9 @@ public class AbstractItemDetails extends CustomComponent {
         itemdetailstable.setPageLength(NumericConstants.THREE);
         itemdetailstable.setSelectable(false);
         itemdetailstable.setSizeFull();
-        itemdetailstable.setEditable(Boolean.TRUE);
+        itemdetailstable.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
         itemdetailstable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        itemdetailstable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
+        itemdetailstable.setColumnCheckBox(Constants.CHECK_RECORD, BOOLEAN_CONSTANT.getTrueFlag());
         itemdetailstable.setCaption("Current- Item Details");
         for (Object object : itemdetailstable.getVisibleColumns()) {
             if (String.valueOf(object).contains("Date")) {
@@ -234,7 +236,7 @@ public class AbstractItemDetails extends CustomComponent {
         if (resultTable.size() != 0) {
             list = summaryLogic.getContractResults(selection, 0, Integer.MAX_VALUE);
         }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), list.size(), this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), list.size(), this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
     }
 
     Component ConfigureTransferItemTable() {
@@ -245,9 +247,9 @@ public class AbstractItemDetails extends CustomComponent {
         itemTransferTable.setPageLength(NumericConstants.THREE);
         itemTransferTable.setSelectable(false);
         itemTransferTable.setSizeFull();
-        itemTransferTable.setEditable(Boolean.TRUE);
+        itemTransferTable.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
         itemTransferTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        itemTransferTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
+        itemTransferTable.setColumnCheckBox(Constants.CHECK_RECORD, BOOLEAN_CONSTANT.getTrueFlag());
         itemTransferTable.setCaption("Transfer- Item Details");
         for (Object object : itemTransferTable.getVisibleColumns()) {
             if (String.valueOf(object).contains("Date")) {
@@ -363,10 +365,10 @@ public class AbstractItemDetails extends CustomComponent {
         if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             selection.setOperation("CURRENT SUMMARY");
         }
-        itemdetailstableLogic.loadSetData(selection, Boolean.TRUE);
+        itemdetailstableLogic.loadSetData(selection, BOOLEAN_CONSTANT.getTrueFlag());
         if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             selection.setOperation("TRANSFER SUMMARY");
-            itemTransferTableLogic.loadSetData(selection, Boolean.TRUE);
+            itemTransferTableLogic.loadSetData(selection, BOOLEAN_CONSTANT.getTrueFlag());
         }
     }
 

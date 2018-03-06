@@ -91,7 +91,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	/**
 	 * The record selected flag.
 	 */
-	private Boolean recordSelectedFlag = false;
+	private boolean recordSelectedFlag = false;
 	private final BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
 	private final BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<>(
 			ComparisonLookupDTO.class);

@@ -9,7 +9,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -33,12 +32,11 @@ public class GtnUIFrameWorkLoadValueFormulaTypeComboBoxAction
 			throws GtnFrameworkGeneralException {
 		String resultValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanInformationTabformulaType")
 				.getCaptionFromComboBox();
-		String mode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
 		if (resultValue.equals("Complex")) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB)
 					.setWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnRpRemoveComplexButton")
-					.setVisible(!GtnUIFrameworkModeType.VIEW.equals(GtnUIFrameworkModeType.valueOf(mode)));
+					.setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnRpRemoveButton").setVisible(false);
 
 			GtnUIFrameworkGlobalUI
@@ -46,9 +44,6 @@ public class GtnUIFrameWorkLoadValueFormulaTypeComboBoxAction
 					.setVisible(true);
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX)
-					.setWidth("1000px");
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_DETAILS_LAYOUT)
 					.setWidth("1000px");
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_FROM_TO_COMPLEX)
@@ -68,11 +63,11 @@ public class GtnUIFrameWorkLoadValueFormulaTypeComboBoxAction
 					.setWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnRpRemoveComplexButton").setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnRpRemoveButton")
-					.setVisible(!GtnUIFrameworkModeType.VIEW.equals(GtnUIFrameworkModeType.valueOf(mode)));
+					.setVisible(true);
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX)
 					.setVisible(false);
-			GtnUIFrameworkGlobalUI
+                        GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_FROM_TO_COMPLEX)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI

@@ -30,6 +30,7 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -84,6 +85,7 @@ public class RemoveDiscount extends CustomComponent {
     private TextField contractStartDate;
     @UiField("contractEndDate")
     private TextField contractEndDate;
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final ComponentInfoTableLogic infoLogic = new ComponentInfoTableLogic();
     private final ExtPagedTable componentResultsTable = new ExtPagedTable(infoLogic);
     private final ContractComponentInfoTableLogic contractLogic = new ContractComponentInfoTableLogic();
@@ -322,7 +324,7 @@ public class RemoveDiscount extends CustomComponent {
                     AbstractLogic logic = AbstractLogic.getInstance();
                     if ("contractStatus".equals(propertyId)) {
                         ComboBox marketTypeDdlb = new ComboBox();
-                        logic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", true);
+                        logic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BOOLEAN_CONSTANT.getTrueFlag());
                         return marketTypeDdlb;
                     }
                     return null;
@@ -787,14 +789,14 @@ public class RemoveDiscount extends CustomComponent {
             } else {
                 List<String> list = new ArrayList(NumericConstants.FIVE);
                 if (field.equals("Rebate Schedule ID")) {
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                     list.add(null);
                     list.add(null);
                     list.add(null);
                     list.add(null);
                 } else if (field.equals("Rebate Schedule No")) {
                     list.add(null);
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                     list.add(null);
                     list.add(null);
                     list.add(null);
@@ -802,7 +804,7 @@ public class RemoveDiscount extends CustomComponent {
                 if (field.equals("Rebate Schedule Name")) {
                     list.add(null);
                     list.add(null);
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                     list.add(null);
                     list.add(null);
                 }
@@ -810,7 +812,7 @@ public class RemoveDiscount extends CustomComponent {
                     list.add(null);
                     list.add(null);
                     list.add(null);
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                     list.add(null);
                 }
                 if (field.equals("Rebate Schedule Type")) {
@@ -818,7 +820,7 @@ public class RemoveDiscount extends CustomComponent {
                     list.add(null);
                     list.add(null);
                     list.add(null);
-                    list.add(value.replace("*", "%"));
+                    list.add(value.replace('*', '%'));
                 }
                 loadComponentTable(list);
             }

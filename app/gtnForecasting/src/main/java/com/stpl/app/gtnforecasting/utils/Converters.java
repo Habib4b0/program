@@ -281,7 +281,7 @@ public class Converters {
         }
 
         dataSelectionDTO.setModifiedBy(String.valueOf(objects[NumericConstants.TWENTY_TWO]));
-        dataSelectionDTO.setSaveFlag(CommonConstants.NULL.getConstant().equals(String.valueOf(objects[NumericConstants.TWENTY_THREE])) ? false : Boolean.valueOf(String.valueOf(objects[NumericConstants.TWENTY_THREE])));
+        dataSelectionDTO.setSaveFlag(CommonConstants.NULL.getConstant().equals(String.valueOf(objects[NumericConstants.TWENTY_THREE])) ? false : Boolean.parseBoolean(String.valueOf(objects[NumericConstants.TWENTY_THREE])));
 
         dataSelectionDTO.setCustomerHierarchyInnerLevel(String.valueOf(objects[NumericConstants.TWENTY_FIVE]));
         dataSelectionDTO.setProductHierarchyInnerLevel(String.valueOf(objects[NumericConstants.TWENTY_SIX]));

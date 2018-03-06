@@ -29,7 +29,7 @@ public class GtnUIFrameworkPopulateFieldValueChangeAction implements GtnUIFrameW
 			List<Object> mainParameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 			List<String> parameters = (List<String>) mainParameters.get(1);
 			String componentValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getStringFromField();
-			if (componentValue.isEmpty()) {
+			if (componentValue==null || componentValue.isEmpty() ) {
 				componentValue = componentId;
 			}
 			componentValue = componentValue.replace(" ", "");

@@ -29,13 +29,16 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RelationShipFilterLogic {
 
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 	private final GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
 	private final CommonDAO daoImpl = new CommonDAOImpl();
@@ -113,9 +116,9 @@ public class RelationShipFilterLogic {
 						Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])), resultsRelationList);
 				if (relationData.length > 0) {
 					dto.setRelationshipLevelValue(String.valueOf(relationData[0]));
-					dto.setLevelNo(Integer.parseInt(String.valueOf(relationData[1])));
+					dto.setLevelNo(DataTypeConverter.convertObjectToInt(relationData[1]));
 					dto.setParentNode(String.valueOf(relationData[NumericConstants.TWO]));
-					dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(relationData[NumericConstants.THREE])));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(relationData[NumericConstants.THREE]));
 					dto.setHierarchyNo(String.valueOf(relationData[NumericConstants.FOUR]));
 					dto.setRelationShipBuilderId(String.valueOf(relationData[NumericConstants.FIVE]));
 					dto.setLevel(String.valueOf(obj[NumericConstants.ZERO]));
@@ -176,9 +179,9 @@ public class RelationShipFilterLogic {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
 				Object[] obj = resultsDataList.get(i);
 				dto.setRelationshipLevelValue(String.valueOf(obj[0]));
-				dto.setLevelNo(Integer.parseInt(String.valueOf(obj[1])));
+				dto.setLevelNo(DataTypeConverter.convertObjectToInt(obj[1]));
 				dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-				dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+				dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
 				dto.setHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]));
 				dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.FIVE]));
 				dto.setLevel(String.valueOf(obj[NumericConstants.SIX]));
@@ -225,9 +228,9 @@ public class RelationShipFilterLogic {
 						Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])), resultsRelationList);
 				if (relationData.length > 0) {
 					dto.setRelationshipLevelValue(String.valueOf(relationData[0]));
-					dto.setLevelNo(Integer.parseInt(String.valueOf(relationData[1])));
+					dto.setLevelNo(DataTypeConverter.convertObjectToInt(relationData[1]));
 					dto.setParentNode(String.valueOf(relationData[NumericConstants.TWO]));
-					dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(relationData[NumericConstants.THREE])));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(relationData[NumericConstants.THREE]));
 					dto.setHierarchyNo(String.valueOf(relationData[NumericConstants.FOUR]));
 					dto.setRelationShipBuilderId(String.valueOf(relationData[NumericConstants.FIVE]));
 					dto.setLevel(String.valueOf(obj[NumericConstants.ZERO]));
@@ -301,7 +304,7 @@ public class RelationShipFilterLogic {
 		GtnFrameworkSingleColumnRelationBean keyRealtionBean = masterBean.getKeyRelationBeanUsingTableIdAndColumnName(
 				selectedHierarchyLevelDto.getTableName(), selectedHierarchyLevelDto.getFieldName());
 		query.append(keyRealtionBean.getActualTtableName());
-		query.append(".");
+		query.append('.');
 		query.append(keyRealtionBean.getWhereClauseColumn());
 		finalQueryBean.addWhereClauseBean(query.toString(), null, GtnFrameworkOperatorType.IN,
 				GtnFrameworkDataType.NULL_ALLOWED, "?");
@@ -330,7 +333,7 @@ public class RelationShipFilterLogic {
 	public List<Set> getCustomerConractSid(List<Leveldto> selectedCustomerContractList,
 			List<Leveldto> customerHierarchyLevelDefinitionList, int customerRelationVersionNo) {
 		GtnFrameworkQueryGeneratorBean queryBean = getCustomerContractSidQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, Boolean.FALSE);
+				customerHierarchyLevelDefinitionList, BOOLEAN_CONSTANT.getFalseFlag());
 		if (queryBean == null || customerRelationVersionNo == 0) {
 			return Collections.emptyList();
 		}
@@ -505,10 +508,10 @@ public class RelationShipFilterLogic {
 			List<Leveldto> customerHierarchyLevelDefinitionList, List<Leveldto> productHierarchyLevelDefinitionList,
 			int customerRelationVersionNo, int productRelationVersionNo,int projectionIdValue) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, "SELECTED_CUST_HIERARCHY_NO", Boolean.FALSE,
+				customerHierarchyLevelDefinitionList, "SELECTED_CUST_HIERARCHY_NO", BOOLEAN_CONSTANT.getFalseFlag(),
 				customerRelationVersionNo,projectionIdValue);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", Boolean.TRUE,
+				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", BOOLEAN_CONSTANT.getTrueFlag(),
 				productRelationVersionNo,projectionIdValue);
 
 		StringBuilder cusHieNoQuery = getHieNoQuery(customerHierarchyLevelDefinitionList, selectedCustomerContractList,
@@ -601,7 +604,7 @@ public class RelationShipFilterLogic {
 				query.append(",'.'");
 				continue;
 			}
-			query.append(",");
+			query.append(',');
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
 			query.append(singleColumnRelationBean.getActualTtableName() + "."
@@ -610,7 +613,7 @@ public class RelationShipFilterLogic {
 		}
 		finalQuery.append("concat( RELATIONSHIP_BUILDER_SID,'-'");
 		finalQuery.append(query);
-		finalQuery.append(")");
+		finalQuery.append(')');
 		return finalQuery;
 	}
 
@@ -732,7 +735,7 @@ public class RelationShipFilterLogic {
 			levelDto.setHierarchyId(getIntegerValue(objects, 6));
 			levelDto.setRelationshipLevelValue(String.valueOf(objects[7]));
 			levelDto.setParentNode(String.valueOf(objects[NumericConstants.EIGHT]));
-			levelDto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.NINE])));
+			levelDto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.NINE]));
 			levelDto.setHierarchyNo(String.valueOf(objects[NumericConstants.TEN]));
 			levelDto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.ELEVEN]));
 			if (descriptionMap != null) {
@@ -766,7 +769,7 @@ public class RelationShipFilterLogic {
 			levelDto.setHierarchyId((Integer.valueOf(objects[6] == null ? "0" : objects[6].toString())));
 			levelDto.setRelationshipLevelValue(String.valueOf(objects[7]));
 			levelDto.setParentNode(String.valueOf(objects[NumericConstants.EIGHT]));
-			levelDto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.NINE])));
+			levelDto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.NINE]));
 			levelDto.setHierarchyNo(String.valueOf(objects[NumericConstants.TEN]));
 			levelDto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.ELEVEN]));
 			resultList.add(levelDto);

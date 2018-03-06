@@ -120,7 +120,7 @@ public class CopyComponentDTO implements Serializable {
     private Integer PSId = 0;
     private Integer RSId = 0;
     private String levelNo = Constants.ZEROSTRING;
-    private Boolean check = false;
+    private boolean check = false;
 
     public String getCompanyStatus() {
         return companyStatus;

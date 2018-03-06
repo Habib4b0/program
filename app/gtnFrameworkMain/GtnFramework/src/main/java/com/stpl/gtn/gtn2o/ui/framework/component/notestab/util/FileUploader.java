@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
@@ -27,7 +26,7 @@ public class FileUploader implements Receiver {
 
 	protected File file;
 
-	public static final String FILE_PATH = System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH)
+	public static final String FILE_PATH = System.getProperty("gtn.app.data.path")
 			+ "/Attachments/";
 	private String moduleName = "";
 	public static final String BACK_SLASH = "/";

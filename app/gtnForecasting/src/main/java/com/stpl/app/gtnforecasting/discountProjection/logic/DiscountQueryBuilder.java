@@ -18,6 +18,7 @@ import static com.stpl.app.utils.Constants.FrequencyConstants.*;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 public class DiscountQueryBuilder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountQueryBuilder.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CATEGORY = "Program Category";
@@ -376,7 +378,7 @@ public class DiscountQueryBuilder {
                 for (String[] strings : massUpdateData) {
                     levelNo = strings[3];
                     hierarIndicator = strings[1];
-                    relValue = strings[4].contains("~") ? strings[4].substring(strings[4].lastIndexOf("~") + 1) : strings[4];
+                    relValue = strings[4].contains("~") ? strings[4].substring(strings[4].lastIndexOf('~') + 1) : strings[4];
                 }
                 }else{
                 levelNo = String.valueOf(session.getSelectedDeductionLevelNo());
@@ -437,11 +439,11 @@ public class DiscountQueryBuilder {
                 if (hierarchyData[2].isEmpty()) {
                     stringBuilder.append("NULL");
                 } else {
-                    stringBuilder.append("'").append(hierarchyData[2]).append("'");
+                    stringBuilder.append('\'').append(hierarchyData[2]).append('\'');
                 }
 
-                stringBuilder.append(",").append("'").append(hierarchyData[1]).append("',").append(i++);
-                stringBuilder.append(")");
+                stringBuilder.append(',').append('\'').append(hierarchyData[1]).append("',").append(i++);
+                stringBuilder.append(')');
                 isNotFirstElement = true;
             } else {
                 List<String> hierarchyNo = Arrays.asList((String.valueOf(hierarchyData[0])).split("\\,"));
@@ -455,11 +457,11 @@ public class DiscountQueryBuilder {
                 if (hierarchyData[2].isEmpty()) {
                     stringBuilder.append("NULL");
                 } else {
-                    stringBuilder.append("'").append(hierarchyData[2]).append("'");
+                    stringBuilder.append('\'').append(hierarchyData[2]).append('\'');
                 }
 
-                stringBuilder.append(",").append("'").append(hierarchyData[1]).append("',").append(i++);
-                stringBuilder.append(")");
+                stringBuilder.append(',').append('\'').append(hierarchyData[1]).append("',").append(i++);
+                stringBuilder.append(')');
                 isNotFirstElement = true;  
                 }
 
@@ -544,11 +546,11 @@ public class DiscountQueryBuilder {
 
             customSql = checkIsCustom(isCustomHierarchy, hierarchyIndicator, customViewDetails.get(NumericConstants.TWO), customViewDetails.get(NumericConstants.FOUR), customViewDetails.get(NumericConstants.NINE), hierarchyNo, customSql,session);
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-            return Boolean.TRUE;
+            return BOOLEAN_CONSTANT.getTrueFlag();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return Boolean.FALSE;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         }
     }
     public static final String LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='";
@@ -1042,7 +1044,7 @@ public class DiscountQueryBuilder {
         List<String> levelNoList =  levelNo == 10 ? HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(levelNoQuery,session.getCurrentTableNames())):getRSHierarchyNo(discountList,session);
         StringBuilder levelNoFromQuery = new StringBuilder();
         for (String value : levelNoList) {
-            levelNoFromQuery.append("('").append(value).append("')").append(",");
+            levelNoFromQuery.append("('").append(value).append("')").append(',');
         }
         levelNoFromQuery = levelNoFromQuery.replace(levelNoFromQuery.lastIndexOf(","), levelNoFromQuery.length(), StringUtils.EMPTY);
         return levelNoFromQuery.toString();

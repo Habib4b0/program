@@ -496,7 +496,7 @@ public class CommonUtils {
         InputStream xml = null;
         try {
             String path = controller.getClass().getCanonicalName();
-            String finalPath = path.substring(0, path.lastIndexOf("."));
+            String finalPath = path.substring(0, path.lastIndexOf('.'));
             finalPath = finalPath.replaceAll("\\.", "\\" + File.separator);
             finalPath += xmlClassResourceFileName;
             LOGGER.debug("Path to XML= {}" , finalPath);
@@ -1089,7 +1089,7 @@ public class CommonUtils {
         String framedString = StringUtils.EMPTY;
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY);
             }
@@ -1199,7 +1199,7 @@ public class CommonUtils {
         User loggedUserDetails = null;
 
         try {
-            loggedUserDetails = UserLocalServiceUtil.getUser(Long.valueOf(userId));
+            loggedUserDetails = UserLocalServiceUtil.getUser(Long.parseLong(userId));
         } catch (NoSuchUserException noSuchUserException) {
             LOGGER.error(StringUtils.EMPTY,noSuchUserException);
             loggedUserDetails = null;
@@ -1561,7 +1561,7 @@ public class CommonUtils {
         String framedString = StringUtils.EMPTY;
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY);
             }
@@ -1641,7 +1641,7 @@ public class CommonUtils {
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
         List result = DAO.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
-            code = Integer.valueOf(result.get(ZERO).toString());
+            code = Integer.parseInt(result.get(ZERO).toString());
         }
         return code;
     }
@@ -1835,11 +1835,11 @@ public class CommonUtils {
         Date startDate = parser.parse(startDateString);
         Date endDate = parser.parse(endDateString);
 
-        startYear = Integer.valueOf(formatYear.format(startDate));
-        startMonth = Integer.valueOf(formatMonth.format(startDate));
+        startYear = Integer.parseInt(formatYear.format(startDate));
+        startMonth = Integer.parseInt(formatMonth.format(startDate));
 
-        endYear = Integer.valueOf(formatYear.format(endDate));
-        endMonth = Integer.valueOf(formatMonth.format(endDate));
+        endYear = Integer.parseInt(formatYear.format(endDate));
+        endMonth = Integer.parseInt(formatMonth.format(endDate));
 
         startQuarter = (startMonth / NumericConstants.THREE) + 1;
         endQuarter = (endMonth / NumericConstants.THREE) + 1;
@@ -1875,14 +1875,14 @@ public class CommonUtils {
         int endSemiAnnual = 0;
         int limit = NumericConstants.TWO;
 
-        startMonth = Integer.valueOf(formatMonth.format(startDate));
+        startMonth = Integer.parseInt(formatMonth.format(startDate));
         startSemiAnnual = (startMonth / NumericConstants.SIX) + 1;
 
-        endMonth = Integer.valueOf(formatMonth.format(endDate));
+        endMonth = Integer.parseInt(formatMonth.format(endDate));
         endSemiAnnual = (endMonth / NumericConstants.SIX) + 1;
 
-        startYear = Integer.valueOf(formatYear.format(startDate));
-        endYear = Integer.valueOf(formatYear.format(endDate));
+        startYear = Integer.parseInt(formatYear.format(startDate));
+        endYear = Integer.parseInt(formatYear.format(endDate));
 
         while (startYear <= endYear) {
             if (startYear == endYear) {
@@ -1912,11 +1912,11 @@ public class CommonUtils {
         int startMonth = 0;
         int endMonth = 0;
 
-        startYear = Integer.valueOf(formatYear.format(startDate));
-        endYear = Integer.valueOf(formatYear.format(endDate));
+        startYear = Integer.parseInt(formatYear.format(startDate));
+        endYear = Integer.parseInt(formatYear.format(endDate));
 
-        startMonth = Integer.valueOf(formatMonth.format(startDate));
-        endMonth = Integer.valueOf(formatMonth.format(endDate));
+        startMonth = Integer.parseInt(formatMonth.format(startDate));
+        endMonth = Integer.parseInt(formatMonth.format(endDate));
 
         while (startYear <= endYear) {
             if (startYear == endYear) {

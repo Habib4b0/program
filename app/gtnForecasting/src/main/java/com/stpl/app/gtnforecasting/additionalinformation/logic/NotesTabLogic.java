@@ -17,6 +17,7 @@ import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public class NotesTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private boolean isFileExists;
     /**
      * Gets the attachment dto list.
@@ -80,7 +82,7 @@ public class NotesTabLogic {
                 attachmentDTO = new NotesDTO();
                 if (docDetails.getFileType().trim().length() > 0) {
                     attachmentDTO.setDocumentName((docDetails.getFileName().contains("_".concat(String.valueOf(projectionId)))
-                            ? docDetails.getFileName().replace("_".concat(String.valueOf(projectionId)), StringUtils.EMPTY) : docDetails.getFileName()) + "." + docDetails.getFileType());
+                            ? docDetails.getFileName().replace("_".concat(String.valueOf(projectionId)), StringUtils.EMPTY) : docDetails.getFileName()) + '.' + docDetails.getFileType());
                 } else {
                     attachmentDTO.setDocumentName(docDetails.getFileName().contains("_".concat(String.valueOf(projectionId)))
                             ? docDetails.getFileName().replace("_".concat(String.valueOf(projectionId)), StringUtils.EMPTY) : docDetails.getFileName());
@@ -116,7 +118,7 @@ public class NotesTabLogic {
         File file = new File(fileName);
         isFileExists=file.delete();
         LOGGER.info("File deleted successfully= {} ",isFileExists);
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 
     public void saveUploadedFile(int projectionId, String fileName, String uploadedBy, int fileSize, String moduleName) throws SystemException {
@@ -198,7 +200,7 @@ public class NotesTabLogic {
 
         LOGGER.debug("End of saveNotes method");
 
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 
     /**

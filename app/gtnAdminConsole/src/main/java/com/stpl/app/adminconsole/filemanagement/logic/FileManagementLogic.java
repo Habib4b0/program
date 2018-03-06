@@ -60,6 +60,7 @@ import com.stpl.app.parttwo.model.AdjustedDemandForecast;
 import com.stpl.app.parttwo.model.CustomerGtsForecast;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.ItemQualifierLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.filter.Between;
@@ -112,6 +113,8 @@ public class FileManagementLogic {
 
 	private SimpleDateFormat MMDDYY_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private SimpleDateFormat JAVA_DATE_FORMAT = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+        
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
 	/**
 	 * Gets the forecast year.
@@ -196,10 +199,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM DEMAND_FORECAST DF WHERE FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_COUNTRY_LIKE + country
 					+ StringConstantUtils.AND_FORECAST_VER_LIKE + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -209,10 +212,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT INW.FORECAST_NAME,INW.FORECAST_VER,INW.CREATED_DATE FROM INVENTORY_WD_PROJ_MAS INW WHERE INW.FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_INW_COUNTRY_LIKE + country + "' AND INW.FORECAST_VER like '"
 					+ version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -222,10 +225,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT INW.FORECAST_NAME,INW.FORECAST_VER,INW.CREATED_DATE FROM INVENTORY_WD_PROJ_DT INW WHERE INW.FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_INW_COUNTRY_LIKE + country + "%' AND INW.FORECAST_VER like '"
 					+ version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -235,10 +238,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM CUSTOMER_GTS_FORECAST DF WHERE FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_COUNTRY_LIKE + country
 					+ StringConstantUtils.AND_FORECAST_VER_LIKE + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -248,10 +251,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT FORECAST_NAME, FORECAST_VER, CREATED_DATE FROM dbo.ADJUSTED_DEMAND_FORECAST WHERE FORECAST_NAME like '"
 					+ fileName + StringConstantUtils.AND_COUNTRY_LIKE + country
 					+ StringConstantUtils.AND_FORECAST_VER_LIKE + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
@@ -502,7 +505,7 @@ public class FileManagementLogic {
 			for (int i = 0; i < itemIds.size(); i++) {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(true);
+					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BOOLEAN_CONSTANT.getTrueFlag());
 				}
 			}
 		} else if ("uncheck".equalsIgnoreCase(clickEvent)) {
@@ -510,7 +513,7 @@ public class FileManagementLogic {
 			for (int i = 0; i < itemIds.size(); i++) {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(false);
+					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BOOLEAN_CONSTANT.getFalseFlag());
 				}
 			}
 		}
@@ -589,7 +592,7 @@ public class FileManagementLogic {
 			String version, String forecastName, HelperDTO fileType, String businessUnit) {
 		LOGGER.debug("Entering Save Forecast Details with File Name forecastName= {}, File Type= {}, Country={}, source={} " , forecastName, 
 				fileType.getDescription().equals(ConstantsUtils.EX_FACTORY_SALES), source, country);
-		Boolean flag = false;
+		boolean flag = false;
 		String item;
 		String totalDemand;
 		String inventoryUnit;
@@ -905,7 +908,7 @@ public class FileManagementLogic {
 	public void updateAutoModeProcess(final Date date) throws SystemException {
 		final DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		List<ForecastConfig> config;
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", true));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", BOOLEAN_CONSTANT.getTrueFlag()));
 		dynamicQuery.add(RestrictionsFactoryUtil.isNull("activeEndDate"));
 		config = ForecastConfigLocalServiceUtil.dynamicQuery(dynamicQuery);
 		if (!config.isEmpty()) {
@@ -1593,7 +1596,7 @@ public class FileManagementLogic {
 				boolean recordStatus = ((Boolean) obj[NumericConstants.EIGHT]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.NINE]);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
 				resultsListDTO.add(fmDTO);
 			}
@@ -1660,7 +1663,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.TWENTY_EIGHT]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1705,7 +1708,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.THIRTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1761,7 +1764,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				fmDTO.setCompanyName(obj[NumericConstants.SEVENTEEN] != null
 						? String.valueOf(obj[NumericConstants.SEVENTEEN]) : ConstantsUtils.EMPTY);
 				fmDTO.setItemName(obj[NumericConstants.EIGHTEEN] != null
@@ -1858,7 +1861,7 @@ public class FileManagementLogic {
 				fmDTO.setCustomerGtsForecastIntfId(obj[NumericConstants.TWENTY_EIGHT] != null
 						? Integer.parseInt(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])) : 0);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			LOGGER.debug("resultsListDTO= {}" , resultsListDTO.size());
@@ -2297,7 +2300,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			String outerSize = String.valueOf(InnerArray[0]);
 			int innerSize;
@@ -2444,7 +2447,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2575,7 +2578,7 @@ public class FileManagementLogic {
 			int x = 0, y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
-				String tmpString = versionArray[0].replace(".", "~");
+				String tmpString = versionArray[0].replace('.', '~');
 				version2Array = tmpString.split("~");
 				y = Integer.parseInt(version2Array[1]);
 			} else {
@@ -2584,7 +2587,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in  ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2712,7 +2715,7 @@ public class FileManagementLogic {
 			int x = 0, y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
-				String tmpString = versionArray[0].replace(".", "~");
+				String tmpString = versionArray[0].replace('.', '~');
 				version2Array = tmpString.split("~");
 				y = Integer.parseInt(version2Array[1]);
 			} else {
@@ -2721,7 +2724,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in  ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2892,7 +2895,7 @@ public class FileManagementLogic {
 			fmDTO.setRecordLockStatus(recordStatus);
 			fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
 			fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-			fmDTO.setCheck(false);
+			fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 			resultsListDTO.add(fmDTO);
 		}
 		return resultsListDTO;
@@ -2938,7 +2941,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -3038,39 +3041,39 @@ public class FileManagementLogic {
 		}
 		String whereQuery = ConstantsUtils.EMPTY;
 		if (detailsResultDTO.getItemId() != null && !StringUtils.isEmpty(detailsResultDTO.getItemId())) {
-			whereQuery = "AND DF.ITEM_ID like '" + detailsResultDTO.getItemId().replace("*", "%") + "'";
+			whereQuery = "AND DF.ITEM_ID like '" + detailsResultDTO.getItemId().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getCompanyId() != null && !StringUtils.isEmpty(detailsResultDTO.getCompanyId())) {
-			whereQuery = "AND DF.COMPANY_ID like '" + detailsResultDTO.getCompanyId().replace("*", "%") + "'";
+			whereQuery = "AND DF.COMPANY_ID like '" + detailsResultDTO.getCompanyId().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getForcastYear() != null && !StringUtils.isEmpty(detailsResultDTO.getForcastYear())) {
-			whereQuery = "AND DF.FORECAST_YEAR like '" + detailsResultDTO.getForcastYear().replace("*", "%") + "'";
+			whereQuery = "AND DF.FORECAST_YEAR like '" + detailsResultDTO.getForcastYear().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getForecastMonth() != null && !StringUtils.isEmpty(detailsResultDTO.getForecastMonth())) {
-			whereQuery = "AND DF.FORECAST_MONTH like '" + detailsResultDTO.getForecastMonth().replace("*", "%") + "'";
+			whereQuery = "AND DF.FORECAST_MONTH like '" + detailsResultDTO.getForecastMonth().replace('*', '%') + "'";
 		}
 
 		if (detailsResultDTO.getDeductionId() != null && !StringUtils.isEmpty(detailsResultDTO.getDeductionId())) {
-			whereQuery = "AND DF.DEDUCTION_ID like '" + detailsResultDTO.getDeductionId().replace("*", "%") + "'";
+			whereQuery = "AND DF.DEDUCTION_ID like '" + detailsResultDTO.getDeductionId().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getDeductionCategory() != null
 				&& !StringUtils.isEmpty(detailsResultDTO.getDeductionCategory())
 				&& !SELECT_ONE.equals(detailsResultDTO.getDeductionCategory())) {
-			whereQuery = "AND DF.DEDUCTION_CATEGORY like '" + detailsResultDTO.getDeductionCategory().replace("*", "%")
+			whereQuery = "AND DF.DEDUCTION_CATEGORY like '" + detailsResultDTO.getDeductionCategory().replace('*', '%')
 					+ "'";
 		}
 		if (detailsResultDTO.getDeductionType() != null && !StringUtils.isEmpty(detailsResultDTO.getDeductionType())
 				&& !SELECT_ONE.equals(detailsResultDTO.getDeductionType())) {
-			whereQuery = "AND DF.DEDUCTION_TYPE like '" + detailsResultDTO.getDeductionType().replace("*", "%") + "'";
+			whereQuery = "AND DF.DEDUCTION_TYPE like '" + detailsResultDTO.getDeductionType().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getDeductionProgramType() != null
 				&& !StringUtils.isEmpty(detailsResultDTO.getDeductionProgramType())
 				&& !SELECT_ONE.equals(detailsResultDTO.getDeductionProgramType())) {
 			whereQuery = "AND DF.DEDUCTION_PROGRAM_TYPE like '"
-					+ detailsResultDTO.getDeductionProgramType().replace("*", "%") + "'";
+					+ detailsResultDTO.getDeductionProgramType().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getBatchId() != null && !StringUtils.isEmpty(detailsResultDTO.getBatchId())) {
-			whereQuery = "AND DF.BATCH_ID like '" + detailsResultDTO.getBatchId().replace("*", "%") + "'";
+			whereQuery = "AND DF.BATCH_ID like '" + detailsResultDTO.getBatchId().replace('*', '%') + "'";
 		}
 
 		if (isCount) {
@@ -3354,7 +3357,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			String outerSize = String.valueOf(InnerArray[0]);
 			int innerSize;
@@ -3505,7 +3508,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -3644,7 +3647,7 @@ public class FileManagementLogic {
 			int x = 0, y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
-				String tmpString = versionArray[0].replace(".", "~");
+				String tmpString = versionArray[0].replace('.', '~');
 				version2Array = tmpString.split("~");
 				y = Integer.parseInt(version2Array[1]);
 			} else {
@@ -3653,7 +3656,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -3786,7 +3789,7 @@ public class FileManagementLogic {
 			int x = 0, y = 0;
 			String[] version2Array;
 			if (versionArray[0].contains(".")) {
-				String tmpString = versionArray[0].replace(".", "~");
+				String tmpString = versionArray[0].replace('.', '~');
 				version2Array = tmpString.split("~");
 				y = Integer.parseInt(version2Array[1]);
 			} else {
@@ -3795,7 +3798,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -3929,7 +3932,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace(".", "~").trim();
+			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -4033,39 +4036,39 @@ public class FileManagementLogic {
 		}
 		String whereQuery = ConstantsUtils.EMPTY;
 		if (detailsResultDTO.getItemId() != null && !StringUtils.isEmpty(detailsResultDTO.getItemId())) {
-			whereQuery = "AND DF.ITEM_ID like '" + detailsResultDTO.getItemId().replace("*", "%") + "'";
+			whereQuery = "AND DF.ITEM_ID like '" + detailsResultDTO.getItemId().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getCompanyId() != null && !StringUtils.isEmpty(detailsResultDTO.getCompanyId())) {
-			whereQuery = "AND DF.COMPANY_ID like '" + detailsResultDTO.getCompanyId().replace("*", "%") + "'";
+			whereQuery = "AND DF.COMPANY_ID like '" + detailsResultDTO.getCompanyId().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getForcastYear() != null && !StringUtils.isEmpty(detailsResultDTO.getForcastYear())) {
-			whereQuery = "AND DF.FORECAST_YEAR like '" + detailsResultDTO.getForcastYear().replace("*", "%") + "'";
+			whereQuery = "AND DF.FORECAST_YEAR like '" + detailsResultDTO.getForcastYear().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getForecastMonth() != null && !StringUtils.isEmpty(detailsResultDTO.getForecastMonth())) {
-			whereQuery = "AND DF.FORECAST_MONTH like '" + detailsResultDTO.getForecastMonth().replace("*", "%") + "'";
+			whereQuery = "AND DF.FORECAST_MONTH like '" + detailsResultDTO.getForecastMonth().replace('*', '%') + "'";
 		}
 
 		if (detailsResultDTO.getDeductionId() != null && !StringUtils.isEmpty(detailsResultDTO.getDeductionId())) {
-			whereQuery = "AND DF.DEDUCTION_ID like '" + detailsResultDTO.getDeductionId().replace("*", "%") + "'";
+			whereQuery = "AND DF.DEDUCTION_ID like '" + detailsResultDTO.getDeductionId().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getDeductionCategory() != null
 				&& !StringUtils.isEmpty(detailsResultDTO.getDeductionCategory())
 				&& !SELECT_ONE.equals(detailsResultDTO.getDeductionCategory())) {
-			whereQuery = "AND DF.DEDUCTION_CATEGORY like '" + detailsResultDTO.getDeductionCategory().replace("*", "%")
+			whereQuery = "AND DF.DEDUCTION_CATEGORY like '" + detailsResultDTO.getDeductionCategory().replace('*', '%')
 					+ "'";
 		}
 		if (detailsResultDTO.getDeductionType() != null && !StringUtils.isEmpty(detailsResultDTO.getDeductionType())
 				&& !SELECT_ONE.equals(detailsResultDTO.getDeductionType())) {
-			whereQuery = "AND DF.DEDUCTION_TYPE like '" + detailsResultDTO.getDeductionType().replace("*", "%") + "'";
+			whereQuery = "AND DF.DEDUCTION_TYPE like '" + detailsResultDTO.getDeductionType().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getDeductionProgramType() != null
 				&& !StringUtils.isEmpty(detailsResultDTO.getDeductionProgramType())
 				&& !SELECT_ONE.equals(detailsResultDTO.getDeductionProgramType())) {
 			whereQuery = "AND DF.DEDUCTION_PROGRAM_TYPE like '"
-					+ detailsResultDTO.getDeductionProgramType().replace("*", "%") + "'";
+					+ detailsResultDTO.getDeductionProgramType().replace('*', '%') + "'";
 		}
 		if (detailsResultDTO.getBatchId() != null && !StringUtils.isEmpty(detailsResultDTO.getBatchId())) {
-			whereQuery = "AND DF.BATCH_ID like '" + detailsResultDTO.getBatchId().replace("*", "%") + "'";
+			whereQuery = "AND DF.BATCH_ID like '" + detailsResultDTO.getBatchId().replace('*', '%') + "'";
 		}
 
 		if (isCount) {

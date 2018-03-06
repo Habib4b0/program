@@ -45,8 +45,10 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRel
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -83,6 +85,7 @@ import org.slf4j.LoggerFactory;
 
 public class CommonLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static final CommonDAO commonDao = new CommonDAOImpl();
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     /**
@@ -389,8 +392,8 @@ public class CommonLogic {
     public static String cffCustomViewDetailsSaveLogic(int customId, List levelList, boolean isUpdate) {
         StringBuilder declareSql = new StringBuilder("DECLARE  @identity_val VARCHAR (50)='" + customId + "'");
         StringBuilder sql = new StringBuilder("insert into CFF_CUSTOM_VIEW_DETAILS(CFF_CUSTOM_VIEW_MASTER_SID,HIERARCHY_ID,HIERARCHY_INDICATOR,LEVEL_NO) values ");
-        String quotes = "'";
-        String comma = ",";
+        char quotes = '\'';
+        char comma = ',';
         for (Object ob : levelList) {
             Leveldto dto = (Leveldto) ob;
             sql.append("(@identity_val,").append(quotes).append(dto.getHierarchyId()).append(quotes).append(comma).append(quotes)
@@ -676,15 +679,15 @@ public class CommonLogic {
                 int noOfArgs = orderedArgs.length;
                 for (int i = 0; i < noOfArgs; i++) {
                     if (i == 0) {
-                        procedureToCall.append(ConstantsUtil.OPEN_PARANTHESIS);
+                        procedureToCall.append('(');
                     }
                     procedureToCall.append("?,");
                     if (i == noOfArgs - 1) {
-                        procedureToCall.append(ConstantsUtil.CLOSE_PARANTHESIS);
+                        procedureToCall.append(')');
                     }
                 }
                 procedureToCall.replace(procedureToCall.lastIndexOf(ConstantsUtil.COMMA), procedureToCall.lastIndexOf(ConstantsUtil.COMMA) + 1, StringUtils.EMPTY);
-                procedureToCall.append("}");
+                procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
                     statement.setObject(i + 1, orderedArgs[i]);
@@ -738,15 +741,15 @@ public class CommonLogic {
                 int noOfArgs = orderedArgs.length;
                 for (int i = 0; i < noOfArgs; i++) {
                     if (i == 0) {
-                        procedureToCall.append(ConstantsUtil.OPEN_PARANTHESIS);
+                        procedureToCall.append('(');
                     }
                     procedureToCall.append("?,");
                     if (i == noOfArgs - 1) {
-                        procedureToCall.append(ConstantsUtil.CLOSE_PARANTHESIS);
+                        procedureToCall.append(')');
                     }
                 }
                 procedureToCall.replace(procedureToCall.lastIndexOf(ConstantsUtil.COMMA), procedureToCall.lastIndexOf(ConstantsUtil.COMMA) + 1, StringUtils.EMPTY);
-                procedureToCall.append("}");
+                procedureToCall.append('}');
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {
                     statement.setObject(i + 1, orderedArgs[i]);
@@ -946,7 +949,7 @@ public class CommonLogic {
         } else {
             for (int i = 0; i < map.size(); i++) {
                 queryBuilder.append("UPDATE ").append(tableName).append(" SET FIELD_NAME = '");
-                queryBuilder.append(obj[i]).append("',").append("FIELD_VALUES = '").append(map.get(obj[i])).append("'");
+                queryBuilder.append(obj[i]).append("',").append("FIELD_VALUES = '").append(map.get(obj[i])).append('\'');
                 queryBuilder.append(" WHERE CFF_MASTER_SID = '").append(projectionID).append(" ' AND SCREEN_NAME = '").append(screenName).append("' AND FIELD_NAME ='").append(obj[i]).append("'\n");
             }
         }
@@ -1183,7 +1186,7 @@ public class CommonLogic {
             extraDot = ".";
         }
         String hierarchyNo = hierarchyNos.substring(0, len - 1);
-        int lin = hierarchyNo.lastIndexOf(".");
+        int lin = hierarchyNo.lastIndexOf('.');
         if (lin > 0) {
             hierarchyNo = hierarchyNo.substring(0, lin) + extraDot;
         } else {
@@ -2249,7 +2252,7 @@ public class CommonLogic {
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "").replace("]", "");
             }
@@ -2533,11 +2536,11 @@ public class CommonLogic {
                     for (int i = 0; i < customDetailsList.size(); i++) {
                         relationShipLevelQry.append(customDetailsList.get(i).getHierarchyId());
                         if (i != customDetailsList.size() - 1) {
-                            relationShipLevelQry.append(",");
+                            relationShipLevelQry.append(',');
                         }
                     }
 
-                    relationShipLevelQry.append(")");
+                    relationShipLevelQry.append(')');
                     List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
                     /**
                      * assign null to Object , To be destroyed By JVM *
@@ -2645,10 +2648,10 @@ public class CommonLogic {
             final int customId,final String customerHierarchyNo, final String productHierarchyNo) {
 
         int count = 0;
-        String countQuery = insertAvailableHierarchyNo(session, hierarchyNo, hierarchyIndicator, levelNo, Boolean.TRUE,
+        String countQuery = insertAvailableHierarchyNo(session, hierarchyNo, hierarchyIndicator, levelNo, BOOLEAN_CONSTANT.getTrueFlag(),
                 customId, customerHierarchyNo,productHierarchyNo);
         countQuery += SQlUtil.getQuery("custom-view-count-query");
-        countQuery = countQuery.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(Boolean.TRUE, customerHierarchyNo, productHierarchyNo, hierarchyIndicator));
+        countQuery = countQuery.replace(StringConstantsUtil.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(BOOLEAN_CONSTANT.getTrueFlag(), customerHierarchyNo, productHierarchyNo, hierarchyIndicator));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, session.getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             count = Integer.parseInt(list.get(0).toString());
@@ -2844,8 +2847,8 @@ public class CommonLogic {
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 for (int i = 0; i < currentHierarchy.size(); i++) {
                     Object[] levelValues = (Object[]) currentHierarchy.get(i);
-                        ddlb.addItem(Integer.parseInt(String.valueOf(levelValues[0])));
-                        ddlb.setItemCaption(Integer.parseInt(String.valueOf(levelValues[0])), String.valueOf(levelValues[1]));
+                        ddlb.addItem(DataTypeConverter.convertObjectToInt(levelValues[0]));
+                        ddlb.setItemCaption(DataTypeConverter.convertObjectToInt(levelValues[0]), String.valueOf(levelValues[1]));
                 }
             }
         }
@@ -3159,7 +3162,7 @@ public class CommonLogic {
         String keyField = mainTable + "." + primaryKey;
          String helperJoin = gtnFrameworkHierarchyServiceImpl.addTableJoin(singleColumnRelationBean);
             if (helperJoin.isEmpty()) {
-                formedQuery.append("SELECT distinct ").append(aliasNameField).append(",").append(keyField).append(" FROM ");
+                formedQuery.append("SELECT distinct ").append(aliasNameField).append(',').append(keyField).append(" FROM ");
                 formedQuery.append(joinQuery);
                 if (indicator.equals("C")) {
                     formedQuery.append(" JOIN dbo.CCP_DETAILS AS CCP_DETAILS ON CCP_DETAILS.COMPANY_MASTER_SID = COMPANY_MASTER.COMPANY_MASTER_SID");
@@ -3171,7 +3174,7 @@ public class CommonLogic {
                 formedQuery.append(" = CCP_DETAILS.CCP_DETAILS_SID");
             } else {
                 List<String> columnList = gtnFrameworkHierarchyServiceImpl.getMappingColumns(singleColumnRelationBean);
-                formedQuery.append("SELECT distinct ").append(columnList.get(0)).append(",").append(columnList.get(1)).append(" FROM ");
+                formedQuery.append("SELECT distinct ").append(columnList.get(0)).append(',').append(columnList.get(1)).append(" FROM ");
                 formedQuery.append(joinQuery);
                 formedQuery.append(helperJoin);
                 if (indicator.equals("C")) {
@@ -3307,7 +3310,7 @@ public class CommonLogic {
         if (StringUtils.isEmpty(hierarchyNo)) {
             percentHierarchy = "%";
         } else {
-            percentHierarchy = hierarchyNo.contains("~") ? "%"+hierarchyNo.replace("~","%")+"%" : "%"+hierarchyNo+"%";
+            percentHierarchy = hierarchyNo.contains("~") ? "%"+hierarchyNo.replace('~','%')+'%' : '%'+hierarchyNo+'%';
         }
         columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ percentHierarchy +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
             "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";       

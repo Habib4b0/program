@@ -36,6 +36,7 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ErrorCodeUtil;
 import com.stpl.app.util.ErrorCodes;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
@@ -61,6 +62,8 @@ import org.slf4j.LoggerFactory;
 public class DeductionCalendarForm extends StplCustomComponent implements AddBaseForm {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarForm.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     private final CommonUtil commonMsg = CommonUtil.getInstance();
 
@@ -244,7 +247,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                                 selectionLogic.saveToTempDeductionDetails(sessionDTO, detailsDto);
                                 deductiondetails.loadFilterDdlb();
                                 deductiondetails.loadDetailsOnTabChange();
-                                detailsDto.setGenerated((deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, true)) && (deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, false)));
+                                detailsDto.setGenerated((deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, BOOLEAN_CONSTANT.getTrueFlag())) && (deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, BOOLEAN_CONSTANT.getFalseFlag())));
                                 setNeedRefresh(false);
                             }
                         }
@@ -336,19 +339,19 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                     StringBuilder errorMessage = new StringBuilder("Information for the following Mandatory fields need to be provided:" + ConstantsUtils.BREAK);
                     if (binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NO).getValue().toString().trim().isEmpty()) {
                         if (flag) {
-                            errorMessage.append(ConstantsUtils.COMMA);
+                            errorMessage.append(',');
                         }
                         errorMessage.append("DEDUCTION CALENDAR NO");
                         flag = true;
                     }
                     if (binder.getField(ConstantsUtils.DEDUCTION_CALENDAR_NAME).getValue().toString().trim().isEmpty()) {
                         if (flag) {
-                            errorMessage.append(ConstantsUtils.COMMA);
+                            errorMessage.append(',');
                         }
                         errorMessage.append("DEDUCTION CALENDAR NAME");
                         flag = true;
                     }
-                    if (!deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, false)) {
+                    if (!deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, BOOLEAN_CONSTANT.getFalseFlag())) {
                         if (flag) {
                             errorMessage.append(ConstantsUtils.BREAK);
                         }
@@ -356,7 +359,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         flag = true;
                     }
 
-                    if (!deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, true)) {
+                    if (!deductionCalendarLogic.itemAndCompanySelectionCheck(sessionDTO, BOOLEAN_CONSTANT.getTrueFlag())) {
                         if (flag) {
                             errorMessage.append(ConstantsUtils.BREAK);
                         }
@@ -374,14 +377,14 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         }
                     }
                     if (!sessionDTO.getMode().equalsIgnoreCase("Edit")) {
-                        if (deductionCalendarLogic.deductionNoAndNameDuplicateCheck(deductionCalendarDTO.getDeductionCalendarNo(), false, sessionDTO)) {
+                        if (deductionCalendarLogic.deductionNoAndNameDuplicateCheck(deductionCalendarDTO.getDeductionCalendarNo(), BOOLEAN_CONSTANT.getFalseFlag(), sessionDTO)) {
                             if (flag) {
                                 errorMessage.append(ConstantsUtils.BREAK);
                             }
                             errorMessage.append("Deduction Calendar No already exists.");
                             flag = true;
                         }
-                        if (deductionCalendarLogic.deductionNoAndNameDuplicateCheck(deductionCalendarDTO.getDeductionCalendarName(), true, sessionDTO)) {
+                        if (deductionCalendarLogic.deductionNoAndNameDuplicateCheck(deductionCalendarDTO.getDeductionCalendarName(), BOOLEAN_CONSTANT.getTrueFlag(), sessionDTO)) {
                             if (flag) {
                                 errorMessage.append(ConstantsUtils.BREAK);
                             }
@@ -503,7 +506,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                             customerSelection.selectedCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
                             customerSelection.resetButtonClickLogic();
                             customerSelection.selectedResultsContainer.removeAllItems();
-                            selectionLogic.resetCompanyAndItem(sessionDTO, false);
+                            selectionLogic.resetCompanyAndItem(sessionDTO, BOOLEAN_CONSTANT.getFalseFlag());
                             if ((ConstantsUtils.EDIT).equals(mode) || (ConstantsUtils.COPY).equals(mode)) {
                                 deductionCalendarLogic.deleteCustomer_TempDeductionDetails(sessionDTO);
                                 deductionCalendarLogic.insertToTempSelectionForCust(sessionDTO.getUserId(), sessionDTO.getUiSessionId(), sessionDTO.getSystemId());
@@ -515,7 +518,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                             itemSelection.selectedItemTable.setFilterGenerator(new ItemMasterGenerate());
                             itemSelection.selectedItemTable.setFilterDecorator(new ExtDemoFilterDecorator());
                             itemSelection.resetBtnLogic();
-                            selectionLogic.resetCompanyAndItem(sessionDTO, true);
+                            selectionLogic.resetCompanyAndItem(sessionDTO, BOOLEAN_CONSTANT.getTrueFlag());
                             if ((ConstantsUtils.EDIT).equals(mode) || (ConstantsUtils.COPY).equals(mode)) {
                                 deductionCalendarLogic.deleteItem_TempDeductionDetails(sessionDTO);
                                 deductionCalendarLogic.insertToTempSelectionForProd(sessionDTO.getUserId(), sessionDTO.getUiSessionId(), sessionDTO.getSystemId());

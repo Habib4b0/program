@@ -441,7 +441,7 @@ public class CFFLogic {
     public List<Object> approveCffApproveDetails(String userId, int cffId, String status) {
         List input = new ArrayList();
         List resultList = new ArrayList();
-        Boolean callOutboundPrc = true;
+        boolean callOutboundPrc = true;
         try {
             List list = new ArrayList();
             int noOfLevel = 0;

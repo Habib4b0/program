@@ -24,6 +24,7 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -70,6 +71,7 @@ public class PromoteTP extends VerticalLayout {
 
     private SessionDTO session = new SessionDTO();
     private static final Logger LOGGER = LoggerFactory.getLogger(PromoteTP.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
     private ErrorfulFieldGroup promoteTpToChDtoBinder;
     @UiField("promoteTpToChDtoTableLayout")
@@ -222,7 +224,7 @@ public class PromoteTP extends VerticalLayout {
         companyCategory.setNullSelectionAllowed(true);
         companyCategory.setNullSelectionItemId(ddlbDefaultValue);
 
-        tradeClass_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        tradeClass_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         tradeClass_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         tradeClass_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         tradeClass_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -601,7 +603,7 @@ public class PromoteTP extends VerticalLayout {
     }
     
     public void createWorkSheet(String moduleName, ExtPagedTable resultTable,int count) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
-        ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), count, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
 
     }
     

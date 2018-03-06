@@ -32,7 +32,7 @@ public class PromoteTpToChDto implements Serializable {
     private String city = StringUtils.EMPTY;
     private String state = StringUtils.EMPTY;
     private String zip = StringUtils.EMPTY;
-    private Boolean reset = false;
+    private boolean reset = false;
     private HelperDTO tradeClass_DTO;
     public Boolean getReset() {
         return reset;
