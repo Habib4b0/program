@@ -75,7 +75,7 @@ public class CFFSearchLookUp extends Window {
 
     private CustomFieldGroup cffSearchBinder = new CustomFieldGroup(new BeanItem<>(psDTO));
     
-    private BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     @UiField("financialForecastId")
     private TextField financialForecastId;
