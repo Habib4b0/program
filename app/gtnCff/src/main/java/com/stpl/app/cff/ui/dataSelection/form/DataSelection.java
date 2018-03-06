@@ -306,6 +306,7 @@ public class DataSelection extends AbstractDataSelection {
 				String relationshipSid = String.valueOf(customerRelation.getValue());
 				String[] val = selectedLevel.split(" ");
 				forecastLevel = Integer.parseInt(val[1]);
+                                dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
 				customerHierarchyLevelDefinitionList = relationLogic
 						.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
 				Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
@@ -3851,6 +3852,7 @@ public class DataSelection extends AbstractDataSelection {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                   sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
+                    levelValueChangeListener(dataSelectionDTO.getSelectedCustomerLevelNo());
                 }
             });
         }

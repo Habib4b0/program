@@ -1657,6 +1657,7 @@ public class DataSelection extends ForecastDataSelection {
 			String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
 			String[] val = selectedLevel.split(" ");
 			forecastLevel = Integer.parseInt(val[1]);
+                        dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
 			customerHierarchyLevelDefinitionList = relationLogic
 					.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
 			Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
@@ -3716,7 +3717,7 @@ public class DataSelection extends ForecastDataSelection {
 			for (Leveldto dto : selectedValueItem) {
 				customerBeanList.add(dto.getRelationshipLevelSid());
 			}
-			setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+			setUpdateOnTabChange(Boolean.TRUE);
 			if (dismantelCustomerSelection) {
 
 				triggerCustGrpOnView(selectionDTO.getCustomerGrpSid(), false);
@@ -3764,7 +3765,7 @@ public class DataSelection extends ForecastDataSelection {
 					triggerProdGrpOnView(selectionDTO.getProdGrpSid(), false);
 					dismantleProductSelection = false;
 				}
-				setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+				setUpdateOnTabChange(Boolean.TRUE);
 				if (dismantelProductSelection) {
 					triggerProdGrpOnView(selectionDTO.getProdGrpSid(), false);
 					dismantelProductSelection = false;
