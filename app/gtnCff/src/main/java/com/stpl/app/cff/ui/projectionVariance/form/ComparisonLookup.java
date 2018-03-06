@@ -56,7 +56,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
     public ComparisonLookup(final CustomTextField comparisonLookup,final int currentProjId, List<ComparisonLookupDTO> selectedList) {
         super(comparisonLookup);
         this.currentProjId= currentProjId;
-        this.selectedList = selectedList;
+        this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         this.screenName = screenName;
         configureFields();
     }
