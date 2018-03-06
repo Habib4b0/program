@@ -614,7 +614,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
              */
             public void yesMethod() {
                 try {
-                      removeDiscountDto.setSearch(Boolean.FALSE);
+                      removeDiscountDto.setSearch(BOOLEAN_CONSTANT.getFalseFlag());
                     tableLogic.loadSetData(removeDiscountDto, discountChBinder);
                 } catch (Exception ex) {
                     LOGGER.error("",ex);

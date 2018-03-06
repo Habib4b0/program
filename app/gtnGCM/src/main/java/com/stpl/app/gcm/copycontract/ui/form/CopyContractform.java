@@ -597,7 +597,7 @@ public class CopyContractform extends CustomComponent implements View {
             multiContractTable.setVisible(true);
             multiContractButtons.setVisible(true);
             horizontalLayoutNC1.setVisible(false);
-            multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
+            multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BOOLEAN_CONSTANT.getTrueFlag());
             multiContractTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
                 @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
@@ -736,10 +736,10 @@ public class CopyContractform extends CustomComponent implements View {
         if (eDate != null && sDate.after(eDate)) {
 
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, field + " End date should be after " + field + " Start Date.");
-            return false;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         } else if (eDate != null && sDate.getTime() == eDate.getTime()) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, field + "Start date and " + field + " End date are equal.");
-            return false;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         }
         return flag;
     }

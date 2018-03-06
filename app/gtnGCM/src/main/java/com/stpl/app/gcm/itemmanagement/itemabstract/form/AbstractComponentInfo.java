@@ -389,19 +389,19 @@ public class AbstractComponentInfo extends CustomComponent {
                 if (componentSelection.getValue() != null && !"null".equals(String.valueOf(componentSelection.getValue()))) {
                     if (componentSelection.getValue().equals(Constants.CFP) && (Constants.STATUS_S.equals(propertyId) || "itemStatus".equals(propertyId))) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BOOLEAN_CONSTANT.getTrueFlag());
                             return status;
                     }
 
                     if (componentSelection.getValue().equals(Constants.IFP)) {
                         if (Constants.STATUS_S.equals(propertyId)) {
                             ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
+                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, BOOLEAN_CONSTANT.getTrueFlag());
                             return status;
                         }
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
+                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BOOLEAN_CONSTANT.getTrueFlag());
                             return brandDdlb;
                         }
                     }
@@ -409,17 +409,17 @@ public class AbstractComponentInfo extends CustomComponent {
                     if (componentSelection.getValue().equals(Constants.PS)) {
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
+                            abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, BOOLEAN_CONSTANT.getTrueFlag());
                             return brandDdlb;
                         }
                         if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
                             ComboBox priceProtectionDdlb = new ComboBox();
-                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UiUtils.STATUS, true);
+                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UiUtils.STATUS, BOOLEAN_CONSTANT.getTrueFlag());
                             return priceProtectionDdlb;
                         }
                         if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
                             ComboBox basePriceType = new ComboBox();
-                            CommonUtil.getComboBoxByListName(basePriceType, Constants.BASE_PRICE_TYPE_COLUMN_NAME, true);
+                            CommonUtil.getComboBoxByListName(basePriceType, Constants.BASE_PRICE_TYPE_COLUMN_NAME, BOOLEAN_CONSTANT.getTrueFlag());
                             return basePriceType;
                         }
                         if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {

@@ -181,7 +181,7 @@ public class Converters {
             for (int i = 0, limit = listSize; i < limit; i++) {
                 currentContractDTO = new CurrentContractDTO();
                 Object objects[] = (Object[]) resultList.get(i);
-                currentContractDTO.setCheckRecord(false);
+                currentContractDTO.setCheckRecord(BOOLEAN_CONSTANT.getFalseFlag());
                 currentContractDTO.setContractHolder(String.valueOf(objects[1]));
                 currentContractDTO.setContractNo(String.valueOf(objects[NumericConstants.TWO]));
                 currentContractDTO.setContractName(String.valueOf(objects[NumericConstants.THREE]));

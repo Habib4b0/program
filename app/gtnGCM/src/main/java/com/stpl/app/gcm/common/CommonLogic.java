@@ -205,7 +205,7 @@ public class CommonLogic {
             contract = contractId.replace(IndicatorConstants.CHAR_ASTERISK.getConstant(),
                     IndicatorConstants.CHAR_PERCENT.getConstant());
         }
-        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", true));
+        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", BOOLEAN_CONSTANT.getTrueFlag()));
         contractQuery.add(RestrictionsFactoryUtil.like(Constants.CONTRACT_NO, contract));
         contractQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like("inboundStatus", "D")));
         LOGGER.debug("End of getProcessedQuery method");
