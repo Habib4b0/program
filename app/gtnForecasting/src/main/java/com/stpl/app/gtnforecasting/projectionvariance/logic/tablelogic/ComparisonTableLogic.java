@@ -12,6 +12,7 @@ import com.stpl.app.gtnforecasting.projectionvariance.logic.MProjectionVarianceL
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 public class ComparisonTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComparisonTableLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     protected boolean loadData = false;
     protected ComparisonLookupDTO comparisonLookup;
     protected String notNeededProjectionIds = StringUtils.EMPTY;
@@ -92,12 +94,12 @@ public class ComparisonTableLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     public boolean fireSetData(ComparisonLookupDTO lookUpDTO, SessionDTO sessionDTO, String notNeededProjectionIds, boolean isReset, String screenName) {
