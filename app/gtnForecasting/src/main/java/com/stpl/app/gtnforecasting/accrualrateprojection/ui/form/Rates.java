@@ -23,6 +23,7 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -57,6 +58,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class Rates extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Rates.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     @UiField("frequencyDdlb")
     private ComboBox frequencyDdlb;
@@ -302,7 +305,7 @@ public class Rates extends CustomComponent {
                 generateLogic();
                 loadFromAndToPeriods();
                 map.put(Constant.RATE_BASIS, rateBasisDdlb.getValue());
-                map.put(Constant.IS_RATES_GENERATED, true);
+                map.put(Constant.IS_RATES_GENERATED, BOOLEAN_CONSTANT.getTrueFlag());
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());

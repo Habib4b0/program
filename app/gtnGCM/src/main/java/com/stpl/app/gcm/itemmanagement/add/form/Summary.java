@@ -20,6 +20,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -67,6 +68,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class Summary extends CustomComponent {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @UiField("selectionCriteria")
     private Panel selectionCriteria;
     @UiField("itemNo")
@@ -156,11 +159,11 @@ public class Summary extends CustomComponent {
                 therapeuticClass.setValue(dto.getTherapeuticClass());
                 brand.setValue(dto.getBrand());
             }
-            itemNo.setReadOnly(Boolean.TRUE);
-            itemName.setReadOnly(Boolean.TRUE);
-            itemDesc.setReadOnly(Boolean.TRUE);
-            therapeuticClass.setReadOnly(Boolean.TRUE);
-            brand.setReadOnly(Boolean.TRUE);
+            itemNo.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
+            itemName.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
+            itemDesc.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
+            therapeuticClass.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
+            brand.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
 
         } catch (Exception e) {
             LOGGER.error("",e);
@@ -258,7 +261,7 @@ public class Summary extends CustomComponent {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", true);
+                    abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BOOLEAN_CONSTANT.getTrueFlag());
                     return marketTypeDdlb;
                 }
                 return null;
@@ -451,14 +454,14 @@ public class Summary extends CustomComponent {
         logic.deleteContractTree(selection, contractSid);
         if (isTreeRemove) {
             contractDashboardTableLogic.loadSetData(selection, loadDashBoardSid());
-            contractTableLogic.loadSetData(selection, Boolean.TRUE);
+            contractTableLogic.loadSetData(selection, BOOLEAN_CONSTANT.getTrueFlag());
         } else {
-            contractTableLogic.loadSetData(selection, Boolean.TRUE);
+            contractTableLogic.loadSetData(selection, BOOLEAN_CONSTANT.getTrueFlag());
         }
     }
 
     public void loadItemResults() {
-        contractTableLogic.loadSetData(selection, Boolean.TRUE);
+        contractTableLogic.loadSetData(selection, BOOLEAN_CONSTANT.getTrueFlag());
 
         for (Object object : addContractTable.getVisibleColumns()) {
             if (String.valueOf(object).contains("Date")) {

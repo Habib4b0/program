@@ -39,7 +39,6 @@ import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import static com.stpl.app.utils.Constants.CommonConstants.CONTRACT_DETAILS;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
@@ -76,12 +75,14 @@ import org.asi.ui.custommenubar.MenuItemDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
+import com.stpl.ifs.util.constants.BooleanConstant;
 /**
  *
  * @author Abhiram
  */
 public class CommonLogic {
-
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static final CommonDAO commonDao = new CommonDAOImpl();
     private static final CommonQueryUtils commonQueryUtil = new CommonQueryUtils();
     private static String screenName = StringUtils.EMPTY;
@@ -3593,10 +3594,10 @@ public class CommonLogic {
             final int customId, final String customerHierarchyNo, final String productHierarchyNo) {
 
         int count = 0;
-        String countQuery = insertAvailableHierarchyNo(session, hierarchyNo, hierarchyIndicator, levelNo, Boolean.TRUE,
+        String countQuery = insertAvailableHierarchyNo(session, hierarchyNo, hierarchyIndicator, levelNo, BOOLEAN_CONSTANT.getTrueFlag(),
                 customId, customerHierarchyNo, productHierarchyNo);
         countQuery += SQlUtil.getQuery("custom-view-count-query");
-        countQuery = countQuery.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(Boolean.TRUE, customerHierarchyNo, productHierarchyNo, hierarchyIndicator));
+        countQuery = countQuery.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(BOOLEAN_CONSTANT.getTrueFlag(), customerHierarchyNo, productHierarchyNo, hierarchyIndicator));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, session.getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             count = Integer.parseInt(list.get(0).toString());

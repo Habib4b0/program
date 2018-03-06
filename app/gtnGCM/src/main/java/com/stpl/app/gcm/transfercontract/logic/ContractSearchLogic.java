@@ -18,6 +18,7 @@ import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItem;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 public class ContractSearchLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset, List<SortByColumn> sortByColumns) {
         List input = getInputForContractSearch(binderDTO, start, offset, false, sortByColumns);
@@ -65,7 +67,7 @@ public class ContractSearchLogic {
             tempDTO.setIfpContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.THIRTEEN])));
             tempDTO.setPsContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.FOURTEEN])));
             tempDTO.setRsContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.FIFTEEN])));
-            tempDTO.setCheck(obj[NumericConstants.SIXTEEN] == null ? false : Boolean.TRUE);
+            tempDTO.setCheck(obj[NumericConstants.SIXTEEN] == null ? false : BOOLEAN_CONSTANT.getTrueFlag());
             retList.add(tempDTO);
         }
         return retList;

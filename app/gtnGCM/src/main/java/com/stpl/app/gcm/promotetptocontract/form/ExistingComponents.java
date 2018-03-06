@@ -89,6 +89,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 
 /**
  *
@@ -100,6 +101,8 @@ public class ExistingComponents extends CustomComponent implements View {
      * View name for navigation.
      */
     public static final String NAME = StringUtils.EMPTY;
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The Constant LOGGER.
      */
@@ -236,8 +239,8 @@ public class ExistingComponents extends CustomComponent implements View {
     private DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
     private List<HelperDTO> itemStatusList = new ArrayList<>();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    private Boolean contractExcelFlag = false;
-    private Boolean infoExcelFlag = false;
+    private boolean contractExcelFlag = false;
+    private boolean infoExcelFlag = false;
     private StplSecurity stplSecurity = new StplSecurity();
 
     public ExistingComponents(SessionDTO session, TreeTable contractDashBoardTable) {
@@ -540,7 +543,7 @@ public class ExistingComponents extends CustomComponent implements View {
         excelResultBean2 = new ExtTreeContainer<>(ComponentInfoDTO.class);
         exportPeriodViewTable2 = new ExtCustomTable();
         transferCompPanelTableLayout.addComponent(exportPeriodViewTable2);
-        exportPeriodViewTable2.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable2.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
         exportPeriodViewTable2.setVisible(false);
         exportPeriodViewTable2.setContainerDataSource(excelResultBean2);
         exportPeriodViewTable2.setVisibleColumns(componentDetailsSelectedItem.getVisibleColumns());
@@ -624,7 +627,7 @@ public class ExistingComponents extends CustomComponent implements View {
                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Component");
                 }
                 final Object root1 = componentResultsTable.getValue();
-                Boolean flag = false;
+                boolean flag = false;
                 if (root1 != null) {
                     flag = true;
                 }

@@ -6,6 +6,7 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.DataSelectionDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
     protected DataSelectionDTO dataSelectionDTO;
     protected Object businessUnit;
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionSearchLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     @Override
     public int getCount() {
@@ -95,11 +97,11 @@ public class DataSelectionSearchLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 }
