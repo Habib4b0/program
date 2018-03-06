@@ -258,7 +258,7 @@ public abstract class AbstractComparisonLookup extends Window {
 
         LOGGER.debug("Ending abstract loadAvailableResults");
     }
-
+    
     private void loadSelectedResults() {
         LOGGER.debug("Inside abstract loadSelectedResults");
         selectedVertical.setSizeFull();

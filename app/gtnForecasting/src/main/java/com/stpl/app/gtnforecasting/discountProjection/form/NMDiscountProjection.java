@@ -719,7 +719,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
             if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
                 blurValue = String
-                        .valueOf(tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).getValue())
+                    .valueOf(tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).getValue())
                         .trim();
                 String deductionHierarchy = DiscountQueryBuilder.getRSDiscountHierarchyNo(
                         projectionSelection.getDeductionLevelFilter(), session, session.getSelectedDeductionLevelNo());
