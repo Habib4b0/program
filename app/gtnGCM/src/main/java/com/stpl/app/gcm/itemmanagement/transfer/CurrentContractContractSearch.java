@@ -19,6 +19,7 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
@@ -53,6 +54,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class CurrentContractContractSearch extends AbstractContractSearch {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     @UiField("exportLayout")
     protected HorizontalLayout exportLayout;
     private SelectionDTO selectionDto;
@@ -116,8 +118,8 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(Boolean.TRUE);
-        allItems.setEnabled(Boolean.FALSE);
+        MassUpdatePanel1.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        allItems.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
         ConfigureTable();
         getBinder();
         loadAllDdlb();
@@ -477,8 +479,8 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     @Override
     public void LoadField() {
         field.addItems(Constants.SELECT_ONE, Constants.ITEM_END_DATE);
-        valuelabel.setVisible(Boolean.FALSE);
-        massUpdateValue.setVisible(Boolean.FALSE);
+        valuelabel.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        massUpdateValue.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
 
     }
 

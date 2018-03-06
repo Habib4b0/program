@@ -25,6 +25,7 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -69,6 +70,8 @@ public class Sales extends CustomComponent {
     public static final Logger LOGGER = LoggerFactory
             .getLogger(Sales.class);
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @UiField("exclusionDetails")
     protected Button exclusionDetails;
 
@@ -315,7 +318,7 @@ public class Sales extends CustomComponent {
             }
             loadResultsTable();
             map.put(Constant.PERIOD_BASIS, priceBasisDdlb.getValue());
-            map.put(Constant.IS_SALES_GENERATED, true);
+            map.put(Constant.IS_SALES_GENERATED, BOOLEAN_CONSTANT.getTrueFlag());
         }
         LOGGER.info("generate button click end");
     }
