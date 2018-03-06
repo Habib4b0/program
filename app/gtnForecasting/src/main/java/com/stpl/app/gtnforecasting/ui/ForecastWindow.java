@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.shared.ui.window.WindowMode;
 import com.vaadin.v7.data.util.BeanItem;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -43,10 +42,9 @@ public class ForecastWindow extends CustomWindow {
         addStyleName(Constant.BOOTSTRAP_UI);
         addStyleName(Constant.BOOTSTRAP);
         addStyleName(Constant.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
+        addStyleName("body-fixed");
         setSizeFull();
         setClosable(false);
-        setModal(true);
-        setWindowMode(WindowMode.MAXIMIZED);
         addStyleName("valo-theme-customwindow");
         setMinimizeToTray();
     }

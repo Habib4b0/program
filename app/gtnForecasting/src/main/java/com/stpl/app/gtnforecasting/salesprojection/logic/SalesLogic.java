@@ -1834,7 +1834,7 @@ public class SalesLogic {
             saveQuery = saveQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + year);
             saveQuery = saveQuery.replace(Constant.PERIOD1_AT, StringUtils.EMPTY + quater);
             saveQuery = addFrequencyInQuery(frequencyDivision, quater, saveQuery);
-            String amountValue;
+            String amountValue = StringUtils.EMPTY;
             if (propertyId.endsWith("ProjectedReturnAmount")) {
                 saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
                 if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
@@ -1843,7 +1843,10 @@ public class SalesLogic {
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 } else {
                     actualAmount = Double.parseDouble(editedValue) / (detailsIdValues.length);
+                    if(frequencyValue != 0)
+                    {
                     amountValue = String.valueOf(actualAmount / frequencyValue);
+                    }
                 }
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, Constant.PROJECTED_RETURN_AMOUNT);
@@ -3666,13 +3669,12 @@ public class SalesLogic {
         }
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
-        LOGGER.debug("amount     = {} " , amount);
+        LOGGER.debug("amount     = {} ", amount);
         if (amountA == 0.0 && amountB == 0.0) {
             amount = 0.0;
-        } else {
-        amount = (amountA / amountB) * amount;
+        } else if (amountA != 0.0 && amountB != 0.0) {
+            amount = (amountA / amountB) * amount;
         }
-
         return amount;
     }
 
