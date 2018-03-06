@@ -69,7 +69,7 @@ import org.slf4j.LoggerFactory;
 public class DeductionCalendarLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarLogic.class);
-    private static final BooleanConstant booleanConstant = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     private final NotesTabLogic notesLogic = new NotesTabLogic();
     public static final CommonDao DAO = CommonDaoImpl.getInstance();
@@ -161,7 +161,7 @@ public class DeductionCalendarLogic {
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
-        return booleanConstant.getFalseFlag();
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     public Boolean itemAndCompanySelectionCheck(final SessionDTO sessionDTO, final Boolean isItem) {
@@ -172,7 +172,7 @@ public class DeductionCalendarLogic {
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
-        return booleanConstant.getFalseFlag();
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     /**

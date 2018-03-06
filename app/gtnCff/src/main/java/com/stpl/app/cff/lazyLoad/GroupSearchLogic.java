@@ -29,7 +29,7 @@ public class GroupSearchLogic extends PageTableLogic{
     private String groupNo;
     private String groupIdentifier;
     private final DataSelectionLogic logic = new DataSelectionLogic();
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GroupSearchLogic.class);
 
     @Override
@@ -85,11 +85,11 @@ public class GroupSearchLogic extends PageTableLogic{
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(CONSTANT.getFalseFlag());
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(CONSTANT.getTrueFlag());
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 }

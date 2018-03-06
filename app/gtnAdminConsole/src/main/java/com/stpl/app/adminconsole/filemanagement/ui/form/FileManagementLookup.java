@@ -243,7 +243,7 @@ public class FileManagementLookup extends Window {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementLookup.class);
         
-        private static final BooleanConstant CONSTANT = new BooleanConstant();
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
 	private static final BeanItem<?> NULLITEM = null;
 
@@ -732,7 +732,7 @@ public class FileManagementLookup extends Window {
 								if (addlineList.contains(obj)) {
 									addlineList.remove(obj);
 								} else {
-									obj.setCheck(CONSTANT.getFalseFlag());
+									obj.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 									addlineList.add(obj);
 								}
 							}

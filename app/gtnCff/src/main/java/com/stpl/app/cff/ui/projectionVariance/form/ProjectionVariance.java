@@ -87,7 +87,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ProjectionVariance extends AbstractProjectionVariance {
 
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private boolean editFlag = false;
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
     private final PVQueryUtils queryUtils = new PVQueryUtils();
@@ -989,10 +989,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     protected void excelBtnLogic() {
         try {
             ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
-            excelTable.setRefresh(CONSTANT.getFalseFlag());
+            excelTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
             levelFilterDdlbChangeOption(true);
             excelForCFFProjectionVariance();
-            excelTable.setRefresh(CONSTANT.getTrueFlag());
+            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
             int leftcolumnsize = NumericConstants.ONE;
             int ColSize = 252;
             int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;

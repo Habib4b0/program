@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class PVExcelLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(PVExcelLogic.class);
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap;
     private final Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails;
@@ -1268,21 +1268,21 @@ public class PVExcelLogic {
         List<ProjectionVarianceDTO> discountperExfacPercentlist;
 
 
-        discountDollarValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, CONSTANT.getFalseFlag(), Constants.VALUE, CONSTANT.getTrueFlag());
-        discountDollarVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, CONSTANT.getFalseFlag(), Constants.VARIANCE, CONSTANT.getTrueFlag());
-        discountDollarPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, CONSTANT.getTrueFlag(), Constants.CHANGE, CONSTANT.getFalseFlag());
+        discountDollarValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, BOOLEAN_CONSTANT.getFalseFlag(), Constants.VALUE, BOOLEAN_CONSTANT.getTrueFlag());
+        discountDollarVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, BOOLEAN_CONSTANT.getFalseFlag(), Constants.VARIANCE, BOOLEAN_CONSTANT.getTrueFlag());
+        discountDollarPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, BOOLEAN_CONSTANT.getTrueFlag(), Constants.CHANGE, BOOLEAN_CONSTANT.getFalseFlag());
 
-        discountperValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, CONSTANT.getTrueFlag(), Constants.VALUE, CONSTANT.getFalseFlag());
-        discountperVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, CONSTANT.getTrueFlag(), Constants.VARIANCE, CONSTANT.getFalseFlag());
-        discountperPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, CONSTANT.getTrueFlag(), Constants.CHANGE, CONSTANT.getFalseFlag());
+        discountperValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, BOOLEAN_CONSTANT.getTrueFlag(), Constants.VALUE, BOOLEAN_CONSTANT.getFalseFlag());
+        discountperVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, BOOLEAN_CONSTANT.getTrueFlag(), Constants.VARIANCE, BOOLEAN_CONSTANT.getFalseFlag());
+        discountperPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, BOOLEAN_CONSTANT.getTrueFlag(), Constants.CHANGE, BOOLEAN_CONSTANT.getFalseFlag());
 
-        rpuValueList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, CONSTANT.getFalseFlag(), Constants.VALUE, CONSTANT.getFalseFlag());
-        rpuVarianceList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, CONSTANT.getFalseFlag(), VARIANCE.getConstant(), CONSTANT.getFalseFlag());
-        rpuPercentList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, CONSTANT.getTrueFlag(), Constants.CHANGE, CONSTANT.getFalseFlag());
+        rpuValueList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, BOOLEAN_CONSTANT.getFalseFlag(), Constants.VALUE, BOOLEAN_CONSTANT.getFalseFlag());
+        rpuVarianceList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, BOOLEAN_CONSTANT.getFalseFlag(), VARIANCE.getConstant(), BOOLEAN_CONSTANT.getFalseFlag());
+        rpuPercentList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, BOOLEAN_CONSTANT.getTrueFlag(), Constants.CHANGE, BOOLEAN_CONSTANT.getFalseFlag());
 
-        discountperExfacValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, CONSTANT.getTrueFlag(), Constants.VALUE, CONSTANT.getFalseFlag());
-        discountperExfacVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, CONSTANT.getTrueFlag(), Constants.VARIANCE, CONSTANT.getFalseFlag());
-        discountperExfacPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, CONSTANT.getTrueFlag(), Constants.CHANGE, CONSTANT.getFalseFlag());
+        discountperExfacValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, BOOLEAN_CONSTANT.getTrueFlag(), Constants.VALUE, BOOLEAN_CONSTANT.getFalseFlag());
+        discountperExfacVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, BOOLEAN_CONSTANT.getTrueFlag(), Constants.VARIANCE, BOOLEAN_CONSTANT.getFalseFlag());
+        discountperExfacPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, BOOLEAN_CONSTANT.getTrueFlag(), Constants.CHANGE, BOOLEAN_CONSTANT.getFalseFlag());
 
         discountMap.put("discountDollar", discountDollarValuelist);
         discountMap.put("discountDollarVariance", discountDollarVariancelist);

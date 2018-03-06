@@ -71,7 +71,7 @@ import org.slf4j.LoggerFactory;
 public class ProjectionResults extends ForecastProjectionResults {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResults.class);
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final SessionDTO session;
     private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
@@ -428,7 +428,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        exceltable.setRefresh(CONSTANT.getTrueFlag());
+        exceltable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
         excelForCommercial();
 
         ExcelExport exp = null;

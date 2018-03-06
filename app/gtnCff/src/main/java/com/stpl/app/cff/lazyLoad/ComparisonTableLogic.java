@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public class ComparisonTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComparisonTableLogic.class);
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private boolean loadData = false;
     private ComparisonLookupDTO comparisonLookup;
     private final ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
@@ -84,12 +84,12 @@ public class ComparisonTableLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(CONSTANT.getFalseFlag());
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(CONSTANT.getTrueFlag());
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     public boolean fireSetData(boolean isReset) {

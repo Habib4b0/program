@@ -67,7 +67,7 @@ public class SelectionLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SelectionLogic.class);
     
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The format double.
      */
@@ -1507,10 +1507,10 @@ public class SelectionLogic {
 
             List obj = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
             if (((Integer) obj.get(0)) > 0) {
-                return CONSTANT.getTrueFlag();
+                return BOOLEAN_CONSTANT.getTrueFlag();
             }
         }
-        return CONSTANT.getFalseFlag();
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     public List addToTempTable(ErrorfulFieldGroup searchItemForm) {

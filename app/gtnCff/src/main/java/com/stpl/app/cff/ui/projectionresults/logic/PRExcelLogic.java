@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 public class PRExcelLogic {
     
     public static final Logger LOGGER = LoggerFactory.getLogger(PRExcelLogic.class);
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private ProjectionResultsDTO exFacProduct;
     private ProjectionResultsDTO exFacCustomer;
     private ProjectionResultsDTO demand;
@@ -133,10 +133,10 @@ public class PRExcelLogic {
         if (Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(selection.getPivotView())) {
 
             // get the hierarchy and discount data from db
-            getTotalRawData(CONSTANT.getFalseFlag());
+            getTotalRawData(BOOLEAN_CONSTANT.getFalseFlag());
 
             //Total Level Customization
-            calculateAndCustomizePeriod(procRawListTotal, CONSTANT.getTrueFlag());
+            calculateAndCustomizePeriod(procRawListTotal, BOOLEAN_CONSTANT.getTrueFlag());
 
             //Total Discount Level Customization
             calculateTotalDiscount();
@@ -146,15 +146,15 @@ public class PRExcelLogic {
 
             customizeDiscountPeriod();
         } else {
-            getTotalRawData(CONSTANT.getTrueFlag());
+            getTotalRawData(BOOLEAN_CONSTANT.getTrueFlag());
 
             //Total Level Customization for Total and Discount 
             totalDiscountCustomize();
             customizeDiscountPivot();
-            calculateAndCustomizeVariable(procRawListTotal, CONSTANT.getTrueFlag());
+            calculateAndCustomizeVariable(procRawListTotal, BOOLEAN_CONSTANT.getTrueFlag());
 
             //Detail Level Customization for Hierarchy and Discount
-            calculateAndCustomizeVariable(procRawListDetail, CONSTANT.getFalseFlag());
+            calculateAndCustomizeVariable(procRawListDetail, BOOLEAN_CONSTANT.getFalseFlag());
 
             if (DESCENDING.getConstant().equals(selection.getProjectionOrder())) {
                 for (Map.Entry<String, List<ProjectionResultsDTO>> entry : resultMap.entrySet()) {
@@ -1254,72 +1254,72 @@ public class PRExcelLogic {
         }
 
         //Ex-Factory-Product
-        calculateForTotal("exFactory", obj, isTotal ? 1 : NumericConstants.THREE, frequencyBasedDTO, CONSTANT.getTrueFlag());
+        calculateForTotal("exFactory", obj, isTotal ? 1 : NumericConstants.THREE, frequencyBasedDTO, BOOLEAN_CONSTANT.getTrueFlag());
 
         //Ex-Factory-Customer
-        calculateForTotal("custExFactory", obj, indexForTotal + NumericConstants.FORTY_FOUR, frequencyBasedDTO, CONSTANT.getTrueFlag());
+        calculateForTotal("custExFactory", obj, indexForTotal + NumericConstants.FORTY_FOUR, frequencyBasedDTO, BOOLEAN_CONSTANT.getTrueFlag());
 
         //Demand
-        calculateForTotal("demand", obj, indexForTotal + NumericConstants.TWENTY_FOUR, frequencyBasedDTO, CONSTANT.getTrueFlag());
+        calculateForTotal("demand", obj, indexForTotal + NumericConstants.TWENTY_FOUR, frequencyBasedDTO, BOOLEAN_CONSTANT.getTrueFlag());
 
         //Adjusted Demand
-        calculateForTotal("adjDemand", obj, indexForTotal + NumericConstants.FORTY_TWO, frequencyBasedDTO, CONSTANT.getTrueFlag());
+        calculateForTotal("adjDemand", obj, indexForTotal + NumericConstants.FORTY_TWO, frequencyBasedDTO, BOOLEAN_CONSTANT.getTrueFlag());
 
         //Inventory Withdraw summary
-        calculateForTotal("inventory", obj, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO,CONSTANT.getTrueFlag());
+        calculateForTotal("inventory", obj, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO,BOOLEAN_CONSTANT.getTrueFlag());
 
         //Inventory Withdraw Details
-        calculateForTotal("inventoryDetails", obj, indexForTotal + NumericConstants.FORTY_SIX, frequencyBasedDTO,CONSTANT.getTrueFlag());
+        calculateForTotal("inventoryDetails", obj, indexForTotal + NumericConstants.FORTY_SIX, frequencyBasedDTO,BOOLEAN_CONSTANT.getTrueFlag());
 
         //% of Ex-Factory Product
-        calculateForTotal("perExFactory", obj, indexForTotal + NumericConstants.EIGHT, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perExFactory", obj, indexForTotal + NumericConstants.EIGHT, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of Ex-Factory Customer
-        calculateForTotal("perCustExFactory", obj, indexForTotal + NumericConstants.FIFTY, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perCustExFactory", obj, indexForTotal + NumericConstants.FIFTY, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of Demand
-        calculateForTotal("perDemand", obj, indexForTotal + NumericConstants.TWENTY_EIGHT, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perDemand", obj, indexForTotal + NumericConstants.TWENTY_EIGHT, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of Adjusted Demand
-        calculateForTotal("perAdjDemand", obj, indexForTotal + NumericConstants.FORTY_EIGHT, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perAdjDemand", obj, indexForTotal + NumericConstants.FORTY_EIGHT, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of inventory Withdraw Summary
-        calculateForTotal("perInventory", obj, indexForTotal + NumericConstants.THIRTY, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perInventory", obj, indexForTotal + NumericConstants.THIRTY, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of inventory Withdraw Detail
-        calculateForTotal("perInventoryDetails", obj, indexForTotal + NumericConstants.FIFTY_TWO, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perInventoryDetails", obj, indexForTotal + NumericConstants.FIFTY_TWO, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //Contract Sales @ WAC
-        calculateForTotal("conSalesWac", obj, indexForTotal, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal("conSalesWac", obj, indexForTotal, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Contract Units
-        calculateForTotal(StringConstantsUtil.UNIT_VOL_PROPERTY, obj, indexForTotal + NumericConstants.TWO, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal(StringConstantsUtil.UNIT_VOL_PROPERTY, obj, indexForTotal + NumericConstants.TWO, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Discount $
-        calculateForTotal(StringConstantsUtil.TOT_DIS_DOL_PROPERTY, obj, indexForTotal + NumericConstants.FOUR, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal(StringConstantsUtil.TOT_DIS_DOL_PROPERTY, obj, indexForTotal + NumericConstants.FOUR, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Discount %
-        calculateForTotal(StringConstantsUtil.TOT_DIS_PER_PROPERTY, obj, indexForTotal + NumericConstants.SIX, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal(StringConstantsUtil.TOT_DIS_PER_PROPERTY, obj, indexForTotal + NumericConstants.SIX, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //RPU
-        calculateForTotal(StringConstantsUtil.TOTAL_RPU_PROPERTY, obj, indexForTotal + NumericConstants.THIRTY_SIX, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal(StringConstantsUtil.TOTAL_RPU_PROPERTY, obj, indexForTotal + NumericConstants.THIRTY_SIX, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
         
         //Discount % of Ex-Factory
        int index = isTotal ? indexForTotal + NumericConstants.FIFTY_SIX : indexForTotal + NumericConstants.FIFTY_SIX + 1;
        calculateForTotal(StringConstantsUtil.DIS_PER_EX_FACTORY_PROPERTY, obj, index, frequencyBasedDTO, false);
 
         //Net Sales 
-        calculateForTotal("netSales", obj, indexForTotal + NumericConstants.TWENTY_TWO, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal("netSales", obj, indexForTotal + NumericConstants.TWENTY_TWO, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
         
         //Net Sales % of Ex-Factory
         index = isTotal ? indexForTotal + NumericConstants.FIFTY_FOUR : indexForTotal + NumericConstants.FIFTY_FOUR + 1;
         calculateForTotal("netSalesPerExFactory", obj, index, frequencyBasedDTO, false);
 
         //COGS
-        calculateForTotal("cogs", obj, indexForTotal + NumericConstants.THIRTY_EIGHT, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal("cogs", obj, indexForTotal + NumericConstants.THIRTY_EIGHT, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Net Profit
-        calculateForTotal("netProfit", obj, indexForTotal + NumericConstants.FORTY, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal("netProfit", obj, indexForTotal + NumericConstants.FORTY, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         String commonColumn=StringUtils.EMPTY;
        if (frequencyDivision == NumericConstants.FOUR) {
@@ -1371,72 +1371,72 @@ public class PRExcelLogic {
     private void updateListPivot(Object[] obj, ProjectionResultsDTO frequencyBasedDTO, int indexForTotal, boolean isTotal, String key) {
         List list = resultMap.get(key);
         //Ex-Factory-Product
-        calculateForTotal("exFactory", obj, isTotal ? 1 : NumericConstants.THREE, frequencyBasedDTO, CONSTANT.getTrueFlag());
+        calculateForTotal("exFactory", obj, isTotal ? 1 : NumericConstants.THREE, frequencyBasedDTO, BOOLEAN_CONSTANT.getTrueFlag());
 
         //Ex-Factory-Customer
-        calculateForTotal("custExFactory", obj, indexForTotal + NumericConstants.FORTY_FOUR, frequencyBasedDTO,CONSTANT.getTrueFlag());
+        calculateForTotal("custExFactory", obj, indexForTotal + NumericConstants.FORTY_FOUR, frequencyBasedDTO,BOOLEAN_CONSTANT.getTrueFlag());
 
         //Demand
-        calculateForTotal("demand", obj, indexForTotal + NumericConstants.TWENTY_FOUR, frequencyBasedDTO, CONSTANT.getTrueFlag());
+        calculateForTotal("demand", obj, indexForTotal + NumericConstants.TWENTY_FOUR, frequencyBasedDTO, BOOLEAN_CONSTANT.getTrueFlag());
 
         //Adjusted Demand
-        calculateForTotal("adjDemand", obj, indexForTotal + NumericConstants.FORTY_TWO, frequencyBasedDTO, CONSTANT.getTrueFlag());
+        calculateForTotal("adjDemand", obj, indexForTotal + NumericConstants.FORTY_TWO, frequencyBasedDTO, BOOLEAN_CONSTANT.getTrueFlag());
 
         //Inventory Withdraw summary
-        calculateForTotal("inventory", obj, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, CONSTANT.getTrueFlag());
+        calculateForTotal("inventory", obj, indexForTotal + NumericConstants.TWENTY_SIX, frequencyBasedDTO, BOOLEAN_CONSTANT.getTrueFlag());
 
         //Inventory Withdraw Details
-        calculateForTotal("inventoryDetails", obj, indexForTotal + NumericConstants.FORTY_SIX, frequencyBasedDTO,CONSTANT.getTrueFlag());
+        calculateForTotal("inventoryDetails", obj, indexForTotal + NumericConstants.FORTY_SIX, frequencyBasedDTO,BOOLEAN_CONSTANT.getTrueFlag());
 
         //% of Ex-Factory Product
-        calculateForTotal("perExFactory", obj, indexForTotal + NumericConstants.EIGHT, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perExFactory", obj, indexForTotal + NumericConstants.EIGHT, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of Ex-Factory Customer
-        calculateForTotal("perCustExFactory", obj, indexForTotal + NumericConstants.FIFTY, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perCustExFactory", obj, indexForTotal + NumericConstants.FIFTY, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of Demand
-        calculateForTotal("perDemand", obj, indexForTotal + NumericConstants.TWENTY_EIGHT, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perDemand", obj, indexForTotal + NumericConstants.TWENTY_EIGHT, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of Adjusted Demand
-        calculateForTotal("perAdjDemand", obj, indexForTotal + NumericConstants.FORTY_EIGHT, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perAdjDemand", obj, indexForTotal + NumericConstants.FORTY_EIGHT, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of inventory Withdraw Summary
-        calculateForTotal("perInventory", obj, indexForTotal + NumericConstants.THIRTY, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perInventory", obj, indexForTotal + NumericConstants.THIRTY, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //% of inventory Withdraw Detail
-        calculateForTotal("perInventoryDetails", obj, indexForTotal + NumericConstants.FIFTY_TWO, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal("perInventoryDetails", obj, indexForTotal + NumericConstants.FIFTY_TWO, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //Contract Sales @ WAC
-        calculateForTotal("conSalesWac", obj, indexForTotal, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal("conSalesWac", obj, indexForTotal, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Contract Units
-        calculateForTotal(StringConstantsUtil.UNIT_VOL_PROPERTY, obj, indexForTotal + NumericConstants.TWO, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal(StringConstantsUtil.UNIT_VOL_PROPERTY, obj, indexForTotal + NumericConstants.TWO, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Discount $
-        calculateForTotal(StringConstantsUtil.TOT_DIS_DOL_PROPERTY, obj, indexForTotal + NumericConstants.FOUR, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal(StringConstantsUtil.TOT_DIS_DOL_PROPERTY, obj, indexForTotal + NumericConstants.FOUR, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Discount %
-        calculateForTotal(StringConstantsUtil.TOT_DIS_PER_PROPERTY, obj, indexForTotal + NumericConstants.SIX, frequencyBasedDTO,  CONSTANT.getFalseFlag());
+        calculateForTotal(StringConstantsUtil.TOT_DIS_PER_PROPERTY, obj, indexForTotal + NumericConstants.SIX, frequencyBasedDTO,  BOOLEAN_CONSTANT.getFalseFlag());
 
         //RPU
-        calculateForTotal(StringConstantsUtil.TOTAL_RPU_PROPERTY, obj, indexForTotal + NumericConstants.THIRTY_SIX, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal(StringConstantsUtil.TOTAL_RPU_PROPERTY, obj, indexForTotal + NumericConstants.THIRTY_SIX, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Discount % of Ex-Factory
         int index = isTotal ? indexForTotal + NumericConstants.FIFTY_SIX : indexForTotal + NumericConstants.FIFTY_SIX + 1;
         calculateForTotal(StringConstantsUtil.DIS_PER_EX_FACTORY_PROPERTY, obj, index, frequencyBasedDTO, false);
 
         //Net Sales 
-        calculateForTotal("netSales", obj, indexForTotal + NumericConstants.TWENTY_TWO, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal("netSales", obj, indexForTotal + NumericConstants.TWENTY_TWO, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Net Sales % of Ex-Factory
         index = isTotal ? indexForTotal + NumericConstants.FIFTY_FOUR : indexForTotal + NumericConstants.FIFTY_FOUR + 1;
         calculateForTotal("netSalesPerExFactory", obj, index, frequencyBasedDTO, false);
 
         //COGS
-        calculateForTotal("cogs", obj, indexForTotal + NumericConstants.THIRTY_EIGHT, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal("cogs", obj, indexForTotal + NumericConstants.THIRTY_EIGHT, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
         //Net Profit
-        calculateForTotal("netProfit", obj, indexForTotal + NumericConstants.FORTY, frequencyBasedDTO,  CONSTANT.getTrueFlag());
+        calculateForTotal("netProfit", obj, indexForTotal + NumericConstants.FORTY, frequencyBasedDTO,  BOOLEAN_CONSTANT.getTrueFlag());
 
       
          String commonColumn=StringUtils.EMPTY;
