@@ -80,6 +80,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NationalAssumptionLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The current year.
      */

@@ -29,7 +29,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
     private final SessionDTO sessionDTO;
     private final SelectionLogic selectionLogic=new SelectionLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     @Override
     public int getCount() {
@@ -76,12 +76,12 @@ public class ItemSelectionTableLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(CONSTANT.getFalseFlag());
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(CONSTANT.getTrueFlag());
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
    

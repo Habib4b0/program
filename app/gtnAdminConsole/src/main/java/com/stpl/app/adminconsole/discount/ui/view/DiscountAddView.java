@@ -53,7 +53,7 @@ public class DiscountAddView extends VerticalLayout implements View {
      */
     private BeanItemContainer<DiscountSearchDTO> availableResultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
     
-    private BooleanConstant booleanConstant = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     private SessionDTO sessionDTO;
 
@@ -96,7 +96,7 @@ public class DiscountAddView extends VerticalLayout implements View {
                 if (!selectedRebate.isEmpty()) {
                     resultsBean.addAll(selectedRebate);
                     deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
-                    discountAddForm.groupInfo(deductionGroupDTO, booleanConstant.getFalseFlag());
+                    discountAddForm.groupInfo(deductionGroupDTO, BOOLEAN_CONSTANT.getFalseFlag());
                 }
             } else if (pageName.equals("view")) {
                 List<DiscountSearchDTO> selectedRebate;
@@ -105,9 +105,9 @@ public class DiscountAddView extends VerticalLayout implements View {
                     resultsBean.addAll(selectedRebate);
                 }
                 deductionGroupDTO = logic.getDeductionGroupInfo(deductionGroupSId);
-                discountAddForm.groupInfo(deductionGroupDTO, booleanConstant.getFalseFlag());
+                discountAddForm.groupInfo(deductionGroupDTO, BOOLEAN_CONSTANT.getFalseFlag());
             } else {
-                discountAddForm.groupInfo(new DiscountSearchDTO(), booleanConstant.getTrueFlag());
+                discountAddForm.groupInfo(new DiscountSearchDTO(), BOOLEAN_CONSTANT.getTrueFlag());
             }
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());

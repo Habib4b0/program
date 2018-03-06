@@ -37,7 +37,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
     private boolean isGenerate = false;
     private SessionDTO sessionDTO;
     
-    private BooleanConstant booleanConstant = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     
     public CFFIndexTableLogic() {
     	LOGGER.info("Table logic invoked");
@@ -53,7 +53,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
         int count = 0;
         if (isGenerate) {
             try {
-                binderDto.setCount(booleanConstant.getFalseFlag());
+                binderDto.setCount(BOOLEAN_CONSTANT.getFalseFlag());
                 binderDto.setFilters(getFilters());
                 count = cffLogic.getSearchCount(binderDto, sessionDTO);
             } catch (Exception ex) {
@@ -68,7 +68,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         LOGGER.debug(" Start= {}, offset= {} " , start, offset);
         try {
-            binderDto.setCount(booleanConstant.getTrueFlag());
+            binderDto.setCount(BOOLEAN_CONSTANT.getTrueFlag());
             binderDto.setStartIndex(start);
             binderDto.setEndIndex(offset);
             binderDto.setFilters(getFilters());

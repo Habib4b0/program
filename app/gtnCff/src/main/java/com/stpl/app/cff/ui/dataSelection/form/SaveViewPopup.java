@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 public class SaveViewPopup extends AbstractSaveViewPopup {
 
 
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The available customers.
      */
@@ -224,12 +224,12 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
             DataSelectionLogic dsLogic = new DataSelectionLogic();
             int viewIdValue = 0;
             if ("Update".equalsIgnoreCase(actionFlag)) {
-                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, CONSTANT.getTrueFlag(), projectionIdValue,sessionDTO);
+                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, BOOLEAN_CONSTANT.getTrueFlag(), projectionIdValue,sessionDTO);
                 dsLogic.updateCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue);
                 dsLogic.updateProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue,dataselectionDtoToSave);
                 dsLogic.updateCcpLogicView(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", projectionIdValue);
             } else {
-                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, CONSTANT.getFalseFlag(), projectionIdValue,sessionDTO);
+                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, BOOLEAN_CONSTANT.getFalseFlag(), projectionIdValue,sessionDTO);
                 dsLogic.saveCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue, null, "save");
                 dsLogic.saveProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue, null, "save",dataselectionDtoToSave);
                 dsLogic.saveCcp(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", String.valueOf(projectionIdValue));

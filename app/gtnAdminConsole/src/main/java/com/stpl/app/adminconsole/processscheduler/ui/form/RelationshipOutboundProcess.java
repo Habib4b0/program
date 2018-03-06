@@ -98,7 +98,7 @@ public class RelationshipOutboundProcess extends Window {
     private ErrorfulFieldGroup binder;
     private Map<String, RelationshipOutboundDTO> checkedHierarchy = new HashMap<>();
     private OutboundLogic outboundLogic = new OutboundLogic();
-    private BooleanConstant booleanConstant = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private List<OutboundTableDTO> rbCsvList = null;
 
     public RelationshipOutboundProcess() {
@@ -196,7 +196,7 @@ public class RelationshipOutboundProcess extends Window {
                     if (CHECK.equals(propertyId)) {
                         final CheckBox check = new CheckBox();
                         if (checkedHierarchy.get(tableDto.getRbSystemId()) != null) {
-                            check.setValue(booleanConstant.getTrueFlag());
+                            check.setValue(BOOLEAN_CONSTANT.getTrueFlag());
                             tableDto.setCheck(true);
                         }
                         check.setEnabled(true);

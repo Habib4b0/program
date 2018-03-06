@@ -38,7 +38,7 @@ public class AdditionalInfoLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalInfoLogic.class);
     
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     
     /**
      * The additional info logic dao.
@@ -158,7 +158,7 @@ public class AdditionalInfoLogic {
         CommonQueryUtils.updateAppData(input, "insertaddinfo");
         LOGGER.debug("End of saveNotes method");
 
-        return CONSTANT.getTrueFlag();
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 
     /**
@@ -221,7 +221,7 @@ public class AdditionalInfoLogic {
         }
         LOGGER.debug("End of saveUploadedFile method");
 
-        return CONSTANT.getTrueFlag();
+        return BOOLEAN_CONSTANT.getTrueFlag();
 
     }
 
@@ -238,6 +238,6 @@ public class AdditionalInfoLogic {
         LOGGER.debug("Entering deleteUploadedFile method with docDetailsId= {}", docDetailsId);
         addInfoDao.deleteCffDocDetails(docDetailsId);
         LOGGER.debug("End of deleteUploadedFile method");
-        return CONSTANT.getTrueFlag();
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 }

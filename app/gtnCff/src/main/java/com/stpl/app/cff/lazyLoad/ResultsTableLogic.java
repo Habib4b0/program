@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ResultsTableLogic extends PageTreeTableLogic {
 
-    private static final BooleanConstant CONSTANT = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final ProjectionResultsLogic projectionResultsLogic = new ProjectionResultsLogic();
     private boolean firstGenerated = false;
@@ -201,13 +201,13 @@ public class ResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(CONSTANT.getFalseFlag());
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(CONSTANT.getTrueFlag());
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     @Override

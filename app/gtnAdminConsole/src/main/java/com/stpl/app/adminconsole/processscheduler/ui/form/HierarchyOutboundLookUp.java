@@ -109,7 +109,7 @@ public final class HierarchyOutboundLookUp extends Window {
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private String hierType;
     private OutboundLogic outboundLogic = new OutboundLogic();
-    private BooleanConstant booleanConstant = new BooleanConstant();
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     public void setBinder(final ErrorfulFieldGroup binder) {
         this.binder = binder;
@@ -192,7 +192,7 @@ public final class HierarchyOutboundLookUp extends Window {
                     if (CHECK.equals(propertyId)) {
                         final CheckBox check = new CheckBox();
                         if (checkedHierarchy.get(tableDto.getHierarchyDefinitionSystemId()) != null) {
-                            check.setValue(booleanConstant.getTrueFlag());
+                            check.setValue(BOOLEAN_CONSTANT.getTrueFlag());
                             tableDto.setCheck(true);
                         }
                         check.setEnabled(true);
