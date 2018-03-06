@@ -20,6 +20,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusListener;
@@ -51,6 +52,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  */
 public class AddItemContractFieldFactory implements TableFieldFactory {
 
+  private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
   private final AbstractLogic logic = AbstractLogic.getInstance();
   private final SelectionDTO selection;
   private final ExtPagedTable contractSelectionTable;
@@ -88,7 +90,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("status")) {
             final ComboBox itemStatus = new ComboBox();
-            CommonUtil.getComboBoxByListName(itemStatus, UiUtils.STATUS, false);
+            CommonUtil.getComboBoxByListName(itemStatus, UiUtils.STATUS, BOOLEAN_CONSTANT.getFalseFlag());
             itemStatus.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
@@ -374,7 +376,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("priceToleranceType")) {
             final ComboBox priceToleranceType = new ComboBox();
-            CommonUtil.getComboBoxByListName(priceToleranceType, "PRICE_TOLERANCE_TYPE", false);
+            CommonUtil.getComboBoxByListName(priceToleranceType, "PRICE_TOLERANCE_TYPE", BOOLEAN_CONSTANT.getFalseFlag());
             priceToleranceType.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
@@ -446,7 +448,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (propertyId.equals("priceToleranceFrequency")) {
             final ComboBox priceToleranceFrequency = new ComboBox();
-            CommonUtil.getComboBoxByListName(priceToleranceFrequency, "PRICE_TOLERANCE_FREQUENCY", false);
+            CommonUtil.getComboBoxByListName(priceToleranceFrequency, "PRICE_TOLERANCE_FREQUENCY", BOOLEAN_CONSTANT.getFalseFlag());
             priceToleranceFrequency.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
@@ -483,7 +485,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("priceToleranceInterval")) {
             final ComboBox priceToleranceInterval = new ComboBox();
-            CommonUtil.getComboBoxByListName(priceToleranceInterval, "PRICE_TOLERANCE_INTERVAL", false);
+            CommonUtil.getComboBoxByListName(priceToleranceInterval, "PRICE_TOLERANCE_INTERVAL", BOOLEAN_CONSTANT.getFalseFlag());
             priceToleranceInterval.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {

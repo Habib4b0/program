@@ -508,5 +508,28 @@ public class Leveldto implements Cloneable, Comparable<Leveldto> {
 	public void setHierarchyVersionNo(Integer hierarchyVersionNo) {
 		this.hierarchyVersionNo = hierarchyVersionNo;
 	}
+        
+     	public static Leveldto getPreviousLinkedLevel(
+            List<Leveldto> hierarchyLevelDefinitionList,
+            Leveldto currnetHierarchyLevelBean) {
+        for (int i = currnetHierarchyLevelBean.getLevelNo() - 2; i >= 0; i--) {
+            if (!hierarchyLevelDefinitionList.get(i).isUserDefined()) {
+                return hierarchyLevelDefinitionList.get(i);
+            }
+        }
+        return null;
+    }
+        public static Leveldto getBeanByLevelNo(int levelNo,
+			List<Leveldto> hierarchyList) {
+		if (levelNo > 1 && hierarchyList.get(levelNo - 1).levelNo == levelNo)
+			return hierarchyList.get(levelNo - 1);
+		for (Leveldto hierarchyLevelDefinitionBean : hierarchyList) {
+			if (levelNo == hierarchyLevelDefinitionBean.levelNo) {
+				return hierarchyLevelDefinitionBean;
+			}
+		}
+		return null;
+	}
+
 
 }

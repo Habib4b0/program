@@ -30,7 +30,7 @@ public class IfpContractDetailsImpl {
      * @return 
      */
     public static Boolean saveIfpDetailsAttached(final List<Object> input, final Object future){
-        Boolean retFlag;
+        boolean retFlag;
         String sql = StringUtils.EMPTY;
         try {
             sql = SQlUtil.getQuery("com.contractDashboard.saveIFP");
