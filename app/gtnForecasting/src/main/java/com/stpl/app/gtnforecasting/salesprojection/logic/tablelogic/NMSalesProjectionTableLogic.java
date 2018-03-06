@@ -14,6 +14,7 @@ import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesBaseNode;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -33,6 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private boolean firstGenerated = false;
     public static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionTableLogic.class);
@@ -144,7 +146,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
         for (Map.Entry<String, SalesRowDto> loadData : loadDataMap.entrySet()) {
             addCurrentPageData(loadData.getKey(), loadData.getValue());
         }
@@ -154,7 +156,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     @Override

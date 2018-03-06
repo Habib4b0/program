@@ -15,6 +15,7 @@ import com.stpl.ifs.ui.extfilteringtable.PageTreeLogicBase;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PPAResultsTableLogic extends PageTreeTableLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     protected ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
     protected PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
     protected SessionDTO session;
@@ -70,7 +72,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
         if (firstGenerated && offset > 0) {
             int maybeadded = 0;
             if (!(getLastParent() instanceof PPAProjectionResultsDTO) && !selection.isIsFilter()) {
-                selection.setIsProjectionTotal(Boolean.TRUE);
+                selection.setIsProjectionTotal(BOOLEAN_CONSTANT.getTrueFlag());
                 list = logic.getPPAProjectionResultsTotal(start, offset, selection, session);
 
             }
@@ -97,7 +99,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
     public int getCount() {
         int count = 0;
         if (firstGenerated) {
-            count = logic.getConfiguredPPAProjectionResultsCount(getLastParent(), selection, Boolean.TRUE);
+            count = logic.getConfiguredPPAProjectionResultsCount(getLastParent(), selection, BOOLEAN_CONSTANT.getTrueFlag());
         }
         return count;
     }
@@ -140,13 +142,13 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     @Override

@@ -37,6 +37,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
@@ -69,6 +70,8 @@ public class NMProjectionResults extends ForecastProjectionResults {
     protected final StplSecurity stplSec = new StplSecurity();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NMProjectionResults.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     private final NMProjectionResultsLogic projResLogic = new NMProjectionResultsLogic();
 
@@ -85,7 +88,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
     private final List<String> discountKeys = new ArrayList();
     private final NMProjectionResultsXLLogic excelLogic = new NMProjectionResultsXLLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto);
 
-    protected boolean configureFlag = Boolean.TRUE;
+    protected boolean configureFlag = true;
 
     private String pivotView = StringUtils.EMPTY;
     public static final String ALL_DISCOUNT_GROUP = "All Discount Group";
@@ -162,8 +165,8 @@ public class NMProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
             projectionSelectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());
             projectionSelectionDTO.setProdRelationshipBuilderSid(sessionDTO.getProdRelationshipBuilderSid());
-            projectionSelectionDTO.setPpa(CommonLogic.isPPA(Boolean.TRUE, projectionSelectionDTO));
-            projectionSelectionDTO.setReturns(CommonLogic.isReturns(Boolean.TRUE, projectionSelectionDTO));
+            projectionSelectionDTO.setPpa(CommonLogic.isPPA(BOOLEAN_CONSTANT.getTrueFlag(), projectionSelectionDTO));
+            projectionSelectionDTO.setReturns(CommonLogic.isReturns(BOOLEAN_CONSTANT.getTrueFlag(), projectionSelectionDTO));
             NMDiscountProjection dp = form.getDiscountProjection();
             if (dp != null) {
                 String discountType = form.getDiscountProjection().getDiscountType();
@@ -223,7 +226,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
         periodTableId.getLeftFreezeAsTable().setFilterBarVisible(true);
         periodTableId.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         projectionSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
-        periodTableId.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, Boolean.FALSE));
+        periodTableId.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, BOOLEAN_CONSTANT.getFalseFlag()));
     }
 
     public void groupChange(boolean groupChange) {
@@ -356,9 +359,9 @@ public class NMProjectionResults extends ForecastProjectionResults {
             leftTable.setFilterBarVisible(true);
             leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
             projectionSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
-            leftTable.setFilterGenerator(new FilterGenerator(session, Boolean.FALSE));
+            leftTable.setFilterGenerator(new FilterGenerator(session, BOOLEAN_CONSTANT.getFalseFlag()));
             //PPA
-            List list = CommonLogic.getPPADiscountNameListPR(projectionSelectionDTO, Boolean.FALSE);
+            List list = CommonLogic.getPPADiscountNameListPR(projectionSelectionDTO, BOOLEAN_CONSTANT.getFalseFlag());
             int ppa = list != null && !list.isEmpty() && !"null".equals(String.valueOf(list.get(0))) ? (Integer) list.get(0) : 0;
             int chk = projectionSelectionDTO.getDiscountNameList().size();
             chk += ppa;
@@ -439,7 +442,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             if (resultBeanContainer.size() != 0) {
                 exportLogic();
             }
-            exceltable.setRefresh(Boolean.TRUE);
+            exceltable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
             ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PROJECTION_RESULTS, Constant.PROJECTION_RESULTS, "Projection_Results.xls", false);
             exp.export();
@@ -454,11 +457,11 @@ public class NMProjectionResults extends ForecastProjectionResults {
         final Map<String, AppPermission> functionPsHM = stplSec.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
 
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {
-            generateBtn.setVisible(Boolean.FALSE);
-            collapseBtn.setVisible(Boolean.FALSE);
-            expandBtn.setVisible(Boolean.FALSE);
-            newBtn.setVisible(Boolean.FALSE);
-            editBtn.setVisible(Boolean.FALSE);
+            generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
         }
     }
 
@@ -749,7 +752,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
             }
-            configureFlag = Boolean.FALSE;
+            configureFlag = BOOLEAN_CONSTANT.getFalseFlag();
         }
     }
 
