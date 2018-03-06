@@ -7,6 +7,7 @@ package com.stpl.app.cff.lazyLoad;
 
 import com.stpl.app.cff.dto.CFFSearchDTO;
 import com.stpl.app.cff.logic.CFFLogic;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -25,13 +26,16 @@ public class CFFIndexTableLogic extends PageTableLogic {
      * The logger.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CFFIndexTableLogic.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private CFFSearchDTO binderDto;
     /**
      * The Cff logic
      */
     private final CFFLogic cffLogic = new CFFLogic();
-    private Boolean isGenerate = false;
-    private Boolean isReset = true;
+    private boolean isGenerate = false;
+    private boolean isReset = true;
     /**
      * Method to get the no of count for Searching results.
      *
@@ -42,7 +46,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
         int count = 0;
         if(!isReset && isGenerate){
             try {
-                binderDto.setCount(Boolean.FALSE);
+                binderDto.setCount(BOOLEAN_CONSTANT.getFalseFlag());
                  binderDto.setFilters(this.getFilters());
                 count = cffLogic.getSearchCount(binderDto);
             } catch (Exception ex) {
@@ -55,7 +59,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
     @Override
     public List loadData(int start, int offset) {
         try {
-            binderDto.setCount(Boolean.TRUE);
+            binderDto.setCount(BOOLEAN_CONSTANT.getTrueFlag());
             binderDto.setStartIndex(start);
             binderDto.setEndIndex(offset);
             binderDto.setFilters(this.getFilters());

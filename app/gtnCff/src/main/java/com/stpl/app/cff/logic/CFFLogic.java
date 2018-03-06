@@ -441,7 +441,7 @@ public class CFFLogic {
     public List<Object> approveCffApproveDetails(String userId, int cffId, String status) {
         List input = new ArrayList();
         List resultList = new ArrayList();
-        Boolean callOutboundPrc = true;
+        boolean callOutboundPrc = true;
         try {
             List list = new ArrayList();
             int noOfLevel = 0;
@@ -834,6 +834,7 @@ public class CFFLogic {
                         dto.setActiveToDate((Date) obj[NumericConstants.FIVE]);
                         dto.setFileTypeId(String.valueOf(obj[NumericConstants.SIX]));
                         dto.setFileChanged(false);
+                        dto.setFileTypeValue(obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : StringUtils.EMPTY);
                         retList.add(dto);
                     }
                 }

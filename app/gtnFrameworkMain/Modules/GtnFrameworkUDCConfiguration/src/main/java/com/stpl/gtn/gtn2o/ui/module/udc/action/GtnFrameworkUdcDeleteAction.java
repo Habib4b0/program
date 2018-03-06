@@ -25,7 +25,6 @@ import com.stpl.gtn.gtn2o.ws.udc.constants.GtnWsUdcConstants;
 
 public class GtnFrameworkUdcDeleteAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -77,14 +76,18 @@ public class GtnFrameworkUdcDeleteAction
 				GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 				loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 				loadDataTableActionConfig.addActionParameter(tableComponentId);
-				if (isBrand) {
-					GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
-				} else {
-					loadDataTableActionConfig
-							.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
-					GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
-				}
+				checkConditionsPerformAction(componentId, categoryValue, isBrand, loadDataTableActionConfig);
 			}
+		}
+	}
+
+	private void checkConditionsPerformAction(String componentId, String categoryValue, boolean isBrand,
+			GtnUIFrameWorkActionConfig loadDataTableActionConfig) throws GtnFrameworkGeneralException {
+		if (isBrand || categoryValue.equals(GtnFrameworkCommonConstants.FILE_TYPE)) {
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
+		} else {
+			loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
 		}
 	}
 

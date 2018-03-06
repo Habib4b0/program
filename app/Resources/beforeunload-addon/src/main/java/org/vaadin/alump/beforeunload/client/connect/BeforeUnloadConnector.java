@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.vaadin.alump.beforeunload.gwt.client.connect;
+package org.vaadin.alump.beforeunload.client.connect;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
@@ -24,8 +24,8 @@ import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.shared.ui.Connect;
 import java.util.Date;
-import org.vaadin.alump.beforeunload.gwt.client.BeforeUnloadRpc;
-import org.vaadin.alump.beforeunload.gwt.client.share.BeforeUnloadState;
+import org.vaadin.alump.beforeunload.client.BeforeUnloadRpc;
+import org.vaadin.alump.beforeunload.client.share.BeforeUnloadState;
 
 /**
  * Connector for BeforeUnload extension

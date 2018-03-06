@@ -50,6 +50,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
 import com.vaadin.navigator.ViewChangeListener;
@@ -86,6 +87,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ProjectionVariance extends AbstractProjectionVariance {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private boolean editFlag = false;
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
     private final PVQueryUtils queryUtils = new PVQueryUtils();
@@ -987,10 +989,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     protected void excelBtnLogic() {
         try {
             ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
-            excelTable.setRefresh(Boolean.FALSE);
+            excelTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
             levelFilterDdlbChangeOption(true);
             excelForCFFProjectionVariance();
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
             int leftcolumnsize = NumericConstants.ONE;
             int ColSize = 252;
             int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;

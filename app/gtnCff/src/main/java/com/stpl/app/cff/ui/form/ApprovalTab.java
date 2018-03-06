@@ -38,6 +38,7 @@ import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.TableResultCustom;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
@@ -89,6 +90,9 @@ public class ApprovalTab extends CustomComponent {
      * Logger implementation for CffApprovalDetailsForm
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ApprovalTab.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * Close Button
      */
@@ -997,28 +1001,28 @@ public class ApprovalTab extends CustomComponent {
                 && (StringUtils.isBlank(String.valueOf(updateCycle.getValue())) || "null".equals(String.valueOf(updateCycle.getValue()))
                 || ConstantsUtil.SELECT_ONE.equals(String.valueOf(updateCycle.getValue())) || "NO".equals(String.valueOf(updateCycle.getValue())))) {
             AbstractNotificationUtils.getErrorNotification(ALERT, "Latest Estimate or Update Cycle should be selected 'Yes'");
-            return Boolean.FALSE;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         }
 
         if (ConstantsUtils.YES.equals(String.valueOf(latestEstimate.getValue())) && StringUtils.isBlank(String.valueOf(latestEstimateName.getValue()))) {
             AbstractNotificationUtils.getErrorNotification(ALERT, "Latest Estimate Name should be Entered");
-            return Boolean.FALSE;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         }
 
         if (ConstantsUtils.YES.equals(String.valueOf(updateCycle.getValue()))
                 && StringUtils.isBlank(String.valueOf(updateCycleName.getValue()))) {
             AbstractNotificationUtils.getErrorNotification(ALERT, "Update Cycle Name should be Entered");
-            return Boolean.FALSE;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         }
         if (!(String.valueOf(latestEstimateName.getValue()).matches(ConstantsUtil.ALPHA_NUM_CHARS))) {
             cffBinder.setErrorDisplay(errorLabel);
             cffBinder.getErrorDisplay().setError("Latest Estimate name should be alphanumeric");
-            return Boolean.FALSE;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         }
         if (!(String.valueOf(updateCycleName.getValue()).matches(ConstantsUtil.ALPHA_NUM_CHARS))) {
             cffBinder.setErrorDisplay(errorLabel);
             cffBinder.getErrorDisplay().setError("Update Cycle name should be alphanumeric");
-            return Boolean.FALSE;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         }
 
         if ((resultsBean != null && resultsBean.size() == 0)) {
@@ -1029,7 +1033,7 @@ public class ApprovalTab extends CustomComponent {
         if (msg != null) {
             msg.clearError();
         }
-        return Boolean.TRUE;
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 
     public void configurePermission() {

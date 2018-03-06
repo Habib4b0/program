@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.vaadin.alump.beforeunload.gwt.client;
+package org.vaadin.alump.beforeunload.client;
 
 import com.vaadin.shared.communication.ServerRpc;
 
