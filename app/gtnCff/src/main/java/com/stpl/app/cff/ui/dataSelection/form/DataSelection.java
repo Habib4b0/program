@@ -2978,7 +2978,6 @@ public class DataSelection extends AbstractDataSelection {
 				relationship.select(selectedRelationshipDdlbDto.getRelationshipBuilderSid());
 			}
 			relationship.setPageLength(NumericConstants.SEVEN);
-			relationship.setImmediate(true);
 			relationship.setNullSelectionAllowed(true);
 			relationship.setInputPrompt("-Select One-");
 		} catch (PortalException | SystemException | UnsupportedOperationException ex) {
@@ -3447,9 +3446,9 @@ public class DataSelection extends AbstractDataSelection {
 		}
 		if (!productHierarchyEndLevelsHierNo.isEmpty()) {
 			for (int loop = 0, limit = productHierarchyEndLevelsHierNo.size(); loop < limit; loop++) {
-				returnString.append("'");
+				returnString.append('\'');
 				returnString.append(productHierarchyEndLevelsHierNo.get(loop));
-				returnString.append("'");
+				returnString.append('\'');
 				if (loop != (limit - 1)) {
 					returnString.append(", ");
 				}
@@ -3525,6 +3524,11 @@ public class DataSelection extends AbstractDataSelection {
 						&& !StringUtils.EMPTY.equals(String.valueOf(dataSelectionDTO.getCustomerHierSid()))
 						&& !Constants.CommonConstants.NULL.getConstant()
 								.equals(String.valueOf(dataSelectionDTO.getCustomerHierSid()))) {
+                                        customerHierarchyDto = new HierarchyLookupDTO();
+					customerHierarchyDto
+							.setHierarchyId(UiUtils.parseStringToInteger(dataSelectionDTO.getCustomerHierSid()));
+					customerHierarchyDto.setHierarchyName(dataSelectionDTO.getCustomerHierarchy());
+					customerHierarchy.setValue(customerHierarchyDto.getHierarchyName());
 
 					RelationshipDdlbDto selectedRelationshipDdlbDto = null;
 					if (!StringUtils.isBlank(dataSelectionDTO.getCustRelationshipBuilderSid())
@@ -3542,11 +3546,7 @@ public class DataSelection extends AbstractDataSelection {
 						&& !StringUtils.EMPTY.equals(String.valueOf(dataSelectionDTO.getCustomerHierSid()))
 						&& !Constants.CommonConstants.NULL.getConstant()
 								.equals(String.valueOf(dataSelectionDTO.getCustomerHierSid()))) {
-					customerHierarchyDto = new HierarchyLookupDTO();
-					customerHierarchyDto
-							.setHierarchyId(UiUtils.parseStringToInteger(dataSelectionDTO.getCustomerHierSid()));
-					customerHierarchyDto.setHierarchyName(dataSelectionDTO.getCustomerHierarchy());
-					customerHierarchy.setValue(customerHierarchyDto.getHierarchyName());
+					
 					loadCustomerLevel(String.valueOf(dataSelectionDTO.getCustomerHierSid()),
 							dataSelectionDTO.getCustomerHierVersionNo());
 					if (!StringUtils.isBlank(dataSelectionDTO.getCustomerHierarchyInnerLevel())
@@ -3563,6 +3563,10 @@ public class DataSelection extends AbstractDataSelection {
 						&& !StringUtils.EMPTY.equals(String.valueOf(dataSelectionDTO.getProdHierSid()))
 						&& !Constants.CommonConstants.NULL.getConstant()
 								.equals(String.valueOf(dataSelectionDTO.getProdHierSid()))) {
+                                     productHierarchyDto = new HierarchyLookupDTO();
+					productHierarchyDto.setHierarchyId(UiUtils.parseStringToInteger(dataSelectionDTO.getProdHierSid()));
+					productHierarchyDto.setHierarchyName(dataSelectionDTO.getProductHierarchy());
+					productHierarchy.setValue(productHierarchyDto.getHierarchyName());
 					RelationshipDdlbDto selectedRelationshipDdlbDto = null;
 					if (!StringUtils.isBlank(dataSelectionDTO.getProdRelationshipBuilderSid())
 							&& !Constants.CommonConstants.NULL.getConstant()
@@ -3579,10 +3583,7 @@ public class DataSelection extends AbstractDataSelection {
 						&& !StringUtils.EMPTY.equals(String.valueOf(dataSelectionDTO.getProdHierSid()))
 						&& !Constants.CommonConstants.NULL.getConstant()
 								.equals(String.valueOf(dataSelectionDTO.getProdHierSid()))) {
-					productHierarchyDto = new HierarchyLookupDTO();
-					productHierarchyDto.setHierarchyId(UiUtils.parseStringToInteger(dataSelectionDTO.getProdHierSid()));
-					productHierarchyDto.setHierarchyName(dataSelectionDTO.getProductHierarchy());
-					productHierarchy.setValue(productHierarchyDto.getHierarchyName());
+					
 					loadProductLevel(String.valueOf(dataSelectionDTO.getProdHierSid()),
 							dataSelectionDTO.getProductHierVersionNo());
 					if (!StringUtils.isBlank(dataSelectionDTO.getProductHierarchyInnerLevel())

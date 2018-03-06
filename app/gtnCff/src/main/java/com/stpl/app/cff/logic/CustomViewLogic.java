@@ -144,13 +144,13 @@ public class CustomViewLogic {
                 levelTableFieldNames.put(level_id, strArray);
 
                 if (tableName.length() > 0) {
-                    tableName.append(",");
+                    tableName.append(',');
                 }
-                tableName.append("'").append(table).append("'");
+                tableName.append('\'').append(table).append('\'');
                 if (fieldName.length() > 0) {
-                    fieldName.append(",");
+                    fieldName.append(',');
                 }
-                fieldName.append("'").append(column).append("'");
+                fieldName.append('\'').append(column).append('\'');
 
             }
         }
@@ -167,7 +167,7 @@ public class CustomViewLogic {
         for (ListIterator<Object[]> it = helperList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             it.remove();
-            String key = (obj[0] == null ? "" : obj[0].toString()) + "-" + (obj[1] == null ? "" : obj[1].toString());
+            String key = (obj[0] == null ? "" : obj[0].toString()) + '-' + (obj[1] == null ? "" : obj[1].toString());
             String listName = obj[NumericConstants.FIVE] == null ? "" : obj[NumericConstants.FIVE].toString();
             tableFieldHelperList.put(key, listName);
             listNameCollection.add(listName);

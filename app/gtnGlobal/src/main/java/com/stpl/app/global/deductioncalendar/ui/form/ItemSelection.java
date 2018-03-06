@@ -243,7 +243,6 @@ public class ItemSelection extends CustomComponent {
             identifierTypeDescContainer.setMinFilterLength(0);
             brandDdlb.setContainerDataSource(identifierTypeDescContainer);
             brandDdlb.select(dto);
-            brandDdlb.setDescription(brandDdlb.getValue().toString());
 
             availResultsTableLayout.addComponent(availableItemTable);
             availResultsTableLayout.addComponent(getResponsiveControls(availableTableLogic.createControls()));

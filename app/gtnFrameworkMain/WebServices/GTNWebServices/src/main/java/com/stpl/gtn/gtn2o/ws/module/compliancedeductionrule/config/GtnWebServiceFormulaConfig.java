@@ -28,38 +28,44 @@ public class GtnWebServiceFormulaConfig implements GtnWsSearchQueryConfigLoader 
 		loadRuleQueryConfig();
 		loadFormulaPopupQueryConfig();
 	}
+       
 
-	public static void loadRuleQueryConfig() {
+	public static void setSearchQueryConfigMap(Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap) {
+		GtnWebServiceFormulaConfig.searchQueryConfigMap = searchQueryConfigMap;
+	}
 
-		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
+	public static Map<String, GtnWsSearchQueryConfig> loadRuleQueryConfig() {
 
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContextRule = new GtnWsSearchQueryConfig();
+
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMapRule = new HashMap<>();
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
-		fieldToColumnDetailsMap.put("systemId", configProvider.getColumnStringConfig("FORECASTING_FORMULA_SID", "FF"));
-		fieldToColumnDetailsMap.put("formulaType", configProvider.getColumnStringConfig("DESCRIPTION", "FORMULA_TYPE",
+		fieldToColumnDetailsMapRule.put("systemId", configProvider.getColumnStringConfig("FORECASTING_FORMULA_SID", "FF"));
+		fieldToColumnDetailsMapRule.put("formulaType", configProvider.getColumnStringConfig("DESCRIPTION", "FORMULA_TYPE",
 				"FORMULA_TYPE", "HELPER_TABLE_SID"));
-		fieldToColumnDetailsMap.put("formulaNo", configProvider.getColumnStringConfig("FORMULA_NO", "FF"));
-		fieldToColumnDetailsMap.put("formulaName", configProvider.getColumnStringConfig("FORMULA_NAME", "FF"));
-		fieldToColumnDetailsMap.put("formula", configProvider.getColumnStringConfig("FORMULA", "FF"));
+		fieldToColumnDetailsMapRule.put("formulaNo", configProvider.getColumnStringConfig("FORMULA_NO", "FF"));
+		fieldToColumnDetailsMapRule.put("formulaName", configProvider.getColumnStringConfig("FORMULA_NAME", "FF"));
+		fieldToColumnDetailsMapRule.put("formula", configProvider.getColumnStringConfig("FORMULA", "FF"));
 
-		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
+		gtnWebServiceSearchQueryContextRule.setFieldToColumnDetailsMap(fieldToColumnDetailsMapRule);
 
 		List<GtnWebServiceOrderByCriteria> cDROrderByClauseList = new ArrayList<>();
-		cDROrderByClauseList.add(new GtnWebServiceOrderByCriteria("FF.FORECASTING_FORMULA_SID", "ASC"));
-		gtnWebServiceSearchQueryContext.setOrderByClause(cDROrderByClauseList);
-		gtnWebServiceSearchQueryContext.setCountQuery(" FROM  dbo.FORECASTING_FORMULA FF\n"
+		cDROrderByClauseList.add(new GtnWebServiceOrderByCriteria("FF.FORMULA", "ASC"));
+		gtnWebServiceSearchQueryContextRule.setOrderByClause(cDROrderByClauseList);
+		gtnWebServiceSearchQueryContextRule.setCountQuery(" FROM  dbo.FORECASTING_FORMULA FF\n"
 				+ GtnFrameworkWebserviceConstant.LEFT_JOIN_HELPER_TABLE_FORMULA_TYP
 				+ GtnFrameworkWebserviceConstant.ON_FORMULA_TYPEHELPER_TABLE_SID);
 
-		gtnWebServiceSearchQueryContext.setSearchQuery("  FROM  dbo.FORECASTING_FORMULA FF\n"
+		gtnWebServiceSearchQueryContextRule.setSearchQuery("  FROM  dbo.FORECASTING_FORMULA FF\n"
 				+ GtnFrameworkWebserviceConstant.LEFT_JOIN_HELPER_TABLE_FORMULA_TYP
 				+ GtnFrameworkWebserviceConstant.ON_FORMULA_TYPEHELPER_TABLE_SID);
 
-		searchQueryConfigMap.put("formulaPopUpConfig", gtnWebServiceSearchQueryContext);
+		searchQueryConfigMap.put("formulaPopUpConfig", gtnWebServiceSearchQueryContextRule);
+                return searchQueryConfigMap;
 
 	}
 
-	public static void loadFormulaPopupQueryConfig() {
+	public static Map<String, GtnWsSearchQueryConfig> loadFormulaPopupQueryConfig() {
 
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
@@ -71,7 +77,7 @@ public class GtnWebServiceFormulaConfig implements GtnWsSearchQueryConfigLoader 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> cDROrderByClauseList = new ArrayList<>();
-		cDROrderByClauseList.add(new GtnWebServiceOrderByCriteria("FF.FORECASTING_FORMULA_SID", "ASC"));
+		cDROrderByClauseList.add(new GtnWebServiceOrderByCriteria("FF.FORMULA", "ASC"));
 		gtnWebServiceSearchQueryContext.setOrderByClause(cDROrderByClauseList);
 		gtnWebServiceSearchQueryContext.setCountQuery(" FROM  dbo.FORECASTING_FORMULA FF\n"
 				+ GtnFrameworkWebserviceConstant.LEFT_JOIN_HELPER_TABLE_FORMULA_TYP
@@ -81,6 +87,7 @@ public class GtnWebServiceFormulaConfig implements GtnWsSearchQueryConfigLoader 
 				+ GtnFrameworkWebserviceConstant.LEFT_JOIN_HELPER_TABLE_FORMULA_TYP
 				+ GtnFrameworkWebserviceConstant.ON_FORMULA_TYPEHELPER_TABLE_SID);
 		searchQueryConfigMap.put("formulaPopUpDetailsConfig", gtnWebServiceSearchQueryContext);
+                return searchQueryConfigMap;
 
 	}
 

@@ -18,18 +18,58 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
- <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-bom</artifactId>
-                <version>${vaadin.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-bom</artifactId>
+				<version>${vaadin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
+
+		<!-- Osgi Dependencies -->
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>osgi.cmpn</artifactId>
+			<version>${osgi.annotation.version}</version>
+		</dependency>
+
+		<!-- Liferay dependencies -->
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.portal.kernel</artifactId>
+			<version>${stpl.portal.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.bridges</artifactId>
+			<version>${stpl.portal.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.taglib</artifactId>
+			<version>${stpl.portal.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.java</artifactId>
+			<version>${stpl.portal.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Vaadin Dependency -->
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-compatibility-client</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
@@ -49,48 +89,92 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Vaadin Custom Components -->
 		<dependency>
-			<groupId>org.asi.container</groupId>
-			<artifactId>ext-container</artifactId>
-			<version>${ext-container.version}</version>
-			<type>jar</type>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>extfilteringtable</artifactId>
+			<version>2.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>com.liferay.portal.kernel</artifactId>
-			<version>${stpl.portal.version}</version>
-			<scope>provided</scope>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>customtextfield</artifactId>
+			<version>2.0</version>
 		</dependency>
-               <dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>com.liferay.util.bridges</artifactId>
-			<version>${stpl.portal.version}</version>
-			<scope>provided</scope>
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>custommenubar</artifactId>
+			<version>2.0</version>
 		</dependency>
-		   <dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>com.liferay.util.taglib</artifactId>
-			<version>${stpl.portal.version}</version>
-			<scope>provided</scope>
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>customwindow</artifactId>
+			<version>2.0</version>
 		</dependency>
-			   <dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>com.liferay.util.java</artifactId>
-			<version>${stpl.portal.version}</version>
-			<scope>provided</scope>
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>extcustomcheckbox</artifactId>
+			<version>2.0</version>
 		</dependency>
-<!--		<dependency>
-			<groupId>com.stpl.portal</groupId>
-			<artifactId>portal-service</artifactId>
-			<version>${stpl.portal.version}</version>
-			<scope>provided</scope>
-		</dependency>-->
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>customcombobox</artifactId>
+			<version>2.0</version>
+		</dependency>
 
 		<dependency>
-			<groupId>com.stpl.gtn.gtn2o</groupId>
-			<artifactId>GtnFrameworkCommon</artifactId>
-			<version>${gtnFrameworkCommon.version}</version>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>tableexport</artifactId>
+			<version>2.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>customdatefield</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>calendarfield</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>beforeunload-addon</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>ErrorLabel</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.steinwedel.vaadin.addon</groupId>
+			<artifactId>messagebox</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>customoptiongroup</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.app.galderma</groupId>
+			<artifactId>CustomTreeContainer</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>lazy-container</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>ext-container</artifactId>
+			<version>2.0</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>de.steinwedel.vaadin.addon</groupId>
@@ -98,18 +182,7 @@
 			<version>${messagebox.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.asi.ui.galderma</groupId>
-			<artifactId>customwindow</artifactId>
-			<type>jar</type>
-			<version>${customwindow.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>custommenubar</artifactId>
-					<groupId>org.asi.ui</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+
 
 		<dependency>
 			<groupId>com.itextpdf</groupId>
@@ -123,58 +196,13 @@
 			<version>${poi.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.asi.ui.galderma</groupId>
-			<artifactId>customtextfield</artifactId>
-			<version>${customtextfield.version}</version>
-			<type>jar</type>
-		</dependency>
 
 		<dependency>
-			<groupId>com.stpl.app.galderma</groupId>
-			<artifactId>CustomTreeContainer</artifactId>
-			<version>${CustomTreeContainer.version}</version>
+			<groupId>com.stpl.gtn.gtn2o</groupId>
+			<artifactId>GtnFrameworkCommon</artifactId>
+			<version>${gtnFrameworkCommon.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.asi.ui.galderma</groupId>
-			<artifactId>custommenubar</artifactId>
-			<version>${custommenubar.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.asi.ui</groupId>
-			<artifactId>extfilteringtable</artifactId>
-			<version>${extfilteringtable.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.asi.ui.galderma</groupId>
-			<artifactId>extcustomcheckbox</artifactId>
-			<version>${extcustomcheckbox.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.alump.beforeunload.galderma</groupId>
-			<artifactId>beforeunload-addon</artifactId>
-			<version>${beforeunload.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.stpl.addons</groupId>
-			<artifactId>tableexport</artifactId>
-			<version>${tableexport.version}</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.asi.ui</groupId>
-			<artifactId>calendarfield</artifactId>
-			<version>${calendarfield.version}</version>
-		</dependency>
-                 <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-compatibility-client</artifactId>
-        </dependency>
-            <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>osgi.cmpn</artifactId>
-            <version>${osgi.annotation.version}</version>
-        </dependency>
+
 	</dependencies>
 
 	<repositories>
@@ -183,33 +211,34 @@
 			<url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
 	</repositories>
-        <build> <plugins>                         
-          <plugin>
-                <groupId>biz.aQute.bnd</groupId>
-                <artifactId>bnd-maven-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>bnd-process</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>  
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archive>
-                        <manifestFile>
-                            ${project.build.outputDirectory}/META-INF/MANIFEST.MF
-                        </manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>   
-        </plugins>
-        </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>bnd-process</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<manifestFile>
+							${project.build.outputDirectory}/META-INF/MANIFEST.MF
+						</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
 
 

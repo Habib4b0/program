@@ -85,7 +85,7 @@ public class GtnFrameworkFileReadWriteService {
 	}
 
 	private String getFilePath() {
-		return System.getProperty("com.stpl.gtnframework.base.path");
+		return System.getProperty("gtn.app.data.path");
 
 	}
 

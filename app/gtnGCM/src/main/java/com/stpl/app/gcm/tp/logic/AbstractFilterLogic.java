@@ -128,7 +128,7 @@ public class AbstractFilterLogic {
                             }
                         }
                     }
-                    sql.append(")");
+                    sql.append(')');
                 }
                 if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
@@ -163,7 +163,7 @@ public class AbstractFilterLogic {
                             sql.append(tempEnd);
                         }
                     }
-                    sql.append(")");
+                    sql.append(')');
                 }
             }
 

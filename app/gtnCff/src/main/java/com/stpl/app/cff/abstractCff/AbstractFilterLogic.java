@@ -206,7 +206,7 @@ public class AbstractFilterLogic {
                     }
                 } 
             }
-            sql.append(")");
+            sql.append(')');
         }
         return sql;
     }

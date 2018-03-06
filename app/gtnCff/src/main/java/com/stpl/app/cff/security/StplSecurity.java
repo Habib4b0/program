@@ -18,6 +18,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -81,7 +82,7 @@ public StplSecurityDAO getDto() {
             final User user = dao.getUserByUserId(userId);
             for (int i = 0; i < user.getUserGroups().size(); i++) {
                 final Long userGroup = user.getUserGroups().get(i).getUserGroupId();
-                userGroupId.add(Integer.parseInt(userGroup.toString()));
+                userGroupId.add(DataTypeConverter.convertLongToInteger(userGroup));
             }
         return userGroupId;
     }
@@ -106,7 +107,7 @@ public StplSecurityDAO getDto() {
                     businessRoleIds=String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
                 } else {
                     final StringBuffer tempStringBuffer = new StringBuffer();
-                    businessRoleIds = tempStringBuffer.append(businessRoleIds).append(",").append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
+                    businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                     tempStringBuffer.delete(0, tempStringBuffer.length());
                 } 
             }

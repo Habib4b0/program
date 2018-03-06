@@ -22,6 +22,7 @@ import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.model.HelperTable;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
@@ -452,7 +453,7 @@ public class CopyContractLogic {
         for (int i = 0; i < list.size(); i++) {
             Object[] objects = (Object[]) list.get(i);
             rsIfpDto = new ExistingComponentDTO();
-            rsIfpDto.setRebateScheduleSystemId(Integer.parseInt(String.valueOf(objects[0])));
+            rsIfpDto.setRebateScheduleSystemId(DataTypeConverter.convertObjectToInt(objects[0]));
             rsIfpDto.setRebateScheduleId(String.valueOf(objects[1]));
             rsIfpDto.setRebateScheduleNo(String.valueOf(objects[NumericConstants.TWO]));
             rsIfpDto.setRebateScheduleName(String.valueOf(objects[NumericConstants.THREE]));
@@ -473,7 +474,7 @@ public class CopyContractLogic {
             }
 
             if (objects[NumericConstants.FOUR] != null) {
-                rsIfpDto.setRebateScheduleStatus(Integer.parseInt(String.valueOf(objects[NumericConstants.FOUR])));
+                rsIfpDto.setRebateScheduleStatus(DataTypeConverter.convertObjectToInt(objects[NumericConstants.FOUR]));
             }
             rsIfpDto.setRebatetype(String.valueOf(objects[NumericConstants.FIVE]));
             rsIfpDto.setIfpName(String.valueOf(objects[NumericConstants.SEVENTEEN]));
@@ -675,7 +676,7 @@ public class CopyContractLogic {
 
             switch (componentInnerType) {
                 case "Company Status":
-                    selection.setCompanyStatus(searchValue.replace("*", Constants.PERCENT));
+                    selection.setCompanyStatus(searchValue.replace('*', '%'));
                     break;
                 case "Trade Class":
                     selection.setTradeClass(searchValue);
@@ -684,13 +685,13 @@ public class CopyContractLogic {
                     selection.setCompanyType(searchValue);
                     break;
                 case "Company ID":
-                    selection.setCompanyId(searchValue.replace("*", Constants.PERCENT));
+                    selection.setCompanyId(searchValue.replace('*', '%'));
                     break;
                 case "Company Name":
-                    selection.setCompanyName(searchValue.replace("*", Constants.PERCENT));
+                    selection.setCompanyName(searchValue.replace('*', '%'));
                     break;
                 case "Company No":
-                    selection.setCompanyNo(searchValue.replace("*", Constants.PERCENT));
+                    selection.setCompanyNo(searchValue.replace('*', '%'));
                     break;
                 default:
                     break;
@@ -733,13 +734,13 @@ public class CopyContractLogic {
                     selection.setTherapyClass(searchValue);
                     break;
                 case "Item ID":
-                    selection.setItemId(searchValue.replace("*", Constants.PERCENT));
+                    selection.setItemId(searchValue.replace('*', '%'));
                     break;
                 case "Item Name":
-                    selection.setItemName(searchValue.replace("*", Constants.PERCENT));
+                    selection.setItemName(searchValue.replace('*', '%'));
                     break;
                 case "Item No":
-                    selection.setItemNo(searchValue.replace("*", Constants.PERCENT));
+                    selection.setItemNo(searchValue.replace('*', '%'));
                     break;
                 case "Brand":
                     selection.setBrand(searchValue);
@@ -767,13 +768,13 @@ public class CopyContractLogic {
         selection.setIfpType(Constants.PERCENT);
         switch (componentInnerType) {
             case "IFP ID":
-                selection.setIfpId(searchValue.replace("*", Constants.PERCENT));
+                selection.setIfpId(searchValue.replace('*', '%'));
                 break;
             case "IFP No":
-                selection.setIfpNo(searchValue.replace("*", Constants.PERCENT));
+                selection.setIfpNo(searchValue.replace('*', '%'));
                 break;
             case "IFP Name":
-                selection.setIfpName(searchValue.replace("*", Constants.PERCENT));
+                selection.setIfpName(searchValue.replace('*', '%'));
                 break;
             case "IFP Status":
                 selection.setIfpStatus(searchValue);

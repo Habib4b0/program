@@ -10,6 +10,7 @@ import com.stpl.app.model.UsergroupDomainMaster;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.CommonUtil;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -95,7 +96,7 @@ public class StplSecurity {
                 businessRoleIds = String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
             } else {
                 final StringBuffer tempStringBuffer = new StringBuffer();
-                businessRoleIds = tempStringBuffer.append(businessRoleIds).append(",").append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
+                businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                 tempStringBuffer.delete(0, tempStringBuffer.length());
             }
         }
@@ -310,7 +311,7 @@ public class StplSecurity {
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
-            userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            userMap.put(DataTypeConverter.convertLongToInteger(user.getUserId()), user.getFullName());
         }
         LOGGER.debug("End of getUserName method");
         return userMap;

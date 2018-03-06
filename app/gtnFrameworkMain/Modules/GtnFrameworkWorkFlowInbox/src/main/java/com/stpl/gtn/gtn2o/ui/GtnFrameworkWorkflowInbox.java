@@ -16,7 +16,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Theme("stpl")
-@Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
 @Component(service = UI.class, property = {
         "com.liferay.portlet.display-category=GTN-WORKFLOWINBOX",
         "javax.portlet.name=gtnFrameworkWorkflowInbox",

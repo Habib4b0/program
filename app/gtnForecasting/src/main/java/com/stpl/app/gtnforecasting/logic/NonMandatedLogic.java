@@ -1900,10 +1900,10 @@ public class NonMandatedLogic {
 			if (!StringUtils.isBlank(dataSelectionDTO.getToPeriod())
 					&& !CommonConstants.NULL.getConstant().equals(dataSelectionDTO.getToPeriod())) {
 				String toDate = DataSelectionUtil.getLastDateFromQuarter(dataSelectionDTO.getToPeriod());
-				parameters.put(Constant.TO_DATE1, toDate);
+				parameters.put(Constant.TO_DATE, toDate);
 			}
 		} else {
-			parameters.put(Constant.TO_DATE1, null);
+			parameters.put(Constant.TO_DATE, null);
 		}
 		parameters.put(Constant.SELECT_VALUE, StringUtils.EMPTY);
 		parameters.put(Constant.LEFT_JOIN_VALUE, StringUtils.EMPTY);
@@ -2064,10 +2064,10 @@ public class NonMandatedLogic {
 			if (!StringUtils.isBlank(dataSelectionDTO.getToPeriod())
 					&& !CommonConstants.NULL.getConstant().equals(dataSelectionDTO.getToPeriod())) {
 				String toDate = DataSelectionUtil.getLastDateFromQuarter(dataSelectionDTO.getToPeriod());
-				parameters.put(Constant.TO_DATE1, toDate);
+				parameters.put(Constant.TO_DATE, toDate);
 			}
 		} else {
-			parameters.put(Constant.TO_DATE1, null);
+			parameters.put(Constant.TO_DATE, null);
 		}
 
 		parameters.put(Constant.SELECT_VALUE, StringUtils.EMPTY);

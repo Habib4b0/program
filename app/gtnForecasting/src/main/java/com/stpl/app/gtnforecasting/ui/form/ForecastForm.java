@@ -1550,7 +1550,7 @@ public class ForecastForm extends AbstractForm {
 					WorkflowLogic wfLogic = new WorkflowLogic();
 					WorkflowMaster wm = wfLogic.getWorkflowMasterByProjectionId(session.getProjectionId());
 					WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(session.getProjectionId(),
-							wm.getWorkflowMasterSid(), Integer.valueOf(session.getUserId()),
+							wm.getWorkflowMasterSid(), Integer.parseInt(session.getUserId()),
 							WorkflowConstants.getApprovedStatus(), notes, session.getApprovalLevel());
 					workflowId = wfLogic.updateWorkflow(wfMasterDto);
 					approvedFlag = "Submitted and Approved";
@@ -2558,8 +2558,8 @@ public class ForecastForm extends AbstractForm {
 						.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROCEDURE_CALL));
 				StringBuilder query = new StringBuilder("EXEC ");
 				query.append(Constant.PRC_CONTRACT_DETAILS_REBATE);
-				query.append(Constant.SPACE).append(session.getProjectionId()).append(COMMA);
-				query.append(session.getUserId()).append(",'").append(session.getSessionId()).append("'");
+				query.append(' ').append(session.getProjectionId()).append(',');
+				query.append(session.getUserId()).append(",'").append(session.getSessionId()).append('\'');
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 			}
 		};

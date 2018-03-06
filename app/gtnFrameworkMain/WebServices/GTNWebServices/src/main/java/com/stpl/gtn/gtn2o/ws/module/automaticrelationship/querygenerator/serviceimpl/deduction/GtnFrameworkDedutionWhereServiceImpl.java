@@ -25,7 +25,8 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 
 	public void addWhereClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
 			GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
-		querygeneratorBean.removeAllWhereClauseConfigList();
+		querygeneratorBean.removeWhereClauseConfigListByIndex(1,
+				querygeneratorBean.getWhereClauseConfigList().size() - 1);
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
 		querygeneratorBean.addWhereClauseBean("RS_CONTRACT_DETAILS.ITEM_MASTER_SID", null, GtnFrameworkOperatorType.IN,
 				GtnFrameworkDataType.NULL_ALLOWED, null);

@@ -178,7 +178,7 @@ public class DataSelectionLogic {
                         naProjDetailsID.append(naProjID);
                         flag=true;
                     }else{
-                        naProjDetailsID.append(",").append(naProjID);
+                        naProjDetailsID.append(',').append(naProjID);
                     }
                     
                 }
@@ -419,7 +419,7 @@ public class DataSelectionLogic {
                     sql = sql.append(" AND  CM.COMPANY_MASTER_SID='").append(String.valueOf(companyValue)).append("' ");
                 }
                 if (!String.valueOf(therapeuticClassValue).equals("null") && !String.valueOf(therapeuticClassValue).equals("0")&& !String.valueOf(therapeuticClassValue).isEmpty()) {
-                    sql = sql.append("AND  IM.THERAPEUTIC_CLASS = '").append(String.valueOf(therapeuticClassValue)).append("'");
+                    sql = sql.append("AND  IM.THERAPEUTIC_CLASS = '").append(String.valueOf(therapeuticClassValue)).append('\'');
                 }
             }
 
