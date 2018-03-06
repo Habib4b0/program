@@ -20,6 +20,7 @@ import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import com.stpl.ifs.util.CommonUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
@@ -47,6 +48,8 @@ public class AdditionalInfoLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalInfoLogic.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     /**
      * The additional info logic dao.
@@ -118,7 +121,7 @@ public class AdditionalInfoLogic {
         }
         LOGGER.debug("End of saveUploadedFile method");
 
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
 
     }
 
@@ -177,7 +180,7 @@ public class AdditionalInfoLogic {
         LOGGER.debug("Entering deleteUploadedFile method with docDetailsId= {} " , docDetailsId);
         addInfoDao.deleteDocDetails(docDetailsId);
         LOGGER.debug("End of deleteUploadedFile method");
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 
     /**
@@ -204,7 +207,7 @@ public class AdditionalInfoLogic {
 
         LOGGER.debug("End of saveNotes method");
 
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 
     /**

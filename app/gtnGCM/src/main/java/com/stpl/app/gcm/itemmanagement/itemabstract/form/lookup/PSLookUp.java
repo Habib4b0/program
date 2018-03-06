@@ -16,6 +16,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -50,6 +51,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class PSLookUp extends Window {
 private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
+private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentName")
@@ -168,7 +170,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox rsProgramType = new ComboBox();
-                    logic.LazyLoadDdlb(rsProgramType, "psStatus count", "psStatus", true);
+                    logic.LazyLoadDdlb(rsProgramType, "psStatus count", "psStatus", BOOLEAN_CONSTANT.getTrueFlag());
                     return rsProgramType;
                 }
                 return null;
@@ -256,7 +258,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PSLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "psStatus count", "psStatus", false);
+        logic.LazyLoadDdlb(componentStatus_DTO, "psStatus count", "psStatus", BOOLEAN_CONSTANT.getFalseFlag());
     }
 
   
