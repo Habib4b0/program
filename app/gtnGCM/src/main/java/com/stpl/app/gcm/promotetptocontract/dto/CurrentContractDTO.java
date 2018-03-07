@@ -38,8 +38,8 @@ public class CurrentContractDTO implements Serializable {
     private Integer count = 0;
     private Integer startIndex = 0;
     private Integer endIndex = 0;
-    private Boolean isCount = false;
-    private Boolean checkRecord = false;
+    private boolean isCount = false;
+    private boolean checkRecord = false;
     private String contractId = StringUtils.EMPTY;
     private String cfpContSid = StringUtils.EMPTY;
     private String ifpContSid = StringUtils.EMPTY;
@@ -63,14 +63,14 @@ public class CurrentContractDTO implements Serializable {
     private Integer IFPId = 0;
     private Integer psId = 0;
     private Integer rsId = 0;
-    private Boolean search = false;
-    private Boolean reset = false;
-    private Boolean searchInverse = false;
-    private Boolean transfer = false;
+    private boolean search = false;
+    private boolean reset = false;
+    private boolean searchInverse = false;
+    private boolean transfer = false;
     private Date contStartDate;
     private Date contEndDate;
     private String projectionId = StringUtils.EMPTY;
-    private Boolean isCustomerDetailsTab = false;
+    private boolean isCustomerDetailsTab = false;
     
     public Integer getCfpId() {
         return cfpId;

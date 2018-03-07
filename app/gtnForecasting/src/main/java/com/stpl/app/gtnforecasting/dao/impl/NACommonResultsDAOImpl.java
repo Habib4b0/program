@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ import java.util.List;
  */
 public class NACommonResultsDAOImpl implements NACommonResultsDAO {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @Override
     public Object executeSelectQuery(String query) throws PortalException, SystemException {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -25,14 +28,14 @@ public class NACommonResultsDAOImpl implements NACommonResultsDAO {
     @Override
     public Object executeBulkUpdateQuery(String query) throws PortalException, SystemException {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
 
     }
 
     @Override
     public Object executeUpdateQuery(String query) throws SystemException, PortalException {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 
     @Override
@@ -40,6 +43,6 @@ public class NACommonResultsDAOImpl implements NACommonResultsDAO {
         for (StringBuilder builder : fcpList) {
             HelperTableLocalServiceUtil.executeUpdateQuery(builder.toString());
         }
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 }

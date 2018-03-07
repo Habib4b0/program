@@ -302,7 +302,7 @@ public class HeaderUtils {
         tableHeaderDTO.addDoubleColumn(doubleCol, " ");
         tableHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
         
-         if (System.getProperty(BUSINESS_PROCESS).equals(BP_NAME)) {
+         if (CommonUtils.isValueEligibleForLoading()) {
             fullHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
             fullHeaderDTO.addDoubleColumn(doubleCol, " ");
             fullHeaderDTO.addSingleColumn("dfLevelNumber", "Level Number", String.class);

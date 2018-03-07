@@ -50,6 +50,7 @@ import com.stpl.app.utils.converters.DataFormatConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
@@ -108,6 +109,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The period table id.
      */
@@ -245,9 +248,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         });
 
         if (ACTION_EDIT.getConstant().equals(session.getAction())) {
-            generateBtnClickLogic(true);
+            generateBtnClickLogic(BOOLEAN_CONSTANT.getTrueFlag());
         } else if (ACTION_VIEW.getConstant().equals(session.getAction())) {
-            generateBtnClickLogic(true);
+            generateBtnClickLogic(BOOLEAN_CONSTANT.getTrueFlag());
             buttonDisable();
         }
     }
@@ -593,9 +596,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setImmediate(true);
                     if (checkAll) {
-                        check.setValue(true);
+                        check.setValue(BOOLEAN_CONSTANT.getTrueFlag());
                     } else {
-                        check.setValue(false);
+                        check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
                     }
                     boolean checkEnbl1 = ACTION_VIEW.getConstant().equals(session.getAction());
                     boolean checkEnbl2 = itemDto1.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
@@ -603,7 +606,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     if (checkEnbl1) {
                         check.setEnabled(false);
                     } else if (checkEnbl2) {
-                        check.setValue(false);
+                        check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
                         check.setEnabled(false);
                     }
                     if (checkEnbl1) {
@@ -837,7 +840,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setData(propertyId);
                     check.setImmediate(true);
-                    check.setValue(false);
+                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
                     check.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
@@ -1169,7 +1172,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable = new ExtFilterTreeTable();
         resultsTableLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         exportPeriodViewTable.setContainerDataSource(excelResultBean);
 
@@ -1493,7 +1496,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         tableLogic.setRefresh(false);
         loadExcelResultTable(NumericConstants.TWO, StringUtils.EMPTY);
         tableLogic.setRefresh(true);
-        exportPeriodViewTable.setRefresh(Boolean.TRUE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
         exportPeriodViewTable.setDoubleHeaderVisible(true);
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
@@ -1699,19 +1702,19 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SUPPLEMENTAL_DISCOUNT);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(Boolean.FALSE);
+                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
             if (functionPsHM.get(FunctionNameUtil.RESET) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.RESET)).isFunctionFlag()) {
-                resetBtn.setVisible(Boolean.FALSE);
+                resetBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
             if (functionPsHM.get(FunctionNameUtil.EXPAND) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.EXPAND)).isFunctionFlag()) {
-                expandBtn.setVisible(Boolean.FALSE);
+                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
             if (functionPsHM.get(FunctionNameUtil.COLLAPSE_BTN) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.COLLAPSE_BTN)).isFunctionFlag()) {
-                collapseBtn.setVisible(Boolean.FALSE);
+                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
             if (functionPsHM.get(FunctionNameUtil.POPULATE_BTN) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.POPULATE_BTN)).isFunctionFlag()) {
-                populateBtn.setVisible(Boolean.FALSE);
+                populateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(MSupplementalDiscountProjection.class.getName()).error( StringUtils.EMPTY, ex);

@@ -8,8 +8,8 @@ package com.stpl.app.gcm.util;
 
 
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
-import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 public class TransferPDFilterGenerator implements ExtFilterGenerator {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(TransferPDFilterGenerator.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     
    
     @Override
@@ -67,7 +69,7 @@ public class TransferPDFilterGenerator implements ExtFilterGenerator {
             if ("statusString".equals(propertyId)) {
 
                 comboBox = new ComboBox();
-                CommmonLogic.loaDDLBForListLoading(comboBox,"STATUS",true);
+                CommmonLogic.loaDDLBForListLoading(comboBox,"STATUS",BOOLEAN_CONSTANT.getTrueFlag());
                 comboBox.setNullSelectionAllowed(true);
                 comboBox.setNullSelectionItemId("Show All");
                 comboBox.select(ConstantsUtils.ZERO_INT);

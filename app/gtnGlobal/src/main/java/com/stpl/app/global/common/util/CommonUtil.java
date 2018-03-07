@@ -12,6 +12,7 @@ import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -20,7 +21,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.util.DataTypeConverter;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.validator.RegexpValidator;
@@ -155,7 +155,6 @@ public class CommonUtil {
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue()) || ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
                     select.select(defaultValue);
       }
-                select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : ((HelperDTO) select.getValue()).getDescription()));
             }
         });
         return select;

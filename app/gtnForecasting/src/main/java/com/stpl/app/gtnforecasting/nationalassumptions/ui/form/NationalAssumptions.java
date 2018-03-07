@@ -50,8 +50,9 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.navigator.View;
@@ -118,6 +119,8 @@ public class NationalAssumptions extends CustomComponent implements View {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptions.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     /**
      * The price type ddlb.
@@ -1216,7 +1219,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 .toString(baselineMethodology.getValue()));
 
         String actualsPeriod1 = null;
-        Boolean selectedFlag = true;
+        boolean selectedFlag = true;
         for (int i = 0; i < baselineResultsBean.size(); i++) {
             BaselinePeriodDTO baseline = baselineResultsBean.getIdByIndex(i);
             if (baseline.getCheck()) {
@@ -1563,7 +1566,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 basePeriod.setType(Constant.FORECAST);
             }
             basePeriod.setPeriod(period);
-            basePeriod.setCheck(true);
+            basePeriod.setCheck(BOOLEAN_CONSTANT.getTrueFlag());
             baseLineList.add(basePeriod);
 
         }
@@ -1588,7 +1591,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 period = element.toString().trim();
                 rollPeriod.setType(Constant.ACTUALS);
                 rollPeriod.setPeriod(period);
-                rollPeriod.setCheck(true);
+                rollPeriod.setCheck(BOOLEAN_CONSTANT.getTrueFlag());
                 rollingAverageList.add(rollPeriod);
             }
             rollingAvgResultsBean.removeAllItems();

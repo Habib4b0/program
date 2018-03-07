@@ -8,6 +8,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.ifs.ui.util.GtnUiBcpServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.StandaloneParser;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.constants.ForecastingConstants;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
@@ -28,7 +29,7 @@ public class CumulativeCalculationUtils {
 	private String tabName = StringUtils.EMPTY;
 	private boolean salesFlag = false;
 	private final StandaloneParser credentials = StandaloneParser.getInstance();
-	private final String folderName = System.getProperty(Constant.CUMULATIVE_FILE_PATH);
+	private final String folderName = CommonUtil.getGtnDataPath();
 	private String methodology = StringUtils.EMPTY;
 	private String userId = StringUtils.EMPTY;
 	private String sessionId = StringUtils.EMPTY;
@@ -71,7 +72,7 @@ public class CumulativeCalculationUtils {
 
 
 			gtnWsBcpServiceBean.setProcedureInputs(procedureInputList);
-		gtnWsBcpServiceBean.setCumulativeFilePath(System.getProperty(Constant.CUMULATIVE_FILE_PATH));
+		gtnWsBcpServiceBean.setCumulativeFilePath(CommonUtil.getGtnDataPath());
 		gtnWsBcpServiceBean.setSalesFlag(salesFlag);
 		gtnWsBcpServiceBean.setMethodology(methodology);
 		gtnWsBcpServiceBean.setTabName(tabName);

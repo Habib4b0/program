@@ -34,7 +34,7 @@ mkdir -p $RPM_BUILD_ROOT%{prefix}
  
 if [ -d "$folderexist"ETL_Build ]
 then
-mkdir -p  $RPM_BUILD_ROOT%{prefix}/etl/staging
+mkdir -p  $RPM_BUILD_ROOT%{prefix}/etl/
 cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/ETL_Build/* $RPM_BUILD_ROOT%{prefix}/etl/
 fi
 if [ -d "$folderexist"Conf ]
@@ -143,7 +143,9 @@ sed -i 's=Server_Path='$install_path'=g' $install_path/etl/Interface_Job/Scripts
 
 if [ -e $install_path/etl/Interface_Job/replace_dir_stu.txt ];
 then
-sh $install_path/etl/dir_struct.sh $install_path/etl
+mkdir -p "$install_path"_data/etl/staging
+
+sh $install_path/etl/dir_struct.sh "$install_path"_data/etl
 rm -rf $install_path/etl/Interface_Job/replace_dir_stu.txt
 fi
 if [ -e $install_path/etl/Interface_Job/replace_etl_prop.txt ];

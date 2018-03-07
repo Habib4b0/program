@@ -26,7 +26,7 @@ public class PsContractDetailsImpl {
      * @return 
      */
     public static Boolean savePsDetailsAttached(final List<Object> input, final Object future){
-        Boolean retFlag;
+        boolean retFlag;
         String sql = SQlUtil.getQuery("com.contractDashboard.savePS");
         try {
             sql=sql.replaceFirst("[?]", input.get(0).toString());
