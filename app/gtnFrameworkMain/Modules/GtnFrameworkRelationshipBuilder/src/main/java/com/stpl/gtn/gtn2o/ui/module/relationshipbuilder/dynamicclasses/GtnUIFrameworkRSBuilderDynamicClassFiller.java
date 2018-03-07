@@ -13,10 +13,12 @@ import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFramewo
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkSearchSecurityAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkVersionChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkAddButtonAction;
+import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkConfirmedCopyAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkConfirmedDeleteButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkDeleteButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkEditButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkRBRequestAction;
+import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkRelationshipCopyAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkTreeItemClickAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkViewButtonAction;
 
@@ -60,6 +62,10 @@ public class GtnUIFrameworkRSBuilderDynamicClassFiller implements GtnUIDynamicOb
 				new GtnFrameworkAvaliableNameUpdateAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAutoBuildAction.class.getName(),
 				new GtnFrameworkAutoBuildAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkConfirmedCopyAction.class.getName(),
+                                new GtnUIFrameworkConfirmedCopyAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkRelationshipCopyAction.class.getName(), 
+                                new GtnUIFrameworkRelationshipCopyAction());
 
 	}
 

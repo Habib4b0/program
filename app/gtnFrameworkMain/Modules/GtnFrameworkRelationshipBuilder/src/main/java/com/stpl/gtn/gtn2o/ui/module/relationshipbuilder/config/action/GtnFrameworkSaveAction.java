@@ -53,6 +53,11 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 		Object relation = GtnUIFrameworkGlobalUI.getSessionProperty(parameters.get(11).toString());
 		if (relation != null) {
 			GtnWsRecordBean relationshipBean = (GtnWsRecordBean) relation;
+                        String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+                        if(mode.equals("Copy")){
+                             relationshipBean.setPropertyValueByIndex(4, ""+GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(6).toString()).getIntegerFromField());
+                             relationshipBean.setPropertyValueByIndex(9, "0");
+                        }
 			rbRequest.setMainNode(relationshipBean);
 			GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.CUSTOM_ACTION);

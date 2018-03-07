@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkSearchSecurityAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkAddButtonAction;
+import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkConfirmedCopyAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkConfirmedDeleteButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkEditButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.constants.GtnFrameworkRelationshipBuilderConstants;
@@ -418,6 +419,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		addAddButtonComponent(componentList, namspacePrefix);
 		addEditButtonComponent(componentList, namspacePrefix);
 		addViewButtonComponent(componentList, namspacePrefix);
+                addCopyButtonComponent(componentList, namspacePrefix);
 		addDeleteButtonComponent(componentList, namspacePrefix);
 		addExcelButtonComponent(componentList, namspacePrefix);
 	}
@@ -593,6 +595,48 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 	}
+        
+        private void addCopyButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix){
+            GtnUIFrameworkComponentConfig gtnCopyBtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnCopy01Layout", true, namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
+            componentList.add(gtnCopyBtnLayout);
+
+            GtnUIFrameworkComponentConfig copyButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(namspacePrefix + GtnFrameworkCommonConstants.GTN_COPY_BUTTON, true, namspacePrefix + "gtnCopy01Layout", GtnUIFrameworkComponentType.BUTTON);
+            copyButtonConfig.setComponentName("COPY");
+            copyButtonConfig.setAuthorizationIncluded(true);
+            componentList.add(copyButtonConfig);
+
+            List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+            GtnUIFrameWorkActionConfig copyActionConfig = new GtnUIFrameWorkActionConfig();
+            copyActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+            copyActionConfig.addActionParameter(GtnUIFrameworkConfirmedCopyAction.class.getName());
+            copyActionConfig.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
+            copyActionConfig.addActionParameter(9);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.VERSION_NO);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.SELECTED_RELATIONSHIP);
+       	    copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.SELECTED_ID);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.TOTAL_LEVELS);
+            copyActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD
+				+ GtnFrameworkCommonStringConstants.UNDERSCORE);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESULTLAYOUT);
+            copyActionConfig.addActionParameter("rbTree");
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.HIERARCHY_NAME);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RELATIONSHIP_TYPE);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.BUILD_TYPE);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RELATIONSHIP_NAME);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RELATIONSHIP_DESC);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.START_DATE);
+            copyActionConfig.addActionParameter("resultTable");
+            copyActionConfig.addActionParameter("value");
+            copyActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+            copyActionConfig.addActionParameter("Are you sure you want to copy record ");
+            copyActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD);
+            copyActionConfig.addActionParameter(true);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.SAVE_BUTTON);
+            copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESET_BUTTON);
+            copyActionConfig.addActionParameter("removeFromTreeBtn");
+            actionConfigList.add(copyActionConfig);
+            copyButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+        }
 
 	private void addDeleteButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
                 GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnDelete01Layout", true,
