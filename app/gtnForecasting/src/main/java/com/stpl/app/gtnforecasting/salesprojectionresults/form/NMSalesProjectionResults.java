@@ -39,6 +39,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
@@ -89,6 +90,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResults.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     private final List<Object> possibleKeyList = new ArrayList<>();
     private boolean sales;
@@ -826,7 +828,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     public void excelButtonLogic() {
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        exportPeriodViewTable.setRefresh(Boolean.TRUE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
         exportPeriodViewTable.setDoubleHeaderVisible(true);
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
@@ -1199,7 +1201,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         selection.put("historyNum", String.valueOf(Integer.valueOf(his[0])));
         exportPeriodViewTable = new ExtFilterTreeTable();
         layout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);
@@ -1293,11 +1295,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), GlobalConstants.getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION_RESULTS);
 
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
-                generateBtn.setVisible(Boolean.FALSE);
-                expandBtn.setVisible(Boolean.FALSE);
-                collapseBtn.setVisible(Boolean.FALSE);
-                newBtn.setVisible(Boolean.FALSE);
-                editBtn.setVisible(Boolean.FALSE);
+                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
 
             }
 

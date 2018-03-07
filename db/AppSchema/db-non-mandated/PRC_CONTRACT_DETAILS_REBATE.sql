@@ -400,18 +400,18 @@ EXEC sp_executesql @SQL
                  RS_MODEL_SID,
                  ITEM_MASTER_SID,
                  TIER_FROM,
-                 TIER_TO,CASE WHEN HT.DESCRIPTION =''SIMPLE'' THEN 
+                 TIER_TO,CASE WHEN (HT.DESCRIPTION =''SIMPLE'' OR HT.DESCRIPTION IS NULL) THEN 
                  ISNULL(CASE
                           WHEN RS.TIER_OPERATOR = ''%'' THEN RPT.TIER_VALUE
                         END, 0) ELSE NULL END AS DISCOUNT_RATE,
-                 CASE WHEN HT.DESCRIPTION =''SIMPLE'' THEN  ISNULL(CASE
+                 CASE WHEN (HT.DESCRIPTION =''SIMPLE'' OR HT.DESCRIPTION IS NULL) THEN  ISNULL(CASE
                           WHEN RS.TIER_OPERATOR = ''$'' THEN
                             CASE
                               WHEN RS.REBATE_STRUCTURE = ''TIER''
                                     OR RS.REBATE_STRUCTURE = ''LEVEL'' THEN RPT.TIER_VALUE
                             END
                         END, 0) ELSE NULL END AS REBATE_PER_UNIT,
-                 CASE WHEN HT.DESCRIPTION =''SIMPLE'' THEN  ISNULL(CASE
+                 CASE WHEN (HT.DESCRIPTION =''SIMPLE'' OR HT.DESCRIPTION IS NULL) THEN  ISNULL(CASE
                           WHEN RS.TIER_OPERATOR = ''$'' THEN
                             CASE
                               WHEN RS.REBATE_STRUCTURE = ''FLAT'' THEN RPT.TIER_VALUE
