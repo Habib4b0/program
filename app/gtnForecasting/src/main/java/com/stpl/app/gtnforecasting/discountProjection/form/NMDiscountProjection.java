@@ -3196,7 +3196,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
-            LOGGER.error("", e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("excel ends");
     }
