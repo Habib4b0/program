@@ -20,6 +20,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
     private SessionDTO session;
     private String frequency;
@@ -162,7 +164,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             List customDetailsList = new ArrayList();
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            Boolean isParentChecked = false;
+            boolean isParentChecked = false;
             if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
@@ -401,7 +403,8 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                 list = discountLogic.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, 0, 0,
-                        true, false, customViewDetails, false, false, StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST, 
+                        BOOLEAN_CONSTANT.getTrueFlag(), BOOLEAN_CONSTANT.getFalseFlag(), customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), 
+                        StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST, 
                         false, StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
             }
             if (alternateProjectionSelection.isIsTotal() && !alternateProjectionSelection.isIsFilter()) {
@@ -523,13 +526,13 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     @Override
@@ -574,7 +577,8 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,
-                customDetailsList, true, isCustom, rightDto, 0, 0, false, false, customViewDetails, false,
+                customDetailsList, BOOLEAN_CONSTANT.getTrueFlag(), isCustom, rightDto, 0, 0, 
+                BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(),
                 true, hierarchyNumbers, relationshipBuilderSid, true, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY,
                 Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
 

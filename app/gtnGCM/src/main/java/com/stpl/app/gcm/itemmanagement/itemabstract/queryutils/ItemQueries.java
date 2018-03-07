@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
@@ -44,6 +45,7 @@ import org.slf4j.LoggerFactory;
 public class ItemQueries {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final static CommonDao ITEMDAO = CommonImpl.getInstance();
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
@@ -188,9 +190,9 @@ public class ItemQueries {
             String query = getQuery(sql, dto);
             Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
-                return Boolean.TRUE;
+                return BOOLEAN_CONSTANT.getTrueFlag();
             } else {
-                return Boolean.FALSE;
+                return BOOLEAN_CONSTANT.getFalseFlag();
             }
 
         } catch (Exception ex) {
@@ -753,9 +755,9 @@ public class ItemQueries {
             query = query.replace("@CHECK_RECORD", (dto.getCheckRecord() ? 1 : 0) + StringUtils.EMPTY);
             Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
-                return Boolean.TRUE;
+                return BOOLEAN_CONSTANT.getTrueFlag();
             } else {
-                return Boolean.FALSE;
+                return BOOLEAN_CONSTANT.getFalseFlag();
             }
 
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {

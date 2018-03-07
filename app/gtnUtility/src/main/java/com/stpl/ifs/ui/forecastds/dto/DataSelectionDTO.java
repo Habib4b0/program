@@ -208,6 +208,8 @@ public class DataSelectionDTO implements Serializable {
 	public Integer deductionValueId;
 	private Integer businessUnitSystemId;
 	private String businessUnitName;
+        private String selectedCustomerLevelNo;
+
 
 	private int customerRelationShipVersionNo;
 	private int productRelationShipVersionNo;
@@ -1062,6 +1064,14 @@ public class DataSelectionDTO implements Serializable {
 
         public void setForecastEligibleDate(Date forecastEligibleDate) {
             this.forecastEligibleDate = forecastEligibleDate;
+        }
+
+        public String getSelectedCustomerLevelNo() {
+            return selectedCustomerLevelNo;
+        }
+
+        public void setSelectedCustomerLevelNo(String selectedCustomerLevelNo) {
+            this.selectedCustomerLevelNo = selectedCustomerLevelNo;
         }
 
 }

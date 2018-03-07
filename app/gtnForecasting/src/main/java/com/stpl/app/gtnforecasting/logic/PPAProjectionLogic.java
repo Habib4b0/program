@@ -31,6 +31,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.sql.CallableStatement;
@@ -62,6 +63,7 @@ import org.slf4j.LoggerFactory;
 public class PPAProjectionLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static Thread procedureThread;
 
     private static RunnableJob runnableJob;
@@ -191,12 +193,12 @@ public class PPAProjectionLogic {
                         int intYear = Integer.parseInt(year);
                         int endQuater = (selection.getForecastDTO().getProjectionEndMonth() / NumericConstants.THREE) + 1;
                         int endYear = selection.getForecastDTO().getProjectionEndYear();
-                        boolean flag = Boolean.FALSE;
+                        boolean flag = BOOLEAN_CONSTANT.getFalseFlag();
 
                         if (intYear < endYear) {
-                            flag = Boolean.TRUE;
+                            flag = BOOLEAN_CONSTANT.getTrueFlag();
                         } else if (intYear == endYear && intQuarter <= endQuater) {
-                            flag = Boolean.TRUE;
+                            flag = BOOLEAN_CONSTANT.getTrueFlag();
                         }
                         if ((isColumn(visibleColumn, quater, year, Constant.PRICECAP)) && (str[NumericConstants.EIGHT].toString() != null || !str[NumericConstants.EIGHT].equals(Constant.NULL))) {
                             if (flag) {
@@ -324,7 +326,7 @@ public class PPAProjectionLogic {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
 
     }
 
@@ -450,7 +452,7 @@ public class PPAProjectionLogic {
 
         try {
             int levelNo;
-            selection.setIsCount(Boolean.FALSE);
+            selection.setIsCount(BOOLEAN_CONSTANT.getFalseFlag());
             if (lastParent != null && (lastParent instanceof PPAProjectionDTO)) {
                 PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                 levelNo = dto.getLevelNo();
@@ -478,17 +480,17 @@ public class PPAProjectionLogic {
         try {
             if (lastParent != null && (lastParent instanceof PPAProjectionDTO) || (selection.isIsFilter())) {
                 if (selection.isIsFilter()) {
-                    count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, Boolean.TRUE, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
+                    count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, BOOLEAN_CONSTANT.getTrueFlag(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                 } else {
                     PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                     selection.setLevelNo(dto.getLevelNo() + 1);
-                    count = configureLevelsCount(selection.getLevelNo(), selection, dto.getHirarechyNo(), Boolean.FALSE, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
+                    count = configureLevelsCount(selection.getLevelNo(), selection, dto.getHirarechyNo(), BOOLEAN_CONSTANT.getFalseFlag(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
 
                 }
 
             } else {
                 selection.setLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
-                count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, Boolean.FALSE, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
+                count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, BOOLEAN_CONSTANT.getFalseFlag(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             }
             selection.setLevelCount(count);
         } catch (NumberFormatException ex) {
@@ -503,7 +505,9 @@ public class PPAProjectionLogic {
 
     public int configureLevelsCount(int levelNo, ProjectionSelectionDTO selection, String hierarchyNo, boolean isFilter, String parentHierarchyInd) {
 
-        return CommonLogic.getLevelListCount(selection.getProjectionId(), Constant.PPA, parentHierarchyInd, levelNo, hierarchyNo, StringUtils.EMPTY, StringUtils.EMPTY, isFilter, Boolean.FALSE, 0, selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(), selection.getDiscountNoList(), selection);
+        return CommonLogic.getLevelListCount(selection.getProjectionId(), Constant.PPA, parentHierarchyInd, levelNo, hierarchyNo, StringUtils.EMPTY, StringUtils.EMPTY, isFilter, 
+                BOOLEAN_CONSTANT.getFalseFlag(), 0, selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), 
+                selection.getProdRelationshipBuilderSid(), selection.getDiscountNoList(), selection);
 
     }
 

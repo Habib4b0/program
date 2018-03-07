@@ -64,6 +64,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
@@ -241,6 +242,8 @@ public class FileManagementLookup extends Window {
 	private FileMananagementResultDTO fileMgtIndexDTO = new FileMananagementResultDTO();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementLookup.class);
+        
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
 	private static final BeanItem<?> NULLITEM = null;
 
@@ -709,7 +712,7 @@ public class FileManagementLookup extends Window {
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-				Boolean deleteFlag = true;
+				boolean deleteFlag = true;
 				try {
 					List<FileMananagementResultDTO> idList = new ArrayList<>();
 					for (final Iterator<?> iterator = detailsFilterTable.getItemIds().iterator(); iterator.hasNext();) {
@@ -729,7 +732,7 @@ public class FileManagementLookup extends Window {
 								if (addlineList.contains(obj)) {
 									addlineList.remove(obj);
 								} else {
-									obj.setCheck(false);
+									obj.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 									addlineList.add(obj);
 								}
 							}
@@ -856,7 +859,7 @@ public class FileManagementLookup extends Window {
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-				Boolean flag = true;
+				boolean flag = true;
 				if (fieldName.getValue() == null) {
 					AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 							"Please select Field Name");
@@ -2008,7 +2011,7 @@ public class FileManagementLookup extends Window {
 
 	public void saveButtonLogic() {
 		LOGGER.debug("Enters Inside Save Button Logic");
-		Boolean changeFlag = false;
+		boolean changeFlag = false;
 
 		final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
 		final List<FileMananagementResultDTO> insertionItemIds = new ArrayList<>();

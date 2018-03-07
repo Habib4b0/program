@@ -18,6 +18,7 @@ import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -66,6 +67,7 @@ public class IfpLookUp extends Window {
     public PopupDateField ifpStartDate;
     @UiField("ifpEndDate")
     public PopupDateField ifpEndDate;
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();  
     private LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
@@ -120,7 +122,7 @@ public class IfpLookUp extends Window {
                 resultsTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
             }
         }
-        resultsTable.setFilterBarVisible(Boolean.TRUE);
+        resultsTable.setFilterBarVisible(BOOLEAN_CONSTANT.getTrueFlag());
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
             @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {

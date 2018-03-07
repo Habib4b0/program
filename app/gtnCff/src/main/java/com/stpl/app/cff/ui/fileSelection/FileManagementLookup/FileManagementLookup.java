@@ -45,6 +45,7 @@ import com.stpl.ifs.ui.util.GtnWsCsvExportUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.ShortcutAction;
@@ -207,7 +208,8 @@ public class FileManagementLookup extends Window {
 	@UiField("cssLayoutForecastSection")
 	private CssLayout cssLayoutForecastSection;
 
-	private FileResultsTableLogic tableLogic = new FileResultsTableLogic();
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        private FileResultsTableLogic tableLogic = new FileResultsTableLogic();
 	/**
 	 * The file history table.
 	 */
@@ -1275,7 +1277,7 @@ public class FileManagementLookup extends Window {
 													searchContainer.getContainerProperty(itemId, "fileManagementSid")
 															.setValue(null);
 													searchContainer.getContainerProperty(itemId, "fileChanged")
-															.setValue(true);
+															.setValue(BOOLEAN_CONSTANT.getTrueFlag());
 													searchContainer
 															.getContainerProperty(itemId, StringConstantsUtil.VERSION)
 															.setValue(fileMgtDTO.getVersion());
@@ -1305,7 +1307,7 @@ public class FileManagementLookup extends Window {
 							searchContainer.getContainerProperty(itemId, "activeToDate")
 									.setValue(fileMgtDTO.getToDate());
 							searchContainer.getContainerProperty(itemId, "fileManagementSid").setValue(null);
-							searchContainer.getContainerProperty(itemId, "fileChanged").setValue(true);
+							searchContainer.getContainerProperty(itemId, "fileChanged").setValue(BOOLEAN_CONSTANT.getTrueFlag());
 							searchContainer.getContainerProperty(itemId, StringConstantsUtil.VERSION)
 									.setValue(fileMgtDTO.getVersion());
 							selectFile.setValue(String.valueOf(fileNameList.getValue()));
@@ -1520,7 +1522,7 @@ public class FileManagementLookup extends Window {
 
 	public void saveButtonLogic() {
 		LOGGER.debug("Enters Inside Save Button Logic");
-		Boolean changeFlag = false;
+		boolean changeFlag = false;
 		final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
 		final List<FileMananagementResultDTO> insertionItemIds = new ArrayList<>();
 		List<Integer> currentSystemId = new ArrayList<>();

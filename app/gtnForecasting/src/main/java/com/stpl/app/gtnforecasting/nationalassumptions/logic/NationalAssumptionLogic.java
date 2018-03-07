@@ -49,6 +49,7 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.util.BeanItem;
 import java.sql.CallableStatement;
@@ -80,6 +81,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NationalAssumptionLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The current year.
      */
@@ -1344,7 +1346,7 @@ public class NationalAssumptionLogic {
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        return Boolean.FALSE;
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     public int getCount(List<Object[]> list) {

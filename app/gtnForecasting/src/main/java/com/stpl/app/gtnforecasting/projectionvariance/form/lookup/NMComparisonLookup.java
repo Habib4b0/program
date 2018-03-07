@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NMComparisonLookup extends ForecastPVComparisonLookup {
 
-    private Boolean recordSelectedFlag = false;
+    private boolean recordSelectedFlag = false;
     private final int currentProjId;
     protected List<ComparisonLookupDTO> selectedList;
     /**

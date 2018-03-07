@@ -31,12 +31,14 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RelationShipFilterLogic {
 
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 	private final GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
 	private final CommonDAO daoImpl = new CommonDAOImpl();
@@ -331,7 +333,7 @@ public class RelationShipFilterLogic {
 	public List<Set> getCustomerConractSid(List<Leveldto> selectedCustomerContractList,
 			List<Leveldto> customerHierarchyLevelDefinitionList, int customerRelationVersionNo) {
 		GtnFrameworkQueryGeneratorBean queryBean = getCustomerContractSidQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, Boolean.FALSE);
+				customerHierarchyLevelDefinitionList, BOOLEAN_CONSTANT.getFalseFlag());
 		if (queryBean == null || customerRelationVersionNo == 0) {
 			return Collections.emptyList();
 		}
@@ -506,10 +508,10 @@ public class RelationShipFilterLogic {
 			List<Leveldto> customerHierarchyLevelDefinitionList, List<Leveldto> productHierarchyLevelDefinitionList,
 			int customerRelationVersionNo, int productRelationVersionNo,int projectionIdValue) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, "SELECTED_CUST_HIERARCHY_NO", Boolean.FALSE,
+				customerHierarchyLevelDefinitionList, "SELECTED_CUST_HIERARCHY_NO", BOOLEAN_CONSTANT.getFalseFlag(),
 				customerRelationVersionNo,projectionIdValue);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", Boolean.TRUE,
+				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", BOOLEAN_CONSTANT.getTrueFlag(),
 				productRelationVersionNo,projectionIdValue);
 
 		StringBuilder cusHieNoQuery = getHieNoQuery(customerHierarchyLevelDefinitionList, selectedCustomerContractList,

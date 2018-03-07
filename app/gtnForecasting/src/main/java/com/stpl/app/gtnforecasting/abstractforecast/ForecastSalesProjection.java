@@ -100,6 +100,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
@@ -144,6 +145,8 @@ import com.vaadin.v7.ui.themes.Reindeer;
 public abstract class ForecastSalesProjection extends CustomComponent implements View {
 
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 	private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
     
     private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
@@ -579,6 +582,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public static final String SALES_TAB = "Sales";
     protected List<String> generateCustomerToBeLoaded = new ArrayList<>();
     protected static final String ADJUSTMENT_PERIODS_TEXT = " adjustment for the following periods ";
+    protected boolean refreshFlag = true;
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -727,7 +731,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             buttonLayout.replaceComponent(pmpy, returnsResetBtn);
             returnsResetBtn.setVisible(true);
-            newBtn.setVisible(Boolean.FALSE);
+            newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             editBtn.setVisible(false);
             view.setVisible(false);
             viewLabel.setVisible(false);
@@ -814,10 +818,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     getTableLogic().setRefresh(false);
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     getTableLogic().setRefresh(true);
-                    final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);
+                    if (refreshFlag) {
+                    final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);                   
                     notif.setPosition(Position.TOP_CENTER);
                     notif.setStyleName(ConstantsUtils.MY_STYLE);
                     notif.show(Page.getCurrent());
+                    }
                     projectionDTO.getMultipleVariableCheckMap().clear();
                 } else {
                 	try {
@@ -1128,14 +1134,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     @UiHandler("excelExport")
     public void excelExportListener(Button.ClickEvent event) {
-        projectionDTO.setExcel(Boolean.TRUE);
+        projectionDTO.setExcel(BOOLEAN_CONSTANT.getTrueFlag());
         if (CommonUtil.isValueEligibleForLoading()) {
             excelExportLogic();
         } else {
             excelExportBtnClickLogic();
         }
         
-        projectionDTO.setExcel(Boolean.FALSE);
+        projectionDTO.setExcel(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     /**
@@ -1597,7 +1603,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     final Component uiContext) {
                 if (String.valueOf(propertyId).equals(Constant.CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setValue(false);
+                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
                     check.setImmediate(true);
                     check.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
@@ -1745,14 +1751,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                             if (!oldValue.equals(newValue)) {
                                 try {
                                     Double newNumber;
-                                    Double oldNumber;
+                                    Double oldNumber;                                   
                                     newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
                                     oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
                                     if (String.valueOf(propertyId).contains(Constant.SALES_SMALL)) {
                                         newNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, newNumber);
                                         oldNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, oldNumber);
                                     }
-                                    Double incOrDec;
+                                    Double incOrDec;                            
                                     if (oldNumber == 0.0) {
                                         incOrDec = Double.POSITIVE_INFINITY;
                                     } else {
@@ -1774,6 +1780,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         salesLogic.saveEditedRecs(propertyId.toString(), changedValue, incOrDec, changedProperty, salesRowDto, projectionDTO, checkAll, !tempArray1[0].contains(Constant.GROWTH));
                                     }
                                     salesRowDto.addStringProperties(propertyId, newValue);
+                                    refreshFlag = true;
                                     tableHirarechyNos.add(getTableLogic().getTreeLevelonCurrentPage(itemId));
                                 } catch (PortalException | SystemException | NumberFormatException ex) {
                                     LOGGER.error(ex.getMessage());
@@ -1825,7 +1832,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 rightTable.setDoubleHeaderColumnCheckBox(obj, true);
 
                 rightTable.setDoubleHeaderColumnCheckBoxDisable(obj, ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
-                checkBoxMap.put(obj, false);
+                checkBoxMap.put(obj, BOOLEAN_CONSTANT.getFalseFlag());
             }
         }
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
@@ -1986,14 +1993,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         SalesRowDto tempDto = (SalesRowDto) tempId;
         if (tempDto.getUncheckCount() != 0) {
-            tempDto.addBooleanProperties(Constant.CHECK, false);
+            tempDto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getFalseFlag());
             if (leftTable.containsId(tempId)) {
-                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(false);
+                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BOOLEAN_CONSTANT.getFalseFlag());
             }
         } else {
-            tempDto.addBooleanProperties(Constant.CHECK, true);
+            tempDto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
             if (leftTable.containsId(tempId)) {
-                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(true);
+                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BOOLEAN_CONSTANT.getTrueFlag());
             }
         }
     }
@@ -2308,6 +2315,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     endPeriod.select(endPeriodValue);
                 }
             }
+            refreshFlag = false;
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -3154,7 +3162,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
         if (returnsFlag) {
             excelTable.setRefresh(false);
-            excelTable.setVisible(Boolean.FALSE);
+            excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             excelContainer.setColumnProperties(excelHeader.getProperties());
             excelTable.setContainerDataSource(excelContainer);
             excelTable.setVisibleColumns(excelHeader.getSingleColumns().toArray());
@@ -3162,7 +3170,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             tableLayout.addComponent(excelTable);
         } else {
             excelTable.setRefresh(false);
-            excelTable.setVisible(Boolean.FALSE);
+            excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             excelContainer.setColumnProperties(excelHeader.getProperties());
             excelTable.setContainerDataSource(excelContainer);
             tableLayout.addComponent(excelTable);

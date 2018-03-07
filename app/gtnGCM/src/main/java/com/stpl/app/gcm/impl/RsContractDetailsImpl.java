@@ -26,7 +26,7 @@ public class RsContractDetailsImpl {
      * @return 
      */
     public static Boolean saveRsDetailsAttached(final List<Object> input, final Object future){
-        Boolean retFlag;
+        boolean retFlag;
         String sql = StringUtils.EMPTY;
         try {
             sql = SQlUtil.getQuery("com.contractDashboard.saveRS");
