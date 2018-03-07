@@ -62,10 +62,10 @@ public class GtnUIFrameworkRSBuilderDynamicClassFiller implements GtnUIDynamicOb
 				new GtnFrameworkAvaliableNameUpdateAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAutoBuildAction.class.getName(),
 				new GtnFrameworkAutoBuildAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkConfirmedCopyAction.class.getName(),
-                                new GtnUIFrameworkConfirmedCopyAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkRelationshipCopyAction.class.getName(), 
-                                new GtnUIFrameworkRelationshipCopyAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkConfirmedCopyAction.class.getName(),
+				new GtnUIFrameworkConfirmedCopyAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkRelationshipCopyAction.class.getName(),
+				new GtnUIFrameworkRelationshipCopyAction());
 
 	}
 

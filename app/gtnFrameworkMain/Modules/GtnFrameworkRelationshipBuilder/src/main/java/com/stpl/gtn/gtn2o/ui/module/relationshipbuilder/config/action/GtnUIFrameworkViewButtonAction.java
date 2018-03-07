@@ -54,7 +54,7 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
 			String namespaceprefix = parameters.get(7).toString();
 			boolean view = Boolean.parseBoolean(parameters.get(21).toString());
-                        String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+			String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
 			setInitialValue(parameters, namespaceprefix, relationshipBean, index, view, mode);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(3).toString())
 					.loadDefaultCombobox(versionNo, versionNo);
@@ -70,7 +70,7 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
-                request.setRelationshipBuilderRequest(rbRequest);
+		request.setRelationshipBuilderRequest(rbRequest);
 		rbRequest.setMainNode(relationshipBean);
 
 		GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
@@ -105,45 +105,44 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 			String relationshipType = String.valueOf(relationshipBean.getProperties().get(2));
 			int hierarchySId = Integer.parseInt(String.valueOf(relationshipBean.getProperties().get(index + 1)));
 			String builderType = String.valueOf(relationshipBean.getProperties().get(index + 2));
-                        String relationshipName = String.valueOf(relationshipBean.getProperties().get(0));
+			String relationshipName = String.valueOf(relationshipBean.getProperties().get(0));
 			String relationshipDescription = String.valueOf(relationshipBean.getProperties().get(1));
 			Date startDate = (Date) relationshipBean.getProperties().get(5);
 
-                        if(mode.equals("Copy")){
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
-					.loadDateValue(null);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
-					.loadDateValue(null);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
-					.loadDateValue(null);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
-					.setComponentEnable(true);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
-					.setComponentEnable(true);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
-					.setComponentEnable(true);
-                        }
-                        else{
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
-					.loadDateValue(relationshipName);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
-					.loadDateValue(relationshipDescription);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
-					.loadDateValue(startDate);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
-					.setComponentEnable(false);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
-					.setComponentEnable(false);
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
-					.setComponentEnable(false);
-                        }
+			if (mode.equals("Copy")) {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+						.loadDateValue(null);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+						.loadDateValue(null);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+						.loadDateValue(null);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+						.setComponentEnable(true);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+						.setComponentEnable(true);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+						.setComponentEnable(true);
+			} else {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+						.loadDateValue(relationshipName);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+						.loadDateValue(relationshipDescription);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+						.loadDateValue(startDate);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+						.setComponentEnable(false);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+						.setComponentEnable(false);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+						.setComponentEnable(false);
+			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
 					.loadComboBoxComponentValue(hierarchySId);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())
 					.loadFieldValue(relationshipType);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(12).toString())
 					.loadFieldValue(builderType);
-			
+
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
 					.setComponentEnable(!view);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())
