@@ -17,6 +17,7 @@ import com.stpl.app.accountclose.utils.ErrorCodes;
 import com.stpl.app.accountclose.utils.FileUploader;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -955,7 +956,7 @@ public class AdditionalInformation extends CustomComponent implements View {
                     tableBean = (AttachmentDTO) targetItem.getBean();
                     StringBuilder sb = new StringBuilder(tableBean.getDocumentName());
                     sb.insert(tableBean.getDocumentName().lastIndexOf("."), "_" + String.valueOf(session.getProjectionId()));
-                    final File uploadedFile = new File("../../../../var/Attachments/" + File.separator + GTNMODULENAME + File.separator
+                    final File uploadedFile = new File(CommonUtil.getGtnDataPath()+"/Attachments/" + File.separator + GTNMODULENAME + File.separator
                             + userId + File.separator + sb.toString());
 
                     final Resource res = new FileResource(uploadedFile);
@@ -1146,8 +1147,8 @@ public class AdditionalInformation extends CustomComponent implements View {
                             uploader.setValue(StringUtils.EMPTY);
                             attachmentsListBean.addAll(allFiles);
                         }
-                        final File file = new File("../../../../var/Attachments/" + File.separator + GTNMODULENAME + File.separator + userId + File.separator + event.getFilename());
-                        final File newFile = new File("../../../../var/Attachments/" + File.separator + GTNMODULENAME + File.separator + userId + File.separator + sb.toString());
+                        final File file = new File(CommonUtil.getGtnDataPath()+"/Attachments/" + File.separator + GTNMODULENAME + File.separator + userId + File.separator + event.getFilename());
+                        final File newFile = new File(CommonUtil.getGtnDataPath()+"/Attachments/" + File.separator + GTNMODULENAME + File.separator + userId + File.separator + sb.toString());
                         file.renameTo(newFile);
                     } catch (SystemException e) {
                         final String errorMsg = ErrorCodeUtil.getErrorMessage(e);

@@ -48,6 +48,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -83,6 +84,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private final StplSecurity stplSecurity = new StplSecurity();
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjection.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic nmSalesProjectionTableLogic;
     protected String ALL = "ALL";
@@ -136,9 +138,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
             commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
         }
         init();
-        if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
-            super.setProjectionSelection(false);
-        }
 
     }
 
@@ -149,6 +148,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
         LOGGER.debug("Inside NMSalesProjection Screen= {} ", session.getUserId());
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
+        if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
+            super.setProjectionSelection(false);
+        }
         generateBtnLogic(null);
         configureGroupDDLB();
         super.configureGraph();
@@ -179,7 +181,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         try {
             configureExcelResultTable();
             getExcelSalesCommercial();
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
             excelTable.setDoubleHeaderVisible(false);
             ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport exp = null;
@@ -213,7 +215,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
-                        exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
+                        exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
                     } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -247,13 +249,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         }
                     }
                 securityForListView(visibleColumns.toArray(), Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class), excelTable);
-                exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
+                exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
                 exp.export();
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
     }
+    public static final String SALES_PROJECTION_XLS = "Sales_Projection.xls";
 
     @Override
     protected void enableDisableFields() {
@@ -333,11 +336,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
     protected void expandButtonLogic() {
         try {
             if (StringUtils.isNotBlank(String.valueOf(level.getValue())) || !Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(Boolean.TRUE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
@@ -758,11 +761,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), GlobalConstants.getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION);
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
-                generate.setVisible(Boolean.FALSE);
-                expand.setVisible(Boolean.FALSE);
-                collapse.setVisible(Boolean.FALSE);
-                newBtn.setVisible(Boolean.FALSE);
-                editBtn.setVisible(Boolean.FALSE);
+                generate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                expand.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                collapse.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
             if (functionPsHM.get(CommonUtils.PMPY) != null && ((AppPermission) functionPsHM.get(CommonUtils.PMPY)).isFunctionFlag()) {
                 pmpy.setVisible(true);
@@ -775,9 +778,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 altHistoryBtn.setVisible(false);
             }
             if (!(functionPsHM.get(CommonUtils.CALCULATE) != null && ((AppPermission) functionPsHM.get(CommonUtils.CALCULATE)).isFunctionFlag())) {
-                calculate.setVisible(Boolean.FALSE);
-                populate.setVisible(Boolean.FALSE);
-                adjust.setVisible(Boolean.FALSE);
+                calculate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                populate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                adjust.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
 
             if ((functionPsHM.get(CommonUtils.TOTAL_LIVES_LAYOUT) != null && ((AppPermission) functionPsHM.get(CommonUtils.TOTAL_LIVES_LAYOUT)).isFunctionFlag())) {
@@ -1029,7 +1032,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         try {
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
             excelTable.setDoubleHeaderVisible(false);
             ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport exp = null;
@@ -1044,7 +1047,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
-                        exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
+                        exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
                     } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -1067,7 +1070,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 excelTable.setVisibleColumns(visibleColumns.toArray());
                 excelTable.setColumnHeaders(Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class));
                 tableLayout.addComponent(excelTable);
-                exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
+                exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
                 exp.export();
             }
         } catch (Exception e) {

@@ -110,6 +110,7 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String ITEM_ID = "itemId";
 
 	public static final String GTN_BASE_PATH = GTNFRAMEWORK_BASE_PATH;
+	public static final String GTN_DATA_PATH = "gtn.app.data.path";
 
 	public static final String RETURNS_FORECAST_DUALLIST_CONFIG_ACTION = "com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReturnsDualListBoxConfigAction";
 
@@ -189,6 +190,7 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String GREATER_THAN = ">";
 	public static final String CUMULATIVE_FILE_PATH = "cumulative.file.path";
 	public static final String ATTACHMENTS = "Attachments";
+        public static final String NET_SALES = "Net Sales";
 
 	private GtnFrameworkCommonStringConstants() {
 	}

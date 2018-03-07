@@ -45,6 +45,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
@@ -109,6 +110,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AlternateSummery extends CustomComponent {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * View name for navigation.
      */
@@ -852,7 +854,7 @@ public class AlternateSummery extends CustomComponent {
                     final Component uiContext) {
                 if (String.valueOf(propertyId).equals(Constant.CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setValue(false);
+                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
                     check.setEnabled(!Constant.VIEW.equals(session.getAction()));
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
@@ -975,10 +977,14 @@ public class AlternateSummery extends CustomComponent {
                             if (!oldValue.equals(newValue)) {
                                 try {
                                     Double newNumber, oldNumber;
-                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.parseDouble(newValue);
-                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.parseDouble(oldValue);
-
-                                    Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
+                                    newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
+                                    oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
+                                     Double incOrDec;
+                                    if (oldNumber == 0.0) {
+                                        incOrDec = Double.POSITIVE_INFINITY;
+                                    } else {
+                                        incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
+                                    }
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
                                     String tempArray[] = tempValue.split("-");
                                     tempValue = tempArray[NumericConstants.TWO];
@@ -1132,14 +1138,14 @@ public class AlternateSummery extends CustomComponent {
         // To update the check
         SalesRowDto tempDto = (SalesRowDto) tempId;
         if (tempDto.getUncheckCount() != 0) {
-            tempDto.addBooleanProperties(Constant.CHECK, false);
+            tempDto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getFalseFlag());
             if (leftTable.containsId(tempId)) {
-                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(false);
+                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BOOLEAN_CONSTANT.getFalseFlag());
             }
         } else {
-            tempDto.addBooleanProperties(Constant.CHECK, true);
+            tempDto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
             if (leftTable.containsId(tempId)) {
-                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(true);
+                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BOOLEAN_CONSTANT.getTrueFlag());
             }
         }
     }
@@ -1511,7 +1517,7 @@ public class AlternateSummery extends CustomComponent {
             columnHeader.add(StringUtils.EMPTY + header);
         }
         excelTable.setRefresh(false);
-        excelTable.setVisible(Boolean.FALSE);
+        excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
         excelContainer.setColumnProperties(excelHeader.getProperties());
         excelTable.setContainerDataSource(excelContainer);
         excelTable.setVisibleColumns(visibleColumns.toArray());
@@ -1900,7 +1906,7 @@ public class AlternateSummery extends CustomComponent {
         try {
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
@@ -1934,11 +1940,11 @@ public class AlternateSummery extends CustomComponent {
     protected void expandButtonLogic() {
         try {
             if (StringUtils.isNotBlank(String.valueOf(level.getValue())) || !Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(Boolean.TRUE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
@@ -2215,11 +2221,11 @@ public class AlternateSummery extends CustomComponent {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION);
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
-                generate.setVisible(Boolean.FALSE);
-                expand.setVisible(Boolean.FALSE);
-                collapse.setVisible(Boolean.FALSE);
-                newBtn.setVisible(Boolean.FALSE);
-                editBtn.setVisible(Boolean.FALSE);
+                generate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                expand.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                collapse.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
 
             }
 

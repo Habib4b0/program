@@ -339,4 +339,8 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String STRING_HASH = " # ";
 	public static final String STRING_TILT = "~";
 	public static final String ZERO = "0";
+        /**
+         * Price Schedule Constant 
+         */
+        public static final String PS_IFP_START_DATE = "IFP_START_DATE";
 }

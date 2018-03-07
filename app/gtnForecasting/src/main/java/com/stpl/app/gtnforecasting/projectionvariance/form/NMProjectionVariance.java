@@ -49,12 +49,13 @@ import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -96,6 +97,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class NMProjectionVariance extends ForecastProjectionVariance {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final StplSecurity stplSecurity = new StplSecurity();
     public static final String CAPTION = "CAPTION";
     public static final String GROUP_PROPERTY = "group";
@@ -422,8 +424,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         pvSelectionDTO.setProjectionId(projectionId);
         pvSelectionDTO.setTreeLevelNo(Integer.parseInt(getSessionDTO().getCustomerLevelNumber()));
-        pvSelectionDTO.setPpa(CommonLogic.isPPA(Boolean.TRUE, pvSelectionDTO));
-        pvSelectionDTO.setReturns(CommonLogic.isReturns(Boolean.TRUE, pvSelectionDTO));
+        pvSelectionDTO.setPpa(CommonLogic.isPPA(BOOLEAN_CONSTANT.getTrueFlag(), pvSelectionDTO));
+        pvSelectionDTO.setReturns(CommonLogic.isReturns(BOOLEAN_CONSTANT.getTrueFlag(), pvSelectionDTO));
         resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, CommonUtil.isValueEligibleForLoading()));
 
         UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_SEVEN_ZERO, TAB_PROJECTION_VARIANCE.getConstant());
@@ -566,10 +568,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void comparisonLookupLogic() {
         LOGGER.info("Comparision lookup started");
-        if (editFlag || !comparisonProjId.isEmpty()) {
+        if (editFlag || !projIdList.isEmpty()) {
             editFlag = false;
             try {
-                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
+                List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(projIdList), null, null);
                 selectedList = logic.getCustomizedPVComparisonList(list);
             } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
@@ -1787,11 +1789,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
 
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {
-            generateBtn.setVisible(Boolean.FALSE);
-            editViewBtn.setVisible(Boolean.FALSE);
-            collapseLvlBtn.setVisible(Boolean.FALSE);
-            expandLvlBtn.setVisible(Boolean.FALSE);
-            addViewBtn.setVisible(Boolean.FALSE);
+            generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            editViewBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            collapseLvlBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            expandLvlBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            addViewBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
         }
     }
 
@@ -2118,7 +2120,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     }
 
                     Object parentItemId = null;
-                    if (tradingPartnerKeys.contains(key)) {
+                    if (tradingPartnerKeys.contains(key) && !CommonUtil.isValueEligibleForLoading()) {
                         int index = 0;
                         for (Iterator<ProjectionVarianceDTO> it1 = varibaleList.listIterator(); it1.hasNext();) {
                             ProjectionVarianceDTO itemId = it1.next();
@@ -2244,6 +2246,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         resultExcelContainer.setChildrenAllowed(itemId, false);
                     }
                 }
+                resultExcelContainer.sort(new Object[]{Constant.GROUP}, new boolean[]{true});
             }
 
             excelParentRecords.clear();

@@ -64,7 +64,7 @@ public class GtnFrameworkUdcSearchAction
 			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
 		}
-		if (udcCategory.equals("FILE_TYPE")) {
+		else if (udcCategory.equals(GtnFrameworkCommonConstants.FILE_TYPE)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_BRANDLAYOUT)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_LAYOUT).setVisible(false);
@@ -125,7 +125,7 @@ public class GtnFrameworkUdcSearchAction
 	}
 
 	private void checkCondition(GtnUIFrameWorkActionConfig loadDataTableActionConfig, String udcCategory) {
-		if (!udcCategory.trim().equals("")) {
+		if (!udcCategory.trim().isEmpty() && !udcCategory.equals(GtnFrameworkCommonConstants.FILE_TYPE)) {
 			loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
 		} else {
 			clearTableRecords(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);

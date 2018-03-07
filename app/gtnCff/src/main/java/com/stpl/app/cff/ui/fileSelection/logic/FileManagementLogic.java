@@ -46,6 +46,7 @@ import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.stpl.app.service.ItemQualifierLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -83,6 +84,8 @@ public class FileManagementLogic {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementLogic.class);// Logger
+        
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 	// Declaration
 	/**
 	 * The Constant NULLCREATION.
@@ -230,10 +233,10 @@ public class FileManagementLogic {
 		} else if (ConstantsUtils.DEMAND.equals(fileType)) {
 			sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM DEMAND_FORECAST DF WHERE FORECAST_NAME like '"
 					+ fileName + "' AND COUNTRY like '" + country + "' AND FORECAST_VER like  '" + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -242,10 +245,10 @@ public class FileManagementLogic {
 		} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(fileType)) {
 			sqlString = "SELECT INW.FORECAST_NAME,INW.FORECAST_VER,INW.CREATED_DATE FROM INVENTORY_WD_PROJ_MAS INW WHERE INW.FORECAST_NAME like '"
 					+ fileName + "' AND INW.COUNTRY like '" + country + "' AND INW.FORECAST_VER like '" + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -255,10 +258,10 @@ public class FileManagementLogic {
 			sqlString = "SELECT INW.FORECAST_NAME,INW.FORECAST_VER,INW.CREATED_DATE FROM INVENTORY_WD_PROJ_DT INW WHERE INW.FORECAST_NAME like '"
 					+ fileName + "' AND INW.COUNTRY like '" + country + "%' AND INW.FORECAST_VER like '" + version
 					+ "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -267,10 +270,10 @@ public class FileManagementLogic {
 		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType)) {
 			sqlString = "SELECT DF.FORECAST_NAME,DF.FORECAST_VER,DF.CREATED_DATE FROM CUSTOMER_GTS_FORECAST DF WHERE FORECAST_NAME like '"
 					+ fileName + "' AND COUNTRY like '" + country + "' AND FORECAST_VER like '" + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -279,10 +282,10 @@ public class FileManagementLogic {
 		} else if (ConstantsUtils.ADJUSTED_DEMAND.equals(fileType)) {
 			sqlString = "SELECT FORECAST_NAME, FORECAST_VER, CREATED_DATE FROM dbo.ADJUSTED_DEMAND_FORECAST WHERE FORECAST_NAME like '"
 					+ fileName + "' AND  COUNTRY like '" + country + "' AND FORECAST_VER like '" + version + "'";
-			List<ForecastingMaster> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
+			List<Object[]> resultsLists = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 			if (!resultsLists.isEmpty()) {
-				for (Object resultsList1 : resultsLists) {
-					final Object[] obj = (Object[]) resultsList1;
+				for (Object[] resultsList1 : resultsLists) {
+					final Object[] obj = resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
 					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
@@ -509,7 +512,7 @@ public class FileManagementLogic {
 			for (int i = 0; i < itemIds.size(); i++) {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(true);
+					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BOOLEAN_CONSTANT.getTrueFlag());
 				}
 			}
 		} else if ("uncheck".equalsIgnoreCase(clickEvent)) {
@@ -517,7 +520,7 @@ public class FileManagementLogic {
 			for (int i = 0; i < itemIds.size(); i++) {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(false);
+					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BOOLEAN_CONSTANT.getFalseFlag());
 				}
 			}
 		}
@@ -526,7 +529,7 @@ public class FileManagementLogic {
 	public String saveForecastDetails(List<FileMananagementResultDTO> itemIds, String source, String country,
 			String version, String forecastName, String fileType) throws SystemException {
 		LOGGER.debug("Entering Save Forecast Details with File Name= {} and File Type= {} and Source= {} and Country= {}", forecastName, fileType.equals(ConstantsUtils.EX_FACTORY_SALES), source, country);
-		Boolean flag = false;
+		boolean flag = false;
 		for (int i = 0; i < itemIds.size(); i++) {
 
 			final FileMananagementResultDTO beanItem = itemIds.get(i);
@@ -735,7 +738,7 @@ public class FileManagementLogic {
 	public void updateAutoModeProcess(final Date date) throws SystemException {
 		final DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		List<ForecastConfig> config;
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", true));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", BOOLEAN_CONSTANT.getTrueFlag()));
 		config = ForecastConfigLocalServiceUtil.dynamicQuery(dynamicQuery);
 		if (!config.isEmpty()) {
 			for (ForecastConfig forecastConfig : config) {
@@ -1465,7 +1468,7 @@ public class FileManagementLogic {
 				boolean recordStatus = ((Boolean) obj[NumericConstants.EIGHT]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.NINE]);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
 				resultsListDTO.add(fmDTO);
 			}
@@ -1529,7 +1532,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.TWENTY_EIGHT]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1568,7 +1571,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.THIRTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1618,7 +1621,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1684,7 +1687,7 @@ public class FileManagementLogic {
 				fmDTO.setForecastSystemId(obj[NumericConstants.TWENTY_SEVEN] != null
 						? Integer.parseInt(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])) : 0);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(false);
+				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -2561,7 +2564,7 @@ public class FileManagementLogic {
 			fmDTO.setRecordLockStatus(recordStatus);
 			fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
 			fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-			fmDTO.setCheck(false);
+			fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
 			resultsListDTO.add(fmDTO);
 		}
 		return resultsListDTO;

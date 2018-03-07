@@ -84,13 +84,14 @@ import static com.stpl.app.utils.Constants.StringConstants.PERCENT;
 import static com.stpl.app.utils.Constants.StringConstants.SPLIT_ARROW;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.app.utils.converters.DataTypeConverter;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.sql.CallableStatement;
@@ -128,6 +129,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SalesLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     public static final DecimalFormat MONEY = new DecimalFormat("$0.00");
     public static final DecimalFormat UNIT = new DecimalFormat("0.00");
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$#,##0");
@@ -1834,7 +1836,7 @@ public class SalesLogic {
             saveQuery = saveQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + year);
             saveQuery = saveQuery.replace(Constant.PERIOD1_AT, StringUtils.EMPTY + quater);
             saveQuery = addFrequencyInQuery(frequencyDivision, quater, saveQuery);
-            String amountValue;
+            String amountValue = StringUtils.EMPTY;
             if (propertyId.endsWith("ProjectedReturnAmount")) {
                 saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
                 if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
@@ -1843,7 +1845,10 @@ public class SalesLogic {
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 } else {
                     actualAmount = Double.parseDouble(editedValue) / (detailsIdValues.length);
+                    if(frequencyValue != 0)
+                    {
                     amountValue = String.valueOf(actualAmount / frequencyValue);
+                    }
                 }
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, Constant.PROJECTED_RETURN_AMOUNT);
@@ -2034,6 +2039,7 @@ public class SalesLogic {
     
     public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
 
+        String key = StringUtils.EMPTY;
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
             StringBuilder updateLine = new StringBuilder(StringUtils.EMPTY);
@@ -2051,7 +2057,11 @@ public class SalesLogic {
             String hierarchyNo = salesDTO.getHierarchyNo();
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String[] keyarr = propertyId.split("-");
-            String key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
+            if (frequencyDivision != 1) {
+            key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
+            }else{
+            key = (keyarr[0])+"~"+salesDTO.getHierarchyNo();
+            }
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
@@ -2184,7 +2194,7 @@ public class SalesLogic {
               callManualEntry(projectionSelectionDTO, (entry.getKey()).split(",")[1].contains(Constant.SALES_SMALL) ? Constant.SALES_SMALL : Constant.UNITS_SMALL);
           }
         projectionSelectionDTO.getUpdateQueryMap().clear();
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
     }
 
     /**
@@ -3661,12 +3671,11 @@ public class SalesLogic {
         }
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
-        LOGGER.debug("amount     = {} " , amount);
-
-        amount = (amountA / amountB) * amount;
-        boolean flag = Double.isNaN(amount);
-        if (flag) {
+        LOGGER.debug("amount     = {} ", amount);
+        if (amountA == 0.0 && amountB == 0.0) {
             amount = 0.0;
+        } else if (amountA != 0.0 && amountB != 0.0) {
+            amount = (amountA / amountB) * amount;
         }
         return amount;
     }

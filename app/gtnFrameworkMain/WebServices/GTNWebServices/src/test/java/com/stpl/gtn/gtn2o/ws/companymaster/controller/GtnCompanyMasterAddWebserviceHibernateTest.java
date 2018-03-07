@@ -93,7 +93,7 @@ public class GtnCompanyMasterAddWebserviceHibernateTest {
 		Date currentDate = new Date();
 		NotesTabBean companyNotesTabRequest = new NotesTabBean();
 		companyNotesTabRequest.setMasterTableName("COMPANY_MASTER");
-		companyNotesTabRequest.setFilePath("../../../../var/Attachments/Docs/Test.txt");
+		companyNotesTabRequest.setFilePath(System.getProperty("gtn.app.data.path")+"/Attachments/Docs/Test.txt");
 		companyNotesTabRequest.setCreatedDate(currentDate);
 		companyNotesTabRequest.setCreatedBy(13330);
 		cmNotesTabRequestList.add(companyNotesTabRequest);

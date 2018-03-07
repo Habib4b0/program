@@ -16,6 +16,7 @@ import static com.stpl.app.cff.util.Constants.NULL;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.TreeTable;
@@ -41,6 +42,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class DataSelectionUtil {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static final Map<String, String> userMap = new HashMap<>();
     private static final Map<String, String> userIdMap = new HashMap<>();
     private static final Map<String, String> discountMap = new HashMap<>();
@@ -147,7 +149,7 @@ public class DataSelectionUtil {
                     }
                     query.append(" im.");
                     orFlag = true;
-                    fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), true);
+                    fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), BOOLEAN_CONSTANT.getTrueFlag());
                     query.append(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn));
                     query.append(" in (");
 

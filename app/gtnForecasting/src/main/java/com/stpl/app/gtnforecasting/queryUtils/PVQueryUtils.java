@@ -19,6 +19,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -40,6 +41,7 @@ public class PVQueryUtils {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PVQueryUtils.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     public static final String IMONTH = ", I.\"MONTH\"";
     public static final String YEARS_SPACE = " YEARS";
     public static final String YEARS_PERIODS = " YEARS,PERIODS ";
@@ -429,7 +431,7 @@ public class PVQueryUtils {
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(descVal).append("or  PM.PROJECTION_DESCRIPTION is null)");
             if (isProjectionStatus) {
-                customSql.append("and pm.is_approved not  in ('Y','C','A','R')");
+                customSql.append("and ISNULL(PM.IS_APPROVED,'') not  in ('Y','C','A','R')");
             } else {
                 customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
@@ -609,7 +611,7 @@ public class PVQueryUtils {
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(descVal).append("or PM.PROJECTION_DESCRIPTION is null)");
             if (isProjectionStatus) {
-                customSql.append("and pm.is_approved not in ('Y','C','A','R')");
+                customSql.append("and ISNULL(PM.IS_APPROVED,'') not in ('Y','C','A','R')");
             } else {
                 customSql.append("AND HT1.list_name =  'WorkFlowStatus' and ht1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
@@ -765,7 +767,7 @@ public class PVQueryUtils {
             StringBuilder customSql = new StringBuilder(replaceQuery);
 
             if (isProjectionStatus) {
-                customSql.append(" PM.IS_APPROVED NOT IN ('Y','C','A','R')");
+                customSql.append(" ISNULL(PM.IS_APPROVED,'') NOT IN ('Y','C','A','R') AND PM.SAVE_FLAG = 1 ");
             } else {
                 customSql.append(" HT1.list_name = 'WorkFlowStatus' and HT1.description = ").append('\'').append(comparisonLookupDTO.getWorkflowStatus()).append('\'');
             }
@@ -917,9 +919,9 @@ public class PVQueryUtils {
 
     private boolean isValidateSearchCriteria(String dto) {
         if (dto == null || StringUtils.isBlank(dto)) {
-            return Boolean.FALSE;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         } else {
-            return Boolean.TRUE;
+            return BOOLEAN_CONSTANT.getTrueFlag();
         }
     }
     

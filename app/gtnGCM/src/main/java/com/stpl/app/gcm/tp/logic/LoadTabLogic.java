@@ -18,10 +18,11 @@ import com.stpl.app.gcm.tp.dto.SummaryTemDTO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.gcm.util.DataTypeConverter;
 import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +41,7 @@ public class LoadTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadTabLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static int projectionId = 0;
     private static String forecatingType = StringUtils.EMPTY;
     private static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
@@ -72,7 +74,7 @@ public class LoadTabLogic {
         if (parentId instanceof SalesTabDTO) {
             SalesTabDTO pDto = (SalesTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getFalseFlag());
             if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
@@ -221,7 +223,7 @@ public class LoadTabLogic {
         if (parentId instanceof SalesTabDTO) {
             SalesTabDTO pDto = (SalesTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getFalseFlag());
             if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
@@ -435,7 +437,7 @@ public class LoadTabLogic {
         if (parentId instanceof RebateTabDTO) {
             RebateTabDTO pDto = (RebateTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getFalseFlag());
             if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
@@ -491,7 +493,7 @@ public class LoadTabLogic {
         if (parentId instanceof RebateTabDTO) {
             RebateTabDTO pDto = (RebateTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BOOLEAN_CONSTANT.getFalseFlag());
             if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
