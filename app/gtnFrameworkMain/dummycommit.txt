@@ -1,6 +1,5 @@
 ﻿dummycommit
 
-<<<<<<< HEAD
 ALG-3972
 ALG-3966
 ALG-3946
@@ -31,8 +30,6 @@ ALG-3760
 ALG-3813
 ALG-3756
 ALG-4014
-=======
 ALG-4007
 ALG-3843
->>>>>>> 62752412190c4cae6e8765ddd4bd7942ff3b327e
 
