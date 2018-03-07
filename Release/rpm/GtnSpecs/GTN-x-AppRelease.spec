@@ -65,6 +65,13 @@ then
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/R2_ETL.jar
 fi
 
+if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnProperties.jar ]
+then
+mkdir -p $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties
+  cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnProperties.jar  $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties/gtnProperties.jar
+chmod -R 777 $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties/gtnProperties.jar
+fi
+
 if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/ETLProcedureInput.properties ]
 then
   cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/ETLProcedureInput.properties  $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/
@@ -166,6 +173,7 @@ fi
 
 if [ -e $install_path/tempdeploy/GtnFrameworkTransaction.jar ];
 then
+mkdir -p $Gtn_Framework_Base_path/transaction_json
 jar xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
 cp  -R /WEB-INF/classes/transaction_json $Gtn_Framework_Base_path
 rm -rf /WEB-INF /META-INF
