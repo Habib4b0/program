@@ -20,6 +20,7 @@ public class Constants {
 
     private static final String[] REASON_CODES = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
     public static final String NULL = "null";
+    public static final String GROUP = "group";
     public static final String SELECT_ONE_LABEL = "-Select One-";
     public static final String VARIABLE_LABEL = "Variable";
     public static final String PERIOD = "Period";

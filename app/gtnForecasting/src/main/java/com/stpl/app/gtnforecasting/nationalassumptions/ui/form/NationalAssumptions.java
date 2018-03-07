@@ -643,8 +643,8 @@ public class NationalAssumptions extends CustomComponent implements View {
                 }
             });
 
-        } catch (PortalException | SystemException portal) {
-            LOGGER.error(StringUtils.EMPTY,portal);
+        } catch (Exception e) {
+            LOGGER.error("",e);
         } 
         LOGGER.debug("End of configurefields method");
     }
