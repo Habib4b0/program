@@ -3636,8 +3636,6 @@ public class DataSelection extends AbstractDataSelection {
 
 	private void initializeCustomerHierarchy(final int projectionId, final String customerLevel) {
 		LOGGER.debug("Initializing Customer Hierarchy...");
-                System.out.println("CONSTANT.getTrueFlag() ========= "+BOOLEAN_CONSTANT.getTrueFlag());
-                System.out.println("CONSTANT.getTrueFlag() ========= "+BOOLEAN_CONSTANT.getFalseFlag());
 		List<Leveldto> initialCustomerHierarchy = relationLogic.getRelationShipValues(projectionId, BOOLEAN_CONSTANT.getTrueFlag(),
 				customerLevel, customerDescriptionMap);
 		int forecastLevel = 0;
