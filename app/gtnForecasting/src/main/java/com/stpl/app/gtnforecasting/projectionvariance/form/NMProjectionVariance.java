@@ -2120,7 +2120,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     }
 
                     Object parentItemId = null;
-                    if (tradingPartnerKeys.contains(key)) {
+                    if (tradingPartnerKeys.contains(key) && !CommonUtil.isValueEligibleForLoading()) {
                         int index = 0;
                         for (Iterator<ProjectionVarianceDTO> it1 = varibaleList.listIterator(); it1.hasNext();) {
                             ProjectionVarianceDTO itemId = it1.next();
@@ -2246,6 +2246,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         resultExcelContainer.setChildrenAllowed(itemId, false);
                     }
                 }
+                resultExcelContainer.sort(new Object[]{Constant.GROUP}, new boolean[]{true});
             }
 
             excelParentRecords.clear();

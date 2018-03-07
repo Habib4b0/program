@@ -447,6 +447,7 @@ public class NMProjectionVarianceLogic {
         } else if (isLevelsCount) {
             selectionDTO.setLevelNo(selectionDTO.getFilterLevelNo());
             selectionDTO.setTreeLevelNo(selectionDTO.getFilterLevelNo());
+            selectionDTO.setHierarchyNo(StringUtils.EMPTY);
             count += configureLevelsCount(selectionDTO);
         }
         return count;
@@ -545,7 +546,7 @@ public class NMProjectionVarianceLogic {
         if (!isDiscountExpand && !pVSelectionDTO.isIslevelFiler() && !pVSelectionDTO.isIsLevel() && isLevelsCount) {
             if ((pVSelectionDTO.getTreeLevelNo() + 1) == pVSelectionDTO.getTpLevel()
                     && ((pVSelectionDTO.isIsCustomHierarchy()) || (!pVSelectionDTO.getHierarchyIndicator().equals(P)))
-                    && pVSelectionDTO.getGroupParent() == 0) {
+                    && pVSelectionDTO.getGroupParent() == 0 && !CommonUtil.isValueEligibleForLoading()) {
                 count = count + 1;
                 pVSelectionDTO.setGroupCount(true);
                 pVSelectionDTO.setLevelCount(1);
@@ -659,7 +660,7 @@ public class NMProjectionVarianceLogic {
         if (!isDiscountExpand && !pVSelectionDTO.isIslevelFiler() && !pVSelectionDTO.isIsLevel() && neededRecord > 0) {
             if ((pVSelectionDTO.getTreeLevelNo() + 1) == pVSelectionDTO.getTpLevel()
                     && ((pVSelectionDTO.isIsCustomHierarchy()) || (!pVSelectionDTO.getHierarchyIndicator().equals(P)))
-                    && pVSelectionDTO.getGroupParent() == 0) {
+                    && pVSelectionDTO.getGroupParent() == 0 && !CommonUtil.isValueEligibleForLoading()) {
                 ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
                 dto.setLevelNo(pVSelectionDTO.getLevelNo());
                 dto.setTreeLevelNo(pVSelectionDTO.getTreeLevelNo());
@@ -1115,7 +1116,7 @@ public class NMProjectionVarianceLogic {
         if (!pvsdto.isIsLevel() && isLevelsCount) {
             if ((pvsdto.getTreeLevelNo() + 1) == pvsdto.getTpLevel()
                     && ((pvsdto.isIsCustomHierarchy()) || (!pvsdto.getHierarchyIndicator().equals(P)))
-                    && pvsdto.getGroupParent() == 0) {
+                    && pvsdto.getGroupParent() == 0 && !CommonUtil.isValueEligibleForLoading()) {
                 count = count + 1;
                 pvsdto.setGroupCount(true);
                 pvsdto.setLevelCount(1);
@@ -1167,7 +1168,7 @@ public class NMProjectionVarianceLogic {
         if (!pvsdto.isIsLevel() && neededRecord > 0 && !pvsdto.getLevel().equals(TOTAL.getConstant())) {
             if ((pvsdto.getTreeLevelNo() + 1) == pvsdto.getTpLevel()
                     && ((pvsdto.isIsCustomHierarchy()) || (!pvsdto.getHierarchyIndicator().equals(P)))
-                    && pvsdto.getGroupParent() == 0) {
+                    && pvsdto.getGroupParent() == 0 && !CommonUtil.isValueEligibleForLoading()) {
                 ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
                 dto.setLevelNo(pvsdto.getLevelNo());
                 dto.setTreeLevelNo(pvsdto.getTreeLevelNo());
