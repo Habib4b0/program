@@ -304,6 +304,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private List<String> baselinePeriods = new ArrayList<>();
     private final Map<String, Object> excelParentRecords = new HashMap();
     private boolean isMultipleVariablesUpdated = false;
+    private Object[] tempSingleHeaderArray = null;
+
     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
@@ -721,7 +723,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
             if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
                 blurValue = String
-                    .valueOf(tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).getValue())
+                        .valueOf(tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).getValue())
                         .trim();
                 String deductionHierarchy = DiscountQueryBuilder.getRSDiscountHierarchyNo(
                         projectionSelection.getDeductionLevelFilter(), session, session.getSelectedDeductionLevelNo());
@@ -871,12 +873,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage());
                         try {
-    						AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
-    								AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
-    					} catch (IOException e1) {
-    						
-    						LOGGER.error("Exception Occurred{}:",e1.getMessage());
-    					}
+                            AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
+                                    AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
+                        } catch (IOException e1) {
+
+                            LOGGER.error("Exception Occurred{}:", e1.getMessage());
+                        }
                         tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).setValue(focusValue);
                     }
 
@@ -1140,13 +1142,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         }
 
                     } else {
-                    	try {
-    						AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
-    								AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
-    					} catch (IOException e) {
-    						
-    						LOGGER.error("Exception Occurred in Getting Property value from Property File:{}",e.getMessage());
-    					}
+                        try {
+                            AbstractNotificationUtils.getErrorNotification(AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesHeader()),
+                                    AppDataUtils.getValueForKeyFromProperty(Constants.getCommercialForecastingMultipleVariablesMessage()));
+                        } catch (IOException e) {
+
+                            LOGGER.error("Exception Occurred in Getting Property value from Property File:{}", e.getMessage());
+                        }
                         isMultipleVariablesUpdated = false;
                         refreshTableData(getCheckedRecordsHierarchyNo());
                         multipleVariableCheckMap.clear();
@@ -3085,7 +3087,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             }
             securityForListView(leftTableExcelColumns, Arrays.copyOf(objectArrayHeaders, objectArrayHeaders.length, String[].class), excelTable);
-            Object[] singleHeaderArray = excelHeaderLeft.getDoubleHeaderMaps().get(GROUP_PROPERTY_ID);
+            Object[] singleHeaderArray = getFinalLeftHeader(excelHeaderLeft.getDoubleHeaderMaps());
+
             List<Object> listHeadersList = new ArrayList(Arrays.asList(singleHeaderArray));
             listHeadersList.remove(LEVEL_NAME_PROPERTY);
             listHeadersList.remove("group");
@@ -3193,7 +3196,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.error("", e);
         }
         LOGGER.debug("excel ends");
     }
@@ -3265,7 +3268,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     projectionSelection.getHistory(), temphierarchyIndicator, projectionSelection.getProjectionOrder(),
                     userGroup, PROGRAM.getConstant().equals(level.getValue()), discountToBeLoaded,
                     projectionSelection.getYear(), customDetailsList, true, isCustomHierarchy, rightHeader, 0,
-                    NumericConstants.THOUSAND, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), 
+                    NumericConstants.THOUSAND, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(),
                     customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), StringUtils.EMPTY,
                     relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY,
                     Collections.EMPTY_LIST, Collections.EMPTY_MAP, projectionSelection.getForecastConfigPeriods(),
@@ -3395,7 +3398,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     startAndEndPeriods, projectionSelection.getHistory(), temphierarchyIndicator,
                     projectionSelection.getProjectionOrder(), userGroup, PROGRAM.getConstant().equals(level.getValue()),
                     discountToBeLoaded, projectionSelection.getYear(), customDetailsList, true, isCustomHierarchy,
-                    rightHeader, 0, NumericConstants.THOUSAND, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), 
+                    rightHeader, 0, NumericConstants.THOUSAND, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(),
                     customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(),
                     StringUtils.EMPTY, relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY,
                     StringUtils.EMPTY, Collections.EMPTY_LIST, Collections.EMPTY_MAP,
@@ -5237,7 +5240,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
 
     public boolean getSubmitFlag() {
-            return !resultBeanContainer.isEmpty();
+        return !resultBeanContainer.isEmpty();
     }
 
     public void configure() {
@@ -5752,5 +5755,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("excel ends");
+    }
+
+    private Object[] getFinalLeftHeader(Map<Object,Object[]> doubleHeader) {
+        if (this.tempSingleHeaderArray == null) {
+            this.tempSingleHeaderArray = doubleHeader.get(GROUP_PROPERTY_ID);
+        }
+        return this.tempSingleHeaderArray;
     }
 }
