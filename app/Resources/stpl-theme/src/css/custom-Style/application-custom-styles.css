@@ -1634,4 +1634,10 @@ body[class*="modal-custom-window-"] div[id="wrapper"]{
 .custommenumulticheck {
     min-width: 180px;
 }
+.hideLabel span:nth-child(6) label::before, .hideLabel span:nth-child(6) label::after, .hideLabel span:nth-child(3) label::before, .hideLabel span:nth-child(3) label::after {
+display: none;
+visibility: hidden;
+opacity : 100;
+background : white
+}
 
