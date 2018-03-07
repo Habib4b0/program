@@ -127,7 +127,7 @@ content: '';
 display: block;
 content: "";
 display: block;
-width: 210px;
+max-width: 210px;
 position: fixed;
 bottom: 0px;
 top: 0px;
