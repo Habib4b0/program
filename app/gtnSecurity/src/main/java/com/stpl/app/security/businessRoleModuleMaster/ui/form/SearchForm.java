@@ -13,6 +13,7 @@ import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.HelperUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
@@ -43,7 +44,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 public class SearchForm extends CustomComponent {
 
     private static final long serialVersionUID = 8893447767363695369L;
-
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final ErrorLabel errorMsg = new ErrorLabel();
     private final IndexedContainer con = new IndexedContainer();
     private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
@@ -193,7 +194,7 @@ public class SearchForm extends CustomComponent {
                         for (int i = 0; i < size; i++) {
                             SearchBusinessRoleModuleForm result;
                             result = searchFieldResult.getIdByIndex(i);
-                            result.setAdd(true);
+                            result.setAdd(BOOLEAN_CONSTANT.getTrueFlag());
                         }
                         addToTableField(false);
                     }
@@ -215,7 +216,7 @@ public class SearchForm extends CustomComponent {
                         for (int i = 0; i < size; i++) {
                             SearchBusinessRoleModuleForm result;
                             result = searchFieldResult.getIdByIndex(i);
-                            result.setView(true);
+                            result.setView(BOOLEAN_CONSTANT.getTrueFlag());
                         }
                         addToTableField(false);
                     }
@@ -357,7 +358,7 @@ public class SearchForm extends CustomComponent {
                     final ExtCustomCheckBox ch = new ExtCustomCheckBox();
                     ch.setImmediate(true);
                     ch.setEnabled(false);
-                    ch.setValue(true);
+                    ch.setValue(BOOLEAN_CONSTANT.getTrueFlag());
                     return ch;
                 } else if (cls.equals(Boolean.class)) {
                     final ExtCustomCheckBox ch = new ExtCustomCheckBox();
@@ -391,7 +392,7 @@ public class SearchForm extends CustomComponent {
         }
         for (int i = 0; i < size; i++) {
 
-            if (searchFieldResult.getIdByIndex(i).getAdd().equals(false)) {
+            if (searchFieldResult.getIdByIndex(i).getAdd().equals(BOOLEAN_CONSTANT.getFalseFlag())) {
                 return false;
             }
 

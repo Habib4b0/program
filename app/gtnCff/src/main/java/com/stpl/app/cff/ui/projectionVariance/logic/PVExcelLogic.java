@@ -1409,11 +1409,15 @@ public class PVExcelLogic {
                 final Object[] obj = (Object[]) dataList.get(i);
                 if (!StringUtils.EMPTY.equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                     pvDTO.setGroup(lastValue);
+                    pvDTO.setDfLevelNumber(lastValue);
+                    pvDTO.setDfLevelName(lastValue);
                     resultDto.add(pvDTO);
                     pvDTO = new ProjectionVarianceDTO();
                 }
                 lastValue = String.valueOf(obj[NumericConstants.TWO]);
                 pvDTO.setGroup(lastValue);
+                pvDTO.setDfLevelNumber(lastValue);
+                pvDTO.setDfLevelName(lastValue);
                 String commonColumn = StringUtils.EMPTY;
                 if (vFrequencyDivision == NumericConstants.FOUR) {
                     commonColumn = "Q" + obj[1] + StringUtils.EMPTY + obj[0];
@@ -2657,6 +2661,9 @@ public class PVExcelLogic {
             PVSelectionDTO selection, DecimalFormat format) {
         int vFrequencyDiv = selection.getFrequencyDivision();
         String commonColumn = StringUtils.EMPTY;
+        pvDTO.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+        pvDTO.setDfLevelNumber(String.valueOf(obj[NumericConstants.FOUR]));
+        pvDTO.setDfLevelName(String.valueOf(obj[NumericConstants.FOUR]));
         switch (vFrequencyDiv) {
             case NumericConstants.FOUR:
                 commonColumn = "Q" + obj[NumericConstants.THREE] + StringUtils.EMPTY + obj[NumericConstants.TWO];
@@ -2790,22 +2797,6 @@ public class PVExcelLogic {
                         }
                     }
                 } else if (i == 0) {
-                    vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    discountPerExfacValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerExfacVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerExfacPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
                     if (selection.isVarDisAmount()) {
                         if (selection.isColValue()) {
                             selection.setConversionNeeded(true);
@@ -2897,22 +2888,6 @@ public class PVExcelLogic {
                     discountPerExfacPercent = new ProjectionVarianceDTO();
 
                     oldDiscount = newDiscount;
-                    vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    discountPerExfacValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerExfacVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerExfacPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
                     if (selection.isVarDisAmount()) {
                         if (selection.isColValue()) {
                             selection.setConversionNeeded(true);
@@ -3040,22 +3015,6 @@ public class PVExcelLogic {
                 discountPerExfacValue = new ProjectionVarianceDTO();
                 discountPerExfacVariance = new ProjectionVarianceDTO();
                 discountPerExfacPercent = new ProjectionVarianceDTO();
-
-                vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                discountPerExfacValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountPerExfacVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountPerExfacPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
                 newDiscount = String.valueOf(obj[NumericConstants.FOUR]);
 

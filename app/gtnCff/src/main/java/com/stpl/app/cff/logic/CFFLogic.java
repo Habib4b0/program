@@ -834,6 +834,7 @@ public class CFFLogic {
                         dto.setActiveToDate((Date) obj[NumericConstants.FIVE]);
                         dto.setFileTypeId(String.valueOf(obj[NumericConstants.SIX]));
                         dto.setFileChanged(false);
+                        dto.setFileTypeValue(obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : StringUtils.EMPTY);
                         retList.add(dto);
                     }
                 }
