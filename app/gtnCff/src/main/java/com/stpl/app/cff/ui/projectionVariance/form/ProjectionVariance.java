@@ -1893,6 +1893,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     }
                 }
             }
+           resultExcelContainer.sort(new Object[]{Constants.GROUP}, new boolean[]{true});
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

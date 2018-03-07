@@ -2125,7 +2125,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2271,7 +2271,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2404,7 +2404,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat("  INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2611,7 +2611,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2764,7 +2764,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER  in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;

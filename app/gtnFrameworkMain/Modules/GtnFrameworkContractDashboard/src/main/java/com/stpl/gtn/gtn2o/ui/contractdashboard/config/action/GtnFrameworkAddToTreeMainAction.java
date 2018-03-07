@@ -50,7 +50,7 @@ public class GtnFrameworkAddToTreeMainAction implements GtnUIFrameWorkAction ,Gt
 		GtnWsContractDashboardRequest cdRequest = new GtnWsContractDashboardRequest();
 		cdRequest.setTableBean(tableBean);
 		cdRequest.setTreeBean(treeBean);
-		cdRequest.setRecordBeanList(cdTreeBaseComponent.getTreeNodes());
+		cdRequest.setRecordBeanList(cdTreeBaseComponent.getChildNodes(treeBean));
 
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
