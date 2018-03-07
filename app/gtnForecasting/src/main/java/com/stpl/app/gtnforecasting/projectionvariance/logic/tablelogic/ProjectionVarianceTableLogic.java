@@ -16,6 +16,7 @@ import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
     protected PVSelectionDTO projSelDTO = new PVSelectionDTO();
     protected PVSelectionDTO baseVariables = new PVSelectionDTO();
@@ -215,13 +217,13 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
     }
 
     @Override
@@ -320,7 +322,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(levelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
-                                ProjectionVarianceDTO dto = new NMProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
+                                ProjectionVarianceDTO dto = new NMProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
                                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
                             }

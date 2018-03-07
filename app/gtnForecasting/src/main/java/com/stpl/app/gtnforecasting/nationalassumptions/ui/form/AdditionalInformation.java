@@ -282,12 +282,12 @@ public class AdditionalInformation extends CustomComponent {
                 fileUpload = CommonUtil.getFilePath(value);
                 final String name = fileUpload.getAbsolutePath();
                 if (name.contains("\\")) {
-                    final String replace = name.replace("\\", ",");
+                    final String replace = name.replace('\\', ',');
                     final String[] array = replace.split(",");
                     final String filename = array[array.length - 1];
                     uploader.setValue(filename);
                 } else if (name.contains("/")) {
-                    final String replace = name.replace("/", ",");
+                    final String replace = name.replace('/', ',');
                     final String[] array = replace.split(",");
                     final String filename = array[array.length - 1];
                     uploader.setValue(filename);

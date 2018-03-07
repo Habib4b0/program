@@ -25,7 +25,7 @@ public class DeductionDetailsDTO implements Serializable {
     private String dataView = StringUtils.EMPTY;
     private String listView = StringUtils.EMPTY;
     private String filterDdlb = StringUtils.EMPTY;
-    private boolean generated = Boolean.FALSE;
+    private boolean generated = false;
 
     public String getFilterDdlb() {
         return filterDdlb;

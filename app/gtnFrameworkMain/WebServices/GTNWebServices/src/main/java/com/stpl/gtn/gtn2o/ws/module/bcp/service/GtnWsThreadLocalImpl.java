@@ -28,8 +28,7 @@ public class GtnWsThreadLocalImpl extends ThreadLocal {
 	@Override
 	protected BufferedWriter initialValue() {
 		try {
-			String finalPath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH)
-					+ System.getProperty(GtnFrameworkCommonStringConstants.CUMULATIVE_FILE_PATH) + "/Cumulative_Logic/";
+			String finalPath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH) + "/Cumulative_Logic/";
                         LOGGER.info("final path in initialValue method ========"+finalPath);
 			String fileName = finalPath + "File" + atomicInteger.getAndIncrement() + ".csv";
 			fileList.add(fileName);

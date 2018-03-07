@@ -12,6 +12,7 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.*;
 import com.stpl.app.utils.Constants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,6 +28,8 @@ import org.slf4j.LoggerFactory;
 public class NmDiscountImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NmDiscountImpl.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     public List getDiscountNo(int projectionId, List<String> priceGroupType) {
 
@@ -737,7 +740,7 @@ public class NmDiscountImpl {
             return 0;
         }
         if (list != null && !list.isEmpty()) {
-            return Integer.valueOf(String.valueOf(list.get(0)));
+            return Integer.parseInt(String.valueOf(list.get(0)));
         } else {
             return 0;
         }
@@ -770,7 +773,7 @@ public class NmDiscountImpl {
         }
 
         if (list != null && !list.isEmpty()) {
-            return Integer.valueOf(String.valueOf(list.get(0)));
+            return Integer.parseInt(String.valueOf(list.get(0)));
         } else {
             return -1;
         }
@@ -1593,11 +1596,11 @@ public class NmDiscountImpl {
                     + " AND DPT.SESSION_ID = " + sessionId + "\n";
 
             HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
-            return Boolean.TRUE;
+            return BOOLEAN_CONSTANT.getTrueFlag();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return Boolean.FALSE;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         }
 
     }
@@ -2469,7 +2472,7 @@ public class NmDiscountImpl {
 
         String sql = StringUtils.EMPTY;
         try {
-            int customViewNo = Integer.valueOf(customViewId);
+            int customViewNo = Integer.parseInt(customViewId);
             sql = "SELECT distinct CCPMAPC.CCP_DETAILS_SID FROM "
                     + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID"
                     + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"

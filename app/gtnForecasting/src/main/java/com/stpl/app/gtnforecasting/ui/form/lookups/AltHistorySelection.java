@@ -24,6 +24,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -81,6 +82,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AltHistorySelection extends CustomComponent implements View {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private SessionDTO session;
     
     @UiField("actualOrProj")
@@ -384,7 +387,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
         leftTable.setFilterFieldVisible(Constant.CHECK, false);
         rightTable.setHeight(Constant.PX_390);
-        rightTable.setDoubleHeaderVisible(Boolean.TRUE);
+        rightTable.setDoubleHeaderVisible(BOOLEAN_CONSTANT.getTrueFlag());
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightDTO.getSingleHeaders().toArray(new String[rightDTO.getSingleHeaders().size()]));
         for (int i = 0; i < rightDTO.getSingleColumns().size(); i++) {
@@ -431,7 +434,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                     final Component uiContext) {
                 if (String.valueOf(propertyId).equals(Constant.CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setValue(false);
+                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
@@ -614,8 +617,8 @@ public class AltHistorySelection extends CustomComponent implements View {
             if (freq.equals(Constant.QUARTERLY)) {
                 startPeriod = startPeriod.replace(Constant.Q, StringUtils.EMPTY);
                 endPeriod = endPeriod.replace(Constant.Q, StringUtils.EMPTY);
-                startMonth = Integer.valueOf(startPeriod.substring(0, 1));
-                endMonth = Integer.valueOf(endPeriod.substring(0, 1));
+                startMonth = Integer.parseInt(startPeriod.substring(0, 1));
+                endMonth = Integer.parseInt(endPeriod.substring(0, 1));
                
                 switch (startMonth) {
                     case NumericConstants.FOUR:
@@ -643,14 +646,14 @@ public class AltHistorySelection extends CustomComponent implements View {
                 if (endMonth == NumericConstants.FOUR) {
                     endMonth = NumericConstants.TWELVE;
                 }
-                startYear = Integer.valueOf(fromYear);
-                endYear = Integer.valueOf(toYear);
+                startYear = Integer.parseInt(fromYear);
+                endYear = Integer.parseInt(toYear);
             }
             else if (freq.equals(Constant.SEMI_ANNUALLY)) {
                 startPeriod = startPeriod.replace(Constant.S, StringUtils.EMPTY);
                 endPeriod = endPeriod.replace(Constant.S, StringUtils.EMPTY);
-                startMonth = Integer.valueOf(startPeriod.substring(0, 1));
-                endMonth = Integer.valueOf(endPeriod.substring(0, 1));
+                startMonth = Integer.parseInt(startPeriod.substring(0, 1));
+                endMonth = Integer.parseInt(endPeriod.substring(0, 1));
                 if (startMonth == 1) {
                     startMonth = 1;
                 }
@@ -663,13 +666,13 @@ public class AltHistorySelection extends CustomComponent implements View {
                 if (endMonth == NumericConstants.TWO) {
                     endMonth = NumericConstants.TWELVE;
                 }
-                startYear = Integer.valueOf(fromYear);
-                endYear = Integer.valueOf(toYear);
+                startYear = Integer.parseInt(fromYear);
+                endYear = Integer.parseInt(toYear);
 
             }else if(freq.equals(Constant.ANNUALLY)){
                 
-                startYear = Integer.valueOf(fromYear);
-                endYear = Integer.valueOf(toYear);
+                startYear = Integer.parseInt(fromYear);
+                endYear = Integer.parseInt(toYear);
                 startMonth =  1;
                 endMonth = NumericConstants.TWELVE;
             }else if(freq.equals(Constant.MONTHLY)){
@@ -679,8 +682,8 @@ public class AltHistorySelection extends CustomComponent implements View {
                 int endMon = monthMap.get(endPeriod.substring(endPeriod.length() - NumericConstants.SEVEN, endPeriod.length() - NumericConstants.FOUR));
                 startMonth = startMon + 1;
                 endMonth = endMon + 1;
-                startYear = Integer.valueOf(fromYear);
-                endYear = Integer.valueOf(toYear);
+                startYear = Integer.parseInt(fromYear);
+                endYear = Integer.parseInt(toYear);
             }
         } else {
             startMonth = forecastDTO.getHistoryStartMonth();
@@ -956,8 +959,8 @@ public class AltHistorySelection extends CustomComponent implements View {
 
             String freq = String.valueOf(frequency.getValue());
             if (freq.equals(Constant.QUARTERLY)) {
-                startPeriod = startPeriod.replace(Constant.Q_SMALL, Constant.Q);
-                endPeriod = endPeriod.replace(Constant.Q_SMALL, Constant.Q);
+                startPeriod = startPeriod.replace('q', 'Q');
+                endPeriod = endPeriod.replace('q', 'Q');
             }
             String stDate = formDate(startPeriod, freq, true);
             String eDate = formDate(endPeriod, freq, false);
@@ -989,7 +992,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         List<AlternateHistoryDTO> list = altHistLogic.alternateSelectionList(session, altHistoryDTO, null,0,0,true,ccpSet);
         excelResultBean.addAll(list);
         ForecastUI.setEXCEL_CLOSE(true);
-        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
+        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
         excel.export();
         historyAllocationLayout.removeComponent(exportPeriodViewTable);
     }
@@ -999,7 +1002,7 @@ public class AltHistorySelection extends CustomComponent implements View {
      
         exportPeriodViewTable = new ExtCustomTable();
         historyAllocationLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);

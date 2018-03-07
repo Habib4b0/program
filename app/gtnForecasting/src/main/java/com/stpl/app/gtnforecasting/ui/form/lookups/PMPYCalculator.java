@@ -29,6 +29,7 @@ import com.stpl.app.gtnforecasting.utils.PMPYTradingPartnerHistoryChart;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Sizeable;
@@ -89,6 +90,8 @@ public class PMPYCalculator extends Window {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PMPYCalculator.class);
+    
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 
     /**
      * The space.
@@ -295,7 +298,7 @@ public class PMPYCalculator extends Window {
     private final List<String> visiHeaders = new ArrayList<>();
     private final List<String> chtCheckBoxMap = new ArrayList<>();
     private final List<String> tptCheckBoxMap = new ArrayList<>();
-    private boolean valueChange = Boolean.TRUE;
+    private boolean valueChange = true;
 
     /**
      * The max split position.
@@ -374,7 +377,7 @@ public class PMPYCalculator extends Window {
     public void configureFields() {
         try {
             LOGGER.debug("Entering configureFields method");
-            effectivePeriod.setNullSelectionAllowed(Boolean.TRUE);
+            effectivePeriod.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
             effectivePeriod.setNullSelectionItemId(Constant.SELECT_ONE);
             loadEffectivePeriods();
             tradingPartner.setStyleName(Constant.SEARCH_TEXT);
@@ -500,7 +503,7 @@ public class PMPYCalculator extends Window {
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(Constant.YES)) {
                                 // reset the fields here
-                                valueChange = Boolean.FALSE;
+                                valueChange = false;
                                 sales.setValue(StringUtils.EMPTY);
                                 marketShare.setValue(Constant.HUNDRED_PERCENT);
                                 analogLives.setValue(StringUtils.EMPTY);
@@ -509,7 +512,7 @@ public class PMPYCalculator extends Window {
                                 projectedLives.setValue(StringUtils.EMPTY);
                                 totalSales.setValue(StringUtils.EMPTY);
                                 projectionPeriodTotal.setValue(StringUtils.EMPTY);
-                                valueChange = Boolean.TRUE;
+                                valueChange = true;
                             }
                         }
                     }, ButtonId.YES, ButtonId.NO);
@@ -691,10 +694,10 @@ public class PMPYCalculator extends Window {
     public boolean isTpHistorySelected() {
         LOGGER.debug("Entering isTpHistorySelected method");
         if (tradingPartner.getValue() != null && !tradingPartner.getValue().toString().isEmpty()) {
-            return Boolean.TRUE;
+            return BOOLEAN_CONSTANT.getTrueFlag();
         }
         LOGGER.debug("End of isTpHistorySelected method");
-        return Boolean.FALSE;
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     /**
@@ -707,13 +710,13 @@ public class PMPYCalculator extends Window {
         LOGGER.debug("Entering isContractHistorySelected method");
         try {
             if (contract.getValue() != null && !contract.getValue().toString().isEmpty()) {
-                return Boolean.TRUE;
+                return BOOLEAN_CONSTANT.getTrueFlag();
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of isContractHistorySelected method");
-        return Boolean.FALSE;
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     /**
@@ -1135,7 +1138,7 @@ public class PMPYCalculator extends Window {
      */
     private void loadContractHolder()  {
         LOGGER.debug("Entering loadContractHolder method");
-        contract.setNullSelectionAllowed(Boolean.TRUE);
+        contract.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         contract.setNullSelectionItemId(Constant.SELECT_ONE);
         contract.addItem(Constant.SELECT_ONE);
         contract.select(Constant.SELECT_ONE);
@@ -1333,7 +1336,7 @@ public class PMPYCalculator extends Window {
         Double analogLivesValue;
 
         if (analogLives.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(analogLives.getValue())) && !Constant.NULL.equals(String.valueOf(analogLives.getValue()))
-                && isNumeric(String.valueOf(analogLives.getValue())) && Double.valueOf(String.valueOf(analogLives.getValue())) != 0.0) {
+                && isNumeric(String.valueOf(analogLives.getValue())) && Double.parseDouble(String.valueOf(analogLives.getValue())) != 0.0) {
             analogLivesValue = Double.valueOf(String.valueOf(analogLives.getValue()));
         } else {
             AbstractNotificationUtils.getErrorNotification("No Lives", "Please enter a numeric value for Lives.");
@@ -1342,7 +1345,7 @@ public class PMPYCalculator extends Window {
         }
         final String tempSales = String.valueOf(sales.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
         Double salesValue = 1.0;
-        if (sales.getValue() != null && !StringUtils.EMPTY.equals(tempSales) && !Constant.NULL.equals(tempSales) && isNumeric(tempSales) && Double.valueOf(tempSales) != 0.0) {
+        if (sales.getValue() != null && !StringUtils.EMPTY.equals(tempSales) && !Constant.NULL.equals(tempSales) && isNumeric(tempSales) && Double.parseDouble(tempSales) != 0.0) {
 
             if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
                 final DecimalFormat salesFormat = new DecimalFormat("####");
@@ -1359,7 +1362,7 @@ public class PMPYCalculator extends Window {
         Double marketShareValue;
 
         if (marketShare.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(marketShare.getValue())) && !Constant.NULL.equals(String.valueOf(marketShare.getValue()))
-                && isNumeric(String.valueOf(marketShare.getValue())) && Double.valueOf(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY)) != 0.0) {
+                && isNumeric(String.valueOf(marketShare.getValue())) && Double.parseDouble(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY)) != 0.0) {
             marketShareValue = Double.valueOf(String.valueOf(marketShare.getValue()).replace(Constant.PERCENT, StringUtils.EMPTY));
         } else {
             valuePerLife.setValue(StringUtils.EMPTY);
@@ -1387,7 +1390,7 @@ public class PMPYCalculator extends Window {
         Double projectedLivesValue;
 
         if (projectedLives.getValue() != null && !StringUtils.EMPTY.equals(String.valueOf(projectedLives.getValue())) && !Constant.NULL.equals(String.valueOf(projectedLives.getValue()))
-                && isNumeric(String.valueOf(projectedLives.getValue())) && Double.valueOf(String.valueOf(projectedLives.getValue())) != 0.0) {
+                && isNumeric(String.valueOf(projectedLives.getValue())) && Double.parseDouble(String.valueOf(projectedLives.getValue())) != 0.0) {
             projectedLivesValue = Double.valueOf(String.valueOf(projectedLives.getValue()));
         } else {
             AbstractNotificationUtils.getErrorNotification("No Total Lives", "Please enter a numeric value for Total Lives.");
@@ -1397,17 +1400,17 @@ public class PMPYCalculator extends Window {
         }
         final String tempValuePerLifeValue = String.valueOf(valuePerLife.getValue()).replace(PMPYCalculatorDTO.COMMA, StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY);
 
-        Double valuePerLifeValue = 1.0;
+        double valuePerLifeValue = 1.0;
 
         if (valuePerLife.getValue() != null && !StringUtils.EMPTY.equals(tempValuePerLifeValue) && !Constant.NULL.equals(tempValuePerLifeValue) && isNumeric(tempValuePerLifeValue)
-                && Double.valueOf(tempValuePerLifeValue) != 0.0) {
+                && Double.parseDouble(tempValuePerLifeValue) != 0.0) {
 
             if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
 
-                valuePerLifeValue = Double.valueOf(Double.valueOf(tempValuePerLifeValue));
+                valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);
             } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
 
-                valuePerLifeValue = Double.valueOf(Double.valueOf(tempValuePerLifeValue));
+                valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);
             }
         } else {
             totalSales.setValue(StringUtils.EMPTY);
@@ -1562,7 +1565,7 @@ public class PMPYCalculator extends Window {
             }
             calculatedValue = getDividedValue(calculatedValue);
             int startQuator = effectivePeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT;
-            annual = Integer.valueOf(effectivePeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
+            annual = Integer.parseInt(effectivePeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
             inputs[0] = projectionDetailsId;
             inputs[1] = calculatedValue;
             inputs[NumericConstants.TWO] = annual;

@@ -543,17 +543,17 @@ public class ItemLogic {
     private List getComponentLookUpSelection(ComponentLookUpDTO binderDto, Set<Container.Filter> filters) {
         List<Object> input = new ArrayList();
         if (!binderDto.getComponentId().isEmpty()) {
-            input.add(binderDto.getComponentId().replace("*", "%"));
+            input.add(binderDto.getComponentId().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (!binderDto.getComponentNo().isEmpty()) {
-            input.add(binderDto.getComponentNo().replace("*", "%"));
+            input.add(binderDto.getComponentNo().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (!binderDto.getComponentName().isEmpty()) {
-            input.add(binderDto.getComponentName().replace("*", "%"));
+            input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -630,17 +630,17 @@ public class ItemLogic {
             endDate = "PS.CFP_END_DATE";
         }
         if (!binderDto.getComponentId().isEmpty()) {
-            input.add(binderDto.getComponentId().replace("*", "%"));
+            input.add(binderDto.getComponentId().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (!binderDto.getComponentName().isEmpty()) {
-            input.add(binderDto.getComponentName().replace("*", "%"));
+            input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (!binderDto.getCategory().isEmpty()) {
-            input.add(binderDto.getCategory().replace("*", "%"));
+            input.add(binderDto.getCategory().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -651,13 +651,13 @@ public class ItemLogic {
         }
 
         if (!binderDto.getComponentNo().isEmpty()) {
-            input.add(binderDto.getComponentNo().replace("*", "%"));
+            input.add(binderDto.getComponentNo().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (!binderDto.getComponentType().isEmpty()) {
-            input.add(binderDto.getComponentType().replace("*", "%"));
+            input.add(binderDto.getComponentType().replace('*', '%'));
         } else {
             input.add("%");
         }

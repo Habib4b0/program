@@ -14,6 +14,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.CustomExcelExport;
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RebateSummary extends Summary {
  public static final Logger LOGGER = LoggerFactory.getLogger(RebateSummary.class);
+ private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     public RebateSummary(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(itemList, selection);
     }
@@ -48,7 +50,7 @@ public class RebateSummary extends Summary {
     public void excelButtonLogic(Button.ClickEvent event) {
         configureExcelResultTable();
         loadExcelResultTable();
-        exportPeriodViewTable.setRefresh(Boolean.TRUE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Amount");
         formatter.put("perTwoDecimal", "Rate");

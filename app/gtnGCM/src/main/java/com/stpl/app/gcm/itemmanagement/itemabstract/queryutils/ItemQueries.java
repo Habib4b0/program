@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
@@ -44,6 +45,7 @@ import org.slf4j.LoggerFactory;
 public class ItemQueries {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final static CommonDao ITEMDAO = CommonImpl.getInstance();
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
@@ -86,7 +88,7 @@ public class ItemQueries {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(' ');
                     sql.append(SQlUtil.getQuery(queryName));
                 }
                 for (Object temp : input) {
@@ -111,7 +113,7 @@ public class ItemQueries {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(' ');
                     sql.append(SQlUtil.getQuery(quaryName2));
                 }
                 if (queryName.equals("CFP Component Search For Table") || queryName.contains("IFP Component Search For Table")
@@ -188,9 +190,9 @@ public class ItemQueries {
             String query = getQuery(sql, dto);
             Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
-                return Boolean.TRUE;
+                return BOOLEAN_CONSTANT.getTrueFlag();
             } else {
-                return Boolean.FALSE;
+                return BOOLEAN_CONSTANT.getFalseFlag();
             }
 
         } catch (Exception ex) {
@@ -241,7 +243,7 @@ public class ItemQueries {
                     sql.append(getRSFilterQuery(filters));
                 }
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
+                    sql.append(' ');
                     sql.append(SQlUtil.getQuery(quaryName2));
                 }
                 if (queryName.equals("CFP Component Search For Table")) {
@@ -307,31 +309,31 @@ public class ItemQueries {
                 query.append(" AND CM.COMPANY_NAME like '%").append(companyName).append("%' ");
             }
             if (parameters.get(COMPANY_STATUS) != null && !String.valueOf(parameters.get(COMPANY_STATUS)).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT_CS.DESCRIPTION = '").append(String.valueOf(parameters.get(COMPANY_STATUS))).append("'");
+                query.append(" AND HT_CS.DESCRIPTION = '").append(String.valueOf(parameters.get(COMPANY_STATUS))).append('\'');
             }
             if (parameters.get(Constants.STATUS_S) != null && !String.valueOf(parameters.get(Constants.STATUS_S)).equals(Constants.ZEROSTRING)) {
-                query.append(" AND  HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append("'");
+                query.append(" AND  HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append('\'');
             }
             if (parameters.get(TRADE_CLASS_PROPERTY) != null && !String.valueOf(parameters.get(TRADE_CLASS_PROPERTY)).equals(Constants.ZEROSTRING)) {
                 query.append(" AND HT_CFP.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(TRADE_CLASS_PROPERTY))).append(StringUtils.EMPTY);
             }
             if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
-                query.append(" AND CFP.CFP_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append("'");
+                query.append(" AND CFP.CFP_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append('\'');
             }
             if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
-                query.append(" AND CFP.CFP_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append("'");
+                query.append(" AND CFP.CFP_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append('\'');
             }
             if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
-                query.append(" AND CFP.CFP_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append("'");
+                query.append(" AND CFP.CFP_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append('\'');
             }
             if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
-                query.append(" AND CFP.CFP_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append("'");
+                query.append(" AND CFP.CFP_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append('\'');
             }
             if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
-                query.append(" AND CFP.CFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("'");
+                query.append(" AND CFP.CFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append('\'');
             }
             if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
-                query.append(" AND CFP.CFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
+                query.append(" AND CFP.CFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append('\'');
             }
         }
         return query;
@@ -375,25 +377,25 @@ public class ItemQueries {
                 query.append(" AND  B.BRAND_NAME like '%").append(String.valueOf(parameters.get(Constants.BRAND_PROPERTY))).append("%'");
             }
             if (parameters.get(Constants.STATUS_S) != null && !String.valueOf(parameters.get(Constants.STATUS_S)).equals(Constants.ZEROSTRING)) {
-                query.append(" AND  HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append("'");
+                query.append(" AND  HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append('\'');
             }
             if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
-                query.append(" AND IFP.IFP_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append("'");
+                query.append(" AND IFP.IFP_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append('\'');
             }
             if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
-                query.append(" AND IFP.IFP_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append("'");
+                query.append(" AND IFP.IFP_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append('\'');
             }
             if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
-                query.append(" AND IFP.IFP_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append("'");
+                query.append(" AND IFP.IFP_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append('\'');
             }
             if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
-                query.append(" AND IFP.IFP_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append("'");
+                query.append(" AND IFP.IFP_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append('\'');
             }
             if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
-                query.append(" AND IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("'");
+                query.append(" AND IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append('\'');
             }
             if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
-                query.append(" AND IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
+                query.append(" AND IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append('\'');
             }
         }
         return query;
@@ -452,19 +454,19 @@ public class ItemQueries {
                 query.append(" AND B.BRAND_NAME like '%").append(String.valueOf(parameters.get(Constants.BRAND_PROPERTY))).append("%'");
             }
             if (parameters.get(Constants.STATUS_S) != null && !String.valueOf(parameters.get(Constants.STATUS_S)).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append("'");
+                query.append(" AND HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append('\'');
             }
             if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
-                query.append(" AND PS.PS_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append("'");
+                query.append(" AND PS.PS_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append('\'');
             }
             if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
-                query.append(" AND PS.PS_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append("'");
+                query.append(" AND PS.PS_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append('\'');
             }
             if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
-                query.append(" AND PS.PS_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append("'");
+                query.append(" AND PS.PS_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append('\'');
             }
             if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
-                query.append(" AND PS.PS_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append("'");
+                query.append(" AND PS.PS_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append('\'');
             }
             if (parameters.get(Constants.PRICE_TYPE_PROPERTY) != null && !String.valueOf(parameters.get(Constants.PRICE_TYPE_PROPERTY)).equals(Constants.ZEROSTRING)) {
                 query.append(" AND HT_PTP.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.PRICE_TYPE_PROPERTY))).append(StringUtils.EMPTY);
@@ -473,16 +475,16 @@ public class ItemQueries {
                 query.append(" AND PSD.PRICE_PROTECTION_STATUS = ").append(String.valueOf(parameters.get(Constants.PRICE_PROTECTION_STATUS_PROPERTY))).append(StringUtils.EMPTY);
             }
             if (parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATEFROM)))) {
-                query.append(" AND PSD.PRICE_PROTECTION_START_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATEFROM))).append("'");
+                query.append(" AND PSD.PRICE_PROTECTION_START_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATEFROM))).append('\'');
             }
             if (parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATETO)))) {
-                query.append(" AND PSD.PRICE_PROTECTION_START_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATETO))).append("'");
+                query.append(" AND PSD.PRICE_PROTECTION_START_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_START_DATETO))).append('\'');
             }
             if (parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATEFROM)))) {
-                query.append(" AND PSD.PRICE_PROTECTION_END_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATEFROM))).append("'");
+                query.append(" AND PSD.PRICE_PROTECTION_END_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATEFROM))).append('\'');
             }
             if (parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATETO)))) {
-                query.append(" AND PSD.PRICE_PROTECTION_END_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATETO))).append("'");
+                query.append(" AND PSD.PRICE_PROTECTION_END_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.PRICE_PROTECTION_END_DATETO))).append('\'');
             }
             if (parameters.get(Constants.PRICE_PROTECTION_PRICE_TYPE_PROPERTY) != null && !String.valueOf(parameters.get(Constants.PRICE_PROTECTION_PRICE_TYPE_PROPERTY)).equals(Constants.ZEROSTRING)) {
                 query.append(" AND HT_PTY.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.PRICE_PROTECTION_PRICE_TYPE_PROPERTY))).append(StringUtils.EMPTY);
@@ -509,10 +511,10 @@ public class ItemQueries {
                 query.append(" AND HT_RT.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.RESET_TYPE_PROPERTY))).append(StringUtils.EMPTY);
             }
             if (parameters.get(StringConstantsUtil.RESET_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATEFROM)))) {
-                query.append(" AND PSD.RESET_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATEFROM))).append("'");
+                query.append(" AND PSD.RESET_DATE >='").append(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATEFROM))).append('\'');
             }
             if (parameters.get(StringConstantsUtil.RESET_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATETO)))) {
-                query.append(" AND PSD.RESET_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATETO))).append("'");
+                query.append(" AND PSD.RESET_DATE <='").append(String.valueOf(parameters.get(StringConstantsUtil.RESET_DATETO))).append('\'');
             }
             if (parameters.get(Constants.RESET_INTERVAL_PROPERTY) != null && !String.valueOf(parameters.get(Constants.RESET_INTERVAL_PROPERTY)).equals(Constants.ZEROSTRING)) {
                 query.append(" AND HT_RI.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(Constants.RESET_INTERVAL_PROPERTY))).append(StringUtils.EMPTY);
@@ -521,10 +523,10 @@ public class ItemQueries {
                 query.append(" AND HT_RF.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(StringConstantsUtil.RESET_FREQUENCY))).append(StringUtils.EMPTY);
             }
             if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
-                query.append(" AND PS.PS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("'");
+                query.append(" AND PS.PS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append('\'');
             }
             if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
-                query.append(" AND PS.PS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
+                query.append(" AND PS.PS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append('\'');
             }
         }
         return query;
@@ -571,19 +573,19 @@ public class ItemQueries {
                 query.append(" AND B.BRAND_NAME like '%").append(String.valueOf(parameters.get(Constants.BRAND_PROPERTY))).append("%'");
             }
             if (parameters.get(Constants.STATUS_S) != null && !String.valueOf(parameters.get(Constants.STATUS_S)).equals(Constants.ZEROSTRING)) {
-                query.append(" AND HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append("'");
+                query.append(" AND HT.DESCRIPTION = '").append(String.valueOf(parameters.get(Constants.STATUS_S))).append('\'');
             }
             if (parameters.get(START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATEFROM)))) {
-                query.append(" AND RSD.ITEM_REBATE_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append("'");
+                query.append(" AND RSD.ITEM_REBATE_START_DATE >='").append(String.valueOf(parameters.get(START_DATEFROM))).append('\'');
             }
             if (parameters.get(START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(START_DATETO)))) {
-                query.append(" AND RSD.ITEM_REBATE_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append("'");
+                query.append(" AND RSD.ITEM_REBATE_START_DATE <='").append(String.valueOf(parameters.get(START_DATETO))).append('\'');
             }
             if (parameters.get(END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATEFROM)))) {
-                query.append(" AND RSD.ITEM_REBATE_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append("'");
+                query.append(" AND RSD.ITEM_REBATE_END_DATE >='").append(String.valueOf(parameters.get(END_DATEFROM))).append('\'');
             }
             if (parameters.get(END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(END_DATETO)))) {
-                query.append(" AND RSD.ITEM_REBATE_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append("'");
+                query.append(" AND RSD.ITEM_REBATE_END_DATE <='").append(String.valueOf(parameters.get(END_DATETO))).append('\'');
             }
             if (parameters.get(Constants.FORMULA_TYPE_PROPERTY) != null && !String.valueOf(parameters.get(Constants.FORMULA_TYPE_PROPERTY)).equals(Constants.ZEROSTRING)) {
                 query.append(" AND RSD.FORMULA_TYPE = ").append(String.valueOf(parameters.get(Constants.FORMULA_TYPE_PROPERTY))).append(StringUtils.EMPTY);
@@ -607,13 +609,13 @@ public class ItemQueries {
                 query.append(" AND RSD.BUNDLE_NO like '%").append(String.valueOf(parameters.get(Constants.BUNDLE_NO_PROPERTY))).append("%'");
             }
             if (parameters.get(ATTACHED_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATEFROM)))) {
-                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append("'");
+                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATEFROM))).append('\'');
             }
             if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
-                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
+                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append('\'');
             }
             if (parameters.get(ATTACHED_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATE)))) {
-                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATE))).append("'");
+                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATE))).append('\'');
             }
         }
         return query;
@@ -683,19 +685,19 @@ public class ItemQueries {
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONT_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_START_DATEFROM)))) {
-                query.append(andOperator + " CON.START_DATE >='").append(String.valueOf(parameters.get(CONT_START_DATEFROM))).append("'");
+                query.append(andOperator + " CON.START_DATE >='").append(String.valueOf(parameters.get(CONT_START_DATEFROM))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONT_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_START_DATETO)))) {
-                query.append(andOperator + " CON.START_DATE <='").append(String.valueOf(parameters.get(CONT_START_DATETO))).append("'");
+                query.append(andOperator + " CON.START_DATE <='").append(String.valueOf(parameters.get(CONT_START_DATETO))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONT_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_END_DATEFROM)))) {
-                query.append(andOperator + " CON.END_DATE >='").append(String.valueOf(parameters.get(CONT_END_DATEFROM))).append("'");
+                query.append(andOperator + " CON.END_DATE >='").append(String.valueOf(parameters.get(CONT_END_DATEFROM))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONT_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_END_DATETO)))) {
-                query.append(andOperator + " CON.END_DATE <='").append(String.valueOf(parameters.get(CONT_END_DATETO))).append("'");
+                query.append(andOperator + " CON.END_DATE <='").append(String.valueOf(parameters.get(CONT_END_DATETO))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.CFP_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.CFP_NAME)))) {
@@ -715,19 +717,19 @@ public class ItemQueries {
                 andOperator = SPACE_AND;
             }
             if (parameters.get(COMP_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_START_DATEFROM)))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_START_DATEFROM))).append("'");
+                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_START_DATEFROM))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(COMP_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_START_DATETO)))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_START_DATETO))).append("'");
+                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_START_DATETO))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(COMP_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_END_DATEFROM)))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_END_DATEFROM))).append("'");
+                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_END_DATEFROM))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(COMP_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_END_DATETO)))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_END_DATETO))).append("'");
+                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_END_DATETO))).append('\'');
             }
         }
         return query;
@@ -753,9 +755,9 @@ public class ItemQueries {
             query = query.replace("@CHECK_RECORD", (dto.getCheckRecord() ? 1 : 0) + StringUtils.EMPTY);
             Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
-                return Boolean.TRUE;
+                return BOOLEAN_CONSTANT.getTrueFlag();
             } else {
-                return Boolean.FALSE;
+                return BOOLEAN_CONSTANT.getFalseFlag();
             }
 
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {

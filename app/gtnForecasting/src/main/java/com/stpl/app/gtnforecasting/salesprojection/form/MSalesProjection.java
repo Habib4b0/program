@@ -32,6 +32,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -59,6 +60,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     private final String scrnName;
     private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjection.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static Map<String, Integer> rowCountMap = new HashMap<>();
     private boolean generated = false;
     private boolean firstGenerated = false;
@@ -88,7 +90,7 @@ public class MSalesProjection extends ForecastSalesProjection {
             projectionDTO.setIsFilter(true);
             projectionDTO.setLevelFilter(true);
             projectionDTO.setLevelFilterValue(String.valueOf(UiUtils.parseStringToInteger(String.valueOf(levelFilter.getValue()).split("-")[0].trim())));
-            projectionDTO.setFilterLevelNo(Integer.valueOf(projectionDTO.getLevelFilterValue()));
+            projectionDTO.setFilterLevelNo(Integer.parseInt(projectionDTO.getLevelFilterValue()));
             mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             projectionDTO.setLevelFilter(false);
         } else {
@@ -105,7 +107,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         try {
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
@@ -204,11 +206,11 @@ public class MSalesProjection extends ForecastSalesProjection {
     protected void expandButtonLogic() {
         try {
             if (!Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(Boolean.TRUE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
@@ -400,12 +402,12 @@ public class MSalesProjection extends ForecastSalesProjection {
         projectionDTO.setCustRelationshipBuilderSid(projectionDTO.getSessionDTO().getCustRelationshipBuilderSid());
         projectionDTO.setProdRelationshipBuilderSid(projectionDTO.getSessionDTO().getProdRelationshipBuilderSid());
         projectionDTO.setCustomerLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getCustomerLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getCustomerLevelNumber())
-                ? 1 : Integer.valueOf(projectionDTO.getSessionDTO().getCustomerLevelNumber()));
+                ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getCustomerLevelNumber()));
         projectionDTO.setProductLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getProductLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getProductLevelNumber())
-                ? 1 : Integer.valueOf(projectionDTO.getSessionDTO().getProductLevelNumber()));
+                ? 1 : Integer.parseInt(projectionDTO.getSessionDTO().getProductLevelNumber()));
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
-        projectionDTO.setUserId(Integer.valueOf(projectionDTO.getSessionDTO().getUserId()));
-        projectionDTO.setSessionId(Integer.valueOf(projectionDTO.getSessionDTO().getSessionId()));
+        projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
+        projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
@@ -414,7 +416,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
-            historyNum = Integer.valueOf(projectionDTO.getHistory());
+            historyNum = Integer.parseInt(projectionDTO.getHistory());
         }
         if (toHist) {
             projectionDTO.setForecastDTO(session.getForecastDTO());
@@ -465,8 +467,8 @@ public class MSalesProjection extends ForecastSalesProjection {
             String salesOrUnitsProperty;
 
             if (StringUtils.isNotBlank(hierarchyNo) && StringUtils.isNotEmpty(hierarchyNo)) {
-                updatePeriod = updatePeriod.replace(Constant.Q, Constant.Q_SMALL);
-                updatePeriod = updatePeriod.replace(" ", "-");
+                updatePeriod = updatePeriod.replace('Q', 'q');
+                updatePeriod = updatePeriod.replace(' ', '-');
                 if (salesOrUnits) {
                     updatePeriod = updatePeriod + "-ProjectedSales";
                     salesOrUnitsProperty = Constant.SALES_SMALL;
@@ -511,11 +513,11 @@ public class MSalesProjection extends ForecastSalesProjection {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SALES_PROJECTION);
         if (functionPsHM.get(FunctionNameUtil.GENERATEBTN) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATEBTN)).isFunctionFlag()) {
-            generate.setVisible(Boolean.FALSE);
-            expand.setVisible(Boolean.FALSE);
-            collapse.setVisible(Boolean.FALSE);
-            newBtn.setVisible(Boolean.FALSE);
-            editBtn.setVisible(Boolean.FALSE);
+            generate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            expand.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            collapse.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
         }
         if (functionPsHM.get(CommonUtils.PMPY) != null && ((AppPermission) functionPsHM.get(CommonUtils.PMPY)).isFunctionFlag()) {
             pmpy.setVisible(true);
@@ -528,9 +530,9 @@ public class MSalesProjection extends ForecastSalesProjection {
             altHistoryBtn.setVisible(false);
         }
         if (functionPsHM.get(FunctionNameUtil.CALCULATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.CALCULATE)).isFunctionFlag()) {
-            calculate.setVisible(Boolean.FALSE);
-            populate.setVisible(Boolean.FALSE);
-            adjust.setVisible(Boolean.FALSE);
+            calculate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            populate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            adjust.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
         }
     }
 

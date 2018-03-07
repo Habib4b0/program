@@ -15,6 +15,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
@@ -33,6 +34,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class UpdateItemSearch extends AbstractContractSearch {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private SelectionDTO selectionDto = new SelectionDTO();
 
     public UpdateItemSearch(SelectionDTO selection, List selectedItemList) {
@@ -84,7 +86,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
         ConfigureTable();
         getBinder();
         loadAllDdlb();
-        allItems.setEnabled(Boolean.FALSE);
+        allItems.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
 
     }
 

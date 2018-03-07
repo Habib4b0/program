@@ -22,6 +22,7 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
@@ -47,6 +48,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class TransferContractSearch extends AbstractContractSearch {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private SelectionDTO selectionDto;
     private boolean isnext = false;
 
@@ -92,7 +94,7 @@ public class TransferContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(Boolean.TRUE);
+        MassUpdatePanel1.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
         ConfigureTable();
         getBinder();
         loadAllDdlb();
@@ -181,18 +183,18 @@ public class TransferContractSearch extends AbstractContractSearch {
         }
 
         if (getBinderDto().getContractNo() != null && !getBinderDto().getContractNo().isEmpty()) {
-            input.add(getBinderDto().getContractNo().replace("*", "%"));
+            input.add(getBinderDto().getContractNo().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (getBinderDto().getContractName() != null && !getBinderDto().getContractName().isEmpty()) {
-            input.add(getBinderDto().getContractName().replace("*", "%"));
+            input.add(getBinderDto().getContractName().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getContractHolder() != null && !getBinderDto().getContractHolder().isEmpty()) {
-            input.add(getBinderDto().getContractHolder().replace("*", "%"));
+            input.add(getBinderDto().getContractHolder().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -202,30 +204,30 @@ public class TransferContractSearch extends AbstractContractSearch {
             input.add("%");
         }
         if (getBinderDto().getCfpNO() != null && !getBinderDto().getCfpNO().isEmpty()) {
-            input.add(getBinderDto().getCfpNO().replace("*", "%"));
+            input.add(getBinderDto().getCfpNO().replace('*', '%'));
         } else {
             input.add("%");
         }
         if (getBinderDto().getIfpNo() != null && !getBinderDto().getIfpNo().isEmpty()) {
-            input.add(getBinderDto().getIfpNo().replace("*", "%"));
+            input.add(getBinderDto().getIfpNo().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getPsNo() != null && !getBinderDto().getPsNo().isEmpty()) {
-            input.add(getBinderDto().getPsNo().replace("*", "%"));
+            input.add(getBinderDto().getPsNo().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getRebateScheduleId() != null && !getBinderDto().getRebateScheduleId().isEmpty()) {
-            input.add(getBinderDto().getRebateScheduleId().replace("*", "%"));
+            input.add(getBinderDto().getRebateScheduleId().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getRebateScheduleName() != null && !getBinderDto().getRebateScheduleName().isEmpty()) {
-            input.add(getBinderDto().getRebateScheduleName().replace("*", "%"));
+            input.add(getBinderDto().getRebateScheduleName().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -245,13 +247,13 @@ public class TransferContractSearch extends AbstractContractSearch {
             input.add("%");
         }
         if (getBinderDto().getRebateScheduleAlias() != null && !getBinderDto().getRebateScheduleAlias().isEmpty()) {
-            input.add(getBinderDto().getRebateScheduleAlias().replace("*", "%"));
+            input.add(getBinderDto().getRebateScheduleAlias().replace('*', '%'));
         } else {
             input.add("%");
         }
 
         if (getBinderDto().getRebateScheduleNo() != null && !getBinderDto().getRebateScheduleNo().isEmpty()) {
-            input.add(getBinderDto().getRebateScheduleNo().replace("*", "%"));
+            input.add(getBinderDto().getRebateScheduleNo().replace('*', '%'));
         } else {
             input.add("%");
         }
@@ -286,9 +288,9 @@ public class TransferContractSearch extends AbstractContractSearch {
         List input = getSessionInput(selectionDto);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check", null);
         if (AbstractLogic.getCount(list) != 0) {
-            return false;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         } else {
-            return true;
+            return BOOLEAN_CONSTANT.getTrueFlag();
         }
     }
 
@@ -296,9 +298,9 @@ public class TransferContractSearch extends AbstractContractSearch {
         List input = getSessionInput(selectionDto);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit check Pojection Transfer", null);
         if (AbstractLogic.getCount(list) != 0) {
-            return false;
+            return BOOLEAN_CONSTANT.getFalseFlag();
         } else {
-            return true;
+            return BOOLEAN_CONSTANT.getTrueFlag();
         }
     }
 
@@ -552,14 +554,14 @@ public class TransferContractSearch extends AbstractContractSearch {
             contractMsg = getContractNAmesCheck("contractItemCheck", input1);
             if (!contractMsg.isEmpty()) {
                 if (ConfirmationMsg.length() > 0) {
-                    ConfirmationMsg.append(",");
+                    ConfirmationMsg.append(',');
                 } else {
                     String[] str;
                     String item = itemName.get(SelectedItemIds.get(j));
                     str = item.split(",");
 
-                    ConfirmationMsg.append("<").append(str[0]).append(",").
-                            append(str[1]).append(">");
+                    ConfirmationMsg.append('<').append(str[0]).append(',').
+                            append(str[1]).append('>');
 
                 }
 

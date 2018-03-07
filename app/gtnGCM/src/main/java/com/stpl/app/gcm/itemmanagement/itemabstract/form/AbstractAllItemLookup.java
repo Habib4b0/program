@@ -11,6 +11,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -32,6 +33,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  */
 public class AbstractAllItemLookup extends CustomWindow {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final Panel panel = new Panel();
     private final VerticalLayout layout = new VerticalLayout();
     private final ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
@@ -52,9 +54,9 @@ public class AbstractAllItemLookup extends CustomWindow {
         super("All Items Lookup");
         this.selecteditemList = selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList);
         setContent(panel);
-        setClosable(Boolean.FALSE);
-        setResizable(Boolean.FALSE);
-        setModal(Boolean.TRUE);
+        setClosable(BOOLEAN_CONSTANT.getFalseFlag());
+        setResizable(BOOLEAN_CONSTANT.getFalseFlag());
+        setModal(BOOLEAN_CONSTANT.getTrueFlag());
         addStyleName("valo-theme-customwindow");
         addStyleName("bootstrap-ui");
         addStyleName(Constants.BOOTSTRAP);
@@ -64,13 +66,13 @@ public class AbstractAllItemLookup extends CustomWindow {
 
     private void configurefields() {
         HorizontalLayout hlayout = new HorizontalLayout();
-        hlayout.setSpacing(Boolean.TRUE);
+        hlayout.setSpacing(BOOLEAN_CONSTANT.getTrueFlag());
         hlayout.addComponent(close);
         hlayout.addComponent(export);
         configureTable();
         layout.addComponent(itemResults);
         layout.addComponent(hlayout);
-        layout.setMargin(Boolean.TRUE);
+        layout.setMargin(BOOLEAN_CONSTANT.getTrueFlag());
         panel.setContent(layout);
         export.addStyleName("link");
         export.setIcon(excelExportImage, "Excel Export");
@@ -96,7 +98,7 @@ public class AbstractAllItemLookup extends CustomWindow {
         itemResults.setVisibleColumns(UiUtils.getInstance().visibleColumnItem);
         itemResults.setColumnHeaders(UiUtils.getInstance().columnHeaderItem);
         itemResults.setSizeFull();
-        itemResults.setEditable(Boolean.FALSE);
+        itemResults.setEditable(BOOLEAN_CONSTANT.getFalseFlag());
         itemResults.markAsDirty();
         itemResults.setSelectable(false);
         itemResults.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -106,7 +108,7 @@ public class AbstractAllItemLookup extends CustomWindow {
     public void itemInfoExport() {
         configureExcelResultTable();
         excelResultBean.addAll(selecteditemList);
-        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
+        ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
         excel.export();
         layout.removeComponent(exportPeriodViewTable);
     }
@@ -115,7 +117,7 @@ public class AbstractAllItemLookup extends CustomWindow {
         excelResultBean = new BeanItemContainer<>(ItemIndexDto.class);
         exportPeriodViewTable = new ExtCustomTable();
         layout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         exportPeriodViewTable.setContainerDataSource(excelResultBean);
         exportPeriodViewTable.setVisibleColumns(UiUtils.getInstance().excelVisibleColumnItemSearch);

@@ -21,6 +21,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,6 +40,7 @@ import org.slf4j.LoggerFactory;
 public class PPAProjectionLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static Thread procedureThread;
     private static RunnableJob runnableJob;
     private final CommonLogic commonLogic=new CommonLogic();
@@ -166,7 +168,7 @@ public class PPAProjectionLogic {
 
     private static String createColumn(String quater, String year, String columnName) {
         StringBuilder column = new StringBuilder();
-        column.append(Constant.Q_SMALL).append(quater).append(year).append(columnName);
+        column.append('q').append(quater).append(year).append(columnName);
         return column.toString();
     }
 
@@ -259,7 +261,7 @@ public class PPAProjectionLogic {
             }
             PPAQuerys.PPAUpdate(input, "PPA.saveCheckRecord");
         }
-        return true;
+        return BOOLEAN_CONSTANT.getTrueFlag();
 
     }
 
@@ -419,7 +421,7 @@ public class PPAProjectionLogic {
 
         try {
             int levelNo;
-            selection.setIsCount(Boolean.FALSE);
+            selection.setIsCount(BOOLEAN_CONSTANT.getFalseFlag());
             if (lastParent != null && (lastParent instanceof PPAProjectionDTO)) {
                 PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                 levelNo = dto.getLevelNo();

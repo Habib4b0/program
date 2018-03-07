@@ -54,7 +54,9 @@ import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -92,6 +94,7 @@ public class DataSelectionLogic {
 	 * The data selection dao.
 	 */
 	private final DataSelectionDAO dataSelectionDaoImpl = new DataSelectionDAOImpl();
+        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
 	private final DataSelectionDAO vDataSelectionDao = new DataSelectionDAOImpl();
@@ -260,9 +263,9 @@ public class DataSelectionLogic {
 			final Object[] obj = (Object[]) result.get(i);
 			dto.setLevel(String.valueOf(obj[NumericConstants.EIGHT]));
 			dto.setRelationshipLevelValue(String.valueOf(obj[0]));
-			dto.setLevelNo(Integer.parseInt(String.valueOf(obj[1])));
+			dto.setLevelNo(DataTypeConverter.convertObjectToInt(obj[1]));
 			dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-			dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+			dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
 			dto.setTableName(String.valueOf(obj[NumericConstants.FOUR]));
 			dto.setFieldName(String.valueOf(obj[NumericConstants.FIVE]));
 			dto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
@@ -341,7 +344,7 @@ public class DataSelectionLogic {
 		final List<Integer> sids = new ArrayList<>();
 
 		for (final String sid : companySids) {
-			sids.add(Integer.parseInt(sid));
+			sids.add(DataTypeConverter.convertStringToInteger(sid));
 		}
 
 		final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
@@ -355,7 +358,7 @@ public class DataSelectionLogic {
 		final List<Integer> sids = new ArrayList<>();
 		List<ItemMaster> items = null;
 		for (final String sid : itemSids) {
-			sids.add(Integer.parseInt(sid));
+			sids.add(DataTypeConverter.convertStringToInteger(sid));
 		}
 		if (itemSids != null && !itemSids.isEmpty()) {
 			final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
@@ -638,7 +641,7 @@ public class DataSelectionLogic {
 
 			while (resultSet.next()) {
 				dto = new Leveldto();
-				dto.setLevelNo(Integer.parseInt(String.valueOf(resultSet.getObject(1))));
+				dto.setLevelNo(DataTypeConverter.convertObjectToInt(resultSet.getObject(1)));
 				dto.setTableName(String.valueOf(resultSet.getObject(NumericConstants.TWO)));
 				dto.setFieldName(String.valueOf(resultSet.getObject(NumericConstants.THREE)));
 				dto.setLevelValueReference(String.valueOf(resultSet.getObject(NumericConstants.FOUR)));
@@ -674,7 +677,7 @@ public class DataSelectionLogic {
 
 			while (resultSet.next()) {
 				dto = new Leveldto();
-				dto.setLevelNo(Integer.parseInt(String.valueOf(resultSet.getObject(1))));
+				dto.setLevelNo(DataTypeConverter.convertObjectToInt(resultSet.getObject(1)));
 				dto.setRelationshipLevelValue(String.valueOf(resultSet.getObject(NumericConstants.TWO)));
 				dto.setParentNode(String.valueOf(resultSet.getObject(NumericConstants.THREE)));
 				dto.setLevel(String.valueOf(resultSet.getObject(NumericConstants.FOUR)));
@@ -718,11 +721,11 @@ public class DataSelectionLogic {
 			for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
 				dto = new Leveldto();
 				final Object[] objects = (Object[]) resultss.get(loop);
-				dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
+				dto.setLevelNo(DataTypeConverter.convertObjectToInt(objects[0]));
 				dto.setRelationshipLevelValue(String.valueOf(objects[1]));
 				dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
 				dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
-				dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.FOUR])));
+				dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.FOUR]));
 				dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
 				dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
 				dto.setHierarchyNo(String.valueOf(objects[NumericConstants.SEVEN]));
@@ -772,14 +775,14 @@ public class DataSelectionLogic {
 			for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
 				dto = new Leveldto();
 				final Object[] objects = (Object[]) resultss.get(loop);
-				dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
+				dto.setLevelNo(DataTypeConverter.convertObjectToInt(objects[0]));
 				dto.setRelationshipLevelValue(String.valueOf(objects[1]));
 				dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
 				dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
 				dto.setLevelValueReference(String.valueOf(objects[NumericConstants.FOUR]));
 				dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
 				dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
-				dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])));
+				dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 				resultList.add(dto);
 			}
 		} catch (final SystemException | NumberFormatException ex) {
@@ -801,14 +804,14 @@ public class DataSelectionLogic {
 		try {
 			resultss = dataSelectionDaoImpl.getParentLevels(levelNo, relationshipLevelSid, parameters);
 			final Object[] objects = (Object[]) resultss.get(0);
-			dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
+			dto.setLevelNo(DataTypeConverter.convertObjectToInt(objects[0]));
 			dto.setRelationshipLevelValue(String.valueOf(objects[1]));
 			dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
 			dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
 			dto.setLevelValueReference(String.valueOf(objects[NumericConstants.FOUR]));
 			dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
 			dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
-			dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])));
+			dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 			dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 			dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
 		} catch (final SystemException | NumberFormatException ex) {
@@ -1045,7 +1048,7 @@ public class DataSelectionLogic {
 		final List resultList = dataSelectionDaoImpl.getItemIdFromCompanyInCCp(dynamicQuery);
 		final List<Integer> sidList = new ArrayList<>();
 		for (final Object sid : resultList) {
-			sidList.add(Integer.parseInt(String.valueOf(sid)));
+			sidList.add(DataTypeConverter.convertObjectToInt(sid));
 		}
 		return sidList;
 	}
@@ -1059,7 +1062,7 @@ public class DataSelectionLogic {
 		final List resultList = dataSelectionDaoImpl.getItemMaster(dynamicQuery);
 		final List<Integer> returnList = new ArrayList<>();
 		for (final Object sid : resultList) {
-			returnList.add(Integer.parseInt(String.valueOf(sid)));
+			returnList.add(DataTypeConverter.convertObjectToInt(sid));
 		}
 		return returnList;
 	}
@@ -1162,14 +1165,14 @@ public class DataSelectionLogic {
 				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
 					final Object[] objects = (Object[]) resultss.get(loop);
 					dto = new Leveldto();
-					dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
+					dto.setLevelNo(DataTypeConverter.convertObjectToInt(objects[0]));
 					dto.setRelationshipLevelValue(String.valueOf(objects[1]));
 					dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
 					dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
 					dto.setLevelValueReference(String.valueOf(objects[NumericConstants.FOUR]));
 					dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
 					dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
-					dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 					dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 					dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
 					if (descriptionMap != null) {
@@ -1289,14 +1292,14 @@ public class DataSelectionLogic {
 				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
 					Object[] objects = resultss.get(loop);
 					dto = new Leveldto();
-					dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
+					dto.setLevelNo(DataTypeConverter.convertObjectToInt(objects[0]));
 					dto.setRelationshipLevelValue(String.valueOf(objects[1]));
 					dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
 					dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
 					dto.setLevelValueReference(String.valueOf(objects[NumericConstants.FOUR]));
 					dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
 					dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
-					dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])));
+					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 					dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 					dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
 					if (descriptionMap != null) {
@@ -1324,9 +1327,9 @@ public class DataSelectionLogic {
 			dto = new Leveldto();
 			final Object[] obj = (Object[]) endLevels.get(i);
 			dto.setRelationshipLevelValue(String.valueOf(obj[0]));
-			dto.setLevelNo(Integer.parseInt(String.valueOf(obj[1])));
+			dto.setLevelNo(DataTypeConverter.convertObjectToInt(obj[1]));
 			dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-			dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+			dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(obj[NumericConstants.THREE]));
 			dto.setTableName(String.valueOf(obj[NumericConstants.FOUR]));
 			dto.setFieldName(String.valueOf(obj[NumericConstants.FIVE]));
 			dto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
@@ -1360,12 +1363,12 @@ public class DataSelectionLogic {
 		if (list != null && !list.isEmpty()) {
 			final Object[] tempDate = (Object[]) list.get(0);
 			if (tempDate[0] != null) {
-				dto.setFileEndYear(Integer.parseInt(String.valueOf(tempDate[0])));
+				dto.setFileEndYear(DataTypeConverter.convertObjectToInt(tempDate[0]));
 			} else {
 				dto.setFileEndYear(0);
 			}
 			if (tempDate[1] != null) {
-				dto.setFileEndMonth(Integer.parseInt(String.valueOf(tempDate[1])));
+				dto.setFileEndMonth(DataTypeConverter.convertObjectToInt(tempDate[1]));
 			} else {
 				dto.setFileEndMonth(0);
 			}
@@ -1413,7 +1416,7 @@ public class DataSelectionLogic {
 		final List resultList = dataSelectionDaoImpl.executeQuery(parameters);
 		final List<Integer> sidList = new ArrayList<>();
 		for (final Object sid : resultList) {
-			sidList.add(Integer.parseInt(String.valueOf(sid)));
+			sidList.add(DataTypeConverter.convertObjectToInt(sid));
 		}
 		return sidList;
 	}
@@ -1890,7 +1893,7 @@ public class DataSelectionLogic {
 		parameters.put(PROJECTION_ID, projectionId);
 		final List returnList = vDataSelectionDao.executeQuery(parameters);
 		if (returnList.isEmpty()) {
-			return true;
+			return BOOLEAN_CONSTANT.getTrueFlag();
 		} else {
 			return (Integer) returnList.get(0) >= 1;
 		}

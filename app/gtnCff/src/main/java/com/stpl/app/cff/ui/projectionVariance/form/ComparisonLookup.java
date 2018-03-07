@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ComparisonLookup extends AbstractComparisonLookup {
 
-    private Boolean recordSelectedFlag = false;
+    private boolean recordSelectedFlag = false;
     private final int currentProjId;
     private final List<ComparisonLookupDTO> selectedList;
     /**
@@ -230,7 +230,6 @@ public class ComparisonLookup extends AbstractComparisonLookup {
             comparison.setReadOnly(false);
             comparison.setValue(SELECT_ONE);
             comparison.setData(null);
-            comparison.setImmediate(true);
             comparison.setReadOnly(true);
             selectedList.clear();
         }

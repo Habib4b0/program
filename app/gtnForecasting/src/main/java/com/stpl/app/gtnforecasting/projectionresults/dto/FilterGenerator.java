@@ -59,6 +59,7 @@ public class FilterGenerator implements ExtFilterGenerator {
                 groupDdlb.setEnabled(true);
             } else {
                 groupDdlb.setEnabled(false);
+                groupDdlb.setVisible(false);
             }
             return groupDdlb;
         }

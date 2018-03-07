@@ -28,6 +28,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
@@ -80,6 +81,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemManagementIndex extends CustomComponent {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @UiField("itemId")
     private TextField itemId;
     @UiField("itemName")
@@ -169,39 +172,39 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void configureSearch() {
-        therapeuticClass.setNullSelectionAllowed(Boolean.TRUE);
+        therapeuticClass.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         therapeuticClass.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         therapeuticClass.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         therapeuticClass.select(IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        form_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         form_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         form_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         form_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        identifierType_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         identifierType_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         identifierType_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         identifierType_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        brand_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         brand_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         brand_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         brand_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        strength_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         strength_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         strength_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         strength_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        company_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         company_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         company_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         company_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        placeHolder_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        placeHolder_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         placeHolder_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         placeHolder_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         placeHolder_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        itemCategory.setNullSelectionAllowed(Boolean.TRUE);
+        itemCategory.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         itemCategory.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         itemCategory.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         itemCategory.select(IndicatorConstants.SELECT_ONE.getConstant());
-        itemType.setNullSelectionAllowed(Boolean.TRUE);
+        itemType.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
         itemType.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         itemType.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         itemType.select(IndicatorConstants.SELECT_ONE.getConstant());
@@ -225,7 +228,7 @@ public class ItemManagementIndex extends CustomComponent {
         itemResults.setColumnHeaders(UiUtils.getInstance().columnHeaderItemSearch);
         itemResults.setSizeUndefined();
         itemResults.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        itemResults.setEditable(Boolean.TRUE);
+        itemResults.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
         itemResults.setFilterBarVisible(true);
         itemResults.addStyleName(ConstantsUtil.FILTERCOMBOBOX);
         itemResults.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -306,13 +309,13 @@ public class ItemManagementIndex extends CustomComponent {
 
                 if ("company".equals(propertyId)) {
                     ComboBox companyDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(companyDdlb, "LoadCompanyCount", "LoadCompany", true);
+                    abstractLogic.LazyLoadDdlb(companyDdlb, "LoadCompanyCount", "LoadCompany", BOOLEAN_CONSTANT.getTrueFlag());
                     return companyDdlb;
                 }
                 if ("therapeuticClass".equals(propertyId)) {
                     ComboBox therapeuticClassDdlb = new ComboBox();
                     try {
-                        abstractLogic.loadComboBox(therapeuticClassDdlb, "THERAPEUTIC_CLASS", true);
+                        abstractLogic.loadComboBox(therapeuticClassDdlb, "THERAPEUTIC_CLASS", BOOLEAN_CONSTANT.getTrueFlag());
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
                     }
@@ -320,17 +323,17 @@ public class ItemManagementIndex extends CustomComponent {
                 }
                 if ("brand".equals(propertyId)) {
                     ComboBox brandDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", true);
+                    abstractLogic.LazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", BOOLEAN_CONSTANT.getTrueFlag());
                     return brandDdlb;
                 }
                 if ("form".equals(propertyId)) {
                     ComboBox type = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(type, "LoadFormCount", "LoadForm", true);
+                    abstractLogic.LazyLoadDdlb(type, "LoadFormCount", "LoadForm", BOOLEAN_CONSTANT.getTrueFlag());
                     return type;
                 }
                 if ("strength".equals(propertyId)) {
                     ComboBox strengthDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(strengthDdlb, "LoadStrengthCount", "LoadStrength", true);
+                    abstractLogic.LazyLoadDdlb(strengthDdlb, "LoadStrengthCount", "LoadStrength", BOOLEAN_CONSTANT.getTrueFlag());
                     return strengthDdlb;
                 }
                 if ("placeHolder".equals(propertyId)) {
@@ -434,7 +437,7 @@ public class ItemManagementIndex extends CustomComponent {
             selection.setFilters(tableLogic.getFilters());
             recordCount = logic.getSearchCount(binderDto, selection);
         }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
+        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(' ', '_').toUpperCase());
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
@@ -614,15 +617,15 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadForm() {
-        abstractLogic.LazyLoadDdlb(form_DTO, "LoadFormCount", "LoadForm", false);
+        abstractLogic.LazyLoadDdlb(form_DTO, "LoadFormCount", "LoadForm", BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     private void loadBrand() {
-        abstractLogic.LazyLoadDdlb(brand_DTO, "LoadBrandCount", "LoadBrand", false);
+        abstractLogic.LazyLoadDdlb(brand_DTO, "LoadBrandCount", "LoadBrand", BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     private void loadStrength() {
-        abstractLogic.LazyLoadDdlb(strength_DTO, "LoadStrengthCount", "LoadStrength", false);
+        abstractLogic.LazyLoadDdlb(strength_DTO, "LoadStrengthCount", "LoadStrength", BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     private void loadItemType() {
@@ -639,7 +642,7 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadCompany() {
-        abstractLogic.LazyLoadDdlb(company_DTO, "LoadCompanyCount", "LoadCompany", false);
+        abstractLogic.LazyLoadDdlb(company_DTO, "LoadCompanyCount", "LoadCompany", BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     private void loadPlaceHolder(ComboBox placeHolder_DTO, boolean isFilter) {
@@ -708,7 +711,7 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadIdentifierType() {
-        abstractLogic.LazyLoadDdlb(identifierType_DTO, "LoadIdentifierType Count", "LoadIdentifierType", false);
+        abstractLogic.LazyLoadDdlb(identifierType_DTO, "LoadIdentifierType Count", "LoadIdentifierType", BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     private boolean checkOneContract() {

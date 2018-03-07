@@ -29,6 +29,7 @@ import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
@@ -78,6 +79,7 @@ public class RebateTab extends VerticalLayout {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(RebateTab.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightDTO;
     private CustomTableHeaderDTO leftDTO;
@@ -247,7 +249,7 @@ public class RebateTab extends VerticalLayout {
         if (resultBean.size() > 0) {
             loadExcelResultTable();
         }
-        exportPeriodViewTable.setRefresh(Boolean.TRUE);
+        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Amount");
         formatter.put("perTwoDecimal", "Rate");

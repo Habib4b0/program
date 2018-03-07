@@ -47,7 +47,7 @@ public class PPAQuerys {
           
             sql = new StringBuilder(SQlUtil.getQuery(PPAQuerys.class,queryName));
             if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                sql.append(" ");
+                sql.append(' ');
                 sql.append(SQlUtil.getQuery(PPAQuerys.class,quaryName2));
             }
 
@@ -167,7 +167,7 @@ public class PPAQuerys {
           
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
             if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                sql.append(" ");
+                sql.append(' ');
                 sql.append(SQlUtil.getQuery(PPAQuerys.class,quaryName2));
             }
 

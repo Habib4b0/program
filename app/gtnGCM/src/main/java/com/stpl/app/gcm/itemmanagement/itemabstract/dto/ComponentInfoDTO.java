@@ -50,7 +50,7 @@ public class ComponentInfoDTO {
     private Integer count = 0;
     private Integer startIndex = 0;
     private Integer endIndex = 0;
-    private Boolean isCount = false;
+    private boolean isCount = false;
     private String attachedStatus = StringUtils.EMPTY;
     private String componenId = StringUtils.EMPTY;
     private String componenNumber = StringUtils.EMPTY;
@@ -72,7 +72,7 @@ public class ComponentInfoDTO {
     private String rebatePlanLevel_Value = StringUtils.EMPTY;
     private String rebateFrequency_Value = StringUtils.EMPTY;
     private String itemContractNo = StringUtils.EMPTY;
-    private Boolean reset = false;
+    private boolean reset = false;
     private String measurementPrice = StringUtils.EMPTY;
     private String resetPriceType = StringUtils.EMPTY;
     private String netResetPriceType = StringUtils.EMPTY;

@@ -16,6 +16,7 @@ import static com.stpl.app.cff.util.Constants.NULL;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.TreeTable;
@@ -41,6 +42,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class DataSelectionUtil {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private static final Map<String, String> userMap = new HashMap<>();
     private static final Map<String, String> userIdMap = new HashMap<>();
     private static final Map<String, String> discountMap = new HashMap<>();
@@ -115,9 +117,9 @@ public class DataSelectionUtil {
         if (items != null && !items.isEmpty()) {
             items = new ArrayList<>(new LinkedHashSet<String>(items));
             for (int loop = 0, limit = items.size(); loop < limit; loop++) {
-                itemList.append("'");
+                itemList.append('\'');
                 itemList.append(items.get(loop));
-                itemList.append("'");
+                itemList.append('\'');
                 if (loop != (limit - 1)) {
                     itemList.append(", ");
                 }
@@ -147,13 +149,13 @@ public class DataSelectionUtil {
                     }
                     query.append(" im.");
                     orFlag = true;
-                    fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), true);
+                    fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), BOOLEAN_CONSTANT.getTrueFlag());
                     query.append(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn));
                     query.append(" in (");
 
                     query.append(itemList.toString());
 
-                    query.append(")");
+                    query.append(')');
                 }
 
 
@@ -543,14 +545,14 @@ public class DataSelectionUtil {
             if (!companyMasterValues.isEmpty()) {
                 query.append(" CCP.companyMasterSid IN (");
                 query.append(UiUtils.stringListToString(companyMasterValues));
-                query.append(")");
+                query.append(')');
                 and = " AND ";
             }
             if (!contractMasterValues.isEmpty()) {
                 query.append(and);
                 query.append(" CCP.contractMasterSid IN (");
                 query.append(UiUtils.stringListToString(contractMasterValues));
-                query.append(")");
+                query.append(')');
             }
         }
         return query.toString();

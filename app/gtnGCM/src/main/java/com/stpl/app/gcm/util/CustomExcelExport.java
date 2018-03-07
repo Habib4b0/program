@@ -7,6 +7,7 @@ package com.stpl.app.gcm.util;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.vaadin.v7.data.Property;
 import java.util.Date;
 import java.util.Map;
@@ -77,7 +78,7 @@ public class CustomExcelExport extends ExcelExport {
                 Double d = 0.0;
                 try {
                     if (value != null) {
-                        d = Double.parseDouble(value.toString().replace("$", "").replace(",", "").replace("%", ""));
+                        d = DataTypeConverter.convertStringToDouble(value.toString().replace("$", "").replace(",", "").replace("%", ""));
                         sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         sheetCell.setCellValue(d);
                     }
@@ -108,7 +109,7 @@ public class CustomExcelExport extends ExcelExport {
                         }
                     } else {
                         try {
-                            final Double d = Double.parseDouble(value.toString());
+                            final Double d = DataTypeConverter.convertStringToDouble(value.toString());
                             sheetCell.setCellValue(d);
                             sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                         } catch (final NumberFormatException nfe) {

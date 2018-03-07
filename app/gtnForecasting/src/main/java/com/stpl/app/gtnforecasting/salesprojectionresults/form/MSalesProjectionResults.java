@@ -46,6 +46,7 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
@@ -98,6 +99,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(MSalesProjectionResults.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The table control Layout.
      */
@@ -168,7 +170,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
     private int customIdToSelect = 0;
     private int customId = 0;
     private String screenName = StringUtils.EMPTY;
-    private boolean canLoad = Boolean.TRUE;
+    private boolean canLoad = true;
 
     /**
      * Instantiates a new sales projection results.
@@ -461,15 +463,15 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
                 toHist = true;
                 if (freq.equals(QUARTERLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 } else if (freq.equals(SEMI_ANNUALLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(MONTHLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
                 } else if (freq.equals(ANNUALLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+                    historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 }
                 projectionDTO.setHistory(hist.toString());
                 projectionDTO.setProjection(hist.toString());
@@ -479,8 +481,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             projectionId = session.getProjectionId();
             projectionDTO.setScreenName(screenName);
             projectionDTO.setHistoryNum(historyNum);
-            projectionDTO.setUserId(Integer.valueOf(session.getUserId()));
-            projectionDTO.setSessionId(Integer.valueOf(session.getSessionId()));
+            projectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+            projectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
             projectionDTO.setActualsOrProjections(actualOrProj.getValue().toString());
             projectionDTO.setProjectionId(projectionId);
             projectionDTO.setSalesOrUnit(salesOrUnits.getValue().toString());
@@ -489,8 +491,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             projectionDTO.setCustomId(customId);
             projectionDTO.setView(view.getValue().toString());
 
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             projectionDTO.setStartDate(session.getFromDate());
             projectionDTO.setStartDate(session.getToDate());
             if (session.getFromDate() != null && session.getToDate() != null) {
@@ -626,7 +628,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         LOGGER.debug("levelFilterDdlbChangeOption inititated");
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue(), true);
 
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -733,7 +735,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
 
     private void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo > 0) {
             if (projectionDTO.isIsFilter()) {
                 levelFilter.removeValueChangeListener(levelFilterChangeOption);
@@ -989,11 +991,11 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SALES_PROJECTION_RESULTS);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(Boolean.FALSE);
-                expandBtn.setVisible(Boolean.FALSE);
-                collapseBtn.setVisible(Boolean.FALSE);
-                newBtn.setVisible(Boolean.FALSE);
-                editBtn.setVisible(Boolean.FALSE);
+                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(MSalesProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);

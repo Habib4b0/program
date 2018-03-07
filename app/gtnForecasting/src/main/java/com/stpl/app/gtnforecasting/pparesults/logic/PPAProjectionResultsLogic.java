@@ -1083,7 +1083,7 @@ public class PPAProjectionResultsLogic {
         for (Object[] object : list) {
             try {
                 PPADetailsDTO detailsDTO = new PPADetailsDTO();
-                detailsDTO.setPeriod((object[0] != null ? String.valueOf(object[0]) : StringUtils.EMPTY) + " " + (object[1] != null ? CommonUtils.getMonthName(Integer.parseInt(String.valueOf(object[1]))) : StringUtils.EMPTY));
+                detailsDTO.setPeriod((object[0] != null ? String.valueOf(object[0]) : StringUtils.EMPTY) + ' ' + (object[1] != null ? CommonUtils.getMonthName(Integer.parseInt(String.valueOf(object[1]))) : StringUtils.EMPTY));
                 detailsDTO.setPriceProtectionPriceType(object[NumericConstants.TWO] != null ? String.valueOf(object[NumericConstants.TWO]) : StringUtils.EMPTY);
                 detailsDTO.setMap(object[NumericConstants.FIVE] != null ? getFormatValue(TWO_DECIMAL, String.valueOf(object[NumericConstants.FIVE]), CURRENCY) : StringUtils.EMPTY);
                 detailsDTO.setTotalDeductions(object[NumericConstants.SIX] != null ? getFormatValue(TWO_DECIMAL, String.valueOf(object[NumericConstants.SIX]), CURRENCY) : StringUtils.EMPTY);

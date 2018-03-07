@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ItemQualifierLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
@@ -68,6 +69,7 @@ import org.slf4j.LoggerFactory;
 public class DeductionCalendarLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     private final NotesTabLogic notesLogic = new NotesTabLogic();
     public static final CommonDao DAO = CommonDaoImpl.getInstance();
@@ -151,15 +153,15 @@ public class DeductionCalendarLogic {
     public Boolean deductionNoAndNameDuplicateCheck(final String value, final Boolean isName, SessionDTO sessionDTO) {
         StringBuilder queryString = new StringBuilder("SELECT COUNT(DEDUCTION_CALENDAR_NO) FROM DEDUCTION_CALENDAR_MASTER WHERE ");
         queryString.append(isName ? "DEDUCTION_CALENDAR_NAME" : "DEDUCTION_CALENDAR_NO");
-        queryString.append("='").append(value).append("'");
+        queryString.append("='").append(value).append('\'');
         if (ConstantsUtils.EDIT.equalsIgnoreCase(sessionDTO.getMode())) {
-            queryString.append(" AND DEDUCTION_CALENDAR_MASTER_SID<>'").append(sessionDTO.getSystemId()).append("'");
+            queryString.append(" AND DEDUCTION_CALENDAR_MASTER_SID<>'").append(sessionDTO.getSystemId()).append('\'');
         }
         final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
-        return false;
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     public Boolean itemAndCompanySelectionCheck(final SessionDTO sessionDTO, final Boolean isItem) {
@@ -170,7 +172,7 @@ public class DeductionCalendarLogic {
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
-        return false;
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     /**

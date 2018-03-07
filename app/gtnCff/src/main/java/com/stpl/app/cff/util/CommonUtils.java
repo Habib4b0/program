@@ -49,6 +49,7 @@ import com.stpl.app.parttwo.model.CffApprovalDetails;
 import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -635,7 +636,7 @@ public class CommonUtils {
                 for (CffApprovalDetails details : approvalDetails) {
 
                     dto = new ApprovalDetailsDTO();
-                    dto.setApprovedBy(userInfo.get(Long.parseLong(String.valueOf(details.getApprovedBy()))));
+                    dto.setApprovedBy(userInfo.get(DataTypeConverter.convertIntegerToLong(details.getApprovedBy())));
                     dto.setApprovalSequence(String.valueOf(details.getApprovalSequence()));
                     dto.setApprovedDate(details.getApprovedDate());
                     dto.setApprovalStatus(getHelperDescription(details.getApprovalStatus()));
@@ -670,11 +671,11 @@ public class CommonUtils {
         for (CffApprovalDetails cffApprovalDetails : resultsList) {
             cffMasterId = cffApprovalDetails.getCffMasterSid();
             if (approvalDetails.get(cffMasterId) == null) {
-                s = userInfo.get(Long.parseLong(String.valueOf(cffApprovalDetails.getApprovedBy())));
+                s = userInfo.get(DataTypeConverter.convertIntegerToLong(cffApprovalDetails.getApprovedBy()));
                 approvalDetails.put(cffApprovalDetails.getCffMasterSid(), s);
             } else {
                 s = approvalDetails.get(cffMasterId);
-                s = s + "," + userInfo.get(Long.parseLong(String.valueOf(cffApprovalDetails.getApprovedBy())));
+                s = s + "," + userInfo.get(DataTypeConverter.convertIntegerToLong(cffApprovalDetails.getApprovedBy()));
                 approvalDetails.put(cffApprovalDetails.getCffMasterSid(), s);
             }
 
@@ -722,9 +723,9 @@ public class CommonUtils {
         StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
         if (stringList != null && !stringList.isEmpty()) {
             for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
-                builder.append("'");
+                builder.append('\'');
                 builder.append(stringList.get(loop));
-                builder.append("'");
+                builder.append('\'');
                 if (loop != (limit - 1)) {
                     builder.append(", ");
                 }
@@ -1231,7 +1232,7 @@ public class CommonUtils {
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
             if (toAddQuote) {
-                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+                framedString += Arrays.toString(collectionOfString.toArray()).replace('[', '\'').replace(']', '\'').replace(", ", "','");
             } else {
                 framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "").replace("]", "");
             }

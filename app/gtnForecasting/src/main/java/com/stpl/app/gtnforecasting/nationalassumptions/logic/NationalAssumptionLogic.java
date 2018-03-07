@@ -49,6 +49,7 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.util.BeanItem;
 import java.sql.CallableStatement;
@@ -80,6 +81,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NationalAssumptionLogic {
 
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     /**
      * The current year.
      */
@@ -274,30 +276,30 @@ public class NationalAssumptionLogic {
                                 + "	VALUES  ");
                         queryBuilder.append("('").append(projectionId).append("',");
 
-                        queryBuilder.append("'").append(priceType.getPriceType() != null ? priceType.getPriceType().equals(Constant.ANNUAL_FSS) ? "AFSS" : priceType.getPriceType() : StringUtils.EMPTY).append("',");
-                        queryBuilder.append("'").append(priceType.getBaselineMethodology() != null ? priceType.getBaselineMethodology() : StringUtils.EMPTY).append("',");
-                        queryBuilder.append("'").append(priceType
+                        queryBuilder.append('\'').append(priceType.getPriceType() != null ? priceType.getPriceType().equals(Constant.ANNUAL_FSS) ? "AFSS" : priceType.getPriceType() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getBaselineMethodology() != null ? priceType.getBaselineMethodology() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType
                                 .getForecastMethodology() != null ? priceType.getForecastMethodology() : StringUtils.EMPTY).append("',");
 
-                        queryBuilder.append("'").append(priceType.getBasePeriod() != null ? priceType.getBasePeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getBasePeriod() != null ? priceType.getBasePeriod() : StringUtils.EMPTY).append("',");
 
-                        queryBuilder.append("'").append(priceType.getRollingPeriod() != null ? priceType.getRollingPeriod() : StringUtils.EMPTY).append("',");
-                        queryBuilder.append("'").append(priceType.getStartPeriod() != null ? priceType.getStartPeriod() : StringUtils.EMPTY).append("',");
-                        queryBuilder.append("'").append(priceType.getEndPeriod() != null ? priceType.getEndPeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getRollingPeriod() != null ? priceType.getRollingPeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getStartPeriod() != null ? priceType.getStartPeriod() : StringUtils.EMPTY).append("',");
+                        queryBuilder.append('\'').append(priceType.getEndPeriod() != null ? priceType.getEndPeriod() : StringUtils.EMPTY).append("',");
 
                         if (GROWTH.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())) {
                             String growthString = priceType.getGrowthRate();
                             growthString = StringUtils.isNotBlank(growthString) ? growthString.trim().replace(Constant.PERCENT, StringUtils.EMPTY) : Constant.DASH;
 
-                            queryBuilder.append("'").append(Double.valueOf(growthString)).append("',");
+                            queryBuilder.append('\'').append(Double.valueOf(growthString)).append("',");
                             if (priceType.getFrequency() != null && !ANNUAL.getConstant().equals(priceType.getCpiCompounding())) {
-                                queryBuilder.append("'").append(priceType.getFrequency()).append("',");
+                                queryBuilder.append('\'').append(priceType.getFrequency()).append("',");
                             } else {
                                 queryBuilder.append(" NULL ,");
                             }
 
                         } else {
-                            queryBuilder.append("'").append(0).append("',");
+                            queryBuilder.append('\'').append(0).append("',");
                             queryBuilder.append(" NULL ,");
                         }
 
@@ -320,12 +322,12 @@ public class NationalAssumptionLogic {
                                 default:
                                     break;
                             }
-                            queryBuilder.append("'").append(priceBasis).append("',");
+                            queryBuilder.append('\'').append(priceBasis).append("',");
                         } else {
-                            queryBuilder.append("'").append(StringUtils.EMPTY).append("',");
+                            queryBuilder.append('\'').append(StringUtils.EMPTY).append("',");
                         }
                         if (priceType.getCpiCompounding() != null) {
-                            queryBuilder.append("'").append(priceType.getCpiCompounding()).append("'");
+                            queryBuilder.append('\'').append(priceType.getCpiCompounding()).append('\'');
                         } else {
                             queryBuilder.append(" NULL ");
                         }
@@ -1344,7 +1346,7 @@ public class NationalAssumptionLogic {
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        return Boolean.FALSE;
+        return BOOLEAN_CONSTANT.getFalseFlag();
     }
 
     public int getCount(List<Object[]> list) {
