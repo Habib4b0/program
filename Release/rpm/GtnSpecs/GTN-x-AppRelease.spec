@@ -6,7 +6,7 @@
 Name:SPEC_NAME
 Version:SPEC_VERSION
 Release:        1%{?dist}
-Summary:Raja1 test
+Summary:GTN APP Release
 BuildArchitectures: noarch
 License:  GPLv3+
 Source0:SPEC_SOURCE
