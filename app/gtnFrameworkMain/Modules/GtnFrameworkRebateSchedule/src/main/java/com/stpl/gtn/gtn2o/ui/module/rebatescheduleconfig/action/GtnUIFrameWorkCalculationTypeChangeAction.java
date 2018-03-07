@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.itextpdf.text.log.Logger;
+import com.itextpdf.text.log.LoggerFactory;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -30,7 +32,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(GtnUIFrameWorkCalculationTypeChangeAction.class);
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -41,7 +43,10 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		checkCopyMode(componentId);
+		
+		try{
+			checkCopyMode(componentId);
+		
 		String calculationType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("calculationType1")
 				.getCaptionFromComboBox();
 
@@ -349,7 +354,12 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 		tableLogic.startSearchProcess(new ArrayList<String>(), true);
 	
 	}
-
+		catch(Exception e)
+		{
+			LOGGER.error(e.getMessage());
+		}
+	}
+	
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
@@ -381,3 +391,5 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 		}
 	}
 }
+
+	
