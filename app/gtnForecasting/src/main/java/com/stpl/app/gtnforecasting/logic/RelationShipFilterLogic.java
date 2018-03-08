@@ -57,6 +57,8 @@ public class RelationShipFilterLogic {
 	private static final String RELATIONSHIP_LEVEL_DEFN = "RELATIONSHIP_LEVEL_DEFINITION";
 	private static final String RELATION_HIERARCHY_JOIN = "HIERARCHY_NO_JOIN.HIERARCHY_NO";
 	private static final String RELATION_HIERARCHY_LEVEL_JOIN = "HIERARCHY_NO_JOIN.LEVEL_NO";
+	private static final String RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID = "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID";
+	private static final String LEVEL_NO = "LEVEL_NO";
         private static final SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
 
 	private RelationShipFilterLogic() {
@@ -190,7 +192,7 @@ public class RelationShipFilterLogic {
                 .getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
                         previousHierarchyLevelBean.getFieldName());
         String relationShipLevelDef = "RELATIONSHIP_LEVEL_DEFINITION";
-        String relationShipBuilderSidDef = "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID";
+        String relationShipBuilderSidDef = RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID;
         GtnFrameworkJoinClauseBean relationJoin = queryBean.addJoinClauseBean(relationShipLevelDef,
                 relationShipLevelDef, GtnFrameworkJoinType.JOIN);
         relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
@@ -199,21 +201,21 @@ public class RelationShipFilterLogic {
         relationJoin.addConditionBean(relationShipBuilderSidDef, null, GtnFrameworkOperatorType.EQUAL_TO);
         relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.level_no", null,
                 GtnFrameworkOperatorType.EQUAL_TO);
-        relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
+        relationJoin.addConditionBean(RELATIONSHIP_BUILD_VERSION, null,
                 GtnFrameworkOperatorType.EQUAL_TO);
-        relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
+        relationJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO,
                 getHierarchyNoForRelationShip(hierarchyDefinitionList, previousHierarchyLevelBean),
                 GtnFrameworkOperatorType.LIKE);
 
     }
 
     private GtnFrameworkQueryGeneratorBean addRelationSelectClause(GtnFrameworkQueryGeneratorBean queryBean) {
-        queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO", "LEVEL_NO", Boolean.TRUE, null);
-        queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.PARENT_NODE", "LEVEL_NO", Boolean.TRUE, null);
-        queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_SID", "LEVEL_NO", Boolean.TRUE,
+        queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO", LEVEL_NO, Boolean.TRUE, null);
+        queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.PARENT_NODE", LEVEL_NO, Boolean.TRUE, null);
+        queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_SID", LEVEL_NO, Boolean.TRUE,
                 null);
-        queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO", "LEVEL_NO", Boolean.TRUE, null);
-        queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", "LEVEL_NO",
+        queryBean.addSelectClauseBean(RELATIONSHIP_BUILD_HIERARCHY_NO, LEVEL_NO, Boolean.TRUE, null);
+        queryBean.addSelectClauseBean(RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID, LEVEL_NO,
                 Boolean.TRUE, null);
         return queryBean;
     }
@@ -751,9 +753,9 @@ public class RelationShipFilterLogic {
 		GtnFrameworkJoinClauseBean relationJoin = queryBean.addJoinClauseBean(RELATIONSHIP_LEVEL_DEFN,
 				RELATIONSHIP_LEVEL_DEFN, GtnFrameworkJoinType.JOIN);
 		relationJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, GtnFrameworkOperatorType.LIKE);
-		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
+		relationJoin.addConditionBean(RELATIONSHIP_BUILD_VERSION, null,
 				GtnFrameworkOperatorType.EQUAL_TO);
-		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", null,
+		relationJoin.addConditionBean(RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID, null,
 				GtnFrameworkOperatorType.EQUAL_TO);
 	}
 
@@ -830,7 +832,7 @@ public class RelationShipFilterLogic {
 					keyBean.getJoinColumnTable(), GtnFrameworkJoinType.JOIN);
 			tableJoin.addConditionBean(keyBean.getJoinColumnTable() + "." + keyBean.getMasterSidColumn(),
 					"RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_VALUES", GtnFrameworkOperatorType.EQUAL_TO);
-			queryBean.addWhereClauseBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", null,
+			queryBean.addWhereClauseBean(RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID, null,
 					GtnFrameworkOperatorType.EQUAL_TO, GtnFrameworkDataType.STRING, relationshipBuilderSID);
 			queryBean.addWhereClauseBean("RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO", null,
 					GtnFrameworkOperatorType.EQUAL_TO, GtnFrameworkDataType.INTEGER, leveldto.getLevelNo());

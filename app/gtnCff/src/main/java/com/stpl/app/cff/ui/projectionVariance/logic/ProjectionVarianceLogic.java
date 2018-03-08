@@ -3265,17 +3265,17 @@ public class ProjectionVarianceLogic {
 
                     isNotFirstElement = true;
                 } else {
-                   if (isNotFirstHierarchy) {
-                        stringBuilder.append(",\n");
-                    }
-                    stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(list.get(0))).split("\\,"))));
-                    isNotFirstHierarchy = true;
+                if (isNotFirstHierarchy) {
+                    stringBuilder.append(",\n");
                 }
+                    stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(list.get(0))).split("\\,"))));
+                isNotFirstHierarchy = true;
             }
+        }
         }
         return stringBuilder.toString();
     }
-
+  
     public boolean isSplitNeeded(Map.Entry<String, List> entry, boolean isHierarchyNoNotAvailable, String hierarchyNo) {
         return !hierarchyNo.contains(",") || (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
     }
@@ -3288,7 +3288,7 @@ public class ProjectionVarianceLogic {
         return (Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()));
     }
 
-    public String getString(String key, List<String> hierarchyNo) {
+  public String getString(String key, List<String> hierarchyNo) {
         StringBuilder stringBuilder = new StringBuilder();
         int i=1;
         for (String str : hierarchyNo) {

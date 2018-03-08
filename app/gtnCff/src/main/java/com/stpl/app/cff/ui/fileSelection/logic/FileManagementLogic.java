@@ -1357,7 +1357,7 @@ public class FileManagementLogic {
 						+ "GROUP BY FORECAST_NAME, FORECAST_VER,SOURCE,COUNTRY,MIN_YEAR,MAX_MONTH,MAX_YEAR " + order;
 			}
 
-			resultsList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
+    			resultsList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 
 			if (!isCount) {
 				loadMonthMap();
@@ -1775,12 +1775,14 @@ public class FileManagementLogic {
 		LOGGER.debug("Entering getForecastDetails ");
 		List list;
 		String sqlString;
-		if (isCount) {
-			sqlString = "SELECT count( * ) \n"
-					+ " FROM FORECASTING_MASTER FM, ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID AND \n" + "FORECAST_NAME=  ";
-		} else {
-			sqlString = SQlUtil.getQuery("getDetailsResults");
-		}
+		          if (isCount) {
+                sqlString = "SELECT count( * ) \n"
+                        + " FROM FORECASTING_MASTER FM, ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID AND \n" + "FORECAST_NAME=  ";
+            } else if (isExcel) {
+                sqlString = SQlUtil.getQuery("getDetailsResultsExcel");
+            } else {
+                sqlString = SQlUtil.getQuery("getDetailsResults");
+            }
 		sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType())
 				&& "US".equals(detailsResultDTO.getCountry())) {
@@ -2123,7 +2125,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2269,7 +2271,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2402,7 +2404,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat("  INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2609,7 +2611,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2762,7 +2764,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER  in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;

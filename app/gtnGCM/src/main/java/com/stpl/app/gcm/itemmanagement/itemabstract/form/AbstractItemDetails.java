@@ -232,7 +232,7 @@ public class AbstractItemDetails extends CustomComponent {
 
     public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws   NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         List<String> visibleList = Arrays.asList(itemdetailstable.getColumnHeaders()).subList(1, itemdetailstable.getVisibleColumns().length);
-        List<SummaryDTO> list = null;
+        List<SummaryDTO> list = new ArrayList<>();
         if (resultTable.size() != 0) {
             list = summaryLogic.getContractResults(selection, 0, Integer.MAX_VALUE);
         }

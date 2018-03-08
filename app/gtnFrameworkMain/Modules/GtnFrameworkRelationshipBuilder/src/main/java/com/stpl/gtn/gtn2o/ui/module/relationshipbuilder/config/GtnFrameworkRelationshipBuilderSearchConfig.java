@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkSearchSecurityAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkAddButtonAction;
+import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkConfirmedCopyAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkConfirmedDeleteButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkEditButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.constants.GtnFrameworkRelationshipBuilderConstants;
@@ -118,8 +119,9 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 
 	private void addButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
 		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getCssLayoutConfig(
-				GtnFrameworkCommonConstants.RELATIONSHIP_SEARCH_BUTTONLAYOUT, true, namspacePrefix + GtnFrameworkCommonConstants.MAINLAYOUT);
-		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);         
+				GtnFrameworkCommonConstants.RELATIONSHIP_SEARCH_BUTTONLAYOUT, true,
+				namspacePrefix + GtnFrameworkCommonConstants.MAINLAYOUT);
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(gtnLayout);
 		addSearchButtonComponent(componentList, namspacePrefix);
 		addAuditSearchButtonComponent(componentList, namspacePrefix);
@@ -299,7 +301,8 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 	}
 
 	private void addSearchButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnSearch01Layout", true,
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnSearch01Layout", true,
 				GtnFrameworkCommonConstants.RELATIONSHIP_SEARCH_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
@@ -340,12 +343,13 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 
 	private void addAuditSearchButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnAuditSearch01Layout", true,
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnAuditSearch01Layout", true,
 				GtnFrameworkCommonConstants.RELATIONSHIP_SEARCH_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnAuditSearch", true,
-				namspacePrefix + "gtnAuditSearch01Layout", GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "gtnAuditSearch", true, namspacePrefix + "gtnAuditSearch01Layout",
+				GtnUIFrameworkComponentType.BUTTON);
 		searchButtonConfig.setComponentName("Audit Search");
 		searchButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(searchButtonConfig);
@@ -409,26 +413,28 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 	}
 
 	private void addActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getCssLayoutConfig(
-			namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT, true, 
-                        namspacePrefix + GtnFrameworkCommonConstants.MAINLAYOUT);
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getCssLayoutConfig(
+				namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT, true,
+				namspacePrefix + GtnFrameworkCommonConstants.MAINLAYOUT);
 		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(gtnLayout);
 		addResetButtonComponent(componentList, namspacePrefix);
 		addAddButtonComponent(componentList, namspacePrefix);
 		addEditButtonComponent(componentList, namspacePrefix);
 		addViewButtonComponent(componentList, namspacePrefix);
+		addCopyButtonComponent(componentList, namspacePrefix);
 		addDeleteButtonComponent(componentList, namspacePrefix);
 		addExcelButtonComponent(componentList, namspacePrefix);
 	}
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnReset01Layout", true,
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnReset01Layout", true,
 				namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig resetButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnResetButton", true,
-				namspacePrefix + "gtnReset01Layout", GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "gtnResetButton", true, namspacePrefix + "gtnReset01Layout",
+				GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setComponentName("RESET");
 		resetButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(resetButtonConfig);
@@ -464,7 +470,8 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 	}
 
 	private void addAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnAdd01Layout", true,
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnAdd01Layout", true,
 				namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
@@ -502,12 +509,13 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 	}
 
 	private void addEditButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnEdit01Layout", true,
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnEdit01Layout", true,
 				namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-				namspacePrefix + GtnFrameworkCommonConstants.GTN_EDIT_BUTTON, true,
-				namspacePrefix + "gtnEdit01Layout", GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + GtnFrameworkCommonConstants.GTN_EDIT_BUTTON, true, namspacePrefix + "gtnEdit01Layout",
+				GtnUIFrameworkComponentType.BUTTON);
 		searchButtonConfig.setComponentName("EDIT");
 		searchButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(searchButtonConfig);
@@ -548,12 +556,13 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 	}
 
 	private void addViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnView01Layout", true,
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnView01Layout", true,
 				namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnViewButton", true,
-				namspacePrefix + "gtnView01Layout", GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "gtnViewButton", true, namspacePrefix + "gtnView01Layout",
+				GtnUIFrameworkComponentType.BUTTON);
 		searchButtonConfig.setComponentName("VIEW");
 		searchButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(searchButtonConfig);
@@ -594,8 +603,55 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 
 	}
 
+	private void addCopyButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+		GtnUIFrameworkComponentConfig gtnCopyBtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnCopy01Layout", true,
+				namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
+		componentList.add(gtnCopyBtnLayout);
+
+		GtnUIFrameworkComponentConfig copyButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
+				namspacePrefix + GtnFrameworkCommonConstants.GTN_COPY_BUTTON, true, namspacePrefix + "gtnCopy01Layout",
+				GtnUIFrameworkComponentType.BUTTON);
+		copyButtonConfig.setComponentName("COPY");
+		copyButtonConfig.setAuthorizationIncluded(true);
+		componentList.add(copyButtonConfig);
+
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig copyActionConfig = new GtnUIFrameWorkActionConfig();
+		copyActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		copyActionConfig.addActionParameter(GtnUIFrameworkConfirmedCopyAction.class.getName());
+		copyActionConfig.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
+		copyActionConfig.addActionParameter(9);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.VERSION_NO);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.SELECTED_RELATIONSHIP);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.SELECTED_ID);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.TOTAL_LEVELS);
+		copyActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD
+				+ GtnFrameworkCommonStringConstants.UNDERSCORE);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESULTLAYOUT);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RB_TREE);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.HIERARCHY_NAME);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RELATIONSHIP_TYPE);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.BUILD_TYPE);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RELATIONSHIP_NAME);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RELATIONSHIP_DESC);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.START_DATE);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESULT_TABLE);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RELATIONSHIP_VALUE);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+		copyActionConfig.addActionParameter("Are you sure you want to copy record ");
+		copyActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD);
+		copyActionConfig.addActionParameter(true);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.SAVE_BUTTON);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESET_BUTTON);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.REMOVE_FROM_TREE_BTN);
+		actionConfigList.add(copyActionConfig);
+		copyButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+	}
+
 	private void addDeleteButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnDelete01Layout", true,
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnDelete01Layout", true,
 				namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
@@ -617,12 +673,12 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 	}
 
 	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-                GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnExcel01Layout", true,
+		GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(
+				namspacePrefix + "gtnExcel01Layout", true,
 				namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig excelBtnComponentConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnExcelButton", true,
-				namspacePrefix + "gtnExcel01Layout",
+				namspacePrefix + "gtnExcelButton", true, namspacePrefix + "gtnExcel01Layout",
 				GtnUIFrameworkComponentType.EXCEL_BUTTON);
 		componentList.add(excelBtnComponentConfig);
 		GtnUIFrameworkExcelButtonConfig gtnExcelButtonConfig = gtnConfigFactory.getExcelBtnconfig(
