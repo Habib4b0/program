@@ -18,6 +18,7 @@ import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.LabelConstants.DESCENDING;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +41,7 @@ import org.slf4j.LoggerFactory;
 public class NMPVExcelLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(NMPVExcelLogic.class);
+    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     private ProjectionVarianceDTO exFacValue;
     private ProjectionVarianceDTO exFacVar;
     private ProjectionVarianceDTO exFacPer;
@@ -343,22 +345,25 @@ public class NMPVExcelLogic {
                       groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
                       selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
                       detail.setGroup(groupName);
-                }
+                    if (CommonUtil.isValueEligibleForLoading()) {
 
-                 if (groupName.contains("-")) {
-                        String[] tempArr = groupName.split("-");
-                        detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
-                        detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
-                    } else if (selection.getDisplayFormat().length > 0) {
-                        int index = (int) selection.getDisplayFormat()[0];
-                        if (index == 0) {
-                            detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                        if (groupName.contains("-")) {
+                            String[] tempArr = groupName.split("-");
+                            detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                            detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+                        } else if (selection.getDisplayFormat().length == 1 && selection.getDisplayFormat().length > 0) {
+                            int index = (int) selection.getDisplayFormat()[0];
+                            if (index == 0) {
+                                detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                            } else {
+                                detail.addStringProperties(DF_LEVEL_NAME, groupName);
+                            }
                         } else {
+                            detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
                             detail.addStringProperties(DF_LEVEL_NAME, groupName);
                         }
-                    } else {
-                        detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
                     }
+                }
                 detail.setGroup(groupName);
                 pvList.add(detail);
             }
@@ -2208,10 +2213,10 @@ public class NMPVExcelLogic {
     public void discount_Customize() {
 
         boolean isDetail = selection.getLevel().equals(DETAIL);
-        commonCustomizationForTotalDiscount("D$", pivotDiscountList, selection, isDetail, NumericConstants.FIVE, Boolean.FALSE, Boolean.TRUE);
-        commonCustomizationForTotalDiscount("D%", pivotDiscountList, selection, isDetail, NumericConstants.EIGHT, Boolean.TRUE, Boolean.FALSE);
-        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, NumericConstants.ELEVEN, Boolean.FALSE, Boolean.FALSE);
-        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, NumericConstants.FOURTEEN, Boolean.TRUE, Boolean.FALSE);
+        commonCustomizationForTotalDiscount("D$", pivotDiscountList, selection, isDetail, NumericConstants.FIVE, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getTrueFlag());
+        commonCustomizationForTotalDiscount("D%", pivotDiscountList, selection, isDetail, NumericConstants.EIGHT, BOOLEAN_CONSTANT.getTrueFlag(), BOOLEAN_CONSTANT.getFalseFlag());
+        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, NumericConstants.ELEVEN, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag());
+        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, NumericConstants.FOURTEEN, BOOLEAN_CONSTANT.getTrueFlag(), BOOLEAN_CONSTANT.getFalseFlag());
     }
 
     public void getTotalPivotVariance(PVSelectionDTO selection) {
