@@ -470,7 +470,7 @@ public class GtnWsTransactionService {
 	}
 
 	private String getFilePath() throws GtnFrameworkGeneralException {
-		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH));
+		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
 		filePath.append("/");
 		filePath.append("exceltransaction");
 		filePath.append("/");

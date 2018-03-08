@@ -70,7 +70,7 @@ public class QueryReader {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
                 LOGGER.debug("getAppDataqueryName = {} " , queryName);
-                LOGGER.debug("sql = {} " , sql);
+                LOGGER.debug("sql == {} " , sql);
                 list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             } catch (Exception ex) {
                LOGGER.error(ex.getMessage());
@@ -90,7 +90,7 @@ public class QueryReader {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
             LOGGER.debug("dataUpdatequeryName = {} " , queryName);
-            LOGGER.debug("sql = {} " , sql);
+            LOGGER.debug("sql === {} " , sql);
             Integer count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
             if (count > 0) {
                 return Boolean.TRUE;
@@ -112,7 +112,7 @@ public class QueryReader {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
             LOGGER.debug("queryName = {} " , queryName);
-            LOGGER.debug("sql = {} " , sql);
+            LOGGER.debug("sql ==== {} " , sql);
             return sql.toString();
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());

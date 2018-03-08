@@ -6,6 +6,7 @@ import com.stpl.app.security.businessRoleModuleMaster.dto.SearchBusinessRoleModu
 import com.stpl.app.security.businessRoleModuleMaster.logic.BusinessRoleModuleSearchLogic;
 import com.stpl.app.security.businessRoleModuleMaster.util.UIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -24,6 +25,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 
 public class SearchResults extends CustomComponent {
 	private static final long serialVersionUID = 1L;
+        
 	private final Label space = new Label("&nbsp;", ContentMode.HTML);
 	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
 	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
@@ -158,7 +160,7 @@ public class SearchResults extends CustomComponent {
 					if (cls.equals(Boolean.class)) {
 						CheckBox ch = new CheckBox();
 						ch.setEnabled(false);
-						ch.setValue(true);
+						ch.setValue(BooleanConstant.getTrueFlag());
 						return ch;
 					}
 				} else {
@@ -200,7 +202,7 @@ public class SearchResults extends CustomComponent {
 				for(int i=0;i<size;i++){
 					SearchBusinessRoleModuleForm result;
 					 result=searchFieldResult.getIdByIndex(i);
-					 result.setAdd(true);
+					 result.setAdd(BooleanConstant.getTrueFlag());
 					 searchFieldResult.addBean(result);
 				}
 				addToTableField();
@@ -228,7 +230,7 @@ public class SearchResults extends CustomComponent {
 				for(int i=0;i<size;i++)	{
 					SearchBusinessRoleModuleForm result;
 					 result=searchFieldResult.getIdByIndex(i);
-					 result.setView(true);
+					 result.setView(BooleanConstant.getTrueFlag());
 					 searchFieldResult.addBean(result);
 				}
 				addToTableField();
@@ -250,7 +252,7 @@ public class SearchResults extends CustomComponent {
 				for(int i=0;i<size;i++){
 					SearchBusinessRoleModuleForm result;
 					 result=searchFieldResult.getIdByIndex(i);
-					 result.setEdit(true);
+					 result.setEdit(BooleanConstant.getTrueFlag());
 					 searchFieldResult.addBean(result);
 				}
 				addToTableField();
@@ -268,7 +270,7 @@ public class SearchResults extends CustomComponent {
 		}
 		for(int i=0;i<size;i++){
 		
-			 if(searchFieldResult.getIdByIndex(i).getAdd().equals(false)){
+			 if(searchFieldResult.getIdByIndex(i).getAdd().equals(BooleanConstant.getFalseFlag())){
 				 return false;
 					 }
 			

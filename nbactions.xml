@@ -35,4 +35,26 @@
                 <goal>-DskipTests</goal>
             </goals>
         </action>
+        <!--      Don't Remove <-->
+        <action>
+            <actionName>CUSTOM-Build Subsys</actionName>
+            <displayName>Build Subsystem</displayName>
+            <goals>
+                <goal>-T</goal>
+                <goal>4</goal>
+                <goal>-e</goal>
+                <goal>-PBuild-Subsystem</goal>
+                <goal>-Dmaven.repo.local=app/Repository</goal>
+                <goal>-DskipTests</goal>
+            </goals>
+        </action>
+         <action>
+            <actionName>CUSTOM--PRelease-Build-Using-Local-Repo</actionName>
+            <displayName>-PRelease-Build Using Local Repo</displayName>
+            <goals>
+                <goal>-PRelease-Build</goal>
+                <goal>-Dmaven.repo.local=app/Repository</goal>
+            </goals>
+        </action>
+          <!--      Don't Remove <-->
     </actions>

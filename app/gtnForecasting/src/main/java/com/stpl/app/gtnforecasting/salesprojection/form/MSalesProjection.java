@@ -32,6 +32,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -59,6 +60,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     private final String scrnName;
     private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjection.class);
+    
     private static Map<String, Integer> rowCountMap = new HashMap<>();
     private boolean generated = false;
     private boolean firstGenerated = false;
@@ -105,7 +107,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         try {
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
@@ -204,11 +206,11 @@ public class MSalesProjection extends ForecastSalesProjection {
     protected void expandButtonLogic() {
         try {
             if (!Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(Boolean.TRUE);
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
@@ -511,11 +513,11 @@ public class MSalesProjection extends ForecastSalesProjection {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SALES_PROJECTION);
         if (functionPsHM.get(FunctionNameUtil.GENERATEBTN) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATEBTN)).isFunctionFlag()) {
-            generate.setVisible(Boolean.FALSE);
-            expand.setVisible(Boolean.FALSE);
-            collapse.setVisible(Boolean.FALSE);
-            newBtn.setVisible(Boolean.FALSE);
-            editBtn.setVisible(Boolean.FALSE);
+            generate.setVisible(BooleanConstant.getFalseFlag());
+            expand.setVisible(BooleanConstant.getFalseFlag());
+            collapse.setVisible(BooleanConstant.getFalseFlag());
+            newBtn.setVisible(BooleanConstant.getFalseFlag());
+            editBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionPsHM.get(CommonUtils.PMPY) != null && ((AppPermission) functionPsHM.get(CommonUtils.PMPY)).isFunctionFlag()) {
             pmpy.setVisible(true);
@@ -528,9 +530,9 @@ public class MSalesProjection extends ForecastSalesProjection {
             altHistoryBtn.setVisible(false);
         }
         if (functionPsHM.get(FunctionNameUtil.CALCULATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.CALCULATE)).isFunctionFlag()) {
-            calculate.setVisible(Boolean.FALSE);
-            populate.setVisible(Boolean.FALSE);
-            adjust.setVisible(Boolean.FALSE);
+            calculate.setVisible(BooleanConstant.getFalseFlag());
+            populate.setVisible(BooleanConstant.getFalseFlag());
+            adjust.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 

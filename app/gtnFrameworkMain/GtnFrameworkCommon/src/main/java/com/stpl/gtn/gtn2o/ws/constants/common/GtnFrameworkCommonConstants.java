@@ -696,6 +696,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String START_DATE_TO = "startDateTo";
 	public static final String RESET_BUTTON = "getResetButton";
 	public static final String GTN_DELETE_BUTTON = "gtnDeleteButton";
+	public static final String GTN_COPY_BUTTON = "gtnCopyButton";
+	public static final String RELATIONSHIP_VALUE = "value";
 	public static final String START_DATE_FROM = "startDateFrom";
 	public static final String CREATION_DATE_TO = "creationDateTo";
 	public static final String SELECTED_ID = "selectedId";
@@ -1115,5 +1117,6 @@ public class GtnFrameworkCommonConstants {
 	public static final String UDC_CATEGORY_FILETYPELAYOUT = "fileTypeLayout";
 	public static final String UDC_CATEGORY_FILETYPE_FIELDLAYOUT = "fileTypeFieldLayout";
 	public static final String REBATE_PLAN_STATUS = "rebatePlanStatus";
-	public static final String REBATE_PLAN_POPUP_TYPE = "rpPopUpRebatePlanType";     
+	public static final String REBATE_PLAN_POPUP_TYPE = "rpPopUpRebatePlanType";
+	public static final String FILE_TYPE = "FILE_TYPE";     
 }

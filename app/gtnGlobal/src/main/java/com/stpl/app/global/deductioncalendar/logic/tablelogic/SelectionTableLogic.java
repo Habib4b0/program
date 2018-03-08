@@ -8,6 +8,7 @@ package com.stpl.app.global.deductioncalendar.logic.tablelogic;
 import com.stpl.app.global.deductioncalendar.dto.SelectionDTO;
 import com.stpl.app.global.deductioncalendar.logic.SelectionLogic;
 import com.stpl.app.util.Constants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class SelectionTableLogic extends PageTableLogic {
     private String tabName = StringUtils.EMPTY;
     private String availableOrselected = StringUtils.EMPTY;
     private static final Logger LOGGER = LoggerFactory.getLogger(SelectionTableLogic.class);
+    
     
     public SelectionTableLogic(){
     	super();
@@ -101,12 +103,12 @@ public class SelectionTableLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
 }

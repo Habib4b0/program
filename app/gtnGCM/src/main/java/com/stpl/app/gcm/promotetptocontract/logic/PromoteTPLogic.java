@@ -59,18 +59,19 @@ import static com.stpl.app.gcm.util.Converters.formatDate;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.stpl.app.gcm.util.DataTypeConverter;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
 import com.stpl.app.service.PsContractLocalServiceUtil;
 import com.stpl.app.service.RsContractDetailsLocalServiceUtil;
 import com.stpl.app.service.RsContractLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.ui.ComboBox;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -99,6 +100,7 @@ public class PromoteTPLogic {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPLogic.class);
+    
     private static final PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
@@ -504,7 +506,7 @@ public class PromoteTPLogic {
             } else {
                 contract = contractId.replace(Constants.IndicatorConstants.CHAR_ASTERISK.getConstant(), Constants.IndicatorConstants.CHAR_PERCENT.getConstant());
             }
-            contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", true));
+            contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", BooleanConstant.getTrueFlag()));
             contractQuery.add(RestrictionsFactoryUtil.like(Constants.CONTRACT_NO, contract));
             contractQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like("inboundStatus", "D")));
             contractQuery.setLimit(start, end);
@@ -3350,7 +3352,7 @@ public class PromoteTPLogic {
     }
 
     public Boolean duplicateCheck(String field, String value, String componentType) {
-        Boolean flag = false;
+        boolean flag = false;
         int count = 0;
         String query = StringUtils.EMPTY;
         if ("Contract".equals(componentType)) {

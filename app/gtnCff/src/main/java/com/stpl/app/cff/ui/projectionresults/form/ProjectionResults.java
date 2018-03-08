@@ -37,6 +37,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
 import de.steinwedel.messagebox.ButtonId;
@@ -70,6 +71,7 @@ import org.slf4j.LoggerFactory;
 public class ProjectionResults extends ForecastProjectionResults {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResults.class);
+    
     private final SessionDTO session;
     private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
@@ -426,7 +428,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        exceltable.setRefresh(Boolean.TRUE);
+        exceltable.setRefresh(BooleanConstant.getTrueFlag());
         excelForCommercial();
 
         ExcelExport exp = null;

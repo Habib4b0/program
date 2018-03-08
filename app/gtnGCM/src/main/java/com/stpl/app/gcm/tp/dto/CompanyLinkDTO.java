@@ -21,7 +21,7 @@ public class CompanyLinkDTO {
     private String toCompanyId = StringUtils.EMPTY;
     private String toCompanyNo = StringUtils.EMPTY;
     private String toCompanyName = StringUtils.EMPTY;
-    private Boolean check = false;
+    private boolean check = false;
 
     public String getFromCompanyId() {
         return fromCompanyId;

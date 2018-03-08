@@ -100,7 +100,7 @@ public class IFPItemDTO implements Serializable {
     /**
      * The checkbox.
      */
-    private Boolean checkbox = false;
+    private boolean checkbox = false;
     /**
      * The item status.
      */

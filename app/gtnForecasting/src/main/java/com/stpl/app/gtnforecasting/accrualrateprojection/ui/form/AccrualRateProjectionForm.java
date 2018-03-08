@@ -58,6 +58,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
@@ -80,6 +81,8 @@ import de.steinwedel.messagebox.MessageBoxListener;
 public class AccrualRateProjectionForm extends AbstractForm {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionForm.class);
+    
+    
 
     private Sales sales;
 
@@ -841,7 +844,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             //To check wheather the Rates merge thread is running
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.ONE));
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.TWO));
-            isRatesLoaded = Boolean.TRUE;
+            isRatesLoaded = BooleanConstant.getTrueFlag();
             rates.configureOnLoad();
         } else if (tabPosition == NumericConstants.THREE && !isDetailsLoaded) {
             //To check the rates tab is loaded or not
@@ -851,7 +854,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             }
             //To check wheather the Details merge thread is running
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.THREE));
-            isDetailsLoaded = Boolean.TRUE;
+            isDetailsLoaded = BooleanConstant.getTrueFlag();
             details.configureOnLoad();
         }
     }

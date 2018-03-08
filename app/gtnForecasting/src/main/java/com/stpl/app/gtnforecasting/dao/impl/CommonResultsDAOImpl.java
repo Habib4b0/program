@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ import java.util.List;
  * @author vinodhini
  */
 public class CommonResultsDAOImpl implements CommonResultsDAO {
+    
+    
 
     @Override
     public Object executeSelectQuery(String query) throws PortalException, SystemException {
@@ -25,12 +28,12 @@ public class CommonResultsDAOImpl implements CommonResultsDAO {
     @Override
     public Object executeBulkUpdateQuery(String query) throws PortalException, SystemException {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
     @Override
     public Object executeUpdateQuery(String query) throws SystemException, PortalException {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
     
     @Override
@@ -38,6 +41,6 @@ public class CommonResultsDAOImpl implements CommonResultsDAO {
         for (StringBuilder builder : fcpList) {
             HelperTableLocalServiceUtil.executeUpdateQuery(builder.toString());
         }
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 }

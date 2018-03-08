@@ -36,7 +36,6 @@ import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
-import com.stpl.app.cff.util.DataTypeConverter;
 import com.stpl.app.cff.util.HeaderUtils;
 import com.stpl.app.cff.util.PVQueryUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -48,8 +47,10 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
 import com.vaadin.navigator.ViewChangeListener;
@@ -86,6 +87,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ProjectionVariance extends AbstractProjectionVariance {
 
+    
     private boolean editFlag = false;
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
     private final PVQueryUtils queryUtils = new PVQueryUtils();
@@ -319,7 +321,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     comparison.setReadOnly(false);
                     comparison.setValue(Constants.SELECT_ONE_LABEL);
                     comparison.setData(null);
-                    comparison.setImmediate(true);
                     comparison.setReadOnly(true);
                 }
                 isComparisonLookupOpened = true;
@@ -988,10 +989,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     protected void excelBtnLogic() {
         try {
             ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
-            excelTable.setRefresh(Boolean.FALSE);
+            excelTable.setRefresh(BooleanConstant.getFalseFlag());
             levelFilterDdlbChangeOption(true);
             excelForCFFProjectionVariance();
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             int leftcolumnsize = NumericConstants.ONE;
             int ColSize = 252;
             int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;
@@ -1476,7 +1477,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void excelForCFFProjectionVariance() {
-        LOGGER.debug("==inside excelForCFFProjectionVariance================");
+        LOGGER.debug("==inside excelForCFFProjectionVariance==============");
         try {
             if (pvSelectionDTO.isIsCustomHierarchy()) {
                 pvSelectionDTO.setHierarchyIndicator("");
@@ -1892,6 +1893,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     }
                 }
             }
+           resultExcelContainer.sort(new Object[]{Constants.GROUP}, new boolean[]{true});
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

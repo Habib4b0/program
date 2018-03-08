@@ -71,7 +71,7 @@ public class CompanyMasterEditWebServiceTest {
 				"Tue Dec 20 13:04:12 IST 2016", 1, "Tue Dec 20 13:04:12 IST 2016", null, 190908,
 				"Tue Dec 20 13:04:12 IST 2016", null, null, null, "Tue Dec 20 13:04:12 IST 2016,A,0,1596", "CARS", 1,
 				"Tue Dec 20 13:04:12 IST 2016", 1, "Tue Dec 20 13:04:12 IST 2016", null, "COMPANY_MASTER",
-				"../../../../var/Attachments/Docs/Test.txt", "Tue Dec 20 13:04:12 IST 2016", 13330, null };
+				System.getProperty("gtn.app.data.path")+"/Attachments/Docs/Test.txt", "Tue Dec 20 13:04:12 IST 2016", 13330, null };
 		System.out.println(arr);
 	}
 
@@ -80,7 +80,7 @@ public class CompanyMasterEditWebServiceTest {
 		Date currentDate = new Date();
 		NotesTabBean companyNotesTabRequest = new NotesTabBean();
 		companyNotesTabRequest.setMasterTableName("COMPANY_MASTER");
-		companyNotesTabRequest.setFilePath("../../../../var/Attachments/Docs/Test.txt");
+		companyNotesTabRequest.setFilePath(System.getProperty("gtn.app.data.path")+"/Attachments/Docs/Test.txt");
 		companyNotesTabRequest.setCreatedDate(currentDate);
 		companyNotesTabRequest.setCreatedBy(13330);
 		cmNotesTabRequestList.add(companyNotesTabRequest);

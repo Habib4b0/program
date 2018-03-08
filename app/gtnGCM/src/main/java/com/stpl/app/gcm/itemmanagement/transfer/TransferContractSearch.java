@@ -22,6 +22,7 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
@@ -47,6 +48,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class TransferContractSearch extends AbstractContractSearch {
 
+    
     private SelectionDTO selectionDto;
     private boolean isnext = false;
 
@@ -92,7 +94,7 @@ public class TransferContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(Boolean.TRUE);
+        MassUpdatePanel1.setVisible(BooleanConstant.getTrueFlag());
         ConfigureTable();
         getBinder();
         loadAllDdlb();
@@ -286,9 +288,9 @@ public class TransferContractSearch extends AbstractContractSearch {
         List input = getSessionInput(selectionDto);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check", null);
         if (AbstractLogic.getCount(list) != 0) {
-            return false;
+            return BooleanConstant.getFalseFlag();
         } else {
-            return true;
+            return BooleanConstant.getTrueFlag();
         }
     }
 
@@ -296,9 +298,9 @@ public class TransferContractSearch extends AbstractContractSearch {
         List input = getSessionInput(selectionDto);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit check Pojection Transfer", null);
         if (AbstractLogic.getCount(list) != 0) {
-            return false;
+            return BooleanConstant.getFalseFlag();
         } else {
-            return true;
+            return BooleanConstant.getTrueFlag();
         }
     }
 

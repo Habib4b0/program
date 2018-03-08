@@ -18,7 +18,7 @@ public class NewComponentDTO implements Serializable {
     private Date startDate;
     private Date endDate;
     private String priceType = StringUtils.EMPTY;
-    private Boolean check = false;
+    private boolean check = false;
     private String ppStartDate = StringUtils.EMPTY;
     private String status = StringUtils.EMPTY;
     private String modelId = StringUtils.EMPTY;

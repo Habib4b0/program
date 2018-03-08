@@ -14,6 +14,7 @@ import static com.stpl.app.cff.util.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Panel;
@@ -181,6 +182,9 @@ public abstract class AbstractComparisonLookup extends Window {
      * Logger
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractComparisonLookup.class);
+    
+    
+    
     /**
      * Resultbean
      */
@@ -243,7 +247,7 @@ public abstract class AbstractComparisonLookup extends Window {
         HorizontalLayout layout = tableLogic.createControls();
         layout.setStyleName(Constants.RESPONSIVE_PAGED_TABLE);
         availableVertical.addComponent(layout);
-        tableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
+        tableLogic.sinkItemPerPageWithPageLength(BooleanConstant.getFalseFlag());
         tableLogic.setContainerDataSource(resultsBean);
         resultsTable.setFilterBarVisible(true);
         resultsTable.markAsDirty();
@@ -258,7 +262,7 @@ public abstract class AbstractComparisonLookup extends Window {
 
         LOGGER.debug("Ending abstract loadAvailableResults");
     }
-
+    
     private void loadSelectedResults() {
         LOGGER.debug("Inside abstract loadSelectedResults");
         selectedVertical.setSizeFull();

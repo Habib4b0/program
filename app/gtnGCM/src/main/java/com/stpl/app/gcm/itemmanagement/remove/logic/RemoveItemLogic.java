@@ -17,9 +17,10 @@ import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.tp.logic.LoadTabLogic;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.gcm.util.DataTypeConverter;
 import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class RemoveItemLogic {
      * The Currency Zero Decimal Places Format.
      */
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
+    
     public static final String CONTRACT = "contract";
     public static final String COMPANY = "company";
     
@@ -65,10 +67,10 @@ public class RemoveItemLogic {
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             }
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
         } else {
             tabSelectionDTO.setParentLevel("new");
-            tabSelectionDTO.setIsProjectionTotal(Boolean.TRUE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getTrueFlag());
         }
         getIdAndForecastingType(tabSelectionDTO, selection);
         getParentLevels(tabSelectionDTO);
@@ -161,9 +163,9 @@ public class RemoveItemLogic {
                 tabSelectionDTO.setCompanyMasterSid(pDto.getCompanyMasterSid());
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             }
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
         } else {
-            tabSelectionDTO.setIsProjectionTotal(Boolean.TRUE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getTrueFlag());
             tabSelectionDTO.setParentLevel("new");
         }
         List<Object> list;
@@ -384,10 +386,10 @@ public class RemoveItemLogic {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
                 tabSelectionDTO.setRebateProgramType(pDto.getRebateProgramType());
             }
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
         } else {
             tabSelectionDTO.setParentLevel("new");
-            tabSelectionDTO.setIsProjectionTotal(Boolean.TRUE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getTrueFlag());
         }
         getIdAndForecastingType(tabSelectionDTO, selection);
         getParentLevelsForRebate(tabSelectionDTO);
@@ -471,10 +473,10 @@ public class RemoveItemLogic {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
                 tabSelectionDTO.setRebateProgramType(pDto.getRebateProgramType());
             }
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
         } else {
             tabSelectionDTO.setParentLevel("new");
-            tabSelectionDTO.setIsProjectionTotal(Boolean.TRUE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getTrueFlag());
         }
         List<Object> list;
         getParentLevelsForRebate(tabSelectionDTO);

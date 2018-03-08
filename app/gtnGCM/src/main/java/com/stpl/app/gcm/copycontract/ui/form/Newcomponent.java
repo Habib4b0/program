@@ -98,6 +98,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 
 /**
  *
@@ -106,6 +107,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 public class Newcomponent extends CustomComponent {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Newcomponent.class);
+    
     @UiField("componenttype")
     public ComboBox componenttype;
     @UiField("SearchfieldNC")
@@ -331,7 +333,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
             componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-            componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+            componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
 
             Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
             for (Object column : visibleColumns) {
@@ -393,7 +395,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSelectedItem.setEditable(true);
             componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
             componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
-            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
             componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
 
@@ -508,7 +510,7 @@ public class Newcomponent extends CustomComponent {
         componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
         componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
         componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-        componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+        componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
 
         Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
         for (Object column : visibleColumns) {
@@ -559,7 +561,7 @@ public class Newcomponent extends CustomComponent {
                     componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
                     componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newCompanyDetailsColumns[0], Boolean.TRUE);
+                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newCompanyDetailsColumns[0], BooleanConstant.getTrueFlag());
 
                     Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
                     for (Object column : visibleColumns) {
@@ -619,7 +621,7 @@ public class Newcomponent extends CustomComponent {
                     componentDetailsSearchTable.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSearchTable.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
 
-                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newIfpDetailsColumns[0], Boolean.TRUE);
+                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newIfpDetailsColumns[0], BooleanConstant.getTrueFlag());
                     componentDetailsSelectedItem.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSelectedItem.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
                     Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
@@ -874,7 +876,7 @@ public class Newcomponent extends CustomComponent {
         Collection<?> returnList = componentDetailsSearchTable.getItemIds();
 
         Set setA = new HashSet();
-        Boolean flag = false;
+        boolean flag = false;
         String ids = Constants.EMPTY;
         componentResultsContainer.removeAllItems();
         List<NewComponentDTO> list = new ArrayList<>();
@@ -898,7 +900,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
             componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
             componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
-            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
             fieldDdlb.addItem(Constants.STATUS_FIELD);
             fieldDdlb.addItem(Constants.START_DATE_HEADER);
             fieldDdlb.addItem(Constants.END_DATE_HEADER);
@@ -1203,7 +1205,7 @@ public class Newcomponent extends CustomComponent {
 
     private String getIdString(Set set) {
         String ids = Constants.EMPTY;
-        Boolean flag = false;
+        boolean flag = false;
         for (Object id : set) {
             String idvalue = String.valueOf(id);
             if (!flag) {
@@ -1253,7 +1255,7 @@ public class Newcomponent extends CustomComponent {
             if (fieldDdlb.getValue() != null && !fieldDdlb.getValue().equals(Constants.SELECT_ONE)) {
                 String searchField = String.valueOf(fieldDdlb.getValue());
                 if (searchField.equals(Constants.STATUS_FIELD)) {
-                    Boolean flag = true;
+                    boolean flag = true;
                     if (statusddlb.getValue() != null) {
                         String value = String.valueOf(statusddlb.getValue());
                         Collection<?> returnList = componentDetailsSelectedItem.getItemIds();
@@ -1349,7 +1351,7 @@ public class Newcomponent extends CustomComponent {
                                     }
                                 }
                             }
-                            Boolean flag = false;
+                            boolean flag = false;
                             Collection<?> returnList1 = componentDetailsSelectedItem.getItemIds();
                             for (Object item : returnList1) {
                                 Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
@@ -1487,7 +1489,7 @@ public class Newcomponent extends CustomComponent {
 
                                     }
                                 }
-                                Boolean flag = false;
+                                boolean flag = false;
                                 Set setA = new HashSet();
                                 Collection<?> returnList1 = componentDetailsSelectedItem.getItemIds();
                                 for (Object item : returnList1) {
@@ -1618,7 +1620,7 @@ public class Newcomponent extends CustomComponent {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Price Schedule Name already exist. Please Enter Different Name");
                                     return;
                                 }
-                                Boolean flag = false;
+                                boolean flag = false;
                                 Collection<?> returnList1 = componentDetailsSelectedItem.getItemIds();
                                 for (Object item : returnList1) {
                                     Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
@@ -1753,7 +1755,7 @@ public class Newcomponent extends CustomComponent {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Rebate Schedule Name already exist. Please Enter Different Name");
                                     return;
                                 }
-                                Boolean flag = false;
+                                boolean flag = false;
                                 Collection<?> returnList1 = componentDetailsSelectedItem.getItemIds();
                                 for (Object item : returnList1) {
                                     Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
@@ -2534,10 +2536,10 @@ public class Newcomponent extends CustomComponent {
 
     private boolean checkStartDate() {
         List<NewComponentDTO> list = componentResultsContainer.getItemIds();
-        boolean flag = Boolean.TRUE;
+        boolean flag = BooleanConstant.getTrueFlag();
         for (NewComponentDTO list1 : list) {
             if (list1.getStartDate() == null) {
-                flag = Boolean.FALSE;
+                flag = BooleanConstant.getFalseFlag();
             }
         }
         return flag;
