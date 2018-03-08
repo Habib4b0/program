@@ -94,7 +94,7 @@ public class DataSelectionLogic {
 	 * The data selection dao.
 	 */
 	private final DataSelectionDAO dataSelectionDaoImpl = new DataSelectionDAOImpl();
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
 	private final DataSelectionDAO vDataSelectionDao = new DataSelectionDAOImpl();
@@ -1893,7 +1893,7 @@ public class DataSelectionLogic {
 		parameters.put(PROJECTION_ID, projectionId);
 		final List returnList = vDataSelectionDao.executeQuery(parameters);
 		if (returnList.isEmpty()) {
-			return BOOLEAN_CONSTANT.getTrueFlag();
+			return BooleanConstant.getTrueFlag();
 		} else {
 			return (Integer) returnList.get(0) >= 1;
 		}

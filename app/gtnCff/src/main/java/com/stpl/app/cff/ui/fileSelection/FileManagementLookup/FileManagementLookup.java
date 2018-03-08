@@ -208,7 +208,7 @@ public class FileManagementLookup extends Window {
 	@UiField("cssLayoutForecastSection")
 	private CssLayout cssLayoutForecastSection;
 
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
         private FileResultsTableLogic tableLogic = new FileResultsTableLogic();
 	/**
 	 * The file history table.
@@ -1277,7 +1277,7 @@ public class FileManagementLookup extends Window {
 													searchContainer.getContainerProperty(itemId, "fileManagementSid")
 															.setValue(null);
 													searchContainer.getContainerProperty(itemId, "fileChanged")
-															.setValue(BOOLEAN_CONSTANT.getTrueFlag());
+															.setValue(BooleanConstant.getTrueFlag());
 													searchContainer
 															.getContainerProperty(itemId, StringConstantsUtil.VERSION)
 															.setValue(fileMgtDTO.getVersion());
@@ -1307,7 +1307,7 @@ public class FileManagementLookup extends Window {
 							searchContainer.getContainerProperty(itemId, "activeToDate")
 									.setValue(fileMgtDTO.getToDate());
 							searchContainer.getContainerProperty(itemId, "fileManagementSid").setValue(null);
-							searchContainer.getContainerProperty(itemId, "fileChanged").setValue(BOOLEAN_CONSTANT.getTrueFlag());
+							searchContainer.getContainerProperty(itemId, "fileChanged").setValue(BooleanConstant.getTrueFlag());
 							searchContainer.getContainerProperty(itemId, StringConstantsUtil.VERSION)
 									.setValue(fileMgtDTO.getVersion());
 							selectFile.setValue(String.valueOf(fileNameList.getValue()));
