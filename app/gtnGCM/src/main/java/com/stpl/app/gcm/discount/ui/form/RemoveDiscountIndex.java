@@ -113,7 +113,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     public Button addBtn;
     @UiField("searchBtn")
     public Button searchBtn;
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final RebateTableLogic tableLogic = new RebateTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
@@ -217,7 +217,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         promoteTpToChDtoTableLayout.addComponent(tableLogic.createControls());
-        resultsTable.setColumnCheckBox(Constants.CHECK_RECORD, BOOLEAN_CONSTANT.getTrueFlag());
+        resultsTable.setColumnCheckBox(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
         for (Object propertyId : resultsTable.getVisibleColumns()) {
             resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_SIX_EIGHT);
         }
@@ -390,7 +390,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
 
         if (isSearch(discountChBinder)) {
             selecteditemList.removeAll(selecteditemList.subList(0, selecteditemList.size()));
-            removeDiscountDto.setSearch(BOOLEAN_CONSTANT.getTrueFlag());
+            removeDiscountDto.setSearch(BooleanConstant.getTrueFlag());
             tableLogic.setContainerDataSource(resultsContainer);
             resultsTable.setVisibleColumns(Constants.getInstance().discountSearchColumns);
             resultsTable.setColumnHeaders(Constants.getInstance().discountSearchHeaders);
@@ -614,7 +614,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
              */
             public void yesMethod() {
                 try {
-                      removeDiscountDto.setSearch(BOOLEAN_CONSTANT.getFalseFlag());
+                      removeDiscountDto.setSearch(BooleanConstant.getFalseFlag());
                     tableLogic.loadSetData(removeDiscountDto, discountChBinder);
                 } catch (Exception ex) {
                     LOGGER.error("",ex);

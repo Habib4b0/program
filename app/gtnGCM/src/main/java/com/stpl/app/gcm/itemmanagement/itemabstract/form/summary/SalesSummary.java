@@ -26,7 +26,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class SalesSummary extends Summary {
 
-private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+
     
     public SalesSummary(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(itemList, selection);
@@ -58,7 +58,7 @@ private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     public void excelButtonLogic(Button.ClickEvent event) {
         configureExcelResultTable();
         loadExcelResultTable();
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");

@@ -177,7 +177,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public PopupDateField baseWacDate;
    
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
     protected ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(getBinderDto()));
     public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContractSearch.class);
@@ -325,17 +325,17 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 }
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    getLogic().LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BOOLEAN_CONSTANT.getTrueFlag());
+                    getLogic().LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
                     return marketTypeDdlb;
                 }
                 if ("status".equals(propertyId)) {
                     ComboBox statusDdlb = new ComboBox();
-                    getLogic().LazyLoadDdlb(statusDdlb, "Load Item Status Count", "Load Item Status", BOOLEAN_CONSTANT.getTrueFlag());
+                    getLogic().LazyLoadDdlb(statusDdlb, "Load Item Status Count", "Load Item Status", BooleanConstant.getTrueFlag());
                     return statusDdlb;
                 }
                 if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
                     ComboBox pricetolerenceintDdlb = new ComboBox();
-                    getLogic().LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BOOLEAN_CONSTANT.getTrueFlag());
+                    getLogic().LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", BooleanConstant.getTrueFlag());
                     return pricetolerenceintDdlb;
                 }
                 if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
@@ -349,7 +349,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 }
                 if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
                     ComboBox pricetolerencefreqDdlb = new ComboBox();
-                    getLogic().LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", BOOLEAN_CONSTANT.getTrueFlag());
+                    getLogic().LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", BooleanConstant.getTrueFlag());
                     return pricetolerencefreqDdlb;
                 }
                 
@@ -429,12 +429,12 @@ public abstract class AbstractContractSearch extends CustomComponent {
         });
         getContractSelectionTable().setFilterBarVisible(true);
         getContractSelectionTable().setFilterDecorator(new ExtDemoFilterDecorator());
-        getContractSelectionTable().setSelectable(BOOLEAN_CONSTANT.getTrueFlag());
+        getContractSelectionTable().setSelectable(BooleanConstant.getTrueFlag());
         contractVertical.addComponent(getContractSelectionTable());
         HorizontalLayout controls = getContractSelectionTableLogic().createControls();
         HorizontalLayout controlLayout = CommonLogic.getResponsiveControls(controls);
         contractVertical.addComponent(controlLayout);
-        getContractSelectionTable().setEditable(BOOLEAN_CONSTANT.getTrueFlag());
+        getContractSelectionTable().setEditable(BooleanConstant.getTrueFlag());
         getContractSelectionTable().addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
             @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
@@ -462,11 +462,11 @@ public abstract class AbstractContractSearch extends CustomComponent {
         field.select(Constants.SELECT_ONE);
         massUpdateRadio.select(DISABLE.getConstant());
         massUpdateValue.setReadOnly(true);
-        massUpdateValue.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        massUpdateValue.setVisible(BooleanConstant.getFalseFlag());
         massStartDate.setReadOnly(true);
         massEndDate.setReadOnly(true);
-        massStartDate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-        massEndDate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        massStartDate.setVisible(BooleanConstant.getFalseFlag());
+        massEndDate.setVisible(BooleanConstant.getFalseFlag());
         populateBtn.setEnabled(false);
         massUpdateRadio.addItems(ENABLE.getConstant(), DISABLE.getConstant());
         visibilityOptions();
@@ -926,38 +926,38 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     private void loadRsType() {
-        getLogic().LazyLoadDdlb(rebateScheduleType_DTO, "LoadRsTypeCount", "LoadRsType", BOOLEAN_CONSTANT.getFalseFlag());
+        getLogic().LazyLoadDdlb(rebateScheduleType_DTO, "LoadRsTypeCount", "LoadRsType", BooleanConstant.getFalseFlag());
     }
 
     private void loadMarketType() {
-        getLogic().LazyLoadDdlb(marketType_DTO, "Load Market Type Count", "Load Market Type", BOOLEAN_CONSTANT.getFalseFlag());
+        getLogic().LazyLoadDdlb(marketType_DTO, "Load Market Type Count", "Load Market Type", BooleanConstant.getFalseFlag());
     }
 
     private void loadRsCategory() {
-        getLogic().LazyLoadDdlb(rebateScheduleCategory_DTO, "LoadRsCategoryCount", "LoadRsCategory", BOOLEAN_CONSTANT.getFalseFlag());
+        getLogic().LazyLoadDdlb(rebateScheduleCategory_DTO, "LoadRsCategoryCount", "LoadRsCategory", BooleanConstant.getFalseFlag());
     }
 
     private void loadRptype() {
-        getLogic().LazyLoadDdlb(rebateProgramType_DTO, "LoadRpTypeCount", "LoadRpType", BOOLEAN_CONSTANT.getFalseFlag());
+        getLogic().LazyLoadDdlb(rebateProgramType_DTO, "LoadRpTypeCount", "LoadRpType", BooleanConstant.getFalseFlag());
     }
 
     /**
      * Load Alias Type
      */
     private void loadStatus() {
-        CommonUtil.getComboBoxByListName(massUpdateValue, UiUtils.STATUS, BOOLEAN_CONSTANT.getFalseFlag());
+        CommonUtil.getComboBoxByListName(massUpdateValue, UiUtils.STATUS, BooleanConstant.getFalseFlag());
     }
 
     private void loadPriceTolerenceType() {
-        CommonUtil.getComboBoxByListName(massUpdateValue, StringConstantsUtil.PRICE_TOLERANCE_TYPE_LABEL, BOOLEAN_CONSTANT.getFalseFlag());
+        CommonUtil.getComboBoxByListName(massUpdateValue, StringConstantsUtil.PRICE_TOLERANCE_TYPE_LABEL, BooleanConstant.getFalseFlag());
     }
 
     private void loadPriceToleranceFrequency() {
-        CommonUtil.getComboBoxByListName(massUpdateValue, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, BOOLEAN_CONSTANT.getFalseFlag());
+        CommonUtil.getComboBoxByListName(massUpdateValue, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, BooleanConstant.getFalseFlag());
     }
 
     private void loadPriceToleranceInterval() {
-        CommonUtil.getComboBoxByListName(massUpdateValue, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, BOOLEAN_CONSTANT.getFalseFlag());
+        CommonUtil.getComboBoxByListName(massUpdateValue, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, BooleanConstant.getFalseFlag());
     }
 
     @UiHandler("submit")
@@ -1018,9 +1018,9 @@ public abstract class AbstractContractSearch extends CustomComponent {
         List input = AbstractLogic.getResultsInput(selection);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check for Item Update", null);
         if (AbstractLogic.getCount(list) == 0) {
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         } else {
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         }
     }
     public Boolean submitButtonCheckItemRemove() {
@@ -1033,9 +1033,9 @@ public abstract class AbstractContractSearch extends CustomComponent {
         List input = AbstractLogic.getResultsInput(selection);
         List<Object[]> list = ItemQueries.getItemData(input, "Non Approved Submit check", null);
         if (AbstractLogic.getCount(list) == 0) {
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         } else {
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         }
     }
 
@@ -1157,7 +1157,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private void configureAllitems() {
         allItems.addItems("YES", "NO");
         allItems.select("YES");
-        allItems.setNullSelectionAllowed(BOOLEAN_CONSTANT.getFalseFlag());
+        allItems.setNullSelectionAllowed(BooleanConstant.getFalseFlag());
     }
 
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
@@ -1556,7 +1556,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             Object obj = list.get(0);
             return obj == null ? Boolean.TRUE : (Integer) obj == 0 ? Boolean.TRUE : Boolean.FALSE;
         }
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
 
     }
 
@@ -1625,21 +1625,21 @@ public abstract class AbstractContractSearch extends CustomComponent {
             salesInput.add(projectionId);
             List<Object[]> salesList = ItemQueries.getItemData(salesInput, "SalesUnitsCheck", null);
             if (AbstractLogic.getDataCount(salesList) == 0) {
-                return BOOLEAN_CONSTANT.getFalseFlag();
+                return BooleanConstant.getFalseFlag();
             } else {
-                return BOOLEAN_CONSTANT.getTrueFlag();
+                return BooleanConstant.getTrueFlag();
             }
         } else {
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         }
     }
 
     public Boolean nonApprovedSubmitCheck(String queryName, List input) {
         List<Object[]> list = ItemQueries.getItemData(input, queryName, null);
         if (AbstractLogic.getCount(list) == 0) {
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         } else {
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         }
     }
 
@@ -1927,17 +1927,17 @@ public abstract class AbstractContractSearch extends CustomComponent {
         if (indicator.equals("S")) {
             if (maxDate != null && masspdateDate.after(maxDate)) {
                 dateMessage = "Start Date cannot come After End Date";
-                return BOOLEAN_CONSTANT.getFalseFlag();
+                return BooleanConstant.getFalseFlag();
             }
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         } else if (indicator.equals("E")) {
             if (maxDate != null && masspdateDate.before(maxDate)) {
                 dateMessage = "End Date cannot come before Start Date";
-                return BOOLEAN_CONSTANT.getFalseFlag();
+                return BooleanConstant.getFalseFlag();
             }
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         }
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
 
     private List getNewInput(List input) {

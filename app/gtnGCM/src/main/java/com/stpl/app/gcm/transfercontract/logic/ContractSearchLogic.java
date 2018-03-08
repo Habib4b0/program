@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class ContractSearchLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset, List<SortByColumn> sortByColumns) {
         List input = getInputForContractSearch(binderDTO, start, offset, false, sortByColumns);
@@ -67,7 +67,7 @@ public class ContractSearchLogic {
             tempDTO.setIfpContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.THIRTEEN])));
             tempDTO.setPsContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.FOURTEEN])));
             tempDTO.setRsContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.FIFTEEN])));
-            tempDTO.setCheck(obj[NumericConstants.SIXTEEN] == null ? false : BOOLEAN_CONSTANT.getTrueFlag());
+            tempDTO.setCheck(obj[NumericConstants.SIXTEEN] == null ? false : BooleanConstant.getTrueFlag());
             retList.add(tempDTO);
         }
         return retList;

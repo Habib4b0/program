@@ -34,7 +34,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class UpdateItemSearch extends AbstractContractSearch {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private SelectionDTO selectionDto = new SelectionDTO();
 
     public UpdateItemSearch(SelectionDTO selection, List selectedItemList) {
@@ -86,7 +86,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
         ConfigureTable();
         getBinder();
         loadAllDdlb();
-        allItems.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
+        allItems.setEnabled(BooleanConstant.getFalseFlag());
 
     }
 

@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class SecurityLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     public static Boolean isPermitted(final Map<String, AppPermission> functionHM, final String propertyName) {
         if (functionHM.get(propertyName) != null && ((AppPermission) functionHM.get(propertyName)).isFunctionFlag()) {
@@ -26,7 +26,7 @@ public class SecurityLogic {
 
     public static void isPermitted(final Map<String, AppPermission> functionHM, final String propertyName, final Component component) {
         if (functionHM.get(propertyName) == null || !((AppPermission) functionHM.get(propertyName)).isFunctionFlag()) {
-            component.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            component.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 

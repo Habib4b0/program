@@ -19,7 +19,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ComponentInfoTableLogic extends PageTableLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private ComponentInfoDTO binderDto = new ComponentInfoDTO();
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private boolean generate = true;
@@ -33,7 +33,7 @@ public class ComponentInfoTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         if (!generate) {
-            binderDto.setIsCount(BOOLEAN_CONSTANT.getFalseFlag());
+            binderDto.setIsCount(BooleanConstant.getFalseFlag());
             selection.setFilters(getFilters());
             return logic.getComponentInfoCount(binderDto, selection);
         }
@@ -51,7 +51,7 @@ public class ComponentInfoTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         binderDto.setStartIndex(start);
         binderDto.setEndIndex(offset);
-        binderDto.setIsCount(BOOLEAN_CONSTANT.getTrueFlag());
+        binderDto.setIsCount(BooleanConstant.getTrueFlag());
         selection.setFilters(getFilters());
         List<ComponentInfoDTO> resultList = logic.getComponentInfoResults(binderDto, selection);
         return resultList;

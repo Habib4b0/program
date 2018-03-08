@@ -46,7 +46,7 @@ public class AllCustomers extends Window {
     @UiField("closeBtn")
     public Button closeButton;
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private final ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
@@ -130,7 +130,7 @@ public class AllCustomers extends Window {
         companyExcelResultBean = new ExtTreeContainer<>(TradingPartnerDTO.class);
         companyViewTable = new ExtCustomTable();
         tradingPartnerTableLayout.addComponent(companyViewTable);
-        companyViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        companyViewTable.setRefresh(BooleanConstant.getFalseFlag());
         companyViewTable.setVisible(false);
         companyViewTable.setContainerDataSource(companyExcelResultBean);
         companyViewTable.setVisibleColumns(companySearchResultsTable.getVisibleColumns());
