@@ -337,6 +337,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             growthLabel.setHeight("49px");
             frequencyDdlb.addStyleName("fieldPositionfreq");
             forecastMethodology.addStyleName("disablelabel");
+            forecastMethodology.addStyleName("hideLabel");
             forecastMethodology.addItem(PRICE_TRENDING.getConstant());
             if (CommonUtil.isValueEligibleForLoading()) {
                 forecastMethodology.addItem(PER_OF_WAC.getConstant());

@@ -6,7 +6,7 @@
 Name:SPEC_NAME
 Version:SPEC_VERSION
 Release:        1%{?dist}
-Summary:Raja1 test
+Summary:GTN APP Release
 BuildArchitectures: noarch
 License:  GPLv3+
 Source0:SPEC_SOURCE
@@ -63,6 +63,13 @@ if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build
 then
   cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/R2_ETL.jar  $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/R2_ETL.jar
+fi
+
+if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnProperties.jar ]
+then
+mkdir -p $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties
+  cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnProperties.jar  $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties/gtnProperties.jar
+chmod -R 777 $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties/gtnProperties.jar
 fi
 
 if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/ETLProcedureInput.properties ]
@@ -159,6 +166,7 @@ sed -i -e "/SERVER_USERNAME=/ s/=.*/=$SERVER_USERNAME/" -e  "/BPI_SYS_HOST=/ s/=
 sed -i -e "/BPI_SYS_PASSWORD=/ s/=.*/=$BPI_SYS_PASSWORD/" -e  "/STAGING_HOST=/ s/=.*/=$STAGING_HOST/" -e  "/STAGING_DB=/ s/=.*/=$STAGING_DB/" -e "/STAGING_USER=/ s/=.*/=$STAGING_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 sed -i -e "/STAGING_PASSWORD=/ s/=.*/=$STAGING_PASSWORD/" -e "/BPI_SOURCE_HOST=/ s/=.*/=$BPI_SOURCE_HOST/" -e "/BPI_SOURCE_DB=/ s/=.*/=$BPI_SOURCE_DB/" -e "/BPI_SOURCE_USER=/ s/=.*/=$BPI_SOURCE_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 sed -i -e "/BPI_SOURCE_PASSWORD=/ s/=.*/=$BPI_SOURCE_PASSWORD/" -e  "/ETL_PORT_NO=/ s/=.*/=$ETL_PORT_NO/" -e "/com_stpl_gtnframework_base_path=/ s/=.*/=$Gtn_Framework_Base_path/" $install_path/etl/Interface_Job/EtlConfiguration.properties
+sed -i -e "/ETL_LOG_PATH=/ s/=.*/=$ETL_LOG_PATH/"  -e "/BPI_PASSPHRASE=/ s/=.*/=$BPI_PASSPHRASE/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 fi
 # Deleting Service jar index files ends
 
@@ -166,6 +174,7 @@ fi
 
 if [ -e $install_path/tempdeploy/GtnFrameworkTransaction.jar ];
 then
+mkdir -p $Gtn_Framework_Base_path/transaction_json
 jar xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
 cp  -R /WEB-INF/classes/transaction_json $Gtn_Framework_Base_path
 rm -rf /WEB-INF /META-INF
