@@ -104,7 +104,7 @@ public class GtnFrameworkContractInformationTabLoadAction implements GtnUIFrameW
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractName")
 					.loadFieldValue(processDataBean.getContractInfoBean().getStringPropertyByIndex(2));
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractType")
-					.loadFieldValue(processDataBean.getContractInfoBean().getStringPropertyByIndex(52));
+					.loadFieldValue(processDataBean.getContractInfoBean().getStringPropertyByIndex(53));
 			GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
 			resetActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMED_RESET_ACTION);
 			resetActionConfig.addActionParameter(processDataBean.getContractInfoFieldList());

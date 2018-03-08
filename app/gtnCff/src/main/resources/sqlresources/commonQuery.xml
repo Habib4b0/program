@@ -545,14 +545,16 @@ FROM
        VERSION,
        FROM_PERIOD,
        TO_PERIOD,
-       ID=H.HELPER_TABLE_SID
+       ID=H.HELPER_TABLE_SID,
+       FILE_TYPE_NAME
 FROM   (SELECT FILE_MANAGEMENT_SID,
                FORECAST_NAME,
                FILE_TYPE,
                VERSION,
                FROM_PERIOD,
                TO_PERIOD,
-               ID
+               ID,
+               FILE_TYPE_NAME
         FROM   (SELECT FT.FORECAST_NAME,
                        FT.[VERSION],
                        FILE_MANAGEMENT_SID,
@@ -560,6 +562,7 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
                        FT.FROM_PERIOD,
                        FT.TO_PERIOD,
                        FT.FILE_TYPE                           AS ID,
+                       HT.[DESCRIPTION]                       AS FILE_TYPE_NAME,
                        Row_number()
                          OVER(
                            PARTITION BY FILE_TYPE

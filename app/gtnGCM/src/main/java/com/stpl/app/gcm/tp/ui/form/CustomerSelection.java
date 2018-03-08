@@ -129,7 +129,7 @@ public class CustomerSelection extends VerticalLayout {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSelection.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private final transient StplSecurity stplSecurity = new StplSecurity();
 
@@ -467,7 +467,7 @@ public class CustomerSelection extends VerticalLayout {
             // To Load the selected customers table in projection details transfer module
             TradingPartnerDTO selectedTpDto = new TradingPartnerDTO();
             selectedTpDto.setCompanyMasterSids(session.getCompanyMasterSids());
-            selectedTpDto.setReset(BOOLEAN_CONSTANT.getFalseFlag());
+            selectedTpDto.setReset(BooleanConstant.getFalseFlag());
             selectedTpDto.setCompanyName("*");
             selectedTpDto.setCompanyRestrictionSessionId(linkedCustomersSessionId);
             selectedCustomersLogic.loadSetData(selectedTpDto, StringUtils.EMPTY, StringUtils.EMPTY, Constants.ZEROSTRING, session.getSearchSessionId());

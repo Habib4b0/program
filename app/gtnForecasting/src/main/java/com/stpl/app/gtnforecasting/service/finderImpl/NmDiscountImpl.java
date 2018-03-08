@@ -12,6 +12,7 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.*;
 import com.stpl.app.utils.Constants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,6 +28,8 @@ import org.slf4j.LoggerFactory;
 public class NmDiscountImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NmDiscountImpl.class);
+    
+    
 
     public List getDiscountNo(int projectionId, List<String> priceGroupType) {
 
@@ -1593,11 +1596,11 @@ public class NmDiscountImpl {
                     + " AND DPT.SESSION_ID = " + sessionId + "\n";
 
             HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
-            return Boolean.TRUE;
+            return BooleanConstant.getTrueFlag();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return Boolean.FALSE;
+            return BooleanConstant.getFalseFlag();
         }
 
     }

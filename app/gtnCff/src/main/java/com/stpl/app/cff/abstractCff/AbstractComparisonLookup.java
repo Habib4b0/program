@@ -183,7 +183,7 @@ public abstract class AbstractComparisonLookup extends Window {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractComparisonLookup.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     /**
      * Resultbean
@@ -247,7 +247,7 @@ public abstract class AbstractComparisonLookup extends Window {
         HorizontalLayout layout = tableLogic.createControls();
         layout.setStyleName(Constants.RESPONSIVE_PAGED_TABLE);
         availableVertical.addComponent(layout);
-        tableLogic.sinkItemPerPageWithPageLength(BOOLEAN_CONSTANT.getFalseFlag());
+        tableLogic.sinkItemPerPageWithPageLength(BooleanConstant.getFalseFlag());
         tableLogic.setContainerDataSource(resultsBean);
         resultsTable.setFilterBarVisible(true);
         resultsTable.markAsDirty();
@@ -262,7 +262,7 @@ public abstract class AbstractComparisonLookup extends Window {
 
         LOGGER.debug("Ending abstract loadAvailableResults");
     }
-
+    
     private void loadSelectedResults() {
         LOGGER.debug("Inside abstract loadSelectedResults");
         selectedVertical.setSizeFull();

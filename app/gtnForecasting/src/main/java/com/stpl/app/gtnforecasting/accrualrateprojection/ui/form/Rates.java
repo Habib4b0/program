@@ -59,7 +59,7 @@ public class Rates extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Rates.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     @UiField("frequencyDdlb")
     private ComboBox frequencyDdlb;
@@ -305,7 +305,7 @@ public class Rates extends CustomComponent {
                 generateLogic();
                 loadFromAndToPeriods();
                 map.put(Constant.RATE_BASIS, rateBasisDdlb.getValue());
-                map.put(Constant.IS_RATES_GENERATED, BOOLEAN_CONSTANT.getTrueFlag());
+                map.put(Constant.IS_RATES_GENERATED, BooleanConstant.getTrueFlag());
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());

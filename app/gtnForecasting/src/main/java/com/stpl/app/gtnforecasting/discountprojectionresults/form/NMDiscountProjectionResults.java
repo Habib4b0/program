@@ -94,7 +94,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
     private final SessionDTO sessionDto;
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     private String screenName = StringUtils.EMPTY;
 
@@ -209,7 +209,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     protected void excelButtonLogic() {
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        exceltable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        exceltable.setRefresh(BooleanConstant.getTrueFlag());
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
         int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
@@ -780,7 +780,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
         setExcelResultBeanContainer(new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP));
         getExcelResultBeanContainer().setColumnProperties(getFullHeader().getProperties());
-         exceltable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+         exceltable.setRefresh(BooleanConstant.getFalseFlag());
         exceltable.setContainerDataSource(getExcelResultBeanContainer());
         exceltable.setVisibleColumns(getFullHeader().getSingleColumns().toArray());
         exceltable.setColumnHeaders(getFullHeader().getSingleHeaders().toArray(new String[getFullHeader().getSingleHeaders().size()]));
@@ -900,11 +900,11 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             final StplSecurity stplSecurity = new StplSecurity();
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.DISCOUNT_PROJECTION_RESULTS);
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
-                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+                newBtn.setVisible(BooleanConstant.getFalseFlag());
+                editBtn.setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(NMDiscountProjection.class.getName()).error( StringUtils.EMPTY, ex);

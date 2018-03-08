@@ -42,7 +42,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class GlobalChangeIndex extends CustomComponent implements View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalChangeIndex.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private SessionDTO sessionDTO = new SessionDTO();
     private ErrorfulFieldGroup promoteTpToChDtoBinder;
     private ErrorfulFieldGroup globalChangeBinder;
@@ -108,9 +108,9 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                         String updateTypeVal = String.valueOf(updateType.getValue());                       
                         if (Constants.ITEM_MANAGEMENT.equals(processName) && "Item Update".equals(updateTypeVal)) {
                             if (modeSelectRadio.getValue().equals(ITEM_FAMILY_PLAN.getConstant())) {
-                                selection.setIsIFP(BOOLEAN_CONSTANT.getTrueFlag());
+                                selection.setIsIFP(BooleanConstant.getTrueFlag());
                             } else {
-                                selection.setIsIFP(BOOLEAN_CONSTANT.getFalseFlag());
+                                selection.setIsIFP(BooleanConstant.getFalseFlag());
                             }
                         }
                     }
@@ -206,19 +206,19 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                     selection.setButtonMode(ConstantsUtil.PROJECTIONTRANSFER);
                 }
                 layout.removeAllComponents();
-                valueChange = BOOLEAN_CONSTANT.getFalseFlag();
+                valueChange = BooleanConstant.getFalseFlag();
                 modeSelectRadio.removeAllItems();
                 modeSelectRadio.addItem(ITEM_FAMILY_PLAN.getConstant());
                 modeSelectRadio.addItem(ITEM_CONTRACT.getConstant());
                 modeSelectRadio.select(ITEM_CONTRACT.getConstant());
-                modeSelectRadio.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-                valueChange = BOOLEAN_CONSTANT.getTrueFlag();
+                modeSelectRadio.setEnabled(BooleanConstant.getFalseFlag());
+                valueChange = BooleanConstant.getTrueFlag();
                 if (modeSelectRadio.getValue().equals(ITEM_FAMILY_PLAN.getConstant())) {
-                    selection.setIsIFP(BOOLEAN_CONSTANT.getTrueFlag());
+                    selection.setIsIFP(BooleanConstant.getTrueFlag());
                 }
                 selection.setSessionDTO(sessionDTO);
                 layout.addComponent(new ItemManagementIndex(selection));
-                customerSelectRadio.setItemEnabled(CUSTOMER_NEW.getConstant(), BOOLEAN_CONSTANT.getFalseFlag());
+                customerSelectRadio.setItemEnabled(CUSTOMER_NEW.getConstant(), BooleanConstant.getFalseFlag());
 
             } else if (CONTRACT_MANAGEMENT.getConstant().equals(processName)) {
                 if ("Copy Contract".equals(updateTypeVal)) {

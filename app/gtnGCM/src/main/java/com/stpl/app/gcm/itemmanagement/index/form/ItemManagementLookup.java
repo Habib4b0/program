@@ -75,7 +75,7 @@ public class ItemManagementLookup extends CustomWindow {
     private Integer lasttabPosition = 0;
     private boolean valueChange = false;
     public static final Logger LOGGER = LoggerFactory.getLogger(ItemManagementLookup.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final List<Integer> addedTabList = new ArrayList<>();
     private boolean addSummaryFlag = false;
     private final SessionDTO session = new SessionDTO();
@@ -378,7 +378,7 @@ public class ItemManagementLookup extends CustomWindow {
                     AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_PROJECTION_CREATED, StringConstantsUtil.SOME_ERROR_IN_CREATING_PROJECTION
                             + StringConstantsUtil.CHECK_WHETHER_THE_SELECTED_PROJECTION_HAS_RELATION);
                 } else {
-                    List<String> tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) list.get(0), (List<String>) list.get(1), BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getTrueFlag(), session);
+                    List<String> tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) list.get(0), (List<String>) list.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag(), session);
                     int newProjectionId = logic.getNewProjectionId();
                     String msgContent = "The selected Item has been added successfully";
 
@@ -561,7 +561,7 @@ public class ItemManagementLookup extends CustomWindow {
                     List<String> tempTransferList = new ArrayList<>();
                     List<String> tempTransferList1 = new ArrayList<>();
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                        tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) correntTransfer.get(0), (List<String>) correntTransfer.get(1), BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), session);
+                        tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) correntTransfer.get(0), (List<String>) correntTransfer.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), session);
                     }
                     if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                         tempTransferList = logic.copyProjection(fromProjection, false, null, null, null, session);
@@ -570,7 +570,7 @@ public class ItemManagementLookup extends CustomWindow {
                     int transferFromProjection = Integer.parseInt(tempTransferList.get(NumericConstants.TWO));
 
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                        tempTransferList1 = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), toProjection, (List<String>) transferContract.get(1), BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), session);
+                        tempTransferList1 = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), toProjection, (List<String>) transferContract.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), session);
                     }
                     if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                         tempTransferList1 = logic.copyProjection(toProjection, false, null, null, null, session);

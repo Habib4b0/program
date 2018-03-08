@@ -17,6 +17,17 @@ and open the template in the editor.
         </query>
     </entity>
     
+    <entity id="getDetailsResultsExcel">
+        <query>
+            <![CDATA[
+                SELECT DISTINCT FM.FORECAST_YEAR,FM.FORECAST_MONTH,IM.ITEM_NO,IM.ITEM_NAME,FM.FORECAST_DATE,
+                FM.PRICE,FM.UNITS,FM.DOLLARS,FM.RECORD_LOCK_STATUS,FM.FORECAST_MASTER_SID 
+                FROM FORECASTING_MASTER FM,ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID 
+                AND FORECAST_NAME=  
+            ]]>
+        </query>
+    </entity>
+    
     <entity id="getFileEndDate">
         <query>
         <![CDATA[

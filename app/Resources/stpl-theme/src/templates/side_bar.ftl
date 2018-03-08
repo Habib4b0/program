@@ -33,6 +33,6 @@
       </#if>
       </#list>
     </ul>
-     <a href="#" id="sidebarCollapse"> <i class="fa fa-angle-double-left "></i><i class="fa fa-angle-double-right icon-act"></i></a> </nav>
+     <button type="button" id="sidebarCollapse"> <i class="fa fa-angle-double-left "></i><i class="fa fa-angle-double-right icon-act"></i></button> </nav>
     </nav>
 

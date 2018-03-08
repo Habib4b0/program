@@ -42,7 +42,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class DataSelectionUtil {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private static final Map<String, String> userMap = new HashMap<>();
     private static final Map<String, String> userIdMap = new HashMap<>();
     private static final Map<String, String> discountMap = new HashMap<>();
@@ -149,7 +149,7 @@ public class DataSelectionUtil {
                     }
                     query.append(" im.");
                     orFlag = true;
-                    fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), BOOLEAN_CONSTANT.getTrueFlag());
+                    fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), BooleanConstant.getTrueFlag());
                     query.append(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn));
                     query.append(" in (");
 

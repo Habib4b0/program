@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
 public class ItemQueries {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final static CommonDao ITEMDAO = CommonImpl.getInstance();
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
@@ -190,9 +190,9 @@ public class ItemQueries {
             String query = getQuery(sql, dto);
             Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
-                return BOOLEAN_CONSTANT.getTrueFlag();
+                return BooleanConstant.getTrueFlag();
             } else {
-                return BOOLEAN_CONSTANT.getFalseFlag();
+                return BooleanConstant.getFalseFlag();
             }
 
         } catch (Exception ex) {
@@ -755,9 +755,9 @@ public class ItemQueries {
             query = query.replace("@CHECK_RECORD", (dto.getCheckRecord() ? 1 : 0) + StringUtils.EMPTY);
             Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
-                return BOOLEAN_CONSTANT.getTrueFlag();
+                return BooleanConstant.getTrueFlag();
             } else {
-                return BOOLEAN_CONSTANT.getFalseFlag();
+                return BooleanConstant.getFalseFlag();
             }
 
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {

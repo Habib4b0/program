@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
     private SessionDTO session;
     private String frequency;
@@ -403,7 +403,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                 list = discountLogic.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, 0, 0,
-                        BOOLEAN_CONSTANT.getTrueFlag(), BOOLEAN_CONSTANT.getFalseFlag(), customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), 
+                        BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                         StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST, 
                         false, StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
             }
@@ -526,13 +526,13 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override
@@ -577,8 +577,8 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,
-                customDetailsList, BOOLEAN_CONSTANT.getTrueFlag(), isCustom, rightDto, 0, 0, 
-                BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(),
+                customDetailsList, BooleanConstant.getTrueFlag(), isCustom, rightDto, 0, 0, 
+                BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(),
                 true, hierarchyNumbers, relationshipBuilderSid, true, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY,
                 Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
 

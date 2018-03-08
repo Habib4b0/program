@@ -23,7 +23,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants;
@@ -59,8 +58,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
@@ -76,9 +75,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -96,6 +93,7 @@ public class DataSelection extends ForecastDataSelection {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
+        
 	private DataSelectionDTO selectionDTO;
 	private final SessionDTO session;
 	private boolean firstTimeLoad = true;
@@ -196,10 +194,10 @@ public class DataSelection extends ForecastDataSelection {
 		fromPeriod.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
-				setUpdateOnTabChange(Boolean.TRUE);
+				setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				session.setFromPeriod(String.valueOf(fromPeriod.getValue()));
 				session.setFromDate(selectionDTO.getFromDate());
-				session.setFromDateChanged(Boolean.TRUE);
+				session.setFromDateChanged(BooleanConstant.getTrueFlag());
 				productBeanLisTemp.removeAll(productBeanLisTemp);
 				productHierarchyNos.removeAll(productHierarchyNos);
 				for (Leveldto dto : selectedProductContainer.getItemIds()) {
@@ -663,7 +661,7 @@ public class DataSelection extends ForecastDataSelection {
 		int forecastLevel = 0;
 		forecastLevel = UiUtils.parseStringToInteger(productLevel);
 		List<Leveldto> reslistOne;
-		reslistOne = relationLogic.getRelationShipValues(projectionId, Boolean.FALSE, productLevel,
+		reslistOne = relationLogic.getRelationShipValues(projectionId, BooleanConstant.getFalseFlag(), productLevel,
 				productDescriptionMap);
 		productBeanList.removeAll(productBeanList);
 		for (Leveldto dto : reslistOne) {
@@ -1056,9 +1054,9 @@ public class DataSelection extends ForecastDataSelection {
 					&& !getSelectedProducts().isEmpty()
 					&& (company.getValue() != null && !Constant.SELECT_ONE.equals(company.getValue()))
 					&& (businessUnit.getValue() != null && !Constant.SELECT_ONE.equals(businessUnit.getValue()))) {
-				setValid(Boolean.TRUE);
+				setValid(BooleanConstant.getTrueFlag());
 			} else {
-				setValid(Boolean.FALSE);
+				setValid(BooleanConstant.getFalseFlag());
 			}
 		} else {
 			isReturnsDataSelectionValid();
@@ -1071,9 +1069,9 @@ public class DataSelection extends ForecastDataSelection {
 		if (getSelectedProducts() != null && !getSelectedProducts().isEmpty()
 				&& (company.getValue() != null && !Constant.SELECT_ONE.equals(company.getValue()))
 				&& (businessUnit.getValue() != null && !Constant.SELECT_ONE.equals(businessUnit.getValue()))) {
-			setValid(Boolean.TRUE);
+			setValid(BooleanConstant.getTrueFlag());
 		} else {
-			setValid(Boolean.FALSE);
+			setValid(BooleanConstant.getFalseFlag());
 		}
 		return isValid();
 	}
@@ -1542,7 +1540,7 @@ public class DataSelection extends ForecastDataSelection {
 
 					groupFilteredCompanies = null;
 					setCustomerForecastLevelNullSelection();
-					setUpdateOnTabChange(Boolean.TRUE);
+					setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				}
 			}
 		});
@@ -1573,7 +1571,7 @@ public class DataSelection extends ForecastDataSelection {
 					selectionDTO.setCompanySid(null);
 					groupFilteredItems = null;
 					setProductForecastLevelNullSelection();
-					setUpdateOnTabChange(Boolean.TRUE);
+					setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				}
 			}
 		});
@@ -2593,7 +2591,7 @@ public class DataSelection extends ForecastDataSelection {
 					}
 
 				}
-				setUpdateOnTabChange(Boolean.TRUE);
+				setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 			} else {
 				AbstractNotificationUtils.getErrorNotification("No Customer hierarchy level Selected",
 						"No Level was selected to move. Please try again.");
@@ -3671,7 +3669,7 @@ public class DataSelection extends ForecastDataSelection {
 						}
 					}
 				}
-				setUpdateOnTabChange(Boolean.TRUE);
+				setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
 				productBeanLisTemp.removeAll(productBeanLisTemp);
 				productHierarchyNos.removeAll(productHierarchyNos);
@@ -4232,7 +4230,7 @@ public class DataSelection extends ForecastDataSelection {
 						}
 					}
 				}
-				setUpdateOnTabChange(Boolean.TRUE);
+				setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
 				productBeanLisTemp.removeAll(productBeanLisTemp);
 				productHierarchyNos.removeAll(productHierarchyNos);

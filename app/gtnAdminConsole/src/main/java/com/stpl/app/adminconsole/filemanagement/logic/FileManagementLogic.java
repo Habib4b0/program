@@ -114,7 +114,7 @@ public class FileManagementLogic {
 	private SimpleDateFormat MMDDYY_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private SimpleDateFormat JAVA_DATE_FORMAT = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
         
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 
 	/**
 	 * Gets the forecast year.
@@ -505,7 +505,7 @@ public class FileManagementLogic {
 			for (int i = 0; i < itemIds.size(); i++) {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BOOLEAN_CONSTANT.getTrueFlag());
+					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BooleanConstant.getTrueFlag());
 				}
 			}
 		} else if ("uncheck".equalsIgnoreCase(clickEvent)) {
@@ -513,7 +513,7 @@ public class FileManagementLogic {
 			for (int i = 0; i < itemIds.size(); i++) {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BOOLEAN_CONSTANT.getFalseFlag());
+					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BooleanConstant.getFalseFlag());
 				}
 			}
 		}
@@ -908,7 +908,7 @@ public class FileManagementLogic {
 	public void updateAutoModeProcess(final Date date) throws SystemException {
 		final DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		List<ForecastConfig> config;
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", BOOLEAN_CONSTANT.getTrueFlag()));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", BooleanConstant.getTrueFlag()));
 		dynamicQuery.add(RestrictionsFactoryUtil.isNull("activeEndDate"));
 		config = ForecastConfigLocalServiceUtil.dynamicQuery(dynamicQuery);
 		if (!config.isEmpty()) {
@@ -1596,7 +1596,7 @@ public class FileManagementLogic {
 				boolean recordStatus = ((Boolean) obj[NumericConstants.EIGHT]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.NINE]);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
 				resultsListDTO.add(fmDTO);
 			}
@@ -1663,7 +1663,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.TWENTY_EIGHT]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1708,7 +1708,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.THIRTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1764,7 +1764,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				fmDTO.setCompanyName(obj[NumericConstants.SEVENTEEN] != null
 						? String.valueOf(obj[NumericConstants.SEVENTEEN]) : ConstantsUtils.EMPTY);
 				fmDTO.setItemName(obj[NumericConstants.EIGHTEEN] != null
@@ -1861,7 +1861,7 @@ public class FileManagementLogic {
 				fmDTO.setCustomerGtsForecastIntfId(obj[NumericConstants.TWENTY_EIGHT] != null
 						? Integer.parseInt(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])) : 0);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			LOGGER.debug("resultsListDTO= {}" , resultsListDTO.size());
@@ -2300,7 +2300,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			String outerSize = String.valueOf(InnerArray[0]);
 			int innerSize;
@@ -2447,7 +2447,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2587,7 +2587,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in  ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2724,7 +2724,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in  ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -2895,7 +2895,7 @@ public class FileManagementLogic {
 			fmDTO.setRecordLockStatus(recordStatus);
 			fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
 			fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-			fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+			fmDTO.setCheck(BooleanConstant.getFalseFlag());
 			resultsListDTO.add(fmDTO);
 		}
 		return resultsListDTO;
@@ -2941,7 +2941,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -3357,7 +3357,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			String outerSize = String.valueOf(InnerArray[0]);
 			int innerSize;
@@ -3508,7 +3508,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -3656,7 +3656,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -3798,7 +3798,7 @@ public class FileManagementLogic {
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;
@@ -3932,7 +3932,7 @@ public class FileManagementLogic {
 			String[] versionArray = detailsResultDTO.getVersion().split("~");
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
-			String tempversionArray = String.valueOf(versionArray[1].toString()).replace('.', '~').trim();
+			String tempversionArray = (versionArray[1].toString()).replace('.', '~').trim();
 			String[] InnerArray = tempversionArray.split("~");
 			int outerSize = Integer.parseInt(InnerArray[0]);
 			int innerSize;

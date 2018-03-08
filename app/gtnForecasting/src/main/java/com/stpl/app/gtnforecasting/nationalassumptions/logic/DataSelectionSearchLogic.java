@@ -33,7 +33,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
     protected DataSelectionDTO dataSelectionDTO;
     protected Object businessUnit;
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionSearchLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     @Override
     public int getCount() {
@@ -97,11 +97,11 @@ public class DataSelectionSearchLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 }
