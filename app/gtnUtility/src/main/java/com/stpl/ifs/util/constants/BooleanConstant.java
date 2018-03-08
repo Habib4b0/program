@@ -20,7 +20,7 @@ public final class BooleanConstant {
      * utilize this method to get true
      * @return true(boolean)
      */
-    public boolean getTrueFlag() {
+    public static boolean getTrueFlag() {
         return trueFlag;
     }
 
@@ -28,7 +28,7 @@ public final class BooleanConstant {
      * * utilize this method to get false
      * @return false(boolean)
      */
-    public boolean getFalseFlag() {
+    public static boolean getFalseFlag() {
         return falseFlag;
     }
     
