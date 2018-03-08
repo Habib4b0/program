@@ -410,154 +410,154 @@ public class DiscountProjectionResultsLogic {
                         String currentDiscount = String.valueOf(object[NumericConstants.EIGHT]);
                         commonColumn = currentDiscount.replace(" ", StringUtils.EMPTY);
                         if (object[NumericConstants.TWO] != null) {
-                            Double aSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
-                            actualSales = actualSales + aSales;
+                            Double aPivotSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.TWO]);
+                            actualSales = actualSales + aPivotSales;
                         }
                         if (object[NumericConstants.THREE] != null) {
-                            Double aAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
-                            actualAmount = actualAmount + aAmount;
+                            Double aPivotAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.THREE]);
+                            actualAmount = actualAmount + aPivotAmount;
                         }
                         if (object[NumericConstants.FOUR] != null) {
-                            Double pSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
-                            projectedSales = projectedSales + pSales;
+                            Double pPivotSales = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FOUR]);
+                            projectedSales = projectedSales + pPivotSales;
                         }
                         if (object[NumericConstants.FIVE] != null) {
-                            Double pAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
-                            projectedAmount = projectedAmount + pAmount;
+                            Double pPivotAmount = DataTypeConverter.convertObjectToDouble(object[NumericConstants.FIVE]);
+                            projectedAmount = projectedAmount + pPivotAmount;
                         }
 
                         if (list.size() == 1) {
-                            Double arate = actualAmount / actualSales;
-                            if (arate.isNaN()) {
-                                arate = 0.0;
+                            Double aPivotrate = actualAmount / actualSales;
+                            if (aPivotrate.isNaN()) {
+                                aPivotrate = 0.0;
                             }
-                            arate = arate * NumericConstants.HUNDRED;
-                            String actRate = String.valueOf(arate);
-                            discountDto.addStringProperties(commonColumn + ACTUALSRATE, actRate != null && !NULL.equals(String.valueOf(actRate)) && !StringUtils.EMPTY.equals(String.valueOf(actRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(actRate)))).concat(PERCENTAGE) : HYPHEN);
-                            Double actualAmt = arate * actualSales;
-                            actualAmt = actualAmt / NumericConstants.HUNDRED;
-                            if (actualAmt.isNaN()) {
-                                actualAmt = 0.0;
+                            aPivotrate = aPivotrate * NumericConstants.HUNDRED;
+                            String actPivotRate = String.valueOf(aPivotrate);
+                            discountDto.addStringProperties(commonColumn + ACTUALSRATE, actPivotRate != null && !NULL.equals(String.valueOf(actPivotRate)) && !StringUtils.EMPTY.equals(String.valueOf(actPivotRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(actPivotRate)))).concat(PERCENTAGE) : HYPHEN);
+                            Double actualPivotAmt = aPivotrate * actualSales;
+                            actualPivotAmt = actualPivotAmt / NumericConstants.HUNDRED;
+                            if (actualPivotAmt.isNaN()) {
+                                actualPivotAmt = 0.0;
                             }
-                            String actAmt = String.valueOf(actualAmt);
-                            discountDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmt != null && !NULL.equals(String.valueOf(actAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmt)))) : HYPHEN);
-                            Double prate = projectedAmount / projectedSales;
-                            if (prate.isNaN() || prate.isInfinite()) {
-                                prate = 0.0;
+                            String actPivotAmt = String.valueOf(actualPivotAmt);
+                            discountDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actPivotAmt != null && !NULL.equals(String.valueOf(actPivotAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actPivotAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actPivotAmt)))) : HYPHEN);
+                            Double pPivotrate = projectedAmount / projectedSales;
+                            if (pPivotrate.isNaN() || pPivotrate.isInfinite()) {
+                                pPivotrate = 0.0;
                             }
-                            prate = prate * NumericConstants.HUNDRED;
-                            String proRate = String.valueOf(prate);
-                            discountDto.addStringProperties(commonColumn + PROJECTIONSRATE, proRate != null && !NULL.equals(String.valueOf(proRate)) && !StringUtils.EMPTY.equals(String.valueOf(proRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proRate)))).concat(PERCENTAGE) : HYPHEN);
-                            Double projectedAmtAmt = prate * projectedSales;
-                            projectedAmtAmt = projectedAmtAmt / NumericConstants.HUNDRED;
-                            if (projectedAmtAmt.isNaN()) {
-                                projectedAmtAmt = 0.0;
+                            pPivotrate = pPivotrate * NumericConstants.HUNDRED;
+                            String proPivotRate = String.valueOf(pPivotrate);
+                            discountDto.addStringProperties(commonColumn + PROJECTIONSRATE, proPivotRate != null && !NULL.equals(String.valueOf(proPivotRate)) && !StringUtils.EMPTY.equals(String.valueOf(proPivotRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proPivotRate)))).concat(PERCENTAGE) : HYPHEN);
+                            Double projectedPivotAmtAmt = pPivotrate * projectedSales;
+                            projectedPivotAmtAmt = projectedPivotAmtAmt / NumericConstants.HUNDRED;
+                            if (projectedPivotAmtAmt.isNaN()) {
+                                projectedPivotAmtAmt = 0.0;
                             }
-                            String proAmount = String.valueOf(projectedAmtAmt);
-                            discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
+                            String proPivotAmount = String.valueOf(projectedPivotAmtAmt);
+                            discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proPivotAmount != null && !NULL.equals(String.valueOf(proPivotAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proPivotAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proPivotAmount)))) : HYPHEN);
                         } else {
                             for (int i = 1; i < list.size(); i++) {
                                 Object[] obj = (Object[]) list.get(i);
-                                String selectedDiscount = String.valueOf(obj[NumericConstants.EIGHT]);
-                                if (currentDiscount.equals(selectedDiscount)) {
+                                String selectedPivotDiscount = String.valueOf(obj[NumericConstants.EIGHT]);
+                                if (currentDiscount.equals(selectedPivotDiscount)) {
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
-                                        actualSales = actualSales + aSales;
+                                        Double aSalesPivot = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
+                                        actualSales = actualSales + aSalesPivot;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
-                                        actualAmount = actualAmount + aAmount;
+                                        Double aAmountPivot = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
+                                        actualAmount = actualAmount + aAmountPivot;
                                     }
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
-                                        projectedSales = projectedSales + pSales;
+                                        Double pSalesPivot = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
+                                        projectedSales = projectedSales + pSalesPivot;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
-                                        projectedAmount = projectedAmount + pAmount;
+                                        Double pAmountPivot = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
+                                        projectedAmount = projectedAmount + pAmountPivot;
                                     }
                                 } else {
-                                    Double arate = actualAmount / actualSales;
-                                    if (arate.isNaN()) {
-                                        arate = 0.0;
+                                    Double aratePivot = actualAmount / actualSales;
+                                    if (aratePivot.isNaN()) {
+                                        aratePivot = 0.0;
                                     }
-                                    arate = arate * NumericConstants.HUNDRED;
-                                    String actRate = String.valueOf(arate);
+                                    aratePivot = aratePivot * NumericConstants.HUNDRED;
+                                    String actRate = String.valueOf(aratePivot);
 
                                     discountDto.addStringProperties(commonColumn + ACTUALSRATE, actRate != null && !NULL.equals(String.valueOf(actRate)) && !StringUtils.EMPTY.equals(String.valueOf(actRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(actRate)))).concat(PERCENTAGE) : HYPHEN);
-                                    Double actualAmt = arate * actualSales;
-                                    actualAmt = actualAmt / NumericConstants.HUNDRED;
-                                    if (actualAmt.isNaN()) {
-                                        actualAmt = 0.0;
+                                    Double actualAmtPivot = aratePivot * actualSales;
+                                    actualAmtPivot = actualAmtPivot / NumericConstants.HUNDRED;
+                                    if (actualAmtPivot.isNaN()) {
+                                        actualAmtPivot = 0.0;
                                     }
-                                    String actAmt = String.valueOf(actualAmt);
-                                    discountDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmt != null && !NULL.equals(String.valueOf(actAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmt)))) : HYPHEN);
-                                    Double prate = projectedAmount / projectedSales;
-                                    if (prate.isNaN() || prate.isInfinite()) {
-                                        prate = 0.0;
+                                    String actAmtPivot = String.valueOf(actualAmtPivot);
+                                    discountDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmtPivot != null && !NULL.equals(String.valueOf(actAmtPivot)) && !StringUtils.EMPTY.equals(String.valueOf(actAmtPivot)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmtPivot)))) : HYPHEN);
+                                    Double pratePivot = projectedAmount / projectedSales;
+                                    if (pratePivot.isNaN() || pratePivot.isInfinite()) {
+                                        pratePivot = 0.0;
                                     }
-                                    prate = prate * NumericConstants.HUNDRED;
-                                    String proRate = String.valueOf(prate);
+                                    pratePivot = pratePivot * NumericConstants.HUNDRED;
+                                    String proRate = String.valueOf(pratePivot);
                                     discountDto.addStringProperties(commonColumn + PROJECTIONSRATE, proRate != null && !NULL.equals(String.valueOf(proRate)) && !StringUtils.EMPTY.equals(String.valueOf(proRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proRate)))).concat(PERCENTAGE) : HYPHEN);
-                                    Double projectedAmtAmt = prate * projectedSales;
+                                    Double projectedAmtAmt = pratePivot * projectedSales;
                                     projectedAmtAmt = projectedAmtAmt / NumericConstants.HUNDRED;
                                     if (projectedAmtAmt.isNaN()) {
                                         projectedAmtAmt = 0.0;
                                     }
-                                    String proAmount = String.valueOf(projectedAmtAmt);
-                                    discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
+                                    String proAmountPivot = String.valueOf(projectedAmtAmt);
+                                    discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmountPivot != null && !NULL.equals(String.valueOf(proAmountPivot)) && !StringUtils.EMPTY.equals(String.valueOf(proAmountPivot)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmountPivot)))) : HYPHEN);
                                     actualSales = 0;
                                     actualAmount = 0;
                                     projectedSales = 0;
                                     projectedAmount = 0;
-                                    currentDiscount = selectedDiscount;
+                                    currentDiscount = selectedPivotDiscount;
                                     commonColumn = currentDiscount.replace(" ", StringUtils.EMPTY);
                                     if (obj[NumericConstants.TWO] != null) {
-                                        Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
-                                        actualSales = actualSales + aSales;
+                                        Double aSalesDiscount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
+                                        actualSales = actualSales + aSalesDiscount;
                                     }
                                     if (obj[NumericConstants.THREE] != null) {
-                                        Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
-                                        actualAmount = actualAmount + aAmount;
+                                        Double aAmountDiscount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
+                                        actualAmount = actualAmount + aAmountDiscount;
                                     }
 
                                     if (obj[NumericConstants.FOUR] != null) {
-                                        Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
-                                        projectedSales = projectedSales + pSales;
+                                        Double pSalesDiscount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
+                                        projectedSales = projectedSales + pSalesDiscount;
                                     }
                                     if (obj[NumericConstants.FIVE] != null) {
-                                        Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
-                                        projectedAmount = projectedAmount + pAmount;
+                                        Double pAmountDiscount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
+                                        projectedAmount = projectedAmount + pAmountDiscount;
                                     }
                                 }
                                 if (i == list.size() - 1) {
-                                    Double arate = actualAmount / actualSales;
-                                    if (arate.isNaN()) {
-                                        arate = 0.0;
+                                    Double arateDiscount = actualAmount / actualSales;
+                                    if (arateDiscount.isNaN()) {
+                                        arateDiscount = 0.0;
                                     }
-                                    arate = arate * NumericConstants.HUNDRED;
-                                    String actRate = String.valueOf(arate);
+                                    arateDiscount = arateDiscount * NumericConstants.HUNDRED;
+                                    String actRate = String.valueOf(arateDiscount);
                                     discountDto.addStringProperties(commonColumn + ACTUALSRATE, actRate != null && !NULL.equals(String.valueOf(actRate)) && !StringUtils.EMPTY.equals(String.valueOf(actRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(actRate)))).concat(PERCENTAGE) : HYPHEN);
-                                    Double actualAmt = arate * actualSales;
-                                    actualAmt = actualAmt / NumericConstants.HUNDRED;
-                                    if (actualAmt.isNaN()) {
-                                        actualAmt = 0.0;
+                                    Double actualAmtDiscount = arateDiscount * actualSales;
+                                    actualAmtDiscount = actualAmtDiscount / NumericConstants.HUNDRED;
+                                    if (actualAmtDiscount.isNaN()) {
+                                        actualAmtDiscount = 0.0;
                                     }
-                                    String actAmt = String.valueOf(actualAmt);
-                                    discountDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmt != null && !NULL.equals(String.valueOf(actAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmt)))) : HYPHEN);
-                                    Double prate = projectedAmount / projectedSales;
-                                    if (prate.isNaN() || prate.isInfinite()) {
-                                        prate = 0.0;
+                                    String actAmtDiscount = String.valueOf(actualAmtDiscount);
+                                    discountDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmtDiscount != null && !NULL.equals(String.valueOf(actAmtDiscount)) && !StringUtils.EMPTY.equals(String.valueOf(actAmtDiscount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmtDiscount)))) : HYPHEN);
+                                    Double prateDiscount = projectedAmount / projectedSales;
+                                    if (prateDiscount.isNaN() || prateDiscount.isInfinite()) {
+                                        prateDiscount = 0.0;
                                     }
-                                    prate = prate * NumericConstants.HUNDRED;
-                                    String proRate = String.valueOf(prate);
+                                    prateDiscount = prateDiscount * NumericConstants.HUNDRED;
+                                    String proRate = String.valueOf(prateDiscount);
                                     discountDto.addStringProperties(commonColumn + PROJECTIONSRATE, proRate != null && !NULL.equals(String.valueOf(proRate)) && !StringUtils.EMPTY.equals(String.valueOf(proRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proRate)))).concat(PERCENTAGE) : HYPHEN);
-                                    Double projectedAmtAmt = prate * projectedSales;
-                                    projectedAmtAmt = projectedAmtAmt / NumericConstants.HUNDRED;
-                                    if (projectedAmtAmt.isNaN()) {
-                                        projectedAmtAmt = 0.0;
+                                    Double projectedAmtAmtDiscount = prateDiscount * projectedSales;
+                                    projectedAmtAmtDiscount = projectedAmtAmtDiscount / NumericConstants.HUNDRED;
+                                    if (projectedAmtAmtDiscount.isNaN()) {
+                                        projectedAmtAmtDiscount = 0.0;
                                     }
-                                    String proAmount = String.valueOf(projectedAmtAmt);
+                                    String proAmount = String.valueOf(projectedAmtAmtDiscount);
                                     discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
                                 }
                             }

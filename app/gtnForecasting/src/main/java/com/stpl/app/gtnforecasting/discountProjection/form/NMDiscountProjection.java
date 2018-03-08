@@ -812,7 +812,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             .replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
                     String refreshName = StringUtils.EMPTY;
                     String property = String.valueOf(obj[1]);
-                    int frequencyDiv = getFrequencyDivision(projectionSelection.getFrequency());
                     if (property.contains(Constant.PROJECTED_RATE)) {
                         refreshName = Constant.RATE;
                         isRateUpdatedManually = true;
@@ -825,8 +824,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         double doubleVal = Double.parseDouble(blurValue);
                         doubleVal = CommonUtil.getConversionFormattedMultipleValue(projectionSelection, doubleVal);
                         ccpsCount = dto.getCcpCount();
-                        int discountLevelccpCount = dto.getCcpCountForDiscount().get(discountName) != null
-                                ? dto.getCcpCountForDiscount().getInt(discountName) : ccpsCount;
                         double finalValue = doubleVal;
                         blurValue = String.valueOf(finalValue);
                         if (blurValue.contains("E")) {
