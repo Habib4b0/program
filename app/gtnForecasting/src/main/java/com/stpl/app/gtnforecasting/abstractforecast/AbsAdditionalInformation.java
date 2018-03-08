@@ -19,6 +19,7 @@ import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.DownloadStream;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
@@ -45,6 +46,8 @@ import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.Receiver;
 import elemental.json.JsonArray;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -513,12 +516,12 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             ExportWord exportWord = new ExportWord(filePath, wordFile);
             exportWord.export(internalNotes.getValue());
-            Resource wordResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT));
+            Resource wordResOnEdit = new GtnFileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT));
             wordDownloader.setFileDownloadResource(wordResOnEdit);
 
             ExportPdf exportPdf = new ExportPdf(NOTES_HISTORY, filePath, logo, pdfFile);
             exportPdf.export(internalNotes.getValue());
-            Resource pdfResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT));
+            Resource pdfResOnEdit = new GtnFileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT));
             pdfDownloader.setFileDownloadResource(pdfResOnEdit);
 
         } catch (Exception ex) {
@@ -534,11 +537,9 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
      */
     public void downloadFile(File uploadedFile) {
         try {
-            if (uploadedFile.exists()) {
-                Resource res = new FileResource(uploadedFile);
-                Page.getCurrent().open(res, "_blank", true);
+                Page.getCurrent().open(   new GtnFileResource(uploadedFile), "_blank", true);
 
-            }
+            
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -800,5 +801,25 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Ends of AdditionalInformation setValues Method");
+    }
+    class GtnFileResource extends FileResource{
+        public GtnFileResource(File sourceFile) {
+            super(sourceFile);
+        }
+         @Override
+    public DownloadStream getStream() {
+            try {
+                final DownloadStream stream = new DownloadStream(
+                        new FileInputStream(getSourceFile()), getMIMEType(),
+                        getFilename());
+                stream.setParameter("Content-Disposition", "attachment;filename=" +    getFilename());
+                stream.setParameter("Cache-Control", "private,no-cache,no-store");
+                stream.setCacheTime(1000);
+                return stream;
+            } catch (FileNotFoundException ex) {
+                  LOGGER.error("Error while downloading ", ex);
+            }
+            return null;
+    }
     }
 }
