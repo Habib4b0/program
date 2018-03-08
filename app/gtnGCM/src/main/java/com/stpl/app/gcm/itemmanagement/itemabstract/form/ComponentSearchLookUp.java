@@ -18,6 +18,7 @@ import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -58,6 +59,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ComponentSearchLookUp extends CustomWindow {
 private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLookUp.class);
+
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentId")
@@ -223,7 +225,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (StringConstantsUtil.COMPONENT_STATUS_PROPERTY.equals(propertyId)) {
                     final ComboBox componentStatusDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(componentStatusDdlb, countFlag.get(0), loadDataFlag.get(0), true);
+                    logic.LazyLoadDdlb(componentStatusDdlb, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getTrueFlag());
                     return componentStatusDdlb;
                 }
 
@@ -324,7 +326,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, countFlag.get(0), loadDataFlag.get(0), false);
+        logic.LazyLoadDdlb(componentStatus_DTO, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
     }
 
     /**

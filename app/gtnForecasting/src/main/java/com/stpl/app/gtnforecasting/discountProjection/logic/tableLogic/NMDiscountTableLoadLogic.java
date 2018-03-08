@@ -21,6 +21,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
 
+    
     private CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
     private SessionDTO session;
     private String frequency;
@@ -171,7 +173,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             List customDetailsList = new ArrayList();
             LOGGER.debug(" Custom hierarcht is bool= {} " , isCustomHierarchy);
 
-            Boolean isParentChecked = false;
+            boolean isParentChecked = false;
             if (parentId != null && (parentId instanceof DiscountProjectionDTO)) {
                 // For child
                 DiscountProjectionDTO dto = (DiscountProjectionDTO) parentId;
@@ -533,13 +535,13 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override
@@ -583,7 +585,8 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,
-                customDetailsList, true, isCustomHierarchy, rightDto, 0, 0, false, false, customViewDetails, false, true, hierarchyNumbers,
+                customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, rightDto, 0, 0, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
+                customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag(), hierarchyNumbers,
                 relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList, projectionSelection);
 
         for (DiscountProjectionDTO dto : refreshedDataList) {

@@ -140,7 +140,7 @@ public class PSIFPDTO implements Serializable {
     /**
      * Check Box Field
      */
-    private Boolean checkRecord = false;
+    private boolean checkRecord = false;
     private int tempPsDetailsSystemId;
     /**
      * The userID.

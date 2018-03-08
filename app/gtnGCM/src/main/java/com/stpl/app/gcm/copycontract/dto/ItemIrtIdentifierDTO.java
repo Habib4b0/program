@@ -135,7 +135,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
     /**
      * The checkbox.
      */
-    private Boolean checkbox = false;
+    private boolean checkbox = false;
 
     private boolean recordLockStatus;
 

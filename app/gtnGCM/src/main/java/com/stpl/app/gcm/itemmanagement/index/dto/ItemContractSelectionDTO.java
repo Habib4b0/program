@@ -7,6 +7,7 @@
 package com.stpl.app.gcm.itemmanagement.index.dto;
 
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
@@ -16,6 +17,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ItemContractSelectionDTO implements Cloneable {
 
+    
+    
     private Boolean checkRecord;
     private String contractHolder = StringUtils.EMPTY;
     private String contractNo = StringUtils.EMPTY;
@@ -291,7 +294,7 @@ public class ItemContractSelectionDTO implements Cloneable {
     public ItemContractSelectionDTO clone() throws CloneNotSupportedException {
         ItemContractSelectionDTO selection = new ItemContractSelectionDTO();
         selection.contractSid = this.contractSid;
-        selection.checkRecord = false;
+        selection.checkRecord = BooleanConstant.getFalseFlag();
         selection.contractHolder = this.contractHolder;
         selection.contractNo = this.contractNo;
         selection.contractName = this.contractName;

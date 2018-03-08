@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +21,8 @@ public class NMSalesProjectionMasterImpl {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(NMSalesProjectionMasterImpl.class);
+    
+    
 
     public Object executeSelectQuery(String query, Object udc1, Object udc2) {
 
@@ -43,7 +46,7 @@ public class NMSalesProjectionMasterImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(query);
         }
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 
     public Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
@@ -56,7 +59,7 @@ public class NMSalesProjectionMasterImpl {
         } finally {
 
         }
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
     
     public List getAssumptionResult(List input, String queryName) {

@@ -15,6 +15,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -49,6 +50,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RSLookUp extends Window {
 private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
+
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentId")
@@ -200,7 +202,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
                 }
                 if ("componentStatus".equals(propertyId)) {
                         ComboBox componentStatus = new ComboBox();
-                    logic.LazyLoadDdlb(componentStatus, "rsStatus count", "rsStatus", true);
+                    logic.LazyLoadDdlb(componentStatus, "rsStatus count", "rsStatus", BooleanConstant.getTrueFlag());
                         return componentStatus;
                     }
                 return null;
@@ -293,7 +295,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "rsStatus count", "rsStatus", false);
+        logic.LazyLoadDdlb(componentStatus_DTO, "rsStatus count", "rsStatus", BooleanConstant.getFalseFlag());
     }
 
     private void loadComponentType() {

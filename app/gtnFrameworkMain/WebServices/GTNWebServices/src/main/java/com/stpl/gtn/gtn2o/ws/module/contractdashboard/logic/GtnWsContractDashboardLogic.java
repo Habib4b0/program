@@ -582,7 +582,7 @@ public class GtnWsContractDashboardLogic {
 			cdResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
 			return;
 		}
-		if (isDuplicate(cdRequest.getRecordBeanList(), cdResponse.getTableBean(), cdResponse.getTreeBean())) {
+		if (isDuplicate(cdRequest.getRecordBeanList(), cdResponse.getTableBean())) {
 			cdResponse.setSuccess(false);
 			cdResponse.setMessage(tableCategory + " Already Added");
 			cdResponse.setMessageHeader("Duplicate Criteria");
@@ -635,7 +635,7 @@ public class GtnWsContractDashboardLogic {
 			return;
 		}
 
-		if (isDuplicate(cdRequest.getRecordBeanList(), cdResponse.getTableBean(), cdResponse.getTreeBean())) {
+		if (isDuplicate(cdRequest.getRecordBeanList(), cdResponse.getTableBean())) {
 			cdResponse.setSuccess(false);
 			cdResponse.setMessage(tableCategory + " Already Added");
 			cdResponse.setMessageHeader("Duplicate Criteria");
@@ -644,40 +644,20 @@ public class GtnWsContractDashboardLogic {
 		}
 		cdResponse.getTableBean().getProperties().set(9, cdResponse.getTreeBean().getIntegerPropertyByIndex(9));
 	}
+        
+        private boolean isDuplicate(List<GtnWsRecordBean> nodeList, GtnWsRecordBean tableBean) {
 
-	private boolean isDuplicate(List<GtnWsRecordBean> nodeList, GtnWsRecordBean tableBean, GtnWsRecordBean treeBean) {
-		boolean flag = false;
-		if (nodeList != null && !nodeList.isEmpty()) {
-			Iterator<GtnWsRecordBean> itr = nodeList.iterator();
-			while (itr.hasNext()) {
-				GtnWsRecordBean contractBean = itr.next();
-				if (contractBean.getIntegerPropertyByIndex(4) == treeBean.getIntegerPropertyByIndex(9)) {
-					flag = isDuplicate(contractBean.getChildList(), tableBean);
-					break;
-				}
-			}
-		}
-		return flag;
-	}
-
-	private boolean isDuplicate(List<GtnWsRecordBean> nodeList, GtnWsRecordBean tableBean) {
-		boolean flag = false;
-		if (nodeList != null && !nodeList.isEmpty()) {
-			Iterator<GtnWsRecordBean> itr = nodeList.iterator();
-			while (itr.hasNext()) {
-				GtnWsRecordBean contractBean = itr.next();
-				if (contractBean.getIntegerPropertyByIndex(7) == tableBean.getIntegerPropertyByIndex(7)
-						&& contractBean.getIntegerPropertyByIndex(4) == tableBean.getIntegerPropertyByIndex(4)) {
-					flag = true;
-					break;
-				}
-				if (contractBean.getChildList() != null) {
-					flag = isDuplicate(contractBean.getChildList(), tableBean);
-				}
-			}
-		}
-		return flag;
-	}
+            if (nodeList != null && !nodeList.isEmpty()) {
+                Iterator<GtnWsRecordBean> itr = nodeList.iterator();
+                while (itr.hasNext()) {
+                    GtnWsRecordBean recordBean = itr.next();
+                    if (recordBean.getIntegerPropertyByIndex(4) == tableBean.getIntegerPropertyByIndex(4)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
 	public void saveContractTree(GtnWsContractDashboardRequest cdRequest, GtnWsContractDashboardResponse cdResponse)
 			throws GtnFrameworkGeneralException {

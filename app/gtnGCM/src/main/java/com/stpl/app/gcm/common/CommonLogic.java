@@ -72,6 +72,7 @@ import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
 import com.stpl.app.service.PsContractLocalServiceUtil;
 import com.stpl.app.service.RsContractLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.HorizontalLayout;
@@ -86,6 +87,7 @@ public class CommonLogic {
      * INSTANTIATE ContractDashboardLogicDAO Implementation logic.
      */
     private static final CommonDao DAO = CommonImpl.getInstance();
+    
     private final ContractDetailsDAO daoImpl = new ContractDetailsDaoImpl();
     private static final DiscountDAO DISCOUNT_DAO = new DiscountDaoImpl();
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
@@ -203,7 +205,7 @@ public class CommonLogic {
             contract = contractId.replace(IndicatorConstants.CHAR_ASTERISK.getConstant(),
                     IndicatorConstants.CHAR_PERCENT.getConstant());
         }
-        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", true));
+        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", BooleanConstant.getTrueFlag()));
         contractQuery.add(RestrictionsFactoryUtil.like(Constants.CONTRACT_NO, contract));
         contractQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like("inboundStatus", "D")));
         LOGGER.debug("End of getProcessedQuery method");
@@ -1869,13 +1871,13 @@ public class CommonLogic {
     public String idString(List<String> list) {
         String value = Constants.EMPTY;
         if (list != null && list.size() > 0) {
-            Boolean f = false;
+            boolean flag = false;
             for (Object item : list) {
-                if (!f) {
+                if (!flag) {
                     String company = String.valueOf(item);
                     company = "'" + company + "'";
                     value = company;
-                    f = true;
+                    flag = true;
                 } else {
                     String company = String.valueOf(item);
                     company = "'" + company + "'";
@@ -2548,8 +2550,8 @@ public class CommonLogic {
 
     public static Boolean isButtonVisibleAccess(String id, Map<String, AppPermission> functionHM) {
         if (functionHM.get(id) != null && !((AppPermission) functionHM.get(id)).isFunctionFlag()) {
-            return false;
+            return BooleanConstant.getFalseFlag();
         }
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 }

@@ -16,6 +16,7 @@ import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.HeaderUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 public class PVExcelLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(PVExcelLogic.class);
+    
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap;
     private final Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails;
@@ -1266,21 +1268,21 @@ public class PVExcelLogic {
         List<ProjectionVarianceDTO> discountperExfacPercentlist;
 
 
-        discountDollarValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, Boolean.FALSE, Constants.VALUE, Boolean.TRUE);
-        discountDollarVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, Boolean.FALSE, Constants.VARIANCE, Boolean.TRUE);
-        discountDollarPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, Boolean.TRUE, Constants.CHANGE, Boolean.FALSE);
+        discountDollarValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, BooleanConstant.getFalseFlag(), Constants.VALUE, BooleanConstant.getTrueFlag());
+        discountDollarVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, BooleanConstant.getFalseFlag(), Constants.VARIANCE, BooleanConstant.getTrueFlag());
+        discountDollarPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FIVE, BooleanConstant.getTrueFlag(), Constants.CHANGE, BooleanConstant.getFalseFlag());
 
-        discountperValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, Boolean.TRUE, Constants.VALUE, Boolean.FALSE);
-        discountperVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, Boolean.TRUE, Constants.VARIANCE, Boolean.FALSE);
-        discountperPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, Boolean.TRUE, Constants.CHANGE, Boolean.FALSE);
+        discountperValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, BooleanConstant.getTrueFlag(), Constants.VALUE, BooleanConstant.getFalseFlag());
+        discountperVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, BooleanConstant.getTrueFlag(), Constants.VARIANCE, BooleanConstant.getFalseFlag());
+        discountperPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.EIGHT, BooleanConstant.getTrueFlag(), Constants.CHANGE, BooleanConstant.getFalseFlag());
 
-        rpuValueList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, Boolean.FALSE, Constants.VALUE, Boolean.FALSE);
-        rpuVarianceList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, Boolean.FALSE, VARIANCE.getConstant(), Boolean.FALSE);
-        rpuPercentList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, Boolean.TRUE, Constants.CHANGE, Boolean.FALSE);
+        rpuValueList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, BooleanConstant.getFalseFlag(), Constants.VALUE, BooleanConstant.getFalseFlag());
+        rpuVarianceList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, BooleanConstant.getFalseFlag(), VARIANCE.getConstant(), BooleanConstant.getFalseFlag());
+        rpuPercentList = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.ELEVEN, BooleanConstant.getTrueFlag(), Constants.CHANGE, BooleanConstant.getFalseFlag());
 
-        discountperExfacValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, Boolean.TRUE, Constants.VALUE, Boolean.FALSE);
-        discountperExfacVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, Boolean.TRUE, Constants.VARIANCE, Boolean.FALSE);
-        discountperExfacPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, Boolean.TRUE, Constants.CHANGE, Boolean.FALSE);
+        discountperExfacValuelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, BooleanConstant.getTrueFlag(), Constants.VALUE, BooleanConstant.getFalseFlag());
+        discountperExfacVariancelist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, BooleanConstant.getTrueFlag(), Constants.VARIANCE, BooleanConstant.getFalseFlag());
+        discountperExfacPercentlist = getCustomisedDiscount(pivotDiscountList, selection, NumericConstants.FOURTEEN, BooleanConstant.getTrueFlag(), Constants.CHANGE, BooleanConstant.getFalseFlag());
 
         discountMap.put("discountDollar", discountDollarValuelist);
         discountMap.put("discountDollarVariance", discountDollarVariancelist);
@@ -1407,11 +1409,15 @@ public class PVExcelLogic {
                 final Object[] obj = (Object[]) dataList.get(i);
                 if (!StringUtils.EMPTY.equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                     pvDTO.setGroup(lastValue);
+                    pvDTO.setDfLevelNumber(lastValue);
+                    pvDTO.setDfLevelName(lastValue);
                     resultDto.add(pvDTO);
                     pvDTO = new ProjectionVarianceDTO();
                 }
                 lastValue = String.valueOf(obj[NumericConstants.TWO]);
                 pvDTO.setGroup(lastValue);
+                pvDTO.setDfLevelNumber(lastValue);
+                pvDTO.setDfLevelName(lastValue);
                 String commonColumn = StringUtils.EMPTY;
                 if (vFrequencyDivision == NumericConstants.FOUR) {
                     commonColumn = "Q" + obj[1] + StringUtils.EMPTY + obj[0];
@@ -2655,6 +2661,9 @@ public class PVExcelLogic {
             PVSelectionDTO selection, DecimalFormat format) {
         int vFrequencyDiv = selection.getFrequencyDivision();
         String commonColumn = StringUtils.EMPTY;
+        pvDTO.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+        pvDTO.setDfLevelNumber(String.valueOf(obj[NumericConstants.FOUR]));
+        pvDTO.setDfLevelName(String.valueOf(obj[NumericConstants.FOUR]));
         switch (vFrequencyDiv) {
             case NumericConstants.FOUR:
                 commonColumn = "Q" + obj[NumericConstants.THREE] + StringUtils.EMPTY + obj[NumericConstants.TWO];
@@ -2788,22 +2797,6 @@ public class PVExcelLogic {
                         }
                     }
                 } else if (i == 0) {
-                    vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    discountPerExfacValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerExfacVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerExfacPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
                     if (selection.isVarDisAmount()) {
                         if (selection.isColValue()) {
                             selection.setConversionNeeded(true);
@@ -2895,22 +2888,6 @@ public class PVExcelLogic {
                     discountPerExfacPercent = new ProjectionVarianceDTO();
 
                     oldDiscount = newDiscount;
-                    vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                    discountPerExfacValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerExfacVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerExfacPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
                     if (selection.isVarDisAmount()) {
                         if (selection.isColValue()) {
                             selection.setConversionNeeded(true);
@@ -3038,22 +3015,6 @@ public class PVExcelLogic {
                 discountPerExfacValue = new ProjectionVarianceDTO();
                 discountPerExfacVariance = new ProjectionVarianceDTO();
                 discountPerExfacPercent = new ProjectionVarianceDTO();
-
-                vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-
-                discountPerExfacValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountPerExfacVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountPerExfacPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
                 newDiscount = String.valueOf(obj[NumericConstants.FOUR]);
 
