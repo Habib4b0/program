@@ -78,7 +78,7 @@ public class DeductionDetails extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionDetails.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     @UiField("dataview")
     private OptionGroup dataview;
@@ -267,7 +267,7 @@ public class DeductionDetails extends CustomComponent {
             if (!ConstantsUtils.NULL.equals(detailsDto.getForecastToDate())&& !StringUtils.EMPTY.equals(detailsDto.getForecastToDate())) {
                 to.setValue(sdf.parse(detailsDto.getForecastToDate()));
             }
-            filterDdlb.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+            filterDdlb.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
             filterDdlb.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
             filterDdlb.addItem(ConstantsUtils.SELECT_ONE);
             dataview.addItem(ConstantsUtils.CUSTOMER);
@@ -307,7 +307,7 @@ public class DeductionDetails extends CustomComponent {
             variable.addItem("Dollar");
             variable.select(ConstantsUtils.DOLLARS);
             variable.addItem("Unit");
-            variable.setItemEnabled("Unit", BOOLEAN_CONSTANT.getFalseFlag());
+            variable.setItemEnabled("Unit", BooleanConstant.getFalseFlag());
             adjustmentPeriods.addItem("All");
             adjustmentPeriods.select(ConstantsUtils.ALL);
             adjustmentPeriods.addItem(ConstantsUtils.SELECT1);
@@ -636,11 +636,11 @@ public class DeductionDetails extends CustomComponent {
             }
             initializeResultTable();
             configureResultTable();
-            Boolean checkall = BOOLEAN_CONSTANT.getTrueFlag();
+            Boolean checkall = BooleanConstant.getTrueFlag();
             for (Object component : resultBeanContainer.getItemIds()) {
                 TableDTO dto = (TableDTO) component;
-                if (dto.getCheck() != null && dto.getCheck().equals(BOOLEAN_CONSTANT.getFalseFlag())) {
-                    checkall = BOOLEAN_CONSTANT.getFalseFlag();
+                if (dto.getCheck() != null && dto.getCheck().equals(BooleanConstant.getFalseFlag())) {
+                    checkall = BooleanConstant.getFalseFlag();
                     break;
                 }
             }
@@ -666,7 +666,7 @@ public class DeductionDetails extends CustomComponent {
             @Override
             public void buttonClick(ClickEvent event) {
                 try {
-                    detailsDto.setGenerated(BOOLEAN_CONSTANT.getTrueFlag());
+                    detailsDto.setGenerated(BooleanConstant.getTrueFlag());
                     loadStartAndEndPeriodDDLB();
                     Date foreFrom = CommonUtil.stringToDateFormat(detailsDto.getForecastFromDate());
                     Date foreTo = CommonUtil.stringToDateFormat(detailsDto.getForecastToDate());
