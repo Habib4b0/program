@@ -825,8 +825,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         ccpsCount = dto.getCcpCount();
                         int discountLevelccpCount = dto.getCcpCountForDiscount().get(discountName) != null
                                 ? dto.getCcpCountForDiscount().getInt(discountName) : ccpsCount;
-                        double finalValue = doubleVal
-                                / ((isCustomHierarchy ? ccpsCount : discountLevelccpCount) * frequencyDiv);
+                        double finalValue = doubleVal;
                         blurValue = String.valueOf(finalValue);
                         if (blurValue.contains("E")) {
                             blurValue = blurValue.substring(0, blurValue.lastIndexOf('E'));
