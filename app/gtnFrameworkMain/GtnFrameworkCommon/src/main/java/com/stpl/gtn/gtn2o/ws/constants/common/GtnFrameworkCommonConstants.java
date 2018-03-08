@@ -696,6 +696,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String START_DATE_TO = "startDateTo";
 	public static final String RESET_BUTTON = "getResetButton";
 	public static final String GTN_DELETE_BUTTON = "gtnDeleteButton";
+	public static final String GTN_COPY_BUTTON = "gtnCopyButton";
+	public static final String RELATIONSHIP_VALUE = "value";
 	public static final String START_DATE_FROM = "startDateFrom";
 	public static final String CREATION_DATE_TO = "creationDateTo";
 	public static final String SELECTED_ID = "selectedId";
