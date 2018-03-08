@@ -75,7 +75,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AlternateSummery extends CustomComponent {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The Constant serialVersionUID.
      */
@@ -789,7 +789,7 @@ public class AlternateSummery extends CustomComponent {
             columnHeader.add(StringUtils.EMPTY + header);
         }
         excelTable.setRefresh(false);
-        excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        excelTable.setVisible(BooleanConstant.getFalseFlag());
         excelContainer.setColumnProperties(excelHeader.getProperties());
         excelTable.setContainerDataSource(excelContainer);
         excelTable.setVisibleColumns(visibleColumns.toArray());
@@ -1003,7 +1003,7 @@ public class AlternateSummery extends CustomComponent {
         try {
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
@@ -1037,11 +1037,11 @@ public class AlternateSummery extends CustomComponent {
     protected void expandButtonLogic() {
         try {
             if (StringUtils.isNotBlank(String.valueOf(level.getValue())) || !Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getTrueFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {

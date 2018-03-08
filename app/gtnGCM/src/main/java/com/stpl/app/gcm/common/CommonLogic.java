@@ -87,7 +87,7 @@ public class CommonLogic {
      * INSTANTIATE ContractDashboardLogicDAO Implementation logic.
      */
     private static final CommonDao DAO = CommonImpl.getInstance();
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final ContractDetailsDAO daoImpl = new ContractDetailsDaoImpl();
     private static final DiscountDAO DISCOUNT_DAO = new DiscountDaoImpl();
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
@@ -205,7 +205,7 @@ public class CommonLogic {
             contract = contractId.replace(IndicatorConstants.CHAR_ASTERISK.getConstant(),
                     IndicatorConstants.CHAR_PERCENT.getConstant());
         }
-        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", BOOLEAN_CONSTANT.getTrueFlag()));
+        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", BooleanConstant.getTrueFlag()));
         contractQuery.add(RestrictionsFactoryUtil.like(Constants.CONTRACT_NO, contract));
         contractQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like("inboundStatus", "D")));
         LOGGER.debug("End of getProcessedQuery method");
@@ -2550,8 +2550,8 @@ public class CommonLogic {
 
     public static Boolean isButtonVisibleAccess(String id, Map<String, AppPermission> functionHM) {
         if (functionHM.get(id) != null && !((AppPermission) functionHM.get(id)).isFunctionFlag()) {
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         }
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
 }

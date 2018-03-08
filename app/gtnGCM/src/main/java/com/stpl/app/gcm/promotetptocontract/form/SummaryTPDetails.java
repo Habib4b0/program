@@ -68,7 +68,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     /**
      * The Constant serialVersionUID.
@@ -280,7 +280,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
         currentContractDTO.setIsCustomerDetailsTab(Boolean.TRUE);
         currentContractDTO.setReset(Boolean.FALSE);
         currentContractDTO.setCompanySystemId(session.getCompanyMasterSid());
-        currentContractDTO.setSearch(BOOLEAN_CONSTANT.getTrueFlag());
+        currentContractDTO.setSearch(BooleanConstant.getTrueFlag());
         tableLogic.loadSetData(currentContractDTO, session);
     }
 

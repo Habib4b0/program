@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private boolean firstGenerated = false;
     public static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionTableLogic.class);
@@ -146,7 +146,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
         for (Map.Entry<String, SalesRowDto> loadData : loadDataMap.entrySet()) {
             addCurrentPageData(loadData.getKey(), loadData.getValue());
         }
@@ -156,7 +156,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

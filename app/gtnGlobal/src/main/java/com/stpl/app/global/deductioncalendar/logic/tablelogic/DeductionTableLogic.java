@@ -41,7 +41,7 @@ public class DeductionTableLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionTableLogic.class); 
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * Deduction details logic instance
      */
@@ -113,13 +113,13 @@ public class DeductionTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

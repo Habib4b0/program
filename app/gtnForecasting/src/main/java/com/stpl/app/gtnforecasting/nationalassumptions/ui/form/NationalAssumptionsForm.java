@@ -66,7 +66,7 @@ public class NationalAssumptionsForm extends CustomComponent {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptionsForm.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     /**
      * The tabSheet.
@@ -665,23 +665,23 @@ public class NationalAssumptionsForm extends CustomComponent {
 
         Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessTabPermission(userId, Constant.NATIONAL_ASSUMPTIONS_SCREEN);
         if (functionPsHM.get(FunctionNameUtil.NM_DATA_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_DATA_TAB)).isTabFlag()) {
-            tabSheet.getTab(0).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            tabSheet.getTab(0).setVisible(BooleanConstant.getFalseFlag());
 
         }
         if (functionPsHM.get(FunctionNameUtil.NA_NATIONAL_ASUMPTIONS_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NA_NATIONAL_ASUMPTIONS_TAB)).isTabFlag()) {
-            tabSheet.getTab(1).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            tabSheet.getTab(NumericConstants.TWO).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            tabSheet.getTab(NumericConstants.THREE).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            tabSheet.getTab(NumericConstants.FOUR).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            tabSheet.getTab(1).setVisible(BooleanConstant.getFalseFlag());
+            tabSheet.getTab(NumericConstants.TWO).setVisible(BooleanConstant.getFalseFlag());
+            tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
+            tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionPsHM.get(FunctionNameUtil.MEDICAID_URA_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.MEDICAID_URA_TAB)).isTabFlag()) {
-            tabSheet.getTab(NumericConstants.TWO).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            tabSheet.getTab(NumericConstants.TWO).setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionPsHM.get(FunctionNameUtil.FCP_RESULTS_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.FCP_RESULTS_TAB)).isTabFlag()) {
-            tabSheet.getTab(NumericConstants.THREE).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionPsHM.get(FunctionNameUtil.PHS_RESULTS_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.PHS_RESULTS_TAB)).isTabFlag()) {
-            tabSheet.getTab(NumericConstants.FOUR).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
         }
 
     }

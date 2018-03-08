@@ -66,7 +66,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemSelection extends CustomComponent implements View {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     @UiField("businessUnitNo")
     private TextField businessUnitNo;
@@ -222,7 +222,7 @@ public class ItemSelection extends CustomComponent implements View {
         availableItemsTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         availableItemsTable.setPageLength(NumericConstants.FIVE);
         availableItemsTable.setSortEnabled(false);
-        availableItemTableLoic.setIsAvailable(BOOLEAN_CONSTANT.getTrueFlag());
+        availableItemTableLoic.setIsAvailable(BooleanConstant.getTrueFlag());
         availableItemTableLoic.setContainerDataSource(availableItemsContainer);
         availableItemsTable.setVisibleColumns(availableItemsVisibleColumns);
         availableItemsTable.setColumnHeaders(availableItemsHeaders);
@@ -308,7 +308,7 @@ public class ItemSelection extends CustomComponent implements View {
             }
         });
 
-        selectedItemsTableLoic.setIsAvailable(BOOLEAN_CONSTANT.getFalseFlag());
+        selectedItemsTableLoic.setIsAvailable(BooleanConstant.getFalseFlag());
         selectedItemsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         selectedItemsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         selectedItemsTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);

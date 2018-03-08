@@ -83,7 +83,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected SessionDTO session;
     protected String screenName;
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /* The Excel table */
     protected ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
     /* The excel export image */
@@ -857,7 +857,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 }
                 break;
             case "generateBtn":
-                generateBtnClickLogic(BOOLEAN_CONSTANT.getTrueFlag());
+                generateBtnClickLogic(BooleanConstant.getTrueFlag());
                 break;
             case "resetBtn":
                 resetBtnClickLogic();

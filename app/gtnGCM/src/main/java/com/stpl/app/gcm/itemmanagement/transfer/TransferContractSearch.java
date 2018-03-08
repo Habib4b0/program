@@ -48,7 +48,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class TransferContractSearch extends AbstractContractSearch {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private SelectionDTO selectionDto;
     private boolean isnext = false;
 
@@ -94,7 +94,7 @@ public class TransferContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        MassUpdatePanel1.setVisible(BooleanConstant.getTrueFlag());
         ConfigureTable();
         getBinder();
         loadAllDdlb();
@@ -288,9 +288,9 @@ public class TransferContractSearch extends AbstractContractSearch {
         List input = getSessionInput(selectionDto);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check", null);
         if (AbstractLogic.getCount(list) != 0) {
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         } else {
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         }
     }
 
@@ -298,9 +298,9 @@ public class TransferContractSearch extends AbstractContractSearch {
         List input = getSessionInput(selectionDto);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit check Pojection Transfer", null);
         if (AbstractLogic.getCount(list) != 0) {
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         } else {
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         }
     }
 

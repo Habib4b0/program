@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
 public class ReturnsProjection extends ForecastSalesProjection {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReturnsProjection.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
 
     public ReturnsProjection(SessionDTO session, String screenName) throws Exception  {
@@ -147,7 +147,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
             projectionDTO.setLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), "Returns Projection", "Returns Projection", "Returns_Projection.xls", false);
@@ -244,11 +244,11 @@ public class ReturnsProjection extends ForecastSalesProjection {
     protected void expandButtonLogic() {
         try {
             if (!Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getTrueFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {

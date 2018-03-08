@@ -100,7 +100,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsolidatedFinancialForecastForm.class);
         
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
         
 	/**
 	 *
@@ -470,7 +470,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
 				final User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
 				sessionDto.setAction("edit");
-				sessionDto.setIsGenerated(BOOLEAN_CONSTANT.getTrueFlag());
+				sessionDto.setIsGenerated(BooleanConstant.getTrueFlag());
 				sessionDto.setProcessId(processId);
 				sessionDto.setWorkflowStatus(dto.getStatusDesc());
 				if (dto != null && dto.getStatusDesc() != null && !Constants.APPROVED.equals(dto.getStatusDesc())) {
@@ -567,10 +567,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 									dataSelectionDto.getProductHierVersionNo());
 
 					final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
-							dataSelectionDto.getProjectionId(), BOOLEAN_CONSTANT.getTrueFlag(), customerSelectedLevel,
+							dataSelectionDto.getProjectionId(), BooleanConstant.getTrueFlag(), customerSelectedLevel,
 							tempCustomerDescriptionMap);
 					final List<Leveldto> productItemIds = relationLogic.getRelationShipValues(
-							dataSelectionDto.getProjectionId(), BOOLEAN_CONSTANT.getFalseFlag(), productSelectedLeve,
+							dataSelectionDto.getProjectionId(), BooleanConstant.getFalseFlag(), productSelectedLeve,
 							tempProductDescriptionMap);
 
 					relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds, productItemIds,
@@ -588,7 +588,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					resultsBean.addAll(cffLogic.loadCffDetails(dto.getCffMasterSid()));
 					if (CommonUtils.isValueEligibleForLoading()) {
 						cffLogic.callDeductionCCPHierarchyInsertion(sessionDto, sessionDto.getCurrentTableNames(),
-								BOOLEAN_CONSTANT.getFalseFlag());
+								BooleanConstant.getFalseFlag());
 					}
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
@@ -755,10 +755,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						dataSelectionDto.getProductHierVersionNo());
 
 				final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
-						dataSelectionDto.getProjectionId(), BOOLEAN_CONSTANT.getTrueFlag(), customerSelectedLevel,
+						dataSelectionDto.getProjectionId(), BooleanConstant.getTrueFlag(), customerSelectedLevel,
 						tempCustomerDescriptionMap);
 				final List<Leveldto> productItemIds = relationLogic.getRelationShipValues(
-						dataSelectionDto.getProjectionId(), BOOLEAN_CONSTANT.getFalseFlag(), productSelectedLeve,
+						dataSelectionDto.getProjectionId(), BooleanConstant.getFalseFlag(), productSelectedLeve,
 						tempProductDescriptionMap);
 
 				relationLogic.ccpHierarchyInsert(vSessionDTO.getCurrentTableNames(), customerItemIds, productItemIds,
@@ -771,7 +771,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 								"EDIT_MODE_PROJECTION_CUST_SELECTION"),
 						cffLogic.getCustandProdSelection(vSessionDTO.getProjectionId(),
 								"EDIT_MODE_PROJECTION_PROD_SELECTION"),
-						topLevelName, BOOLEAN_CONSTANT.getFalseFlag());
+						topLevelName, BooleanConstant.getFalseFlag());
 
 				vSessionDTO.setCustomerLevelDetails(
 						logic.getLevelValueDetails(vSessionDTO, dataSelectionDto.getCustRelationshipBuilderSid(), true));
@@ -783,7 +783,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				resultsBean.addAll(cffLogic.loadCffDetails(dto.getCffMasterSid()));
 				if (CommonUtils.isValueEligibleForLoading()) {
 					cffLogic.callDeductionCCPHierarchyInsertion(vSessionDTO, vSessionDTO.getCurrentTableNames(),
-							BOOLEAN_CONSTANT.getFalseFlag());
+							BooleanConstant.getFalseFlag());
 				}
 				approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 				approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,

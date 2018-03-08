@@ -14,7 +14,7 @@ import java.util.List;
 public class PPAProjectionDaoImpl implements PPAProjectionDao {
 
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
 	/**
   	 * Gets the PPA contract holder summary.
@@ -66,7 +66,7 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
     @Override
     public Object executeUpdate(String query) {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
  /**
      * Performs a dynamic query on the database and returns the matching rows.

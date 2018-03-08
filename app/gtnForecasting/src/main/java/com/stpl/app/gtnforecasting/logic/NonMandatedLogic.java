@@ -96,7 +96,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NonMandatedLogic {
 
-	private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+	
         /**
 	 * The SALES_SMALL projection dao.
 	 */
@@ -1770,7 +1770,7 @@ public class NonMandatedLogic {
 		parameters.put(Constant.PROJECTION_ID, projectionId);
 		List returnList = dataSelection.executeQuery(parameters);
 		if (returnList.isEmpty()) {
-			return BOOLEAN_CONSTANT.getTrueFlag();
+			return BooleanConstant.getTrueFlag();
 		} else {
 			return (Integer) returnList.get(0) >= 1;
 		}

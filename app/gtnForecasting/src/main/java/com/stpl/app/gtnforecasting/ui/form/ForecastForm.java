@@ -127,7 +127,7 @@ public class ForecastForm extends AbstractForm {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ForecastForm.class);
         
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 
 	/**
 	 * The data.
@@ -240,7 +240,7 @@ public class ForecastForm extends AbstractForm {
 	private boolean discountFlag = true;
 	private static Thread dsThread;
 	private static CountDownLatch latch;
-	private boolean isCommercialGovernment = BOOLEAN_CONSTANT.getFalseFlag();
+	private boolean isCommercialGovernment = BooleanConstant.getFalseFlag();
 	private ExecutorService service = ThreadPool.getInstance().getService();
 
 	public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session,
@@ -253,7 +253,7 @@ public class ForecastForm extends AbstractForm {
 		this.editWindow = editWindow;
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
 				|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
-			isCommercialGovernment = BOOLEAN_CONSTANT.getTrueFlag();
+			isCommercialGovernment = BooleanConstant.getTrueFlag();
 			this.forecastWindow = forecastWindow;
 		}
 		this.resultTable = resultTable;
@@ -405,11 +405,11 @@ public class ForecastForm extends AbstractForm {
 			if (i == 1 || i == 0) {
 				tabLazyLoadMap.put(i, Boolean.TRUE);
 			} else {
-				tabLazyLoadMap.put(i, BOOLEAN_CONSTANT.getFalseFlag());
+				tabLazyLoadMap.put(i, BooleanConstant.getFalseFlag());
 			}
 		}
-		pushMap.put(INDICATOR_REFRESH_UPDATE.getConstant(), BOOLEAN_CONSTANT.getFalseFlag());
-		pushMap.put(INDICATOR_TIME_PERIOD_CHANGED.getConstant(), BOOLEAN_CONSTANT.getFalseFlag());
+		pushMap.put(INDICATOR_REFRESH_UPDATE.getConstant(), BooleanConstant.getFalseFlag());
+		pushMap.put(INDICATOR_TIME_PERIOD_CHANGED.getConstant(), BooleanConstant.getFalseFlag());
 
 	}
 
@@ -659,7 +659,7 @@ public class ForecastForm extends AbstractForm {
 								Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
 					}
 
-					data.setUpdateOnTabChange(BOOLEAN_CONSTANT.getFalseFlag());
+					data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 				} else {
 					btnNextLogic();
 				}
@@ -706,7 +706,7 @@ public class ForecastForm extends AbstractForm {
 								tabSheet.removeTab(tabToReset);
 								tabSheet.addTab(nmSalesProjection, Constant.SALES_PROJECTION, null, 2);
 								dsFlag = true;
-								data.setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+								data.setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 								tabSheet.setSelectedTab(0);
 								lastPosition = 0;
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
@@ -735,8 +735,8 @@ public class ForecastForm extends AbstractForm {
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-				data.setReloadAfterUpdate(BOOLEAN_CONSTANT.getTrueFlag());
-				data.setUpdateOnTabChange(BOOLEAN_CONSTANT.getFalseFlag());
+				data.setReloadAfterUpdate(BooleanConstant.getTrueFlag());
+				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 			}
 
 			/**
@@ -874,13 +874,13 @@ public class ForecastForm extends AbstractForm {
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-				data.setReloadAfterUpdate(BOOLEAN_CONSTANT.getFalseFlag());
-				data.setUpdateOnTabChange(BOOLEAN_CONSTANT.getFalseFlag());
+				data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
+				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 			}
 			if ((tabPosition == data.getTabNumber()) && (data.isReloadAfterUpdate())) {
 				try {
 
-					data.setReloadAfterUpdate(BOOLEAN_CONSTANT.getFalseFlag());
+					data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
 				} catch (Exception ex) {
 					LOGGER.error(ex.getMessage());
 				}
@@ -963,8 +963,8 @@ public class ForecastForm extends AbstractForm {
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-				data.setReloadAfterUpdate(BOOLEAN_CONSTANT.getFalseFlag());
-				data.setUpdateOnTabChange(BOOLEAN_CONSTANT.getFalseFlag());
+				data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
+				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 			}
 			switch (tabPosition) {
 
@@ -972,7 +972,7 @@ public class ForecastForm extends AbstractForm {
 				if (data.isReloadAfterUpdate()) {
 					try {
 
-						data.setReloadAfterUpdate(BOOLEAN_CONSTANT.getFalseFlag());
+						data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
 					} catch (Exception ex) {
 						LOGGER.error(ex.getMessage());
 					}
@@ -1765,35 +1765,35 @@ public class ForecastForm extends AbstractForm {
 					getGovernmentConstant());
 			if (functionPsHM.get(FunctionNameUtil.DATA_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.DATA_TAB)).isTabFlag()) {
-				tabSheet.getTab(0).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(0).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_SP_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_SP_TAB)).isTabFlag()) {
-				tabSheet.getTab(1).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(1).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_SPR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_SPR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.TWO).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.TWO).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_SDP_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_SDP_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.THREE).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_SDPR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_SDPR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.FOUR).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_PR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_PR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.FIVE).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.FIVE).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_PV_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_PV_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.SIX).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.SIX).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_ADDITIONAL_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_ADDITIONAL_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.SEVEN).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.SEVEN).setVisible(BooleanConstant.getFalseFlag());
 			}
 
 		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
@@ -1802,47 +1802,47 @@ public class ForecastForm extends AbstractForm {
 					getCommercialConstant());
 			if (functionPsHM.get(FunctionNameUtil.NM_DATA_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_DATA_TAB)).isTabFlag()) {
-				tabSheet.getTab(0).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(0).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_DATA_ASSUMPTIONS_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_DATA_ASSUMPTIONS_TAB)).isTabFlag()) {
-				tabSheet.getTab(1).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(1).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_SP_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SP_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.TWO).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.TWO).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_SPR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SPR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.THREE).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-				salesProjectionResults.setIsTabVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
+				salesProjectionResults.setIsTabVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_SDP_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SDP_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.FOUR).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_SDPR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SDPR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.FIVE).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-				discountProjectionResults.setIsTabVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.FIVE).setVisible(BooleanConstant.getFalseFlag());
+				discountProjectionResults.setIsTabVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_PPA_RESULTS_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PPA_RESULTS_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.SIX).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-				ppaProjectionResults.setIsTabVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.SIX).setVisible(BooleanConstant.getFalseFlag());
+				ppaProjectionResults.setIsTabVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_PR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.SEVEN).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-				nonmandatedprojectionResults.setIsTabVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.SEVEN).setVisible(BooleanConstant.getFalseFlag());
+				nonmandatedprojectionResults.setIsTabVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_PV_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PV_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.EIGHT).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.EIGHT).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_ADDITIONAL_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_ADDITIONAL_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.NINE).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+				tabSheet.getTab(NumericConstants.NINE).setVisible(BooleanConstant.getFalseFlag());
 			}
 		}
 	}
@@ -1862,11 +1862,11 @@ public class ForecastForm extends AbstractForm {
 										? getGovernmentConstant() : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS)
 								+ "," + "Common");
 		if (functionPsHM.get("btnSave") != null && !((AppPermission) functionPsHM.get("btnSave")).isFunctionFlag()) {
-			getBtnSave().setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+			getBtnSave().setVisible(BooleanConstant.getFalseFlag());
 		}
 		if (functionPsHM.get("btnSubmit") != null
 				&& !((AppPermission) functionPsHM.get("btnSubmit")).isFunctionFlag()) {
-			getBtnSubmit().setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+			getBtnSubmit().setVisible(BooleanConstant.getFalseFlag());
 		}
 	}
 

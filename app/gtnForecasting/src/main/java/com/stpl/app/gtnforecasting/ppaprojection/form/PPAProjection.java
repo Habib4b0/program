@@ -127,7 +127,7 @@ public class PPAProjection extends CustomComponent implements View {
      */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(PPAProjection.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The Constant serialVersionUID.
      */
@@ -346,7 +346,7 @@ public class PPAProjection extends CustomComponent implements View {
         }
         Panel panel = new Panel();
         panel.setContent(layout);
-        valueChangeAllowed = BOOLEAN_CONSTANT.getTrueFlag();
+        valueChangeAllowed = BooleanConstant.getTrueFlag();
         return panel;
 
     }
@@ -380,10 +380,10 @@ public class PPAProjection extends CustomComponent implements View {
                                     updateForTopLevelCheckRecord(booleanValue, dto, propertyId);
                                     updateForChildLevel(booleanValue, itemId, propertyId.toString(), true);
                                     if (checkedAllRecords && !booleanValue) {
-                                        valueChangeForColumnCheckBox = BOOLEAN_CONSTANT.getTrueFlag();
+                                        valueChangeForColumnCheckBox = BooleanConstant.getTrueFlag();
                                         leftTable.setColumnCheckBox(Constant.CHECK_RECORD + ".0", true, false);
-                                        valueChangeForColumnCheckBox = BOOLEAN_CONSTANT.getFalseFlag();
-                                        checkedAllRecords = BOOLEAN_CONSTANT.getFalseFlag();
+                                        valueChangeForColumnCheckBox = BooleanConstant.getFalseFlag();
+                                        checkedAllRecords = BooleanConstant.getFalseFlag();
                                     }
 
                                     updateUncheckedRecords(booleanValue, itemId);
@@ -420,9 +420,9 @@ public class PPAProjection extends CustomComponent implements View {
                                             savePPAProjection(propertyId.toString(), groupValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.LEFT);
                                             ((PPAProjectionDTO) itemId).setGroup(groupValue);
 
-                                            groupChangeFlag = BOOLEAN_CONSTANT.getTrueFlag();
+                                            groupChangeFlag = BooleanConstant.getTrueFlag();
                                             loadGroupFilter();
-                                            groupChangeFlag = BOOLEAN_CONSTANT.getFalseFlag();
+                                            groupChangeFlag = BooleanConstant.getFalseFlag();
                                         }
                                     }
                                 });
@@ -740,7 +740,7 @@ public class PPAProjection extends CustomComponent implements View {
                             if (lastParent != null) {
                                 try {
                                     updateRow(event.isChecked(), lastParent, event.getPropertyId().toString(), presentFlag);
-                                    checkedAllRecords = BOOLEAN_CONSTANT.getTrueFlag();
+                                    checkedAllRecords = BooleanConstant.getTrueFlag();
                                     /**
                                      * Clearing the UNCHECKED_RECORDS_SET
                                      * Because all the records in the table r
@@ -780,7 +780,7 @@ public class PPAProjection extends CustomComponent implements View {
         leftTable.setEditable(true);
         rightTable.setEditable(true);
         groupFilterDdlb = new ComboBox();
-        groupFilterDdlb.setImmediate(BOOLEAN_CONSTANT.getTrueFlag());
+        groupFilterDdlb.setImmediate(BooleanConstant.getTrueFlag());
         groupFilterDdlb.setContainerDataSource(groupContainer);
         groupFilterDdlb.setNullSelectionAllowed(true);
         groupFilterDdlb.setNullSelectionItemId(Constant.ALL_GROUP);
@@ -818,8 +818,8 @@ public class PPAProjection extends CustomComponent implements View {
     private void configurefields() throws PortalException, SystemException {
         LOGGER.debug("Starting configure fields");
         if (Constant.VIEW.equals(session.getAction())) {
-            rightTable.setEditable(BOOLEAN_CONSTANT.getFalseFlag());
-            massUpdate.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
+            rightTable.setEditable(BooleanConstant.getFalseFlag());
+            massUpdate.setEnabled(BooleanConstant.getFalseFlag());
         }
         LOGGER.debug("SessionId->= {}" , session.getSessionId());
         LOGGER.debug("ProjectionId->= {}" , session.getProjectionId());
@@ -871,12 +871,12 @@ public class PPAProjection extends CustomComponent implements View {
                         List<CustomMenuItem> items = customMenuItem.getChildren();
                         for (CustomMenuItem customMenuItem1 : items) {
                             if (Constant.PPAVariables.CHECK_ALL.getConstant().equals(selectedVariables)) {
-                                customMenuItem1.setChecked(BOOLEAN_CONSTANT.getTrueFlag());
+                                customMenuItem1.setChecked(BooleanConstant.getTrueFlag());
                                 generateFlag = false;
                             } else {
                                 if (Constant.getColumnHeaderMap().containsKey(selectedVariables.trim()) && Constant.getColumnHeaderMap().get(selectedVariables.trim()).equals(customMenuItem1.getText())) {
 
-                                    customMenuItem1.setChecked(BOOLEAN_CONSTANT.getTrueFlag());
+                                    customMenuItem1.setChecked(BooleanConstant.getTrueFlag());
                                     generateFlag = false;
                                 }
                             }
@@ -925,8 +925,8 @@ public class PPAProjection extends CustomComponent implements View {
         configureTable(true);
         addResultTable();
         valueDdlb.setNewItemsAllowed(true);
-        valueDdlb.setImmediate(BOOLEAN_CONSTANT.getTrueFlag());
-        valueDdlb.addBlurValue(BOOLEAN_CONSTANT.getTrueFlag());
+        valueDdlb.setImmediate(BooleanConstant.getTrueFlag());
+        valueDdlb.addBlurValue(BooleanConstant.getTrueFlag());
         massDate.setImmediate(true);
         massDate.setDateFormat(Constant.MM_DD_YYYY);
 
@@ -942,7 +942,7 @@ public class PPAProjection extends CustomComponent implements View {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 waitForSave();
-                groupChangeFlag = BOOLEAN_CONSTANT.getTrueFlag();
+                groupChangeFlag = BooleanConstant.getTrueFlag();
                 LOGGER.debug("Refreshing the PPA table for hierarchy No = {}" , tableHirarechyNos);
                 Set<String> finalHirarechyNo = new HashSet<>();
                 for (String hirarechyNo : tableHirarechyNos) {
@@ -954,7 +954,7 @@ public class PPAProjection extends CustomComponent implements View {
                 tableLogic.forRefresh(finalHirarechyNo);
                 tableLogic.setCurrentPage(tableLogic.getCurrentPage());
                 tableHirarechyNos.clear();
-                groupChangeFlag = BOOLEAN_CONSTANT.getFalseFlag();
+                groupChangeFlag = BooleanConstant.getFalseFlag();
 
             }
         });
@@ -978,9 +978,9 @@ public class PPAProjection extends CustomComponent implements View {
         valueDdlb.setVisible(true);
         valueDdlb.addItem(Constant.SELECT_ONE);
         valueDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
-        valueDdlb.setNewItemsAllowed(BOOLEAN_CONSTANT.getTrueFlag());
-        valueDdlb.setTextInputAllowed(BOOLEAN_CONSTANT.getTrueFlag());
-        valueDdlb.setImmediate(BOOLEAN_CONSTANT.getTrueFlag());
+        valueDdlb.setNewItemsAllowed(BooleanConstant.getTrueFlag());
+        valueDdlb.setTextInputAllowed(BooleanConstant.getTrueFlag());
+        valueDdlb.setImmediate(BooleanConstant.getTrueFlag());
         valueTxt.setVisible(false);
         valueTxt.setMaxLength(NumericConstants.FIFTY);
         valueTxt.setStyleName(Constant.TXT_RIGHT_ALIGN);
@@ -1005,7 +1005,7 @@ public class PPAProjection extends CustomComponent implements View {
         LOGGER.debug("Inside Populate button");
         waitForSave();
         try {
-            valueChangeForColumnCheckBox = BOOLEAN_CONSTANT.getTrueFlag();
+            valueChangeForColumnCheckBox = BooleanConstant.getTrueFlag();
             boolean isChecked = false;
             Collection<?> chkList = resultsTable.getLeftFreezeAsTable().getItemIds();
             if (!chkList.isEmpty()) {
@@ -1018,7 +1018,7 @@ public class PPAProjection extends CustomComponent implements View {
             }
             boolean validationError = false;
             if (fieldDdlb.getValue() != null) {
-                valueChangeAllowed = BOOLEAN_CONSTANT.getFalseFlag();
+                valueChangeAllowed = BooleanConstant.getFalseFlag();
                 String fieldValue = fieldDdlb.getValue().toString().trim();
                 Object valueDdlbVal = valueDdlb.getValue();
                 Object groupValue = massGroup.getValue();
@@ -1031,15 +1031,15 @@ public class PPAProjection extends CustomComponent implements View {
 
                 if ((populateIdentifier.get(Constant.DDLB_FIELD).contains(fieldValue) || Constant.PRICE_PROTECTION_STATUS.equals(fieldValue))
                         && (valueDdlbVal == null || valueDdlbVal.equals(defaultValue))) {
-                    validationError = BOOLEAN_CONSTANT.getTrueFlag();
+                    validationError = BooleanConstant.getTrueFlag();
                 } else if ((Constant.PRICE_PROTECTION_START_DATE.equals(fieldValue) || Constant.PRICE_PROTECTION_END_DATE.equals(fieldValue)
                         || populateIdentifier.get(Constant.DATE_FEILD).contains(fieldValue)) && date == null) {
-                    validationError = BOOLEAN_CONSTANT.getTrueFlag();
+                    validationError = BooleanConstant.getTrueFlag();
                 } else if (Constant.GROUPFCAPS.equals(fieldValue)
                         && (groupValue == null || groupValue.equals(Constant.SELECT_ONE))) {
-                    validationError = BOOLEAN_CONSTANT.getTrueFlag();
+                    validationError = BooleanConstant.getTrueFlag();
                 } else if (populateIdentifier.get(Constant.LOOKUP_FIELD).contains(fieldValue) && lookupValue == null) {
-                    validationError = BOOLEAN_CONSTANT.getTrueFlag();
+                    validationError = BooleanConstant.getTrueFlag();
                 }
                 if (validationError) {
                     MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_06").replace(Constant.REPLACE_STRING, fieldValue), ButtonId.OK);
@@ -1074,9 +1074,9 @@ public class PPAProjection extends CustomComponent implements View {
                     massUpdatePPAProjection(val, fieldValue, dbColumnIdentifier.get(fieldValue), 0, 0, 0, 0, selection);
                     loadMassGroup();
                     if (Constant.GROUPFCAPS.equals(fieldValue)) {
-                        groupChangeFlag = BOOLEAN_CONSTANT.getTrueFlag();
+                        groupChangeFlag = BooleanConstant.getTrueFlag();
                         loadGroupFilter();
-                        groupChangeFlag = BOOLEAN_CONSTANT.getFalseFlag();
+                        groupChangeFlag = BooleanConstant.getFalseFlag();
                     }
 
                     /**
@@ -1102,8 +1102,8 @@ public class PPAProjection extends CustomComponent implements View {
             } else {
                 MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_09"), ButtonId.OK);
             }
-            valueChangeAllowed = BOOLEAN_CONSTANT.getTrueFlag();
-            valueChangeForColumnCheckBox = BOOLEAN_CONSTANT.getFalseFlag();
+            valueChangeAllowed = BooleanConstant.getTrueFlag();
+            valueChangeForColumnCheckBox = BooleanConstant.getFalseFlag();
         } catch (NumberFormatException e) {
             LOGGER.error("Error While doing mass Update = {}" , e.getMessage());
         }
@@ -1225,7 +1225,7 @@ public class PPAProjection extends CustomComponent implements View {
     @UiHandler("collapse")
     public void collapseLvlBtn(Button.ClickEvent event)  {
         waitForSave();
-        expandCollapseLevelOption(BOOLEAN_CONSTANT.getFalseFlag(), level.getValue());
+        expandCollapseLevelOption(BooleanConstant.getFalseFlag(), level.getValue());
     }
 
     /**
@@ -1239,7 +1239,7 @@ public class PPAProjection extends CustomComponent implements View {
     @UiHandler("expand")
     public void expandLvlBtn(Button.ClickEvent event) {
         waitForSave();
-        expandCollapseLevelOption(BOOLEAN_CONSTANT.getTrueFlag(), level.getValue());
+        expandCollapseLevelOption(BooleanConstant.getTrueFlag(), level.getValue());
     }
 
     private void expandCollapseLevelOption(boolean isExpand, Object value) {
@@ -1248,11 +1248,11 @@ public class PPAProjection extends CustomComponent implements View {
             int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
             if (levelNo > 0) {
                 if (selection.isIsFilter()) {
-                    valueChangeForColumnCheckBox = BOOLEAN_CONSTANT.getTrueFlag();
+                    valueChangeForColumnCheckBox = BooleanConstant.getTrueFlag();
                     levelFilter.setValue(SELECT_ONE);
                     selection.setIsFilter(false);
                     tableLogic.clearAll();
-                    valueChangeForColumnCheckBox = BOOLEAN_CONSTANT.getFalseFlag();
+                    valueChangeForColumnCheckBox = BooleanConstant.getFalseFlag();
                 } else {
                     tableLogic.clearAllExceptCurrentPage();
                 }
@@ -1425,21 +1425,21 @@ public class PPAProjection extends CustomComponent implements View {
         LOGGER.debug("massupdate click listener starts");
         if ((Constant.LabelConstants.DISABLE).equals(massUpdate.getValue())) {
 
-            fieldDdlb.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-            valueDdlb.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-            startPeriod.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-            endPeriod.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-            populate.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-            valueTxt.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
+            fieldDdlb.setEnabled(BooleanConstant.getFalseFlag());
+            valueDdlb.setEnabled(BooleanConstant.getFalseFlag());
+            startPeriod.setEnabled(BooleanConstant.getFalseFlag());
+            endPeriod.setEnabled(BooleanConstant.getFalseFlag());
+            populate.setEnabled(BooleanConstant.getFalseFlag());
+            valueTxt.setEnabled(BooleanConstant.getFalseFlag());
 
         } else {
-            fieldDdlb.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
-            fieldDdlb.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
-            valueDdlb.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
-            startPeriod.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
-            endPeriod.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
-            populate.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
-            valueTxt.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
+            fieldDdlb.setEnabled(BooleanConstant.getTrueFlag());
+            fieldDdlb.setEnabled(BooleanConstant.getTrueFlag());
+            valueDdlb.setEnabled(BooleanConstant.getTrueFlag());
+            startPeriod.setEnabled(BooleanConstant.getTrueFlag());
+            endPeriod.setEnabled(BooleanConstant.getTrueFlag());
+            populate.setEnabled(BooleanConstant.getTrueFlag());
+            valueTxt.setEnabled(BooleanConstant.getTrueFlag());
         }
         LOGGER.debug("massupdate click listener ends");
     }
@@ -1483,12 +1483,12 @@ public class PPAProjection extends CustomComponent implements View {
         if (filterValue != null) {
             String filteredValue = filterValue.toString();
             selection.setLevelNo(Integer.parseInt(filteredValue.split("~")[0]));
-            selection.setIsFilter(BOOLEAN_CONSTANT.getTrueFlag());
+            selection.setIsFilter(BooleanConstant.getTrueFlag());
             tableLogic.setSelection(selection);
             resetTable();
-            selection.setIsFilter(BOOLEAN_CONSTANT.getFalseFlag());
+            selection.setIsFilter(BooleanConstant.getFalseFlag());
         } else {
-            selection.setIsFilter(BOOLEAN_CONSTANT.getFalseFlag());
+            selection.setIsFilter(BooleanConstant.getFalseFlag());
             tableLogic.setSelection(selection);
             resetTable();
         }
@@ -1510,14 +1510,14 @@ public class PPAProjection extends CustomComponent implements View {
      */
     private void excelExportLogic()   {
         excelTable = new ExtCustomTreeTable();
-        selection.setExcelExport(BOOLEAN_CONSTANT.getTrueFlag());
+        selection.setExcelExport(BooleanConstant.getTrueFlag());
         excelContainer = new ExtTreeContainer<>(PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
         excelContainer.setColumnProperties(fullHeader.getProperties());
         excelContainer.setRecordHeader(fullHeader.getSingleColumns());
         excelTable = new ExtCustomTreeTable();
         tableLayout.addComponent(excelTable);
-        excelTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
-        excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        excelTable.setRefresh(BooleanConstant.getFalseFlag());
+        excelTable.setVisible(BooleanConstant.getFalseFlag());
         excelTable.setContainerDataSource(excelContainer);
         generateButtonlogicForExcel();
         int variableSize=selection.getPpaSelectedVariables().size();
@@ -1553,16 +1553,16 @@ public class PPAProjection extends CustomComponent implements View {
             selection.setHierarchyNo(null);
             count = NumericConstants.ONE_CRORE;
         } else {
-            selection.setIsFilter(BOOLEAN_CONSTANT.getTrueFlag());
+            selection.setIsFilter(BooleanConstant.getTrueFlag());
             selection.setLevelNo(Integer.parseInt(levelFilter.getValue().toString().split("~")[0]));
             selection.setTreeLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
-            count = CommonLogic.getLevelListCount(projectionId, Constant.PPA, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, selection.getLevelNo(), StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, BOOLEAN_CONSTANT.getTrueFlag(), BOOLEAN_CONSTANT.getFalseFlag(), 0, selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(), selection.getDiscountNoList(),selection);
+            count = CommonLogic.getLevelListCount(projectionId, Constant.PPA, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, selection.getLevelNo(), StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag(), 0, selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(), selection.getDiscountNoList(),selection);
         }
-        selection.setExcelExport(BOOLEAN_CONSTANT.getTrueFlag());
+        selection.setExcelExport(BooleanConstant.getTrueFlag());
         List list = (List) logic.getPPAProjectionResults(selection, ridhtdto, 0, count);
         loadDataToContainer(list, null, !selection.isIsFilter());
-        selection.setExcelExport(BOOLEAN_CONSTANT.getFalseFlag());
-        selection.setIsFilter(BOOLEAN_CONSTANT.getFalseFlag());
+        selection.setExcelExport(BooleanConstant.getFalseFlag());
+        selection.setIsFilter(BooleanConstant.getFalseFlag());
     }
 
     public void loadDataToContainer(List<PPAProjectionDTO> resultList, Object parentId, boolean isRecursive) {
@@ -1629,7 +1629,7 @@ public class PPAProjection extends CustomComponent implements View {
     private void configureTable(boolean load)  {
         LOGGER.debug("PPA configureTable");
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        resultsTable.setFilterBarVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        resultsTable.setFilterBarVisible(BooleanConstant.getFalseFlag());
         excelExport.setIcon(excelExportImage);
 
         if (projectionPeriodOrderOpg.getValue().toString().equals(Constant.ASCENDING)) {
@@ -1687,7 +1687,7 @@ public class PPAProjection extends CustomComponent implements View {
         rightTable.setDoubleHeaderVisibleColumns(ridhtdto.getDoubleColumns().toArray());
         rightTable.setDoubleHeaderColumnHeaders(ridhtdto.getDoubleHeaders().toArray(new String[ridhtdto.getDoubleHeaders().size()]));
         mapRightVisibleColumns = ridhtdto.getDoubleHeaderMaps();
-        rightTable.reConstruct(BOOLEAN_CONSTANT.getTrueFlag());
+        rightTable.reConstruct(BooleanConstant.getTrueFlag());
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         leftTable.setColumnCheckBox(Constant.CHECK_RECORD + ".0", true);
         LOGGER.debug("!\"view\".equals(session.getAction()) ================= {} " , !Constant.VIEW.equals(session.getAction()));
@@ -1788,7 +1788,7 @@ public class PPAProjection extends CustomComponent implements View {
         selection.setCustomerHierarchyNo(StringUtils.EMPTY);
         selection.setProductHierarchyNo(StringUtils.EMPTY);
         selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-        selection.setIsCustomHierarchy(BOOLEAN_CONSTANT.getFalseFlag());
+        selection.setIsCustomHierarchy(BooleanConstant.getFalseFlag());
         selection.setCustomId(0);
         selection.setProjectionId(projectionId);
         selection.setSessionId(Integer.parseInt(session.getSessionId()));
@@ -1799,7 +1799,7 @@ public class PPAProjection extends CustomComponent implements View {
     }
 
     public void loadLevelFilterValue()  {
-        valueChangeForColumnCheckBox = BOOLEAN_CONSTANT.getTrueFlag();
+        valueChangeForColumnCheckBox = BooleanConstant.getTrueFlag();
         LOGGER.debug("loadLevelFilterValue initiated ");
         level.setEnabled(true);
         level.removeAllItems();
@@ -1829,7 +1829,7 @@ public class PPAProjection extends CustomComponent implements View {
             }
         }
 
-        valueChangeForColumnCheckBox = BOOLEAN_CONSTANT.getFalseFlag();
+        valueChangeForColumnCheckBox = BooleanConstant.getFalseFlag();
         LOGGER.debug("loadLevelFilterValue ends ");
     }
 
@@ -1943,7 +1943,7 @@ public class PPAProjection extends CustomComponent implements View {
 
     public void generateButtonLogic()   {
 
-        valueChangeAllowed = BOOLEAN_CONSTANT.getFalseFlag();
+        valueChangeAllowed = BooleanConstant.getFalseFlag();
         List<String> result = getCheckedVariables();
         if (result.isEmpty()) {
             MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_08"), ButtonId.OK);
@@ -1961,7 +1961,7 @@ public class PPAProjection extends CustomComponent implements View {
         configureTable(true);
         addResultTable();
 
-        valueChangeAllowed = BOOLEAN_CONSTANT.getTrueFlag();
+        valueChangeAllowed = BooleanConstant.getTrueFlag();
     }
 
     @UiHandler("resetBtn")
@@ -1983,10 +1983,10 @@ public class PPAProjection extends CustomComponent implements View {
 
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {
 
-            generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            populate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            generateBtn.setVisible(BooleanConstant.getFalseFlag());
+            collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+            expandBtn.setVisible(BooleanConstant.getFalseFlag());
+            populate.setVisible(BooleanConstant.getFalseFlag());
 
         }
     }
@@ -2028,7 +2028,7 @@ public class PPAProjection extends CustomComponent implements View {
     private void massUpdatePPAProjection(Object value, String fieldValue, String columnName, int startQuater, int endQuater, int startYear, int endYear, ProjectionSelectionDTO selection) {
 
         waitForSave();
-        valueChangeAllowed = BOOLEAN_CONSTANT.getFalseFlag();
+        valueChangeAllowed = BooleanConstant.getFalseFlag();
 
         List input = null;
         if (populateIdentifier.get(Constant.FROZEN_FIELDS).contains(fieldValue)) {
@@ -2085,7 +2085,7 @@ public class PPAProjection extends CustomComponent implements View {
             tableLogic.setCurrentPage(tableLogic.getCurrentPage());
         }
 
-        valueChangeAllowed = BOOLEAN_CONSTANT.getTrueFlag();
+        valueChangeAllowed = BooleanConstant.getTrueFlag();
 
     }
 
@@ -2256,7 +2256,7 @@ public class PPAProjection extends CustomComponent implements View {
             massGroup.select(Constant.SELECT_ONE);
             massGroup.setNullSelectionItemId(Constant.SELECT_ONE);
             massGroup.setTextInputAllowed(true);
-            massGroup.setNewItemsAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+            massGroup.setNewItemsAllowed(BooleanConstant.getTrueFlag());
         }
     }
 }

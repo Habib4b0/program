@@ -91,7 +91,7 @@ public class PMPYCalculator extends Window {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PMPYCalculator.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     /**
      * The space.
@@ -377,7 +377,7 @@ public class PMPYCalculator extends Window {
     public void configureFields() {
         try {
             LOGGER.debug("Entering configureFields method");
-            effectivePeriod.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+            effectivePeriod.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
             effectivePeriod.setNullSelectionItemId(Constant.SELECT_ONE);
             loadEffectivePeriods();
             tradingPartner.setStyleName(Constant.SEARCH_TEXT);
@@ -694,10 +694,10 @@ public class PMPYCalculator extends Window {
     public boolean isTpHistorySelected() {
         LOGGER.debug("Entering isTpHistorySelected method");
         if (tradingPartner.getValue() != null && !tradingPartner.getValue().toString().isEmpty()) {
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         }
         LOGGER.debug("End of isTpHistorySelected method");
-        return BOOLEAN_CONSTANT.getFalseFlag();
+        return BooleanConstant.getFalseFlag();
     }
 
     /**
@@ -710,13 +710,13 @@ public class PMPYCalculator extends Window {
         LOGGER.debug("Entering isContractHistorySelected method");
         try {
             if (contract.getValue() != null && !contract.getValue().toString().isEmpty()) {
-                return BOOLEAN_CONSTANT.getTrueFlag();
+                return BooleanConstant.getTrueFlag();
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of isContractHistorySelected method");
-        return BOOLEAN_CONSTANT.getFalseFlag();
+        return BooleanConstant.getFalseFlag();
     }
 
     /**
@@ -1138,7 +1138,7 @@ public class PMPYCalculator extends Window {
      */
     private void loadContractHolder()  {
         LOGGER.debug("Entering loadContractHolder method");
-        contract.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        contract.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         contract.setNullSelectionItemId(Constant.SELECT_ONE);
         contract.addItem(Constant.SELECT_ONE);
         contract.select(Constant.SELECT_ONE);

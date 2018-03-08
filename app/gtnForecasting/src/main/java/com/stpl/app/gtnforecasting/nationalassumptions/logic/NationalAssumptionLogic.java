@@ -81,7 +81,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NationalAssumptionLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The current year.
      */
@@ -1346,7 +1346,7 @@ public class NationalAssumptionLogic {
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        return BOOLEAN_CONSTANT.getFalseFlag();
+        return BooleanConstant.getFalseFlag();
     }
 
     public int getCount(List<Object[]> list) {

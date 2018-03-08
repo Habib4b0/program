@@ -102,7 +102,7 @@ public class ExistingComponents extends CustomComponent implements View {
      */
     public static final String NAME = StringUtils.EMPTY;
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The Constant LOGGER.
      */
@@ -543,7 +543,7 @@ public class ExistingComponents extends CustomComponent implements View {
         excelResultBean2 = new ExtTreeContainer<>(ComponentInfoDTO.class);
         exportPeriodViewTable2 = new ExtCustomTable();
         transferCompPanelTableLayout.addComponent(exportPeriodViewTable2);
-        exportPeriodViewTable2.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        exportPeriodViewTable2.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable2.setVisible(false);
         exportPeriodViewTable2.setContainerDataSource(excelResultBean2);
         exportPeriodViewTable2.setVisibleColumns(componentDetailsSelectedItem.getVisibleColumns());

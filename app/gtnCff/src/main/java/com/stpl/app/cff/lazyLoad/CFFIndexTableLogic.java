@@ -27,7 +27,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CFFIndexTableLogic.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     private CFFSearchDTO binderDto;
     /**
@@ -46,7 +46,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
         int count = 0;
         if(!isReset && isGenerate){
             try {
-                binderDto.setCount(BOOLEAN_CONSTANT.getFalseFlag());
+                binderDto.setCount(BooleanConstant.getFalseFlag());
                  binderDto.setFilters(this.getFilters());
                 count = cffLogic.getSearchCount(binderDto);
             } catch (Exception ex) {
@@ -59,7 +59,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
     @Override
     public List loadData(int start, int offset) {
         try {
-            binderDto.setCount(BOOLEAN_CONSTANT.getTrueFlag());
+            binderDto.setCount(BooleanConstant.getTrueFlag());
             binderDto.setStartIndex(start);
             binderDto.setEndIndex(offset);
             binderDto.setFilters(this.getFilters());

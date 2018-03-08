@@ -42,7 +42,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class RelationShipFilterLogic {
 
-	private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+	
         private final GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
 	private final CommonDAO daoImpl = new CommonDAOImpl();
@@ -490,7 +490,7 @@ public class RelationShipFilterLogic {
 	public List<Set> getCustomerConractSid(List<Leveldto> selectedCustomerContractList,
 			List<Leveldto> customerHierarchyLevelDefinitionList, int customerRelationVersionNo) {
 		GtnFrameworkQueryGeneratorBean queryBean = getCustomerContractSidQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, BOOLEAN_CONSTANT.getFalseFlag());
+				customerHierarchyLevelDefinitionList, BooleanConstant.getFalseFlag());
 		if (queryBean == null || customerRelationVersionNo == 0) {
 			return Collections.emptyList();
 		}
@@ -671,9 +671,9 @@ public class RelationShipFilterLogic {
 			List<Leveldto> customerHierarchyLevelDefinitionList, List<Leveldto> productHierarchyLevelDefinitionList,
 			int customerRelationVersionNo, int productRelationVersionNo,int projectionId) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, BOOLEAN_CONSTANT.getFalseFlag(), customerRelationVersionNo,projectionId);
+				customerHierarchyLevelDefinitionList, BooleanConstant.getFalseFlag(), customerRelationVersionNo,projectionId);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, BOOLEAN_CONSTANT.getTrueFlag(), productRelationVersionNo,projectionId);
+				productHierarchyLevelDefinitionList, BooleanConstant.getTrueFlag(), productRelationVersionNo,projectionId);
 		List<String> input = new ArrayList<>();
 		input.add(customerHierarchyQuery);
 		input.add(productHierarchyQuery);
