@@ -87,7 +87,7 @@ public class GtnWsTreeService {
 		for (Object[] objects : customViewInput) {
 			List<GtnWsReportEngineTreeNode> nextCCPChildNode = getNextCCPChildNode(rootNode,
 					Integer.parseInt(objects[3].toString()));
-			if (nextCCPChildNode != null) {
+			if (!nextCCPChildNode.isEmpty()) {
 				for (GtnWsReportEngineTreeNode gtnWsTreeNode : nextCCPChildNode) {
 					switch (objects[1].toString()) {
 					case "C":
@@ -101,6 +101,9 @@ public class GtnWsTreeService {
 					case "D":
 						addCCPDiscountJoinNode(gtnWsTreeNode, objects, index, initialLevelNo, ccpResult,
 								deductionHierarchy);
+						break;
+					case "V":
+						
 						break;
 					default:
 						break;
