@@ -1477,7 +1477,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void excelForCFFProjectionVariance() {
-        LOGGER.debug("==inside excelForCFFProjectionVariance================");
+        LOGGER.debug("==inside excelForCFFProjectionVariance==============");
         try {
             if (pvSelectionDTO.isIsCustomHierarchy()) {
                 pvSelectionDTO.setHierarchyIndicator("");
