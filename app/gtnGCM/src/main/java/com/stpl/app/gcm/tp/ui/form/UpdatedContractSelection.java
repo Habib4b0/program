@@ -293,7 +293,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private ComboBox allCustomer;
     @UiField("removeProjectionDetails")
     private CheckBox removeProjectionDetails;
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The excel export image
@@ -529,7 +529,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             allCustomer.addItem("Yes");
             allCustomer.addItem("No");
             allCustomer.select("No");
-            allCustomer.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
+            allCustomer.setReadOnly(BooleanConstant.getTrueFlag());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -829,7 +829,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     final CustomComboBox custComboStatus = new CustomComboBox();
                     custComboStatus.setImmediate(true);
                     try {
-                        CommmonLogic.loaDDLBForListLoading(custComboStatus, UiUtils.STATUS, BOOLEAN_CONSTANT.getFalseFlag());
+                        CommmonLogic.loaDDLBForListLoading(custComboStatus, UiUtils.STATUS, BooleanConstant.getFalseFlag());
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
                     }
@@ -942,7 +942,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 changeComponents(componentSelectionValue);
                 loadComponentInformationFields(Arrays.asList(contractSelectionLogic.getComponentInformationData(componentSelectionValue, id, false, false, 0, 0, null).get(0)));
                 loadComponentInformationTable(componentSelectionValue);
-                tablelogic.loadSetData(componentSelectionValue, id, BOOLEAN_CONSTANT.getTrueFlag());
+                tablelogic.loadSetData(componentSelectionValue, id, BooleanConstant.getTrueFlag());
             } else {
                 tablelogic.loadSetData(componentSelectionValue, id, false);
                 loadComponentInformationFields(new ArrayList<>());

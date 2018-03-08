@@ -83,7 +83,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private static final long serialVersionUID = 1905122041950251207L;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 	/**
 	 * The data selection binder.
 	 */
@@ -449,7 +449,7 @@ public class DataSelection extends AbstractDataSelection {
 			}
 
 			bindDataselectionDtoToSave();
-			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, BOOLEAN_CONSTANT.getFalseFlag(), 0,sessionDTO);
+			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, BooleanConstant.getFalseFlag(), 0,sessionDTO);
 			VaadinSession.getCurrent().setAttribute("projectionId", projectionIdValue);
 			dataSelectionDTO.setProjectionId(projectionIdValue);
 			int prodRelationVersionNo = Integer
@@ -494,13 +494,13 @@ public class DataSelection extends AbstractDataSelection {
 				if (sessionDTO.getFuture() != null) {
 					sessionDTO.getFuture().get();
 					cffLogic.callDeductionCCPHierarchyInsertion(sessionDTO, sessionDTO.getCurrentTableNames(),
-							BOOLEAN_CONSTANT.getFalseFlag());
+							BooleanConstant.getFalseFlag());
 				}
 
 			}
 
 			tabSheet.setSelectedTab(1);
-			sessionDTO.setIsGenerated(BOOLEAN_CONSTANT.getTrueFlag());
+			sessionDTO.setIsGenerated(BooleanConstant.getTrueFlag());
 
 		} catch (InterruptedException | NumberFormatException | ExecutionException ex) {
 			Logger.getLogger(DataSelection.class.getName()).log(Level.SEVERE, null, ex);
@@ -3464,7 +3464,7 @@ public class DataSelection extends AbstractDataSelection {
 		int forecastLevel = 0;
 		forecastLevel = UiUtils.parseStringToInteger(productLevel);
 		List<Leveldto> reslistOne;
-		reslistOne = relationLogic.getRelationShipValues(projectionId, BOOLEAN_CONSTANT.getFalseFlag(), productLevel,
+		reslistOne = relationLogic.getRelationShipValues(projectionId, BooleanConstant.getFalseFlag(), productLevel,
 				productDescriptionMap);
 		LOGGER.debug("relist===========: {}", reslistOne.toString());
 
@@ -3636,7 +3636,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private void initializeCustomerHierarchy(final int projectionId, final String customerLevel) {
 		LOGGER.debug("Initializing Customer Hierarchy...");
-		List<Leveldto> initialCustomerHierarchy = relationLogic.getRelationShipValues(projectionId, BOOLEAN_CONSTANT.getTrueFlag(),
+		List<Leveldto> initialCustomerHierarchy = relationLogic.getRelationShipValues(projectionId, BooleanConstant.getTrueFlag(),
 				customerLevel, customerDescriptionMap);
 		int forecastLevel = 0;
 		forecastLevel = UiUtils.parseStringToInteger(customerLevel);

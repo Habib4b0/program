@@ -70,7 +70,7 @@ public class CustomerSelection extends CustomComponent implements View {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSelection.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     private SessionDTO session;
     
@@ -170,7 +170,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 altHistoryDTO.setCustomerName(String.valueOf(customerName.getValue()));
                 altHistoryDTO.setScreenName(screen_Name);
                 availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
-                availablecustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO,  session, BOOLEAN_CONSTANT.getTrueFlag());
+                availablecustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO,  session, BooleanConstant.getTrueFlag());
                 if (availableCustomerTable.size() == 0) {
                     AbstractNotificationUtils.getErrorNotification("Error",
                             "There are no records that match the search criteria. Please try again");
@@ -227,7 +227,7 @@ public class CustomerSelection extends CustomComponent implements View {
         if(logic.count_available_customerSelection(session)){
             logic.add_customerSelection(session);
             availablecustomerTableLoic.setFireData(altHistoryDTO, session);
-        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BOOLEAN_CONSTANT.getFalseFlag());
+        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
         availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
         } else {
             AbstractNotificationUtils.getErrorNotification("No Value Selected",
@@ -247,7 +247,7 @@ public class CustomerSelection extends CustomComponent implements View {
         LOGGER.debug("Entering inside Addall Button");
          if(logic.count_available_customerSelection(session)){
         logic.add_customerSelection(session);
-        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BOOLEAN_CONSTANT.getFalseFlag());
+        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
         availablecustomerTableLoic.setFireData(altHistoryDTO, session);
         availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
         
@@ -266,7 +266,7 @@ public class CustomerSelection extends CustomComponent implements View {
         LOGGER.debug("Entered inside remove btn method");
         if (logic.count_selected_customerSelection(session)) {
                 logic.remove_customerSelection(session);
-        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BOOLEAN_CONSTANT.getFalseFlag());
+        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
        availablecustomerTableLoic.setFireData(altHistoryDTO, session);
       selectedCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
         } else {
@@ -287,7 +287,7 @@ public class CustomerSelection extends CustomComponent implements View {
 
         if (logic.count_selected_customerSelection(session)) {
             logic.remove_customerSelection(session);
-            selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BOOLEAN_CONSTANT.getFalseFlag());
+            selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
             availablecustomerTableLoic.setFireData(altHistoryDTO, session);
             selectedCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
         }
@@ -315,7 +315,7 @@ public class CustomerSelection extends CustomComponent implements View {
         hLayout1 = selectedcustomerTableLoic.createControls();
         selectedCustomerTableLayout.addComponent(hLayout1);
         
-        availablecustomerTableLoic.setIsAvailable(BOOLEAN_CONSTANT.getTrueFlag());
+        availablecustomerTableLoic.setIsAvailable(BooleanConstant.getTrueFlag());
         availableCustomerTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         availableCustomerTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         availableCustomerTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -411,7 +411,7 @@ public class CustomerSelection extends CustomComponent implements View {
             }
         });
 
-        selectedcustomerTableLoic.setIsAvailable(BOOLEAN_CONSTANT.getFalseFlag());
+        selectedcustomerTableLoic.setIsAvailable(BooleanConstant.getFalseFlag());
         selectedCustomerTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         selectedCustomerTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         selectedCustomerTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -435,7 +435,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 try{
                
                 logic.checkAll_selected_customerSelection(session,event.isChecked());
-                selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BOOLEAN_CONSTANT.getFalseFlag());
+                selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
                 }catch(Exception e){
                     LOGGER.error(e.getMessage());
                 }

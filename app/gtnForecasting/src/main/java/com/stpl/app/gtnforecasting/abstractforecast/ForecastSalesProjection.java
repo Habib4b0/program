@@ -145,7 +145,7 @@ import com.vaadin.v7.ui.themes.Reindeer;
 public abstract class ForecastSalesProjection extends CustomComponent implements View {
 
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
 	private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
     
@@ -731,7 +731,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             buttonLayout.replaceComponent(pmpy, returnsResetBtn);
             returnsResetBtn.setVisible(true);
-            newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            newBtn.setVisible(BooleanConstant.getFalseFlag());
             editBtn.setVisible(false);
             view.setVisible(false);
             viewLabel.setVisible(false);
@@ -1134,14 +1134,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     @UiHandler("excelExport")
     public void excelExportListener(Button.ClickEvent event) {
-        projectionDTO.setExcel(BOOLEAN_CONSTANT.getTrueFlag());
+        projectionDTO.setExcel(BooleanConstant.getTrueFlag());
         if (CommonUtil.isValueEligibleForLoading()) {
             excelExportLogic();
         } else {
             excelExportBtnClickLogic();
         }
         
-        projectionDTO.setExcel(BOOLEAN_CONSTANT.getFalseFlag());
+        projectionDTO.setExcel(BooleanConstant.getFalseFlag());
     }
 
     /**
@@ -1603,7 +1603,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     final Component uiContext) {
                 if (String.valueOf(propertyId).equals(Constant.CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                    check.setValue(BooleanConstant.getFalseFlag());
                     check.setImmediate(true);
                     check.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
@@ -1832,7 +1832,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 rightTable.setDoubleHeaderColumnCheckBox(obj, true);
 
                 rightTable.setDoubleHeaderColumnCheckBoxDisable(obj, ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
-                checkBoxMap.put(obj, BOOLEAN_CONSTANT.getFalseFlag());
+                checkBoxMap.put(obj, BooleanConstant.getFalseFlag());
             }
         }
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
@@ -1993,14 +1993,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         SalesRowDto tempDto = (SalesRowDto) tempId;
         if (tempDto.getUncheckCount() != 0) {
-            tempDto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getFalseFlag());
+            tempDto.addBooleanProperties(Constant.CHECK, BooleanConstant.getFalseFlag());
             if (leftTable.containsId(tempId)) {
-                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BooleanConstant.getFalseFlag());
             }
         } else {
-            tempDto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+            tempDto.addBooleanProperties(Constant.CHECK, BooleanConstant.getTrueFlag());
             if (leftTable.containsId(tempId)) {
-                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BOOLEAN_CONSTANT.getTrueFlag());
+                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BooleanConstant.getTrueFlag());
             }
         }
     }
@@ -3162,7 +3162,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
         if (returnsFlag) {
             excelTable.setRefresh(false);
-            excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            excelTable.setVisible(BooleanConstant.getFalseFlag());
             excelContainer.setColumnProperties(excelHeader.getProperties());
             excelTable.setContainerDataSource(excelContainer);
             excelTable.setVisibleColumns(excelHeader.getSingleColumns().toArray());
@@ -3170,7 +3170,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             tableLayout.addComponent(excelTable);
         } else {
             excelTable.setRefresh(false);
-            excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            excelTable.setVisible(BooleanConstant.getFalseFlag());
             excelContainer.setColumnProperties(excelHeader.getProperties());
             excelTable.setContainerDataSource(excelContainer);
             tableLayout.addComponent(excelTable);

@@ -29,7 +29,7 @@ public class PVQueryUtils {
      * The Constant LOGGER.
      */
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PVQueryUtils.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     public static final String TODIS = "TODIS";
     public static final String SALEPPA = "SALEPPA";
     
@@ -128,12 +128,12 @@ public class PVQueryUtils {
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setIsPrior(false);
-        customQuery += selectClause + " from   \n(" + getProjectionResultsDiscountsQuery(projSelDTO, BOOLEAN_CONSTANT.getFalseFlag()) + ")  C\n ";
+        customQuery += selectClause + " from   \n(" + getProjectionResultsDiscountsQuery(projSelDTO, BooleanConstant.getFalseFlag()) + ")  C\n ";
         projSelDTO.setCurrentOrPrior("P");
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery += " LEFT JOIN (\n" + getProjectionResultsDiscountsQuery(projSelDTO, BOOLEAN_CONSTANT.getTrueFlag()) + "\n) " + "P" + i + " \n on C.DISCOUNTS=P" + i + ".DISCOUNTS  \n "
+            customQuery += " LEFT JOIN (\n" + getProjectionResultsDiscountsQuery(projSelDTO, BooleanConstant.getTrueFlag()) + "\n) " + "P" + i + " \n on C.DISCOUNTS=P" + i + ".DISCOUNTS  \n "
                     + " AND C.YEARS=P" + i + ".YEARS  \n "
                     + " and C.PERIODS =P" + i + ".PERIODS  ";
         }
@@ -308,12 +308,12 @@ public class PVQueryUtils {
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setIsPrior(false);
-        customQuery += "  from  \n(" + getProjectionResultsPivotQuery(projSelDTO, BOOLEAN_CONSTANT.getFalseFlag()) + ") C \n ";
+        customQuery += "  from  \n(" + getProjectionResultsPivotQuery(projSelDTO, BooleanConstant.getFalseFlag()) + ") C \n ";
         projSelDTO.setCurrentOrPrior("P");
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery += "  LEFT  JOIN (\n" + getProjectionResultsPivotQuery(projSelDTO, BOOLEAN_CONSTANT.getTrueFlag()) + "\n) " + "P" + i + " \n" + getPivotMainWhereCond("P" + i);
+            customQuery += "  LEFT  JOIN (\n" + getProjectionResultsPivotQuery(projSelDTO, BooleanConstant.getTrueFlag()) + "\n) " + "P" + i + " \n" + getPivotMainWhereCond("P" + i);
         }
         customQuery += "  order by " + orderBy;
         projSelDTO.setIsPrior(false);

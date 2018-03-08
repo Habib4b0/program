@@ -97,7 +97,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class NMProjectionVariance extends ForecastProjectionVariance {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final StplSecurity stplSecurity = new StplSecurity();
     public static final String CAPTION = "CAPTION";
     public static final String GROUP_PROPERTY = "group";
@@ -424,8 +424,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         pvSelectionDTO.setProjectionId(projectionId);
         pvSelectionDTO.setTreeLevelNo(Integer.parseInt(getSessionDTO().getCustomerLevelNumber()));
-        pvSelectionDTO.setPpa(CommonLogic.isPPA(BOOLEAN_CONSTANT.getTrueFlag(), pvSelectionDTO));
-        pvSelectionDTO.setReturns(CommonLogic.isReturns(BOOLEAN_CONSTANT.getTrueFlag(), pvSelectionDTO));
+        pvSelectionDTO.setPpa(CommonLogic.isPPA(BooleanConstant.getTrueFlag(), pvSelectionDTO));
+        pvSelectionDTO.setReturns(CommonLogic.isReturns(BooleanConstant.getTrueFlag(), pvSelectionDTO));
         resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, CommonUtil.isValueEligibleForLoading()));
 
         UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_SEVEN_ZERO, TAB_PROJECTION_VARIANCE.getConstant());
@@ -1789,11 +1789,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
 
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {
-            generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            editViewBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            collapseLvlBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            expandLvlBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            addViewBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            generateBtn.setVisible(BooleanConstant.getFalseFlag());
+            editViewBtn.setVisible(BooleanConstant.getFalseFlag());
+            collapseLvlBtn.setVisible(BooleanConstant.getFalseFlag());
+            expandLvlBtn.setVisible(BooleanConstant.getFalseFlag());
+            addViewBtn.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 

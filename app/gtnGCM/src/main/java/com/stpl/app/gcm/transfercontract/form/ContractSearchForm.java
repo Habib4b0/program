@@ -124,7 +124,7 @@ public class ContractSearchForm extends VerticalLayout {
     private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     private final ContractSearchLogic logic = new ContractSearchLogic();
     public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final CommonUtil commonUtil=CommonUtil.getInstance();
     /**
      * The binder.
@@ -165,11 +165,11 @@ public class ContractSearchForm extends VerticalLayout {
         resultTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         resultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         resultTable.setPageLength(NumericConstants.FIVE);
-        resultTable.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
+        resultTable.setEditable(BooleanConstant.getTrueFlag());
         resultTable.setContainerDataSource(resultContainer);
         resultTable.setVisibleColumns(HeaderUtil.getInstance().contractSearchColumn);
         resultTable.setColumnHeaders(HeaderUtil.getInstance().contractSearchHeader);
-        resultTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BOOLEAN_CONSTANT.getTrueFlag());
+        resultTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
         resultTable.setTableFieldFactory(new TableFieldFactory() {
 
             @Override

@@ -31,7 +31,7 @@ public class SelectionTableLogic extends PageTableLogic {
     private String tabName = StringUtils.EMPTY;
     private String availableOrselected = StringUtils.EMPTY;
     private static final Logger LOGGER = LoggerFactory.getLogger(SelectionTableLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     public SelectionTableLogic(){
     	super();
@@ -103,12 +103,12 @@ public class SelectionTableLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
 }

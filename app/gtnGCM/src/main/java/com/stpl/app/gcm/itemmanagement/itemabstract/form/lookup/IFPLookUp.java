@@ -51,7 +51,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class IFPLookUp extends Window {
 private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
-private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentName")
@@ -170,7 +170,7 @@ private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox rsProgramType = new ComboBox();
-                    logic.LazyLoadDdlb(rsProgramType, "ifpStatus count", "ifpStatus", BOOLEAN_CONSTANT.getTrueFlag());
+                    logic.LazyLoadDdlb(rsProgramType, "ifpStatus count", "ifpStatus", BooleanConstant.getTrueFlag());
                     return rsProgramType;
                 }
                 return null;
@@ -259,7 +259,7 @@ private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "ifpStatus count", "ifpStatus", BOOLEAN_CONSTANT.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatus_DTO, "ifpStatus count", "ifpStatus", BooleanConstant.getFalseFlag());
     }
 
   

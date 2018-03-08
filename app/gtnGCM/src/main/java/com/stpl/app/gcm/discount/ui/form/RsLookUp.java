@@ -50,7 +50,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RsLookUp extends Window {
  private static final Logger LOGGER = LoggerFactory.getLogger(RsLookUp.class);
- private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+ 
     @UiField("rsTableLayout")
     public VerticalLayout rsTableLayout;
     @UiField("rsId")
@@ -121,7 +121,7 @@ public class RsLookUp extends Window {
                 resultsTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
             }
         }
-        resultsTable.setFilterBarVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        resultsTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
             @Override

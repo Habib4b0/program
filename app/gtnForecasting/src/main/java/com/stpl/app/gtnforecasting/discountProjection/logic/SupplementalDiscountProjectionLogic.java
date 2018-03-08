@@ -55,7 +55,7 @@ public class SupplementalDiscountProjectionLogic {
     private static final DecimalFormat CUR_FOUR_DECIMAL = new DecimalFormat("$#,##0.0000");
     private static final DecimalFormat PER_THREE_DECIMAL = new DecimalFormat("#,##0.000");
     private static final Logger LOGGER = LoggerFactory.getLogger(SupplementalDiscountProjectionLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     protected SalesProjectionDAO dao = new SalesProjectionDAOImpl();
     protected ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();
     protected List<String> levelName = new ArrayList<>();
@@ -1198,7 +1198,7 @@ public class SupplementalDiscountProjectionLogic {
                         LoggerFactory.getLogger(SupplementalDiscountProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
                     }
 
-                    dto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getFalseFlag());
+                    dto.addBooleanProperties(Constant.CHECK, BooleanConstant.getFalseFlag());
                     if (projSelDTO.getSupplementalLevelNo() == NumericConstants.FOUR || projSelDTO.isIsFilter()) {
                         dto.setSupplementalLevelNo(projSelDTO.getSupplementalLevelNo() + 1);
                         dto.setParent(0);
@@ -1223,20 +1223,20 @@ public class SupplementalDiscountProjectionLogic {
                                 str = StringUtils.EMPTY.equals(String.valueOf(obj[NumericConstants.THIRTEEN])) || Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.THIRTEEN])) ? Constant.DASH : String.valueOf(obj[NumericConstants.THIRTEEN]);
                             }
                             if (Constant.STRING_ONE.equals(str)) {
-                                dto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+                                dto.addBooleanProperties(Constant.CHECK, BooleanConstant.getTrueFlag());
                             }
 
                         } else {
-                            dto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getFalseFlag());
+                            dto.addBooleanProperties(Constant.CHECK, BooleanConstant.getFalseFlag());
                         }
                     } else if (dto.getSupplementalLevelNo() == 1) {
                         if (!StringUtils.EMPTY.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && !Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN]))) {
                             String str = String.valueOf(obj[NumericConstants.TEN]).equals(StringUtils.EMPTY) && String.valueOf(obj[NumericConstants.FOURTEEN]).equalsIgnoreCase(Constant.NULL) ? Constant.DASH : String.valueOf(obj[NumericConstants.TEN]);
                             if (Constant.STRING_ONE.equals(str)) {
-                                dto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+                                dto.addBooleanProperties(Constant.CHECK, BooleanConstant.getTrueFlag());
                             }
                         } else {
-                            dto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getFalseFlag());
+                            dto.addBooleanProperties(Constant.CHECK, BooleanConstant.getFalseFlag());
                         }
                     }
                     resultList.add(dto);

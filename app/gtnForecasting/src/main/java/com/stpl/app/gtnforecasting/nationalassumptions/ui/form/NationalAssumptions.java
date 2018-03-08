@@ -120,7 +120,7 @@ public class NationalAssumptions extends CustomComponent implements View {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptions.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     /**
      * The price type ddlb.
@@ -1566,7 +1566,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 basePeriod.setType(Constant.FORECAST);
             }
             basePeriod.setPeriod(period);
-            basePeriod.setCheck(BOOLEAN_CONSTANT.getTrueFlag());
+            basePeriod.setCheck(BooleanConstant.getTrueFlag());
             baseLineList.add(basePeriod);
 
         }
@@ -1591,7 +1591,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 period = element.toString().trim();
                 rollPeriod.setType(Constant.ACTUALS);
                 rollPeriod.setPeriod(period);
-                rollPeriod.setCheck(BOOLEAN_CONSTANT.getTrueFlag());
+                rollPeriod.setCheck(BooleanConstant.getTrueFlag());
                 rollingAverageList.add(rollPeriod);
             }
             rollingAvgResultsBean.removeAllItems();

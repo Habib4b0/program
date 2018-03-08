@@ -96,7 +96,7 @@ public class AltSummeryDiscount extends CustomComponent {
 
     private final SessionDTO session;
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     /* The Excel table */
     private final ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
@@ -931,8 +931,8 @@ public class AltSummeryDiscount extends CustomComponent {
             List list = logic.getDiscountProjection(session, projectionSelection.getFrequency(), startAndEndPeriods,
                     projectionSelection.getHistory(), temphierarchyIndicator, projectionSelection.getProjectionOrder(), userGroup,
                     true, discountTableLogic.getDiscountList(), projectionSelection.getYear(),
-                    customDetailsList, BOOLEAN_CONSTANT.getTrueFlag(), isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, 
-                    BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), StringUtils.EMPTY, 
+                    customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, 
+                    BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), StringUtils.EMPTY, 
                     relationshipBuilderSid, true,Collections.EMPTY_LIST,true,StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,
                     new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(list, null, true);
@@ -1037,8 +1037,8 @@ public class AltSummeryDiscount extends CustomComponent {
             List levelList = logic.getDiscountProjection(session, projectionSelection.getFrequency(), startAndEndPeriods,
                     projectionSelection.getHistory(), temphierarchyIndicator, projectionSelection.getProjectionOrder(), userGroup,
                     true, discountTableLogic.getDiscountList(), projectionSelection.getYear(),
-                    customDetailsList, BOOLEAN_CONSTANT.getTrueFlag(), isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, BOOLEAN_CONSTANT.getFalseFlag(), 
-                    BOOLEAN_CONSTANT.getFalseFlag(), customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), 
+                    customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), 
+                    BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST,false,StringUtils.EMPTY, StringUtils.EMPTY,
                     Collections.EMPTY_LIST,new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(levelList, dto, true);
@@ -1154,12 +1154,12 @@ public class AltSummeryDiscount extends CustomComponent {
                 startAndEndPeriods.add(startYear);
             }
 
-            tableLogic.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+            tableLogic.setRefresh(BooleanConstant.getFalseFlag());
 
             loadDataInTable();
-            tableLogic.setRefresh(BOOLEAN_CONSTANT.getFalseFlag()); //As the row refresh will be set true during the load data.
+            tableLogic.setRefresh(BooleanConstant.getFalseFlag()); //As the row refresh will be set true during the load data.
             formatTableData();
-            tableLogic.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+            tableLogic.setRefresh(BooleanConstant.getTrueFlag());
             isListviewGenerated = true;
 
             loadLevelValues();

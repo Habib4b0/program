@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FcpResultsTableLogic extends PageTreeTableLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private boolean firstGenerated = false;
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final FcpResultsLogic fcpResLogic = new FcpResultsLogic();
@@ -139,13 +139,13 @@ public class FcpResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

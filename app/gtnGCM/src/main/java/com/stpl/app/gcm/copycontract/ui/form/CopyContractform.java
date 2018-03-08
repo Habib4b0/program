@@ -76,7 +76,7 @@ import com.vaadin.event.FieldEvents.BlurListener;
 public class CopyContractform extends CustomComponent implements View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyContractform.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final CopyContractWindow editWindow;
     private ExtFilterTable resultTable;
     @UiField("main")
@@ -435,7 +435,7 @@ public class CopyContractform extends CustomComponent implements View {
         List<CopyComponentDTO> list = new ArrayList<>();
         for (int i = 0; i < no; i++) {
             CopyComponentDTO dto = new CopyComponentDTO();
-            dto.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+            dto.setCheck(BooleanConstant.getFalseFlag());
             dto.setContractId(Constants.EMPTY);
             dto.setContractNo(Constants.EMPTY);
             dto.setContractName(Constants.EMPTY);
@@ -449,7 +449,7 @@ public class CopyContractform extends CustomComponent implements View {
             dto.setAliasNumber(Constants.EMPTY);
             dto.setAliasstartdate(null);
             dto.setAliasenddate(null);
-            dto.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+            dto.setCheck(BooleanConstant.getFalseFlag());
             list.add(dto);
         }
 
@@ -597,7 +597,7 @@ public class CopyContractform extends CustomComponent implements View {
             multiContractTable.setVisible(true);
             multiContractButtons.setVisible(true);
             horizontalLayoutNC1.setVisible(false);
-            multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BOOLEAN_CONSTANT.getTrueFlag());
+            multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
             multiContractTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
                 @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
@@ -736,10 +736,10 @@ public class CopyContractform extends CustomComponent implements View {
         if (eDate != null && sDate.after(eDate)) {
 
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, field + " End date should be after " + field + " Start Date.");
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         } else if (eDate != null && sDate.getTime() == eDate.getTime()) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, field + "Start date and " + field + " End date are equal.");
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         }
         return flag;
     }
@@ -790,7 +790,7 @@ public class CopyContractform extends CustomComponent implements View {
         multiContractContainer.removeAllItems();
         multiContractTable.resetFilters();
         loadMultiContainer(i);
-        multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BOOLEAN_CONSTANT.getTrueFlag());
+        multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
     }
 
     private void addMultiContractDashboard(Collection<?> list) {

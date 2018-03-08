@@ -68,7 +68,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class Summary extends CustomComponent {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     @UiField("selectionCriteria")
     private Panel selectionCriteria;
@@ -159,11 +159,11 @@ public class Summary extends CustomComponent {
                 therapeuticClass.setValue(dto.getTherapeuticClass());
                 brand.setValue(dto.getBrand());
             }
-            itemNo.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
-            itemName.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
-            itemDesc.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
-            therapeuticClass.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
-            brand.setReadOnly(BOOLEAN_CONSTANT.getTrueFlag());
+            itemNo.setReadOnly(BooleanConstant.getTrueFlag());
+            itemName.setReadOnly(BooleanConstant.getTrueFlag());
+            itemDesc.setReadOnly(BooleanConstant.getTrueFlag());
+            therapeuticClass.setReadOnly(BooleanConstant.getTrueFlag());
+            brand.setReadOnly(BooleanConstant.getTrueFlag());
 
         } catch (Exception e) {
             LOGGER.error("",e);
@@ -261,7 +261,7 @@ public class Summary extends CustomComponent {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BOOLEAN_CONSTANT.getTrueFlag());
+                    abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", BooleanConstant.getTrueFlag());
                     return marketTypeDdlb;
                 }
                 return null;
@@ -454,14 +454,14 @@ public class Summary extends CustomComponent {
         logic.deleteContractTree(selection, contractSid);
         if (isTreeRemove) {
             contractDashboardTableLogic.loadSetData(selection, loadDashBoardSid());
-            contractTableLogic.loadSetData(selection, BOOLEAN_CONSTANT.getTrueFlag());
+            contractTableLogic.loadSetData(selection, BooleanConstant.getTrueFlag());
         } else {
-            contractTableLogic.loadSetData(selection, BOOLEAN_CONSTANT.getTrueFlag());
+            contractTableLogic.loadSetData(selection, BooleanConstant.getTrueFlag());
         }
     }
 
     public void loadItemResults() {
-        contractTableLogic.loadSetData(selection, BOOLEAN_CONSTANT.getTrueFlag());
+        contractTableLogic.loadSetData(selection, BooleanConstant.getTrueFlag());
 
         for (Object object : addContractTable.getVisibleColumns()) {
             if (String.valueOf(object).contains("Date")) {

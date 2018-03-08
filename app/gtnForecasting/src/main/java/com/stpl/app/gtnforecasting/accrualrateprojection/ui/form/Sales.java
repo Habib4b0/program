@@ -70,7 +70,7 @@ public class Sales extends CustomComponent {
     public static final Logger LOGGER = LoggerFactory
             .getLogger(Sales.class);
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     @UiField("exclusionDetails")
     protected Button exclusionDetails;
@@ -318,7 +318,7 @@ public class Sales extends CustomComponent {
             }
             loadResultsTable();
             map.put(Constant.PERIOD_BASIS, priceBasisDdlb.getValue());
-            map.put(Constant.IS_SALES_GENERATED, BOOLEAN_CONSTANT.getTrueFlag());
+            map.put(Constant.IS_SALES_GENERATED, BooleanConstant.getTrueFlag());
         }
         LOGGER.info("generate button click end");
     }

@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ItemContractSelectionDTO implements Cloneable {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     private Boolean checkRecord;
     private String contractHolder = StringUtils.EMPTY;
@@ -294,7 +294,7 @@ public class ItemContractSelectionDTO implements Cloneable {
     public ItemContractSelectionDTO clone() throws CloneNotSupportedException {
         ItemContractSelectionDTO selection = new ItemContractSelectionDTO();
         selection.contractSid = this.contractSid;
-        selection.checkRecord = BOOLEAN_CONSTANT.getFalseFlag();
+        selection.checkRecord = BooleanConstant.getFalseFlag();
         selection.contractHolder = this.contractHolder;
         selection.contractNo = this.contractNo;
         selection.contractName = this.contractName;

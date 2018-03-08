@@ -67,7 +67,7 @@ public class ForecastUI extends UI {
      * Navigator to navigate through screens *.
      */
     private Navigator navigator;
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     protected String pageParameters = null;
     protected final StplSecurity stplSecurity = new StplSecurity();
     protected DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
@@ -243,9 +243,9 @@ public class ForecastUI extends UI {
                         int customerSelectedLevel = Integer.parseInt(customerHierarchyLevel);
                         int productSelectedLeve = Integer.parseInt(productHierarchyLevel);
                         List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-                                BOOLEAN_CONSTANT.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
+                                BooleanConstant.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
                         List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-                                BOOLEAN_CONSTANT.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
+                                BooleanConstant.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
 
                         customerHierarchyLevelDefinitionList = relationLogic
                                 .getHierarchyLevelDefinition(Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo);

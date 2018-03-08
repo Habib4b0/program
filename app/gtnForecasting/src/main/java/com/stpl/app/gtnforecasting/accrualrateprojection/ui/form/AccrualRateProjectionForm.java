@@ -82,7 +82,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionForm.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     private Sales sales;
 
@@ -844,7 +844,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             //To check wheather the Rates merge thread is running
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.ONE));
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.TWO));
-            isRatesLoaded = BOOLEAN_CONSTANT.getTrueFlag();
+            isRatesLoaded = BooleanConstant.getTrueFlag();
             rates.configureOnLoad();
         } else if (tabPosition == NumericConstants.THREE && !isDetailsLoaded) {
             //To check the rates tab is loaded or not
@@ -854,7 +854,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             }
             //To check wheather the Details merge thread is running
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.THREE));
-            isDetailsLoaded = BOOLEAN_CONSTANT.getTrueFlag();
+            isDetailsLoaded = BooleanConstant.getTrueFlag();
             details.configureOnLoad();
         }
     }

@@ -48,7 +48,7 @@ public class NotesTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private boolean isFileExists;
     /**
      * Gets the attachment dto list.
@@ -118,7 +118,7 @@ public class NotesTabLogic {
         File file = new File(fileName);
         isFileExists=file.delete();
         LOGGER.info("File deleted successfully= {} ",isFileExists);
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
 
     public void saveUploadedFile(int projectionId, String fileName, String uploadedBy, int fileSize, String moduleName) throws SystemException {
@@ -200,7 +200,7 @@ public class NotesTabLogic {
 
         LOGGER.debug("End of saveNotes method");
 
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
 
     /**

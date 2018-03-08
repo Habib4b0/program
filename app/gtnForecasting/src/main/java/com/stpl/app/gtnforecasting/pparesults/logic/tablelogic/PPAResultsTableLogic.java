@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PPAResultsTableLogic extends PageTreeTableLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     protected ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
     protected PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
     protected SessionDTO session;
@@ -72,7 +72,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
         if (firstGenerated && offset > 0) {
             int maybeadded = 0;
             if (!(getLastParent() instanceof PPAProjectionResultsDTO) && !selection.isIsFilter()) {
-                selection.setIsProjectionTotal(BOOLEAN_CONSTANT.getTrueFlag());
+                selection.setIsProjectionTotal(BooleanConstant.getTrueFlag());
                 list = logic.getPPAProjectionResultsTotal(start, offset, selection, session);
 
             }
@@ -99,7 +99,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
     public int getCount() {
         int count = 0;
         if (firstGenerated) {
-            count = logic.getConfiguredPPAProjectionResultsCount(getLastParent(), selection, BOOLEAN_CONSTANT.getTrueFlag());
+            count = logic.getConfiguredPPAProjectionResultsCount(getLastParent(), selection, BooleanConstant.getTrueFlag());
         }
         return count;
     }
@@ -142,13 +142,13 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

@@ -87,7 +87,7 @@ public class ItemSelection extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelection.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     private final CommonUtil commonMsg = CommonUtil.getInstance();
 
@@ -741,7 +741,7 @@ public class ItemSelection extends CustomComponent {
                             ids.add(selection.getItemSystemID());
                         }
                     }
-                    selectionLogic.removeItem(StringUtils.join(ids, ","), sessionDTO, BOOLEAN_CONSTANT.getFalseFlag());
+                    selectionLogic.removeItem(StringUtils.join(ids, ","), sessionDTO, BooleanConstant.getFalseFlag());
                     deductionCalendarForm.setNeedRefresh(true);
                     loadInEdit();
                 } catch (Exception ex) {
@@ -778,7 +778,7 @@ public class ItemSelection extends CustomComponent {
                 LOGGER.debug("Entering inside Remove All Item Method");
                 try {
                     // method to save to temp table
-                    selectionLogic.removeItem(HelperUtils.EMPTY, sessionDTO, BOOLEAN_CONSTANT.getTrueFlag());
+                    selectionLogic.removeItem(HelperUtils.EMPTY, sessionDTO, BooleanConstant.getTrueFlag());
                                 // here we are setting the lazyUtilDTO and getting inside the SelectedCompaniesContainer
                     // that is used to pass the  used id , sessionid
                     deductionCalendarForm.setNeedRefresh(true);
@@ -827,7 +827,7 @@ public class ItemSelection extends CustomComponent {
        brandDdlb.select(dto);
        itemDesc.setValue(StringUtils.EMPTY);
        item.setValue(StringUtils.EMPTY);
-       excelEligible = BOOLEAN_CONSTANT.getFalseFlag();
+       excelEligible = BooleanConstant.getFalseFlag();
        availableItemTable.setFilterGenerator(new ItemMasterGenerate());
        availableItemTable.setFilterDecorator(new ExtDemoFilterDecorator());
        availableTableLogic.clearAll();
