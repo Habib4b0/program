@@ -53,4 +53,8 @@ border-radius: 0px;
 .v-loading-indicator {
     background-color: #e4ca1f;
 }
+
+.v-menubar > .v-menubar-menuitem:first-child  > .v-menubar-menuitem-caption{
+     overflow: hidden;
+}
 }
