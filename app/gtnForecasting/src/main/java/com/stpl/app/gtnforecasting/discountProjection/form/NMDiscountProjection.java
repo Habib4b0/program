@@ -2263,6 +2263,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 && !AVERAGE.getConstant().equals(methodologyDdlb.getValue())
                                 && !ROLLING_ANNUAL_TREND.getConstant().equals(methodologyDdlb.getValue())
                                 && !Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equals(methodologyDdlb.getValue())
+                                && !Constant.SINGLE_PERIOD.equals(methodologyDdlb.getValue())
                                 && (checkBoxMap.size() == 0 || checkedDiscountsPropertyIds.size() != checkBoxMap.size()) && !PER_EX_FACTORY_SALES.getConstant().equals(methodologyDdlb.getValue())) {
                             NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED, PLEASE_SELECT_A_HISTORIC_ALERT);
                         } else if (baseLineCalc(startPeriodForecastTab.getValue().toString(),
