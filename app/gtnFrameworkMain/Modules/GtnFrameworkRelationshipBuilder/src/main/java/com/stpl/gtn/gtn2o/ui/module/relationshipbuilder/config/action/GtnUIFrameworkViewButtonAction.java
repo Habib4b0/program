@@ -118,11 +118,11 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15))
 						.loadDateValue(null);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13))
-						.setComponentEnable(Boolean.TRUE);
+						.setComponentEnable(true);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14))
-						.setComponentEnable(Boolean.TRUE);
+						.setComponentEnable(true);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15))
-						.setComponentEnable(Boolean.TRUE);
+						.setComponentEnable(true);
 			} else {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
 						.loadDateValue(relationshipName);
