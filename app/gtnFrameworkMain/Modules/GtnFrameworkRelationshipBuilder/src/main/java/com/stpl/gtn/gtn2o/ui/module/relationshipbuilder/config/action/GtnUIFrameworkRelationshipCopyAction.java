@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import java.util.List;
@@ -44,7 +45,7 @@ public class GtnUIFrameworkRelationshipCopyAction implements GtnUIFrameWorkActio
 		int versionNo = gtnWsRecordBean.getIntegerPropertyByIndex(index + 3);
 		GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(3).toString(), versionNo);
 		GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(4).toString(), gtnWsRecordBean);
-		GtnUIFrameworkGlobalUI.addSessionProperty("mode", "Copy");
+		GtnUIFrameworkGlobalUI.addSessionProperty("mode", String.valueOf(GtnUIFrameworkModeType.COPY));
 
 		GtnUIFrameworkViewButtonAction viewAction = new GtnUIFrameworkViewButtonAction();
 		viewAction.configureParams(gtnUIFrameWorkActionConfig);
