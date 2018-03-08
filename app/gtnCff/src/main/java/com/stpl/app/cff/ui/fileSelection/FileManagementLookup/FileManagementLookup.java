@@ -3978,7 +3978,7 @@ public class FileManagementLookup extends Window {
 				SessionDTO sessionDto = getSessionDto();
 				String fileAbsolutePath = GtnWsCsvExportUtil.getExportFileName(detailsResultDTO.getHelperType(),
 						countQuery, dataQuery, Arrays.asList(configureExcelDetailsTableBCP()), sessionDto.getUserId(),
-						sessionDto.getSessionId(), 2);
+						sessionDto.getSessionId(), 3);
 				GtnWsCsvExportUtil.sendTheExcelToUser(detailsResultDTO.getHelperType(), fileAbsolutePath, true,
 						sessionDto.getUserId(), sessionDto.getSessionId());
 			}
