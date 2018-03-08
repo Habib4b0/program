@@ -395,7 +395,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesTable.setContainerDataSource(priceTypesBean);
             priceTypesTable.setVisibleColumns(CommonUiUtils.getPeriodTypeColumns());
             priceTypesTable.setColumnHeaders(CommonUiUtils.getPeriodTypesHeader());
-            priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.FIVE], Table.Align.RIGHT);
+            priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.FIVE], Table.Align.LEFT);
             priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.NINE], Table.Align.CENTER);
             priceTypesTable.setPageLength(NumericConstants.SEVEN);
 
