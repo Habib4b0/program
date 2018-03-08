@@ -46,7 +46,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RemoveContractSearch extends AbstractContractSearch {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private SelectionDTO selectionDTO = new SelectionDTO();
     private final StplSecurity stplSec = new StplSecurity();
     public static final Logger LOGGER = LoggerFactory.getLogger(RemoveContractSearch.class);
@@ -86,10 +86,10 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        MassUpdatePanel1.setVisible(BooleanConstant.getFalseFlag());
         allItems.addItem("Yes");
         allItems.select("Yes");
-        allItems.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
+        allItems.setEnabled(BooleanConstant.getFalseFlag());
         ConfigureTable();
         getBinder();
         loadAllDdlb();
@@ -235,7 +235,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
     @Override
     public Boolean submitButtonCheck() {
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
      private void configureSecurityPermissions() {
         try {

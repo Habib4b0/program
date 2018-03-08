@@ -107,7 +107,7 @@ import com.stpl.ifs.util.constants.BooleanConstant;
 public class Newcomponent extends CustomComponent {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Newcomponent.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @UiField("componenttype")
     public ComboBox componenttype;
     @UiField("SearchfieldNC")
@@ -333,7 +333,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
             componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-            componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+            componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
 
             Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
             for (Object column : visibleColumns) {
@@ -395,7 +395,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSelectedItem.setEditable(true);
             componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
             componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
-            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
             componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
 
@@ -510,7 +510,7 @@ public class Newcomponent extends CustomComponent {
         componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
         componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
         componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-        componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+        componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
 
         Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
         for (Object column : visibleColumns) {
@@ -561,7 +561,7 @@ public class Newcomponent extends CustomComponent {
                     componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
                     componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newCompanyDetailsColumns[0], BOOLEAN_CONSTANT.getTrueFlag());
+                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newCompanyDetailsColumns[0], BooleanConstant.getTrueFlag());
 
                     Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
                     for (Object column : visibleColumns) {
@@ -621,7 +621,7 @@ public class Newcomponent extends CustomComponent {
                     componentDetailsSearchTable.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSearchTable.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
 
-                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newIfpDetailsColumns[0], BOOLEAN_CONSTANT.getTrueFlag());
+                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newIfpDetailsColumns[0], BooleanConstant.getTrueFlag());
                     componentDetailsSelectedItem.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSelectedItem.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
                     Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
@@ -900,7 +900,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
             componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
             componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
-            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
             fieldDdlb.addItem(Constants.STATUS_FIELD);
             fieldDdlb.addItem(Constants.START_DATE_HEADER);
             fieldDdlb.addItem(Constants.END_DATE_HEADER);
@@ -2536,10 +2536,10 @@ public class Newcomponent extends CustomComponent {
 
     private boolean checkStartDate() {
         List<NewComponentDTO> list = componentResultsContainer.getItemIds();
-        boolean flag = BOOLEAN_CONSTANT.getTrueFlag();
+        boolean flag = BooleanConstant.getTrueFlag();
         for (NewComponentDTO list1 : list) {
             if (list1.getStartDate() == null) {
-                flag = BOOLEAN_CONSTANT.getFalseFlag();
+                flag = BooleanConstant.getFalseFlag();
             }
         }
         return flag;

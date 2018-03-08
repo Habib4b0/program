@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.GtnFrameworkRelationshipBuilderResultLayoutConfig;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
@@ -54,7 +55,8 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
 			String namespaceprefix = parameters.get(7).toString();
 			boolean view = Boolean.parseBoolean(parameters.get(21).toString());
-			setInitialValue(parameters, namespaceprefix, relationshipBean, index, view);
+			String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+			setInitialValue(parameters, namespaceprefix, relationshipBean, index, view, mode);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(3).toString())
 					.loadDefaultCombobox(versionNo, versionNo);
 			loadResultLayout(componentId, parameters, namespaceprefix, relationshipBean, view);
@@ -99,7 +101,7 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 	}
 
 	private void setInitialValue(List<Object> parameters, String namespaceprefix, GtnWsRecordBean relationshipBean,
-			int index, boolean view) {
+			int index, boolean view, String mode) {
 		try {
 			String relationshipType = String.valueOf(relationshipBean.getProperties().get(2));
 			int hierarchySId = Integer.parseInt(String.valueOf(relationshipBean.getProperties().get(index + 1)));
@@ -108,24 +110,40 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 			String relationshipDescription = String.valueOf(relationshipBean.getProperties().get(1));
 			Date startDate = (Date) relationshipBean.getProperties().get(5);
 
+			if (mode.equals(String.valueOf(GtnUIFrameworkModeType.COPY))) {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13))
+						.loadDateValue(null);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14))
+						.loadDateValue(null);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15))
+						.loadDateValue(null);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13))
+						.setComponentEnable(Boolean.TRUE);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14))
+						.setComponentEnable(Boolean.TRUE);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15))
+						.setComponentEnable(Boolean.TRUE);
+			} else {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+						.loadDateValue(relationshipName);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+						.loadDateValue(relationshipDescription);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+						.loadDateValue(startDate);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+						.setComponentEnable(false);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+						.setComponentEnable(false);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+						.setComponentEnable(false);
+			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
 					.loadComboBoxComponentValue(hierarchySId);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())
 					.loadFieldValue(relationshipType);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(12).toString())
 					.loadFieldValue(builderType);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
-					.loadDateValue(relationshipName);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
-					.loadDateValue(relationshipDescription);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
-					.loadDateValue(startDate);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
-					.setComponentEnable(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
-					.setComponentEnable(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
-					.setComponentEnable(false);
+
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
 					.setComponentEnable(!view);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())

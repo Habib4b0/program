@@ -42,7 +42,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
 	private NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
     private boolean firstGenerated = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResultsTableLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private SalesProjectionResultsTree tree;
     private Map<String, SalesProjectionResultsDTO> loadDataMap = new HashMap<>();
     private String pivotValue = StringUtils.EMPTY;
@@ -229,7 +229,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
         for (Map.Entry<String, SalesProjectionResultsDTO> loadData : loadDataMap.entrySet()) {
             addCurrentPageData(loadData.getKey(), loadData.getValue());
         }
@@ -239,7 +239,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

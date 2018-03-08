@@ -68,7 +68,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class PPADetailsLookup extends Window {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPADetailsLookup.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     @UiField("contractLabel")
     private Label contractLabel;
@@ -198,7 +198,7 @@ public class PPADetailsLookup extends Window {
     private void configureTable() {
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         tableLogic.setContainerDataSource(resultsContainer);
-        tableLogic.sinkItemPerPageWithPageLength(BOOLEAN_CONSTANT.getFalseFlag());
+        tableLogic.sinkItemPerPageWithPageLength(BooleanConstant.getFalseFlag());
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable.setVisibleColumns(HeaderUtils.getPpaDetailsVisibleColRight());

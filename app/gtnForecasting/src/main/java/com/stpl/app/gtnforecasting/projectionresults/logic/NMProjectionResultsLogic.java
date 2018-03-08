@@ -33,7 +33,7 @@ public class NMProjectionResultsLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NMProjectionResultsLogic.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The Currency Zero Decimal Places Format.
      */
@@ -605,7 +605,7 @@ public class NMProjectionResultsLogic {
          String query;
          query = commonLogic.insertAvailableHierarchyNo(projSelDTO);
           query +=commonLogic.getGroupFilterJoinQuery(projSelDTO);
-         query += getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+         query += getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
         List<ProjectionResultsDTO> projDTOList = getCustomizedProjectionResultsSales(list, projSelDTO);
         LOGGER.debug("= = = Ending getContractSalesAndUnits = = =");
@@ -2675,8 +2675,8 @@ public class NMProjectionResultsLogic {
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
             if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
-                projSelDTO.setPpa(BOOLEAN_CONSTANT.getFalseFlag());
-                projSelDTO.setReturns(BOOLEAN_CONSTANT.getFalseFlag());
+                projSelDTO.setPpa(BooleanConstant.getFalseFlag());
+                projSelDTO.setReturns(BooleanConstant.getFalseFlag());
                 if (projSelDTO.isIsTotal()) {
                     count = count + NumericConstants.NINE; 
                     if (projSelDTO.isIsProjectionTotal()) {
@@ -3249,7 +3249,7 @@ public class NMProjectionResultsLogic {
         selectClause += " ACTUAL_RATE=Isnull(PPA.ACTUAL_SALES / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100,\n"
                 + " PROJECTION_RATE=Isnull(PPA.PROJECTION_SALES / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
-        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         customQuery = selectClause + Constant.FROM_SLASH_N + ppaQuery + "\n) PPA LEFT JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
         return customQuery;
     }
@@ -3264,7 +3264,7 @@ public class NMProjectionResultsLogic {
         selectClause += " ,PPA_ACTUAL_RPU=(Isnull(PPA.PPA_ACTUAL_RPU / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0))\n"
                 + "       ,PPA_PROJECTED_RPU=(Isnull(PPA.PPA_PROJECTED_RPU / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0))";
         String ppaQuery = getProjectionResultsPPARPUQuery(projSelDTO);
-        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         customQuery = selectClause + Constant.FROM_SLASH_N + ppaQuery +"and history.ppa_DISCOUNTS=future.ppa_DISCOUNTS"+ "\n)  PPA LEFT JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
         return customQuery;
     }
@@ -3301,7 +3301,7 @@ public class NMProjectionResultsLogic {
         selectClause += " ACTUAL_RATE=Isnull(TODIS.ACTUAL_SALES / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100,\n"
                 + " PROJECTION_RATE=Isnull(TODIS.PROJECTION_SALES / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
-        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS LEFT JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond + "\n order by TODIS.DISCOUNTS";
         return customQuery;
     }
@@ -3321,7 +3321,7 @@ public class NMProjectionResultsLogic {
 
         selectClause += ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n";
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
-        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n)  TODIS FULL OUTER JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
             String finalWhereCond1 = list.get(NumericConstants.TWO);
@@ -3360,7 +3360,7 @@ public class NMProjectionResultsLogic {
                 + "NETSALES_EX_FACTORY_PROJECTED=coalesce((Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)+Isnull(PPA.PROJECTION_SALES, 0)))/nullif(file_data.EXFACTORY_FORECAST,0),0)*100 \n";
         
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
-        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS  FULL OUTER JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
 
@@ -3698,7 +3698,7 @@ public class NMProjectionResultsLogic {
         selectClause += " COGS_ACTUAL = (ISNULL(SALE.ACTUAL_UNITS, 0) * ISNULL(COGS.ITEM_PRICE, 0))\n"
                 + ", COGS_PROJECTED = (ISNULL(SALE.PROJECTION_UNITS, 0) * ISNULL(COGS.ITEM_PRICE, 0))\n";
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
-        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         String cogsQuery = getProjectionResultsCOGSQuery(projSelDTO);
         customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL OUTER  JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond + "\n";
@@ -4199,7 +4199,7 @@ public class NMProjectionResultsLogic {
 
 
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, StringUtils.EMPTY);
-        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         String cogsQuery = getProjectionResultsCOGSQuery(projSelDTO);
         customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond + " \n";
@@ -4254,7 +4254,7 @@ public class NMProjectionResultsLogic {
         }
         selectClause += ") / NULLIF(SALE.PROJECTION_UNITS, 0), 0) \n";
         String totalDiscountQuery = getProjectionResultsDiscountsRPUQuery(projSelDTO, StringUtils.EMPTY);
-        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BOOLEAN_CONSTANT.getFalseFlag());
+        String salesQuery = getProjectionResultsSalesQuery(projSelDTO,BooleanConstant.getFalseFlag());
         String ppaQuery = getProjectionResultsPPAQuery(projSelDTO);
         customQuery = selectClause + Constant.FROM_SLASH_N + totalDiscountQuery + "\n) TODIS FULL OUTER JOIN (\n" + salesQuery + Constant.CLOSE_SALE_SLASH_N + finalWhereCond;
         customQuery +="SELECT  DISTINCT YEARS, PERIODS,RS_NAME,ACTUAL_DOLLAR, PROJECTION_DOLLAR,ACTUAL_RATE,PROJECTION_RATE,ACTUAL_RPU, PROJECTION_RPU FROM  @DISCOUNT_PPA";

@@ -86,7 +86,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
      */
     public static final String NAME = StringUtils.EMPTY;
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The Constant LOGGER.
      */
@@ -679,9 +679,9 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     MessageConstants.NO_SEARCH_CRITERIA_TP.getConstant());
             return;
         } else {
-            binderDto.setSearch(BOOLEAN_CONSTANT.getTrueFlag());
+            binderDto.setSearch(BooleanConstant.getTrueFlag());
         }
-        binderDto.setReset(BOOLEAN_CONSTANT.getFalseFlag());
+        binderDto.setReset(BooleanConstant.getFalseFlag());
         if (!tableLogic.loadSetData(binderDto, session)) {
             AbstractNotificationUtils.getErrorNotification("No Matching Records",
                     "There were no records matching the search criteria.  Please try again.");

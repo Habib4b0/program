@@ -41,7 +41,7 @@ public class PVQueryUtils {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PVQueryUtils.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     public static final String IMONTH = ", I.\"MONTH\"";
     public static final String YEARS_SPACE = " YEARS";
     public static final String YEARS_PERIODS = " YEARS,PERIODS ";
@@ -919,9 +919,9 @@ public class PVQueryUtils {
 
     private boolean isValidateSearchCriteria(String dto) {
         if (dto == null || StringUtils.isBlank(dto)) {
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         } else {
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         }
     }
     

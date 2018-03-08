@@ -25,7 +25,7 @@ public class TransferPDFilterGenerator implements ExtFilterGenerator {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(TransferPDFilterGenerator.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
    
     @Override
@@ -69,7 +69,7 @@ public class TransferPDFilterGenerator implements ExtFilterGenerator {
             if ("statusString".equals(propertyId)) {
 
                 comboBox = new ComboBox();
-                CommmonLogic.loaDDLBForListLoading(comboBox,"STATUS",BOOLEAN_CONSTANT.getTrueFlag());
+                CommmonLogic.loaDDLBForListLoading(comboBox,"STATUS",BooleanConstant.getTrueFlag());
                 comboBox.setNullSelectionAllowed(true);
                 comboBox.setNullSelectionItemId("Show All");
                 comboBox.select(ConstantsUtils.ZERO_INT);

@@ -121,7 +121,7 @@ public class TransferSelectionForm extends VerticalLayout {
     @UiField("next")
     public Button next;
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final TabSheet tabSheet = new TabSheet();
     private final ExtTreeContainer<TransferFromDTO> fromResultContainer = new ExtTreeContainer<>(TransferFromDTO.class);
     private final ExtTreeContainer<TransferToDTO> toResultContainer = new ExtTreeContainer<>(TransferToDTO.class);
@@ -175,24 +175,24 @@ public class TransferSelectionForm extends VerticalLayout {
         searchField.addItem(Constants.SELECT_ONE);
         searchField.select(Constants.SELECT_ONE);
         
-        fromResultTable.setImmediate(BOOLEAN_CONSTANT.getTrueFlag());
+        fromResultTable.setImmediate(BooleanConstant.getTrueFlag());
         fromResultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         fromResultTable.setWidth(NumericConstants.SEVEN_SEVEN_FIVE, Unit.PIXELS);
         fromResultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
-        fromResultTable.setSelectable(BOOLEAN_CONSTANT.getTrueFlag());
+        fromResultTable.setSelectable(BooleanConstant.getTrueFlag());
         fromResultTable.setPageLength(NumericConstants.FIVE);
 
-        toResultTable.setImmediate(BOOLEAN_CONSTANT.getTrueFlag());
+        toResultTable.setImmediate(BooleanConstant.getTrueFlag());
         toResultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         toResultTable.setWidth(NumericConstants.NINE_SEVEN_FIVE, Unit.PIXELS);
         toResultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
-        toResultTable.setSelectable(BOOLEAN_CONSTANT.getTrueFlag());
+        toResultTable.setSelectable(BooleanConstant.getTrueFlag());
         toResultTable.setPageLength(NumericConstants.FIVE);
         toResultTable.setContainerDataSource(toResultContainer);
         toResultTable.setVisibleColumns(HeaderUtil.getInstance().transforToColumn);
         toResultTable.setColumnHeaders(HeaderUtil.getInstance().transforToHeader);
 
-        fromCDResultTable.setImmediate(BOOLEAN_CONSTANT.getTrueFlag());
+        fromCDResultTable.setImmediate(BooleanConstant.getTrueFlag());
         fromCDResultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         fromCDResultTable.setWidth(NumericConstants.SEVEN_SEVEN_FIVE, Unit.PIXELS);
         fromCDResultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -201,7 +201,7 @@ public class TransferSelectionForm extends VerticalLayout {
         fromCDResultTable.setVisibleColumns(HeaderUtil.getInstance().componentDetailsItemColumn);
         fromCDResultTable.setColumnHeaders(HeaderUtil.getInstance().componentDetailsItemHeader);
 
-        toCDResultTable.setImmediate(BOOLEAN_CONSTANT.getTrueFlag());
+        toCDResultTable.setImmediate(BooleanConstant.getTrueFlag());
         toCDResultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         toCDResultTable.setWidth(NumericConstants.NINE_SEVEN_FIVE, Unit.PIXELS);
         toCDResultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -218,8 +218,8 @@ public class TransferSelectionForm extends VerticalLayout {
         fromResultTable.setColumnHeaders(HeaderUtil.getInstance().transforFromHeader);
         for (Object temp : logic.getTransferFromDetails(null, resultList)) {
             fromResultContainer.addItem(temp);
-            fromResultContainer.setChildrenAllowed(temp, BOOLEAN_CONSTANT.getTrueFlag());
-            fromResultTable.setCollapsed(temp, BOOLEAN_CONSTANT.getFalseFlag());
+            fromResultContainer.setChildrenAllowed(temp, BooleanConstant.getTrueFlag());
+            fromResultTable.setCollapsed(temp, BooleanConstant.getFalseFlag());
         }
     }
 
@@ -230,8 +230,8 @@ public class TransferSelectionForm extends VerticalLayout {
         toResultTable.setColumnHeaders(HeaderUtil.getInstance().transforToHeader);
         for (Object temp : logic.getTransferToDetails(null, sComponent, sField, sValue)) {
             toResultContainer.addItem(temp);
-            toResultContainer.setChildrenAllowed(temp, BOOLEAN_CONSTANT.getTrueFlag());
-            toResultTable.setCollapsed(temp, BOOLEAN_CONSTANT.getFalseFlag());
+            toResultContainer.setChildrenAllowed(temp, BooleanConstant.getTrueFlag());
+            toResultTable.setCollapsed(temp, BooleanConstant.getFalseFlag());
         }
     }
 
@@ -297,10 +297,10 @@ public class TransferSelectionForm extends VerticalLayout {
             fromResultContainer.addItem(temp);
             fromResultContainer.setParent(temp, event.getItemId());
             if (temp.getLevel() < NumericConstants.FOUR) {
-                fromResultContainer.setChildrenAllowed(temp, BOOLEAN_CONSTANT.getTrueFlag());
-                fromResultTable.setCollapsed(temp, BOOLEAN_CONSTANT.getFalseFlag());
+                fromResultContainer.setChildrenAllowed(temp, BooleanConstant.getTrueFlag());
+                fromResultTable.setCollapsed(temp, BooleanConstant.getFalseFlag());
             } else {
-                fromResultContainer.setChildrenAllowed(temp, BOOLEAN_CONSTANT.getFalseFlag());
+                fromResultContainer.setChildrenAllowed(temp, BooleanConstant.getFalseFlag());
             }
         }
     }
@@ -311,7 +311,7 @@ public class TransferSelectionForm extends VerticalLayout {
         Object parent = fromResultContainer.getParent(temp);
         fromResultContainer.removeItemRecursively(temp);
         fromResultContainer.addItem(temp);
-        fromResultContainer.setChildrenAllowed(temp, BOOLEAN_CONSTANT.getTrueFlag());
+        fromResultContainer.setChildrenAllowed(temp, BooleanConstant.getTrueFlag());
         fromResultContainer.setParent(temp, parent);
     }
 
@@ -321,10 +321,10 @@ public class TransferSelectionForm extends VerticalLayout {
             toResultContainer.addItem(temp);
             toResultContainer.setParent(temp, event.getItemId());
             if (temp.getLevel() < NumericConstants.FOUR) {
-                toResultContainer.setChildrenAllowed(temp, BOOLEAN_CONSTANT.getTrueFlag());
-                toResultTable.setCollapsed(temp, BOOLEAN_CONSTANT.getFalseFlag());
+                toResultContainer.setChildrenAllowed(temp, BooleanConstant.getTrueFlag());
+                toResultTable.setCollapsed(temp, BooleanConstant.getFalseFlag());
             } else {
-                toResultContainer.setChildrenAllowed(temp, BOOLEAN_CONSTANT.getFalseFlag());
+                toResultContainer.setChildrenAllowed(temp, BooleanConstant.getFalseFlag());
             }
         }
     }
@@ -335,7 +335,7 @@ public class TransferSelectionForm extends VerticalLayout {
         Object parent = toResultContainer.getParent(temp);
         toResultContainer.removeItemRecursively(temp);
         toResultContainer.addItem(temp);
-        toResultContainer.setChildrenAllowed(temp, BOOLEAN_CONSTANT.getTrueFlag());
+        toResultContainer.setChildrenAllowed(temp, BooleanConstant.getTrueFlag());
         toResultContainer.setParent(temp, parent);
     }
 

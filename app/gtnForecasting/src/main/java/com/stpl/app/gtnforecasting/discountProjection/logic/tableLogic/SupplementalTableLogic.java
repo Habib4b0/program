@@ -36,7 +36,7 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SupplementalTableLogic.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     private boolean firstGenerated = false;
     private final SupplementalDiscountProjectionLogic sdpLogic = new SupplementalDiscountProjectionLogic();
@@ -120,13 +120,13 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

@@ -65,7 +65,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CffApprovalDetailsForm.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     /**
      * Approval UI Tab
@@ -609,10 +609,10 @@ public class CffApprovalDetailsForm extends CustomWindow {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessTabPermission(userId, "Consolidated Financial Forecast");
             if (functionHM.get("resultsTab") != null && !((AppPermission) functionHM.get("resultsTab")).isTabFlag()) {
-                tabSheet.getTab(NumericConstants.THREE).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
             }
             if (functionHM.get("varianceTab") != null && !((AppPermission) functionHM.get("varianceTab")).isTabFlag()) {
-                tabSheet.getTab(NumericConstants.FOUR).setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());

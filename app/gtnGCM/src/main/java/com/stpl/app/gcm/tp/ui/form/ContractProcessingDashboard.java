@@ -175,7 +175,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private final TreeTable contractDashboardTable = new TreeTable();
     private final StplSecurity stplSecurity = new StplSecurity();
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
     private BeanItemContainer<ContractResultDTO> selectedContractContainer = new BeanItemContainer<>(ContractResultDTO.class);
     private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
@@ -261,7 +261,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         componentInformationTable.setFilterBarVisible(true);
         componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
         componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
-        componentInformationTable.setFilterBarVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        componentInformationTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
         componentInformationTable.setFilterGenerator(new ExtFilterGenerator() {
 
@@ -346,7 +346,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         addTradingPartnerTable.setEditable(true);
         addTradingPartnerTable.setSelectable(true);
         addTradingPartnerTable.setSizeFull();
-        addTradingPartnerTable.setFilterBarVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        addTradingPartnerTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         addTradingPartnerTable.setFilterDecorator(new ExtDemoFilterDecorator());
         addTradingPartnerTable.setTableFieldFactory(new TableFieldFactory() {
             @Override
@@ -687,7 +687,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsIfp);
             componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersIfp);
         }
-        componentInformationTable.setFilterBarVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        componentInformationTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
 
     }
@@ -715,7 +715,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             changeOnListener(category);
             loadComponentInformationFields(Arrays.asList(logic.getComponentInformationData(category, id, false, false, 0, 0, null).get(0)));
             loadComponentInformationTable(category);
-            tablelogic.loadSetData(category, id, BOOLEAN_CONSTANT.getTrueFlag());
+            tablelogic.loadSetData(category, id, BooleanConstant.getTrueFlag());
         }
     }
 

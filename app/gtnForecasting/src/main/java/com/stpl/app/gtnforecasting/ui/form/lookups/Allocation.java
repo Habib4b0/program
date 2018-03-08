@@ -78,7 +78,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class Allocation extends CustomComponent implements View {
 
     private SessionDTO session;
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     @UiField("selectedCustomerTableLayout")
     private VerticalLayout selectedCustomerTableLayout;
@@ -279,7 +279,7 @@ public class Allocation extends CustomComponent implements View {
         rightTable.markAsDirty();
         leftTable.setVisibleColumns(leftDTO.getSingleColumns().toArray());
         leftTable.setColumnHeaders(leftDTO.getSingleHeaders().toArray(new String[leftDTO.getSingleHeaders().size()]));
-        leftTable.setDoubleHeaderVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        leftTable.setDoubleHeaderVisible(BooleanConstant.getTrueFlag());
         leftTable.setDoubleHeaderVisibleColumns(leftDTO.getDoubleColumns().toArray());
         leftTable.setDoubleHeaderColumnHeaders(leftDTO.getDoubleHeaders().toArray(new String[leftDTO.getDoubleHeaders().size()]));
         leftTable.addStyleName(Constant.TABLE_HEADER_CENTER);
@@ -288,7 +288,7 @@ public class Allocation extends CustomComponent implements View {
         rightTable.setHeight(Constant.PX_390);
         rightTable.setEditable(true);
         resultsTable.getRightFreezeAsTable().setEditable(true);
-        rightTable.setDoubleHeaderVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        rightTable.setDoubleHeaderVisible(BooleanConstant.getTrueFlag());
 
               List<Object> rightVisibleColumns;
          rightVisibleColumns=rightHeader.getSingleColumns();
@@ -312,11 +312,11 @@ public class Allocation extends CustomComponent implements View {
         leftTable.setDoubleHeaderMap(leftDTO.getDoubleHeaderMaps());
         leftTable.setFilterFieldVisible(Constant.CHECKRECORD, false);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        addToQueue = BOOLEAN_CONSTANT.getFalseFlag();
-        altDto.setReset(BOOLEAN_CONSTANT.getTrueFlag());
+        addToQueue = BooleanConstant.getFalseFlag();
+        altDto.setReset(BooleanConstant.getTrueFlag());
         altDto.setFrequency(frequency.getValue().toString());
-        session.setEndDate(commonUtil.formDate(session.getAltToPeriod(),altDto.getFrequency(),BOOLEAN_CONSTANT.getFalseFlag()));
-        session.setStartDate(commonUtil.formDate(session.getAltFromPeriod(),altDto.getFrequency(),BOOLEAN_CONSTANT.getTrueFlag()));
+        session.setEndDate(commonUtil.formDate(session.getAltToPeriod(),altDto.getFrequency(),BooleanConstant.getFalseFlag()));
+        session.setStartDate(commonUtil.formDate(session.getAltFromPeriod(),altDto.getFrequency(),BooleanConstant.getTrueFlag()));
         tableLogic.loadSetData(altDto, session, addToQueue);
         leftTable.setColumnCheckBox(Constant.CHECKRECORD, true,false);
         leftTable.setEditable(true);
@@ -345,7 +345,7 @@ public class Allocation extends CustomComponent implements View {
             final AlternateHistoryDTO dto = (AlternateHistoryDTO) itemId;
                 if ((!"Total Alternate History Baseline".equals(dto.getContractNo())) && (String.valueOf(propertyId).equals(Constant.CHECKRECORD))) {
                         final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                        check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                        check.setValue(BooleanConstant.getFalseFlag());
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -379,7 +379,7 @@ public class Allocation extends CustomComponent implements View {
                         }
                     if (!"Total Alternate History Baseline".equals(dto.getContractNo())) {
                         TextField textField = new TextField();
-                        textField.setImmediate(BOOLEAN_CONSTANT.getTrueFlag());
+                        textField.setImmediate(BooleanConstant.getTrueFlag());
                         textField.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                         textField.addStyleName(Constant.TXT_RIGHT_ALIGN);
                         if (propertyId != null) {
@@ -495,8 +495,8 @@ public class Allocation extends CustomComponent implements View {
         tableDetLogic.sinkItemPerPageWithPageLength(false);
         List<Integer> pagelength = CommonLogic.getPageNumber();
         tableDetLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
-        altDto.setReset(BOOLEAN_CONSTANT.getFalseFlag());
-        addToQueue = BOOLEAN_CONSTANT.getFalseFlag();
+        altDto.setReset(BooleanConstant.getFalseFlag());
+        addToQueue = BooleanConstant.getFalseFlag();
 
         tableDetLogic.setContainerDataSource(resultDetBean);
         resultsDetTable.getLeftFreezeAsTable().setFilterBarVisible(true);
@@ -506,12 +506,12 @@ public class Allocation extends CustomComponent implements View {
         rightDetTable.markAsDirty();
         leftDetTable.setVisibleColumns(leftDetDTO.getSingleColumns().toArray());
         leftDetTable.setColumnHeaders(leftDetDTO.getSingleHeaders().toArray(new String[leftDetDTO.getSingleHeaders().size()]));
-        leftDetTable.setDoubleHeaderVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        leftDetTable.setDoubleHeaderVisible(BooleanConstant.getFalseFlag());
         resultsDetTable.setHeight(Constant.PX_390);
         leftDetTable.setColumnCheckBox(Constant.CHECKRECORD, true);
         leftDetTable.setHeight(Constant.PX_390);
         rightDetTable.setHeight(Constant.PX_390);
-        rightDetTable.setDoubleHeaderVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        rightDetTable.setDoubleHeaderVisible(BooleanConstant.getTrueFlag());
         rightDetTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
         rightDetTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
         for (int i = 0; i < leftHeader.getSingleColumns().size(); i++) {
@@ -552,7 +552,7 @@ public class Allocation extends CustomComponent implements View {
                  final AlternateHistoryDTO dto = (AlternateHistoryDTO) itemId;
                 if (String.valueOf(propertyId).equals(Constant.CHECKRECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                    check.setValue(BooleanConstant.getFalseFlag());
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -616,11 +616,11 @@ public class Allocation extends CustomComponent implements View {
                 String table = (String) ((ExtCustomTable) event.getComponent()).getData();
                 if ("available".equalsIgnoreCase(table)) {
                     logic.checkAll_available_allocationTab(session, event.isChecked() ? 1 : 0, start_stamp, end_stamp);
-                    altDto.setReset(BOOLEAN_CONSTANT.getTrueFlag());
+                    altDto.setReset(BooleanConstant.getTrueFlag());
                     tableLogic.loadSetData(altDto, session, false);
                 } else {
                     logic.checkAll_selected_allocationTab(session, event.isChecked() ? 1 : 0, start_stamp, end_stamp);
-                    altDto.setReset(BOOLEAN_CONSTANT.getTrueFlag());
+                    altDto.setReset(BooleanConstant.getTrueFlag());
                     tableDetLogic.loadSetData(altDto, session, true);
                 }
                
@@ -650,7 +650,7 @@ public class Allocation extends CustomComponent implements View {
             }
             leftTable.setColumnCheckBox(Constant.CHECKRECORD, true, false);
             logic.addToQueue(session, start_stamp, end_stamp);
-            altDto.setReset(BOOLEAN_CONSTANT.getTrueFlag());
+            altDto.setReset(BooleanConstant.getTrueFlag());
             tableLogic.loadSetData(altDto, session, false);
             tableDetLogic.loadSetData(altDto, session, true);
         } catch (Exception ex) {
@@ -675,7 +675,7 @@ public class Allocation extends CustomComponent implements View {
             }
             leftDetTable.setColumnCheckBox(Constant.CHECKRECORD, true, false);
             logic.remove_selected_allocationTab(session, start_stamp, end_stamp);
-            altDto.setReset(BOOLEAN_CONSTANT.getTrueFlag());
+            altDto.setReset(BooleanConstant.getTrueFlag());
             tableDetLogic.loadSetData(altDto, session, true);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -703,7 +703,7 @@ public class Allocation extends CustomComponent implements View {
                         if (buttonId.name().equals("OK")) {
                                 leftDetTable.setColumnCheckBox(Constant.CHECKRECORD, true, false);
                                 logic.removeAll_selected_allocationTab(session);
-                                altDto.setReset(BOOLEAN_CONSTANT.getTrueFlag());
+                                altDto.setReset(BooleanConstant.getTrueFlag());
                                 tableDetLogic.loadSetData(altDto, session, true);
                         }
                     }
@@ -879,7 +879,7 @@ public class Allocation extends CustomComponent implements View {
         configureSelectionExcelResultTable();
         AlternateHistoryLogic altHistLogic;
         altHistLogic = new AlternateHistoryLogic();
-        List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, BOOLEAN_CONSTANT.getFalseFlag(), tableLogic.getFilters(), 0, 0, BOOLEAN_CONSTANT.getTrueFlag());
+        List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, BooleanConstant.getFalseFlag(), tableLogic.getFilters(), 0, 0, BooleanConstant.getTrueFlag());
         excelResultBean.addAll(list);
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
@@ -892,7 +892,7 @@ public class Allocation extends CustomComponent implements View {
         excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
         exportTable = new ExtCustomTable();
         selectedCustomerTableLayout.addComponent(exportTable);
-        exportTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        exportTable.setRefresh(BooleanConstant.getFalseFlag());
         exportTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportTable.setContainerDataSource(excelResultBean);
@@ -903,7 +903,7 @@ public class Allocation extends CustomComponent implements View {
     public void SelectionExport() {
         configureAvailableExcelResultTable();
         AlternateHistoryLogic altHistLogic = new AlternateHistoryLogic();
-        List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, BOOLEAN_CONSTANT.getTrueFlag(), tableDetLogic.getFilters(), 0, 0, BOOLEAN_CONSTANT.getTrueFlag());
+        List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, BooleanConstant.getTrueFlag(), tableDetLogic.getFilters(), 0, 0, BooleanConstant.getTrueFlag());
         excelResultBean.addAll(list);
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(' ', '_') + ".xls", false);
@@ -916,7 +916,7 @@ public class Allocation extends CustomComponent implements View {
         excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
         exportTable = new ExtCustomTable();
         allocationDetailsLayout.addComponent(exportTable);
-        exportTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        exportTable.setRefresh(BooleanConstant.getFalseFlag());
         exportTable.setVisible(false);
         excelResultBean.setColumnProperties(fullDetHeader.getProperties());
         exportTable.setContainerDataSource(excelResultBean);

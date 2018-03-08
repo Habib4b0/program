@@ -94,7 +94,7 @@ public class Summary extends CustomComponent {
     private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     private final BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     public static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final DiscountLogic discountLogic = new DiscountLogic();
     private final List contractList = new ArrayList();
     private final List companyList = new ArrayList();
@@ -207,7 +207,7 @@ public class Summary extends CustomComponent {
                 AbstractLogic logic = AbstractLogic.getInstance();
                 if ("contractStatus".equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BOOLEAN_CONSTANT.getTrueFlag());
+                    logic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
                     return marketTypeDdlb;
                 }
                 return null;

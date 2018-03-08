@@ -90,7 +90,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResults.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     private final List<Object> possibleKeyList = new ArrayList<>();
     private boolean sales;
@@ -828,7 +828,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     public void excelButtonLogic() {
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         exportPeriodViewTable.setDoubleHeaderVisible(true);
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
@@ -1201,7 +1201,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         selection.put("historyNum", String.valueOf(Integer.valueOf(his[0])));
         exportPeriodViewTable = new ExtFilterTreeTable();
         layout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);
@@ -1295,11 +1295,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), GlobalConstants.getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION_RESULTS);
 
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
-                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+                newBtn.setVisible(BooleanConstant.getFalseFlag());
+                editBtn.setVisible(BooleanConstant.getFalseFlag());
 
             }
 

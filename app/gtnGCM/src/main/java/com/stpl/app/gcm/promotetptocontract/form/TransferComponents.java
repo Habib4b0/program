@@ -113,7 +113,7 @@ public class TransferComponents extends CustomComponent implements View {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     /**
      * The Constant serialVersionUID.
@@ -348,14 +348,14 @@ public class TransferComponents extends CustomComponent implements View {
         transferCompTable1.setVisibleColumns(Constants.getInstance().contractCompResultsColumns);
         transferCompTable1.setColumnHeaders(Constants.getInstance().contractCompResultsHeaders);
         transferCompTable1.setSizeFull();
-        transferCompTable1.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
+        transferCompTable1.setEditable(BooleanConstant.getTrueFlag());
         transferCompTable1.markAsDirty();
         transferCompTable1.setSelectable(true);
         transferCompTable1.setWidth("1660px");
         transferCompTable1.setHeight("290px");
 
         transferCompTable1.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        transferCompTable1.setColumnCheckBox(Constants.CHECK_RECORD, BOOLEAN_CONSTANT.getTrueFlag());
+        transferCompTable1.setColumnCheckBox(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
 
         transferCompTable1.setTableFieldFactory(new TableFieldFactory() {
             @Override

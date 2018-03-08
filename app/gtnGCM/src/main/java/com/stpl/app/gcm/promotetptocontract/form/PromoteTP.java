@@ -71,7 +71,7 @@ public class PromoteTP extends VerticalLayout {
 
     private SessionDTO session = new SessionDTO();
     private static final Logger LOGGER = LoggerFactory.getLogger(PromoteTP.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
     private ErrorfulFieldGroup promoteTpToChDtoBinder;
     @UiField("promoteTpToChDtoTableLayout")
@@ -224,7 +224,7 @@ public class PromoteTP extends VerticalLayout {
         companyCategory.setNullSelectionAllowed(true);
         companyCategory.setNullSelectionItemId(ddlbDefaultValue);
 
-        tradeClass_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        tradeClass_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         tradeClass_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         tradeClass_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         tradeClass_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
