@@ -638,7 +638,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.START_DATE);
 		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESULT_TABLE);
 		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RELATIONSHIP_VALUE);
-		copyActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+		copyActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
 		copyActionConfig.addActionParameter("Are you sure you want to copy record ");
 		copyActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD);
 		copyActionConfig.addActionParameter(true);

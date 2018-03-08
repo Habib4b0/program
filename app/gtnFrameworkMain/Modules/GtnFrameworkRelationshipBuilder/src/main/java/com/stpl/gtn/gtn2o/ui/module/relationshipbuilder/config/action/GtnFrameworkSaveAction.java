@@ -16,9 +16,12 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnWsNumericConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -54,9 +57,9 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 		if (relation != null) {
 			GtnWsRecordBean relationshipBean = (GtnWsRecordBean) relation;
 			String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-			if (mode.equals("Copy")) {
-				relationshipBean.setPropertyValueByIndex(4, "1");
-				relationshipBean.setPropertyValueByIndex(9, "0");
+			if (mode.equals(String.valueOf(GtnUIFrameworkModeType.COPY))) {
+				relationshipBean.setPropertyValueByIndex(4, GtnWsRelationshipBuilderConstants.NUMERIC_CONSTANT_ONE);
+				relationshipBean.setPropertyValueByIndex(9, GtnFrameworkWebserviceConstant.ZERO);
 			}
 			rbRequest.setMainNode(relationshipBean);
 			GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
