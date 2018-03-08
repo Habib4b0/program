@@ -100,7 +100,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionResults.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The frequency.
      */
@@ -362,7 +362,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             graphBtn.setIcon(graphImage);
             group.setImmediate(true);
             group.removeAllItems();
-            group.setNullSelectionAllowed(BOOLEAN_CONSTANT.getFalseFlag());
+            group.setNullSelectionAllowed(BooleanConstant.getFalseFlag());
             setProjectionSelection();
             group.setVisible(false);
             groupLabel.setVisible(false);
@@ -454,7 +454,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                     resultsCaption.setCaption("Period View");
                 }
 
-                isGenerated = BOOLEAN_CONSTANT.getTrueFlag();
+                isGenerated = BooleanConstant.getTrueFlag();
                 tableLogic.setFirstGenerated(false);
                 periodTableId.constructRightFreeze(true);
                 rightTable = periodTableId.getRightFreezeAsTable();
@@ -589,7 +589,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     @UiHandler("collapseBtn")
     public void collapseLvlBtn(Button.ClickEvent event)  {
-        expandCollapseLevelOption(BOOLEAN_CONSTANT.getFalseFlag(), level.getValue());
+        expandCollapseLevelOption(BooleanConstant.getFalseFlag(), level.getValue());
     }
 
     /**
@@ -602,7 +602,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     @UiHandler("expandBtn")
     public void expandLvlBtn(Button.ClickEvent event)  {
-        expandCollapseLevelOption(BOOLEAN_CONSTANT.getTrueFlag(), level.getValue());
+        expandCollapseLevelOption(BooleanConstant.getTrueFlag(), level.getValue());
     }
 
     private void expandCollapseLevelOption(boolean isExpand, Object value)  {
@@ -627,7 +627,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                 tableLogic.loadExpandData(levelNo);
             }
         } else {
-            isGenerated = BOOLEAN_CONSTANT.getFalseFlag();
+            isGenerated = BooleanConstant.getFalseFlag();
             generateButtonLogic();
         }
     }
@@ -643,8 +643,8 @@ public class PPAProjectionResults extends CustomComponent implements View {
 
         excelTable = new ExtCustomTreeTable();
         verticalLayout.addComponent(excelTable);
-        excelTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
-        excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        excelTable.setRefresh(BooleanConstant.getFalseFlag());
+        excelTable.setVisible(BooleanConstant.getFalseFlag());
         List visibleColums = fullHeader.getSingleColumns();
         String[] visibleHeaders = fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size() - 1]);
         excelContainer.setColumnProperties(leftdto.getProperties());
@@ -653,7 +653,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         excelTable.setVisibleColumns(visibleColums.toArray());
         excelTable.setColumnHeaders(visibleHeaders);
         levelFilterDdlbChangeOption(true);
-        excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        excelTable.setRefresh(BooleanConstant.getTrueFlag());
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.PPA_PROJECTION_RESULT, Constant.PPA_PROJECTION_RESULT, "PPA_Projection_Results.xls", false);
         export.export();
@@ -787,16 +787,16 @@ public class PPAProjectionResults extends CustomComponent implements View {
 
     public void viewChange(boolean viewChange) {
         session.setIsPPAUpdated(true);
-        selection.setIsCustomHierarchy(BOOLEAN_CONSTANT.getFalseFlag());
-        customDdlb.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-        editBtn.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-        newBtn.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
+        selection.setIsCustomHierarchy(BooleanConstant.getFalseFlag());
+        customDdlb.setEnabled(BooleanConstant.getFalseFlag());
+        editBtn.setEnabled(BooleanConstant.getFalseFlag());
+        newBtn.setEnabled(BooleanConstant.getFalseFlag());
         if (view.getValue() != null) {
             if (Constant.CUSTOM_LABEL.equals(String.valueOf(view.getValue()))) {
                 selection.setHierarchyIndicator(StringUtils.EMPTY);
-                selection.setIsCustomHierarchy(BOOLEAN_CONSTANT.getTrueFlag());
-                levelFilter.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
-                group.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
+                selection.setIsCustomHierarchy(BooleanConstant.getTrueFlag());
+                levelFilter.setEnabled(BooleanConstant.getFalseFlag());
+                group.setEnabled(BooleanConstant.getTrueFlag());
                 if (firstGenerated && !generated) {
                     tableLogic.clearAll();
                     tableLogic.getControlTable().getContainerDataSource().removeAllItems();
@@ -807,17 +807,17 @@ public class PPAProjectionResults extends CustomComponent implements View {
             } else {
                 level.setEnabled(true);
                 customIdToSelect = customId;
-                levelFilter.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
-                selection.setIsCustomHierarchy(BOOLEAN_CONSTANT.getFalseFlag());
+                levelFilter.setEnabled(BooleanConstant.getTrueFlag());
+                selection.setIsCustomHierarchy(BooleanConstant.getFalseFlag());
                 selection.setTpLevel(Utility.getTradingPartnerLevelNo(projectionId,session));
                 if (Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue()))) {
                     selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                     selection.setRelationshipBuilderSid(selection.getCustRelationshipBuilderSid());
                     hierarchyLevelNo = Integer.parseInt(session.getCustomerLevelNumber());
-                    group.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
+                    group.setEnabled(BooleanConstant.getTrueFlag());
                     if (viewChange && firstGenerated) {
                         try {
-                            isGenerated = BOOLEAN_CONSTANT.getFalseFlag();
+                            isGenerated = BooleanConstant.getFalseFlag();
                             generateButtonLogic();
                         } catch (Exception ex) {
                             LoggerFactory.getLogger(PPAProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
@@ -827,7 +827,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                     selection.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
                     selection.setRelationshipBuilderSid(selection.getProdRelationshipBuilderSid());
                     hierarchyLevelNo = Integer.parseInt(session.getProductLevelNumber());
-                    group.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
+                    group.setEnabled(BooleanConstant.getFalseFlag());
                     if (viewChange && firstGenerated) {
                         try {
                             generateButtonLogic();
@@ -900,7 +900,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         }
         if (!generated && firstGenerated && !"null".equals(String.valueOf(customDdlb.getValue()))) {
             try {
-                isGenerated = BOOLEAN_CONSTANT.getFalseFlag();
+                isGenerated = BooleanConstant.getFalseFlag();
                 generateButtonLogic();
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
@@ -923,14 +923,14 @@ public class PPAProjectionResults extends CustomComponent implements View {
         selection.setView(view.getValue().toString());
         selection.setProjectionId(projectionId);
         selection.setSessionId(Integer.parseInt(session.getSessionId()));
-        selection.setIsProjectionTotal(BOOLEAN_CONSTANT.getTrueFlag());
+        selection.setIsProjectionTotal(BooleanConstant.getTrueFlag());
         selection.setForecastDTO(session.getForecastDTO());
         selection.setUserId(Integer.parseInt(session.getUserId()));
         selection.setCustomerLevelNo(Integer.parseInt(session.getCustomerLevelNumber()));
         selection.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
         selection.setCustRelationshipBuilderSid(session.getCustRelationshipBuilderSid());
         selection.setProdRelationshipBuilderSid(session.getProdRelationshipBuilderSid());
-        viewChange(BOOLEAN_CONSTANT.getFalseFlag());
+        viewChange(BooleanConstant.getFalseFlag());
         selection.setLevelNo(hierarchyLevelNo);
 
         tableLogic.setSelection(selection);
@@ -1056,7 +1056,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         } else if (excelExport) {
             loadExcelResultTable(hierarchyLevelNo, StringUtils.EMPTY);
         } else {
-            isGenerated = BOOLEAN_CONSTANT.getFalseFlag();
+            isGenerated = BooleanConstant.getFalseFlag();
             generateButtonLogic();
         }
     }
@@ -1074,7 +1074,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             resultList.addAll(logic.getConfiguredPPAProjectionResults1(new Object(), 0, NumericConstants.TEN_LAKH, selection, session));
 
             int maxLevelNo = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(selection.getHierarchyIndicator()) ? session.getMaximumCustomerLevel() : session.getMaximumProductLevel();
-            loadDataToContainer(resultList, null, BOOLEAN_CONSTANT.getTrueFlag(), maxLevelNo);
+            loadDataToContainer(resultList, null, BooleanConstant.getTrueFlag(), maxLevelNo);
         } catch (Exception ex) {
 
             LOGGER.error(ex.getMessage());
@@ -1116,7 +1116,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         levelFilter.removeValueChangeListener(levelFilterChangeOption);
         loadLevelFilter();
         levelFilter.addValueChangeListener(levelFilterChangeOption);
-        selection.setIsFilter(BOOLEAN_CONSTANT.getFalseFlag());
+        selection.setIsFilter(BooleanConstant.getFalseFlag());
         loadResultTable(hierarchyLevelNo, StringUtils.EMPTY);
 
     }
@@ -1142,9 +1142,9 @@ public class PPAProjectionResults extends CustomComponent implements View {
 
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.PPA_PROJECTION_RESULTS);
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {
-            generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            generateBtn.setVisible(BooleanConstant.getFalseFlag());
+            collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+            expandBtn.setVisible(BooleanConstant.getFalseFlag());
             editBtn.setVisible(false);
             newBtn.setVisible(false);
 
@@ -1195,8 +1195,8 @@ public class PPAProjectionResults extends CustomComponent implements View {
         try {
             excelTable = new ExtCustomTreeTable();
             verticalLayout.addComponent(excelTable);
-            excelTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
-            excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            excelTable.setRefresh(BooleanConstant.getFalseFlag());
+            excelTable.setVisible(BooleanConstant.getFalseFlag());
             excelContainer = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
             List visibleColums = fullHeader.getSingleColumns();
             String[] visibleHeaders = fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size() - 1]);

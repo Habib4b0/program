@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
     private SessionDTO session;
     private String frequency;
@@ -535,13 +535,13 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override
@@ -585,8 +585,8 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,
-                customDetailsList, BOOLEAN_CONSTANT.getTrueFlag(), isCustomHierarchy, rightDto, 0, 0, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag(), 
-                customViewDetails, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getTrueFlag(), hierarchyNumbers,
+                customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, rightDto, 0, 0, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
+                customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag(), hierarchyNumbers,
                 relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList, projectionSelection);
 
         for (DiscountProjectionDTO dto : refreshedDataList) {

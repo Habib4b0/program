@@ -22,7 +22,7 @@ public class NMSalesProjectionMasterImpl {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(NMSalesProjectionMasterImpl.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     public Object executeSelectQuery(String query, Object udc1, Object udc2) {
 
@@ -46,7 +46,7 @@ public class NMSalesProjectionMasterImpl {
             LOGGER.error(e.getMessage());
             LOGGER.error(query);
         }
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
 
     public Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
@@ -59,7 +59,7 @@ public class NMSalesProjectionMasterImpl {
         } finally {
 
         }
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
     
     public List getAssumptionResult(List input, String queryName) {

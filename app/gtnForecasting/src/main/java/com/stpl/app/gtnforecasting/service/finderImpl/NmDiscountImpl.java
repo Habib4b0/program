@@ -29,7 +29,7 @@ public class NmDiscountImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NmDiscountImpl.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     public List getDiscountNo(int projectionId, List<String> priceGroupType) {
 
@@ -1596,11 +1596,11 @@ public class NmDiscountImpl {
                     + " AND DPT.SESSION_ID = " + sessionId + "\n";
 
             HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         }
 
     }

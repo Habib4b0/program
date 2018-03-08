@@ -12,16 +12,16 @@ package com.stpl.ifs.util.constants;
  */
 public final class BooleanConstant {
     
-    private static final boolean trueFlag = true;
+    private static final boolean TRUE_FLAG = true;
     
-    private static final boolean falseFlag = false;
+    private static final boolean FALSE_FLAG = false;
 
     /**
      * utilize this method to get true
      * @return true(boolean)
      */
     public static boolean getTrueFlag() {
-        return trueFlag;
+        return TRUE_FLAG;
     }
 
     /**
@@ -29,7 +29,7 @@ public final class BooleanConstant {
      * @return false(boolean)
      */
     public static boolean getFalseFlag() {
-        return falseFlag;
+        return FALSE_FLAG;
     }
     
 }

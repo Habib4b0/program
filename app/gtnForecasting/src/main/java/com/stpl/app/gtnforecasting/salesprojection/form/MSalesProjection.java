@@ -60,7 +60,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     private final String scrnName;
     private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjection.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private static Map<String, Integer> rowCountMap = new HashMap<>();
     private boolean generated = false;
     private boolean firstGenerated = false;
@@ -107,7 +107,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         try {
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
@@ -206,11 +206,11 @@ public class MSalesProjection extends ForecastSalesProjection {
     protected void expandButtonLogic() {
         try {
             if (!Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getTrueFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
@@ -513,11 +513,11 @@ public class MSalesProjection extends ForecastSalesProjection {
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SALES_PROJECTION);
         if (functionPsHM.get(FunctionNameUtil.GENERATEBTN) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATEBTN)).isFunctionFlag()) {
-            generate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            expand.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            collapse.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            generate.setVisible(BooleanConstant.getFalseFlag());
+            expand.setVisible(BooleanConstant.getFalseFlag());
+            collapse.setVisible(BooleanConstant.getFalseFlag());
+            newBtn.setVisible(BooleanConstant.getFalseFlag());
+            editBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionPsHM.get(CommonUtils.PMPY) != null && ((AppPermission) functionPsHM.get(CommonUtils.PMPY)).isFunctionFlag()) {
             pmpy.setVisible(true);
@@ -530,9 +530,9 @@ public class MSalesProjection extends ForecastSalesProjection {
             altHistoryBtn.setVisible(false);
         }
         if (functionPsHM.get(FunctionNameUtil.CALCULATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.CALCULATE)).isFunctionFlag()) {
-            calculate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            populate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-            adjust.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            calculate.setVisible(BooleanConstant.getFalseFlag());
+            populate.setVisible(BooleanConstant.getFalseFlag());
+            adjust.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 

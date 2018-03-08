@@ -85,7 +85,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(MProjectionVariance.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The excel export image.
      */
@@ -1124,11 +1124,11 @@ public class MProjectionVariance extends ForecastProjectionVariance {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.PROJECTION_VARIANCE);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                expandLvlBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                collapseLvlBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                addViewBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                editViewBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandLvlBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseLvlBtn.setVisible(BooleanConstant.getFalseFlag());
+                addViewBtn.setVisible(BooleanConstant.getFalseFlag());
+                editViewBtn.setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (com.liferay.portal.kernel.exception.PortalException | SystemException ex) {
             LoggerFactory.getLogger(MProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);

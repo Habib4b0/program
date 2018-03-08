@@ -99,7 +99,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(MSalesProjectionResults.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The table control Layout.
      */
@@ -991,11 +991,11 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SALES_PROJECTION_RESULTS);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+                newBtn.setVisible(BooleanConstant.getFalseFlag());
+                editBtn.setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(MSalesProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
