@@ -25,7 +25,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 
 public class SearchResults extends CustomComponent {
 	private static final long serialVersionUID = 1L;
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 	private final Label space = new Label("&nbsp;", ContentMode.HTML);
 	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
 	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
@@ -160,7 +160,7 @@ public class SearchResults extends CustomComponent {
 					if (cls.equals(Boolean.class)) {
 						CheckBox ch = new CheckBox();
 						ch.setEnabled(false);
-						ch.setValue(BOOLEAN_CONSTANT.getTrueFlag());
+						ch.setValue(BooleanConstant.getTrueFlag());
 						return ch;
 					}
 				} else {
@@ -202,7 +202,7 @@ public class SearchResults extends CustomComponent {
 				for(int i=0;i<size;i++){
 					SearchBusinessRoleModuleForm result;
 					 result=searchFieldResult.getIdByIndex(i);
-					 result.setAdd(BOOLEAN_CONSTANT.getTrueFlag());
+					 result.setAdd(BooleanConstant.getTrueFlag());
 					 searchFieldResult.addBean(result);
 				}
 				addToTableField();
@@ -230,7 +230,7 @@ public class SearchResults extends CustomComponent {
 				for(int i=0;i<size;i++)	{
 					SearchBusinessRoleModuleForm result;
 					 result=searchFieldResult.getIdByIndex(i);
-					 result.setView(BOOLEAN_CONSTANT.getTrueFlag());
+					 result.setView(BooleanConstant.getTrueFlag());
 					 searchFieldResult.addBean(result);
 				}
 				addToTableField();
@@ -252,7 +252,7 @@ public class SearchResults extends CustomComponent {
 				for(int i=0;i<size;i++){
 					SearchBusinessRoleModuleForm result;
 					 result=searchFieldResult.getIdByIndex(i);
-					 result.setEdit(BOOLEAN_CONSTANT.getTrueFlag());
+					 result.setEdit(BooleanConstant.getTrueFlag());
 					 searchFieldResult.addBean(result);
 				}
 				addToTableField();
@@ -270,7 +270,7 @@ public class SearchResults extends CustomComponent {
 		}
 		for(int i=0;i<size;i++){
 		
-			 if(searchFieldResult.getIdByIndex(i).getAdd().equals(BOOLEAN_CONSTANT.getFalseFlag())){
+			 if(searchFieldResult.getIdByIndex(i).getAdd().equals(BooleanConstant.getFalseFlag())){
 				 return false;
 					 }
 			
