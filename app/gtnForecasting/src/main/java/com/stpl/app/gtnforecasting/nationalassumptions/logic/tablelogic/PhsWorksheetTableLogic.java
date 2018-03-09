@@ -25,7 +25,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
  * @author Nadhiya
  */
 public class PhsWorksheetTableLogic extends PageTreeTableLogic {
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private int levelNo;
     private String hierarchyNo;
     private boolean firstGenerated = false;
@@ -110,12 +110,12 @@ public class PhsWorksheetTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
     @Override
     protected void expandCollapseStart(boolean isExpand){ 

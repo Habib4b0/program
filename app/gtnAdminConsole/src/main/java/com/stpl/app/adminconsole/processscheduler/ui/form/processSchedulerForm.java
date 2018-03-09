@@ -154,7 +154,7 @@ public class processSchedulerForm extends CustomComponent {
     @UiField("updateBtn")
     private Button updateBtn;
     private static final ResourceBundle confirmationMessage = ResourceBundle.getBundle("properties.message");
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     public final Object[] manualColumn = new Object[]{
         "processDisplayName", "manualLastRun"};
 
@@ -689,15 +689,15 @@ public class processSchedulerForm extends CustomComponent {
 
     private void setButtonLevelSecurity(Map<String, AppPermission> functionHM) {
         if (functionHM.get("updateBtn") != null && ((AppPermission) functionHM.get("updateBtn")).isFunctionFlag()) {
-            updateBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            updateBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            updateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            updateBtn.setVisible(BooleanConstant.getFalseFlag());
         }
 
         if (functionHM.get("runBtn1") != null && ((AppPermission) functionHM.get("runBtn1")).isFunctionFlag()) {
-            run.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            run.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            run.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            run.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 

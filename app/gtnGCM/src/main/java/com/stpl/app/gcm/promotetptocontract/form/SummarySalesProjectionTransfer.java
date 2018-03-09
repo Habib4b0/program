@@ -58,7 +58,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(SummarySalesProjectionTransfer.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightDTO;
     private final ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -224,7 +224,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     public void excelButtonLogic(Button.ClickEvent event) {
         configureExcelResultTable();
         loadExcelResultTable();
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");
@@ -237,7 +237,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
         exportPeriodViewTable = new ExtFilterTreeTable();
         tradingPartnerSalesTableLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);

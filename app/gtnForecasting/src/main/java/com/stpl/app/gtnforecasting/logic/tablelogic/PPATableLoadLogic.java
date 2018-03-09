@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public class PPATableLoadLogic extends PageTreeTableLogic {
 
     protected CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     protected SessionDTO session;
     protected List<SaveDTO> saveList;
@@ -177,13 +177,13 @@ public class PPATableLoadLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

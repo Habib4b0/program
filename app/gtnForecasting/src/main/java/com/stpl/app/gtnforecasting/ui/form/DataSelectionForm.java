@@ -110,7 +110,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionForm.class);
         
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 
 	/**
 	 * The Constant NAME.*
@@ -3085,12 +3085,12 @@ public class DataSelectionForm extends ForecastDataSelection {
 						.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
 				dataSelectionDTO.setModulName(scrName);
 				if (tableLogic.fireSetData(dataSelectionDTO, false)) {
-					resultTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+					resultTable.setRefresh(BooleanConstant.getFalseFlag());
 
 					setTableHeader();
 					resultTable.setConverter("createdDateSearch", new DateToStringConverter());
 					resultTable.setConverter("modifiedDateSearch", new DateToStringConverter());
-					resultTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+					resultTable.setRefresh(BooleanConstant.getTrueFlag());
 				} else {
 					setTableHeader();
 					AbstractNotificationUtils.getErrorNotification(
@@ -3212,9 +3212,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 					int productSelectedLeve = Integer.parseInt(dto.getProductHierarchyInnerLevel());
 					relationLogic.checkAndUpdateHierarchy(dto);
 					List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-							BOOLEAN_CONSTANT.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
+							BooleanConstant.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
 					List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-							BOOLEAN_CONSTANT.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
+							BooleanConstant.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
 					topLevelName = dsLogic.getTopLevelInHierarchy(dto.getCustomerHierSid());
 					customerHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
 							Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo());
@@ -3422,9 +3422,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 					int productSelectedLeve = Integer.parseInt(dto.getProductHierarchyInnerLevel());
 
 					List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-							BOOLEAN_CONSTANT.getTrueFlag(), customerSelectedLevel, customerDescMap);
+							BooleanConstant.getTrueFlag(), customerSelectedLevel, customerDescMap);
 					List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-							BOOLEAN_CONSTANT.getFalseFlag(), productSelectedLeve, productDescMap);
+							BooleanConstant.getFalseFlag(), productSelectedLeve, productDescMap);
 
 					customerHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
 							Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo());
@@ -3644,7 +3644,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		int forecastLevel = 0;
 		forecastLevel = UiUtils.parseStringToInteger(customerLevel);
 		List<Leveldto> reslistOne;
-		reslistOne = relationLogic.getRelationShipValues(projectionId, BOOLEAN_CONSTANT.getTrueFlag(), customerLevel,
+		reslistOne = relationLogic.getRelationShipValues(projectionId, BooleanConstant.getTrueFlag(), customerLevel,
 				customerDescMap);
 		for (Leveldto dto : reslistOne) {
 			if (dto.getLevelNo() == 1) {
@@ -3705,7 +3705,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		int forecastLevel = 0;
 		forecastLevel = UiUtils.parseStringToInteger(productLevel);
 		List<Leveldto> reslistOne;
-		reslistOne = relationLogic.getRelationShipValues(projectionId, BOOLEAN_CONSTANT.getFalseFlag(), productLevel,
+		reslistOne = relationLogic.getRelationShipValues(projectionId, BooleanConstant.getFalseFlag(), productLevel,
 				productDescMap);
 		for (Leveldto dto : reslistOne) {
 			if (dto.getLevelNo() == 1) {
@@ -4809,9 +4809,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setDeductionValue(String.valueOf(deductionValue.getValue()));
 
 				DataSelectionLogic.hierarchyDetailsInsert(session.getSelectedCustomerRelationSid(),
-						"PROJECTION_CUST_HIERARCHY", session.getProjectionId(), BOOLEAN_CONSTANT.getFalseFlag());
+						"PROJECTION_CUST_HIERARCHY", session.getProjectionId(), BooleanConstant.getFalseFlag());
 				DataSelectionLogic.hierarchyDetailsInsert(session.getSelectedProductRelationSid(),
-						"PROJECTION_PROD_HIERARCHY", session.getProjectionId(), BOOLEAN_CONSTANT.getFalseFlag());
+						"PROJECTION_PROD_HIERARCHY", session.getProjectionId(), BooleanConstant.getFalseFlag());
 				AccrualRateProjectionView arpView = new AccrualRateProjectionView(
 						StringUtils.EMPTY + session.getProjectionId(), session, scrName, this, false);
 				getUI().getNavigator().addView(AccrualRateProjectionView.ARP_VIEW, arpView);

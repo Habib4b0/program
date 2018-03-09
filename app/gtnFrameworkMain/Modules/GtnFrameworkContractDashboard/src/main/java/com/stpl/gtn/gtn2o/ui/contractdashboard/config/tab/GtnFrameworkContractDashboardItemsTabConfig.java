@@ -847,6 +847,7 @@ public class GtnFrameworkContractDashboardItemsTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.PAGEDTABLE);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+                componentConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
 		cdItemsComponentList.add(componentConfig);
 
 		GtnUIFrameworkPagedTableConfig itemsResultTable = new GtnUIFrameworkPagedTableConfig();

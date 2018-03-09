@@ -75,7 +75,7 @@ public class CFFSearchLookUp extends Window {
 
     private CustomFieldGroup cffSearchBinder = new CustomFieldGroup(new BeanItem<>(psDTO));
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     @UiField("financialForecastId")
     private TextField financialForecastId;
@@ -512,7 +512,7 @@ public class CFFSearchLookUp extends Window {
                     }
                 }
                 loadGrid();
-                resultTable.setColumnCheckBox(CHECK_RECORD, BOOLEAN_CONSTANT.getTrueFlag(), BOOLEAN_CONSTANT.getFalseFlag());
+                resultTable.setColumnCheckBox(CHECK_RECORD, BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag());
                 Notification notif = new Notification(displayName + confirmationMessage.getString("MSG_ID_045"), Notification.Type.HUMANIZED_MESSAGE);
                 notif.setPosition(Position.MIDDLE_CENTER);
                 notif.setStyleName(ConstantsUtils.MY_STYLE);

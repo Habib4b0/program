@@ -50,7 +50,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ComponentLookUp extends Window {
 public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.class);
-private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentId")
@@ -180,12 +180,12 @@ private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox status = new ComboBox();
-                    logic.LazyLoadDdlb(status, countFlag.get(0), loadDataFlag.get(0), BOOLEAN_CONSTANT.getTrueFlag());
+                    logic.LazyLoadDdlb(status, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getTrueFlag());
                     return status;
                 }
                 if ("componentType".equals(propertyId)) {
                     ComboBox type = new ComboBox();
-                    logic.LazyLoadDdlb(type, countFlag.get(1), loadDataFlag.get(1), BOOLEAN_CONSTANT.getTrueFlag());
+                    logic.LazyLoadDdlb(type, countFlag.get(1), loadDataFlag.get(1), BooleanConstant.getTrueFlag());
                     return type;
                 }
                 return null;
@@ -269,11 +269,11 @@ private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, countFlag.get(0), loadDataFlag.get(0), BOOLEAN_CONSTANT.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatus_DTO, countFlag.get(0), loadDataFlag.get(0), BooleanConstant.getFalseFlag());
     }
 
     private void loadComponentType() {
-        logic.LazyLoadDdlb(componentType_DTO, countFlag.get(1), loadDataFlag.get(1), BOOLEAN_CONSTANT.getFalseFlag());
+        logic.LazyLoadDdlb(componentType_DTO, countFlag.get(1), loadDataFlag.get(1), BooleanConstant.getFalseFlag());
     }
 
   

@@ -31,7 +31,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
 		super();
 	}
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private PVSelectionDTO projSelDTO = new PVSelectionDTO();
     private String hierarchyNo;
     private boolean firstGenerated = false;
@@ -180,13 +180,13 @@ public class VarianceTableLogic extends PageTreeTableLogic{
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

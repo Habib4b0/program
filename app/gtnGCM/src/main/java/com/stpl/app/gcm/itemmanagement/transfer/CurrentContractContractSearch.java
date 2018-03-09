@@ -54,7 +54,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class CurrentContractContractSearch extends AbstractContractSearch {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @UiField("exportLayout")
     protected HorizontalLayout exportLayout;
     private SelectionDTO selectionDto;
@@ -118,8 +118,8 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
-        allItems.setEnabled(BOOLEAN_CONSTANT.getFalseFlag());
+        MassUpdatePanel1.setVisible(BooleanConstant.getTrueFlag());
+        allItems.setEnabled(BooleanConstant.getFalseFlag());
         ConfigureTable();
         getBinder();
         loadAllDdlb();
@@ -479,8 +479,8 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     @Override
     public void LoadField() {
         field.addItems(Constants.SELECT_ONE, Constants.ITEM_END_DATE);
-        valuelabel.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-        massUpdateValue.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        valuelabel.setVisible(BooleanConstant.getFalseFlag());
+        massUpdateValue.setVisible(BooleanConstant.getFalseFlag());
 
     }
 

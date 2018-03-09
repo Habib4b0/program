@@ -35,7 +35,7 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
     private SessionDTO sessionDTO;
     public static final Logger LOGGER = LoggerFactory.getLogger(PhsResultsTableLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @Override
     public int getCount() {
         int count = 0;
@@ -127,13 +127,13 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

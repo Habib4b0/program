@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
     protected PVSelectionDTO projSelDTO = new PVSelectionDTO();
     protected PVSelectionDTO baseVariables = new PVSelectionDTO();
@@ -217,13 +217,13 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

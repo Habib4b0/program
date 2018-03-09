@@ -85,7 +85,7 @@ public class FileManagementLogic {
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementLogic.class);// Logger
         
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 	// Declaration
 	/**
 	 * The Constant NULLCREATION.
@@ -512,7 +512,7 @@ public class FileManagementLogic {
 			for (int i = 0; i < itemIds.size(); i++) {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BOOLEAN_CONSTANT.getTrueFlag());
+					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BooleanConstant.getTrueFlag());
 				}
 			}
 		} else if ("uncheck".equalsIgnoreCase(clickEvent)) {
@@ -520,7 +520,7 @@ public class FileManagementLogic {
 			for (int i = 0; i < itemIds.size(); i++) {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
-					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BOOLEAN_CONSTANT.getFalseFlag());
+					detailsTable.getContainerProperty(beanItem, ConstantsUtils.CHECK).setValue(BooleanConstant.getFalseFlag());
 				}
 			}
 		}
@@ -738,7 +738,7 @@ public class FileManagementLogic {
 	public void updateAutoModeProcess(final Date date) throws SystemException {
 		final DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		List<ForecastConfig> config;
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", BOOLEAN_CONSTANT.getTrueFlag()));
+		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", BooleanConstant.getTrueFlag()));
 		config = ForecastConfigLocalServiceUtil.dynamicQuery(dynamicQuery);
 		if (!config.isEmpty()) {
 			for (ForecastConfig forecastConfig : config) {
@@ -1357,7 +1357,7 @@ public class FileManagementLogic {
 						+ "GROUP BY FORECAST_NAME, FORECAST_VER,SOURCE,COUNTRY,MIN_YEAR,MAX_MONTH,MAX_YEAR " + order;
 			}
 
-			resultsList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
+    			resultsList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 
 			if (!isCount) {
 				loadMonthMap();
@@ -1468,7 +1468,7 @@ public class FileManagementLogic {
 				boolean recordStatus = ((Boolean) obj[NumericConstants.EIGHT]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.NINE]);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
 				resultsListDTO.add(fmDTO);
 			}
@@ -1532,7 +1532,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.TWENTY_EIGHT]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1571,7 +1571,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.THIRTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1621,7 +1621,7 @@ public class FileManagementLogic {
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1687,7 +1687,7 @@ public class FileManagementLogic {
 				fmDTO.setForecastSystemId(obj[NumericConstants.TWENTY_SEVEN] != null
 						? Integer.parseInt(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])) : 0);
 				fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-				fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+				fmDTO.setCheck(BooleanConstant.getFalseFlag());
 				resultsListDTO.add(fmDTO);
 			}
 			detailsObj = resultsListDTO;
@@ -1775,12 +1775,14 @@ public class FileManagementLogic {
 		LOGGER.debug("Entering getForecastDetails ");
 		List list;
 		String sqlString;
-		if (isCount) {
-			sqlString = "SELECT count( * ) \n"
-					+ " FROM FORECASTING_MASTER FM, ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID AND \n" + "FORECAST_NAME=  ";
-		} else {
-			sqlString = SQlUtil.getQuery("getDetailsResults");
-		}
+		          if (isCount) {
+                sqlString = "SELECT count( * ) \n"
+                        + " FROM FORECASTING_MASTER FM, ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID AND \n" + "FORECAST_NAME=  ";
+            } else if (isExcel) {
+                sqlString = SQlUtil.getQuery("getDetailsResultsExcel");
+            } else {
+                sqlString = SQlUtil.getQuery("getDetailsResults");
+            }
 		sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType())
 				&& "US".equals(detailsResultDTO.getCountry())) {
@@ -2564,7 +2566,7 @@ public class FileManagementLogic {
 			fmDTO.setRecordLockStatus(recordStatus);
 			fmDTO.setForecastSystemId((Integer) obj[NumericConstants.SIXTEEN]);
 			fmDTO.setInterfaceFlag(ConstantsUtils.CHAR_N);
-			fmDTO.setCheck(BOOLEAN_CONSTANT.getFalseFlag());
+			fmDTO.setCheck(BooleanConstant.getFalseFlag());
 			resultsListDTO.add(fmDTO);
 		}
 		return resultsListDTO;

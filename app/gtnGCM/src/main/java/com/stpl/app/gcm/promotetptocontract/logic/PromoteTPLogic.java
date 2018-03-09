@@ -100,7 +100,7 @@ public class PromoteTPLogic {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private static final PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
@@ -506,7 +506,7 @@ public class PromoteTPLogic {
             } else {
                 contract = contractId.replace(Constants.IndicatorConstants.CHAR_ASTERISK.getConstant(), Constants.IndicatorConstants.CHAR_PERCENT.getConstant());
             }
-            contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", BOOLEAN_CONSTANT.getTrueFlag()));
+            contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", BooleanConstant.getTrueFlag()));
             contractQuery.add(RestrictionsFactoryUtil.like(Constants.CONTRACT_NO, contract));
             contractQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like("inboundStatus", "D")));
             contractQuery.setLimit(start, end);

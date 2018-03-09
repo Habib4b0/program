@@ -81,7 +81,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class MDiscountProjectionResults extends ForecastDiscountProjectionResults {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MDiscountProjectionResults.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final SessionDTO sessionDTO;
     private String screenName = StringUtils.EMPTY;
     private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
@@ -442,8 +442,8 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             if (Constant.CUSTOM_LABEL.equals(String.valueOf(viewOpg.getValue()))) {
                 projectionDTO.setHierarchyIndicator(StringUtils.EMPTY);
                 projectionDTO.setIsCustomHierarchy(true);
-                expandBtn.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
-                collapseBtn.setEnabled(BOOLEAN_CONSTANT.getTrueFlag());
+                expandBtn.setEnabled(BooleanConstant.getTrueFlag());
+                collapseBtn.setEnabled(BooleanConstant.getTrueFlag());
                 levelDdlb.setValue(SELECT_ONE);
                 levelDdlb.setEnabled(false);
                 levelFilterDdlb.setValue(SELECT_ONE);
@@ -912,11 +912,11 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.DISCOUNT_PROJECTION_RESULTS);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+                newBtn.setVisible(BooleanConstant.getFalseFlag());
+                editBtn.setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(MDiscountProjectionResults.class.getName()).error("", ex);

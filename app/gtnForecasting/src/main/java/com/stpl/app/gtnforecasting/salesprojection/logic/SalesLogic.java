@@ -129,7 +129,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SalesLogic {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     public static final DecimalFormat MONEY = new DecimalFormat("$0.00");
     public static final DecimalFormat UNIT = new DecimalFormat("0.00");
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$#,##0");
@@ -2194,7 +2194,7 @@ public class SalesLogic {
               callManualEntry(projectionSelectionDTO, (entry.getKey()).split(",")[1].contains(Constant.SALES_SMALL) ? Constant.SALES_SMALL : Constant.UNITS_SMALL);
           }
         projectionSelectionDTO.getUpdateQueryMap().clear();
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
 
     /**

@@ -50,7 +50,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RSLookUp extends Window {
 private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
-private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentId")
@@ -202,7 +202,7 @@ private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
                 }
                 if ("componentStatus".equals(propertyId)) {
                         ComboBox componentStatus = new ComboBox();
-                    logic.LazyLoadDdlb(componentStatus, "rsStatus count", "rsStatus", BOOLEAN_CONSTANT.getTrueFlag());
+                    logic.LazyLoadDdlb(componentStatus, "rsStatus count", "rsStatus", BooleanConstant.getTrueFlag());
                         return componentStatus;
                     }
                 return null;
@@ -295,7 +295,7 @@ private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "rsStatus count", "rsStatus", BOOLEAN_CONSTANT.getFalseFlag());
+        logic.LazyLoadDdlb(componentStatus_DTO, "rsStatus count", "rsStatus", BooleanConstant.getFalseFlag());
     }
 
     private void loadComponentType() {

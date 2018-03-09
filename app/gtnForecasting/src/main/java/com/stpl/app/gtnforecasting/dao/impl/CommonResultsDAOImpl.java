@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class CommonResultsDAOImpl implements CommonResultsDAO {
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     @Override
     public Object executeSelectQuery(String query) throws PortalException, SystemException {
@@ -28,12 +28,12 @@ public class CommonResultsDAOImpl implements CommonResultsDAO {
     @Override
     public Object executeBulkUpdateQuery(String query) throws PortalException, SystemException {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
     @Override
     public Object executeUpdateQuery(String query) throws SystemException, PortalException {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
     
     @Override
@@ -41,6 +41,6 @@ public class CommonResultsDAOImpl implements CommonResultsDAO {
         for (StringBuilder builder : fcpList) {
             HelperTableLocalServiceUtil.executeUpdateQuery(builder.toString());
         }
-        return BOOLEAN_CONSTANT.getTrueFlag();
+        return BooleanConstant.getTrueFlag();
     }
 }

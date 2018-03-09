@@ -124,7 +124,7 @@ public class NewComponents extends CustomComponent implements View {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NewComponents.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     /**
      * The Constant serialVersionUID.
@@ -653,7 +653,7 @@ public class NewComponents extends CustomComponent implements View {
         compItemSearchTable.setVisibleColumns(Constants.getInstance().compItemResultsColumns);
         compItemSearchTable.setColumnHeaders(Constants.getInstance().compItemResultsHeaders);
         compItemSearchTable.setSizeFull();
-        compItemSearchTable.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
+        compItemSearchTable.setEditable(BooleanConstant.getTrueFlag());
         compItemSearchTable.markAsDirty();
         compItemSearchTable.setSelectable(true);
         compItemSearchTable.setWidth("890px");

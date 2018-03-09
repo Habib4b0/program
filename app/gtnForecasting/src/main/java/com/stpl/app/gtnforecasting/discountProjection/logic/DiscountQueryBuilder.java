@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class DiscountQueryBuilder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountQueryBuilder.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CATEGORY = "Program Category";
@@ -546,11 +546,11 @@ public class DiscountQueryBuilder {
 
             customSql = checkIsCustom(isCustomHierarchy, hierarchyIndicator, customViewDetails.get(NumericConstants.TWO), customViewDetails.get(NumericConstants.FOUR), customViewDetails.get(NumericConstants.NINE), hierarchyNo, customSql,session);
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-            return BOOLEAN_CONSTANT.getTrueFlag();
+            return BooleanConstant.getTrueFlag();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return BOOLEAN_CONSTANT.getFalseFlag();
+            return BooleanConstant.getFalseFlag();
         }
     }
     public static final String LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='";

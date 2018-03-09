@@ -881,6 +881,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.PAGEDTABLE);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+                componentConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
 		cdPricingComponentList.add(componentConfig);
 
 		GtnUIFrameworkPagedTableConfig attachResults = new GtnUIFrameworkPagedTableConfig();
@@ -1467,6 +1468,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		GtnUIFrameworkComponentConfig componentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.PAGEDTABLE);
 		componentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+                componentConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
 		cdPricingComponentList.add(componentConfig);
 
 		GtnUIFrameworkPagedTableConfig cdPricingResultTable = new GtnUIFrameworkPagedTableConfig();

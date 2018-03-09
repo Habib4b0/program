@@ -40,7 +40,7 @@ public class NonFampTableLogic extends PageTreeTableLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NonFampTableLogic.class);    
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
      @Override
      public Map<Integer, Object> loadData(int start, int offset) {
@@ -105,13 +105,13 @@ public class NonFampTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

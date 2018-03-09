@@ -73,7 +73,7 @@ import com.stpl.ifs.util.constants.BooleanConstant;
 public class Copycomponents extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Copycomponents.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     @UiField("componentitems")
     public OptionGroup componentitems;
     @UiField("contractDashBoardLayout")
@@ -286,7 +286,7 @@ public class Copycomponents extends CustomComponent {
             contractComponent.setEditable(true);
             contractComponent.setVisibleColumns(Constants.getInstance().contractComponentColumns);
             contractComponent.setColumnHeaders(Constants.getInstance().contractComponentHeaders);
-            contractComponent.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+            contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
             contractComponent.setColumnAlignment("contractStartDate", ExtCustomTable.Align.CENTER);
             contractComponent.setColumnAlignment("contractEndDate", ExtCustomTable.Align.CENTER);
             contractComponent.setTableFieldFactory(new TableFieldFactory() {
@@ -1223,7 +1223,7 @@ public class Copycomponents extends CustomComponent {
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newCompanyDetailsHeaders);
                     componentDetailsTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+                    contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
                 } else if (compType.equals(Constants.ITEM_FAMILY_PLAN)) {
                     cfpComponent.setVisible(false);
                     ifpComponent.setVisible(true);
@@ -1235,7 +1235,7 @@ public class Copycomponents extends CustomComponent {
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newIfpDetailsHeaders);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+                    contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
                 } else if (compType.equals(Constants.PRICE_SCHEDULE)) {
                     cfpComponent.setVisible(false);
                     ifpComponent.setVisible(false);
@@ -1247,7 +1247,7 @@ public class Copycomponents extends CustomComponent {
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newPsDetailsHeaders);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+                    contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
                 } else if (compType.equals(Constants.REBATE_SCHEDULE)) {
                     cfpComponent.setVisible(false);
                     ifpComponent.setVisible(false);
@@ -1259,7 +1259,7 @@ public class Copycomponents extends CustomComponent {
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newRsDetailsHeaders);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+                    contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
                 }
                 contractComponent.removeAllItems();
                 loadContractComponentTable();

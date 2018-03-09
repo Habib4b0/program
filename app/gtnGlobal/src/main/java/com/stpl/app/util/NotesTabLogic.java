@@ -36,7 +36,7 @@ public class NotesTabLogic {
 	private boolean isFileExists;
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
         
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 
 	public NotesTabLogic(){
 		super();
@@ -101,7 +101,7 @@ public class NotesTabLogic {
 		File file = GtnFileUtil.getFile(fileName);
 		isFileExists=file.delete();
 		LOGGER.info("File is deleted successfully : "+isFileExists);
-		return BOOLEAN_CONSTANT.getTrueFlag();
+		return BooleanConstant.getTrueFlag();
 	}
 
 	public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName,
