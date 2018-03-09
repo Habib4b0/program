@@ -927,6 +927,7 @@ public class GtnFrameworkContractDashboardCompaniesTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.PAGEDTABLE);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		componentConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
 		cdCompaniesComponentList.add(componentConfig);
 
 		GtnUIFrameworkPagedTableConfig cdCompaniesResultsTable = new GtnUIFrameworkPagedTableConfig();
