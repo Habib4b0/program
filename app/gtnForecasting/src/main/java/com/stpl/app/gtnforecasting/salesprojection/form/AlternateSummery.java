@@ -110,7 +110,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AlternateSummery extends CustomComponent {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * View name for navigation.
      */
@@ -854,7 +854,7 @@ public class AlternateSummery extends CustomComponent {
                     final Component uiContext) {
                 if (String.valueOf(propertyId).equals(Constant.CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                    check.setValue(BooleanConstant.getFalseFlag());
                     check.setEnabled(!Constant.VIEW.equals(session.getAction()));
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
@@ -1138,14 +1138,14 @@ public class AlternateSummery extends CustomComponent {
         // To update the check
         SalesRowDto tempDto = (SalesRowDto) tempId;
         if (tempDto.getUncheckCount() != 0) {
-            tempDto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getFalseFlag());
+            tempDto.addBooleanProperties(Constant.CHECK, BooleanConstant.getFalseFlag());
             if (leftTable.containsId(tempId)) {
-                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BooleanConstant.getFalseFlag());
             }
         } else {
-            tempDto.addBooleanProperties(Constant.CHECK, BOOLEAN_CONSTANT.getTrueFlag());
+            tempDto.addBooleanProperties(Constant.CHECK, BooleanConstant.getTrueFlag());
             if (leftTable.containsId(tempId)) {
-                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BOOLEAN_CONSTANT.getTrueFlag());
+                leftTable.getContainerProperty(tempId, Constant.CHECK).setValue(BooleanConstant.getTrueFlag());
             }
         }
     }
@@ -1517,7 +1517,7 @@ public class AlternateSummery extends CustomComponent {
             columnHeader.add(StringUtils.EMPTY + header);
         }
         excelTable.setRefresh(false);
-        excelTable.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+        excelTable.setVisible(BooleanConstant.getFalseFlag());
         excelContainer.setColumnProperties(excelHeader.getProperties());
         excelTable.setContainerDataSource(excelContainer);
         excelTable.setVisibleColumns(visibleColumns.toArray());
@@ -1906,7 +1906,7 @@ public class AlternateSummery extends CustomComponent {
         try {
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
@@ -1940,11 +1940,11 @@ public class AlternateSummery extends CustomComponent {
     protected void expandButtonLogic() {
         try {
             if (StringUtils.isNotBlank(String.valueOf(level.getValue())) || !Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getTrueFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(BOOLEAN_CONSTANT.getFalseFlag());
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
@@ -2221,11 +2221,11 @@ public class AlternateSummery extends CustomComponent {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION);
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
-                generate.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                expand.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                collapse.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                newBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-                editBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                generate.setVisible(BooleanConstant.getFalseFlag());
+                expand.setVisible(BooleanConstant.getFalseFlag());
+                collapse.setVisible(BooleanConstant.getFalseFlag());
+                newBtn.setVisible(BooleanConstant.getFalseFlag());
+                editBtn.setVisible(BooleanConstant.getFalseFlag());
 
             }
 

@@ -96,6 +96,8 @@ public class SalesProjectionTree {
         query = query.replace("[?CUST_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getCustRelationshipBuilderSid());
         query = query.replace("[?PROD_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getProdRelationshipBuilderSid());
         query = query.replace("[?Custom_View_Master_SID]", String.valueOf(projSelDTO.getCustomId()));
+        query = query.replace("[?Custom_Relation_Version]", String.valueOf(projSelDTO.getSessionDTO().getCustomerRelationVersion()));
+        query = query.replace("[?Product_Relation_Version]", String.valueOf(projSelDTO.getSessionDTO().getProductRelationVersion()));
         query = query.replace("[?UserGroup]","");
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
             query = query.replace("[?FILTERCCP]"," AND PPA.FILTER_CCP=1");
@@ -125,7 +127,7 @@ public class SalesProjectionTree {
                 parent.addChild(salesNode);
                 salesNode.setHierarchyIndicator(String .valueOf(object[3]));
                 salesNode.setLevel(Integer.parseInt(String.valueOf(object[2])));
-                buildMap.put(parentHierarchy+"~ "+hiearachy, salesNode);
+                buildMap.put(parentHierarchy+"~"+hiearachy, salesNode);
             }
         }
         return apexNode;

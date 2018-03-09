@@ -53,7 +53,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     protected boolean isRefresh;
     protected boolean isGenerated = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     public boolean isIsRefresh() {
         return isRefresh;
@@ -181,32 +181,32 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
     @Override
     protected void createCurrentPageStart() {
-        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getFalseFlag());
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         setCurrentPageProgress(true);
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
-        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     @Override
     protected void expandCollapseStart(boolean isExpand) {
-        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getFalseFlag());
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         setExpandCollapseProgress(true);
     }
 
     @Override
     protected void expandCollapseEnd(boolean isExpand) {
         setExpandCollapseProgress(false);
-        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
-        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getFalseFlag());
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         int count = logic.getPPAProjectionResultsCount(selection, parentId, session);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
@@ -223,7 +223,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             }
         }
-        PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     public void loadExpandData(int levelNo) {
@@ -261,16 +261,16 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
         if ((prop != null && Constant.GROUP.equals(prop.toString())) && (!ppaProjection.isGroupChangeFlag())) {
 
-                PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getFalseFlag());
-                ppaProjection.setValueChangeForColumnCheckBox(BOOLEAN_CONSTANT.getTrueFlag());
+                PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
+                ppaProjection.setValueChangeForColumnCheckBox(BooleanConstant.getTrueFlag());
                 String valu = Constant.NULL.equals(String.valueOf(value)) ? Constant.ALL_GROUP : String.valueOf(Constant.PPA + value);
                 selection.setGroupFilter(valu);
-                selection.setIsFilter(BOOLEAN_CONSTANT.getFalseFlag());
+                selection.setIsFilter(BooleanConstant.getFalseFlag());
                 setProjectionResultsData(true);
                 clearAll();
                 ppaProjection.setLevelFilterValue(SELECT_ONE);
-                PPAProjection.setValueChangeAllowed(BOOLEAN_CONSTANT.getTrueFlag());
-                ppaProjection.setValueChangeForColumnCheckBox(BOOLEAN_CONSTANT.getFalseFlag());
+                PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
+                ppaProjection.setValueChangeForColumnCheckBox(BooleanConstant.getFalseFlag());
         }
 
     }

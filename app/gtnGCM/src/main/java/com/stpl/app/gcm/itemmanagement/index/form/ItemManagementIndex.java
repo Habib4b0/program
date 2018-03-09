@@ -81,7 +81,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemManagementIndex extends CustomComponent {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     @UiField("itemId")
     private TextField itemId;
@@ -172,39 +172,39 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void configureSearch() {
-        therapeuticClass.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        therapeuticClass.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         therapeuticClass.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         therapeuticClass.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         therapeuticClass.select(IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        form_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         form_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         form_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         form_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        identifierType_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         identifierType_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         identifierType_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         identifierType_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        brand_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         brand_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         brand_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         brand_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        strength_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         strength_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         strength_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         strength_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        company_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         company_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         company_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         company_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        placeHolder_DTO.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        placeHolder_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         placeHolder_DTO.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         placeHolder_DTO.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         placeHolder_DTO.select(IndicatorConstants.SELECT_ONE.getConstant());
-        itemCategory.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        itemCategory.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         itemCategory.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         itemCategory.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         itemCategory.select(IndicatorConstants.SELECT_ONE.getConstant());
-        itemType.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+        itemType.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         itemType.setNullSelectionItemId(IndicatorConstants.SELECT_ONE.getConstant());
         itemType.addItem(IndicatorConstants.SELECT_ONE.getConstant());
         itemType.select(IndicatorConstants.SELECT_ONE.getConstant());
@@ -228,7 +228,7 @@ public class ItemManagementIndex extends CustomComponent {
         itemResults.setColumnHeaders(UiUtils.getInstance().columnHeaderItemSearch);
         itemResults.setSizeUndefined();
         itemResults.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        itemResults.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
+        itemResults.setEditable(BooleanConstant.getTrueFlag());
         itemResults.setFilterBarVisible(true);
         itemResults.addStyleName(ConstantsUtil.FILTERCOMBOBOX);
         itemResults.setFilterDecorator(new ExtDemoFilterDecorator());
@@ -309,13 +309,13 @@ public class ItemManagementIndex extends CustomComponent {
 
                 if ("company".equals(propertyId)) {
                     ComboBox companyDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(companyDdlb, "LoadCompanyCount", "LoadCompany", BOOLEAN_CONSTANT.getTrueFlag());
+                    abstractLogic.LazyLoadDdlb(companyDdlb, "LoadCompanyCount", "LoadCompany", BooleanConstant.getTrueFlag());
                     return companyDdlb;
                 }
                 if ("therapeuticClass".equals(propertyId)) {
                     ComboBox therapeuticClassDdlb = new ComboBox();
                     try {
-                        abstractLogic.loadComboBox(therapeuticClassDdlb, "THERAPEUTIC_CLASS", BOOLEAN_CONSTANT.getTrueFlag());
+                        abstractLogic.loadComboBox(therapeuticClassDdlb, "THERAPEUTIC_CLASS", BooleanConstant.getTrueFlag());
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
                     }
@@ -323,17 +323,17 @@ public class ItemManagementIndex extends CustomComponent {
                 }
                 if ("brand".equals(propertyId)) {
                     ComboBox brandDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", BOOLEAN_CONSTANT.getTrueFlag());
+                    abstractLogic.LazyLoadDdlb(brandDdlb, "LoadBrandCount", "LoadBrand", BooleanConstant.getTrueFlag());
                     return brandDdlb;
                 }
                 if ("form".equals(propertyId)) {
                     ComboBox type = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(type, "LoadFormCount", "LoadForm", BOOLEAN_CONSTANT.getTrueFlag());
+                    abstractLogic.LazyLoadDdlb(type, "LoadFormCount", "LoadForm", BooleanConstant.getTrueFlag());
                     return type;
                 }
                 if ("strength".equals(propertyId)) {
                     ComboBox strengthDdlb = new ComboBox();
-                    abstractLogic.LazyLoadDdlb(strengthDdlb, "LoadStrengthCount", "LoadStrength", BOOLEAN_CONSTANT.getTrueFlag());
+                    abstractLogic.LazyLoadDdlb(strengthDdlb, "LoadStrengthCount", "LoadStrength", BooleanConstant.getTrueFlag());
                     return strengthDdlb;
                 }
                 if ("placeHolder".equals(propertyId)) {
@@ -617,15 +617,15 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadForm() {
-        abstractLogic.LazyLoadDdlb(form_DTO, "LoadFormCount", "LoadForm", BOOLEAN_CONSTANT.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(form_DTO, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
     }
 
     private void loadBrand() {
-        abstractLogic.LazyLoadDdlb(brand_DTO, "LoadBrandCount", "LoadBrand", BOOLEAN_CONSTANT.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(brand_DTO, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
     }
 
     private void loadStrength() {
-        abstractLogic.LazyLoadDdlb(strength_DTO, "LoadStrengthCount", "LoadStrength", BOOLEAN_CONSTANT.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(strength_DTO, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
     }
 
     private void loadItemType() {
@@ -642,7 +642,7 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadCompany() {
-        abstractLogic.LazyLoadDdlb(company_DTO, "LoadCompanyCount", "LoadCompany", BOOLEAN_CONSTANT.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(company_DTO, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
     }
 
     private void loadPlaceHolder(ComboBox placeHolder_DTO, boolean isFilter) {
@@ -711,7 +711,7 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private void loadIdentifierType() {
-        abstractLogic.LazyLoadDdlb(identifierType_DTO, "LoadIdentifierType Count", "LoadIdentifierType", BOOLEAN_CONSTANT.getFalseFlag());
+        abstractLogic.LazyLoadDdlb(identifierType_DTO, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
     }
 
     private boolean checkOneContract() {

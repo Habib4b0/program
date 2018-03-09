@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class NMPVExcelLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(NMPVExcelLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private ProjectionVarianceDTO exFacValue;
     private ProjectionVarianceDTO exFacVar;
     private ProjectionVarianceDTO exFacPer;
@@ -2201,10 +2201,10 @@ public class NMPVExcelLogic {
     public void discount_Customize() {
 
         boolean isDetail = selection.getLevel().equals(DETAIL);
-        commonCustomizationForTotalDiscount("D$", pivotDiscountList, selection, isDetail, NumericConstants.FIVE, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getTrueFlag());
-        commonCustomizationForTotalDiscount("D%", pivotDiscountList, selection, isDetail, NumericConstants.EIGHT, BOOLEAN_CONSTANT.getTrueFlag(), BOOLEAN_CONSTANT.getFalseFlag());
-        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, NumericConstants.ELEVEN, BOOLEAN_CONSTANT.getFalseFlag(), BOOLEAN_CONSTANT.getFalseFlag());
-        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, NumericConstants.FOURTEEN, BOOLEAN_CONSTANT.getTrueFlag(), BOOLEAN_CONSTANT.getFalseFlag());
+        commonCustomizationForTotalDiscount("D$", pivotDiscountList, selection, isDetail, NumericConstants.FIVE, BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag());
+        commonCustomizationForTotalDiscount("D%", pivotDiscountList, selection, isDetail, NumericConstants.EIGHT, BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag());
+        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, NumericConstants.ELEVEN, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag());
+        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, NumericConstants.FOURTEEN, BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag());
     }
 
     public void getTotalPivotVariance(PVSelectionDTO selection) {

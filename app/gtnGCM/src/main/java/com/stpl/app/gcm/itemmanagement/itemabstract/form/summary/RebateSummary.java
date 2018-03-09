@@ -30,7 +30,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RebateSummary extends Summary {
  public static final Logger LOGGER = LoggerFactory.getLogger(RebateSummary.class);
- private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+ 
     public RebateSummary(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(itemList, selection);
     }
@@ -50,7 +50,7 @@ public class RebateSummary extends Summary {
     public void excelButtonLogic(Button.ClickEvent event) {
         configureExcelResultTable();
         loadExcelResultTable();
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Amount");
         formatter.put("perTwoDecimal", "Rate");

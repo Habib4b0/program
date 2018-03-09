@@ -78,7 +78,7 @@ public class SalesTab extends VerticalLayout {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(SalesTab.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightDTO;
     private CustomTableHeaderDTO leftDTO;
@@ -244,7 +244,7 @@ public class SalesTab extends VerticalLayout {
         if (resultBean.size() > 0) {
             loadExcelResultTable();
         }
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");

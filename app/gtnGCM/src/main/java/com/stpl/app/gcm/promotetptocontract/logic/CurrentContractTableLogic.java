@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 public class CurrentContractTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private CurrentContractDTO currConDTO = new CurrentContractDTO();
     private final PromoteTPLogic logic = new PromoteTPLogic();
     private boolean firstTime = true;
@@ -37,7 +37,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         if (!firstTime) {
-            currConDTO.setIsCount(BOOLEAN_CONSTANT.getFalseFlag());
+            currConDTO.setIsCount(BooleanConstant.getFalseFlag());
             return logic.getSelectedTPContractCount(currConDTO, session.getUserId(), session.getSessionId());
         }
         return 0;

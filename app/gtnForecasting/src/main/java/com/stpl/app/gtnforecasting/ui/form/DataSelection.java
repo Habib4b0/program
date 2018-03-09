@@ -93,7 +93,7 @@ public class DataSelection extends ForecastDataSelection {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
 	private DataSelectionDTO selectionDTO;
 	private final SessionDTO session;
 	private boolean firstTimeLoad = true;
@@ -194,10 +194,10 @@ public class DataSelection extends ForecastDataSelection {
 		fromPeriod.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
-				setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+				setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				session.setFromPeriod(String.valueOf(fromPeriod.getValue()));
 				session.setFromDate(selectionDTO.getFromDate());
-				session.setFromDateChanged(BOOLEAN_CONSTANT.getTrueFlag());
+				session.setFromDateChanged(BooleanConstant.getTrueFlag());
 				productBeanLisTemp.removeAll(productBeanLisTemp);
 				productHierarchyNos.removeAll(productHierarchyNos);
 				for (Leveldto dto : selectedProductContainer.getItemIds()) {
@@ -661,7 +661,7 @@ public class DataSelection extends ForecastDataSelection {
 		int forecastLevel = 0;
 		forecastLevel = UiUtils.parseStringToInteger(productLevel);
 		List<Leveldto> reslistOne;
-		reslistOne = relationLogic.getRelationShipValues(projectionId, BOOLEAN_CONSTANT.getFalseFlag(), productLevel,
+		reslistOne = relationLogic.getRelationShipValues(projectionId, BooleanConstant.getFalseFlag(), productLevel,
 				productDescriptionMap);
 		productBeanList.removeAll(productBeanList);
 		for (Leveldto dto : reslistOne) {
@@ -1054,9 +1054,9 @@ public class DataSelection extends ForecastDataSelection {
 					&& !getSelectedProducts().isEmpty()
 					&& (company.getValue() != null && !Constant.SELECT_ONE.equals(company.getValue()))
 					&& (businessUnit.getValue() != null && !Constant.SELECT_ONE.equals(businessUnit.getValue()))) {
-				setValid(BOOLEAN_CONSTANT.getTrueFlag());
+				setValid(BooleanConstant.getTrueFlag());
 			} else {
-				setValid(BOOLEAN_CONSTANT.getFalseFlag());
+				setValid(BooleanConstant.getFalseFlag());
 			}
 		} else {
 			isReturnsDataSelectionValid();
@@ -1069,9 +1069,9 @@ public class DataSelection extends ForecastDataSelection {
 		if (getSelectedProducts() != null && !getSelectedProducts().isEmpty()
 				&& (company.getValue() != null && !Constant.SELECT_ONE.equals(company.getValue()))
 				&& (businessUnit.getValue() != null && !Constant.SELECT_ONE.equals(businessUnit.getValue()))) {
-			setValid(BOOLEAN_CONSTANT.getTrueFlag());
+			setValid(BooleanConstant.getTrueFlag());
 		} else {
-			setValid(BOOLEAN_CONSTANT.getFalseFlag());
+			setValid(BooleanConstant.getFalseFlag());
 		}
 		return isValid();
 	}
@@ -1540,7 +1540,7 @@ public class DataSelection extends ForecastDataSelection {
 
 					groupFilteredCompanies = null;
 					setCustomerForecastLevelNullSelection();
-					setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+					setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				}
 			}
 		});
@@ -1571,7 +1571,7 @@ public class DataSelection extends ForecastDataSelection {
 					selectionDTO.setCompanySid(null);
 					groupFilteredItems = null;
 					setProductForecastLevelNullSelection();
-					setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+					setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				}
 			}
 		});
@@ -2591,7 +2591,7 @@ public class DataSelection extends ForecastDataSelection {
 					}
 
 				}
-				setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+				setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 			} else {
 				AbstractNotificationUtils.getErrorNotification("No Customer hierarchy level Selected",
 						"No Level was selected to move. Please try again.");
@@ -3669,7 +3669,7 @@ public class DataSelection extends ForecastDataSelection {
 						}
 					}
 				}
-				setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+				setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
 				productBeanLisTemp.removeAll(productBeanLisTemp);
 				productHierarchyNos.removeAll(productHierarchyNos);
@@ -4230,7 +4230,7 @@ public class DataSelection extends ForecastDataSelection {
 						}
 					}
 				}
-				setUpdateOnTabChange(BOOLEAN_CONSTANT.getTrueFlag());
+				setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 				DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
 				productBeanLisTemp.removeAll(productBeanLisTemp);
 				productHierarchyNos.removeAll(productHierarchyNos);

@@ -67,7 +67,7 @@ public class IfpLookUp extends Window {
     public PopupDateField ifpStartDate;
     @UiField("ifpEndDate")
     public PopupDateField ifpEndDate;
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();  
+      
     private LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
@@ -122,7 +122,7 @@ public class IfpLookUp extends Window {
                 resultsTable.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
             }
         }
-        resultsTable.setFilterBarVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        resultsTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
             @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {

@@ -65,7 +65,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDataSelection.class);
         
-        private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+        
         
 	/**
 	 * The private view.
@@ -941,7 +941,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 		Label empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
 		empty.setWidth("15px");
 		GridLayout layoutG2 = new GridLayout(NumericConstants.TWELVE, NumericConstants.ONE);
-		layoutG2.setMargin(BOOLEAN_CONSTANT.getFalseFlag());
+		layoutG2.setMargin(BooleanConstant.getFalseFlag());
 		layoutG2.addComponent(new Label("Private Views:") {
 			{
 				setWidth(StringConstantsUtil.HUNDRED_PX);
@@ -1168,22 +1168,22 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	}
 
 	private void configureCustomerVersionDdlb() {
-		customerRelationVersionComboBox.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+		customerRelationVersionComboBox.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
 		customerRelationVersionComboBox.setNullSelectionItemId(UIUtil.SELECT_ONE);
 		customerRelationVersionComboBox.addItem(UIUtil.SELECT_ONE);
 		customerRelationVersionComboBox.select(UIUtil.SELECT_ONE);
-		customerRelationVersionLabel.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-		customerRelationVersionComboBox.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+		customerRelationVersionLabel.setVisible(BooleanConstant.getFalseFlag());
+		customerRelationVersionComboBox.setVisible(BooleanConstant.getFalseFlag());
 
 	}
 
 	private void configureProductVersionDdlb() {
-		productRelationVersionComboBox.setNullSelectionAllowed(BOOLEAN_CONSTANT.getTrueFlag());
+		productRelationVersionComboBox.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
 		productRelationVersionComboBox.setNullSelectionItemId(UIUtil.SELECT_ONE);
 		productRelationVersionComboBox.addItem(UIUtil.SELECT_ONE);
 		productRelationVersionComboBox.select(UIUtil.SELECT_ONE);
-		productRelationVersionLabel.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
-		productRelationVersionComboBox.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+		productRelationVersionLabel.setVisible(BooleanConstant.getFalseFlag());
+		productRelationVersionComboBox.setVisible(BooleanConstant.getFalseFlag());
 
 	}
 

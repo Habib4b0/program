@@ -55,7 +55,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
      */
     protected static final long serialVersionUID = 1L;
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The work flow status.
      */
@@ -263,7 +263,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
         HorizontalLayout layout = tableLogic.createControls();
         layout.setStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         availableVertical.addComponent(layout);
-        tableLogic.sinkItemPerPageWithPageLength(BOOLEAN_CONSTANT.getFalseFlag());
+        tableLogic.sinkItemPerPageWithPageLength(BooleanConstant.getFalseFlag());
         tableLogic.setContainerDataSource(resultsBean);
         resultsTable.setFilterBarVisible(true);
         resultsTable.markAsDirty();

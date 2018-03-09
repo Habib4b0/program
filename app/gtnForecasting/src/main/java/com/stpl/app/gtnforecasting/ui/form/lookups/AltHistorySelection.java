@@ -82,7 +82,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AltHistorySelection extends CustomComponent implements View {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     private SessionDTO session;
     
@@ -387,7 +387,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
         leftTable.setFilterFieldVisible(Constant.CHECK, false);
         rightTable.setHeight(Constant.PX_390);
-        rightTable.setDoubleHeaderVisible(BOOLEAN_CONSTANT.getTrueFlag());
+        rightTable.setDoubleHeaderVisible(BooleanConstant.getTrueFlag());
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightDTO.getSingleHeaders().toArray(new String[rightDTO.getSingleHeaders().size()]));
         for (int i = 0; i < rightDTO.getSingleColumns().size(); i++) {
@@ -434,7 +434,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                     final Component uiContext) {
                 if (String.valueOf(propertyId).equals(Constant.CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                    check.setValue(BooleanConstant.getFalseFlag());
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
@@ -1002,7 +1002,7 @@ public class AltHistorySelection extends CustomComponent implements View {
      
         exportPeriodViewTable = new ExtCustomTable();
         historyAllocationLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);

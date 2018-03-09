@@ -47,7 +47,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     private static final long serialVersionUID = 4573149356126437540L;
     private static final Logger LOGGER = LoggerFactory
             .getLogger(BusinessRoleModuleSearchLogic.class.getName());
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final int VersionNo = NumericConstants.ONE;
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(
             ErrorfulFieldGroup searchBusinessRoleModuleForm)
@@ -181,7 +181,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                 searchBusinessRoleModuleForm.setSubmoduleName(obj[NumericConstants.TWO].toString());
                 searchBusinessRoleModuleForm.setFunction("null".equals(String.valueOf(obj[0]))?"":String.valueOf(obj[0]));
                 searchBusinessRoleModuleForm.setTabName("null".equals(String.valueOf(obj[NumericConstants.FOUR]))?"":String.valueOf(obj[NumericConstants.FOUR]));
-                searchBusinessRoleModuleForm.setAccess(BOOLEAN_CONSTANT.getFalseFlag());
+                searchBusinessRoleModuleForm.setAccess(BooleanConstant.getFalseFlag());
                 searchBusinessRoleModuleForm.setCategoryName(String.valueOf(obj[NumericConstants.THREE]));
                 searchBusinessRoleModuleForm.setSubmodulePropertyId(String.valueOf(obj[NumericConstants.ONE]));
                 searchBusinessRoleModuleForm.setBusinessroleMasterSid(businessroleMasterId);
@@ -208,9 +208,9 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                 searchBusinessRoleModuleForm.setModuleName(moduleName);
                 searchBusinessRoleModuleForm.setSubmoduleName(obj[NumericConstants.TWO].toString());
                 searchBusinessRoleModuleForm.setFieldName(obj[0].toString());
-                searchBusinessRoleModuleForm.setAdd(BOOLEAN_CONSTANT.getFalseFlag());
-                searchBusinessRoleModuleForm.setEdit(BOOLEAN_CONSTANT.getFalseFlag());
-                searchBusinessRoleModuleForm.setView(BOOLEAN_CONSTANT.getFalseFlag());
+                searchBusinessRoleModuleForm.setAdd(BooleanConstant.getFalseFlag());
+                searchBusinessRoleModuleForm.setEdit(BooleanConstant.getFalseFlag());
+                searchBusinessRoleModuleForm.setView(BooleanConstant.getFalseFlag());
                 searchBusinessRoleModuleForm.setSubmodulePropertyId(String.valueOf(obj[NumericConstants.ONE]));
                 searchBusinessRoleModuleForm.setNullFlag((obj[NumericConstants.THREE] != null && obj[NumericConstants.THREE].toString().equals("N")) ? true : false);
                    searchBusinessRoleModuleForm.setTabName("null".equals(String.valueOf(obj[NumericConstants.FOUR]))?"":String.valueOf(obj[NumericConstants.FOUR]));

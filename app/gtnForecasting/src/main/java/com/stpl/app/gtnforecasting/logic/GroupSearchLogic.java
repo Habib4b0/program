@@ -34,7 +34,7 @@ public class GroupSearchLogic extends PageTableLogic {
     private final DataSelectionLogic logic = new DataSelectionLogic();
     private GroupDTO dto;
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupSearchLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     @Override
     public int getCount() {
@@ -87,11 +87,11 @@ public class GroupSearchLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 }

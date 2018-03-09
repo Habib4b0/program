@@ -110,7 +110,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     /**
      * The period table id.
      */
@@ -248,9 +248,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         });
 
         if (ACTION_EDIT.getConstant().equals(session.getAction())) {
-            generateBtnClickLogic(BOOLEAN_CONSTANT.getTrueFlag());
+            generateBtnClickLogic(BooleanConstant.getTrueFlag());
         } else if (ACTION_VIEW.getConstant().equals(session.getAction())) {
-            generateBtnClickLogic(BOOLEAN_CONSTANT.getTrueFlag());
+            generateBtnClickLogic(BooleanConstant.getTrueFlag());
             buttonDisable();
         }
     }
@@ -596,9 +596,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setImmediate(true);
                     if (checkAll) {
-                        check.setValue(BOOLEAN_CONSTANT.getTrueFlag());
+                        check.setValue(BooleanConstant.getTrueFlag());
                     } else {
-                        check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                        check.setValue(BooleanConstant.getFalseFlag());
                     }
                     boolean checkEnbl1 = ACTION_VIEW.getConstant().equals(session.getAction());
                     boolean checkEnbl2 = itemDto1.getLevelName().equalsIgnoreCase(Constant.CONTRACT_SMALL)
@@ -606,7 +606,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     if (checkEnbl1) {
                         check.setEnabled(false);
                     } else if (checkEnbl2) {
-                        check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                        check.setValue(BooleanConstant.getFalseFlag());
                         check.setEnabled(false);
                     }
                     if (checkEnbl1) {
@@ -840,7 +840,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setData(propertyId);
                     check.setImmediate(true);
-                    check.setValue(BOOLEAN_CONSTANT.getFalseFlag());
+                    check.setValue(BooleanConstant.getFalseFlag());
                     check.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
@@ -1172,7 +1172,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable = new ExtFilterTreeTable();
         resultsTableLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         exportPeriodViewTable.setContainerDataSource(excelResultBean);
 
@@ -1496,7 +1496,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         tableLogic.setRefresh(false);
         loadExcelResultTable(NumericConstants.TWO, StringUtils.EMPTY);
         tableLogic.setRefresh(true);
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         exportPeriodViewTable.setDoubleHeaderVisible(true);
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
@@ -1702,19 +1702,19 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.SUPPLEMENTAL_DISCOUNT);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
             }
             if (functionPsHM.get(FunctionNameUtil.RESET) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.RESET)).isFunctionFlag()) {
-                resetBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                resetBtn.setVisible(BooleanConstant.getFalseFlag());
             }
             if (functionPsHM.get(FunctionNameUtil.EXPAND) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.EXPAND)).isFunctionFlag()) {
-                expandBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                expandBtn.setVisible(BooleanConstant.getFalseFlag());
             }
             if (functionPsHM.get(FunctionNameUtil.COLLAPSE_BTN) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.COLLAPSE_BTN)).isFunctionFlag()) {
-                collapseBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                collapseBtn.setVisible(BooleanConstant.getFalseFlag());
             }
             if (functionPsHM.get(FunctionNameUtil.POPULATE_BTN) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.POPULATE_BTN)).isFunctionFlag()) {
-                populateBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+                populateBtn.setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(MSupplementalDiscountProjection.class.getName()).error( StringUtils.EMPTY, ex);

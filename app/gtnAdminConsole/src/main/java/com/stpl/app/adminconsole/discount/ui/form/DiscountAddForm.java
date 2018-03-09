@@ -291,8 +291,7 @@ public class DiscountAddForm extends CustomComponent implements View {
 
     private SessionDTO sessionDTO;
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
-
+    
     /**
      * Gets the availableRebate.
      *
@@ -1275,49 +1274,49 @@ public class DiscountAddForm extends CustomComponent implements View {
     private void setButtonSecurity(Map<String, AppPermission> functionDeductionHM) {
         
         if (functionDeductionHM.get(ConstantsUtils.SEARCH_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.SEARCH_BUTTON)).isFunctionFlag()) {
-            searchBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            searchBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            searchBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            searchBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.RESET_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.RESET_BUTTON)).isFunctionFlag()) {
-            resetBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            resetBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            resetBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            resetBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.RESET_ALL_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.RESET_ALL_BUTTON)).isFunctionFlag()) {
-            resetButton.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            resetButton.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            resetButton.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            resetButton.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.BACK_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.BACK_BUTTON)).isFunctionFlag()) {
-            backBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            backBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            backBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            backBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.ADD_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.ADD_BUTTON)).isFunctionFlag()) {
-            addBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            addBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            addBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            addBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.ADD_ALL_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.ADD_ALL_BUTTON)).isFunctionFlag()) {
-            addallBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            addallBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            addallBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            addallBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.REMOVE_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.REMOVE_BUTTON)).isFunctionFlag()) {
-            removeBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            removeBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            removeBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            removeBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.REMOVE_ALL_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.REMOVE_ALL_BUTTON)).isFunctionFlag()) {
-            removeallBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            removeallBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            removeallBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            removeallBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.SAVE_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.SAVE_BUTTON)).isFunctionFlag()) {
-            saveBtn.setVisible(BOOLEAN_CONSTANT.getTrueFlag());
+            saveBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            saveBtn.setVisible(BOOLEAN_CONSTANT.getFalseFlag());
+            saveBtn.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 }

@@ -62,7 +62,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
  */
 public abstract class Summary extends CustomComponent {
 
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     
     @UiField("tradingPartnerSalesTableLayout")
     protected VerticalLayout tradingPartnerSalesTableLayout;
@@ -235,7 +235,7 @@ public abstract class Summary extends CustomComponent {
         excelResultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
         exportPeriodViewTable = new ExtFilterTreeTable();
         tradingPartnerSalesTableLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        exportPeriodViewTable.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);

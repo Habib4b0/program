@@ -68,7 +68,7 @@ import org.vaadin.teemu.clara.Clara;
 public class CopyContractindex extends VerticalLayout {
 
     private static final Logger  LOGGER = LoggerFactory.getLogger(CopyContractindex.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
     private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     @UiField("copycontractTableLayout")
     public VerticalLayout copycontractTableLayout;
@@ -167,7 +167,7 @@ public class CopyContractindex extends VerticalLayout {
             copycontractResultsTable.setHeight(NumericConstants.FOUR_HUNDRED, Sizeable.Unit.PIXELS);
             copycontractResultsTable.setPageLength(10);
             copycontractResultsTable.setItemsPerPage(10);
-            copycontractResultsTable.setEditable(BOOLEAN_CONSTANT.getTrueFlag());
+            copycontractResultsTable.setEditable(BooleanConstant.getTrueFlag());
             tablelogic.setContainerDataSource(resultContainer);
             copycontractTableLayout.addComponent(copycontractResultsTable);
             copycontractTableLayout.addComponent(tablelogic.createControls());
@@ -175,7 +175,7 @@ public class CopyContractindex extends VerticalLayout {
             copycontractResultsTable.setColumnHeaders(HeaderUtil.getInstance().contractSearchHeader);
             copycontractResultsTable.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             copycontractResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
-            copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BOOLEAN_CONSTANT.getTrueFlag());
+            copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
             copycontractResultsTable.setTableFieldFactory(new TableFieldFactory() {
                 @Override
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
@@ -292,7 +292,7 @@ public class CopyContractindex extends VerticalLayout {
                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias Start date and Contract Alias End date are equal.");
 
             } else if (logic.isSearch(binder)) {
-                copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BOOLEAN_CONSTANT.getTrueFlag());
+                copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], BooleanConstant.getTrueFlag());
                 if (tablelogic.loadSetDate(binderDTO, true)) {
                     CommonUIUtils.successNotification(Constants.MessageConstants.SEARCH_COMPLETED.getConstant());
 

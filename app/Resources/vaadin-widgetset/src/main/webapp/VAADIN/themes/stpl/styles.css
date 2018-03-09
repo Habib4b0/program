@@ -14829,6 +14829,10 @@ div.v-layout.v-horizontal.v-widget {
 	background-color: #e4ca1f;
 }
 
+.stpl .v-menubar > .v-menubar-menuitem:first-child > .v-menubar-menuitem-caption {
+	overflow: hidden;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;

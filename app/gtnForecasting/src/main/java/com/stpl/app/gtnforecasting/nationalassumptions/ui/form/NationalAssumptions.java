@@ -120,7 +120,7 @@ public class NationalAssumptions extends CustomComponent implements View {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptions.class);
     
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     /**
      * The price type ddlb.
@@ -337,6 +337,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             growthLabel.setHeight("49px");
             frequencyDdlb.addStyleName("fieldPositionfreq");
             forecastMethodology.addStyleName("disablelabel");
+            forecastMethodology.addStyleName("hideLabel");
             forecastMethodology.addItem(PRICE_TRENDING.getConstant());
             if (CommonUtil.isValueEligibleForLoading()) {
                 forecastMethodology.addItem(PER_OF_WAC.getConstant());
@@ -394,7 +395,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesTable.setContainerDataSource(priceTypesBean);
             priceTypesTable.setVisibleColumns(CommonUiUtils.getPeriodTypeColumns());
             priceTypesTable.setColumnHeaders(CommonUiUtils.getPeriodTypesHeader());
-            priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.FIVE], Table.Align.RIGHT);
+            priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.FIVE], Table.Align.LEFT);
             priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.NINE], Table.Align.CENTER);
             priceTypesTable.setPageLength(NumericConstants.SEVEN);
 
@@ -1565,7 +1566,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 basePeriod.setType(Constant.FORECAST);
             }
             basePeriod.setPeriod(period);
-            basePeriod.setCheck(BOOLEAN_CONSTANT.getTrueFlag());
+            basePeriod.setCheck(BooleanConstant.getTrueFlag());
             baseLineList.add(basePeriod);
 
         }
@@ -1590,7 +1591,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 period = element.toString().trim();
                 rollPeriod.setType(Constant.ACTUALS);
                 rollPeriod.setPeriod(period);
-                rollPeriod.setCheck(BOOLEAN_CONSTANT.getTrueFlag());
+                rollPeriod.setCheck(BooleanConstant.getTrueFlag());
                 rollingAverageList.add(rollPeriod);
             }
             rollingAvgResultsBean.removeAllItems();

@@ -29,7 +29,7 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
     private final CopyContractLogic logic = new CopyContractLogic();
     private int count;
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsSearchLogic.class);
-    private static final BooleanConstant BOOLEAN_CONSTANT = new BooleanConstant();
+    
 
     @Override
     public int getCount() {
@@ -93,12 +93,12 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(BOOLEAN_CONSTANT.getFalseFlag());
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(BOOLEAN_CONSTANT.getTrueFlag());
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
 }
