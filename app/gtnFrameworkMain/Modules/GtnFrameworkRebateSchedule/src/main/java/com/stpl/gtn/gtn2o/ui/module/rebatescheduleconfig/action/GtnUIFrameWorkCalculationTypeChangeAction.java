@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.itextpdf.text.log.Logger;
 import com.itextpdf.text.log.LoggerFactory;
@@ -33,6 +34,24 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GtnUIFrameWorkCalculationTypeChangeAction.class);
+	private static Class<?>[] tableColumnDataType;
+	private static String[] tableHeader ;
+	public static Class<?>[] getTableColumnDataType() {
+		return tableColumnDataType.clone();
+	}
+
+	public static void setTableColumnDataType(Class<?>[] tableColumnDataType) {
+		GtnUIFrameWorkCalculationTypeChangeAction.tableColumnDataType = tableColumnDataType.clone();
+	}
+
+	public static String[] getTableHeader() {
+		return tableHeader.clone();
+	}
+
+	public static void setTableHeader(String[] tableHeader) {
+		GtnUIFrameWorkCalculationTypeChangeAction.tableHeader = tableHeader.clone();
+	}
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -53,27 +72,15 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 		GtnUIFrameworkBaseComponent rebateSetupMassField = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("rebateSetupTabMassField");
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-		Class<?>[] tableColumnDataType = null;
-		String[] tableHeader = null;
 		List<String> visibleColumnList = null;
 		List<String> fieldFactoryColumnList = null;
 		String checkRecordId = GtnFrameworkCommonConstants.CHECK_RECORD_ID;
 		if (mode == GtnUIFrameworkModeType.EDIT || mode == GtnUIFrameworkModeType.ADD) {
 			switch (calculationType) {
 			case "Rebate Plan":
-				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
-						Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
-						String.class, String.class, String.class, String.class, Date.class };
-
-				tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
-						GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
-						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE,
-						GtnFrameworkRSConstants.BUNDLE_NO, GtnFrameworkRSConstants.REBATE_PLAN_NO2, "Rebate Plan Name",
-						GtnFrameworkCommonConstants.NET_SALES_FORMULA, GtnFrameworkCommonConstants.NET_SALES_RULE,
-						GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.ATTACHED_DATE };
-
+				makeRebatePlanColumns();
+				getTableColumnDataType();
+				getTableHeader();
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1,
@@ -99,19 +106,9 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 				break;
 			case "Formula":
 
-				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
-						Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
-						String.class, String.class, String.class, String.class, Date.class };
-
-				tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
-						GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
-						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE, "Formula Type",
-						GtnFrameworkRSConstants.FORMULA_NO2, "Formula Name",
-						GtnFrameworkCommonConstants.NET_SALES_FORMULA, GtnFrameworkCommonConstants.NET_SALES_RULE,
-						GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.ATTACHED_DATE };
-
+				makeFormulaTypeColumns();
+				getTableColumnDataType();
+				getTableHeader();
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, "formulaType",
@@ -135,18 +132,9 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 						GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE2));
 				break;
 			case "Deduction Calendar":
-				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
-						Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
-						String.class, Date.class };
-
-				tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
-						GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
-						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE,
-						GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO, "Deduction Calendar Name",
-						GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.ATTACHED_DATE };
-
+				makeDeductionCalendarColumns();
+				getTableColumnDataType();
+				getTableHeader();
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, GtnFrameworkRSConstants.DEDUCTION_NAME,
@@ -169,13 +157,9 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 			default:
 
-				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
-						Date.class, Date.class };
-
-				tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
-						GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
-						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE };
-
+				makeDefaultColumns();
+				getTableColumnDataType();
+				getTableHeader();
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1);
@@ -193,19 +177,9 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 			switch (calculationType) {
 			case "Rebate Plan":
 
-				tableColumnDataType = new Class<?>[] { String.class, String.class, String.class, Date.class, Date.class,
-						String.class, String.class, String.class, String.class, String.class, String.class,
-						String.class, String.class, String.class, Date.class };
-
-				tableHeader = new String[] { GtnFrameworkCommonConstants.ITEM_NO_HEADER,
-						GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
-						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE, "Bundle No",
-						GtnFrameworkRSConstants.REBATE_PLAN_NO2, "Rebate Plan Name",
-						GtnFrameworkCommonConstants.NET_SALES_FORMULA, GtnFrameworkCommonConstants.NET_SALES_RULE,
-						GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.ATTACHED_DATE };
-
+				makeRebatePlanViewColumns();
+				getTableColumnDataType();
+				getTableHeader();
 				visibleColumnList = Arrays.asList(GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1,
@@ -225,19 +199,9 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 				break;
 			case "Formula":
 
-				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, String.class,
-						Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
-						String.class, String.class, String.class, String.class, Date.class };
-
-				tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
-						GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
-						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE, "Formula Type",
-						GtnFrameworkRSConstants.FORMULA_NO2, "Formula Name",
-						GtnFrameworkCommonConstants.NET_SALES_FORMULA, GtnFrameworkCommonConstants.NET_SALES_RULE,
-						GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.ATTACHED_DATE };
-
+				makeFormulaTypeViewColumns();
+				getTableColumnDataType();
+				getTableHeader();
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, "formulaType",
@@ -255,18 +219,9 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 						GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE1);
 				break;
 			case "Deduction Calendar":
-				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, String.class,
-						Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
-						String.class, Date.class };
-
-				tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
-						GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
-						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE,
-						GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO, "Deduction Calendar Name",
-						GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
-						GtnFrameworkRSConstants.ATTACHED_DATE };
-
+				makeDeductionCalendarViewColumns();
+				getTableColumnDataType();
+				getTableHeader();
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, GtnFrameworkRSConstants.DEDUCTION_NAME,
@@ -281,13 +236,9 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 						GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE1);
 				break;
 			default:
-				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, String.class,
-						Date.class, Date.class };
-
-				tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
-						GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
-						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE };
-
+				makeDefaultViewColumns();
+				getTableColumnDataType();
+				getTableHeader();
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
 						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1);
@@ -298,9 +249,8 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 			}
 
 		}
-
 		List<Integer> dateColumn = new ArrayList<>();
-		Map<String, Class<?>> dataType = new HashMap<>();
+		Map<String, Class<?>> dataType = new HashMap<>(tableColumnDataType.length-2);
 		for (int i = 0; i < tableColumnDataType.length; i++) {
 			if (Date.class.equals(tableColumnDataType[i])) {
 				dateColumn.add(i);
@@ -352,12 +302,126 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 		tableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
 		tableLogic.startSearchProcess(new ArrayList<String>(), true);
-	
+	    getValueFromList(dateColumn);
+	    getKeyFromMap(dataType);
 	}
 		catch(Exception e)
 		{
 			LOGGER.error(e.getMessage());
 		}
+		
+	}
+
+	private static void  makeDefaultViewColumns() {
+
+		 setTableColumnDataType( new Class<?>[] { Boolean.class, String.class, String.class, String.class,
+				Date.class, Date.class });
+	        setTableHeader(new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+					GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE });
+	}
+
+	private static void makeDeductionCalendarViewColumns() {
+
+		 setTableColumnDataType(new Class<?>[] { Boolean.class, String.class, String.class, String.class,
+				Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, Date.class });
+	        setTableHeader(new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+					GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE,
+					GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO, "Deduction Calendar Name",
+					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.ATTACHED_DATE });
+	}
+
+	private static void makeFormulaTypeViewColumns() {
+		 setTableColumnDataType(new Class<?>[] { Boolean.class, String.class, String.class, String.class,
+				Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, Date.class });
+	        setTableHeader(new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+					GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE, "Formula Type",
+					GtnFrameworkRSConstants.FORMULA_NO2, "Formula Name",
+					GtnFrameworkCommonConstants.NET_SALES_FORMULA, GtnFrameworkCommonConstants.NET_SALES_RULE,
+					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.ATTACHED_DATE });
+	}
+
+	private static void makeRebatePlanViewColumns() {
+		 setTableColumnDataType(new Class<?>[] { String.class, String.class, String.class, Date.class, Date.class,
+				String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, Date.class });
+	        setTableHeader(new String[] { GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+					GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE, "Bundle No",
+					GtnFrameworkRSConstants.REBATE_PLAN_NO2, "Rebate Plan Name",
+					GtnFrameworkCommonConstants.NET_SALES_FORMULA, GtnFrameworkCommonConstants.NET_SALES_RULE,
+					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.ATTACHED_DATE });
+	}
+
+	private static void makeDefaultColumns() {
+		 setTableColumnDataType(new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
+				Date.class, Date.class });
+	        setTableHeader(new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+					GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE });
+	}
+
+	private static void makeDeductionCalendarColumns() {
+		 setTableColumnDataType(new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
+				Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, Date.class });
+	        setTableHeader(new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+					GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE,
+					GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO, "Deduction Calendar Name",
+					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.ATTACHED_DATE });
+	}
+
+	private static void makeFormulaTypeColumns() {
+		 setTableColumnDataType(new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
+				Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, Date.class });
+	        setTableHeader(new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+					GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE, "Formula Type",
+					GtnFrameworkRSConstants.FORMULA_NO2, "Formula Name",
+					GtnFrameworkCommonConstants.NET_SALES_FORMULA, GtnFrameworkCommonConstants.NET_SALES_RULE,
+					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
+					GtnFrameworkRSConstants.ATTACHED_DATE });
+	}
+
+	private static void makeRebatePlanColumns() {
+        setTableColumnDataType( new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
+			Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
+			String.class, String.class, String.class, String.class, Date.class });
+		setTableHeader(new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+				GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+				GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE,
+				GtnFrameworkRSConstants.BUNDLE_NO, GtnFrameworkRSConstants.REBATE_PLAN_NO2, "Rebate Plan Name",
+				GtnFrameworkCommonConstants.NET_SALES_FORMULA, GtnFrameworkCommonConstants.NET_SALES_RULE,
+				GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE,
+				GtnFrameworkRSConstants.CALCULATION_RULE1, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE,
+				GtnFrameworkRSConstants.ATTACHED_DATE });
+	}
+
+	private void getKeyFromMap(Map<String, Class<?>> dataType) {
+		Entry<String, Class<?>> entry = dataType.entrySet().iterator().next();
+	    entry.getKey();
+	}
+
+	private void getValueFromList(List<Integer> dateColumn) {
+		for(int i=0;i<dateColumn.size();i++)
+	    {
+	    	dateColumn.get(i);
+	    }
 	}
 	
 	@Override
