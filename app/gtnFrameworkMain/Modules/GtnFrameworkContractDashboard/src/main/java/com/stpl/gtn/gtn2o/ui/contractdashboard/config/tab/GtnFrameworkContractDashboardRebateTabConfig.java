@@ -1746,6 +1746,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		GtnUIFrameworkComponentConfig componentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.PAGEDTABLE);
 		componentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+                componentConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
 		cdRebateComponentList.add(componentConfig);
 		GtnUIFrameworkPagedTableConfig cdRebateHistoryResultTable = new GtnUIFrameworkPagedTableConfig();
 		componentConfig.setGtnPagedTableConfig(cdRebateHistoryResultTable);
