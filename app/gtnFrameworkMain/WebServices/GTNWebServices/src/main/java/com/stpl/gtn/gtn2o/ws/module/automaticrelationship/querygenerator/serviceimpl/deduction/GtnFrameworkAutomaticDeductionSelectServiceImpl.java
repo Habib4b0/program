@@ -52,6 +52,7 @@ public class GtnFrameworkAutomaticDeductionSelectServiceImpl implements GtnFrame
 		querygeneratorBean.addSelectClauseBean(null, "MODIFIED_DATE", Boolean.FALSE, "getdate()");
 		querygeneratorBean.addSelectClauseBean(null, "VERSION_NO", Boolean.FALSE, String.valueOf(updatedVersionNo));
 		querygeneratorBean.addSelectClauseBean(null, "PARENT_HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
+		querygeneratorBean.addSelectClauseBean(null, "NEETTOINSERT", Boolean.FALSE, "1");
 	}
 
 	private String getHierarchyNo(GtnWsRelationshipBuilderBean relationBean,

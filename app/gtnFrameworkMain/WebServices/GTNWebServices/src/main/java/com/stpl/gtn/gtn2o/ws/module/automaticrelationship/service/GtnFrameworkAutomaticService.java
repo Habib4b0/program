@@ -73,7 +73,7 @@ public class GtnFrameworkAutomaticService {
 
 	public synchronized void waitForRelaitonUpdatetoFinish() throws InterruptedException {
 		if (customerExecutorService.isShutdown())
-			customerExecutorService.awaitTermination(5, TimeUnit.MINUTES);
+			customerExecutorService.awaitTermination(30, TimeUnit.MINUTES);
 	}
 
 }
