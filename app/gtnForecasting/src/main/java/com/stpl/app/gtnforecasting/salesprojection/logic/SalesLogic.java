@@ -91,6 +91,7 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.sql.CallableStatement;
@@ -128,6 +129,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SalesLogic {
 
+    
     public static final DecimalFormat MONEY = new DecimalFormat("$0.00");
     public static final DecimalFormat UNIT = new DecimalFormat("0.00");
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$#,##0");
@@ -2192,7 +2194,7 @@ public class SalesLogic {
               callManualEntry(projectionSelectionDTO, (entry.getKey()).split(",")[1].contains(Constant.SALES_SMALL) ? Constant.SALES_SMALL : Constant.UNITS_SMALL);
           }
         projectionSelectionDTO.getUpdateQueryMap().clear();
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 
     /**

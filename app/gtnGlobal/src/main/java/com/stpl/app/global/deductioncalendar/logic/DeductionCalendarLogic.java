@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ItemQualifierLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
@@ -68,6 +69,7 @@ import org.slf4j.LoggerFactory;
 public class DeductionCalendarLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarLogic.class);
+    
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     private final NotesTabLogic notesLogic = new NotesTabLogic();
     public static final CommonDao DAO = CommonDaoImpl.getInstance();
@@ -159,7 +161,7 @@ public class DeductionCalendarLogic {
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
-        return false;
+        return BooleanConstant.getFalseFlag();
     }
 
     public Boolean itemAndCompanySelectionCheck(final SessionDTO sessionDTO, final Boolean isItem) {
@@ -170,7 +172,7 @@ public class DeductionCalendarLogic {
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
-        return false;
+        return BooleanConstant.getFalseFlag();
     }
 
     /**

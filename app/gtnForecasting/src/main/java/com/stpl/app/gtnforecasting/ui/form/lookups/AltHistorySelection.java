@@ -24,6 +24,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -81,6 +82,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AltHistorySelection extends CustomComponent implements View {
 
+    
+    
     private SessionDTO session;
     
     @UiField("actualOrProj")
@@ -384,7 +387,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
         leftTable.setFilterFieldVisible(Constant.CHECK, false);
         rightTable.setHeight(Constant.PX_390);
-        rightTable.setDoubleHeaderVisible(Boolean.TRUE);
+        rightTable.setDoubleHeaderVisible(BooleanConstant.getTrueFlag());
         rightTable.setVisibleColumns(rightDTO.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightDTO.getSingleHeaders().toArray(new String[rightDTO.getSingleHeaders().size()]));
         for (int i = 0; i < rightDTO.getSingleColumns().size(); i++) {
@@ -431,7 +434,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                     final Component uiContext) {
                 if (String.valueOf(propertyId).equals(Constant.CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setValue(false);
+                    check.setValue(BooleanConstant.getFalseFlag());
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
@@ -999,7 +1002,7 @@ public class AltHistorySelection extends CustomComponent implements View {
      
         exportPeriodViewTable = new ExtCustomTable();
         historyAllocationLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);

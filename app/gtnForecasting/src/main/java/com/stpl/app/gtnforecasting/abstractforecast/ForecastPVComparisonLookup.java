@@ -14,6 +14,7 @@ import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import static com.stpl.app.utils.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
@@ -53,6 +54,8 @@ public abstract class ForecastPVComparisonLookup extends Window{
      * The Constant serialVersionUID.
      */
     protected static final long serialVersionUID = 1L;
+    
+    
     /**
      * The work flow status.
      */
@@ -260,7 +263,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
         HorizontalLayout layout = tableLogic.createControls();
         layout.setStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         availableVertical.addComponent(layout);
-        tableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
+        tableLogic.sinkItemPerPageWithPageLength(BooleanConstant.getFalseFlag());
         tableLogic.setContainerDataSource(resultsBean);
         resultsTable.setFilterBarVisible(true);
         resultsTable.markAsDirty();

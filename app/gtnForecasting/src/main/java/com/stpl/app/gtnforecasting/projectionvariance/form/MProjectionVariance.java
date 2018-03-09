@@ -47,6 +47,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -83,6 +84,8 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(MProjectionVariance.class);
+    
+    
     /**
      * The excel export image.
      */
@@ -1121,11 +1124,11 @@ public class MProjectionVariance extends ForecastProjectionVariance {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.PROJECTION_VARIANCE);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(Boolean.FALSE);
-                expandLvlBtn.setVisible(Boolean.FALSE);
-                collapseLvlBtn.setVisible(Boolean.FALSE);
-                addViewBtn.setVisible(Boolean.FALSE);
-                editViewBtn.setVisible(Boolean.FALSE);
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandLvlBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseLvlBtn.setVisible(BooleanConstant.getFalseFlag());
+                addViewBtn.setVisible(BooleanConstant.getFalseFlag());
+                editViewBtn.setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (com.liferay.portal.kernel.exception.PortalException | SystemException ex) {
             LoggerFactory.getLogger(MProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);

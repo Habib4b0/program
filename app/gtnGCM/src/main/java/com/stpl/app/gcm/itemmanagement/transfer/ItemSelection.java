@@ -19,6 +19,7 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.ui.ComboBox;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import com.vaadin.v7.data.Container;
@@ -67,6 +68,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemSelection extends CustomComponent {
 
+    
+    
     @UiField("startingPanel")
     private Panel startingPanel;
     @UiField("selectedItems")
@@ -415,7 +418,7 @@ public class ItemSelection extends CustomComponent {
         itemFromLS.setSizeFull();
         itemFromLS.setVisibleColumns(UiUtils.getInstance().visibleColumnItem);
         itemFromLS.setColumnHeaders(UiUtils.getInstance().columnHeaderItem);
-        itemFromLS.setEditable(Boolean.FALSE);
+        itemFromLS.setEditable(BooleanConstant.getFalseFlag());
         itemFromLS.setSelectable(true);
         itemFromLS.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         itemFromLS.addItems(selecteditemList);
@@ -429,10 +432,10 @@ public class ItemSelection extends CustomComponent {
         transferTable.setPageLength(NumericConstants.FIVE);
         transferTable.setVisibleColumns(UiUtils.getInstance().transferVisible);
         transferTable.setColumnHeaders(UiUtils.getInstance().transferHeader);
-        transferTable.setEditable(Boolean.TRUE);
-        transferTable.setSelectable(Boolean.FALSE);
+        transferTable.setEditable(BooleanConstant.getTrueFlag());
+        transferTable.setSelectable(BooleanConstant.getFalseFlag());
         transferTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        transferTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
+        transferTable.setColumnCheckBox(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
         transferTable.setTableFieldFactory(new TableFieldFactory() {
             @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
@@ -478,35 +481,35 @@ public class ItemSelection extends CustomComponent {
 
     public void configureSearch() {
 
-        therapeuticClass_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        therapeuticClass_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         therapeuticClass_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         therapeuticClass_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         therapeuticClass_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        form_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        form_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         form_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         form_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         form_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        identifierType_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        identifierType_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         identifierType_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         identifierType_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         identifierType_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        brand_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        brand_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         brand_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         brand_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         brand_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        strength_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        strength_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         strength_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         strength_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         strength_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        company_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        company_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         company_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         company_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         company_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        itemCategory_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        itemCategory_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         itemCategory_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         itemCategory_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         itemCategory_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        itemType_DTO.setNullSelectionAllowed(Boolean.TRUE);
+        itemType_DTO.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         itemType_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         itemType_DTO.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         itemType_DTO.select(Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -533,19 +536,19 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadCompany() {
-        logic.LazyLoadDdlb(company_DTO, "LoadCompanyCount", "LoadCompany", false);
+        logic.LazyLoadDdlb(company_DTO, "LoadCompanyCount", "LoadCompany", BooleanConstant.getFalseFlag());
     }
 
     private void loadForm() {
-        logic.LazyLoadDdlb(form_DTO, "LoadFormCount", "LoadForm", false);
+        logic.LazyLoadDdlb(form_DTO, "LoadFormCount", "LoadForm", BooleanConstant.getFalseFlag());
     }
 
     private void loadBrand() {
-        logic.LazyLoadDdlb(brand_DTO, "LoadBrandCount", "LoadBrand", false);
+        logic.LazyLoadDdlb(brand_DTO, "LoadBrandCount", "LoadBrand", BooleanConstant.getFalseFlag());
     }
 
     private void loadStrength() {
-        logic.LazyLoadDdlb(strength_DTO, "LoadStrengthCount", "LoadStrength", false);
+        logic.LazyLoadDdlb(strength_DTO, "LoadStrengthCount", "LoadStrength", BooleanConstant.getFalseFlag());
     }
 
     private void loadItemType() {
@@ -587,7 +590,7 @@ public class ItemSelection extends CustomComponent {
     }
 
     private void loadIdentifierType() {
-        logic.LazyLoadDdlb(identifierType_DTO, "LoadIdentifierType Count", "LoadIdentifierType", false);
+        logic.LazyLoadDdlb(identifierType_DTO, "LoadIdentifierType Count", "LoadIdentifierType", BooleanConstant.getFalseFlag());
     }
 
     @SuppressWarnings("serial")
@@ -617,10 +620,10 @@ public class ItemSelection extends CustomComponent {
         itemResult.setSizeFull();
         itemResult.setVisibleColumns(UiUtils.getInstance().visibleColumnItem);
         itemResult.setColumnHeaders(UiUtils.getInstance().columnHeaderItem);
-        itemResult.setEditable(Boolean.FALSE);
+        itemResult.setEditable(BooleanConstant.getFalseFlag());
         itemResult.setSelectable(true);
         itemResult.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        itemResult.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
+        itemResult.setColumnCheckBox(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
     }
 
     private void addResultTable() {

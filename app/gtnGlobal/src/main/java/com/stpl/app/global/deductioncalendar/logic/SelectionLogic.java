@@ -41,6 +41,7 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItem;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -65,6 +66,8 @@ public class SelectionLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SelectionLogic.class);
+    
+    
     /**
      * The format double.
      */
@@ -1504,10 +1507,10 @@ public class SelectionLogic {
 
             List obj = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
             if (((Integer) obj.get(0)) > 0) {
-                return true;
+                return BooleanConstant.getTrueFlag();
             }
         }
-        return false;
+        return BooleanConstant.getFalseFlag();
     }
 
     public List addToTempTable(ErrorfulFieldGroup searchItemForm) {

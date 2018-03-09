@@ -26,6 +26,7 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -67,6 +68,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class PPADetailsLookup extends Window {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPADetailsLookup.class);
+    
 
     @UiField("contractLabel")
     private Label contractLabel;
@@ -196,7 +198,7 @@ public class PPADetailsLookup extends Window {
     private void configureTable() {
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         tableLogic.setContainerDataSource(resultsContainer);
-        tableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
+        tableLogic.sinkItemPerPageWithPageLength(BooleanConstant.getFalseFlag());
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable.setVisibleColumns(HeaderUtils.getPpaDetailsVisibleColRight());

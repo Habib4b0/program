@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SummaryDTO {
 
-    private Boolean checkRecord = false;
+    private boolean checkRecord = false;
     private String contractHolder = StringUtils.EMPTY;
     private String contractNo = StringUtils.EMPTY;
     private String contractName = StringUtils.EMPTY;

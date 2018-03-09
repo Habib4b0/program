@@ -18,6 +18,7 @@ import static com.stpl.app.utils.Constants.FrequencyConstants.*;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 public class DiscountQueryBuilder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountQueryBuilder.class);
+    
 
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CATEGORY = "Program Category";
@@ -544,11 +546,11 @@ public class DiscountQueryBuilder {
 
             customSql = checkIsCustom(isCustomHierarchy, hierarchyIndicator, customViewDetails.get(NumericConstants.TWO), customViewDetails.get(NumericConstants.FOUR), customViewDetails.get(NumericConstants.NINE), hierarchyNo, customSql,session);
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-            return Boolean.TRUE;
+            return BooleanConstant.getTrueFlag();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return Boolean.FALSE;
+            return BooleanConstant.getFalseFlag();
         }
     }
     public static final String LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='";

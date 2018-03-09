@@ -22,7 +22,7 @@ public class BaselinePeriodDTO implements Serializable {
     /**
      * The check.
      */
-    private Boolean check = false;
+    private boolean check = false;
 
     /**
      * The period.

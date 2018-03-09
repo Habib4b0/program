@@ -29,7 +29,7 @@ public class AlternateHistoryTableLogic extends PageTableLogic {
     private AlternateHistoryDTO altHistoryDTO;
     private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
     private SessionDTO session;
-    private boolean isAvailable = Boolean.FALSE;
+    private boolean isAvailable = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(AlternateHistoryTableLogic.class);
   
 

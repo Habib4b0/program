@@ -72,7 +72,7 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 		if (tableBean.getModifiedDateColumn() == null)
 			return;
 		relationDateJoin.addOrConditionBean(tableBean.getModifiedDateColumn(querygeneratorBean.getFromTableAlies()),
-				"RELATIONSHIP_LEVEL_DEFINITION.MODIFIED_DATE", GtnFrameworkOperatorType.GREATERTHANOREQUALTO);
+				"RELATION_DATE_FILTER.MODIFIED_DATE", GtnFrameworkOperatorType.GREATERTHANOREQUALTO);
 		relationDateJoin.addOrConditionBean("RELATION_DATE_FILTER.HIERARCHY_NO",
 				getHierarchyNo(customerHierarchyLevelDefinitionList, hierarchyLevelBean),
 				GtnFrameworkOperatorType.LIKE);
