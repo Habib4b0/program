@@ -144,6 +144,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private List<String[]> deductionLevel = new ArrayList<>();
     public static final String SID = "SID";
     public static final String GROUP_PROPERTY = "group";
+    public static final String DF_LEVEL_NAME = "dfLevelName";
+    public static final String HEADER_LEVEL_NAME = "Level Name";
+    public static final String HEADER_LEVEL_NUMBER = "Level Number";
+    public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
 
     public static final CommonLogic commonLogic = new CommonLogic();
 
@@ -2227,7 +2231,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     private void excelColumnFormat() {
-        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get("group");
+        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get(GROUP_PROPERTY);
         List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
         listHeaders.remove(GROUP_PROPERTY);
 
@@ -2243,15 +2247,15 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 LOGGER.info("obj--------------= {}", i);
                 int index = (Integer) displayFormatIndex[i];
                 if (index == 0) {
-                    listHeaders.remove("dfLevelName");
+                    listHeaders.remove(DF_LEVEL_NAME);
                     fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
-                    fullHeader.getSingleColumns().remove("dfLevelName");
-                    fullHeader.getSingleHeaders().remove("Level Name");
+                    fullHeader.getSingleColumns().remove(DF_LEVEL_NAME);
+                    fullHeader.getSingleHeaders().remove(HEADER_LEVEL_NAME);
                 } else {
-                    listHeaders.remove("dfLevelNumber");
+                    listHeaders.remove(DF_LEVEL_NUMBER);
                     fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
-                    fullHeader.getSingleColumns().remove("dfLevelNumber");
-                    fullHeader.getSingleHeaders().remove("Level Number");
+                    fullHeader.getSingleColumns().remove(DF_LEVEL_NUMBER);
+                    fullHeader.getSingleHeaders().remove(HEADER_LEVEL_NUMBER);
                 }
 
             }
