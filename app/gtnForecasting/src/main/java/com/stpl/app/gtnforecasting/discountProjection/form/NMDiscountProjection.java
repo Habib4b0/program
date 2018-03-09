@@ -812,7 +812,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             .replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
                     String refreshName = StringUtils.EMPTY;
                     String property = String.valueOf(obj[1]);
-                    int frequencyDiv = getFrequencyDivision(projectionSelection.getFrequency());
                     if (property.contains(Constant.PROJECTED_RATE)) {
                         refreshName = Constant.RATE;
                         isRateUpdatedManually = true;
@@ -825,8 +824,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         double doubleVal = Double.parseDouble(blurValue);
                         doubleVal = CommonUtil.getConversionFormattedMultipleValue(projectionSelection, doubleVal);
                         ccpsCount = dto.getCcpCount();
-                        int discountLevelccpCount = dto.getCcpCountForDiscount().get(discountName) != null
-                                ? dto.getCcpCountForDiscount().getInt(discountName) : ccpsCount;
                         double finalValue = doubleVal;
                         blurValue = String.valueOf(finalValue);
                         if (blurValue.contains("E")) {
@@ -2291,7 +2288,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 + "  Please select a complete calendar year of periods "
                                                 + "for each selected discount and try again.");
                                     } else if (!CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())
-                                            && checkedDiscountsPropertyIds.size() == 0) {
+                                            && checkedDiscountsPropertyIds.isEmpty()) {
                                         NotificationUtils.getErrorNotification("No Discount selected",
                                                 "Please select atleast one discount.");
                                     } else if (methodologyDdlb.getValue().equals(AVERAGE.getConstant())
