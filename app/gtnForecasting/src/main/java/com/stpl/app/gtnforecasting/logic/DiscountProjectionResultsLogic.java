@@ -790,45 +790,45 @@ public class DiscountProjectionResultsLogic {
                                         commonColumn = selectedDiscount.replace(" ", StringUtils.EMPTY);
                                         discountDto.setIsParent(ZERO_SYMBOL);
                                         if (obj[NumericConstants.TWO] != null) {
-                                            Double aSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
-                                            actualSales = actualSales + aSales;
+                                            Double aPivotProjectionSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.TWO]);
+                                            actualSales = actualSales + aPivotProjectionSales;
                                         }
                                         if (obj[NumericConstants.THREE] != null) {
-                                            Double aAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
-                                            actualAmount = actualAmount + aAmount;
+                                            Double aPivotProjectionAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.THREE]);
+                                            actualAmount = actualAmount + aPivotProjectionAmount;
                                         }
                                         if (obj[NumericConstants.FOUR] != null) {
-                                            Double pSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
-                                            projectedSales = projectedSales + pSales;
+                                            Double pPivotProjectionSales = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FOUR]);
+                                            projectedSales = projectedSales + pPivotProjectionSales;
                                         }
                                         if (obj[NumericConstants.FIVE] != null) {
-                                            Double pAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
-                                            projectedAmount = projectedAmount + pAmount;
+                                            Double pPivotProjectionAmount = DataTypeConverter.convertObjectToDouble(obj[NumericConstants.FIVE]);
+                                            projectedAmount = projectedAmount + pPivotProjectionAmount;
                                         }
                                     }
                                         if ((i == list.size() - 1)&& (periodList.contains(discountDto.getGroup()))) {
-                                            Double arate = actualAmount / actualSales;
-                                            if (arate.isNaN()) {
-                                                arate = 0.0;
+                                            Double aPivotProjectionrate = actualAmount / actualSales;
+                                            if (aPivotProjectionrate.isNaN()) {
+                                                aPivotProjectionrate = 0.0;
                                             }
-                                            arate = arate * NumericConstants.HUNDRED;
-                                            String actRate = String.valueOf(arate);
+                                            aPivotProjectionrate = aPivotProjectionrate * NumericConstants.HUNDRED;
+                                            String actRate = String.valueOf(aPivotProjectionrate);
                                             discountDto.addStringProperties(commonColumn + ACTUALSRATE, actRate != null && !NULL.equals(String.valueOf(actRate)) && !StringUtils.EMPTY.equals(String.valueOf(actRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(actRate)))).concat(PERCENTAGE) : HYPHEN);
-                                            Double actualAmt = arate * actualSales;
+                                            Double actualAmt = aPivotProjectionrate * actualSales;
                                             actualAmt = actualAmt / NumericConstants.HUNDRED;
                                             if (actualAmt.isNaN()) {
                                                 actualAmt = 0.0;
                                             }
-                                            String actAmt = String.valueOf(actualAmt);
-                                            discountDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actAmt != null && !NULL.equals(String.valueOf(actAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actAmt)))) : HYPHEN);
-                                            Double prate = projectedAmount / projectedSales;
-                                            if (prate.isNaN() || prate.isInfinite()) {
-                                                prate = 0.0;
+                                            String actPivotProjectionAmt = String.valueOf(actualAmt);
+                                            discountDto.addStringProperties(commonColumn + ACTUALSAMOUNT, actPivotProjectionAmt != null && !NULL.equals(String.valueOf(actPivotProjectionAmt)) && !StringUtils.EMPTY.equals(String.valueOf(actPivotProjectionAmt)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(actPivotProjectionAmt)))) : HYPHEN);
+                                            Double pPivotProjectionrate = projectedAmount / projectedSales;
+                                            if (pPivotProjectionrate.isNaN() || pPivotProjectionrate.isInfinite()) {
+                                                pPivotProjectionrate = 0.0;
                                             }
-                                            prate = prate * NumericConstants.HUNDRED;
-                                            String proRate = String.valueOf(prate);
+                                            pPivotProjectionrate = pPivotProjectionrate * NumericConstants.HUNDRED;
+                                            String proRate = String.valueOf(pPivotProjectionrate);
                                             discountDto.addStringProperties(commonColumn + PROJECTIONSRATE, proRate != null && !NULL.equals(String.valueOf(proRate)) && !StringUtils.EMPTY.equals(String.valueOf(proRate)) ? (UNITVOLUME.format(Double.parseDouble(String.valueOf(proRate)))).concat(PERCENTAGE) : HYPHEN);
-                                            Double projectedAmtAmt = prate * projectedSales;
+                                            Double projectedAmtAmt = pPivotProjectionrate * projectedSales;
                                             projectedAmtAmt = projectedAmtAmt / NumericConstants.HUNDRED;
                                             if (projectedAmtAmt.isNaN()) {
                                                 projectedAmtAmt = 0.0;

@@ -453,10 +453,10 @@ public class DataSelectionLogic {
 				}
 			} else if ("save".equals(indicator)) {
 				for (final Leveldto dto : levelList) {
-
-					cffProdHierarchy.setCffMasterSid(projectionId);
-					cffProdHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
-					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchy);
+                                        final CffProdHierarchy cffProdHierarchyLevel = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(0);
+					cffProdHierarchyLevel.setCffMasterSid(projectionId);
+					cffProdHierarchyLevel.setRelationshipLevelSid(dto.getRelationshipLevelSid());
+					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchyLevel);
 				}
 			}
 			if (endLevels != null && !endLevels.isEmpty()) {
@@ -562,9 +562,10 @@ public class DataSelectionLogic {
 				}
 			} else if ("save".equals(indicator)) {
 				for (final Leveldto dto : levelList) {
-					cffCustHierarchy.setCffMasterSid(projectionId);
-					cffCustHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
-					vDataSelectionDao.addProjectionCustHierarchy(cffCustHierarchy);
+                                        final CffCustHierarchy cffCustHierarchyLevel = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(0);
+					cffCustHierarchyLevel.setCffMasterSid(projectionId);
+					cffCustHierarchyLevel.setRelationshipLevelSid(dto.getRelationshipLevelSid());
+					vDataSelectionDao.addProjectionCustHierarchy(cffCustHierarchyLevel);
 				}
 			}
 			if (endLevels != null && !endLevels.isEmpty()) {
