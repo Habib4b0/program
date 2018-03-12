@@ -119,14 +119,11 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Callable<
 	public String call() throws Exception {
 		try {
 			HierarchyLevelDefinitionBean currnetHierarchyLevelBean = hierarchyLevelDefinitionList.get(index);
-
-			HierarchyLevelDefinitionBean previousHierarchyLevelBean = HierarchyLevelDefinitionBean
-					.getPreviousLinkedLevel(hierarchyLevelDefinitionList, currnetHierarchyLevelBean);
 			List<Object> input = new ArrayList<>();
 			input.add(getListToString(itemMastersidList));
 			List<Object> finalInputForQuery = null;
 			GtnFrameworkQueryGeneratorBean hierarchyQuery = getCheckForUpdateQuery(currnetHierarchyLevelBean,
-					previousHierarchyLevelBean, relationBean.getRelationshipBuilderSid());
+					relationBean.getRelationshipBuilderSid());
 			String query = gtnWsSqlService.getReplacedQuery(input, hierarchyQuery.generateQuery());
 			finalInputForQuery = new ArrayList<>();
 			finalInputForQuery.add(relationBean.getRelationshipBuilderSid());
