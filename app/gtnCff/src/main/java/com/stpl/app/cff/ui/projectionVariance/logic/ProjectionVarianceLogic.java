@@ -3262,13 +3262,11 @@ public class ProjectionVarianceLogic {
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if (!hierarchyNo.contains(",")) {
-                if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+                if (hierarchyValidation(entry, levelNo, hierarchyIndicator, isHierarchyNoNotAvailable, hierarchyNo)) {
                     if (isNotFirstElement) {
                         stringBuilder.append(",\n");
                     }
-                    stringBuilder.append("('");
-                    stringBuilder.append(entry.getKey());
-                    stringBuilder.append("',").append(i++).append(')');
+                    queryGenerate(stringBuilder, entry, i);
                     isNotFirstElement = true;
                 }
             } else if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()))) {
@@ -3279,5 +3277,15 @@ public class ProjectionVarianceLogic {
                 isNotFirstHierarchy = true;
             }
         }
+    }
+
+    private void queryGenerate(StringBuilder stringBuilder, Map.Entry<String, List> entry, int i) {
+        stringBuilder.append("('");
+        stringBuilder.append(entry.getKey());
+        stringBuilder.append("',").append(i++).append(')');
+    }
+
+    private static boolean hierarchyValidation(Map.Entry<String, List> entry, int levelNo, String hierarchyIndicator, boolean isHierarchyNoNotAvailable, String hierarchyNo) throws NumberFormatException {
+        return (Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
     }
 }
