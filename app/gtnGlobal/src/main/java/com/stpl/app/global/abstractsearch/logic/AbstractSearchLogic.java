@@ -194,9 +194,9 @@ public class AbstractSearchLogic {
                 }
                 
                 if(lastIndex==i){
-                    builder.append(QUOTE + TAB + methodStringValue + QUOTE);
+                    builder.append(QUOTE ).append( TAB ).append( methodStringValue ).append( QUOTE);
                 }else{
-                    builder.append(QUOTE + TAB + methodStringValue + QUOTE + ExcelExportUtil.COMMA);
+                    builder.append(QUOTE ).append( TAB ).append( methodStringValue ).append( QUOTE ).append( ExcelExportUtil.COMMA);
                 }
             }
                                    
