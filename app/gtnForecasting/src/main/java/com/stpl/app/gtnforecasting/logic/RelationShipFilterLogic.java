@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RelationShipFilterLogic {
 
@@ -60,6 +62,7 @@ public class RelationShipFilterLogic {
 	private static final String RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID = "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID";
 	private static final String LEVEL_NO = "LEVEL_NO";
         private static final SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
+        private static final Logger LOGGER = LoggerFactory.getLogger(RelationShipFilterLogic.class);
 
 	private RelationShipFilterLogic() {
 		// Singleton constructor
@@ -102,7 +105,7 @@ public class RelationShipFilterLogic {
 	public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
 			String dedValue, int relationVersionNo, Date forecastEligibleDate) throws CloneNotSupportedException {
-		if (selectedHierarchyLevelDto.isUserDefined()) {
+		if (selectedHierarchyLevelDto.isUserDefined()) {    
 			return getUserDefinedData(selectedHierarchyLevelDto, relationshipSid, relationVersionNo);
 		}
 		return getLinkedLevelData(selectedHierarchyLevelDto, relationshipSid, groupFilteredCompanies,
@@ -160,37 +163,34 @@ public class RelationShipFilterLogic {
 		return resultList;
 	}
 
-	 private String getQueryForLinkedLevelCustomer(Leveldto selectedHierarchyLevelDto, int relationshipSid,
-            List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
-            String dedValue, int relationVersionNo, Date forecastEligibleDate) {
-        GtnFrameworkQueryGeneratorBean queryBean = getQueryToFilterCustomerProduct(selectedHierarchyLevelDto,
-                groupFilteredCompanies);
-        List<String> inputList =new ArrayList<>();
-        addRelationSelectClause(queryBean);
-        addRelationShipJoin(queryBean, selectedHierarchyLevelDto, levelHierarchyLevelDefinitionList);
-        getDeductionJoin(dedLevel, dedValue, queryBean);
-        StringBuilder query = new StringBuilder(queryBean.generateQuery());
-        inputList.add(String.valueOf(relationshipSid));
-        inputList.add(String.valueOf(selectedHierarchyLevelDto.getLevelNo()-1));
-        inputList.add(String.valueOf(relationVersionNo));
-        if (forecastEligibleDate != null) {
-            inputList.add(dateFormat.format(forecastEligibleDate));
-            inputList.add(dateFormat.format(forecastEligibleDate));
-            query.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
-            query.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
-        }
-        return QueryUtils.getQuery(query.toString(), inputList);
-    }
+            private String getQueryForLinkedLevelCustomer(Leveldto selectedHierarchyLevelDto, int relationshipSid,
+               List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
+               String dedValue, int relationVersionNo, Date forecastEligibleDate) {
+           GtnFrameworkQueryGeneratorBean queryBean = getQueryToFilterCustomerProduct(selectedHierarchyLevelDto,
+                   groupFilteredCompanies);
+           List<String> inputList =new ArrayList<>();
+           addRelationSelectClause(queryBean);
+           addRelationShipJoin(queryBean, selectedHierarchyLevelDto, levelHierarchyLevelDefinitionList);
+           getDeductionJoin(dedLevel, dedValue, queryBean);
+           StringBuilder query = new StringBuilder(queryBean.generateQuery());
+           inputList.add(String.valueOf(relationshipSid));
+           inputList.add(String.valueOf(selectedHierarchyLevelDto.getLevelNo()));
+           inputList.add(String.valueOf(relationVersionNo));
+           if (forecastEligibleDate != null) {
+               inputList.add(dateFormat.format(forecastEligibleDate));
+               inputList.add(dateFormat.format(forecastEligibleDate));
+               query.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
+               query.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
+           }
+           return QueryUtils.getQuery(query.toString(), inputList);
+       }
 
     private void addRelationShipJoin(GtnFrameworkQueryGeneratorBean queryBean, Leveldto selectedHierarchyLevelDto,
             List<Leveldto> hierarchyDefinitionList) {
         queryBean.removeAllWhereClauseConfigList();
-        Leveldto hierarchyLevelBean = hierarchyDefinitionList.get(selectedHierarchyLevelDto.getLevelNo()-1);
-        Leveldto previousHierarchyLevelBean = Leveldto
-                .getPreviousLinkedLevel(hierarchyDefinitionList, hierarchyLevelBean);
         GtnFrameworkSingleColumnRelationBean keyBean = masterBean
-                .getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
-                        previousHierarchyLevelBean.getFieldName());
+                    .getKeyRelationBeanUsingTableIdAndColumnName(selectedHierarchyLevelDto.getTableName(),
+                        selectedHierarchyLevelDto.getFieldName());
         String relationShipLevelDef = "RELATIONSHIP_LEVEL_DEFINITION";
         String relationShipBuilderSidDef = RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID;
         GtnFrameworkJoinClauseBean relationJoin = queryBean.addJoinClauseBean(relationShipLevelDef,
@@ -204,7 +204,7 @@ public class RelationShipFilterLogic {
         relationJoin.addConditionBean(RELATIONSHIP_BUILD_VERSION, null,
                 GtnFrameworkOperatorType.EQUAL_TO);
         relationJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO,
-                getHierarchyNoForRelationShip(hierarchyDefinitionList, previousHierarchyLevelBean),
+                getHierarchyNoForRelationShip(hierarchyDefinitionList, selectedHierarchyLevelDto),
                 GtnFrameworkOperatorType.LIKE);
 
     }
