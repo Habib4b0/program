@@ -26,9 +26,9 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnFrameworkDedAutoUpdateQueryGeneratorCallable implements Callable<String> {
 
 	private GtnWsRelationshipBuilderBean relationBean;
+	private List<Integer> itemMastersidList;
 	private List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList;
 	private int index;
-	private List<Integer> itemMastersidList;
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
@@ -46,44 +46,28 @@ public class GtnFrameworkDedAutoUpdateQueryGeneratorCallable implements Callable
 
 	private int customertUpdatedVersionNo;
 
-	public GtnWsRelationshipBuilderBean getRelationBean() {
-		return relationBean;
-	}
 
 	public void setRelationBean(GtnWsRelationshipBuilderBean relationBean) {
 		this.relationBean = relationBean;
-	}
-
-	public List<HierarchyLevelDefinitionBean> getHierarchyLevelDefinitionList() {
-		return hierarchyLevelDefinitionList;
-	}
-
-	public void setHierarchyLevelDefinitionList(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) {
-		this.hierarchyLevelDefinitionList = hierarchyLevelDefinitionList;
-	}
-
-	public int getCustomertUpdatedVersionNo() {
-		return customertUpdatedVersionNo;
 	}
 
 	public void setCustomertUpdatedVersionNo(int customertUpdatedVersionNo) {
 		this.customertUpdatedVersionNo = customertUpdatedVersionNo;
 	}
 
-	public int getIndex() {
-		return index;
-	}
-
 	public void setIndex(int index) {
 		this.index = index;
 	}
-
-	public List<Integer> getItemMastersidList() {
-		return itemMastersidList;
+	public void setHierarchyLevelDefinitionList(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) {
+		this.hierarchyLevelDefinitionList = new ArrayList<>(hierarchyLevelDefinitionList);
 	}
 
 	public void setItemMastersidList(List<Integer> itemMastersidList) {
-		this.itemMastersidList = itemMastersidList;
+		this.itemMastersidList = new ArrayList<>(itemMastersidList);
+	}
+
+	public GtnFrameworkDedAutoUpdateQueryGeneratorCallable() {
+		super();
 	}
 
 	@Override

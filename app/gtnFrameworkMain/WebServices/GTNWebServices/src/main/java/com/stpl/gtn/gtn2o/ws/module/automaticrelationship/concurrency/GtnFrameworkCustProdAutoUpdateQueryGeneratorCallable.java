@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkJoinQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkSelectQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkWhereQueryGeneratorService;
@@ -27,8 +26,8 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Callable<String> {
 
 	private GtnWsRelationshipBuilderBean relationBean;
-	private List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList;
 	private int index;
+	private List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList;
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
@@ -39,11 +38,11 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 	@Qualifier("CustProdSelect")
 	private GtnFrameworkSelectQueryGeneratorService selectService;
 	@Autowired
-	@Qualifier("CustProdWhere")
-	private GtnFrameworkWhereQueryGeneratorService whereService;
-	@Autowired
 	@Qualifier("CustProdJoin")
 	private GtnFrameworkJoinQueryGeneratorService joinService;
+	@Autowired
+	@Qualifier("CustProdWhere")
+	private GtnFrameworkWhereQueryGeneratorService whereService;
 
 	private int customertUpdatedVersionNo;
 
@@ -55,12 +54,8 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 		this.relationBean = relationBean;
 	}
 
-	public List<HierarchyLevelDefinitionBean> getHierarchyLevelDefinitionList() {
-		return hierarchyLevelDefinitionList;
-	}
-
 	public void setHierarchyLevelDefinitionList(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) {
-		this.hierarchyLevelDefinitionList = hierarchyLevelDefinitionList;
+		this.hierarchyLevelDefinitionList = new ArrayList<>(hierarchyLevelDefinitionList);
 	}
 
 	public int getCustomertUpdatedVersionNo() {
@@ -77,6 +72,10 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 
 	public void setIndex(int index) {
 		this.index = index;
+	}
+
+	public GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable() {
+		super();
 	}
 
 	@Override
@@ -105,7 +104,6 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 		inputsList.add(customerHierarchyLevelBean.getLevelNo());
 		inputsList.add(customertUpdatedVersionNo > 1 ? customertUpdatedVersionNo - 1 : 1);
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
-		String str = querygeneratorBean.generateQuery();
 		String query = gtnWsSqlService.getReplacedQuery(inputsList, querygeneratorBean.generateQuery());
 		List<String> insertQueryInput = new ArrayList<>();
 		insertQueryInput.add(query);
@@ -114,7 +112,7 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 	}
 
 	private String checkAndInserUserDefinedLevels(GtnWsRelationshipBuilderBean relationBean,
-			HierarchyLevelDefinitionBean customerHierarchyLevelBean) throws GtnFrameworkGeneralException {
+			HierarchyLevelDefinitionBean customerHierarchyLevelBean) {
 		List<Object> inputList = new ArrayList<>();
 		inputList.add(customerHierarchyLevelBean.getHierarchyLevelDefinitionSid());
 		inputList.add(customerHierarchyLevelBean.getDefaultVlaue());

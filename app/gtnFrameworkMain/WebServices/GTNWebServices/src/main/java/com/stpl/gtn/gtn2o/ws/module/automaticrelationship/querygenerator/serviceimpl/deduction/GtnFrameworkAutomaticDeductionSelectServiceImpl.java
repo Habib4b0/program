@@ -23,36 +23,36 @@ public class GtnFrameworkAutomaticDeductionSelectServiceImpl implements GtnFrame
 		super();
 	}
 	public void addSelectClause(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-			GtnWsRelationshipBuilderBean relationBean, GtnFrameworkQueryGeneratorBean querygeneratorBean,
+			GtnWsRelationshipBuilderBean relationBean, GtnFrameworkQueryGeneratorBean deductionQuerygeneratorBean,
 			int updatedVersionNo, int levelNo) {
 
 		HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(levelNo);
 		HierarchyLevelDefinitionBean previousHierarchyLevelBean = levelNo > 0
 				? hierarchyLevelDefinitionList.get(levelNo - 1) : null;
-		querygeneratorBean.removeSelectClauseByIndex(0);
-		querygeneratorBean.addSelectClauseBean(null, "RELATIONSHIP_BUILDER_SID", Boolean.FALSE,
+		deductionQuerygeneratorBean.removeSelectClauseByIndex(0);
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "RELATIONSHIP_BUILDER_SID", Boolean.FALSE,
 				String.valueOf(relationBean.getRelationshipBuilderSid()));
-		querygeneratorBean.addSelectClauseBean(null, "HIERARCHY_LEVEL_DEFINITION_SID", Boolean.FALSE,
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "HIERARCHY_LEVEL_DEFINITION_SID", Boolean.FALSE,
 				String.valueOf(hierarchyLevelBean.getHierarchyLevelDefinitionSid()));
 
-		querygeneratorBean.addSelectClauseBean(null, "LEVEL_NO", Boolean.FALSE,
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "LEVEL_NO", Boolean.FALSE,
 				String.valueOf(hierarchyLevelBean.getLevelNo()));
-		querygeneratorBean.addSelectClauseBean(null, "LEVEL_NAME", Boolean.FALSE,
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "LEVEL_NAME", Boolean.FALSE,
 				"'" + hierarchyLevelBean.getLevelName() + "'");
 		String parentNode = getParentNode(previousHierarchyLevelBean);
 		String hierarchyNo = getHierarchyNo(relationBean, hierarchyLevelDefinitionList, levelNo);
-		querygeneratorBean.addSelectClauseBean(null, "PARENT_NODE", Boolean.FALSE, parentNode);
-		querygeneratorBean.addSelectClauseBean(null, "HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
-		querygeneratorBean.addSelectClauseBean(null, "FLAG", Boolean.FALSE, "'F'");
-		querygeneratorBean.addSelectClauseBean(null, "CREATED_BY", Boolean.FALSE,
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "PARENT_NODE", Boolean.FALSE, parentNode);
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "FLAG", Boolean.FALSE, "'F'");
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "CREATED_BY", Boolean.FALSE,
 				String.valueOf(relationBean.getCreatedBy()));
-		querygeneratorBean.addSelectClauseBean(null, "CREATED_DATE", Boolean.FALSE, "getdate()");
-		querygeneratorBean.addSelectClauseBean(null, "MODIFIED_BY", Boolean.FALSE,
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "CREATED_DATE", Boolean.FALSE, "getdate()");
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "MODIFIED_BY", Boolean.FALSE,
 				String.valueOf(relationBean.getModifiedBy()));
-		querygeneratorBean.addSelectClauseBean(null, "MODIFIED_DATE", Boolean.FALSE, "getdate()");
-		querygeneratorBean.addSelectClauseBean(null, "VERSION_NO", Boolean.FALSE, String.valueOf(updatedVersionNo));
-		querygeneratorBean.addSelectClauseBean(null, "PARENT_HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
-		querygeneratorBean.addSelectClauseBean(null, "NEETTOINSERT", Boolean.FALSE, "1");
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "MODIFIED_DATE", Boolean.FALSE, "getdate()");
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "VERSION_NO", Boolean.FALSE, String.valueOf(updatedVersionNo));
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "PARENT_HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
+		deductionQuerygeneratorBean.addSelectClauseBean(null, "NEETTOINSERT", Boolean.FALSE, "1");
 	}
 
 	private String getHierarchyNo(GtnWsRelationshipBuilderBean relationBean,

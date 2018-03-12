@@ -141,7 +141,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Callable<
 	}
 
 	private GtnFrameworkQueryGeneratorBean getCheckForUpdateQuery(HierarchyLevelDefinitionBean hierarchyLevelBean,
-			HierarchyLevelDefinitionBean previousHierarchyLevelBean, int relationShipBuilderSid) {
+			int relationShipBuilderSid) {
 		GtnFrameworkFileReadWriteService fileServiceDeduction = new GtnFrameworkFileReadWriteService();
 		GtnFrameworkHierarchyQueryBean hierarchyQuery = fileServiceDeduction.getQueryFromFile(
 				hierarchyLevelBean.getHierarchyDefinitionSid(), hierarchyLevelBean.getHierarchyLevelDefinitionSid(),
@@ -149,7 +149,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Callable<
 		GtnFrameworkQueryGeneratorBean queryGenerartorBeanDeduction = hierarchyQuery.getQuery();
 		String hierarchyNoSelectClause = getHierarchyNo(hierarchyLevelDefinitionList, hierarchyLevelBean,
 				relationShipBuilderSid).toString();
-		addJoinClause(previousHierarchyLevelBean, queryGenerartorBeanDeduction);
+		addJoinClause(queryGenerartorBeanDeduction);
 		queryGenerartorBeanDeduction.addSelectClauseBean(null, "HIERARCHY_NO", false, hierarchyNoSelectClause);
 		queryGenerartorBeanDeduction.removeWhereClauseConfigListByIndex(1,
 				queryGenerartorBeanDeduction.getWhereClauseConfigList().size() - 1);
@@ -159,7 +159,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Callable<
 		return queryGenerartorBeanDeduction;
 	}
 
-	private void addJoinClause(HierarchyLevelDefinitionBean hierarchyLevelBean,
+	private void addJoinClause(
 			GtnFrameworkQueryGeneratorBean queryGenerartorBean) {
 		GtnFrameworkJoinClauseBean rsDetailsJoin = queryGenerartorBean.addJoinClauseBean("RS_CONTRACT_DETAILS",
 				"RS_CONTRACT_DETAILS", GtnFrameworkJoinType.JOIN);

@@ -93,11 +93,11 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 			for (Future<String> future : futureList) {
 				finalQuery.append(future.get());
 			}
-			List<Object> inputList = new ArrayList<>();
-			inputList.add(relationBean.getRelationshipBuilderSid());
-			inputList.add(relationBean.getVersionNo() + "," + (relationBean.getVersionNo() - 1));
-			inputList.add(finalQuery.toString());
-			String query = gtnWsSqlService.getQuery(inputList, "Check Relation to Update");
+			List<Object> input = new ArrayList<>();
+			input.add(relationBean.getRelationshipBuilderSid());
+			input.add(relationBean.getVersionNo() + "," + (relationBean.getVersionNo() - 1));
+			input.add(finalQuery.toString());
+			String query = gtnWsSqlService.getQuery(input, "Check Relation to Update");
 			List<?> result = gtnSqlQueryEngine.executeSelectQuery(query);
 			return Integer.parseInt(result.get(0).toString()) > 0;
 		} catch (Exception e) {
@@ -139,8 +139,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 		automaticService.deleteUnwantedUserDefinedLevels(relationBean.getRelationshipBuilderSid(),
 				customertUpdatedVersionNo);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 	}
 
