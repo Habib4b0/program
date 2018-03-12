@@ -3247,6 +3247,15 @@ public class ProjectionVarianceLogic {
         }
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
         StringBuilder stringBuilder = new StringBuilder();
+        hierachyQueryIndicator(hierarchyNo, relationshipLevelDetailsMap, levelNo, hierarchyIndicator, stringBuilder);
+        if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
+            stringBuilder.append("('");
+            stringBuilder.append("')");
+        }
+        return stringBuilder.toString();
+    }
+
+    private void hierachyQueryIndicator(String hierarchyNo, Map<String, List> relationshipLevelDetailsMap, int levelNo, String hierarchyIndicator, StringBuilder stringBuilder) throws NumberFormatException {
         boolean isNotFirstElement = false;
         boolean isNotFirstHierarchy = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
@@ -3270,10 +3279,5 @@ public class ProjectionVarianceLogic {
                 isNotFirstHierarchy = true;
             }
         }
-        if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
-            stringBuilder.append("('");
-            stringBuilder.append("')");
-        }
-        return stringBuilder.toString();
     }
 }
