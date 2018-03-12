@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.contractheader.constants.GtnUIFrameworkContractHeaderStringContants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.contract.bean.GtnWsContractMasterBean;
 import com.stpl.gtn.gtn2o.ws.contract.bean.GtnwsContractAliasMasterBean;
@@ -102,12 +103,12 @@ public class GtnUIFrameworkContractHeaderEditAction
 					.getComponent().getData();
 			GtnWsRecordBean tpData = new GtnWsRecordBean();
 			List<Object> tpList = new ArrayList<>(
-					Arrays.asList(new Object[] { GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
+					Arrays.asList(GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
 							GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
 							GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
 							GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
 							GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
-							info.getCompanyMasterByContHoldCompanyMasterSid() }));
+							info.getCompanyMasterByContHoldCompanyMasterSid() ));
 			tpData.setProperties(tpList);
 			tpComponentData.setCustomData(tpData);
 			contractHeaderTabTradingPartner.getComponent().setData(tpComponentData);
@@ -115,7 +116,7 @@ public class GtnUIFrameworkContractHeaderEditAction
 			GtnUIFrameWorkActionConfig chEditDefaultValueActionConfig = new GtnUIFrameWorkActionConfig();
 			chEditDefaultValueActionConfig.setActionType(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
 			chEditDefaultValueActionConfig.addActionParameter(GtnUIFrameworkContractHeaderStringContants.CH_FIELDS);
-			chEditDefaultValueActionConfig.addActionParameter(Arrays.asList(new Object[] { info.getContractId(),
+			chEditDefaultValueActionConfig.addActionParameter(Arrays.asList( info.getContractId(),
 					info.getContractNo(), info.getContractName(), info.getContractId(), info.getContractNo(),
 					info.getContractName(), info.getContractType(), info.getContractStatus(), info.getDocumentType(),
 					info.getStartDate(), info.getEndDate(), info.getDocumentClass(), info.getContractTradeClass(),
@@ -131,11 +132,9 @@ public class GtnUIFrameworkContractHeaderEditAction
 					info.getPriceEscalationClause(), info.getExemptFromLowPrice(), info.getPriceResetIndicator(),
 					info.getCancellationClause(), info.getMostFavoredNation(), info.getCategory(), info.getCurrency(),
 					info.getMinimumOrder(), null, null, null, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY, info.getTerm()==0?GtnFrameworkCommonStringConstants.STRING_EMPTY:String.valueOf(info.getTerm()),
-					info.getPaymentTerms(),info.getAdvanceNoticeDays().intValue() == 0 ? GtnFrameworkCommonStringConstants.STRING_EMPTY: String.valueOf(info.getAdvanceNoticeDays().intValue())
-                                        ,info.getContractEligibleDate()
-
-			}));
+					GtnFrameworkCommonStringConstants.STRING_EMPTY,(GtnFrameworkCommonConstants.NULL_CONSTANT.equals(String.valueOf(info. getTerm()))) || info.getTerm()==0 ?GtnFrameworkCommonStringConstants.STRING_EMPTY:String.valueOf(info.getTerm()),
+					info.getPaymentTerms(),( GtnFrameworkCommonConstants.NULL_CONSTANT.equals(String.valueOf(info. getAdvanceNoticeDays())) || info.getAdvanceNoticeDays().intValue() == 0)? GtnFrameworkCommonStringConstants.STRING_EMPTY: String.valueOf(info.getAdvanceNoticeDays().intValue())
+                                        ,info.getContractEligibleDate()));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, chEditDefaultValueActionConfig);
 
 			GtnUIFrameworkBaseComponent contractHeaderTabName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
@@ -148,12 +147,12 @@ public class GtnUIFrameworkContractHeaderEditAction
 					.getData();
 			GtnWsRecordBean companyNameData = new GtnWsRecordBean();
 			List<Object> companyNameList = new ArrayList<>(
-					Arrays.asList(new Object[] { GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
+					Arrays.asList( GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
 							GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
 							GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
 							GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
 							GtnUIFrameworkContractHeaderStringContants.STRING_ZERO,
-							info.getCompanyMasterByBunitCompanyMasterSid() }));
+							info.getCompanyMasterByBunitCompanyMasterSid() ));
 			companyNameData.setProperties(companyNameList);
 			companyNameComponentData.setCustomData(companyNameData);
 			contractHeaderTabName.getComponent().setData(companyNameComponentData);
