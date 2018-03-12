@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.contractheader.constants.GtnUIFrameworkContractHeaderStringContants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.contract.bean.GtnWsContractMasterBean;
 import com.stpl.gtn.gtn2o.ws.contract.bean.GtnwsContractAliasMasterBean;
@@ -131,8 +132,8 @@ public class GtnUIFrameworkContractHeaderEditAction
 					info.getPriceEscalationClause(), info.getExemptFromLowPrice(), info.getPriceResetIndicator(),
 					info.getCancellationClause(), info.getMostFavoredNation(), info.getCategory(), info.getCurrency(),
 					info.getMinimumOrder(), null, null, null, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY,("0".equals(String.valueOf(info. getTerm()))||"null".equals(String.valueOf(info. getTerm())))?GtnFrameworkCommonStringConstants.STRING_EMPTY:String.valueOf(info.getTerm()),
-					info.getPaymentTerms(),( "null".equals(String.valueOf(info. getAdvanceNoticeDays())) || "0".equals(String.valueOf(info. getAdvanceNoticeDays())) )? GtnFrameworkCommonStringConstants.STRING_EMPTY: String.valueOf(info.getAdvanceNoticeDays().intValue())
+					GtnFrameworkCommonStringConstants.STRING_EMPTY,(GtnFrameworkCommonConstants.NULL_CONSTANT.equals(String.valueOf(info. getTerm()))) || info.getTerm()==0 ?GtnFrameworkCommonStringConstants.STRING_EMPTY:String.valueOf(info.getTerm()),
+					info.getPaymentTerms(),( GtnFrameworkCommonConstants.NULL_CONSTANT.equals(String.valueOf(info. getAdvanceNoticeDays())) || info.getAdvanceNoticeDays().intValue() == 0)? GtnFrameworkCommonStringConstants.STRING_EMPTY: String.valueOf(info.getAdvanceNoticeDays().intValue())
                                         ,info.getContractEligibleDate()));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, chEditDefaultValueActionConfig);
 
