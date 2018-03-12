@@ -833,8 +833,8 @@ public class DiscountProjectionResultsLogic {
                                             if (projectedAmtAmt.isNaN()) {
                                                 projectedAmtAmt = 0.0;
                                             }
-                                            String proAmount = String.valueOf(projectedAmtAmt);
-                                            discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proAmount != null && !NULL.equals(String.valueOf(proAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proAmount)))) : HYPHEN);
+                                            String proPivotProjectionAmount = String.valueOf(projectedAmtAmt);
+                                            discountDto.addStringProperties(commonColumn + PROJECTIONSAMOUNT, proPivotProjectionAmount != null && !NULL.equals(String.valueOf(proPivotProjectionAmount)) && !StringUtils.EMPTY.equals(String.valueOf(proPivotProjectionAmount)) ? DOLLAR_SYMBOL.concat(DOLLAR.format(Double.parseDouble(String.valueOf(proPivotProjectionAmount)))) : HYPHEN);
                                             discountProjList.add(discountDto);
                                             periodList.remove(discountDto.getGroup());
                                         }
@@ -848,20 +848,20 @@ public class DiscountProjectionResultsLogic {
                                     projDTO.setProjectionTotal(1);
                                     projDTO.setGroup(String.valueOf(periodList.get(i)));
                                     for (String discount : projSelDTO.getDiscountNameList()) {
-                                        String discountRate = discount.replaceAll(" ", StringUtils.EMPTY);
-                                        String columns = discountRate + ACTUALSRATE;
+                                        String discountPivotProjectionRate = discount.replaceAll(" ", StringUtils.EMPTY);
+                                        String columns = discountPivotProjectionRate + ACTUALSRATE;
                                         projDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
 
-                                        String discountActualAmount = discount.replaceAll(" ", StringUtils.EMPTY);
-                                        String columns1 = discountActualAmount + ACTUALSAMOUNT;
+                                        String discountPivotProjectionActualAmount = discount.replaceAll(" ", StringUtils.EMPTY);
+                                        String columns1 = discountPivotProjectionActualAmount + ACTUALSAMOUNT;
                                         projDTO.addStringProperties(columns1, getFormattedValue(CUR_ZERO, Constant.NULL));
 
-                                        String discountProjectionAmount = discount.replaceAll(" ", StringUtils.EMPTY);
-                                        String columns2 = discountProjectionAmount + PROJECTIONSAMOUNT;
+                                        String discountPivotProjectionProjectionAmount = discount.replaceAll(" ", StringUtils.EMPTY);
+                                        String columns2 = discountPivotProjectionProjectionAmount + PROJECTIONSAMOUNT;
                                         projDTO.addStringProperties(columns2, getFormattedValue(CUR_ZERO, Constant.NULL));
 
-                                        String discountProjectionRate = discount.replaceAll(" ", StringUtils.EMPTY);
-                                        String columns3 = discountProjectionRate + PROJECTIONSRATE;
+                                        String discountPivotProjectionProjectionRate = discount.replaceAll(" ", StringUtils.EMPTY);
+                                        String columns3 = discountPivotProjectionProjectionRate + PROJECTIONSRATE;
                                         projDTO.addStringProperties(columns3, getFormattedValue(CUR_ZERO, Constant.NULL));
                                     }
                                     discountProjList.add(projDTO);
