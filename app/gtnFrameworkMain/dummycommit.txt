@@ -1,5 +1,3 @@
 ﻿dummycommit
 
-ALG-3790	
-ALG-3751
-
+ALG-3818
