@@ -19,7 +19,6 @@ import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.DownloadStream;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
@@ -46,8 +45,6 @@ import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.Receiver;
 import elemental.json.JsonArray;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -802,24 +799,5 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         }
         LOGGER.debug("Ends of AdditionalInformation setValues Method");
     }
-    class GtnFileResource extends FileResource{
-        public GtnFileResource(File sourceFile) {
-            super(sourceFile);
-        }
-         @Override
-    public DownloadStream getStream() {
-            try {
-                final DownloadStream stream = new DownloadStream(
-                        new FileInputStream(getSourceFile()), getMIMEType(),
-                        getFilename());
-                stream.setParameter("Content-Disposition", "attachment;filename=" +    getFilename());
-                stream.setParameter("Cache-Control", "private,no-cache,no-store");
-                stream.setCacheTime(1000);
-                return stream;
-            } catch (FileNotFoundException ex) {
-                  LOGGER.error("Error while downloading ", ex);
-            }
-            return null;
-    }
-    }
+  
 }

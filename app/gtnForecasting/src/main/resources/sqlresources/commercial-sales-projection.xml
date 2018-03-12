@@ -1534,10 +1534,10 @@ IF Object_id('TEMPDB..#PARENT_HIERARCHY', 'U') IS NOT NULL
        DROP TABLE #PARENT_HIERARCHY
 CREATE TABLE #PARENT_HIERARCHY (
        CCP_DETAILS_SID INT
-       ,HIERARCHY_NO VARCHAR(8000)
+       ,HIERARCHY_NO VARCHAR(5000)
        ,LEVEL_NAME VARCHAR(75)
        ,LEVEL_NO SMALLINT
-       ,RELATIONSHIP_LEVEL_VALUES VARCHAR(50)
+       ,RELATIONSHIP_LEVEL_VALUES INT
        ,HIERARCHY_INDICATOR CHAR(1)
        ,PARENT_HIERARCHY_NO VARCHAR(8000)
        )
@@ -1552,51 +1552,74 @@ SELECT DISTINCT CH.CCP_DETAILS_SID
 INTO #TEMP_TA
 FROM CUSTOM_VIEW_DETAILS C
 JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON C.HIERARCHY_ID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
-
-       AND RELATIONSHIP_BUILDER_SID IN ( [?CUST_RELATIONSHIP_BUILDER_SID], [?PROD_RELATIONSHIP_BUILDER_SID] )
+        AND RELATIONSHIP_BUILDER_SID IN ( [?CUST_RELATIONSHIP_BUILDER_SID] )  and rld.VERSION_NO = [?Custom_Relation_Version]  and CUSTOM_VIEW_MASTER_SID = [?Custom_View_Master_SID] 
 JOIN ST_CCP_HIERARCHY CH ON CH.CUST_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
-       OR CH.PROD_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
 JOIN ST_NM_SALES_PROJECTION_MASTER PPA ON PPA.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
-WHERE  CUSTOM_VIEW_MASTER_SID = [?Custom_View_Master_SID] [?UserGroup] [?FILTERCCP]
+WHERE  CUSTOM_VIEW_MASTER_SID = [?Custom_View_Master_SID] [?UserGroup] [?FILTERCCP] 
+insert into #TEMP_TA
+SELECT DISTINCT CH.CCP_DETAILS_SID
+       ,RLD.HIERARCHY_NO
+       ,RLD.LEVEL_NAME
+       ,C.LEVEL_NO
+       ,RLD.RELATIONSHIP_LEVEL_VALUES
+       ,HIERARCHY_INDICATOR
+FROM CUSTOM_VIEW_DETAILS C
+JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON C.HIERARCHY_ID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+      AND RELATIONSHIP_BUILDER_SID IN ( [?PROD_RELATIONSHIP_BUILDER_SID] )  and rld.VERSION_NO = [?Product_Relation_Version]  and CUSTOM_VIEW_MASTER_SID = [?Custom_View_Master_SID] 
+JOIN ST_CCP_HIERARCHY CH ON
+         CH.PROD_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
+JOIN ST_NM_SALES_PROJECTION_MASTER PPA ON PPA.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+WHERE  CUSTOM_VIEW_MASTER_SID = [?Custom_View_Master_SID] 
 INSERT INTO #PARENT_HIERARCHY
 SELECT t.*
        ,LEFT(parent_hierarchy_no, Len(parent_hierarchy_no) - 1) AS PARENT_HIERARCHY_NO
 FROM #TEMP_TA t
 CROSS APPLY (
-       SELECT CONVERT(VARCHAR(8000), HIERARCHY_NO + '~')
+      SELECT CONVERT(VARCHAR(8000), HIERARCHY_NO + '~')
        FROM #TEMP_TA r
        WHERE t.CCP_DETAILS_SID = r.CCP_DETAILS_SID
               AND t.LEVEL_NO > r.LEVEL_NO order by r.LEVEL_NO
        FOR XML path('')
        ) m(PARENT_HIERARCHY_NO)
+        IF OBJECT_ID('TEMPDB..#T45') IS NOT NULL
+       DROP TABLE #T45
+       CREATE TABLE #T45 (
+     HIERARCHY_NO VARCHAR(5000)
+       ,LEVEL_NAME VARCHAR(75)
+       ,LEVEL_NO SMALLINT
+       ,RELATIONSHIP_LEVEL_VALUES INT
+       ,HIERARCHY_INDICATOR CHAR(1)
+       ,PARENT_HIERARCHY_NO VARCHAR(8000),
+          NEW_HIER VARCHAR(5000)
+       )
+          INSERT INTO #T45
+          SELECT HIERARCHY_NO,LEVEL_NAME,LEVEL_NO,RELATIONSHIP_LEVEL_VALUES,HIERARCHY_INDICATOR,PARENT_HIERARCHY_NO,'' AS NEW_HIER  FROM #PARENT_HIERARCHY
+          GROUP BY HIERARCHY_NO,LEVEL_NAME,LEVEL_NO,RELATIONSHIP_LEVEL_VALUES,HIERARCHY_INDICATOR,PARENT_HIERARCHY_NO
 UPDATE A
-SET A.HIERARCHY_NO = isnull(G.HIER, A.HIERARCHY_NO)
-FROM #PARENT_HIERARCHY A
+SET A.NEW_HIER = isnull(G.HIER, A.HIERARCHY_NO)
+FROM #T45 A
 JOIN (SELECT PR.*
               ,STUFF((
                            SELECT DISTINCT ', ' + R.HIERARCHY_NO HIER
-                           FROM #PARENT_HIERARCHY R
-                           WHERE CONVERT(INT, R.RELATIONSHIP_LEVEL_VALUES) = CONVERT(INT, PR.RELATIONSHIP_LEVEL_VALuES)
-                                  AND (
-                                         CASE
+                           FROM #T45 R
+                           WHERE R.RELATIONSHIP_LEVEL_VALUES =  PR.RELATIONSHIP_LEVEL_VALuES
+                                  AND     ( CASE
                                                 WHEN r.level_no > 1
                                                        THEN r.PARENT_HIERARCHY_NO
                                                 ELSE '1'
-                                                END
-                                         ) = (
-                                         CASE
-                                                WHEN pr.level_no > 1
+                                                END) = ( CASE WHEN pr.level_no > 1
                                                        THEN pr.PARENT_HIERARCHY_NO
                                                 ELSE '1'
                                                 END
                                          )
-                                  AND r.level_no = pr.level_no
+                                  AND r.level_no = pr.level_no AND R.HIERARCHY_NO<>PR.HIERARCHY_NO
                            FOR XML PATH('')
                                   ,TYPE
                            ).value('.', 'NVARCHAR(MAX)'), 1, 2, ' ') AS HIER
-       FROM #PARENT_HIERARCHY PR
-       ) G ON G.HIERARCHY_NO = A.HIERARCHY_NO
- SELECT DISTINCT T.HIERARCHY_NO
+       FROM #T45 PR
+       ) G ON G.HIERARCHY_NO = A.HIERARCHY_NO 
+              UPDATE A SET A.HIERARCHY_NO=B.NEW_HIER FROM #PARENT_HIERARCHY A JOIN #T45 B ON A.HIERARCHY_NO=B.HIERARCHY_NO
+SELECT DISTINCT T.HIERARCHY_NO
        ,T.LEVEL_NAME
        ,T.LEVEL_NO
        ,t.HIERARCHY_INDICATOR
@@ -1608,11 +1631,11 @@ CROSS APPLY (
        WHERE t.CCP_DETAILS_SID = r.CCP_DETAILS_SID
               AND t.LEVEL_NO > r.LEVEL_NO order by r.LEVEL_NO
        FOR XML path('')
-       ) m(PARENT_HIERARCHY_NO)  
+       ) m(PARENT_HIERARCHY_NO) 
        ORDER BY T.LEVEL_NO  
             ]]>
         </query>
-    </entity>   
+    </entity> 
     
                                 
                                                                                         
