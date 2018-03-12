@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn20.ws.report.engine.client.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.report.engine.rawdatagenerator.GtnWsGenerateRawData;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsDiscountBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsProjectionBean;
@@ -12,7 +13,13 @@ public class GtnWsRawDataCustomiseService {
 
 	private static final GtnWsGenerateRawData RAW_DATA_INSTANCE = GtnWsGenerateRawData.getInstance();
 
-	public List<GtnWsProjectionBean> generateApprovedData() {
+	private static final GtnWsMongoService MONGO_SERVICE = GtnWsMongoService.getInstance();
+
+	public void generateDataToMongo() {
+		writeRawDataToMongo("testingpurpose", generateApprovedData());
+	}
+
+	private List<GtnWsProjectionBean> generateApprovedData() {
 		List<Object[]> rawList = RAW_DATA_INSTANCE.generateRawData(0, 0);
 		return customizeRawApprovedData(rawList);
 	}
@@ -98,7 +105,6 @@ public class GtnWsRawDataCustomiseService {
 			return null;
 		}
 		return Double.parseDouble(obj.toString());
-
 	}
 
 	public int getIntValue(Object obj) {
@@ -106,7 +112,11 @@ public class GtnWsRawDataCustomiseService {
 			return 0;
 		}
 		return Integer.parseInt(obj.toString());
+	}
 
+	private void writeRawDataToMongo(String filename, List<GtnWsProjectionBean> rawData) {
+		// JSON_SERVICE_INSTANCE.writeToJsonFile(filename, rawData);
+		MONGO_SERVICE.insertManyRecordsToMongoDbUsingCustomClass("testingpurpose", GtnWsProjectionBean.class, rawData);
 	}
 
 }

@@ -58,6 +58,6 @@ public class GtnWsReportInputGenerator {
 	}
 
 	public static void shutdown() {
-		SQL_INSTANCE.shutdown();
+		GtnWsCustomSqlClass.shutdown();
 	}
 }
