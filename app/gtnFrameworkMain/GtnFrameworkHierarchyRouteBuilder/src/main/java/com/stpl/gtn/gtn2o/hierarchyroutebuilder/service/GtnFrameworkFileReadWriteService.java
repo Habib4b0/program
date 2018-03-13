@@ -1,9 +1,12 @@
-package com.stpl.gtn.gtn2o.ws.service;
+package com.stpl.gtn.gtn2o.hierarchyroutebuilder.service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -15,13 +18,15 @@ import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
+@Service
+@Scope(value = "singleton")
 public class GtnFrameworkFileReadWriteService {
 
 	public GtnFrameworkFileReadWriteService() {
 		super();
 	}
 
-	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsCallEtlService.class);
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkFileReadWriteService.class);
 
 	private List<GtnFrameworkHierarchyQueryBean> getConfigFromJSON(int hierarchyId, int versionNo) {
 

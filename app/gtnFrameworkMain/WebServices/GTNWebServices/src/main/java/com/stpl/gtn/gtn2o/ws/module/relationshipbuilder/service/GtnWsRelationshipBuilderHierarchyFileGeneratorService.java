@@ -2,25 +2,22 @@ package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyQueryGenerator;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
-import com.stpl.gtn.gtn2o.ws.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
@@ -36,7 +33,8 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 
 	private GtnWsSqlService gtnWsSqlService;
 
-	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
+
+	private GtnWsRelationshipBuilderHierarchyQueryGenerator queryGeneratorService;
 
 	public GtnWsRelationshipBuilderHierarchyFileGeneratorService() {
 		super();
@@ -73,13 +71,6 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 		this.gtnHierarchyServiceBuilder = gtnHierarchyServiceBuilder;
 	}
 
-	public GtnFrameworkEntityMasterBean getGtnFrameworkEntityMasterBean() {
-		return gtnFrameworkEntityMasterBean;
-	}
-
-	public void setGtnFrameworkEntityMasterBean(GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean) {
-		this.gtnFrameworkEntityMasterBean = gtnFrameworkEntityMasterBean;
-	}
 
 	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
 		return gtnSqlQueryEngine;
@@ -95,6 +86,14 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 
 	public void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
 		this.gtnWsSqlService = gtnWsSqlService;
+	}
+
+	public GtnWsRelationshipBuilderHierarchyQueryGenerator getQueryGeneratorService() {
+		return queryGeneratorService;
+	}
+
+	public void setQueryGeneratorService(GtnWsRelationshipBuilderHierarchyQueryGenerator queryGeneratorService) {
+		this.queryGeneratorService = queryGeneratorService;
 	}
 
 	public String getQueryReplaced(List<String> input, String queryName) {
@@ -144,8 +143,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 				if (destinationHierarchyBean != null && !GtnFrameworkWebserviceConstant.USER_DEFINED
 						.equals(destinationHierarchyBean.getLevelValueReference())) {
 					GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-					getLinkedValueQuery(destinationHierarchyBean, hierarchyDefSId,
-							hierarchyLevelDefinitionBean.getLevelNo(), hierarchyDefList, queryBean, versionNo);
+					queryGeneratorService.getLinkedValueQuery(destinationHierarchyBean, hierarchyDefList, queryBean);
 					GtnFrameworkHierarchyQueryBean hierarchyQueryBean = new GtnFrameworkHierarchyQueryBean();
 					hierarchyQueryBean
 							.setHierarchyLevelDefSid(hierarchyLevelDefinitionBean.getHierarchyLevelDefinitionSid());
@@ -197,64 +195,4 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 		}
 		return null;
 	}
-
-	public void getLinkedValueQuery(HierarchyLevelDefinitionBean destinationHierarchyBean, int hierarchDefSid,
-			int levelNo, List<HierarchyLevelDefinitionBean> hierarchyList, GtnFrameworkQueryGeneratorBean queryBean,
-			int versionNo)
-			throws GtnFrameworkGeneralException {
-		final String hierarchyType = getHierarchyTypeFromSid(hierarchDefSid, versionNo);
-		final Set<String> tableNameList = getDefaultTableNameList(hierarchyType);
-		Set<String> hierarchyTableList = HierarchyLevelDefinitionBean.getTableNameSet(hierarchyList);
-		tableNameList.addAll(hierarchyTableList);
-		if (tableNameList.isEmpty()) {
-			return;
-		}
-		final GtnFrameworkSingleColumnRelationBean destinationkeyBean = gtnFrameworkEntityMasterBean
-				.getKeyRelationBeanUsingTableIdAndColumnName(destinationHierarchyBean.getTableName(),
-						destinationHierarchyBean.getFieldName());
-		gtnHierarchyServiceBuilder.getSelectColumnsForRelationShipBuilder(destinationkeyBean, queryBean);
-		gtnHierarchyServiceBuilder.getQueryByTableNameAndHierarchyTypeForMultiLevel(new ArrayList<>(tableNameList),
-				hierarchyType, queryBean);
-
-		if (!destinationkeyBean.isDescriptionColumnAvailable()) {
-			gtnHierarchyServiceBuilder.addTableJoin(destinationkeyBean, queryBean);
-		}
-		final List<GtnFrameworkSingleColumnRelationBean> keyListBeanList = getKeyListBean(levelNo, hierarchyList);
-		gtnHierarchyServiceBuilder.getWhereQuery(keyListBeanList, queryBean);
-	}
-
-	private Set<String> getDefaultTableNameList(String hierarchyType) {
-		Set<String> selectedTableNamesList = new HashSet<>();
-		if ("Customer Hierarchy".equalsIgnoreCase(hierarchyType)) {
-			selectedTableNamesList.add("COMPANY_MASTER");
-			selectedTableNamesList.add("CONTRACT_MASTER");
-		} else if ("PRODUCT HIERARCHY".equalsIgnoreCase(hierarchyType)) {
-			selectedTableNamesList.add("ITEM_MASTER");
-		}
-		return selectedTableNamesList;
-	}
-
-	private String getHierarchyTypeFromSid(int hierarchyDefinitionSid, int versionNo) throws GtnFrameworkGeneralException {
-		final String query = getQuery("getHierarchyCatBySid");
-		final Object[] params = { hierarchyDefinitionSid, versionNo };
-		final GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
-		final List<?> results = executeQuery(query, params, paramsType);
-		return results.isEmpty() ? "" : results.get(0).toString();
-	}
-
-	public List<GtnFrameworkSingleColumnRelationBean> getKeyListBean(int levelNo,
-			List<HierarchyLevelDefinitionBean> hierarchyList) {
-		final List<GtnFrameworkSingleColumnRelationBean> keyListBeanList = new ArrayList<>();
-		for (int i = 0; i < levelNo - 1; i++) {
-			final HierarchyLevelDefinitionBean hierarchyBean = hierarchyList.get(i);
-			if (!GtnFrameworkWebserviceConstant.USER_DEFINED.equals(hierarchyBean.getLevelValueReference())) {
-				final GtnFrameworkSingleColumnRelationBean keyListBean = gtnFrameworkEntityMasterBean
-						.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyBean.getTableName(),
-								hierarchyBean.getFieldName());
-				keyListBeanList.add(keyListBean);
-			}
-		}
-		return keyListBeanList;
-	}
-
 }
