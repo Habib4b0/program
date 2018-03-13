@@ -218,7 +218,7 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
 	<entity id="getRelationshipLevelValues">
 		<query> 
             <![CDATA[ 
-                SELECT
+                SELECT DISTINCT
                     RLD.HIERARCHY_NO,
                     TEMP.?FIELD VALUE,
                     LEVEL_NAME,

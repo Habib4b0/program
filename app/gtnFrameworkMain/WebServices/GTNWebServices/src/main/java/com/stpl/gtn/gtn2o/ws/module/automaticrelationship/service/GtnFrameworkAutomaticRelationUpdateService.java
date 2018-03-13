@@ -136,7 +136,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			Transaction tx = session.beginTransaction();
 			RelationshipBuilder relationshipBuilder = session.load(RelationshipBuilder.class,
 					relationBean.getRelationshipBuilderSid());
-			relationshipBuilder.setModifiedBy(Integer.valueOf(relationshipBuilder.getModifiedBy()));
+			relationshipBuilder.setModifiedBy(relationshipBuilder.getModifiedBy());
 			relationshipBuilder.setModifiedDate(new Date());
 			relationshipBuilder.setVersionNo(relationshipBuilder.getVersionNo() + 1);
 			session.update("RelationshipBuilder", relationshipBuilder);
