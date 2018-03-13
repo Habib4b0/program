@@ -91,8 +91,8 @@ public class GtnWebServiceWFPrivateViewSearchConfig implements GtnWsSearchQueryC
 				configProvider.getColumnDateConfig("APPROVED_DATE_FROM", "WM"));
 		fieldToColumnDetailsMap.put("approvedDateToPrivate",
 				configProvider.getColumnDateConfig("APPROVED_DATE_TO", "WM"));
-		fieldToColumnDetailsMap.put("createdByPrivate", configProvider.getColumnUserConfig("WF_CREATED_BY", "WM"));
-		fieldToColumnDetailsMap.put("approvedByPrivate", configProvider.getColumnUserConfig("APPROVED_BY", "WM"));
+		fieldToColumnDetailsMap.put("createdByPrivate", configProvider.getColumnIntegerConfig("CREATED_BY", "WM"));
+		fieldToColumnDetailsMap.put("approvedByPrivate", configProvider.getColumnIntegerConfig("APPROVED_BY", "WM"));
 		fieldToColumnDetailsMap.put("contractIdPrivate",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.CONTRACT_ID, "WM"));
 		fieldToColumnDetailsMap.put("contractnoPrivate",
