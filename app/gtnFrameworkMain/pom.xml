@@ -231,8 +231,8 @@
 		<profile>
 			<id>Build-Subsystem</id>
 			<modules>
-				<module>Gtn-base-subsystem</module>
-				<module>Modules/GtnModules-Subsystem</module>
+				<module>GtnFramework-Subsystem/GtnFramework-base-subsystem</module>
+				<module>GtnFramework-Subsystem/GtnFramework-Modules-Subsystem</module>
 			</modules>
 			<build>
 				<defaultGoal>
@@ -244,7 +244,7 @@
 		<profile>
 			<id>Build-Gtn-basesubsystem</id>
 			<modules>
-				<module>Gtn-base-subsystem</module>
+				<module>GtnFramework-Subsystem/GtnFramework-base-subsystem</module>
 			</modules>
 			<build>
 				<defaultGoal>
