@@ -1100,5 +1100,52 @@ AND (CFP_ELIGIBLE_DATE>= FORECAST_ELIGIBLE_DATE OR CFP_ELIGIBLE_DATE IS NULL);
             ]]>
             </query>
         </entity>
+        
+         <entity id="childLevelsHierarchyNo">
+            <query> 
+            <![CDATA[ 
+                SELECT
+                    DISTINCT RLD.LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALUES,
+                    RLD.PARENT_NODE,
+                    RLD.LEVEL_NAME,
+                    HLD.LEVEL_VALUE_REFERENCE,
+                    HLD.TABLE_NAME,
+                    HLD.FIELD_NAME,
+                    RLD.RELATIONSHIP_LEVEL_SID,
+                    RLD.HIERARCHY_NO,
+                    RLD.RELATIONSHIP_BUILDER_SID
+                FROM
+                    dbo.RELATIONSHIP_LEVEL_DEFINITION RLD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                    AND RLD.hierarchy_No IN (?)
+                    AND RLD.level_No <= ?
+                    AND RLD.VERSION_NO = ?
+                    AND HLD.VERSION_NO = ?
+                ORDER BY
+                    RLD.LEVEL_NO ASC              
+            ]]>
+            </query>
+        </entity>
+        
+        <entity id="childLevelsHierarchyNoAvailable">
+            <query> 
+            <![CDATA[ 
+                	SELECT DISTINCT RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_VALUES,
+        RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO ,
+	RELATIONSHIP_LEVEL_DEFINITION.PARENT_NODE,
+	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_SID,
+	RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO,
+	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID
+	FROM RELATIONSHIP_LEVEL_DEFINITION RELATIONSHIP_LEVEL_DEFINITION
+                    WHERE RELATIONSHIP_LEVEL_DEFINITION.hierarchy_No IN (?)
+                    AND RELATIONSHIP_LEVEL_DEFINITION.level_No <= ?
+                    AND RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO = ?
+                  
+                ORDER BY
+                    RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO ASC            
+            ]]>
+            </query>
+        </entity>
 
 </sql>
