@@ -57,6 +57,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 	private String actionFlag;
 	private int hierarchyDefinitionSid;
 	private int modifiedBy;
+	private String hierarchyCategory;
 	private String levelName;
 	private int defaultVlaue;
 
@@ -180,6 +181,14 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		this.levelName = levelName;
 	}
 
+	public String getHierarchyCategory() {
+		return hierarchyCategory;
+	}
+
+	public void setHierarchyCategory(String hierarchyCategory) {
+		this.hierarchyCategory = hierarchyCategory;
+	}
+
 	@Override
 	public int compareTo(HierarchyLevelDefinitionBean obj) {
 		return Integer.compare(levelNo, obj.getLevelNo());
@@ -258,6 +267,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		setTableName((String) result[5]);
 		setFieldName((String) result[6]);
 		setVersionNo((Integer) result[7]);
+		setHierarchyCategory((String) result[8]);
 	}
 
 	public static HierarchyLevelDefinitionBean getPreviousLinkedLevel(

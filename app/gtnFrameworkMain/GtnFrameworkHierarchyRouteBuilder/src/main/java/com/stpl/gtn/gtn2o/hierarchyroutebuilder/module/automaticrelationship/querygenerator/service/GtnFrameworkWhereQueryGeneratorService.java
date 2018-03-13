@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service;
+package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;

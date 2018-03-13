@@ -296,7 +296,7 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldItemUom.hbm.xml
 				</value>
-				
+
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagActualMaster.hbm.xml
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagAdjustedDemandActual.hbm.xml
@@ -488,16 +488,22 @@
 		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl">
 		<property name="entityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
 	</bean>
-
+	<bean id="fileService"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService">
+	</bean>
+	<bean id="queryGeneratorService"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyQueryGenerator">
+		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
+		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+	</bean>
 	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
 		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
 		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
 		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
-		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+		<property name="queryGeneratorService" ref="queryGeneratorService"></property>
 	</bean>
-
 	<bean id="gtnFrameworkQueryBeanGenerator"
 		class="com.stpl.gtn.gtn2o.ws.querybeangenerator.QueryBeanGeneratorService"
 		init-method="init">
@@ -506,7 +512,8 @@
 		<property name="gtnWsRelationshipBuilderHierarchyFileGenerator"
 			ref="gtnWsRelationshipBuilderHierarchyFileGenerator"></property>
 	</bean>
-	
+
+
 </beans>
 
 
