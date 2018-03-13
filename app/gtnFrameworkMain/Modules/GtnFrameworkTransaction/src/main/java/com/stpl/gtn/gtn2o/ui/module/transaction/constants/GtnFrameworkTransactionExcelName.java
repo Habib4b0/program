@@ -12,10 +12,10 @@ public enum GtnFrameworkTransactionExcelName {
 																	"Global Files Company Identifier"), VWITEMIDENTIFIER(
 																			"Global Files Item Identifier"), VWITEMPRICING(
 																					"Global Files Item Pricing"), ACCRUALMASTER(
-																							"Acural Master"), VWADJUSTDEMANDFORECASTACT(
+																							"Accrual Master"), VWADJUSTDEMANDFORECASTACT(
 																									"Demand"), ACTUALSMASTER(
 																											"Payments"), VWCOMPANYMASTER(
-																													"Global Files Comapny Master"), VWINVENTORYWDACTUALPROJMAS(
+																													"Global Files Company Master"), VWINVENTORYWDACTUALPROJMAS(
 																															"Inventory Withdrawals"), VWITEMMASTER(
 																																	"Global Files Item Master"), ACCRUALDETAILS(
 																																			"Accural Details"), INVALIDINTEGRATION(
