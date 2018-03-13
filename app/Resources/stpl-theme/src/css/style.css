@@ -127,7 +127,7 @@ content: '';
 display: block;
 content: "";
 display: block;
-max-width: 210px;
+width: 210px;
 position: fixed;
 bottom: 0px;
 top: 0px;
@@ -380,6 +380,13 @@ border-right: 1px solid #cccccc;
 	max-width: 50px;
 	text-align: center;
 }
+
+#sidebar.active::after {
+	min-width: 50px;
+	max-width: 50px;
+	text-align: center;
+}
+
 #sidebar.active ul>li>a {
 	text-align: center;
 	padding: 10px;
