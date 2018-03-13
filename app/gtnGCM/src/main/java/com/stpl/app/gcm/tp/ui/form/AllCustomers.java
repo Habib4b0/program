@@ -16,6 +16,7 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.EXCEL_IMAGE_PAT
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -45,6 +46,8 @@ public class AllCustomers extends Window {
     @UiField("closeBtn")
     public Button closeButton;
 
+    
+    
     private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private final ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
     final private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
@@ -127,7 +130,7 @@ public class AllCustomers extends Window {
         companyExcelResultBean = new ExtTreeContainer<>(TradingPartnerDTO.class);
         companyViewTable = new ExtCustomTable();
         tradingPartnerTableLayout.addComponent(companyViewTable);
-        companyViewTable.setRefresh(Boolean.FALSE);
+        companyViewTable.setRefresh(BooleanConstant.getFalseFlag());
         companyViewTable.setVisible(false);
         companyViewTable.setContainerDataSource(companyExcelResultBean);
         companyViewTable.setVisibleColumns(companySearchResultsTable.getVisibleColumns());

@@ -23,6 +23,7 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getAccrualConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
@@ -66,7 +67,7 @@ public class ForecastUI extends UI {
      * Navigator to navigate through screens *.
      */
     private Navigator navigator;
-
+    
     protected String pageParameters = null;
     protected final StplSecurity stplSecurity = new StplSecurity();
     protected DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
@@ -242,9 +243,9 @@ public class ForecastUI extends UI {
                         int customerSelectedLevel = Integer.parseInt(customerHierarchyLevel);
                         int productSelectedLeve = Integer.parseInt(productHierarchyLevel);
                         List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-                                Boolean.TRUE, customerSelectedLevel, tempCustomerDescriptionMap);
+                                BooleanConstant.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
                         List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
-                                Boolean.FALSE, productSelectedLeve, tempProductDescriptionMap);
+                                BooleanConstant.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
 
                         customerHierarchyLevelDefinitionList = relationLogic
                                 .getHierarchyLevelDefinition(Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo);

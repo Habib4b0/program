@@ -21,6 +21,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -41,6 +42,8 @@ import org.slf4j.LoggerFactory;
  */
 public class SaveViewPopup extends AbstractSaveViewPopup {
 
+
+    
     /**
      * The available customers.
      */
@@ -221,12 +224,12 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
             DataSelectionLogic dsLogic = new DataSelectionLogic();
             int viewIdValue = 0;
             if ("Update".equalsIgnoreCase(actionFlag)) {
-                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, Boolean.TRUE, projectionIdValue,sessionDTO);
+                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, BooleanConstant.getTrueFlag(), projectionIdValue,sessionDTO);
                 dsLogic.updateCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue);
                 dsLogic.updateProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue,dataselectionDtoToSave);
                 dsLogic.updateCcpLogicView(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", projectionIdValue);
             } else {
-                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, Boolean.FALSE, projectionIdValue,sessionDTO);
+                projectionIdValue = cffLogic.saveCFFMaster(dataselectionDtoToSave, BooleanConstant.getFalseFlag(), projectionIdValue,sessionDTO);
                 dsLogic.saveCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue, null, "save");
                 dsLogic.saveProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue, null, "save",dataselectionDtoToSave);
                 dsLogic.saveCcp(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", String.valueOf(projectionIdValue));

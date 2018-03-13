@@ -35,6 +35,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,6 +62,7 @@ public class NMDPRLogic {
      *
      */
     private static final long serialVersionUID = 4428373722392530081L;
+    
     private final Map<String, String> periodMap = new HashMap<>();
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat DOLLAR_RPU = new DecimalFormat("#,##0.00");
@@ -153,7 +155,7 @@ public class NMDPRLogic {
             discountList = projSelDTO.getDiscountNameList();
             String discountString = getDiscountName(discountList);
             projSelDTO.setCcpCount(ccpId.size());
-            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, Boolean.FALSE, PERCENTAGE, Constant.STRING_ONE, Boolean.FALSE);
+            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, BooleanConstant.getFalseFlag(), PERCENTAGE, Constant.STRING_ONE, BooleanConstant.getFalseFlag());
             if (list != null && !list.isEmpty()) {
                 DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
                 dto.setGroup(Constant.PROJECTION_TOTAL);
@@ -212,7 +214,8 @@ public class NMDPRLogic {
                 discountString = ZERO;
             }
             String order = proSelDTO.getProjectionOrder();
-            List list = getDPRProjectionTotal(proSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, Boolean.TRUE, hierarchyNo, level, Boolean.FALSE);
+            List list = getDPRProjectionTotal(proSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, 
+                    ccpTableName, BooleanConstant.getTrueFlag(), hierarchyNo, level, BooleanConstant.getFalseFlag());
             if (list != null && !list.isEmpty()) {
                 discountProjList.addAll(getCustomizedTotal(list, proSelDTO, true, new DiscountProjectionResultsDTO()));
             }
@@ -291,7 +294,7 @@ public class NMDPRLogic {
             if (discountString.equals(StringUtils.EMPTY)) {
                 discountString = ZERO;
             }
-            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, Boolean.TRUE, PERCENTAGE, Constant.STRING_ONE, Boolean.FALSE);
+            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, BooleanConstant.getTrueFlag(), PERCENTAGE, Constant.STRING_ONE, BooleanConstant.getFalseFlag());
             if (list != null && !list.isEmpty()) {
                 return getCustomizedTotal(list, projSelDTO, true, new DiscountProjectionResultsDTO());
             }
@@ -363,7 +366,7 @@ public class NMDPRLogic {
             projSelDTO.setCcpCount(ccpId.size());
             view.add(projSelDTO.getProjectionOrder());
             String order = projSelDTO.getProjectionOrder();
-            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, Boolean.TRUE, PERCENTAGE, Constant.STRING_ONE, Boolean.TRUE);
+            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, BooleanConstant.getTrueFlag(), PERCENTAGE, Constant.STRING_ONE, BooleanConstant.getTrueFlag());
             if (list != null && !list.isEmpty()) {
                 DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                 discountDto.setGroup(Constant.PROJECTION_TOTAL);
@@ -443,7 +446,7 @@ public class NMDPRLogic {
             String discountString = getDiscountName(discountList);
             projSelDTO.setCcpCount(ccpId.size());
             String order = projSelDTO.getProjectionOrder();
-            List list = getDPRProjectionTotal(projSelDTO, discountString, "Child", order, startAndEndPeriods, ccpTableName, Boolean.TRUE, PERCENTAGE, Constant.STRING_ONE, Boolean.FALSE);
+            List list = getDPRProjectionTotal(projSelDTO, discountString, "Child", order, startAndEndPeriods, ccpTableName, BooleanConstant.getTrueFlag(), PERCENTAGE, Constant.STRING_ONE, BooleanConstant.getFalseFlag());
             if (list != null && !list.isEmpty()) {
                 discountProjList.addAll(getCustomizedTotalPivot(list, projSelDTO, false, new DiscountProjectionResultsDTO()));
             }
@@ -515,7 +518,7 @@ public class NMDPRLogic {
             String discountString = getDiscountName(discountList);
             projSelDTO.setCcpCount(ccpId.size());
             String order = projSelDTO.getProjectionOrder();
-            List list = getDPRProjectionTotal(projSelDTO, discountString, "Child", order, startAndEndPeriods, ccpTableName, Boolean.TRUE, hierarchyNo, level, Boolean.FALSE);
+            List list = getDPRProjectionTotal(projSelDTO, discountString, "Child", order, startAndEndPeriods, ccpTableName, BooleanConstant.getTrueFlag(), hierarchyNo, level, BooleanConstant.getFalseFlag());
             if (list != null && !list.isEmpty()) {
                 discountProjList.addAll(getCustomizedTotalPivot(list, projSelDTO, false, new DiscountProjectionResultsDTO()));
             }
@@ -1180,7 +1183,8 @@ public class NMDPRLogic {
             String discountString = getDiscountName(discountList);
             projSelDTO.setCcpCount(ccpId.size());
             String order = projSelDTO.getProjectionOrder();
-            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, Boolean.FALSE, hierachyNumber, String.valueOf(dto.getTreeLevelNo()), Boolean.FALSE);
+            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, 
+                    BooleanConstant.getFalseFlag(), hierachyNumber, String.valueOf(dto.getTreeLevelNo()), BooleanConstant.getFalseFlag());
             if (list != null && !list.isEmpty()) {
                 dto = getCustomizedTotal(list, projSelDTO, false, dto).get(0);
             }
@@ -1282,7 +1286,7 @@ public class NMDPRLogic {
             discountList = projSelDTO.getDiscountNameList();
             String discountString = getDiscountName(discountList);
             String order = projSelDTO.getProjectionOrder();
-            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, pivotYearList, ccpTableName, Boolean.TRUE, hierachyNumber, String.valueOf(dto.getTreeLevelNo()), Boolean.TRUE);
+            List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, pivotYearList, ccpTableName, BooleanConstant.getTrueFlag(), hierachyNumber, String.valueOf(dto.getTreeLevelNo()), BooleanConstant.getTrueFlag());
 
             if (list != null && !list.isEmpty()) {
                 DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();

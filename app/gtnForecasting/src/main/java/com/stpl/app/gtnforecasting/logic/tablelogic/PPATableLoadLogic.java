@@ -13,6 +13,7 @@ import com.stpl.app.gtnforecasting.ppaprojection.form.PPAProjection;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.slf4j.LoggerFactory;
 public class PPATableLoadLogic extends PageTreeTableLogic {
 
     protected CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
+    
 
     protected SessionDTO session;
     protected List<SaveDTO> saveList;
@@ -175,13 +177,13 @@ public class PPATableLoadLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

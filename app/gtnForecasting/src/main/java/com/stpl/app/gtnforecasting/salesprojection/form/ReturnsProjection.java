@@ -35,6 +35,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.HorizontalLayout;
 import java.util.Arrays;
@@ -54,6 +55,7 @@ import org.slf4j.LoggerFactory;
 public class ReturnsProjection extends ForecastSalesProjection {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReturnsProjection.class);
+    
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
 
     public ReturnsProjection(SessionDTO session, String screenName) throws Exception  {
@@ -145,7 +147,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
             projectionDTO.setLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             configureExcelResultTable();
             levelFilterDdlbChangeOption(true);
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), "Returns Projection", "Returns Projection", "Returns_Projection.xls", false);
@@ -242,11 +244,11 @@ public class ReturnsProjection extends ForecastSalesProjection {
     protected void expandButtonLogic() {
         try {
             if (!Constant.NULL.equals(String.valueOf(level.getValue()))) {
-                projectionDTO.setExpandCollapseFlag(Boolean.TRUE);
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getTrueFlag());
                 expandCollapseLevelOption(true, level.getValue());
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
             } else {
-                projectionDTO.setExpandCollapseFlag(Boolean.FALSE);
+                projectionDTO.setExpandCollapseFlag(BooleanConstant.getFalseFlag());
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {

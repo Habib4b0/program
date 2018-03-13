@@ -11,6 +11,7 @@ import com.stpl.app.gtnforecasting.nationalassumptions.logic.PhsResultsLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,8 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
     private SessionDTO sessionDTO;
- public static final Logger LOGGER = LoggerFactory.getLogger(PhsResultsTableLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PhsResultsTableLogic.class);
+    
     @Override
     public int getCount() {
         int count = 0;
@@ -125,13 +127,13 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

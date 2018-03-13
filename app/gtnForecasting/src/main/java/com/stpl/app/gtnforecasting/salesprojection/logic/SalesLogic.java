@@ -91,6 +91,7 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.sql.CallableStatement;
@@ -128,6 +129,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SalesLogic {
 
+    
     public static final DecimalFormat MONEY = new DecimalFormat("$0.00");
     public static final DecimalFormat UNIT = new DecimalFormat("0.00");
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$#,##0");
@@ -1834,7 +1836,7 @@ public class SalesLogic {
             saveQuery = saveQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + year);
             saveQuery = saveQuery.replace(Constant.PERIOD1_AT, StringUtils.EMPTY + quater);
             saveQuery = addFrequencyInQuery(frequencyDivision, quater, saveQuery);
-            String amountValue;
+            String amountValue = StringUtils.EMPTY;
             if (propertyId.endsWith("ProjectedReturnAmount")) {
                 saveQuery = saveQuery.replace(Constant.RETURNS_DETAILS_SID_AT, returnDetailsId);
                 if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
@@ -1843,7 +1845,10 @@ public class SalesLogic {
                     saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 } else {
                     actualAmount = Double.parseDouble(editedValue) / (detailsIdValues.length);
+                    if(frequencyValue != 0)
+                    {
                     amountValue = String.valueOf(actualAmount / frequencyValue);
+                    }
                 }
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_VALUE, StringUtils.EMPTY + amountValue);
                 saveQuery = saveQuery.replace(Constant.USER_ENTERED_PROPERTY_VALUE, Constant.PROJECTED_RETURN_AMOUNT);
@@ -2189,7 +2194,7 @@ public class SalesLogic {
               callManualEntry(projectionSelectionDTO, (entry.getKey()).split(",")[1].contains(Constant.SALES_SMALL) ? Constant.SALES_SMALL : Constant.UNITS_SMALL);
           }
         projectionSelectionDTO.getUpdateQueryMap().clear();
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 
     /**
@@ -3666,13 +3671,12 @@ public class SalesLogic {
         }
         LOGGER.debug("amountA-->>= {} " , amountA);
         LOGGER.debug("amountB-->>= {} " , amountB);
-        LOGGER.debug("amount     = {} " , amount);
+        LOGGER.debug("amount     = {} ", amount);
         if (amountA == 0.0 && amountB == 0.0) {
             amount = 0.0;
-        } else {
-        amount = (amountA / amountB) * amount;
+        } else if (amountA != 0.0 && amountB != 0.0) {
+            amount = (amountA / amountB) * amount;
         }
-
         return amount;
     }
 

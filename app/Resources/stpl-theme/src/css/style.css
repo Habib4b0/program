@@ -380,13 +380,6 @@ border-right: 1px solid #cccccc;
 	max-width: 50px;
 	text-align: center;
 }
-
-#sidebar.active::after {
-	min-width: 50px;
-	max-width: 50px;
-	text-align: center;
-}
-
 #sidebar.active ul>li>a {
 	text-align: center;
 	padding: 10px;
@@ -548,5 +541,6 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 }
 
 .breadcrumbs h2.portlet-title-text {
+    overflow:inherit;
     display: none;
 }

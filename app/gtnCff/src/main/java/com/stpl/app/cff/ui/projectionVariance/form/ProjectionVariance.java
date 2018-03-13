@@ -50,6 +50,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
 import com.vaadin.navigator.ViewChangeListener;
@@ -86,6 +87,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ProjectionVariance extends AbstractProjectionVariance {
 
+    
     private boolean editFlag = false;
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
     private final PVQueryUtils queryUtils = new PVQueryUtils();
@@ -142,6 +144,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private List<String[]> deductionLevel = new ArrayList<>();
     public static final String SID = "SID";
     public static final String GROUP_PROPERTY = "group";
+    public static final String DF_LEVEL_NAME = "dfLevelName";
+    public static final String HEADER_LEVEL_NAME = "Level Name";
+    public static final String HEADER_LEVEL_NUMBER = "Level Number";
+    public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
 
     public static final CommonLogic commonLogic = new CommonLogic();
 
@@ -987,10 +993,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     protected void excelBtnLogic() {
         try {
             ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
-            excelTable.setRefresh(Boolean.FALSE);
+            excelTable.setRefresh(BooleanConstant.getFalseFlag());
             levelFilterDdlbChangeOption(true);
             excelForCFFProjectionVariance();
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             int leftcolumnsize = NumericConstants.ONE;
             int ColSize = 252;
             int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;
@@ -1475,7 +1481,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void excelForCFFProjectionVariance() {
-        LOGGER.debug("==inside excelForCFFProjectionVariance================");
+        LOGGER.debug("==inside excelForCFFProjectionVariance==============");
         try {
             if (pvSelectionDTO.isIsCustomHierarchy()) {
                 pvSelectionDTO.setHierarchyIndicator("");
@@ -1891,6 +1897,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     }
                 }
             }
+           resultExcelContainer.sort(new Object[]{Constants.GROUP}, new boolean[]{true});
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -2224,7 +2231,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     private void excelColumnFormat() {
-        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get("group");
+        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get(GROUP_PROPERTY);
         List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
         listHeaders.remove(GROUP_PROPERTY);
 
@@ -2240,15 +2247,15 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 LOGGER.info("obj--------------= {}", i);
                 int index = (Integer) displayFormatIndex[i];
                 if (index == 0) {
-                    listHeaders.remove("dfLevelName");
+                    listHeaders.remove(DF_LEVEL_NAME);
                     fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
-                    fullHeader.getSingleColumns().remove("dfLevelName");
-                    fullHeader.getSingleHeaders().remove("Level Name");
+                    fullHeader.getSingleColumns().remove(DF_LEVEL_NAME);
+                    fullHeader.getSingleHeaders().remove(HEADER_LEVEL_NAME);
                 } else {
-                    listHeaders.remove("dfLevelNumber");
+                    listHeaders.remove(DF_LEVEL_NUMBER);
                     fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
-                    fullHeader.getSingleColumns().remove("dfLevelNumber");
-                    fullHeader.getSingleHeaders().remove("Level Number");
+                    fullHeader.getSingleColumns().remove(DF_LEVEL_NUMBER);
+                    fullHeader.getSingleHeaders().remove(HEADER_LEVEL_NUMBER);
                 }
 
             }

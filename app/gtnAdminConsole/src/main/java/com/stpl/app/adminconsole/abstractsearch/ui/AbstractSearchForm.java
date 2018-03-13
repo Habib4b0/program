@@ -272,11 +272,11 @@ public class AbstractSearchForm extends CustomComponent {
      */
     public ErrorfulFieldGroup getBinder() {
         final SearchCriteriaDTO bean = new SearchCriteriaDTO();
-        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
-        binder.setBuffered(true);
-        binder.bindMemberFields(this);
-        binder.setErrorDisplay(errorMsg);
-        return binder;
+        final ErrorfulFieldGroup fieldBinder = new ErrorfulFieldGroup(new BeanItem<>(bean));
+        fieldBinder.setBuffered(true);
+        fieldBinder.bindMemberFields(this);
+        fieldBinder.setErrorDisplay(errorMsg);
+        return fieldBinder;
     }
 
     /**
@@ -652,9 +652,9 @@ public class AbstractSearchForm extends CustomComponent {
                                     }
                                     resultTable.removeItem(resultTable.getValue());
                                 } catch (SystemException e) {
-                                    final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                                    LOGGER.error(errorMsg);
-                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                                    final String errorMssg = ErrorCodeUtil.getErrorMessage(e);
+                                    LOGGER.error(errorMssg);
+                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMssg);
                                 } catch (PortalException e) {
                                     LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));

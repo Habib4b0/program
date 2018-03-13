@@ -17,6 +17,7 @@ import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
@@ -45,6 +46,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RemoveContractSearch extends AbstractContractSearch {
 
+    
     private SelectionDTO selectionDTO = new SelectionDTO();
     private final StplSecurity stplSec = new StplSecurity();
     public static final Logger LOGGER = LoggerFactory.getLogger(RemoveContractSearch.class);
@@ -84,10 +86,10 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
     private void configureFields() {
         getContent();
-        MassUpdatePanel1.setVisible(Boolean.FALSE);
+        MassUpdatePanel1.setVisible(BooleanConstant.getFalseFlag());
         allItems.addItem("Yes");
         allItems.select("Yes");
-        allItems.setEnabled(Boolean.FALSE);
+        allItems.setEnabled(BooleanConstant.getFalseFlag());
         ConfigureTable();
         getBinder();
         loadAllDdlb();
@@ -233,7 +235,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
     @Override
     public Boolean submitButtonCheck() {
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
      private void configureSecurityPermissions() {
         try {

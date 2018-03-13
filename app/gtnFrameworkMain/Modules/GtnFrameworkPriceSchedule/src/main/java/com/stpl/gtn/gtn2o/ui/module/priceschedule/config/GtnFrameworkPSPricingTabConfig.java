@@ -450,6 +450,7 @@ public class GtnFrameworkPSPricingTabConfig {
 
 			GtnUIFrameworkComponentConfig fieldConfig = new GtnUIFrameworkComponentConfig();
 			fieldConfig.setComponentType(gtnUIFrameworkComponentType);
+                        fieldConfig.setResetToDefaultAllowed(false);
 			fieldConfig.setEnable(
 					GtnFrameworkPSConstants.getPricingNonEditableFieldPropertiesArray().contains(psPricingPropertyId));
 			if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.COMBOBOX)) {

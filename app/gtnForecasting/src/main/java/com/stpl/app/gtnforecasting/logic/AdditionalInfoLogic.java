@@ -17,6 +17,7 @@ import com.stpl.app.model.AdditionalNotes;
 import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -40,6 +41,7 @@ public class AdditionalInfoLogic {
      * The logger.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalInfoLogic.class);
+    
     /**
      * The additional info logic dao.
      */
@@ -116,7 +118,7 @@ public class AdditionalInfoLogic {
         }
         LOGGER.debug("End of saveUploadedFile method");
 
-        return true;
+        return BooleanConstant.getTrueFlag();
 
     }
 
@@ -179,7 +181,7 @@ public class AdditionalInfoLogic {
         isFileExists=file.delete();
         LOGGER.info("File deleted successfully= {} ",isFileExists);
         LOGGER.debug("End of deleteUploadedFile method");
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 
     /**
@@ -207,7 +209,7 @@ public class AdditionalInfoLogic {
 
         LOGGER.debug("End of saveNotes method");
 
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 
     /**

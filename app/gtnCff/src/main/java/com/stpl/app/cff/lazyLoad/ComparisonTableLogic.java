@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory;
 public class ComparisonTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComparisonTableLogic.class);
+    
     private boolean loadData = false;
     private ComparisonLookupDTO comparisonLookup;
     private final ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
@@ -82,12 +84,12 @@ public class ComparisonTableLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     public boolean fireSetData(boolean isReset) {

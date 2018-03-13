@@ -17,6 +17,7 @@ import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public class NotesTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
+    
     private boolean isFileExists;
     /**
      * Gets the attachment dto list.
@@ -116,7 +118,7 @@ public class NotesTabLogic {
         File file = new File(fileName);
         isFileExists=file.delete();
         LOGGER.info("File deleted successfully= {} ",isFileExists);
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 
     public void saveUploadedFile(int projectionId, String fileName, String uploadedBy, int fileSize, String moduleName) throws SystemException {
@@ -198,7 +200,7 @@ public class NotesTabLogic {
 
         LOGGER.debug("End of saveNotes method");
 
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 
     /**

@@ -36,10 +36,10 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
 						previousHierarchyLevelBean.getFieldName());
-		String relationShipLevelDef = "RELATIONSHIP_LEVEL_DEFINITION";
+		String relationShipLevelDef = "#SELECTED_RElATION_SHIP";
 		String relationShipBuilderSidDef = "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID";
 		GtnFrameworkJoinClauseBean relationJoin = querygeneratorBean.addJoinClauseBean(relationShipLevelDef,
-				relationShipLevelDef, GtnFrameworkJoinType.JOIN);
+				"RELATIONSHIP_LEVEL_DEFINITION", GtnFrameworkJoinType.JOIN);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
 				keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn(),
 				GtnFrameworkOperatorType.EQUAL_TO);
@@ -55,12 +55,10 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 
 		GtnFrameworkJoinClauseBean relationDateJoin = querygeneratorBean.addJoinClauseBean(relationShipLevelDef,
 				"RELATION_DATE_FILTER", GtnFrameworkJoinType.JOIN);
-		relationDateJoin.addConditionBean("RELATION_DATE_FILTER.RELATIONSHIP_BUILDER_SID",
-				relationShipBuilderSidDef, GtnFrameworkOperatorType.EQUAL_TO);
-		relationDateJoin.addConditionBean("RELATION_DATE_FILTER.level_no", null,
+		relationDateJoin.addConditionBean("RELATION_DATE_FILTER.RELATIONSHIP_BUILDER_SID", relationShipBuilderSidDef,
 				GtnFrameworkOperatorType.EQUAL_TO);
-		relationDateJoin.addConditionBean("RELATION_DATE_FILTER.VERSION_NO", null,
-				GtnFrameworkOperatorType.EQUAL_TO);
+		relationDateJoin.addConditionBean("RELATION_DATE_FILTER.level_no", null, GtnFrameworkOperatorType.EQUAL_TO);
+		relationDateJoin.addConditionBean("RELATION_DATE_FILTER.VERSION_NO", null, GtnFrameworkOperatorType.EQUAL_TO);
 		for (GtnFrameworkJoinClauseBean joinClauseBean : querygeneratorBean.getJoinClauseConfigList()) {
 			GtnFramworkTableBean tableBean = gtnFrameworkEntityMasterBean
 					.getEntityBeanByTableName(joinClauseBean.getJoinTableName());
@@ -74,11 +72,10 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 		if (tableBean.getModifiedDateColumn() == null)
 			return;
 		relationDateJoin.addOrConditionBean(tableBean.getModifiedDateColumn(querygeneratorBean.getFromTableAlies()),
-				"RELATIONSHIP_LEVEL_DEFINITION.MODIFIED_DATE", GtnFrameworkOperatorType.GREATERTHANOREQUALTO);
+				"RELATION_DATE_FILTER.MODIFIED_DATE", GtnFrameworkOperatorType.GREATERTHANOREQUALTO);
 		relationDateJoin.addOrConditionBean("RELATION_DATE_FILTER.HIERARCHY_NO",
 				getHierarchyNo(customerHierarchyLevelDefinitionList, hierarchyLevelBean),
 				GtnFrameworkOperatorType.LIKE);
-		
 		
 		GtnFrameworkJoinClauseBean relationHIerachyJOin = querygeneratorBean.addJoinClauseBean(relationShipLevelDef,
 				"USERDEFINED_RELATION_JOIN", GtnFrameworkJoinType.LEFT_JOIN);

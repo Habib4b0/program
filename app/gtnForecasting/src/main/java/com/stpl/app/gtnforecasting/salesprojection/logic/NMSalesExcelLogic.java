@@ -75,24 +75,8 @@ public class NMSalesExcelLogic {
                 salesRowDto.setGroup(StringUtils.EMPTY);
             }
              if (CommonUtil.isValueEligibleForLoading()) {
-                String levelName = CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
-                salesRowDto.setLevelName(levelName);
-                if (levelName.contains("-")) {
-                    String[] tempArr = levelName.split("-");
-                    salesRowDto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
-                    salesRowDto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
-                } else if (projectionSelectionDTO.getDisplayFormat().length == 1 && projectionSelectionDTO.getDisplayFormat().length > 0) {
-                    int index = (int) projectionSelectionDTO.getDisplayFormat()[0];
-                    if (index == 0) {
-                        salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName);
-                    } else {
-                        salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName);
-                    }
-                } else {
-                    salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName);
-                    salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName);
-                }
-
+             
+                getExcelFormatColumns(hierarchyNo,hierarchyIndicator,hierarchyLevelDetails,projectionSelectionDTO,salesRowDto);
             } else {
                 salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
 
@@ -162,6 +146,26 @@ public class NMSalesExcelLogic {
         String hierarchyNo = String.valueOf(hierarchyNumber).trim();
             hierarchyNo = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0].trim() : hierarchyNo;
             return hierarchyNo;
+    }
+    
+    public void getExcelFormatColumns(String hierarchyNo,String hierarchyIndicator,Map<String, List> hierarchyLevelDetails,ProjectionSelectionDTO projectionSelectionDTO,SalesRowDto salesRowDto ){
+           List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
+                salesRowDto.setLevelName(levelName.toString());
+                if (projectionSelectionDTO.getDisplayFormat().length == 1 && projectionSelectionDTO.getDisplayFormat().length > 0) {
+                    int index = (int) projectionSelectionDTO.getDisplayFormat()[0];
+                    if (index == 0) {
+                        salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+                    } else {
+                        salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
+                    }
+                } else {
+                    salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
+                    salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+                     if (levelName.size() == 2) {
+                    salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName.get(1));
+                    salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+                     }
+                }
     }
 
 }

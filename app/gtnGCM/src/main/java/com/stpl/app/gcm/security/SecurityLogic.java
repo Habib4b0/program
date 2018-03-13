@@ -5,6 +5,7 @@
 package com.stpl.app.gcm.security;
 
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.ui.Component;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ import java.util.Map;
  */
 public class SecurityLogic {
 
+    
+    
     public static Boolean isPermitted(final Map<String, AppPermission> functionHM, final String propertyName) {
         if (functionHM.get(propertyName) != null && ((AppPermission) functionHM.get(propertyName)).isFunctionFlag()) {
             return Boolean.TRUE;
@@ -23,7 +26,7 @@ public class SecurityLogic {
 
     public static void isPermitted(final Map<String, AppPermission> functionHM, final String propertyName, final Component component) {
         if (functionHM.get(propertyName) == null || !((AppPermission) functionHM.get(propertyName)).isFunctionFlag()) {
-            component.setVisible(Boolean.FALSE);
+            component.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 

@@ -545,14 +545,16 @@ FROM
        VERSION,
        FROM_PERIOD,
        TO_PERIOD,
-       ID=H.HELPER_TABLE_SID
+       ID=H.HELPER_TABLE_SID,
+       FILE_TYPE_NAME
 FROM   (SELECT FILE_MANAGEMENT_SID,
                FORECAST_NAME,
                FILE_TYPE,
                VERSION,
                FROM_PERIOD,
                TO_PERIOD,
-               ID
+               ID,
+               FILE_TYPE_NAME
         FROM   (SELECT FT.FORECAST_NAME,
                        FT.[VERSION],
                        FILE_MANAGEMENT_SID,
@@ -560,6 +562,7 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
                        FT.FROM_PERIOD,
                        FT.TO_PERIOD,
                        FT.FILE_TYPE                           AS ID,
+                       HT.[DESCRIPTION]                       AS FILE_TYPE_NAME,
                        Row_number()
                          OVER(
                            PARTITION BY FILE_TYPE
@@ -1601,21 +1604,6 @@ WITH CTE
                 JOIN #CCP_DETAILS_SID CD
                   ON CD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
          WHERE  HT.[DESCRIPTION] = 'Approved'
-         			AND NOT EXISTS(
-					SELECT
-						1
-					FROM
-						CFF_APPROVAL_DETAILS CAD
-					JOIN CFF_DETAILS CFD ON
-						CFD.CFF_MASTER_SID = CAD.CFF_MASTER_SID
-					JOIN HELPER_TABLE HTE ON
-						HTE.HELPER_TABLE_SID = CAD.APPROVAL_STATUS
-						AND HTE.LIST_NAME = 'WORKFLOWSTATUS'
-						AND HTE.[DESCRIPTION] IN('Approved')
-					WHERE
-						PD.PROJECTION_MASTER_SID = CFD.PROJECTION_MASTER_SID
-						AND PD.CCP_DETAILS_SID = CFD.CCP_DETAILS_SID
-				)
 )
 INSERT INTO CFF_DETAILS
             (CFF_MASTER_SID,
