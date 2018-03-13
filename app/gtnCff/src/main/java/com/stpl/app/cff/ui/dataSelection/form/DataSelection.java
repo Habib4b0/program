@@ -3840,6 +3840,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	}
         public void loadCFFEligibleDate() {
+            cffEligibleDate.setDateFormat("MM/dd/yyyy");
             DataSelectionLogic logic = new DataSelectionLogic();
             if (sessionDTO.getCffEligibleDate() != null) {
              cffEligibleDate.setValue(sessionDTO.getCffEligibleDate());           
