@@ -1516,8 +1516,8 @@ public class DataSelectionLogic {
 		try {
 			List<Object> list;
 			final StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
-					+ "RELATIONSHIP_BUILDER_SID='" + rbID + "'\n" + "and \n" + "LEVEL_NAME='Market Type'");
+			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n")
+					.append( "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and LEVEL_NAME='Market Type'");
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;

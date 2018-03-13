@@ -1155,7 +1155,7 @@ public class CFFLogic {
                 } else {
                     StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
-                        notiMsg.append("\n Only " + roleList + " can submit a projection.");
+                        notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
                     }
                     NotificationUtils.getAlertNotification("Permission Denined", notiMsg.toString());
 

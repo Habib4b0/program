@@ -171,28 +171,28 @@ public class CommmonLogic {
             symbol = " not in ";
         }
 
-        query.append("DECLARE @LAST_APPROVED_PROJECTION_SID INT = (SELECT TOP 1 WM.PROJECTION_MASTER_SID \n");
-        query.append("                            FROM WORKFLOW_MASTER WM \n");
-        query.append("                            JOIN HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
-        query.append("                            WHERE WF_HT.DESCRIPTION IN ( 'Approved' ) \n");
-        query.append("                                AND WM.PROJECTION_MASTER_SID " + symbol + " (SELECT A.PROJECTION_MASTER_SID \n");
-        query.append("                                FROM   (SELECT A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID,Row_number() \n");
-        query.append("                                                                                  OVER( \n");
-        query.append("                                                                                    PARTITION BY A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID \n");
-        query.append("                                                                                    ORDER BY A.PROJECTION_MASTER_SID) AS RN \n");
-        query.append("                                                                         FROM   PROJECTION_DETAILS A \n");
-        query.append("                                                                         INNER JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID");
-        query.append("                                                                         JOIN   CCP_DETAILS B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID \n");
-        query.append("                                                                         WHERE  B.COMPANY_MASTER_SID IN (" + companyMasterSids + " ) AND PM.IS_APPROVED = 'A')A \n");
-        query.append("                                                                 WHERE  RN = 1 \n");
-        query.append("                                                                 GROUP  BY A.PROJECTION_MASTER_SID \n");
-        query.append("                                                                 HAVING Sum(( CASE \n");
-        query.append("                                                                                WHEN A.COMPANY_MASTER_SID IN (" + companyMasterSids + " ) THEN -1 \n");
-        query.append("                                                                                ELSE 0 \n");
-        query.append("                                                                              END )) = -" + companyMasterSidsList.size() + ") \n");
-        query.append("                                                                  AND WM.WORKFLOW_MASTER_SID IN (SELECT WORKFLOW_MASTER_SID \n");
-        query.append("                                                                                         FROM   GCM_GLOBAL_DETAILS \n");
-        query.append("                                                                                         WHERE USER_ID='").append(userId).append("' \n AND SESSION_ID='").append(sessionId).append("' \n");
+        query.append(" DECLARE @LAST_APPROVED_PROJECTION_SID INT = (SELECT TOP 1 WM.PROJECTION_MASTER_SID \n");
+        query.append(" FROM WORKFLOW_MASTER WM \n");
+        query.append(" JOIN HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
+        query.append(" WHERE WF_HT.DESCRIPTION IN ( 'Approved' ) \n");
+        query.append(" AND WM.PROJECTION_MASTER_SID " ).append( symbol ).append( " (SELECT A.PROJECTION_MASTER_SID \n");
+        query.append(" FROM   (SELECT A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID,Row_number() \n");
+        query.append(" OVER( \n");
+        query.append(" PARTITION BY A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID \n");
+        query.append(" ORDER BY A.PROJECTION_MASTER_SID) AS RN \n");
+        query.append(" FROM   PROJECTION_DETAILS A \n");
+        query.append(" INNER JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID");
+        query.append(" JOIN   CCP_DETAILS B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID \n");
+        query.append(" WHERE  B.COMPANY_MASTER_SID IN (" ).append( companyMasterSids ).append( " ) AND PM.IS_APPROVED = 'A')A \n");
+        query.append(" WHERE  RN = 1 \n");
+        query.append(" GROUP  BY A.PROJECTION_MASTER_SID \n");
+        query.append(" HAVING Sum(( CASE \n");
+        query.append(" WHEN A.COMPANY_MASTER_SID IN (" ).append( companyMasterSids ).append( " ) THEN -1 \n");
+        query.append(" ELSE 0 \n");
+        query.append(" END )) = -" ).append( companyMasterSidsList.size() ).append( ") \n");
+        query.append(" AND WM.WORKFLOW_MASTER_SID IN (SELECT WORKFLOW_MASTER_SID \n");
+        query.append(" FROM   GCM_GLOBAL_DETAILS \n");
+        query.append(" WHERE USER_ID='").append(userId).append("' \n AND SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
             query.append(" AND SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
@@ -252,23 +252,23 @@ public class CommmonLogic {
         query.append(" AND TEMP_TABLE.OPERATION <> '").append(udcValue).append("' \n");
 
         query.append(" JOIN (SELECT WM.WORKFLOW_MASTER_SID, WF_HT.DESCRIPTION AS WORKFLOW_STATUS \n");
-        query.append("            FROM   WORKFLOW_MASTER WM \n");
-        query.append("            JOIN   HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
-        query.append("            WHERE  WF_HT.DESCRIPTION IN ('Pending', 'Rejected', 'Cancelled') \n");
-        query.append("                    OR WM.PROJECTION_MASTER_SID = @LAST_APPROVED_PROJECTION_SID) WF ON WF.WORKFLOW_MASTER_SID = TEMP_TABLE.WORKFLOW_MASTER_SID \n");
+        query.append(" FROM   WORKFLOW_MASTER WM \n");
+        query.append(" JOIN   HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
+        query.append(" WHERE  WF_HT.DESCRIPTION IN ('Pending', 'Rejected', 'Cancelled') \n");
+        query.append(" OR WM.PROJECTION_MASTER_SID = @LAST_APPROVED_PROJECTION_SID) WF ON WF.WORKFLOW_MASTER_SID = TEMP_TABLE.WORKFLOW_MASTER_SID \n");
 
         query.append(" LEFT JOIN HELPER_TABLE HEL_TAB1 ON HEL_TAB1.HELPER_TABLE_SID=TEMP_TABLE.STATUS \n");
         query.append(" JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = TEMP_TABLE.PROJECTION_MASTER_SID AND PM.FORECASTING_TYPE <> 'Channel' ");
         query.append(" AND CON.INBOUND_STATUS <> 'D' AND CFP_CON.INBOUND_STATUS<> 'D' AND IFP_CON.INBOUND_STATUS<> 'D' \n");
         query.append(" AND PS_CON.INBOUND_STATUS <> 'D' AND RS_CON.INBOUND_STATUS <> 'D' \n");
 
-        query.append("AND CFP_CON.CFP_CONTRACT_SID " + symbol + " (SELECT CFP.CFP_CONTRACT_SID\n");
-        query.append("                                FROM   CONTRACT_MASTER A\n");
-        query.append("                                JOIN   CFP_CONTRACT CFP ON A.CONTRACT_MASTER_SID = CFP.CONTRACT_MASTER_SID AND CFP.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID\n");
-        query.append("                                JOIN   CFP_CONTRACT_DETAILS CFP_D ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID\n");
-        query.append("                                WHERE  CFP_D.COMPANY_MASTER_SID IN ( " + companyMasterSids + " )\n");
-        query.append("                                GROUP  BY CFP.CFP_CONTRACT_SID\n");
-        query.append("                                HAVING Sum(( CASE WHEN CFP_D.COMPANY_MASTER_SID IN ( " + companyMasterSids + " ) THEN -1 ELSE 0 END )) = -" + companyMasterSidsList.size() + ") \n");
+        query.append(" AND CFP_CON.CFP_CONTRACT_SID " ).append( symbol ).append( " (SELECT CFP.CFP_CONTRACT_SID\n");
+        query.append(" FROM   CONTRACT_MASTER A\n");
+        query.append(" JOIN   CFP_CONTRACT CFP ON A.CONTRACT_MASTER_SID = CFP.CONTRACT_MASTER_SID AND CFP.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID\n");
+        query.append(" JOIN   CFP_CONTRACT_DETAILS CFP_D ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID\n");
+        query.append(" WHERE  CFP_D.COMPANY_MASTER_SID IN ( " ).append( companyMasterSids ).append( " )\n");
+        query.append(" GROUP  BY CFP.CFP_CONTRACT_SID\n");
+        query.append(" HAVING Sum(( CASE WHEN CFP_D.COMPANY_MASTER_SID IN ( " ).append( companyMasterSids ).append( " ) THEN -1 ELSE 0 END )) = -" ).append( companyMasterSidsList.size() ).append( ") \n");
 
         query.append("LEFT JOIN (SELECT CFP_MOD.CFP_NO, CFP_MODEL_SID, CFP_MOD.CFP_ID, CFP_ST.DESCRIPTION AS CFP_STATUS FROM CFP_MODEL CFP_MOD \n"
                 + "        INNER JOIN HELPER_TABLE CFP_ST ON CFP_ST.HELPER_TABLE_SID = CFP_MOD.CFP_STATUS)CFP_MOD \n"
@@ -296,9 +296,9 @@ public class CommmonLogic {
         }
 
         if (where) {
-            query.append("AND CM1.COMPANY_MASTER_SID " + symbol + " (" + companyMasterSids + ")  \n ");
+            query.append("AND CM1.COMPANY_MASTER_SID " ).append( symbol ).append( " (" ).append( companyMasterSids ).append( ")  \n ");
         } else {
-            query.append(" WHERE CM1.COMPANY_MASTER_SID " + symbol + " (" + companyMasterSids + ")  \n ");
+            query.append(" WHERE CM1.COMPANY_MASTER_SID " ).append( symbol ).append( " (" ).append( companyMasterSids ).append( ")  \n ");
             where = true;
         }
 
@@ -795,27 +795,27 @@ public class CommmonLogic {
         }
 
         StringBuilder query = new StringBuilder(" DECLARE @LAST_APPROVED_PROJECTION_SID INT = (SELECT TOP 1 WM.PROJECTION_MASTER_SID \n");
-        query.append("                            FROM WORKFLOW_MASTER WM \n");
-        query.append("                            JOIN HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
-        query.append("                            WHERE WF_HT.DESCRIPTION IN ( 'Approved' ) \n");
-        query.append("                                AND WM.PROJECTION_MASTER_SID " + symbol + " (SELECT A.PROJECTION_MASTER_SID \n");
-        query.append("                                FROM   (SELECT A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID,Row_number() \n");
-        query.append("                                                                                  OVER( \n");
-        query.append("                                                                                    PARTITION BY A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID \n");
-        query.append("                                                                                    ORDER BY A.PROJECTION_MASTER_SID) AS RN \n");
-        query.append("                                                                         FROM   PROJECTION_DETAILS A \n");
-        query.append("                                                                             INNER JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID");
-        query.append("                                                                         JOIN   CCP_DETAILS B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID \n");
-        query.append("                                                                         WHERE  B.COMPANY_MASTER_SID IN (" + companyMasterSids + " ) AND PM.IS_APPROVED = 'A')A \n");
-        query.append("                                                                 WHERE  RN = 1 \n");
-        query.append("                                                                 GROUP  BY A.PROJECTION_MASTER_SID \n");
-        query.append("                                                                 HAVING Sum(( CASE \n");
-        query.append("                                                                                WHEN A.COMPANY_MASTER_SID IN (" + companyMasterSids + " ) THEN -1 \n");
-        query.append("                                                                                ELSE 0 \n");
-        query.append("                                                                              END )) = -" + companyMasterSidsList.size() + ") \n");
-        query.append("                                                                  AND WM.WORKFLOW_MASTER_SID IN (SELECT WORKFLOW_MASTER_SID \n");
-        query.append("                                                                                         FROM   GCM_GLOBAL_DETAILS \n");
-        query.append("                                                                                         WHERE USER_ID='").append(userId).append("' \n AND SESSION_ID='").append(sessionId).append("' \n");
+        query.append(" FROM WORKFLOW_MASTER WM \n");
+        query.append(" JOIN HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
+        query.append(" WHERE WF_HT.DESCRIPTION IN ( 'Approved' ) \n");
+        query.append(" AND WM.PROJECTION_MASTER_SID " ).append( symbol ).append( " (SELECT A.PROJECTION_MASTER_SID \n");
+        query.append(" FROM   (SELECT A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID,Row_number() \n");
+        query.append(" OVER( \n");
+        query.append(" PARTITION BY A.PROJECTION_MASTER_SID, B.COMPANY_MASTER_SID \n");
+        query.append(" ORDER BY A.PROJECTION_MASTER_SID) AS RN \n");
+        query.append(" FROM   PROJECTION_DETAILS A \n");
+        query.append(" INNER JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID");
+        query.append(" JOIN   CCP_DETAILS B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID \n");
+        query.append(" WHERE  B.COMPANY_MASTER_SID IN (" ).append( companyMasterSids ).append( " ) AND PM.IS_APPROVED = 'A')A \n");
+        query.append(" WHERE  RN = 1 \n");
+        query.append(" GROUP  BY A.PROJECTION_MASTER_SID \n");
+        query.append(" HAVING Sum(( CASE \n");
+        query.append(" WHEN A.COMPANY_MASTER_SID IN (" ).append( companyMasterSids ).append( " ) THEN -1 \n");
+        query.append(" ELSE 0 \n");
+        query.append(" END )) = -" ).append( companyMasterSidsList.size() ).append( ") \n");
+        query.append(" AND WM.WORKFLOW_MASTER_SID IN (SELECT WORKFLOW_MASTER_SID \n");
+        query.append(" FROM   GCM_GLOBAL_DETAILS \n");
+        query.append(" WHERE USER_ID='").append(userId).append("' \n AND SESSION_ID='").append(sessionId).append("' \n");
 
         if (!conSelDTO.getScreenName().equals(StringUtils.EMPTY) && !conSelDTO.getScreenName().equals(Constants.NULL)) {
             query.append(" AND SCREEN_NAME = '").append(conSelDTO.getScreenName()).append('\'');
@@ -861,21 +861,21 @@ public class CommmonLogic {
         query.append(" AND TEMP_TABLE.OPERATION <> '").append(udcValue).append("' ");
 
         query.append(" JOIN (SELECT WM.WORKFLOW_MASTER_SID, WF_HT.DESCRIPTION AS WORKFLOW_STATUS \n");
-        query.append("            FROM   WORKFLOW_MASTER WM \n");
-        query.append("            JOIN   HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
-        query.append("            WHERE  WF_HT.DESCRIPTION IN ('Pending', 'Rejected', 'Cancelled') \n");
-        query.append("                    OR WM.PROJECTION_MASTER_SID = @LAST_APPROVED_PROJECTION_SID) WF ON WF.WORKFLOW_MASTER_SID = TEMP_TABLE.WORKFLOW_MASTER_SID \n");
+        query.append(" FROM   WORKFLOW_MASTER WM \n");
+        query.append(" JOIN   HELPER_TABLE WF_HT ON WF_HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID \n");
+        query.append(" WHERE  WF_HT.DESCRIPTION IN ('Pending', 'Rejected', 'Cancelled') \n");
+        query.append(" OR WM.PROJECTION_MASTER_SID = @LAST_APPROVED_PROJECTION_SID) WF ON WF.WORKFLOW_MASTER_SID = TEMP_TABLE.WORKFLOW_MASTER_SID \n");
 
         query.append(" AND CON.INBOUND_STATUS <> 'D' AND CFP_CON.INBOUND_STATUS<> 'D' AND IFP_CON.INBOUND_STATUS<> 'D' \n");
         query.append(" AND PS_CON.INBOUND_STATUS <> 'D' AND RS_CON.INBOUND_STATUS <> 'D' \n");
 
-        query.append("AND CFP_CON.CFP_CONTRACT_SID " + symbol + " (SELECT CFP.CFP_CONTRACT_SID\n");
-        query.append("                                FROM   CONTRACT_MASTER A\n");
-        query.append("                                JOIN   CFP_CONTRACT CFP ON A.CONTRACT_MASTER_SID = CFP.CONTRACT_MASTER_SID AND CFP.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID\n");
-        query.append("                                JOIN   CFP_CONTRACT_DETAILS CFP_D ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID\n");
-        query.append("                                WHERE  CFP_D.COMPANY_MASTER_SID IN ( " + companyMasterSids + " )\n");
-        query.append("                                GROUP  BY CFP.CFP_CONTRACT_SID\n");
-        query.append("                                HAVING Sum(( CASE WHEN CFP_D.COMPANY_MASTER_SID IN ( " + companyMasterSids + " ) THEN -1 ELSE 0 END )) = -" + companyMasterSidsList.size() + ") \n");
+        query.append(" AND CFP_CON.CFP_CONTRACT_SID " ).append( symbol ).append( " (SELECT CFP.CFP_CONTRACT_SID\n");
+        query.append(" FROM   CONTRACT_MASTER A\n");
+        query.append(" JOIN   CFP_CONTRACT CFP ON A.CONTRACT_MASTER_SID = CFP.CONTRACT_MASTER_SID AND CFP.CONTRACT_MASTER_SID=CON.CONTRACT_MASTER_SID\n");
+        query.append(" JOIN   CFP_CONTRACT_DETAILS CFP_D ON CFP_D.CFP_CONTRACT_SID = CFP.CFP_CONTRACT_SID\n");
+        query.append(" WHERE  CFP_D.COMPANY_MASTER_SID IN ( " ).append( companyMasterSids ).append( " )\n");
+        query.append(" GROUP  BY CFP.CFP_CONTRACT_SID\n");
+        query.append(" HAVING Sum(( CASE WHEN CFP_D.COMPANY_MASTER_SID IN ( " ).append( companyMasterSids ).append( " ) THEN -1 ELSE 0 END )) = -" ).append( companyMasterSidsList.size() ).append( ") \n");
 
         query.append("LEFT JOIN (SELECT CFP_MOD.CFP_NO, CFP_MODEL_SID, CFP_MOD.CFP_ID, CFP_ST.DESCRIPTION AS CFP_STATUS FROM CFP_MODEL CFP_MOD \n"
                 + "        INNER JOIN HELPER_TABLE CFP_ST ON CFP_ST.HELPER_TABLE_SID = CFP_MOD.CFP_STATUS)CFP_MOD \n"
@@ -903,9 +903,9 @@ public class CommmonLogic {
         }
 
         if (where) {
-            query.append("AND CM1.COMPANY_MASTER_SID" + symbol + " (" + companyMasterSids + ") \n ");
+            query.append("AND CM1.COMPANY_MASTER_SID" ).append( symbol ).append( " (" ).append( companyMasterSids ).append( ") \n ");
         } else {
-            query.append(" WHERE CM1.COMPANY_MASTER_SID " + symbol + " (" + companyMasterSids + ") \n ");
+            query.append(" WHERE CM1.COMPANY_MASTER_SID " ).append( symbol ).append( " (" ).append( companyMasterSids ).append( ") \n ");
             where = true;
         }
 
@@ -1013,9 +1013,9 @@ public class CommmonLogic {
         if (!conSelDTO.getRebateScheduleAlias().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleAlias().equals(Constants.NULL)) {
             String rsAlias = conSelDTO.getRebateScheduleNo().replace('*', '%');
             if (where) {
-                query.append(" AND RS_CON.RS_NO like '" + rsAlias + "' ");
+                query.append(" AND RS_CON.RS_NO like '" ).append( rsAlias ).append( "' ");
             } else {
-                query.append(" WHERE RS_CON.RS_NO like '" + rsAlias + "' ");
+                query.append(" WHERE RS_CON.RS_NO like '" ).append( rsAlias ).append( "' ");
                 where = true;
             }
         }

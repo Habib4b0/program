@@ -247,7 +247,7 @@ public class NotesTabLogic {
         if (notesList != null && !notesList.isEmpty()) {
             for (final Iterator<AdditionalNotes> it = notesList.iterator(); it.hasNext();) {
                 final AdditionalNotes additionalNotes = it.next();
-                notes.append(additionalNotes.getNotes() + "\n");
+                notes.append(additionalNotes.getNotes() ).append( "\n");
                 notesListTemp.add(additionalNotes.getNotes() + "\n");
             }
             LOGGER.debug("In getNotes() --size of additionalNotesList= {}" , notesList.size());
