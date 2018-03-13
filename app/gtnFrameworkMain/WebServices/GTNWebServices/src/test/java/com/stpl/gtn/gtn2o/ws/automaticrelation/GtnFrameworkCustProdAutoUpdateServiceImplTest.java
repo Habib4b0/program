@@ -34,10 +34,10 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 
 	@Test
 	public void checkForAutoUpdate() throws InterruptedException {
-		GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(614);
+		GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(769);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList;
 		try {
-			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
+			System.setProperty("gtn.app.data.path", "D:/SriThAr/Allergan/Server");
 			hierarchyDefinitionList = service.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(),
 					relationBean.getHierarchyVersion());
 			automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList);
@@ -51,7 +51,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 	public void doAutomaticUpdate() throws GtnFrameworkGeneralException {
 		try {
 		System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
-			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(572);
+			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(768);
 		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = service
 				.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			automaticService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean);
@@ -66,9 +66,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 	public void checkAndUpdateAutomaticRelationship() throws GtnFrameworkGeneralException {
 		try {
 			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
-
-			String userId = "10948";
-			service.checkAndUpdateAutomaticRelationship(575);
+			service.checkAndUpdateAutomaticRelationship(769);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}

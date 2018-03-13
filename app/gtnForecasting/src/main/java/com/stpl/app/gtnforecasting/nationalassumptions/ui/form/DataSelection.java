@@ -971,8 +971,8 @@ public class DataSelection extends CustomComponent implements View {
                     productGroupId = value.getItemGroupSid();
                     productGroup.setReadOnly(true);
                     company.select(value.getCompanySid());
-                    company.setItemCaption(value.getCompanySid(), value.getCompany());
-                    company.setImmediate(true);
+                    company.setItemCaption(value.getCompanySid(), value.getCompany()+ Constant.SPACE + Constant.DASH_NO_DATA + Constant.SPACE + value.getCompany());
+                    company.setImmediate(true);																				
                     loadOnChangeEvent();
                 }
             }

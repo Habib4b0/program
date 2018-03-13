@@ -3,7 +3,7 @@ package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +27,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service
 @Scope(value = "prototype")
-public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
+public class GtnFramworkCheckForAutoUpdateRunnable implements Callable<String> {
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
@@ -42,7 +42,6 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 	private GtnWsRelationshipBuilderBean relationBean;
 	private List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList;
 	private int index;
-	private AtomicBoolean atomicBoolean;
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFramworkCheckForAutoUpdateRunnable.class);
         private static final String RELATIONSHIP_LEVEL_DEFINITION = "RELATIONSHIP_LEVEL_DEFINITION";
 
@@ -106,16 +105,9 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 		this.index = index;
 	}
 
-	public AtomicBoolean getAtomicBoolean() {
-		return atomicBoolean;
-	}
-
-	public void setAtomicBoolean(AtomicBoolean atomicBoolean) {
-		this.atomicBoolean = atomicBoolean;
-	}
 
 	@Override
-	public void run() {
+	public String call() throws Exception {
 		try {
 			HierarchyLevelDefinitionBean currnetHierarchyLevelBean = hierarchyLevelDefinitionList.get(index);
 
@@ -128,33 +120,22 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 			inputs.add(currnetHierarchyLevelBean.getLevelNo());
 			inputs.add(relationBean.getVersionNo());
 			List<Object> inputsForFinalQuery = null;
-			String finalQeury = null;
-			if (!atomicBoolean.get()) {
-				GtnFrameworkQueryGeneratorBean hierarchyQuery = getCheckForUpdateQuery(currnetHierarchyLevelBean,
-						previousHierarchyLevelBean);
-				hierarchyQuery.removeAllWhereClauseConfigList();
-				gtnHierarchyServiceBuilder.getInboundRestrictionQueryForAutoUpdate(hierarchyQuery);
-				String query = gtnWsSqlService.getReplacedQuery(inputs, hierarchyQuery.generateQuery());
-				inputsForFinalQuery = new ArrayList<>();
-				inputsForFinalQuery.add(relationBean.getRelationshipBuilderSid());
-				inputsForFinalQuery.add(currnetHierarchyLevelBean.getLevelNo());
-				inputsForFinalQuery.add(relationBean.getVersionNo());
-				inputsForFinalQuery.add(query);
-			}
+			GtnFrameworkQueryGeneratorBean hierarchyQuery = getCheckForUpdateQuery(currnetHierarchyLevelBean,
+					previousHierarchyLevelBean);
+			hierarchyQuery.removeAllWhereClauseConfigList();
+			gtnHierarchyServiceBuilder.getInboundRestrictionQueryForAutoUpdate(hierarchyQuery);
+			String query = gtnWsSqlService.getReplacedQuery(inputs, hierarchyQuery.generateQuery());
+			inputsForFinalQuery = new ArrayList<>();
+			inputsForFinalQuery.add(relationBean.getRelationshipBuilderSid());
+			inputsForFinalQuery.add(currnetHierarchyLevelBean.getLevelNo());
+			inputsForFinalQuery.add(relationBean.getVersionNo());
+			inputsForFinalQuery.add(query);
+			return gtnWsSqlService.getQuery(inputsForFinalQuery, "checkForUpdateInAutomaticRelation");
 
-			if (!atomicBoolean.get() && inputsForFinalQuery != null)
-				finalQeury = gtnWsSqlService.getQuery(inputsForFinalQuery, "checkForUpdateInAutomaticRelation");
-			List<?> result;
-			if (!atomicBoolean.get()) {
-				
-				result = gtnSqlQueryEngine.executeSelectQuery(finalQeury);
-				if (Integer.parseInt(result.get(0).toString()) == 1)
-					atomicBoolean.compareAndSet(Boolean.FALSE, Boolean.TRUE);
-			}
 		} catch (Exception e) {
-			
 			LOGGER.error(" Error " + e.getMessage());
 		}
+		return "";
 	}
 
 	private GtnFrameworkQueryGeneratorBean getCheckForUpdateQuery(HierarchyLevelDefinitionBean hierarchyLevelBean,
@@ -178,7 +159,7 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
 						previousHierarchyLevelBean.getFieldName());
-		GtnFrameworkJoinClauseBean relationJoin = queryGenerartorBean.addJoinClauseBean(RELATIONSHIP_LEVEL_DEFINITION,
+		GtnFrameworkJoinClauseBean relationJoin = queryGenerartorBean.addJoinClauseBean("#SELECTED_RElATION_SHIP",
 				RELATIONSHIP_LEVEL_DEFINITION, GtnFrameworkJoinType.JOIN);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
 				keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn(),
@@ -193,7 +174,7 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 				getHierarchyNoForRelationShip(hierarchyLevelDefinitionList, previousHierarchyLevelBean),
 				GtnFrameworkOperatorType.LIKE);
 		GtnFrameworkJoinClauseBean relationDateJoin = queryGenerartorBean.addJoinClauseBean(
-				RELATIONSHIP_LEVEL_DEFINITION, "RELATIONSHIP_LEVEL_DEFINITION2", GtnFrameworkJoinType.JOIN);
+				"#SELECTED_RElATION_SHIP", "RELATIONSHIP_LEVEL_DEFINITION2", GtnFrameworkJoinType.JOIN);
 		relationDateJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION2.RELATIONSHIP_BUILDER_SID",
 				"RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", GtnFrameworkOperatorType.EQUAL_TO);
 		relationDateJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION2.level_no", null,
@@ -268,5 +249,6 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 		finalQuery.append(")");
 		return finalQuery.toString();
 	}
+
 
 }
