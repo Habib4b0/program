@@ -454,48 +454,48 @@ public final class AccrualRateProjectionLogic {
         StringBuilder query = new StringBuilder();
         if (!isExcel) {
             query.append(";WITH ITEM\n"
-                    + "                AS (SELECT DISTINCT ITEM_MASTER_SID\n"
-                    + "            FROM   "+detailsTableName+ " APD\n"
-                    + "            JOIN   CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = APD.CCP_DETAILS_SID\n"
-                    + "                                  AND APD.PROJECTION_MASTER_SID ='" + accrualRateSelectionDTO.getProjectionId() + "' \n"
-                    + "            ORDER  BY ITEM_MASTER_SID\n"
-                    + "                    OFFSET " + start + " ROWS FETCH NEXT  " + offset + " ROWS ONLY) \n");
+                    ).append( " AS (SELECT DISTINCT ITEM_MASTER_SID\n"
+                    ).append( " FROM   ").append(detailsTableName).append( " APD\n"
+                    ).append( " JOIN   CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = APD.CCP_DETAILS_SID\n"
+                    ).append( " AND APD.PROJECTION_MASTER_SID ='" ).append( accrualRateSelectionDTO.getProjectionId() ).append( "' \n"
+                    ).append( " ORDER  BY ITEM_MASTER_SID\n"
+                    ).append( " OFFSET " ).append( start ).append( " ROWS FETCH NEXT  " ).append( offset ).append( " ROWS ONLY) \n");
         }
         query.append("select SA.ITEM_MASTER_SID,IM.ITEM_NO,P.MONTH,P.YEAR,SA.TOTAL_UNITS as actTotalUnits,\n"
-                + "SA.EXCLUDED_UNITS as actExcludedUnits,\n"
-                + "SA.NET_UNITS as actNetUnits,\n"
-                + "SA.PRICE as actPrice,\n"
-                + "SA.SALES as actSales,\n"
-                + "NULL as prjTotalUnits,\n"
-                + "NULL as projExcludedUnits,\n"
-                + "NULL as projNetUnits,\n"
-                + "NULL as projPrice,\n"
-                + "NULL as projSales,\n"
-                + "'true' as isactuals \n"
-                +",IM.ITEM_NAME \n"
-                + "from "+actualTableName+" SA JOIN dbo.ITEM_MASTER IM ON IM.ITEM_MASTER_SID=SA.ITEM_MASTER_SID\n"
-                + "JOIN PERIOD P ON P.PERIOD_SID = SA.PERIOD_SID AND P.PERIOD_DATE >= '" + startTimestamp + "'\n");
+                ).append( "SA.EXCLUDED_UNITS as actExcludedUnits,\n"
+                ).append( "SA.NET_UNITS as actNetUnits,\n"
+                ).append( "SA.PRICE as actPrice,\n"
+                ).append( "SA.SALES as actSales,\n"
+                ).append( "NULL as prjTotalUnits,\n"
+                ).append( "NULL as projExcludedUnits,\n"
+                ).append( "NULL as projNetUnits,\n"
+                ).append( "NULL as projPrice,\n"
+                ).append( "NULL as projSales,\n"
+                ).append( "'true' as isactuals \n"
+                ).append(",IM.ITEM_NAME \n"
+                ).append( "from ").append(actualTableName).append(" SA JOIN dbo.ITEM_MASTER IM ON IM.ITEM_MASTER_SID=SA.ITEM_MASTER_SID\n"
+                ).append( "JOIN PERIOD P ON P.PERIOD_SID = SA.PERIOD_SID AND P.PERIOD_DATE >= '" ).append( startTimestamp ).append( "'\n");
         if (!isExcel) {
             query.append(" JOIN ITEM I ON I.ITEM_MASTER_SID = SA.ITEM_MASTER_SID \n");
         }
-        query.append(" WHERE SA.PROJECTION_MASTER_SID=" + accrualRateSelectionDTO.getProjectionId()).append('\n');
+        query.append(" WHERE SA.PROJECTION_MASTER_SID=" ).append( accrualRateSelectionDTO.getProjectionId()).append('\n');
         
         query.append( "UNION \n"
-                + "select SD.ITEM_MASTER_SID,IM.ITEM_NO,P.MONTH,P.YEAR,\n"
-                + "NULL as actTotalUnits,\n"
-                + "NULL as actExcludedUnits,\n"
-                + "NULL as actNetUnits,\n"
-                + "NULL as actPrice,\n"
-                + "NULL as actSales,\n"
-                + "SD.TOTAL_UNITS as prjTotalUnits,\n"
-                + "SD.EXCLUDED_UNITS as projExcludedUnits,\n"
-                + "SD.NET_UNITS as projNetUnits,\n"
-                + "SD.PRICE as projPrice,\n"
-                + "SD.SALES as projSales,\n"
-                + "'false' as isactuals              \n"
-                +",IM.ITEM_NAME \n"
-                + "from "+projectionTableName+" SD JOIN dbo.ITEM_MASTER IM ON IM.ITEM_MASTER_SID=SD.ITEM_MASTER_SID\n"
-                + "JOIN PERIOD P ON P.PERIOD_SID = SD.PERIOD_SID AND P.PERIOD_DATE <= '" + endTimestamp + "'\n");
+                ).append( "select SD.ITEM_MASTER_SID,IM.ITEM_NO,P.MONTH,P.YEAR,\n"
+                ).append( "NULL as actTotalUnits,\n"
+                ).append( "NULL as actExcludedUnits,\n"
+                ).append( "NULL as actNetUnits,\n"
+                ).append( "NULL as actPrice,\n"
+                ).append( "NULL as actSales,\n"
+                ).append( "SD.TOTAL_UNITS as prjTotalUnits,\n"
+                ).append( "SD.EXCLUDED_UNITS as projExcludedUnits,\n"
+                ).append( "SD.NET_UNITS as projNetUnits,\n"
+                ).append( "SD.PRICE as projPrice,\n"
+                ).append( "SD.SALES as projSales,\n"
+                ).append( "'false' as isactuals              \n"
+                ).append(",IM.ITEM_NAME \n"
+                ).append( "from ").append(projectionTableName).append(" SD JOIN dbo.ITEM_MASTER IM ON IM.ITEM_MASTER_SID=SD.ITEM_MASTER_SID\n"
+                ).append( "JOIN PERIOD P ON P.PERIOD_SID = SD.PERIOD_SID AND P.PERIOD_DATE <= '" ).append( endTimestamp ).append( "'\n");
         if (!isExcel) {
             query.append(" JOIN ITEM I ON I.ITEM_MASTER_SID = SD.ITEM_MASTER_SID \n");
         }
@@ -750,8 +750,8 @@ public final class AccrualRateProjectionLogic {
 
     public void addToTempTable(String companySid, AccrualRateSelectionDTO dto) {
         StringBuffer query = new StringBuffer();
-        query.append("Insert into ST_EXCLUSION_DETAILS (PROJECTION_MASTER_SID,COMPANY_MASTER_SID) values ('" + dto.getProjectionId() + "','"
-                + companySid + "')");
+        query.append("Insert into ST_EXCLUSION_DETAILS (PROJECTION_MASTER_SID,COMPANY_MASTER_SID) values ('" ).append( dto.getProjectionId() ).append( "','"
+                ).append( companySid ).append( "')");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query.toString(), dto.getSessionDto().getCurrentTableNames()));
 
     }
@@ -761,9 +761,9 @@ public final class AccrualRateProjectionLogic {
         StringBuffer deleteQuery = new StringBuffer();
         deleteQuery.append("DELETE FROM ST_EXCLUSION_DETAILS WHERE");
         if (flag) {
-              deleteQuery.append(" COMPANY_MASTER_SID =" + CompanySid);
+              deleteQuery.append(" COMPANY_MASTER_SID =" ).append( CompanySid);
         } else {
-             deleteQuery.append(" PROJECTION_MASTER_SID = " + dto.getProjectionId());
+             deleteQuery.append(" PROJECTION_MASTER_SID = " ).append( dto.getProjectionId());
         }
 
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(deleteQuery.toString(), dto.getSessionDto().getCurrentTableNames()));
@@ -775,10 +775,10 @@ public final class AccrualRateProjectionLogic {
 
         String tableName = isViewMode ? "EXCLUSION_DETAILS" : "ST_EXCLUSION_DETAILS";
         
-        query.append("SELECT COUNT (ED.COMPANY_MASTER_SID) FROM "+tableName+" ED \n"
-                + "INNER JOIN COMPANY_MASTER CM ON ED.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID\n"
-                + "WHERE ED.PROJECTION_MASTER_SID='"
-                + dto.getProjectionId() + "' ");
+        query.append("SELECT COUNT (ED.COMPANY_MASTER_SID) FROM ").append(tableName).append(" ED \n"
+                ).append( "INNER JOIN COMPANY_MASTER CM ON ED.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID\n"
+                ).append( "WHERE ED.PROJECTION_MASTER_SID='"
+                ).append( dto.getProjectionId() ).append( "' ");
             
           
         if (filterSet != null) {
@@ -814,9 +814,9 @@ public final class AccrualRateProjectionLogic {
         StringBuilder query = new StringBuilder();
         String tableName = isViewMode ? "EXCLUSION_DETAILS" : "ST_EXCLUSION_DETAILS";
         
-        query.append("SELECT ED.COMPANY_MASTER_SID,CM.COMPANY_ID,CM.COMPANY_NAME FROM "+tableName+" ED \n"
-                + "INNER JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=ED.COMPANY_MASTER_SID WHERE PROJECTION_MASTER_SID='"
-                + accrualRateSelectionDTO.getProjectionId() + "' ");
+        query.append("SELECT ED.COMPANY_MASTER_SID,CM.COMPANY_ID,CM.COMPANY_NAME FROM ").append(tableName).append(" ED \n"
+                ).append( "INNER JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=ED.COMPANY_MASTER_SID WHERE PROJECTION_MASTER_SID='"
+                ).append( accrualRateSelectionDTO.getProjectionId() ).append( "' ");
         
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
@@ -914,21 +914,21 @@ public final class AccrualRateProjectionLogic {
     public void moveAllCompanys(AccrualRateSelectionDTO dto) {
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO ST_EXCLUSION_DETAILS (PROJECTION_MASTER_SID, COMPANY_MASTER_SID) \n"
-                + " SELECT DISTINCT '" + dto.getProjectionId() + "',A.COMPANY_MASTER_SID" 
-                + " FROM   CUSTOMER_GTS_FORECAST A\n"
-                + "JOIN   (SELECT     TOP 1 FT.FORECAST_NAME,\n"
-                + "                         FT.[VERSION]\n"
-                + "        FROM       FILE_MANAGEMENT FT\n"
-                + "        INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FT.FILE_TYPE\n"
-                + "        WHERE      ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())\n"
-                + "                     AND FT.FROM_PERIOD IS NOT NULL )\n"
-                + "                   AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())\n"
-                + "                          OR FT.TO_PERIOD IS NULL )\n"
-                + "                   AND HT.LIST_NAME = 'FILE_TYPE'\n"
-                + "                   AND HT.[DESCRIPTION] IN ( 'CUSTOMER SALES' )\n"
-                + "        ORDER      BY FT.FROM_PERIOD DESC) B ON A.FORECAST_NAME = B.FORECAST_NAME\n"
-                + "                                            AND A.FORECAST_VER = B.VERSION\n"
-                + "JOIN   COMPANY_MASTER C ON A.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID");
+                ).append( " SELECT DISTINCT '" ).append( dto.getProjectionId() ).append( "',A.COMPANY_MASTER_SID" 
+                ).append( " FROM CUSTOMER_GTS_FORECAST A\n"
+                ).append( " JOIN (SELECT TOP 1 FT.FORECAST_NAME,\n"
+                ).append( " FT.[VERSION]\n"
+                ).append( " FROM FILE_MANAGEMENT FT\n"
+                ).append( " INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = FT.FILE_TYPE\n"
+                ).append( " WHERE ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())\n"
+                ).append( " AND FT.FROM_PERIOD IS NOT NULL )\n"
+                ).append( " AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())\n"
+                ).append( " OR FT.TO_PERIOD IS NULL )\n"
+                ).append( " AND HT.LIST_NAME = 'FILE_TYPE'\n"
+                ).append( " AND HT.[DESCRIPTION] IN ( 'CUSTOMER SALES' )\n"
+                ).append( " ORDER BY FT.FROM_PERIOD DESC) B ON A.FORECAST_NAME = B.FORECAST_NAME\n"
+                ).append( " AND A.FORECAST_VER = B.VERSION\n"
+                ).append( "JOIN   COMPANY_MASTER C ON A.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID");
 
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query.toString(), dto.getSessionDto().getCurrentTableNames()));
     }
