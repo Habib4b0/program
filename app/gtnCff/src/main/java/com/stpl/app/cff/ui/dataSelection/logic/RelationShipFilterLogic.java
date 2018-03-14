@@ -469,10 +469,10 @@ public class RelationShipFilterLogic {
 
 	public StringBuilder getRelationShipWhereCondition(int relationshipSid, String aliasName, int levelNo) {
 		StringBuilder query = new StringBuilder();
-		query.append(aliasName + ".RELATIONSHIP_BUILDER_SID =");
+		query.append(aliasName ).append( ".RELATIONSHIP_BUILDER_SID =");
 		query.append(relationshipSid);
 		query.append(" AND ");
-		query.append(aliasName + ".LEVEL_NO =");
+		query.append(aliasName ).append( ".LEVEL_NO =");
 		query.append(levelNo);
 		return query;
 	}
@@ -607,8 +607,8 @@ public class RelationShipFilterLogic {
 			query.append(',');
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName() + "."
-					+ singleColumnRelationBean.getWhereClauseColumn());
+			query.append(singleColumnRelationBean.getActualTtableName() ).append( ".")
+					.append( singleColumnRelationBean.getWhereClauseColumn());
 			query.append(",'.'");
 		}
 		finalQuery.append("concat( RELATIONSHIP_BUILDER_SID,'-'");

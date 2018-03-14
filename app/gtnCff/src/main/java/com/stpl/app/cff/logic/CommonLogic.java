@@ -390,7 +390,7 @@ public class CommonLogic {
     }
 
     public static String cffCustomViewDetailsSaveLogic(int customId, List levelList, boolean isUpdate) {
-        StringBuilder declareSql = new StringBuilder("DECLARE  @identity_val VARCHAR (50)='" + customId + "'");
+        StringBuilder declareSql = new StringBuilder("DECLARE  @identity_val VARCHAR (50)='" ).append( customId ).append( "'");
         StringBuilder sql = new StringBuilder("insert into CFF_CUSTOM_VIEW_DETAILS(CFF_CUSTOM_VIEW_MASTER_SID,HIERARCHY_ID,HIERARCHY_INDICATOR,LEVEL_NO) values ");
         char quotes = '\'';
         char comma = ',';

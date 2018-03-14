@@ -59,11 +59,11 @@ public final class ErrorCodeUtil {
 	public static String getErrorMessage(final Exception exception ) {
 		final StringBuffer sbValue =new StringBuffer();
 		if (exception.getCause() instanceof IOException) {
-			sbValue.append(getEC(ErrorCodes.IO_ERROR_CODE) + HYPHEN);
+			sbValue.append(getEC(ErrorCodes.IO_ERROR_CODE) ).append( HYPHEN);
 		} else if (exception.getCause() instanceof ORMException) {
-			sbValue.append(getEC(ErrorCodes.SQL_ERROR_CODE) + HYPHEN);
+			sbValue.append(getEC(ErrorCodes.SQL_ERROR_CODE) ).append( HYPHEN);
 		} else if (exception.getCause() instanceof RuntimeException) {
-			sbValue.append(getEC(ErrorCodes.RT_ERROR_CODE) + HYPHEN);
+			sbValue.append(getEC(ErrorCodes.RT_ERROR_CODE) ).append( HYPHEN);
 		}
 		sbValue.append(getEC(ErrorCodes.ERROR_CODE_1000));
 		return sbValue.toString();

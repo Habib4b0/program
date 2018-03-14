@@ -453,10 +453,10 @@ public class DataSelectionLogic {
 				}
 			} else if ("save".equals(indicator)) {
 				for (final Leveldto dto : levelList) {
-
-					cffProdHierarchy.setCffMasterSid(projectionId);
-					cffProdHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
-					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchy);
+                                        final CffProdHierarchy cffProdHierarchyLevel = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(0);
+					cffProdHierarchyLevel.setCffMasterSid(projectionId);
+					cffProdHierarchyLevel.setRelationshipLevelSid(dto.getRelationshipLevelSid());
+					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchyLevel);
 				}
 			}
 			if (endLevels != null && !endLevels.isEmpty()) {
@@ -562,9 +562,10 @@ public class DataSelectionLogic {
 				}
 			} else if ("save".equals(indicator)) {
 				for (final Leveldto dto : levelList) {
-					cffCustHierarchy.setCffMasterSid(projectionId);
-					cffCustHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
-					vDataSelectionDao.addProjectionCustHierarchy(cffCustHierarchy);
+                                        final CffCustHierarchy cffCustHierarchyLevel = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(0);
+					cffCustHierarchyLevel.setCffMasterSid(projectionId);
+					cffCustHierarchyLevel.setRelationshipLevelSid(dto.getRelationshipLevelSid());
+					vDataSelectionDao.addProjectionCustHierarchy(cffCustHierarchyLevel);
 				}
 			}
 			if (endLevels != null && !endLevels.isEmpty()) {
@@ -1515,8 +1516,8 @@ public class DataSelectionLogic {
 		try {
 			List<Object> list;
 			final StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
-					+ "RELATIONSHIP_BUILDER_SID='" + rbID + "'\n" + "and \n" + "LEVEL_NAME='Market Type'");
+			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n")
+					.append( "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and LEVEL_NAME='Market Type'");
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;

@@ -399,32 +399,22 @@ public class PVExcelLogic {
             pvList.add(total);
         } else {
             ProjectionVarianceDTO detail = new ProjectionVarianceDTO();
-            String groupName;
+            String groupName = null;
             if (isCustomView) {
                 groupName = CUSTOM_VIEW_RELATIONSHIP_HIER.get(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO].toString());
                 groupName = groupName == null ? StringUtils.EMPTY : groupName;
                 detail.setHierarchyNo(obj[NumericConstants.TWO].toString());
                 detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
             } else {
-                groupName = CommonUtils.getDisplayFormattedName(obj[NumericConstants.TWO].toString(), selection.getHierarchyIndicator(),
-                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
-            }
-             if (groupName.contains("-")) {
-                String[] tempArr = groupName.split("-");
-                detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
-                detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
-            } else if (selection.getDisplayFormat().length > 0) {
-                int index = (int) selection.getDisplayFormat()[0];
-                if (index == 0) {
-                    detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
-                    
+                if (CommonUtils.isValueEligibleForLoading()) {
+                    getFormattedExcelColumns(detail, selection, obj);
+
                 } else {
-                    detail.addStringProperties(DF_LEVEL_NAME, groupName);
+                    groupName = CommonUtils.getDisplayFormattedName(obj[NumericConstants.TWO].toString(), selection.getHierarchyIndicator(),
+                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
                 }
-            } else {
-                detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
-                detail.addStringProperties(DF_LEVEL_NAME, groupName);
             }
+            
             detail.setGroup(groupName);
             pvList.add(detail);
         }
@@ -3351,6 +3341,28 @@ public class PVExcelLogic {
         }
     }
 
+    public void getFormattedExcelColumns(ProjectionVarianceDTO detail, PVSelectionDTO selection, Object[] obj) {
 
+        List<String> groupName = CommonUtils.getFormattedDisplayName(obj[NumericConstants.TWO].toString(), selection.getHierarchyIndicator(),
+                selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+        detail.setGroup(groupName.toString());
+
+        if (selection.getDisplayFormat().length == 1 && selection.getDisplayFormat().length > 0) {
+            int index = (int) selection.getDisplayFormat()[0];
+            if (index == 0) {
+                detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+            } else {
+                detail.addStringProperties(DF_LEVEL_NAME, groupName.get(0));
+            }
+        } else {
+            detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+            detail.addStringProperties(DF_LEVEL_NAME, groupName.get(0));
+            if (groupName.size() == 2) {
+                detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+                detail.addStringProperties(DF_LEVEL_NAME, groupName.get(1));
+            }
+        }
+
+    }
 
 }

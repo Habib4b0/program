@@ -74,6 +74,8 @@ public class GtnUIFrameworkConfirmedCopyAction implements GtnUIFrameWorkAction, 
 		customActionConfig.addActionParameter(parameters.get(17));
 		customActionConfig.addActionParameter(parameters.get(20));
 		customActionConfig.addActionParameter(parameters.get(21));
+		customActionConfig.addActionParameter(parameters.get(18));
+		customActionConfig.addActionParameter(parameters.get(19));
 		customActionConfig.addActionParameter(parameters.get(22));
 		customActionConfig.addActionParameter(parameters.get(23));
 		customActionConfig.addActionParameter(parameters.get(24));

@@ -812,7 +812,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             .replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
                     String refreshName = StringUtils.EMPTY;
                     String property = String.valueOf(obj[1]);
-                    int frequencyDiv = getFrequencyDivision(projectionSelection.getFrequency());
                     if (property.contains(Constant.PROJECTED_RATE)) {
                         refreshName = Constant.RATE;
                         isRateUpdatedManually = true;
@@ -825,8 +824,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         double doubleVal = Double.parseDouble(blurValue);
                         doubleVal = CommonUtil.getConversionFormattedMultipleValue(projectionSelection, doubleVal);
                         ccpsCount = dto.getCcpCount();
-                        int discountLevelccpCount = dto.getCcpCountForDiscount().get(discountName) != null
-                                ? dto.getCcpCountForDiscount().getInt(discountName) : ccpsCount;
                         double finalValue = doubleVal;
                         blurValue = String.valueOf(finalValue);
                         if (blurValue.contains("E")) {
@@ -2264,6 +2261,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 && !AVERAGE.getConstant().equals(methodologyDdlb.getValue())
                                 && !ROLLING_ANNUAL_TREND.getConstant().equals(methodologyDdlb.getValue())
                                 && !Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equals(methodologyDdlb.getValue())
+                                && !Constant.SINGLE_PERIOD.equals(methodologyDdlb.getValue())
                                 && (checkBoxMap.size() == 0 || checkedDiscountsPropertyIds.size() != checkBoxMap.size()) && !PER_EX_FACTORY_SALES.getConstant().equals(methodologyDdlb.getValue())) {
                             NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED, PLEASE_SELECT_A_HISTORIC_ALERT);
                         } else if (baseLineCalc(startPeriodForecastTab.getValue().toString(),
@@ -2290,7 +2288,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 + "  Please select a complete calendar year of periods "
                                                 + "for each selected discount and try again.");
                                     } else if (!CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())
-                                            && checkedDiscountsPropertyIds.size() == 0) {
+                                            && checkedDiscountsPropertyIds.isEmpty()) {
                                         NotificationUtils.getErrorNotification("No Discount selected",
                                                 "Please select atleast one discount.");
                                     } else if (methodologyDdlb.getValue().equals(AVERAGE.getConstant())

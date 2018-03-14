@@ -27,7 +27,6 @@ import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
 import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.NotificationUtils;
@@ -1156,7 +1155,7 @@ public class CFFLogic {
                 } else {
                     StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
-                        notiMsg.append("\n Only " + roleList + " can submit a projection.");
+                        notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
                     }
                     NotificationUtils.getAlertNotification("Permission Denined", notiMsg.toString());
 

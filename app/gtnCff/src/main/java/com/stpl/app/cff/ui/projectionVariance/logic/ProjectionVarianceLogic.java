@@ -3098,7 +3098,7 @@ public class ProjectionVarianceLogic {
                 case "C":
                     joinQuery.append(" CH.CUST_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' ");
                     if (StringUtils.isNotBlank(productHierarchyNo)) {
-                       joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ productHierarchyNo +CONCAT_CONDITION);
+                       joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST ).append( productHierarchyNo ).append( CONCAT_CONDITION);
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                           String hierarchyNo = "%" + deductionHierarchyNo + "%";
@@ -3109,7 +3109,7 @@ public class ProjectionVarianceLogic {
                 case "P":
                     joinQuery.append(" CH.PROD_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' ");
                     if (StringUtils.isNotBlank(customerHierarchyNo)) {
-                       joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ customerHierarchyNo +"', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
+                       joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST ).append( customerHierarchyNo ).append("', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                          String hierarchyNo = "%" + deductionHierarchyNo + "%";
@@ -3122,7 +3122,7 @@ public class ProjectionVarianceLogic {
                     joinQuery.append(" CH.PROD_HIERARCHY_NO LIKE '");
                     joinQuery.append(productHierarchyNo);
                     joinQuery.append("%'");
-                    joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST + customerHierarchyNo + "', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
+                    joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST ).append( customerHierarchyNo ).append( "', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
                     break;
                 default:
 
@@ -3226,20 +3226,28 @@ public class ProjectionVarianceLogic {
     }
 
   
-  public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+   public String getString(String key, List<String> hierarchyNo) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int i=1;
+        for (String str : hierarchyNo) {
+            if (key.startsWith(str.trim())) {
+                stringBuilder.append("('");
+                stringBuilder.append(key);
+                stringBuilder.append("',").append(i++).append(')');
+                return stringBuilder.toString();
+            }
+        }
+        return "";
+    }
+    
+    public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
 
         if (levelNo == 0) {
             throw new IllegalArgumentException("Invalid Level No:" + levelNo);
         }
-
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
         StringBuilder stringBuilder = new StringBuilder();
-
-        List list = new ArrayList<>();
-        list.add(hierarchyNo);
-        list.add(levelNo);
-        list.add(hierarchyIndicator);
-        stringBuilder.append(getHierarchy(list, relationshipLevelDetailsMap));
+        hierachyQueryIndicator(hierarchyNo, relationshipLevelDetailsMap, levelNo, hierarchyIndicator, stringBuilder);
         if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
             stringBuilder.append("('");
             stringBuilder.append("')");
@@ -3247,58 +3255,41 @@ public class ProjectionVarianceLogic {
         return stringBuilder.toString();
     }
 
-    public String getHierarchy(List list, Map<String, List> relationshipLevelDetailsMap) {
+    private void hierachyQueryIndicator(String hierarchyNo, Map<String, List> relationshipLevelDetailsMap, int levelNo, String hierarchyIndicator, StringBuilder stringBuilder) throws NumberFormatException {
         boolean isNotFirstElement = false;
         boolean isNotFirstHierarchy = false;
-        boolean isHierarchyNoNotAvailable = isHierarchyNoNotAvailable((String) list.get(0), (String) list.get(2));
-        int i=1;
-        StringBuilder stringBuilder = new StringBuilder();
+        boolean isHierarchyNoNotAvailable = checkHierarchyAvailability(hierarchyNo);
+        int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if (isSameLevelHierarchyIndicator(entry, (int) list.get(1), (String) list.get(2))) {
-                if (isSplitNeeded(entry, isHierarchyNoNotAvailable, (String) list.get(0))) {
+            if (!hierarchyNo.contains(",")) {
+                if (hierarchyValidation(entry, levelNo, hierarchyIndicator, isHierarchyNoNotAvailable, hierarchyNo)) {
                     if (isNotFirstElement) {
                         stringBuilder.append(",\n");
                     }
-                    stringBuilder.append("('");
-                    stringBuilder.append(entry.getKey());
-                    stringBuilder.append("'," + i++ + ")");
-
+                    queryGenerate(stringBuilder, entry, i);
                     isNotFirstElement = true;
-                } else {
+                }
+            } else if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()))) {
                 if (isNotFirstHierarchy) {
                     stringBuilder.append(",\n");
                 }
-                    stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(list.get(0))).split("\\,"))));
+                stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(hierarchyNo)).split("\\,"))));
                 isNotFirstHierarchy = true;
             }
         }
-        }
-        return stringBuilder.toString();
-    }
-  
-    public boolean isSplitNeeded(Map.Entry<String, List> entry, boolean isHierarchyNoNotAvailable, String hierarchyNo) {
-        return !hierarchyNo.contains(",") || (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
     }
 
-    public boolean isHierarchyNoNotAvailable(String hierarchyNo, String hierarchyIndicator) {
-        return StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
+    private boolean checkHierarchyAvailability(String hierarchyNo) {
+        return StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
     }
 
-    public boolean isSameLevelHierarchyIndicator(Map.Entry<String, List> entry, int levelNo, String hierarchyIndicator) {
-        return (Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()));
+    private void queryGenerate(StringBuilder stringBuilder, Map.Entry<String, List> entry, int i) {
+        stringBuilder.append("('");
+        stringBuilder.append(entry.getKey());
+        stringBuilder.append("',").append(i++).append(')');
     }
 
-  public String getString(String key, List<String> hierarchyNo) {
-        StringBuilder stringBuilder = new StringBuilder();
-        int i=1;
-        for (String str : hierarchyNo) {
-            if (key.startsWith(str.trim())) {
-                stringBuilder.append("('");
-                stringBuilder.append(key);
-                stringBuilder.append("'," + i++ + ")");
-                return stringBuilder.toString();
-            }
-        }
-        return "";
+    private static boolean hierarchyValidation(Map.Entry<String, List> entry, int levelNo, String hierarchyIndicator, boolean isHierarchyNoNotAvailable, String hierarchyNo) {
+        return (Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
     }
 }

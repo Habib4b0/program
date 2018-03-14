@@ -46,12 +46,12 @@ public class DSLogic {
             StringBuilder updateQuery = new StringBuilder(StringUtils.EMPTY);
             if (Constant.UPDATE_SMALL.equalsIgnoreCase(dtoValue.getActionFlag())) {
                 updateQuery.append("Update ACCRUAL_PROJ_SELECTION\n"
-                        + "SET  SCREEN_NAME='" + dtoValue.getScreenName() + "',FIELD_NAME='" + dtoValue.getDeductionType() + "',FIELD_VALUES='" + dtoValue.getDeductionValue() + "'\n"
-                        + "where Projection_Master_Sid=" + dtoValue.getProjectionId() + ";");
+                        ).append( "SET  SCREEN_NAME='" ).append( dtoValue.getScreenName() ).append( "',FIELD_NAME='" ).append( dtoValue.getDeductionType() ).append( "',FIELD_VALUES='" ).append( dtoValue.getDeductionValue() ).append( "'\n"
+                        ).append( "where Projection_Master_Sid=" ).append( dtoValue.getProjectionId() ).append( ";");
 
             } else {
                 updateQuery.append("Insert ACCRUAL_PROJ_SELECTION (SCREEN_NAME,FIELD_NAME,FIELD_VALUES,PROJECTION_MASTER_SID) \n"
-                        + "values('" + dtoValue.getScreenName() + "','" + dtoValue.getDeductionType() + "','" + dtoValue.getDeductionValue() + "'," + dtoValue.getProjectionId() + ")");
+                        ).append( "values('" ).append( dtoValue.getScreenName() ).append( "','" ).append( dtoValue.getDeductionType() ).append( "','" ).append( dtoValue.getDeductionValue() ).append( "'," ).append( dtoValue.getProjectionId() ).append( ")");
             }
 
             HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery.toString());
@@ -238,8 +238,8 @@ public class DSLogic {
             List<Object> list;
             StringBuilder insertQuery = new StringBuilder(StringUtils.EMPTY);
             insertQuery.append("select FIELD_NAME,FIELD_VALUES from ACCRUAL_PROJ_SELECTION \n"
-                    + "where PROJECTION_MASTER_SID=" + projectionId + "\n"
-                    + "AND SCREEN_NAME='View'");
+                    ).append( "where PROJECTION_MASTER_SID=" ).append( projectionId ).append( "\n"
+                    ).append( "AND SCREEN_NAME='View'");
             list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(insertQuery.toString());
             deductionLevel.select(String.valueOf(list.get(0)));
             deductionValue.select(String.valueOf(list.get(1)));
