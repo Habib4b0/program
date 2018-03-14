@@ -47,7 +47,7 @@ public class GtnUIFrameworkRelationshipCopyAction implements GtnUIFrameWorkActio
 		GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(4).toString(), gtnWsRecordBean);
 		GtnUIFrameworkGlobalUI.addSessionProperty("mode", String.valueOf(GtnUIFrameworkModeType.COPY));
 
-		GtnUIFrameworkViewButtonAction viewAction = new GtnUIFrameworkViewButtonAction();
+		GtnUIFrameWorkAction viewAction = new GtnUIFrameworkViewButtonAction();
 		viewAction.configureParams(gtnUIFrameWorkActionConfig);
 		viewAction.doAction(componentId, gtnUIFrameWorkActionConfig);
 		GtnFrameworkValueChangeManager.setValueChangeAllowed(true);
