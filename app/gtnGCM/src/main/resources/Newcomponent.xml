@@ -45,7 +45,9 @@ and open the template in the editor.
                         <PopupDateField id="cfpEndDate" immediate="true" />
                         <Label value="File Name:" contentMode="HTML" width="205px" />
                         <TextField id="cfpfileName" immediate="true" />
-                                
+                        <Label value="Sales Inclusion:" contentMode="HTML" width="205px" />
+                        <ComboBox id="salesInclusion" immediate="true"  width="205px"/>
+                        
                     </GridLayout>
 
 
@@ -87,7 +89,7 @@ and open the template in the editor.
                         <TextField id="psfileName" immediate="true" width="205px"/>
                     </GridLayout>
 
-                    <GridLayout spacing="true"  id="rsComponent" immediate="true" columns="6" rows="5" >
+                    <GridLayout spacing="true"  id="rsComponent" immediate="true" columns="6" rows="8" >
                         <Label value="RS ID:" contentMode="HTML" width="205px"/>
                         <TextField id="rsId" immediate="true" width="205px"/>
                         <Label value="Status:" contentMode="HTML" width="205px" />
@@ -114,11 +116,14 @@ and open the template in the editor.
                         <Label value="End Date:" contentMode="HTML" width="205px"/>
                         <PopupDateField id="rsEndDate" immediate="true"  width="205px"/>
 
-                        <Label value="Rebate Plan Level:" contentMode="HTML" width="205px"/>
+                        <Label value="Rebate Schedule Category:" contentMode="HTML" width="205px"/>
                         <ComboBox id="rebatePlanLevel" immediate="true" width="205px"/>
                          
                         <!--                        <Label caption="Basic:" contentMode="HTML" width="205px" />
                         <TextField id="rsBasic" immediate="true" width="205px"/>-->
+                        
+                        <Label value="Rebate Frequency" contentMode="HTML" width="205px" />
+                        <ComboBox id="rebateFrequency" immediate="true" width="205px"/>
                         <Label value="Payment Frequency:" contentMode="HTML" width="205px"/>
                         <ComboBox id="paymentFrequency" immediate="true" width="205px"/>
                         <Label value="Payment method:" contentMode="HTML" width="205px" />
@@ -126,6 +131,12 @@ and open the template in the editor.
                         <Label value="Calendar:" contentMode="HTML" width="205px" />
                         <ComboBox id="calendar" immediate="true" width="205px"/>
                         
+                        <Label value="Deduction Inclusion" contentMode="HTML" width="205px" />
+                        <ComboBox id="deductionInclusion" immediate="true" width="205px"/>
+                        <Label value="Calculation Level" contentMode="HTML" width="205px" />
+                        <ComboBox id="calculationLevel" immediate="true" width="205px"/>
+                        <Label value="Calculation Type" contentMode="HTML" width="205px" />
+                        <ComboBox id="calculationType" immediate="true" width="205px"/>
                         
                     </GridLayout>  
                       

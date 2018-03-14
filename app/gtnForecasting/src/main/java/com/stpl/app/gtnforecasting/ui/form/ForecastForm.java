@@ -290,6 +290,9 @@ public class ForecastForm extends AbstractForm {
 					Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY));
 			session.setMaximumProductLevel(dsLogic.getMaximumLevelNo(session.getHierarchyLevelDetails(),
 					Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY));
+                    if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+                        dataSelectionDTO.setForecastEligibleDate(dsLogic.getWorkflowEligibleDateFromProjMaster(dataSelectionDTO));
+                    }
 			commercialConfiguration();
 			dataAssumption.setSession(this.session);
 			session.setDataAssumptionLogic(dataAssumption);

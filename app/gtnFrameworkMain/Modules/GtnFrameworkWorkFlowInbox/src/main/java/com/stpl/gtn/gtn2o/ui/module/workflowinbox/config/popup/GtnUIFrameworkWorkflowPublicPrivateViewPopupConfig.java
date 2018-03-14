@@ -217,7 +217,7 @@ public class GtnUIFrameworkWorkflowPublicPrivateViewPopupConfig {
 		searchResults.setFilterBar(true);
 		searchResults.setSelectable(true);
 		searchResults.setTableColumnDataType(new Class<?>[] { String.class, String.class, String.class, String.class,
-				 String.class, String.class, String.class, Date.class, String.class, Date.class });
+				 String.class, String.class, Object.class, Date.class, Object.class, Date.class });
 		searchResults.setTableVisibleHeader(new String[] { GtnFrameworkWorkflowInboxClassConstants.VIEW_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWCOMPONENT_NAME,
@@ -465,9 +465,9 @@ public class GtnUIFrameworkWorkflowPublicPrivateViewPopupConfig {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
 		String[] propertyIds = { GtnFrameworkWorkflowInboxClassConstants.CREATEDBYPRIVATE,
 				GtnFrameworkWorkflowInboxClassConstants.APPROVEDBYPRIVATE };
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>(propertyIds.length-1);
 		String[] listNameArray = { GtnFrameworkWorkflowInboxClassConstants.USERS,
 				GtnFrameworkWorkflowInboxClassConstants.USERS };
 		for (int i = 0; i < propertyIds.length; i++) {
