@@ -1646,6 +1646,7 @@ public class Constant {
     public static final String SELECTED_HIERARCHY_CUSTOM = "selected-hierarchy-no-for-custom";
     public static final String RELJOIN = "@RELJOIN";
     public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.VERSION_NO=";
+    public static final String RELATIONSHIPJOINCURRENT = " JOIN #CURRENT_SPLIT RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.VERSION_NO=";
     public static final String PARENTVALIDATE = "PARENT-VALIDATE";
     public static final String DED_JOIN = "?DEDJOIN";
     public static final String I_QUARTER = ", I.QUARTER";
