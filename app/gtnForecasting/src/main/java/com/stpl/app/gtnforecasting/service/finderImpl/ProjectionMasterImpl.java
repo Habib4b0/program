@@ -38,23 +38,23 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             if ("Returns".equals(parameters.get(Constant.MODULE_NAME))) {
                 if (parameters.get(Constant.LAZY_LOAD_RESULTS) != null && Constant.LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(Constant.LAZY_LOAD_RESULTS)))) {
                     queryString.append(SQlUtil.getQuery(getClass(),"searchProjectionForReturns"));
-                    queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE + String.valueOf(parameters.get(Constant.MODULE_NAME)) + "'");
+                    queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( "'");
                 } else {
                     queryString.append(SQlUtil.getQuery(getClass(),"searchProjectionCountForReturns"));
-                    queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE + String.valueOf(parameters.get(Constant.MODULE_NAME)) + "'");
+                    queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( "'");
                 }
             } else if (parameters.get(Constant.LAZY_LOAD_RESULTS) != null && Constant.LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(Constant.LAZY_LOAD_RESULTS)))) {
                 queryString.append(SQlUtil.getQuery(getClass(),"searchProjection"));
                 queryString.replace(queryString.indexOf(accFieldValue), queryString.indexOf(accFieldValue) + accFieldValue.length(), String.valueOf(parameters.get("selectValue")));
                 queryString.replace(queryString.indexOf(accProjJoin), queryString.indexOf(accProjJoin) + accProjJoin.length(), String.valueOf(parameters.get("leftJoinValue")));
                 queryString.replace(queryString.indexOf(filterValue), queryString.indexOf(filterValue) + filterValue.length(), String.valueOf(parameters.get("whereFilterValue")));
-                queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE + String.valueOf(parameters.get(Constant.MODULE_NAME)) + "'");
+                queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( "'");
 
             } else {
                 queryString.append(SQlUtil.getQuery(HelperTableLocalServiceUtil.class,"searchProjectionCount"));
                 queryString.replace(queryString.indexOf(accProjJoin), queryString.indexOf(accProjJoin) + accProjJoin.length(), String.valueOf(parameters.get("leftJoinValue")));
                 queryString.replace(queryString.indexOf(filterValue), queryString.indexOf(filterValue) + filterValue.length(), String.valueOf(parameters.get("whereFilterValue")));
-                queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE + String.valueOf(parameters.get(Constant.MODULE_NAME)) + "'");
+                queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( "'");
             }
 
             if (parameters.get("projectionDescription") != null) {
@@ -945,69 +945,66 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
                 if (parameters.get(Constant.LEVEL_NAME) != null && ("Market Type".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) || "MarketType".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))))) {
                     queryBuilder.append("Select Distinct  CM.CONTRACT_TYPE from Constant.CONTRACT_MASTER CM \n"
-                            + Constant.JOIN_RS_CONTRACT_RS_C_TYPE_ON_RS_C_TYPE
-                            + Constant.RS_C_TYPE + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "'  )");
+                            ).append( Constant.JOIN_RS_CONTRACT_RS_C_TYPE_ON_RS_C_TYPE
+                            ).append( Constant.RS_C_TYPE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "'  )");
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && "Contract".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME)))) {
-                    queryBuilder.append("\n"
-                            + "                    Select Distinct  RS_C_TYPE.CONTRACT_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
-                            + Constant.JOIN_RS_CONTRACT_RS_C_TYPE_ON_RS_C_TYPE
-                            + Constant.RS_C_TYPE + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "'    )");
+                    queryBuilder.append("Select Distinct  RS_C_TYPE.CONTRACT_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
+                            ).append( Constant.JOIN_RS_CONTRACT_RS_C_TYPE_ON_RS_C_TYPE
+                            ).append( Constant.RS_C_TYPE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "'    )");
 
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && "Contract Holder".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME)))) {
-                    queryBuilder.append("\n"
-                            + "                    Select Distinct  CM.CONT_HOLD_COMPANY_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
-                            + Constant.JOIN_RS_CONTRACT_RS_C_TYPE_ON_RS_C_TYPE
-                            + Constant.RS_C_TYPE + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "'    )");
+                    queryBuilder.append(" Select Distinct  CM.CONT_HOLD_COMPANY_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
+                            ).append( Constant.JOIN_RS_CONTRACT_RS_C_TYPE_ON_RS_C_TYPE
+                            ).append( Constant.RS_C_TYPE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "'    )");
 
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && ("Trading Partner".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) || "Customer".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))))) {
-                    queryBuilder.append("\n"
-                            + "Select Distinct  CFP_CD_SID.COMPANY_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
-                            + "Join CFP_CONTRACT CFP_SID ON CM.CONTRACT_MASTER_SID = CFP_SID.CONTRACT_MASTER_SID\n"
-                            + "Join  CFP_CONTRACT_DETAILS CFP_CD_SID  ON  CFP_CD_SID.CFP_CONTRACT_SID=CFP_SID.CFP_CONTRACT_SID\n"
-                            + Constant.AND_NEW_LINE
-                            + "CFP_SID.CONTRACT_MASTER_SID IN (Select Distinct CONTRACT_MASTER_SID from RS_CONTRACT\n"
-                            + Constant.WHERE_SPACE + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
-                            + "-- LIST_NAME like'" + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "'\n"
-                            + "DESCRIPTION like'" + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "' \n"
-                            + "))");
+                    queryBuilder.append("Select Distinct  CFP_CD_SID.COMPANY_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
+                            ).append( "Join CFP_CONTRACT CFP_SID ON CM.CONTRACT_MASTER_SID = CFP_SID.CONTRACT_MASTER_SID\n"
+                            ).append( "Join  CFP_CONTRACT_DETAILS CFP_CD_SID  ON  CFP_CD_SID.CFP_CONTRACT_SID=CFP_SID.CFP_CONTRACT_SID\n"
+                            ).append( Constant.AND_NEW_LINE
+                            ).append( "CFP_SID.CONTRACT_MASTER_SID IN (Select Distinct CONTRACT_MASTER_SID from RS_CONTRACT\n"
+                            ).append( Constant.WHERE_SPACE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( " IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
+                            ).append( "-- LIST_NAME like'" ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "'\n"
+                            ).append( "DESCRIPTION like'" ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "' \n"
+                            ).append( "))");
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && ("Company".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))))) {
                     queryBuilder.append("\n"
-                            + "Select Distinct  CFP_CD_SID.COMPANY_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
-                            + "Join CFP_CONTRACT CFP_SID ON CM.CONTRACT_MASTER_SID = CFP_SID.CONTRACT_MASTER_SID\n"
-                            + "Join  CFP_CONTRACT_DETAILS CFP_CD_SID  ON  CFP_CD_SID.CFP_CONTRACT_SID=CFP_SID.CFP_CONTRACT_SID\n"
-                            + Constant.AND_NEW_LINE
-                            + "CFP_SID.CONTRACT_MASTER_SID IN (Select Distinct CONTRACT_MASTER_SID from RS_CONTRACT\n"
-                            + Constant.WHERE_SPACE + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + " IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
-                            + "-- LIST_NAME like'" + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "'\n"
-                            + "DESCRIPTION like'" + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "' \n"
-                            + "))" + "  JOIN COMPANY_MASTER COM_MAS ON COM_MAS.COMPANY_MASTER_SID=CFP_CD_SID.COMPANY_MASTER_SID\n"
-                            + "                            AND COM_MAS.COMPANY_TYPE IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
-                            + "                            DESCRIPTION like'GLCOMP' AND LIST_NAME='COMPANY_TYPE')");
+                            ).append( "Select Distinct  CFP_CD_SID.COMPANY_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
+                            ).append( "Join CFP_CONTRACT CFP_SID ON CM.CONTRACT_MASTER_SID = CFP_SID.CONTRACT_MASTER_SID\n"
+                            ).append( "Join  CFP_CONTRACT_DETAILS CFP_CD_SID  ON  CFP_CD_SID.CFP_CONTRACT_SID=CFP_SID.CFP_CONTRACT_SID\n"
+                            ).append( Constant.AND_NEW_LINE
+                            ).append( "CFP_SID.CONTRACT_MASTER_SID IN (Select Distinct CONTRACT_MASTER_SID from RS_CONTRACT\n"
+                            ).append( Constant.WHERE_SPACE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( " IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
+                            ).append( "-- LIST_NAME like'" ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "'\n"
+                            ).append( "DESCRIPTION like'" ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "' \n"
+                            ).append( "))  JOIN COMPANY_MASTER COM_MAS ON COM_MAS.COMPANY_MASTER_SID=CFP_CD_SID.COMPANY_MASTER_SID\n"
+                            ).append( "                            AND COM_MAS.COMPANY_TYPE IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
+                            ).append( "                            DESCRIPTION like'GLCOMP' AND LIST_NAME='COMPANY_TYPE')");
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && ("Item".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) || Constant.PRODUCT_LABEL.equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) || "Ndc".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))))) {
                     queryBuilder.append("\n"
-                            + Constant.SELECT_DISTINCT_IFP_CD_SID_ITEM_MASTER_SID
-                            + Constant.JOIN_IFP_CONTRACT_IFP_SID_ON_CM_CONTRACT_M
-                            + Constant.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON_I
-                            + Constant.AND_NEW_LINE
-                            + Constant.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
-                            + Constant.WHERE_SPACE + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TABLE
-                            + Constant.DESCRIPTION_LIKE + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "' )) \n");
+                            ).append( Constant.SELECT_DISTINCT_IFP_CD_SID_ITEM_MASTER_SID
+                            ).append( Constant.JOIN_IFP_CONTRACT_IFP_SID_ON_CM_CONTRACT_M
+                            ).append( Constant.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON_I
+                            ).append( Constant.AND_NEW_LINE
+                            ).append( Constant.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
+                            ).append( Constant.WHERE_SPACE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TABLE
+                            ).append( Constant.DESCRIPTION_LIKE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "' )) \n");
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && ("Brand".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))))) {
                     queryBuilder.append(Constant.SELECT_DISTINCT_IM_BRAND_MASTER_SID_FROM_C
-                            + Constant.JOIN_IFP_CONTRACT_IFP_SID_ON_CM_CONTRACT_M
-                            + Constant.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON
-                            + Constant.JOIN_ITEM_MASTER_IM_ON_IM_ITEM_MASTER_SID
-                            + Constant.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
-                            + Constant.WHERE_SPACE + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TABLE
-                            + Constant.DESCRIPTION_LIKE + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "' ))");
+                            ).append( Constant.JOIN_IFP_CONTRACT_IFP_SID_ON_CM_CONTRACT_M
+                            ).append( Constant.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON
+                            ).append( Constant.JOIN_ITEM_MASTER_IM_ON_IM_ITEM_MASTER_SID
+                            ).append( Constant.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
+                            ).append( Constant.WHERE_SPACE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TABLE
+                            ).append( Constant.DESCRIPTION_LIKE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "' ))");
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && ("Therapeutic Class".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))))) {
                     queryBuilder.append(Constant.SELECT_DISTINCT_IM_THERAPEUTIC_CLASS_FROM
-                            + Constant.JOIN_IFP_CONTRACT_IFP_SID_ON_CM_CONTRACT_M
-                            + Constant.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON_CNT
-                            + Constant.JOIN_ITEM_MASTER_IM_ON_IM_ITEM_MASTER_SID
-                            + Constant.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
-                            + Constant.WHERE_SPACE + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TABLE
-                            + Constant.DESCRIPTION_LIKE + String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) + Constant.AND_LIST_NAME + String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) + "' ))");
+                            ).append( Constant.JOIN_IFP_CONTRACT_IFP_SID_ON_CM_CONTRACT_M
+                            ).append( Constant.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON_CNT
+                            ).append( Constant.JOIN_ITEM_MASTER_IM_ON_IM_ITEM_MASTER_SID
+                            ).append( Constant.IFP_SID_CONTRACT_MASTER_SID_IN_SELECT_CONT
+                            ).append( Constant.WHERE_SPACE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( Constant.IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TABLE
+                            ).append( Constant.DESCRIPTION_LIKE ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "' ))");
                 }
 
                 queryBuilder.append(')');

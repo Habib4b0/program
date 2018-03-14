@@ -1573,8 +1573,8 @@ public class SalesLogic {
         try {
             StringBuilder queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
             queryBuilder1.append(" UPDATE ST_RETURNS_PROJ_MASTER ").append(" SET CHECK_RECORD=").append(value ? 1 : 0).append(" \n"
-                    + "WHERE RETURNS_DETAILS_SID in \n"
-                    + "(" + projectionSelectionDTO.getSessionDTO().getDetailsSID() + " )");
+                    ).append( "WHERE RETURNS_DETAILS_SID in \n"
+                    ).append( "(" ).append( projectionSelectionDTO.getSessionDTO().getDetailsSID() ).append( " )");
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
 
             salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
@@ -1951,9 +1951,9 @@ public class SalesLogic {
                 case Constant.PROJECTED_UNITS1:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         saveQuery.append("DECLARE @PROJECTION_UNITS NUMERIC(22, 6)\n"
-                                + "SET @PROJECTION_UNITS=(SELECT Sum(PROJECTION_UNITS)\n"
-                                + "FROM   " + table + " " + " @Replace_Value" + "   )");
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS=PROJECTION_UNITS + ( PROJECTION_UNITS * ( ( ( ( " + value.toString() + " - @PROJECTION_UNITS ) / NULLIF(@PROJECTION_UNITS, 0) ) * 100 ) / 100 ) )");
+                                ).append( "SET @PROJECTION_UNITS=(SELECT Sum(PROJECTION_UNITS)\n"
+                                ).append( "FROM   " ).append( table ).append( " @Replace_Value" + "   )");
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS=PROJECTION_UNITS + ( PROJECTION_UNITS * ( ( ( ( " ).append( value.toString() ).append( " - @PROJECTION_UNITS ) / NULLIF(@PROJECTION_UNITS, 0) ) * 100 ) / 100 ) )");
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS='").append(finalvalue.toString()).append("' ");
@@ -2661,11 +2661,11 @@ public class SalesLogic {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CM.COMPANY_NO,CO.CONTRACT_NO,CO.CONTRACT_NAME,CM.COMPANY_MASTER_SID,CO.CONTRACT_MASTER_SID FROM dbo.CCP_DETAILS CCP \n"
-                + " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID \n"
-                + " JOIN dbo.CONTRACT_MASTER CO ON CO.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID \n"
-                + " JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CO.CONTRACT_TYPE AND HT.LIST_NAME = 'CONTRACT_TYPE' AND \n"
-                + " HT.DESCRIPTION IN ('FFS','Medicaid FFS','SPAP','ADAP','PHS','Managed Medicaid','MM','Federal') WHERE CM.COMPANY_MASTER_SID = " + companyNo
-                + " AND (CO.CONTRACT_NAME like '" + contractName + "' OR CO.CONTRACT_NO like '" + contractNo + "')");
+                ).append( " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID \n"
+                ).append( " JOIN dbo.CONTRACT_MASTER CO ON CO.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID \n"
+                ).append( " JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CO.CONTRACT_TYPE AND HT.LIST_NAME = 'CONTRACT_TYPE' AND \n"
+                ).append( " HT.DESCRIPTION IN ('FFS','Medicaid FFS','SPAP','ADAP','PHS','Managed Medicaid','MM','Federal') WHERE CM.COMPANY_MASTER_SID = " ).append( companyNo
+                ).append( " AND (CO.CONTRACT_NAME like '" ).append( contractName ).append( "' OR CO.CONTRACT_NO like '" ).append( contractNo ).append( "')");
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         List list = (List) salesProjectionDAO.executeSelectQuery(query.toString());
@@ -3084,32 +3084,32 @@ public class SalesLogic {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_ACTUAL_SALES AS TARGET\n"
-                + "		USING ( \n"
-                + " SELECT PROJECTION_DETAILS_SID,\n"
-                + "		PERIOD_SID,\n"
-                + "		ACTUAL_SALES,\n"
-                + "		ACTUAL_UNITS,\n"
-                + "		ACTUAL_PROJECTION_SALES,\n"
-                + "		ACTUAL_PROJECTION_UNITS\n"
-                + "		FROM dbo.ST_M_ACTUAL_SALES\n"
-                + "	 WHERE USER_ID=" + userId + "AND SESSION_ID=" + sessionId + "\n"
-                + "		) AS SOURCE  \n"
-                + "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)\n"
-                + "	WHEN MATCHED \n"
-                + "	 THEN \n"
-                + "	UPDATE SET \n"
-                + "		TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,\n"
-                + "		TARGET.ACTUAL_UNITS=SOURCE.ACTUAL_UNITS,\n"
-                + "		TARGET.ACTUAL_PROJECTION_SALES=SOURCE.ACTUAL_PROJECTION_SALES,\n"
-                + "		TARGET.ACTUAL_PROJECTION_UNITS=SOURCE.ACTUAL_PROJECTION_UNITS\n"
-                + "		 WHEN NOT MATCHED BY TARGET\n"
-                + "	THEN \n"
-                + "	INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,\n"
-                + "		SOURCE.PERIOD_SID,\n"
-                + "		SOURCE.ACTUAL_SALES,\n"
-                + "		SOURCE.ACTUAL_UNITS,\n"
-                + "		SOURCE.ACTUAL_PROJECTION_SALES,\n"
-                + "		SOURCE.ACTUAL_PROJECTION_UNITS);");
+                ).append( "		USING ( \n"
+                ).append( " SELECT PROJECTION_DETAILS_SID,\n"
+                ).append( "		PERIOD_SID,\n"
+                ).append( "		ACTUAL_SALES,\n"
+                ).append( "		ACTUAL_UNITS,\n"
+                ).append( "		ACTUAL_PROJECTION_SALES,\n"
+                ).append( "		ACTUAL_PROJECTION_UNITS\n"
+                ).append( "		FROM dbo.ST_M_ACTUAL_SALES\n"
+                ).append( "	 WHERE USER_ID=" ).append( userId ).append( "AND SESSION_ID=" ).append( sessionId ).append( "\n"
+                ).append( "		) AS SOURCE  \n"
+                ).append( "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)\n"
+                ).append( "	WHEN MATCHED \n"
+                ).append( "	 THEN \n"
+                ).append( "	UPDATE SET \n"
+                ).append( "		TARGET.ACTUAL_SALES=SOURCE.ACTUAL_SALES,\n"
+                ).append( "		TARGET.ACTUAL_UNITS=SOURCE.ACTUAL_UNITS,\n"
+                ).append( "		TARGET.ACTUAL_PROJECTION_SALES=SOURCE.ACTUAL_PROJECTION_SALES,\n"
+                ).append( "		TARGET.ACTUAL_PROJECTION_UNITS=SOURCE.ACTUAL_PROJECTION_UNITS\n"
+                ).append( "		 WHEN NOT MATCHED BY TARGET\n"
+                ).append( "	THEN \n"
+                ).append( "	INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,\n"
+                ).append( "		SOURCE.PERIOD_SID,\n"
+                ).append( "		SOURCE.ACTUAL_SALES,\n"
+                ).append( "		SOURCE.ACTUAL_UNITS,\n"
+                ).append( "		SOURCE.ACTUAL_PROJECTION_SALES,\n"
+                ).append( "		SOURCE.ACTUAL_PROJECTION_UNITS);");
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         salesProjectionDAO.executeUpdateQuery(query.toString());
@@ -3119,40 +3119,40 @@ public class SalesLogic {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_SALES_PROJECTION_MASTER AS TARGET\n"
-                + "		USING ( \n"
-                + "		SELECT PROJECTION_DETAILS_SID,\n"
-                + "		METHODOLOGY,\n"
-                + "		CALCULATION_PERIODS,\n"
-                + "		CALCULATION_BASED,\n"
-                + "		CHECK_RECORD, \n"
-                + "		FORECAST_START_PERIOD_SID,\n"
-                + "		FORECAST_END_PERIOD_SID,\n"
-                + "		ALLOCATION_BASIS \n"
-                + "		FROM dbo.ST_M_SALES_PROJECTION_MASTER\n"
-                + "		WHERE USER_ID=" + userId + " AND SESSION_ID=" + sessionId + "\n"
-                + "		) AS SOURCE \n"
-                + "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID)\n"
-                + "		WHEN MATCHED \n"
-                + "		 THEN \n"
-                + "		UPDATE SET \n"
-                + "		TARGET.METHODOLOGY=SOURCE.METHODOLOGY, \n"
-                + "		TARGET.CALCULATION_PERIODS=SOURCE.CALCULATION_PERIODS, \n"
-                + "		TARGET.CALCULATION_BASED=SOURCE.CALCULATION_BASED, \n"
-                + "		TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD, \n"
-                + "		TARGET.FORECAST_START_PERIOD_SID=SOURCE.FORECAST_START_PERIOD_SID, \n"
-                + "		TARGET.FORECAST_END_PERIOD_SID=SOURCE.FORECAST_END_PERIOD_SID, \n"
-                + "		TARGET.ALLOCATION_BASIS=SOURCE.ALLOCATION_BASIS\n"
-                + "		WHEN NOT MATCHED BY TARGET\n"
-                + "		 THEN \n"
-                + "		INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,\n"
-                + "		SOURCE.METHODOLOGY,\n"
-                + "		SOURCE.CALCULATION_PERIODS,\n"
-                + "		SOURCE.CALCULATION_BASED,\n"
-                + "		SOURCE.CHECK_RECORD,\n"
-                + "		SOURCE.FORECAST_START_PERIOD_SID,\n"
-                + "		SOURCE.FORECAST_END_PERIOD_SID,\n"
-                + "		SOURCE.ALLOCATION_BASIS\n"
-                + ");");
+                ).append( "		USING ( \n"
+                ).append( "		SELECT PROJECTION_DETAILS_SID,\n"
+                ).append( "		METHODOLOGY,\n"
+                ).append( "		CALCULATION_PERIODS,\n"
+                ).append( "		CALCULATION_BASED,\n"
+                ).append( "		CHECK_RECORD, \n"
+                ).append( "		FORECAST_START_PERIOD_SID,\n"
+                ).append( "		FORECAST_END_PERIOD_SID,\n"
+                ).append( "		ALLOCATION_BASIS \n"
+                ).append( "		FROM dbo.ST_M_SALES_PROJECTION_MASTER\n"
+                ).append( "		WHERE USER_ID=" ).append( userId ).append( " AND SESSION_ID=" ).append( sessionId ).append( "\n"
+                ).append( "		) AS SOURCE \n"
+                ).append( "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID)\n"
+                ).append( "		WHEN MATCHED \n"
+                ).append( "		 THEN \n"
+                ).append( "		UPDATE SET \n"
+                ).append( "		TARGET.METHODOLOGY=SOURCE.METHODOLOGY, \n"
+                ).append( "		TARGET.CALCULATION_PERIODS=SOURCE.CALCULATION_PERIODS, \n"
+                ).append( "		TARGET.CALCULATION_BASED=SOURCE.CALCULATION_BASED, \n"
+                ).append( "		TARGET.CHECK_RECORD=SOURCE.CHECK_RECORD, \n"
+                ).append( "		TARGET.FORECAST_START_PERIOD_SID=SOURCE.FORECAST_START_PERIOD_SID, \n"
+                ).append( "		TARGET.FORECAST_END_PERIOD_SID=SOURCE.FORECAST_END_PERIOD_SID, \n"
+                ).append( "		TARGET.ALLOCATION_BASIS=SOURCE.ALLOCATION_BASIS\n"
+                ).append( "		WHEN NOT MATCHED BY TARGET\n"
+                ).append( "		 THEN \n"
+                ).append( "		INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,\n"
+                ).append( "		SOURCE.METHODOLOGY,\n"
+                ).append( "		SOURCE.CALCULATION_PERIODS,\n"
+                ).append( "		SOURCE.CALCULATION_BASED,\n"
+                ).append( "		SOURCE.CHECK_RECORD,\n"
+                ).append( "		SOURCE.FORECAST_START_PERIOD_SID,\n"
+                ).append( "		SOURCE.FORECAST_END_PERIOD_SID,\n"
+                ).append( "		SOURCE.ALLOCATION_BASIS\n"
+                ).append( ");");
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         salesProjectionDAO.executeUpdateQuery(query.toString());
@@ -3163,33 +3163,33 @@ public class SalesLogic {
 
         StringBuilder query = new StringBuilder();
         query.append("MERGE M_SALES_PROJECTION AS TARGET\n"
-                + "	USING ( \n"
-                + "		SELECT PROJECTION_DETAILS_SID,\n"
-                + "		ACCOUNT_GROWTH,\n"
-                + "		PRODUCT_GROWTH,\n"
-                + "		PROJECTION_SALES,\n"
-                + "		PROJECTION_UNITS,\n"
-                + "		PERIOD_SID\n"
-                + "		FROM dbo.ST_M_SALES_PROJECTION\n"
-                + "		WHERE USER_ID=" + userId + " AND SESSION_ID=" + sessionId + "\n"
-                + "		) AS SOURCE \n"
-                + "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)\n"
-                + "		WHEN MATCHED \n"
-                + "		THEN \n"
-                + "		UPDATE SET \n"
-                + "		TARGET.ACCOUNT_GROWTH=SOURCE.ACCOUNT_GROWTH,\n"
-                + "		TARGET.PRODUCT_GROWTH=SOURCE.PRODUCT_GROWTH,\n"
-                + "		TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,\n"
-                + "		TARGET.PROJECTION_UNITS=SOURCE.PROJECTION_UNITS,\n"
-                + "		TARGET.PERIOD_SID=SOURCE.PERIOD_SID\n"
-                + "		WHEN NOT MATCHED BY TARGET\n"
-                + "		THEN \n"
-                + "		INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,\n"
-                + "		SOURCE.ACCOUNT_GROWTH,\n"
-                + "		SOURCE.PRODUCT_GROWTH,\n"
-                + "		SOURCE.PROJECTION_SALES,\n"
-                + "		SOURCE.PROJECTION_UNITS,\n"
-                + "		SOURCE.PERIOD_SID);");
+                ).append( "	USING ( \n"
+                ).append( "		SELECT PROJECTION_DETAILS_SID,\n"
+                ).append( "		ACCOUNT_GROWTH,\n"
+                ).append( "		PRODUCT_GROWTH,\n"
+                ).append( "		PROJECTION_SALES,\n"
+                ).append( "		PROJECTION_UNITS,\n"
+                ).append( "		PERIOD_SID\n"
+                ).append( "		FROM dbo.ST_M_SALES_PROJECTION\n"
+                ).append( "		WHERE USER_ID=" ).append( userId ).append( " AND SESSION_ID=" ).append( sessionId ).append( "\n"
+                ).append( "		) AS SOURCE \n"
+                ).append( "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)\n"
+                ).append( "		WHEN MATCHED \n"
+                ).append( "		THEN \n"
+                ).append( "		UPDATE SET \n"
+                ).append( "		TARGET.ACCOUNT_GROWTH=SOURCE.ACCOUNT_GROWTH,\n"
+                ).append( "		TARGET.PRODUCT_GROWTH=SOURCE.PRODUCT_GROWTH,\n"
+                ).append( "		TARGET.PROJECTION_SALES=SOURCE.PROJECTION_SALES,\n"
+                ).append( "		TARGET.PROJECTION_UNITS=SOURCE.PROJECTION_UNITS,\n"
+                ).append( "		TARGET.PERIOD_SID=SOURCE.PERIOD_SID\n"
+                ).append( "		WHEN NOT MATCHED BY TARGET\n"
+                ).append( "		THEN \n"
+                ).append( "		INSERT VALUES(SOURCE.PROJECTION_DETAILS_SID,\n"
+                ).append( "		SOURCE.ACCOUNT_GROWTH,\n"
+                ).append( "		SOURCE.PRODUCT_GROWTH,\n"
+                ).append( "		SOURCE.PROJECTION_SALES,\n"
+                ).append( "		SOURCE.PROJECTION_UNITS,\n"
+                ).append( "		SOURCE.PERIOD_SID);");
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         salesProjectionDAO.executeUpdateQuery(query.toString());
@@ -3503,9 +3503,9 @@ public class SalesLogic {
         int count = 0;
         try {
             if (isUpdate) {
-                queryBuilder.append(" Update ST_RETURNS_PROJ_MASTER SET CHECK_RECORD =" + checkValue + StringUtils.EMPTY);
+                queryBuilder.append(" Update ST_RETURNS_PROJ_MASTER SET CHECK_RECORD =" ).append( checkValue ).append( StringUtils.EMPTY);
                 if (StringUtils.isNotBlank(returnDetailsSid)) {
-                    queryBuilder.append(" WHERE  RETURNS_DETAILS_SID IN (" + returnDetailsSid + ")");
+                    queryBuilder.append(" WHERE  RETURNS_DETAILS_SID IN (" ).append( returnDetailsSid ).append( ")");
                 }
                 List list = salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), sessionDTO.getCurrentTableNames()));
                 if (!list.isEmpty()) {
@@ -3789,7 +3789,7 @@ public class SalesLogic {
         StringBuilder queryBuilder = new StringBuilder();
         try {
             if (isUpdate) {
-                queryBuilder.append(" Update ST_RETURNS_PROJ_MASTER SET CHECK_RECORD =" + checkValue + " ");
+                queryBuilder.append(" Update ST_RETURNS_PROJ_MASTER SET CHECK_RECORD =" ).append( checkValue ).append( " ");
                 salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), sessionDTO.getCurrentTableNames()));
             } else {
                 queryBuilder.append(" SELECT DISTINCT CHECK_RECORD from ST_RETURNS_PROJ_MASTER where  (CHECK_RECORD IS NOT NULL OR CHECK_RECORD <> '')");

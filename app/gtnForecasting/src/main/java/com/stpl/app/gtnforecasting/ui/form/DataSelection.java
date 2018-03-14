@@ -4284,7 +4284,7 @@ public class DataSelection extends ForecastDataSelection {
 		LOGGER.debug("updateDataSelectionSelectedProducts starts");
 		StringBuilder prodUpdateQuery = new StringBuilder();
 		prodUpdateQuery.append(" Delete FROM PROJECTION_PROD_HIERARCHY where PROJECTION_MASTER_SID="
-				+ session.getProjectionId() + "; ");
+				).append( session.getProjectionId() ).append( "; ");
 		HelperTableLocalServiceUtil.executeUpdateQuery(prodUpdateQuery.toString());
 		LOGGER.debug("updateDataSelectionSelectedProducts ends");
 	}
@@ -4312,7 +4312,7 @@ public class DataSelection extends ForecastDataSelection {
 					.replace("@PD_SID", CollectionToString));
 		}
 		queryBuilder
-				.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (" + CollectionToString + ")");
+				.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (" ).append( CollectionToString ).append( ")");
 
 		HelperTableLocalServiceUtil.executeUpdateQuery(queryBuilder.toString());
 	}

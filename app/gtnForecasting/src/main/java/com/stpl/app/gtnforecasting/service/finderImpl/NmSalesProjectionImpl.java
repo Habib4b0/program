@@ -129,9 +129,9 @@ public class NmSalesProjectionImpl {
                     queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID    \n   \n");
                     queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD     \n  \n");
                     queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID     \n \n");
-                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'    \n  \n");
+                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append( projectionId ).append( "'    \n  \n");
                     queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID     \n  \n");
-                    queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,     \n  \n");
+                    queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( "') CCPMAP,     \n  \n");
                     queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID    \n  \n");
                     queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1      \n \n");
 
@@ -145,7 +145,7 @@ public class NmSalesProjectionImpl {
 
                     }
                     queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID     \n  \n");
-                    queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'      \n \n");
+                    queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( "'      \n \n");
                     queryBuilder1.append(Constant.WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                     queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP    \n  \n");
                     queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in     \n  \n");
@@ -162,18 +162,18 @@ public class NmSalesProjectionImpl {
                     }
 
                     queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID      \n \n");
-                    queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'     \n  \n");
-                    queryBuilder1.append("   WHERE RLD2.LEVEL_NO='" + (levelNo) + "')) CCP    \n  \n");
+                    queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( "'     \n  \n");
+                    queryBuilder1.append("   WHERE RLD2.LEVEL_NO='" ).append(levelNo).append( "')) CCP    \n  \n");
 
                 } else {
 
-                    queryBuilder1.append("      JOIN    (SELECT distinct HLD" + (viewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (viewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
+                    queryBuilder1.append("      JOIN    (SELECT distinct HLD" ).append(viewType).append( Constant.RELATIONSHIP_LEVEL_SID_HLD ).append(viewType).append( Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
 
                     queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RLD);
 
                     queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
 
-                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     queryBuilder1.append("  ) CCPMAPC     \n");
 
@@ -183,7 +183,7 @@ public class NmSalesProjectionImpl {
 
                     queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
 
-                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     queryBuilder1.append("  ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID     \n");
 
@@ -210,29 +210,29 @@ public class NmSalesProjectionImpl {
 
                     queryBuilder1.append(" JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD      \n");
 
-                    queryBuilder1.append("  JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (customerLevel) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("  JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(customerLevel).append( Constant.SPACE_NEW_LINE);
 
                     queryBuilder1.append("  JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID     \n");
 
                     queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID      \n");
 
-                    queryBuilder1.append("  JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("  JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                    queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (custHier) + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'     \n");
+                    queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(custHier).append( "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'     \n");
 
                     queryBuilder1.append(" JOIN    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD      \n");
 
                     queryBuilder1.append("  JOIN dbo.CUSTOM_VIEW_MASTER CVM ON   \n");
 
-                    queryBuilder1.append("  CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (productLevel) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("  CVD.CUSTOM_VIEW_MASTER_SID='" ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(productLevel).append( Constant.SPACE_NEW_LINE);
 
                     queryBuilder1.append("  JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID   \n");
 
                     queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID   \n");
 
-                    queryBuilder1.append("  JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("  JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                    queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (prodHier) + "' ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'  \n");
+                    queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(prodHier).append( "' ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'  \n");
 
                     queryBuilder1.append("  ) CCP   \n");
 
@@ -253,25 +253,25 @@ public class NmSalesProjectionImpl {
                 queryBuilder1.append(Constant.JOIN_PERIOD_P);
                 queryBuilder1.append(Constant.ON_PERIOD_SID_NM_AC_PERIOD_SID);
 
-                queryBuilder1.append(Constant.WHERE_PD_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_DOUBLE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PD_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 if (!iscustom) {
-                    queryBuilder1.append(Constant.AND_RLD_LEVEL_NO + (levelNo) + "'          ");
+                    queryBuilder1.append(Constant.AND_RLD_LEVEL_NO ).append(levelNo).append( "'");
                 }
-                queryBuilder1.append("    AND nm_mas.USER_ID = '" + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + "' AND nm_ac.USER_ID  = '" + userid + Constant.AND_NM_AC_SESSION_ID + sessionId + Constant.SPACE_DOUBLE_NEW_LINE);
+                queryBuilder1.append(" AND nm_mas.USER_ID = '" ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( "' AND nm_ac.USER_ID  = '" ).append( userid ).append( Constant.AND_NM_AC_SESSION_ID ).append( sessionId ).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 if (!levelName.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append("    and RLD.PARENT_NODE= '" + (parentLevel) + "~" + levelName + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(" and RLD.PARENT_NODE= '" ).append(parentLevel).append( "~" ).append( levelName ).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }
                 
                 
                    if (!userGroup.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP + (userGroup) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP ).append(userGroup).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                     if (!baseLine.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS + (baseLine) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS ).append(baseLine ).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                      if (!methodology.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY + (methodology) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY ).append(methodology).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                    
@@ -303,11 +303,11 @@ public class NmSalesProjectionImpl {
                         queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                         queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                         queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                        queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append( projectionId ).append( Constant.SPACE_NEW_LINE);
 
 
                         queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                        queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                        queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append( projectionId ).append( Constant.CCP_MAP_NEW_LINE);
                         queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                         queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -321,7 +321,7 @@ public class NmSalesProjectionImpl {
 
                         }
                         queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                        queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                         queryBuilder1.append(Constant.WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                         queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                         queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -338,8 +338,8 @@ public class NmSalesProjectionImpl {
                         }
 
                         queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
-                        queryBuilder1.append("   WHERE RLD2.LEVEL_NO='" + (levelNo) + "')) CCP      \n");
+                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("   WHERE RLD2.LEVEL_NO='" ).append(levelNo).append( "')) CCP      \n");
 
                     } else {
 
@@ -364,13 +364,13 @@ public class NmSalesProjectionImpl {
                         }
                     }
 
-                        queryBuilder1.append("      JOIN    (SELECT distinct HLD"+(viewType)+Constant.RELATIONSHIP_LEVEL_SID_HLD+(viewType) +Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
+                        queryBuilder1.append("      JOIN    (SELECT distinct HLD").append(viewType).append(Constant.RELATIONSHIP_LEVEL_SID_HLD).append(viewType).append(Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
 
                         queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RLD);
 
                         queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
 
-                        queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                         queryBuilder1.append("  ) CCPMAPC     \n");
 
@@ -380,35 +380,35 @@ public class NmSalesProjectionImpl {
 
                         queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
 
-                        queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP_DET ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                         queryBuilder1.append("  ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID     \n");
 
                         queryBuilder1.append(" JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD      \n");
 
-                        queryBuilder1.append("  JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (customerLevel) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("  JOIN dbo.CUSTOM_VIEW_MASTER CVM ON CVD.CUSTOM_VIEW_MASTER_SID='" ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(customerLevel).append( Constant.SPACE_NEW_LINE);
 
                         queryBuilder1.append("  JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID     \n");
 
                         queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID      \n");
 
-                        queryBuilder1.append("  JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("  JOIN PROJECTION_CUST_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                        queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (custHier) + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'     \n");
+                        queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(custHier).append( "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'     \n");
 
                         queryBuilder1.append(" JOIN    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD      \n");
 
                         queryBuilder1.append("  JOIN dbo.CUSTOM_VIEW_MASTER CVM ON   \n");
 
-                        queryBuilder1.append("  CVD.CUSTOM_VIEW_MASTER_SID='" + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (productLevel) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("  CVD.CUSTOM_VIEW_MASTER_SID='" ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(productLevel).append( Constant.SPACE_NEW_LINE);
 
                         queryBuilder1.append("  JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON CVD.HIERARCHY_ID=HLD.HIERARCHY_LEVEL_DEFINITION_SID   \n");
 
                         queryBuilder1.append("  JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2 ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD2.HIERARCHY_LEVEL_DEFINITION_SID   \n");
 
-                        queryBuilder1.append("  JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("  JOIN PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                        queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (prodHier) + "' ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'  \n");
+                        queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(prodHier).append( "' ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'  \n");
 
                         queryBuilder1.append("  ) CCP   \n");
 
@@ -425,24 +425,24 @@ public class NmSalesProjectionImpl {
                     queryBuilder1.append(Constant.ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ);
                     queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                     queryBuilder1.append("  ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID    \n");
-                    queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PERIOD_SID_NM_SP_PERIOD + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PERIOD_SID_NM_SP_PERIOD ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                     if (!iscustom) {
-                        queryBuilder1.append(Constant.AND_RLD_LEVEL_NO + (levelNo) + "'          ");
+                        queryBuilder1.append(Constant.AND_RLD_LEVEL_NO ).append(levelNo).append( "'");
                     }
-                    queryBuilder1.append("    AND nm_mas.USER_ID = '" + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.AND_NM_SP_USER_ID + userid + Constant.AND_NM_SP_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("    AND nm_mas.USER_ID = '" ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
                     if (!levelName.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                        queryBuilder1.append("    and RLD.PARENT_NODE= '" + (parentLevel) + "~" + levelName + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("    and RLD.PARENT_NODE= '" ).append( (parentLevel) ).append( "~" ).append( levelName ).append( Constant.SPACE_NEW_LINE);
                     }
                     
                        if (!userGroup.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP + (userGroup) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP ).append(userGroup).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                     if (!baseLine.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS + (baseLine) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS ).append(baseLine).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                      if (!methodology.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY + (methodology) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY ).append(methodology).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                      
                     
@@ -473,11 +473,11 @@ public class NmSalesProjectionImpl {
 
                 if (growth.equals("proGrowth")) {
 
-                    queryBuilder1.append(" PRODUCT_GROWTH='" + (value) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(" PRODUCT_GROWTH='" ).append(value).append( Constant.SPACE_NEW_LINE);
 
                 } else if (growth.equals("accGrowth")) {
 
-                    queryBuilder1.append(" ACCOUNT_GROWTH='" + (value) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(" ACCOUNT_GROWTH='" ).append(value).append( Constant.SPACE_NEW_LINE);
 
                 }
                 queryBuilder1.append("  where PROJECTION_DETAILS_SID   in ( \n");
@@ -488,15 +488,15 @@ public class NmSalesProjectionImpl {
 
                 queryBuilder1.append("   FROM ST_NM_SALES_PROJECTION_MASTER SPM \n");
 
-                queryBuilder1.append("   WHERE  SPM.CHECK_RECORD= 1 AND SPM.USER_ID = '" + userid + "' AND SPM.SESSION_ID = '" + sessionId + "' ) AND  \n");
+                queryBuilder1.append("   WHERE  SPM.CHECK_RECORD= 1 AND SPM.USER_ID = '" ).append( userid ).append( "' AND SPM.SESSION_ID = '" ).append( sessionId ).append( "' ) AND  \n");
              
                 queryBuilder1.append("    PERIOD_SID in (SELECT PERIOD_SID FROM \"PERIOD\"  where PERIOD_SID in  \n");
 
-                queryBuilder1.append("   (SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" >= " + (startYear) + " and \"YEAR\" <= " + (endYear) + "   \n");
+                queryBuilder1.append("   (SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" >= " ).append(startYear).append( " and \"YEAR\" <= " ).append(endYear ).append( "   \n");
 
-                queryBuilder1.append("   And PERIOD_SID not in(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" = " + (startYear) + " and QUARTER <" + (startQuator) + ")  \n");
+                queryBuilder1.append("   And PERIOD_SID not in(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" = " ).append(startYear).append( " and QUARTER <" ).append(startQuator).append( ")  \n");
 
-                queryBuilder1.append("   and PERIOD_SID not in(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" = " + (endYear) + " and QUARTER > " + (endQuartor) + " )))  AND USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   and PERIOD_SID not in(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" = " ).append(endYear).append( " and QUARTER > " ).append(endQuartor).append( " )))  AND USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
             
             } else if (method.equals("saveCheckRecords")) {
@@ -536,11 +536,11 @@ public class NmSalesProjectionImpl {
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
 
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -554,9 +554,9 @@ public class NmSalesProjectionImpl {
 
                 }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 if (!checkAll) {
-                    queryBuilder1.append("    " + hierarchyNos + Constant.NEW_LINE);
+                    queryBuilder1.append( " " ).append( hierarchyNos ).append( Constant.NEW_LINE);
                 }
                 queryBuilder1.append(Constant.HLD_WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -573,8 +573,8 @@ public class NmSalesProjectionImpl {
                 }
 
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(" ) ) )  AND USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(" ) ) )  AND USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
             } else if (method.equals("saveBfrCalculation")) {
                  boolean custom=(Boolean)inputs[7];
@@ -590,7 +590,7 @@ if(!custom){
                 String userid = (String) inputs[9];
                 String sessionId = (String) inputs[10];
                
-                queryBuilder1.append("   UPDATE ST_NM_SALES_PROJECTION_MASTER  SET METHODOLOGY='" + methodology + "' ,CALCULATION_PERIODS='" + calcPeriods + "',CALCULATION_BASED='" + calcBased + "'  WHERE  PROJECTION_DETAILS_SID \n");
+                queryBuilder1.append("   UPDATE ST_NM_SALES_PROJECTION_MASTER  SET METHODOLOGY='" ).append( methodology ).append( "' ,CALCULATION_PERIODS='" ).append( calcPeriods ).append( "',CALCULATION_BASED='" ).append( calcBased ).append( "'  WHERE  PROJECTION_DETAILS_SID \n");
                 queryBuilder1.append(Constant.IN_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_PROJECTION_DETAILS_SID_FROM_PROJ_DETAILS);
                  queryBuilder1.append(Constant.SELECT_LCCP_DETAILS_SID_FROM);
@@ -598,9 +598,9 @@ if(!custom){
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
                 if (viewType.equals("C")) {
@@ -609,8 +609,8 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PCH);
                   }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.BLANK_QUOTES + hierarchyNos + Constant.HLD_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.BLANK_QUOTES ).append( hierarchyNos ).append( Constant.HLD_NEW_LINE);
                 queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
                 queryBuilder1.append(Constant.SELECT_RL_D2_HIERARCHY_NO);
@@ -621,8 +621,8 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PCH2);
                  }
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
-                 queryBuilder1.append("   ) ) ) AND USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + "' AND  CHECK_RECORD=1 \n");
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append( (projectionId) ).append( Constant.SPACE_NEW_LINE);
+                 queryBuilder1.append("   ) ) ) AND USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( "' AND  CHECK_RECORD=1 \n");
 }else{
 
                         
@@ -668,42 +668,42 @@ if(!custom){
               }
               
               
-                queryBuilder1.append("   UPDATE ST_NM_SALES_PROJECTION_MASTER  SET METHODOLOGY='" + methodology + "' ,CALCULATION_PERIODS='" + calcPeriods + "',CALCULATION_BASED='" + calcBased + "'   WHERE  PROJECTION_DETAILS_SID \n");
+                queryBuilder1.append("   UPDATE ST_NM_SALES_PROJECTION_MASTER  SET METHODOLOGY='" ).append( methodology ).append( "' ,CALCULATION_PERIODS='" ).append( calcPeriods ).append( "',CALCULATION_BASED='" ).append( calcBased ).append( "'   WHERE  PROJECTION_DETAILS_SID \n");
                 queryBuilder1.append(Constant.IN_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_DISTINCT_PD_PROJECTION_DETAILS);
                 queryBuilder1.append(Constant.FROM_PROJECTION_DETAILS_PD);
-                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD + (parentViewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (parentViewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
+                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD ).append(parentViewType).append( Constant.RELATIONSHIP_LEVEL_SID_HLD ).append(parentViewType).append( Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.CCP_MAP);
                 queryBuilder1.append(" JOIN \n");
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.CCP_MAP_ON_CCP_MAP_CCP_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD);
-                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (customerLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(customerLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (custHier) + Constant.HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(custHier).append( Constant.HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD_REL_LEVEL);
                 queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON);
-                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (productLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(productLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RLD2_HIERARCHY_NO_LIKE + (prodHier) + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RLD2_HIERARCHY_NO_LIKE ).append(prodHier).append( Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.CCP_NEW_LINE);
                 queryBuilder1.append(Constant.ON_CCP_DETAILS_SI_DPD_CCP_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD_JOIN_NM_SALES_PROJ);
                 queryBuilder1.append(Constant.ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                 queryBuilder1.append(Constant.ON_NM_MAS_PROJECTION_DETAILS_SID_NM_SP);
-                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.AND_NM_SP_USER_ID + userid + Constant.AND_NM_SP_SESSION_ID + sessionId + Constant.AND_RLD_HIERARCHY_NO + hierarchyNo + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID + userid + Constant.COLON_AND_SESSION_ID + sessionId + "' AND  CHECK_RECORD=1   \n");
+                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO ).append( hierarchyNo ).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( "' AND  CHECK_RECORD=1   \n");
 
 }
                 
@@ -723,9 +723,9 @@ if(!custom){
                 String viewType = (String) inputs[9];
                 String userid = (String) inputs[10];
                 String sessionId = (String) inputs[11];
-                queryBuilder1.append("  UPDATE ST_NM_SALES_PROJECTION  SET ADJUSTMENT_TYPE='" + adjType + "',ADJUSTMENT_VALUES='" + adjVal + "', \n");
+                queryBuilder1.append("  UPDATE ST_NM_SALES_PROJECTION  SET ADJUSTMENT_TYPE='" ).append( adjType ).append( "',ADJUSTMENT_VALUES='" ).append( adjVal ).append( "', \n");
 
-                queryBuilder1.append("  ADJUSTMENT_BASIS='" + adjBasis + "',ADJUSTMENT_VARIABLE='" + adsVar + "',ADJUSTMENT_METHODOLOGY='" + adsMeth + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("  ADJUSTMENT_BASIS='" ).append( adjBasis ).append( "',ADJUSTMENT_VARIABLE='" ).append( adsVar ).append( "',ADJUSTMENT_METHODOLOGY='" ).append( adsMeth ).append( Constant.SPACE_NEW_LINE);
 
                 queryBuilder1.append("  where PROJECTION_DETAILS_SID  \n");
 
@@ -738,10 +738,10 @@ if(!custom){
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -755,8 +755,8 @@ if(!custom){
 
                 }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append("   " + hierarchyNos + Constant.HLD_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(" " ).append( hierarchyNos ).append( Constant.HLD_NEW_LINE);
                 queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
                 queryBuilder1.append(Constant.SELECT_RL_D2_HIERARCHY_NO);
@@ -772,10 +772,10 @@ if(!custom){
                 }
 
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                queryBuilder1.append("  )) ) AND USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
-}else{
+                queryBuilder1.append("  )) ) AND USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
+            }else{
                   
                 String projectionId = String.valueOf(inputs[0]);
                 int levelNo = Integer.parseInt(String.valueOf(inputs[1]));
@@ -820,54 +820,54 @@ if(!custom){
               }
               
               
-                queryBuilder1.append("  UPDATE ST_NM_SALES_PROJECTION  SET ADJUSTMENT_TYPE='" + adjType + "',ADJUSTMENT_VALUES='" + adjVal + "', \n");
+                queryBuilder1.append("  UPDATE ST_NM_SALES_PROJECTION  SET ADJUSTMENT_TYPE='" ).append( adjType ).append( "',ADJUSTMENT_VALUES='" ).append( adjVal ).append( "', \n");
 
-                queryBuilder1.append("  ADJUSTMENT_BASIS='" + adjBasis + "',ADJUSTMENT_VARIABLE='" + adsVar + "',ADJUSTMENT_METHODOLOGY='" + adsMeth + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("  ADJUSTMENT_BASIS='" ).append( adjBasis ).append( "',ADJUSTMENT_VARIABLE='" ).append( adsVar ).append( "',ADJUSTMENT_METHODOLOGY='" ).append( adsMeth ).append( Constant.SPACE_NEW_LINE);
 
                 queryBuilder1.append("  where PROJECTION_DETAILS_SID  \n");
                 queryBuilder1.append(Constant.IN_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_DISTINCT_PD_PROJECTION_DETAILS);
                 queryBuilder1.append(Constant.FROM_PROJECTION_DETAILS_PD);
-                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD + (parentViewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (parentViewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
+                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD ).append(parentViewType).append( Constant.RELATIONSHIP_LEVEL_SID_HLD ).append(parentViewType).append( Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.CCP_MAP);
                 queryBuilder1.append(" JOIN \n");
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.CCP_MAP_ON_CCP_MAP_CCP_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD);
-                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (customerLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(customerLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (custHier) + Constant.HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(custHier).append( Constant.HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD_REL_LEVEL);
                 queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON);
-                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (productLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(productLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RLD2_HIERARCHY_NO_LIKE + (prodHier) + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RLD2_HIERARCHY_NO_LIKE ).append(prodHier).append( Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.CCP_NEW_LINE);
                 queryBuilder1.append(Constant.ON_CCP_DETAILS_SI_DPD_CCP_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD_JOIN_NM_SALES_PROJ);
                 queryBuilder1.append(Constant.ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                 queryBuilder1.append(Constant.ON_NM_MAS_PROJECTION_DETAILS_SID_NM_SP);
-                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.AND_NM_SP_USER_ID + userid + Constant.AND_NM_SP_SESSION_ID + sessionId + Constant.AND_RLD_HIERARCHY_NO+hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO).append(hierarchyNo+Constant.SPACE_NEW_LINE);
 
-               queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+               queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
 }
             } else if (method.equals("getProjDetailSid")) {
 
                 String projectionId = String.valueOf(inputs[0]);
 
-                queryBuilder1.append("  SELECT PROJECTION_DETAILS_SID FROM  PROJECTION_DETAILS WHERE PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("  SELECT PROJECTION_DETAILS_SID FROM  PROJECTION_DETAILS WHERE PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
             } else if (method.equals("getLevelFilterValues")) {
 
@@ -896,18 +896,18 @@ if(!custom){
                 queryBuilder1.append("             RLD.HIERARCHY_NO,    \n");
                 queryBuilder1.append("                     CCP.CCP_DETAILS_SID    \n");
                 queryBuilder1.append("                FROM   RELATIONSHIP_LEVEL_DEFINITION RLD    \n");
-                queryBuilder1.append("           JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID  AND RLD.RELATIONSHIP_BUILDER_SID="+relationshipBuilderSid+"  \n");
-                queryBuilder1.append("            JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " + projectionId + "    \n");
+                queryBuilder1.append("           JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID  AND RLD.RELATIONSHIP_BUILDER_SID=").append(relationshipBuilderSid).append("  \n");
+                queryBuilder1.append("            JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " ).append( projectionId ).append( "    \n");
                 queryBuilder1.append("              JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID    \n");
-                queryBuilder1.append("          WHERE  PM.PROJECTION_MASTER_SID = " + projectionId + ") CCPMAP,    \n");
+                queryBuilder1.append("          WHERE  PM.PROJECTION_MASTER_SID = " ).append( projectionId ).append( ") CCPMAP,    \n");
                 queryBuilder1.append("            (SELECT RLD1.HIERARCHY_NO,    \n");
                 queryBuilder1.append("                      RLD1.RELATIONSHIP_LEVEL_SID,    \n");
                 queryBuilder1.append("                RLD1.RELATIONSHIP_LEVEL_VALUES,    \n");
                 queryBuilder1.append("                 RLD1.LEVEL_NO,    \n");
                 queryBuilder1.append("              RLD1.LEVEL_NAME    \n");
                 queryBuilder1.append("          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1    \n");
-                queryBuilder1.append("          JOIN   " + hierarchy + "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID    \n");
-                queryBuilder1.append("                 AND PCH.PROJECTION_MASTER_SID = " + projectionId + "    \n");
+                queryBuilder1.append("          JOIN   " ).append( hierarchy ).append( "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID    \n");
+                queryBuilder1.append("                 AND PCH.PROJECTION_MASTER_SID = " ).append( projectionId ).append( "    \n");
                 queryBuilder1.append("   WHERE  RLD1.HIERARCHY_NO LIKE '%' ) HLD    \n");
                 queryBuilder1.append("                   WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' order By HLD.HIERARCHY_NO    \n");
   
@@ -981,9 +981,9 @@ if(!custom){
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -997,7 +997,7 @@ if(!custom){
 
                 }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -1014,7 +1014,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("  )) CCP      \n");
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID       \n");
                 queryBuilder1.append("    JOIN RELATIONSHIP_LEVEL_DEFINITION rld   ON CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID  \n");
@@ -1025,19 +1025,19 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_PERIOD_P);
                 queryBuilder1.append(Constant.ON_PERIOD_SID_NM_AC_PERIOD_SID);
 
-                queryBuilder1.append(Constant.WHERE_PD_PROJECTION_MASTER_SID + (projectionId) + Constant.AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PD_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
-                queryBuilder1.append(Constant.AND_RLD_LEVEL_NO + (hierarchyNo.trim()) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_RLD_LEVEL_NO ).append( hierarchyNo.trim() ).append( Constant.SPACE_NEW_LINE);
                    
                    if (!userGroup.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP + (userGroup) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP ).append( userGroup).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                     if (!baseLine.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS + (baseLine) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS ).append( (baseLine) ).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                      if (!methodology.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY + (methodology) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY ).append(methodology ).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                     
                 if (!count) {
@@ -1066,10 +1066,10 @@ if(!custom){
                     queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                     queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                     queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                    queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                    queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                     queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                     queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -1083,7 +1083,7 @@ if(!custom){
 
                     }
                     queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                    queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                     queryBuilder1.append(Constant.WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                     queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                     queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -1095,14 +1095,14 @@ if(!custom){
 
                         queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
 
-                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     } else if (viewType.equals("P")) {
 
                         queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PCH2);
                         queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
 
-                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     } else {
                         queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH   ON PCH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID    \n");
@@ -1113,9 +1113,9 @@ if(!custom){
 
                         queryBuilder1.append("   ON PPH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                        queryBuilder1.append("   AND PPH.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("   AND PPH.PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     }
 
@@ -1126,19 +1126,19 @@ if(!custom){
                     queryBuilder1.append(Constant.ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ);
                     queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                     queryBuilder1.append("  ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID   AND nm_sp.PROJECTION_DETAILS_SID=nm_mas.PROJECTION_DETAILS_SID  AND nm_mas.USER_ID = nm_sp.USER_ID AND nm_mas.SESSION_ID = nm_sp.SESSION_ID    \n");
-                    queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PERIOD_SID_NM_SP_PERIOD + (projectionId) + "' AND nm_mas.USER_ID = '" + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PERIOD_SID_NM_SP_PERIOD ).append(projectionId).append( "' AND nm_mas.USER_ID = '" ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
-                    queryBuilder1.append(Constant.AND_RLD_LEVEL_NO + (hierarchyNo.trim()) + Constant.AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_RLD_LEVEL_NO ).append(hierarchyNo.trim()).append( Constant.AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
                           if (!userGroup.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP + (userGroup) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP ).append(userGroup).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                     if (!baseLine.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS + (baseLine) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS ).append(baseLine).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                      if (!methodology.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY + (methodology) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY ).append(methodology).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                     
@@ -1163,7 +1163,7 @@ if(!custom){
                 
                 String userid = (String) inputs[4];
                 String sessionId = (String) inputs[5];
-                queryBuilder1.append("    select PROJECTION_DETAILS_SID from ST_NM_SALES_PROJECTION_MASTER where  CHECK_RECORD='1' and  USER_ID= '" + userid + "' and SESSION_ID='" + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("    select PROJECTION_DETAILS_SID from ST_NM_SALES_PROJECTION_MASTER where  CHECK_RECORD='1' and  USER_ID= '" ).append( userid ).append( "' and SESSION_ID='" ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
 
             } else if (method.equals("getCCPIds")) {
@@ -1196,17 +1196,17 @@ if(!custom){
 
                 queryBuilder1.append("       UPDATE ST_NM_SALES_PROJECTION SET   \n ");
                 if (tempValue.equals(Constants.SALES_CAPS)) {
-                    queryBuilder1.append("  PROJECTION_SALES='" + calculatedValue + "' ,PROJECTION_UNITS='0.0'   \n");
+                    queryBuilder1.append("  PROJECTION_SALES='" ).append( calculatedValue ).append( "' ,PROJECTION_UNITS='0.0'   \n");
 
                 } else {
-                    queryBuilder1.append("  PROJECTION_SALES='0.0' ,PROJECTION_UNITS='" + calculatedValue + "' \n ");
+                    queryBuilder1.append("  PROJECTION_SALES='0.0' ,PROJECTION_UNITS='" ).append( calculatedValue ).append( "' \n ");
 
                 }
                 queryBuilder1.append(" where  PERIOD_SID in (SELECT PERIOD_SID FROM \"PERIOD\"  where PERIOD_SID in   \n  ");
 
-                queryBuilder1.append("   (SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" >= '" + annual + "'  \n ");
-                queryBuilder1.append("     And PERIOD_SID not in(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" <=  '" + annual + "' and QUARTER < '" + startQuator + "') \n ");
-                queryBuilder1.append("   )) and PROJECTION_DETAILS_SID='" + projectionDetailsId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   (SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" >= '" ).append( annual ).append( "'  \n ");
+                queryBuilder1.append("     And PERIOD_SID not in(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" <=  '" ).append( annual ).append( "' and QUARTER < '" ).append( startQuator ).append( "') \n ");
+                queryBuilder1.append("   )) and PROJECTION_DETAILS_SID='" ).append( projectionDetailsId ).append( Constant.SPACE_NEW_LINE);
 
             } else if (method.equals("pmpyLoadCH")) {
                 int projectionId = (Integer) inputs[0];
@@ -1218,7 +1218,7 @@ if(!custom){
    queryBuilder1.append(" JOIN CCP_MAP CCPMAP on CCPMAP.CCP_DETAILS_SID=CCPD.CCP_DETAILS_SID    ");
    queryBuilder1.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_LEVEL_SID=CCPMAP.RELATIONSHIP_LEVEL_SID    ");
    queryBuilder1.append(" JOIN RELATIONSHIP_BUILDER RB on RB.RELATIONSHIP_BUILDER_SID=RLD.RELATIONSHIP_BUILDER_SID    ");
-   queryBuilder1.append(" JOIN PROJECTION_MASTER PM on PM.CUSTOMER_HIERARCHY_SID=RB.HIERARCHY_DEFINITION_SID where PM.PROJECTION_MASTER_SID='" + (projectionId) + "' and CM.COMPANY_NAME!='" + (tempValue) + "'  ");
+   queryBuilder1.append(" JOIN PROJECTION_MASTER PM on PM.CUSTOMER_HIERARCHY_SID=RB.HIERARCHY_DEFINITION_SID where PM.PROJECTION_MASTER_SID='" ).append(projectionId).append( "' and CM.COMPANY_NAME!='" ).append(tempValue).append( "'  ");
 
             } else if (method.equals("pmpyProDetailId")) {
                 int projectionId = (Integer) inputs[0];
@@ -1228,7 +1228,7 @@ if(!custom){
 
                 queryBuilder1.append("    Join dbo.CCP_DETAILS CCP on  CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID  \n  ");
 
-                queryBuilder1.append("    where PD.PROJECTION_MASTER_SID='" + (projectionId) + "'   \n  ");
+                queryBuilder1.append("    where PD.PROJECTION_MASTER_SID='" ).append(projectionId).append( "'   \n  ");
 
                 queryBuilder1.append("    Group by CCP.ITEM_MASTER_SID  \n  ");
                 
@@ -1242,10 +1242,10 @@ if(!custom){
                queryBuilder1.append("  select TEMP.TEMP_INDEX from(SELECT RLD.HIERARCHY_NO, RLD.RELATIONSHIP_LEVEL_VALUES, \n  ");
                queryBuilder1.append("   ROW_NUMBER() OVER (ORDER BY RLD.RELATIONSHIP_LEVEL_VALUES ASC) AS TEMP_INDEX\n  ");
                  queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD \n  ");
-                 queryBuilder1.append("   JOIN "+CommonUtils.getViewTableName(hierarchy)+" PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n  ");
-                 queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID = "+projectionId+"\n  ");
-                 queryBuilder1.append("   WHERE RLD.HIERARCHY_NO LIKE '"+hierarchyNo+"%' and RLD.LEVEL_NO = "+(selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length()+1)+") \n  ");
-                 queryBuilder1.append("   TEMP where TEMP.HIERARCHY_NO='"+selectedHiearchyNo+"' \n  ");
+                 queryBuilder1.append("   JOIN ").append(CommonUtils.getViewTableName(hierarchy)).append(" PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n  ");
+                 queryBuilder1.append("   AND PCH.PROJECTION_MASTER_SID = ").append(projectionId).append("\n  ");
+                 queryBuilder1.append("   WHERE RLD.HIERARCHY_NO LIKE '").append(hierarchyNo).append("%' and RLD.LEVEL_NO = ").append((selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", "").length()+1)).append(") \n  ");
+                 queryBuilder1.append("   TEMP where TEMP.HIERARCHY_NO='").append(selectedHiearchyNo).append("' \n  ");
                     
               }else if(method.equals("getCount")){
                 int projectionId = (Integer) inputs[0];
@@ -1264,7 +1264,7 @@ if(!custom){
                 queryBuilder1.append("                 FROM   RELATIONSHIP_LEVEL_DEFINITION RLD    \n");
                 queryBuilder1.append("               JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID    \n");
                 queryBuilder1.append("              JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID    \n");
-                queryBuilder1.append("                           AND PD.PROJECTION_MASTER_SID =  '" + projectionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("                           AND PD.PROJECTION_MASTER_SID =  '" ).append( projectionId ).append( Constant.SPACE_NEW_LINE);
                  if (viewType.equals("C")) {
 
                         queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PCH);
@@ -1276,7 +1276,7 @@ if(!custom){
                     }
                 
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID   ");
-                queryBuilder1.append("                     AND PCH.PROJECTION_MASTER_SID= '" + projectionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("                     AND PCH.PROJECTION_MASTER_SID= '" ).append( projectionId ).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("             ) CCPMAP JOIN    \n");
                 queryBuilder1.append("            (SELECT RLD1.HIERARCHY_NO,    \n");
                 queryBuilder1.append("                   RLD1.RELATIONSHIP_LEVEL_SID,    \n");
@@ -1294,9 +1294,9 @@ if(!custom){
 
                     }
                  
-                queryBuilder1.append("           ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID   AND PCH.PROJECTION_MASTER_SID =   '" + projectionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("           ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID   AND PCH.PROJECTION_MASTER_SID =   '" ).append( projectionId ).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("             AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%'    \n");
-                queryBuilder1.append("   WHERE  HLD.LEVEL_NO ='"+levelNo+"'   )CCP  \n");
+                queryBuilder1.append("   WHERE  HLD.LEVEL_NO ='").append(levelNo).append("'   )CCP  \n");
 
                 
                 
@@ -1345,10 +1345,10 @@ if(!custom){
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -1362,7 +1362,7 @@ if(!custom){
 
                 }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -1379,7 +1379,7 @@ if(!custom){
                 }
 
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("  )) CCP      \n");
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID AND CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID      \n");
 
@@ -1390,19 +1390,19 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_PERIOD_P);
                 queryBuilder1.append(Constant.ON_PERIOD_SID_NM_AC_PERIOD_SID);
 
-                queryBuilder1.append(Constant.WHERE_PD_PROJECTION_MASTER_SID + (projectionId) + Constant.AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PD_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
-                queryBuilder1.append("    and rld.HIERARCHY_NO in (" + (hierarchyNo) + ")   \n");
+                queryBuilder1.append("    and rld.HIERARCHY_NO in (" ).append(hierarchyNo).append( ")   \n");
 
                      if (!userGroup.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP + (userGroup) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP ).append(userGroup).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                     if (!baseLine.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS + (baseLine) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS ).append(baseLine).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                      if (!methodology.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY + (methodology) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY ).append(methodology).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                   
@@ -1438,10 +1438,10 @@ if(!custom){
                     queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                     queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                     queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                    queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                    queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                     queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                     queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -1455,7 +1455,7 @@ if(!custom){
 
                     }
                     queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                    queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                     queryBuilder1.append(Constant.WHERE_RL_D1_HIERARCHY_NO_LIKE_HLD);
                     queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                     queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -1467,14 +1467,14 @@ if(!custom){
 
                         queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
 
-                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     } else if (viewType.equals("P")) {
 
                         queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PCH2);
                         queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
 
-                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     } else {
                         queryBuilder1.append("    JOIN PROJECTION_CUST_HIERARCHY PCH   ON PCH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID    \n");
@@ -1485,9 +1485,9 @@ if(!custom){
 
                         queryBuilder1.append("   ON PPH.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
 
-                        queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                        queryBuilder1.append("   AND PPH.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("   AND PPH.PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                     }
 
@@ -1498,19 +1498,19 @@ if(!custom){
                     queryBuilder1.append(Constant.ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ);
                     queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                     queryBuilder1.append("  ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID   AND nm_sp.PROJECTION_DETAILS_SID=nm_mas.PROJECTION_DETAILS_SID  AND nm_mas.USER_ID = nm_sp.USER_ID AND nm_mas.SESSION_ID = nm_sp.SESSION_ID    \n");
-                    queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PERIOD_SID_NM_SP_PERIOD + (projectionId) + "' AND nm_mas.USER_ID = '" + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PERIOD_SID_NM_SP_PERIOD ).append(projectionId ).append( "' AND nm_mas.USER_ID = '" ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
-                    queryBuilder1.append("   and rld.HIERARCHY_NO in (" + (hierarchyNo) + ")  AND nm_mas.USER_ID = '" + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("   and rld.HIERARCHY_NO in (" ).append(hierarchyNo).append( ")  AND nm_mas.USER_ID = '" ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
                          if (!userGroup.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP + (userGroup) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_USER_GROUP ).append(userGroup).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                     if (!baseLine.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS + (baseLine) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_CALCULATION_PERIODS ).append(baseLine).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                      if (!methodology.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY + (methodology) + Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(Constant.AND_NM_MAS_METHODOLOGY ).append(methodology).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }     
                    
                        
@@ -1535,7 +1535,7 @@ if(!custom){
                 
                 
                 
-                queryBuilder1.append("   UPDATE ST_NM_SALES_PROJECTION_MASTER  SET USER_GROUP='" + value + "'  WHERE  PROJECTION_DETAILS_SID \n");
+                queryBuilder1.append("   UPDATE ST_NM_SALES_PROJECTION_MASTER  SET USER_GROUP='" ).append( value ).append( "'  WHERE  PROJECTION_DETAILS_SID \n");
                 queryBuilder1.append(Constant.IN_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_PROJECTION_DETAILS_SID_FROM_PROJ_DETAILS);
 
@@ -1544,10 +1544,10 @@ if(!custom){
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId ).append( Constant.SPACE_NEW_LINE);
 
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -1561,8 +1561,8 @@ if(!custom){
 
                 }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.BLANK_QUOTES + hierarchyNos + Constant.HLD_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.BLANK_QUOTES ).append( hierarchyNos ).append( Constant.HLD_NEW_LINE);
                 queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
                 queryBuilder1.append(Constant.SELECT_RL_D2_HIERARCHY_NO);
@@ -1578,9 +1578,9 @@ if(!custom){
                 }
 
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                queryBuilder1.append("    )) ) AND USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("    )) ) AND USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
             }  else if(method.equals("loadGroupValues")){
                 String sessionId = (String) inputs[1];
@@ -1588,11 +1588,11 @@ if(!custom){
                  String attribute = (String) inputs[3];
 
                  if(attribute.equals("group")){
-                queryBuilder1.append("   select distinct USER_GROUP from ST_NM_SALES_PROJECTION_MASTER where  USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   select distinct USER_GROUP from ST_NM_SALES_PROJECTION_MASTER where  USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
                  }else if(attribute.equals("methodology")){
-                queryBuilder1.append("   select distinct METHODOLOGY from ST_NM_SALES_PROJECTION_MASTER where  USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   select distinct METHODOLOGY from ST_NM_SALES_PROJECTION_MASTER where  USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
                  }else if(attribute.equals("baseline")){
-                queryBuilder1.append("   select distinct CALCULATION_PERIODS from ST_NM_SALES_PROJECTION_MASTER where  USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   select distinct CALCULATION_PERIODS from ST_NM_SALES_PROJECTION_MASTER where  USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
                  }
             }else if(method.equals("updateByHierarchyNo")){
               
@@ -1620,14 +1620,14 @@ if(!custom){
 
                 queryBuilder1.append("  in ( ");
 
-                queryBuilder1.append("  SELECT PROJECTION_DETAILS_SID FROM PROJECTION_DETAILS WHERE  PROJECTION_MASTER_SID='" + (projectionId) + "' AND CCP_DETAILS_SID IN  ");
+                queryBuilder1.append("  SELECT PROJECTION_DETAILS_SID FROM PROJECTION_DETAILS WHERE  PROJECTION_MASTER_SID='" ).append(projectionId).append( "' AND CCP_DETAILS_SID IN  ");
 
                 queryBuilder1.append("   (SELECT LCCP.CCP_DETAILS_SID from       ");
                 queryBuilder1.append("   (SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from       ");
                 queryBuilder1.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       ");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       ");
                 queryBuilder1.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      ");
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + "'      ");
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( "'      ");
 
                 if (viewType.equals("C")) {
 
@@ -1640,7 +1640,7 @@ if(!custom){
                 }
                 queryBuilder1.append("  ON  RLD.RELATIONSHIP_LEVEL_SID=PCH1.RELATIONSHIP_LEVEL_SID  ");
                 queryBuilder1.append("   JOIN PROJECTION_MASTER PM  ON PCH1.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       ");
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "') CCPMAP,       ");
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( "') CCPMAP,       ");
                 queryBuilder1.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      ");
                 queryBuilder1.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       ");
 
@@ -1654,8 +1654,8 @@ if(!custom){
 
                 }
                 queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       ");
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + "'       ");
-                queryBuilder1.append("    "+tempHierarchyNos+" ) HLD      ");
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( "'       ");
+                queryBuilder1.append("    ").append(tempHierarchyNos).append(" ) HLD      ");
                 queryBuilder1.append("   WHERE CCPMAP.HIERARCHY_NO like concat(HLD.HIERARCHY_NO,'%') ) LCCP      ");
                 queryBuilder1.append("   WHERE LCCP.HIERARCHY_NO in       ");
                 queryBuilder1.append("   (SELECT RLD2.HIERARCHY_NO       ");
@@ -1672,10 +1672,10 @@ if(!custom){
                 }
 
                 queryBuilder1.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       ");
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + "'       ");
-                queryBuilder1.append("   WHERE RLD2.HIERARCHY_NO in ("+hierarchyNos+"))       ");
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( "'       ");
+                queryBuilder1.append("   WHERE RLD2.HIERARCHY_NO in (").append(hierarchyNos).append("))       ");
 
-                queryBuilder1.append(" ) ) AND USER_ID = '" + userid + "'  AND SESSION_ID ='" +sessionId+ "' ");
+                queryBuilder1.append(" ) ) AND USER_ID = '" ).append( userid ).append( "'  AND SESSION_ID ='" ).append(sessionId).append( "' ");
             
             
             }else if(method.equals("updateByDetailsId")){
@@ -1687,7 +1687,7 @@ if(!custom){
           
                queryBuilder1.append("  UPDATE ST_NM_SALES_PROJECTION_MASTER SET CHECK_RECORD='1' ");
             
-               queryBuilder1.append("  where PROJECTION_DETAILS_SID in ("+detailsId+")   AND USER_ID = '" + userid + "'  AND SESSION_ID ='" +sessionId + "'  ");
+               queryBuilder1.append("  where PROJECTION_DETAILS_SID in (").append(detailsId).append(")   AND USER_ID = '" ).append( userid ).append( "'  AND SESSION_ID ='" ).append(sessionId ).append( "'  ");
             
             
             
@@ -1711,11 +1711,11 @@ if(!custom){
 
    queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
 
-    queryBuilder1.append(" JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+    queryBuilder1.append(" JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" ).append( projectionId ).append( Constant.SPACE_NEW_LINE);
 
    queryBuilder1.append("  JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID     \n");
 
-  queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + "' ) CCPMAP,     \n");
+  queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( "' ) CCPMAP,     \n");
 
    queryBuilder1.append("  (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID     \n");
 
@@ -1725,9 +1725,9 @@ if(!custom){
 
   queryBuilder1.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID     \n");
 
-   queryBuilder1.append("  AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+   queryBuilder1.append("  AND PCH.PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-   queryBuilder1.append("  "+hierarchyNos+" ) HLD     \n");
+   queryBuilder1.append("  ").append(hierarchyNos).append(" ) HLD     \n");
    
    queryBuilder1.append("  WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP     \n");
 
@@ -1741,7 +1741,7 @@ if(!custom){
 
    queryBuilder1.append("  ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID     \n");
 
-   queryBuilder1.append("  AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + Constant.SPACE_NEW_LINE);
+   queryBuilder1.append("  AND PCH2.PROJECTION_MASTER_SID='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
    queryBuilder1.append("  WHERE RLD2.LEVEL_NO like '%')) CCP ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID     \n");
    
@@ -1752,10 +1752,10 @@ if(!custom){
 
    queryBuilder1.append("  JOIN  ST_NM_ACTUAL_SALES nm_ac ON nm_mas.PROJECTION_DETAILS_SID = nm_ac.PROJECTION_DETAILS_SID     \n");
 
-    queryBuilder1.append(" JOIN PERIOD p ON p.period_sid = nm_ac.PERIOD_SID WHERE  pd.PROJECTION_MASTER_SID ='" + (projectionId) + Constant.SPACE_NEW_LINE);
+    queryBuilder1.append(" JOIN PERIOD p ON p.period_sid = nm_ac.PERIOD_SID WHERE  pd.PROJECTION_MASTER_SID ='" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-   queryBuilder1.append("  AND nm_mas.USER_ID = '" + userid + Constant.AND_NM_MAS_SESSION_ID +sessionId + Constant.SPACE_NEW_LINE);
-   queryBuilder1.append("  AND nm_ac.USER_ID  = '" + userid + Constant.AND_NM_AC_SESSION_ID +sessionId + Constant.SPACE_NEW_LINE);
+   queryBuilder1.append("  AND nm_mas.USER_ID = '" ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append(sessionId ).append( Constant.SPACE_NEW_LINE);
+   queryBuilder1.append("  AND nm_ac.USER_ID  = '" ).append( userid ).append( Constant.AND_NM_AC_SESSION_ID ).append(sessionId ).append( Constant.SPACE_NEW_LINE);
     queryBuilder1.append("   GROUP  BY  CCP.HIERARCHY_NO  \n");
 
     }else if (method.equals("saveCheckUncheckRecords")) {
@@ -1793,11 +1793,11 @@ if(!custom){
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
 
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -1811,9 +1811,9 @@ if(!custom){
 
                 }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 if (!checkAll) {
-                    queryBuilder1.append("    " + hierarchyNos + Constant.NEW_LINE);
+                    queryBuilder1.append("    " ).append( hierarchyNos ).append( Constant.NEW_LINE);
                 }
                 queryBuilder1.append(Constant.HLD_WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -1830,16 +1830,16 @@ if(!custom){
                 }
 
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(" ) ) )  AND USER_ID = '" + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(" ) ) )  AND USER_ID = '" ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
                 if (!tempFilterValues[0].equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append("    AND USER_GROUP= '" + (tempFilterValues[0]) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("    AND USER_GROUP= '" ).append(tempFilterValues[0]).append( Constant.SPACE_NEW_LINE);
                 }
                 if (!tempFilterValues[1].equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append("    and METHODOLOGY= '" + (tempFilterValues[1]) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("    and METHODOLOGY= '" ).append(tempFilterValues[1]).append( Constant.SPACE_NEW_LINE);
                 }
                 if (!tempFilterValues[2].equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append("    and CALCULATION_PERIODS= '" + (tempFilterValues[2]) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("    and CALCULATION_PERIODS= '" ).append(tempFilterValues[2]).append( Constant.SPACE_NEW_LINE);
                 }
 
                 
@@ -1897,47 +1897,47 @@ if(!custom){
                 
                 queryBuilder1.append(Constant.SELECT_DISTINCT_PD_PROJECTION_DETAILS);
                 queryBuilder1.append(Constant.FROM_PROJECTION_DETAILS_PD);
-                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD + (parentViewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (parentViewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
+                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD ).append(parentViewType).append( Constant.RELATIONSHIP_LEVEL_SID_HLD ).append(parentViewType).append( Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.CCP_MAP);
                 queryBuilder1.append("   JOIN   \n");
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.CCP_MAP_ON_CCP_MAP_CCP_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD);
-                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (customerLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(customerLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (custHier) + Constant.HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(custHier).append( Constant.HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD_REL_LEVEL);
                 queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON);
-                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (productLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(productLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RLD2_HIERARCHY_NO_LIKE + (prodHier) + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RLD2_HIERARCHY_NO_LIKE ).append(prodHier).append( Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.CCP_NEW_LINE);
                 queryBuilder1.append(Constant.ON_CCP_DETAILS_SI_DPD_CCP_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD_JOIN_NM_SALES_PROJ);
                 queryBuilder1.append(Constant.ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                 queryBuilder1.append(Constant.ON_NM_MAS_PROJECTION_DETAILS_SID_NM_SP);
-                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.AND_NM_SP_USER_ID + userid + Constant.AND_NM_SP_SESSION_ID + sessionId + Constant.AND_RLD_HIERARCHY_NO+hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO).append(hierarchyNo).append(Constant.SPACE_NEW_LINE);
 
-               queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID + userid + Constant.COLON_AND_SESSION_ID + sessionId + Constant.SPACE_NEW_LINE);
+               queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
                   if (!tempFilterValues[0].equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append("    AND USER_GROUP= '" + (tempFilterValues[0]) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("    AND USER_GROUP= '" ).append( tempFilterValues[0] ).append( Constant.SPACE_NEW_LINE);
                 }
                 if (!tempFilterValues[1].equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append("    and METHODOLOGY= '" + (tempFilterValues[1]) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("    and METHODOLOGY= '" ).append( tempFilterValues[1] ).append( Constant.SPACE_NEW_LINE);
                 }
                 if (!tempFilterValues[2].equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append("    and CALCULATION_PERIODS= '" + (tempFilterValues[2]) + Constant.SPACE_NEW_LINE);
+                    queryBuilder1.append("    and CALCULATION_PERIODS= '" ).append(tempFilterValues[2]).append( Constant.SPACE_NEW_LINE);
                 }
             }else if(method.equals("customRefresh")){
                 
@@ -1997,28 +1997,28 @@ if(!custom){
                 queryBuilder1.append("   count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount,  \n");
                 queryBuilder1.append("   SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT         FROM   projection_details pd  \n");
 
-                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD + (parentViewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (parentViewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
+                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD ).append(parentViewType).append( Constant.RELATIONSHIP_LEVEL_SID_HLD ).append(parentViewType).append( Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RLD_HIER_NO);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("   ) CCPMAPC  JOIN  \n");
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RLD_HIER_NO);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID  \n");
                 queryBuilder1.append("   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD  \n");
-                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (customerLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(customerLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2_ON_HLD_HIER);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (custHier) + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'  \n");
+                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(custHier).append( "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'  \n");
                 queryBuilder1.append("   JOIN    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD  \n");
                 queryBuilder1.append("   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON  \n");
-                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID + (customId) + "' AND CVD.LEVEL_NO like  '" + (productLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID ).append(customId).append( "' AND CVD.LEVEL_NO like  '" ).append(productLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2_ON_HLD_HIER);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append("   WHERE RLD2.HIERARCHY_NO like   '" + (prodHier) + "'  ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'  \n");
+                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   WHERE RLD2.HIERARCHY_NO like   '" ).append(prodHier).append( "'  ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'  \n");
                 queryBuilder1.append("   ) CCP  \n");
 
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID  \n");
@@ -2030,9 +2030,9 @@ if(!custom){
                 queryBuilder1.append("   ON nm_mas.PROJECTION_DETAILS_SID = nm_ac.PROJECTION_DETAILS_SID  \n");
 
                 queryBuilder1.append("   JOIN PERIOD p ON p.period_sid = nm_ac.PERIOD_SID  \n");
-                queryBuilder1.append("   WHERE  pd.PROJECTION_MASTER_SID =  '" + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   WHERE  pd.PROJECTION_MASTER_SID =  '" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                queryBuilder1.append("   AND nm_mas.USER_ID = '" + userid + "' AND nm_mas.SESSION_ID ='" + sessionId + "'  AND nm_ac.USER_ID  = '" + userid + Constant.AND_NM_AC_SESSION_ID + sessionId + Constant.AND_RLD_HIERARCHY_NO +hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   AND nm_mas.USER_ID = '" ).append( userid ).append( "' AND nm_mas.SESSION_ID ='" ).append( sessionId ).append( "'  AND nm_ac.USER_ID  = '" ).append( userid ).append( Constant.AND_NM_AC_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO ).append(hierarchyNo+Constant.SPACE_NEW_LINE);
 
                 queryBuilder1.append("   GROUP  BY rld.RELATIONSHIP_LEVEL_VALUES,p.QUARTER, rld.RELATIONSHIP_LEVEL_SID ,rld.LEVEL_NO,p.\"YEAR\" ,rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO,rld.LEVEL_NAME  \n");
 
@@ -2047,37 +2047,37 @@ if(!custom){
                 queryBuilder1.append("   count(distinct case when  nm_mas.CALCULATION_BASED is null then '1' else  nm_mas.CALCULATION_BASED end)     AS calcBasedcount,   \n");
                 queryBuilder1.append("   SUM(CASE(nm_mas.CHECK_RECORD) WHEN 1 THEN 0 ELSE 1 END) AS UNCHECK_COUNT           FROM   projection_details pd  \n");
 
-                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD + (parentViewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (parentViewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
+                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD ).append(parentViewType).append( Constant.RELATIONSHIP_LEVEL_SID_HLD ).append(parentViewType).append( Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RLD_HIER_NO);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("   ) CCPMAPC  \n");
                 queryBuilder1.append("   JOIN  \n");
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RLD_HIER_NO);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("   ) CCPMAPP ON CCPMAPC.CCP_DETAILS_SID=CCPMAPP.CCP_DETAILS_SID  \n");
                 queryBuilder1.append("   JOIN  (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD  \n");
-                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (customerLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(customerLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2_ON_HLD_HIER);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (custHier) + "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'  \n");
+                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(custHier).append( "') HLDC ON CCPMAPC.HIERARCHY_NO like HLDC.HIERARCHY_NO+'%'  \n");
                 queryBuilder1.append("   JOIN    (SELECT RLD2.HIERARCHY_NO,RLD2.RELATIONSHIP_LEVEL_SID, CVD.LEVEL_NO FROM dbo.CUSTOM_VIEW_DETAILS CVD  \n");
                 queryBuilder1.append("   JOIN dbo.CUSTOM_VIEW_MASTER CVM ON  \n");
-                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID + (customId) + "' AND CVD.LEVEL_NO like  '" + (productLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID ).append(customId).append( "' AND CVD.LEVEL_NO like  '" ).append(productLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2_ON_HLD_HIER);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append("   WHERE RLD2.HIERARCHY_NO like   '" + (prodHier) + "'  ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'  \n");
+                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   WHERE RLD2.HIERARCHY_NO like   '" ).append(prodHier).append( "'  ) HLDP ON CCPMAPP.HIERARCHY_NO like HLDP.HIERARCHY_NO+'%'  \n");
                 queryBuilder1.append("   ) CCP  \n");
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID  \n");
                 queryBuilder1.append("   JOIN RELATIONSHIP_LEVEL_DEFINITION rld  ON  CCP.RELATIONSHIP_LEVEL_SID=rld.RELATIONSHIP_LEVEL_SID   JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas  \n");
                 queryBuilder1.append("   ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID  \n");
                 queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                 queryBuilder1.append("   ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID  \n");
-                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID + userid + "' AND nm_mas.SESSION_ID =  '" + sessionId + Constant.AND_NM_SP_USER_ID + userid + "'  AND nm_sp.SESSION_ID =  '" + sessionId + Constant.AND_RLD_HIERARCHY_NO+hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( "' AND nm_mas.SESSION_ID =  '" ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( "'  AND nm_sp.SESSION_ID =  '" ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO).append(hierarchyNo+Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("   GROUP  BY rld.RELATIONSHIP_LEVEL_VALUES,p.QUARTER ,rld.LEVEL_NO,p.\"YEAR\"  ,rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO ,rld.LEVEL_NAME  order by rld.RELATIONSHIP_LEVEL_VALUES,p.\"YEAR\",p.QUARTER  \n");
 
 
@@ -2105,10 +2105,10 @@ if(!custom){
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
 
@@ -2116,9 +2116,9 @@ if(!custom){
 
                
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
               
-                queryBuilder1.append("    " + hierarchyNos + Constant.NEW_LINE);
+                queryBuilder1.append("    " ).append( hierarchyNos ).append( Constant.NEW_LINE);
                
                 queryBuilder1.append(Constant.HLD_WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -2131,7 +2131,7 @@ if(!custom){
                 
 
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 
                 
                 queryBuilder1.append(" ) )   \n");
@@ -2165,9 +2165,9 @@ if(!custom){
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES_RL);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL_SID);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_PROJECTION_MASTER_PM_ON_PD_PROJECTION);
-                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID + (projectionId) + Constant.CCP_MAP_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_PM_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.CCP_MAP_NEW_LINE);
                 queryBuilder1.append(Constant.SELECT_RL_D1_HIERARCHY_NO_RLD1_RELATIONSHIP);
                 queryBuilder1.append(Constant.FROM_RELATIONSHIP_LEVEL_DEFINITION_RLD1);
                 if (viewType.equals("C")) {
@@ -2176,8 +2176,8 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PCH);
                   }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
-                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.BLANK_QUOTES + hierarchyNos + Constant.HLD_NEW_LINE);
+                queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.BLANK_QUOTES ).append( hierarchyNos ).append( Constant.HLD_NEW_LINE);
                 queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
                 queryBuilder1.append(Constant.SELECT_RL_D2_HIERARCHY_NO);
@@ -2188,7 +2188,7 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PCH2);
                  }
                 queryBuilder1.append(Constant.ON_PCH2_RELATIONSHIP_LEVEL_SID_RLD2);
-                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.AND_PC_H2_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                  queryBuilder1.append("  )  ) )  \n");
 }else{
 
@@ -2237,39 +2237,39 @@ if(!custom){
                 
                 queryBuilder1.append(Constant.SELECT_DISTINCT_PD_PROJECTION_DETAILS);
                 queryBuilder1.append(Constant.FROM_PROJECTION_DETAILS_PD);
-                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD + (parentViewType) + Constant.RELATIONSHIP_LEVEL_SID_HLD + (parentViewType) + Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
+                queryBuilder1.append(Constant.JOIN_SELECT_DISTINCT_HLD ).append(parentViewType).append( Constant.RELATIONSHIP_LEVEL_SID_HLD ).append(parentViewType).append( Constant.HIERARCHY_NO_CCP_MAP_CCCP_DETAILS_SID_FROM);
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.CCP_MAP);
                
 
                 queryBuilder1.append("   JOIN   \n");
                 queryBuilder1.append(Constant.SELECT_RLD_RELATIONSHIP_LEVEL_VALUES);
                 queryBuilder1.append(Constant.JOIN_CCP_MAP_CCP_ON_RLD_RELATIONSHIP_LEVEL);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP + (projectionId) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_DETAILS_PD_ON_PD_CCP ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.CCP_MAP_ON_CCP_MAP_CCP_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD);
-                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (customerLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON_CVDC ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(customerLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE + (custHier) + Constant.HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_CUST_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RL_D2_HIERARCHY_NO_LIKE ).append(custHier).append( Constant.HLDC_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.JOIN_SELECT_RL_D2_HIERARCHY_NO_RLD_REL_LEVEL);
                 queryBuilder1.append(Constant.JOIN_DBO_CUSTOM_VIEW_MASTER_CVM_ON);
-                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID + (customId) + Constant.COLON_AND_CVD_LEVEL_NO_LIKE + (productLevel) + Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.CVD_CUSTOM_VIEW_MASTER_SID ).append(customId).append( Constant.COLON_AND_CVD_LEVEL_NO_LIKE ).append(productLevel).append( Constant.SPACE_NEW_LINE);
                 queryBuilder1.append(Constant.JOIN_DBO_HIERARCHY_LEVEL_DEFINITION_HLD);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD2);
-                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.WHERE_RLD2_HIERARCHY_NO_LIKE + (prodHier) + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
+                queryBuilder1.append(Constant.JOIN_PROJECTION_PROD_HIERARCHY_PC_H2 ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.WHERE_RLD2_HIERARCHY_NO_LIKE ).append(prodHier).append( Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.CCP_NEW_LINE);
                 queryBuilder1.append(Constant.ON_CCP_DETAILS_SI_DPD_CCP_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD_JOIN_NM_SALES_PROJ);
                 queryBuilder1.append(Constant.ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ_DETAILS_SID);
                 queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                 queryBuilder1.append(Constant.ON_NM_MAS_PROJECTION_DETAILS_SID_NM_SP);
-                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE + (projectionId) + Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID + userid + Constant.AND_NM_MAS_SESSION_ID + sessionId + Constant.AND_NM_SP_USER_ID + userid + Constant.AND_NM_SP_SESSION_ID + sessionId + Constant.AND_RLD_HIERARCHY_NO+hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE ).append(projectionId).append( Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO+hierarchyNo+Constant.SPACE_NEW_LINE);
 
                queryBuilder1.append("  )   \n");
 

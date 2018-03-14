@@ -228,7 +228,7 @@ public class MProjectionVarianceLogic {
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + quotes + lookUpDTO.getWorkflowStatus() + quotes);
+                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( quotes ).append( lookUpDTO.getWorkflowStatus() ).append( quotes);
             }
             customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(')');
             customSql.append("AND CUR_PD.PROJECTION_MASTER_SID =").append(selectedProjectionIds);
@@ -422,7 +422,7 @@ public class MProjectionVarianceLogic {
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + quotes + lookUpDTO.getWorkflowStatus() + quotes);
+                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( quotes ).append( lookUpDTO.getWorkflowStatus() ).append( quotes);
             }
             customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(')');
             customSql.append("AND CUR_PD.PROJECTION_MASTER_SID =").append(selectedProjectionIds);
@@ -4984,10 +4984,10 @@ public class MProjectionVarianceLogic {
             tempTableName[1] = "PRODUCT_HIERARCHY_LEVEL";
         }
         customSql.append("select RLD.RELATIONSHIP_LEVEL_VALUES,RLD.HIERARCHY_NO from PROJECTION_MASTER PM,RELATIONSHIP_LEVEL_DEFINITION RLD\n"
-                + "WHERE RLD.RELATIONSHIP_BUILDER_SID = PM." + tempTableName[0] + " \n"
-                + "AND RLD.LEVEL_NAME in (" + pvSelectionDTO.getLevelName() + ") \n"
-                + "AND RLD.LEVEL_NO >= PM." + tempTableName[1] + " \n"
-                + "AND PM.PROJECTION_MASTER_SID = " + pvSelectionDTO.getProjectionId());
+                ).append( "WHERE RLD.RELATIONSHIP_BUILDER_SID = PM." ).append( tempTableName[0] ).append( " \n"
+                ).append( "AND RLD.LEVEL_NAME in (" ).append( pvSelectionDTO.getLevelName() ).append( ") \n"
+                ).append( "AND RLD.LEVEL_NO >= PM." ).append( tempTableName[1] ).append( " \n"
+                ).append( "AND PM.PROJECTION_MASTER_SID = " ).append( pvSelectionDTO.getProjectionId());
         try {
             List list = (List) dao.executeSelectQuery(customSql.toString());
             contractType.addItem(ZERO);
