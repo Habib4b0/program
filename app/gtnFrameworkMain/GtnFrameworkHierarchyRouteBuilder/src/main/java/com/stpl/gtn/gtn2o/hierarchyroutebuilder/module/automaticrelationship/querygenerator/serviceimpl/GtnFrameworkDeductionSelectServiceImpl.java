@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.serviceimpl.deduction;
+package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.serviceimpl;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBe
 
 @Component("DeductionSelect")
 @Scope(value = "singleton")
-public class GtnFrameworkAutomaticDeductionSelectServiceImpl implements GtnFrameworkSelectQueryGeneratorService {
+public class GtnFrameworkDeductionSelectServiceImpl implements GtnFrameworkSelectQueryGeneratorService {
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
-	public GtnFrameworkAutomaticDeductionSelectServiceImpl() {
+	public GtnFrameworkDeductionSelectServiceImpl() {
 		super();
 	}
 	public void addSelectClause(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,

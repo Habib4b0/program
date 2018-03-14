@@ -1847,13 +1847,21 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 					.setComponentId(GtnFrameworkWorkflowInboxClassConstants.CUSTOMFILTERCOMBOBOX);
 			wfMainCustomFilterComponentConfig
 					.setComponentName(GtnFrameworkWorkflowInboxClassConstants.CUSTOMFILTERCOMBOBOX);
-			wfMainCustomFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-			wfMainCustomFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(listNameArray[i]);
-			wfMainCustomFilterComponentConfig.getGtnComboboxConfig()
-					.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);
-			wfMainCustomFilterComponentConfig.getGtnComboboxConfig()
-					.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-							+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+			GtnUIFrameworkComboBoxConfig comboBoxConfig;
+
+			if (propertyIds[i].equals(GtnFrameworkWorkflowInboxClassConstants.CREATEDBY)
+					|| propertyIds[i].equals(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY)) {
+				comboBoxConfig = configProvider.getComboBoxConfig(listNameArray[i],
+						GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_USER_COMBO_BOX);
+			} else {
+				comboBoxConfig = configProvider.getComboBoxConfig(listNameArray[i],
+						GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+
+			}
+			comboBoxConfig.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);
+			wfMainCustomFilterComponentConfig.setGtnComboboxConfig(comboBoxConfig);
 			wfMainCustomFilterConfig.setGtnComponentConfig(wfMainCustomFilterComponentConfig);
 			customFilterConfigMap.put(wfMainCustomFilterConfig.getPropertId(), wfMainCustomFilterConfig);
 
