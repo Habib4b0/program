@@ -2144,7 +2144,7 @@ public class QueryUtils {
     }
 
     public String getTempTableValue(String temptableSId) {
-        String query = " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
+        String query = " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS_SID,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
         return query;
     }
 
