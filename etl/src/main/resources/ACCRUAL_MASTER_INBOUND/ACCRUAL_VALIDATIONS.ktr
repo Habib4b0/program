@@ -179,10 +179,8 @@
   <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason 7</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
   <hop> <from>INVALID COUNT</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 2</from><to>INVALID UPDATE</to><enabled>Y</enabled> </hop>
-  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION</to><enabled>N</enabled> </hop>
   <hop> <from>REMOVE FIELDS</from><to>FINAL AUDIT WAIT</to><enabled>Y</enabled> </hop>
   <hop> <from>ADD SORT</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
@@ -344,7 +342,7 @@
   <hop> <from>Switch &#x2f; Case 2</from><to>Database lookup</to><enabled>Y</enabled> </hop>
   <hop> <from>Database lookup</from><to>Update</to><enabled>Y</enabled> </hop>
   <hop> <from>Database lookup</from><to>Table output</to><enabled>Y</enabled> </hop>
-  <hop> <from>Update</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Memory Group by</to><enabled>N</enabled> </hop>
   <hop> <from>Add constants 3 2 2 2</from><to>If Already deleted</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>DELETE</to><enabled>Y</enabled> </hop>
@@ -369,6 +367,14 @@
   <hop> <from>PROVISION_ID</from><to>RS LOOK UP 2</to><enabled>Y</enabled> </hop>
   <hop> <from>PROVISION_ID</from><to>BUSINESS_UNIT_ID</to><enabled>Y</enabled> </hop>
   <hop> <from>CONTRACT_MASTER 3</from><to>SALES_MASTER</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 2 2</from><to>INVALID UPDATE 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>Add constants 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID TABLE 3</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Database join 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calculator 2</from><to>Add constants 3 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 4</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database join 4</from><to>Calculator 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Invalid Reason 7</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>ACCOUNT_ID</name>
@@ -529,13 +535,13 @@
         </key>
       <value>
         <name>ADD_COUNT</name>
-        <rename>ADD_COUNT</rename>
+        <rename>ADD_COUNT_CALC</rename>
         </value>
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1267</xloc>
-      <yloc>3945</yloc>
+      <xloc>1198</xloc>
+      <yloc>4153</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -880,51 +886,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>2549</xloc>
       <yloc>1623</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Add constants</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>STATUS_R</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>R</nullif>
-        <length>5</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>APPLICATION_PROCESS</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>ACCRUAL_INBOUND_INTERFACE</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1261</xloc>
-      <yloc>3860</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -12576,8 +12537,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1265</xloc>
-      <yloc>3747</yloc>
+      <xloc>1217</xloc>
+      <yloc>3759</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -16276,6 +16237,225 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>3356</xloc>
       <yloc>1110</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 2 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>5</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>900</xloc>
+      <yloc>3993</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID UPDATE 2 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>INVALID_RECORD_COUNT</name>
+        <rename>Invalid_Count</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>753</xloc>
+      <yloc>4011</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by 2</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>Invalid_Count</aggregate>
+          <subject>ACCRUAL_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1035</xloc>
+      <yloc>3951</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Database join 4</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>select SENT_RECORD_COUNT,INVALID_RECORD_COUNT from dbo.AUDIT_MASTER_INBOUND where BATCH_ID&#x3d;&#x3f;</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+      </field>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1281</xloc>
+      <yloc>3871</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Calculator 2</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+       <calculation><field_name>ADD_COUNT_CALC</field_name>
+<calc_type>SUBTRACT</calc_type>
+<field_a>SENT_RECORD_COUNT</field_a>
+<field_b>INVALID_RECORD_COUNT</field_b>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1200</xloc>
+      <yloc>3955</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 3 4</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>5</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ACCRUAL_INBOUND_INTERFACE</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1200</xloc>
+      <yloc>4051</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
