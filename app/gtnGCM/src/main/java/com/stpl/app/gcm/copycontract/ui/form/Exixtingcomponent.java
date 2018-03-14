@@ -717,7 +717,6 @@ public class Exixtingcomponent extends CustomComponent {
                             dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("1");
                             dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(cfpId));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
-                            dashboardResultsTable.addItem(rootId);
                             dashboardResultsTable.setParent(rootId, root);
                             dashboardResultsTable.setChildrenAllowed(rootId, true);
                             dashboardResultsTable.setCollapsed(root, false);
@@ -742,7 +741,6 @@ public class Exixtingcomponent extends CustomComponent {
                             dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("2");
                             dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(ifpId));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
-                            dashboardResultsTable.addItem(rootId);
                             dashboardResultsTable.setParent(rootId, root);
                             dashboardResultsTable.setChildrenAllowed(rootId, true);
                             dashboardResultsTable.setCollapsed(root, false);
@@ -771,7 +769,6 @@ public class Exixtingcomponent extends CustomComponent {
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("3");
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(psId);
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
-                                dashboardResultsTable.addItem(rootId);
                                 dashboardResultsTable.setParent(rootId, root);
                                 dashboardResultsTable.setChildrenAllowed(rootId, true);
                                 dashboardResultsTable.setCollapsed(root, false);
@@ -800,7 +797,6 @@ public class Exixtingcomponent extends CustomComponent {
                             dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("4");
                             dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(rsId));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
-                            dashboardResultsTable.addItem(rootId);
                             dashboardResultsTable.setParent(rootId, root);
                             dashboardResultsTable.setChildrenAllowed(rootId, false);
                             dashboardResultsTable.setCollapsed(root, false);
@@ -909,6 +905,7 @@ public class Exixtingcomponent extends CustomComponent {
         
         String contractsidvalue;
         Object[] itemIds = {item};
+        String userID = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         for (int i = 0; i < itemIds.length; i++) {
             String level = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.LEVELNO).getValue());
             if (level.equalsIgnoreCase(Constants.ZEROSTRING)) {
@@ -930,7 +927,7 @@ public class Exixtingcomponent extends CustomComponent {
                 cm.setContractNo(contractNo);
                 cm.setContractName(contractName);
                 cm.setCreatedDate(new Date());
-                cm.setCreatedBy(1);
+                cm.setCreatedBy(Integer.parseInt(userID));
                 cm.setContractStatus(status1);
                 cm.setContHoldCompanyMasterSid(contractHolder);
                 cm.setSource("BPI");
@@ -950,7 +947,7 @@ public class Exixtingcomponent extends CustomComponent {
                 CAM.setStartDate(AliasSDATE);
                 CAM.setEndDate(AliasEDATE);
                 CAM.setModifiedDate(new Date());
-                CAM.setCreatedBy(1);
+                CAM.setCreatedBy(Integer.parseInt(userID));
                 CAM.setCreatedDate(new Date());
                 CAM.setSource("BPI");
                 CAM.setInboundStatus("A");
@@ -981,9 +978,9 @@ public class Exixtingcomponent extends CustomComponent {
                     cfpMasterAttached.setCfpTradeClass(companyFamily.getCfpTradeClass());
                     cfpMasterAttached.setCfpStartDate(companyFamily.getCfpStartDate());
                     cfpMasterAttached.setCfpEndDate(companyFamily.getCfpEndDate());
-                    cfpMasterAttached.setCreatedBy(1);
+                    cfpMasterAttached.setCreatedBy(Integer.parseInt(userID));
                     cfpMasterAttached.setCreatedDate(new Date());
-                    cfpMasterAttached.setModifiedBy(1);
+                    cfpMasterAttached.setModifiedBy(Integer.parseInt(userID));
                     cfpMasterAttached.setModifiedDate(new Date());
                     cfpMasterAttached.setCfpContractAttachedDate(new Date());
                     cfpMasterAttached.setRecordLockStatus(false);
@@ -1015,9 +1012,9 @@ public class Exixtingcomponent extends CustomComponent {
                     ifpMasterAttached.setIfpStartDate(itemFamily.getIfpStartDate());
                     ifpMasterAttached.setIfpEndDate(itemFamily.getIfpEndDate());
                     ifpMasterAttached.setIfpContractAttachedDate(new Date());
-                    ifpMasterAttached.setCreatedBy(1);
+                    ifpMasterAttached.setCreatedBy(Integer.parseInt(userID));
                     ifpMasterAttached.setCreatedDate(new Date());
-                    ifpMasterAttached.setModifiedBy(1);
+                    ifpMasterAttached.setModifiedBy(Integer.parseInt(userID));
                     ifpMasterAttached.setModifiedDate(new Date());
                     ifpMasterAttached.setRecordLockStatus(false);
                     ifpMasterAttached.setInboundStatus("A");
@@ -1050,9 +1047,9 @@ public class Exixtingcomponent extends CustomComponent {
 
                 psMasterAttached.setPsContractAttachedDate(new Date());
                 psMasterAttached.setSource("BPI");
-                psMasterAttached.setCreatedBy(1);
+                psMasterAttached.setCreatedBy(Integer.parseInt(userID));
                 psMasterAttached.setCreatedDate(new Date());
-                psMasterAttached.setModifiedBy(1);
+                psMasterAttached.setModifiedBy(Integer.parseInt(userID));
                 psMasterAttached.setModifiedDate(new Date());
                 psMasterAttached.setRecordLockStatus(false);
                 psMasterAttached.setInboundStatus("A");
@@ -1124,14 +1121,17 @@ public class Exixtingcomponent extends CustomComponent {
                 rsMasterAttached.setCity(rebateMaster.getCity());
                 rsMasterAttached.setState(rebateMaster.getState());
                 rsMasterAttached.setZipCode(rebateMaster.getZipCode());
-                rsMasterAttached.setCreatedBy(1);
+                rsMasterAttached.setCreatedBy(Integer.parseInt(userID));
                 rsMasterAttached.setCreatedDate(new Date());
-                rsMasterAttached.setModifiedBy(1);
+                rsMasterAttached.setModifiedBy(Integer.parseInt(userID));
                 rsMasterAttached.setModifiedDate(new Date());
                 rsMasterAttached.setFormulaMethodId(rebateMaster.getFormulaMethodId());
                 rsMasterAttached.setRecordLockStatus(false);
                 rsMasterAttached.setInboundStatus("A");
                 rsMasterAttached.setSource("BPI");
+                rsMasterAttached.setDeductionInclusion(rebateMaster.getDeductionInclusion());
+                rsMasterAttached.setCalculationLevel(rebateMaster.getCalculationLevel());
+                rsMasterAttached.setCalculationType(rebateMaster.getCalculationType());
                 RsContract rsContract = RsContractLocalServiceUtil.addRsContract(rsMasterAttached);
                 dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(rsContract.getRsContractSid()));
                 SaveRS(String.valueOf(rsContract.getRsContractSid()), rebateMaster.getRsModelSid());

@@ -2619,4 +2619,11 @@ public class DataSelectionLogic {
             List<Object[]> removedcontract = QueryUtils.getAppData(inputList, "eligibledatealertquery",null);
             return   removedcontract.toString().replace("[", "").replace("]", "");
         }
+        
+    public Date getWorkflowEligibleDateFromProjMaster(final DataSelectionDTO dataSelectionDTO) {
+        String datequery = "SELECT FORECAST_ELIGIBLE_DATE FROM PROJECTION_MASTER where PROJECTION_MASTER_SID=" + dataSelectionDTO.getProjectionId() + "";
+        List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery, null, null);
+        return workflowforecastEligibleDate != null ? (Date) workflowforecastEligibleDate.get(0) : null;
+    }
+        
 }

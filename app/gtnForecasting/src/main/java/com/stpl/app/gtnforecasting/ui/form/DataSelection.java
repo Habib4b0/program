@@ -2179,6 +2179,7 @@ public class DataSelection extends ForecastDataSelection {
 						}
 						String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
 						List<String> hierarchyNos = new ArrayList<>();
+						List<Leveldto> newParentLevels = null;
 						List<Leveldto> newChildLevels = null;
 						hierarchyNos.add(hierarchyNo + ".");
 						int pos = 0;
@@ -2202,7 +2203,7 @@ public class DataSelection extends ForecastDataSelection {
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
 										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
-							
+
 							if (!newChildLevels.isEmpty()) {
 								int pos3 = 0;
 								String childHierarchyNo;
@@ -4247,6 +4248,7 @@ public class DataSelection extends ForecastDataSelection {
 		moveLeftProduct.setEnabled(false);
 		moveRightProduct.setEnabled(false);
 		selectedProduct.setSelectable(false);
+                forecastEligibleDate.setEnabled(false);
 	}
 
 	private void loadDiscountDdlb(int discountSid, CompanyDdlbDto selectedDiscountDdlbDto) {
