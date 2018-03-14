@@ -1,32 +1,5 @@
 package com.stpl.app.gtnforecasting.logic;
 
-import com.stpl.app.gtnforecasting.dao.CommonDAO;
-import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
-import com.stpl.app.gtnforecasting.service.FileReadWriteService;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.utils.QueryUtils;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
-import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
-import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
-import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
-import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.dataselectionedit.GtnWsForecastHierarchyInsertRequest;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.GtnSmallHashMap;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.QueryUtil;
-import com.stpl.ifs.util.constants.BooleanConstant;
-import com.vaadin.server.VaadinSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,9 +11,42 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.stpl.app.gtnforecasting.dao.CommonDAO;
+import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
+import com.stpl.app.gtnforecasting.service.FileReadWriteService;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.utils.QueryUtils;
+import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
+import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
+import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.dataselectionedit.GtnWsForecastHierarchyInsertRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.GtnSmallHashMap;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
+import com.vaadin.server.VaadinSession;
 
 public class RelationShipFilterLogic {
 
@@ -102,7 +108,7 @@ public class RelationShipFilterLogic {
 		return resultDtoList;
 	}
 
-	public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
+	public List<Leveldto> loadAvailableCustomerlevel1(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
 			String dedValue, int relationVersionNo, Date forecastEligibleDate) throws CloneNotSupportedException {
 		if (selectedHierarchyLevelDto.isUserDefined()) {    
@@ -112,10 +118,17 @@ public class RelationShipFilterLogic {
 				levelHierarchyLevelDefinitionList, dedLevel, dedValue, relationVersionNo,forecastEligibleDate);
 	}
 
-        
-        
-        
-        private List<Leveldto> customizeRelation(String query, Leveldto selectedHierarchyLevelDto)
+	public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
+			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
+			String dedValue, int relationVersionNo, Date forecastEligibleDate) throws CloneNotSupportedException {
+		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
+				groupFilteredCompanies, levelHierarchyLevelDefinitionList, dedLevel, dedValue, relationVersionNo,
+				forecastEligibleDate, Boolean.FALSE);
+		String query = getLoadDataQuery(inputBean);
+		return customizeRelation(query, selectedHierarchyLevelDto);
+	}
+
+	private List<Leveldto> customizeRelation(String query, Leveldto selectedHierarchyLevelDto)
 			throws CloneNotSupportedException {
 		List<Leveldto> resultList = new ArrayList<>();
 		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(query, null, null);
@@ -136,6 +149,36 @@ public class RelationShipFilterLogic {
 		}
 		return resultList;
 	}
+
+	private GtnForecastHierarchyInputBean createInputBean(Leveldto selectedHierarchyLevelDto, int relationshipSid,
+			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
+			String dedValue, int relationVersionNo, Date forecastEligibleDate, boolean isNdc) {
+		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+		inputBean.setRelationShipBuilderSid(relationshipSid);
+		inputBean.setGroupFilterCompenies(groupFilteredCompanies);
+		inputBean.setDeductionLevel(dedLevel);
+		inputBean.setDeductionValue(dedValue);
+		inputBean.setRelationVersionNo(relationVersionNo);
+		inputBean.setForecastEligibleDate(forecastEligibleDate);
+		inputBean.setNdc(isNdc);
+		return inputBean;
+	}
+
+	private String getLoadDataQuery(GtnForecastHierarchyInputBean inputBean) {
+		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+		forecastRequest.setInputBean(inputBean);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		request.setGtnWsForecastRequest(forecastRequest);
+		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL,
+				request, getGsnWsSecurityToken());
+		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
+		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
+		return outputBean.getHieraryQuery();
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Leveldto> getLinkedLevelData(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
@@ -143,7 +186,6 @@ public class RelationShipFilterLogic {
 		List<Leveldto> resultList = new ArrayList<>();
 		String finalQuery = getQueryForLinkedLevelCustomer(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredCompanies, levelHierarchyLevelDefinitionList, dedLevel, dedValue, relationVersionNo,forecastEligibleDate);
-		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid,relationVersionNo);
 		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
