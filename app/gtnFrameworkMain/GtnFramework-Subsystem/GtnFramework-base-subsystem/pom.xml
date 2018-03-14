@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.stpl.gtn.gtn2.esa</groupId>
-    <artifactId>Gtn-base-subsystem</artifactId>
+    <artifactId>GtnFramework-base-subsystem</artifactId>
     <version>1.0</version>
     <packaging>esa</packaging>
-    <name>Gtn-Base Sub system</name>
+    <name>GtnFramework-Base Sub system</name>
     <description>Contains Dependency on New Architecture</description>
     <properties>
         <Gtn.base.subsystem.order>3</Gtn.base.subsystem.order>
@@ -14,6 +14,7 @@
         <groupId>com.stpl.gtn.gtn2o</groupId>
         <artifactId>Gtn-All-Parent</artifactId>
         <version>1.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <dependencies>
         <dependency>

@@ -159,10 +159,10 @@
 		<profile>
 			<id>Build-Subsystem</id>
 			<modules>
-				<module>app/Liferay-Service-Subsystem</module>
-				<module>app/Resources/Resource-subsystem</module>
-				<module>app/Base-Subsystem</module>
-				<module>app/Modules-Subsystem</module>
+				<module>app/gtn-Subsytem/gtn-Service-Subsystem</module>
+				<module>app/gtn-Subsytem/gtn-Resource-subsystem</module>
+				<module>app/gtn-Subsytem/gtn-Base-Subsystem</module>
+				<module>app/gtn-Subsytem/gtn-Modules-Subsystem</module>
 			</modules>
 			<build>
 				<defaultGoal>clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release </defaultGoal>

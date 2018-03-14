@@ -2,54 +2,67 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stpl.gtn.esa</groupId>
-	<artifactId>modules-subsytem</artifactId>
+	<artifactId>gtn-base-subsystem</artifactId>
+	<name> Gtn Base sub system</name>
+	<description>Dependencies of GTN</description>
 	<packaging>esa</packaging>
-	<version>1.0</version>
+	<properties>
+		<base.subsystem.order>4</base.subsystem.order>
+	</properties>
 	<parent>
 		<groupId>com.stpl.app</groupId>
 		<artifactId>global-parent</artifactId>
 		<version>1.0</version>
-		<relativePath>../../pom.xml</relativePath>
+		<relativePath>../../../pom.xml</relativePath>
 	</parent>
-	<properties>
-		<modules.subsystem.order>5</modules.subsystem.order>
-	</properties>
+
+
 	<dependencies>
 		<dependency>
-			<groupId>com.stpl.app</groupId>
-			<artifactId>gtnAdminConsole</artifactId>
-			<version>1.0</version>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.c3p0</artifactId>
+			<version>0.9.1.2_1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.7.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.app</groupId>
-			<artifactId>gtnCff</artifactId>
+			<artifactId>util-service</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.stpl.app</groupId>
-			<artifactId>gtnforecasting</artifactId>
+			<groupId>com.stpl.app.bpm</groupId>
+			<artifactId>util-class</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.stpl.app</groupId>
-			<artifactId>gtnGCM</artifactId>
+			<groupId>com.stpl.ifs</groupId>
+			<artifactId>gtnUtility</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.stpl.app</groupId>
-			<artifactId>gtnGlobal</artifactId>
+			<groupId>gtnHierarchyRouteBuilder</groupId>
+			<artifactId>gtnHierarchyRouteBuilder</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.stpl.app</groupId>
-			<artifactId>gtnSecurity</artifactId>
-			<version>1.0</version>
-		</dependency>
-
 
 	</dependencies>
+
 	<build>
-		<finalName>${modules.subsystem.order}.${project.artifactId}</finalName>
+		<finalName>${base.subsystem.order}.${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.aries</groupId>
@@ -57,6 +70,7 @@
 				<version>1.0.2</version>
 				<extensions>true</extensions>
 				<configuration>
+
 					<generateManifest>true</generateManifest>
 					<startOrder>dependencies</startOrder>
 					<instructions>
