@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.serviceimpl;
+package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator;
 
 import java.util.List;
 

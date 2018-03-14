@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.serviceimpl.custprod;
+package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.serviceimpl;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBe
 
 @Component("CustProdJoin")
 @Scope(value = "singleton")
-public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFrameworkJoinQueryGeneratorService {
+public class GtnFrameworkCustProdJoinServiceImpl implements GtnFrameworkJoinQueryGeneratorService {
 
-	public GtnFrameworkAutomaticCustProdJoinServiceImpl() {
+	public GtnFrameworkCustProdJoinServiceImpl() {
 		super();
 	}
 
