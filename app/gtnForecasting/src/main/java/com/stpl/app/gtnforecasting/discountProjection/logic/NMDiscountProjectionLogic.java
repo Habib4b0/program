@@ -51,7 +51,7 @@ public class NMDiscountProjectionLogic {
         query.append("    ON RB.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID  ");
         query.append("   JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD  ");
         query.append("    ON RB.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID  ");
-        query.append(" WHERE  PM.PROJECTION_MASTER_SID = "+projectionSid+"  ");
+        query.append(" WHERE  PM.PROJECTION_MASTER_SID = ").append(projectionSid).append("  ");
           if (isCustomer) {
 
             query.append(" AND HLD.LEVEL_NAME IN ('Customer','Trading Partner','TRADING PARTNER')  ");
@@ -88,7 +88,7 @@ public class NMDiscountProjectionLogic {
         query.append("    ON RB.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID  ");
         query.append("   JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD  ");
         query.append("    ON RB.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID  ");
-        query.append(" WHERE  PM.PROJECTION_MASTER_SID = "+projectionSid+"  ");
+        query.append(" WHERE  PM.PROJECTION_MASTER_SID = ").append(projectionSid).append("  ");
          if (isCustomer) {
              query.append(" AND HLD.LEVEL_NAME IN ('Customer','Trading Partner','TRADING PARTNER')  ");
 
@@ -135,8 +135,8 @@ public class NMDiscountProjectionLogic {
         StringBuilder query = new StringBuilder();
       
          
-         query.append("  DECLARE @CCP_DETAILS_SID VARCHAR(MAX) = '" + cCPIds + "' ");
-         query.append(" ,@RS_MODEL_SID INT =" + rsModelSid);
+         query.append("  DECLARE @CCP_DETAILS_SID VARCHAR(MAX) = '" ).append( cCPIds ).append( "' ");
+         query.append(" ,@RS_MODEL_SID INT =" ).append( rsModelSid);
          query.append("    ,@START_DATE DATETIME = DATEADD(YY, DATEDIFF(YY, 0, GETDATE()) - 3, 0)   ");
          query.append("     ,@END_DATE DATETIME =  DATEADD(QQ, DATEDIFF(QQ, 0, GETDATE()), 0)   ");
          query.append("  SELECT B.CCP_DETAILS_SID,R.RS_CONTRACT_SID,SUM(AM.AMOUNT) AMOUNT    ");

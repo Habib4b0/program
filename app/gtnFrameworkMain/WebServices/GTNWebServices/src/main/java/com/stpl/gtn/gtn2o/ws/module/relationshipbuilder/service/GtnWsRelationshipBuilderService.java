@@ -30,6 +30,7 @@ import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
@@ -63,7 +64,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
-import com.stpl.gtn.gtn2o.ws.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
 
@@ -101,8 +101,8 @@ public class GtnWsRelationshipBuilderService {
 
 	@Autowired
 	private GtnFrameworkAutomaticService automaticService;
-        
-        private static final String HELPER_JOIN_DESCRIPTION = "HELPER_JOIN .DESCRIPTION";
+
+	private static final String HELPER_JOIN_DESCRIPTION = "HELPER_JOIN .DESCRIPTION";
 
 	public GtnWsRelationshipBuilderService() {
 		super();
@@ -516,7 +516,7 @@ public class GtnWsRelationshipBuilderService {
 						levelNo);
 
 				logger.info("finalQuery--->>" + finalQueryBean.generateQuery());
-				
+
 				GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 						.getKeyRelationBeanUsingTableIdAndColumnName(destinationHierarchyBean.getTableName(),
 								destinationHierarchyBean.getFieldName());
@@ -543,7 +543,7 @@ public class GtnWsRelationshipBuilderService {
 				String selectPrimaryColumn = keyBean.getLevelValueColumnName();
 				getUserFilterClause(gtnWsRequest, finalQueryBean, selectPrimaryColumn);
 				StringBuilder queryBuilder = new StringBuilder(finalQueryBean.generateQuery());
-				appendHelperTableDescriptionRestriction(queryBuilder,"AND");
+				appendHelperTableDescriptionRestriction(queryBuilder, "AND");
 				if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
 
 					setDefaultOrderBy(gtnWsRequest);
@@ -555,7 +555,7 @@ public class GtnWsRelationshipBuilderService {
 				}
 				String query = queryBuilder.toString().replaceAll(GtnWsRelationshipBuilderConstants.VALUE_PROPERTY_ID,
 						selectPrimaryColumn);
-                printFinalQuery(query);
+				printFinalQuery(query);
 				List<Object[]> result = executeQuery(query, primaryKeyPositionList.toArray(), datatypes);
 
 				String nextPrimayKey = keyBean.getActualColumnName();
@@ -569,17 +569,15 @@ public class GtnWsRelationshipBuilderService {
 		return serachResponse;
 	}
 
-	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder,String append) {
-		if(queryBuilder.toString().contains(HELPER_JOIN_DESCRIPTION))
-		{
-			queryBuilder.append(" "+append+" HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
+	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder, String append) {
+		if (queryBuilder.toString().contains(HELPER_JOIN_DESCRIPTION)) {
+			queryBuilder.append(" " + append + " HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
 		}
 	}
 
 	private void printFinalQuery(String query) {
-		if(query.contains(HELPER_JOIN_DESCRIPTION))  
-		{
-			logger.info("finalQuery concat--->>"+query);
+		if (query.contains(HELPER_JOIN_DESCRIPTION)) {
+			logger.info("finalQuery concat--->>" + query);
 		}
 	}
 
@@ -689,7 +687,6 @@ public class GtnWsRelationshipBuilderService {
 		return selectedTreeBean.getChildList();
 	}
 
-
 	private String getHierarchyNoToBuildTree(List<String> finalMasterSid) {
 		List<String> tempMasterSid = new ArrayList<>(finalMasterSid);
 		Collections.reverse(tempMasterSid);
@@ -728,9 +725,8 @@ public class GtnWsRelationshipBuilderService {
 				List<Object[]> masterSid = getQueryForUserDefinedLevel(input);
 				GtnWsRecordBean userDefData = customizeRelationDataForAutoBuild(masterSid).get(0);
 				userDefinedLevelDataList.addAll(customizeRelationDataForAutoBuild(masterSid));
-				hirarchyNo = getHierarchyNoforQuery(hirarchyNo,
-						userDefData
-								.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()));
+				hirarchyNo = getHierarchyNoforQuery(hirarchyNo, userDefData
+						.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()));
 			} else {
 				GtnFrameworkFileReadWriteService fileReadWriteService = new GtnFrameworkFileReadWriteService();
 				GtnFrameworkHierarchyQueryBean queryBaen = fileReadWriteService.getQueryFromFile(
@@ -745,7 +741,7 @@ public class GtnWsRelationshipBuilderService {
 				if (finalQuery.length() > 0) {
 					finalQuery.append(" UNION ALL ");
 				}
-				
+
 				finalQuery.append(query);
 			}
 
@@ -760,10 +756,9 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	private String checkForSelectOne(String query) {
-		String quer=query;
-		if(quer.contains(HELPER_JOIN_DESCRIPTION))
-		{
-			quer=quer.concat(" AND HELPER_JOIN .DESCRIPTION<> '-Select One-' ");
+		String quer = query;
+		if (quer.contains(HELPER_JOIN_DESCRIPTION)) {
+			quer = quer.concat(" AND HELPER_JOIN .DESCRIPTION<> '-Select One-' ");
 		}
 		return quer;
 	}
@@ -787,17 +782,18 @@ public class GtnWsRelationshipBuilderService {
 			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean) throws CloneNotSupportedException {
 		for (GtnWsRecordBean userdefinedData : userDefinedLevelDataList) {
 			if (hierarchyLevelDefinitionBean.getLevelNo() == Integer.parseInt(userdefinedData
-					.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal())
-					.toString())) {
+					.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()).toString())) {
 				for (GtnWsRecordBean linkedBean : linkedLevelDataList) {
-					if (Integer.parseInt(linkedBean
-							.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal())
-							.toString()) == hierarchyLevelDefinitionBean.getLevelNo() - 1) {
+					if (Integer.parseInt(
+							linkedBean.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal())
+									.toString()) == hierarchyLevelDefinitionBean.getLevelNo() - 1) {
 						GtnWsRecordBean newUserDefinedData = userdefinedData.cloneGtnWsRecordBean();
-						String masterId=userdefinedData
-								.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()).toString();
-						String linkedHierarchyno=linkedBean
-								.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()).toString();
+						String masterId = userdefinedData
+								.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal())
+								.toString();
+						String linkedHierarchyno = linkedBean
+								.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal())
+								.toString();
 						newUserDefinedData.setPropertyValueByIndex(
 								GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal(),
 								(linkedHierarchyno + masterId + "."));
@@ -1319,9 +1315,9 @@ public class GtnWsRelationshipBuilderService {
 				session.saveOrUpdate(relationshipLevel);
 
 				if (levelBean.getChildList() != null && !levelBean.getChildList().isEmpty()) {
-					saveRelationshipBuilderLevels(relationshipBuilder, date, hierarchyNo,
-							hierarchyLevelDTO.getLevelNo() + GtnFrameworkWebserviceConstant.STRING_TILT
-									+ hierarchyLevelDTO.getHiddenId(),
+					saveRelationshipBuilderLevels(
+							relationshipBuilder, date, hierarchyNo, hierarchyLevelDTO.getLevelNo()
+									+ GtnFrameworkWebserviceConstant.STRING_TILT + hierarchyLevelDTO.getHiddenId(),
 							levelBean.getChildList(), session);
 				}
 			}

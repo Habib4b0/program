@@ -1328,17 +1328,11 @@ public class DataSelectionLogic {
 
 	public List<Leveldto> getChildLevelsWithHierarchyNo(String hierarchyNo, int lowestLevelNo,
 			final Map<String, String> descriptionMap, Object businessUnit, Leveldto selectedLevelDto,
-			int hierarchyVersion, int relationShipVersion, int subListIndex) {
-		List<Object[]> resultss;
+			int hierarchyVersion, int relationShipVersion, int subListIndex,Date forecastEligibleDate) {
+		List<Object[]> resultss= null;
 		List<Leveldto> resultList = null;
 		try {
 			Leveldto dto;
-			List<Object> inputs = new ArrayList<>();
-			inputs.add(hierarchyNo);
-			inputs.add(hierarchyNo);
-			inputs.add(lowestLevelNo);
-			inputs.add(relationShipVersion);
-			inputs.add(hierarchyVersion);
 			String query = StringUtils.EMPTY;
 			if (!String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).equals("0")
 					&& !String.valueOf(businessUnit).isEmpty()) {
@@ -1346,8 +1340,19 @@ public class DataSelectionLogic {
 						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
 				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
 			} else {
-				query = "getChildLevelsWithHierarchyNo_New";
-				resultss = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtils.getQuery(inputs, query));
+                            
+                        List<Object> inputs = new ArrayList<>();
+                        resultList=relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(), hierarchyVersion);
+                        List<String> relationHierarchy=relationLogic.
+                                getSelectedCustomerLevel(selectedLevelDto, Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, resultList, StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate,lowestLevelNo);
+                        inputs.add(StringUtils.join(relationHierarchy, ","));
+			inputs.add(lowestLevelNo);
+			inputs.add(relationShipVersion);
+			inputs.add(hierarchyVersion);
+                        
+                                if (!relationHierarchy.isEmpty()) {
+                                resultss = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtils.getQuery(inputs, "childLevelsHierarchyNo"));
+                                }
 			}
 
 			if (resultss != null) {
@@ -2614,4 +2619,11 @@ public class DataSelectionLogic {
             List<Object[]> removedcontract = QueryUtils.getAppData(inputList, "eligibledatealertquery",null);
             return   removedcontract.toString().replace("[", "").replace("]", "");
         }
+        
+    public Date getWorkflowEligibleDateFromProjMaster(final DataSelectionDTO dataSelectionDTO) {
+        String datequery = "SELECT FORECAST_ELIGIBLE_DATE FROM PROJECTION_MASTER where PROJECTION_MASTER_SID=" + dataSelectionDTO.getProjectionId() + "";
+        List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery, null, null);
+        return workflowforecastEligibleDate != null ? (Date) workflowforecastEligibleDate.get(0) : null;
+    }
+        
 }
