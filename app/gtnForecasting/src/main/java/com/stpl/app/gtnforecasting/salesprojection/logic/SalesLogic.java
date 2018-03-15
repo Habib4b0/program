@@ -2039,7 +2039,7 @@ public class SalesLogic {
     
     public void saveRecords(String propertyId, String editedValue, Double incOrDecPer, String changedValue, SalesRowDto salesDTO, ProjectionSelectionDTO projectionSelectionDTO, boolean checkAll, boolean isManualEntry) throws PortalException, SystemException {
 
-        String key = StringUtils.EMPTY;
+        String key;
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
             StringBuilder updateLine = new StringBuilder(StringUtils.EMPTY);
@@ -2093,26 +2093,32 @@ public class SalesLogic {
                 case PROJECTED_SALES:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        updateLine.append(" PROJECTION_SALES = PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(')');
+                        updateLine.append(" PROJECTION_SALES = PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')');
+                        updateLine.append(" ,PROJECTION_UNITS = (PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')').append(')')
+                                  .append(" /(NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
-                        updateLine.append(" PROJECTION_SALES=").append(finalvalue.toString()).append("");
+                        updateLine.append(" PROJECTION_SALES=").append(finalvalue).append("");
+                        updateLine.append(" ,PROJECTION_UNITS= ").append(finalvalue).append("")
+                                  .append(" /(NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
                     }
                     break;
                 case Constant.PROJECTED_UNITS1:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append("))/COALESCE(NULLIF(UOM_VALUE,0),1) ");
+                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1) ");
+                            updateLine.append(" ,PROJECTION_SALES= ((PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1)) * (NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
                         } else {
-                            updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append(')');
+                            updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append(')');
                         }
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(' ');
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(' ');
+                            updateLine.append(" ,PROJECTION_SALES=").append('(').append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1)) * (NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ").append(' ');
                         } else {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append(' ');
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append(' ');
                         }
 
                     }
@@ -2160,7 +2166,7 @@ public class SalesLogic {
 
             String updateQuery = SQlUtil.getQuery("line-level-update");
             updateQuery = updateQuery.replace("[?UPDATE_LINE]", updateLine.toString());
-            String uomJoin = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=NMSP.CCP_DETAILS_SID  LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='" + projectionSelectionDTO.getUomCode() + "'";
+            String uomJoin = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='" + projectionSelectionDTO.getUomCode() + "'";
             if (Constant.PROJECTED_UNITS1.equals(column) && CommonUtil.isValueEligibleForLoading()) {
                 updateQuery = updateQuery.replace("@CCP_DETAIL_JOIN", uomJoin);
             } else {
@@ -2172,9 +2178,11 @@ public class SalesLogic {
             projectionSelectionDTO.getUpdateQueryMap().put(key+","+changedValue,QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             if (column.equals(PROJECTED_SALES) || column.equals(Constant.PROJECTED_UNITS1)) {
                 checkMultiVariables(key.trim(), column, projectionSelectionDTO);
+            }else{
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             }
         }
-        if (isManualEntry) {
+        if (isManualEntry && !CommonUtil.isValueEligibleForLoading()) {
             saveRecordsForManualEntry(changedValue, projectionSelectionDTO, salesDTO, checkAll);
         }
 
@@ -2191,7 +2199,6 @@ public class SalesLogic {
       public Object executeUpdateQuery(ProjectionSelectionDTO projectionSelectionDTO) {
           for (Map.Entry<String, String> entry : projectionSelectionDTO.getUpdateQueryMap().entrySet()) {
               HelperTableLocalServiceUtil.executeUpdateQuery(entry.getValue());
-              callManualEntry(projectionSelectionDTO, (entry.getKey()).split(",")[1].contains(Constant.SALES_SMALL) ? Constant.SALES_SMALL : Constant.UNITS_SMALL);
           }
         projectionSelectionDTO.getUpdateQueryMap().clear();
         return BooleanConstant.getTrueFlag();

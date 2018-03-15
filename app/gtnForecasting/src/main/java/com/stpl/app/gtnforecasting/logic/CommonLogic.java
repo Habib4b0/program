@@ -76,6 +76,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
 import com.stpl.ifs.util.constants.BooleanConstant;
+import java.util.Locale;
 /**
  *
  * @author Abhiram
@@ -92,6 +93,9 @@ public class CommonLogic {
     public static final String SALES = "SALES";
     public static final String CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST = "CROSS APPLY (SELECT DISTINCT TOKEN FROM UDF_SPLITSTRING('";
     private static final String RELATIONSHIP_BUILDER_SID = "' and relationship_builder_sid = ";
+    private static final String RBSID = " RELATIONSHIP_BUILDER_SID = ";
+    private static final String VERSION_NO = " AND VERSION_NO = ";
+    private static final String RLDPARENT_HIERARCHY_NO_LIKE = " AND RLD.PARENT_HIERARCHY_NO LIKE '";
     
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
@@ -4311,21 +4315,21 @@ public class CommonLogic {
     public String getJoinBasedOnTab(String tabName, String groupFilterValue, String screenName) {
         String sql = StringUtils.EMPTY;
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
-            if (tabName.toLowerCase().contains("sales")) {
+            if (tabName.toLowerCase(Locale.ENGLISH).contains("sales")) {
                 sql += SQlUtil.getQuery("sales-join-nonmandated");
                 sql += addGroupFilterCondtion("All Sales Groups", groupFilterValue.trim().equalsIgnoreCase("null") || groupFilterValue.isEmpty() ? Constant.PERCENT : groupFilterValue);
-            } else if (tabName.toLowerCase().contains("discount")) {
+            } else if (tabName.toLowerCase(Locale.ENGLISH).contains("discount")) {
                 sql += SQlUtil.getQuery("discount-join");
                 sql += addGroupFilterCondtion(Constant.ALL_DISCOUNT_GROUP, groupFilterValue);
-            } else if (tabName.toLowerCase().contains("ppa")) {
+            } else if (tabName.toLowerCase(Locale.ENGLISH).contains("ppa")) {
                 sql += SQlUtil.getQuery("ppa-join");
                 sql += addGroupFilterCondtion("All PPA Group", groupFilterValue);
-            } else if (tabName.toLowerCase().contains("alternate_history")) {
+            } else if (tabName.toLowerCase(Locale.ENGLISH).contains("alternate_history")) {
                 sql += SQlUtil.getQuery("alternate-join-count");
-            } else if (tabName.toLowerCase().contains("variance")) {
+            } else if (tabName.toLowerCase(Locale.ENGLISH).contains("variance")) {
                   sql += SQlUtil.getQuery("discount-join");
             }
-        } else if (tabName.toLowerCase().contains("m_discount")) {
+        } else if (tabName.toLowerCase(Locale.ENGLISH).contains("m_discount")) {
             sql += SQlUtil.getQuery("discount-join-mandated");
         } else {
             sql += SQlUtil.getQuery("sales-join-mandated");
@@ -5052,7 +5056,7 @@ public class CommonLogic {
             columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO ";
         }else {
             String parentHierNo = replacePercentHierarchy(hierarchyNo);
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierNo +RELATIONSHIP_BUILDER_SID+ sessionDTO.getDedRelationshipBuilderSid() +Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT +
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO = "+ levelNo +RLDPARENT_HIERARCHY_NO_LIKE+ parentHierNo +RELATIONSHIP_BUILDER_SID+ sessionDTO.getDedRelationshipBuilderSid() +Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT +
 "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
         }
         return columnName;
@@ -5068,12 +5072,56 @@ public class CommonLogic {
             columnName.append(sessionDTO.getProductRelationVersion());
         } else {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
-            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = ").append( levelNo ).append(" AND RLD.PARENT_HIERARCHY_NO LIKE '").append( parentHierarchyNo ).append(RELATIONSHIP_BUILDER_SID).append( sessionDTO.getDedRelationshipBuilderSid() ).append(" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " 
-                    ).append(" AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = ")
+                    .append(levelNo).append(RLDPARENT_HIERARCHY_NO_LIKE).append(parentHierarchyNo)
+                    .append(RELATIONSHIP_BUILDER_SID).append(sessionDTO.getDedRelationshipBuilderSid())
+                    .append(" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ")
+                    .append("AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");
             columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.relationship_level_values=A.HIERARCHY_NO ");
         }
         return columnName.toString();
     }
+    
+    
+    public String getDedCustomJoinGenerateForCurrent(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+         StringBuilder columnName = new StringBuilder();
+        if (hierarchyIndicator.equalsIgnoreCase("C")) {
+             columnName.append(Constant.RELATIONSHIPJOINCURRENT);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
+        } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
+            columnName.append(Constant.RELATIONSHIPJOINCURRENT);
+            columnName.append(sessionDTO.getProductRelationVersion());
+        } else {
+            String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
+            columnName.append(" JOIN #CURRENT_SPLIT RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = ").append(levelNo)
+                    .append(RLDPARENT_HIERARCHY_NO_LIKE).append(parentHierarchyNo)
+                    .append(RELATIONSHIP_BUILDER_SID).append(sessionDTO.getDedRelationshipBuilderSid())
+                    .append(" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ").append(" AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");
+                    }
+        return columnName.toString();
+    }
+    
+    
+    public String getDedCustomJoinGenerateForParent(SessionDTO sessionDTO, String hierarchyIndicator) {
+         StringBuilder columnName = new StringBuilder();
+        if (hierarchyIndicator.equalsIgnoreCase("C")) {
+             columnName.append(RBSID);
+             columnName.append(sessionDTO.getCustRelationshipBuilderSid());
+             columnName.append(VERSION_NO);
+             columnName.append(sessionDTO.getCustomerRelationVersion());
+        } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
+             columnName.append(RBSID);
+             columnName.append(sessionDTO.getProdRelationshipBuilderSid());
+             columnName.append(VERSION_NO);
+             columnName.append(sessionDTO.getProductRelationVersion());
+        } else {
+             columnName.append(RBSID);
+             columnName.append(sessionDTO.getDedRelationshipBuilderSid());
+        }
+        return columnName.toString();
+    }
+    
+    
     
      public String getRelJoinGenerate(String hierarchyIndicator,SessionDTO sessionDTO) {
         StringBuilder columnName = new StringBuilder();
@@ -5144,7 +5192,7 @@ public class CommonLogic {
                 break;
             case 'M':
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])) - 1);
-                header = discountId+monthName.toLowerCase() + separator + obj[NumericConstants.TWO].toString();
+                header = discountId+monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO].toString();
                 break;
             default:
                 header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();

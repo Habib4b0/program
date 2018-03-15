@@ -1002,8 +1002,8 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( " CONTRACT_END_DATE,\n"
                     ).append( " CHECK_RECORD, \n"
                     ).append( " CASH_PAID_DATE, \n"
-                    ).append( " USER_ID,\n"
-                    ).append( " SESSION_ID,\n"
+                    ).append( Constant.USER_ID_WITH_COMMA
+                    ).append( Constant.SESSION_ID_WITH_COMMA
                     ).append( " LAST_MODIFIED_DATE)\n"
                     ).append( " SELECT A.PROJECTION_DETAILS_SID,\n"
                     ).append( " A.MARKET_TYPE,\n"
@@ -1015,8 +1015,8 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( " A.CONTRACT_END_DATE,\n"
                     ).append( " A.CHECK_RECORD, \n"
                     ).append( " A.CASH_PAID_DATE,\n"
-                    ).append( sessionDto.getUserId() ).append( " USER_ID,\n"
-                    ).append( sessionDto.getSessionId() ).append( " SESSION_ID,\n"
+                    ).append( sessionDto.getUserId() ).append( Constant.USER_ID_WITH_COMMA
+                    ).append( sessionDto.getSessionId() ).append( Constant.SESSION_ID_WITH_COMMA
                     ).append( '\'' ).append( lastModified ).append( "' LAST_MODIFIED_DATE \n"
                     ).append( " FROM dbo.M_SUPPLEMENTAL_DISC_MASTER A,\n"
                     ).append( " dbo.PROJECTION_DETAILS B\n"
@@ -1039,8 +1039,8 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( " PARITY_DISCOUNT,\n"
                     ).append( " PROJECTION_RATE,\n"
                     ).append( " PROJECTION_SALES,\n"
-                    ).append( " USER_ID,\n"
-                    ).append( " SESSION_ID,\n"
+                    ).append( Constant.USER_ID_WITH_COMMA
+                    ).append( Constant.SESSION_ID_WITH_COMMA
                     ).append( " LAST_MODIFIED_DATE )\n"
                     ).append( " SELECT A.PROJECTION_DETAILS_SID,\n"
                     ).append( " A.PERIOD_SID,\n"
@@ -1054,8 +1054,8 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( " A.PARITY_DISCOUNT,\n"
                     ).append( " A.PROJECTION_RATE,\n"
                     ).append( " A.PROJECTION_SALES,\n"
-                    ).append(  sessionDto.getUserId() ).append( " USER_ID,\n"
-                    ).append(  sessionDto.getSessionId() ).append( " SESSION_ID,\n"
+                    ).append(  sessionDto.getUserId() ).append( Constant.USER_ID_WITH_COMMA
+                    ).append(  sessionDto.getSessionId() ).append( Constant.SESSION_ID_WITH_COMMA
                     ).append( "	'" ).append( lastModified ).append( "' LAST_MODIFIED_DATE \n"
                     ).append( " FROM M_SUPPLEMENTAL_DISC_PROJ A,\n"
                     ).append( " dbo.PROJECTION_DETAILS B\n"
