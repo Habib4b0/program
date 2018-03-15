@@ -1060,7 +1060,7 @@ public class DPRQueryUtils {
             String werQuery = " where CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n";
 
 
-            query.append(tempSelect + fromQuery + tempFrom + werQuery + tempWerQuery );
+            query.append(tempSelect ).append( fromQuery ).append( tempFrom ).append( werQuery ).append( tempWerQuery );
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             String sql=QueryUtil.replaceTableNames(query.toString(), projSelDTO.getSessionDTO().getCurrentTableNames());
             List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(sql);

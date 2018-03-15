@@ -525,7 +525,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                 masterSid = dto.getContractMasterSid();
                 psSid = dto.getPsContractSid();
                 if (contractQuery.length() == 0) {
-                    contractQuery.append("'" ).append( masterSid ).append( "'");
+                    contractQuery.append('\'' ).append( masterSid ).append( '\'');
                 } else {
                     contractQuery.append(", '" ).append( masterSid ).append( " '");
                 }
