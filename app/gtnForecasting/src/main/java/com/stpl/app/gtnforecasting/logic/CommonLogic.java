@@ -4075,7 +4075,7 @@ public class CommonLogic {
             }
             stringBuilder.append("('");
             stringBuilder.append(hierarchy.trim());
-            stringBuilder.append("'," ).append( i++ ).append( ")");
+            stringBuilder.append("'," ).append( i++ ).append( ')');
             isNotFirstElement = true;
         }
         }
@@ -4177,7 +4177,7 @@ public class CommonLogic {
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
                 if(!flag){
-                stringBuilder.append("'," ).append( i++ ).append( ")");
+                stringBuilder.append("'," ).append( i++ ).append( ')');
                 }else{
                 stringBuilder.append("')");
                 }

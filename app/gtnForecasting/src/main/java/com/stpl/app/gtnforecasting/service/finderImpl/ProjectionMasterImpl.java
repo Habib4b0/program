@@ -38,23 +38,23 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             if ("Returns".equals(parameters.get(Constant.MODULE_NAME))) {
                 if (parameters.get(Constant.LAZY_LOAD_RESULTS) != null && Constant.LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(Constant.LAZY_LOAD_RESULTS)))) {
                     queryString.append(SQlUtil.getQuery(getClass(),"searchProjectionForReturns"));
-                    queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( "'");
+                    queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( '\'');
                 } else {
                     queryString.append(SQlUtil.getQuery(getClass(),"searchProjectionCountForReturns"));
-                    queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( "'");
+                    queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( '\'');
                 }
             } else if (parameters.get(Constant.LAZY_LOAD_RESULTS) != null && Constant.LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(Constant.LAZY_LOAD_RESULTS)))) {
                 queryString.append(SQlUtil.getQuery(getClass(),"searchProjection"));
                 queryString.replace(queryString.indexOf(accFieldValue), queryString.indexOf(accFieldValue) + accFieldValue.length(), String.valueOf(parameters.get("selectValue")));
                 queryString.replace(queryString.indexOf(accProjJoin), queryString.indexOf(accProjJoin) + accProjJoin.length(), String.valueOf(parameters.get("leftJoinValue")));
                 queryString.replace(queryString.indexOf(filterValue), queryString.indexOf(filterValue) + filterValue.length(), String.valueOf(parameters.get("whereFilterValue")));
-                queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( "'");
+                queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( '\'');
 
             } else {
                 queryString.append(SQlUtil.getQuery(HelperTableLocalServiceUtil.class,"searchProjectionCount"));
                 queryString.replace(queryString.indexOf(accProjJoin), queryString.indexOf(accProjJoin) + accProjJoin.length(), String.valueOf(parameters.get("leftJoinValue")));
                 queryString.replace(queryString.indexOf(filterValue), queryString.indexOf(filterValue) + filterValue.length(), String.valueOf(parameters.get("whereFilterValue")));
-                queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( "'");
+                queryString.append(Constant.AND_PMFORECASTING_TYPE_LIKE ).append( String.valueOf(parameters.get(Constant.MODULE_NAME)) ).append( '\'');
             }
 
             if (parameters.get("projectionDescription") != null) {
@@ -968,7 +968,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                             ).append( "DESCRIPTION like'" ).append( String.valueOf(parameters.get(Constant.DEDUCTION_VALUE)) ).append( Constant.AND_LIST_NAME ).append( String.valueOf(parameters.get(Constant.DEDUCTION_LEVEL)) ).append( "' \n"
                             ).append( "))");
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && ("Company".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))))) {
-                    queryBuilder.append("\n"
+                    queryBuilder.append('\n'
                             ).append( "Select Distinct  CFP_CD_SID.COMPANY_MASTER_SID from Constant.CONTRACT_MASTER CM \n"
                             ).append( "Join CFP_CONTRACT CFP_SID ON CM.CONTRACT_MASTER_SID = CFP_SID.CONTRACT_MASTER_SID\n"
                             ).append( "Join  CFP_CONTRACT_DETAILS CFP_CD_SID  ON  CFP_CD_SID.CFP_CONTRACT_SID=CFP_SID.CFP_CONTRACT_SID\n"
@@ -981,7 +981,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                             ).append( "                            AND COM_MAS.COMPANY_TYPE IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n"
                             ).append( "                            DESCRIPTION like'GLCOMP' AND LIST_NAME='COMPANY_TYPE')");
                 } else if (parameters.get(Constant.LEVEL_NAME) != null && ("Item".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) || Constant.PRODUCT_LABEL.equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))) || "Ndc".equalsIgnoreCase(String.valueOf(parameters.get(Constant.LEVEL_NAME))))) {
-                    queryBuilder.append("\n"
+                    queryBuilder.append('\n'
                             ).append( Constant.SELECT_DISTINCT_IFP_CD_SID_ITEM_MASTER_SID
                             ).append( Constant.JOIN_IFP_CONTRACT_IFP_SID_ON_CM_CONTRACT_M
                             ).append( Constant.JOIN_IFP_CONTRACT_DETAILS_IFP_CD_SID_ON_I

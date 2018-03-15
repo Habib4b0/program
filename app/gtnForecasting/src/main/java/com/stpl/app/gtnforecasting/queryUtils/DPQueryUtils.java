@@ -260,7 +260,7 @@ public class DPQueryUtils {
             query.append(" CCP.CCP_DETAILS_SID\n");
             query.append(" FROM   RELATIONSHIP_LEVEL_DEFINITION RLD\n");
             query.append(" JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID\n");
-            query.append(" JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " ).append( projectionId ).append( "\n");
+            query.append(" JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = " ).append( projectionId ).append( '\n');
             query.append(" JOIN   PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID\n");
             query.append(" WHERE  PM.PROJECTION_MASTER_SID = " ).append( projectionId ).append( ") CCPMAP,\n");
             query.append(" (SELECT RLD1.HIERARCHY_NO,\n");
@@ -270,7 +270,7 @@ public class DPQueryUtils {
             query.append(" RLD1.LEVEL_NAME\n");
             query.append(" FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n");
             query.append(" JOIN   " ).append( hierarchy ).append( "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID\n");
-            query.append(" AND PCH.PROJECTION_MASTER_SID = " ).append( projectionId ).append( "\n");
+            query.append(" AND PCH.PROJECTION_MASTER_SID = " ).append( projectionId ).append( '\n');
             query.append(" WHERE  RLD1.HIERARCHY_NO LIKE '%' AND RLD1.LEVEL_NO >= " ).append( startLevelNo ).append( endLevelRestriction ).append( ") HLD\n");
             query.append(" WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n " ).append( orderBy);
 
@@ -291,7 +291,7 @@ public class DPQueryUtils {
         query.append(" WHERE  PD.PROJECTION_MASTER_SID = " ).append( projectionId);
 
         query.append(" AND RS.RS_TYPE = ");
-        query.append("'" ).append( discountName ).append( "')A ON A.PROJECTION_DETAILS_SID = DM.PROJECTION_DETAILS_SID  WHERE DM.CHECK_RECORD = 1");
+        query.append('\'' ).append( discountName ).append( "')A ON A.PROJECTION_DETAILS_SID = DM.PROJECTION_DETAILS_SID  WHERE DM.CHECK_RECORD = 1");
 
         query.append(" AND A.RS_CONTRACT_SID = DM.RS_CONTRACT_SID");
         return query.toString();
@@ -315,12 +315,12 @@ public class DPQueryUtils {
         query.append(" JOIN \"PERIOD\" Ppr on DP.PERIOD_SID=Ppr.PERIOD_SID  ");
         query.append(" WHERE B.PROJECTION_MASTER_SID=" ).append( projectionId ).append( " AND DPM.CHECK_RECORD = 1");
 
-        query.append("AND RS.RS_TYPE = '" ).append( discountName ).append( "'");
+        query.append("AND RS.RS_TYPE = '" ).append( discountName ).append( '\'');
 
         query.append(" AND Ppr.PERIOD_SID in(SELECT PERIOD_SID from \"PERIOD\" PR WHERE " ).append( period ).append( " IN (" ).append( selectedPeriodsToUpdate ).append( ")) ");
         query.append(" GROUP BY DPM.PROJECTION_DETAILS_SID, DP.PERIOD_SID )A ON A.PROJECTION_DETAILS_SID = DP.PROJECTION_DETAILS_SID WHERE DP.PERIOD_SID = A.PERIOD_SID");
-        query.append(" AND DP.USER_ID = " ).append( userId ).append( "\n");
-        query.append(" AND DP.SESSION_ID = " ).append( sessionId ).append( "\n");
+        query.append(" AND DP.USER_ID = " ).append( userId ).append( '\n');
+        query.append(" AND DP.SESSION_ID = " ).append( sessionId ).append( '\n');
 
         return query.toString();
     }

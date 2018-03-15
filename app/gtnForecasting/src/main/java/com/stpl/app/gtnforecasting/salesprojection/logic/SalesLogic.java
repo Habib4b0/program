@@ -1574,7 +1574,7 @@ public class SalesLogic {
             StringBuilder queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
             queryBuilder1.append(" UPDATE ST_RETURNS_PROJ_MASTER ").append(" SET CHECK_RECORD=").append(value ? 1 : 0).append(" \n"
                     ).append( "WHERE RETURNS_DETAILS_SID in \n"
-                    ).append( "(" ).append( projectionSelectionDTO.getSessionDTO().getDetailsSID() ).append( " )");
+                    ).append( '(' ).append( projectionSelectionDTO.getSessionDTO().getDetailsSID() ).append( " )");
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
 
             salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
@@ -3092,7 +3092,7 @@ public class SalesLogic {
                 ).append( "		ACTUAL_PROJECTION_SALES,\n"
                 ).append( "		ACTUAL_PROJECTION_UNITS\n"
                 ).append( "		FROM dbo.ST_M_ACTUAL_SALES\n"
-                ).append( "	 WHERE USER_ID=" ).append( userId ).append( "AND SESSION_ID=" ).append( sessionId ).append( "\n"
+                ).append( "	 WHERE USER_ID=" ).append( userId ).append( "AND SESSION_ID=" ).append( sessionId ).append( '\n'
                 ).append( "		) AS SOURCE  \n"
                 ).append( "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)\n"
                 ).append( "	WHEN MATCHED \n"
@@ -3129,7 +3129,7 @@ public class SalesLogic {
                 ).append( "		FORECAST_END_PERIOD_SID,\n"
                 ).append( "		ALLOCATION_BASIS \n"
                 ).append( "		FROM dbo.ST_M_SALES_PROJECTION_MASTER\n"
-                ).append( "		WHERE USER_ID=" ).append( userId ).append( " AND SESSION_ID=" ).append( sessionId ).append( "\n"
+                ).append( "		WHERE USER_ID=" ).append( userId ).append( " AND SESSION_ID=" ).append( sessionId ).append( '\n'
                 ).append( "		) AS SOURCE \n"
                 ).append( "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID)\n"
                 ).append( "		WHEN MATCHED \n"
@@ -3171,7 +3171,7 @@ public class SalesLogic {
                 ).append( "		PROJECTION_UNITS,\n"
                 ).append( "		PERIOD_SID\n"
                 ).append( "		FROM dbo.ST_M_SALES_PROJECTION\n"
-                ).append( "		WHERE USER_ID=" ).append( userId ).append( " AND SESSION_ID=" ).append( sessionId ).append( "\n"
+                ).append( "		WHERE USER_ID=" ).append( userId ).append( " AND SESSION_ID=" ).append( sessionId ).append( '\n'
                 ).append( "		) AS SOURCE \n"
                 ).append( "		ON (TARGET.PROJECTION_DETAILS_SID=SOURCE.PROJECTION_DETAILS_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID)\n"
                 ).append( "		WHEN MATCHED \n"
@@ -3505,7 +3505,7 @@ public class SalesLogic {
             if (isUpdate) {
                 queryBuilder.append(" Update ST_RETURNS_PROJ_MASTER SET CHECK_RECORD =" ).append( checkValue ).append( StringUtils.EMPTY);
                 if (StringUtils.isNotBlank(returnDetailsSid)) {
-                    queryBuilder.append(" WHERE  RETURNS_DETAILS_SID IN (" ).append( returnDetailsSid ).append( ")");
+                    queryBuilder.append(" WHERE  RETURNS_DETAILS_SID IN (" ).append( returnDetailsSid ).append( ')');
                 }
                 List list = salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), sessionDTO.getCurrentTableNames()));
                 if (!list.isEmpty()) {
@@ -3789,7 +3789,7 @@ public class SalesLogic {
         StringBuilder queryBuilder = new StringBuilder();
         try {
             if (isUpdate) {
-                queryBuilder.append(" Update ST_RETURNS_PROJ_MASTER SET CHECK_RECORD =" ).append( checkValue ).append( " ");
+                queryBuilder.append(" Update ST_RETURNS_PROJ_MASTER SET CHECK_RECORD =" ).append( checkValue ).append( ' ');
                 salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), sessionDTO.getCurrentTableNames()));
             } else {
                 queryBuilder.append(" SELECT DISTINCT CHECK_RECORD from ST_RETURNS_PROJ_MASTER where  (CHECK_RECORD IS NOT NULL OR CHECK_RECORD <> '')");

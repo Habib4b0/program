@@ -48,6 +48,7 @@ public final class AccrualRateProjectionLogic {
 
     private static AccrualRateProjectionLogic accrualRateProjectionLogic;
     private static List<String> selectedCompanyList = new ArrayList<>();
+    private static final String OFFSET = " OFFSET ";
 
     /**
      * Private Constructor to restrict instantiation outside this class.
@@ -459,7 +460,7 @@ public final class AccrualRateProjectionLogic {
                     ).append( " JOIN   CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = APD.CCP_DETAILS_SID\n"
                     ).append( " AND APD.PROJECTION_MASTER_SID ='" ).append( accrualRateSelectionDTO.getProjectionId() ).append( "' \n"
                     ).append( " ORDER  BY ITEM_MASTER_SID\n"
-                    ).append( " OFFSET " ).append( start ).append( " ROWS FETCH NEXT  " ).append( offset ).append( " ROWS ONLY) \n");
+                    ).append( OFFSET ).append( start ).append( " ROWS FETCH NEXT  " ).append( offset ).append( " ROWS ONLY) \n");
         }
         query.append("select SA.ITEM_MASTER_SID,IM.ITEM_NO,P.MONTH,P.YEAR,SA.TOTAL_UNITS as actTotalUnits,\n"
                 ).append( "SA.EXCLUDED_UNITS as actExcludedUnits,\n"
@@ -717,7 +718,7 @@ public final class AccrualRateProjectionLogic {
         if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {
             query.append(" ORDER BY A.COMPANY_ID  ASC ");
         }
-        query.append(" OFFSET ").append(start);
+        query.append(OFFSET).append(start);
         query.append(Constant.ROWS_FETCH_NEXT_SPACE).append(end).append(" ROWS ONLY;");
 
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
@@ -870,7 +871,7 @@ public final class AccrualRateProjectionLogic {
             query.append(" ORDER BY CM.COMPANY_NAME  ASC ");
         }
 
-        query.append(" OFFSET ").append(start);
+        query.append(OFFSET).append(start);
         query.append(Constant.ROWS_FETCH_NEXT_SPACE).append(end).append(" ROWS ONLY;");
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
         return customizeExludedValuesToDTO(list);

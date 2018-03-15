@@ -4312,7 +4312,7 @@ public class DataSelection extends ForecastDataSelection {
 					.replace("@PD_SID", CollectionToString));
 		}
 		queryBuilder
-				.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (" ).append( CollectionToString ).append( ")");
+				.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (" ).append( CollectionToString ).append( ')');
 
 		HelperTableLocalServiceUtil.executeUpdateQuery(queryBuilder.toString());
 	}

@@ -3772,30 +3772,30 @@ public class MProjectionResultsLogic {
                 ).append( " , @PROJECTION_DATE DATE\n"
                 ).append( " , @START_PERIOD_SID INT\n"
                 ).append( " , @END_PERIOD_SID INT\n"
-                ).append( "\n"
+                ).append( '\n'
                 ).append( " SELECT TOP 1 @STARTFROM = DATEADD(YY, DATEDIFF(YY, 0, DATEADD(YY, - 3, GETDATE())), 0)\n"
                 ).append( " , @PROJECTION_DATE = DATEADD(M, DATEDIFF(M, 0, DATEADD(DAY, - 1, DATEADD(QQ, DATEDIFF(QQ, 0, TO_DATE) ).append( 1, 0))), 0)\n"
                 ).append( " FROM PROJECTION_MASTER\n"
-                ).append( " WHERE PROJECTION_MASTER_SID = " ).append( projSelDTO.getProjectionId() ).append( "\n"
-                ).append( "\n"
+                ).append( " WHERE PROJECTION_MASTER_SID = " ).append( projSelDTO.getProjectionId() ).append( '\n'
+                ).append( '\n'
                 ).append( " SELECT @START_PERIOD_SID = PERIOD_SID\n"
                 ).append( " FROM PERIOD\n"
                 ).append( " WHERE PERIOD_DATE = @STARTFROM\n"
-                ).append( "\n"
+                ).append( '\n'
                 ).append( " SELECT @END_PERIOD_SID = PERIOD_SID\n"
                 ).append( " FROM PERIOD\n"
                 ).append( " WHERE PERIOD_DATE = @PROJECTION_DATE\n"
                 ).append( customerProductQuery 
                 ).append( " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
                 ).append( " DROP TABLE #TEMP_CCP;\n"
-                ).append( "\n"
+                ).append( '\n'
                 ).append( " CREATE TABLE #TEMP_CCP (\n"
                 ).append( " COMPANY_MASTER_SID INT\n"
                 ).append( " , CONTRACT_MASTER_SID INT\n"
                 ).append( " , ITEM_MASTER_SID INT\n"
                 ).append( " , PROJECTION_MASTER_SID INT\n"
                 ).append( " )\n"
-                ).append( "\n"
+                ).append( '\n'
                 ).append( " INSERT INTO #TEMP_CCP (\n"
                 ).append( " COMPANY_MASTER_SID\n"
                 ).append( " , CONTRACT_MASTER_SID\n"
@@ -3809,27 +3809,27 @@ public class MProjectionResultsLogic {
                 ).append( " FROM\n"
                 ).append( " CCP_DETAILS C\n"
                 ).append( " , PROJECTION_MASTER PM\n"
-                ).append( " WHERE  PM.PROJECTION_MASTER_SID = " ).append( projSelDTO.getProjectionId() ).append( "\n"
+                ).append( " WHERE  PM.PROJECTION_MASTER_SID = " ).append( projSelDTO.getProjectionId() ).append( '\n'
                 ).append( " and EXISTS (SELECT 1 FROM\n"
                 ).append( " #SELECTED_HIERARCHY_NO CCP WHERE CCP.CCP_DETAILS_SID = C.CCP_DETAILS_SID)\n"
                 ).append( " DECLARE @ITEMID [DBO].[UDT_ITEM]\n"
-                ).append( "\n"
+                ).append( '\n'
                 ).append( " INSERT INTO @ITEMID\n"
                 ).append( " SELECT IM.ITEM_MASTER_SID\n"
                 ).append( " FROM ITEM_MASTER IM\n"
                 ).append( " WHERE EXISTS (\n"
                 ).append( " SELECT 1\n"
                 ).append( " FROM #TEMP_CCP A\n"
-                ).append( " WHERE PROJECTION_MASTER_SID =  " ).append( projSelDTO.getProjectionId() ).append( "\n"
+                ).append( " WHERE PROJECTION_MASTER_SID =  " ).append( projSelDTO.getProjectionId() ).append( '\n'
                 ).append( " AND IM.ITEM_MASTER_SID = A.ITEM_MASTER_SID\n"
-                ).append( " ) select " ).append( list.get(0) ).append( "\n"
+                ).append( " ) select " ).append( list.get(0) ).append( '\n'
                 ).append( " ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-Isnull(TODIS.ACTUAL_SALES, 0)),\n"
                 ).append( " PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-Isnull(TODIS.PROJECTION_SALES, 0)),COGS_ACTUAL = ISNULL(SALE.COGS_ACTUAL, 0)\n"
                 ).append( " ,COGS_PROJECTED = ISNULL(SALE.COGS_PROJECTED, 0)\n"
                 ).append( " ,NET_PROFIT_ACTUAL = ((Isnull(SALE.SALES_ACTUAL_SALES, 0) - (Isnull(TODIS.MADD_ACTUAL_SALES, 0) + Isnull(TODIS.SUPP_ACTUAL_SALES, 0))) - ISNULL(SALE.COGS_ACTUAL, 0))\n"
                 ).append( " ,NET_PROFIT_PROJECTED = ((Isnull(SALE.SALES_PROJECTION_SALES, 0) - (Isnull(TODIS.MADD_ACTUAL_SALES, 0) + Isnull(TODIS.SUPP_ACTUAL_SALES, 0))) - ISNULL(SALE.COGS_PROJECTED, 0)) from (\n"
-                ).append( Constant.SELECT_SMALL_SPACE ).append( list2.get(0) ).append( "\n"
-                ).append( "\n"
+                ).append( Constant.SELECT_SMALL_SPACE ).append( list2.get(0) ).append( '\n'
+                ).append( '\n'
                 ).append( " (Isnull(HISTORY.MAD_ACTUAL_SALES,0)+Isnull(HISTORY.SUP_ACTUAL_SALES,0)) as ACTUAL_SALES,\n"
                 ).append( " ((Isnull(HISTORY.MAD_ACTUAL_RATE,0)+Isnull(HISTORY.SUP_ACTUAL_RATE,0))/2) as ACTUAL_RATE,\n"
                 ).append( " (ISNULL(HISTORY.MAD_ACTUAL_RPU, 0) + ISNULL(HISTORY.SUP_ACTUAL_RPU, 0) ) AS ACTUAL_RPU,\n"
@@ -3858,7 +3858,7 @@ public class MProjectionResultsLogic {
                 ).append( " SPMA ON SPMA.CCP_DETAILS_SID =  CCP.CCP_DETAILS_SID\n"
                 ).append( " AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
                 ).append( " INNER  JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
-                ).append( " GROUP  BY  " ).append( periodGroup ).append( "\n"
+                ).append( " GROUP  BY  " ).append( periodGroup ).append( '\n'
                 ).append( " CCP.HIERARCHY_NO,\n"
                 ).append( " p.\"YEAR\"\n"
                 ).append( " ) HISTORY FULL  JOIN (\n"
@@ -3881,7 +3881,7 @@ public class MProjectionResultsLogic {
                 ).append( " SPMA ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
                 ).append( " AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
                 ).append( " INNER  JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
-                ).append( " GROUP  BY  " ).append( periodGroup ).append( "\n"
+                ).append( " GROUP  BY  " ).append( periodGroup ).append( '\n'
                 ).append( " CCP.HIERARCHY_NO,\n"
                 ).append( " p.\"YEAR\"\n"
                 ).append( " ) FUTURE\n" + "ON HISTORY.YEARS = FUTURE.YEARS  "
@@ -3894,7 +3894,7 @@ public class MProjectionResultsLogic {
                 ).append( " ,Isnull(FUTURE.PROJECTION_UNITS, HISTORY.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
                 ).append( " ,Isnull(HISTORY.COGS_ACTUAL, 0) AS COGS_ACTUAL\n"
                 ).append( " ,Isnull(FUTURE.COGS_PROJECTED, 0) AS COGS_PROJECTED\n"
-                ).append( " FROM (\n"
+                ).append( " FROM ( \n"
                 ).append( " SELECT YEARS\n"
                 ).append( periodValue
                 ).append( " ,sum(A.ACTUAL_SALES) AS SALES_ACTUAL_SALES\n"
@@ -3902,7 +3902,7 @@ public class MProjectionResultsLogic {
                 ).append( " ,sum(A.ACTUAL_UNITS) AS ACTUAL_UNITS\n"
                 ).append( " ,sum(A.ACTUAL_PROJECTION_UNITS) AS PROJECTION_UNITS\n"
                 ).append( " ,SUM(A.COGS_ACTUAL) AS COGS_ACTUAL\n"
-                ).append( " FROM (\n"
+                ).append( "  FROM (\n "
                 ).append( " SELECT I.\"YEAR\" AS YEARS\n"
                 ).append( value
                 ).append( " ,A.ACTUAL_SALES\n"
@@ -3929,7 +3929,7 @@ public class MProjectionResultsLogic {
                 ).append( " ,0 AS ACTUAL_UNITS\n"
                 ).append( " ,sum(P.PROJECTION_UNITS) AS PROJECTION_UNITS\n"
                 ).append( " ,SUM(P.COGS_PROJECTED) AS COGS_PROJECTED\n"
-                ).append( " FROM (\n"
+                ).append( "   FROM (  \n"
                 ).append( " SELECT I.\"YEAR\" AS YEARS\n"
                 ).append( value
                 ).append( " ,A.PROJECTION_SALES\n"
@@ -3990,7 +3990,7 @@ public class MProjectionResultsLogic {
                 ).append( "  FROM RELATIONSHIP_LEVEL_DEFINITION RLD\n"
                 ).append( "  INNER JOIN CCP_MAP CCP\n"
                 ).append( "    ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID\n"
-                ).append( "    AND RLD.RELATIONSHIP_BUILDER_SID = " ).append( projSelDTO.getCustRelationshipBuilderSid() ).append( "\n"
+                ).append( "    AND RLD.RELATIONSHIP_BUILDER_SID = " ).append( projSelDTO.getCustRelationshipBuilderSid() ).append( '\n'
                 ).append( "  INNER JOIN PROJECTION_DETAILS PD\n"
                 ).append( "    ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 ).append( "    AND PD.PROJECTION_MASTER_SID =  " ).append( projSelDTO.getProjectionId() ).append( ") CCPMAPC\n"
@@ -4001,7 +4001,7 @@ public class MProjectionResultsLogic {
                 ).append( "  FROM RELATIONSHIP_LEVEL_DEFINITION RLD\n"
                 ).append( "  INNER JOIN CCP_MAP CCP\n"
                 ).append( "    ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID\n"
-                ).append( "    AND RLD.RELATIONSHIP_BUILDER_SID = " ).append( projSelDTO.getProdRelationshipBuilderSid() ).append( "\n"
+                ).append( "    AND RLD.RELATIONSHIP_BUILDER_SID = " ).append( projSelDTO.getProdRelationshipBuilderSid() ).append( '\n'
                 ).append( "  INNER JOIN PROJECTION_DETAILS PD\n"
                 ).append( "    ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 ).append( "    AND PD.PROJECTION_MASTER_SID =   " ).append( projSelDTO.getProjectionId() ).append( ") CCPMAPP\n"
@@ -4013,13 +4013,13 @@ public class MProjectionResultsLogic {
                 ).append( "  FROM dbo.CUSTOM_VIEW_DETAILS CVD\n"
                 ).append( "  INNER JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD\n"
                 ).append( "    ON CVD.HIERARCHY_ID = HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                ).append( "    AND CVD.CUSTOM_VIEW_MASTER_SID =" ).append( projSelDTO.getCustomId() ).append( "\n"
+                ).append( "    AND CVD.CUSTOM_VIEW_MASTER_SID =" ).append( projSelDTO.getCustomId() ).append( '\n'
                 ).append( "    AND CVD.LEVEL_NO LIKE '" ).append( customerLevelNo ).append( "'\n"
                 ).append( "  INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2\n"
                 ).append( "    ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD2.HIERARCHY_LEVEL_DEFINITION_SID\n"
                 ).append( "  INNER JOIN PROJECTION_CUST_HIERARCHY PCH2\n"
                 ).append( "    ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID\n"
-                ).append( "    AND PCH2.PROJECTION_MASTER_SID =  " ).append( projSelDTO.getProjectionId() ).append( "\n"
+                ).append( "    AND PCH2.PROJECTION_MASTER_SID =  " ).append( projSelDTO.getProjectionId() ).append( '\n'
                 ).append( "  WHERE RLD2.HIERARCHY_NO LIKE '" ).append( customerHierarchyNo ).append( "') HLDC\n"
                 ).append( "    ON CCPMAPC.HIERARCHY_NO LIKE HLDC.HIERARCHY_NO + '%'\n"
                 ).append( "  INNER JOIN  (SELECT\n"
@@ -4029,13 +4029,13 @@ public class MProjectionResultsLogic {
                 ).append( "  FROM dbo.CUSTOM_VIEW_DETAILS CVD\n"
                 ).append( "  INNER JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD\n"
                 ).append( "    ON CVD.HIERARCHY_ID = HLD.HIERARCHY_LEVEL_DEFINITION_SID\n"
-                ).append( "    AND CVD.CUSTOM_VIEW_MASTER_SID = " ).append( projSelDTO.getCustomId() ).append( "\n"
+                ).append( "    AND CVD.CUSTOM_VIEW_MASTER_SID = " ).append( projSelDTO.getCustomId() ).append( '\n'
                 ).append( "    AND CVD.LEVEL_NO LIKE '" ).append( productLevelNo ).append( "'\n"
                 ).append( "  INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD2\n"
                 ).append( "    ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD2.HIERARCHY_LEVEL_DEFINITION_SID\n"
                 ).append( "  INNER JOIN PROJECTION_PROD_HIERARCHY PCH2\n"
                 ).append( "    ON PCH2.RELATIONSHIP_LEVEL_SID = RLD2.RELATIONSHIP_LEVEL_SID\n"
-                ).append( "    AND PCH2.PROJECTION_MASTER_SID =  " ).append( projSelDTO.getProjectionId() ).append( "\n"
+                ).append( "    AND PCH2.PROJECTION_MASTER_SID =  " ).append( projSelDTO.getProjectionId() ).append( '\n'
                 ).append( "  WHERE RLD2.HIERARCHY_NO LIKE '" ).append( productHierarchyNo ).append( "') HLDP\n"
                 ).append( "    ON CCPMAPP.HIERARCHY_NO LIKE HLDP.HIERARCHY_NO + '%'\n"
                 ).append( "  INNER JOIN PROJECTION_DETAILS PD \n"
@@ -4054,14 +4054,14 @@ public class MProjectionResultsLogic {
                 ).append( " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID,PD.PROJECTION_DETAILS_SID\n"
                 ).append( " FROM RELATIONSHIP_LEVEL_DEFINITION RLD\n"
                 ).append( " INNER  JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
-                ).append( " AND RLD.RELATIONSHIP_BUILDER_SID=" ).append( relationshipBuilderSid ).append( "\n"
+                ).append( " AND RLD.RELATIONSHIP_BUILDER_SID=" ).append( relationshipBuilderSid ).append( '\n'
                 ).append( " INNER  JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID\n"
                 ).append( " AND PD.PROJECTION_MASTER_SID=" ).append( projSelDTO.getProjectionId() ).append( " ) CCPMAP,\n"
                 ).append( "  (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID\n"
                 ).append( "  FROM RELATIONSHIP_LEVEL_DEFINITION RLD1\n"
                 ).append( " INNER  JOIN " ).append( CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator()) ).append( " PCH\n"
                 ).append( "  ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID\n"
-                ).append( "  AND PCH.PROJECTION_MASTER_SID=" ).append( projSelDTO.getProjectionId() ).append( "\n"
+                ).append( "  AND PCH.PROJECTION_MASTER_SID=" ).append( projSelDTO.getProjectionId() ).append( '\n'
                 ).append( "  WHERE RLD1.HIERARCHY_NO like '" ).append( projSelDTO.getHierarchyNo() ).append( "%') HLD\n"
                 ).append( "  WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO+'%' ) LCCP\n"
                 ).append( "  WHERE LCCP.HIERARCHY_NO in\n"
@@ -4069,7 +4069,7 @@ public class MProjectionResultsLogic {
                 ).append( "  FROM RELATIONSHIP_LEVEL_DEFINITION RLD2\n"
                 ).append( " INNER  JOIN " ).append( CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator()) ).append( " PCH2\n"
                 ).append( "  ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID\n"
-                ).append( "  AND PCH2.PROJECTION_MASTER_SID=" ).append( projSelDTO.getProjectionId() ).append( "\n"
+                ).append( "  AND PCH2.PROJECTION_MASTER_SID=" ).append( projSelDTO.getProjectionId() ).append( '\n'
                 ).append( "  WHERE RLD2.LEVEL_NO=" ).append( projSelDTO.getTreeLevelNo() ).append( ")\n");
 
         return cusProdQuery.toString();

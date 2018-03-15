@@ -1368,7 +1368,7 @@ public class CommonUtils {
         StringBuilder result = new StringBuilder();
         if (resultList != null && !resultList.isEmpty()) {
             for (Object value : resultList) {
-                result.append(value ).append( ",");
+                result.append(value ).append( ',');
             }
             result.deleteCharAt(result.length() - 1);
             return result.toString();

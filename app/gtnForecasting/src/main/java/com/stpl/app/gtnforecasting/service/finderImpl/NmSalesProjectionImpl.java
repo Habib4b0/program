@@ -255,11 +255,11 @@ public class NmSalesProjectionImpl {
 
                 queryBuilder1.append(Constant.WHERE_PD_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 if (!iscustom) {
-                    queryBuilder1.append(Constant.AND_RLD_LEVEL_NO ).append(levelNo).append( "'");
+                    queryBuilder1.append(Constant.AND_RLD_LEVEL_NO ).append(levelNo).append( '\'');
                 }
                 queryBuilder1.append(" AND nm_mas.USER_ID = '" ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( "' AND nm_ac.USER_ID  = '" ).append( userid ).append( Constant.AND_NM_AC_SESSION_ID ).append( sessionId ).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 if (!levelName.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                    queryBuilder1.append(" and RLD.PARENT_NODE= '" ).append(parentLevel).append( "~" ).append( levelName ).append( Constant.SPACE_DOUBLE_NEW_LINE);
+                    queryBuilder1.append(" and RLD.PARENT_NODE= '" ).append(parentLevel).append( '~' ).append( levelName ).append( Constant.SPACE_DOUBLE_NEW_LINE);
                 }
                 
                 
@@ -427,11 +427,11 @@ public class NmSalesProjectionImpl {
                     queryBuilder1.append("  ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID    \n");
                     queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PERIOD_SID_NM_SP_PERIOD ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                     if (!iscustom) {
-                        queryBuilder1.append(Constant.AND_RLD_LEVEL_NO ).append(levelNo).append( "'");
+                        queryBuilder1.append(Constant.AND_RLD_LEVEL_NO ).append(levelNo).append( '\'');
                     }
                     queryBuilder1.append("    AND nm_mas.USER_ID = '" ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
                     if (!levelName.equalsIgnoreCase(Constant.STRING_EMPTY)) {
-                        queryBuilder1.append("    and RLD.PARENT_NODE= '" ).append( (parentLevel) ).append( "~" ).append( levelName ).append( Constant.SPACE_NEW_LINE);
+                        queryBuilder1.append("    and RLD.PARENT_NODE= '" ).append( (parentLevel) ).append( '~' ).append( levelName ).append( Constant.SPACE_NEW_LINE);
                     }
                     
                        if (!userGroup.equalsIgnoreCase(Constant.STRING_EMPTY)) {
@@ -556,7 +556,7 @@ public class NmSalesProjectionImpl {
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
                 queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
                 if (!checkAll) {
-                    queryBuilder1.append( " " ).append( hierarchyNos ).append( Constant.NEW_LINE);
+                    queryBuilder1.append( ' ' ).append( hierarchyNos ).append( Constant.NEW_LINE);
                 }
                 queryBuilder1.append(Constant.HLD_WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
@@ -756,7 +756,7 @@ if(!custom){
                 }
                 queryBuilder1.append(Constant.ON_PCH_RELATIONSHIP_LEVEL_SID_RL_D1_REL);
                 queryBuilder1.append(Constant.AND_P_CH_PROJECTION_MASTER_SID ).append(projectionId).append( Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(" " ).append( hierarchyNos ).append( Constant.HLD_NEW_LINE);
+                queryBuilder1.append(' ' ).append( hierarchyNos ).append( Constant.HLD_NEW_LINE);
                 queryBuilder1.append(Constant.WHERE_CCP_MAP_HIERARCHY_NO_LIKE_HLD_HIER);
                 queryBuilder1.append(Constant.WHERE_L_CCP_HIERARCHY_NO_IN);
                 queryBuilder1.append(Constant.SELECT_RL_D2_HIERARCHY_NO);

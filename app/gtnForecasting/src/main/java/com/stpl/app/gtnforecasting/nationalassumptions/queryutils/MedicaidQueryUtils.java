@@ -195,7 +195,7 @@ public class MedicaidQueryUtils {
 
         queryBuilder1.append(" AND ITEM_MASTER_SID=" ).append( itemSid);
 
-        queryBuilder1.append(" ) AND PRICE_TYPE='" ).append( pricetype ).append( "'");
+        queryBuilder1.append(" ) AND PRICE_TYPE='" ).append( pricetype ).append( '\'');
 
         queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
 

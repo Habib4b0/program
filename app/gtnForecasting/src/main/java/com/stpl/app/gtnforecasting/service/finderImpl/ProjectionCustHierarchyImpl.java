@@ -22,7 +22,7 @@ public class ProjectionCustHierarchyImpl {
     public List getComparisonSearch(String workflowStatus, String marketType, String brand,
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to) {
-        String QUOTES = "'";
+        char QUOTES = '\'';
         String ASTERIK = "*";
         String PERCENT = "%";
         String workflowStatusVal;
@@ -55,7 +55,7 @@ public class ProjectionCustHierarchyImpl {
                 marketTypeVal = marketType.replace('*', '%');
                 marketTypeVal = QUOTES + marketTypeVal + QUOTES;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " ).append( marketTypeVal ).append( ")");
+            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " ).append( marketTypeVal ).append( ')');
             if (brand == null || brand.equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
