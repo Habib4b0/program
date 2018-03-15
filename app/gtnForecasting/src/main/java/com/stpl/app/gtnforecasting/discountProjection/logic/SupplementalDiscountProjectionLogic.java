@@ -1378,7 +1378,7 @@ public class SupplementalDiscountProjectionLogic {
             tempGroupBy = " GROUP by CCP.COMPANY_MASTER_SID , CCP.CONTRACT_MASTER_SID,CCP.ITEM_MASTER_SID ";
         }
         query.append("FROM CCP_DETAILS CCP,ST_M_SUPPLEMENTAL_DISC_PROJ SDP" ).append( tempTable ).append( " WHERE CCP.CCP_DETAILS_SID = SDP.CCP_DETAILS_SID \n"
-                + tempwerCondition);
+                ).append( tempwerCondition);
 
         query.append(tempGroupBy);
         return (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);

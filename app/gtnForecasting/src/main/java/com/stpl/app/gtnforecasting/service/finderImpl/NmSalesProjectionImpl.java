@@ -858,7 +858,7 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                 queryBuilder1.append(Constant.ON_NM_MAS_PROJECTION_DETAILS_SID_NM_SP);
                 queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE ).append(projectionId).append( Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO).append(hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO).append(hierarchyNo).append(Constant.SPACE_NEW_LINE);
 
                queryBuilder1.append(Constant.CLOSE_BRACE_AND_USER_ID ).append( userid ).append( Constant.COLON_AND_SESSION_ID ).append( sessionId ).append( Constant.SPACE_NEW_LINE);
 
@@ -2032,7 +2032,7 @@ if(!custom){
                 queryBuilder1.append("   JOIN PERIOD p ON p.period_sid = nm_ac.PERIOD_SID  \n");
                 queryBuilder1.append("   WHERE  pd.PROJECTION_MASTER_SID =  '" ).append(projectionId).append( Constant.SPACE_NEW_LINE);
 
-                queryBuilder1.append("   AND nm_mas.USER_ID = '" ).append( userid ).append( "' AND nm_mas.SESSION_ID ='" ).append( sessionId ).append( "'  AND nm_ac.USER_ID  = '" ).append( userid ).append( Constant.AND_NM_AC_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO ).append(hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append("   AND nm_mas.USER_ID = '" ).append( userid ).append( "' AND nm_mas.SESSION_ID ='" ).append( sessionId ).append( "'  AND nm_ac.USER_ID  = '" ).append( userid ).append( Constant.AND_NM_AC_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO ).append(hierarchyNo).append(Constant.SPACE_NEW_LINE);
 
                 queryBuilder1.append("   GROUP  BY rld.RELATIONSHIP_LEVEL_VALUES,p.QUARTER, rld.RELATIONSHIP_LEVEL_SID ,rld.LEVEL_NO,p.\"YEAR\" ,rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO,rld.LEVEL_NAME  \n");
 
@@ -2077,7 +2077,7 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                 queryBuilder1.append("   ON nm_mas.PROJECTION_DETAILS_SID = nm_sp.PROJECTION_DETAILS_SID  \n");
                 queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE ).append(projectionId).append( Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( "' AND nm_mas.SESSION_ID =  '" ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( "'  AND nm_sp.SESSION_ID =  '" ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO).append(hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( "' AND nm_mas.SESSION_ID =  '" ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( "'  AND nm_sp.SESSION_ID =  '" ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO).append(hierarchyNo).append(Constant.SPACE_NEW_LINE);
                 queryBuilder1.append("   GROUP  BY rld.RELATIONSHIP_LEVEL_VALUES,p.QUARTER ,rld.LEVEL_NO,p.\"YEAR\"  ,rld.RELATIONSHIP_LEVEL_SID,CCP.HIERARCHY_NO ,rld.LEVEL_NAME  order by rld.RELATIONSHIP_LEVEL_VALUES,p.\"YEAR\",p.QUARTER  \n");
 
 
@@ -2269,7 +2269,7 @@ if(!custom){
                 queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);
                 queryBuilder1.append(Constant.ON_NM_MAS_PROJECTION_DETAILS_SID_NM_SP);
                 queryBuilder1.append(Constant.JOIN_PERIOD_P_ON_PPERIOD_SID_NM_SP_PE ).append(projectionId).append( Constant.SPACE_NEW_LINE);
-                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO+hierarchyNo+Constant.SPACE_NEW_LINE);
+                queryBuilder1.append(Constant.COLON_AND_NM_MAS_USER_ID ).append( userid ).append( Constant.AND_NM_MAS_SESSION_ID ).append( sessionId ).append( Constant.AND_NM_SP_USER_ID ).append( userid ).append( Constant.AND_NM_SP_SESSION_ID ).append( sessionId ).append( Constant.AND_RLD_HIERARCHY_NO).append(hierarchyNo).append(Constant.SPACE_NEW_LINE);
 
                queryBuilder1.append("  )   \n");
 

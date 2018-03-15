@@ -332,9 +332,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Approved Information", Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
-                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
-                                    sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID ).append( workflowIdUpdate ).append( " is Approved Succesfully.");
-                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -384,9 +381,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Rejected Information ", Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
-                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
-                                    sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID ).append( workflowIdUpdate ).append( " is Rejected Succesfully.");
-                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -431,9 +425,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", Constant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
-                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
-                                    sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID ).append( workflowIdUpdate ).append( " is Withdrawn Succesfully.");
-                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -480,9 +471,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Cancel Information", Constant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
-                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
-                                    sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID ).append( workflowIdUpdate ).append( " is cancelled Succesfully.");
-                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);

@@ -271,7 +271,7 @@ public class DPQueryUtils {
             query.append(" FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1\n");
             query.append(" JOIN   " ).append( hierarchy ).append( "  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID\n");
             query.append(" AND PCH.PROJECTION_MASTER_SID = " ).append( projectionId ).append( "\n");
-            query.append(" WHERE  RLD1.HIERARCHY_NO LIKE '%' AND RLD1.LEVEL_NO >= " ).append( startLevelNo ).append( endLevelRestriction + ") HLD\n");
+            query.append(" WHERE  RLD1.HIERARCHY_NO LIKE '%' AND RLD1.LEVEL_NO >= " ).append( startLevelNo ).append( endLevelRestriction ).append( ") HLD\n");
             query.append(" WHERE  CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' \n " ).append( orderBy);
 
         }
