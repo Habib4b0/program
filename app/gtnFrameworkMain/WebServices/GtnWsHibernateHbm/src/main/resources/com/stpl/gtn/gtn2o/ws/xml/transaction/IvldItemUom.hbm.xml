@@ -4,7 +4,7 @@
 <!-- Generated Feb 6, 2018 3:06:37 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemUom" table="IVLD_ITEM_UOM" schema="dbo">
-        <id name="ivldItemUomSid" type="int">
+        <id name="ivldItemUomSid" type="string">
             <column name="IVLD_ITEM_UOM_SID" />
             <generator class="native" />
         </id>
