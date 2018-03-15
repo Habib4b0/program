@@ -8746,6 +8746,21 @@ BEGIN
 		)
 END
 GO
+
+----------------------UPDATE QUERRY AS PER ALG-4106---------------------
+IF EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE SCRIPT_NAME='Customer_Price_Index_Intf.sh'
+			AND PROCESS_NAME = 'CONSUMER_PRICE_INDEX_INTERFACE'
+		)
+BEGIN
+	UPDATE WORKFLOW_PROFILE
+	SET SCRIPT_NAME = 'Consumer_Price_Index_Intf.sh' 
+	WHERE PROCESS_NAME = 'CONSUMER_PRICE_INDEX_INTERFACE'
+END
+GO
+----------------------ALG-4106 ENDS---------------------
 ----------------------------------PSTG_GL_COST_CENTER_INTERFACE -------------------------------------
 IF NOT EXISTS (
 		SELECT 1

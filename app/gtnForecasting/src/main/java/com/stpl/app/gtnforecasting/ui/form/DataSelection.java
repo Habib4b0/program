@@ -1668,7 +1668,7 @@ public class DataSelection extends ForecastDataSelection {
 			List<Leveldto> resultedLevelsList = null;
 			resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
 					Integer.parseInt(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
-						dedValue, relationVersionNo, forecastEligibleDate.getValue());
+						dedValue, relationVersionNo, forecastEligibleDate.getValue(),customerDescriptionMap);
 			if (selectedHierarchyLevelDto.getLevel() != null) {
 				levelName = selectedHierarchyLevelDto.getLevel();
 			}
@@ -2197,65 +2197,13 @@ public class DataSelection extends ForecastDataSelection {
 								selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
 							}
 						}
-						List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos,
-								selectedHierarchyNos);
-						List<String> removeValues = new ArrayList<>();
-						for (String uncommonHierValue : uncommonValues) {
-							if (selectedHierarchyNos.contains(uncommonHierValue)) {
-								removeValues.add(uncommonHierValue);
-							}
-						}
-						if (!removeValues.isEmpty()) {
-							uncommonValues.removeAll(removeValues);
-						}
-						if (!uncommonValues.isEmpty()) {
-							newParentLevels = logic.getParentLevelsWithHierarchyNo(
-									UiUtils.stringListToString(uncommonValues), customerDescriptionMap,
-									customerHierarchyVersionNo, customerRelationVersionNo);
-						}
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]));
-						if (newParentLevels != null) {
-							int pos2 = 0;
-							String parentHierarchyNo;
-							Leveldto parent = null;
-							for (Leveldto newLevel : newParentLevels) {
-								String tempHNo = newLevel.getHierarchyNo();
-								if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
-									tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
-								}
-								pos2 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
-								if (pos2 != -1) {
-									parentHierarchyNo = tempHNo.substring(0, pos2) + ".";
-								} else {
-									parentHierarchyNo = tempHNo + ".";
-								}
-								if (customerBeanList.isEmpty()
-										|| !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
-									customerBeanList.add(newLevel.getRelationshipLevelSid());
-									selectedCustomerContainer.addBean(newLevel);
-									if (forecastLevel != newLevel.getLevelNo()) {
-										selectedCustomerContainer.setChildrenAllowed(newLevel, true);
-									} else {
-										selectedCustomerContainer.setChildrenAllowed(newLevel, false);
-									}
-								}
+										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 
-								if (!StringUtils.isBlank(parentHierarchyNo)) {
-									for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
-										if (parentHierarchyNo.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
-											parent = selectedLevel;
-											break;
-										}
-									}
-								}
-								selectedCustomerContainer.setParent(newLevel, parent);
-								parent = newLevel;
-							}
 							if (!newChildLevels.isEmpty()) {
 								int pos3 = 0;
 								String childHierarchyNo;
@@ -2295,7 +2243,6 @@ public class DataSelection extends ForecastDataSelection {
 								}
 							}
 
-						}
 
 					} else {
 
@@ -2367,7 +2314,7 @@ public class DataSelection extends ForecastDataSelection {
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]));
+										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (customerBeanList.isEmpty()
@@ -2464,7 +2411,7 @@ public class DataSelection extends ForecastDataSelection {
 							UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 							customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 							customerHierarchyVersionNo, customerRelationVersionNo,
-							UiUtils.getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+							UiUtils.getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 					if (newParentLevels != null) {
 						for (Leveldto newLevel : newParentLevels) {
 							if (customerBeanList.isEmpty()
@@ -2551,7 +2498,7 @@ public class DataSelection extends ForecastDataSelection {
 							UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 							customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 							customerHierarchyVersionNo, customerRelationVersionNo,
-							UiUtils.getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+							UiUtils.getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 					if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
 						int pos3 = 0;
 						String childHierarchyNo;
@@ -2705,7 +2652,7 @@ public class DataSelection extends ForecastDataSelection {
 										customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 										customerHierarchyVersionNo, customerRelationVersionNo,
 										UiUtils.getDataSelectionFormattedLevelNo(
-												String.valueOf(level.getValue()).split("-")[0]));
+												String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 								if (newParentLevels != null) {
 									int pos2 = 0;
 									String parentHierarchyNo;
@@ -2879,7 +2826,7 @@ public class DataSelection extends ForecastDataSelection {
 									customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
 									UiUtils.getDataSelectionFormattedLevelNo(
-											String.valueOf(level.getValue()).split("-")[0]));
+											String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 							if (newParentLevels != null) {
 								for (Leveldto newLevel : newParentLevels) {
 									if (customerBeanList.isEmpty()
@@ -2977,7 +2924,7 @@ public class DataSelection extends ForecastDataSelection {
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]));
+										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 						if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
 							int pos3 = 0;
 							String childHierarchyNo;
@@ -3086,7 +3033,7 @@ public class DataSelection extends ForecastDataSelection {
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]));
+										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (customerBeanList.isEmpty()
@@ -3230,7 +3177,7 @@ public class DataSelection extends ForecastDataSelection {
 										productDescriptionMap, businessUnit.getValue(),
 										DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
 										productRelationVersionNo, UiUtils.getDataSelectionFormattedLevelNo(
-												String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 								if (newParentLevels != null) {
 									int pos2 = 0;
 									String parentHierarchyNo;
@@ -3384,7 +3331,7 @@ public class DataSelection extends ForecastDataSelection {
 									productDescriptionMap, businessUnit.getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
 									productRelationVersionNo, UiUtils.getDataSelectionFormattedLevelNo(
-											String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 							if (newParentLevels != null) {
 								for (Leveldto newLevel : newParentLevels) {
 									if (productBeanList.isEmpty()
@@ -3481,7 +3428,7 @@ public class DataSelection extends ForecastDataSelection {
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 						if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
 							int pos3 = 0;
 							String childHierarchyNo;
@@ -3589,7 +3536,7 @@ public class DataSelection extends ForecastDataSelection {
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 						if (newParentLevels != null) {
 							int pos2 = 0;
 							String parentHierarchyNo;
@@ -3857,7 +3804,7 @@ public class DataSelection extends ForecastDataSelection {
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 						if (newParentLevels != null) {
 							int pos2 = 0;
 							String parentHierarchyNo;
@@ -4006,7 +3953,7 @@ public class DataSelection extends ForecastDataSelection {
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (productBeanList.isEmpty()
@@ -4103,7 +4050,7 @@ public class DataSelection extends ForecastDataSelection {
 							productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 							productHierarchyVersionNo, productRelationVersionNo,
 							UiUtils.getDataSelectionFormattedLevelNo(
-									String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+									String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 					if (newParentLevels != null) {
 						for (Leveldto newLevel : newParentLevels) {
 							if (productBeanList.isEmpty()
@@ -4192,7 +4139,7 @@ public class DataSelection extends ForecastDataSelection {
 							productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 							productHierarchyVersionNo, productRelationVersionNo,
 							UiUtils.getDataSelectionFormattedLevelNo(
-									String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+									String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
 					if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
 						int pos3 = 0;
 						String childHierarchyNo;
@@ -4301,6 +4248,7 @@ public class DataSelection extends ForecastDataSelection {
 		moveLeftProduct.setEnabled(false);
 		moveRightProduct.setEnabled(false);
 		selectedProduct.setSelectable(false);
+                forecastEligibleDate.setEnabled(false);
 	}
 
 	private void loadDiscountDdlb(int discountSid, CompanyDdlbDto selectedDiscountDdlbDto) {
