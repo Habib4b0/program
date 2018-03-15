@@ -325,7 +325,7 @@ public class DataSelectionQueryUtils {
                 flag = true;
             }
 
-            sql.append("  NAM.CREATED_BY in(" + parameters.get(FILTERCREATED_BY) + ")");
+            sql.append("  NAM.CREATED_BY in(" ).append( parameters.get(FILTERCREATED_BY) ).append( ')');
 
         }
 
@@ -669,7 +669,7 @@ public class DataSelectionQueryUtils {
                 flag = true;
             }
 
-            sql.append("  NAM.CREATED_BY in(" + parameters.get(FILTERCREATED_BY) + ")");
+            sql.append("  NAM.CREATED_BY in(" ).append( parameters.get(FILTERCREATED_BY) ).append( ')');
 
         }
 

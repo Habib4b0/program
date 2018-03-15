@@ -331,11 +331,11 @@ public class RelationShipFilterLogic {
 				query.append(",'.'");
 				continue;
 			}
-			query.append(",");
+			query.append(',');
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName() + "."
-					+ singleColumnRelationBean.getWhereClauseColumn());
+			query.append(singleColumnRelationBean.getActualTtableName() ).append( '.'
+					).append( singleColumnRelationBean.getWhereClauseColumn());
 			query.append(",'.'");
 		}
 		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");

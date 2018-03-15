@@ -352,7 +352,7 @@ public class CommonLogic {
         int listSize = levelList.size() - 1;
         for (Object ob : levelList) {
             Leveldto dto = (Leveldto) ob;
-            query.append(" SELECT " + dto.getHierarchyId() + " , '" + dto.getHierarchyIndicator() + "' , " + customId + " , " + dto.getTreeLevelNo());
+            query.append(" SELECT " ).append( dto.getHierarchyId() ).append( " , '" ).append( dto.getHierarchyIndicator() ).append( "' , " ).append( customId ).append( " , " ).append( dto.getTreeLevelNo());
             if (i != listSize) {
                 query.append( " UNION ALL ");
             }
@@ -4079,7 +4079,7 @@ public class CommonLogic {
             }
             stringBuilder.append("('");
             stringBuilder.append(hierarchy.trim());
-            stringBuilder.append("'," + i++ + ")");
+            stringBuilder.append("'," ).append( i++ ).append( ')');
             isNotFirstElement = true;
         }
         }
@@ -4181,7 +4181,7 @@ public class CommonLogic {
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
                 if(!flag){
-                stringBuilder.append("'," + i++ + ")");
+                stringBuilder.append("'," ).append( i++ ).append( ')');
                 }else{
                 stringBuilder.append("')");
                 }
@@ -4984,7 +4984,7 @@ public class CommonLogic {
             switch (String.valueOf(hierarchyIndicator)) {
                 case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
                     if (StringUtils.isNotBlank(productHierarchyNo)) {
-                        joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ productHierarchyNo +"', ',') C WHERE CCPH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) CN");
+                        joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST ).append( productHierarchyNo ).append("', ',') C WHERE CCPH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) CN");
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                         String hierarchyNo = "%" + deductionHierarchyNo + "%";
@@ -4994,7 +4994,7 @@ public class CommonLogic {
                     break;
                 case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
                     if (StringUtils.isNotBlank(customerHierarchyNo)) {
-                        joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ customerHierarchyNo +Constant.HIERARCHY_NO_JOIN);
+                        joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST).append( customerHierarchyNo ).append(Constant.HIERARCHY_NO_JOIN);
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                          String hierarchyNo = "%" + deductionHierarchyNo + "%";
@@ -5007,7 +5007,7 @@ public class CommonLogic {
                     joinQuery.append(" AND CCPH.PROD_HIERARCHY_NO LIKE '");
                     joinQuery.append(productHierarchyNo);
                     joinQuery.append("%'");
-                    joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST + customerHierarchyNo + Constant.HIERARCHY_NO_JOIN);
+                    joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST ).append( customerHierarchyNo ).append( Constant.HIERARCHY_NO_JOIN);
                     break;
                 default:
                     LOGGER.warn("Invalid Hierarchy Indicator= {} " , hierarchyIndicator);
@@ -5072,7 +5072,6 @@ public class CommonLogic {
             columnName.append(sessionDTO.getProductRelationVersion());
         } else {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
-            
             columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = ")
                     .append(levelNo).append(RLDPARENT_HIERARCHY_NO_LIKE).append(parentHierarchyNo)
                     .append(RELATIONSHIP_BUILDER_SID).append(sessionDTO.getDedRelationshipBuilderSid())

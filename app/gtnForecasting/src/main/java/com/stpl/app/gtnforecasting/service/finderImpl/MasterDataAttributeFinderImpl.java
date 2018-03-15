@@ -30,7 +30,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(MasterDataAttribute
             }
             queryBuilder.append(" FROM MASTER_DATA_ATTRIBUTE M JOIN COMPANY_MASTER C ON C.COMPANY_ID=M.MASTER_ID  ");
             queryBuilder.append(" JOIN CCP_DETAILS CCP  ON C.COMPANY_MASTER_SID=CCP.COMPANY_MASTER_SID JOIN PROJECTION_DETAILS P ON CCP.CCP_DETAILS_SID=P.CCP_DETAILS_SID  ");
-            queryBuilder.append(" where M.MASTER_TYPE='COMPANY_MASTER' AND M.MASTER_ATTRIBUTE LIKE'%COV_LIVES%' and P.PROJECTION_MASTER_SID=" + inputs[0] + "   ");
+            queryBuilder.append(" where M.MASTER_TYPE='COMPANY_MASTER' AND M.MASTER_ATTRIBUTE LIKE'%COV_LIVES%' and P.PROJECTION_MASTER_SID=" ).append( inputs[0] ).append( "   ");
 
             list = HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
 
