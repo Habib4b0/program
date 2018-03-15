@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.serviceimpl.custprod;
+package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.serviceimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -11,9 +11,9 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBe
 
 @Component("CustProdWhere")
 @Scope(value = "singleton")
-public class GtnFrameworkAutomaticCustProdWhereServiceImpl implements GtnFrameworkWhereQueryGeneratorService {
+public class GtnFrameworkCustProdWhereServiceImpl implements GtnFrameworkWhereQueryGeneratorService {
 
-	public GtnFrameworkAutomaticCustProdWhereServiceImpl() {
+	public GtnFrameworkCustProdWhereServiceImpl() {
 		super();
 	}
 
