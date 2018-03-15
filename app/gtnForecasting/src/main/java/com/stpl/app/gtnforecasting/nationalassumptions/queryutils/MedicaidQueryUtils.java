@@ -191,11 +191,11 @@ public class MedicaidQueryUtils {
 
         queryBuilder1.append("  in ( ");
 
-        queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
+        queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS WHERE  NA_PROJ_MASTER_SID=" ).append( session.getProjectionId());
 
-        queryBuilder1.append(" AND ITEM_MASTER_SID=" + itemSid);
+        queryBuilder1.append(" AND ITEM_MASTER_SID=" ).append( itemSid);
 
-        queryBuilder1.append(" ) AND PRICE_TYPE='" + pricetype + "'");
+        queryBuilder1.append(" ) AND PRICE_TYPE='" ).append( pricetype ).append( '\'');
 
         queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
 
@@ -255,7 +255,7 @@ public class MedicaidQueryUtils {
 
                 queryBuilder1.append("  in  ( ");
 
-                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER  IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
+                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER  IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID=" ).append( session.getProjectionId());
 
                 queryBuilder1.append(Constant.AND_NDC9_IN_SELECT_ITEM_MASTER_SID +
                 Constant.FROM_ITEM_MASTER +
@@ -423,11 +423,11 @@ public class MedicaidQueryUtils {
 
                 queryBuilder1.append("  in  ( ");
 
-                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID =  IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID= " + session.getProjectionId());
+                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID =  IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID= " ).append( session.getProjectionId());
 
-                queryBuilder1.append(Constant.AND_NDC9_IN_SELECT_ITEM_MASTER_SID +
-                Constant.FROM_ITEM_MASTER +
-                Constant.WHERE_ITEM_ID + ndc9.trim());
+                queryBuilder1.append(Constant.AND_NDC9_IN_SELECT_ITEM_MASTER_SID ).append(
+                Constant.FROM_ITEM_MASTER ).append(
+                Constant.WHERE_ITEM_ID ).append( ndc9.trim());
 
                 queryBuilder1.append("')) AND PRICE_TYPE='" + (priceType.isEmpty() ? tempValue[2] : priceType) + '\'');
 
