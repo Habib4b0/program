@@ -3309,9 +3309,7 @@ public class MProjectionResultsLogic {
     }
 
     public String getProjectionResultsNetSalesQuery(ProjectionSelectionDTO projSelDTO) {
-        String selectClause = " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL\n"
-                + "     DROP TABLE #TEMP_CCP;\n"
-                + "\n"
+        String selectClause = " IF OBJECT_ID('TEMPDB.DBO.#TEMP_CCP', 'U') IS NOT NULL DROP TABLE #TEMP_CCP;\n"
                 + "CREATE TABLE #TEMP_CCP (\n"
                 + "     COMPANY_MASTER_SID INT\n"
                 + "     , CONTRACT_MASTER_SID INT\n"
