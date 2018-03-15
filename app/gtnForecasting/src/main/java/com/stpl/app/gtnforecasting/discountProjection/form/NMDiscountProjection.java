@@ -2287,8 +2287,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 + " a complete calendar year of periods to use as a baseline."
                                                 + "  Please select a complete calendar year of periods "
                                                 + "for each selected discount and try again.");
-                                    } else if (!CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())
-                                            && checkedDiscountsPropertyIds.isEmpty()) {
+                                    } else if (checkedDiscountsPropertyIds.isEmpty()) {
                                         NotificationUtils.getErrorNotification("No Discount selected",
                                                 "Please select atleast one discount.");
                                     } else if (methodologyDdlb.getValue().equals(AVERAGE.getConstant())
