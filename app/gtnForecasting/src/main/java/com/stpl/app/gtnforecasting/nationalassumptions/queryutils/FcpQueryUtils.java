@@ -190,11 +190,11 @@ public class FcpQueryUtils {
 
                 queryBuilder1.append("  in ( ");
 
-                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS WHERE  NA_PROJ_MASTER_SID=" + projId);
+                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS WHERE  NA_PROJ_MASTER_SID=" ).append( projId);
 
-                queryBuilder1.append(" AND ITEM_MASTER_SID=" + itemSid);
+                queryBuilder1.append(" AND ITEM_MASTER_SID=" ).append( itemSid);
 
-                queryBuilder1.append(" ) AND PRICE_TYPE='" + pricetype + "'");
+                queryBuilder1.append(" ) AND PRICE_TYPE='" ).append( pricetype ).append( '\'');
 
                 queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
@@ -225,11 +225,11 @@ public class FcpQueryUtils {
 
         queryBuilder1.append("  in ( ");
 
-        queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
+        queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS WHERE  NA_PROJ_MASTER_SID=" ).append( session.getProjectionId());
 
-        queryBuilder1.append(" AND ITEM_MASTER_SID=" + itemSid);
+        queryBuilder1.append(" AND ITEM_MASTER_SID=" ).append( itemSid);
 
-        queryBuilder1.append(" ) AND PRICE_TYPE='" + pricetype + "'");
+        queryBuilder1.append(" ) AND PRICE_TYPE='" ).append( pricetype ).append( '\'');
 
         queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
         String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
