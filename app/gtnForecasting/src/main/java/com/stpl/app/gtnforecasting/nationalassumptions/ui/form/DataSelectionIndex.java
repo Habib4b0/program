@@ -739,7 +739,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     productGroup.setReadOnly(true);
                     productGroupCompany = value.getCompany();
                     company.select(value.getCompanySid());
-                    company.setItemCaption(value.getCompanySid(), value.getCompany());
+                    company.setItemCaption(value.getCompanySid(), value.getCompanyNo()+ Constant.SPACE + Constant.DASH_NO_DATA + Constant.SPACE + value.getCompany());
                     company.setImmediate(true);
                     loadOnChangeEvent();
                 } 
