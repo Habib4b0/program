@@ -607,7 +607,7 @@ public class RelationShipFilterLogic {
 			query.append(',');
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName() ).append( ".")
+			query.append(singleColumnRelationBean.getActualTtableName() ).append( '.')
 					.append( singleColumnRelationBean.getWhereClauseColumn());
 			query.append(",'.'");
 		}

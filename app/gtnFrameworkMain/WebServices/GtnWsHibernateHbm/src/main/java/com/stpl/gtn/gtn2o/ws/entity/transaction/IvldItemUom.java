@@ -10,7 +10,7 @@ import java.util.Date;
 public class IvldItemUom  implements java.io.Serializable {
 
 
-     private int ivldItemUomSid;
+     private String ivldItemUomSid;
      private Double itemUomConversionId;
      private String itemId;
      private String itemNo;
@@ -41,11 +41,11 @@ public class IvldItemUom  implements java.io.Serializable {
     }
 
 	
-    public IvldItemUom(int ivldItemUomSid, Double itemUomConversionId) {
+    public IvldItemUom(String ivldItemUomSid, Double itemUomConversionId) {
         this.ivldItemUomSid = ivldItemUomSid;
         this.itemUomConversionId = itemUomConversionId;
     }
-    public IvldItemUom(int ivldItemUomSid, Double itemUomConversionId, String itemId, String itemNo, String itemName, String primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, String secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate, String errorCode, String errorField, String reprocessedFlag, Boolean checkRecord) {
+    public IvldItemUom(String ivldItemUomSid, Double itemUomConversionId, String itemId, String itemNo, String itemName, String primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, String secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate, String errorCode, String errorField, String reprocessedFlag, Boolean checkRecord) {
        this.ivldItemUomSid = ivldItemUomSid;
        this.itemUomConversionId = itemUomConversionId;
        this.itemId = itemId;
@@ -74,11 +74,11 @@ public class IvldItemUom  implements java.io.Serializable {
        this.checkRecord = checkRecord;
     }
    
-    public int getIvldItemUomSid() {
+    public String getIvldItemUomSid() {
         return this.ivldItemUomSid;
     }
     
-    public void setIvldItemUomSid(int ivldItemUomSid) {
+    public void setIvldItemUomSid(String ivldItemUomSid) {
         this.ivldItemUomSid = ivldItemUomSid;
     }
     public Double getItemUomConversionId() {

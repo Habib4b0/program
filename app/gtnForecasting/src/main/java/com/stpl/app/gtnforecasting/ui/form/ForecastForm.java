@@ -1519,7 +1519,7 @@ public class ForecastForm extends AbstractForm {
 				} else {
 					StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
 					if (!roleList.isEmpty()) {
-						notiMsg.append("\n Only " + roleList + " can submit a projection.");
+						notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
 					}
 					NotificationUtils.getAlertNotification("Permission Denied", notiMsg.toString());
 
@@ -2010,10 +2010,6 @@ public class ForecastForm extends AbstractForm {
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Approved Information",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
-											StringBuffer sb = new StringBuffer(Constant.BR_BR);
-											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
-													+ " is Approved Succesfully.");
-											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
 //											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
 //													"Workflow Approved Succesfully", sb);
 											getBtnApprove().setEnabled(false);
@@ -2065,10 +2061,6 @@ public class ForecastForm extends AbstractForm {
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Rejected Information ",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
-											StringBuffer sb = new StringBuffer(Constant.BR_BR);
-											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
-													+ " is Rejected Succesfully.");
-											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
 //											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
 //													"Workflow Rejected Succesfully", sb);
 											getBtnApprove().setEnabled(false);
@@ -2123,10 +2115,7 @@ public class ForecastForm extends AbstractForm {
 													Constant.WORKFLOW_ID + workflowIdUpdate
 															+ " withdrawn successfully");
 
-											StringBuffer sb = new StringBuffer(Constant.BR_BR);
-											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
-													+ " is Withdrawn Succesfully.");
-											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
+											
 //											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
 //													"Workflow Withdrawn Succesfully", sb);
 											getBtnApprove().setEnabled(false);
@@ -2180,10 +2169,6 @@ public class ForecastForm extends AbstractForm {
 													Constant.WORKFLOW_ID + workflowIdUpdate
 															+ " cancelled successfully");
 
-											StringBuffer sb = new StringBuffer(Constant.BR_BR);
-											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
-													+ " is cancelled Succesfully.");
-											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
 //											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
 //													"Workflow Cancelled Succesfully", sb);
 											getBtnApprove().setEnabled(false);

@@ -88,7 +88,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			notificationActionConfig.addActionParameter(
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabContractId").getStringFromField()
-							+ " has been successfully saved");
+							+ ","+GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabContractName").getStringFromField()+" has been successfully saved");
 			notificationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationActionConfig);
 
