@@ -85,14 +85,12 @@ public class GtnUIFrameWorkRSSaveAction implements GtnUIFrameWorkAction, GtnUIFr
 				"/" + GtnWsCDRContants.RS_SERVICE + GtnWsCDRContants.RS_SAVE_SERVICE, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
                 boolean flag = gtnResponse.getRebateScheduleInfoBean().isRsIdAlreadyExist();
-                               if(!flag){
-		if (gtnResponse.getGtnWsGeneralResponse().isSucess()) {
+                               if(!flag && gtnResponse.getGtnWsGeneralResponse().isSucess()){
 			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID,
 					gtnResponse.getRebateScheduleInfoBean().getSystemId());
 			GtnUIFrameworkBaseComponent tabsheet = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet");
 			tabsheet.getAsTabSheet().setSelectedTab(0);
-		}
-                }
+		}                
                 else{
 			throw new GtnFrameworkValidationFailedException(
 					"Rebate Schedule ID already exists. Please enter different Rebate Schedule ID","rebateScheduleId1");	
