@@ -25,6 +25,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -112,6 +113,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     public Button addBtn;
     @UiField("searchBtn")
     public Button searchBtn;
+    
     private final RebateTableLogic tableLogic = new RebateTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
@@ -215,7 +217,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         promoteTpToChDtoTableLayout.addComponent(tableLogic.createControls());
-        resultsTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
+        resultsTable.setColumnCheckBox(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
         for (Object propertyId : resultsTable.getVisibleColumns()) {
             resultsTable.setColumnWidth(propertyId, NumericConstants.ONE_SIX_EIGHT);
         }
@@ -388,7 +390,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
 
         if (isSearch(discountChBinder)) {
             selecteditemList.removeAll(selecteditemList.subList(0, selecteditemList.size()));
-            removeDiscountDto.setSearch(Boolean.TRUE);
+            removeDiscountDto.setSearch(BooleanConstant.getTrueFlag());
             tableLogic.setContainerDataSource(resultsContainer);
             resultsTable.setVisibleColumns(Constants.getInstance().discountSearchColumns);
             resultsTable.setColumnHeaders(Constants.getInstance().discountSearchHeaders);
@@ -612,7 +614,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
              */
             public void yesMethod() {
                 try {
-                      removeDiscountDto.setSearch(Boolean.FALSE);
+                      removeDiscountDto.setSearch(BooleanConstant.getFalseFlag());
                     tableLogic.loadSetData(removeDiscountDto, discountChBinder);
                 } catch (Exception ex) {
                     LOGGER.error("",ex);
@@ -653,7 +655,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     }
 
     public Boolean isSearch(final ErrorfulFieldGroup binder) {
-        Boolean flag = false;
+        boolean flag = false;
         if (getNull(binder.getField(Constants.CONTRACT_HOLDER).getValue().toString())) {
             flag = true;
         }

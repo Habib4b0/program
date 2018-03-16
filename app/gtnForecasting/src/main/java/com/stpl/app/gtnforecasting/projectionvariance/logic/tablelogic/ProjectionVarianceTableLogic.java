@@ -16,6 +16,7 @@ import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
 
+    
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
     protected PVSelectionDTO projSelDTO = new PVSelectionDTO();
     protected PVSelectionDTO baseVariables = new PVSelectionDTO();
@@ -215,13 +217,13 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

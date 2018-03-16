@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -48,7 +49,7 @@ public class GtnUIFrameworkEditButtonAction implements GtnUIFrameWorkAction, Gtn
 			}
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
 			GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
-			navigationActionConfig.addActionParameter(parameters.get(20).toString());
+            navigationActionConfig.addActionParameter(parameters.get(20).toString());
 			GtnUIFrameWorkAction navigationAction = GtnUIFrameworkActionType.NAVIGATION_ACTION
 					.getGtnUIFrameWorkAction();
 			navigationAction.configureParams(navigationActionConfig);
@@ -58,7 +59,7 @@ public class GtnUIFrameworkEditButtonAction implements GtnUIFrameWorkAction, Gtn
 			int versionNo = relationshipBean.getIntegerPropertyByIndex(index + 3);
 			GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(3).toString(), versionNo);
 			GtnUIFrameworkGlobalUI.addSessionProperty(parameters.get(4).toString(), relationshipBean);
-
+            GtnUIFrameworkGlobalUI.addSessionProperty("mode", String.valueOf(GtnUIFrameworkModeType.EDIT));
 			GtnUIFrameWorkAction logicAction = new GtnUIFrameworkViewButtonAction();
 			logicAction.configureParams(gtnUIFrameWorkActionConfig);
 			logicAction.doAction(componentId, gtnUIFrameWorkActionConfig);

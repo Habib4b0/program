@@ -98,6 +98,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 
 /**
  *
@@ -106,6 +107,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 public class Newcomponent extends CustomComponent {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Newcomponent.class);
+    
     @UiField("componenttype")
     public ComboBox componenttype;
     @UiField("SearchfieldNC")
@@ -180,6 +182,8 @@ public class Newcomponent extends CustomComponent {
     public TextField cfpfileName;
     @UiField("CFPType")
     public ComboBox CFPType;
+    @UiField("salesInclusion")
+    public ComboBox salesInclusion;
     /*ifp Component */
     @UiField("ifpId")
     public TextField ifpId;
@@ -264,6 +268,15 @@ public class Newcomponent extends CustomComponent {
     public ComboBox rebatePlanLevel;
     @UiField("rsType")
     public ComboBox rsType;
+    @UiField("deductionInclusion")
+    public ComboBox deductionInclusion;
+    @UiField("calculationLevel")
+    public ComboBox calculationLevel;
+    @UiField("calculationType")
+    public ComboBox calculationType;
+     @UiField("rebateFrequency")
+    public ComboBox rebateFrequency;
+    
     private String selectedCompanies = Constants.EMPTY;
     private String selectedItems = Constants.EMPTY;
     public static final String PRICE_VAL = "([0-9|\\.|])*";
@@ -331,7 +344,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
             componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-            componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+            componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
 
             Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
             for (Object column : visibleColumns) {
@@ -377,13 +390,19 @@ public class Newcomponent extends CustomComponent {
             rsComponent.setVisible(false);
             commonUtil.loadComboBox(rsStatus, UiUtils.STATUS, false);
             commonUtil.loadComboBox(rsRarType, UiUtils.REBATE_PROGRAM_TYPE, false);
-            commonUtil.loadComboBox(rebatePlanLevel, UiUtils.REBATE_PLAN_LEVEL, false);
+            commonUtil.loadComboBox(rebatePlanLevel, Constants.RS_CATEGORY_LISTNAME, false);
             commonUtil.loadComboBox(paymentFrequency, UiUtils.PAYMENT_FREQUENCY, false);
             commonUtil.loadComboBox(paymentMethod, UiUtils.PAYMENT_METHOD, false);
             commonUtil.loadComboBox(rsType, UiUtils.RS_TYPE, false);
             commonUtil.loadComboBox(calendar, UiUtils.RS_CALENDAR, false);
+            commonUtil.loadComboBox(deductionInclusion, Constants.LOCKED_STATUS_LISTNAME, false);
+            commonUtil.loadComboBox(calculationLevel, Constants.CALCULATION_LEVEL_LISTNAME, false);
+            commonUtil.loadComboBox(calculationType, Constants.CALCULATION_TYPE_LISTNAME, false);
+            commonUtil.loadComboBox(rebateFrequency, Constants.REBATE_FREQUENCY_LISTNAME, false);
+            
+            
             getSelectNull(rsStatus);
-
+            
             searchDDLB.setVisible(false);
             componentDetailsSelectedItem.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
             componentDetailsSelectedItem.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
@@ -393,7 +412,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSelectedItem.setEditable(true);
             componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
             componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
-            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
             componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
             componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
 
@@ -508,7 +527,7 @@ public class Newcomponent extends CustomComponent {
         componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
         componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
         componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-        componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+        componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
 
         Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
         for (Object column : visibleColumns) {
@@ -559,7 +578,7 @@ public class Newcomponent extends CustomComponent {
                     componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().newCompanyDetailsHeaders);
                     componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSearchTable.setColumnAlignment(Constants.COMPANY_END_DATE, ExtCustomTable.Align.CENTER);
-                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newCompanyDetailsColumns[0], Boolean.TRUE);
+                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newCompanyDetailsColumns[0], BooleanConstant.getTrueFlag());
 
                     Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
                     for (Object column : visibleColumns) {
@@ -590,6 +609,8 @@ public class Newcomponent extends CustomComponent {
                     CopyContractLogic.getSelectNull(CFPType);
                     commonUtil.loadComboBox(CFPType, UiUtils.CFP_TYPE, false);
                     CFPType.setValidationVisible(true);
+                    commonUtil.loadComboBox(salesInclusion, Constants.LOCKED_STATUS_LISTNAME, false);
+                    salesInclusion.setValidationVisible(true);
                     ifpComponent.setVisible(false);
                     psComponent.setVisible(false);
                     rsComponent.setVisible(false);
@@ -619,7 +640,7 @@ public class Newcomponent extends CustomComponent {
                     componentDetailsSearchTable.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSearchTable.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
 
-                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newIfpDetailsColumns[0], Boolean.TRUE);
+                    componentDetailsSearchTable.setColumnCheckBox(Constants.getInstance().newIfpDetailsColumns[0], BooleanConstant.getTrueFlag());
                     componentDetailsSelectedItem.setColumnAlignment(Constants.PS_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsSelectedItem.setColumnAlignment(Constants.PS_END_DATE, ExtCustomTable.Align.CENTER);
                     Object[] visibleColumns = componentDetailsSearchTable.getVisibleColumns();
@@ -874,7 +895,7 @@ public class Newcomponent extends CustomComponent {
         Collection<?> returnList = componentDetailsSearchTable.getItemIds();
 
         Set setA = new HashSet();
-        Boolean flag = false;
+        boolean flag = false;
         String ids = Constants.EMPTY;
         componentResultsContainer.removeAllItems();
         List<NewComponentDTO> list = new ArrayList<>();
@@ -898,7 +919,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
             componentDetailsSelectedItem.setVisibleColumns(Constants.CHECK, Constants.COMPANY_NO, Constants.COMPANY_NAME, Constants.COMPANY_STATUS, Constants.START_DATE, Constants.END_DATE);
             componentDetailsSelectedItem.setColumnHeaders(Constants.EMPTY, Constants.COMPANYNO, Constants.COMPANYNAME, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER);
-            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+            componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
             fieldDdlb.addItem(Constants.STATUS_FIELD);
             fieldDdlb.addItem(Constants.START_DATE_HEADER);
             fieldDdlb.addItem(Constants.END_DATE_HEADER);
@@ -1203,7 +1224,7 @@ public class Newcomponent extends CustomComponent {
 
     private String getIdString(Set set) {
         String ids = Constants.EMPTY;
-        Boolean flag = false;
+        boolean flag = false;
         for (Object id : set) {
             String idvalue = String.valueOf(id);
             if (!flag) {
@@ -1253,7 +1274,7 @@ public class Newcomponent extends CustomComponent {
             if (fieldDdlb.getValue() != null && !fieldDdlb.getValue().equals(Constants.SELECT_ONE)) {
                 String searchField = String.valueOf(fieldDdlb.getValue());
                 if (searchField.equals(Constants.STATUS_FIELD)) {
-                    Boolean flag = true;
+                    boolean flag = true;
                     if (statusddlb.getValue() != null) {
                         String value = String.valueOf(statusddlb.getValue());
                         Collection<?> returnList = componentDetailsSelectedItem.getItemIds();
@@ -1324,7 +1345,7 @@ public class Newcomponent extends CustomComponent {
                 String userID = String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
                 if (component.equals(Constants.COMPANY_FAMILY_PLAN)) {
                     if (1 - levelNumber == 1) {
-                        if (!cfpId.getValue().equals(Constants.EMPTY) && !cfpNo.getValue().equals(Constants.EMPTY) && !cfpName.getValue().equals(Constants.EMPTY) && cfpStatus.getValue() != null && cfpStartDate.getValue() != null && !cfpfileName.getValue().equals(Constants.EMPTY)) {
+                        if (!cfpId.getValue().equals(Constants.EMPTY) && !cfpNo.getValue().equals(Constants.EMPTY) && !cfpName.getValue().equals(Constants.EMPTY) && cfpStatus.getValue() != null && cfpStartDate.getValue() != null && !cfpfileName.getValue().equals(Constants.EMPTY)  && salesInclusion.getValue() != null) {
                             List listcId = null;
                             List listcNo = null;
                             if (!Constants.EMPTY.equals(cfpId.getValue())) {
@@ -1349,7 +1370,7 @@ public class Newcomponent extends CustomComponent {
                                     }
                                 }
                             }
-                            Boolean flag = false;
+                            boolean flag = false;
                             Collection<?> returnList1 = componentDetailsSelectedItem.getItemIds();
                             for (Object item : returnList1) {
                                 Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
@@ -1400,8 +1421,14 @@ public class Newcomponent extends CustomComponent {
                                 cfpTypedto.setId(0);
                                 cfpTypedto.setDescription(String.valueOf(CFPType.getValue()));
                                 dashboardResultsTable.getContainerProperty(rootId, "marketType").setValue(cfpTypedto);
+                                
+                                HelperDTO salesInclusionDto = new HelperDTO();
+                                salesInclusionDto.setId(0);
+                                salesInclusionDto.setDescription(String.valueOf(salesInclusion.getValue()));
+                                dashboardResultsTable.getContainerProperty(rootId, Constants.SALES_INCLUSION).setValue(salesInclusionDto);
+                                
+                                dashboardResultsTable.getContainerProperty(rootId, "marketType").setValue(cfpTypedto);
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("1");
-                                dashboardResultsTable.addItem(rootId);
                                 dashboardResultsTable.setParent(rootId, root);
                                 dashboardResultsTable.setChildrenAllowed(rootId, true);
                                 dashboardResultsTable.setCollapsed(root, false);
@@ -1487,7 +1514,7 @@ public class Newcomponent extends CustomComponent {
 
                                     }
                                 }
-                                Boolean flag = false;
+                                boolean flag = false;
                                 Set setA = new HashSet();
                                 Collection<?> returnList1 = componentDetailsSelectedItem.getItemIds();
                                 for (Object item : returnList1) {
@@ -1535,9 +1562,14 @@ public class Newcomponent extends CustomComponent {
                                     HelperDTO ifpStatusdto = new HelperDTO();
                                     ifpStatusdto.setId(0);
                                     ifpStatusdto.setDescription(String.valueOf(cfpStatus.getValue()));
+                                    
+                                    HelperDTO ifpStatusdto1 = new HelperDTO();
+                                    ifpStatusdto1.setId(0);
+                                    ifpStatusdto1.setDescription(String.valueOf(ifpStatus.getValue()));
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(ifpStatusdto1);
+                                    
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.MARKET_TYPE).setValue(ifpStatusdto);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("1");
-                                    dashboardResultsTable.addItem(rootId);
                                     dashboardResultsTable.setParent(rootId, root);
                                     dashboardResultsTable.setChildrenAllowed(rootId, true);
                                     dashboardResultsTable.setCollapsed(root, false);
@@ -1618,7 +1650,7 @@ public class Newcomponent extends CustomComponent {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Price Schedule Name already exist. Please Enter Different Name");
                                     return;
                                 }
-                                Boolean flag = false;
+                                boolean flag = false;
                                 Collection<?> returnList1 = componentDetailsSelectedItem.getItemIds();
                                 for (Object item : returnList1) {
                                     Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
@@ -1691,7 +1723,6 @@ public class Newcomponent extends CustomComponent {
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.THREE);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(hiddenId);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("1");
-                                    dashboardResultsTable.addItem(rootId);
                                     dashboardResultsTable.setParent(rootId, root);
                                     dashboardResultsTable.setChildrenAllowed(rootId, true);
                                     dashboardResultsTable.setCollapsed(root, false);
@@ -1746,14 +1777,21 @@ public class Newcomponent extends CustomComponent {
                     if (NumericConstants.FOUR - levelNumber == 1) {
                         String itemFamilyPlanId = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
                         if (checkSameItemInPs(itemFamilyPlanId, componentDetailsSelectedItem.getItemIds(), "temp Table PS Select")) {
-                            if (!rsId.getValue().equals(Constants.EMPTY) && !rsNumber.getValue().equals(Constants.EMPTY) && !rsName.getValue().equals(Constants.EMPTY) && !rsStatus.getValue().equals(Constants.ZEROSTRING) && !rsType.getValue().equals(Constants.ZEROSTRING) && rsStartDate.getValue() != null && rsEndDate.getValue() != null && !paymentFrequency.getValue().equals(Constants.ZEROSTRING) && !paymentMethod.getValue().equals(Constants.ZEROSTRING) && !rebatePlanLevel.getValue().equals(Constants.ZEROSTRING) && !rsRarType.getValue().equals(Constants.ZEROSTRING) && !calendar.getValue().equals(Constants.ZEROSTRING)) {
+                            if (!rsId.getValue().equals(Constants.EMPTY) && !rsNumber.getValue().equals(Constants.EMPTY)
+                                    && !rsName.getValue().equals(Constants.EMPTY) && !rsStatus.getValue().equals(Constants.ZEROSTRING)
+                                    && !rsType.getValue().equals(Constants.ZEROSTRING) && rsStartDate.getValue() != null && rsEndDate.getValue() != null
+                                    && !paymentFrequency.getValue().equals(Constants.ZEROSTRING) && !paymentMethod.getValue().equals(Constants.ZEROSTRING)
+                                    && (!rebatePlanLevel.getValue().equals(Constants.ZEROSTRING) ||  rebatePlanLevel.getValue() != null) && !rsRarType.getValue().equals(Constants.ZEROSTRING)
+                                    && !calendar.getValue().equals(Constants.ZEROSTRING)
+                                    && deductionInclusion.getValue() != null && calculationLevel.getValue() != null && rebateFrequency.getValue() != null
+                                    && calculationType.getValue() != null) {
                                 String query = "select * from RS_MODEL where RS_NAME='" + rsName.getValue() + "'";
                                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                                 if (list != null && list.size() > 0) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Rebate Schedule Name already exist. Please Enter Different Name");
                                     return;
                                 }
-                                Boolean flag = false;
+                                boolean flag = false;
                                 Collection<?> returnList1 = componentDetailsSelectedItem.getItemIds();
                                 for (Object item : returnList1) {
                                     Boolean checked = (Boolean) componentResultsContainer.getContainerProperty(item, Constants.CHECK).getValue();
@@ -1837,8 +1875,37 @@ public class Newcomponent extends CustomComponent {
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(rebateScheduleName);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.FOUR);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(hiddenId);
+                                    
+                                    HelperDTO paymentFrequencyDto = new HelperDTO();
+                                    paymentFrequencyDto.setId(0);
+                                    paymentFrequencyDto.setDescription(String.valueOf(paymentFrequency.getValue()));
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.PAYMENT_FREQUENCY_PROP).setValue(paymentFrequencyDto);
+                                    HelperDTO paymentMethodDto = new HelperDTO();
+                                    paymentMethodDto.setId(0);
+                                    paymentMethodDto.setDescription(String.valueOf(paymentMethod.getValue()));
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.PAYMENT_METHOD_PROP).setValue(paymentMethodDto);
+                                    HelperDTO rsrebateProgramTypeDto = new HelperDTO();
+                                    rsrebateProgramTypeDto.setId(0);
+                                    rsrebateProgramTypeDto.setDescription(String.valueOf(rsRarType.getValue()));
+                                    dashboardResultsTable.getContainerProperty(rootId,Constants.REBATE_PROGRAM_TYPE).setValue(rsrebateProgramTypeDto);
+                                    HelperDTO deductionInclusionDto = new HelperDTO();
+                                    deductionInclusionDto.setId(0);
+                                    deductionInclusionDto.setDescription(String.valueOf(deductionInclusion.getValue()));
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.DEDUCTION_INCLUSION).setValue(deductionInclusionDto);
+                                    HelperDTO calculationLevelDto = new HelperDTO();
+                                    calculationLevelDto.setId(0);
+                                    calculationLevelDto.setDescription(String.valueOf(calculationLevel.getValue()));
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.CALCULATION_LEVEL).setValue(calculationLevelDto);
+                                    HelperDTO calculationTypeDto = new HelperDTO();
+                                    calculationTypeDto.setId(0);
+                                    calculationTypeDto.setDescription(String.valueOf(calculationType.getValue()));
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.CALCULATION_TYPE).setValue(calculationTypeDto);
+                                    HelperDTO rebatePlanLevelDto = new HelperDTO();
+                                    rebatePlanLevelDto.setId(0);
+                                    rebatePlanLevelDto.setDescription(String.valueOf(rebatePlanLevel.getValue()));
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.REBATE_PLAN_LEVEL_PROP).setValue(rebatePlanLevelDto);
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.REBATE_SCHEDULE_CATEGORY).setValue(String.valueOf(rebateFrequency.getValue()));
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("1");
-                                    dashboardResultsTable.addItem(rootId);
                                     dashboardResultsTable.setParent(rootId, root);
                                     dashboardResultsTable.setChildrenAllowed(rootId, false);
                                     dashboardResultsTable.setCollapsed(root, false);
@@ -2015,6 +2082,7 @@ public class Newcomponent extends CustomComponent {
                     psContract.setPsName(psModel.getPsName());
                     psContract.setPsNo(psModel.getPsNo());
                     psContract.setPsStartDate(psModel.getPsStartDate());
+                    psContract.setPsStatus(psModel.getPsStatus());
                     psContract.setContractMasterSid(Integer.parseInt(contractSId));
                     psContract.setCfpContractSid(cfpContractId);
                     psContract.setIfpContractSid(ifpContractId);
@@ -2069,6 +2137,18 @@ public class Newcomponent extends CustomComponent {
                     String cfpContractId = String.valueOf(dashboardResultsTable.getContainerProperty(parentCFPItem, Constants.SAVED_SYSTEM_ID).getValue());
                     Object contractItem = dashboardResultsTable.getParent(parentCFPItem);
                     String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractItem, Constants.SAVED_SYSTEM_ID).getValue());
+                    
+                    int rsPaymentFrequency = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.PAYMENT_FREQUENCY_PROP).getValue().toString());
+                    int rsPaymentMethod = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.PAYMENT_METHOD_PROP).getValue().toString());
+                    int rsProgramType= Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.REBATE_PROGRAM_TYPE).getValue().toString());
+                    int rsCalculationLevel = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.CALCULATION_LEVEL).getValue().toString());
+                    int rsCalculationType = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.CALCULATION_TYPE).getValue().toString());
+                    int rebateFrequency = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.REBATE_SCHEDULE_CATEGORY).getValue().toString());
+                    String rsDeductionInclusion = dashboardResultsTable.getContainerProperty(item, Constants.DEDUCTION_INCLUSION).getValue().toString();
+                    String rsRebateCategory = dashboardResultsTable.getContainerProperty(item, Constants.REBATE_PLAN_LEVEL_PROP).getValue().toString();
+                    
+                    
+                    
                     RsContract rsContract = RsContractLocalServiceUtil.createRsContract(0);
                     int modelId = rsModel.getRsModelSid();
                     String name = rsModel.getRsName();
@@ -2077,7 +2157,6 @@ public class Newcomponent extends CustomComponent {
                     int type = rsModel.getRsType();
                     int rpType = rsModel.getRebateProgramType();
                     Date stDate = rsModel.getRsStartDate();
-                    int reFre = 0;
                     int calender = rsModel.getRsCalendar();
                     int status=rsModel.getRsStatus();
                     rsContract.setRsModelSid(modelId);
@@ -2086,13 +2165,16 @@ public class Newcomponent extends CustomComponent {
                     rsContract.setRsName(name);
                     rsContract.setRsType(type);
                     rsContract.setRsStatus(status);
-                    rsContract.setRebateProgramType(rpType);
+                    rsContract.setRebateProgramType(rsProgramType);
+                    rsContract.setRebatePlanLevel(rsRebateCategory);
                     rsContract.setRsStartDate(stDate);
                     rsContract.setContractMasterSid(Integer.parseInt(contractSId));
                     rsContract.setCfpContractSid(cfpContractId);
                     rsContract.setIfpContractSid(ifpContractId);
                     rsContract.setPsContractSid(psContractId);
-                    rsContract.setRebateFrequency(reFre);
+                    rsContract.setRebateFrequency(rebateFrequency);
+                    rsContract.setPaymentFrequency(rsPaymentFrequency);
+                    rsContract.setPaymentMethod(rsPaymentMethod);
                     rsContract.setRsCalendar(String.valueOf(calender));
                     rsContract.setInboundStatus("A");
                     rsContract.setRecordLockStatus(false);
@@ -2100,6 +2182,10 @@ public class Newcomponent extends CustomComponent {
                     rsContract.setCreatedDate(new Date());
                     rsContract.setModifiedBy(Integer.parseInt(userId));
                     rsContract.setModifiedDate(new Date());
+                    
+                    rsContract.setDeductionInclusion(rsDeductionInclusion);
+                    rsContract.setCalculationLevel(rsCalculationLevel);
+                    rsContract.setCalculationType(rsCalculationType);
                     rsContract = RsContractLocalServiceUtil.addRsContract(rsContract);
                     SaveRS(String.valueOf(rsContract.getRsContractSid()), rsModel.getRsModelSid());
                 }
@@ -2109,7 +2195,9 @@ public class Newcomponent extends CustomComponent {
                 String contractNo = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NUMBER).getValue());
                 String contractName = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
                 int contractType = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()).getId();
-                int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue()).getId();
+                int salesInclusionValue = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.SALES_INCLUSION).getValue().toString());
+                int status = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue().toString());
+                                
                 Date startDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.START_DATE).getValue();
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.END_DATE).getValue();
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
@@ -2122,6 +2210,7 @@ public class Newcomponent extends CustomComponent {
                 cfpmodel.setCfpStatus(status);
                 cfpmodel.setCfpStartDate(startDate);
                 cfpmodel.setCfpType(contractType);
+                cfpmodel.setSalesInclusion(salesInclusionValue);
                 cfpmodel.setCreatedBy(Integer.parseInt(userId));
                 cfpmodel.setCreatedDate(new Date());
                 cfpmodel.setCfpEndDate(endDate);
@@ -2137,6 +2226,7 @@ public class Newcomponent extends CustomComponent {
                 cfpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                 cfpMasterAttached.setSource("BPI");
                 cfpMasterAttached.setCfpType(companyFamily.getCfpType());
+                cfpMasterAttached.setSalesInclusion(companyFamily.getSalesInclusion());
                 cfpMasterAttached.setCfpCategory(companyFamily.getCfpCategory());
                 cfpMasterAttached.setCfpDesignation(companyFamily.getCfpDesignation());
                 cfpMasterAttached.setParentCfpId(companyFamily.getParentCfpId());
@@ -2161,7 +2251,7 @@ public class Newcomponent extends CustomComponent {
                 String No = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NUMBER).getValue());
                 String Name = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.DASHBOARD_NAME).getValue());
                 int Type = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.MARKET_TYPE).getValue()).getId();
-                int status = ((HelperDTO) dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue()).getId();
+                int status = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.STATUS_S).getValue().toString());
                 Date startDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.START_DATE).getValue();
                 Date endDate = (Date) dashboardResultsTable.getContainerProperty(item, Constants.END_DATE).getValue();
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
@@ -2468,6 +2558,7 @@ public class Newcomponent extends CustomComponent {
         cfpName.setValue(Constants.EMPTY);
         cfpStatus.setValue(null);
         CFPType.setValue(null);
+        salesInclusion.setValue(null);
         cfpStartDate.setValue(null);
         cfpEndDate.setValue(null);
         cfpfileName.setValue(Constants.EMPTY);
@@ -2506,6 +2597,11 @@ public class Newcomponent extends CustomComponent {
         rebatePlanLevel.setValue(null);
         calendar.setValue(null);
         rsRarType.setValue(null);
+        deductionInclusion.setValue(null);
+        calculationLevel.setValue(null);
+        calculationType.setValue(null);
+        rebateFrequency.setValue(null);
+        
     }
 
     private void contractInfoTableAlign() {
@@ -2534,10 +2630,10 @@ public class Newcomponent extends CustomComponent {
 
     private boolean checkStartDate() {
         List<NewComponentDTO> list = componentResultsContainer.getItemIds();
-        boolean flag = Boolean.TRUE;
+        boolean flag = BooleanConstant.getTrueFlag();
         for (NewComponentDTO list1 : list) {
             if (list1.getStartDate() == null) {
-                flag = Boolean.FALSE;
+                flag = BooleanConstant.getFalseFlag();
             }
         }
         return flag;

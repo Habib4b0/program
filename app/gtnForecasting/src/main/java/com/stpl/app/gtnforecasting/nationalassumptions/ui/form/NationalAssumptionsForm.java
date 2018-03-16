@@ -24,6 +24,7 @@ import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
@@ -65,6 +66,7 @@ public class NationalAssumptionsForm extends CustomComponent {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptionsForm.class);
+    
 
     /**
      * The tabSheet.
@@ -663,23 +665,23 @@ public class NationalAssumptionsForm extends CustomComponent {
 
         Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessTabPermission(userId, Constant.NATIONAL_ASSUMPTIONS_SCREEN);
         if (functionPsHM.get(FunctionNameUtil.NM_DATA_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_DATA_TAB)).isTabFlag()) {
-            tabSheet.getTab(0).setVisible(Boolean.FALSE);
+            tabSheet.getTab(0).setVisible(BooleanConstant.getFalseFlag());
 
         }
         if (functionPsHM.get(FunctionNameUtil.NA_NATIONAL_ASUMPTIONS_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.NA_NATIONAL_ASUMPTIONS_TAB)).isTabFlag()) {
-            tabSheet.getTab(1).setVisible(Boolean.FALSE);
-            tabSheet.getTab(NumericConstants.TWO).setVisible(Boolean.FALSE);
-            tabSheet.getTab(NumericConstants.THREE).setVisible(Boolean.FALSE);
-            tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
+            tabSheet.getTab(1).setVisible(BooleanConstant.getFalseFlag());
+            tabSheet.getTab(NumericConstants.TWO).setVisible(BooleanConstant.getFalseFlag());
+            tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
+            tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionPsHM.get(FunctionNameUtil.MEDICAID_URA_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.MEDICAID_URA_TAB)).isTabFlag()) {
-            tabSheet.getTab(NumericConstants.TWO).setVisible(Boolean.FALSE);
+            tabSheet.getTab(NumericConstants.TWO).setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionPsHM.get(FunctionNameUtil.FCP_RESULTS_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.FCP_RESULTS_TAB)).isTabFlag()) {
-            tabSheet.getTab(NumericConstants.THREE).setVisible(Boolean.FALSE);
+            tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionPsHM.get(FunctionNameUtil.PHS_RESULTS_TAB) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.PHS_RESULTS_TAB)).isTabFlag()) {
-            tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
+            tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
         }
 
     }

@@ -91,17 +91,35 @@ base_path=$(echo $INPUT| cut -d'/' -f 2)
 FILES="$install_path/tempdeploy/*"
 for f in $FILES
 do
-	echo "Processing $f"
+	echo "Moving  $f"
  currentfile=$(basename $f)
-      echo "current file $currentfile"
+      
 if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];
 then
 mv  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
 rm -rf $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
 rm -rf $install_path/jboss-7.1.1/standalone/deployments/$currentfile*
 fi
+
+while :
+do
+cp  $f  $install_path/jboss-7.1.1/standalone/deployments/
+chown $APP_User:etl $install_path
+   echo "deploying ...................." $currentfile
+   sleep 1
+   if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];
+    
+   then
+echo "deployed ***********************"$currentfile
+	break
+elif [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.failed ];
+then
+echo "failed "$currentfile
+break       	   
+   fi
 done
-cp  $install_path/tempdeploy/* $install_path/jboss-7.1.1/standalone/deployments/
+done
+
  
 standalone_xml_path=$install_path/jboss-7.1.1/standalone/configuration/standalone.xml
 if grep -q GTN_FRAMEWORK_BASE_PATH "$install_path/jboss-7.1.1/standalone/configuration/standalone.xml"; then

@@ -58,13 +58,13 @@ public class CommonQueryUtils {
         }
         if(screenName.equalsIgnoreCase("Discount Projection")){
         queryBuilder.append("Delete NM_PROJECTION_SELECTION\n"
-                + "WHERE PROJECTION_MASTER_SID=" + projectionID);
+                ).append( "WHERE PROJECTION_MASTER_SID=" ).append( projectionID);
         queryBuilder.append("\n   AND SCREEN_NAME='Discount Projection' \n"
-                + "AND FIELD_NAME='SelectedDiscountsSids';\n"
-                + "INSERT INTO NM_PROJECTION_SELECTION(PROJECTION_MASTER_SID,SCREEN_NAME,FIELD_NAME,FIELD_VALUES)\n"
-                + "VALUES(" + projectionID);
+                ).append( "AND FIELD_NAME='SelectedDiscountsSids';\n"
+                ).append( "INSERT INTO NM_PROJECTION_SELECTION(PROJECTION_MASTER_SID,SCREEN_NAME,FIELD_NAME,FIELD_VALUES)\n"
+                ).append( "VALUES(" ).append( projectionID);
         queryBuilder.append(" ,'Discount Projection','SelectedDiscountsSids','");
-        queryBuilder.append(map.get("SelectedDiscountsSids").toString() + "');");
+        queryBuilder.append(map.get("SelectedDiscountsSids").toString() ).append( "');");
         }
         commonDao.executeBulkUpdateQuery(queryBuilder.toString(), null, null);
     }

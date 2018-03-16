@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.stpl.app.service.ModuleSubmoduleMasterLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     private static final long serialVersionUID = 4573149356126437540L;
     private static final Logger LOGGER = LoggerFactory
             .getLogger(BusinessRoleModuleSearchLogic.class.getName());
+    
     private final int VersionNo = NumericConstants.ONE;
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(
             ErrorfulFieldGroup searchBusinessRoleModuleForm)
@@ -179,7 +181,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                 searchBusinessRoleModuleForm.setSubmoduleName(obj[NumericConstants.TWO].toString());
                 searchBusinessRoleModuleForm.setFunction("null".equals(String.valueOf(obj[0]))?"":String.valueOf(obj[0]));
                 searchBusinessRoleModuleForm.setTabName("null".equals(String.valueOf(obj[NumericConstants.FOUR]))?"":String.valueOf(obj[NumericConstants.FOUR]));
-                searchBusinessRoleModuleForm.setAccess(false);
+                searchBusinessRoleModuleForm.setAccess(BooleanConstant.getFalseFlag());
                 searchBusinessRoleModuleForm.setCategoryName(String.valueOf(obj[NumericConstants.THREE]));
                 searchBusinessRoleModuleForm.setSubmodulePropertyId(String.valueOf(obj[NumericConstants.ONE]));
                 searchBusinessRoleModuleForm.setBusinessroleMasterSid(businessroleMasterId);
@@ -206,9 +208,9 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                 searchBusinessRoleModuleForm.setModuleName(moduleName);
                 searchBusinessRoleModuleForm.setSubmoduleName(obj[NumericConstants.TWO].toString());
                 searchBusinessRoleModuleForm.setFieldName(obj[0].toString());
-                searchBusinessRoleModuleForm.setAdd(false);
-                searchBusinessRoleModuleForm.setEdit(false);
-                searchBusinessRoleModuleForm.setView(false);
+                searchBusinessRoleModuleForm.setAdd(BooleanConstant.getFalseFlag());
+                searchBusinessRoleModuleForm.setEdit(BooleanConstant.getFalseFlag());
+                searchBusinessRoleModuleForm.setView(BooleanConstant.getFalseFlag());
                 searchBusinessRoleModuleForm.setSubmodulePropertyId(String.valueOf(obj[NumericConstants.ONE]));
                 searchBusinessRoleModuleForm.setNullFlag((obj[NumericConstants.THREE] != null && obj[NumericConstants.THREE].toString().equals("N")) ? true : false);
                    searchBusinessRoleModuleForm.setTabName("null".equals(String.valueOf(obj[NumericConstants.FOUR]))?"":String.valueOf(obj[NumericConstants.FOUR]));
@@ -238,9 +240,9 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                         .setFieldName("null".equals(String.valueOf(obj[0]))? "":String.valueOf(obj[0]));
                 searchBusinessRoleModuleForm
                         .setSubmodulePropertyId(String.valueOf(obj[NumericConstants.ONE]));
-                Boolean addFlag = false;
-                Boolean editFlag = false;
-                Boolean viewFlag = false;
+                boolean addFlag = false;
+                boolean editFlag = false;
+                boolean viewFlag = false;
                 String businessroleMasterId = StringUtils.EMPTY;
                 int id = 0;
                 
@@ -303,7 +305,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                         .setFunction("null".equals(String.valueOf(obj[0]))?" ":String.valueOf(obj[0]));
                 searchBusinessRoleModuleForm
                         .setSubmodulePropertyId(String.valueOf(obj[NumericConstants.ONE]));
-                Boolean access = false;
+                boolean access = false;
                 String businessroleMasterId = String.valueOf(businessroleMasterSid);
                 int id = 0;
                 for (int j = 0; j < list.size(); j++) {
@@ -347,7 +349,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                         .setFunction(obj[0].toString());
                 searchBusinessRoleModuleForm
                         .setSubmodulePropertyId(String.valueOf(obj[NumericConstants.ONE]));
-                Boolean access = false;
+                boolean access = false;
                 String businessroleMasterId = StringUtils.EMPTY;
                 int id = 0;
                 for (int j = 0; j < list.size(); j++) {

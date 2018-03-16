@@ -14,6 +14,7 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MSalesProjectionTableLogic extends PageTreeTableLogic {
 
+    
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final SalesLogic salesLogic = new SalesLogic();
     private boolean firstGenerated = false;
@@ -140,13 +142,13 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

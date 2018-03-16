@@ -134,7 +134,7 @@ public class GtnFrameworkRPPopUpSearchConfig {
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
 		gtnUIFrameworkValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		gtnUIFrameworkValidationConfig.setMaxLength(5);
+		gtnUIFrameworkValidationConfig.setMaxLength(50);
 		rebatePlanConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
 
 		componentList.add(rebatePlanConfig);

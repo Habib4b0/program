@@ -318,10 +318,10 @@ public class PmpyLogic {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CO.CONTRACT_MASTER_SID,CO.CONTRACT_NO FROM dbo.CCP_DETAILS CCP \n"
-                + " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID AND CM.COMPANY_MASTER_SID = " + customerSid + " \n"
-                + " JOIN dbo.CONTRACT_MASTER CO ON CO.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID \n"
-                + " JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CO.CONTRACT_TYPE AND HT.LIST_NAME = 'CONTRACT_TYPE' AND  \n"
-                + " HT.DESCRIPTION IN ('FFS','Medicaid FFS','SPAP','ADAP','PHS','Managed Medicaid','MM','Federal') order by CO.CONTRACT_NO;");
+                ).append( " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID AND CM.COMPANY_MASTER_SID = " ).append( customerSid ).append( " \n"
+                ).append( " JOIN dbo.CONTRACT_MASTER CO ON CO.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID \n"
+                ).append( " JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CO.CONTRACT_TYPE AND HT.LIST_NAME = 'CONTRACT_TYPE' AND  \n"
+                ).append( " HT.DESCRIPTION IN ('FFS','Medicaid FFS','SPAP','ADAP','PHS','Managed Medicaid','MM','Federal') order by CO.CONTRACT_NO;");
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         List list = (List) salesProjectionDAO.executeSelectQuery(query.toString());
@@ -332,11 +332,11 @@ public class PmpyLogic {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT IM.ITEM_MASTER_SID,IM.ITEM_NO,IM.ITEM_NAME FROM dbo.CCP_DETAILS CCP \n"
-                + " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID AND CM.COMPANY_MASTER_SID = " + customerSid + " \n"
-                + " JOIN dbo.CONTRACT_MASTER CO ON CO.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CO.CONTRACT_MASTER_SID = " + contractSid + " \n"
-                + " JOIN dbo.ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID \n"
-                + " JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CO.CONTRACT_TYPE AND HT.LIST_NAME = 'CONTRACT_TYPE' AND \n"
-                + " HT.DESCRIPTION IN ('FFS','Medicaid FFS','SPAP','ADAP','PHS','Managed Medicaid','MM','Federal');");
+                ).append( " JOIN dbo.COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID AND CM.COMPANY_MASTER_SID = " ).append( customerSid ).append( " \n"
+                ).append( " JOIN dbo.CONTRACT_MASTER CO ON CO.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID AND CO.CONTRACT_MASTER_SID = " ).append( contractSid ).append( " \n"
+                ).append( " JOIN dbo.ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID \n"
+                ).append( " JOIN dbo.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CO.CONTRACT_TYPE AND HT.LIST_NAME = 'CONTRACT_TYPE' AND \n"
+                ).append( " HT.DESCRIPTION IN ('FFS','Medicaid FFS','SPAP','ADAP','PHS','Managed Medicaid','MM','Federal');");
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         List<Object[]> list = (List) salesProjectionDAO.executeSelectQuery(query.toString());
@@ -596,19 +596,19 @@ public class PmpyLogic {
             queryBuilder.append("   (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID       \n");
             queryBuilder.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD       \n");
             queryBuilder.append("   JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID      \n");
-            queryBuilder.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + (projectionId) + "'      \n");
+            queryBuilder.append("   JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" ).append(projectionId).append( "'      \n");
 
             queryBuilder.append("   JOIN PROJECTION_MASTER PM  ON PD.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID       \n");
-            queryBuilder.append("   WHERE PM.PROJECTION_MASTER_SID='" + (projectionId) + "') CCPMAP,       \n");
+            queryBuilder.append("   WHERE PM.PROJECTION_MASTER_SID='" ).append(projectionId).append( "') CCPMAP,       \n");
             queryBuilder.append("   (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID      \n");
             queryBuilder.append("   FROM RELATIONSHIP_LEVEL_DEFINITION RLD1       \n");
 
             queryBuilder.append("    JOIN PROJECTION_CUST_HIERARCHY PCH     \n");
 
             queryBuilder.append("   ON PCH.RELATIONSHIP_LEVEL_SID=RLD1.RELATIONSHIP_LEVEL_SID       \n");
-            queryBuilder.append("   AND PCH.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+            queryBuilder.append("   AND PCH.PROJECTION_MASTER_SID='" ).append(projectionId).append( "'       \n");
 
-            queryBuilder.append("    " + hierarchyNos + "       \n");
+            queryBuilder.append("    " ).append( hierarchyNos ).append( "       \n");
 
             queryBuilder.append(" ) HLD  WHERE CCPMAP.HIERARCHY_NO like HLD.HIERARCHY_NO + '%' ) LCCP      \n");
             queryBuilder.append("   WHERE LCCP.HIERARCHY_NO in       \n");
@@ -618,7 +618,7 @@ public class PmpyLogic {
             queryBuilder.append("    JOIN PROJECTION_CUST_HIERARCHY PCH2     \n");
 
             queryBuilder.append("   ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID       \n");
-            queryBuilder.append("   AND PCH2.PROJECTION_MASTER_SID='" + (projectionId) + "'       \n");
+            queryBuilder.append("   AND PCH2.PROJECTION_MASTER_SID='" ).append(projectionId).append( "'       \n");
 
             queryBuilder.append(" ) )   \n");
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();

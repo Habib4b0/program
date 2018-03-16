@@ -513,12 +513,12 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             ExportWord exportWord = new ExportWord(filePath, wordFile);
             exportWord.export(internalNotes.getValue());
-            Resource wordResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT));
+            Resource wordResOnEdit = new GtnFileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT));
             wordDownloader.setFileDownloadResource(wordResOnEdit);
 
             ExportPdf exportPdf = new ExportPdf(NOTES_HISTORY, filePath, logo, pdfFile);
             exportPdf.export(internalNotes.getValue());
-            Resource pdfResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT));
+            Resource pdfResOnEdit = new GtnFileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT));
             pdfDownloader.setFileDownloadResource(pdfResOnEdit);
 
         } catch (Exception ex) {
@@ -534,11 +534,9 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
      */
     public void downloadFile(File uploadedFile) {
         try {
-            if (uploadedFile.exists()) {
-                Resource res = new FileResource(uploadedFile);
-                Page.getCurrent().open(res, "_blank", true);
+                Page.getCurrent().open(   new GtnFileResource(uploadedFile), "_blank", true);
 
-            }
+            
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -801,4 +799,5 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         }
         LOGGER.debug("Ends of AdditionalInformation setValues Method");
     }
+  
 }

@@ -93,6 +93,7 @@ public class GtnUIFrameworkContractHeaderStringContants {
 	public static final String TP_SELECT_BUTTON = "TpSelectButton";
 	public static final String CONTRACT_HEADER_TAB_TP_SELECT_BUTTON = "contractHeaderTabTpSelectButton";
 	public static final String LANDING_SCREEN_TP_SELECT_BUTTON = "landingScreenTpSelectButton";
+	public static final String COMPANY_NO = "Company No";
 	public static final List<String> CH_FIELDS = Collections.unmodifiableList(Arrays.asList("contractId", "contractNo",
 			"contractName", CONTRACT_HEADER_TAB_CONTRACT_ID, CONTRACT_HEADER_TAB_CONTRACT_NO,
 			CONTRACT_HEADER_TAB_CONTRACT_NAME, "contractHeaderTabContractType", "contractHeaderTabContractStatus",

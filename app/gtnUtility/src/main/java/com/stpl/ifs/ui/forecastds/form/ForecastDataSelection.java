@@ -714,6 +714,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			productHierarchy.setImmediate(true);
 			customerGroup.setImmediate(true);
 			productGroup.setImmediate(true);
+                        forecastEligibleDateValueChangeListener();
 			addValidations();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -1769,6 +1770,20 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
                 }
             }
             return returnValue;
+        }
+        
+        public void forecastEligibleDateValueChangeListener() {
+        forecastEligibleDate.setDateFormat("MM/dd/yyyy");
+        forecastEligibleDate.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent vce) {
+                    try {
+                        levelValueChangeListener(dataSelectionDTO.getSelectedCustomerLevelNo());
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage());
+                    }
+                }
+            });
         }
 
 	}

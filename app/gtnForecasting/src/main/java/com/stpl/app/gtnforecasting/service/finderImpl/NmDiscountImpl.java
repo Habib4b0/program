@@ -12,6 +12,7 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.*;
 import com.stpl.app.utils.Constants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,6 +28,8 @@ import org.slf4j.LoggerFactory;
 public class NmDiscountImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NmDiscountImpl.class);
+    
+    
 
     public List getDiscountNo(int projectionId, List<String> priceGroupType) {
 
@@ -792,7 +795,7 @@ public class NmDiscountImpl {
                 sb.append(" AND D.PROJECTION_MASTER_SID = ").append(projectionId).append(" AND DM.PRICE_GROUP_TYPE IS NOT NULL ORDER  BY DISCOUNT_NAME ");
             } else if ("DiscountProgram".equals(programType)) {
                 sb.append("SELECT RS.RS_ID   AS DISCOUNT_ID, RS.RS_NAME AS DISCOUNT_NAME,RS.RS_MODEL_SID as RS_ID,RS.RS_NAME as RS_NAME FROM RS_MODEL RS ")
-                        .append(" WHERE  EXISTS (SELECT 1 FROM   " + tableName + " DM ")
+                        .append(" WHERE  EXISTS (SELECT 1 FROM   " ).append( tableName ).append( " DM ")
                         .append(" JOIN PROJECTION_DETAILS PD ON PD.PROJECTION_DETAILS_SID = DM.PROJECTION_DETAILS_SID ")
                         .append(" WHERE  DM.RS_MODEL_SID = RS.RS_MODEL_SID AND RS.RS_NAME IS NOT NULL ");
                 if (!viewFlag) {
@@ -1593,11 +1596,11 @@ public class NmDiscountImpl {
                     + " AND DPT.SESSION_ID = " + sessionId + "\n";
 
             HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
-            return Boolean.TRUE;
+            return BooleanConstant.getTrueFlag();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
-            return Boolean.FALSE;
+            return BooleanConstant.getFalseFlag();
         }
 
     }

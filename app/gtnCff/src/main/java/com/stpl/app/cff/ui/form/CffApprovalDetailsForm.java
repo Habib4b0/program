@@ -29,6 +29,7 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TabSheet;
@@ -63,6 +64,9 @@ public class CffApprovalDetailsForm extends CustomWindow {
      * Logger implementation for CffApprovalDetailsForm
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CffApprovalDetailsForm.class);
+    
+    
+    
     /**
      * Approval UI Tab
      */
@@ -131,7 +135,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     private ProjectionVariance projectionVariance;
     private CustomFieldGroup cffSearchBinder;
     private CFFLogic cffLogic = new CFFLogic();
-    private Boolean isApproved = false;
+    private boolean isApproved = false;
     public static final String CFF = "CFF";
     private boolean filterOptionLoaded = false;
 
@@ -605,10 +609,10 @@ public class CffApprovalDetailsForm extends CustomWindow {
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessTabPermission(userId, "Consolidated Financial Forecast");
             if (functionHM.get("resultsTab") != null && !((AppPermission) functionHM.get("resultsTab")).isTabFlag()) {
-                tabSheet.getTab(NumericConstants.THREE).setVisible(Boolean.FALSE);
+                tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
             }
             if (functionHM.get("varianceTab") != null && !((AppPermission) functionHM.get("varianceTab")).isTabFlag()) {
-                tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
+                tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());

@@ -541,5 +541,6 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 }
 
 .breadcrumbs h2.portlet-title-text {
+    overflow:inherit;
     display: none;
 }

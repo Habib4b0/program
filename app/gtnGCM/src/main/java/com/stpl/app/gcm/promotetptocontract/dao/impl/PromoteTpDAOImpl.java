@@ -202,7 +202,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         if (dto.getContractId() != null && !dto.getContractId().isEmpty()) {
             temp.setContractMasterSid(Integer.parseInt(dto.getContractId()));
         }
-        if (dto.getIfpId() != null) {
+        if (dto.getIFPId() != null) {
             temp.setIfpModelSid(dto.getIFPId());
         }
         if (dto.getCfpId() != null) {

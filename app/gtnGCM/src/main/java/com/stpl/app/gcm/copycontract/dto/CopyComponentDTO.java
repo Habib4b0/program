@@ -120,7 +120,15 @@ public class CopyComponentDTO implements Serializable {
     private Integer PSId = 0;
     private Integer RSId = 0;
     private String levelNo = Constants.ZEROSTRING;
-    private Boolean check = false;
+    private boolean check = false;
+    private HelperDTO salesInclusion;
+    private HelperDTO paymentFrequency;
+    private HelperDTO paymentMethod;
+    private HelperDTO rsRarType;
+    private HelperDTO calculationType;
+    private HelperDTO calculationLevel;
+    private HelperDTO deductionInclusion;
+    private HelperDTO rebatePlanLevel;
 
     public String getCompanyStatus() {
         return companyStatus;
@@ -952,5 +960,69 @@ public class CopyComponentDTO implements Serializable {
 
     public void setAddBy(String addBy) {
         this.addBy = addBy;
+    }
+
+    public HelperDTO getPaymentFrequency() {
+        return paymentFrequency;
+    }
+
+    public void setPaymentFrequency(HelperDTO paymentFrequency) {
+        this.paymentFrequency = paymentFrequency;
+    }
+
+    public HelperDTO getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(HelperDTO paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public HelperDTO getRsRarType() {
+        return rsRarType;
+    }
+
+    public void setRsRarType(HelperDTO rsRarType) {
+        this.rsRarType = rsRarType;
+    }
+
+    public HelperDTO getCalculationType() {
+        return calculationType;
+    }
+
+    public void setCalculationType(HelperDTO calculationType) {
+        this.calculationType = calculationType;
+    }
+
+    public HelperDTO getCalculationLevel() {
+        return calculationLevel;
+    }
+
+    public void setCalculationLevel(HelperDTO calculationLevel) {
+        this.calculationLevel = calculationLevel;
+    }
+
+    public HelperDTO getDeductionInclusion() {
+        return deductionInclusion;
+    }
+
+    public void setDeductionInclusion(HelperDTO deductionInclusion) {
+        this.deductionInclusion = deductionInclusion;
+    }
+
+    public HelperDTO getSalesInclusion() {
+        return salesInclusion;
+    }
+
+    public void setSalesInclusion(HelperDTO salesInclusion) {
+        this.salesInclusion = salesInclusion;
+    }
+
+    public HelperDTO getRebatePlanLevel() {
+        return rebatePlanLevel;
+    }
+
+    public void setRebatePlanLevel(HelperDTO rebatePlanLevel) {
+        this.rebatePlanLevel = rebatePlanLevel;
     }
 }

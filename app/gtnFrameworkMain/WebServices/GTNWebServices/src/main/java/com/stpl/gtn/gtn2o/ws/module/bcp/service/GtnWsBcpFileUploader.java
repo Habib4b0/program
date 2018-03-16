@@ -37,8 +37,7 @@ public class GtnWsBcpFileUploader {
 		String sessionId = gtnWsBcpServiceBean.getSessionId();
 		String currentDate = gtnWsBcpServiceBean.getCurrentDateInString();
 		String tableName = gtnWsBcpServiceBean.getTableName();
-		String cumulativeBasePath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH)
-				+ System.getProperty(GtnFrameworkCommonStringConstants.CUMULATIVE_FILE_PATH);
+		String cumulativeBasePath =  System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH);
 
 		String finalFile = finalFileParam;
 		String serverName = gtnWsBcpServiceBean.getServerName();

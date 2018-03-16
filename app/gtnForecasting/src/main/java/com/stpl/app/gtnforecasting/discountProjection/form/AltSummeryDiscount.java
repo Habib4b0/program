@@ -51,6 +51,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -94,6 +95,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class AltSummeryDiscount extends CustomComponent {
 
     private final SessionDTO session;
+    
+    
     
     /* The Excel table */
     private final ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
@@ -928,7 +931,8 @@ public class AltSummeryDiscount extends CustomComponent {
             List list = logic.getDiscountProjection(session, projectionSelection.getFrequency(), startAndEndPeriods,
                     projectionSelection.getHistory(), temphierarchyIndicator, projectionSelection.getProjectionOrder(), userGroup,
                     true, discountTableLogic.getDiscountList(), projectionSelection.getYear(),
-                    customDetailsList, true, isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, false, false, customViewDetails, false, false, StringUtils.EMPTY, 
+                    customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, 
+                    BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), StringUtils.EMPTY, 
                     relationshipBuilderSid, true,Collections.EMPTY_LIST,true,StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,
                     new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(list, null, true);
@@ -1033,7 +1037,8 @@ public class AltSummeryDiscount extends CustomComponent {
             List levelList = logic.getDiscountProjection(session, projectionSelection.getFrequency(), startAndEndPeriods,
                     projectionSelection.getHistory(), temphierarchyIndicator, projectionSelection.getProjectionOrder(), userGroup,
                     true, discountTableLogic.getDiscountList(), projectionSelection.getYear(),
-                    customDetailsList, true, isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, false, false, customViewDetails, false, false, 
+                    customDetailsList, BooleanConstant.getTrueFlag(), isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, BooleanConstant.getFalseFlag(), 
+                    BooleanConstant.getFalseFlag(), customViewDetails, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), 
                     StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST,false,StringUtils.EMPTY, StringUtils.EMPTY,
                     Collections.EMPTY_LIST,new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(levelList, dto, true);
@@ -1149,12 +1154,12 @@ public class AltSummeryDiscount extends CustomComponent {
                 startAndEndPeriods.add(startYear);
             }
 
-            tableLogic.setRefresh(Boolean.FALSE);
+            tableLogic.setRefresh(BooleanConstant.getFalseFlag());
 
             loadDataInTable();
-            tableLogic.setRefresh(Boolean.FALSE); //As the row refresh will be set true during the load data.
+            tableLogic.setRefresh(BooleanConstant.getFalseFlag()); //As the row refresh will be set true during the load data.
             formatTableData();
-            tableLogic.setRefresh(Boolean.TRUE);
+            tableLogic.setRefresh(BooleanConstant.getTrueFlag());
             isListviewGenerated = true;
 
             loadLevelValues();

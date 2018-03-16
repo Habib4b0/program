@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
@@ -128,6 +129,7 @@ public class CustomerSelection extends VerticalLayout {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSelection.class);
+    
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private final transient StplSecurity stplSecurity = new StplSecurity();
 
@@ -465,7 +467,7 @@ public class CustomerSelection extends VerticalLayout {
             // To Load the selected customers table in projection details transfer module
             TradingPartnerDTO selectedTpDto = new TradingPartnerDTO();
             selectedTpDto.setCompanyMasterSids(session.getCompanyMasterSids());
-            selectedTpDto.setReset(false);
+            selectedTpDto.setReset(BooleanConstant.getFalseFlag());
             selectedTpDto.setCompanyName("*");
             selectedTpDto.setCompanyRestrictionSessionId(linkedCustomersSessionId);
             selectedCustomersLogic.loadSetData(selectedTpDto, StringUtils.EMPTY, StringUtils.EMPTY, Constants.ZEROSTRING, session.getSearchSessionId());

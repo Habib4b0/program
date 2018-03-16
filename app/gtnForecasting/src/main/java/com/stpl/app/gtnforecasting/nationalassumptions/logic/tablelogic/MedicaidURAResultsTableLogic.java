@@ -12,6 +12,7 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Com
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SHOW_ALL;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(MedicaidURAResultsTableLogic.class);    
+    
     private SessionDTO sessionDTO;
     
     public MedicaidURAResultsTableLogic(){
@@ -143,13 +145,13 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

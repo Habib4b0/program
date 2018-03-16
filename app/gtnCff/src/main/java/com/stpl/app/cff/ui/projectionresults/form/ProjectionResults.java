@@ -37,6 +37,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
 import de.steinwedel.messagebox.ButtonId;
@@ -70,6 +71,7 @@ import org.slf4j.LoggerFactory;
 public class ProjectionResults extends ForecastProjectionResults {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResults.class);
+    
     private final SessionDTO session;
     private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
@@ -393,24 +395,36 @@ public class ProjectionResults extends ForecastProjectionResults {
             Date dbDateFrom = (Date) obj[0];
             dbDateTO = (Date) obj[1];
             Calendar startDbDate = Calendar.getInstance();
-            startDbDate.set(Calendar.YEAR, dbDateFrom.getYear());
-            startDbDate.set(Calendar.MONTH, dbDateFrom.getMonth());
-
             Calendar endDbDate = Calendar.getInstance();
-            endDbDate.set(Calendar.YEAR, dbDateTO.getYear());
-            endDbDate.set(Calendar.MONTH, (dbDateTO.getMonth()) - 1);
+            if (dbDateFrom != null) {
+                startDbDate.set(Calendar.YEAR, dbDateFrom.getYear());
+                startDbDate.set(Calendar.MONTH, dbDateFrom.getMonth());
+            } else {
+                startDbDate.set(Calendar.YEAR, (startDbDate.get(Calendar.YEAR) - 3));
+                startDbDate.set(Calendar.MONTH, 0);
+            }
+
+            if (dbDateTO != null) {
+                endDbDate.set(Calendar.YEAR, dbDateTO.getYear());
+                endDbDate.set(Calendar.MONTH, (dbDateTO.getMonth()) - 1);
+            } else {
+                endDbDate.set(Calendar.YEAR, (endDbDate.get(Calendar.YEAR) - 3));
+                endDbDate.set(Calendar.MONTH, 0);
+            }
 
             try {
-                dbDateFrom = format.parse(format.format(dbDateFrom));
-                dbDateTO = format.parse(format.format(dbDateTO));
+                if (dbDateFrom != null && dbDateTO != null) {
+                    dbDateFrom = format.parse(format.format(dbDateFrom));
+                    dbDateTO = format.parse(format.format(dbDateTO));
+                }
             } catch (ParseException pe) {
                 LOGGER.error(pe.getMessage());
             }
             dataSelectionDTO.setFromDate(dbDateFrom);
             dataSelectionDTO.setToDate(dbDateTO);
         }
-        dataSelectionDTO.setFromDate(fromDateIsNull(dataSelectionDTO.getFromDate()));
-        dataSelectionDTO.setToDate(toDateIsNull(dataSelectionDTO.getToDate()));
+        dataSelectionDTO.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDTO.getFromDate()));
+        dataSelectionDTO.setToDate(CommonLogic.toDateIsNull(dataSelectionDTO.getToDate()));
         ForecastDTO dto = new ForecastDTO();
         try {
                 dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
@@ -426,7 +440,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        exceltable.setRefresh(Boolean.TRUE);
+        exceltable.setRefresh(BooleanConstant.getTrueFlag());
         excelForCommercial();
 
         ExcelExport exp = null;
@@ -753,24 +767,5 @@ public class ProjectionResults extends ForecastProjectionResults {
             LOGGER.error(ex.getMessage());
         }
     }
-    private Date fromDateIsNull(Date fromDate) {
-        if (fromDate == null) {
-            Calendar calendarFromPeriod = Calendar.getInstance();
-            calendarFromPeriod.set(Calendar.YEAR, (calendarFromPeriod.get(Calendar.YEAR) - 3));
-            calendarFromPeriod.set(Calendar.MONTH, 0);
-            calendarFromPeriod.set(Calendar.DAY_OF_MONTH, 1);
-            return calendarFromPeriod.getTime();
-        }
-        return fromDate;
-    }
-    private Date toDateIsNull(Date toDate) {
-        if (toDate == null) {
-            Calendar calendatToPeriod = Calendar.getInstance();
-            calendatToPeriod.set(Calendar.YEAR, (calendatToPeriod.get(Calendar.YEAR) + 3));
-            calendatToPeriod.set(Calendar.MONTH, 11);
-            calendatToPeriod.set(Calendar.DAY_OF_MONTH, calendatToPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
-          return calendatToPeriod.getTime();
-        }
-        return toDate;
-    }
+   
 }

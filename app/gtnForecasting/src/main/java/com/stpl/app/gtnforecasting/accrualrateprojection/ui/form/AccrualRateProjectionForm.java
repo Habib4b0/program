@@ -58,6 +58,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
@@ -80,6 +81,8 @@ import de.steinwedel.messagebox.MessageBoxListener;
 public class AccrualRateProjectionForm extends AbstractForm {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionForm.class);
+    
+    
 
     private Sales sales;
 
@@ -329,9 +332,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Approved Information", Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
-                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
-                                    sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is Approved Succesfully.");
-                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -381,9 +381,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Rejected Information ", Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
-                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
-                                    sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is Rejected Succesfully.");
-                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -428,9 +425,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", Constant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
-                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
-                                    sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is Withdrawn Succesfully.");
-                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -477,9 +471,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Cancel Information", Constant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
-                                    StringBuffer sb = new StringBuffer(Constant.BR_BR);
-                                    sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is cancelled Succesfully.");
-                                    sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -761,7 +752,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                 } else {
                     StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
-                        notiMsg.append("\n Only " + roleList + " can submit a projection.");
+                        notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
                     }
                     NotificationUtils.getAlertNotification("Permission Denied", notiMsg.toString());
                 }
@@ -841,7 +832,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             //To check wheather the Rates merge thread is running
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.ONE));
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.TWO));
-            isRatesLoaded = Boolean.TRUE;
+            isRatesLoaded = BooleanConstant.getTrueFlag();
             rates.configureOnLoad();
         } else if (tabPosition == NumericConstants.THREE && !isDetailsLoaded) {
             //To check the rates tab is loaded or not
@@ -851,7 +842,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             }
             //To check wheather the Details merge thread is running
             CommonUtil.getInstance().waitFor(session.getThread(NumericConstants.THREE));
-            isDetailsLoaded = Boolean.TRUE;
+            isDetailsLoaded = BooleanConstant.getTrueFlag();
             details.configureOnLoad();
         }
     }

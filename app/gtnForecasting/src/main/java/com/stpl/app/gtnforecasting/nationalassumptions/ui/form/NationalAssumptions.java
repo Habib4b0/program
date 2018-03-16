@@ -52,6 +52,7 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.navigator.View;
@@ -118,6 +119,8 @@ public class NationalAssumptions extends CustomComponent implements View {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptions.class);
+    
+    
 
     /**
      * The price type ddlb.
@@ -334,6 +337,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             growthLabel.setHeight("49px");
             frequencyDdlb.addStyleName("fieldPositionfreq");
             forecastMethodology.addStyleName("disablelabel");
+            forecastMethodology.addStyleName("hideLabel");
             forecastMethodology.addItem(PRICE_TRENDING.getConstant());
             if (CommonUtil.isValueEligibleForLoading()) {
                 forecastMethodology.addItem(PER_OF_WAC.getConstant());
@@ -391,7 +395,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesTable.setContainerDataSource(priceTypesBean);
             priceTypesTable.setVisibleColumns(CommonUiUtils.getPeriodTypeColumns());
             priceTypesTable.setColumnHeaders(CommonUiUtils.getPeriodTypesHeader());
-            priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.FIVE], Table.Align.RIGHT);
+            priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.FIVE], Table.Align.LEFT);
             priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.NINE], Table.Align.CENTER);
             priceTypesTable.setPageLength(NumericConstants.SEVEN);
 
@@ -1215,7 +1219,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 .toString(baselineMethodology.getValue()));
 
         String actualsPeriod1 = null;
-        Boolean selectedFlag = true;
+        boolean selectedFlag = true;
         for (int i = 0; i < baselineResultsBean.size(); i++) {
             BaselinePeriodDTO baseline = baselineResultsBean.getIdByIndex(i);
             if (baseline.getCheck()) {
@@ -1562,7 +1566,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 basePeriod.setType(Constant.FORECAST);
             }
             basePeriod.setPeriod(period);
-            basePeriod.setCheck(true);
+            basePeriod.setCheck(BooleanConstant.getTrueFlag());
             baseLineList.add(basePeriod);
 
         }
@@ -1587,7 +1591,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 period = element.toString().trim();
                 rollPeriod.setType(Constant.ACTUALS);
                 rollPeriod.setPeriod(period);
-                rollPeriod.setCheck(true);
+                rollPeriod.setCheck(BooleanConstant.getTrueFlag());
                 rollingAverageList.add(rollPeriod);
             }
             rollingAvgResultsBean.removeAllItems();

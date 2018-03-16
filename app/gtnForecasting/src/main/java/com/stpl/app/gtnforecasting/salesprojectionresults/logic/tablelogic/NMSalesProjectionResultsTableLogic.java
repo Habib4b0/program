@@ -17,6 +17,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.LabelConstants.VARIABLE;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Compare;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
 	private NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
     private boolean firstGenerated = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResultsTableLogic.class);
+    
     private SalesProjectionResultsTree tree;
     private Map<String, SalesProjectionResultsDTO> loadDataMap = new HashMap<>();
     private String pivotValue = StringUtils.EMPTY;
@@ -227,7 +229,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
         for (Map.Entry<String, SalesProjectionResultsDTO> loadData : loadDataMap.entrySet()) {
             addCurrentPageData(loadData.getKey(), loadData.getValue());
         }
@@ -237,7 +239,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     @Override

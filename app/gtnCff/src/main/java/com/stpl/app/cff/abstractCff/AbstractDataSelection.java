@@ -20,6 +20,7 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.UIUtil;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -63,6 +64,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDataSelection.class);
+        
+        
+        
 	/**
 	 * The private view.
 	 */
@@ -937,7 +941,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 		Label empty = new Label(StringUtils.EMPTY, ContentMode.HTML);
 		empty.setWidth("15px");
 		GridLayout layoutG2 = new GridLayout(NumericConstants.TWELVE, NumericConstants.ONE);
-		layoutG2.setMargin(Boolean.FALSE);
+		layoutG2.setMargin(BooleanConstant.getFalseFlag());
 		layoutG2.addComponent(new Label("Private Views:") {
 			{
 				setWidth(StringConstantsUtil.HUNDRED_PX);
@@ -1164,22 +1168,22 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	}
 
 	private void configureCustomerVersionDdlb() {
-		customerRelationVersionComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		customerRelationVersionComboBox.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
 		customerRelationVersionComboBox.setNullSelectionItemId(UIUtil.SELECT_ONE);
 		customerRelationVersionComboBox.addItem(UIUtil.SELECT_ONE);
 		customerRelationVersionComboBox.select(UIUtil.SELECT_ONE);
-		customerRelationVersionLabel.setVisible(Boolean.FALSE);
-		customerRelationVersionComboBox.setVisible(Boolean.FALSE);
+		customerRelationVersionLabel.setVisible(BooleanConstant.getFalseFlag());
+		customerRelationVersionComboBox.setVisible(BooleanConstant.getFalseFlag());
 
 	}
 
 	private void configureProductVersionDdlb() {
-		productRelationVersionComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		productRelationVersionComboBox.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
 		productRelationVersionComboBox.setNullSelectionItemId(UIUtil.SELECT_ONE);
 		productRelationVersionComboBox.addItem(UIUtil.SELECT_ONE);
 		productRelationVersionComboBox.select(UIUtil.SELECT_ONE);
-		productRelationVersionLabel.setVisible(Boolean.FALSE);
-		productRelationVersionComboBox.setVisible(Boolean.FALSE);
+		productRelationVersionLabel.setVisible(BooleanConstant.getFalseFlag());
+		productRelationVersionComboBox.setVisible(BooleanConstant.getFalseFlag());
 
 	}
 

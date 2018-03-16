@@ -7,12 +7,15 @@ import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.gtnforecasting.service.finderImpl.NmPpaProjectionMasterImpl;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.Collections;
 import java.util.List;
 
 public class PPAProjectionDaoImpl implements PPAProjectionDao {
 
-	
+
+    
+    
 	/**
   	 * Gets the PPA contract holder summary.
   	 *
@@ -63,7 +66,7 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
     @Override
     public Object executeUpdate(String query) {
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
  /**
      * Performs a dynamic query on the database and returns the matching rows.

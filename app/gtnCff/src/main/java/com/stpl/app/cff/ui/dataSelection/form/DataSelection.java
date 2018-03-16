@@ -48,6 +48,7 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
@@ -82,6 +83,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private static final long serialVersionUID = 1905122041950251207L;
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
+        
 	/**
 	 * The data selection binder.
 	 */
@@ -304,6 +306,7 @@ public class DataSelection extends AbstractDataSelection {
 				String relationshipSid = String.valueOf(customerRelation.getValue());
 				String[] val = selectedLevel.split(" ");
 				forecastLevel = Integer.parseInt(val[1]);
+                                dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
 				customerHierarchyLevelDefinitionList = relationLogic
 						.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
 				Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
@@ -446,7 +449,7 @@ public class DataSelection extends AbstractDataSelection {
 			}
 
 			bindDataselectionDtoToSave();
-			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, Boolean.FALSE, 0,sessionDTO);
+			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, BooleanConstant.getFalseFlag(), 0,sessionDTO);
 			VaadinSession.getCurrent().setAttribute("projectionId", projectionIdValue);
 			dataSelectionDTO.setProjectionId(projectionIdValue);
 			int prodRelationVersionNo = Integer
@@ -491,13 +494,13 @@ public class DataSelection extends AbstractDataSelection {
 				if (sessionDTO.getFuture() != null) {
 					sessionDTO.getFuture().get();
 					cffLogic.callDeductionCCPHierarchyInsertion(sessionDTO, sessionDTO.getCurrentTableNames(),
-							Boolean.FALSE);
+							BooleanConstant.getFalseFlag());
 				}
 
 			}
 
 			tabSheet.setSelectedTab(1);
-			sessionDTO.setIsGenerated(Boolean.TRUE);
+			sessionDTO.setIsGenerated(BooleanConstant.getTrueFlag());
 
 		} catch (InterruptedException | NumberFormatException | ExecutionException ex) {
 			Logger.getLogger(DataSelection.class.getName()).log(Level.SEVERE, null, ex);
@@ -3461,7 +3464,7 @@ public class DataSelection extends AbstractDataSelection {
 		int forecastLevel = 0;
 		forecastLevel = UiUtils.parseStringToInteger(productLevel);
 		List<Leveldto> reslistOne;
-		reslistOne = relationLogic.getRelationShipValues(projectionId, Boolean.FALSE, productLevel,
+		reslistOne = relationLogic.getRelationShipValues(projectionId, BooleanConstant.getFalseFlag(), productLevel,
 				productDescriptionMap);
 		LOGGER.debug("relist===========: {}", reslistOne.toString());
 
@@ -3633,7 +3636,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private void initializeCustomerHierarchy(final int projectionId, final String customerLevel) {
 		LOGGER.debug("Initializing Customer Hierarchy...");
-		List<Leveldto> initialCustomerHierarchy = relationLogic.getRelationShipValues(projectionId, Boolean.TRUE,
+		List<Leveldto> initialCustomerHierarchy = relationLogic.getRelationShipValues(projectionId, BooleanConstant.getTrueFlag(),
 				customerLevel, customerDescriptionMap);
 		int forecastLevel = 0;
 		forecastLevel = UiUtils.parseStringToInteger(customerLevel);
@@ -3837,6 +3840,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	}
         public void loadCFFEligibleDate() {
+            cffEligibleDate.setDateFormat("MM/dd/yyyy");
             DataSelectionLogic logic = new DataSelectionLogic();
             if (sessionDTO.getCffEligibleDate() != null) {
              cffEligibleDate.setValue(sessionDTO.getCffEligibleDate());           
@@ -3847,6 +3851,7 @@ public class DataSelection extends AbstractDataSelection {
                 @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                   sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
+                    levelValueChangeListener(dataSelectionDTO.getSelectedCustomerLevelNo());
                 }
             });
         }

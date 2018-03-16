@@ -55,6 +55,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -96,6 +97,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class NMProjectionVariance extends ForecastProjectionVariance {
 
+    
     private final StplSecurity stplSecurity = new StplSecurity();
     public static final String CAPTION = "CAPTION";
     public static final String GROUP_PROPERTY = "group";
@@ -422,8 +424,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         pvSelectionDTO.setProjectionId(projectionId);
         pvSelectionDTO.setTreeLevelNo(Integer.parseInt(getSessionDTO().getCustomerLevelNumber()));
-        pvSelectionDTO.setPpa(CommonLogic.isPPA(Boolean.TRUE, pvSelectionDTO));
-        pvSelectionDTO.setReturns(CommonLogic.isReturns(Boolean.TRUE, pvSelectionDTO));
+        pvSelectionDTO.setPpa(CommonLogic.isPPA(BooleanConstant.getTrueFlag(), pvSelectionDTO));
+        pvSelectionDTO.setReturns(CommonLogic.isReturns(BooleanConstant.getTrueFlag(), pvSelectionDTO));
         resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, CommonUtil.isValueEligibleForLoading()));
 
         UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_SEVEN_ZERO, TAB_PROJECTION_VARIANCE.getConstant());
@@ -1787,11 +1789,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
 
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {
-            generateBtn.setVisible(Boolean.FALSE);
-            editViewBtn.setVisible(Boolean.FALSE);
-            collapseLvlBtn.setVisible(Boolean.FALSE);
-            expandLvlBtn.setVisible(Boolean.FALSE);
-            addViewBtn.setVisible(Boolean.FALSE);
+            generateBtn.setVisible(BooleanConstant.getFalseFlag());
+            editViewBtn.setVisible(BooleanConstant.getFalseFlag());
+            collapseLvlBtn.setVisible(BooleanConstant.getFalseFlag());
+            expandLvlBtn.setVisible(BooleanConstant.getFalseFlag());
+            addViewBtn.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 
@@ -2118,7 +2120,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     }
 
                     Object parentItemId = null;
-                    if (tradingPartnerKeys.contains(key)) {
+                    if (tradingPartnerKeys.contains(key) && !CommonUtil.isValueEligibleForLoading()) {
                         int index = 0;
                         for (Iterator<ProjectionVarianceDTO> it1 = varibaleList.listIterator(); it1.hasNext();) {
                             ProjectionVarianceDTO itemId = it1.next();
@@ -2244,6 +2246,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         resultExcelContainer.setChildrenAllowed(itemId, false);
                     }
                 }
+                resultExcelContainer.sort(new Object[]{Constant.GROUP}, new boolean[]{true});
+                resultExcelContainer.sort(new Object[]{Constant.DF_LEVEL_NUMBER}, new boolean[]{true});
+                resultExcelContainer.sort(new Object[]{Constant.DF_LEVEL_NAME}, new boolean[]{true});
             }
 
             excelParentRecords.clear();

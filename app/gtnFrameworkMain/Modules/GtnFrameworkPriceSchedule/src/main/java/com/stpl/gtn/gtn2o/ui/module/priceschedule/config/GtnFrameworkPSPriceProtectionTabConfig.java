@@ -452,6 +452,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 			}
 
 			priceProtectionTabConfig.setComponentType(gtnUIFrameworkComponentType);
+                        priceProtectionTabConfig.setResetToDefaultAllowed(false);
 			priceProtectionTabConfig.setEnable(
 					!GtnFrameworkPSConstants.getPriceProtectionNonEditableFieldProperties().contains(propertyId));
 			if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.COMBOBOX)) {

@@ -1536,5 +1536,36 @@ public class CommonUtils {
 		this.cffQueryUtils = cffQueryUtils;
 	}
     
-    
+    public static List<String> getFormattedDisplayName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndexValue) {
+        List<String> formattedNameList = new ArrayList();
+        try {
+            List<Object> relationshipListValues = relationshipDetails.get(hierarchyNumber);
+            if (displayFormatConditionCheck(relationshipListValues, displayFormatIndexValue)) {
+                List<Object> listOfLevelName = (List<Object>) relationshipListValues.get(NumericConstants.FIVE);
+                if (displayFormatIndexValue.length > 0 && !containsAllNull(listOfLevelName)) {
+                    for (int i = 0; i < displayFormatIndexValue.length; i++) {
+                        formattedNameList.add(setLevelNameValuesForVariance(i, listOfLevelName, displayFormatIndexValue));
+                    }
+                    if (displayFormatIndexValue.length == 1 && formattedNameList.isEmpty()) {
+                        formattedNameList.add(String.valueOf(listOfLevelName.get(NumericConstants.ZERO)));
+                    }
+                } else {
+                    formattedNameList.add(String.valueOf(listOfLevelName.get(NumericConstants.ZERO)));
+                }
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return formattedNameList;
+    }
+
+    private static String setLevelNameValuesForVariance(int index, List<Object> levelNameList, Object[] displayFormatIndex) {
+        String formattedNameValue = StringUtils.EMPTY;
+        int fromIndex = (int) displayFormatIndex[index];
+        Object objValue = levelNameList.get(fromIndex + 1);
+        if (!getLevelName(objValue)) {
+            formattedNameValue = String.valueOf(objValue);
+        }
+        return formattedNameValue;
+    }
 }

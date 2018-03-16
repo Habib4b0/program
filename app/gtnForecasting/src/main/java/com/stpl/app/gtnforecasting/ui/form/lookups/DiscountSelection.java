@@ -12,6 +12,7 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
@@ -44,6 +45,8 @@ public class DiscountSelection extends Window {
 	 * The table.
 	 */
 	private final ExtFilterTable table = new ExtFilterTable();
+        
+        
 
 	/**
 	 * The btn close.
@@ -204,7 +207,7 @@ public class DiscountSelection extends Window {
 							if ((Boolean) event.getProperty().getValue()) {
 								checkCount++;
 								if (checkCount > NumericConstants.FIVE) {
-									check.setValue(false);
+									check.setValue(BooleanConstant.getFalseFlag());
 									LOGGER.info("You can select only 5 discounts maximum");
 									AbstractNotificationUtils.getErrorNotification("Cannot select the discount",
 											"You can select a maximum of 5 discounts");

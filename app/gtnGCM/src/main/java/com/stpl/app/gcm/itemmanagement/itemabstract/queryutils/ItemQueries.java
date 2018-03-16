@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
@@ -44,6 +45,7 @@ import org.slf4j.LoggerFactory;
 public class ItemQueries {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
+    
     private final static CommonDao ITEMDAO = CommonImpl.getInstance();
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
@@ -188,9 +190,9 @@ public class ItemQueries {
             String query = getQuery(sql, dto);
             Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
-                return Boolean.TRUE;
+                return BooleanConstant.getTrueFlag();
             } else {
-                return Boolean.FALSE;
+                return BooleanConstant.getFalseFlag();
             }
 
         } catch (Exception ex) {
@@ -667,67 +669,67 @@ public class ItemQueries {
                 andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.CONTRACT_NO) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.CONTRACT_NO)))) {
-                query.append(andOperator + " CON.CONTRACT_NO LIKE '%").append(String.valueOf(parameters.get(Constants.CONTRACT_NO))).append("%'");
+                query.append(andOperator ).append( " CON.CONTRACT_NO LIKE '%").append(String.valueOf(parameters.get(Constants.CONTRACT_NO))).append("%'");
                 andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.CONTRACT_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.CONTRACT_NAME)))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE  '%").append(String.valueOf(parameters.get(Constants.CONTRACT_NAME))).append("%'");
+                query.append(andOperator ).append( " CON.CONTRACT_NAME LIKE  '%").append(String.valueOf(parameters.get(Constants.CONTRACT_NAME))).append("%'");
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONTRACT_TYPE) != null && !String.valueOf(parameters.get(CONTRACT_TYPE)).equals(Constants.ZEROSTRING)) {
-                query.append(andOperator + " HEL.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(CONTRACT_TYPE))).append(StringUtils.EMPTY);
+                query.append(andOperator ).append( " HEL.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(CONTRACT_TYPE))).append(StringUtils.EMPTY);
                 andOperator = SPACE_AND;
             }
             if (parameters.get(STATUS_DESCRIPTION) != null && !String.valueOf(parameters.get(STATUS_DESCRIPTION)).equals(Constants.ZEROSTRING)) {
-                query.append(andOperator + " HEL_TAB1.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(STATUS_DESCRIPTION))).append(StringUtils.EMPTY);
+                query.append(andOperator ).append( " HEL_TAB1.HELPER_TABLE_SID = ").append(String.valueOf(parameters.get(STATUS_DESCRIPTION))).append(StringUtils.EMPTY);
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONT_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_START_DATEFROM)))) {
-                query.append(andOperator + " CON.START_DATE >='").append(String.valueOf(parameters.get(CONT_START_DATEFROM))).append('\'');
+                query.append(andOperator ).append( " CON.START_DATE >='").append(String.valueOf(parameters.get(CONT_START_DATEFROM))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONT_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_START_DATETO)))) {
-                query.append(andOperator + " CON.START_DATE <='").append(String.valueOf(parameters.get(CONT_START_DATETO))).append('\'');
+                query.append(andOperator ).append( " CON.START_DATE <='").append(String.valueOf(parameters.get(CONT_START_DATETO))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONT_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_END_DATEFROM)))) {
-                query.append(andOperator + " CON.END_DATE >='").append(String.valueOf(parameters.get(CONT_END_DATEFROM))).append('\'');
+                query.append(andOperator ).append( " CON.END_DATE >='").append(String.valueOf(parameters.get(CONT_END_DATEFROM))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(CONT_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CONT_END_DATETO)))) {
-                query.append(andOperator + " CON.END_DATE <='").append(String.valueOf(parameters.get(CONT_END_DATETO))).append('\'');
+                query.append(andOperator ).append( " CON.END_DATE <='").append(String.valueOf(parameters.get(CONT_END_DATETO))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.CFP_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.CFP_NAME)))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE  '%").append(String.valueOf(parameters.get(Constants.CFP_NAME))).append("%'");
+                query.append(andOperator ).append( " CON.CONTRACT_NAME LIKE  '%").append(String.valueOf(parameters.get(Constants.CFP_NAME))).append("%'");
                 andOperator = SPACE_AND;
             }
             if (parameters.get(Constants.IFPNAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constants.IFPNAME)))) {
-                query.append(andOperator + "  CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.IFPNAME))).append("%'");
+                query.append(andOperator ).append( "  CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(Constants.IFPNAME))).append("%'");
                 andOperator = SPACE_AND;
             }
             if (parameters.get(PS_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(PS_NAME)))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(PS_NAME))).append("%'");
+                query.append(andOperator ).append( " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(PS_NAME))).append("%'");
                 andOperator = SPACE_AND;
             }
             if (parameters.get(RS_NAME) != null && !StringUtils.isBlank(String.valueOf(parameters.get(RS_NAME)))) {
-                query.append(andOperator + " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(RS_NAME))).append("%'");
+                query.append(andOperator ).append( " CON.CONTRACT_NAME LIKE '%").append(String.valueOf(parameters.get(RS_NAME))).append("%'");
                 andOperator = SPACE_AND;
             }
             if (parameters.get(COMP_START_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_START_DATEFROM)))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_START_DATEFROM))).append('\'');
+                query.append(andOperator ).append( " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_START_DATEFROM))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(COMP_START_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_START_DATETO)))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_START_DATETO))).append('\'');
+                query.append(andOperator ).append( " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_START_DATETO))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(COMP_END_DATEFROM) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_END_DATEFROM)))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_END_DATEFROM))).append('\'');
+                query.append(andOperator ).append( " IFP.IFP_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(COMP_END_DATEFROM))).append('\'');
                 andOperator = SPACE_AND;
             }
             if (parameters.get(COMP_END_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(COMP_END_DATETO)))) {
-                query.append(andOperator + " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_END_DATETO))).append('\'');
+                query.append(andOperator ).append( " IFP.IFP_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(COMP_END_DATETO))).append('\'');
             }
         }
         return query;
@@ -753,9 +755,9 @@ public class ItemQueries {
             query = query.replace("@CHECK_RECORD", (dto.getCheckRecord() ? 1 : 0) + StringUtils.EMPTY);
             Integer count = (Integer) ITEMDAO.executeUpdate(query);
             if (count > 0) {
-                return Boolean.TRUE;
+                return BooleanConstant.getTrueFlag();
             } else {
-                return Boolean.FALSE;
+                return BooleanConstant.getFalseFlag();
             }
 
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {

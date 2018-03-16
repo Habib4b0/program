@@ -28,7 +28,9 @@ public class GtnFrameworkAutomaticRelationUpdateTest {
 
 	@Test
 	public void checkAndUpdateAutomaticRelationship() throws GtnFrameworkGeneralException, InterruptedException {
-			service.checkAndUpdateAutomaticRelationship(324);
+		System.setProperty("gtn.app.data.path", "D:/SERVERS/BASEPATH");
+		service.checkAndUpdateAutomaticRelationship(817);
 		return;
 	}
+
 }

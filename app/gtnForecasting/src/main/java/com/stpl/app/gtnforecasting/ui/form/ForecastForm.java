@@ -39,7 +39,6 @@ import com.stpl.app.gtnforecasting.ui.NonMandatedViewWindow;
 import com.stpl.app.gtnforecasting.ui.form.lookups.WorkFlowNotesLookup;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import static com.stpl.app.gtnforecasting.utils.CommonUtil.COMMA;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
@@ -80,6 +79,7 @@ import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
@@ -126,6 +126,8 @@ import org.slf4j.LoggerFactory;
 public class ForecastForm extends AbstractForm {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ForecastForm.class);
+        
+        
 
 	/**
 	 * The data.
@@ -238,7 +240,7 @@ public class ForecastForm extends AbstractForm {
 	private boolean discountFlag = true;
 	private static Thread dsThread;
 	private static CountDownLatch latch;
-	private boolean isCommercialGovernment = Boolean.FALSE;
+	private boolean isCommercialGovernment = BooleanConstant.getFalseFlag();
 	private ExecutorService service = ThreadPool.getInstance().getService();
 
 	public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session,
@@ -251,7 +253,7 @@ public class ForecastForm extends AbstractForm {
 		this.editWindow = editWindow;
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
 				|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
-			isCommercialGovernment = Boolean.TRUE;
+			isCommercialGovernment = BooleanConstant.getTrueFlag();
 			this.forecastWindow = forecastWindow;
 		}
 		this.resultTable = resultTable;
@@ -288,6 +290,9 @@ public class ForecastForm extends AbstractForm {
 					Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY));
 			session.setMaximumProductLevel(dsLogic.getMaximumLevelNo(session.getHierarchyLevelDetails(),
 					Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY));
+                    if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+                        dataSelectionDTO.setForecastEligibleDate(dsLogic.getWorkflowEligibleDateFromProjMaster(dataSelectionDTO));
+                    }
 			commercialConfiguration();
 			dataAssumption.setSession(this.session);
 			session.setDataAssumptionLogic(dataAssumption);
@@ -403,11 +408,11 @@ public class ForecastForm extends AbstractForm {
 			if (i == 1 || i == 0) {
 				tabLazyLoadMap.put(i, Boolean.TRUE);
 			} else {
-				tabLazyLoadMap.put(i, Boolean.FALSE);
+				tabLazyLoadMap.put(i, BooleanConstant.getFalseFlag());
 			}
 		}
-		pushMap.put(INDICATOR_REFRESH_UPDATE.getConstant(), false);
-		pushMap.put(INDICATOR_TIME_PERIOD_CHANGED.getConstant(), false);
+		pushMap.put(INDICATOR_REFRESH_UPDATE.getConstant(), BooleanConstant.getFalseFlag());
+		pushMap.put(INDICATOR_TIME_PERIOD_CHANGED.getConstant(), BooleanConstant.getFalseFlag());
 
 	}
 
@@ -657,7 +662,7 @@ public class ForecastForm extends AbstractForm {
 								Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
 					}
 
-					data.setUpdateOnTabChange(Boolean.FALSE);
+					data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 				} else {
 					btnNextLogic();
 				}
@@ -704,7 +709,7 @@ public class ForecastForm extends AbstractForm {
 								tabSheet.removeTab(tabToReset);
 								tabSheet.addTab(nmSalesProjection, Constant.SALES_PROJECTION, null, 2);
 								dsFlag = true;
-								data.setUpdateOnTabChange(Boolean.TRUE);
+								data.setUpdateOnTabChange(BooleanConstant.getTrueFlag());
 								tabSheet.setSelectedTab(0);
 								lastPosition = 0;
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
@@ -733,8 +738,8 @@ public class ForecastForm extends AbstractForm {
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-				data.setReloadAfterUpdate(Boolean.TRUE);
-				data.setUpdateOnTabChange(Boolean.FALSE);
+				data.setReloadAfterUpdate(BooleanConstant.getTrueFlag());
+				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 			}
 
 			/**
@@ -872,13 +877,13 @@ public class ForecastForm extends AbstractForm {
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-				data.setReloadAfterUpdate(Boolean.FALSE);
-				data.setUpdateOnTabChange(Boolean.FALSE);
+				data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
+				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 			}
 			if ((tabPosition == data.getTabNumber()) && (data.isReloadAfterUpdate())) {
 				try {
 
-					data.setReloadAfterUpdate(Boolean.FALSE);
+					data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
 				} catch (Exception ex) {
 					LOGGER.error(ex.getMessage());
 				}
@@ -961,8 +966,8 @@ public class ForecastForm extends AbstractForm {
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-				data.setReloadAfterUpdate(Boolean.FALSE);
-				data.setUpdateOnTabChange(Boolean.FALSE);
+				data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
+				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 			}
 			switch (tabPosition) {
 
@@ -970,7 +975,7 @@ public class ForecastForm extends AbstractForm {
 				if (data.isReloadAfterUpdate()) {
 					try {
 
-						data.setReloadAfterUpdate(Boolean.FALSE);
+						data.setReloadAfterUpdate(BooleanConstant.getFalseFlag());
 					} catch (Exception ex) {
 						LOGGER.error(ex.getMessage());
 					}
@@ -1514,7 +1519,7 @@ public class ForecastForm extends AbstractForm {
 				} else {
 					StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
 					if (!roleList.isEmpty()) {
-						notiMsg.append("\n Only " + roleList + " can submit a projection.");
+						notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
 					}
 					NotificationUtils.getAlertNotification("Permission Denied", notiMsg.toString());
 
@@ -1763,35 +1768,35 @@ public class ForecastForm extends AbstractForm {
 					getGovernmentConstant());
 			if (functionPsHM.get(FunctionNameUtil.DATA_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.DATA_TAB)).isTabFlag()) {
-				tabSheet.getTab(0).setVisible(Boolean.FALSE);
+				tabSheet.getTab(0).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_SP_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_SP_TAB)).isTabFlag()) {
-				tabSheet.getTab(1).setVisible(Boolean.FALSE);
+				tabSheet.getTab(1).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_SPR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_SPR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.TWO).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.TWO).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_SDP_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_SDP_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.THREE).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_SDPR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_SDPR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_PR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_PR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.FIVE).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.FIVE).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_PV_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_PV_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.SIX).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.SIX).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.M_ADDITIONAL_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.M_ADDITIONAL_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.SEVEN).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.SEVEN).setVisible(BooleanConstant.getFalseFlag());
 			}
 
 		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
@@ -1800,47 +1805,47 @@ public class ForecastForm extends AbstractForm {
 					getCommercialConstant());
 			if (functionPsHM.get(FunctionNameUtil.NM_DATA_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_DATA_TAB)).isTabFlag()) {
-				tabSheet.getTab(0).setVisible(Boolean.FALSE);
+				tabSheet.getTab(0).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_DATA_ASSUMPTIONS_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_DATA_ASSUMPTIONS_TAB)).isTabFlag()) {
-				tabSheet.getTab(1).setVisible(Boolean.FALSE);
+				tabSheet.getTab(1).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_SP_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SP_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.TWO).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.TWO).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_SPR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SPR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.THREE).setVisible(Boolean.FALSE);
-				salesProjectionResults.setIsTabVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.THREE).setVisible(BooleanConstant.getFalseFlag());
+				salesProjectionResults.setIsTabVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_SDP_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SDP_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.FOUR).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_SDPR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_SDPR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.FIVE).setVisible(Boolean.FALSE);
-				discountProjectionResults.setIsTabVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.FIVE).setVisible(BooleanConstant.getFalseFlag());
+				discountProjectionResults.setIsTabVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_PPA_RESULTS_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PPA_RESULTS_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.SIX).setVisible(Boolean.FALSE);
-				ppaProjectionResults.setIsTabVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.SIX).setVisible(BooleanConstant.getFalseFlag());
+				ppaProjectionResults.setIsTabVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_PR_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PR_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.SEVEN).setVisible(Boolean.FALSE);
-				nonmandatedprojectionResults.setIsTabVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.SEVEN).setVisible(BooleanConstant.getFalseFlag());
+				nonmandatedprojectionResults.setIsTabVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_PV_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_PV_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.EIGHT).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.EIGHT).setVisible(BooleanConstant.getFalseFlag());
 			}
 			if (functionPsHM.get(FunctionNameUtil.NM_ADDITIONAL_TAB) != null
 					&& !((AppPermission) functionPsHM.get(FunctionNameUtil.NM_ADDITIONAL_TAB)).isTabFlag()) {
-				tabSheet.getTab(NumericConstants.NINE).setVisible(Boolean.FALSE);
+				tabSheet.getTab(NumericConstants.NINE).setVisible(BooleanConstant.getFalseFlag());
 			}
 		}
 	}
@@ -1860,11 +1865,11 @@ public class ForecastForm extends AbstractForm {
 										? getGovernmentConstant() : CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS)
 								+ "," + "Common");
 		if (functionPsHM.get("btnSave") != null && !((AppPermission) functionPsHM.get("btnSave")).isFunctionFlag()) {
-			getBtnSave().setVisible(Boolean.FALSE);
+			getBtnSave().setVisible(BooleanConstant.getFalseFlag());
 		}
 		if (functionPsHM.get("btnSubmit") != null
 				&& !((AppPermission) functionPsHM.get("btnSubmit")).isFunctionFlag()) {
-			getBtnSubmit().setVisible(Boolean.FALSE);
+			getBtnSubmit().setVisible(BooleanConstant.getFalseFlag());
 		}
 	}
 
@@ -2005,10 +2010,6 @@ public class ForecastForm extends AbstractForm {
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Approved Information",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
-											StringBuffer sb = new StringBuffer(Constant.BR_BR);
-											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
-													+ " is Approved Succesfully.");
-											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
 //											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
 //													"Workflow Approved Succesfully", sb);
 											getBtnApprove().setEnabled(false);
@@ -2060,10 +2061,6 @@ public class ForecastForm extends AbstractForm {
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Rejected Information ",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
-											StringBuffer sb = new StringBuffer(Constant.BR_BR);
-											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
-													+ " is Rejected Succesfully.");
-											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
 //											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
 //													"Workflow Rejected Succesfully", sb);
 											getBtnApprove().setEnabled(false);
@@ -2118,10 +2115,7 @@ public class ForecastForm extends AbstractForm {
 													Constant.WORKFLOW_ID + workflowIdUpdate
 															+ " withdrawn successfully");
 
-											StringBuffer sb = new StringBuffer(Constant.BR_BR);
-											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
-													+ " is Withdrawn Succesfully.");
-											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
+											
 //											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
 //													"Workflow Withdrawn Succesfully", sb);
 											getBtnApprove().setEnabled(false);
@@ -2175,10 +2169,6 @@ public class ForecastForm extends AbstractForm {
 													Constant.WORKFLOW_ID + workflowIdUpdate
 															+ " cancelled successfully");
 
-											StringBuffer sb = new StringBuffer(Constant.BR_BR);
-											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
-													+ " is cancelled Succesfully.");
-											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
 //											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
 //													"Workflow Cancelled Succesfully", sb);
 											getBtnApprove().setEnabled(false);

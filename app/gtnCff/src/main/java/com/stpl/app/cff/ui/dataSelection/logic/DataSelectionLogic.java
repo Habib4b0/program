@@ -56,6 +56,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -93,6 +94,7 @@ public class DataSelectionLogic {
 	 * The data selection dao.
 	 */
 	private final DataSelectionDAO dataSelectionDaoImpl = new DataSelectionDAOImpl();
+        
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
 	private final DataSelectionDAO vDataSelectionDao = new DataSelectionDAOImpl();
@@ -451,18 +453,19 @@ public class DataSelectionLogic {
 				}
 			} else if ("save".equals(indicator)) {
 				for (final Leveldto dto : levelList) {
-
-					cffProdHierarchy.setCffMasterSid(projectionId);
-					cffProdHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
-					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchy);
+                                        final CffProdHierarchy cffProdHierarchyLevel = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(0);
+					cffProdHierarchyLevel.setCffMasterSid(projectionId);
+					cffProdHierarchyLevel.setRelationshipLevelSid(dto.getRelationshipLevelSid());
+					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchyLevel);
 				}
 			}
 			if (endLevels != null && !endLevels.isEmpty()) {
 				for (final Object relationshipLevelSid : endLevels) {
-					cffProdHierarchy.setCffMasterSid(projectionId);
-					cffProdHierarchy.setRelationshipLevelSid(
+                                        final CffProdHierarchy cffProdendLevels = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(0);
+					cffProdendLevels.setCffMasterSid(projectionId);
+					cffProdendLevels.setRelationshipLevelSid(
 							UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
-					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchy);
+					vDataSelectionDao.addProjectionProdHierarchy(cffProdendLevels);
 				}
 			}
 		} catch (final SystemException e) {
@@ -559,17 +562,19 @@ public class DataSelectionLogic {
 				}
 			} else if ("save".equals(indicator)) {
 				for (final Leveldto dto : levelList) {
-					cffCustHierarchy.setCffMasterSid(projectionId);
-					cffCustHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
-					vDataSelectionDao.addProjectionCustHierarchy(cffCustHierarchy);
+                                        final CffCustHierarchy cffCustHierarchyLevel = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(0);
+					cffCustHierarchyLevel.setCffMasterSid(projectionId);
+					cffCustHierarchyLevel.setRelationshipLevelSid(dto.getRelationshipLevelSid());
+					vDataSelectionDao.addProjectionCustHierarchy(cffCustHierarchyLevel);
 				}
 			}
 			if (endLevels != null && !endLevels.isEmpty()) {
 				for (final Object relationshipLevelSid : endLevels) {
-					cffCustHierarchy.setCffMasterSid(projectionId);
-					cffCustHierarchy.setRelationshipLevelSid(
+                                        final CffCustHierarchy cffCustendLevels = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(0);
+					cffCustendLevels.setCffMasterSid(projectionId);
+					cffCustendLevels.setRelationshipLevelSid(
 							UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
-					vDataSelectionDao.addProjectionCustHierarchy(cffCustHierarchy);
+					vDataSelectionDao.addProjectionCustHierarchy(cffCustendLevels);
 				}
 			}
 		} catch (final SystemException e) {
@@ -1355,7 +1360,7 @@ public class DataSelectionLogic {
 	}
 
 	public void setForcastFileDate(DataSelectionDTO dto) {
-		String query = SQlUtil.getQuery("getFileEndDate");
+             		String query = SQlUtil.getQuery("getFileEndDate");
 		query = query.replace("[?BUSINESS_UNIT]", StringUtils.EMPTY + dto.getBusinessUnitSystemId());
 		final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 		if (list != null && !list.isEmpty()) {
@@ -1511,8 +1516,8 @@ public class DataSelectionLogic {
 		try {
 			List<Object> list;
 			final StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
-					+ "RELATIONSHIP_BUILDER_SID='" + rbID + "'\n" + "and \n" + "LEVEL_NAME='Market Type'");
+			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n")
+					.append( "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and LEVEL_NAME='Market Type'");
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;
@@ -1891,7 +1896,7 @@ public class DataSelectionLogic {
 		parameters.put(PROJECTION_ID, projectionId);
 		final List returnList = vDataSelectionDao.executeQuery(parameters);
 		if (returnList.isEmpty()) {
-			return true;
+			return BooleanConstant.getTrueFlag();
 		} else {
 			return (Integer) returnList.get(0) >= 1;
 		}
@@ -1947,7 +1952,8 @@ public class DataSelectionLogic {
         public Date getDefaultEligibleDateFromForecastConfiguration() {
             String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Consolidated Financial Forecast')";
             List cffEligibleDatelist = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            return (Date) cffEligibleDatelist.get(0);
+            return cffEligibleDatelist != null ? (Date) cffEligibleDatelist.get(0) : null;
+            
         }
             public String getremovedcontractbasedonCFFEligibleDate(final SessionDTO session) {
             List<Object> inputList = new ArrayList();

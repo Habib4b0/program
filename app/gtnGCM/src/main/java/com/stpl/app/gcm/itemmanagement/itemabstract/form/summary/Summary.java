@@ -28,6 +28,7 @@ import static com.stpl.app.gcm.util.Constants.QUARTERLY;
 import com.stpl.app.gcm.util.HeaderUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
@@ -61,6 +62,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
  */
 public abstract class Summary extends CustomComponent {
 
+    
+    
     @UiField("tradingPartnerSalesTableLayout")
     protected VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("excelBtn")
@@ -232,7 +235,7 @@ public abstract class Summary extends CustomComponent {
         excelResultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
         exportPeriodViewTable = new ExtFilterTreeTable();
         tradingPartnerSalesTableLayout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);
