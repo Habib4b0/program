@@ -92,6 +92,7 @@ public class AccrualRateUtils {
     public static final String EDIT = "Edit";
     public static final String VIEW = "View";
     public static final String ADD_CASE = "add";
+    public static final String OFFSET_WITH_SPACE = " OFFSET ";
     public static final DecimalFormat DOLLAR_FORMAT_WITH_COMMA = new DecimalFormat("$#,##0.00");
     
     /**

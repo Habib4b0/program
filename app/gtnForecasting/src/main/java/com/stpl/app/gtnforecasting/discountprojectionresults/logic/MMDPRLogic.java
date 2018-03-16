@@ -2625,11 +2625,11 @@ public class MMDPRLogic {
             tempTableName[0] = "PROD_RELATIONSHIP_BUILDER_SID";
             tempTableName[1] = "PRODUCT_HIERARCHY_LEVEL";
         }
-        customSql.append("select Distinct cm." + str + ",cm.COMPANY_NAME  from CCP_DETAILS ccp,PROJECTION_DETAILS pd,COMPANY_MASTER cm \n"
-                + "where \n"
-                + "ccp.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
-                + "and cm.COMPANY_MASTER_SID=ccp.COMPANY_MASTER_SID\n"
-                + "and pd.PROJECTION_MASTER_SID= " + projSelDTO.getProjectionId());
+        customSql.append("select Distinct cm." ).append( str ).append( ",cm.COMPANY_NAME  from CCP_DETAILS ccp,PROJECTION_DETAILS pd,COMPANY_MASTER cm \n"
+                ).append( "where \n"
+                ).append( "ccp.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
+                ).append( "and cm.COMPANY_MASTER_SID=ccp.COMPANY_MASTER_SID\n"
+                ).append( "and pd.PROJECTION_MASTER_SID= " ).append( projSelDTO.getProjectionId());
         try {
             list = (List) dao.executeSelectQuery(customSql.toString());
 
