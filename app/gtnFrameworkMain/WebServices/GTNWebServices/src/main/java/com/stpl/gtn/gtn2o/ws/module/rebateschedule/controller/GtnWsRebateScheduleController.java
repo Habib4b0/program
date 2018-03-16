@@ -100,11 +100,11 @@ public class GtnWsRebateScheduleController {
 			GtnWsGeneralRequest gtnWsGeneralRequest = gtnWsRequest.getGtnWsGeneralRequest();
 			GtnWsRebateScheduleInfoBean rsInfoBean = gtnWsRequest.getGtnWsRebateScheduleGeneralRequest()
 					.getRebateScheduleInfoBean();
-                        boolean flag = checkRebatePlanMaster(
-					gtnRequest.getRebateScheduleInfoBean().getRebateScheduleId());
-                        rsInfoBean.setRsIdAlreadyExist(flag);
-                        if(!flag){
-			rsWebservice.rebateScheduleSave(rsInfoBean, gtnWsGeneralRequest.getUserId(),
+                    boolean flag = checkRebateScheduleMaster(gtnRequest.getRebateScheduleInfoBean().getRebateScheduleId());
+                    rsInfoBean.setRsIdAlreadyExist(flag);
+                    if(!flag){
+	            
+                        rsWebservice.rebateScheduleSave(rsInfoBean, gtnWsGeneralRequest.getUserId(),
 					gtnWsGeneralRequest.getSessionId());
                         }
 			gtnResponse.setRebateScheduleInfoBean(rsInfoBean);
@@ -375,7 +375,7 @@ public class GtnWsRebateScheduleController {
 		}
 	}
     @SuppressWarnings("unchecked")
-    public boolean checkRebatePlanMaster(String rebateScheduleId) throws GtnFrameworkGeneralException {
+    public boolean checkRebateScheduleMaster(String rebateScheduleId) throws GtnFrameworkGeneralException {
         List<RsModel> results = null;
 		try (Session session = sessionFactory.openSession()) {
 			Criteria criteria = session.createCriteria(RsModel.class)
