@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,9 +67,11 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;05 14:13:25.909</created_date>
+  <created_date>2013&#x2f;07&#x2f;05 14&#x3a;13&#x3a;25.909</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;05 14:13:25.909</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;05 14&#x3a;13&#x3a;25.909</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -139,13 +146,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -161,12 +168,63 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>STAGING</from><to>String operations</to><enabled>Y</enabled> </hop>  <hop> <from>String operations</from><to>SNAPSHOT</to><enabled>N</enabled> </hop>  <hop> <from>String operations</from><to>TEMP</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING</from><to>Detect empty stream 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>ADD Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>RECEIVED_RECORD_COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2 2</from><to>INVALID UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2</from><to>MAIL CREATION</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>Group by</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT 2</from><to>SET VARIABLES 2</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS 2</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Group by</from><to>Database join 2</to><enabled>N</enabled> </hop>  <hop> <from>INVALID COUNT</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>FINAL AUDIT WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>INVALID COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID UPDATE</from><to>FINAL AUDIT WAIT 2</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL CREATION</from><to>Split field to rows</to><enabled>N</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT</from><to>Mail 2</to><enabled>N</enabled> </hop>  <hop> <from>REMOVE FIELDS 2</from><to>PICK UNIQUE CONTENT</to><enabled>N</enabled> </hop>  <hop> <from>SET VARIABLES 2</from><to>AUDIT_STATUS_UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows</from><to>GET MAIL PARAMETERS 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>  <hop> <from>Detect empty stream 2</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT</from><to>SET VARIABLES 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 3</from><to>MAIL CREATION 2</to><enabled>N</enabled> </hop>  <hop> <from>Database join 2 3</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>AUDIT COMPLETION WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2</from><to>STAGING AUDIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP</from><to>Database join 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Update</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>Database join 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Update</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>STAGING</from><to>String operations</to><enabled>Y</enabled> </hop>
+  <hop> <from>String operations</from><to>SNAPSHOT</to><enabled>N</enabled> </hop>
+  <hop> <from>String operations</from><to>TEMP</to><enabled>Y</enabled> </hop>
+  <hop> <from>STAGING</from><to>Detect empty stream 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2</from><to>ADD Audit update 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2</from><to>RECEIVED_RECORD_COUNT</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 2</from><to>INVALID UPDATE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database join</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Database join 2</from><to>MAIL CREATION</to><enabled>N</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION</from><to>Group by</to><enabled>N</enabled> </hop>
+  <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION</to><enabled>N</enabled> </hop>
+  <hop> <from>FINAL AUDIT WAIT 2</from><to>SET VARIABLES 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET MAIL PARAMETERS 2</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Group by</from><to>Database join 2</to><enabled>N</enabled> </hop>
+  <hop> <from>INVALID COUNT</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID COUNT 2</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID COUNT 2</from><to>FINAL AUDIT WAIT</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID COUNT 2</from><to>INVALID COUNT</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID UPDATE</from><to>FINAL AUDIT WAIT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>MAIL CREATION</from><to>Split field to rows</to><enabled>N</enabled> </hop>
+  <hop> <from>PICK UNIQUE CONTENT</from><to>Mail 2</to><enabled>N</enabled> </hop>
+  <hop> <from>REMOVE FIELDS 2</from><to>PICK UNIQUE CONTENT</to><enabled>N</enabled> </hop>
+  <hop> <from>SET VARIABLES 2</from><to>AUDIT_STATUS_UPDATE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Split field to rows</from><to>Database join</to><enabled>N</enabled> </hop>
+  <hop> <from>Split field to rows</from><to>GET MAIL PARAMETERS 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Split field to rows</from><to>REMOVE FIELDS 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Detect empty stream 2</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT COMPLETION WAIT</from><to>SET VARIABLES 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database join 2 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Database join 2 3</from><to>MAIL CREATION 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Database join 2 3</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION 2</from><to>AUDIT COMPLETION WAIT</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION 2</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION 2</from><to>STAGING AUDIT</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP</to><enabled>Y</enabled> </hop>
+  <hop> <from>FOR HTML GROUP</from><to>Database join 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>
+  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail</to><enabled>Y</enabled> </hop>
+  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>SET VARIABLES 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>STAGING AUDIT</from><to>Update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Split field to rows 2</from><to>Database join 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>
+  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>STAGING AUDIT</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>ADD Audit update 2</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -184,13 +242,13 @@
       <key>
         <name>batch_id_1</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -211,6 +269,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -235,6 +294,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -252,13 +312,13 @@
       <key>
         <name>batch_id_1</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -283,6 +343,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -300,13 +361,13 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -331,6 +392,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -347,6 +409,7 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>add_count</name>
@@ -358,6 +421,7 @@
         <nullif>0</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -373,6 +437,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -389,6 +454,7 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>STATUS_C</name>
@@ -400,6 +466,7 @@
         <nullif>C</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -415,6 +482,7 @@
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -422,18 +490,7 @@
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT TOP 1 A.HOST_NAME      AS MAIL_SERVER,
-       A.EMAIL_ADDRESS  AS SENDER_ADDRESS,
-	   A.PASSWORD AS SENDER_PASSWORD,
-       A.PORT_NUMBER    AS MAIL_PORT,
-       B.DESTINATION    AS DESTINATION_ADDRESS,
-       B.DESTINATION_CC AS DESTINATION_CC
-FROM   WF_MAIL_CONFIG A
-       JOIN MAIL_DETAILS B
-         ON 1 = 1
-WHERE  b.INTERFACE_NAME = &apos;ACTUAL_MASTER_INTERFACE&apos;
-       AND a.SMTP_FLAG = &apos;yes&apos; 
-</sql>
+    <sql>SELECT TOP 1 A.HOST_NAME      AS MAIL_SERVER,&#xa;       A.EMAIL_ADDRESS  AS SENDER_ADDRESS,&#xa;	   A.PASSWORD AS SENDER_PASSWORD,&#xa;       A.PORT_NUMBER    AS MAIL_PORT,&#xa;       B.DESTINATION    AS DESTINATION_ADDRESS,&#xa;       B.DESTINATION_CC AS DESTINATION_CC&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN MAIL_DETAILS B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.INTERFACE_NAME &#x3d; &#x27;ACTUAL_MASTER_INTERFACE&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27; &#xa;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -451,6 +508,7 @@ WHERE  b.INTERFACE_NAME = &apos;ACTUAL_MASTER_INTERFACE&apos;
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -458,23 +516,7 @@ WHERE  b.INTERFACE_NAME = &apos;ACTUAL_MASTER_INTERFACE&apos;
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>
-	   DECLARE @CONTENT VARCHAR(max)= &apos;Hi,&lt;br&gt;&lt;br&gt;&apos;
-SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,
-             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,
-             A.PASSWORD                      AS SENDER_PASSWORD,
-             A.PORT_NUMBER                   AS MAIL_PORT,
-             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,
-             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,
-             B.SUCCESS_MAIL_SUBJECT        AS SSUBJECT,
-            -- B.FAILURE_MAIL_BODY + @CONTENT  AS CONTENT,
-			 stuff(@CONTENT,charindex(&apos;Hi,&apos;,@CONTENT)+3,0,&apos;&lt;br&gt;&lt;br&gt;&apos;+B.SUCCESS_MAIL_BODY) as SCONTENT
-FROM   WF_MAIL_CONFIG A
-       JOIN WORKFLOW_PROFILE B
-         ON 1 = 1
-WHERE  b.PROCESS_NAME = &apos;ACCRUAL_INBOUND_INTERFACE&apos;
-       AND a.SMTP_FLAG = &apos;yes&apos;
-</sql>
+    <sql>&#xa;	   DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,&#xa;             B.SUCCESS_MAIL_SUBJECT        AS SSUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.SUCCESS_MAIL_BODY&#x29; as SCONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;&#xa;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -492,6 +534,7 @@ WHERE  b.PROCESS_NAME = &apos;ACCRUAL_INBOUND_INTERFACE&apos;
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -499,17 +542,7 @@ WHERE  b.PROCESS_NAME = &apos;ACCRUAL_INBOUND_INTERFACE&apos;
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT TOP 1 A.HOST_NAME      AS MAIL_SERVER,
-       A.EMAIL_ADDRESS  AS SENDER_ADDRESS,
-	   A.PASSWORD AS SENDER_PASSWORD,
-       A.PORT_NUMBER    AS MAIL_PORT,
-       B.DESTINATION    AS DESTINATION_ADDRESS,
-       B.DESTINATION_CC AS DESTINATION_CC
-FROM   WF_MAIL_CONFIG A
-       JOIN MAIL_DETAILS B
-         ON 1 = 1
-WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
-       AND a.SMTP_FLAG = &apos;yes&apos; </sql>
+    <sql>SELECT TOP 1 A.HOST_NAME      AS MAIL_SERVER,&#xa;       A.EMAIL_ADDRESS  AS SENDER_ADDRESS,&#xa;	   A.PASSWORD AS SENDER_PASSWORD,&#xa;       A.PORT_NUMBER    AS MAIL_PORT,&#xa;       B.DESTINATION    AS DESTINATION_ADDRESS,&#xa;       B.DESTINATION_CC AS DESTINATION_CC&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN MAIL_DETAILS B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.INTERFACE_NAME &#x3d; &#x27;company_master_interface&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27; </sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -527,6 +560,7 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -534,23 +568,7 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>
-	   DECLARE @CONTENT VARCHAR(max)= &apos;Hi,&lt;br&gt;&lt;br&gt;&apos;
-SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,
-             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,
-             A.PASSWORD                      AS SENDER_PASSWORD,
-             A.PORT_NUMBER                   AS MAIL_PORT,
-             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,
-             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,
-             B.SUCCESS_MAIL_SUBJECT          AS SSUBJECT,
-            -- B.FAILURE_MAIL_BODY + @CONTENT  AS CONTENT,
-			 stuff(@CONTENT,charindex(&apos;Hi,&apos;,@CONTENT)+3,0,&apos;&lt;br&gt;&lt;br&gt;&apos;+B.SUCCESS_MAIL_BODY) as SCONTENT
-FROM   WF_MAIL_CONFIG A
-       JOIN WORKFLOW_PROFILE B
-         ON 1 = 1
-WHERE  b.PROCESS_NAME = &apos;LOT_MASTER_INTERFACE&apos;
-       AND a.SMTP_FLAG = &apos;yes&apos;
-</sql>
+    <sql>&#xa;	   DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,&#xa;             B.SUCCESS_MAIL_SUBJECT          AS SSUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.SUCCESS_MAIL_BODY&#x29; as SCONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;&#xa;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -568,6 +586,7 @@ WHERE  b.PROCESS_NAME = &apos;LOT_MASTER_INTERFACE&apos;
     <type>DetectEmptyStream</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -582,10 +601,11 @@ WHERE  b.PROCESS_NAME = &apos;LOT_MASTER_INTERFACE&apos;
     </step>
 
   <step>
-    <name>Dummy (do nothing)</name>
+    <name>Dummy &#x28;do nothing&#x29;</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -604,6 +624,7 @@ WHERE  b.PROCESS_NAME = &apos;LOT_MASTER_INTERFACE&apos;
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -611,9 +632,7 @@ WHERE  b.PROCESS_NAME = &apos;LOT_MASTER_INTERFACE&apos;
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT  distinct BATCH_ID AS BATCH,ADD_COUNT,INVALID_RECORD_COUNT,SENT_RECORD_COUNT,RECEIVED_RECORD_COUNT FROM AUDIT_MASTER_INBOUND  
-where BATCH_ID=?
- and STATUS=&apos;R&apos;</sql>
+    <sql>SELECT  distinct BATCH_ID AS BATCH,ADD_COUNT,INVALID_RECORD_COUNT,SENT_RECORD_COUNT,RECEIVED_RECORD_COUNT FROM AUDIT_MASTER_INBOUND  &#xa;where BATCH_ID&#x3d;&#x3f;&#xa; and STATUS&#x3d;&#x27;R&#x27;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -635,6 +654,7 @@ where BATCH_ID=?
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -642,9 +662,7 @@ where BATCH_ID=?
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT  distinct BATCH_ID AS BATCH,ADD_COUNT,INVALID_RECORD_COUNT,SENT_RECORD_COUNT,RECEIVED_RECORD_COUNT ,STATUS FROM AUDIT_MASTER_INBOUND  
-where BATCH_ID=?
- and STATUS=&apos;R&apos;</sql>
+    <sql>SELECT  distinct BATCH_ID AS BATCH,ADD_COUNT,INVALID_RECORD_COUNT,SENT_RECORD_COUNT,RECEIVED_RECORD_COUNT ,STATUS FROM AUDIT_MASTER_INBOUND  &#xa;where BATCH_ID&#x3d;&#x3f;&#xa; and STATUS&#x3d;&#x27;R&#x27;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -666,6 +684,7 @@ where BATCH_ID=?
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -673,17 +692,7 @@ where BATCH_ID=?
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>
-SELECT REASON_FOR_FAILURE,
-              Count(*) AS &apos;NEW_COUNT&apos;,BATCH_ID as new_batch
-        FROM  IVLD_ACCRUAL_INBOUND
-        WHERE  batch_id = ?
-		   AND ( INTF_INSERTED_DATE &gt; (SELECT TOP 1 CREATED_DATE
-                                   FROM   audit_master_inbound
-                                   WHERE  APPLICATION_PROCESS = &apos;ACCRUAL_INBOUND_INTERFACE&apos;
-                                          AND BATCH_ID = ?) ) 
-        GROUP  BY REASON_FOR_FAILURE,BATCH_ID
-</sql>
+    <sql>&#xa;SELECT REASON_FOR_FAILURE,&#xa;              Count&#x28;&#x2a;&#x29; AS &#x27;NEW_COUNT&#x27;,BATCH_ID as new_batch&#xa;        FROM  IVLD_ACCRUAL_INBOUND&#xa;        WHERE  batch_id &#x3d; &#x3f;&#xa;		   AND &#x28; INTF_INSERTED_DATE &#x3e; &#x28;SELECT TOP 1 CREATED_DATE&#xa;                                   FROM   audit_master_inbound&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xa;                                          AND BATCH_ID &#x3d; &#x3f; ORDER BY CREATED_DATE DESC&#x29; &#x29; &#xa;        GROUP  BY REASON_FOR_FAILURE,BATCH_ID&#xa;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -709,6 +718,7 @@ SELECT REASON_FOR_FAILURE,
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -741,6 +751,7 @@ SELECT REASON_FOR_FAILURE,
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -765,6 +776,7 @@ SELECT REASON_FOR_FAILURE,
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -839,6 +851,7 @@ SELECT REASON_FOR_FAILURE,
     <type>GetVariable</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -847,7 +860,7 @@ SELECT REASON_FOR_FAILURE,
     <fields>
       <field>
         <name>DESTINATION_ADDRESS</name>
-        <variable>${DESTINATION_ADDRESS}</variable>
+        <variable>&#x24;&#x7b;DESTINATION_ADDRESS&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -859,7 +872,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>DESTINATION_CC</name>
-        <variable>${DESTINATION_CC}</variable>
+        <variable>&#x24;&#x7b;DESTINATION_CC&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -871,7 +884,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>SENDER_ADDRESS</name>
-        <variable>${SENDER_ADDRESS}</variable>
+        <variable>&#x24;&#x7b;SENDER_ADDRESS&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -883,7 +896,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>SENDER_NAME</name>
-        <variable>${SENDER_NAME}</variable>
+        <variable>&#x24;&#x7b;SENDER_NAME&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -895,7 +908,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MAIL_SERVER</name>
-        <variable>${MAIL_SERVER}</variable>
+        <variable>&#x24;&#x7b;MAIL_SERVER&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -907,7 +920,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MAIL_PORT</name>
-        <variable>${MAIL_PORT}</variable>
+        <variable>&#x24;&#x7b;MAIL_PORT&#x7d;</variable>
         <type>Number</type>
         <format/>
         <currency/>
@@ -931,6 +944,7 @@ SELECT REASON_FOR_FAILURE,
     <type>GetVariable</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -939,7 +953,7 @@ SELECT REASON_FOR_FAILURE,
     <fields>
       <field>
         <name>DESTINATION_ADDRESS</name>
-        <variable>${DESTINATION_ADDRESS}</variable>
+        <variable>&#x24;&#x7b;DESTINATION_ADDRESS&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -951,7 +965,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>DESTINATION_CC</name>
-        <variable>${DESTINATION_CC}</variable>
+        <variable>&#x24;&#x7b;DESTINATION_CC&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -963,7 +977,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>SENDER_ADDRESS</name>
-        <variable>${SENDER_ADDRESS}</variable>
+        <variable>&#x24;&#x7b;SENDER_ADDRESS&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -975,7 +989,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>SENDER_NAME</name>
-        <variable>${SENDER_NAME}</variable>
+        <variable>&#x24;&#x7b;SENDER_NAME&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -987,7 +1001,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MAIL_SERVER</name>
-        <variable>${MAIL_SERVER}</variable>
+        <variable>&#x24;&#x7b;MAIL_SERVER&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -999,7 +1013,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MAIL_PORT</name>
-        <variable>${MAIL_PORT}</variable>
+        <variable>&#x24;&#x7b;MAIL_PORT&#x7d;</variable>
         <type>Number</type>
         <format/>
         <currency/>
@@ -1023,6 +1037,7 @@ SELECT REASON_FOR_FAILURE,
     <type>GroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1031,7 +1046,7 @@ SELECT REASON_FOR_FAILURE,
       <all_rows>N</all_rows>
       <ignore_aggregate>N</ignore_aggregate>
       <field_ignore/>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>grp</prefix>
       <add_linenr>N</add_linenr>
       <linenr_fieldname/>
@@ -1086,6 +1101,7 @@ SELECT REASON_FOR_FAILURE,
     <type>DBJoin</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1093,14 +1109,7 @@ SELECT REASON_FOR_FAILURE,
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>--SELECT COUNT(*)  AS INVALID_COUNT FROM IVLD_ACCRUAL_INBOUND WHERE BATCH_ID=?
-
-SELECT COUNT(*)  AS INVALID_COUNT 
-FROM IVLD_ACCRUAL_INBOUND WHERE BATCH_ID=?
-  AND ( INTF_INSERTED_DATE &gt; (SELECT TOP 1 CREATED_DATE
-                                   FROM   audit_master_inbound
-                                   WHERE  APPLICATION_PROCESS = &apos;ACCRUAL_INBOUND_INTERFACE&apos;
-                                          AND BATCH_ID = ?) ) </sql>
+    <sql>--SELECT COUNT&#x28;&#x2a;&#x29;  AS INVALID_COUNT FROM IVLD_ACCRUAL_INBOUND WHERE BATCH_ID&#x3d;&#x3f;&#xa;                                          &#xd;&#xa;SELECT COUNT&#x28;&#x2a;&#x29;  AS INVALID_COUNT &#xd;&#xa;FROM IVLD_ACCRUAL_INBOUND WHERE BATCH_ID&#x3d;&#x3f;&#xd;&#xa;  AND &#x28; INTF_INSERTED_DATE &#x3e; &#x28;SELECT TOP 1 CREATED_DATE&#xd;&#xa;                                   FROM   audit_master_inbound&#xd;&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xd;&#xa;                                          AND BATCH_ID &#x3d;&#x3f; &#x29; &#x29; </sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -1126,6 +1135,7 @@ FROM IVLD_ACCRUAL_INBOUND WHERE BATCH_ID=?
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1133,9 +1143,7 @@ FROM IVLD_ACCRUAL_INBOUND WHERE BATCH_ID=?
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>--select top 1 BATCH_ID  as batch_id from IVLD_ACCRUAL_INBOUND order by INTF_INSERTED_DATE desc 
-
-select  BATCH_ID  as batch_id from AUDIT_MASTER_INBOUND where  application_process=&apos;ACCRUAL_INBOUND_INTERFACE&apos; and status=&apos;R&apos; </sql>
+    <sql>--select top 1 BATCH_ID  as batch_id from IVLD_ACCRUAL_INBOUND order by INTF_INSERTED_DATE desc &#xa;&#xa;select  BATCH_ID  as batch_id from AUDIT_MASTER_INBOUND where  application_process&#x3d;&#x27;ACCRUAL_INBOUND_INTERFACE&#x27; and status&#x3d;&#x27;R&#x27; </sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -1153,6 +1161,7 @@ select  BATCH_ID  as batch_id from AUDIT_MASTER_INBOUND where  application_proce
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1170,13 +1179,13 @@ select  BATCH_ID  as batch_id from AUDIT_MASTER_INBOUND where  application_proce
       <key>
         <name>batch_id_1</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1197,6 +1206,7 @@ select  BATCH_ID  as batch_id from AUDIT_MASTER_INBOUND where  application_proce
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1206,37 +1216,7 @@ select  BATCH_ID  as batch_id from AUDIT_MASTER_INBOUND where  application_proce
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>
-var SUBJECT=getVariable(&quot;ACTUAL_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&quot;;
-
-
-var batchIds = Batches.getString().split(&quot;,&quot;);
-var AddCount=AddCounts.getString().split(&quot;,&quot;);
-var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
-var SentCount=SentCounts.getString().split(&quot;,&quot;);
-var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
-var i;
-
-for(i=0;i&lt;batchIds.length;i++){
-
-
-	&#47;&#47;CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-      
-    
-}
-
-
-      
-    
-
-
-
-
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-</jsScript_script>
+        <jsScript_script>&#xa;var SUBJECT&#x3d;getVariable&#x28;&#x22;ACTUAL_MASTER_SUCCESS_SUBJECT&#x22;,&#x22;&#x22;&#x29;&#x2b;&#x22;&#x5b;&#x22;&#x2b;&#x28;date2str&#x28;new Date&#x28;&#x29;,&#x22;yyyy-MM-dd HH&#x3a;mm&#x22;&#x29;&#x29;&#x2b;&#x22;&#x5d;&#x22;&#x3b;&#xa;&#x2f;&#x2f;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;Company Master Interface completed successfully.The below report has been gathered from the interface process&#x3a;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Name&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Valid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Start Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface End Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x3c;TR&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;Batches.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INTERFACE_NAME.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;123&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;456&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;VALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INVALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;178&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;195&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;TR&#x3e;&#x7d;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x22;&#x2b;SCONTENT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Add Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x22;&#x3b;&#xa;&#xa;&#xa;var batchIds &#x3d; Batches.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var AddCount&#x3d;AddCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var InvalidCount&#x3d;InvalidCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var SentCount&#x3d;SentCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var ReceivedCount&#x3d;ReceivedCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var i&#x3b;&#xa;&#xa;for&#x28;i&#x3d;0&#x3b;i&#x3c;batchIds.length&#x3b;i&#x2b;&#x2b;&#x29;&#x7b;&#xa;&#xa;&#xa;	&#x2f;&#x2f;CONTENT&#x2b;&#x3d; &#x22;&#x3c;tbody&#x3e;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;batchIds&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;SentCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;AddCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;DeleteCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;InvalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;CONTENT&#x2b;&#x3d; &#x22;&#x3c;tbody&#x3e;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;batchIds&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;SentCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ReceivedCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;AddCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;InvalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;      &#xa;    &#xa;&#x7d;&#xa;&#xa;&#xa;      &#xa;    &#xa;&#xa;&#xa;&#xa;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e;Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
         <rename>SUBJECT</rename>
         <type>String</type>
@@ -1298,6 +1278,7 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1307,34 +1288,7 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>
-var SUBJECT=getVariable(&quot;COMPANY_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
-
-&#47;&#47;var aa=SCONTENT.getString();
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Change Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Delete Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&quot;;
-var batchIds = Batches.getString().split(&quot;,&quot;);
-var AddCount=AddCounts.getString().split(&quot;,&quot;);
-var ChangeCount=ChangeCounts.getString().split(&quot;,&quot;);
-var DeleteCount=DeleteCounts.getString().split(&quot;,&quot;);
-var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
-var SentCount=SentCounts.getString().split(&quot;,&quot;);
-var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
-var i;
-
-for(i=0;i&lt;batchIds.length;i++){
-
-
-	CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ChangeCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-      
-    
-}
-
-
-&#47;&#47;CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;&quot;+no_key.getString()+&quot;&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-</jsScript_script>
+        <jsScript_script>&#xa;var SUBJECT&#x3d;getVariable&#x28;&#x22;COMPANY_MASTER_SUCCESS_SUBJECT&#x22;,&#x22;&#x22;&#x29;&#x2b;&#x22;&#x5b;&#x22;&#x2b;&#x28;date2str&#x28;new Date&#x28;&#x29;,&#x22;yyyy-MM-dd HH&#x3a;mm&#x22;&#x29;&#x29;&#x2b;&#x22;&#x5d;&#x22;&#x3b;&#xa;&#xa;&#x2f;&#x2f;var aa&#x3d;SCONTENT.getString&#x28;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;Company Master Interface completed successfully.The below report has been gathered from the interface process&#x3a;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Name&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Valid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Start Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface End Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x3c;TR&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;Batches.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INTERFACE_NAME.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;123&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;456&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;VALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INVALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;178&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;195&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;TR&#x3e;&#x7d;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x22;&#x2b;SCONTENT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Add Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Change Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Delete Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x22;&#x3b;&#xa;var batchIds &#x3d; Batches.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var AddCount&#x3d;AddCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var ChangeCount&#x3d;ChangeCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var DeleteCount&#x3d;DeleteCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var InvalidCount&#x3d;InvalidCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var SentCount&#x3d;SentCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var ReceivedCount&#x3d;ReceivedCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var i&#x3b;&#xa;&#xa;for&#x28;i&#x3d;0&#x3b;i&#x3c;batchIds.length&#x3b;i&#x2b;&#x2b;&#x29;&#x7b;&#xa;&#xa;&#xa;	CONTENT&#x2b;&#x3d; &#x22;&#x3c;tbody&#x3e;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;batchIds&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;SentCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ReceivedCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;AddCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ChangeCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;DeleteCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;InvalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;      &#xa;    &#xa;&#x7d;&#xa;&#xa;&#xa;&#x2f;&#x2f;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e;&#x22;&#x2b;no_key.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e;Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
         <rename>SUBJECT</rename>
         <type>String</type>
@@ -1408,6 +1362,7 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1417,80 +1372,7 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>
-var SUBJECT=getVariable(&quot;COMPANY_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Change Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Delete Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-var batchIds = Batches.getString().split(&quot;,&quot;);
-var AddCount=AddCounts.getString().split(&quot;,&quot;);
-&#47;&#47;var ChangeCount=ChangeCounts.getString().split(&quot;,&quot;);
-&#47;&#47;var DeleteCount=DeleteCounts.getString().split(&quot;,&quot;);
-var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
-var SentCount=SentCounts.getString().split(&quot;,&quot;);
-var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
-var i;
-var j;
-var invalidReason =InvalidReason.getString().split(&quot;,&quot;);
-var invalidCount =Count.getString().split(&quot;,&quot;);
-
-
-var oldBatchId;
-var oldReason;
-
-var batchIdForReason = newbatch.getString().split(&quot;,&quot;);
-
-for(i=0;i&lt;batchIds.length;i++){
-	
-	
-if(oldBatchId != batchIds[i]){
-	&#47;&#47;CONTENT+= &quot;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ChangeCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-	CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-oldBatchId = batchIds[i];
-}
-      
-    
-}
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;;
-
-oldBatchId= &quot;&quot;;
-
-for(i=0;i&lt;batchIdForReason.length;i++){
-
-if(oldBatchId != batchIdForReason[i]){
-if(i&gt;0){
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;
-oldReason = &quot;&quot;;
-}
-
-CONTENT+= &quot;&lt;br&gt;&quot;;
-CONTENT+= &quot;Batch ID: &quot;+batchIdForReason[i];
-CONTENT+= &quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Reason&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-}
-
-if(oldReason != invalidReason[i]){
-
-CONTENT+= &quot;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+invalidReason[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+invalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-oldReason = invalidReason[i];
-}
-
-if(i==batchIdForReason.length-1){
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;;
-}
-oldBatchId = batchIdForReason[i];
-}
-
-
-
-
-
-
-
-
-&#47;&#47;CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;&quot;+no_key.getString()+&quot;&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-
-CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-</jsScript_script>
+        <jsScript_script>&#xa;var SUBJECT&#x3d;getVariable&#x28;&#x22;COMPANY_MASTER_SUCCESS_SUBJECT&#x22;,&#x22;&#x22;&#x29;&#x2b;&#x22;&#x5b;&#x22;&#x2b;&#x28;date2str&#x28;new Date&#x28;&#x29;,&#x22;yyyy-MM-dd HH&#x3a;mm&#x22;&#x29;&#x29;&#x2b;&#x22;&#x5d;&#x22;&#x3b;&#xa;&#x2f;&#x2f;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;Company Master Interface completed successfully.The below report has been gathered from the interface process&#x3a;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Name&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Valid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Start Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface End Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x3c;TR&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;Batches.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INTERFACE_NAME.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;123&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;456&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;VALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INVALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;178&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;195&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;TR&#x3e;&#x7d;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;&#x2f;&#x2f;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x22;&#x2b;SCONTENT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Add Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Change Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Delete Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x22;&#x3b;&#xa;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x22;&#x2b;SCONTENT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Add Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x22;&#x3b;&#xa;var batchIds &#x3d; Batches.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var AddCount&#x3d;AddCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var ChangeCount&#x3d;ChangeCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var DeleteCount&#x3d;DeleteCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var InvalidCount&#x3d;InvalidCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var SentCount&#x3d;SentCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var ReceivedCount&#x3d;ReceivedCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var i&#x3b;&#xa;var j&#x3b;&#xa;var invalidReason &#x3d;InvalidReason.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var invalidCount &#x3d;Count.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;&#xa;&#xa;var oldBatchId&#x3b;&#xa;var oldReason&#x3b;&#xa;&#xa;var batchIdForReason &#x3d; newbatch.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;&#xa;for&#x28;i&#x3d;0&#x3b;i&#x3c;batchIds.length&#x3b;i&#x2b;&#x2b;&#x29;&#x7b;&#xa;	&#xa;	&#xa;if&#x28;oldBatchId &#x21;&#x3d; batchIds&#x5b;i&#x5d;&#x29;&#x7b;&#xa;	&#x2f;&#x2f;CONTENT&#x2b;&#x3d; &#x22;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;batchIds&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;SentCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ReceivedCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;AddCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ChangeCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;DeleteCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;InvalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;	CONTENT&#x2b;&#x3d; &#x22;&#x3c;tbody&#x3e;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;batchIds&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;SentCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ReceivedCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;AddCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;InvalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;oldBatchId &#x3d; batchIds&#x5b;i&#x5d;&#x3b;&#xa;&#x7d;&#xa;      &#xa;    &#xa;&#x7d;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x22;&#x3b;&#xa;&#xa;oldBatchId&#x3d; &#x22;&#x22;&#x3b;&#xa;&#xa;for&#x28;i&#x3d;0&#x3b;i&#x3c;batchIdForReason.length&#x3b;i&#x2b;&#x2b;&#x29;&#x7b;&#xa;&#xa;if&#x28;oldBatchId &#x21;&#x3d; batchIdForReason&#x5b;i&#x5d;&#x29;&#x7b;&#xa;if&#x28;i&#x3e;0&#x29;&#x7b;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x22;&#xa;oldReason &#x3d; &#x22;&#x22;&#x3b;&#xa;&#x7d;&#xa;&#xa;CONTENT&#x2b;&#x3d; &#x22;&#x3c;br&#x3e;&#x22;&#x3b;&#xa;CONTENT&#x2b;&#x3d; &#x22;Batch ID&#x3a; &#x22;&#x2b;batchIdForReason&#x5b;i&#x5d;&#x3b;&#xa;CONTENT&#x2b;&#x3d; &#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Reason&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x22;&#x3b;&#xa;&#x7d;&#xa;&#xa;if&#x28;oldReason &#x21;&#x3d; invalidReason&#x5b;i&#x5d;&#x29;&#x7b;&#xa;&#xa;CONTENT&#x2b;&#x3d; &#x22;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;invalidReason&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;invalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;oldReason &#x3d; invalidReason&#x5b;i&#x5d;&#x3b;&#xa;&#x7d;&#xa;&#xa;if&#x28;i&#x3d;&#x3d;batchIdForReason.length-1&#x29;&#x7b;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x22;&#x3b;&#xa;&#x7d;&#xa;oldBatchId &#x3d; batchIdForReason&#x5b;i&#x5d;&#x3b;&#xa;&#x7d;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#x2f;&#x2f;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e;&#x22;&#x2b;no_key.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;p&#x3e;Thanks,&#x3c;br&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
         <rename>SUBJECT</rename>
         <type>String</type>
@@ -1588,6 +1470,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>Mail</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1606,6 +1489,9 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
       <include_subfolders>N</include_subfolders>
       <zipFilenameDynamic>N</zipFilenameDynamic>
       <isFilenameDynamic>N</isFilenameDynamic>
+      <attachContentFromField>N</attachContentFromField>
+      <attachContentField/>
+      <attachContentFileNameField/>
       <dynamicFieldname/>
       <dynamicWildcard/>
       <dynamicZipFilename/>
@@ -1628,6 +1514,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <encoding>UTF-8</encoding>
     <priority>normal</priority>
     <importance>normal</importance>
+    <sensitivity/>
     <secureconnectiontype>SSL</secureconnectiontype>
       <embeddedimages>
       </embeddedimages>
@@ -1644,6 +1531,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>Mail</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1662,6 +1550,9 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
       <include_subfolders>N</include_subfolders>
       <zipFilenameDynamic>N</zipFilenameDynamic>
       <isFilenameDynamic>N</isFilenameDynamic>
+      <attachContentFromField>N</attachContentFromField>
+      <attachContentField/>
+      <attachContentFileNameField/>
       <dynamicFieldname/>
       <dynamicWildcard/>
       <dynamicZipFilename/>
@@ -1684,6 +1575,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <encoding>UTF-8</encoding>
     <priority>normal</priority>
     <importance>normal</importance>
+    <sensitivity/>
     <secureconnectiontype>SSL</secureconnectiontype>
       <embeddedimages>
       </embeddedimages>
@@ -1700,6 +1592,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>Unique</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1724,6 +1617,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>Unique</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1748,6 +1642,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1765,13 +1660,13 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
       <key>
         <name>batch_id_1</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1792,6 +1687,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1821,6 +1717,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1852,6 +1749,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1861,11 +1759,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS_N=&quot;C&quot;;
-var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var STATUS_N&#x3d;&#x22;C&#x22;&#x3b;&#xa;var STATUS_R&#x3d;&#x22;R&#x22;&#x3b;&#xa;var INTERFACE_RUN_END_DATE&#x3d;new Date&#x28;&#x29;&#x3b;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
         <rename>STATUS_N</rename>
         <type>String</type>
@@ -1897,6 +1791,7 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1906,11 +1801,7 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS_N=&quot;C&quot;;
-var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var STATUS_N&#x3d;&#x22;C&#x22;&#x3b;&#xa;var STATUS_R&#x3d;&#x22;R&#x22;&#x3b;&#xa;var INTERFACE_RUN_END_DATE&#x3d;new Date&#x28;&#x29;&#x3b;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
         <rename>STATUS_N</rename>
         <type>String</type>
@@ -1942,6 +1833,7 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2191,71 +2083,14 @@ var INTERFACE_RUN_END_DATE=new Date();</jsScript_script>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>STAGING DB</connection>
-    <sql>SELECT
-  ACCRUAL_INBOUND_INTERFACE_ID
-, ACCRUAL_ID
-, SALES_MASTER_ID
-, GL_ACCOUNT
-, COMPANY_ID
-, COMPANY_NO
-, COMP_IDENT_CODE_QUALIFIER
-, COMPANY_COST_CENTER
-, ACCOUNT_ID
-, ACCOUNT_NO
-, ACCOUNT_NAME
-, ACCT_IDENT_CODE_QUALIFIER
-, ITEM_ID
-, ITEM_NO
-, ITEM_IDENT_CODE_QUALIFIER
-, CONTRACT_ID
-, CONTRACT_NO
-, CONTRACT_NAME
-, BRAND_ID
-, CATEGORY_ID
-, PROVISION_ID
-, ACCRUAL_TYPE
-, ACCRUAL_PERIOD_START_DATE
-, ACCRUAL_PERIOD_END_DATE
-, DEDUCTION_AMOUNT
-, SUB_LEDGER
-, SUB_LEDGER_TYPE
-, DOCUMENT_TYPE
-, POSTING_DATE
-, GL_DATE
-, RECORD_CREATED_DATE
-, BATCH_ID
-, SOURCE
-, CREATED_BY
-, CREATED_DATE
-, MODIFIED_BY
-, MODIFIED_DATE
-, ADD_CHG_DEL_INDICATOR
-, COMPANY_NAME
-, BUSINESS_UNIT_ID
-, BUSINESS_UNIT_NO
-, BU_IDENT_CODE_QUALIFIER
-, BUSINESS_UNIT_NAME
-, ITEM_NAME
-, BRAND_NAME
-, ACCRUAL_CATEGORY
-, ACCRUAL_SCHEDULE_TYPE
-, ACCRUAL_PROGRAM_TYPE
-, SALES_AMOUNT
-, QUANTITY
-, ACCRUAL_UDC1
-, ACCRUAL_UDC2
-, ACCRUAL_UDC3
-, ACCRUAL_UDC4
-, ACCRUAL_UDC5
-, ACCRUAL_UDC6
-FROM ACCRUAL_INBOUND_INTERFACE
-</sql>
+    <sql>SELECT&#xa;  ACCRUAL_INBOUND_INTERFACE_ID&#xa;, ACCRUAL_ID&#xa;, SALES_MASTER_ID&#xa;, GL_ACCOUNT&#xa;, COMPANY_ID&#xa;, COMPANY_NO&#xa;, COMP_IDENT_CODE_QUALIFIER&#xa;, COMPANY_COST_CENTER&#xa;, ACCOUNT_ID&#xa;, ACCOUNT_NO&#xa;, ACCOUNT_NAME&#xa;, ACCT_IDENT_CODE_QUALIFIER&#xa;, ITEM_ID&#xa;, ITEM_NO&#xa;, ITEM_IDENT_CODE_QUALIFIER&#xa;, CONTRACT_ID&#xa;, CONTRACT_NO&#xa;, CONTRACT_NAME&#xa;, BRAND_ID&#xa;, CATEGORY_ID&#xa;, PROVISION_ID&#xa;, ACCRUAL_TYPE&#xa;, ACCRUAL_PERIOD_START_DATE&#xa;, ACCRUAL_PERIOD_END_DATE&#xa;, DEDUCTION_AMOUNT&#xa;, SUB_LEDGER&#xa;, SUB_LEDGER_TYPE&#xa;, DOCUMENT_TYPE&#xa;, POSTING_DATE&#xa;, GL_DATE&#xa;, RECORD_CREATED_DATE&#xa;, BATCH_ID&#xa;, SOURCE&#xa;, CREATED_BY&#xa;, CREATED_DATE&#xa;, MODIFIED_BY&#xa;, MODIFIED_DATE&#xa;, ADD_CHG_DEL_INDICATOR&#xa;, COMPANY_NAME&#xa;, BUSINESS_UNIT_ID&#xa;, BUSINESS_UNIT_NO&#xa;, BU_IDENT_CODE_QUALIFIER&#xa;, BUSINESS_UNIT_NAME&#xa;, ITEM_NAME&#xa;, BRAND_NAME&#xa;, ACCRUAL_CATEGORY&#xa;, ACCRUAL_SCHEDULE_TYPE&#xa;, ACCRUAL_PROGRAM_TYPE&#xa;, SALES_AMOUNT&#xa;, QUANTITY&#xa;, ACCRUAL_UDC1&#xa;, ACCRUAL_UDC2&#xa;, ACCRUAL_UDC3&#xa;, ACCRUAL_UDC4&#xa;, ACCRUAL_UDC5&#xa;, ACCRUAL_UDC6&#xa;FROM ACCRUAL_INBOUND_INTERFACE&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -2274,6 +2109,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2292,7 +2128,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
       <key>
         <name>BATCH</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2315,6 +2151,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
     <type>SplitFieldToRows3</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2340,6 +2177,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
     <type>SplitFieldToRows3</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2365,6 +2203,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
     <type>StringOperations</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2697,6 +2536,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2958,6 +2798,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2975,7 +2816,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
       <key>
         <name>AUDIT_ID</name>
         <field>AUDIT_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -2994,7 +2835,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
   <step_error_handling>
       <error>
         <source_step>AUDIT_STATUS_UPDATE 2</source_step>
-        <target_step>Dummy (do nothing)</target_step>
+        <target_step>Dummy &#x28;do nothing&#x29;</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -3006,7 +2847,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
       </error>
       <error>
         <source_step>STAGING AUDIT</source_step>
-        <target_step>Dummy (do nothing)</target_step>
+        <target_step>Dummy &#x28;do nothing&#x29;</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -3018,7 +2859,7 @@ FROM ACCRUAL_INBOUND_INTERFACE
       </error>
       <error>
         <source_step>Update</source_step>
-        <target_step>Dummy (do nothing)</target_step>
+        <target_step>Dummy &#x28;do nothing&#x29;</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -3032,4 +2873,5 @@ FROM ACCRUAL_INBOUND_INTERFACE
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>
