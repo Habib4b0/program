@@ -20,6 +20,7 @@ public class ProductGroupLookUpDTO implements Serializable {
     private Integer itemGroupSid;
     private Integer companySid;
     private String productGroupDescription;
+    private String companyNo;
 
     public String getCompany() {
         return company;
@@ -68,5 +69,14 @@ public class ProductGroupLookUpDTO implements Serializable {
     public void setProductGroupDescription(String productGroupDescription) {
         this.productGroupDescription = productGroupDescription;
     }
+
+    public String getCompanyNo() {
+        return companyNo;
+    }
+
+    public void setCompanyNo(String companyNo) {
+        this.companyNo = companyNo;
+    }
+    
 
 }
