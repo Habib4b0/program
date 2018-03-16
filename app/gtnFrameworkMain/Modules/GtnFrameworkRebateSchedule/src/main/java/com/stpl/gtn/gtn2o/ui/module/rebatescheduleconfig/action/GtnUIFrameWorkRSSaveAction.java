@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.NotesDTO;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
@@ -18,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -80,12 +82,22 @@ public class GtnUIFrameWorkRSSaveAction implements GtnUIFrameWorkAction, GtnUIFr
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/" + GtnWsCDRContants.RS_SERVICE + GtnWsCDRContants.RS_SAVE_SERVICE, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                boolean flag = gtnResponse.getRebateScheduleInfoBean().isRsIdAlreadyExist();
+                               if(!flag){
 		if (gtnResponse.getGtnWsGeneralResponse().isSucess()) {
 			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID,
 					gtnResponse.getRebateScheduleInfoBean().getSystemId());
 			GtnUIFrameworkBaseComponent tabsheet = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet");
 			tabsheet.getAsTabSheet().setSelectedTab(0);
 		}
+                }
+                else{
+			throw new GtnFrameworkValidationFailedException(
+					"Rebate Schedule ID already exists. Please enter different Rebate Schedule ID","rebateScheduleId1");	
+		
+                }
+                               GtnUIFrameworkActionExecutor
+				.clearErrorBanner("rebateScheduleId1");
 
 	}
 
