@@ -308,6 +308,7 @@ public class CommonUiUtils {
         fullHeaderDTO.setEndYear(endYear);
         fullHeaderDTO.setEndPeriod(endPeriod);
         fullHeaderDTO.setProjectionOrder(projectionOrder);
+        boolean isCelgene=System.getProperty("Client_Name").equalsIgnoreCase("Celgene");
 
         if (pivotView.contains(PRICE_TYPE.getConstant())) {// pivot view
 
@@ -338,7 +339,7 @@ public class CommonUiUtils {
                     fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS.getConstant(), String.class);
 
                 }
-                if(!ACTUALS.getConstant().equals(projections)){
+                if(!isCelgene || (!ACTUALS.getConstant().equals(projections))){
                 Object singleColumn = commonColumn + PROJECTIONS.getConstant();
                 dmap.add(singleColumn);
 
@@ -430,19 +431,21 @@ public class CommonUiUtils {
                             hist = false;
                             proj = true;
                         }
-                           
-                        if ( yr< currentYear) {
-                          current = true;
-                        }if(yr==currentYear && pr <= currentPeriod){
-                          current = true;
-                         }else{
-                            current=false;
+                        if (isCelgene) {
+                            if (yr < currentYear) {
+                                current = true;
+                            }
+                            if (yr == currentYear && pr <= currentPeriod) {
+                                current = true;
+                            } else {
+                                current = false;
+                            }
                         }
                         List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
-                            if ((hist ||current ) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant()))) {
+                            if ((hist ||(isCelgene && current )) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant()))) {
                                 Object singleColumn = commonColumn + ACTUALS.getConstant();
                                 dmap.add(singleColumn);
                                 tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
@@ -455,8 +458,8 @@ public class CommonUiUtils {
                         if (yr > histProjYear) {
                             projectionCol = true;
                         }
-
-                            if ((hist || proj) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("projections") || projections.contains(PROJECTIONS.getConstant()) || projectionCol) && !ACTUALS.getConstant().equals(projections)) {
+                          
+                            if ((hist || proj) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains("projections") || projections.contains(PROJECTIONS.getConstant()) || projectionCol) && (!isCelgene||!ACTUALS.getConstant().equals(projections))) {
                                 Object singleColumn = commonColumn + PROJECTIONS.getConstant();
                                 dmap.add(singleColumn);
                                 tableHeaderDTO.addSingleColumn(singleColumn, PROJECTIONS.getConstant(), String.class);
@@ -499,18 +502,21 @@ public class CommonUiUtils {
                         if (pr == currentPeriod && yr == currentYear) {
                             descend = true;
                         }
-                       if ( yr< currentYear) {
-                          hist = true;
-                        }if(yr==currentYear && pr <= currentPeriod){
-                          hist = true;
-                         }else{
-                            hist=false;
+                        if (isCelgene) {
+                            if (yr < currentYear) {
+                                hist = true;
+                            }
+                            if (yr == currentYear && pr <= currentPeriod) {
+                                hist = true;
+                            } else {
+                                hist = false;
+                            }
                         }
                         List<Object> dmap = new ArrayList<>();
                         List<String> common = getCommonColumnHeader(frequencyDivision, yr, pr);
                         String commonColumn = common.get(0);
                         String commonHeader = common.get(1);
-                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) && !ACTUALS.getConstant().equals(projections)) {
+                            if ((hist) && (projections.contains(Constant.BOTH_SMALL) || projections.contains(Constant.BOTH) || projections.contains(Constant.ACTUALS_PROPERTY) || projections.contains(ACTUALS.getConstant())) && (!isCelgene||!ACTUALS.getConstant().equals(projections))) {
                                 Object singleColumn = commonColumn + ACTUALS.getConstant();
                                 dmap.add(singleColumn);
                                 tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
