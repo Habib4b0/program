@@ -47,7 +47,7 @@ public class ChannelSPRChart1 {
     /**
      * The history.
      */
-    private static String history;
+    private String history;
 
     protected CustomTableHeaderDTO rightDto;
     /**
@@ -66,7 +66,7 @@ public class ChannelSPRChart1 {
     public ChannelSPRChart1(final List<SalesProjectionResultsDTO> dto, CustomTableHeaderDTO rightDto, ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("Entering SPRChart method ");
         this.frequency = projSelDTO.getFrequency();
-        ChannelSPRChart1.history = projSelDTO.getHistory();
+        history = projSelDTO.getHistory();
         this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.rightDto = rightDto;
         this.projSelDTO = projSelDTO;
@@ -133,6 +133,6 @@ public class ChannelSPRChart1 {
      * @param history the new history
      */
     public void setHistory(final String history) {
-        ChannelSPRChart1.history = history;
+        this.history = history;
     }
 }
