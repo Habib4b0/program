@@ -375,6 +375,7 @@
   <hop> <from>Add constants 3 4</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
   <hop> <from>Database join 4</from><to>Calculator 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Update</from><to>Invalid Reason 7</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Add constants 3 4</to><enabled>N</enabled> </hop>
   </order>
   <step>
     <name>ACCOUNT_ID</name>
@@ -2422,8 +2423,8 @@
 </calculation>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1200</xloc>
-      <yloc>3955</yloc>
+      <xloc>1292</xloc>
+      <yloc>3992</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2656,10 +2657,14 @@
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>select SENT_RECORD_COUNT,INVALID_RECORD_COUNT from dbo.AUDIT_MASTER_INBOUND where BATCH_ID&#x3d;&#x3f;</sql>
+    <sql>select SENT_RECORD_COUNT,INVALID_RECORD_COUNT from dbo.AUDIT_MASTER_INBOUND where BATCH_ID &#x3d;&#x3f; and CREATED_DATE in &#xd;&#xa;&#x28;SELECT TOP 1 CREATED_DATE&#xd;&#xa;                                   FROM   audit_master_inbound&#xd;&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xd;&#xa;                                          AND BATCH_ID &#x3d; &#x3f; ORDER BY CREATED_DATE DESC&#x29;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+      </field>
       <field>
         <name>BATCH_ID</name>
         <type>String</type>
@@ -12902,18 +12907,6 @@
     </file>
     <fields>
       <field>
-        <name>IVLD_ACCRUAL_INBOUND_SID</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>9</length>
-        <precision>0</precision>
-      </field>
-      <field>
         <name>ACCRUAL_INTFID</name>
         <type>Integer</type>
         <format/>
@@ -13716,6 +13709,18 @@
         <trim_type>none</trim_type>
         <length>100</length>
         <precision>-1</precision>
+      </field>
+      <field>
+        <name>IVLD_ACCRUAL_INBOUND_SID</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>9</length>
+        <precision>0</precision>
       </field>
     </fields>
      <cluster_schema/>
@@ -15643,6 +15648,18 @@
       </field>
       <field>
         <name>BUSINESS_UNIT_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>IVLD_ACCRUAL_INBOUND_SID</name>
         <type>String</type>
         <format/>
         <currency/>
