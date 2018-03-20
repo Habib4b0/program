@@ -136,7 +136,7 @@ public class FileManagementLogic {
 	 * @param itemPricingQualifierNameCount
 	 *            the new foecast year count
 	 */
-	public void setFoecastYearCount(final int itemPricingQualifierNameCount) {
+	public static void setFoecastYearCount(final int itemPricingQualifierNameCount) {
 		FileManagementLogic.foecastYearCount = itemPricingQualifierNameCount;
 	}
 
