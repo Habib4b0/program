@@ -308,7 +308,7 @@ public class CommonUiUtils {
         fullHeaderDTO.setEndYear(endYear);
         fullHeaderDTO.setEndPeriod(endPeriod);
         fullHeaderDTO.setProjectionOrder(projectionOrder);
-        boolean isCelgene=System.getProperty("Client_Name").equalsIgnoreCase("Celgene");
+        boolean isCelgene=System.getProperty("Client_Name").equalsIgnoreCase("Celgene"); 
 
         if (pivotView.contains(PRICE_TYPE.getConstant())) {// pivot view
 
@@ -339,7 +339,7 @@ public class CommonUiUtils {
                     fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS.getConstant(), String.class);
 
                 }
-                if(!isCelgene || (!ACTUALS.getConstant().equals(projections))){
+                if(!isCelgene && (!ACTUALS.getConstant().equals(projections))){
                 Object singleColumn = commonColumn + PROJECTIONS.getConstant();
                 dmap.add(singleColumn);
 
