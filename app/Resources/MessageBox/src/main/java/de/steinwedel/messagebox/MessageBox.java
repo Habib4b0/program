@@ -12,7 +12,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.UI;
-
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.HorizontalLayout;
