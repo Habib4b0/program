@@ -238,8 +238,8 @@ public class ForecastForm extends AbstractForm {
 	private DataAssumptionsLogic dataAssumption = new DataAssumptionsLogic();
 	private static final ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
 	private boolean discountFlag = true;
-	private static Thread dsThread;
-	private static CountDownLatch latch;
+	private Thread dsThread;
+	private CountDownLatch latch;
 	private boolean isCommercialGovernment = BooleanConstant.getFalseFlag();
 	private ExecutorService service = ThreadPool.getInstance().getService();
 

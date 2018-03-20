@@ -134,7 +134,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private List<Leveldto> currentHierarchy = new ArrayList<>();
     private List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
-    private static List<String> oldDiscountNameList = new ArrayList<>();
+    private List<String> oldDiscountNameList = new ArrayList<>();
     /**
      * The custom id.
      */
