@@ -16,24 +16,6 @@ public class GtnWsAttachmentBean {
 		super();
 	}
 
-	public void attachment(int id, String fileName, byte[] fileData, String masterTableName) {
-		this.id = id;
-		this.fileName = fileName;
-		this.fileData = fileData;
-		this.masterTableName = masterTableName;
-	}
-
-	public void attachment(int id, Integer attachmentTableSid, String fileName, byte[] fileData, String masterTableName,
-			Date createdDate, Integer createdBy) {
-		this.id = id;
-		this.attachmentTableSid = attachmentTableSid;
-		this.fileName = fileName;
-		this.fileData = fileData;
-		this.masterTableName = masterTableName;
-		this.createdDate = createdDate;
-		this.createdBy = createdBy;
-	}
-
 	public int getId() {
 		return this.id;
 	}
@@ -59,11 +41,11 @@ public class GtnWsAttachmentBean {
 	}
 
 	public byte[] getFileData() {
-		return this.fileData;
+		return (fileData==null) ? null : fileData.clone();
 	}
 
 	public void setFileData(byte[] fileData) {
-		this.fileData = fileData;
+		this.fileData  = (fileData==null) ? null : fileData.clone();
 	}
 
 	public String getMasterTableName() {
