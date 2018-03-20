@@ -173,6 +173,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 				notesBean = new NotesTabBean();
 				notesBean.setMasterTableName("CONTRACT_MASTER");
 				notesBean.setFilePath(note.getDocumentFullPath());
+				notesBean.setFileName(note.getDocumentName());
 				notesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				notesBean.setCreatedDate(new Date());
 				noteBeanList.add(notesBean);

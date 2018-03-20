@@ -5,6 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.itemaster.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +26,10 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
+import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs;
 import com.stpl.gtn.gtn2o.ws.entity.itemmaster.BrandMaster;
@@ -200,7 +205,9 @@ public class GtnWsItemMasterSaveService {
 
 	public void saveNotesTabDetails(GtnWsItemMasterBean ruleInfoBean) throws GtnFrameworkGeneralException {
 		deleteNotesTab(ruleInfoBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
+		deleteNotesTabAttachment(ruleInfoBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
 		notesTabInsert(ruleInfoBean);
+		notesTabAttachment(ruleInfoBean);
 	}
 
 	private int deleteNotesTab(int systemId) throws GtnFrameworkGeneralException {
@@ -597,4 +604,52 @@ public class GtnWsItemMasterSaveService {
 		}
 
 	}
+	
+	private void  notesTabAttachment(GtnWsItemMasterBean itemMasterBean) throws  GtnFrameworkGeneralException {
+		LOGGER.info("Enter Cfp notesTabInsert");
+		Session session = getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Attachment attach = new Attachment();
+			List<NotesTabBean> notesTabRequestList = itemMasterBean.getNoteBeanList();
+
+			if (notesTabRequestList != null && !notesTabRequestList.isEmpty()) {
+
+				for (NotesTabBean notesTabRequest : notesTabRequestList) {
+					LOGGER.info("*******" + itemMasterBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
+					byte[] fileBytes = readBytesFromFile(notesTabRequest.getFilePath());
+					attach.setAttachmentTableSid(itemMasterBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
+					attach.setFileName(notesTabRequest.getFileName());
+					LOGGER.info("++++++++");
+					attach.setFileData(fileBytes);
+					LOGGER.info("*******" + fileBytes);
+					attach.setMasterTableName(notesTabRequest.getMasterTableName());
+					attach.setCreatedBy(notesTabRequest.getCreatedBy());
+					attach.setCreatedDate(new Date());
+					session.saveOrUpdate(attach);
+					tx.commit();
+				}
+			}
+		} catch (Exception e) {
+			tx.rollback();
+			throw new GtnFrameworkGeneralException("Exception in save attachQuery ", e);
+		} finally {
+			session.close();
+		}
+	}
+	 private static byte[] readBytesFromFile(String filePath) throws IOException {
+		    File inputFile = GtnFileNameUtils.getFile(filePath);
+	        FileInputStream inputStreamIm= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+	        byte[] fileBytes = new byte[(int) inputFile.length()];
+	        int i=inputStreamIm.read(fileBytes);
+	        if(i>0) 
+	        return fileBytes;
+			return  new byte[0];
+	    }
+	private int deleteNotesTabAttachment(int systemId) throws GtnFrameworkGeneralException {
+		String deleteQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_DELETE + systemId
+				+ " AND MASTER_TABLE_NAME='ITEM_MASTER'";
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteQuery);
+	}
+	
 }

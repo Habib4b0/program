@@ -313,6 +313,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 				rpNotesBean = new NotesTabBean();
 				rpNotesBean.setMasterTableName("REBATE_PLAN_MASTER");
 				rpNotesBean.setFilePath(note.getDocumentFullPath());
+				rpNotesBean.setFileName(note.getDocumentName());
 				rpNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				rpNotesBean.setCreatedDate(new Date());
 				noteBeanList.add(rpNotesBean);

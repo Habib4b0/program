@@ -627,4 +627,40 @@
 		]]>
 		</query>
 	</entity>
+	
+	<entity id="rsNotesTabAttachDetailsQuery">
+		<query>
+        <![CDATA[
+        	DECLARE 
+			@ATTACHMENT_TABLE_SID INT=?
+        	
+            SELECT
+                   
+                   AT.MASTER_TABLE_NAME,
+                   AT.FILE_NAME,
+                   AT.CREATED_DATE,
+                   AT.CREATED_BY,
+                   AT.ID,
+                   AT.FILE_DATA
+                    
+            FROM
+                    ATTACHMENT AT
+            
+            WHERE
+                    MASTER_TABLE_NAME = 'PS_MODEL'
+                    AND ATTACHMENT_TABLE_SID = @ATTACHMENT_TABLE_SID;
+ ]]>
+		</query>
+	</entity>
+	
+	
+	<entity id="getNotesTabAttachDeleteQuery">
+		<query>
+        <![CDATA[
+              
+        DELETE FROM ATTACHMENT WHERE ATTACHMENT_TABLE_SID =? AND MASTER_TABLE_NAME='PS_MODEL';
+ 		]]>
+		</query>
+	</entity>
+	
 </sql>

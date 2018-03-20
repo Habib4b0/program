@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 13, 2018 12:21:58 PM by Hibernate Tools 3.6.0.Final -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment" table="ATTACHMENT" schema="dbo" >
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="attachmentTableSid" type="java.lang.Integer">
+            <column name="ATTACHMENT_TABLE_SID" />
+        </property>
+        <property name="fileName" type="string">
+            <column name="FILE_NAME" length="50" not-null="true" />
+        </property>
+        <property name="fileData" type="binary">
+            <column name="FILE_DATA" not-null="true" />
+        </property>
+        <property name="masterTableName" type="string">
+            <column name="MASTER_TABLE_NAME" length="100" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="createdBy" type="java.lang.Integer">
+            <column name="CREATED_BY" />
+        </property>
+    </class>
+</hibernate-mapping>
