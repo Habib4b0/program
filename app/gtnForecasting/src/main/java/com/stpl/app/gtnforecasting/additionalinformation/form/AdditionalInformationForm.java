@@ -298,7 +298,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             List<String> addNotesList = getNotesList();
             for (String addNotes : addNotesList) {
-                logic.saveNotes(Integer.valueOf(projectionId), userId, addNotes, moduleName);
+                logic.saveNotes(projectionId, userId, addNotes, moduleName);
             }
             notesList.clear();
             for (NotesDTO attached : getUploadedData()) {

@@ -1384,14 +1384,7 @@ public class FileManagementLookup extends Window {
 		LOGGER.debug("resetButton method Ended");
 	}
 
-	/**
-	 * gets the null bean item.
-	 *
-	 * @return Null beanitem
-	 */
-	public BeanItem<?> getNULLITEM() {
-		return NULLITEM;
-	}
+	
 
 	/**
 	 * To make summary fields read only.
