@@ -27,7 +27,7 @@ public class GtnAttachmentDownloadService {
 	   GtnWsAttachmentBean attachmentBean=new GtnWsAttachmentBean();
 		List attachment;
 			try {
-				 attachment = session.createQuery("select fileData from Attachment where ID = " + attachmentSid ).list();
+				 attachment = session.createQuery("select fileData from Attachment where ATTACHMENT_SID = " + attachmentSid ).list();
 				 attachmentBean.setFileData((byte[]) attachment.get(0));
 			} catch (HibernateException e) {
 				e.printStackTrace();
