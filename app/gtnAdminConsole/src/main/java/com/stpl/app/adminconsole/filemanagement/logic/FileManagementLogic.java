@@ -99,8 +99,8 @@ public class FileManagementLogic {
 		return foecastYearCount;
 	}
 
-	public void setFoecastYearCount(final int itemPricingQualifierNameCount) {
-		this.foecastYearCount = itemPricingQualifierNameCount;
+	public static void setFoecastYearCount(final int itemPricingQualifierNameCount) {
+		FileManagementLogic.foecastYearCount = itemPricingQualifierNameCount;
 	}
 
 	public FileManagementLogicDAO getDao() {

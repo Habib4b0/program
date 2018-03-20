@@ -941,15 +941,7 @@ public class ExistingDiscountTab extends CustomComponent {
         return returnFlag;
     }
 
-    /**
-     * Gets the null bean item
-     *
-     * @return Null bean item
-     */
-    public BeanItem<?> getNULLOBJECT() {
-        return NULL_OBJECT;
-    }
-
+    
     private ContractsDetailsDto getBeanFromID(final Object tableID) {
         BeanItem<?> targetItem;
         if (tableID instanceof BeanItem<?>) {

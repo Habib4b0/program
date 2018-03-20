@@ -87,15 +87,6 @@ public class MandatedChartUtils {
                         }
 
     /**
-     * Gets the dto.
-     *
-     * @return the dto
-     */
-    public List<?> getDto() {
-        return dto == null ? dto : new ArrayList<>(dto);
-    }
-
-    /**
      * Sets the dto.
      *
      * @param dto the new dto
