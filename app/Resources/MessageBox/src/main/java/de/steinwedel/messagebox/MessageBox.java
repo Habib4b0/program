@@ -13,12 +13,6 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.UI;
 
-
-//import com.vaadin.v7.shared.ui.label.ContentMode;
-//import com.vaadin.v7.ui.HorizontalLayout;
-//import com.vaadin.v7.ui.Label;
-//import com.vaadin.v7.ui.VerticalLayout;
-
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.HorizontalLayout;
