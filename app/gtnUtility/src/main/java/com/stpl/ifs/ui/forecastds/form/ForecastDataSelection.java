@@ -1773,6 +1773,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
         }
         
         public void forecastEligibleDateValueChangeListener() {
+        forecastEligibleDate.setDateFormat("MM/dd/yyyy");
         forecastEligibleDate.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent vce) {

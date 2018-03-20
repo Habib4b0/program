@@ -5,6 +5,8 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.notestab.util;
 
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,6 +27,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.GtnUIFrameworkNotesTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -847,7 +850,13 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 				attachmentsListBean.addBean(attachmentDTO);
 				fileNameField.setValue("");
 				uploader.setValue("");
-				gtnLogger.info("source path++++++" + fileUpload.toPath().toString());
+                 GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig();
+                 notificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+                 String filename = event.getFilename();
+                 String message = filename + " Uploaded successfully";
+                 notificationAction.addActionParameter(message);
+                 notificationAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+                 GtnUIFrameworkActionExecutor.executeSingleAction(uploadComponent.getId(), notificationAction);
 			} else {
 				AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
 				uploader.setValue("");
@@ -889,7 +898,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 				}
 			} else {
 				uploadComponent.interruptUpload();
-				AbstractNotificationUtils.getErrorNotification("No File Name", "Please Enter a valid File Name");
+				AbstractNotificationUtils.getErrorNotification("Add Attachment", "Please select an attachment to add");
 				uploader.setValue("");
 			}
 		} catch (Exception ex) {

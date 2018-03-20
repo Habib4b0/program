@@ -219,7 +219,7 @@ public class PVQueryUtils {
     public String getComparisonSearch(String workflowStatus, String marketType, String brand,
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to, String notSearchProjId) {
-        String QUOTES = "'";
+        char QUOTES = '\'';
         char ASTERIK = '*';
         char PERCENT = '%';
         String marketTypeVal;
@@ -249,60 +249,60 @@ public class PVQueryUtils {
                 marketTypeVal = marketType.replace(ASTERIK, PERCENT);
                 marketTypeVal = QUOTES + marketTypeVal + QUOTES;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " + marketTypeVal + ")");
+            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " ).append( marketTypeVal ).append( ')');
             if (brand == null || brand.equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
                 brandVal = brand.replace(ASTERIK, PERCENT);
                 brandVal = QUOTES + brandVal + QUOTES;
             }
-            customSql.append("  AND (BM.BRAND_NAME LIKE " + brandVal + " or BM.BRAND_NAME is null)");
+            customSql.append("  AND (BM.BRAND_NAME LIKE " ).append( brandVal ).append( " or BM.BRAND_NAME is null)");
             if (projName == null || projName.equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
                 projNameVal = projName.replace(ASTERIK, PERCENT);
                 projNameVal = QUOTES + projNameVal + QUOTES;
             }
-            customSql.append("AND (PM.PROJECTION_NAME LIKE " + projNameVal + " or PM.PROJECTION_NAME is null)");
+            customSql.append("AND (PM.PROJECTION_NAME LIKE " ).append( projNameVal ).append( " or PM.PROJECTION_NAME is null)");
             if (contHldr == null || contHldr.equals(StringUtils.EMPTY)) {
                 contHldrVal = "'%'";
             } else {
                 contHldrVal = contHldr.replace(ASTERIK, PERCENT);
                 contHldrVal = QUOTES + contHldrVal + QUOTES;
             }
-            customSql.append("AND (C.CONTRACT_NO LIKE " + contHldrVal + " or C.CONTRACT_NO is null)");
+            customSql.append("AND (C.CONTRACT_NO LIKE " ).append( contHldrVal ).append( " or C.CONTRACT_NO is null)");
             if (ndcName == null || ndcName.equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
                 ndcNameVal = ndcName.replace(ASTERIK, PERCENT);
                 ndcNameVal = QUOTES + ndcNameVal + QUOTES;
             }
-            customSql.append("AND (IM.ITEM_NAME LIKE " + ndcNameVal + " or IM.ITEM_NAME is null)");
+            customSql.append("AND (IM.ITEM_NAME LIKE " ).append( ndcNameVal ).append( " or IM.ITEM_NAME is null)");
             if (ndcNo == null || ndcNo.equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
                 ndcNoVal = ndcNo.replace(ASTERIK, PERCENT);
                 ndcNoVal = QUOTES + ndcNoVal + QUOTES;
             }
-            customSql.append("AND (IM.ITEM_NO LIKE " + ndcNoVal + "or IM.ITEM_NO is null)");
+            customSql.append("AND (IM.ITEM_NO LIKE " ).append( ndcNoVal ).append( "or IM.ITEM_NO is null)");
             if (contract == null || contract.equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
                 contractVal = contract.replace(ASTERIK, PERCENT);
                 contractVal = QUOTES + contractVal + QUOTES;
             }
-            customSql.append("AND (CM.COMPANY_NO LIKE " + contractVal + "or CM.COMPANY_NO is null)");
+            customSql.append("AND (CM.COMPANY_NO LIKE " ).append( contractVal ).append( "or CM.COMPANY_NO is null)");
             if (desc == null || desc.equals(StringUtils.EMPTY)) {
                 descVal = "'%'";
             } else {
                 descVal = desc.replace(ASTERIK, PERCENT);
                 descVal = QUOTES + descVal + QUOTES;
             }
-            customSql.append("AND (PM.PROJECTION_NAME LIKE " + descVal + "or PM.PROJECTION_NAME is null)");
+            customSql.append("AND (PM.PROJECTION_NAME LIKE " ).append( descVal ).append( "or PM.PROJECTION_NAME is null)");
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + QUOTES + workflowStatus + QUOTES);
+                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( QUOTES ).append( workflowStatus ).append( QUOTES);
             }
             if (from != null && !"null".equals(from) && !StringUtils.isEmpty(from)
                     && to != null && !"null".equals(to) && !StringUtils.isEmpty(to)) {
@@ -313,7 +313,7 @@ public class PVQueryUtils {
                 customSql.append(format2.format(format2.parse(to)));
                 customSql.append("' ");
             }
-            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (" + notSearchProjId + ")");
+            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (" ).append( notSearchProjId ).append( ')');
             customSql.append("AND PM.FORECASTING_TYPE='Non Mandated'");
 
             customSql.append(" group by  pm.projection_name,pm.projection_description,ht.description ,cm.company_no  ,c.contract_no  ,pm.projection_master_sid,PM.created_date,PM.created_by ");

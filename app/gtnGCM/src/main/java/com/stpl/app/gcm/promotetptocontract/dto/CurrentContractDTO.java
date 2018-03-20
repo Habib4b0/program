@@ -407,10 +407,7 @@ public class CurrentContractDTO implements Serializable {
      * Variable used for CFPID.
      */
     private Integer cfpContractId = 0;
-    /**
-     * Variable used for IFPID.
-     */
-    private Integer ifpId = 0;
+    
     /**
      * Variable used for IFPID.
      */
@@ -496,14 +493,6 @@ public class CurrentContractDTO implements Serializable {
 
     public void setCfpContractId(Integer cfpContractId) {
         this.cfpContractId = cfpContractId;
-    }
-
-    public Integer getIfpId() {
-        return ifpId;
-    }
-
-    public void setIfpId(Integer ifpId) {
-        this.ifpId = ifpId;
     }
 
     public Integer getIfpContractId() {

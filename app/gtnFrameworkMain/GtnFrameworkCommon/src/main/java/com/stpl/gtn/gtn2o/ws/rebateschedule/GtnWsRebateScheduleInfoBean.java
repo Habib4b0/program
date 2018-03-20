@@ -32,6 +32,7 @@ public class GtnWsRebateScheduleInfoBean {
 	private String paymentGracePeriod;
 	private String evaluationRuleAssociation;
 	private String calculationRule;
+    private boolean rsIdAlreadyExist;
 
 	private Integer rebateScheduleStatus;
 	private Integer rebateScheduleType;
@@ -486,6 +487,13 @@ public class GtnWsRebateScheduleInfoBean {
 
 	public void setIfpDataList(List<Object> ifpDataList) {
 		this.ifpDataList = ifpDataList != null ? Collections.unmodifiableList(ifpDataList) : ifpDataList;
+	}
+    public boolean isRsIdAlreadyExist() {
+		return rsIdAlreadyExist;
+	}
+
+	public void setRsIdAlreadyExist(boolean rsIdAlreadyExist) {
+		this.rsIdAlreadyExist = rsIdAlreadyExist;
 	}
 
 }

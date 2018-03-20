@@ -390,7 +390,7 @@ public class CommonLogic {
     }
 
     public static String cffCustomViewDetailsSaveLogic(int customId, List levelList, boolean isUpdate) {
-        StringBuilder declareSql = new StringBuilder("DECLARE  @identity_val VARCHAR (50)='" + customId + "'");
+        StringBuilder declareSql = new StringBuilder("DECLARE  @identity_val VARCHAR (50)='" ).append( customId ).append( "'");
         StringBuilder sql = new StringBuilder("insert into CFF_CUSTOM_VIEW_DETAILS(CFF_CUSTOM_VIEW_MASTER_SID,HIERARCHY_ID,HIERARCHY_INDICATOR,LEVEL_NO) values ");
         char quotes = '\'';
         char comma = ',';
@@ -3367,6 +3367,26 @@ public class CommonLogic {
                 customerlevelCustomItem[i].setItemClickNotClosable(true);
             }
         }
+    }
+      public static Date fromDateIsNull(Date fromDate) {
+        if (fromDate == null) {
+            Calendar calendarFromPeriod = Calendar.getInstance();
+            calendarFromPeriod.set(Calendar.YEAR, (calendarFromPeriod.get(Calendar.YEAR) - 3));
+            calendarFromPeriod.set(Calendar.MONTH, 0);
+            calendarFromPeriod.set(Calendar.DAY_OF_MONTH, 1);
+            return calendarFromPeriod.getTime();
+        }
+        return fromDate;
+    }
+    public static Date toDateIsNull(Date toDate) {
+        if (toDate == null) {
+            Calendar calendatToPeriod = Calendar.getInstance();
+            calendatToPeriod.set(Calendar.YEAR, (calendatToPeriod.get(Calendar.YEAR) + 3));
+            calendatToPeriod.set(Calendar.MONTH, 11);
+            calendatToPeriod.set(Calendar.DAY_OF_MONTH, calendatToPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
+          return calendatToPeriod.getTime();
+        }
+        return toDate;
     }
 }
 

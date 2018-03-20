@@ -1120,5 +1120,6 @@ public class GtnFrameworkCommonConstants {
 	public static final String UDC_CATEGORY_FILETYPE_FIELDLAYOUT = "fileTypeFieldLayout";
 	public static final String REBATE_PLAN_STATUS = "rebatePlanStatus";
 	public static final String REBATE_PLAN_POPUP_TYPE = "rpPopUpRebatePlanType";
-	public static final String FILE_TYPE = "FILE_TYPE";     
+	public static final String FILE_TYPE = "FILE_TYPE";
+	public static final String REBATE_SCHEDULE_ID = "rebateScheduleId1";
 }

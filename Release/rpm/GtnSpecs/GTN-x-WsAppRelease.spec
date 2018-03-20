@@ -104,6 +104,7 @@ fi
 while :
 do
 cp  $f  $install_path/jboss-7.1.1/standalone/deployments/
+chown $APP_User:etl $install_path
    echo "deploying ...................." $currentfile
    sleep 1
    if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];

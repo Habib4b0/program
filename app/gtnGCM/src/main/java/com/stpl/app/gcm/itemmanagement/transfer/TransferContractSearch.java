@@ -525,14 +525,14 @@ public class TransferContractSearch extends AbstractContractSearch {
                 masterSid = dto.getContractMasterSid();
                 psSid = dto.getPsContractSid();
                 if (contractQuery.length() == 0) {
-                    contractQuery.append("'" + masterSid + "'");
+                    contractQuery.append('\'' ).append( masterSid ).append( '\'');
                 } else {
-                    contractQuery.append(", '" + masterSid + " '");
+                    contractQuery.append(", '" ).append( masterSid ).append( " '");
                 }
                 if (query.length() == 0) {
-                    query.append("(co.CONTRACT_MASTER_SID =" + masterSid + " and co.PS_CONTRACT_SID =" + psSid + " )  ");
+                    query.append("(co.CONTRACT_MASTER_SID =" ).append( masterSid ).append( " and co.PS_CONTRACT_SID =" ).append( psSid ).append( " )  ");
                 } else {
-                    query.append("OR (co.CONTRACT_MASTER_SID =" + masterSid + " and co.PS_CONTRACT_SID =" + psSid + " )  ");
+                    query.append("OR (co.CONTRACT_MASTER_SID =" ).append( masterSid ).append( " and co.PS_CONTRACT_SID =" ).append( psSid ).append( " )  ");
                 }
             }
         }

@@ -1360,7 +1360,7 @@ public class DataSelectionLogic {
 	}
 
 	public void setForcastFileDate(DataSelectionDTO dto) {
-		String query = SQlUtil.getQuery("getFileEndDate");
+             		String query = SQlUtil.getQuery("getFileEndDate");
 		query = query.replace("[?BUSINESS_UNIT]", StringUtils.EMPTY + dto.getBusinessUnitSystemId());
 		final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 		if (list != null && !list.isEmpty()) {
@@ -1516,8 +1516,8 @@ public class DataSelectionLogic {
 		try {
 			List<Object> list;
 			final StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
-					+ "RELATIONSHIP_BUILDER_SID='" + rbID + "'\n" + "and \n" + "LEVEL_NAME='Market Type'");
+			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n")
+					.append( "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and LEVEL_NAME='Market Type'");
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;
@@ -1952,7 +1952,8 @@ public class DataSelectionLogic {
         public Date getDefaultEligibleDateFromForecastConfiguration() {
             String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Consolidated Financial Forecast')";
             List cffEligibleDatelist = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            return (Date) cffEligibleDatelist.get(0);
+            return cffEligibleDatelist != null ? (Date) cffEligibleDatelist.get(0) : null;
+            
         }
             public String getremovedcontractbasedonCFFEligibleDate(final SessionDTO session) {
             List<Object> inputList = new ArrayList();

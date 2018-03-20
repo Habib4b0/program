@@ -92,6 +92,7 @@ public class ProductGroupLogic {
             productGroupDTO.setCompany((obtainedObject[NumericConstants.THREE] == null) ? StringUtils.EMPTY : String.valueOf(obtainedObject[NumericConstants.THREE].toString()));
             productGroupDTO.setCompanySid((obtainedObject[NumericConstants.FOUR] == null) ? 0 : Integer.parseInt(obtainedObject[NumericConstants.FOUR].toString()));
             productGroupDTO.setProductGroupDescription((obtainedObject[NumericConstants.FIVE] == null) ? StringUtils.EMPTY : String.valueOf(obtainedObject[NumericConstants.FIVE]));
+            productGroupDTO.setCompanyNo((obtainedObject[NumericConstants.SIX] == null) ? StringUtils.EMPTY : String.valueOf(obtainedObject[NumericConstants.SIX]));
             resultList.add(productGroupDTO);
         }
         return resultList;

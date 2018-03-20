@@ -27,7 +27,6 @@ public class RelationshipOutboundDTO implements Serializable {
     private Date creationDateTo;
     private String option1 = HelperUtils.EMPTY;
     // to load table
-    private HelperDTO hierarchyNameDdlb;
     private String relationshipDesc = StringUtils.EMPTY;
     private String relationshipType;
     private Date startDate;
@@ -160,14 +159,6 @@ public class RelationshipOutboundDTO implements Serializable {
 
     public void setOption1(String option1) {
         this.option1 = option1;
-    }
-
-    public HelperDTO getHierarchyNameDdlb() {
-        return hierarchyNameDdlb;
-    }
-
-    public void setHierarchyNameDdlb(HelperDTO hierarchyNameDdlb) {
-        this.hierarchyNameDdlb = hierarchyNameDdlb;
     }
 
     public String getRelationshipDesc() {
