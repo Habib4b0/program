@@ -313,6 +313,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
 		table.setContainerDataSource(attachmentsListBean);
 		table.setVisibleColumns(obj);
+                table.setSizeFull();
 		table.setColumnHeaders(objHeaders);
 
 		removeAndDisablingComponents(isViewMode);
@@ -376,6 +377,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		table.setFilterBarVisible(true);
 		table.setFilterDecorator(new ExtDemoFilterDecorator());
 		table.setPageLength(3);
+                table.setWidth("100px");
 		table.setContainerDataSource(attachmentsListBean);
 		table.setSelectable(true);
 		table.setVisibleColumns("documentName", "dateAdded", "userName");

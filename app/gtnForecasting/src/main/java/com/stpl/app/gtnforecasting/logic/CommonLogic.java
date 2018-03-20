@@ -5199,6 +5199,28 @@ public class CommonLogic {
         }
         return header;
     }
+    
+     public String getHeaderForExcelDiscount(Character freq, Object[] obj,String discountId,String separator) {
+        String header;
+        switch (freq) {
+            case 'A':
+                header = String.valueOf(obj[NumericConstants.TWO]);
+                break;
+            case 'Q':
+                header = Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                break;
+            case 'S':
+                header = Constant.S_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                break;
+            case 'M':
+                String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])) - 1);
+                header = monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO].toString();
+                break;
+            default:
+                header = Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+        }
+        return header;
+    }
 
     public String getFormattedValue(DecimalFormat format, String value) {
            if (value.contains(Constant.NULL) || value.equals("-")) {

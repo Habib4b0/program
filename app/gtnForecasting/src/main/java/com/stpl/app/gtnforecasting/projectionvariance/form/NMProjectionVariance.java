@@ -2254,6 +2254,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             excelParentRecords.clear();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+            LOGGER.info(e.getMessage(),e);
         }
     }
 
