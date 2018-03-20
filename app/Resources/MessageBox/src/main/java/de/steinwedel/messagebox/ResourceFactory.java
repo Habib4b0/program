@@ -3,15 +3,17 @@ package de.steinwedel.messagebox;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import com.vaadin.server.ClassResource;
 import com.vaadin.server.Resource;
-import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.v7.ui.Label;
-
 import de.steinwedel.messagebox.i18n.MBResource;
+
+//import com.vaadin.v7.shared.ui.label.ContentMode;
+//import com.vaadin.v7.ui.Label;
+import com.vaadin.ui.Label;
+import com.vaadin.shared.ui.ContentMode;
+
 
 /**
  * Manages the loading of default resources like icons and button captions. You can override the method <code>getIcon</code> to use customized icons.
