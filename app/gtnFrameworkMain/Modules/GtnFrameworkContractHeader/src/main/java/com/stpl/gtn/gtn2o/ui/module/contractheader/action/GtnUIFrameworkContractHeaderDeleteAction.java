@@ -62,7 +62,8 @@ public class GtnUIFrameworkContractHeaderDeleteAction
 		}
 		GtnUIFrameWorkActionConfig notifActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-		notifActionConfig.addActionParameter("Delete Success");
+		notifActionConfig.addActionParameter(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabContractId").getStringFromField()
+							+ ","+GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabContractName").getStringFromField()+" has been successfully deleted");
 		notifActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notifActionConfig);
 

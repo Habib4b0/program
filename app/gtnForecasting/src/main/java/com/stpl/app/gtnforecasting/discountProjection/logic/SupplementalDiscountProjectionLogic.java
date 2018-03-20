@@ -525,7 +525,7 @@ public class SupplementalDiscountProjectionLogic {
     public void queryToUpdateCheckRecord(int checkValue, SessionDTO sessionDto, String ccpDetailsId) {
         try {
             StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.append(" Update ST_M_SUPPLEMENTAL_DISC_MASTER SET CHECK_RECORD =" ).append( checkValue ).append( " WHERE CCP_DETAILS_SID IN (" ).append( ccpDetailsId ).append( ")") ;
+            queryBuilder.append(" Update ST_M_SUPPLEMENTAL_DISC_MASTER SET CHECK_RECORD =" ).append( checkValue ).append( " WHERE CCP_DETAILS_SID IN (" ).append( ccpDetailsId ).append( ')') ;
             dao.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(),sessionDto.getCurrentTableNames()));
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -651,7 +651,7 @@ public class SupplementalDiscountProjectionLogic {
         queryBuilder1.append("JOIN PS_CONTRACT_DETAILS PS_CNT_DET ON PS_CNT.PS_CONTRACT_SID = PS_CNT_DET.PS_CONTRACT_SID \n");
         queryBuilder1.append("JOIN ITEM_MASTER IM ON PS_CNT_DET.ITEM_MASTER_SID = IM.ITEM_MASTER_SID \n");
         queryBuilder1.append("JOIN BRAND_MASTER BM ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID \n");
-        queryBuilder1.append("WHERE  HT.DESCRIPTION ='" ).append( mtValue ).append( "'");
+        queryBuilder1.append("WHERE  HT.DESCRIPTION ='" ).append( mtValue ).append( '\'');
 
         if (StringUtils.isNotBlank(lookUpDTO.getContractName())) {
             queryBuilder1.append("AND CM.CONTRACT_NAME like '").append(lookUpDTO.getContractName()).append("' ");
@@ -1002,8 +1002,8 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( " CONTRACT_END_DATE,\n"
                     ).append( " CHECK_RECORD, \n"
                     ).append( " CASH_PAID_DATE, \n"
-                    ).append( " USER_ID,\n"
-                    ).append( " SESSION_ID,\n"
+                    ).append( Constant.USER_ID_WITH_COMMA
+                    ).append( Constant.SESSION_ID_WITH_COMMA
                     ).append( " LAST_MODIFIED_DATE)\n"
                     ).append( " SELECT A.PROJECTION_DETAILS_SID,\n"
                     ).append( " A.MARKET_TYPE,\n"
@@ -1015,13 +1015,13 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( " A.CONTRACT_END_DATE,\n"
                     ).append( " A.CHECK_RECORD, \n"
                     ).append( " A.CASH_PAID_DATE,\n"
-                    ).append( sessionDto.getUserId() ).append( " USER_ID,\n"
-                    ).append( sessionDto.getSessionId() ).append( " SESSION_ID,\n"
-                    ).append( "'" ).append( lastModified ).append( "' LAST_MODIFIED_DATE \n"
+                    ).append( sessionDto.getUserId() ).append( Constant.USER_ID_WITH_COMMA
+                    ).append( sessionDto.getSessionId() ).append( Constant.SESSION_ID_WITH_COMMA
+                    ).append( '\'' ).append( lastModified ).append( "' LAST_MODIFIED_DATE \n"
                     ).append( " FROM dbo.M_SUPPLEMENTAL_DISC_MASTER A,\n"
                     ).append( " dbo.PROJECTION_DETAILS B\n"
                     ).append( " WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID\n"
-                    ).append( " AND B.PROJECTION_MASTER_SID=" ).append( sessionDto.getProjectionId() ).append( ";");
+                    ).append( " AND B.PROJECTION_MASTER_SID=" ).append( sessionDto.getProjectionId() ).append( ';');
             queryList.add(query);
 
             query = new StringBuilder();
@@ -1039,8 +1039,8 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( " PARITY_DISCOUNT,\n"
                     ).append( " PROJECTION_RATE,\n"
                     ).append( " PROJECTION_SALES,\n"
-                    ).append( " USER_ID,\n"
-                    ).append( " SESSION_ID,\n"
+                    ).append( Constant.USER_ID_WITH_COMMA
+                    ).append( Constant.SESSION_ID_WITH_COMMA
                     ).append( " LAST_MODIFIED_DATE )\n"
                     ).append( " SELECT A.PROJECTION_DETAILS_SID,\n"
                     ).append( " A.PERIOD_SID,\n"
@@ -1054,13 +1054,13 @@ public class SupplementalDiscountProjectionLogic {
                     ).append( " A.PARITY_DISCOUNT,\n"
                     ).append( " A.PROJECTION_RATE,\n"
                     ).append( " A.PROJECTION_SALES,\n"
-                    ).append(  sessionDto.getUserId() ).append( " USER_ID,\n"
-                    ).append(  sessionDto.getSessionId() ).append( " SESSION_ID,\n"
+                    ).append(  sessionDto.getUserId() ).append( Constant.USER_ID_WITH_COMMA
+                    ).append(  sessionDto.getSessionId() ).append( Constant.SESSION_ID_WITH_COMMA
                     ).append( "	'" ).append( lastModified ).append( "' LAST_MODIFIED_DATE \n"
                     ).append( " FROM M_SUPPLEMENTAL_DISC_PROJ A,\n"
                     ).append( " dbo.PROJECTION_DETAILS B\n"
                     ).append( " WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID\n"
-                    ).append( "	AND B.PROJECTION_MASTER_SID=" ).append( sessionDto.getProjectionId() ).append( ";");
+                    ).append( "	AND B.PROJECTION_MASTER_SID=" ).append( sessionDto.getProjectionId() ).append( ';');
             queryList.add(query);
             dao.executeUpdateQuery(queryList);
         } catch (PortalException | SystemException | ParseException ex) {
@@ -1105,14 +1105,14 @@ public class SupplementalDiscountProjectionLogic {
             }
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append(" select DISTINCT IM.THERAPEUTIC_CLASS , CCP.COMPANY_MASTER_SID,CCP.CONTRACT_MASTER_SID , CCP.ITEM_MASTER_SID, CM." 
-                    ).append( levelNameList.get(0) ).append( " ,CONT." ).append( levelNameList.get(1) ).append( ",BM." ).append( levelNameList.get(3) ).append( "\n"
+                    ).append( levelNameList.get(0) ).append( " ,CONT." ).append( levelNameList.get(1) ).append( ",BM." ).append( levelNameList.get(3) ).append( '\n'
                     ).append( " FROM PROJECTION_DETAILS PD,CCP_DETAILS CCP,ITEM_MASTER IM,COMPANY_MASTER CM,CONTRACT_MASTER CONT,BRAND_MASTER BM \n"
                     ).append( "where CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
                     ).append( " and IM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID  \n"
                     ).append( "and CONT.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID  \n"
                     ).append( "and CM.COMPANY_MASTER_SID =  CCP.COMPANY_MASTER_SID\n"
                     ).append( "and BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID\n"
-                    ).append( "and PD.PROJECTION_MASTER_SID = " ).append( projSel.getProjectionId() ).append( "\n");
+                    ).append( "and PD.PROJECTION_MASTER_SID = " ).append( projSel.getProjectionId() ).append( '\n');
 
             returnList.addAll((List<String>) CommonLogic.executeSelectQuery(queryBuilder.toString(), null, null));
         } catch (Exception ex) {
@@ -1378,7 +1378,7 @@ public class SupplementalDiscountProjectionLogic {
             tempGroupBy = " GROUP by CCP.COMPANY_MASTER_SID , CCP.CONTRACT_MASTER_SID,CCP.ITEM_MASTER_SID ";
         }
         query.append("FROM CCP_DETAILS CCP,ST_M_SUPPLEMENTAL_DISC_PROJ SDP" ).append( tempTable ).append( " WHERE CCP.CCP_DETAILS_SID = SDP.CCP_DETAILS_SID \n"
-                + tempwerCondition);
+                ).append( tempwerCondition);
 
         query.append(tempGroupBy);
         return (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
@@ -1434,9 +1434,9 @@ public class SupplementalDiscountProjectionLogic {
                         ).append( " REBATE_PERCENT_2 \n"
                         ).append( " FROM   FORMULA_DETAILS_MASTER\n"
                         ).append( " WHERE  Datepart(mm, START_DATE) <= " ).append( ((saveDto.getPeriod() * 3) - 2) ).append( " \n"
-                        ).append( " AND Datepart(mm, END_DATE) >= " ).append( (saveDto.getPeriod() * 3) ).append( "\n"
+                        ).append( " AND Datepart(mm, END_DATE) >= " ).append( (saveDto.getPeriod() * 3) ).append( '\n'
                         ).append( " AND Datepart(YY, START_DATE) <= " ).append( saveDto.getYear() ).append( " \n"
-                        ).append( " AND Datepart(YY, END_DATE) >= " ).append( saveDto.getYear() ).append( "\n"
+                        ).append( " AND Datepart(YY, END_DATE) >= " ).append( saveDto.getYear() ).append( '\n'
                         ).append( " AND COMPANY_ID = '" ).append( saveDto.getCompanyIdForNdcLevel() ).append( "'\n"
                         ).append( " AND ITEM_ID = '" ).append( tempStr[0] ).append( "' \n"
                         ).append( " AND FORMULA_DESC = '" ).append( saveDto.getPropertyValue(propertyId) ).append( "'\n");
@@ -1550,7 +1550,7 @@ public class SupplementalDiscountProjectionLogic {
 
     private void populateUpadteQuery(DiscountProjectionDTO checkedDto, String value, Object fieldSelection, SessionDTO session, String ccpDetailsId) {
         StringBuilder queryBuilder1 = new StringBuilder();
-        queryBuilder1.append("update ST_M_SUPPLEMENTAL_DISC_PROJ SET " ).append( fieldSelection ).append( " = '" ).append( value ).append( "' where CCP_DETAILS_SID IN (" ).append( ccpDetailsId ).append( ")");
+        queryBuilder1.append("update ST_M_SUPPLEMENTAL_DISC_PROJ SET " ).append( fieldSelection ).append( " = '" ).append( value ).append( "' where CCP_DETAILS_SID IN (" ).append( ccpDetailsId ).append( ')');
         
         queryBuilder1.append("AND PERIOD_SID in (SELECT PERIOD_SID FROM \"PERIOD\"  where PERIOD_SID in\n");
 
@@ -1756,7 +1756,7 @@ public class SupplementalDiscountProjectionLogic {
                 }
 
                 masterQuery.append("INSERT INTO " ).append( tableName[0] ).append( " (" ).append( columnNames ).append( " USER_ID,SESSION_ID) \n"
-                        + "(SELECT " ).append( columnNames ).append( session.getUserId() ).append( "," ).append( session.getSessionId() ).append( " from " ).append( tableName[1] ).append( " where PROJECTION_DETAILS_SID in (" ).append( projectionDetailsSids ).append( ")) ");
+                        + "(SELECT " ).append( columnNames ).append( session.getUserId() ).append( ',' ).append( session.getSessionId() ).append( " from " ).append( tableName[1] ).append( " where PROJECTION_DETAILS_SID in (" ).append( projectionDetailsSids ).append( ")) ");
                 strList.add(masterQuery);
             }
             dao.executeUpdateQuery(strList);

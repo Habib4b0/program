@@ -175,7 +175,7 @@ public class DataSelectionLogic {
 	 * @return the list
 	 */
 	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName, int hierarchyVersion) {
-		LOGGER.debug(" hierarchyName= {} ",hierarchyName);
+		LOGGER.debug(" hierarchyName=  {} ",hierarchyName);
 		List<Leveldto> resultList = new ArrayList<>();
 		Leveldto leveldto;
 		List<Object> input = new ArrayList<>();
@@ -1590,7 +1590,7 @@ public class DataSelectionLogic {
 			List<Object> list;
 			StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
-					+ "RELATIONSHIP_BUILDER_SID='" + rbID + "'\n" + "and \n" + "LEVEL_NAME='Market Type'");
+					+ "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and  LEVEL_NAME='Market Type'");
 			CommonDAO spDAO = new CommonDAOImpl();
 			list = (List) spDAO.executeSelectQuery(queryString.toString(), null, null);
 			return list;
@@ -1783,10 +1783,10 @@ public class DataSelectionLogic {
 			List list;
 			StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES,LEVEL_NO from RELATIONSHIP_LEVEL_DEFINITION \n"
-					+ "where RELATIONSHIP_LEVEL_SID in ( select RELATIONSHIP_LEVEL_SID\n"
-					+ "from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID= ");
+					).append( "where RELATIONSHIP_LEVEL_SID in ( select RELATIONSHIP_LEVEL_SID\n"
+					).append( "from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID= ");
 			if (projectionId != 0) {
-				queryString.append(StringUtils.EMPTY + projectionId);
+				queryString.append(StringUtils.EMPTY ).append( projectionId);
 				queryString.append(" ) and LEVEL_NAME='Market TYPE'");
 			}
 			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString(), null, null);

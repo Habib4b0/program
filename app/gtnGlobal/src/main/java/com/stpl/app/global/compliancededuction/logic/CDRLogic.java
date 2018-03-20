@@ -321,7 +321,7 @@ public class CDRLogic {
         if (!ruleDetailsIds.isEmpty()) {
             StringBuilder idsBuilder = new StringBuilder();
             for (Object id : ruleDetailsIds) {
-                idsBuilder.append(ConstantsUtils.COMMA ).append( String.valueOf(id));
+                idsBuilder.append(',' ).append( String.valueOf(id));
             }
             String ids = idsBuilder.toString().replaceFirst(ConstantsUtils.COMMA, StringUtils.EMPTY);
             String masterQuery = "delete FROM CDR_DETAILS where " + columnSid + "  in (" + ids + ") ";
