@@ -36,10 +36,11 @@ public class GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert
 		String textValue=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("massTextField").getStringFromField();
 		String dateValue=GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkRSConstants.REBATE_SETUP_TAB_MASS_DATE_FEILD).getStringFromField();
 		String comboValue=GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkRSConstants.REBATE_SETUP_TAB_MASS_DROP_DOWN).getStringFromField();
+		String customtextValue=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("massCustomTextField").getStringFromField();
 		String subMessage;
 		if (gtnUIFrameWorkActionConfig.getActionParameterList().size() > 1
 				&& gtnUIFrameWorkActionConfig.getActionParameterList().get(1).equals("populate")) {
-			subMessage = validateTempTableCount(field,textValue,componentId,dateValue,comboValue);
+			subMessage = validateTempTableCount(field,textValue,componentId,dateValue,comboValue,customtextValue);
 		} else {
 			subMessage = validateFields();
 		}
@@ -51,7 +52,7 @@ public class GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert
 
 	}
 
-	private String validateTempTableCount(String field,String textValue,String componentId,String dateValue,String comboValue) throws GtnFrameworkGeneralException {
+	private String validateTempTableCount(String field,String textValue,String componentId,String dateValue,String comboValue, String customtextValue) throws GtnFrameworkGeneralException {
 		String subMessage = "";
 
 		if (!validate(GtnFrameworkRSConstants.TEMP_CHECKED_COUNT)) {
@@ -68,7 +69,7 @@ public class GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert
 			alertActionConfigForField.setActionParameterList(alertParamsForField);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfigForField);
 		}  
-		else if(textValue.isEmpty() && dateValue.isEmpty() && comboValue.isEmpty())
+		else if(textValue.isEmpty() && dateValue.isEmpty() && comboValue.isEmpty() && customtextValue.isEmpty())
 		{
 			GtnUIFrameWorkActionConfig alertActionConfigForValue = new GtnUIFrameWorkActionConfig();
 			alertActionConfigForValue.setActionType(GtnUIFrameworkActionType.INFO_ACTION);

@@ -1902,9 +1902,6 @@ public class FileManagementLookup extends Window {
 		LOGGER.debug("resetButton method Ended");
 	}
 
-	public BeanItem<?> getNULLITEM() {
-		return NULLITEM;
-	}
 
 	private void makeSummaryReadOnly() {
 		LOGGER.debug("makeSummaryReadOnly method started");
