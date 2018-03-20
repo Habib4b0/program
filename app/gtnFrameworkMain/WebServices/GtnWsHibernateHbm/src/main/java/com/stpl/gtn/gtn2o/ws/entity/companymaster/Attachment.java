@@ -15,7 +15,7 @@ public class Attachment implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-		private int id;
+		private int attachmentSid;
 	     private Integer attachmentTableSid;
 	     private String fileName;
 	     private byte[] fileData;
@@ -27,14 +27,14 @@ public class Attachment implements java.io.Serializable {
 	    }
 
 		
-	    public Attachment(int id, String fileName, byte[] fileData, String masterTableName) {
-	        this.id = id;
+	    public Attachment(int attachmentSid, String fileName, byte[] fileData, String masterTableName) {
+	        this.attachmentSid = attachmentSid;
 	        this.fileName = fileName;
 	        this.fileData = fileData;
 	        this.masterTableName = masterTableName;
 	    }
-	    public Attachment(int id, Integer attachmentTableSid, String fileName, byte[] fileData, String masterTableName, Date createdDate, Integer createdBy) {
-	       this.id = id;
+	    public Attachment(int attachmentSid, Integer attachmentTableSid, String fileName, byte[] fileData, String masterTableName, Date createdDate, Integer createdBy) {
+	       this.attachmentSid = attachmentSid;
 	       this.attachmentTableSid = attachmentTableSid;
 	       this.fileName = fileName;
 	       this.fileData = fileData;
@@ -43,14 +43,15 @@ public class Attachment implements java.io.Serializable {
 	       this.createdBy = createdBy;
 	    }
 	   
-	    public int getId() {
-	        return this.id;
+	    public int getAttachmentSid() {
+		 return attachmentSid;
 	    }
-	    
-	    public void setId(int id) {
-	        this.id = id;
+
+	    public void setAttachmentSid(int attachmentSid) {
+		this.attachmentSid = attachmentSid;
 	    }
-	    public Integer getAttachmentTableSid() {
+
+		public Integer getAttachmentTableSid() {
 	        return this.attachmentTableSid;
 	    }
 	    

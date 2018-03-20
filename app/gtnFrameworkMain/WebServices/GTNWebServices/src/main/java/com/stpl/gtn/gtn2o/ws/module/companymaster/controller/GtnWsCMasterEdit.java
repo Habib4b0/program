@@ -415,7 +415,7 @@ public class GtnWsCMasterEdit {
 	private List<NotesTabBean> getCmNotesTabAttachDetails(GtnCMasterInformationBean companyInformationBean)
 			throws GtnFrameworkGeneralException {
 		logger.info("Enter getCmNotesTabAttachDetails");
-		String cmNotesTabDetailsSelectQuery = "Select MASTER_TABLE_NAME,FILE_NAME, CREATED_DATE, CREATED_BY ,ID,FILE_DATA from ATTACHMENT   "
+		String cmNotesTabDetailsSelectQuery = "Select MASTER_TABLE_NAME,FILE_NAME, CREATED_DATE, CREATED_BY ,ATTACHMENT_SID,FILE_DATA from ATTACHMENT   "
 				+ "where ATTACHMENT_TABLE_SID = " + companyInformationBean.getCompanyMasterSystemId() + ";";
 		@SuppressWarnings("unchecked")
 		List<Object[]> cmNotesDetailsAttachResultList = (List<Object[]>) gtnSqlQueryEngine

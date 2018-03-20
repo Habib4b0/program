@@ -1044,7 +1044,7 @@ WHERE A.CHECK_RECORD = 1
                    AT.FILE_NAME,
                    AT.CREATED_DATE,
                    AT.CREATED_BY,
-                   AT.ID,
+                   AT.ATTACHMENT_SID,
                    AT.FILE_DATA
                     
             FROM
