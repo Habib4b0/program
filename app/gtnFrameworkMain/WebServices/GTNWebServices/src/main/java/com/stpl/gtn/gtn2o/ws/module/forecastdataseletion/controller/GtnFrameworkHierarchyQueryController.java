@@ -19,8 +19,12 @@ import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 @RequestMapping(value = GtnWebServiceUrlConstants.GTN_HIERARCHY_CONTROL)
 public class GtnFrameworkHierarchyQueryController {
 
+	public GtnFrameworkHierarchyQueryController() {
+		super();
+	}
 	@Autowired
 	private GtnFrameworkHierarchyQueryService hierarchyQueryGeneratorService;
+
 
 	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_QUERY_FOR_TABLENAME_HIERARCHY_TYPE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getQueryByTableNameAndHierarchyTypeForMultiLevel(

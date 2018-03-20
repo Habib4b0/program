@@ -193,6 +193,11 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		input.add(hierarchyBuilderSid);
 		input.add(hierarchyVersionNo);
 		String finalQuery = gtnWsSqlService.getQuery(input, "hierarchyByidandVersionNo");
+		return executeAndGetCustomizedResult(finalQuery);
+	}
+
+	private List<HierarchyLevelDefinitionBean> executeAndGetCustomizedResult(String finalQuery)
+			throws GtnFrameworkGeneralException {
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = new ArrayList<>();
 		for (Object[] objects : resultList) {
@@ -209,7 +214,6 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			hierarchyBean.setDefaultVlaue(getIntegerValue(8, objects));
 			hierarchyDefinitionList.add(hierarchyBean);
 		}
-
 		return hierarchyDefinitionList;
 	}
 
@@ -274,24 +278,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId PRoduct";
 		}
 		String finalQuery = gtnWsSqlService.getQuery(input, queryName);
-		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
-		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = new ArrayList<>();
-		for (Object[] objects : resultList) {
-			HierarchyLevelDefinitionBean hierarchyBean = new HierarchyLevelDefinitionBean();
-			getIntegerValue(0, objects);
-			hierarchyBean.setHierarchyLevelDefinitionSid(getIntegerValue(0, objects));
-			hierarchyBean.setHierarchyDefinitionSid(getIntegerValue(1, objects));
-			hierarchyBean.setLevelName(objects[2] == null ? "" : objects[2].toString());
-			hierarchyBean.setLevelValueReference(objects[3] == null ? "" : objects[3].toString());
-			hierarchyBean.setLevelNo(getIntegerValue(4, objects));
-			hierarchyBean.setTableName(objects[5] == null ? "" : objects[5].toString());
-			hierarchyBean.setFieldName(objects[6] == null ? "" : objects[6].toString());
-			hierarchyBean.setVersionNo(getIntegerValue(7, objects));
-			hierarchyBean.setDefaultVlaue(getIntegerValue(8, objects));
-			hierarchyDefinitionList.add(hierarchyBean);
-		}
-
-		return hierarchyDefinitionList;
+		return executeAndGetCustomizedResult(finalQuery);
 	}
 
 }

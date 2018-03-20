@@ -11,6 +11,9 @@ public class GtnFrameworkRouteBean {
 	private List<Integer> pathList = new ArrayList<>();
 	private int hops;
 
+	public GtnFrameworkRouteBean() {
+		super();
+	}
 	public List<Integer> getPathList() {
 		return Collections.unmodifiableList(pathList);
 	}

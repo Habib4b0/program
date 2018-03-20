@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.forecasting.querygenerator.service.GtnFrameworkCCPInsertQueryGenerator;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.forecasting.querygenerator.serviceimpl.GtnFrameworkCCPCustomerQueryGenerator;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
+import com.stpl.gtn.gtn2o.ws.module.forecastconfiguration.controller.GtnWsForecastConfigurationController;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
@@ -26,9 +27,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnFrameworkCCPInsertService {
 
 	@Autowired
-	GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
-	@Autowired
-	GtnFrameworkCCPCustomerQueryGenerator queryGeneratorService;
+	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 	@Autowired
@@ -39,6 +38,11 @@ public class GtnFrameworkCCPInsertService {
 	@Autowired
 	private ApplicationContext applicationContext;
 
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsForecastConfigurationController.class);
+
+	public GtnFrameworkCCPInsertService() {
+		super();
+	}
 	public void insertToCPPTable(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
 		try {
 			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList = relationUpdateService
@@ -62,7 +66,7 @@ public class GtnFrameworkCCPInsertService {
 					inputBean.getTempTableMap());
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -92,7 +96,7 @@ public class GtnFrameworkCCPInsertService {
 					inputBean.getTempTableMap());
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -128,8 +132,8 @@ public class GtnFrameworkCCPInsertService {
 	}
 
 	public static String replaceTableNames(String query, final Map<String, String> tableNameMap) {
-		for (String key : tableNameMap.keySet()) {
-			query = query.replaceAll("(?i:\\b" + key + "\\b)", tableNameMap.get(key));
+		for (Map.Entry<String, String> key : tableNameMap.entrySet()) {
+			query = query.replaceAll("(?i:\\b" + key.getKey() + "\\b)", key.getValue());
 		}
 		return query;
 	}

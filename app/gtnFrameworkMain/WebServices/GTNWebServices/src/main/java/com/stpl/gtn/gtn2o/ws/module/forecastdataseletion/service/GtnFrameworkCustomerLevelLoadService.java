@@ -10,28 +10,26 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.forecasting.querygenerator.serviceimpl.GtnFrameworkCustLevelQueryGenerator;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
-import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service
 @Scope(value = "singleton")
 public class GtnFrameworkCustomerLevelLoadService {
-
-	@Autowired
-	GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 	@Autowired
 	private GtnFrameworkCustLevelQueryGenerator customerQueryGenerator;
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+	private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat(DATE_FORMAT);
 
-	public String getQueryForLinkedLevelCustomer(GtnForecastHierarchyInputBean inputBean,
-			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList,
-			HierarchyLevelDefinitionBean selectedHierarchyBean) {
+	public GtnFrameworkCustomerLevelLoadService() {
+		super();
+	}
+
+	public String getCustomerLevelQuery(GtnForecastHierarchyInputBean inputBean,
+			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList) {
 
 		HierarchyLevelDefinitionBean lastLevelDto = HierarchyLevelDefinitionBean
 				.getLastLinkedLevel(hierarchyDefinitionList);
@@ -46,19 +44,11 @@ public class GtnFrameworkCustomerLevelLoadService {
 		inputList.add(inputBean.getRelationVersionNo());
 		inputList.add(String.valueOf(selectedHierarchyLevelDto.getLevelNo()));
 		if (inputBean.getForecastEligibleDate() != null) {
-			inputList.add(dateFormat.format(inputBean.getForecastEligibleDate()));
-			inputList.add(dateFormat.format(inputBean.getForecastEligibleDate()));
+			inputList.add(DATEFORMAT.format(inputBean.getForecastEligibleDate()));
+			inputList.add(DATEFORMAT.format(inputBean.getForecastEligibleDate()));
 			finalQuery.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
 			finalQuery.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
 		}
 		return gtnWsSqlService.getReplacedQuery(inputList, finalQuery.toString());
-	}
-
-	public String getCustomerLevelQuery(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
-		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = relationUpdateService.getHierarchyBuilder(
-				inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo());
-		HierarchyLevelDefinitionBean selectedHierarchyBean = HierarchyLevelDefinitionBean
-				.getBeanByLevelNo(inputBean.getLevelNo(), hierarchyDefinitionList);
-		return getQueryForLinkedLevelCustomer(inputBean, hierarchyDefinitionList, selectedHierarchyBean);
 	}
 }

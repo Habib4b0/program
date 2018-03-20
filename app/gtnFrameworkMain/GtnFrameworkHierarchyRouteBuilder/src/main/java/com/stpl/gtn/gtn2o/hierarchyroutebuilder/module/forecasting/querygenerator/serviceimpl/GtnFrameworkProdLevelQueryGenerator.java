@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.forecasting.querygenerator.serviceimpl;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +37,14 @@ public class GtnFrameworkProdLevelQueryGenerator implements GtnFrameworkLevelLoa
 	public GtnFrameworkQueryGeneratorBean getAvailableTableLoadQuery(GtnForecastHierarchyInputBean inputBean,
 			HierarchyLevelDefinitionBean lastLevelDto, List<HierarchyLevelDefinitionBean> hierarchyDefinitionList) {
 		GtnFrameworkQueryGeneratorBean queryBean = getQueryToFilterCustomerProduct(inputBean, lastLevelDto);
-		addRelationSelectClause(queryBean, inputBean);
+		addRelationSelectClause(queryBean);
 		addRelationShipJoin(queryBean, lastLevelDto, hierarchyDefinitionList);
 		getRscontractJoinForProduct(inputBean.getDeductionLevel(), inputBean.getDeductionValue(), queryBean);
 		addNdcSelectAndJoin(inputBean.isNdc(), queryBean);
 		return queryBean;
 	}
 
-	private GtnFrameworkQueryGeneratorBean addRelationSelectClause(GtnFrameworkQueryGeneratorBean queryBean,
-			GtnForecastHierarchyInputBean inputBean) {
+	private GtnFrameworkQueryGeneratorBean addRelationSelectClause(GtnFrameworkQueryGeneratorBean queryBean) {
 		queryBean.removeAllSelectClause();
 		queryBean.addSelectClauseBean("PARENT_RELATION.RELATIONSHIP_LEVEL_VALUES", "RELATIONSHIP_LEVEL_VALUES",
 				Boolean.TRUE, null);
@@ -103,15 +101,16 @@ public class GtnFrameworkProdLevelQueryGenerator implements GtnFrameworkLevelLoa
 		StringBuilder query = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
 		for (int i = 0; i < selectedHierarchyLevelDto.getLevelNo(); i++) {
-			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
-			if (leveldto.getTableName().isEmpty()) {
+			HierarchyLevelDefinitionBean selectedHierarchyDto = hierarchyLevelDefinitionList.get(i);
+			if (selectedHierarchyDto.getTableName().isEmpty()) {
 				query.append(",'%'");
 				query.append(",'.'");
 				continue;
 			}
 			query.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
+					.getKeyRelationBeanUsingTableIdAndColumnName(selectedHierarchyDto.getTableName(),
+							selectedHierarchyDto.getFieldName());
 			query.append(singleColumnRelationBean.getActualTtableName() + "."
 					+ singleColumnRelationBean.getWhereClauseColumn());
 			query.append(",'.'");
@@ -170,14 +169,12 @@ public class GtnFrameworkProdLevelQueryGenerator implements GtnFrameworkLevelLoa
 
 	private GtnFrameworkQueryGeneratorBean getQueryToFilterCustomerProduct(GtnForecastHierarchyInputBean inputBean,
 			HierarchyLevelDefinitionBean lastLevelDto) {
-		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(lastLevelDto,
-				Collections.<String>emptyList());
+		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(lastLevelDto);
 		addGroupFilterCondition(inputBean, queryBean, lastLevelDto);
 		return queryBean;
 	}
 
-	public GtnFrameworkQueryGeneratorBean getQueryForLinkedLevel(HierarchyLevelDefinitionBean lastLevelDto,
-			List<String> groupFilteredItems) {
+	public GtnFrameworkQueryGeneratorBean getQueryForLinkedLevel(HierarchyLevelDefinitionBean lastLevelDto) {
 		GtnFrameworkHierarchyQueryBean queryBaen = fileService.getQueryFromFile(
 				lastLevelDto.getHierarchyDefinitionSid(), lastLevelDto.getHierarchyLevelDefinitionSid(),
 				lastLevelDto.getVersionNo());
@@ -195,11 +192,11 @@ public class GtnFrameworkProdLevelQueryGenerator implements GtnFrameworkLevelLoa
 		query.append(keyRealtionBean.getWhereClauseColumn());
 		finalQueryBean.addWhereClauseBean(query.toString(), null, GtnFrameworkOperatorType.IN,
 				GtnFrameworkDataType.NULL_ALLOWED, "?");
-		getWhereQueryBasedOnHierarchyType(inputBean.getHierarchyType(), inputBean.getGroupFilterCompenies(),
+		getWhereQueryBasedOnHierarchyType(inputBean.getGroupFilterCompenies(),
 				finalQueryBean);
 	}
 
-	private void getWhereQueryBasedOnHierarchyType(String hieType, List<String> groupFilteredCompanies,
+	private void getWhereQueryBasedOnHierarchyType(List<String> groupFilteredCompanies,
 			GtnFrameworkQueryGeneratorBean finalQueryBean) {
 		if (groupFilteredCompanies == null || groupFilteredCompanies.isEmpty())
 			return;
@@ -215,8 +212,8 @@ public class GtnFrameworkProdLevelQueryGenerator implements GtnFrameworkLevelLoa
 
 		HierarchyLevelDefinitionBean lastLinketLevel = HierarchyLevelDefinitionBean
 				.getLastLinkedLevel(customerHierarchyLevelDefinitionList);
-		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(lastLinketLevel,
-				Collections.<String>emptyList());
+		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(lastLinketLevel
+				);
 		queryBean.removeAllWhereClauseConfigList();
 		queryBean.removeSelectClauseByIndex(0);
 		queryBean.removeSelectClauseByIndex(0);

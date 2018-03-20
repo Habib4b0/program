@@ -18,6 +18,10 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 @RequestMapping(value = GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE)
 public class GtnFrameworkCCPInsertController {
 
+	public GtnFrameworkCCPInsertController() {
+		super();
+	}
+
 	@Autowired
 	private GtnFrameworkCCPInsertService service;
 

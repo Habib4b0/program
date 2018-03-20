@@ -15,7 +15,6 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRel
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
@@ -67,7 +66,7 @@ public class GtnFrameworkSelectedTblLoadQueryGenerator {
 		relationTableJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, GtnFrameworkOperatorType.LIKE);
 		GtnFrameworkJoinClauseBean hierarchyTableJoin = finalQueryBean.addJoinClauseBean(RELATIONSHIP_LEVEL_DEFN,
 				"HIERARCHY_NO_JOIN", GtnFrameworkJoinType.JOIN);
-		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN, "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO+'%'",
+		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN, RELATIONSHIP_BUILD_HIERARCHY_NO + "'%'",
 				GtnFrameworkOperatorType.LIKE);
 		hierarchyTableJoin.addConditionBean("HIERARCHY_NO_JOIN.VERSION_NO", null, GtnFrameworkOperatorType.EQUAL_TO);
 		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_LEVEL_JOIN, null, GtnFrameworkOperatorType.LESSTHAN);
@@ -83,14 +82,13 @@ public class GtnFrameworkSelectedTblLoadQueryGenerator {
 	}
 
 	public String getQueryForSelectedCustomer(GtnForecastHierarchyInputBean inputBean,
-			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList)
-			throws GtnFrameworkGeneralException {
-		HierarchyLevelDefinitionBean LastHierarchyLevelDto = HierarchyLevelDefinitionBean
+			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList) {
+		HierarchyLevelDefinitionBean lastHierarchyLevelDto = HierarchyLevelDefinitionBean
 				.getLastLinkedLevel(hierarchyDefinitionList);
-		GtnFrameworkQueryGeneratorBean queryBean = getQueryToFilterCustomerProduct(LastHierarchyLevelDto,
+		GtnFrameworkQueryGeneratorBean queryBean = getQueryToFilterCustomerProduct(lastHierarchyLevelDto,
 				inputBean.getGroupFilterCompenies());
 		addRelationSelectClauseForSelectedTable(queryBean);
-		addRelationShipJoinMoveQuery(queryBean, inputBean.getSelectedHierarchyLevelDto(), LastHierarchyLevelDto,
+		addRelationShipJoinMoveQuery(queryBean, inputBean.getSelectedHierarchyLevelDto(), lastHierarchyLevelDto,
 				hierarchyDefinitionList);
 		getDeductionJoin(inputBean.getDeductionLevel(), inputBean.getDeductionValue(), queryBean);
 		return queryBean.generateQuery();
@@ -150,9 +148,9 @@ public class GtnFrameworkSelectedTblLoadQueryGenerator {
 				GtnFrameworkOperatorType.EQUAL_TO);
 		relationMoveJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
-		relationMoveJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
+		relationMoveJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO,
 				"'".concat(selectedHierarchyLevelDto.getHierarchyNo()).concat("%'"), GtnFrameworkOperatorType.LIKE);
-		relationMoveJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
+		relationMoveJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO,
 				getHierarchyNoForRelationShip(levelHierarchyLevelDefinitionList, lastLinkedHierarchyLevelDto),
 				GtnFrameworkOperatorType.LIKE);
 		relationTwoParentJoin(queryBean, relationShipLevelDef, GtnFrameworkOperatorType.LESSTHANOREQUALTO);
@@ -167,14 +165,12 @@ public class GtnFrameworkSelectedTblLoadQueryGenerator {
 				"PARENT_RELATION.RELATIONSHIP_BUILDER_SID", GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoinTwo.addConditionBean("PARENT_RELATION.VERSION_NO", null, GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoinTwo.addConditionBean("PARENT_RELATION.LEVEL_NO", null, operator);
-		relationJoinTwo.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
+		relationJoinTwo.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO,
 				"PARENT_RELATION.HIERARCHY_NO+'%'", GtnFrameworkOperatorType.LIKE);
 	}
 
 	public GtnFrameworkQueryGeneratorBean getQueryForLinkedLevel(
 			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
-		System.out.println(selectedHierarchyLevelDto.getHierarchyLevelDefinitionSid());
-		System.out.println(selectedHierarchyLevelDto.getHierarchyDefinitionSid());
 		GtnFrameworkHierarchyQueryBean queryBean = fileService.getQueryFromFile(
 				selectedHierarchyLevelDto.getHierarchyDefinitionSid(),
 				selectedHierarchyLevelDto.getHierarchyLevelDefinitionSid(), selectedHierarchyLevelDto.getVersionNo());
@@ -185,26 +181,26 @@ public class GtnFrameworkSelectedTblLoadQueryGenerator {
 	private String getHierarchyNoForRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
 		StringBuilder query = new StringBuilder();
-		StringBuilder finalQuery = new StringBuilder();
+		StringBuilder lastQuery = new StringBuilder();
 		for (int i = 0; i < selectedHierarchyLevelDto.getLevelNo(); i++) {
-			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
-			if (leveldto.getTableName().isEmpty()) {
+			HierarchyLevelDefinitionBean tempDto = hierarchyLevelDefinitionList.get(i);
+			if (tempDto.getTableName().isEmpty()) {
 				query.append(",'%'");
 				query.append(",'.'");
 				continue;
 			}
 			query.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
+					.getKeyRelationBeanUsingTableIdAndColumnName(tempDto.getTableName(), tempDto.getFieldName());
 			query.append(singleColumnRelationBean.getActualTtableName() + "."
 					+ singleColumnRelationBean.getWhereClauseColumn());
 			query.append(",'.'");
 		}
-		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
-		finalQuery.append(query);
+		lastQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
+		lastQuery.append(query);
 		query.append(",'%'");
-		finalQuery.append(" ,'%')");
-		return finalQuery.toString();
+		lastQuery.append(" ,'%')");
+		return lastQuery.toString();
 	}
 
 	public void addGroupFilterCondition(HierarchyLevelDefinitionBean selectedHierarchyLevelDto,

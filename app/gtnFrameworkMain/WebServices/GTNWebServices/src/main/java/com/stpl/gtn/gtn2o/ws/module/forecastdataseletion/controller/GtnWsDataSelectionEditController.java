@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.forecastconfiguration.controller.GtnWsForecastConfigurationController;
 import com.stpl.gtn.gtn2o.ws.module.forecastdataseletion.service.GtnFrameworkCustomerLevelLoadService;
 import com.stpl.gtn.gtn2o.ws.module.forecastdataseletion.service.GtnFrameworkLevelValueMapQueryService;
 import com.stpl.gtn.gtn2o.ws.module.forecastdataseletion.service.GtnFrameworkProductLevelLoadService;
@@ -31,6 +33,9 @@ public class GtnWsDataSelectionEditController {
 	private GtnFrameworkSelectedTblLoadService productSelectedLoadService;
 	@Autowired
 	private GtnFrameworkLevelValueMapQueryService levelValueMapQueryService;
+
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsForecastConfigurationController.class);
+
 	public GtnWsDataSelectionEditController() {
 		super();
 	}
@@ -76,7 +81,7 @@ public class GtnWsDataSelectionEditController {
 
 	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_SELECTED_PRODUCT, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadProductSelecedChild(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 
 		try {
 		GtnWsForecastRequest forecastRequet = gtnWsRequest.getGtnWsForecastRequest();
@@ -91,7 +96,7 @@ public class GtnWsDataSelectionEditController {
 		response.setGtnWsForecastResponse(forecastResponse);
 			return response;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		return null;
 	}
@@ -110,7 +115,7 @@ public class GtnWsDataSelectionEditController {
 		response.setGtnWsForecastResponse(forecastResponse);
 			return response;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		return null;
 	}

@@ -16,7 +16,9 @@ import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
+import com.stpl.gtn.gtn2o.ws.module.forecastconfiguration.controller.GtnWsForecastConfigurationController;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
@@ -26,13 +28,17 @@ public class GtnFrameworkLevelValueMapQueryService {
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 	@Autowired
-	GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
+	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 	private static final String RELATIONSHIP_BUILD_VERSION = "RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO";
 	private static final String RELATIONSHIP_BUILD_HIERARCHY_NO = "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO";
 	private static final String RELATIONSHIP_LEVEL_DEFN = "RELATIONSHIP_LEVEL_DEFINITION";
 	private static final String RELATIONSHIP_LEVEL_RELATIONSHIP_BUILDER_SID = "RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID";
+	private final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsForecastConfigurationController.class);
+	public GtnFrameworkLevelValueMapQueryService() {
+		super();
+	}
 
 	public String getQueryForLevelValueMap(GtnForecastHierarchyInputBean inputBean)
 			throws GtnFrameworkGeneralException {
@@ -81,7 +87,7 @@ public class GtnFrameworkLevelValueMapQueryService {
 		finalQuery.replace(finalQuery.lastIndexOf("union"), finalQuery.length() - 1, "");
 		return finalQuery.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		return "";
 	}

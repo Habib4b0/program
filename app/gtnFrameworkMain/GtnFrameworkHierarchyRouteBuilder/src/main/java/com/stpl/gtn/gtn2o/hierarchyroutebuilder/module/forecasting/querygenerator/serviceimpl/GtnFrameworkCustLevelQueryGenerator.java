@@ -38,7 +38,7 @@ public class GtnFrameworkCustLevelQueryGenerator implements GtnFrameworkLevelLoa
 	public GtnFrameworkQueryGeneratorBean getAvailableTableLoadQuery(GtnForecastHierarchyInputBean inputBean,
 			HierarchyLevelDefinitionBean lastLevelDto, List<HierarchyLevelDefinitionBean> hierarchyDefinitionList) {
 		GtnFrameworkQueryGeneratorBean queryBean = getQueryToFilterCustomerProduct(inputBean, lastLevelDto);
-		addRelationSelectClause(queryBean, inputBean);
+		addRelationSelectClause(queryBean);
 		addRelationShipJoin(queryBean, lastLevelDto, hierarchyDefinitionList);
 		getDeductionJoin(inputBean.getDeductionLevel(), inputBean.getDeductionValue(), queryBean);
 		return queryBean;
@@ -81,8 +81,7 @@ public class GtnFrameworkCustLevelQueryGenerator implements GtnFrameworkLevelLoa
 		}
 	}
 
-	private GtnFrameworkQueryGeneratorBean addRelationSelectClause(GtnFrameworkQueryGeneratorBean queryBean,
-			GtnForecastHierarchyInputBean inputBean) {
+	private GtnFrameworkQueryGeneratorBean addRelationSelectClause(GtnFrameworkQueryGeneratorBean queryBean) {
 		queryBean.removeAllSelectClause();
 		queryBean.addSelectClauseBean("PARENT_RELATION.RELATIONSHIP_LEVEL_VALUES", "RELATIONSHIP_LEVEL_VALUES",
 				Boolean.TRUE, null);
@@ -117,13 +116,13 @@ public class GtnFrameworkCustLevelQueryGenerator implements GtnFrameworkLevelLoa
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
-				getHierarchyNoForRelationShip(hierarchyDefinitionList, selectedHierarchyLevelDto),
+				getHierarchyNoRelationShip(hierarchyDefinitionList, selectedHierarchyLevelDto),
 				GtnFrameworkOperatorType.LIKE);
 		relationTwoParentJoin(queryBean, relationShipLevelDef, GtnFrameworkOperatorType.EQUAL_TO);
 
 	}
 
-	private String getHierarchyNoForRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
+	private String getHierarchyNoRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
 		StringBuilder query = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
@@ -135,10 +134,10 @@ public class GtnFrameworkCustLevelQueryGenerator implements GtnFrameworkLevelLoa
 				continue;
 			}
 			query.append(",");
-			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
+			GtnFrameworkSingleColumnRelationBean keyRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName() + "."
-					+ singleColumnRelationBean.getWhereClauseColumn());
+			query.append(keyRelationBean.getActualTtableName() + "."
+					+ keyRelationBean.getWhereClauseColumn());
 			query.append(",'.'");
 		}
 		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");

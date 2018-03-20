@@ -47,13 +47,14 @@ public class GtnFrameworkCCPCustomerQueryGenerator implements GtnFrameworkCCPIns
 		HierarchyLevelDefinitionBean lastLinketLevel = HierarchyLevelDefinitionBean
 				.getLastLinkedLevel(hierarchyLevelDefinitionList);
 		GtnFrameworkQueryGeneratorBean queryBean = getCustomerContractSidQuery(selectedRelationLevelList,
-				hierarchyLevelDefinitionList, lastLinketLevel);
+				lastLinketLevel);
+		if (queryBean != null) {
 		queryBean.addSelectClauseBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, Boolean.TRUE, null);
 		getParentHierarchyCondition(queryBean, lastLinketLevel);
-		getWhereQueryForCustomerAndContract(selectedRelationLevelList, queryBean,
-				relationVersionNo);
-		StringBuilder query = new StringBuilder(queryBean.generateQuery());
-		return query;
+			getWhereQueryForCustomerAndContract(selectedRelationLevelList, queryBean);
+			return new StringBuilder(queryBean.generateQuery());
+		}
+		return new StringBuilder("");
 	}
 
 	private void getParentHierarchyCondition(GtnFrameworkQueryGeneratorBean queryBean,
@@ -75,13 +76,11 @@ public class GtnFrameworkCCPCustomerQueryGenerator implements GtnFrameworkCCPIns
 
 	private GtnFrameworkQueryGeneratorBean getCustomerContractSidQuery(
 			List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerContractList,
-			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList,
 			HierarchyLevelDefinitionBean lastLinketLevel) {
 		if (selectedCustomerContractList == null || selectedCustomerContractList.isEmpty())
 			return null;
 
-		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(lastLinketLevel,
-				Collections.<String>emptyList());
+		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(lastLinketLevel);
 		queryBean.removeAllWhereClauseConfigList();
 		queryBean.removeSelectClauseByIndex(0);
 		queryBean.removeSelectClauseByIndex(0);
@@ -93,8 +92,7 @@ public class GtnFrameworkCCPCustomerQueryGenerator implements GtnFrameworkCCPIns
 
 	private void getWhereQueryForCustomerAndContract(
 			List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerContractList,
-			GtnFrameworkQueryGeneratorBean queryBean,
-			int relationVersionNo) {
+			GtnFrameworkQueryGeneratorBean queryBean) {
 		List<GtnFrameworkRelationshipLevelDefintionBean> modifiableList = new ArrayList<>(selectedCustomerContractList);
 		Collections.sort(modifiableList);
 
@@ -108,8 +106,7 @@ public class GtnFrameworkCCPCustomerQueryGenerator implements GtnFrameworkCCPIns
 
 
 	private GtnFrameworkQueryGeneratorBean getQueryForLinkedLevel(
-			HierarchyLevelDefinitionBean selectedHierarchyLevelDto,
-			List<String> groupFilteredItems) {
+			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
 		GtnFrameworkHierarchyQueryBean queryBaen = fileReadWriteService.getQueryFromFile(
 				selectedHierarchyLevelDto.getHierarchyDefinitionSid(),
 				selectedHierarchyLevelDto.getHierarchyLevelDefinitionSid(),

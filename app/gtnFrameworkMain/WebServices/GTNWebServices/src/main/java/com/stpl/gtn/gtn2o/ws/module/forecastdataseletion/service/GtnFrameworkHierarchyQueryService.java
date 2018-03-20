@@ -22,6 +22,10 @@ public class GtnFrameworkHierarchyQueryService {
 	@Autowired
 	private GtnFrameworkDiscountQueryGenerator queryGeneratorService;
 
+	public GtnFrameworkHierarchyQueryService() {
+		super();
+	}
+
 	public String queryFormationForLoadingDdlb(GtnForecastHierarchyInputBean inputBean)
 			throws GtnFrameworkGeneralException {
 

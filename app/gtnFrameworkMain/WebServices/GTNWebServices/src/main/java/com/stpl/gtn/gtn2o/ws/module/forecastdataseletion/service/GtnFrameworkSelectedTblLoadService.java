@@ -21,6 +21,9 @@ public class GtnFrameworkSelectedTblLoadService {
 	@Autowired
 	private GtnFrameworkSelectedTblLoadQueryGenerator service;
 
+	public GtnFrameworkSelectedTblLoadService() {
+		super();
+	}
 	public String getChildLevelQueryForProduct(HierarchyLevelDefinitionBean hierarchyLevelBean, String string) {
 		return service.getChildLevelQueryForProduct(hierarchyLevelBean, string);
 	}
