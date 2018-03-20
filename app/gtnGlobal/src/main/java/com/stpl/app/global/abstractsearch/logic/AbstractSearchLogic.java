@@ -194,9 +194,9 @@ public class AbstractSearchLogic {
                 }
                 
                 if(lastIndex==i){
-                    builder.append('"' ).append( TAB ).append( methodStringValue ).append( '"');
+                    builder.append('"' ).append( '\t' ).append( methodStringValue ).append( '"');
                 }else{
-                    builder.append('"' ).append( TAB ).append( methodStringValue ).append( '"' ).append( ',');
+                    builder.append('"' ).append( '\t' ).append( methodStringValue ).append( '"' ).append( ',');
                 }
             }
                                    
