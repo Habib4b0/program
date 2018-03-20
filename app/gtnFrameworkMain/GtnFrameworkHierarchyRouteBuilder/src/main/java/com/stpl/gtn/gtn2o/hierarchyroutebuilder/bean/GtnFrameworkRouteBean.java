@@ -59,4 +59,9 @@ public class GtnFrameworkRouteBean {
 		hops++;
 	}
 
+	public void clearPathListBean() {
+		pathList.clear();
+
+	}
+
 }

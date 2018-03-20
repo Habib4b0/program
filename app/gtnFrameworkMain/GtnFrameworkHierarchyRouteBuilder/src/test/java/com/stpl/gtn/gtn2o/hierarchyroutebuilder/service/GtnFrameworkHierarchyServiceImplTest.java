@@ -1,4 +1,4 @@
-package GtnFrameworkHierarchyRouteBuilder.GtnFrameworkHierarchyRouteBuilder;
+package com.stpl.gtn.gtn2o.hierarchyroutebuilder.service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkRouteBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 
 
 /**
@@ -27,17 +26,6 @@ public class GtnFrameworkHierarchyServiceImplTest {
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
 
-	/**
-	 * Create the test case
-	 *
-	 * @param testName
-	 *            name of the test case
-	 */
-	public GtnFrameworkHierarchyServiceImplTest() {
-		/*
-		* 
-		*/
-	}
 
 	@Test
 	public void creatQueryForMultiLevelHierarchy() {
@@ -46,20 +34,28 @@ public class GtnFrameworkHierarchyServiceImplTest {
 		hierarchyService.getQueryByTableNameAndHierarchyTypeForMultiLevel(entityList, "Deduction Hierarchy", queryBean);
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(queryBean);
 		String finalQuery = queryBean.generateQuery();
-
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 	}
 
 	@Test
 	public void getRoutePath() {
-		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(6, 7);
+		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(5, 1);
+		Object[] path = { 7, 4 };
+		Assert.assertArrayEquals(routePath.getPathList().toArray(), path);
 
-		String finalQuery = queryBean.generateQuery();
+		GtnFrameworkRouteBean customerContractRoutePath = hierarchyService.getRoutePath(1, 2);
+		Object[] customerContractPath = { 4, 3, 2, 1 };
+		Assert.assertArrayEquals(customerContractRoutePath.getPathList().toArray(), customerContractPath);
 
-		Assert.assertEquals(true, !finalQuery.isEmpty());
-		Assert.assertEquals(true, routePath.getPathList().isEmpty());
+		GtnFrameworkRouteBean companyItemRoutePath = hierarchyService.getRoutePath(6, 7);
+		Object[] companyItemPath = { 12, 9, 8 };
+		Assert.assertArrayEquals(companyItemRoutePath.getPathList().toArray(), companyItemPath);
+
+		GtnFrameworkRouteBean invalidRoutePath = hierarchyService.getRoutePath(1, 10);
+		Object[] invalidPath = {};
+		Assert.assertArrayEquals(invalidRoutePath.getPathList().toArray(), invalidPath);
 	}
+
 
 	@Test
 	public void getPathByTableNameAndHierarchyType() {
@@ -82,7 +78,6 @@ public class GtnFrameworkHierarchyServiceImplTest {
 		hierarchyService.createQuery(routePath, queryBean);
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(queryBean);
 		String finalQuery = queryBean.generateQuery();
-		System.out.println("finalQuery--->>" + finalQuery);
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 		Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}

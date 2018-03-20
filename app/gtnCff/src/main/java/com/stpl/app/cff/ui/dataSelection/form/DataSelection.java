@@ -4,6 +4,40 @@
  */
 package com.stpl.app.cff.ui.dataSelection.form;
 
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRIVATE_VIEW;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_GROUP;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_HIERARCHY;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PUBLIC_VIEW;
+import static com.stpl.app.cff.util.Constants.LabelConstants.PRIVATE_VIEW;
+import static com.stpl.app.cff.util.Constants.LabelConstants.PUBLIC_VIEW;
+import static com.stpl.app.cff.util.Constants.LabelConstants.SAVE_VIEW;
+import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_GROUP_LOOKUP;
+import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_HIERARCHY_LOOKUP;
+import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_GROUP_LOOKUP;
+import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_HIERARCHY_LOOKUP;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractDataSelection;
@@ -19,20 +53,6 @@ import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRIVATE_VIEW;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_GROUP;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_HIERARCHY;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PUBLIC_VIEW;
-import static com.stpl.app.cff.util.Constants.LabelConstants.PRIVATE_VIEW;
-import static com.stpl.app.cff.util.Constants.LabelConstants.PUBLIC_VIEW;
-import static com.stpl.app.cff.util.Constants.LabelConstants.SAVE_VIEW;
-import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_GROUP_LOOKUP;
-import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_HIERARCHY_LOOKUP;
-import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_GROUP_LOOKUP;
-import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_HIERARCHY_LOOKUP;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -57,23 +77,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.ComboBox;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -315,8 +318,8 @@ public class DataSelection extends AbstractDataSelection {
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.parseInt(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList,
-						relationVersionNo,cffEligibleDate.getValue());
+						Integer.parseInt(relationshipSid), tempGroupFileter, customerHierarchyDto.getHierarchyId(), "",
+						"", relationVersionNo, cffEligibleDate.getValue(), customerDescriptionMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -484,8 +487,7 @@ public class DataSelection extends AbstractDataSelection {
 				CFFQueryUtils.createTempTables(sessionDTO);
 				relationLogic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(),
 						selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
-						customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-						custRelationVersionNo, prodRelationVersionNo,projectionIdValue);
+						dataSelectionDTO);
 				insertCffDetailsUsingExecutorService(projectionIdValue, sessionDTO.getCurrentTableNames());
 				sessionDTO.setCustomerLevelDetails(
 						cffLogic.getLevelValueDetails(sessionDTO, customerRelation.getValue(), true));
@@ -3092,8 +3094,8 @@ public class DataSelection extends AbstractDataSelection {
 						: groupFilteredItems;
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
 						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
-						hierarchyLevelDefinitionList, customerHierarchyDefinitionList, productRelationVersionNo,
-						customerRelationVersionNo, getBusinessUnit().getValue());
+						"", "", productRelationVersionNo, customerRelationVersionNo, getBusinessUnit().getValue(),
+						productDescriptionMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}

@@ -1,5 +1,32 @@
 package com.stpl.app.gtnforecasting.logic;
 
+import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
+import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
+import static com.stpl.app.gtnforecasting.utils.Constant.STRING_EMPTY;
+import static com.stpl.app.utils.Constants.CommonConstants.CONTRACT_DETAILS;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.MenuItemDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
@@ -21,9 +48,6 @@ import com.stpl.app.gtnforecasting.tree.node.TreeNode;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.utils.Constant.STRING_EMPTY;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CustomViewDetails;
@@ -39,43 +63,27 @@ import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
-import static com.stpl.app.utils.Constants.CommonConstants.CONTRACT_DETAILS;
 import com.stpl.app.utils.QueryUtils;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.custommenubar.CustomMenuBar;
-import org.asi.ui.custommenubar.MenuItemDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
-import com.stpl.ifs.util.constants.BooleanConstant;
 /**
  *
  * @author Abhiram
@@ -95,7 +103,6 @@ public class CommonLogic {
     
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
-    private final GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
     /**
      * The Constant LOGGER.
      */
@@ -4658,10 +4665,6 @@ public class CommonLogic {
                     maintableName = companyMaster;
                     primaryKey = getPrimaryKeyColumn(maintableName);
                 }
-                String gtnFrameworkQuery = gtnFrameworkHierarchyServiceImpl.getQueryByTableNameAndHierarchyTypeForMultiLevel(new ArrayList<>(tableList), "CUSTOMER HIERARCHY");
-
-                GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
-                GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean.getKeyRelationBeanUsingTableIdAndColumnName(tableName, fieldName);
 
                 String fullUserDefinedQuery = SQlUtil.getQuery("user-defined-level-values").replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                         .replace(Constant.LEVEL_CAPS, type).replace("@VER", version);
@@ -4669,7 +4672,9 @@ public class CommonLogic {
                 String query = fullUserDefinedQuery;
                 boolean isuserDefined=Constant.USER_DEFINED.equals(userDefined);
                 if (!isuserDefined) {
-                    formedQuery = queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkQuery, singleColumnRelationBean, maintableName, "C",projDto,Integer.parseInt(type),customerLevelList);
+					projDto.setProjectionId(projectionId);
+					GtnForecastHierarchyInputBean inputBean = createInputForWebservice(projDto, type, "C");
+					formedQuery = getQueryForLoadingDiscount(inputBean);
                     query = formedQuery;
                 }
                
@@ -4714,16 +4719,12 @@ public class CommonLogic {
                     tableNameList.add(leveldto.getTableName());
                 }
                 String primaryKey = getPrimaryKeyColumn(mainTableName);
-
+				GtnForecastHierarchyInputBean inputBean = createInputForWebservice(projectionDto, type, "P");
       
-                String gtnFrameworkRouteBean = gtnFrameworkHierarchyServiceImpl.getQueryByTableNameAndHierarchyTypeForMultiLevel(tableNameList, "PRODUCT HIERARCHY");
-                GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
-                GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean.getKeyRelationBeanUsingTableIdAndColumnName(tableName, fieldName);
                 String query = Constant.USER_DEFINED.equals(userDefined)
                         ? SQlUtil.getQuery("user-defined-level-values").replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                                 .replace(Constant.LEVEL_CAPS, type).replace("@VER", versionNo)
-                        : queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkRouteBean,
-                                singleColumnRelationBean, mainTableName, "P",projectionDto,Integer.parseInt(type),productLevelList);
+						: getQueryForLoadingDiscount(inputBean);
 
                 query = customerFilter.isEmpty() ? query
                         : (SQlUtil.getQuery("customer-dynamic-filter").replace(Constant.LEVEL_VALUES, customerFilter.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
@@ -4743,7 +4744,40 @@ public class CommonLogic {
         return stockList;
     }
     
-    
+	public static String getQueryForLoadingDiscount(GtnForecastHierarchyInputBean inputBean) {
+		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+		forecastRequest.setInputBean(inputBean);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		request.setGtnWsForecastRequest(forecastRequest);
+		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_HIERARCHY_CONTROL
+						+ GtnWebServiceUrlConstants.GTN_QUERY_FOR_TABLENAME_HIERARCHY_TYPE,
+				request, getGsnWsSecurityToken());
+		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
+		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
+		return outputBean.getHieraryQuery();
+
+	}
+
+	public static GtnWsSecurityToken getGsnWsSecurityToken() {
+		GtnWsSecurityToken token = new GtnWsSecurityToken();
+		Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
+		String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
+		token.setUserId(userId);
+		token.setSessionId(sessionId.toString());
+		return token;
+	}
+
+	private static GtnForecastHierarchyInputBean createInputForWebservice(ProjectionSelectionDTO projectionDto,
+			String levelNo,
+			String hieIndicator) {
+		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+		inputBean.setLevelNo(Integer.parseInt(levelNo));
+		inputBean.setProjectionId(projectionDto.getProjectionId());
+		inputBean.setHierarchyIndicator(hieIndicator);
+		return inputBean;
+	}
     public List<Object[]> getDeductionLevelValues(int projectionId, String type, ProjectionSelectionDTO projectionDto,List<Object> productFilter,List<Object> customerFilter) {
         SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
         List deductionValuesList = new ArrayList<>();
@@ -4835,44 +4869,6 @@ public class CommonLogic {
         return String.valueOf(primaryKeyList.get(0));
     }
 
-    private String queryFormationForLoadingDdlb(String fieldName, String childTableName,String primaryKey ,String joinQuery, GtnFrameworkSingleColumnRelationBean singleColumnRelationBean,String mainTable,String indicator,ProjectionSelectionDTO projectionDto,int selectedLevelNo,List levelList) {
-        StringBuilder formedQuery = new StringBuilder();
-        boolean isCustomer="C".equalsIgnoreCase(indicator);
-        String aliasNameField = childTableName + "." + fieldName;
-        String keyField = mainTable + "." + primaryKey;
-        String helperJoin = gtnFrameworkHierarchyServiceImpl.addTableJoin(singleColumnRelationBean);
-        String relationShipsid = isCustomer ? projectionDto.getSessionDTO().getCustRelationshipBuilderSid() : projectionDto.getSessionDTO().getProdRelationshipBuilderSid();
-            if (helperJoin.isEmpty()) {
-                formedQuery.append(Constant.SELECT_DISTINCT).append(aliasNameField).append(',').append(keyField).append(" FROM ");
-                formedQuery.append(joinQuery);
-                if (isCustomer) {
-                    formedQuery.append(" JOIN CCP_DETAILS AS CCP_DETAILS ON CCP_DETAILS.COMPANY_MASTER_SID = COMPANY_MASTER.COMPANY_MASTER_SID");
-                    formedQuery.append(" AND CCP_DETAILS.CONTRACT_MASTER_SID=CONTRACT_MASTER.CONTRACT_MASTER_SID");
-                } else {
-                    formedQuery.append(" JOIN CCP_DETAILS AS CCP_DETAILS ON CCP_DETAILS.ITEM_MASTER_SID = ITEM_MASTER.ITEM_MASTER_SID");
-                }
-                formedQuery.append(" JOIN ST_CCP_HIERARCHY AS ST_CCP_HIERARCHY ON ST_CCP_HIERARCHY.CCP_DETAILS_SID");
-                formedQuery.append(" = CCP_DETAILS.CCP_DETAILS_SID AND ST_CCP_HIERARCHY.").append(isCustomer ? Constant.CUST_HIERARCHY_NO : Constant.PROD_HIERARCHY_NO);
-                formedQuery.append(getHierarchyNoForRelationShip(levelList,((List<Leveldto>)Leveldto.getBeanByLevelNo(levelList, selectedLevelNo).get(1)).get(0),relationShipsid));
-            } else {
-                List<String> columnList = gtnFrameworkHierarchyServiceImpl.getMappingColumns(singleColumnRelationBean);
-                formedQuery.append(Constant.SELECT_DISTINCT).append(columnList.get(0)).append(',').append(columnList.get(1)).append(" FROM ");
-                formedQuery.append(joinQuery);
-                formedQuery.append(helperJoin);
-                if (isCustomer) {
-                    formedQuery.append(" JOIN CCP_DETAILS AS CCP_DETAILS ON CCP_DETAILS.COMPANY_MASTER_SID = COMPANY_MASTER.COMPANY_MASTER_SID ");
-                    formedQuery.append(" AND CCP_DETAILS.CONTRACT_MASTER_SID=CONTRACT_MASTER.CONTRACT_MASTER_SID");
-                } else {
-                    formedQuery.append(" JOIN CCP_DETAILS AS CCP_DETAILS ON CCP_DETAILS.ITEM_MASTER_SID = ITEM_MASTER.ITEM_MASTER_SID");
-                }
-                formedQuery.append(" JOIN ST_CCP_HIERARCHY AS ST_CCP_HIERARCHY ON ST_CCP_HIERARCHY.CCP_DETAILS_SID");
-                formedQuery.append(" = CCP_DETAILS.CCP_DETAILS_SID AND ST_CCP_HIERARCHY.").append(isCustomer ? Constant.CUST_HIERARCHY_NO : Constant.PROD_HIERARCHY_NO);;
-                formedQuery.append(getHierarchyNoForRelationShip(levelList,((List<Leveldto>)Leveldto.getBeanByLevelNo(levelList, selectedLevelNo).get(1)).get(0),relationShipsid));
-
-            }
-  
-        return formedQuery.toString();
-    }
     
     public static void checkMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem, String obj) {
         if (customMenuItem != null && customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
@@ -5165,31 +5161,6 @@ public class CommonLogic {
         return value;
     }
     
-    public String getHierarchyNoForRelationShip(List<Leveldto> hierarchyLevelDefinitionList,
-			Leveldto selectedCustomerHierarchyLevelDto,String relationSid) {
-                GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean=GtnFrameworkEntityMasterBean.getInstance();
-		StringBuilder tempQuery = new StringBuilder();
-		StringBuilder finalQuery = new StringBuilder();
-		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
-			Leveldto leveldto = hierarchyLevelDefinitionList.get(i);
-			if (leveldto.getTableName().isEmpty()) {
-				tempQuery.append(",'%'");
-				tempQuery.append(",'.'");
-				continue;
-}
-			tempQuery.append(',');
-			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			tempQuery.append(singleColumnRelationBean.getActualTtableName().concat(".")
-					.concat(singleColumnRelationBean.getWhereClauseColumn()));
-			tempQuery.append(",'.'");
-		}
-		finalQuery.append(" like concat( ").append(relationSid).append(",'-'");
-		finalQuery.append(tempQuery);
-		tempQuery.append(",'%'");
-		finalQuery.append(",'%')");
-		return finalQuery.toString();
-	}
     
      public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter, CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
         String newLevel = StringUtils.EMPTY;

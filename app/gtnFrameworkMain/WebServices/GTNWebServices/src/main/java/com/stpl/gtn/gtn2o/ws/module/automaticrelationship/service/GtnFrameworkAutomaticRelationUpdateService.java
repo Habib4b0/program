@@ -263,4 +263,35 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlquery);
 	}
 
+	public List<HierarchyLevelDefinitionBean> getHierarchyBuilderBasedOnProjectionId(int projectionId,
+			String hierarchyIndicator) throws GtnFrameworkGeneralException {
+		List<Object> input = new ArrayList<>();
+		input.add(projectionId);
+		String queryName;
+		if (hierarchyIndicator.equalsIgnoreCase("C")) {
+			queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId Customer";
+		} else {
+			queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId PRoduct";
+		}
+		String finalQuery = gtnWsSqlService.getQuery(input, queryName);
+		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
+		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = new ArrayList<>();
+		for (Object[] objects : resultList) {
+			HierarchyLevelDefinitionBean hierarchyBean = new HierarchyLevelDefinitionBean();
+			getIntegerValue(0, objects);
+			hierarchyBean.setHierarchyLevelDefinitionSid(getIntegerValue(0, objects));
+			hierarchyBean.setHierarchyDefinitionSid(getIntegerValue(1, objects));
+			hierarchyBean.setLevelName(objects[2] == null ? "" : objects[2].toString());
+			hierarchyBean.setLevelValueReference(objects[3] == null ? "" : objects[3].toString());
+			hierarchyBean.setLevelNo(getIntegerValue(4, objects));
+			hierarchyBean.setTableName(objects[5] == null ? "" : objects[5].toString());
+			hierarchyBean.setFieldName(objects[6] == null ? "" : objects[6].toString());
+			hierarchyBean.setVersionNo(getIntegerValue(7, objects));
+			hierarchyBean.setDefaultVlaue(getIntegerValue(8, objects));
+			hierarchyDefinitionList.add(hierarchyBean);
+		}
+
+		return hierarchyDefinitionList;
+	}
+
 }

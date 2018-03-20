@@ -862,14 +862,17 @@ TEMP.HIERARCHY_NO
                     HLD.FIELD_NAME,
                     RLD.RELATIONSHIP_LEVEL_SID,
                     RLD.HIERARCHY_NO,
-                    RLD.RELATIONSHIP_BUILDER_SID
+                    RLD.RELATIONSHIP_BUILDER_SID,
+                     HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+                    HLD.HIERARCHY_DEFINITION_SID,
+                    HLD.VERSION_NO
                 FROM 
                     dbo.RELATIONSHIP_LEVEL_DEFINITION RLD 
                         JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
                     AND RLD.HIERARCHY_NO IN (?)
                     AND RLD.VERSION_NO = ?
-                    AND HLD.VERSION_NO = ?  
-                    order by RLD.LEVEL_NO          
+                    AND HLD.VERSION_NO = ?      
+                     order by RLD.LEVEL_NO asc;         
             ]]>
             </query>
         </entity>
@@ -887,7 +890,10 @@ TEMP.HIERARCHY_NO
                     HLD.FIELD_NAME,
                     RLD.RELATIONSHIP_LEVEL_SID,
                     RLD.HIERARCHY_NO,
-                    RLD.RELATIONSHIP_BUILDER_SID
+                    RLD.RELATIONSHIP_BUILDER_SID,
+                     HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+                    HLD.HIERARCHY_DEFINITION_SID,
+                    HLD.VERSION_NO
                 FROM
                     dbo.RELATIONSHIP_LEVEL_DEFINITION RLD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
                         ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
