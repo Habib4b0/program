@@ -8,36 +8,43 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 
 public class LevelDtoToRelationShipBeanConverter {
 
+	/**
+	 * No need to create object for this class
+	 */
+	private LevelDtoToRelationShipBeanConverter() {
+		super();
+	}
+
 	public static List<GtnFrameworkRelationshipLevelDefintionBean> convetToRelationBean(
 			List<Leveldto> selectedCustomerContractList) {
-		List<GtnFrameworkRelationshipLevelDefintionBean> finalList = new ArrayList<>();
+		List<GtnFrameworkRelationshipLevelDefintionBean> finalForecastList = new ArrayList<>();
 		for (Leveldto levelDto : selectedCustomerContractList) {
 			GtnFrameworkRelationshipLevelDefintionBean relationBean = convertLevelDtoToRelationBean(levelDto);
-			finalList.add(relationBean);
+			finalForecastList.add(relationBean);
 		}
-		return finalList;
+		return finalForecastList;
 	}
 
 	public static GtnFrameworkRelationshipLevelDefintionBean convertLevelDtoToRelationBean(Leveldto levelDto) {
-		GtnFrameworkRelationshipLevelDefintionBean relationBean = new GtnFrameworkRelationshipLevelDefintionBean();
-		relationBean.setLevelName(levelDto.getLevel());
-		relationBean.setLevelNo(levelDto.getLevelNo());
-		relationBean.setRelationshipLevelSid(levelDto.getRelationshipLevelSid());
-		relationBean.setRelationShipLevelValue(levelDto.getRelationshipLevelValue() == null ? 0
-				: Integer.valueOf(levelDto.getRelationshipLevelValue()));
-		relationBean.setTableName(levelDto.getTableName());
-		relationBean.setFieldName(levelDto.getFieldName());
-		relationBean.setHierarchyNo(levelDto.getHierarchyNo());
-		relationBean.setHierarchyDefinitionSid(levelDto.getHierarchyId());
-		relationBean.setHierarchyLevelDefinitionSid(levelDto.getHierarchyLevelDefnId() == null ? 0
-				: Integer.valueOf(levelDto.getHierarchyLevelDefnId()));
-		relationBean.setLevelValueReference(levelDto.getLevelValueReference());
-		relationBean.setRelationshipBuilderSid(levelDto.getRelationShipBuilderId() == null ? 0
-				: Integer.valueOf(levelDto.getRelationShipBuilderId()));
-		relationBean.setRelationshipVersionNo(levelDto.getRelationShipVersionNo());
-		relationBean.setHierarchyVersionNo(levelDto.getHierarchyVersionNo());
-		relationBean.setHierarchyCategory(levelDto.getHierarchyType());
-		return relationBean;
+		GtnFrameworkRelationshipLevelDefintionBean forecast = new GtnFrameworkRelationshipLevelDefintionBean();
+		forecast.setLevelName(levelDto.getLevel());
+		forecast.setLevelNo(levelDto.getLevelNo());
+		forecast.setRelationshipLevelSid(levelDto.getRelationshipLevelSid());
+		forecast.setRelationShipLevelValue(levelDto.getRelationshipLevelValue() == null ? 0
+				: Integer.parseInt(levelDto.getRelationshipLevelValue()));
+		forecast.setTableName(levelDto.getTableName());
+		forecast.setFieldName(levelDto.getFieldName());
+		forecast.setHierarchyNo(levelDto.getHierarchyNo());
+		forecast.setHierarchyDefinitionSid(levelDto.getHierarchyId());
+		forecast.setHierarchyLevelDefinitionSid(levelDto.getHierarchyLevelDefnId() == null ? 0
+				: Integer.parseInt(levelDto.getHierarchyLevelDefnId()));
+		forecast.setLevelValueReference(levelDto.getLevelValueReference());
+		forecast.setRelationshipBuilderSid(levelDto.getRelationShipBuilderId() == null ? 0
+				: Integer.parseInt(levelDto.getRelationShipBuilderId()));
+		forecast.setRelationshipVersionNo(levelDto.getRelationShipVersionNo());
+		forecast.setHierarchyVersionNo(levelDto.getHierarchyVersionNo());
+		forecast.setHierarchyCategory(levelDto.getHierarchyType());
+		return forecast;
 	}
 
 }
