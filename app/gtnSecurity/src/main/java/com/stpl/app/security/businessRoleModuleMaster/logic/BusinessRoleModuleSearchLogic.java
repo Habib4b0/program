@@ -40,7 +40,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
         super(SearchBusinessRoleModuleForm.class);
 
     }
-    private transient final BusinessRoleModuleMasterLogicDAO dao = new BusinessRoleModuleMasterLogicDAOImpl();
+    private final transient BusinessRoleModuleMasterLogicDAO dao = new BusinessRoleModuleMasterLogicDAOImpl();
     /**
      *
      */

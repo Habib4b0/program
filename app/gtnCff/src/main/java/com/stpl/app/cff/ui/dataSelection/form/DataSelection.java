@@ -110,8 +110,6 @@ public class DataSelection extends AbstractDataSelection {
 	private final ExecutorService service = ThreadPool.getInstance().getService();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
-	private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
-	private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
 	private Future customerFuture;
 	private Future productFuture;
 
@@ -310,7 +308,7 @@ public class DataSelection extends AbstractDataSelection {
 				String[] val = selectedLevel.split(" ");
 				forecastLevel = Integer.parseInt(val[1]);
                                 dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
-				customerHierarchyLevelDefinitionList = relationLogic
+				List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
 						.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
 				Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
@@ -3048,7 +3046,7 @@ public class DataSelection extends AbstractDataSelection {
 
 				String[] val = selectedLevel.split(" ");
 				forecastLevel = Integer.parseInt(val[1]);
-				productHierarchyLevelDefinitionList = relationLogic
+				List<Leveldto> productHierarchyLevelDefinitionList = relationLogic
 						.getHierarchyLevelDefinition(productHierarchyDto.getHierarchyId(), hierarchyVersionNo);
 				Leveldto selectedHierarchyLevelDto = productHierarchyLevelDefinitionList.get(forecastLevel - 1);
 				isNdc = (selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("Package")
