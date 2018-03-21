@@ -224,7 +224,7 @@ public class RelationShipFilterLogic {
 		inputBean.setSelectedCustomerList(
 				LevelDtoToRelationShipBeanConverter.convetToRelationBean(selectedCustomerContractList));
 
-		inputBean.setBusinessUnitValue(businessUnitValue);
+		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));
 		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
 		if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
 			inputBean.setSelectedCustomerHierarcySid(selectedCustomerContractList.get(0).getHierarchyId());
@@ -451,7 +451,7 @@ public class RelationShipFilterLogic {
 		inputBean.setSelectedHierarchyLevelDto(
 				LevelDtoToRelationShipBeanConverter.convertLevelDtoToRelationBean(selectedHierarchyLevelDto));
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
-		inputBean.setBusinessUnitValue(businessUnitValue);
+		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();

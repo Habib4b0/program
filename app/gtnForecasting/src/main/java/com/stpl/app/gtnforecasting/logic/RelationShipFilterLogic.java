@@ -244,7 +244,7 @@ public class RelationShipFilterLogic {
 				Boolean.FALSE);
 
 
-		inputBean.setBusinessUnitValue(businessUnitValue);
+		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));
 		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
 		if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
 			inputBean.setSelectedCustomerList(
