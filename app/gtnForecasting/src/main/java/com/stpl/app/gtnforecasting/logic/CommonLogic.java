@@ -15,7 +15,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -4638,10 +4637,8 @@ public class CommonLogic {
      
        public List<Object[]> getCustomerLevelValues(int projectionId, String type, ProjectionSelectionDTO projDto,List<Object> productList,List<Object> deductionList,String version) {
         SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
-        String maintableName = "CONTRACT_MASTER";
-        String companyMaster = Constant.COMPANY_MASTER;
         List<Object[]> stockList = new ArrayList<>();
-        List tableFieldNameList = new ArrayList<>();
+        List tableFieldNameList;
         try {
             tableFieldNameList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("sales-filter-customer")
                     .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
@@ -4649,17 +4646,9 @@ public class CommonLogic {
             
             if (!tableFieldNameList.isEmpty()) {
                 String userDefined= userDefinedLevel(salesProjectionDao, projectionId, type,"C");
-                Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
-
-                String tableName = String.valueOf(tableFieldName[1]);
-
-                if (tableName.contains("COMPANY")) {
-                    maintableName = companyMaster;
-                }
-
                 String fullUserDefinedQuery = SQlUtil.getQuery("user-defined-level-values").replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                         .replace(Constant.LEVEL_CAPS, type).replace("@VER", version);
-                String formedQuery = StringUtils.EMPTY;
+                String formedQuery;
                 String query = fullUserDefinedQuery;
                 boolean isuserDefined=Constant.USER_DEFINED.equals(userDefined);
                 if (!isuserDefined) {
@@ -4692,13 +4681,11 @@ public class CommonLogic {
     public List<Object[]> getProductLevelValues(int projectionId, String type, ProjectionSelectionDTO projectionDto,List<Object> customerFilter,List<Object> deductionFilter,String versionNo) {
         SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
         List stockList = new ArrayList<>();
-        List tableFieldNameList = new ArrayList<>();
+        List tableFieldNameList;
         try {
             tableFieldNameList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("sales-filter-product")
                     .replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId)).replace(Constant.LEVEL_CAPS, type).replace(Constant.HIERVER, String.valueOf(projectionDto.getSessionDTO().getProductHierarchyVersion())));
             if (!tableFieldNameList.isEmpty()) {
-                Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
-
                 String userDefined = userDefinedLevel(salesProjectionDao, projectionId, type, "P");
 				GtnForecastHierarchyInputBean inputBean = createInputForWebservice(projectionDto, type, "P");
       

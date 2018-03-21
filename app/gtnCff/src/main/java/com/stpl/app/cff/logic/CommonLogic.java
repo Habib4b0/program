@@ -17,11 +17,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 
 import javax.naming.Context;
@@ -2964,8 +2962,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
      
 	public static List<Object[]> getCustomerLevelValues(int projectionId, String levelNo, PVSelectionDTO projDto) {
-        String maintableName = "CONTRACT_MASTER";
-        String companyMaster = StringConstantsUtil.COMPANY_MASTER;
         List<Object[]> stockList = new ArrayList<>();
         List tableFieldNameList = new ArrayList<>();
         try {
@@ -2976,16 +2972,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
           if(!tableFieldNameList.isEmpty()){
             
 				String userDefined = userDefinedLevel(projectionId, levelNo, "C");
-            Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
-
-            String tableName = String.valueOf(tableFieldName[1]);
-            if (tableName.contains("COMPANY")) {
-                maintableName = companyMaster;
-            }
-            
             String fullUserDefinedQuery = SQlUtil.getQuery("user-defined-level-values").replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
 						.replace(LEVEL_CAPS, levelNo);
-            String formedQuery = StringUtils.EMPTY;
+            String formedQuery;
             String query = fullUserDefinedQuery;
             boolean isuserDefined = "User Defined".equals(userDefined);
             if (!isuserDefined) {
