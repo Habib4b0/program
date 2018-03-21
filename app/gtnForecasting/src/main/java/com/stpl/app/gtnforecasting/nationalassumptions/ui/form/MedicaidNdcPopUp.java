@@ -488,9 +488,9 @@ public class MedicaidNdcPopUp extends CustomComponent {
             String NDC9 = value[1].trim();
             if (SelectedNDC.equals(NDC9)) {
                 if (itemSid.length() == 0) {
-                    itemSid.append("'" + value[0].trim() + "'");
+                    itemSid.append('\'' ).append( value[0].trim() ).append( '\'');
                 } else {
-                    itemSid.append(", '" + value[0].trim() + " '");
+                    itemSid.append(", '" ).append( value[0].trim() ).append( " '");
                 }
             }
         }

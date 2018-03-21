@@ -46,7 +46,7 @@ public class GtnUIFrameworkContractHeaderAliasTabConfig {
 	private void contractAliasInformationPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig panel = configProvider.getPanelConfig("contractAliasInformationPanel", true,
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_ALIAS_TAB);
-		panel.setComponentName("Identifier Information");
+		panel.setComponentName("Alias Information");
 		componentList.add(panel);
 
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider
@@ -223,7 +223,7 @@ public class GtnUIFrameworkContractHeaderAliasTabConfig {
 		GtnUIFrameworkComponentConfig attachButtonConfig = configProvider.getUIFrameworkComponentConfig(
 				"identifierAttachButton", true, "identifierAttachButtonLayout", GtnUIFrameworkComponentType.BUTTON);
 		attachButtonConfig.setAuthorizationIncluded(true);
-		attachButtonConfig.setComponentName("Attach");
+		attachButtonConfig.setComponentName("ADD");
 
 		componentList.add(attachButtonConfig);
 

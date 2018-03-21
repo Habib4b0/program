@@ -582,7 +582,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public static final String SALES_TAB = "Sales";
     protected List<String> generateCustomerToBeLoaded = new ArrayList<>();
     protected static final String ADJUSTMENT_PERIODS_TEXT = " adjustment for the following periods ";
-    protected boolean refreshFlag = true;
+    protected boolean refreshFlag = false;
 
     /**
      * Instantiates a new Forecast Sales Projection.

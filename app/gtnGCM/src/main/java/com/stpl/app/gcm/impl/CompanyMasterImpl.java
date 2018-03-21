@@ -878,7 +878,7 @@ public class CompanyMasterImpl {
     public static List getColumnNames(String tablename) {
         List resultList = null;
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-        queryString.append("select Column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='" ).append( tablename ).append( "'");
+        queryString.append("select Column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='" ).append( tablename ).append( '\'');
         try {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         } catch (Exception e) {
@@ -937,7 +937,7 @@ public class CompanyMasterImpl {
             }
 
             if (parameters.get(COMPANY_MASTER_SID) != null && !String.valueOf(parameters.get(COMPANY_MASTER_SID)).isEmpty()) {
-                queryString.append(" AND cm.COMPANY_MASTER_SID in(" ).append( String.valueOf(parameters.get(COMPANY_MASTER_SID)) ).append( ")");
+                queryString.append(" AND cm.COMPANY_MASTER_SID in(" ).append( String.valueOf(parameters.get(COMPANY_MASTER_SID)) ).append( ')');
             }
             if (parameters.get(PDT_COMP_RESTRICTION_SESS_ID) != null && !String.valueOf(parameters.get(PDT_COMP_RESTRICTION_SESS_ID)).isEmpty()) {
                 queryString.append(" AND cm.COMPANY_MASTER_SID not in( Select COMPANY_MASTER_SID from GCM_COMPANY_LINK WHERE SESSION_ID = '" ).append( String.valueOf(parameters.get(PDT_COMP_RESTRICTION_SESS_ID)) ).append( "' AND LINK_ID <> 'R')");

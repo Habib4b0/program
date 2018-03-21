@@ -5,27 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ui.form;
 
-import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
-import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
-import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
-import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbDao;
-import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
-import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerProductGroupLookup;
-import com.stpl.app.gtnforecasting.ui.form.lookups.HierarchyLookup;
-import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
-import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.util.service.thread.ThreadPool;
-import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
@@ -47,24 +28,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.WINDOW_CUSTOMER_GROUP_
 import static com.stpl.app.utils.Constants.LabelConstants.WINDOW_CUSTOMER_HIERARCHY_LOOKUP;
 import static com.stpl.app.utils.Constants.LabelConstants.WINDOW_PRODUCT_GROUP_LOOKUP;
 import static com.stpl.app.utils.Constants.LabelConstants.WINDOW_PRODUCT_HIERARCHY_LOOKUP;
-import com.stpl.app.utils.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
-import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.ifs.util.constants.BooleanConstant;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
-import com.vaadin.v7.data.Property;
-import com.vaadin.v7.data.util.IndexedContainer;
-import com.vaadin.v7.ui.ComboBox;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,11 +41,50 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+
 import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
+import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
+import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
+import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbDao;
+import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
+import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerProductGroupLookup;
+import com.stpl.app.gtnforecasting.ui.form.lookups.HierarchyLookup;
+import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.util.service.thread.ThreadPool;
+import com.stpl.app.utils.Constants;
+import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
+import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.ComboBox;
 
 /**
  *
@@ -1667,8 +1670,9 @@ public class DataSelection extends ForecastDataSelection {
 					: groupFilteredCompanies;
 			List<Leveldto> resultedLevelsList = null;
 			resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-					Integer.parseInt(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
-						dedValue, relationVersionNo, forecastEligibleDate.getValue(),customerDescriptionMap);
+					Integer.parseInt(relationshipSid), tempGroupFileter, customerHierarchyDto.getHierarchyId(),
+					dedLevel,
+					dedValue, relationVersionNo, forecastEligibleDate.getValue(), customerDescriptionMap);
 			if (selectedHierarchyLevelDto.getLevel() != null) {
 				levelName = selectedHierarchyLevelDto.getLevel();
 			}
@@ -1947,8 +1951,8 @@ public class DataSelection extends ForecastDataSelection {
 						: groupFilteredItems;
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
 						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
-						hierarchyLevelDefinitionList, customerHierarchyDefinitionList, dedLevel, dedValue,
-						relationVersionNo, customerRelationVersionNo, businessUnit.getValue());
+						dedLevel, dedValue, relationVersionNo, customerRelationVersionNo, businessUnit.getValue(),
+						productDescriptionMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -2202,7 +2206,8 @@ public class DataSelection extends ForecastDataSelection {
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+										String.valueOf(level.getValue()).split("-")[0]),
+								forecastEligibleDate.getValue(), false);
 
 							if (!newChildLevels.isEmpty()) {
 								int pos3 = 0;
@@ -2314,7 +2319,8 @@ public class DataSelection extends ForecastDataSelection {
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+										String.valueOf(level.getValue()).split("-")[0]),
+								forecastEligibleDate.getValue(), false);
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (customerBeanList.isEmpty()
@@ -2411,7 +2417,8 @@ public class DataSelection extends ForecastDataSelection {
 							UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 							customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 							customerHierarchyVersionNo, customerRelationVersionNo,
-							UiUtils.getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+							UiUtils.getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]),
+							forecastEligibleDate.getValue(), false);
 					if (newParentLevels != null) {
 						for (Leveldto newLevel : newParentLevels) {
 							if (customerBeanList.isEmpty()
@@ -2498,7 +2505,8 @@ public class DataSelection extends ForecastDataSelection {
 							UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 							customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 							customerHierarchyVersionNo, customerRelationVersionNo,
-							UiUtils.getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+							UiUtils.getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]),
+							forecastEligibleDate.getValue(), false);
 					if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
 						int pos3 = 0;
 						String childHierarchyNo;
@@ -2652,7 +2660,8 @@ public class DataSelection extends ForecastDataSelection {
 										customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 										customerHierarchyVersionNo, customerRelationVersionNo,
 										UiUtils.getDataSelectionFormattedLevelNo(
-												String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+												String.valueOf(level.getValue()).split("-")[0]),
+										forecastEligibleDate.getValue(), false);
 								if (newParentLevels != null) {
 									int pos2 = 0;
 									String parentHierarchyNo;
@@ -2826,7 +2835,8 @@ public class DataSelection extends ForecastDataSelection {
 									customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
 									UiUtils.getDataSelectionFormattedLevelNo(
-											String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+											String.valueOf(level.getValue()).split("-")[0]),
+									forecastEligibleDate.getValue(), false);
 							if (newParentLevels != null) {
 								for (Leveldto newLevel : newParentLevels) {
 									if (customerBeanList.isEmpty()
@@ -2924,7 +2934,8 @@ public class DataSelection extends ForecastDataSelection {
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+										String.valueOf(level.getValue()).split("-")[0]),
+								forecastEligibleDate.getValue(), false);
 						if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
 							int pos3 = 0;
 							String childHierarchyNo;
@@ -3033,7 +3044,8 @@ public class DataSelection extends ForecastDataSelection {
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(level.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+										String.valueOf(level.getValue()).split("-")[0]),
+								forecastEligibleDate.getValue(), false);
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (customerBeanList.isEmpty()
@@ -3177,7 +3189,8 @@ public class DataSelection extends ForecastDataSelection {
 										productDescriptionMap, businessUnit.getValue(),
 										DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
 										productRelationVersionNo, UiUtils.getDataSelectionFormattedLevelNo(
-												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
+										forecastEligibleDate.getValue(), true);
 								if (newParentLevels != null) {
 									int pos2 = 0;
 									String parentHierarchyNo;
@@ -3331,7 +3344,8 @@ public class DataSelection extends ForecastDataSelection {
 									productDescriptionMap, businessUnit.getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
 									productRelationVersionNo, UiUtils.getDataSelectionFormattedLevelNo(
-											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
+									forecastEligibleDate.getValue(), true);
 							if (newParentLevels != null) {
 								for (Leveldto newLevel : newParentLevels) {
 									if (productBeanList.isEmpty()
@@ -3428,7 +3442,8 @@ public class DataSelection extends ForecastDataSelection {
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
+								forecastEligibleDate.getValue(), true);
 						if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
 							int pos3 = 0;
 							String childHierarchyNo;
@@ -3536,7 +3551,8 @@ public class DataSelection extends ForecastDataSelection {
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
+								forecastEligibleDate.getValue(), true);
 						if (newParentLevels != null) {
 							int pos2 = 0;
 							String parentHierarchyNo;
@@ -3804,7 +3820,8 @@ public class DataSelection extends ForecastDataSelection {
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
+								forecastEligibleDate.getValue(), true);
 						if (newParentLevels != null) {
 							int pos2 = 0;
 							String parentHierarchyNo;
@@ -3953,7 +3970,8 @@ public class DataSelection extends ForecastDataSelection {
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
 								UiUtils.getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
+								forecastEligibleDate.getValue(), true);
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (productBeanList.isEmpty()
@@ -4050,7 +4068,8 @@ public class DataSelection extends ForecastDataSelection {
 							productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 							productHierarchyVersionNo, productRelationVersionNo,
 							UiUtils.getDataSelectionFormattedLevelNo(
-									String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+									String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
+							forecastEligibleDate.getValue(), true);
 					if (newParentLevels != null) {
 						for (Leveldto newLevel : newParentLevels) {
 							if (productBeanList.isEmpty()
@@ -4139,7 +4158,8 @@ public class DataSelection extends ForecastDataSelection {
 							productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 							productHierarchyVersionNo, productRelationVersionNo,
 							UiUtils.getDataSelectionFormattedLevelNo(
-									String.valueOf(productlevelDdlb.getValue()).split("-")[0]),forecastEligibleDate.getValue());
+									String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
+							forecastEligibleDate.getValue(), true);
 					if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
 						int pos3 = 0;
 						String childHierarchyNo;
@@ -4284,7 +4304,7 @@ public class DataSelection extends ForecastDataSelection {
 		LOGGER.debug("updateDataSelectionSelectedProducts starts");
 		StringBuilder prodUpdateQuery = new StringBuilder();
 		prodUpdateQuery.append(" Delete FROM PROJECTION_PROD_HIERARCHY where PROJECTION_MASTER_SID="
-				+ session.getProjectionId() + "; ");
+				).append( session.getProjectionId() ).append( "; ");
 		HelperTableLocalServiceUtil.executeUpdateQuery(prodUpdateQuery.toString());
 		LOGGER.debug("updateDataSelectionSelectedProducts ends");
 	}
@@ -4312,7 +4332,7 @@ public class DataSelection extends ForecastDataSelection {
 					.replace("@PD_SID", CollectionToString));
 		}
 		queryBuilder
-				.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (" + CollectionToString + ")");
+				.append("DELETE FROM PROJECTION_DETAILS where PROJECTION_DETAILS_SID in (" ).append( CollectionToString ).append( ')');
 
 		HelperTableLocalServiceUtil.executeUpdateQuery(queryBuilder.toString());
 	}
@@ -4345,8 +4365,7 @@ public class DataSelection extends ForecastDataSelection {
 		int productRelationVersionNo = Integer
 				.parseInt(productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 		relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
-				selectedProductContainer.getItemIds(), customerHierarchyLevelDefinitionList,
-				productHierarchyLevelDefinitionList, customerRelationVersionNo, productRelationVersionNo,session.getProjectionId());
+				selectedProductContainer.getItemIds(), dataSelectionDTO);
 		session.addFutureMap(Constant.FILE_INSERT, new Future[] { service
 				.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
 		// PROJECTION_CUST_HIERARCHY INSERT CALL

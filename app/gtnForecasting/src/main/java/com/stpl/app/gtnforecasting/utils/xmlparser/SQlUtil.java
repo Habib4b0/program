@@ -54,7 +54,6 @@ public class SQlUtil {
 		while (urls.hasMoreElements()) {
 			URL tempUrl = urls.nextElement();
 			if (tempUrl.getFile() != null && tempUrl.getFile().contains(".xml")) {
-				Map<String, Object> properties = new HashMap<String, Object>(1);
 				JAXBContext jaxbContext = JAXBContext.newInstance(Sql.class);
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 				Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);

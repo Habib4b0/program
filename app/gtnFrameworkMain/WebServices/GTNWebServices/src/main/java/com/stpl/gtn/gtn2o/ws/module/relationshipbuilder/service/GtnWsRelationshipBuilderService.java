@@ -764,8 +764,7 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	private void getIntermediateUserDefinedData(List<GtnWsRecordBean> linkedLevelDataList,
-			List<GtnWsRecordBean> userDefinedLevelDataList, List<HierarchyLevelDefinitionBean> hierarchyList)
-			throws CloneNotSupportedException {
+			List<GtnWsRecordBean> userDefinedLevelDataList, List<HierarchyLevelDefinitionBean> hierarchyList) {
 		List<GtnWsRecordBean> finalDataList = new ArrayList<>();
 		for (HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean : hierarchyList) {
 			finalDataList.clear();
@@ -779,7 +778,7 @@ public class GtnWsRelationshipBuilderService {
 
 	public void getUserdefinedDataCombination(List<GtnWsRecordBean> linkedLevelDataList,
 			List<GtnWsRecordBean> userDefinedLevelDataList, List<GtnWsRecordBean> finalDataList,
-			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean) throws CloneNotSupportedException {
+			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean) {
 		for (GtnWsRecordBean userdefinedData : userDefinedLevelDataList) {
 			if (hierarchyLevelDefinitionBean.getLevelNo() == Integer.parseInt(userdefinedData
 					.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()).toString())) {

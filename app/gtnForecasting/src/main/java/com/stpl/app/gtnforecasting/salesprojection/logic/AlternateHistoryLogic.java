@@ -1202,7 +1202,7 @@ public class AlternateHistoryLogic {
         query.append(" (select CCPAC.PERIOD_SID AS PERIOD_SID,ISNULL(sum(ACTUAL_UNITS),0) AS ACTUAL_UNITS,ISNULL(SUM(PROJECTION_UNITS),0)  AS PROJECTION_UNITS  ");
         query.append(" from dbo.ST_CCP_ACTUAL_DETAILS CCPAC  ");
         query.append(" join dbo.\"PERIOD\" PER ON PER.PERIOD_SID=CCPAC.PERIOD_SID  ");
-        query.append(" WHERE CCPAC.CCP_DETAILS_SID in (" + ccpIDs + ") ");
+        query.append(" WHERE CCPAC.CCP_DETAILS_SID in (" ).append( ccpIDs ).append( ") ");
         query.append(" group by CCPAC.PERIOD_SID)  AS SOURCE   ");
         query.append(" ON ( TARGET.PERIOD_SID = SOURCE.PERIOD_SID )  ");
         query.append(" WHEN MATCHED THEN UPDATE SET   ");
@@ -1220,7 +1220,7 @@ public class AlternateHistoryLogic {
         query.append(" (select CCPAC.PERIOD_SID AS PERIOD_SID,ISNULL(sum(ACTUAL_AMOUNT),0) AS ACTUAL_AMOUNT,ISNULL(SUM(PROJECTION_AMOUNT),0)  AS PROJECTION_AMOUNT \n");
         query.append(" from dbo.ST_DISC_CCP_ACTUAL_DETAILS CCPAC \n");
         query.append(" join dbo.\"PERIOD\" PER ON PER.PERIOD_SID=CCPAC.PERIOD_SID \n");
-        query.append(" WHERE CCPAC.CCP_DETAILS_SID in (" + ccpIDs + ") ");
+        query.append(" WHERE CCPAC.CCP_DETAILS_SID in (" ).append( ccpIDs ).append( ") ");
         query.append(" group by CCPAC.PERIOD_SID)  AS SOURCE \n");
         query.append(" ON ( TARGET.PERIOD_SID = SOURCE.PERIOD_SID  )\n");
         query.append(" WHEN MATCHED THEN UPDATE SET \n");

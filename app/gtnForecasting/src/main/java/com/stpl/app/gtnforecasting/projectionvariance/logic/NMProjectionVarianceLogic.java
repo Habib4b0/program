@@ -2813,7 +2813,7 @@ public class NMProjectionVarianceLogic {
                 case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
                     joinQuery.append(" CH.CUST_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' ");
                     if (StringUtils.isNotBlank(productHierarchyNo)) {
-                        joinQuery.append(Constant.CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ productHierarchyNo +Constant.CONCAT_CONDITION);
+                        joinQuery.append(Constant.CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST).append( productHierarchyNo ).append(Constant.CONCAT_CONDITION);
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                         String hierarchyNo = "%" + deductionHierarchyNo + "%";
@@ -2824,7 +2824,7 @@ public class NMProjectionVarianceLogic {
                 case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
                     joinQuery.append(" CH.PROD_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' ");
                     if (StringUtils.isNotBlank(customerHierarchyNo)) {
-                        joinQuery.append(Constant.CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ customerHierarchyNo +"', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
+                        joinQuery.append(Constant.CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST).append( customerHierarchyNo ).append("', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                         String hierarchyNo = "%" + deductionHierarchyNo + "%";
@@ -2837,7 +2837,7 @@ public class NMProjectionVarianceLogic {
                     joinQuery.append(" CH.PROD_HIERARCHY_NO LIKE '");
                     joinQuery.append(productHierarchyNo);
                     joinQuery.append("%'");
-                    joinQuery.append(Constant.CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST + customerHierarchyNo + "', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
+                    joinQuery.append(Constant.CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST ).append( customerHierarchyNo ).append( "', ',') C WHERE CH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
                     break;
                 default:
 

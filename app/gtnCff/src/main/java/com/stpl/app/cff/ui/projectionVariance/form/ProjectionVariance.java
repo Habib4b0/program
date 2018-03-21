@@ -1454,22 +1454,37 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             dbDateTO = (Date) obj[1];
 
             Calendar startDbDate = Calendar.getInstance();
-            startDbDate.set(Calendar.YEAR, dbDateFrom.getYear());
-            startDbDate.set(Calendar.MONTH, dbDateFrom.getMonth());
-
             Calendar endDbDate = Calendar.getInstance();
-            endDbDate.set(Calendar.YEAR, dbDateTO.getYear());
-            endDbDate.set(Calendar.MONTH, dbDateTO.getMonth() - 1);
+            if (dbDateFrom != null) {
+                startDbDate.set(Calendar.YEAR, dbDateFrom.getYear());
+                startDbDate.set(Calendar.MONTH, dbDateFrom.getMonth());
+            } else {
+                startDbDate.set(Calendar.YEAR, (startDbDate.get(Calendar.YEAR) - 3));
+                startDbDate.set(Calendar.MONTH, 0);
+            }
+
+            if (dbDateTO != null) {
+                endDbDate.set(Calendar.YEAR, dbDateTO.getYear());
+                endDbDate.set(Calendar.MONTH, dbDateTO.getMonth() - 1);
+            } else {
+                endDbDate.set(Calendar.YEAR, (endDbDate.get(Calendar.YEAR) - 3));
+                endDbDate.set(Calendar.MONTH, 0);
+            }
 
             try {
+                if (dbDateFrom != null && dbDateTO != null) {
                 dbDateFrom = format.parse(format.format(dbDateFrom));
                 dbDateTO = format.parse(format.format(dbDateTO));
+                }
             } catch (ParseException pe) {
                 LOGGER.error(pe.getMessage());
             }
             dataSelectionDTO.setFromDate(dbDateFrom);
             dataSelectionDTO.setToDate(dbDateTO);
+            
         }
+        dataSelectionDTO.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDTO.getFromDate()));
+        dataSelectionDTO.setToDate(CommonLogic.toDateIsNull(dataSelectionDTO.getToDate()));
         ForecastDTO dto = new ForecastDTO();
         try {
             dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, sessionDTO);

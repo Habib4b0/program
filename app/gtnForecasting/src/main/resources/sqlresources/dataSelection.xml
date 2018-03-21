@@ -1073,7 +1073,8 @@ WHERE
                         IG.ITEM_GROUP_SID,
                         CM.COMPANY_NAME,
                         CM.COMPANY_MASTER_SID,
-                        IG.ITEM_GROUP_DESCRIPTION
+                        IG.ITEM_GROUP_DESCRIPTION,
+                        CM.COMPANY_NO
                         FROM ITEM_GROUP IG  
                         JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = IG.COMPANY_MASTER_SID 
 

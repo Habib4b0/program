@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.stpl.gtn.gtn2o.ws.forecast.bean.DataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
+import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 
 /**
  * @author Kalpana.Ramanana
@@ -24,6 +25,8 @@ public class GtnWsForecastRequest implements Serializable {
 	private int inputSize;
 
 	private Object[] inputs;
+
+	private GtnForecastHierarchyInputBean inputBean;
 
 	public DataSelectionBean getDataSelectionBean() {
 		return dataSelectionBean;
@@ -47,6 +50,14 @@ public class GtnWsForecastRequest implements Serializable {
 
 	public void setGtnForecastBean(GtnForecastBean gtnForecastBean) {
 		this.gtnForecastBean = gtnForecastBean;
+	}
+
+	public GtnForecastHierarchyInputBean getInputBean() {
+		return inputBean;
+	}
+
+	public void setInputBean(GtnForecastHierarchyInputBean inputBean) {
+		this.inputBean = inputBean;
 	}
 
 	private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
