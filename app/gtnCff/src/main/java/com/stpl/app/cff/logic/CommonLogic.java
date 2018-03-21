@@ -2978,20 +2978,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 				String userDefined = userDefinedLevel(projectionId, levelNo, "C");
             Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
 
-            String fieldName = String.valueOf(tableFieldName[0]);
             String tableName = String.valueOf(tableFieldName[1]);
-            
-            String primaryKey = getPrimaryKeyColumn(maintableName);
-
-            Set<String> list = new HashSet();
-            list.add(maintableName);
-            list.add(companyMaster);
-            if (!tableName.isEmpty()) {
-                list.add(tableName);
-            }
             if (tableName.contains("COMPANY")) {
                 maintableName = companyMaster;
-                primaryKey = getPrimaryKeyColumn(maintableName);
             }
             
             String fullUserDefinedQuery = SQlUtil.getQuery("user-defined-level-values").replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
@@ -3059,19 +3048,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 
 	public static List<Object[]> getProductLevelValues(int projectionId, String type, PVSelectionDTO projectionDto) {
         List stockList = new ArrayList<>();
-        List tableFieldNameList = new ArrayList<>();
         try {
-            tableFieldNameList = (List) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("sales-filter-product")
-                    .replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId)).replace(LEVEL_CAPS, type));
-            Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
             String userDefined= userDefinedLevel(projectionId, type,"P");
-            String fieldName = String.valueOf(tableFieldName[0]);
-            String tableName = String.valueOf(tableFieldName[1]);
-            String mainTableName = "ITEM_MASTER";
-            List tableNameList=new ArrayList<>();
-            tableNameList.add(mainTableName);
-            tableNameList.add(tableName);
-            String primaryKey = getPrimaryKeyColumn(mainTableName);
             
 			GtnForecastHierarchyInputBean inputBean = createInputForWebservice(projectionDto, type, "P");
 
