@@ -48,35 +48,6 @@ public class CustomViewLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomViewLogic.class.getName());
-    public Map<Integer, String> getData_custom_view(String projectionId, String customViewMasterSid) {
-
-        levelValMap.clear();
-        levelTableFieldNames.clear();
-        tableName.setLength(0);
-        fieldName.setLength(0);
-        tableFieldHelperList.clear();
-        listNameCollection.clear();
-        finalQuery.setLength(0);
-        hierarchyList.clear();
-        helperListValues.clear();
-        levelCcpIds.clear();
-        levelNoSet.clear();
-        executeInsertOrUpdate(projectionId, customViewMasterSid, "CUSTOM_CCP_MAP_INSERT_QUERY");
-        List<Object[]> rawList = executeQuery(projectionId, customViewMasterSid, "GET_TABLE_NAME-AND-COLUMN");
-        customize_data(rawList);
-        getHelperListData();
-        List<Object[]> finalrawList = build_custom_query();
-        customizeFinalResult(finalrawList);
-        updateHelperListValues();
-       
-        List<Object[]> rawList_ccp = executeQuery(projectionId, customViewMasterSid, "GET_CCP_VALUES");
-        split_ccp(rawList_ccp);
-        build_executeFinalQuery(hierarchyList);
-
-        return levelValMap;
-
-    }
-
     private List<Object[]> executeQuery(String projectionId, String customViewMasterSid, String queryName) {
           LOGGER.debug("select the Data from CUSTOM_CCP_MAP  table :");
         String query = SQlUtil.getQuery(queryName);

@@ -720,6 +720,7 @@ public class MedicaidURA extends CustomComponent implements View {
                                 }
                                 worksheetProjDto.setBrandSeclected(true);
                             }
+                            final List<String> uraColumns = new ArrayList<>(projectionDTO.getColumns());
                             final MedicaidUraWorkSheet lookUp = new MedicaidUraWorkSheet(worksheetProjDto,sessionDTO);
                             UI.getCurrent().addWindow(lookUp);
 
@@ -730,6 +731,7 @@ public class MedicaidURA extends CustomComponent implements View {
                                     projectionDTO.setBrandSeclected(false);
                                     projectionDTO.setBrandWSdto(brandWorksheetDto);
                                     lookUp.closeLogic();
+                                    projectionDTO.setColumns(uraColumns);
                                     lookUp.removeBaseYear();
                                     lookUp.getBaseYear().clear();
                                     if (lookUp.isSubmit()) {

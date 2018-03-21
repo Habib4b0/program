@@ -36,6 +36,7 @@ public class StringConstantsUtil {
     public static final String CUSTOMER = "@CUSTOMER";
     public static final String INDICATOR = "indicator";
     public static final String RELATION_SID = "@RELATION_SID";
+    public static final String RELATION_VER = "@RELATION_VER";
     public static final String CFF_MASTER_SID = "cffMasterSid";
     public static final String HIERARCHY_DETAILS = "@HIERARCHY_DETAILS";
     public static final String PRODUCT = "@PRODUCT";
@@ -316,7 +317,6 @@ public class StringConstantsUtil {
     public static final String UNITS1 = "Units";
     public static final String CFFMASTERSID = "@CFFMASTERSID";
     public static final String RELATIONBUILDERSID = "@RBSID";
-    public static final String TABLE_RELATION_SHIP_LEVEL_DEFINITION = "RELATIONSHIP_LEVEL_DEFINITION";
     public static final String CUSTOMER_HIERARCHY = "Customer Hierarchy";
     public static final String WHERE_SPACE = " WHERE ";
     public static final String FILTER_TABLE = "filtertable";

@@ -240,7 +240,7 @@ public class ContractsDetailsDto implements Serializable {
     private String companyName = StringUtils.EMPTY;
     private Map<String, List<ContractsDetailsDto>> relation = new HashMap();
     private List<String> attachedList = new ArrayList<>();
-    private List<Object> removedRsList = new ArrayList<>();
+    private transient List<Object> removedRsList = new ArrayList<>();
     private String searchSessionId = StringUtils.EMPTY;
 
     /**
