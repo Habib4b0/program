@@ -76,7 +76,7 @@ public class RelationShipFilterLogic {
 	}
 
 	public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
-			List<String> groupFilteredCompanies, int hierarchySid, String dedLevel,
+			List<String> groupFilteredCompanies, String dedLevel,
 			String dedValue, int relationVersionNo, Date forecastEligibleDate, Map<String, String> customerDescMap)
 			throws CloneNotSupportedException {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
@@ -242,12 +242,13 @@ public class RelationShipFilterLogic {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredItems, dedLevel, dedValue, relationVersionNo, null,
 				Boolean.FALSE);
-		inputBean.setSelectedCustomerList(
-				LevelDtoToRelationShipBeanConverter.convetToRelationBean(selectedCustomerContractList));
+
 
 		inputBean.setBusinessUnitValue(businessUnitValue);
 		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
 		if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
+			inputBean.setSelectedCustomerList(
+					LevelDtoToRelationShipBeanConverter.convetToRelationBean(selectedCustomerContractList));
 			inputBean.setSelectedCustomerHierarcySid(selectedCustomerContractList.get(0).getHierarchyId());
 			inputBean
 					.setSelectedCustomerHierarchyVersionNo(selectedCustomerContractList.get(0).getHierarchyVersionNo());
@@ -463,11 +464,11 @@ public class RelationShipFilterLogic {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+		GtnUIFrameworkWebserviceResponse relationProductResponse = client.callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_DATASELECTION_LOAD_SELECTED_PRODUCT,
 				request, getGsnWsSecurityToken());
-		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
+		GtnWsForecastResponse foreCastResponse = relationProductResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
 		

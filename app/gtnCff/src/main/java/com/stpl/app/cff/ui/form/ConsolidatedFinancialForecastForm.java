@@ -562,12 +562,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					final int customerSelectedLevel = Integer
 							.parseInt(dataSelectionDto.getCustomerHierarchyInnerLevel());
 					final int productSelectedLeve = Integer.parseInt(dataSelectionDto.getProductHierarchyInnerLevel());
-					final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
-							.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
-									dataSelectionDto.getCustomerHierVersionNo());
-					final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic
-							.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getProdHierSid()),
-									dataSelectionDto.getProductHierVersionNo());
 
 					final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
 							dataSelectionDto.getProjectionId(), BooleanConstant.getTrueFlag(), customerSelectedLevel,
@@ -749,12 +743,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						dataSelectionDto.getProductRelationShipVersionNo());
 				final int customerSelectedLevel = Integer.parseInt(dataSelectionDto.getCustomerHierarchyInnerLevel());
 				final int productSelectedLeve = Integer.parseInt(dataSelectionDto.getProductHierarchyInnerLevel());
-				final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
-						Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
-						dataSelectionDto.getCustomerHierVersionNo());
-				final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
-						Integer.parseInt(dataSelectionDto.getProdHierSid()),
-						dataSelectionDto.getProductHierVersionNo());
 
 				final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
 						dataSelectionDto.getProjectionId(), BooleanConstant.getTrueFlag(), customerSelectedLevel,

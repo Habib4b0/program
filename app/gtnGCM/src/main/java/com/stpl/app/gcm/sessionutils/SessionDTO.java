@@ -42,7 +42,7 @@ public class SessionDTO implements Serializable, Cloneable {
     private String companyFamilyPlanName = StringUtils.EMPTY;
     private String searchSessionId = StringUtils.EMPTY;
     private boolean checkValue;
-    private List<ContractResultDTO> list;
+    private transient List<ContractResultDTO> list;
     private int contMasteSid = 0;
     private String contractMasterSid = StringUtils.EMPTY;
     private String processName = StringUtils.EMPTY;
