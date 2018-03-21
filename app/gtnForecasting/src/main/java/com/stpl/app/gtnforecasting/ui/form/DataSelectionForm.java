@@ -390,17 +390,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 				forecastLevel = Integer.parseInt(val[1]);
 				productHierarchyLevelDefinitionList = relationLogic
 						.getHierarchyLevelDefinition(productHierarchyDto.getHierarchyId(), hierarchyVersionNo);
-				List<Leveldto> customerHierarchyDefinitionList;
-				if (customerHierarchyDto == null) {
-					customerHierarchyDefinitionList = Collections.emptyList();
-				} else {
-					int customerHierarchyVersionNo = Integer
-							.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-					customerHierarchyDefinitionList = relationLogic.getHierarchyLevelDefinition(
-							customerHierarchyDto.getHierarchyId(), customerHierarchyVersionNo);
-				}
-				List<Leveldto> hierarchyLevelDefinitionList = productHierarchyLevelDefinitionList.subList(0,
-						forecastLevel);
 				Leveldto selectedHierarchyLevelDto = productHierarchyLevelDefinitionList.get(forecastLevel - 1);
 				isNdc = (selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("Package")
 						|| selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("NDC-11"));
@@ -4298,10 +4287,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 								.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 						customerHierarchyLevelDefinitionList = relationLogic
 								.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
-						int customerRelationVersionNo = Integer.parseInt(customerRelationVersionComboBox
-								.getItemCaption(customerRelationVersionComboBox.getValue()));
-						int productRelationVersionNo = Integer.parseInt(productRelationVersionComboBox
-								.getItemCaption(productRelationVersionComboBox.getValue()));
 						relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(),
 								selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
 								dataSelectionDTO);
@@ -4418,10 +4403,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setScreenName(scrName);
 				// To create the temp tables with userId and session id
 				QueryUtils.createTempTables(session);
-				int customerRelationVersionNo = Integer.parseInt(
-						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-				int productRelationVersionNo = Integer.parseInt(
-						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
 						selectedProductContainer.getItemIds(), dataSelectionDTO);
 				session.setCustomerLevelDetails(
@@ -4757,13 +4738,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 						: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
 
 				String dedLevel = getDedutionLevel(String.valueOf(deductionLevel.getValue()));
-				int customerRelationVersionNo = Integer.parseInt(
-						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-				int productRelationVersionNo = Integer.parseInt(
-						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
-				relationLogic.ccpHierarchyInsertARP(session.getCurrentTableNames(),
-						selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), dataSelectionDTO,
-						dedLevel, dedValue);
 				session.setProjectionId(projectionIdValue);
 				session.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 				session.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));

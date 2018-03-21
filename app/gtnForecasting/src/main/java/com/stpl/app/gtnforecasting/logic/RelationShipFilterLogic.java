@@ -242,12 +242,13 @@ public class RelationShipFilterLogic {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredItems, dedLevel, dedValue, relationVersionNo, null,
 				Boolean.FALSE);
-		inputBean.setSelectedCustomerList(
-				LevelDtoToRelationShipBeanConverter.convetToRelationBean(selectedCustomerContractList));
+
 
 		inputBean.setBusinessUnitValue(businessUnitValue);
 		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
 		if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
+			inputBean.setSelectedCustomerList(
+					LevelDtoToRelationShipBeanConverter.convetToRelationBean(selectedCustomerContractList));
 			inputBean.setSelectedCustomerHierarcySid(selectedCustomerContractList.get(0).getHierarchyId());
 			inputBean
 					.setSelectedCustomerHierarchyVersionNo(selectedCustomerContractList.get(0).getHierarchyVersionNo());
