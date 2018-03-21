@@ -3288,6 +3288,7 @@
 		<field name="projectionCustVersionNo" type="int" />
 		<field name="projectionProdVersionNo" type="int" />
 		<field name="forecastEligibleDate" type="Date" />
+		<field name="projectionDedVersionNo" type="int" />
 	</model>
 	<model name="com.stpl.app.model.ProjectionNameConfig">
 		<field name="createdDate" type="Date" />

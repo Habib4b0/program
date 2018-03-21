@@ -6,6 +6,7 @@
 
 package com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -38,7 +39,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
  * @see com.stpl.app.model.impl.HistHierarchyLevelDefnModelImpl
  * @generated
  */
-public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDefinitionBean> {
+public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDefinitionBean>, Serializable {
 
 	public HierarchyLevelDefinitionBean() {
 		super();
@@ -120,6 +121,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 	public Date getCreatedDate() {
 		return createdDate == null ? null : (Date) createdDate.clone();
 	}
+
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
@@ -227,8 +229,8 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 	}
 
 	public static HierarchyLevelDefinitionBean getLastLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
-		int levelNo = HierarchyLevelDefinitionBean.getLastLinkedLevelNo(hierarchyList);
-		return HierarchyLevelDefinitionBean.getBeanByLevelNo(levelNo, hierarchyList);
+		int levelNo = getLastLinkedLevelNo(hierarchyList);
+		return getBeanByLevelNo(levelNo, hierarchyList);
 	}
 
 	public static int getFirstLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
@@ -257,6 +259,8 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		}
 		return null;
 	}
+
+
 
 	public void customize(Object[] result) {
 		setHierarchyLevelDefinitionSid((Integer) result[0]);

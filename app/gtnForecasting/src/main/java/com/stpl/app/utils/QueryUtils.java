@@ -761,6 +761,7 @@ public class QueryUtils {
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@PRICE_GROUP_TYPE", discountName.contains(TILT) ? discountName.split(TILT)[1] : discountName );
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@LEVELVALUES", projectionSelection.getDeductionLevelFilter().toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY));
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@RELBUILDSID", projectionSelection.getSessionDTO().getDedRelationshipBuilderSid() );
+                masterTableUpdateQuery = masterTableUpdateQuery.replace(Constant.RELVERSION, String.valueOf(projectionSelection.getSessionDTO().getDeductionRelationVersion()));
                commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()), null, null);
     }
     

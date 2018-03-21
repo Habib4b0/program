@@ -132,17 +132,16 @@ public class GtnFramworkCustProdCheckForAutoUpdateQueryGenerator {
 		StringBuilder tempQuery = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
 		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
-			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
-			if (leveldto.getTableName().isEmpty()) {
+			HierarchyLevelDefinitionBean levelBean = hierarchyLevelDefinitionList.get(i);
+			if (levelBean.getTableName().isEmpty()) {
 				tempQuery.append(",'%'");
 				tempQuery.append(",'.'");
 				continue;
 			}
 			tempQuery.append(",");
-			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			tempQuery.append(singleColumnRelationBean.getActualTtableName() + "."
-					+ singleColumnRelationBean.getWhereClauseColumn());
+			GtnFrameworkSingleColumnRelationBean keyRelaitonBean = gtnFrameworkEntityMasterBean
+					.getKeyRelationBeanUsingTableIdAndColumnName(levelBean.getTableName(), levelBean.getFieldName());
+			tempQuery.append(keyRelaitonBean.getActualTtableName() + "." + keyRelaitonBean.getWhereClauseColumn());
 			tempQuery.append(",'.'");
 		}
 		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");

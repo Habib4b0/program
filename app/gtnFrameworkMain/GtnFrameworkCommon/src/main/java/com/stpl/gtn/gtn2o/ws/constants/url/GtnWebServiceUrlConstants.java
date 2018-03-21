@@ -74,7 +74,16 @@ public final class GtnWebServiceUrlConstants {
 	 * Forecast dataselection Constants
 	 */
 	public static final String GTN_DATASELCTION_EDIT_SERVICE = "/GtnDataSelectionEdit";
+	public static final String GTN_CCP_INSERT_SERVICE = "/GtnCCPInsert";
+	public static final String GTN_HIERARCHY_CONTROL = "/GtnHierarchyQueryGenerator";
 	public static final String GTN_DATASELECTION_EDIT_CUSTHIERARCHY_INSERT = "/relationShipCustHierarchyInsert";
+	public static final String GTN_CCP_INSERT = "/forecastCCPInsert";
+	public static final String GTN_QUERY_FOR_TABLENAME_HIERARCHY_TYPE = "/getQueryByTableNameAndHierarchyTypeForMultiLevel";
+	public static final String GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL = "/dataSelectionLoadCustomerHierarcy";
+	public static final String GTN_DATASELECTION_LOAD_PRODUCT_LEVEL = "/dataSelectionLoadProductHierarcy";
+	public static final String GTN_DATASELECTION_LOAD_SELECTED_PRODUCT = "/dataSelectionSelectedProductChild";
+	public static final String GTN_DATASELECTION_LOAD_SELECTED_CUSTOMER = "/dataSelectionSelectedCustomerChild";
+	public static final String GTN_DATASELECTION_LOAD_LEVELVALUE_MAP = "/dataSelectionSelectedLevelValueMap";
 
 	private GtnWebServiceUrlConstants() {
 		super();

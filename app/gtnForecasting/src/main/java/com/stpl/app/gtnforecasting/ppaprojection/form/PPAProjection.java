@@ -1813,7 +1813,7 @@ public class PPAProjection extends CustomComponent implements View {
         levelFilter.setValue(SELECT_ONE);
 
         List<Leveldto> hierarchy = null;
-        hierarchy = CommonLogic.getCustomerHierarchy(projectionId, selection.getCustomerLevelNo());
+        hierarchy = CommonLogic.getCustomerHierarchy(projectionId, selection.getCustomerLevelNo(),session.getCustomerRelationVersion());
         if (hierarchy != null) {
             int endLevelNo = hierarchy.get(hierarchy.size() - 1).getLevelNo();
             for (Leveldto levelDto : hierarchy) {
