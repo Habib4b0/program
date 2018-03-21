@@ -8,6 +8,13 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 
 public class LevelDtoToRelationShipBeanConverter {
 
+	/**
+	 * No need to create object for this class
+	 */
+	private LevelDtoToRelationShipBeanConverter() {
+		super();
+	}
+
 	public static List<GtnFrameworkRelationshipLevelDefintionBean> convetToRelationBean(
 			List<Leveldto> selectedCustomerContractList) {
 		List<GtnFrameworkRelationshipLevelDefintionBean> finalForecastList = new ArrayList<>();

@@ -1332,7 +1332,7 @@ public class DataSelectionLogic {
 		return returnList;
 	}
 
-	public List<Leveldto> getChildLevelsWithHierarchyNo(String hierarchyNo, int lowestLevelNo,
+	public List<Leveldto> getChildLevelsWithHierarchyNo(int lowestLevelNo,
 			final Map<String, String> descriptionMap, Object businessUnit, Leveldto selectedLevelDto,
 			int hierarchyVersion, int relationShipVersion, int subListIndex, Date forecastEligibleDate,
 			boolean isProduct) {
@@ -1340,7 +1340,7 @@ public class DataSelectionLogic {
 		List<Leveldto> resultList = null;
 		try {
 			Leveldto dto;
-			String query = StringUtils.EMPTY;
+			String query;
 			if (isProduct) {
 				query = relationLogic.getFinalChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
 						String.valueOf(businessUnit), lowestLevelNo, subListIndex);

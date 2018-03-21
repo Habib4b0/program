@@ -4064,7 +4064,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.parseInt(relationshipSid), tempGroupFileter, customerHierarchyDto.getHierarchyId(),
+						Integer.parseInt(relationshipSid), tempGroupFileter, 
 						dedLevel,
 						dedValue, relationVersionNo, forecastEligibleDate.getValue(), customerDescMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
@@ -4734,10 +4734,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setScreenName(scrName);
 				// To create the temp tables with userId and session id
 				QueryUtils.createTempTables(session);
-				String dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-						: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
-
-				String dedLevel = getDedutionLevel(String.valueOf(deductionLevel.getValue()));
 				session.setProjectionId(projectionIdValue);
 				session.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 				session.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));

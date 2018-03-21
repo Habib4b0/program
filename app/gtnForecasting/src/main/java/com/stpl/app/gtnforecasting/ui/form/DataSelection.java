@@ -1670,7 +1670,7 @@ public class DataSelection extends ForecastDataSelection {
 					: groupFilteredCompanies;
 			List<Leveldto> resultedLevelsList = null;
 			resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-					Integer.parseInt(relationshipSid), tempGroupFileter, customerHierarchyDto.getHierarchyId(),
+					Integer.parseInt(relationshipSid), tempGroupFileter, 
 					dedLevel,
 					dedValue, relationVersionNo, forecastEligibleDate.getValue(), customerDescriptionMap);
 			if (selectedHierarchyLevelDto.getLevel() != null) {
