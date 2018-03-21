@@ -913,7 +913,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         sessionDTO.setCustomId(customId);
         CommonLogic.loadCustomHierarchyList(sessionDTO);
         if (CommonUtils.isValueEligibleForLoading()) {
-            sessionDTO.setDeductionLevelDetails(new CFFLogic().getRelationshipDetailsDeduction(sessionDTO, sessionDTO.getDedRelationshipBuilderSid()));
+            sessionDTO.setDeductionLevelDetails(new CFFLogic().getRelationshipDetailsDeduction(sessionDTO));
         }
         if (customId != 0) {
             callGenerateLogic();

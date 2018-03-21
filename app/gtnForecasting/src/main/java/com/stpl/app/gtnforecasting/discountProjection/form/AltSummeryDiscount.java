@@ -467,7 +467,7 @@ public class AltSummeryDiscount extends CustomComponent {
         newBtn.setEnabled(true);
         /* To load the Customer hierarchy initially */
         int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo);
+        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo,session.getCustomerRelationVersion());
         hierarchyIndicator = "C";
 
         tableLogic.setTreeNodeMultiClick(false);
@@ -691,7 +691,7 @@ public class AltSummeryDiscount extends CustomComponent {
             } else if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
                 customIdToSelect = customId;
                 int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
-                currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo);
+                currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo,session.getCustomerRelationVersion());
                 Collections.sort(this.currentHierarchy,new Comparator<Leveldto>(){
                 	@Override
         			public int compare(Leveldto o1, Leveldto o2) {
@@ -714,7 +714,7 @@ public class AltSummeryDiscount extends CustomComponent {
             } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
                 customIdToSelect = customId;
                 int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
-                currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo);
+                currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,session.getProductRelationVersion());
                 Collections.sort(this.currentHierarchy,new Comparator<Leveldto>(){
                 	@Override
         			public int compare(Leveldto o1, Leveldto o2) {

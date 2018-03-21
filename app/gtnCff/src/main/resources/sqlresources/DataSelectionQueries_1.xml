@@ -8,7 +8,7 @@
 		<query> 
                     <![CDATA[
         SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES,LEVEL_NO 
-        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
+        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID AND VERSION_NO = @RELATION_VER
         AND LEVEL_NAME = 'CONTRACT' AND (@HIERARCHY_DETAILS)
                             ]]>
 		</query>
@@ -18,7 +18,7 @@
 		<query> 
                     <![CDATA[
         SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES,LEVEL_NO 
-        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
+        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID AND VERSION_NO = @RELATION_VER
         AND (LEVEL_NAME = 'Customer' OR LEVEL_NAME = 'Trading Partner' OR  LEVEL_NAME = 'TradingPartner') AND (@HIERARCHY_DETAILS)
                             ]]>
 		</query>
@@ -29,7 +29,7 @@
 		<query> 
                     <![CDATA[
        SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES
-        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
+        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID AND VERSION_NO = @RELATION_VER
         AND (LEVEL_NAME = 'Item' OR LEVEL_NAME = 'Product' OR  LEVEL_NAME = 'NDC') AND (@HIERARCHY_DETAILS)
                             ]]>
 		</query>
@@ -107,34 +107,6 @@ SELECT COM.RELATIONSHIP_LEVEL_VALUES AS COMPANY_MASTER_SID,
 FROM   COMPANY COM
        JOIN CONTRACT C
          ON COM.HIERARCHY_NO LIKE C.HIERARCHY_NO + '%' -- LHS Should have bigger level no than RHS
-             ]]>
-		</query>
-	</entity>
-
-	<entity id="CCP_HIERARCHY_INSERT_PRODUCT">
-		<query> 
-                    <![CDATA[ 
-                    IF Object_id('tempdb..#ITEM') IS NOT NULL
-  DROP TABLE #ITEM
-
-CREATE TABLE #ITEM
-  (
-     ITEM_MASTER_SID INT,
-     HIERARCHY_NO    VARCHAR(50)
-  );
-
-INSERT INTO #ITEM
-            (ITEM_MASTER_SID,
-             HIERARCHY_NO)
-SELECT RELATIONSHIP_LEVEL_VALUES,
-       HIERARCHY_NO
-FROM   RELATIONSHIP_LEVEL_DEFINITION
-WHERE  RELATIONSHIP_BUILDER_SID = 63
-       AND ( LEVEL_NAME = 'Item'
-              OR LEVEL_NAME = 'Product'
-              OR LEVEL_NAME = 'NDC' )
-       AND ( HIERARCHY_NO LIKE '63-1.%' )
-   
              ]]>
 		</query>
 	</entity>
@@ -246,7 +218,7 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
 	<entity id="getRelationshipLevelValues">
 		<query> 
             <![CDATA[ 
-                SELECT
+                SELECT DISTINCT
                     RLD.HIERARCHY_NO,
                     TEMP.?FIELD VALUE,
                     LEVEL_NAME,
@@ -317,6 +289,7 @@ INSERT
 				NDPM.rs_contract_sid
 			)
 			AND RLM.relationship_builder_sid = @RBSID
+			AND RLM.VERSION_NO = @RELATION_VER
 			AND level_no = 10
 		JOIN relationship_builder RB ON
 			RB.relationship_builder_sid = RLM.relationship_builder_sid
@@ -361,6 +334,7 @@ from
 		JOIN HIERARCHY_LEVEL_DEFINITION HLD ON
 			HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
 			AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
+			AND RLD.VERSION_NO = @RELATION_VER
 		JOIN HIERARCHY_DEFINITION HD ON
 			HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
 		LEFT JOIN vw_helper_list JVIEW ON
@@ -392,6 +366,7 @@ from
                                   ?HELPERTABLEJOIN
              where 
                                  RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
+                                 AND RLD.VERSION_NO = @RELATION_VER
                                 AND RLD.LEVEL_NO = ?LNO
 
              GROUP BY   RLD.HIERARCHY_NO,

@@ -309,7 +309,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 		}
 
 		List customerList = CommonLogic.getCustomerHierarchy(session.getProjectionId(),
-				Integer.parseInt(session.getCustomerLevelNumber()));
+				Integer.parseInt(session.getCustomerLevelNumber()),session.getCustomerRelationVersion());
 
 		int size = customerList.size();
 		for (int i = 0; i < size; i++) {
@@ -337,7 +337,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 		}
 
 		List productList = CommonLogic.getProductHierarchy(session.getProjectionId(),
-				session.getProductLevelNumber() != null ? Integer.parseInt(session.getProductLevelNumber()) : 1);
+				session.getProductLevelNumber() != null ? Integer.parseInt(session.getProductLevelNumber()) : 1,session. getProductRelationVersion());
 
 		int size = productList.size();
 		for (int i = 0; i < size; i++) {
@@ -365,7 +365,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 		}
 
 		List productList = CommonLogic.getProductHierarchy(session.getProjectionId(),
-				session.getProductLevelNumber() != null ? Integer.parseInt(session.getProductLevelNumber()) : 1);
+				session.getProductLevelNumber() != null ? Integer.parseInt(session.getProductLevelNumber()) : 1,session.getDeductionRelationVersion());
 
 		int size = productList.size();
 		for (int i = 0; i < size; i++) {
