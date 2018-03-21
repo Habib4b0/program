@@ -43,7 +43,12 @@ public class NMSalesExcelLogic {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = obj[NumericConstants.ZERO].toString();
-            key = key.substring(key.indexOf('-') + 1);
+            if (projectionSelectionDTO.isIsCustomHierarchy()) {
+                String parentId = obj[NumericConstants.FOUR] != null ? obj[NumericConstants.FOUR].toString() : StringUtils.EMPTY;
+                key = obj[NumericConstants.ZERO].toString().concat("$").concat(parentId);
+            } else {
+                key = key.substring(key.indexOf('-') + 1);
+            }
             String hierarchyNo=getHierarchyNumber(obj[NumericConstants.ZERO]);
             if(hierarchyLevelDetails.get(hierarchyNo.trim())!=null){
             String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchyNo.trim()).get(4));
