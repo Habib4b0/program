@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBea
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 
 public class GtnWsRelationshipBuilderHierarchyQueryGenerator {
@@ -34,7 +35,8 @@ public class GtnWsRelationshipBuilderHierarchyQueryGenerator {
 	}
 
 	public void getLinkedValueQuery(HierarchyLevelDefinitionBean destinationHierarchyBean,
-			List<HierarchyLevelDefinitionBean> hierarchyList, GtnFrameworkQueryGeneratorBean queryBean) {
+			List<HierarchyLevelDefinitionBean> hierarchyList, GtnFrameworkQueryGeneratorBean queryBean)
+			throws GtnFrameworkGeneralException {
 		final Set<String> tableNameList = getDefaultTableNameList(destinationHierarchyBean.getHierarchyCategory());
 		Set<String> hierarchyTableList = HierarchyLevelDefinitionBean.getTableNameSet(hierarchyList);
 		tableNameList.addAll(hierarchyTableList);
