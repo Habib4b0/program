@@ -3147,6 +3147,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				tempSession.setProductHierarchyVersion(dto.getProductHierVersionNo());
 				tempSession.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
 				tempSession.setProductRelationVersion(dto.getProductRelationShipVersionNo());
+				tempSession.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
 				tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
@@ -3227,46 +3228,48 @@ public class DataSelectionForm extends ForecastDataSelection {
 						|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
 					tempSession.setCustomerLevelDetails(
 							dsLogic.getLevelValueDetails(tempSession, dto.getCustRelationshipBuilderSid(), true));
-					tempSession.setProductLevelDetails(
-							dsLogic.getLevelValueDetails(tempSession, dto.getProdRelationshipBuilderSid(), false));
-					tempSession.setCustomerDescription(tempCustomerDescriptionMap);
-					tempSession.setProductDescription(tempProductDescriptionMap);
-				} else {
-					tempSession.setCustomerDescription(tempCustomerDescriptionMap);
-					tempSession.setProductDescription(tempProductDescriptionMap);
-				}
-				if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
-						|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
-					tempSession.setCustRelationshipBuilderSid(dto.getCustRelationshipBuilderSid());
-					tempSession.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
-					if (CommonUtil.isValueEligibleForLoading()) {
-						Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
-						tempSession.setDedRelationshipBuilderSid(obj[0].toString());
-					}
-					if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)) {
-						if (dataLogic.isFileChanged(tempSession) == 0) {
-							MessageBox.showPlain(Icon.QUESTION, "New File is Activated in the File Management module",
-									"There is a new file " + "[ " + tempSession.getFileName() + " ]\n"
-											+ " that has been activated. \n"
-											+ "Please re-calculate Sales and Discount projections to utilize the new values.",
-									new MessageBoxListener() {
-										@SuppressWarnings("PMD")
-                                                                                @Override
-										public void buttonClicked(final ButtonId buttonId) {
-											return;
-										}
-									}, ButtonId.OK);
-						}
-					}
-					ForecastWindow forecastWindow = new ForecastWindow(dto.getProjectionName(), tempSession,
+			                             tempSession.setProductLevelDetails(
+                                        dsLogic.getLevelValueDetails(tempSession, dto.getProdRelationshipBuilderSid(), false));
+                                tempSession.setCustomerDescription(tempCustomerDescriptionMap);
+                                tempSession.setProductDescription(tempProductDescriptionMap);
+                            } else {
+                                tempSession.setCustomerDescription(tempCustomerDescriptionMap);
+                                tempSession.setProductDescription(tempProductDescriptionMap);
+                            }
+                            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
+                                    || CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+                                tempSession.setCustRelationshipBuilderSid(dto.getCustRelationshipBuilderSid());
+                                tempSession.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
+                                if (CommonUtil.isValueEligibleForLoading()) {
+                                    Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
+                                    tempSession.setDedRelationshipBuilderSid(obj[0].toString());
+                                    }
+                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)) {
+                                    if (dataLogic.isFileChanged(tempSession) == 0) {
+                                        MessageBox.showPlain(Icon.QUESTION, "New File is Activated in the File Management module",
+                                                "There is a new file " + "[ " + tempSession.getFileName() + " ]\n"
+                                                + " that has been activated. \n"
+                                                + "Please re-calculate Sales and Discount projections to utilize the new values.",
+                                                new MessageBoxListener() {
+                                            @SuppressWarnings("PMD")
+                                            @Override
+                                            public void buttonClicked(final ButtonId buttonId) {
+                                                return;
+                                            }
+                                        }, ButtonId.OK);
+                                    }
+                                }
+                                ForecastWindow forecastWindow = new ForecastWindow(dto.getProjectionName(), tempSession,
 							resultTable, scrName, this, dto);
 					UI.getCurrent().addWindow(forecastWindow);
 
 				} else if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)) {
-
+                                        long startTime = System.currentTimeMillis();
 					ForecastEditWindow editWindow = new ForecastEditWindow(dto.getProjectionName(), tempSession,
 							resultTable, scrName, this);
 					UI.getCurrent().addWindow(editWindow);
+                                        long endTime = System.currentTimeMillis();
+                                        LOGGER.info("DataSelection  ----" + getClass() + "-----------" + (endTime - startTime));
 				} else if (!editnotif) {
 					editnotif = true;
 					tempSession.setDeductionLevel(dto.getDeductionLevel());
@@ -3354,6 +3357,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setProductHierarchyVersion(dto.getProductHierVersionNo());
 				session.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
 				session.setProductRelationVersion(dto.getProductRelationShipVersionNo());
+                                session.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
 				customerDescMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
@@ -3398,30 +3402,30 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 				} else {
 					// In back hand it was throwing Error because in returns
-					// customer RelationShip we are not using
-					session.setCustomerDescription(customerDescMap);
-					session.setProductDescription(productDescMap);
-				}
-				if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
-						|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
-					session.setCustRelationshipBuilderSid(dto.getCustRelationshipBuilderSid());
-					session.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
-					if (CommonUtil.isValueEligibleForLoading()) {
-						Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
-						session.setDedRelationshipBuilderSid(obj[0].toString());
-					}
-					ForecastWindow forecastWindow = new ForecastWindow(dto.getProjectionName(), session, resultTable,
-							scrName, this, dto);
-					UI.getCurrent().addWindow(forecastWindow);
-				} else if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)) {
-					ForecastEditWindow editWindow = new ForecastEditWindow(dto.getProjectionName(), session,
-							resultTable, scrName, this);
-					UI.getCurrent().addWindow(editWindow);
-				} else {
-					session.setDeductionLevel(dto.getDeductionLevel());
-					session.setDeductionValue(dto.getDeductionValue());
-					session.setIsFileNotChanged(true);
-					session.setIsNewFileCalculationNeeded(false);
+				                            // customer RelationShip we are not using
+                                session.setCustomerDescription(customerDescMap);
+                                session.setProductDescription(productDescMap);
+                            }
+                            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(scrName)
+                                    || CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
+                                session.setCustRelationshipBuilderSid(dto.getCustRelationshipBuilderSid());
+                                session.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
+                                if (CommonUtil.isValueEligibleForLoading()) {
+                                    Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
+                                    session.setDedRelationshipBuilderSid(obj[0].toString());
+                                    }
+                                ForecastWindow forecastWindow = new ForecastWindow(dto.getProjectionName(), session, resultTable,
+                                        scrName, this, dto);
+                                UI.getCurrent().addWindow(forecastWindow);
+                            } else if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)) {
+                                ForecastEditWindow editWindow = new ForecastEditWindow(dto.getProjectionName(), session,
+                                        resultTable, scrName, this);
+                                UI.getCurrent().addWindow(editWindow);
+                            } else {
+                                session.setDeductionLevel(dto.getDeductionLevel());
+                                session.setDeductionValue(dto.getDeductionValue());
+                                session.setIsFileNotChanged(true);
+                               	session.setIsNewFileCalculationNeeded(false);
 					callARPView(dto, session);
 				}
 
@@ -4254,9 +4258,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 						session.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
 						session.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
 						if (CommonUtil.isValueEligibleForLoading()) {
-							Object[] obj = nmLogic
-									.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
-							session.setDedRelationshipBuilderSid(obj[0].toString());
+							 Object[] obj = nmLogic
+                                                        .deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
+                                                session.setDedRelationshipBuilderSid(obj[0].toString());
+                                                List versionNoList = nmLogic.getDeductionVersionNoList(session.getDedRelationshipBuilderSid());
+                                                if (versionNoList != null) {
+                                                    session.setDeductionRelationVersion((int) versionNoList.get(0));
+                                                }
 						}
 						session.setScreenName(scrName);
 						session.setProjectionName(dataSelectionDTO.getProjectionName());
@@ -4270,13 +4278,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 								selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
 								dataSelectionDTO);
 
-						session.setCustomerLevelDetails(
-								dsLogic.getLevelValueDetails(session, customerRelationComboBox.getValue(), true));
-						session.setProductLevelDetails(
-								dsLogic.getLevelValueDetails(session, productRelation.getValue(), false));
-					
-						dsLogic.loadProjectionFileDetailsTabInGenerate(session);
-						ForecastWindow forecastWindow = new ForecastWindow(projectionName.getValue(), session,
+                                            session.setCustomerLevelDetails(
+                                                    dsLogic.getLevelValueDetails(session, customerRelationComboBox.getValue(), true));
+                                            session.setProductLevelDetails(
+                                                    dsLogic.getLevelValueDetails(session, productRelation.getValue(), false));
+
+                                            dsLogic.loadProjectionFileDetailsTabInGenerate(session);
+                                            ForecastWindow forecastWindow = new ForecastWindow(projectionName.getValue(), session,
 								resultTable, scrName, this, dataSelectionDTO);
 						UI.getCurrent().addWindow(forecastWindow);
 						session.setGenerateFlag(false);

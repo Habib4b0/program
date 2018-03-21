@@ -128,6 +128,7 @@ public class NonMandatedLogic {
 	 * the SALES_SMALL dao.
 	 */
 	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
+        private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Searh view.
@@ -1494,7 +1495,9 @@ public class NonMandatedLogic {
 				.setDedRelationshipBuilderSid(CommonUtil.isValueEligibleForLoading() ? obj[0].toString() : null);
 		projectionMaster.setDeductionHierarchySid(CommonUtil.isValueEligibleForLoading() ? obj[1].toString() : null);
                 projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
-		projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
+                List versionNoList = getDeductionVersionNoList(obj[0].toString());
+                projectionMaster.setProjectionDedVersionNo(CommonUtil.isValueEligibleForLoading() ? (int) versionNoList.get(0) : null);
+                projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
 		return projectionMaster.getProjectionMasterSid();
 
 	}
@@ -1507,6 +1510,12 @@ public class NonMandatedLogic {
 		return list == null || list.isEmpty() ? null : (Object[]) list.get(0);
 	}
 
+        
+	 public List getDeductionVersionNoList(Object relationShipBuilderSid) {
+		List<Object> input = new ArrayList<>();
+		input.add(relationShipBuilderSid);
+		return QueryUtils.getAppData(input, "getDedRelationshipVersionNo", null);
+	}
 	/**
 	 * Search for projections.
 	 *

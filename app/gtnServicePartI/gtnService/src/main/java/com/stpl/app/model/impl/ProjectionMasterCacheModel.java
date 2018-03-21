@@ -66,7 +66,7 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(69);
 
 		sb.append("{productHierarchyLevel=");
 		sb.append(productHierarchyLevel);
@@ -134,6 +134,8 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
 		sb.append(projectionProdVersionNo);
 		sb.append(", forecastEligibleDate=");
 		sb.append(forecastEligibleDate);
+		sb.append(", projectionDedVersionNo=");
+		sb.append(projectionDedVersionNo);
 		sb.append("}");
 
 		return sb.toString();
@@ -294,6 +296,8 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
 					forecastEligibleDate));
 		}
 
+		projectionMasterImpl.setProjectionDedVersionNo(projectionDedVersionNo);
+
 		projectionMasterImpl.resetOriginalValues();
 
 		return projectionMasterImpl;
@@ -348,6 +352,8 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
 
 		projectionProdVersionNo = objectInput.readInt();
 		forecastEligibleDate = objectInput.readLong();
+
+		projectionDedVersionNo = objectInput.readInt();
 	}
 
 	@Override
@@ -480,6 +486,8 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
 
 		objectOutput.writeInt(projectionProdVersionNo);
 		objectOutput.writeLong(forecastEligibleDate);
+
+		objectOutput.writeInt(projectionDedVersionNo);
 	}
 
 	public int productHierarchyLevel;
@@ -515,4 +523,5 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
 	public int projectionCustVersionNo;
 	public int projectionProdVersionNo;
 	public long forecastEligibleDate;
+	public int projectionDedVersionNo;
 }
