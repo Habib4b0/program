@@ -1496,7 +1496,6 @@ public class NonMandatedLogic {
 		projectionMaster.setDeductionHierarchySid(CommonUtil.isValueEligibleForLoading() ? obj[1].toString() : null);
                 projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
                 List versionNoList = getDeductionVersionNoList(obj[0].toString());
-                LOGGER.info("versionNoList---------------------------------------"+versionNoList.get(0));
                 projectionMaster.setProjectionDedVersionNo(CommonUtil.isValueEligibleForLoading() ? (int) versionNoList.get(0) : null);
                 projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
 		return projectionMaster.getProjectionMasterSid();

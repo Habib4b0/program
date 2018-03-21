@@ -104,7 +104,7 @@ public class CommonLogic {
     private static final String RBSID = " RELATIONSHIP_BUILDER_SID = ";
     private static final String VERSION_NO = " AND VERSION_NO = ";
     private static final String RLDPARENT_HIERARCHY_NO_LIKE = " AND RLD.PARENT_HIERARCHY_NO LIKE '";
-    public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RELATIONSHIP_BUILDER_SID =";
+    public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.RELATIONSHIP_BUILDER_SID =";
     public static final String RELATIONSHIPVERSION = " AND RLD1.VERSION_NO=";
     
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();

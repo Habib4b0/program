@@ -61,16 +61,13 @@ import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.model.MProjectionSelection;
 import com.stpl.app.parttwo.model.CffCustomViewDetails;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
 import com.stpl.app.parttwo.service.CffCustomViewDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffCustomViewMasterLocalServiceUtil;
-import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
-import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
@@ -106,7 +103,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     public static final String BUILDERSID = "@BUILDERSID";
     public static final String EACH = "EACH";
     
-    private static final GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
     public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RELATIONSHIP_BUILDER_SID =";
     public static final String RELATIONSHIPVERSION = " AND RLD1.VERSION_NO=";
     private static final String RELATIONSHIP_BUILDER_SID = "' and relationship_builder_sid = ";

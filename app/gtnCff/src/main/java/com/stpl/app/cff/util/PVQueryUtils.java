@@ -219,7 +219,7 @@ public class PVQueryUtils {
     public String getComparisonSearch(String workflowStatus, String marketType, String brand,
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to, String notSearchProjId) {
-        String QUOTES = "'";
+        char QUOTES = '\'';
         char ASTERIK = '*';
         char PERCENT = '%';
         String marketTypeVal;
@@ -249,7 +249,7 @@ public class PVQueryUtils {
                 marketTypeVal = marketType.replace(ASTERIK, PERCENT);
                 marketTypeVal = QUOTES + marketTypeVal + QUOTES;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " ).append( marketTypeVal ).append( ")");
+            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " ).append( marketTypeVal ).append( ')');
             if (brand == null || brand.equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
@@ -313,7 +313,7 @@ public class PVQueryUtils {
                 customSql.append(format2.format(format2.parse(to)));
                 customSql.append("' ");
             }
-            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (" ).append( notSearchProjId ).append( ")");
+            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (" ).append( notSearchProjId ).append( ')');
             customSql.append("AND PM.FORECASTING_TYPE='Non Mandated'");
 
             customSql.append(" group by  pm.projection_name,pm.projection_description,ht.description ,cm.company_no  ,c.contract_no  ,pm.projection_master_sid,PM.created_date,PM.created_by ");

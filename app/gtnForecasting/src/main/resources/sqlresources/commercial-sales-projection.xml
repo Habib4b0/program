@@ -334,7 +334,7 @@ JOIN (SELECT PR.*
                 CCP_DETAILS_SID)
                 SELECT DISTINCT CUST_HIERARCHY_NO,CH.CCP_DETAILS_SID
                 FROM  ST_CCP_HIERARCHY CH 
-                WHERE CUST_HIERARCHY_NO like '[?CustomerParent]%' AND PROD_HIERARCHY_NO= '[?ProductParent]'
+                WHERE CUST_HIERARCHY_NO like '[?CustomerParent]%' AND PROD_HIERARCHY_NO like '[?ProductParent]%'
                 
             ]]>
         </query>
