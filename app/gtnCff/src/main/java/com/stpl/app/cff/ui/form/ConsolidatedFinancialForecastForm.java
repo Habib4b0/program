@@ -5,11 +5,35 @@
  */
 package com.stpl.app.cff.ui.form;
 
+import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-
 import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFFilterGenerator;
@@ -34,8 +58,8 @@ import com.stpl.app.cff.util.SessionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.TableHeaderUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -60,33 +84,11 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.lang.reflect.InvocationTargetException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * CFF Landing page
@@ -574,9 +576,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 							tempProductDescriptionMap);
 
 					relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds, productItemIds,
-							customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-							dataSelectionDto.getCustomerRelationShipVersionNo(),
-							dataSelectionDto.getProductRelationShipVersionNo(),projectionIdValue);
+							dataSelectionDto);
 
 					sessionDto.setCustomerLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getCustRelationshipBuilderSid(), true));
@@ -762,9 +762,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						tempProductDescriptionMap);
 
 				relationLogic.ccpHierarchyInsert(vSessionDTO.getCurrentTableNames(), customerItemIds, productItemIds,
-						customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-						dataSelectionDto.getCustomerRelationShipVersionNo(),
-						dataSelectionDto.getProductRelationShipVersionNo(),projectionIdValue);
+						dataSelectionDto);
 
 				cffLogic.ccpHierarchyInsert(vSessionDTO.getCurrentTableNames(), dataSelectionDto,
 						cffLogic.getCustandProdSelection(vSessionDTO.getProjectionId(),

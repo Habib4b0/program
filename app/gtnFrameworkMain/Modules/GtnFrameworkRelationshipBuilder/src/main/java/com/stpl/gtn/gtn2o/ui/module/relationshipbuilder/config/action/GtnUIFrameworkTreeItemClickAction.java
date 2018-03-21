@@ -255,7 +255,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 			GtnWsRelationshipBuilderResponse eligibleForAddingRbResponse = eligibleForAddingResponse
 					.getGtnWsRelationshipBuilderResponse();
 			List<String> hierarchyLevelNameList = eligibleForAddingRbResponse.getHierarchyLevelNameList();
-			if (hierarchyLevelNameList != null && !GtnFrameworkWebserviceConstant.USER_DEFINED
+			if (hierarchyLevelNameList != null && currentLevelNo != hierarchyLevelNameList.size() && !GtnFrameworkWebserviceConstant.USER_DEFINED
 					.equals(hierarchyLevelNameList.get(currentLevelNo))) {
 				returnFlag = true;
 			}

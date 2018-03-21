@@ -4,6 +4,29 @@
  */
 package com.stpl.app.cff.ui.dataSelection.logic;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.naming.NamingException;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
@@ -63,26 +86,6 @@ import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.TreeTable;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -1178,6 +1181,10 @@ public class DataSelectionLogic {
 					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 					dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 					dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
+					dto.setHierarchyLevelDefnId(String.valueOf(objects[NumericConstants.TEN]));
+					dto.setHierarchyId(DataTypeConverter.convertObjectToInt(objects[NumericConstants.ELEVEN]));
+					dto.setHierarchyVersionNo(DataTypeConverter.convertObjectToInt(objects[NumericConstants.TWELVE]));
+					dto.setRelationShipVersionNo(relationShipVersion);
 					if (descriptionMap != null) {
 						dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
 					}
@@ -1282,8 +1289,7 @@ public class DataSelectionLogic {
 			String query;
 			if (!String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).equals("0")
 					&& !String.valueOf(businessUnit).isEmpty()) {
-				query = relationLogic.getChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
-						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
+				query = relationLogic.getChildLevelQueryForProduct(selectedLevelDto, String.valueOf(businessUnit));
 				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
 			} else {
 				query = "getChildLevelsWithHierarchyNo_New";
@@ -1305,6 +1311,10 @@ public class DataSelectionLogic {
 					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 					dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 					dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
+					dto.setHierarchyLevelDefnId(String.valueOf(objects[NumericConstants.TEN]));
+					dto.setHierarchyId(DataTypeConverter.convertObjectToInt(objects[NumericConstants.ELEVEN]));
+					dto.setHierarchyVersionNo(DataTypeConverter.convertObjectToInt(objects[NumericConstants.TWELVE]));
+					dto.setRelationShipVersionNo(relationShipVersion);
 					if (descriptionMap != null) {
 						dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
 					}

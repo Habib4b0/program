@@ -201,7 +201,7 @@ public class GtnUIFrameworkWorkflowPublicPrivateViewPopupConfig {
 		tableStyleList.add(GtnFrameworkCssConstants.FILTERBAR);
 		tableStyleList.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
 		tableStyleList.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
-		tableStyleList.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
+		tableStyleList.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);                
 		wfViewPopupResultConfig.setComponentStyle(tableStyleList);
 
 		GtnUIFrameWorkActionConfig itemClickActionConfig = new GtnUIFrameWorkActionConfig();
@@ -217,7 +217,7 @@ public class GtnUIFrameworkWorkflowPublicPrivateViewPopupConfig {
 		searchResults.setFilterBar(true);
 		searchResults.setSelectable(true);
 		searchResults.setTableColumnDataType(new Class<?>[] { String.class, String.class, String.class, String.class,
-				 String.class, String.class, Object.class, Date.class, Object.class, Date.class });
+				 String.class, String.class, String.class, Date.class, String.class, Date.class });
 		searchResults.setTableVisibleHeader(new String[] { GtnFrameworkWorkflowInboxClassConstants.VIEW_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWCOMPONENT_NAME,
