@@ -116,7 +116,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected File filePath;
     protected File wordFile;
     protected File pdfFile;
-    protected static String fileUploadPath;
+    protected String fileUploadPath;
     protected final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
     protected List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final NotesTabLogic logic = new NotesTabLogic();
@@ -138,7 +138,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected int projectionId = 0;
     protected static String moduleName = StringUtils.EMPTY;
     private String mode = StringUtils.EMPTY;
-    protected static String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    protected String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     protected static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
     protected static String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
 

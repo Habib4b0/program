@@ -63,7 +63,8 @@ public class QueryBeanGeneratorService{
 			List<Object[]> hierarchyVersionList = (List<Object[]>) executeQuery(getQuery("getHierarchyVersionList"));
 			if (hierarchyVersionList != null && !hierarchyVersionList.isEmpty()) {
 				for (Object[] hierarchyVersion : hierarchyVersionList) {
-					gtnWsRelationshipBuilderHierarchyFileGenerator.updateQueryInHierarchy(Integer.parseInt(String.valueOf(hierarchyVersion[0])),
+					gtnWsRelationshipBuilderHierarchyFileGenerator.updateQueryInHierarchy(
+							Integer.parseInt(String.valueOf(hierarchyVersion[0])),
 							Integer.parseInt(String.valueOf(hierarchyVersion[1])));
 				}
 			}

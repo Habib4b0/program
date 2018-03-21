@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="ccpInsertQuery">
+		<query> 
+        <![CDATA[    
+  IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
+						TABLE
+							#COMP_CONT CREATE
+								TABLE
+									#COMP_CONT(
+									   
+										COMPANY_MASTER_SID INT,
+										CONTRACT_MASTER_SID INT,
+										HIERARCHY_NO VARCHAR(50)
+									) INSERT
+										INTO
+											#COMP_CONT(
+											   
+												COMPANY_MASTER_SID,
+												CONTRACT_MASTER_SID,
+												HIERARCHY_NO
+											)?
+		
+		
+		  IF Object_id('TEMPDB..#SELECTED_PROD_HIERARCHY_NO') IS NOT NULL
+  DROP TABLE #SELECTED_PROD_HIERARCHY_NO
+
+		 IF Object_id('tempdb..#ITEM') IS NOT NULL DROP
+						TABLE
+							#ITEM CREATE
+								TABLE
+									#ITEM(
+										
+										ITEM_MASTER_SID INT,
+										HIERARCHY_NO VARCHAR(50)
+									) INSERT
+										INTO
+											#ITEM(
+												
+												ITEM_MASTER_SID,
+												HIERARCHY_NO
+											)  ?
+
+INSERT
+	INTO
+		ST_CCP_HIERARCHY(
+			CCP_DETAILS_SID,
+			CUST_HIERARCHY_NO,
+			PROD_HIERARCHY_NO
+		) SELECT Distinct
+			CD.CCP_DETAILS_SID,
+			CC.HIERARCHY_NO,
+			I.HIERARCHY_NO
+		FROM 
+			#COMP_CONT CC
+		JOIN CCP_DETAILS CD ON
+			CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+			AND CC.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+		JOIN #ITEM I ON
+			I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+	
+
+         ]]>
+		</query>
+	</entity>
+	
+	 <entity id="filtercontractsbasedoneligibledate">
+            <query> 
+            <![CDATA[ 
+              	AND EXISTS( SELECT 1 FROM PROJECTION_MASTER PROJECTION_MASTER WHERE PROJECTION_MASTER.PROJECTION_MASTER_SID= ?
+AND  (CONTRACT_MASTER.CONTRACT_ELIGIBLE_DATE>= FORECAST_ELIGIBLE_DATE OR CONTRACT_MASTER.CONTRACT_ELIGIBLE_DATE IS NULL)
+AND (CFP_CONTRACT_DETAILS.CFP_ELIGIBLE_DATE>= FORECAST_ELIGIBLE_DATE OR CFP_CONTRACT_DETAILS.CFP_ELIGIBLE_DATE IS NULL));
+            ]]>
+            </query>
+        </entity>
+<entity id="relationShipSubQuery">
+		<query> 
+        <![CDATA[            
+SELECT
+			RELATIONSHIP_LEVEL_Values
+		from
+			RELATIONSHIP_LEVEL_DEFINITION
+		where
+			level_no = ?
+			and RELATIONSHIP_BUILDER_SID = ?
+			and VERSION_NO = ?
+
+         ]]>
+		</query>
+	</entity>
+	
+	<entity id="ccpInsertQueryForARP">
+		<query> 
+        <![CDATA[    
+       
+	
+	        
+  IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
+						TABLE
+							#COMP_CONT CREATE
+								TABLE
+									#COMP_CONT(
+									    
+										COMPANY_MASTER_SID INT,
+										CONTRACT_MASTER_SID INT,
+										HIERARCHY_NO VARCHAR(50)
+									) INSERT
+										INTO
+											#COMP_CONT(
+											   
+												COMPANY_MASTER_SID,
+												CONTRACT_MASTER_SID,
+												HIERARCHY_NO
+											)?
+		
+		
+		  IF Object_id('TEMPDB..#SELECTED_PROD_HIERARCHY_NO') IS NOT NULL
+  DROP TABLE #SELECTED_PROD_HIERARCHY_NO
+
+
+		
+		 IF Object_id('tempdb..#ITEM') IS NOT NULL DROP
+						TABLE
+							#ITEM CREATE
+								TABLE
+									#ITEM(
+										
+										ITEM_MASTER_SID INT,
+										HIERARCHY_NO VARCHAR(50)
+									) INSERT
+										INTO
+											#ITEM(
+												
+												ITEM_MASTER_SID,
+												HIERARCHY_NO
+											)  ?
+
+INSERT
+				INTO
+					ST_ACCRUAL_PROJ_DETAILS(
+						CCP_DETAILS_SID,
+						RS_MODEL_SID,
+						PROJECTION_MASTER_SID,
+						RS_CONTRACT_SID
+					) SELECT
+						DISTINCT CD.CCP_DETAILS_SID,
+						R1.RS_MODEL_SID,
+						? as  PROJECTION_MASTER_SID,
+						R1.RS_CONTRACT_SID
+					FROM
+						#COMP_CONT CC
+					JOIN CCP_DETAILS CD ON
+						CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+						AND CC.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+					JOIN #ITEM I ON
+						I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+					JOIN RS_CONTRACT R1 ON
+						R1.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+					JOIN RS_CONTRACT_DETAILS R2 ON
+						R2.RS_CONTRACT_SID = R1.RS_CONTRACT_SID
+						AND R2.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+					WHERE
+						R1.INBOUND_STATUS <> 'D'
+						AND R2.INBOUND_STATUS <> 'D'
+						AND EXISTS(
+							SELECT
+								1
+							FROM
+								CFP_CONTRACT CFP1
+							JOIN CFP_CONTRACT_DETAILS CFP2 ON
+								CFP1.CFP_CONTRACT_SID = CFP2.CFP_CONTRACT_SID
+								AND R1.CFP_CONTRACT_SID = CFP1.CFP_CONTRACT_SID
+							WHERE
+								COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+								AND CFP1.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+						)
+						AND R1.? = ?;
+	
+
+         ]]>
+		</query>
+	</entity>
+	
+	<entity id="RelationShipUserDefinedLoading">
+		<query> 
+        <![CDATA[            
+SELECT
+	RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO,
+	HIERARCHY_LEVEL_VALUES.LEVEL_VALUES
+from
+	dbo.RELATIONSHIP_LEVEL_DEFINITION as RELATIONSHIP_LEVEL_DEFINITION
+JOIN dbo.HIERARCHY_LEVEL_VALUES as HIERARCHY_LEVEL_VALUES on
+	HIERARCHY_LEVEL_VALUES.HIERARCHY_LEVEL_DEFINITION_SID = RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_LEVEL_DEFINITION_SID
+	and HIERARCHY_LEVEL_VALUES.HIERARCHY_LEVEL_VALUES_SID = RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_VALUES
+where
+	RELATIONSHIP_BUILDER_SID = ?
+	and RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO = ? 
+         ]]>
+		</query>
+	</entity>
+        
+
+</sql>

@@ -251,7 +251,7 @@ public class GtnWsRebateScheduleController {
 			logger.error("Error in loadPriceSchedule", ex);
 		}
 
-		logger.info("Exit loadRebateSchedule");
+		logger.info("Exit  loadRebateSchedule");
 		return gtnResponse;
 	}
 

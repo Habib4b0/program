@@ -115,4 +115,8 @@ public class GtnFrameworkSingleColumnRelationBean {
 		return actualTtableName + "." + getWhereClauseColumn();
 	}
 
+	public String getMasterSidColumn() {
+		return isDescriptionColumnAvailable() ? primaryKeyColumnName : mappingColumnName;
+	}
+
 }

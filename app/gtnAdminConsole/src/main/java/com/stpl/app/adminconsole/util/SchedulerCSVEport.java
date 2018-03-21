@@ -57,43 +57,30 @@ public class SchedulerCSVEport {
 	public static void createWorkSheet(long recordCount, Object obj, String serverPath, String csvName)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		int maxRecords = ExcelExportUtil.maxRecords;
-		FileOutputStream fileOut = null;
+		
 		int worksheetCount = (int) (recordCount / maxRecords);
 
 		if (recordCount % maxRecords != 0 || recordCount < maxRecords) {
 			worksheetCount++;
-
 		}
-
 		int remainingCount;
 		int iterationCount = ExcelExportUtil.iterationCount;
 		int start = 0, end = 0;
 		File tempFile = null;
-		PrintWriter pw = null;
-
 		try {
 
 			tempFile = GtnFileUtil.getFile(serverPath + "/" + csvName + ExcelExportUtil.CSV);
 			if (!tempFile.exists()) {
 				tempFile.getParentFile().mkdirs();
 				isFileCreated=tempFile.createNewFile();
-
 			}
 			LOGGER.info("File created successfully = {} ", isFileCreated);
-			fileOut = new FileOutputStream(tempFile);
-
-			pw = new PrintWriter(fileOut);
-			pw.flush();
-			pw.close();
-			fileOut.close();
 		} catch (IOException ex) {
 			LOGGER.error(ex.getMessage());
 		}
 		for (int worksheetNo = 1; worksheetNo <= worksheetCount; worksheetNo++) {
-			try {
-
-				fileOut = new FileOutputStream(tempFile);
-				pw = new PrintWriter(fileOut);
+			try (FileOutputStream fileOut = new FileOutputStream(tempFile);
+                                PrintWriter pw = new PrintWriter(fileOut)) {
 
 				if (recordCount < maxRecords) {
 					remainingCount = (int) recordCount;
@@ -122,15 +109,7 @@ public class SchedulerCSVEport {
 
 			} catch (IOException ex) {
 				LOGGER.error(ex.getMessage());
-			} finally {
-				pw.flush();
-				pw.close();
-				try {
-					fileOut.close();
-				} catch (IOException ex) {
-					LOGGER.error(ex.getMessage());
-				}
-			}
+			} 
 		}
 	}
 

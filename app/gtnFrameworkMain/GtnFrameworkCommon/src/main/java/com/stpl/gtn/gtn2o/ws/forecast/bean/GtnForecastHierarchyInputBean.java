@@ -1,0 +1,294 @@
+package com.stpl.gtn.gtn2o.ws.forecast.bean;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+public class GtnForecastHierarchyInputBean implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int relationShipBuilderSid;
+	private int hierarchyDefinitionSid;
+	private int hierarchyLevelDefinitionSid;
+	private int relationVersionNo;
+	private int hierarchyVersionNo;
+	private String deductionLevel;
+	private String deductionValue;
+	private String fieldName;
+	private String tableName;
+	private String hierarchyType;
+	private String hieraryQuery;
+	private Date forecastEligibleDate;
+	private List<String> groupFilterCompenies;
+	private int levelNo;
+	private int projectionId;
+	private boolean isNdc;
+	private int selectedCustomerRelationShipBuilderSid;
+	private int selectedCustomerRelationShipBuilderVersionNo;
+	private int selectedCustomerHierarcySid;
+	private int selectedCustomerHierarchyVersionNo;
+	private int selectedProductRelationShipBuilderSid;
+	private int selectedProductRelationShipBuilderVersionNo;
+	private int selectedProductHierarcySid;
+	private int selectedProductHierarchyVersionNo;
+	private Object businessUnitValue;
+	private String hierarchyIndicator;
+	private Map<String, String> tempTableMap;
+
+	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList;
+	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList;
+
+	private GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto;
+
+
+	public String getHieraryQuery() {
+		return hieraryQuery;
+	}
+
+	public void setHieraryQuery(String hieraryQuery) {
+		this.hieraryQuery = hieraryQuery;
+	}
+
+	public int getRelationShipBuilderSid() {
+		return relationShipBuilderSid;
+	}
+
+	public void setRelationShipBuilderSid(int relationShipBuilderSid) {
+		this.relationShipBuilderSid = relationShipBuilderSid;
+	}
+
+	public int getHierarchyDefinitionSid() {
+		return hierarchyDefinitionSid;
+	}
+
+	public void setHierarchyDefinitionSid(int hierarchyDefinitionSid) {
+		this.hierarchyDefinitionSid = hierarchyDefinitionSid;
+	}
+
+	public int getHierarchyLevelDefinitionSid() {
+		return hierarchyLevelDefinitionSid;
+	}
+
+	public void setHierarchyLevelDefinitionSid(int hierarchyLevelDefinitionSid) {
+		this.hierarchyLevelDefinitionSid = hierarchyLevelDefinitionSid;
+	}
+
+	public int getRelationVersionNo() {
+		return relationVersionNo;
+	}
+
+	public void setRelationVersionNo(int relationVersionNo) {
+		this.relationVersionNo = relationVersionNo;
+	}
+
+	public int getHierarchyVersionNo() {
+		return hierarchyVersionNo;
+	}
+
+	public void setHierarchyVersionNo(int hierarchyVersionNo) {
+		this.hierarchyVersionNo = hierarchyVersionNo;
+	}
+
+	public String getDeductionLevel() {
+		if (deductionLevel == null)
+			return "";
+		return deductionLevel;
+	}
+
+	public void setDeductionLevel(String deductionLevel) {
+		this.deductionLevel = deductionLevel;
+	}
+
+	public String getDeductionValue() {
+		if (deductionValue == null)
+			return "";
+		return deductionValue;
+	}
+
+	public void setDeductionValue(String deductionValue) {
+		this.deductionValue = deductionValue;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public String getHierarchyType() {
+		return hierarchyType;
+	}
+
+	public void setHierarchyType(String hierarchyType) {
+		this.hierarchyType = hierarchyType;
+	}
+
+	public Date getForecastEligibleDate() {
+		return forecastEligibleDate;
+	}
+
+	public void setForecastEligibleDate(Date forecastEligibleDate) {
+		this.forecastEligibleDate = forecastEligibleDate;
+	}
+
+	public List<String> getGroupFilterCompenies() {
+		return groupFilterCompenies;
+	}
+
+	public void setGroupFilterCompenies(List<String> groupFilterCompenies) {
+		this.groupFilterCompenies = groupFilterCompenies;
+	}
+
+	public int getLevelNo() {
+		return levelNo;
+	}
+
+	public void setLevelNo(int levelNo) {
+		this.levelNo = levelNo;
+	}
+
+	public boolean isNdc() {
+		return isNdc;
+	}
+
+	public void setNdc(boolean isNdc) {
+		this.isNdc = isNdc;
+	}
+
+	public int getSelectedCustomerRelationShipBuilderSid() {
+		return selectedCustomerRelationShipBuilderSid;
+	}
+
+	public Map<String, String> getTempTableMap() {
+		return tempTableMap;
+	}
+
+	public void setTempTableMap(Map<String, String> tempTableMap) {
+		this.tempTableMap = tempTableMap;
+	}
+
+
+	public void setSelectedCustomerRelationShipBuilderSid(int selectedCustomerRelationShipBuilderSid) {
+		this.selectedCustomerRelationShipBuilderSid = selectedCustomerRelationShipBuilderSid;
+	}
+
+	public int getSelectedCustomerRelationShipBuilderVersionNo() {
+		return selectedCustomerRelationShipBuilderVersionNo;
+	}
+
+	public void setSelectedCustomerRelationShipBuilderVersionNo(int selectedCustomerRelationShipBuilderVersionNo) {
+		this.selectedCustomerRelationShipBuilderVersionNo = selectedCustomerRelationShipBuilderVersionNo;
+	}
+
+
+	public Object getBusinessUnitValue() {
+		return businessUnitValue;
+	}
+
+	public void setBusinessUnitValue(Object businessUnitValue) {
+		this.businessUnitValue = businessUnitValue;
+	}
+
+	public int getSelectedCustomerHierarcySid() {
+		return selectedCustomerHierarcySid;
+	}
+
+	public void setSelectedCustomerHierarcySid(int selectedCustomerHierarcySid) {
+		this.selectedCustomerHierarcySid = selectedCustomerHierarcySid;
+	}
+
+	public int getSelectedCustomerHierarchyVersionNo() {
+		return selectedCustomerHierarchyVersionNo;
+	}
+
+	public void setSelectedCustomerHierarchyVersionNo(int selectedCustomerHierarchyVersionNo) {
+		this.selectedCustomerHierarchyVersionNo = selectedCustomerHierarchyVersionNo;
+	}
+
+	public List<GtnFrameworkRelationshipLevelDefintionBean> getSelectedCustomerList() {
+		return selectedCustomerList;
+	}
+
+	public void setSelectedCustomerList(List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList) {
+		this.selectedCustomerList = selectedCustomerList;
+	}
+
+	public List<GtnFrameworkRelationshipLevelDefintionBean> getSelectedProductList() {
+		return selectedProductList;
+	}
+
+	public void setSelectedProductList(List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList) {
+		this.selectedProductList = selectedProductList;
+	}
+
+	public int getSelectedProductRelationShipBuilderSid() {
+		return selectedProductRelationShipBuilderSid;
+	}
+
+	public void setSelectedProductRelationShipBuilderSid(int selectedProductRelationShipBuilderSid) {
+		this.selectedProductRelationShipBuilderSid = selectedProductRelationShipBuilderSid;
+	}
+
+	public int getSelectedProductRelationShipBuilderVersionNo() {
+		return selectedProductRelationShipBuilderVersionNo;
+	}
+
+	public void setSelectedProductRelationShipBuilderVersionNo(int selectedProductRelationShipBuilderVersionNo) {
+		this.selectedProductRelationShipBuilderVersionNo = selectedProductRelationShipBuilderVersionNo;
+	}
+
+	public int getSelectedProductHierarcySid() {
+		return selectedProductHierarcySid;
+	}
+
+	public void setSelectedProductHierarcySid(int selectedProductHierarcySid) {
+		this.selectedProductHierarcySid = selectedProductHierarcySid;
+	}
+
+	public int getSelectedProductHierarchyVersionNo() {
+		return selectedProductHierarchyVersionNo;
+	}
+
+	public void setSelectedProductHierarchyVersionNo(int selectedProductHierarchyVersionNo) {
+		this.selectedProductHierarchyVersionNo = selectedProductHierarchyVersionNo;
+	}
+
+	public int getProjectionId() {
+		return projectionId;
+	}
+
+	public void setProjectionId(int projectionId) {
+		this.projectionId = projectionId;
+	}
+
+	public GtnFrameworkRelationshipLevelDefintionBean getSelectedHierarchyLevelDto() {
+		return selectedHierarchyLevelDto;
+	}
+
+	public void setSelectedHierarchyLevelDto(GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto) {
+		this.selectedHierarchyLevelDto = selectedHierarchyLevelDto;
+	}
+
+	public String getHierarchyIndicator() {
+		return hierarchyIndicator;
+	}
+
+	public void setHierarchyIndicator(String hierarchyIndicator) {
+		this.hierarchyIndicator = hierarchyIndicator;
+	}
+
+}
