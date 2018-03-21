@@ -188,6 +188,7 @@ public class GtnUIFrameWorkRSSaveAction implements GtnUIFrameWorkAction, GtnUIFr
 				notesTabBean.setMasterTableName("RS_MODEL");
 				notesTabBean.setFilePath(note.getDocumentFullPath());
 				notesTabBean.setFileName(note.getDocumentName());
+				notesTabBean.setMasterTableSystemId(note.getDocDetailsId());
 				notesTabBean.setCreatedBy(note.getUserId());
 				notesTabBean.setCreatedDate(new Date());
 				noteBeanList.add(notesTabBean);
