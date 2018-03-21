@@ -50,9 +50,12 @@ public class ComponentInfoTableLogic extends PageTableLogic {
 
     /**
      * Method to setting up the data which we pass to logic
-     *
-     * @param userId
-     * @param sessionId
+     * @param userID
+     * @param sessionID
+     * @param rebateList
+     * @param indicator
+     * @param dto
+     * @param summaryFlag 
      */
     public void loadSetData(int userID, int sessionID, List<String> rebateList, String indicator, ContractsDetailsDto dto,boolean summaryFlag) {
         this.userId = userID;
