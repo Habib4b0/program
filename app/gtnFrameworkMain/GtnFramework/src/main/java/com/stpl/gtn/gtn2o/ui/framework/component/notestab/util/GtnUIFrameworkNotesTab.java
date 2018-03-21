@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -28,10 +29,15 @@ import com.stpl.gtn.gtn2o.ui.framework.component.notestab.GtnUIFrameworkNotesTab
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsAttachmentRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.v7.data.Property;
@@ -844,13 +850,13 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 				attachmentsListBean.addBean(attachmentDTO);
 				fileNameField.setValue("");
 				uploader.setValue("");
-                        GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig();
-                        notificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-                        String filename = event.getFilename();
-                        String message = filename + " Uploaded successfully";
-                        notificationAction.addActionParameter(message);
-                        notificationAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-                        GtnUIFrameworkActionExecutor.executeSingleAction(uploadComponent.getId(), notificationAction);
+                 GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig();
+                 notificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+                 String filename = event.getFilename();
+                 String message = filename + " Uploaded successfully";
+                 notificationAction.addActionParameter(message);
+                 notificationAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+                 GtnUIFrameworkActionExecutor.executeSingleAction(uploadComponent.getId(), notificationAction);
 			} else {
 				AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
 				uploader.setValue("");
@@ -903,6 +909,8 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 
 	public void removeButtonLogic() {
 		try {
+			gtnLogger.info("username +++++++ " + tableBean.getUserName());
+			gtnLogger.info("username 2 ____________________" + userName);
 			if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
 				AbstractNotificationUtils.getErrorNotification(GtnFrameworkCommonConstants.REMOVE_ATTACHMENT,
 						"Please select an attachment to remove ");
@@ -949,14 +957,35 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 			return;
 		}
 		tableBean = (NotesDTO) targetItem.getBean();
-		if (event.isDoubleClick()) {
-			File uploadedFile = GtnFileNameUtils.getFile(tableBean.getDocumentFullPath());
-			Resource res = new FileResource(uploadedFile);
-			fileDownloader.setFileDownloadResource(res);
-			downloadFile(uploadedFile);
+		gtnLogger.info("id++++  " + tableBean.getDocDetailsId());
+		GtnUIFrameworkWebserviceRequest gtnRequest= new GtnUIFrameworkWebserviceRequest();
+		GtnWsAttachmentRequest gtnRequest1= new GtnWsAttachmentRequest();
+		gtnRequest1.setDocDetailsSid(tableBean.getDocDetailsId());
+		gtnRequest.setGtnWsAttachmentRequest(gtnRequest1);
+		if (event.isDoubleClick()) {	
+		    GtnUIFrameworkWebserviceResponse attachResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_DOWNLOAD_FILE_SERVICE, gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			gtnLogger.info("id++++ 1234 " + tableBean.getDocDetailsId());
+			byte[] attachment =attachResponse.getGtnWsAttachmentResponse().getGtnWsAttachmentBean().getFileData();
+			gtnLogger.info("++++++++++++" + attachment);
+			gtnLogger.info("File path" + tableBean.getDocumentFullPath());
+			gtnLogger.info("****file name" + fileName);
+			try {
+				FileOutputStream fileOuputStream = null ;
+			    fileOuputStream = GtnFileNameUtils.getFileOutputStream(tableBean.getDocumentFullPath());
+				fileOuputStream.write(attachment);		
+				fileOuputStream.close();	
+				File uploadedFile = GtnFileNameUtils.getFile(tableBean.getDocumentFullPath());
+				Resource res = new FileResource(uploadedFile);
+				fileDownloader.setFileDownloadResource(res);
+				downloadFile(uploadedFile);
+			} catch (Exception e) {
+				gtnLogger.error("Error in file is not Found",e);
+			}
+
 		}
 
 	}
+	
 
 	public List<String> getValidFormats() {
 		return validFormats == null ? validFormats : Collections.unmodifiableList(validFormats);

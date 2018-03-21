@@ -219,6 +219,8 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 			notesBean.setFilePath(note.getDocumentFullPath());
 			notesBean.setCreatedBy(note.getUserId());
 			notesBean.setCreatedDate(new Date());
+			notesBean.setFileName(note.getDocumentName());
+			notesBean.setMasterTableSystemId(note.getDocDetailsId());
 			noteBeanList.add(notesBean);
 		}
 	}
