@@ -205,7 +205,7 @@ and open the template in the editor.
                 CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
                 SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
                 FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)  
-                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO = A.HIERARCHY_NO              
+                @RELJOIN              
                 [?SELECTED_HIERARCHY_JOIN]
                 
             ]]>
@@ -541,8 +541,7 @@ WHILE ( @I <= @COUNT )
                 
                 ;WITH HIERARCHY AS ( SELECT DISTINCT A.HIERARCHY_NO,INSTR,RELATIONSHIP_LEVEL_VALUES
                 FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)   
-                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1
-                ON RLD1.HIERARCHY_NO = A.HIERARCHY_NO              
+                @RELJOIN          
                 [?SELECTED_HIERARCHY_JOIN] )
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,

@@ -475,6 +475,8 @@ public class DataSelection extends AbstractDataSelection {
 				sessionDTO.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 				Object[] obj = cffLogic.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setDedRelationshipBuilderSid(obj[0].toString());
+                                List versionNoList = cffLogic.getDeductionVersionNoList(sessionDTO.getDedRelationshipBuilderSid());
+                                                    sessionDTO.setDeductionRelationVersion((int) versionNoList.get(0));
 				sessionDTO.setCompanySystemId((Integer) company.getValue());
 				sessionDTO.setCustomerHierarchyVersion(dataSelectionDTO.getCustomerHierVersionNo());
 				sessionDTO.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());

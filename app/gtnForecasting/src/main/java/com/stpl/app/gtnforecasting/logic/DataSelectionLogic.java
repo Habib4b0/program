@@ -101,6 +101,7 @@ public class DataSelectionLogic {
 	 */
 	private final DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
 	public static final String RBSID = "?RBSID";
+	public static final String RBVERSION = "?RBVERSION";
 	public static final String SELECT_CAPS = " SELECT ";
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
@@ -1176,19 +1177,6 @@ public class DataSelectionLogic {
 			returnList.add(String.valueOf(rbSid));
 		}
 		return returnList;
-	}
-
-	public void insertToCcpMap(List<String> relationshipBuilderSids, String screenName) throws SystemException {
-		List<String> relationshipBuilderSidsList = null;
-		Map<String, Object> parameters = new HashMap<>();
-		if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
-			relationshipBuilderSidsList = new ArrayList<>(relationshipBuilderSids);
-		}
-		parameters.put(Constant.INDICATOR, "insertToCcpMap");
-		parameters.put("relationshipBuilderSids", relationshipBuilderSidsList);
-		parameters.put("scrennName", screenName);
-		dataSelectionDao.saveCcp(parameters);
-
 	}
 
 	public void saveCcp(final List<Leveldto> customerEndLevels, final String productHierarchyEndLevelsHierNos,
@@ -2300,6 +2288,7 @@ public class DataSelectionLogic {
 			boolean isCustomerHierarchy) {
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeduction");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));
 		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
 		Map<String, List> resultMap = new HashMap<>();

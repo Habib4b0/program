@@ -41,7 +41,7 @@ public class RelationshipLevelValuesMasterBean {
 		if (!"D".equals(hierarchyNoType)) {
 			createQuery(sessionDTO);
 		} else {
-			createDeductionQuery();
+			createDeductionQuery(sessionDTO);
 		}
 	}
 
@@ -76,9 +76,9 @@ public class RelationshipLevelValuesMasterBean {
 		}
 	}
 
-	private void createDeductionQuery() {
+	private void createDeductionQuery(SessionDTO sessionDTO) {
 		for (int i = 0; i < tempList.size(); i++) {
-			queryList.add(getDeductionCustomisedQuery((Object[]) tempList.get(i)));
+			queryList.add(getDeductionCustomisedQuery((Object[]) tempList.get(i),sessionDTO));
 		}
 	}
 
@@ -100,11 +100,12 @@ public class RelationshipLevelValuesMasterBean {
 		return bean;
 	}
 
-	private RelationshipLevelValuesBean getDeductionCustomisedQuery(Object[] tempListObject) {
+	private RelationshipLevelValuesBean getDeductionCustomisedQuery(Object[] tempListObject, SessionDTO sessionDTO) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
 		String customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeduction");
 		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.ZERO]));
 		customSql = customSql.replace(StringConstantsUtil.RBSID, relationshipBuilderSid);
+		customSql = customSql.replace(StringConstantsUtil.RELATION_VER, String.valueOf(sessionDTO.getDeductionRelationVersion()));
 		boolean isUDC = tempListObject[2].equals(1) && tempListObject[3].equals(1);
 		boolean isRSID = tempListObject[2].equals(0) && tempListObject[3].equals(0);
 		boolean isHelperTableJoin = tempListObject[2].equals(1);

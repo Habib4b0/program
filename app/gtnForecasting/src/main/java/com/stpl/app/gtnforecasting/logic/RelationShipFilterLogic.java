@@ -1031,7 +1031,7 @@ public class RelationShipFilterLogic {
 		input.add(relationShipBuilderSid);
 		return (List<Object[]>) QueryUtils.getAppData(input, "getRelationshipVersionNo", null);
 	}
-
+        
 	public String getChildLevelQueryForProduct(Leveldto selectedHierarchyLevelDto, int relationVersionNo,
 			String businessUnitValue, int lowestLevelNo, int subListIndex) {
 		GtnFrameworkHierarchyQueryBean queryBean = fileReadWriteService.getQueryFromFile(

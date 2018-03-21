@@ -92,6 +92,8 @@ public class CommonLogic {
     public static final String SALES = "SALES";
     public static final String CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST = "CROSS APPLY (SELECT DISTINCT TOKEN FROM UDF_SPLITSTRING('";
     private static final String RELATIONSHIP_BUILDER_SID = "' and relationship_builder_sid = ";
+    public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RELATIONSHIP_BUILDER_SID =";
+    public static final String RELATIONSHIPVERSION = " AND RLD1.VERSION_NO=";
     
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
@@ -107,8 +109,8 @@ public class CommonLogic {
      * @param projectionId
      * @return list
      */
-    public static List<Leveldto> getCustomerHierarchy(int projectionId, final int levelNo) {
-        return getHierarchy(projectionId, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, levelNo);
+    public static List<Leveldto> getCustomerHierarchy(int projectionId, final int levelNo, final int versionNo) {
+        return getHierarchy(projectionId, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, levelNo,versionNo);
     }
 
     /**
@@ -117,8 +119,8 @@ public class CommonLogic {
      * @param projectionId
      * @return list
      */
-    public static List<Leveldto> getProductHierarchy(int projectionId, final int levelNo) {
-        return getHierarchy(projectionId, Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY, levelNo);
+    public static List<Leveldto> getProductHierarchy(int projectionId, final int levelNo, final int versionNo) {
+        return getHierarchy(projectionId, Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY, levelNo,versionNo);
     }
 
     /**
@@ -127,8 +129,8 @@ public class CommonLogic {
      * @param projectionId
      * @return list
      */
-    public static List<Leveldto> getDeductionHierarchy(int projectionId, final int levelNo) {
-        return getHierarchy(projectionId, Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY, levelNo);
+    public static List<Leveldto> getDeductionHierarchy(int projectionId, final int levelNo, final int versionNo) {
+        return getHierarchy(projectionId, Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY, levelNo,versionNo);
     }
 
     /**
@@ -138,10 +140,10 @@ public class CommonLogic {
      * @param hierarchyIndicator
      * @return
      */
-    public static List<Leveldto> getHierarchy(int projectionId, String hierarchyIndicator, final int levelNo) {
+    public static List<Leveldto> getHierarchy(int projectionId, String hierarchyIndicator, final int levelNo, final int versionNo) {
         List<Leveldto> listValue = new ArrayList<>();
         try {
-            String query = getHierarchyTreeQuery(projectionId, hierarchyIndicator, levelNo);
+            String query = getHierarchyTreeQuery(projectionId, hierarchyIndicator, levelNo,versionNo);
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
@@ -666,11 +668,12 @@ public class CommonLogic {
 
     }
 
-    public static String getHierarchyTreeQuery(int projectionId, String hierarchyIndicator, final int levelNo) {
+    public static String getHierarchyTreeQuery(int projectionId, String hierarchyIndicator, final int levelNo, final int versionNo) {
 
         List<Object> queryInputs = new ArrayList<>();
         queryInputs.add(hierarchyIndicator);
         queryInputs.add(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator) ? "CUST_RELATIONSHIP_BUILDER_SID" : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(hierarchyIndicator) ? "PROD_RELATIONSHIP_BUILDER_SID" : "DED_RELATIONSHIP_BULDER_SID");
+        queryInputs.add(versionNo);
         queryInputs.add(projectionId);
         queryInputs.add(levelNo);
         return PPAQuerys.getQuery(queryInputs, "relation-ship-level-details");
@@ -4054,6 +4057,7 @@ public class CommonLogic {
         sql = SQlUtil.getQuery("selected-hierarchy-no-ordered");
         sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getHiererchyNoFromSet(hierarchyNoSet));
         sql = sql.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
+        sql = sql.replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO()));
         sql += getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName());
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
             sql += Constant.AND_SPMFILTER_CC_P1;
@@ -4980,11 +4984,11 @@ public class CommonLogic {
             switch (String.valueOf(hierarchyIndicator)) {
                 case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
                     if (StringUtils.isNotBlank(productHierarchyNo)) {
-                        joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ productHierarchyNo +"', ',') C WHERE CCPH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) CN");
+                        joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST).append(productHierarchyNo).append("', ',') C WHERE CCPH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) CN");
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                         String hierarchyNo = "%" + deductionHierarchyNo + "%";
-                        dedJoin = Constant.RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() + Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT
+                        dedJoin = Constant.RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() +" AND VERSION_NO = "+sessionDTO.getDeductionRelationVersion()+ Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT
                                 + Constant.AND_PR_PARENT_HIERARCHY_LIKE_RLD_PARENT_HIER;
                     }
                     break;
@@ -4994,7 +4998,7 @@ public class CommonLogic {
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                          String hierarchyNo = "%" + deductionHierarchyNo + "%";
-                         dedJoin = Constant.RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() + Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT
+                         dedJoin = Constant.RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() +" AND VERSION_NO = "+sessionDTO.getDeductionRelationVersion()+ Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT
                                 + Constant.AND_PR_PARENT_HIERARCHY_LIKE_RLD_PARENT_HIER;
                     }
                     break;
@@ -5021,70 +5025,97 @@ public class CommonLogic {
 
 
         public String getColumnNameCustomRel(final String hierarchyIndicator,final String parentHierarchyNo,SessionDTO sessionDTO) {
-        String columnName;
+        StringBuilder columnName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName = CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST + parentHierarchyNo + Constant.HIERARCHY_NO_JOIN;
+            columnName.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST).append(parentHierarchyNo).append(Constant.HIERARCHY_NO_JOIN);
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = "AND CCPH.PROD_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"%'";
+            columnName.append("AND CCPH.PROD_HIERARCHY_NO LIKE '").append(parentHierarchyNo).append("%'");
         } else {
             String hierarchyNo = replacePercentHierarchy(parentHierarchyNo);
-            columnName = Constant.RELATIONSHIP_LEVEL_DEFINITION_JOIN+ hierarchyNo +"' and  relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT +
-                Constant.AND_PR_PARENT_HIERARCHY_LIKE_RLD_PARENT_HIER;
+            columnName.append(Constant.RELATIONSHIP_LEVEL_DEFINITION_JOIN).append(hierarchyNo).append("' and  relationship_builder_sid = ").append(sessionDTO.getDedRelationshipBuilderSid())
+                    .append(" AND VERSION_NO = ").append(sessionDTO.getDeductionRelationVersion())
+                    .append(Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT)
+                    .append(Constant.AND_PR_PARENT_HIERARCHY_LIKE_RLD_PARENT_HIER);
         }
-        return columnName;
+        return columnName.toString();
     }
     
     public String getColumnNameCustomDed(final String hierarchyIndicator) {
-        String columnName;
+        StringBuilder columnName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName = " CCPH.CUST_HIERARCHY_NO LIKE SHN.HIERARCHY_NO+'%' ";
+            columnName.append(" CCPH.CUST_HIERARCHY_NO LIKE SHN.HIERARCHY_NO+'%' ");
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = " CCPH.PROD_HIERARCHY_NO LIKE SHN.HIERARCHY_NO+'%' ";
+            columnName.append(" CCPH.PROD_HIERARCHY_NO LIKE SHN.HIERARCHY_NO+'%' ");
         } else {
-            columnName = " RLD.RELATIONSHIP_LEVEL_VALUES = SHN.HIERARCHY_NO ";
+            columnName.append(" RLD.RELATIONSHIP_LEVEL_VALUES = SHN.HIERARCHY_NO ");
         }
-        return columnName;
+        return columnName.toString();
     }
     
     public String getDedCustomJoin(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
-        String columnName;
-        if (hierarchyIndicator.equalsIgnoreCase("C") || hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO ";
+        StringBuilder columnName = new StringBuilder();
+        if (hierarchyIndicator.equalsIgnoreCase("C")) {
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO ");
+            columnName.append("AND RELATIONSHIP_BUILDER_SID =");
+            columnName.append(sessionDTO.getCustRelationshipBuilderSid());
+            columnName.append(RELATIONSHIPVERSION);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
+        }else if(hierarchyIndicator.equalsIgnoreCase("P")){
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO ");
+            columnName.append("AND RELATIONSHIP_BUILDER_SID =");
+            columnName.append(sessionDTO.getProdRelationshipBuilderSid());
+            columnName.append(RELATIONSHIPVERSION);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
         }else {
             String parentHierNo = replacePercentHierarchy(hierarchyNo);
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierNo +RELATIONSHIP_BUILDER_SID+ sessionDTO.getDedRelationshipBuilderSid() +Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT +
-"                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO = ").append(levelNo).append(" AND RLD.PARENT_HIERARCHY_NO LIKE '").append(parentHierNo).append(RELATIONSHIP_BUILDER_SID)
+                    .append(sessionDTO.getDedRelationshipBuilderSid()).append(" AND VERSION_NO = ").append(sessionDTO.getDeductionRelationVersion()).append(Constant.JOIN_PARENT_VALIDATE_PR_ON_PRRS_CONTRACT)
+                    .append(" AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");
         }
-        return columnName;
+        return columnName.toString();
     }
 
     public String getDedCustomJoinGenerate(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
          StringBuilder columnName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-             columnName.append(Constant.RELATIONSHIPJOIN);
-            columnName.append(sessionDTO.getCustomerRelationVersion());
+             columnName.append(RELATIONSHIPJOIN);
+             columnName.append(sessionDTO.getCustRelationshipBuilderSid());
+             columnName.append(RELATIONSHIPVERSION);
+             columnName.append(sessionDTO.getCustomerRelationVersion());
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getProdRelationshipBuilderSid());
+            columnName.append(RELATIONSHIPVERSION);
             columnName.append(sessionDTO.getProductRelationVersion());
         } else {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
-            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +RELATIONSHIP_BUILDER_SID+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
-            "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = ").append(levelNo)
+                      .append(" AND RLD.PARENT_HIERARCHY_NO LIKE '").append(parentHierarchyNo).append(RELATIONSHIP_BUILDER_SID).append(sessionDTO.getDedRelationshipBuilderSid())
+                      .append(" AND VERSION_NO = ").append(sessionDTO.getDeductionRelationVersion())
+                      .append(" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ")
+                      .append(" AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");       
             columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.relationship_level_values=A.HIERARCHY_NO ");
         }
         return columnName.toString();
     }
     
-     public String getRelJoinGenerate(String hierarchyIndicator,SessionDTO sessionDTO) {
+     public static String getRelJoinGenerate(String hierarchyIndicator,SessionDTO sessionDTO) {
         StringBuilder columnName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getCustRelationshipBuilderSid());
+            columnName.append(RELATIONSHIPVERSION);
             columnName.append(sessionDTO.getCustomerRelationVersion());
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getProdRelationshipBuilderSid());
+            columnName.append(RELATIONSHIPVERSION);
             columnName.append(sessionDTO.getProductRelationVersion());
         } else {
-            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ");       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO AND RELATIONSHIP_BUILDER_SID =");       
+            columnName.append(sessionDTO.getDedRelationshipBuilderSid());
+            columnName.append(RELATIONSHIPVERSION);
+            columnName.append(sessionDTO.getDeductionRelationVersion());
         }
         return columnName.toString();
     }

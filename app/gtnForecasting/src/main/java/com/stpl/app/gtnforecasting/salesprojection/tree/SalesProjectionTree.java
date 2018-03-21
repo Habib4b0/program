@@ -81,9 +81,9 @@ public class SalesProjectionTree {
         } else {
             CommonLogic cmLogic = new CommonLogic();
             String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO);
+            sql = sql.replace("@RELJOIN", CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO()));
             if (projSelDTO.isLevelFilter()) {
             sql += SQlUtil.getQuery("custom-view-sales-condition-query");
-            sql = sql.replace("@RELJOIN", " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO = A.HIERARCHY_NO ");
             }else{
              sql += " Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO";
             }
