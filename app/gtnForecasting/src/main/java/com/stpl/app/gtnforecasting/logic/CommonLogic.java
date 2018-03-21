@@ -4651,23 +4651,10 @@ public class CommonLogic {
                 String userDefined= userDefinedLevel(salesProjectionDao, projectionId, type,"C");
                 Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
 
-                String fieldName = String.valueOf(tableFieldName[0]);
                 String tableName = String.valueOf(tableFieldName[1]);
 
-                String primaryKey = getPrimaryKeyColumn(maintableName);
-
-                Set<String> tableList = new HashSet();
-                tableList.add(maintableName);
-                tableList.add(companyMaster);
-                List<Leveldto> customerLevelList = relationShipFilterLogic.getHierarchyLevelDefinition(projDto.getSessionDTO().getCustomerHierarchyId(), projDto.getSessionDTO().getCustomerHierarchyVersion());
-                for (Leveldto leveldto : customerLevelList) {
-                    if(!leveldto.getTableName().isEmpty()){
-                       tableList.add(leveldto.getTableName());
-                }
-                }
                 if (tableName.contains("COMPANY")) {
                     maintableName = companyMaster;
-                    primaryKey = getPrimaryKeyColumn(maintableName);
                 }
 
                 String fullUserDefinedQuery = SQlUtil.getQuery("user-defined-level-values").replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
@@ -4713,16 +4700,6 @@ public class CommonLogic {
                 Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
 
                 String userDefined = userDefinedLevel(salesProjectionDao, projectionId, type, "P");
-                String fieldName = String.valueOf(tableFieldName[0]);
-                String tableName = String.valueOf(tableFieldName[1]);
-                String mainTableName = "ITEM_MASTER";
-                List tableNameList = new ArrayList<>();
-                tableNameList.add(mainTableName);
-                List<Leveldto> productLevelList=relationShipFilterLogic.getHierarchyLevelDefinition(projectionDto.getSessionDTO().getProductHierarchyId(), projectionDto.getSessionDTO().getProductHierarchyVersion());
-                for (Leveldto leveldto : productLevelList) {
-                    tableNameList.add(leveldto.getTableName());
-                }
-                String primaryKey = getPrimaryKeyColumn(mainTableName);
 				GtnForecastHierarchyInputBean inputBean = createInputForWebservice(projectionDto, type, "P");
       
                 String query = Constant.USER_DEFINED.equals(userDefined)
