@@ -899,7 +899,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						
 						if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
@@ -907,7 +907,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 											String.valueOf(level.getValue()).split("-")[0]),
 									forecastEligibleDate.getValue(), false);
 						} else {
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(
 											String.valueOf(customerLevel.getValue()).split("-")[0]),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -1022,7 +1022,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						}
 						if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
@@ -1030,7 +1030,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 											String.valueOf(level.getValue()).split("-")[0]),
 									forecastEligibleDate.getValue(), false);
 						} else {
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(
 											String.valueOf(customerLevel.getValue()).split("-")[0]),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -1134,7 +1134,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							customerDescMap, customerHierarchyVersionNo, customerRelationVersionNo);
 					if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 								customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
@@ -1142,7 +1142,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 										String.valueOf(level.getValue()).split("-")[0]),
 								forecastEligibleDate.getValue(), false);
 					} else {
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 								customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
@@ -1234,7 +1234,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 					if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 								customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
@@ -1242,7 +1242,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 										String.valueOf(level.getValue()).split("-")[0]),
 								forecastEligibleDate.getValue(), false);
 					} else {
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 								customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
@@ -1368,7 +1368,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 								}
 								if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-									newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+									newChildLevels = logic.getChildLevelsWithHierarchyNo(
 											UiUtils.parseStringToInteger(
 													String.valueOf(level.getValue()).split("-")[0]),
 											customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -1377,7 +1377,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 													String.valueOf(level.getValue()).split("-")[0]),
 											forecastEligibleDate.getValue(), false);
 								} else {
-									newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+									newChildLevels = logic.getChildLevelsWithHierarchyNo(
 											UiUtils.parseStringToInteger(
 													String.valueOf(customerLevel.getValue()).split("-")[0]),
 											customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -1535,7 +1535,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							}
 							if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 										customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 										customerHierarchyVersionNo, customerRelationVersionNo,
@@ -1543,7 +1543,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 												String.valueOf(level.getValue()).split("-")[0]),
 										forecastEligibleDate.getValue(), false);
 							} else {
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(customerLevel.getValue()).split("-")[0]),
 										customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -1645,7 +1645,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						}
 						if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
@@ -1653,7 +1653,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 											String.valueOf(level.getValue()).split("-")[0]),
 									forecastEligibleDate.getValue(), false);
 						} else {
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(
 											String.valueOf(customerLevel.getValue()).split("-")[0]),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -1766,7 +1766,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 								customerHierarchyVersionNo, customerRelationVersionNo);
 						if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
 									customerHierarchyVersionNo, customerRelationVersionNo,
@@ -1774,7 +1774,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 											String.valueOf(level.getValue()).split("-")[0]),
 									forecastEligibleDate.getValue(), false);
 						} else {
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(
 											String.valueOf(customerLevel.getValue()).split("-")[0]),
 									customerDescMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -1913,7 +1913,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 										productHierarchyVersionNo, productRelationVersionNo);
 								if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-									newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+									newChildLevels = logic.getChildLevelsWithHierarchyNo(
 											UiUtils.parseStringToInteger(
 													String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 											productDescMap, businessUnit.getValue(),
@@ -1922,7 +1922,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 													String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 											forecastEligibleDate.getValue(), true);
 								} else {
-									newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+									newChildLevels = logic.getChildLevelsWithHierarchyNo(
 											UiUtils.parseStringToInteger(
 													String.valueOf(productLevel.getValue()).split("-")[0]),
 											productDescMap, businessUnit.getValue(),
@@ -2080,7 +2080,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							}
 							if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 										productDescMap, businessUnit.getValue(),
@@ -2089,7 +2089,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 										forecastEligibleDate.getValue(), true);
 							} else {
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(productLevel.getValue()).split("-")[0]),
 										productDescMap, businessUnit.getValue(),
@@ -2197,7 +2197,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							}
 							if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 										productDescMap, businessUnit.getValue(),
@@ -2206,7 +2206,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 										forecastEligibleDate.getValue(), true);
 							} else {
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(productLevel.getValue()).split("-")[0]),
 										productDescMap, businessUnit.getValue(),
@@ -2321,7 +2321,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							}
 							if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 										productDescMap, businessUnit.getValue(),
@@ -2330,7 +2330,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 										forecastEligibleDate.getValue(), true);
 							} else {
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(productLevel.getValue()).split("-")[0]),
 										productDescMap, businessUnit.getValue(),
@@ -2576,7 +2576,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						}
 						if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 									productDescMap, businessUnit.getValue(),
@@ -2585,7 +2585,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 									forecastEligibleDate.getValue(), true);
 						} else {
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 									productDescMap, businessUnit.getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
@@ -2739,7 +2739,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						}
 						if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 									productDescMap, businessUnit.getValue(),
@@ -2748,7 +2748,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 									forecastEligibleDate.getValue(), true);
 						} else {
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 									productDescMap, businessUnit.getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
@@ -2851,7 +2851,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							productDescMap, productHierarchyVersionNo, productRelationVersionNo);
 					if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 								productDescMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
@@ -2859,7 +2859,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 								forecastEligibleDate.getValue(), true);
 					} else {
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 								productDescMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
@@ -2951,7 +2951,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 					if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 								productDescMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
@@ -2959,7 +2959,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 										String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 								forecastEligibleDate.getValue(), true);
 					} else {
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 								productDescMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,

@@ -247,12 +247,6 @@ public class ForecastUI extends UI {
                                 BooleanConstant.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
                         List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
                                 BooleanConstant.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
-
-                        customerHierarchyLevelDefinitionList = relationLogic
-                                .getHierarchyLevelDefinition(Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo);
-                        productHierarchyLevelDefinitionList = relationLogic
-                                .getHierarchyLevelDefinition(Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo);
-
                         relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds,
 								productItemIds, dto);
                         sessionDto.setCustomerLevelDetails(

@@ -2190,7 +2190,7 @@ public class DataSelection extends ForecastDataSelection {
 								selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
 							}
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
@@ -2303,7 +2303,7 @@ public class DataSelection extends ForecastDataSelection {
 									UiUtils.stringListToString(uncommonValues), customerDescriptionMap,
 									customerHierarchyVersionNo, customerRelationVersionNo);
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
@@ -2402,7 +2402,7 @@ public class DataSelection extends ForecastDataSelection {
 					}
 					newParentLevels = logic.getParentLevelsWithHierarchyNo(UiUtils.stringListToString(hierarchyNos),
 							customerDescriptionMap, customerHierarchyVersionNo, customerRelationVersionNo);
-					newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+					newChildLevels = logic.getChildLevelsWithHierarchyNo(
 							UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 							customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 							customerHierarchyVersionNo, customerRelationVersionNo,
@@ -2490,7 +2490,7 @@ public class DataSelection extends ForecastDataSelection {
 						}
 					}
 
-					newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+					newChildLevels = logic.getChildLevelsWithHierarchyNo(
 							UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 							customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 							customerHierarchyVersionNo, customerRelationVersionNo,
@@ -2643,7 +2643,7 @@ public class DataSelection extends ForecastDataSelection {
 											UiUtils.stringListToString(uncommonValues), customerDescriptionMap,
 											customerHierarchyVersionNo, customerRelationVersionNo);
 								}
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(customerLevel.getValue()).split("-")[0]),
 										customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -2818,7 +2818,7 @@ public class DataSelection extends ForecastDataSelection {
 										UiUtils.stringListToString(uncommonValues), customerDescriptionMap,
 										customerHierarchyVersionNo, customerRelationVersionNo);
 							}
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(
 											String.valueOf(customerLevel.getValue()).split("-")[0]),
 									customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
@@ -2918,7 +2918,7 @@ public class DataSelection extends ForecastDataSelection {
 							}
 						}
 
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
@@ -3028,7 +3028,7 @@ public class DataSelection extends ForecastDataSelection {
 						newParentLevels = logic.getParentLevelsWithHierarchyNo(
 								UiUtils.stringListToString(uncommonValues), customerDescriptionMap,
 								customerHierarchyVersionNo, customerRelationVersionNo);
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(customerLevel.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
 								customerHierarchyVersionNo, customerRelationVersionNo,
@@ -3172,7 +3172,7 @@ public class DataSelection extends ForecastDataSelection {
 								newParentLevels = logic.getParentLevelsWithHierarchyNo(
 										UiUtils.stringListToString(uncommonValues), productDescriptionMap,
 										productHierarchyVersionNo, productRelationVersionNo);
-								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+								newChildLevels = logic.getChildLevelsWithHierarchyNo(
 										UiUtils.parseStringToInteger(
 												String.valueOf(productLevel.getValue()).split("-")[0]),
 										productDescriptionMap, businessUnit.getValue(),
@@ -3328,7 +3328,7 @@ public class DataSelection extends ForecastDataSelection {
 										UiUtils.stringListToString(uncommonValues), productDescriptionMap,
 										productHierarchyVersionNo, productRelationVersionNo);
 							}
-							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+							newChildLevels = logic.getChildLevelsWithHierarchyNo(
 									UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 									productDescriptionMap, businessUnit.getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
@@ -3426,7 +3426,7 @@ public class DataSelection extends ForecastDataSelection {
 								selectedProductContainer.setChildrenAllowed(selectedParent, false);
 							}
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
@@ -3535,7 +3535,7 @@ public class DataSelection extends ForecastDataSelection {
 									UiUtils.stringListToString(uncommonValues), productDescriptionMap,
 									productHierarchyVersionNo, productRelationVersionNo);
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
@@ -3804,7 +3804,7 @@ public class DataSelection extends ForecastDataSelection {
 									UiUtils.stringListToString(uncommonValues), productDescriptionMap,
 									productHierarchyVersionNo, productRelationVersionNo);
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
@@ -3954,7 +3954,7 @@ public class DataSelection extends ForecastDataSelection {
 									UiUtils.stringListToString(uncommonValues), productDescriptionMap,
 									productHierarchyVersionNo, productRelationVersionNo);
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(
 								UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo,
@@ -4052,7 +4052,7 @@ public class DataSelection extends ForecastDataSelection {
 					}
 					newParentLevels = logic.getParentLevelsWithHierarchyNo(UiUtils.stringListToString(hierarchyNos),
 							productDescriptionMap, productHierarchyVersionNo, productRelationVersionNo);
-					newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+					newChildLevels = logic.getChildLevelsWithHierarchyNo(
 							UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 							productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 							productHierarchyVersionNo, productRelationVersionNo,
@@ -4142,7 +4142,7 @@ public class DataSelection extends ForecastDataSelection {
 						}
 					}
 
-					newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+					newChildLevels = logic.getChildLevelsWithHierarchyNo(
 							UiUtils.parseStringToInteger(String.valueOf(productLevel.getValue()).split("-")[0]),
 							productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
 							productHierarchyVersionNo, productRelationVersionNo,
