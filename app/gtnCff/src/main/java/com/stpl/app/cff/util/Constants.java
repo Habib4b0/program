@@ -71,6 +71,7 @@ public class Constants {
     public static final String CONVERSION_FACTOR = "CONVERSION_FACTOR";
     public static final String CONVERSION_FACTOR_DEFALUT_VALUE="No Conversion";
     public static final String RELVALUE="@RELVALUE";
+    public static final String RELVERSION = "@RELVERSION";
     public static final String RELJOIN = "@RELJOIN";
     public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
     public static final String PARENTVALIDATE = "PARENT-VALIDATE";

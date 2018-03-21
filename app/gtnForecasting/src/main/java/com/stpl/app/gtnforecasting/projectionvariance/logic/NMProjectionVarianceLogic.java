@@ -1264,6 +1264,7 @@ public class NMProjectionVarianceLogic {
         try {
             String ccpQuery = SQlUtil.getQuery(Constant.PARENTVALIDATE);
             ccpQuery = ccpQuery.replace(Constant.RELVALUE, pvsdto.getSessionDTO().getDedRelationshipBuilderSid());
+            ccpQuery = ccpQuery.replace(Constant.RELVERSION, String.valueOf(pvsdto.getSessionDTO().getDeductionRelationVersion()));
             String rsQuery = ccpQuery + insertAvailableHierarchyNo(pvsdto) + relJoin + getRsIdForCurrentHierarchy(pvsdto);
             String query = QueryUtil.replaceTableNames(rsQuery.replace("@CCP", Constant.SELECTED_HIERARCHY_NO_HASH), pvsdto.getSessionDTO().getCurrentTableNames());
             List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -2816,7 +2817,7 @@ public class NMProjectionVarianceLogic {
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                         String hierarchyNo = "%" + deductionHierarchyNo + "%";
-                        dedJoin = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '" + hierarchyNo + "' and relationship_builder_sid = " + projSelDTO.getSessionDTO().getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
+                        dedJoin = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '" + hierarchyNo + "' and relationship_builder_sid = " + projSelDTO.getSessionDTO().getDedRelationshipBuilderSid() +" AND VERSION_NO = "+ projSelDTO.getSessionDTO().getDeductionRelationVersion() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
                                 + " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
                     }
                     break;
@@ -2827,7 +2828,7 @@ public class NMProjectionVarianceLogic {
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                         String hierarchyNo = "%" + deductionHierarchyNo + "%";
-                        dedJoin = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '" + hierarchyNo + "' and relationship_builder_sid = " + projSelDTO.getSessionDTO().getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
+                        dedJoin = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '" + hierarchyNo + "' and relationship_builder_sid = " + projSelDTO.getSessionDTO().getDedRelationshipBuilderSid() +" AND VERSION_NO = "+ projSelDTO.getSessionDTO().getDeductionRelationVersion() +  " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
                                 + " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
                     }
                     break;
@@ -2863,6 +2864,7 @@ public class NMProjectionVarianceLogic {
     public String getCCPQueryForPV(ProjectionSelectionDTO projSelDTO) {
         String ccpQuery = SQlUtil.getQuery(Constant.PARENTVALIDATE);
         ccpQuery = ccpQuery.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
+        ccpQuery = ccpQuery.replace(Constant.RELVERSION, String.valueOf(projSelDTO.getSessionDTO().getDeductionRelationVersion()));
         ccpQuery += insertAvailableHierarchyNo(projSelDTO);
         ccpQuery += commonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO());
         ccpQuery += SQlUtil.getQuery("get-ccp-query");
@@ -2932,6 +2934,7 @@ public class NMProjectionVarianceLogic {
         int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
         String countQuery = SQlUtil.getQuery(Constant.PARENTVALIDATE);
         countQuery = countQuery.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
+        countQuery = countQuery.replace(Constant.RELVERSION, String.valueOf(projSelDTO.getSessionDTO().getDeductionRelationVersion()));
         countQuery += insertAvailableHierarchyNo(projSelDTO);
         countQuery += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
         String selectedHierarchy = getHierarchyJoinQuery(projSelDTO);
@@ -2953,6 +2956,7 @@ public class NMProjectionVarianceLogic {
         int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
         String query = SQlUtil.getQuery(Constant.PARENTVALIDATE);
         query = query.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
+        query = query.replace(Constant.RELVERSION, String.valueOf(projSelDTO.getSessionDTO().getDeductionRelationVersion()));
         query += insertAvailableHierarchyNo(projSelDTO);
         query += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
         query = query.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));

@@ -1275,7 +1275,7 @@ public class DataSelectionLogic {
 
 	public List<Leveldto> getChildLevelsWithHierarchyNo(String hierarchyNo, int lowestLevelNo,
 			final Map<String, String> descriptionMap, Object businessUnit, Leveldto selectedLevelDto,
-			int hierarchyVersion, int relationShipVersion, int subListIndex) {
+			int hierarchyVersion, int relationShipVersion) {
 		List<Object[]> resultss;
 		List<Leveldto> resultList = null;
 		try {

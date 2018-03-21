@@ -6,7 +6,6 @@ import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,8 +76,6 @@ public class ForecastUI extends UI {
     protected DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
     protected SessionDTO sessionDto = new SessionDTO();
     private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
-    private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
-    private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
     protected final NonMandatedLogic nmLogic = new NonMandatedLogic();
     /**
      * Logger
@@ -250,12 +247,6 @@ public class ForecastUI extends UI {
                                 BooleanConstant.getTrueFlag(), customerSelectedLevel, tempCustomerDescriptionMap);
                         List<Leveldto> productItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
                                 BooleanConstant.getFalseFlag(), productSelectedLeve, tempProductDescriptionMap);
-
-                        customerHierarchyLevelDefinitionList = relationLogic
-                                .getHierarchyLevelDefinition(Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo);
-                        productHierarchyLevelDefinitionList = relationLogic
-                                .getHierarchyLevelDefinition(Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo);
-
                         relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds,
 								productItemIds, dto);
                         sessionDto.setCustomerLevelDetails(
