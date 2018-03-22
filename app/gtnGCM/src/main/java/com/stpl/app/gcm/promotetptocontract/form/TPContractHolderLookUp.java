@@ -208,7 +208,7 @@ public class TPContractHolderLookUp extends Window {
                     resultList = logic.getContractHolder(contractHolderId.getValue(), contractHolderNo.getValue(), contractHolderName.getValue(),
                             String.valueOf(contractHolderStatus.getValue()), String.valueOf(contractHolderType.getValue()));
 
-                    LOGGER.debug("Contract Holder Result List Value=" + resultList.size());
+                    LOGGER.debug("Contract Holder Result List Value= {} " , resultList.size());
                 }
                 if (!resultList.isEmpty()) {
                     resultContainer.removeAllItems();

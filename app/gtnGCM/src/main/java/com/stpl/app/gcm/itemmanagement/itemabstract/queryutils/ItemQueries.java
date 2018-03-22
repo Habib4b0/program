@@ -83,7 +83,7 @@ public class ItemQueries {
     public static List getAppData(List input, String queryName, String quaryName2) {
         List list = new ArrayList();
         StringBuilder sql;
-        LOGGER.debug("queryName - - >> " + queryName);
+        LOGGER.debug("queryName - - >> {}" , queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
@@ -94,7 +94,7 @@ public class ItemQueries {
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                LOGGER.debug("sql ==================== " + sql);
+                LOGGER.debug("sql ==================== {}" , sql);
                 list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error("",ex);

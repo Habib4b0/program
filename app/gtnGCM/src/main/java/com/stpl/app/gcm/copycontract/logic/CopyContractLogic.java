@@ -60,7 +60,7 @@ public class CopyContractLogic {
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
 
-        LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+        LOGGER.debug("entering getDropDownList method with paramater listType= {} " , listType);
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -76,7 +76,7 @@ public class CopyContractLogic {
 
         }
 
-        LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+        LOGGER.debug(" getDropDownList method ends with return value strList size = {} " , helperList.size());
 
         return helperList;
     }
@@ -1407,7 +1407,7 @@ public class CopyContractLogic {
     public void insertIntoRsDetails(String temptableSId, String userId, int rsModelSid) {
         String query = "INSERT INTO RS_DETAILS (RS_MODEL_SID,IFP_MODEL_SID,ITEM_MASTER_SID,ITEM_REBATE_START_DATE,INBOUND_STATUS,RECORD_LOCK_STATUS,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE)\n"
                 + "select " + rsModelSid + ",IFP_MODEL_SID,ITEM_MASTER_SID,PS_DTLS_CONT_PRICE_STARTDATE,'A','0'," + userId + ",getDate()," + userId + ",getDate() from IMTD_PS_DETAILS where PS_MODEL_SID='" + temptableSId + "'";
-        LOGGER.debug("Rs Detailsssss Queryy::::" + query);
+        LOGGER.debug("Rs Detailsssss Queryy:::: {} " , query);
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 

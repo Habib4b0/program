@@ -257,7 +257,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         } else {
             input.add("%");
         }
-        LOGGER.debug("input-->>" + input.size() + "------>>" + input);
+        LOGGER.debug("input-->> {} ------>> {}" , input.size() , input);
         return input;
     }
 
