@@ -147,8 +147,9 @@ public class GtnFrameworkConfigureOpenButtonAction
 				loadWebService(generalWSRequest, projMasterBean);
 				userType = GtnFrameworkWorkflowuserTypeMap.valueOf(key).getInput();
 			}
-
-			String furl = getfUrl(key);
+			GtnUIFrameworkWebserviceResponse friendlyUrlresponse = loadWebServiceforFriendlyUrl(generalWSRequest,
+					projMasterBean);
+			String furl = getfUrl(key, friendlyUrlresponse);
 
 			BrowserWindowOpener opener = getBrowserOpener(furl);
 
@@ -214,14 +215,18 @@ public class GtnFrameworkConfigureOpenButtonAction
 		return opener;
 	}
 
-	private String getfUrl(String key) {
+	private String getfUrl(String key, GtnUIFrameworkWebserviceResponse friendlyUrlresponse) {
 		String furl;
 		if (Page.getCurrent().getLocation().getPort() == -1) {
 			furl = GtnFrameworkWorkflowInboxClassConstants.HTTPS + Page.getCurrent().getLocation().getHost()
+					+ GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
+					+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
 					+ GtnFrameworkWorkflowMap.valueOf(key).getInput();
 		} else {
 			furl = GtnFrameworkWorkflowInboxClassConstants.HTTP + Page.getCurrent().getLocation().getHost() + ":"
-					+ Page.getCurrent().getLocation().getPort() + GtnFrameworkWorkflowMap.valueOf(key).getInput();
+					+ Page.getCurrent().getLocation().getPort() + GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
+					+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
+					+ GtnFrameworkWorkflowMap.valueOf(key).getInput();
 		}
 		return furl;
 	}
@@ -295,6 +300,25 @@ public class GtnFrameworkConfigureOpenButtonAction
 		bpmresponse.getGtnWSCommonWorkflowResponse().isRoleMatched();
 	}
 
+	private GtnUIFrameworkWebserviceResponse loadWebServiceforFriendlyUrl(GtnWsGeneralRequest generalWSRequest,
+			GtnWsWorkflowInboxBean projMasterBean) {
+		GtnUIFrameworkWebserviceRequest friendlyUrlRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsCommonWorkflowRequest friendlyUrlcommonRequest = new GtnWsCommonWorkflowRequest();
+		friendlyUrlRequest.setGtnWsGeneralRequest(generalWSRequest);
+		friendlyUrlRequest.setGtnWSCommonWorkflowRequest(friendlyUrlcommonRequest);
+		friendlyUrlRequest.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
+		GtnUIFrameworkWebserviceResponse friendlyUrlresponse = new GtnUIFrameworkWebServiceClient()
+				.callGtnWebServiceUrl(
+						GtnWsWorkFlowConstants.GTN_WS_OPEN_VIEW_SAVE_SERVICE
+								+ GtnFrameworkCommonStringConstants.FETCH_PORTLET_ID,
+						friendlyUrlRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		friendlyUrlRequest.getGtnWSCommonWorkflowRequest()
+				.setFriendlyUrl(friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl());
+		friendlyUrlRequest.setGtnWSCommonWorkflowRequest(friendlyUrlcommonRequest);
+		friendlyUrlRequest.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
+		return friendlyUrlresponse;
+	}
+    
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
