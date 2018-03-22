@@ -3268,8 +3268,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					ForecastEditWindow editWindow = new ForecastEditWindow(dto.getProjectionName(), tempSession,
 							resultTable, scrName, this);
 					UI.getCurrent().addWindow(editWindow);
-                                        long endTime = System.currentTimeMillis();
-                                        LOGGER.info("DataSelection  ----" + getClass() + "-----------" + (endTime - startTime));
 				} else if (!editnotif) {
 					editnotif = true;
 					tempSession.setDeductionLevel(dto.getDeductionLevel());
