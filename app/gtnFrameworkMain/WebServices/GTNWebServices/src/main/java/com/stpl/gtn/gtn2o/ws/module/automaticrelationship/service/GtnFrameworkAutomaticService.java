@@ -56,17 +56,18 @@ public class GtnFrameworkAutomaticService {
 	@SuppressWarnings("unchecked")
 	public List<GtnWsRelationshipBuilderBean> getRelationShipBuilderData(String relationShipType) {
 		SessionFactory sessionFactory = gtnSqlQueryEngine.getSessionFactory();
-		Session session = sessionFactory.openSession();
 		List<GtnWsRelationshipBuilderBean> finalResultbeanList = new ArrayList<>();
-		Criteria criteria = session.createCriteria(RelationshipBuilder.class);
-		criteria.add(Restrictions.eq("buildType", "Automatic"));
-		if (relationShipType.equals("DeductionHierarchy")) {
-			criteria.createAlias("hierarchyDefinition", "h1");
-			criteria.add(Restrictions.eq("h1.hierarchyName", "DeductionHierarchy"));
-		}
-		List<RelationshipBuilder> results = criteria.list();
-		for (RelationshipBuilder relationShipBuilderBean : results) {
-			finalResultbeanList.add(autoUpdateService.getCustomizedRelationBean(relationShipBuilderBean, session));
+		try (Session session = sessionFactory.openSession()) {
+			Criteria criteria = session.createCriteria(RelationshipBuilder.class);
+			criteria.add(Restrictions.eq("buildType", "Automatic"));
+			if (relationShipType.equals("DeductionHierarchy")) {
+				criteria.createAlias("hierarchyDefinition", "h1");
+				criteria.add(Restrictions.eq("h1.hierarchyName", "DeductionHierarchy"));
+			}
+			List<RelationshipBuilder> results = criteria.list();
+			for (RelationshipBuilder relationShipBuilderBean : results) {
+				finalResultbeanList.add(autoUpdateService.getCustomizedRelationBean(relationShipBuilderBean, session));
+			}
 		}
 		return finalResultbeanList;
 	}

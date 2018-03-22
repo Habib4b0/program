@@ -238,8 +238,8 @@ public class ForecastForm extends AbstractForm {
 	private DataAssumptionsLogic dataAssumption = new DataAssumptionsLogic();
 	private static final ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
 	private boolean discountFlag = true;
-	private static Thread dsThread;
-	private static CountDownLatch latch;
+	private Thread dsThread;
+	private CountDownLatch latch;
 	private boolean isCommercialGovernment = BooleanConstant.getFalseFlag();
 	private ExecutorService service = ThreadPool.getInstance().getService();
 
@@ -400,7 +400,7 @@ public class ForecastForm extends AbstractForm {
 		} else {
 			tabSheet.setSelectedTab(1);
 		}
-	}
+        }
 
 	protected void initializeLazyTabLoad(final Map<Integer, Boolean> tabLazyLoadMap, final int componentCount) {
 		tabLazyLoadMap.clear();
@@ -2363,7 +2363,7 @@ public class ForecastForm extends AbstractForm {
 			nmDiscountInsertProcedure();
 			// Discount Contrat Details Methodology Procedure
 			callContractDetailsPrcForDiscount();
-
+			
 			break;
 
 		case Constant.VIEW:

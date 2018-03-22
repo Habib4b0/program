@@ -3477,8 +3477,7 @@ public class MProjectionResultsLogic {
                 + "\n"
                 + "LEFT JOIN  ST_M_SUPPLEMENTAL_DISC_ACTUALS "
                 + " SPMA  ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
-                + " AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
-                + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
+                + " AND SPMA.PERIOD_SID=m_ac.PERIOD_SID JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
                 + "GROUP  BY cm." + columnName + ",\n";
 
         if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
@@ -3877,11 +3876,9 @@ public class MProjectionResultsLogic {
                 ).append( " SPM ON SPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
                 ).append( " LEFT JOIN   ST_M_SUPPLEMENTAL_DISC_PROJ "
                 ).append( " SPMA ON SPMA.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
-                ).append( " AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
-                ).append( " INNER  JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
+                ).append( " AND SPMA.PERIOD_SID=m_ac.PERIOD_SID INNER  JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n"
                 ).append( " GROUP  BY  " ).append( periodGroup ).append( '\n'
-                ).append( " CCP.HIERARCHY_NO,\n"
-                ).append( " p.\"YEAR\"\n"
+                ).append( " CCP.HIERARCHY_NO, p.\"YEAR\"\n"
                 ).append( " ) FUTURE\n" + "ON HISTORY.YEARS = FUTURE.YEARS  "
                 ).append( period
                 ).append( " ) TODIS FULL  JOIN (\n"

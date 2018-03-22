@@ -88,7 +88,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			notificationActionConfig.addActionParameter(
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabContractId").getStringFromField()
-							+ " has been successfully saved");
+							+ ","+GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabContractName").getStringFromField()+" has been successfully saved");
 			notificationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationActionConfig);
 
@@ -173,6 +173,8 @@ public class GtnUIFrameworkContractHeaderSaveAction
 				notesBean = new NotesTabBean();
 				notesBean.setMasterTableName("CONTRACT_MASTER");
 				notesBean.setFilePath(note.getDocumentFullPath());
+				notesBean.setFileName(note.getDocumentName());
+				notesBean.setMasterTableSystemId(note.getDocDetailsId());
 				notesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				notesBean.setCreatedDate(new Date());
 				noteBeanList.add(notesBean);

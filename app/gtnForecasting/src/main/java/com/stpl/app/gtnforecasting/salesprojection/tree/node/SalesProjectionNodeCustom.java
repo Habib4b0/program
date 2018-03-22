@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class SalesProjectionNodeCustom extends SalesBaseNode {
 
-    public SalesProjectionNodeCustom(String hierarchyNumber) {
+public SalesProjectionNodeCustom(String hierarchyNumber) {
         this.hierachyNo = hierarchyNumber;
         this.childTreeList = new ArrayList<>();
     }

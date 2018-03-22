@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.automaticrelation;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 
-@Ignore
+//@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnFrameworkAutomaticRelationUpdateTest {
@@ -29,7 +28,7 @@ public class GtnFrameworkAutomaticRelationUpdateTest {
 	@Test
 	public void checkAndUpdateAutomaticRelationship() throws GtnFrameworkGeneralException, InterruptedException {
 		System.setProperty("gtn.app.data.path", "D:/SERVERS/BASEPATH");
-		service.checkAndUpdateAutomaticRelationship(817);
+		service.checkAndUpdateAutomaticRelationship(840);
 		return;
 	}
 

@@ -78,7 +78,7 @@ public class DataQueryLogic {
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_TYPE)));
                 }
             }
-            LOGGER.debug("Contract Holder Query---->" + queryString.toString());
+            LOGGER.debug("Contract Holder Query----> {} " , queryString.toString());
             PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
             List list2;
             list2 = (List) promoteTpDAO.executeSelectQuery(queryString.toString());
@@ -151,7 +151,7 @@ public class DataQueryLogic {
                     queryString.append("')");
                 }
             }
-            LOGGER.debug("Rebate Plan Query---->" + queryString.toString());
+            LOGGER.debug("Rebate Plan Query----> {} " , queryString.toString());
             PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
             List list2;
             list2 = (List) promoteTpDAO.executeSelectQuery(queryString.toString());

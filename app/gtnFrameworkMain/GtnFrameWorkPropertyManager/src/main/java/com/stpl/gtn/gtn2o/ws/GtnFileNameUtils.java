@@ -49,4 +49,7 @@ public class GtnFileNameUtils {
 	public static FileWriter getFileWriter(String fileName) throws IOException {
 		return new FileWriter(fileName);
 	}
+	public static FileInputStream getFileInputStreamFile(File fileName) throws FileNotFoundException {
+		return new FileInputStream(fileName);
+	}
 }

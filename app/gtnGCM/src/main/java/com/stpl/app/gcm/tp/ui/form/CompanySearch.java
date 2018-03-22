@@ -702,7 +702,7 @@ public class CompanySearch extends VerticalLayout {
 
     // CSV Export. Do not remove the below method
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
-        LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
+        LOGGER.debug("Entering createWorkSheetContent with start {}  end {} " , start , end);
         String parentCompanyNo = parentNo.getValue() != null ? parentNo.getValue() : StringUtils.EMPTY;
         String parentCompanyName = parentName.getValue() != null ? parentName.getValue() : StringUtils.EMPTY;
         String recordLockStatus = StringUtils.EMPTY;

@@ -486,7 +486,7 @@ public class DeductionCalendarLogic {
     }
 
     public DeductionCalendarDTO getDeductionCalendarById(int masterSid, DeductionCalendarDTO dto) {
-        LOGGER.debug("Entering getDeductionCalendarById with " + masterSid);
+        LOGGER.debug("Entering getDeductionCalendarById with {}" , masterSid);
         try {
             Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
             DeductionCalendarMaster deductionCalendarMaster = DeductionCalendarMasterLocalServiceUtil.getDeductionCalendarMaster(masterSid);
@@ -517,7 +517,7 @@ public class DeductionCalendarLogic {
     }
     
     public DeductionCalendarDTO getDeductionCalendarByIdForCopy(int masterSid, DeductionCalendarDTO dto) {
-        LOGGER.debug("Entering getDeductionCalendarByIdForCopy with " + masterSid);
+        LOGGER.debug("Entering getDeductionCalendarByIdForCopy with {}" , masterSid);
         try {
             Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
             DeductionCalendarMaster deductionCalendarMaster = DeductionCalendarMasterLocalServiceUtil.getDeductionCalendarMaster(masterSid);
@@ -540,7 +540,7 @@ public class DeductionCalendarLogic {
      */
     public static int getLazyBrandCount(String filterText) throws PortalException, SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
-        LOGGER.debug("Entering getLazyBrandCount method with filterText" + filterText);
+        LOGGER.debug("Entering getLazyBrandCount method with filterText {}" , filterText);
         List<Object[]> qualifierList;
         final DynamicQuery ifpDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.BRAND_NAME, filterText));
@@ -548,7 +548,7 @@ public class DeductionCalendarLogic {
         ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
         qualifierList = DAO.getBrandList(ifpDynamicQuery);
         int brandCount = Integer.parseInt(String.valueOf(qualifierList.get(0)));
-        LOGGER.debug("Ending getLazyBrandCount method : returning count :" + brandCount);
+        LOGGER.debug("Ending getLazyBrandCount method : returning count : {}" , brandCount);
         return brandCount;
     }
     
@@ -564,7 +564,7 @@ public class DeductionCalendarLogic {
      */
     public static List<com.stpl.app.util.HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final com.stpl.app.util.HelperDTO brand, boolean isFilter) throws PortalException, SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
-        LOGGER.debug("Entering getLazyBrandCount method with filterText" + filterText);
+        LOGGER.debug("Entering getLazyBrandCount method with filterText {}" , filterText);
         List<Object[]> qualifierList;
         final List<com.stpl.app.util.HelperDTO> list = new ArrayList<>();
         int startValue;
@@ -611,7 +611,7 @@ public class DeductionCalendarLogic {
             dto.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
             list.add(dto);
         }
-        LOGGER.debug("return Brand size -" + list.size());
+        LOGGER.debug("return Brand size - {}" , list.size());
         return list;
     }
 
@@ -625,7 +625,7 @@ public class DeductionCalendarLogic {
      */
     public static int getLazyItemQualifierNameCount(String filterText, boolean isEditList) throws PortalException, SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
-        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText);
+        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText {}" , filterText);
         final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.ITEM_QUAL_NAME));
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
@@ -638,7 +638,7 @@ public class DeductionCalendarLogic {
         if (itemQualifierNameCount == 0 && isEditList) {
             itemQualifierNameCount++;
         }
-        LOGGER.debug("Ending getLazyPriceTypeCount method : returning count :" + itemQualifierNameCount);
+        LOGGER.debug("Ending getLazyPriceTypeCount method : returning count : {}" , itemQualifierNameCount);
         return itemQualifierNameCount;
     }
 
@@ -654,7 +654,7 @@ public class DeductionCalendarLogic {
      */
     public static List<com.stpl.app.util.HelperDTO> getLazyItemQualifierNameResults(final int start, final int end, final String filteredText, final boolean editListFlag) throws PortalException, SystemException {
         String filterText = StringUtils.trimToEmpty(filteredText) + ConstantsUtils.PERCENCTAGE;
-        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText);
+        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText {}" , filterText);
         final List<com.stpl.app.util.HelperDTO> list = new ArrayList<>();
         int startValue;
         int endValue;
@@ -708,12 +708,12 @@ public class DeductionCalendarLogic {
                 list.add(dto);
             }
         }
-        LOGGER.debug("return CompanyQualifier size -" + list.size());
+        LOGGER.debug("return CompanyQualifier size - {}" , list.size());
         return list;
     }
     public static int getLazyManufactureIdCount(String filter) throws PortalException, SystemException {
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
-        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText :" + filter);
+        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText : {}" , filter);
         List<Object[]> qualifierList;
         final DynamicQuery cfpDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.COMPANY_ID, filter));
@@ -723,7 +723,7 @@ public class DeductionCalendarLogic {
         cfpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.COMPANY_ID));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.COMPANY_ID, StringUtils.EMPTY)));
         qualifierList = DAO.getBrandList(cfpDynamicQuery);
-        LOGGER.debug("Ending getLazyCompanyQualifierNameCount method with filterText with count :" + qualifierList.get(0));
+        LOGGER.debug("Ending getLazyCompanyQualifierNameCount method with filterText with count : {}" , qualifierList.get(0));
         return Integer.parseInt(String.valueOf(qualifierList.get(0)));
     }
 
@@ -737,7 +737,7 @@ public class DeductionCalendarLogic {
             startValue = startIndex - 1;
             endValue = end - 1;
         }
-        LOGGER.debug("Entering getLazyManufactureIdResults method with filterText :" + filter);
+        LOGGER.debug("Entering getLazyManufactureIdResults method with filterText : {}" , filter);
         final String filterString = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         final DynamicQuery cfpDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.setLimit(startValue, endValue);
@@ -779,7 +779,7 @@ public class DeductionCalendarLogic {
                 list.add(helperTable);
             }
         }
-        LOGGER.debug("Ending getLazyManufactureIdResults  return list size :" + +list.size());
+        LOGGER.debug("Ending getLazyManufactureIdResults  return list size : {}" , list.size());
         return list;
     }
 

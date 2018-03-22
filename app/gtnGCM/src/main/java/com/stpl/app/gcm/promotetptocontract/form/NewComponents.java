@@ -325,7 +325,7 @@ public class NewComponents extends CustomComponent implements View {
       private ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
-            LOGGER.debug("Column Check VAlue=" + compItemSearchTable.getColumnCheckBox(Constants.CHECK_RECORD));
+            LOGGER.debug("Column Check VAlue= {} " , compItemSearchTable.getColumnCheckBox(Constants.CHECK_RECORD));
             if (event.isChecked()) {
 
                 checkClearAll(event.isChecked());
@@ -1650,7 +1650,7 @@ public class NewComponents extends CustomComponent implements View {
                     CAM.setInboundStatus("A");
                     CAM.setContractMasterSid(contractMasterSid);
                     ContractAliasMaster CAM1 = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
-                    LOGGER.debug("CAM1" + CAM1.getContractAliasMasterSid());
+                    LOGGER.debug("CAM1 {} " , CAM1.getContractAliasMasterSid());
 
                 } else if (level.equals(Constants.ONE)) {
 

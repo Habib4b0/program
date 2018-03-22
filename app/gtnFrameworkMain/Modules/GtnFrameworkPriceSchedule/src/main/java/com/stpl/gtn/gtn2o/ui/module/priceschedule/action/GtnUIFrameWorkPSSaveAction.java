@@ -150,6 +150,8 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 				notesBean = new NotesTabBean();
 				notesBean.setMasterTableName("PS_MODEL");
 				notesBean.setFilePath(note.getDocumentFullPath());
+				notesBean.setMasterTableSystemId(note.getDocDetailsId());
+				notesBean.setFileName(note.getDocumentName());
 				notesBean.setCreatedBy(note.getUserId());
 				notesBean.setCreatedDate(new Date());
 				noteBeanList.add(notesBean);

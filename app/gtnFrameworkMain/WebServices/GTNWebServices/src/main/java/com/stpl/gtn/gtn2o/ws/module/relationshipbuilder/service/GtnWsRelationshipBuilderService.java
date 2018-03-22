@@ -648,7 +648,7 @@ public class GtnWsRelationshipBuilderService {
 
 	public List<GtnWsRecordBean> loadAutoBuildData(int hierarchyDefSid, int hierarchyVersionNo,
 			GtnWsRecordBean selectedTreeBean, List<String> hiddenIdList)
-			throws GtnFrameworkGeneralException, CloneNotSupportedException {
+			throws GtnFrameworkGeneralException {
 		List<HierarchyLevelDefinitionBean> hierarchyList = gtnWsRelationshipBuilderHierarchyFileGenerator
 				.getRBHierarchyLevelDefinitionBySid(hierarchyDefSid, hierarchyVersionNo);
 
@@ -701,7 +701,7 @@ public class GtnWsRelationshipBuilderService {
 
 	private List<GtnWsRecordBean> getNextlevelDataForAutoBuild(List<HierarchyLevelDefinitionBean> hierarchyList,
 			GtnWsRecordBean selectedTreeBean, List<String> masterSidList)
-			throws GtnFrameworkGeneralException, CloneNotSupportedException {
+			throws GtnFrameworkGeneralException {
 
 		String levelNo = selectedTreeBean
 				.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal());
@@ -764,8 +764,7 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	private void getIntermediateUserDefinedData(List<GtnWsRecordBean> linkedLevelDataList,
-			List<GtnWsRecordBean> userDefinedLevelDataList, List<HierarchyLevelDefinitionBean> hierarchyList)
-			throws CloneNotSupportedException {
+			List<GtnWsRecordBean> userDefinedLevelDataList, List<HierarchyLevelDefinitionBean> hierarchyList) {
 		List<GtnWsRecordBean> finalDataList = new ArrayList<>();
 		for (HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean : hierarchyList) {
 			finalDataList.clear();
@@ -779,7 +778,7 @@ public class GtnWsRelationshipBuilderService {
 
 	public void getUserdefinedDataCombination(List<GtnWsRecordBean> linkedLevelDataList,
 			List<GtnWsRecordBean> userDefinedLevelDataList, List<GtnWsRecordBean> finalDataList,
-			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean) throws CloneNotSupportedException {
+			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean) {
 		for (GtnWsRecordBean userdefinedData : userDefinedLevelDataList) {
 			if (hierarchyLevelDefinitionBean.getLevelNo() == Integer.parseInt(userdefinedData
 					.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()).toString())) {

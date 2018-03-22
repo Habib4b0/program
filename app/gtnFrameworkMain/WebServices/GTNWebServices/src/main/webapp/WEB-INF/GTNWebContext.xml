@@ -27,6 +27,7 @@
 			<list>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/HelperTable.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyIdentifier.hbm.xml</value>
+				 <value>/com/stpl/gtn/gtn2o/ws/xml/Attachment.hbm.xml</value> 
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyMaster.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyParentDetails.hbm.xml
 				</value>
@@ -488,9 +489,6 @@
 		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl">
 		<property name="entityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
 	</bean>
-	<bean id="fileService"
-		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService">
-	</bean>
 	<bean id="queryGeneratorService"
 		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyQueryGenerator">
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
@@ -498,10 +496,10 @@
 	</bean>
 	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
 		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
 		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
 		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
+		<property name="sessionFactory" ref="sessionFactory"></property>
 		<property name="queryGeneratorService" ref="queryGeneratorService"></property>
 	</bean>
 	<bean id="gtnFrameworkQueryBeanGenerator"

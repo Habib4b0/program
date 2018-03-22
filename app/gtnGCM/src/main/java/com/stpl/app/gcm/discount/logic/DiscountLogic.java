@@ -136,7 +136,7 @@ public class DiscountLogic {
         List<RemoveDiscountDto> searchList;
         resultList = discountDAO.getContracts(discountChBinder, startIndex, offset, filters, sortByColumn);
         searchList = setContractValues(resultList);
-        LOGGER.debug("Ending contract search logic" + searchList.size());
+        LOGGER.debug("Ending contract search logic {} " , searchList.size());
         return searchList;
     }
 
@@ -267,13 +267,13 @@ public class DiscountLogic {
                 Object[] objects1 = (Object[]) queryList.get(0);
                 removeDiscountDto.setFromDate((Date) objects1[0]);
                 removeDiscountDto.setToDate((Date) objects1[1]);
-                LOGGER.debug("From" + removeDiscountDto.getFromDate() + "To" + removeDiscountDto.getToDate());
+                LOGGER.debug("From {}  To  {} " , removeDiscountDto.getFromDate() , removeDiscountDto.getToDate());
                 searchList.add(removeDiscountDto);
             }
         } catch (Exception e) {
             LOGGER.error("",e);
         }
-        LOGGER.debug("Ending getprojectionValues with " + searchList.size());
+        LOGGER.debug("Ending getprojectionValues with {} " , searchList.size());
         return searchList;
     }
 
@@ -301,7 +301,7 @@ public class DiscountLogic {
         } catch (Exception e) {
             LOGGER.error("",e);
         }
-        LOGGER.debug("Ending getSummary" + summaryList.get(0));
+        LOGGER.debug("Ending getSummary {} " , summaryList.get(0));
         return summaryList;
     }
 
@@ -796,7 +796,7 @@ public class DiscountLogic {
         List<RemoveDiscountDto> searchList;
         resultList = discountDAO.getRebateSearch(field, value, contractSid, rsSid);
         searchList = setContractValues(resultList);
-        LOGGER.debug("Ending contract search logic" + searchList.size());
+        LOGGER.debug("Ending contract search logic {} " , searchList.size());
         return searchList;
     }
 
@@ -888,7 +888,7 @@ public class DiscountLogic {
     }
 
     public static void saveRS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final int psSystemId, final ContractsDetailsDto contractMember,boolean flag) throws  PortalException {
-        LOGGER.debug("Entering saveRS method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()-----------------"+contractMember.getModelSysId());
+        LOGGER.debug("Entering saveRS method with contractSystemId= {} contractMember.getModelSysId()-----------------{}" , contractSystemId , contractMember.getModelSysId());
          int rsId = flag ? Integer.valueOf(contractMember.getRsSid()) : contractMember.getModelSysId();
         final RsModel rebateMaster = discountDAO.getRebateScheduleMaster(rsId);
         final RsContract rsMasterAttached = RsContractLocalServiceUtil.createRsContract(0);
@@ -2059,7 +2059,7 @@ public class DiscountLogic {
      * @param contractMember the contract member
      */
     public static void savePS(final int contractSystemId, final int cfpSystemId, final int ifpSystemId, final ContractsDetailsDto contractMember,boolean flag) throws PortalException {
-        LOGGER.debug("Entering getChildNodeOfPriorContractSales method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()=========="+contractMember.getModelSysId());
+        LOGGER.debug("Entering getChildNodeOfPriorContractSales method with contractSystemId= {}= contractMember.getModelSysId()=========={}" , contractSystemId , contractMember.getModelSysId());
         try {
            int psId = flag ? Integer.valueOf(contractMember.getPsSid()) : contractMember.getModelSysId();
             final PsModel priceSchedule = discountDAO.getPriceScheduleMaster(psId);
@@ -2173,7 +2173,7 @@ public class DiscountLogic {
 
     public static void saveIFP(final int contractSystemId, final int cfpSystemId, final ContractsDetailsDto contractMember,boolean flag) throws PortalException {
 
-        LOGGER.debug("Entering saveIFP method with contractSystemId=" + contractSystemId +"contractMember.getModelSysId()-------------"+contractMember.getModelSysId());
+        LOGGER.debug("Entering saveIFP method with contractSystemId={} == contractMember.getModelSysId()-------------{}" , contractSystemId ,contractMember.getModelSysId());
         int ifpId = flag ? contractMember.getIfpId() : contractMember.getModelSysId();
 
         final IfpModel itemFamily = discountDAO.getItemFamilyPlanMaster(ifpId);
@@ -2249,7 +2249,7 @@ public class DiscountLogic {
      * @throws PortalException
      */
     public static void saveCFp(final int contractSystemId, final ContractsDetailsDto contractMember , boolean flag) throws PortalException {
-        LOGGER.debug("Entering saveCFp method with contractSystemId=" + contractSystemId + "======" + contractMember.getCfpId() + "contractMember.getModelSysId()" +contractMember.getModelSysId());
+        LOGGER.debug("Entering saveCFp method with contractSystemId={}====== {} contractMember.getModelSysId() {}" , contractSystemId ,contractMember.getCfpId() , contractMember.getModelSysId());
         int cpdId = flag ? contractMember.getCfpId() : contractMember.getModelSysId();
        
         final CfpModel companyFamily = discountDAO.getCompanyFamilyplanMaster(cpdId);
