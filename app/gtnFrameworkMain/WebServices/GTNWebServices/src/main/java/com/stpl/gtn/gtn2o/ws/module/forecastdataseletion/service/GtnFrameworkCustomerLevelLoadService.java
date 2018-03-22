@@ -25,14 +25,15 @@ public class GtnFrameworkCustomerLevelLoadService {
 	private GtnFrameworkCustLevelQueryGenerator customerQueryGenerator;
 	@Autowired
 	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
-	private static final String DATE_FORMAT = "yyyy-MM-dd";
-	private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat(DATE_FORMAT);
+
 
 	public GtnFrameworkCustomerLevelLoadService() {
 		super();
 	}
 
 	public String getCustomerLevelQuery(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
+		String dateFormat = "yyyy-MM-dd";
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = relationUpdateService
 				.getHierarchyBuilder(inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo());
 		HierarchyLevelDefinitionBean lastLevelDto = HierarchyLevelDefinitionBean
@@ -48,8 +49,8 @@ public class GtnFrameworkCustomerLevelLoadService {
 		inputList.add(inputBean.getRelationVersionNo());
 		inputList.add(String.valueOf(selectedHierarchyLevelDto.getLevelNo()));
 		if (inputBean.getForecastEligibleDate() != null) {
-			inputList.add(DATEFORMAT.format(inputBean.getForecastEligibleDate()));
-			inputList.add(DATEFORMAT.format(inputBean.getForecastEligibleDate()));
+			inputList.add(dateFormatter.format(inputBean.getForecastEligibleDate()));
+			inputList.add(dateFormatter.format(inputBean.getForecastEligibleDate()));
 			finalQuery.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
 			finalQuery.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
 		}

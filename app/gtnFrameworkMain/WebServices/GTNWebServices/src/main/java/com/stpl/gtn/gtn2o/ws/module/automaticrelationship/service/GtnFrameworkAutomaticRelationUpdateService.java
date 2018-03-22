@@ -87,7 +87,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			.getGTNLogger(GtnFrameworkAutomaticRelationUpdateService.class);
 
 	public boolean checkAndUpdateAutomaticRelationship(Integer relationshipBuilderSid)
-			throws GtnFrameworkGeneralException, InterruptedException {
+			throws GtnFrameworkGeneralException {
 		GtnWsRelationshipBuilderBean relationBean = getRelationtionshipBuilder(relationshipBuilderSid);
 		if (relationBean != null) {
 			GtnFrameworkAutoupdateService automaticService = getAutomaticserviceObject(
@@ -95,7 +95,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = getHierarchyBuilder(
 					relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			if (automaticService.checkAutomaticRelation(relationshipBuilderSid)
-					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
+			) {
 				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
 				return Boolean.TRUE;
 			}

@@ -45,6 +45,9 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	private GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto;
 
+	public GtnForecastHierarchyInputBean() {
+		super();
+	}
 
 	public String getHieraryQuery() {
 		return hieraryQuery;
