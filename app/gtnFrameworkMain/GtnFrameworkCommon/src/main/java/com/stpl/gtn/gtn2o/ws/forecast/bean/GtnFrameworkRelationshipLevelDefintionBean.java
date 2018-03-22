@@ -24,6 +24,10 @@ public class GtnFrameworkRelationshipLevelDefintionBean
 	private int relationshipVersionNo;
 	private String hierarchyNo;
 
+	public GtnFrameworkRelationshipLevelDefintionBean() {
+		super();
+	}
+
 	public HierarchyLevelDefinitionBean getHierarchyLevelBean() {
 		return hierarchyLevelBean;
 	}
