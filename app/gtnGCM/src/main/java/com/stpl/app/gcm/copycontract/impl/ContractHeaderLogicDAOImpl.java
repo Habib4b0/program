@@ -49,7 +49,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     public int getCFPCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
         String query = QUERYUTILS.getCFPcount(CFPCompanyDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug("getCFPCount:::list.size()" + list.size());
+        LOGGER.debug("getCFPCount:::list.size() {}" , list.size());
         return list.size();
     }
 
@@ -67,7 +67,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     public int getCompanyCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
         String query = QUERYUTILS.getCFPAttachedCompanies(CFPCompanyDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug("getCompanyCount:::list.size()" + list.size());
+        LOGGER.debug("getCompanyCount:::list.size() {} " , list.size());
         return list.size();
 
     }
@@ -102,7 +102,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     public int getPSCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc) {
         String query = QUERYUTILS.getPScount(PSIFPDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug("getPSCount:::list.size()" + list.size());
+        LOGGER.debug("getPSCount:::list.size() {} " , list.size());
         return list.size();
     }
 
@@ -135,7 +135,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     public int getAttachedItemCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc) {
         String query = QUERYUTILS.GetIFPAttachedItems(IFPItemDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug("getAttachedItemCount:::list.size()" + list.size());
+        LOGGER.debug("getAttachedItemCount:::list.size() {} " , list.size());
         return list.size();
 
     }
@@ -153,7 +153,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     public int getPSAttachedItemCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc) {
         String query = QUERYUTILS.getPSItemcount(PSIFPDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug("getPSAttachedItemCount:::list.size()" + list.size());
+        LOGGER.debug("getPSAttachedItemCount:::list.size() {} " , list.size());
         return list.size();
     }
 
@@ -170,7 +170,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     public int getRSAttachedItemCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc) {
         String query = QUERYUTILS.getRSAttachedItems(RsIfpDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug("getRSAttachedItemCount:::list.size()" + list.size());
+        LOGGER.debug("getRSAttachedItemCount:::list.size() {} " , list.size());
         return list.size();
     }
 
