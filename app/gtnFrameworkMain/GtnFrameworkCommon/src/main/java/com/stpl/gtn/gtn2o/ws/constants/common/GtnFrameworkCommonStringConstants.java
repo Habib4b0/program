@@ -191,6 +191,11 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String CUMULATIVE_FILE_PATH = "cumulative.file.path";
 	public static final String ATTACHMENTS = "Attachments";
         public static final String NET_SALES = "Net Sales";
+	public static final String FETCH_PORTLET_ID = "fetchportletid";
+	public static final String CF = "CF";
+	public static final String CM = "CM";
+	public static final String CMF = "CMF";
+	public static final String GETFRIENDLYURLQUERY = "getfriendlyURLQuery";
 
 	private GtnFrameworkCommonStringConstants() {
 	}

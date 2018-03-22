@@ -424,10 +424,8 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
                 LOGGER.debug("End of StplExpandListener nodeExpand method");
             } catch (SystemException ex) {
-                LOGGER.error("",ex);
-                final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                LOGGER.error("",errorMsg);
-                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                LOGGER.error(" ErrorCodeUtil.getErrorMessage(ex) {} ",ErrorCodeUtil.getErrorMessage(ex));
+                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getErrorMessage(ex));
             } catch (PortalException ex) {
                 LOGGER.error("",ex);
             }
@@ -513,9 +511,9 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
                 LOGGER.debug("End of StplCollapseListener nodeCollapse method");
             } catch (SystemException ex) {
-                final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                LOGGER.error("",errorMsg);
-                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                
+                LOGGER.error("error message == {} ",ErrorCodeUtil.getErrorMessage(ex));
+                AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getErrorMessage(ex));
             } catch (PortalException ex) {
                 LOGGER.error("",ex);
             }
@@ -1042,7 +1040,7 @@ public class ExistingDiscountTab extends CustomComponent {
 
     @UiHandler("levelRemoveBtn")
     public void levelRemoveBtnLogic(Button.ClickEvent event) {
-        LOGGER.debug(" buttonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
+        LOGGER.debug(" buttonClick ( ClickEvent event ) name= {} " , event.getButton().getCaption());
         if (dashBoardTreeContainer.getItemIds().size() > Constants.ZERO) {
             if (dashboardTreeTable.getValue() == null) {
                 AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "Please highlight a component to Remove.");

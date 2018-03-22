@@ -38,7 +38,7 @@ public class PsContractDetailsImpl {
             sql=sql.replace("@PS_START_DATE","'"+input.get(6).toString()+"'");
             sql=sql.replace("@PS_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7).toString()+"'");
             sql=sql.replace("@ATTACHDATE",input.get(8).toString());
-            LOGGER.debug("====savePsDetailsAttached========" +sql);
+            LOGGER.debug("====savePsDetailsAttached========{}" ,sql);
             HelperTableLocalServiceUtil.executeUpdateQuery(sql);
             retFlag = true;
 

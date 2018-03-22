@@ -19,6 +19,9 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
+import java.sql.Connection;
+import org.hibernate.SessionFactory;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 
 @RestController
 public class GtnWsWorkflowOpenViewController {
@@ -39,6 +42,9 @@ public class GtnWsWorkflowOpenViewController {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+
+	@Autowired
+	private SessionFactory sysSessionFactory;
 
 	public GtnWsAllListConfig getGtnWebServiceAllListConfig() {
 		return gtnWebServiceAllListConfig;
@@ -77,6 +83,49 @@ public class GtnWsWorkflowOpenViewController {
 		} finally {
 			logger.info("Exit openViewSearch");
 		}
+	}
+
+	@PostMapping(value = GtnWsWorkFlowConstants.GTN_WS_OPEN_VIEW_SAVE_SERVICE
+			+ GtnFrameworkCommonStringConstants.FETCH_PORTLET_ID)
+	public GtnUIFrameworkWebserviceResponse fetchPortletId(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse fetchportletIdResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsCommonWorkflowResponse fetchworkflowresponse = new GtnWsCommonWorkflowResponse();
+		try {
+			fetchportletIdResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			fetchportletIdResponse.getGtnWsGeneralResponse().setSucess(true);
+
+			logger.info("Enter fetchPortletIdMethod");
+			GtnSerachResponse gtnfetchSerachResponse = new GtnSerachResponse();
+			String query = openviewWebservice.fetchportletQuery(gtnWsRequest);
+			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query);
+
+			if (resultList != null && (!resultList.isEmpty())) {
+				fetchworkflowresponse.setFriendlyUrl(String.valueOf(resultList.get(0)));
+			}
+
+			fetchportletIdResponse.setGtnSerachResponse(gtnfetchSerachResponse);
+			fetchportletIdResponse.setGtnWSCommonWorkflowResponse(fetchworkflowresponse);
+			return fetchportletIdResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			fetchportletIdResponse.getGtnWsGeneralResponse().setSucess(false);
+			logger.error("Exception in fetchPortletIdMethod web service", ex);
+			fetchportletIdResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return fetchportletIdResponse;
+		} finally {
+			logger.info("Exit fetchPortletIdMethod");
+		}
+	}
+
+	public String getSysSchemaCatalogs() throws GtnFrameworkGeneralException {
+		String bpicatalog = "";
+		try (Connection schconnection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection()) {
+			bpicatalog = schconnection.getCatalog();
+		} catch (Exception ex) {
+			logger.error("Exception in getSysSchemaCatalogs", ex);
+			throw new GtnFrameworkGeneralException("Exception in getSysSchemaCatalogs", ex);
+		}
+		return bpicatalog;
 	}
 
 }
