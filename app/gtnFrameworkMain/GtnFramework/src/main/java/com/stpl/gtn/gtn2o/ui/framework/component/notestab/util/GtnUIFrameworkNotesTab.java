@@ -909,8 +909,6 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 
 	public void removeButtonLogic() {
 		try {
-			gtnLogger.info("username +++++++ " + tableBean.getUserName());
-			gtnLogger.info("username 2 ____________________" + userName);
 			if (tableBeanId == null || tableBean == null || !table.isSelected(tableBeanId)) {
 				AbstractNotificationUtils.getErrorNotification(GtnFrameworkCommonConstants.REMOVE_ATTACHMENT,
 						"Please select an attachment to remove ");
@@ -957,18 +955,13 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 			return;
 		}
 		tableBean = (NotesDTO) targetItem.getBean();
-		gtnLogger.info("id++++  " + tableBean.getDocDetailsId());
 		GtnUIFrameworkWebserviceRequest gtnRequest= new GtnUIFrameworkWebserviceRequest();
 		GtnWsAttachmentRequest gtnRequest1= new GtnWsAttachmentRequest();
 		gtnRequest1.setDocDetailsSid(tableBean.getDocDetailsId());
 		gtnRequest.setGtnWsAttachmentRequest(gtnRequest1);
 		if (event.isDoubleClick()) {	
 		    GtnUIFrameworkWebserviceResponse attachResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_DOWNLOAD_FILE_SERVICE, gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			gtnLogger.info("id++++ 1234 " + tableBean.getDocDetailsId());
 			byte[] attachment =attachResponse.getGtnWsAttachmentResponse().getGtnWsAttachmentBean().getFileData();
-			gtnLogger.info("++++++++++++" + attachment);
-			gtnLogger.info("File path" + tableBean.getDocumentFullPath());
-			gtnLogger.info("****file name" + fileName);
 			try {
 				FileOutputStream fileOuputStream = null ;
 			    fileOuputStream = GtnFileNameUtils.getFileOutputStream(tableBean.getDocumentFullPath());

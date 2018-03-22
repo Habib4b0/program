@@ -616,13 +616,10 @@ public class GtnWsItemMasterSaveService {
 			if (notesTabRequestList != null && !notesTabRequestList.isEmpty()) {
 
 				for (NotesTabBean notesTabRequest : notesTabRequestList) {
-					LOGGER.info("*******" + itemMasterBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
 					byte[] fileBytes = readBytesFromFile(notesTabRequest.getFilePath());
 					attach.setAttachmentTableSid(itemMasterBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
 					attach.setFileName(notesTabRequest.getFileName());
-					LOGGER.info("++++++++");
 					attach.setFileData(fileBytes);
-					LOGGER.info("*******" + fileBytes);
 					attach.setMasterTableName(notesTabRequest.getMasterTableName());
 					attach.setCreatedBy(notesTabRequest.getCreatedBy());
 					attach.setCreatedDate(new Date());
