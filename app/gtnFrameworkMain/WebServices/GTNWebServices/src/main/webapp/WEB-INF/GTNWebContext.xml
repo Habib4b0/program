@@ -27,6 +27,7 @@
 			<list>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/HelperTable.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyIdentifier.hbm.xml</value>
+				 <value>/com/stpl/gtn/gtn2o/ws/xml/Attachment.hbm.xml</value> 
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyMaster.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyParentDetails.hbm.xml
 				</value>

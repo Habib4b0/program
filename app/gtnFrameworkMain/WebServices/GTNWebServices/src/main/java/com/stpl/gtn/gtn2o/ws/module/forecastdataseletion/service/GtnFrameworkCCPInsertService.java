@@ -132,10 +132,11 @@ public class GtnFrameworkCCPInsertService {
 	}
 
 	public static String replaceTableNames(String query, final Map<String, String> tableNameMap) {
+		String tempQuery = "";
 		for (Map.Entry<String, String> key : tableNameMap.entrySet()) {
-			query = query.replaceAll("(?i:\\b" + key.getKey() + "\\b)", key.getValue());
+			tempQuery = query.replaceAll("(?i:\\b" + key.getKey() + "\\b)", key.getValue());
 		}
-		return query;
+		return tempQuery;
 	}
 
 	public StringBuilder getParentHierarchyNo(List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList,

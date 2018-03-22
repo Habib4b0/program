@@ -566,6 +566,8 @@ public class GtnWsIfpAddService {
 		GtnWsIfpReponse cfpResponse = new GtnWsIfpReponse();
 		cfp.setNotesTabList(
 				getIfpNotesTabDetails(gtnWsRequest.getGtnWsIfpRequest().getGtnIFamilyPlan().getIfpInfo().getIfpSid()));
+		cfp.setNotesTabList(
+				getCfpNotesTabAttachDetails(gtnWsRequest.getGtnWsIfpRequest().getGtnIFamilyPlan().getIfpInfo().getIfpSid()));
 		cfpResponse.setGtnIFamilyPlan(cfp);
 		response.setGtnWsIfpReponse(cfpResponse);
 
@@ -623,6 +625,15 @@ public class GtnWsIfpAddService {
 		return GtnCommonUtil.getNotesTabBean(imNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
 
+	@SuppressWarnings("unchecked")
+	private List<NotesTabBean> getCfpNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
+		logger.info("Enter getifpNotesTabAttachDetails");
+		String ifpNotesTabAttachDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_SELECT + +systemId
+				+ " AND MASTER_TABLE_NAME='IFP_MODEL'";
+		List<Object[]> imNotesDetailsResultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(ifpNotesTabAttachDetailsSelectQuery);
+		return GtnCommonUtil.getNotesTabBean(imNotesDetailsResultList, gtnWebServiceAllListConfig);
+	}
+	
 	public int checkAllItems(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 
 		String query = gtnWsSqlService.getQuery("getIfpItemsCheckAllQuery");

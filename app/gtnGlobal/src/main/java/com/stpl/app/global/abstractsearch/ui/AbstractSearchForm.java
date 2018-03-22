@@ -1012,7 +1012,7 @@ public final class AbstractSearchForm extends CustomComponent {
          * @return true, if checks for value
          */
         private boolean hasValue(final Object obj) {
-            LOGGER.debug("Enters hasValue() " + obj);
+            LOGGER.debug("Enters hasValue() {}" , obj);
 
             if (obj == null || ConstantUtil.SELECT_ONE.equals(obj.toString())) {
                 return false;

@@ -144,7 +144,9 @@ public class GtnFrameworkCfpSaveAction
 			for (NotesDTO note : notesDTOs) {
 				cfpNotesBean = new NotesTabBean();
 				cfpNotesBean.setMasterTableName("CFP_MODEL");
+				cfpNotesBean.setMasterTableSystemId(note.getDocDetailsId());
 				cfpNotesBean.setFilePath(note.getDocumentFullPath());
+				cfpNotesBean.setFileName(note.getDocumentName());
 				cfpNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				cfpNotesBean.setCreatedDate(new Date());
 				cfpNotesBeanList.add(cfpNotesBean);

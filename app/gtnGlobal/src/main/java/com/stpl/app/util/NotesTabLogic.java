@@ -100,7 +100,7 @@ public class NotesTabLogic {
 		}
 		File file = GtnFileUtil.getFile(fileName);
 		isFileExists=file.delete();
-		LOGGER.info("File is deleted successfully : "+isFileExists);
+		LOGGER.info("File is deleted successfully : {}",isFileExists);
 		return BooleanConstant.getTrueFlag();
 	}
 
