@@ -123,6 +123,8 @@ public class GtnUIFrameworkWebserviceRequest {
 	private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
 
 	private GtnWsUdcRequest gtnWsUdcRequest;
+	
+    private GtnWsAttachmentRequest gtnWsAttachmentRequest;
 
 	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
 		return gtnWshirarchyInsertRequest;
@@ -454,6 +456,14 @@ public class GtnUIFrameworkWebserviceRequest {
         public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
             this.gtnCffsubmitRequest = gtnCffsubmitRequest;
         }
+
+		public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
+			return gtnWsAttachmentRequest;
+		}
+
+		public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
+			this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
+		}
 
        
 

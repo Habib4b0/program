@@ -188,6 +188,7 @@ public class RelationshipOutboundProcess extends Window {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {

@@ -119,6 +119,9 @@ public class GtnFrameworkSaveButtonAction
 				message = processName
 						+ GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_DELETED_SUCCESSFULLY;
 				serviceUrl = GtnWsProcessMonitorConstants.GTN_WS_PROCESS_MONITOR_DELETE_SERVICE;
+                                GtnUIFrameworkBaseComponent componentAdd = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnWsProcessMonitorConstants.GTN_PROCESS_MONITOR_ADD_BUTTON);
+                                componentAdd.setCaption(GtnFrameworkCommonStringConstants.ADD);
+                                componentAdd.setVisible(true);
 			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnWsProcessMonitorConstants.GTN_PROCESS_MONITOR_DELETE)
 					.setComponentEnable(false);

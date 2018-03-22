@@ -5,6 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.rebateplan.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
@@ -161,6 +165,7 @@ public class GtnWsRebatePlanController {
 				rebatePlanInfoBean.setRebatePlanRuleDetailBean(
 						setRpTierDetailsBean(rpTierSet, rebatePlanInfoBean.getFormulaType()));
 				rebatePlanInfoBean.setNoteBeanList(getRpNotesTabDetails(systemId));
+				rebatePlanInfoBean.setNoteBeanList(getRpNotesTabAttachDetails(systemId));
 			}
 		} catch (Exception ex) {
 			throw new GtnFrameworkGeneralException(ex);
@@ -305,6 +310,17 @@ public class GtnWsRebatePlanController {
 		return rpNotesDetailsInfoBeanList;
 	}
 
+	@SuppressWarnings("unchecked")
+	private List<NotesTabBean> getRpNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
+		logger.info("Enter getRpNotesTabAttachDetails");
+		String rpNotesTabAttachDetailsSelectQuery = GtnWsQueryConstants.NOTE_TAB_ATTACHMENT_SELECT + systemId;
+		List<Object[]> rpNotesAttachDetailsResultList = executeQuery(rpNotesTabAttachDetailsSelectQuery);
+		List<NotesTabBean> rpNotesDetailsInfoBeanList = GtnCommonUtil.getNotesTabBean(rpNotesAttachDetailsResultList,
+				gtnWebServiceAllListConfig);
+		logger.info("Exit getRpNotesTabAttachDetails");
+		return rpNotesDetailsInfoBeanList;
+	}
+	
 	@SuppressWarnings("rawtypes")
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 
@@ -327,6 +343,7 @@ public class GtnWsRebatePlanController {
 			}
 			session.delete(rpMaster);
 			session.createSQLQuery(getnotesTabDeleteQuery(sysId)).executeUpdate();
+			session.createSQLQuery(getnotesTabAttachDeleteQuery(sysId)).executeUpdate();
 			transction.commit();
 		} catch (Exception ex) {
 			transction.rollback();
@@ -354,11 +371,13 @@ public class GtnWsRebatePlanController {
 				}
 				session.flush();
 				session.createSQLQuery(getnotesTabDeleteQuery(rebatePlanInfoBean.getSystemId())).executeUpdate();
+				session.createSQLQuery(getnotesTabAttachDeleteQuery(rebatePlanInfoBean.getSystemId())).executeUpdate();
 				buildRebatePlanMaster(rpMaster, rebatePlanInfoBean, session);
 				session.update(rpMaster);
 				buildRebatePlanTier(rpMaster, rebatePlanInfoBean, session);
 				if (rebatePlanInfoBean.getNoteBeanList() != null && !rebatePlanInfoBean.getNoteBeanList().isEmpty()) {
 					rpNotesTabInsert(rebatePlanInfoBean, session);
+					rpNotesTabAttachInsert(rebatePlanInfoBean, session);
 				}
 			} else {
 				if (!flag) {
@@ -370,6 +389,7 @@ public class GtnWsRebatePlanController {
 					if (rebatePlanInfoBean.getNoteBeanList() != null
 							&& !rebatePlanInfoBean.getNoteBeanList().isEmpty()) {
 						rpNotesTabInsert(rebatePlanInfoBean, session);
+						rpNotesTabAttachInsert(rebatePlanInfoBean, session);
 					}
 
 				}
@@ -390,6 +410,10 @@ public class GtnWsRebatePlanController {
 
 	private String getnotesTabDeleteQuery(int systemId) {
 		return GtnWsQueryConstants.RP_NOTES_DELETE + systemId;
+	}
+	
+	private String getnotesTabAttachDeleteQuery(int systemId) {
+		return GtnWsQueryConstants.NOTE_TAB_ATTACHMENT_DELETE + systemId;
 	}
 
 	private void buildRebatePlanMaster(RebatePlanMaster rpMaster, GtnWsRebatePlanInfoBean rebatePlanInfoBean,
@@ -604,5 +628,55 @@ public class GtnWsRebatePlanController {
 		}
 
 	}
+
+	
+	private Integer rpNotesTabAttachInsert(GtnWsRebatePlanInfoBean rebatePlanInfoBean, Session session)
+			throws GtnFrameworkGeneralException {
+		logger.info("Enter getNotesTabAttachInsertQuery");
+		List<NotesTabBean> notesTabAttachRequestList = rebatePlanInfoBean.getNoteBeanList();
+		StringBuilder rpNoteTabAttachFinalQuery = new StringBuilder();
+		List<GtnFrameworkDataType> rpNotesAttachQueryDataTypeList = new ArrayList<>();
+		List<Object> rpNotesAttachQueryParamList = new ArrayList<>();
+		for (NotesTabBean notesTabRequest : notesTabAttachRequestList) {
+			rpNoteTabAttachFinalQuery.append(GtnWsQueryConstants.NOTES_ATTACH_INSERT);
+
+			rpNotesAttachQueryDataTypeList.add(GtnFrameworkDataType.INTEGER);
+			rpNotesAttachQueryParamList.add(rebatePlanInfoBean.getSystemId());
+
+			rpNotesAttachQueryDataTypeList.add(GtnFrameworkDataType.STRING);
+			rpNotesAttachQueryParamList.add(notesTabRequest.getFileName());
+
+			rpNotesAttachQueryDataTypeList.add(GtnFrameworkDataType.BYTE);
+			try {
+				rpNotesAttachQueryParamList.add(readBytesFromFile(notesTabRequest.getFilePath()));
+			} catch (IOException e) {
+				logger.error("Error in  rpNotesTabAttachInsert");
+			}
+
+			rpNotesAttachQueryDataTypeList.add(GtnFrameworkDataType.STRING);
+			rpNotesAttachQueryParamList.add(notesTabRequest.getMasterTableName());
+			
+			rpNotesAttachQueryDataTypeList.add(GtnFrameworkDataType.INTEGER);
+			rpNotesAttachQueryParamList.add(notesTabRequest.getCreatedBy());
+		}
+		if (rpNoteTabAttachFinalQuery.length() > 0) {
+			return sqlQueryEngine.executeInsertOrUpdateQuery(rpNoteTabAttachFinalQuery.toString(),
+					rpNotesAttachQueryParamList.toArray(),
+					rpNotesAttachQueryDataTypeList.toArray(new GtnFrameworkDataType[rpNotesAttachQueryDataTypeList.size()]),
+					session);
+		}
+
+		logger.info("Exit getNotesTabAttachInsertQuery");
+		return 0;
+	}
+	private static byte[] readBytesFromFile(String filePath) throws IOException {
+		 File inputFile = GtnFileNameUtils.getFile(filePath);
+	        FileInputStream inputStreamRp= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+	        byte[] fileBytes = new byte[(int) inputFile.length()];
+	        int i=inputStreamRp.read(fileBytes);
+	        if(i>0) 
+	        return fileBytes;
+			return  new byte[0];
+    }
 
 }

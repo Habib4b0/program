@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
 import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
 import com.stpl.gtn.gtn2o.ws.response.authorization.GtnWsModuleAuthorizationGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.automaticrelationupdate.GtnFrameworkAutomaticRelationshipResponse;
@@ -84,6 +85,7 @@ public class GtnUIFrameworkWebserviceResponse {
 	private GtnWsFileManagementResponse gtnWsFileManagementResponse;
 	private GtnWsModuleAuthorizationGeneralResponse gtnWsModuleAuthorizationGeneralResponse;
 	private GtnWsCsvExportResponse gtnWsCsvExportResponse;
+	private GtnWsAttachmentResponse gtnWsAttachmentResponse;
 
 	private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
 
@@ -413,5 +415,15 @@ public class GtnUIFrameworkWebserviceResponse {
 	public void setAutomaticRelationResponse(GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse) {
 		this.automaticRelationResponse = automaticRelationResponse;
 	}
+
+	public GtnWsAttachmentResponse getGtnWsAttachmentResponse() {
+		return gtnWsAttachmentResponse;
+	}
+
+	public void setGtnWsAttachmentResponse(GtnWsAttachmentResponse gtnWsAttachmentResponse) {
+		this.gtnWsAttachmentResponse = gtnWsAttachmentResponse;
+	}
+
+
 
 }

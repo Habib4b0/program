@@ -101,10 +101,9 @@ public class GtnWsRebateScheduleController {
 			GtnWsRebateScheduleInfoBean rsInfoBean = gtnWsRequest.getGtnWsRebateScheduleGeneralRequest()
 					.getRebateScheduleInfoBean();
                     boolean flag = checkRebateScheduleMaster(gtnRequest.getRebateScheduleInfoBean().getRebateScheduleId());
-                    rsInfoBean.setRsIdAlreadyExist(flag);
-                    if(!flag){
-	            
-                        rsWebservice.rebateScheduleSave(rsInfoBean, gtnWsGeneralRequest.getUserId(),
+                        rsInfoBean.setRsIdAlreadyExist(flag);
+                        if(!flag){
+                            rsWebservice.rebateScheduleSave(rsInfoBean, gtnWsGeneralRequest.getUserId(),
 					gtnWsGeneralRequest.getSessionId());
                         }
 			gtnResponse.setRebateScheduleInfoBean(rsInfoBean);
@@ -251,7 +250,7 @@ public class GtnWsRebateScheduleController {
 			logger.error("Error in loadPriceSchedule", ex);
 		}
 
-		logger.info("Exit loadRebateSchedule");
+		logger.info("Exit  loadRebateSchedule");
 		return gtnResponse;
 	}
 

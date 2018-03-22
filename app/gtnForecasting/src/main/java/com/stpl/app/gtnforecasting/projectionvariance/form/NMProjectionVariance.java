@@ -134,7 +134,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private List<Leveldto> currentHierarchy = new ArrayList<>();
     private List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
-    private static List<String> oldDiscountNameList = new ArrayList<>();
+    private List<String> oldDiscountNameList = new ArrayList<>();
     /**
      * The custom id.
      */
@@ -1786,7 +1786,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private void security() throws PortalException, SystemException {
 
-        final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
+        final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_VARIANCE);
 
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {
             generateBtn.setVisible(BooleanConstant.getFalseFlag());

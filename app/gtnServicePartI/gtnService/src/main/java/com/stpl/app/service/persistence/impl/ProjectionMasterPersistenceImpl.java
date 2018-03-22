@@ -138,6 +138,7 @@ public class ProjectionMasterPersistenceImpl extends BasePersistenceImpl<Project
 			dbColumnNames.put("projectionProdVersionNo",
 				"PROJECTION_PROD_VERSION");
 			dbColumnNames.put("forecastEligibleDate", "FORECAST_ELIGIBLE_DATE");
+			dbColumnNames.put("projectionDedVersionNo", "PROJECTION_DED_VERSION");
 
 			field.set(this, dbColumnNames);
 		}
@@ -414,6 +415,7 @@ public class ProjectionMasterPersistenceImpl extends BasePersistenceImpl<Project
 		projectionMasterImpl.setProjectionCustVersionNo(projectionMaster.getProjectionCustVersionNo());
 		projectionMasterImpl.setProjectionProdVersionNo(projectionMaster.getProjectionProdVersionNo());
 		projectionMasterImpl.setForecastEligibleDate(projectionMaster.getForecastEligibleDate());
+		projectionMasterImpl.setProjectionDedVersionNo(projectionMaster.getProjectionDedVersionNo());
 
 		return projectionMasterImpl;
 	}
@@ -845,6 +847,6 @@ public class ProjectionMasterPersistenceImpl extends BasePersistenceImpl<Project
 				"prodRelationshipBuilderSid", "discountType", "businessUnit",
 				"deductionHierarchySid", "dedRelationshipBuilderSid",
 				"projectionCustVersionNo", "projectionProdVersionNo",
-				"forecastEligibleDate"
+				"forecastEligibleDate", "projectionDedVersionNo"
 			});
 }
