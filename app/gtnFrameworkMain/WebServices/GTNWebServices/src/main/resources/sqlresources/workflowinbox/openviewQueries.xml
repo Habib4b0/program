@@ -66,4 +66,20 @@ JOIN COMPANY_MASTER BU_COMp on
             </query>
         </entity>
 
+	<entity id="getfriendlyURLQuery">
+		<query> 
+            <![CDATA[           
+    
+   SELECT
+	friendlyURL
+FROM
+	? . dbo.Layout l
+JOIN ? . dbo.PortletPreferences p ON
+	l.plid = p.plid
+WHERE
+	p.portletId LIKE '?'
+                    ]]>
+		</query>
+	</entity>
+
 </sql>
