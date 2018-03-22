@@ -37,7 +37,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
             try {
                 count=selectionLogic.getSelectedTableCount(sessionDTO,this.getFilters());
             }  catch (Exception ex) {
-                LOGGER.error(ex + " in getCount");
+                LOGGER.error("{} in getCount" , ex);
             }
 
         return count;
@@ -49,7 +49,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
         try {
             resultList=selectionLogic.getSelectedTableResult(sessionDTO, start, start + offset, this.getSortByColumns(),this.getFilters());
         } catch (Exception ex) {
-            LOGGER.error(ex + " in loadData");
+            LOGGER.error("{} in loadData", ex);
         }
         return resultList;
     }

@@ -87,7 +87,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			.getGTNLogger(GtnFrameworkAutomaticRelationUpdateService.class);
 
 	public boolean checkAndUpdateAutomaticRelationship(Integer relationshipBuilderSid)
-			throws GtnFrameworkGeneralException, InterruptedException {
+			throws GtnFrameworkGeneralException {
 		GtnWsRelationshipBuilderBean relationBean = getRelationtionshipBuilder(relationshipBuilderSid);
 		if (relationBean != null) {
 			GtnFrameworkAutoupdateService automaticService = getAutomaticserviceObject(
@@ -95,7 +95,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = getHierarchyBuilder(
 					relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			if (automaticService.checkAutomaticRelation(relationshipBuilderSid)
-					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
+			) {
 				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
 				return Boolean.TRUE;
 			}
@@ -193,6 +193,11 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		input.add(hierarchyBuilderSid);
 		input.add(hierarchyVersionNo);
 		String finalQuery = gtnWsSqlService.getQuery(input, "hierarchyByidandVersionNo");
+		return executeAndGetCustomizedResult(finalQuery);
+	}
+
+	private List<HierarchyLevelDefinitionBean> executeAndGetCustomizedResult(String finalQuery)
+			throws GtnFrameworkGeneralException {
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = new ArrayList<>();
 		for (Object[] objects : resultList) {
@@ -209,7 +214,6 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			hierarchyBean.setDefaultVlaue(getIntegerValue(8, objects));
 			hierarchyDefinitionList.add(hierarchyBean);
 		}
-
 		return hierarchyDefinitionList;
 	}
 
@@ -261,6 +265,20 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		input.add(customertUpdatedVersionNo);
 		String sqlquery = gtnWsSqlService.getQuery(input, "Delete unwanted Userdefined Level");
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlquery);
+	}
+
+	public List<HierarchyLevelDefinitionBean> getHierarchyBuilderBasedOnProjectionId(int projectionId,
+			String hierarchyIndicator) throws GtnFrameworkGeneralException {
+		List<Object> input = new ArrayList<>();
+		input.add(projectionId);
+		String queryName;
+		if (hierarchyIndicator.equalsIgnoreCase("C")) {
+			queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId Customer";
+		} else {
+			queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId PRoduct";
+		}
+		String finalQuery = gtnWsSqlService.getQuery(input, queryName);
+		return executeAndGetCustomizedResult(finalQuery);
 	}
 
 }

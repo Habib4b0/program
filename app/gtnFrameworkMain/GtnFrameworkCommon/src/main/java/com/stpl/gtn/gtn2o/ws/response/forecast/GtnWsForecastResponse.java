@@ -9,6 +9,7 @@ import java.util.Map;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.DataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
+import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 
 @SuppressWarnings("rawtypes")
 public class GtnWsForecastResponse {
@@ -28,6 +29,8 @@ public class GtnWsForecastResponse {
 	private List<String> editablePeriods;
 
 	private DataSelectionBean dataSelectionBean;
+
+	private GtnForecastHierarchyInputBean inputBean;
 
 	/**
 	 * The properties.
@@ -267,6 +270,14 @@ public class GtnWsForecastResponse {
 
 	public void setExcelLeftTableEndIndex(int excelLeftTableEndIndex) {
 		this.excelLeftTableEndIndex = excelLeftTableEndIndex;
+	}
+
+	public GtnForecastHierarchyInputBean getInputBean() {
+		return inputBean;
+	}
+
+	public void setInputBean(GtnForecastHierarchyInputBean inputBean) {
+		this.inputBean = inputBean;
 	}
 
 }

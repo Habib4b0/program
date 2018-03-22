@@ -5,14 +5,13 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-import java.util.ArrayList;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -36,10 +35,6 @@ public class MandatedChartUtils {
      * The quarter.
      */
     public static final String QUARTER = "quarterly";
-    /**
-     * The dto.
-     */
-    private List<?> dto;
     /**
      * The frequency.
      */
@@ -66,11 +61,11 @@ public class MandatedChartUtils {
      * @param frequency the frequency
      * @param history the history
      */
-    public MandatedChartUtils(final List<?> dto, final String frequency, final String history, CustomTableHeaderDTO rightDto, String screenName, ProjectionSelectionDTO projectionDTO) {
+	public MandatedChartUtils(final String frequency, final String history,
+			CustomTableHeaderDTO rightDto, String screenName, ProjectionSelectionDTO projectionDTO) {
         LOGGER.debug("Entering SPRChart method ");
         this.frequency = frequency;
         this.history = history;
-        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.rightDto = rightDto;
         this.screenName = screenName;
         this.projSelDTO = projectionDTO;
@@ -86,23 +81,6 @@ public class MandatedChartUtils {
         return new Label();
                         }
 
-    /**
-     * Gets the dto.
-     *
-     * @return the dto
-     */
-    public List<?> getDto() {
-        return dto == null ? dto : new ArrayList<>(dto);
-    }
-
-    /**
-     * Sets the dto.
-     *
-     * @param dto the new dto
-     */
-    public void setDto(final List<?> dto) {
-        this.dto = dto == null ? dto : new ArrayList<>(dto);
-    }
 
     /**
      * Gets the frequency.

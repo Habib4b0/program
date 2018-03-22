@@ -382,7 +382,7 @@ public class NmPpaProjectionMasterImpl {
                 sql.append("    AND LEVEL_NO = \n"
                         ).append( levelNo
                         ).append( "    AND PARENT_NODE =\n"
-                        ).append( "'").append(parent).append('\'');
+                        ).append( '\'').append(parent).append('\'');
                 sql.append(" and RELATIONSHIP_LEVEL_VALUES=");
                 sql.append('\'').append(levelName).append('\'');
             }

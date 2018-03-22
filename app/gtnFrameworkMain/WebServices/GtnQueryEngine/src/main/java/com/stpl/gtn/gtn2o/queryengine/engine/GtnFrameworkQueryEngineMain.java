@@ -83,6 +83,10 @@ public class GtnFrameworkQueryEngineMain {
 				sqlQuery.setDouble(currentQueryIndex, (Double) currentParamObj);
 				return;
 			}
+			if ("byte[]".equals(dataTypeArray[currentQueryIndex])) {
+				sqlQuery.setByte(currentQueryIndex, (byte) currentParamObj);
+				return;
+			}
 		}
 	}
 

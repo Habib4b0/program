@@ -129,7 +129,7 @@ public class DeductionDetailsLogic {
      */
     private List getCustomizedResultList(List list, DeductionDetailsDTO deductionDTO, TableDTO parentIdDto) {
         try {
-            LOGGER.debug("Inside getCustomizedResultList with list size" + list.size());
+            LOGGER.debug("Inside getCustomizedResultList with list size {}" , list.size());
             List<TableDTO> resultList = new ArrayList<>();
             String lastValue = StringUtils.EMPTY;
             TableDTO dto = new TableDTO();
@@ -327,7 +327,7 @@ public class DeductionDetailsLogic {
                     resultList.add(dto);
                 }
             }
-            LOGGER.debug("Ending getCustomizedResultList with list size " + resultList.size());
+            LOGGER.debug("Ending getCustomizedResultList with list size {}" , resultList.size());
             return resultList;
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());

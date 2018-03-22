@@ -4,6 +4,40 @@
  */
 package com.stpl.app.cff.ui.dataSelection.form;
 
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRIVATE_VIEW;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_GROUP;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_HIERARCHY;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PUBLIC_VIEW;
+import static com.stpl.app.cff.util.Constants.LabelConstants.PRIVATE_VIEW;
+import static com.stpl.app.cff.util.Constants.LabelConstants.PUBLIC_VIEW;
+import static com.stpl.app.cff.util.Constants.LabelConstants.SAVE_VIEW;
+import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_GROUP_LOOKUP;
+import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_HIERARCHY_LOOKUP;
+import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_GROUP_LOOKUP;
+import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_HIERARCHY_LOOKUP;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractDataSelection;
@@ -19,20 +53,6 @@ import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRIVATE_VIEW;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_GROUP;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_HIERARCHY;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PUBLIC_VIEW;
-import static com.stpl.app.cff.util.Constants.LabelConstants.PRIVATE_VIEW;
-import static com.stpl.app.cff.util.Constants.LabelConstants.PUBLIC_VIEW;
-import static com.stpl.app.cff.util.Constants.LabelConstants.SAVE_VIEW;
-import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_GROUP_LOOKUP;
-import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_HIERARCHY_LOOKUP;
-import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_GROUP_LOOKUP;
-import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_HIERARCHY_LOOKUP;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -57,23 +77,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.ComboBox;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -107,8 +110,6 @@ public class DataSelection extends AbstractDataSelection {
 	private final ExecutorService service = ThreadPool.getInstance().getService();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
-	private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
-	private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
 	private Future customerFuture;
 	private Future productFuture;
 
@@ -193,16 +194,16 @@ public class DataSelection extends AbstractDataSelection {
 	@Override
 	protected void productHierarchyLookUp()
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		final HierarchyLookup productHierarchyLookupWindow = new HierarchyLookup(
+		final HierarchyLookup productHieLookupWindow = new HierarchyLookup(
 				INDICATOR_PRODUCT_HIERARCHY.getConstant(), WINDOW_PRODUCT_HIERARCHY_LOOKUP.getConstant(),
 				productHierarchy, productHierarchyDto);
-		UI.getCurrent().addWindow(productHierarchyLookupWindow);
-		productHierarchyLookupWindow.addCloseListener(new Window.CloseListener() {
+		UI.getCurrent().addWindow(productHieLookupWindow);
+		productHieLookupWindow.addCloseListener(new Window.CloseListener() {
 			@Override
 			public void windowClose(Window.CloseEvent e) {
-				if (productHierarchyLookupWindow.getHierarchyDto() != null) {
-					final HierarchyLookupDTO lookupDto = productHierarchyLookupWindow.getHierarchyDto();
-					productHierarchyDto = lookupDto;
+				if (productHieLookupWindow.getHierarchyDto() != null) {
+					final HierarchyLookupDTO prodLookpu = productHieLookupWindow.getHierarchyDto();
+					productHierarchyDto = prodLookpu;
 					companiesInProdHier = new ArrayList<>();
 					loadRelationDdlb(productHierarchyDto.getHierarchyId(), null, productRelation);
 					resetProductLevel();
@@ -216,6 +217,7 @@ public class DataSelection extends AbstractDataSelection {
 					dataSelectionDTO.setProdGrpSid(null);
 					productGroup.setValue(StringUtils.EMPTY);
 					groupFilteredItems = null;
+
 				}
 			}
 		});
@@ -307,16 +309,14 @@ public class DataSelection extends AbstractDataSelection {
 				String[] val = selectedLevel.split(" ");
 				forecastLevel = Integer.parseInt(val[1]);
                                 dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
-				customerHierarchyLevelDefinitionList = relationLogic
+				List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
 						.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
 				Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
-				List<Leveldto> levelHierarchyLevelDefinitionList = customerHierarchyLevelDefinitionList.subList(0,
-						forecastLevel);
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-						Integer.parseInt(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList,
-						relationVersionNo,cffEligibleDate.getValue());
+						Integer.parseInt(relationshipSid), tempGroupFileter, "",
+						"", relationVersionNo, cffEligibleDate.getValue(), customerDescriptionMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -452,10 +452,6 @@ public class DataSelection extends AbstractDataSelection {
 			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, BooleanConstant.getFalseFlag(), 0,sessionDTO);
 			VaadinSession.getCurrent().setAttribute("projectionId", projectionIdValue);
 			dataSelectionDTO.setProjectionId(projectionIdValue);
-			int prodRelationVersionNo = Integer
-					.parseInt(productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
-			int custRelationVersionNo = Integer.parseInt(
-					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
 			if (projectionIdValue != 0) {
 
 				sessionDTO.setProjectionId(projectionIdValue);
@@ -475,6 +471,8 @@ public class DataSelection extends AbstractDataSelection {
 				sessionDTO.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 				Object[] obj = cffLogic.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setDedRelationshipBuilderSid(obj[0].toString());
+                                List versionNoList = cffLogic.getDeductionVersionNoList(sessionDTO.getDedRelationshipBuilderSid());
+                                                    sessionDTO.setDeductionRelationVersion((int) versionNoList.get(0));
 				sessionDTO.setCompanySystemId((Integer) company.getValue());
 				sessionDTO.setCustomerHierarchyVersion(dataSelectionDTO.getCustomerHierVersionNo());
 				sessionDTO.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
@@ -484,8 +482,7 @@ public class DataSelection extends AbstractDataSelection {
 				CFFQueryUtils.createTempTables(sessionDTO);
 				relationLogic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(),
 						selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
-						customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-						custRelationVersionNo, prodRelationVersionNo,projectionIdValue);
+						dataSelectionDTO);
 				insertCffDetailsUsingExecutorService(projectionIdValue, sessionDTO.getCurrentTableNames());
 				sessionDTO.setCustomerLevelDetails(
 						cffLogic.getLevelValueDetails(sessionDTO, customerRelation.getValue(), true));
@@ -653,7 +650,7 @@ public class DataSelection extends AbstractDataSelection {
 						if (hierarchyNo.length() > 0 && hierarchyNo.charAt(hierarchyNo.length() - 1) == '.') {
 							hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
 						}
-						String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
+						String currentHierarchyNoString = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
 						List<String> hierarchyNos = new ArrayList<>();
 						List<Leveldto> newParentLevels = null;
 						List<Leveldto> newChildLevels = null;
@@ -703,11 +700,10 @@ public class DataSelection extends AbstractDataSelection {
 									UiUtils.stringListToString(uncommonValues), customerDescriptionMap,
 									customerHierarchyVersionNo, customerRelationVersionNo);
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNoString,
 								UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
-								customerHierarchyVersionNo, customerRelationVersionNo,
-								getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+								customerHierarchyVersionNo, customerRelationVersionNo);
 						if (newParentLevels != null) {
 							int pos2 = 0;
 							String parentHierarchyNo;
@@ -867,8 +863,7 @@ public class DataSelection extends AbstractDataSelection {
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
-								customerHierarchyVersionNo, customerRelationVersionNo,
-								getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+								customerHierarchyVersionNo, customerRelationVersionNo);
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (customerBeanList.isEmpty()
@@ -966,8 +961,7 @@ public class DataSelection extends AbstractDataSelection {
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
-								customerHierarchyVersionNo, customerRelationVersionNo,
-								getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+								customerHierarchyVersionNo, customerRelationVersionNo);
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (customerBeanList.isEmpty()
@@ -1053,8 +1047,7 @@ public class DataSelection extends AbstractDataSelection {
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 								customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
-								customerHierarchyVersionNo, customerRelationVersionNo,
-								getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+								customerHierarchyVersionNo, customerRelationVersionNo);
 						if (newChildLevels != null && !newChildLevels.isEmpty()) {
 							int pos3 = 0;
 							String childHierarchyNo;
@@ -1193,9 +1186,7 @@ public class DataSelection extends AbstractDataSelection {
 								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 										UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 										customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
-										customerHierarchyVersionNo, customerRelationVersionNo,
-										getDataSelectionFormattedLevelNo(
-												String.valueOf(level.getValue()).split("-")[0]));
+										customerHierarchyVersionNo, customerRelationVersionNo);
 								if (newParentLevels != null) {
 									int pos2 = 0;
 									String parentHierarchyNo;
@@ -1364,8 +1355,7 @@ public class DataSelection extends AbstractDataSelection {
 							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 									UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 									customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
-									customerHierarchyVersionNo, customerRelationVersionNo,
-									getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+									customerHierarchyVersionNo, customerRelationVersionNo);
 							if (newParentLevels != null) {
 								for (Leveldto newLevel : newParentLevels) {
 									if (customerBeanList.isEmpty()
@@ -1462,8 +1452,7 @@ public class DataSelection extends AbstractDataSelection {
 							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 									UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 									customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
-									customerHierarchyVersionNo, customerRelationVersionNo,
-									getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+									customerHierarchyVersionNo, customerRelationVersionNo);
 							if (newChildLevels != null && !newChildLevels.isEmpty()) {
 								int pos3 = 0;
 								String childHierarchyNo;
@@ -1590,8 +1579,7 @@ public class DataSelection extends AbstractDataSelection {
 							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 									UiUtils.parseStringToInteger(String.valueOf(level.getValue()).split("-")[0]),
 									customerDescriptionMap, 0, DataSelectionUtil.getBeanFromId(item),
-									customerHierarchyVersionNo, customerRelationVersionNo,
-									getDataSelectionFormattedLevelNo(String.valueOf(level.getValue()).split("-")[0]));
+									customerHierarchyVersionNo, customerRelationVersionNo);
 							if (newParentLevels != null) {
 								for (Leveldto newLevel : newParentLevels) {
 									if (customerBeanList.isEmpty()
@@ -1743,8 +1731,7 @@ public class DataSelection extends AbstractDataSelection {
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 										productDescriptionMap, getBusinessUnit().getValue(),
 										DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
-										productRelationVersionNo, getDataSelectionFormattedLevelNo(
-												String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+										productRelationVersionNo);
 								if (newParentLevels != null) {
 									int pos2 = 0;
 									String parentHierarchyNo;
@@ -1915,8 +1902,7 @@ public class DataSelection extends AbstractDataSelection {
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 									productDescriptionMap, getBusinessUnit().getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
-									productRelationVersionNo, getDataSelectionFormattedLevelNo(
-											String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+									productRelationVersionNo);
 							if (newParentLevels != null) {
 								for (Leveldto newLevel : newParentLevels) {
 									if (productBeanList.isEmpty()
@@ -2016,8 +2002,7 @@ public class DataSelection extends AbstractDataSelection {
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 									productDescriptionMap, getBusinessUnit().getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
-									productRelationVersionNo, getDataSelectionFormattedLevelNo(
-											String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+									productRelationVersionNo);
 							if (newChildLevels != null && !newChildLevels.isEmpty()) {
 								int pos3 = 0;
 								String childHierarchyNo;
@@ -2145,8 +2130,7 @@ public class DataSelection extends AbstractDataSelection {
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 									productDescriptionMap, getBusinessUnit().getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
-									productRelationVersionNo, getDataSelectionFormattedLevelNo(
-											String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+									productRelationVersionNo);
 							if (newParentLevels != null) {
 								int pos2 = 0;
 								String parentHierarchyNo;
@@ -2323,9 +2307,9 @@ public class DataSelection extends AbstractDataSelection {
 				dataSelectionDTO.setProductHierarchyInnerLevel(String.valueOf(forecastLevel));
 			}
 			if (availableProduct.getValue() != null) {
-				int productHierarchyVersionNo = Integer
+				int prodHieVersionNo = Integer
 						.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
-				int productRelationVersionNo = Integer.parseInt(
+				int prodRelVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				Object item = availableProduct.getValue();
 				if (selectedProductContainer.size() > 0) {
@@ -2336,26 +2320,26 @@ public class DataSelection extends AbstractDataSelection {
 							hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
 						}
 						String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-						List<String> hierarchyNos = new ArrayList<>();
-						List<Leveldto> newParentLevels = null;
+						List<String> hierarchyNoList = new ArrayList<>();
+						List<Leveldto> newParentLevelsList = null;
 						List<Leveldto> newChildLevels = null;
-						hierarchyNos.add(hierarchyNo + ".");
+						hierarchyNoList.add(hierarchyNo + ".");
 						int pos = 0;
 						while (hierarchyNo.contains(Constants.StringConstants.DOT.getConstant())) {
 							pos = hierarchyNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
 							if (pos != -1) {
 								hierarchyNo = hierarchyNo.substring(0, pos);
 							}
-							hierarchyNos.add(hierarchyNo + ".");
+							hierarchyNoList.add(hierarchyNo + ".");
 						}
-						Collections.reverse(hierarchyNos);
+						Collections.reverse(hierarchyNoList);
 						List<String> selectedHierarchyNos = new ArrayList<>();
 						for (Leveldto selectedLevel : selectedProductContainer.getItemIds()) {
 							if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
 								selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
 							}
 						}
-						List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos,
+						List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNoList,
 								selectedHierarchyNos);
 						List<String> removeValues = new ArrayList<>();
 						for (String uncommonHierValue : uncommonValues) {
@@ -2364,38 +2348,25 @@ public class DataSelection extends AbstractDataSelection {
 							}
 						}
 						if (!removeValues.isEmpty()) {
-							uncommonValues.removeAll(removeValues); // At this
-																	// point,
-																	// uncommonValues
-																	// should
-																	// contain
-																	// only 1
-																	// value
-																	// since
-																	// only one
-																	// value is
-																	// selected
-																	// to be
-																	// moved in
-																	// available
-																	// table.
+							uncommonValues.removeAll(removeValues);
+							// At this point,uncommonValues should contain only 1 value since only one value
+							// is selected to be moved in available table.
 						}
 						if (!uncommonValues.isEmpty()) {
-							newParentLevels = logic.getParentLevelsWithHierarchyNo(
+							newParentLevelsList = logic.getParentLevelsWithHierarchyNo(
 									UiUtils.stringListToString(uncommonValues), productDescriptionMap,
-									productHierarchyVersionNo, productRelationVersionNo);
+									prodHieVersionNo, prodRelVersionNo);
 						}
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 								productDescriptionMap, getBusinessUnit().getValue(), DataSelectionUtil.getBeanFromId(item),
-								productHierarchyVersionNo, productRelationVersionNo, getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
-						if (newParentLevels != null) {
+								prodHieVersionNo, prodRelVersionNo);
+						if (newParentLevelsList != null) {
 							int pos2 = 0;
 							String parentHierarchyNo;
 							Leveldto parent = null;
-							for (Leveldto newLevel : newParentLevels) {
-								String tempHNo = newLevel.getHierarchyNo();
+							for (Leveldto newParentLevel : newParentLevelsList) {
+								String tempHNo = newParentLevel.getHierarchyNo();
 								if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
 									tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
 								}
@@ -2406,13 +2377,13 @@ public class DataSelection extends AbstractDataSelection {
 									parentHierarchyNo = tempHNo + ".";
 								}
 								if (productBeanList.isEmpty()
-										|| !productBeanList.contains(newLevel.getRelationshipLevelSid())) {
-									productBeanList.add(newLevel.getRelationshipLevelSid());
-									selectedProductContainer.addBean(newLevel);
-									if (forecastLevel != newLevel.getLevelNo()) {
-										selectedProductContainer.setChildrenAllowed(newLevel, true);
+										|| !productBeanList.contains(newParentLevel.getRelationshipLevelSid())) {
+									productBeanList.add(newParentLevel.getRelationshipLevelSid());
+									selectedProductContainer.addBean(newParentLevel);
+									if (forecastLevel != newParentLevel.getLevelNo()) {
+										selectedProductContainer.setChildrenAllowed(newParentLevel, true);
 									} else {
-										selectedProductContainer.setChildrenAllowed(newLevel, false);
+										selectedProductContainer.setChildrenAllowed(newParentLevel, false);
 									}
 								}
 
@@ -2424,15 +2395,15 @@ public class DataSelection extends AbstractDataSelection {
 										}
 									}
 								}
-								selectedProductContainer.setParent(newLevel, parent);
-								parent = newLevel;
+								selectedProductContainer.setParent(newParentLevel, parent);
+								parent = newParentLevel;
 							}
 							if (!newChildLevels.isEmpty()) {
 								int pos3 = 0;
 								String childHierarchyNo;
 								Leveldto childsParent = null;
-								for (Leveldto newLevel : newChildLevels) {
-									String tempHNo = newLevel.getHierarchyNo();
+								for (Leveldto selectedLeve : newChildLevels) {
+									String tempHNo = selectedLeve.getHierarchyNo();
 									if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
 										tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
 									}
@@ -2443,13 +2414,13 @@ public class DataSelection extends AbstractDataSelection {
 										childHierarchyNo = tempHNo + ".";
 									}
 									if (productBeanList.isEmpty()
-											|| !productBeanList.contains(newLevel.getRelationshipLevelSid())) {
-										productBeanList.add(newLevel.getRelationshipLevelSid());
-										selectedProductContainer.addBean(newLevel);
-										if (forecastLevel != newLevel.getLevelNo()) {
-											selectedProductContainer.setChildrenAllowed(newLevel, true);
+											|| !productBeanList.contains(selectedLeve.getRelationshipLevelSid())) {
+										productBeanList.add(selectedLeve.getRelationshipLevelSid());
+										selectedProductContainer.addBean(selectedLeve);
+										if (forecastLevel != selectedLeve.getLevelNo()) {
+											selectedProductContainer.setChildrenAllowed(selectedLeve, true);
 										} else {
-											selectedProductContainer.setChildrenAllowed(newLevel, false);
+											selectedProductContainer.setChildrenAllowed(selectedLeve, false);
 										}
 									}
 
@@ -2462,7 +2433,7 @@ public class DataSelection extends AbstractDataSelection {
 											}
 										}
 									}
-									selectedProductContainer.setParent(newLevel, childsParent);
+									selectedProductContainer.setParent(selectedLeve, childsParent);
 								}
 							}
 						}
@@ -2474,10 +2445,10 @@ public class DataSelection extends AbstractDataSelection {
 							hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
 						}
 						String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
-						List<String> hierarchyNos = new ArrayList<>();
-						List<Leveldto> newParentLevels = null;
-						List<Leveldto> newChildLevels = null;
-						hierarchyNos.add(hierarchyNo + ".");
+						List<String> hieNoList = new ArrayList<>();
+						List<Leveldto> newParentLevelList = null;
+						List<Leveldto> newChildList = null;
+						hieNoList.add(hierarchyNo + ".");
 						int pos = 0;
 						String selectedParentHierarchyNo = StringUtils.EMPTY;
 						Leveldto selectedParent = null;
@@ -2486,25 +2457,25 @@ public class DataSelection extends AbstractDataSelection {
 							if (pos != -1) {
 								hierarchyNo = hierarchyNo.substring(0, pos);
 							}
-							hierarchyNos.add(hierarchyNo + ".");
+							hieNoList.add(hierarchyNo + ".");
 						}
-						Collections.reverse(hierarchyNos);
+						Collections.reverse(hieNoList);
 						List<String> selectedHierarchyNos = new ArrayList<>();
 						for (Leveldto selectedLevel : selectedProductContainer.getItemIds()) {
 							if (!StringUtils.isBlank(selectedLevel.getHierarchyNo())) {
 								selectedHierarchyNos.add(selectedLevel.getHierarchyNo());
 							}
 						}
-						List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hierarchyNos,
+						List<String> uncommonValues = DataSelectionUtil.storeUncommonValues(hieNoList,
 								selectedHierarchyNos);
-						List<String> removeValues = new ArrayList<>();
+						List<String> removeValueList = new ArrayList<>();
 						for (String uncommonHierValue : uncommonValues) {
 							if (selectedHierarchyNos.contains(uncommonHierValue)) {
-								removeValues.add(uncommonHierValue);
+								removeValueList.add(uncommonHierValue);
 							}
 						}
-						if (!removeValues.isEmpty()) {
-							uncommonValues.removeAll(removeValues); // At this
+						if (!removeValueList.isEmpty()) {
+							uncommonValues.removeAll(removeValueList); // At this
 																	// point,
 																	// uncommonValues
 																	// should
@@ -2521,16 +2492,16 @@ public class DataSelection extends AbstractDataSelection {
 																	// table.
 						}
 						if (!uncommonValues.isEmpty()) {
-							String tempHNo = uncommonValues.get(0);
-							if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
-								tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
+							String tempHierarchyNo = uncommonValues.get(0);
+							if (tempHierarchyNo.length() > 0 && tempHierarchyNo.charAt(tempHierarchyNo.length() - 1) == '.') {
+								tempHierarchyNo = tempHierarchyNo.substring(0, tempHierarchyNo.length() - 1);
 							}
 							int pos2 = 0;
-							pos2 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
+							pos2 = tempHierarchyNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
 							if (pos2 != -1) {
-								selectedParentHierarchyNo = tempHNo.substring(0, pos2) + ".";
+								selectedParentHierarchyNo = tempHierarchyNo.substring(0, pos2) + ".";
 							} else {
-								selectedParentHierarchyNo = tempHNo + ".";
+								selectedParentHierarchyNo = tempHierarchyNo + ".";
 							}
 						}
 						if (!StringUtils.isBlank(selectedParentHierarchyNo)) {
@@ -2542,17 +2513,16 @@ public class DataSelection extends AbstractDataSelection {
 							}
 						}
 						if (!uncommonValues.isEmpty()) {
-							newParentLevels = logic.getParentLevelsWithHierarchyNo(
+							newParentLevelList = logic.getParentLevelsWithHierarchyNo(
 									UiUtils.stringListToString(uncommonValues), productDescriptionMap,
-									productHierarchyVersionNo, productRelationVersionNo);
+									prodHieVersionNo, prodRelVersionNo);
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildList = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 								productDescriptionMap, getBusinessUnit().getValue(), DataSelectionUtil.getBeanFromId(item),
-								productHierarchyVersionNo, productRelationVersionNo, getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
-						if (newParentLevels != null) {
-							for (Leveldto newLevel : newParentLevels) {
+								prodHieVersionNo, prodRelVersionNo);
+						if (newParentLevelList != null) {
+							for (Leveldto newLevel : newParentLevelList) {
 								if (productBeanList.isEmpty()
 										|| !productBeanList.contains(newLevel.getRelationshipLevelSid())) {
 									productBeanList.add(newLevel.getRelationshipLevelSid());
@@ -2566,12 +2536,12 @@ public class DataSelection extends AbstractDataSelection {
 									selectedParent = newLevel;
 								}
 							}
-							if (!newChildLevels.isEmpty()) {
+							if (!newChildList.isEmpty()) {
 								int pos3 = 0;
 								String childHierarchyNo;
 								Leveldto childsParent = null;
-								for (Leveldto newLevel : newChildLevels) {
-									String tempHNo = newLevel.getHierarchyNo();
+								for (Leveldto newChildLevel : newChildList) {
+									String tempHNo = newChildLevel.getHierarchyNo();
 									if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
 										tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
 									}
@@ -2582,13 +2552,13 @@ public class DataSelection extends AbstractDataSelection {
 										childHierarchyNo = tempHNo + ".";
 									}
 									if (productBeanList.isEmpty()
-											|| !productBeanList.contains(newLevel.getRelationshipLevelSid())) {
-										productBeanList.add(newLevel.getRelationshipLevelSid());
-										selectedProductContainer.addBean(newLevel);
-										if (forecastLevel != newLevel.getLevelNo()) {
-											selectedProductContainer.setChildrenAllowed(newLevel, true);
+											|| !productBeanList.contains(newChildLevel.getRelationshipLevelSid())) {
+										productBeanList.add(newChildLevel.getRelationshipLevelSid());
+										selectedProductContainer.addBean(newChildLevel);
+										if (forecastLevel != newChildLevel.getLevelNo()) {
+											selectedProductContainer.setChildrenAllowed(newChildLevel, true);
 										} else {
-											selectedProductContainer.setChildrenAllowed(newLevel, false);
+											selectedProductContainer.setChildrenAllowed(newChildLevel, false);
 										}
 									}
 
@@ -2602,7 +2572,7 @@ public class DataSelection extends AbstractDataSelection {
 										}
 									}
 
-									selectedProductContainer.setParent(newLevel, childsParent);
+									selectedProductContainer.setParent(newChildLevel, childsParent);
 								}
 							}
 						}
@@ -2643,12 +2613,11 @@ public class DataSelection extends AbstractDataSelection {
 							}
 						}
 						newParentLevels = logic.getParentLevelsWithHierarchyNo(UiUtils.stringListToString(hierarchyNos),
-								productDescriptionMap, productHierarchyVersionNo, productRelationVersionNo);
+								productDescriptionMap, prodHieVersionNo, prodRelVersionNo);
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 								productDescriptionMap, getBusinessUnit().getValue(), DataSelectionUtil.getBeanFromId(item),
-								productHierarchyVersionNo, productRelationVersionNo, getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+								prodHieVersionNo, prodRelVersionNo);
 						if (newParentLevels != null) {
 							for (Leveldto newLevel : newParentLevels) {
 								if (productBeanList.isEmpty()
@@ -2704,13 +2673,13 @@ public class DataSelection extends AbstractDataSelection {
 							}
 						}
 					} else {
-						Leveldto selectedParent = DataSelectionUtil.getBeanFromId(item);
+						Leveldto selectedParentLevel = DataSelectionUtil.getBeanFromId(item);
 						// Root
 						String hierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
 						if (hierarchyNo.length() > 0 && hierarchyNo.charAt(hierarchyNo.length() - 1) == '.') {
 							hierarchyNo = hierarchyNo.substring(0, hierarchyNo.length() - 1);
 						}
-						String currentHierarchyNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
+						String currentHieNo = DataSelectionUtil.getBeanFromId(item).getHierarchyNo();
 						List<Leveldto> newChildLevels = null;
 						int pos = 0;
 						if (hierarchyNo.contains(Constants.StringConstants.DOT.getConstant())) {
@@ -2724,18 +2693,17 @@ public class DataSelection extends AbstractDataSelection {
 						if (productBeanList.isEmpty() || !productBeanList
 								.contains(DataSelectionUtil.getBeanFromId(item).getRelationshipLevelSid())) {
 							productBeanList.add(DataSelectionUtil.getBeanFromId(item).getRelationshipLevelSid());
-							selectedProductContainer.addBean(selectedParent);
-							if (forecastLevel != selectedParent.getLevelNo()) {
-								selectedProductContainer.setChildrenAllowed(selectedParent, true);
+							selectedProductContainer.addBean(selectedParentLevel);
+							if (forecastLevel != selectedParentLevel.getLevelNo()) {
+								selectedProductContainer.setChildrenAllowed(selectedParentLevel, true);
 							} else {
-								selectedProductContainer.setChildrenAllowed(selectedParent, false);
+								selectedProductContainer.setChildrenAllowed(selectedParentLevel, false);
 							}
 						}
-						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
+						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHieNo,
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
 								productDescriptionMap, getBusinessUnit().getValue(), DataSelectionUtil.getBeanFromId(item),
-								productHierarchyVersionNo, productRelationVersionNo, getDataSelectionFormattedLevelNo(
-										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
+								prodHieVersionNo, prodRelVersionNo);
 						if (newChildLevels != null && !newChildLevels.isEmpty()) {
 							int pos3 = 0;
 							String childHierarchyNo;
@@ -3069,19 +3037,8 @@ public class DataSelection extends AbstractDataSelection {
 
 				String[] val = selectedLevel.split(" ");
 				forecastLevel = Integer.parseInt(val[1]);
-				productHierarchyLevelDefinitionList = relationLogic
+				List<Leveldto> productHierarchyLevelDefinitionList = relationLogic
 						.getHierarchyLevelDefinition(productHierarchyDto.getHierarchyId(), hierarchyVersionNo);
-				List<Leveldto> customerHierarchyDefinitionList;
-				if (customerHierarchyDto == null) {
-					customerHierarchyDefinitionList = Collections.emptyList();
-				} else {
-					int customerHierarchyVersionNo = Integer
-							.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-					customerHierarchyDefinitionList = relationLogic.getHierarchyLevelDefinition(
-							customerHierarchyDto.getHierarchyId(), customerHierarchyVersionNo);
-				}
-				List<Leveldto> hierarchyLevelDefinitionList = productHierarchyLevelDefinitionList.subList(0,
-						forecastLevel);
 				Leveldto selectedHierarchyLevelDto = productHierarchyLevelDefinitionList.get(forecastLevel - 1);
 				isNdc = (selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("Package")
 						|| selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("NDC-11")); 
@@ -3092,8 +3049,8 @@ public class DataSelection extends AbstractDataSelection {
 						: groupFilteredItems;
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
 						Integer.parseInt(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
-						hierarchyLevelDefinitionList, customerHierarchyDefinitionList, productRelationVersionNo,
-						customerRelationVersionNo, getBusinessUnit().getValue());
+						"", "", productRelationVersionNo, customerRelationVersionNo, getBusinessUnit().getValue(),
+						productDescriptionMap);
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -3181,21 +3138,21 @@ public class DataSelection extends AbstractDataSelection {
 	 *
 	 * @param customerGrpSid
 	 */
-	public void triggerCustGrpOnView(String customerGrpSid, final boolean filter) {
+	public void triggerCustGrpOnView(String customerGrpSid, final boolean isFilter) {
 
 		List<String> companySids = null;
 		List<String> customerSidsFromDetails = null;
-		DataSelectionLogic logic = new DataSelectionLogic();
+		DataSelectionLogic dslogic = new DataSelectionLogic();
 		try {
 			if (!StringUtils.isBlank(customerGrpSid) && !NULL.equalsIgnoreCase(customerGrpSid)) {
 				companySids = DataSelectionUtil.getCustomerSidFromHierarchy(getCustomersFromHierarchy());
 				if (companySids != null) {
-					List<String> finalCompanySids = new ArrayList<>(companySids);
-					customerSidsFromDetails = logic.getCustomerGroupDetails(Integer.parseInt(customerGrpSid));
-					finalCompanySids.retainAll(customerSidsFromDetails);
-					groupFilteredCompanies = new ArrayList<>(finalCompanySids);
+					List<String> companySidList = new ArrayList<>(companySids);
+					customerSidsFromDetails = dslogic.getCustomerGroupDetails(Integer.parseInt(customerGrpSid));
+					companySidList.retainAll(customerSidsFromDetails);
+					groupFilteredCompanies = new ArrayList<>(companySidList);
 				}
-				if (filter) {
+				if (isFilter) {
 					filterCustomerOnGroupSelect();
 				}
 			}
@@ -3440,16 +3397,16 @@ public class DataSelection extends AbstractDataSelection {
 
 		StringBuilder returnString = new StringBuilder(StringUtils.EMPTY);
 
-		List<String> productHierarchyEndLevelsHierNo = new ArrayList<>();
+		List<String> productHieEndLevelsHierNo = new ArrayList<>();
 		for (Object item : selectedProductContainer.getItemIds()) {
 			if (!selectedProductContainer.hasChildren(item)) {
-				productHierarchyEndLevelsHierNo.add(DataSelectionUtil.getBeanFromId(item).getHierarchyNo());
+				productHieEndLevelsHierNo.add(DataSelectionUtil.getBeanFromId(item).getHierarchyNo());
 			}
 		}
-		if (!productHierarchyEndLevelsHierNo.isEmpty()) {
-			for (int loop = 0, limit = productHierarchyEndLevelsHierNo.size(); loop < limit; loop++) {
+		if (!productHieEndLevelsHierNo.isEmpty()) {
+			for (int loop = 0, limit = productHieEndLevelsHierNo.size(); loop < limit; loop++) {
 				returnString.append('\'');
-				returnString.append(productHierarchyEndLevelsHierNo.get(loop));
+				returnString.append(productHieEndLevelsHierNo.get(loop));
 				returnString.append('\'');
 				if (loop != (limit - 1)) {
 					returnString.append(", ");
@@ -3645,34 +3602,34 @@ public class DataSelection extends AbstractDataSelection {
 			customerBeanList.add(dto.getRelationshipLevelSid());
 		}
 
-		for (final Leveldto dto : initialCustomerHierarchy) {
-			if (dto.getLevelNo() == 1) {
+		for (final Leveldto levelDto : initialCustomerHierarchy) {
+			if (levelDto.getLevelNo() == 1) {
 				selectedCustomerContainer.removeAllItems();
-				selectedCustomerContainer.addItem(dto);
-				selectedCustomerContainer.setChildrenAllowed(dto, true);
+				selectedCustomerContainer.addItem(levelDto);
+				selectedCustomerContainer.setChildrenAllowed(levelDto, true);
 			} else {
 				for (Object tempdto : selectedCustomerContainer.getItemIds()) {
-					if (dto.getParentNode().contains("~")) {
-						final String[] parentarr = dto.getParentNode().split("~");
+					if (levelDto.getParentNode().contains("~")) {
+						final String[] parentarr = levelDto.getParentNode().split("~");
 						final String parentName = parentarr[1];
 						if (getBeanFromId(tempdto).getRelationshipLevelValue().equalsIgnoreCase(parentName)) {
-							selectedCustomerContainer.addBean(dto);
-							if (forecastLevel != dto.getLevelNo()) {
-								selectedCustomerContainer.setChildrenAllowed(dto, true);
+							selectedCustomerContainer.addBean(levelDto);
+							if (forecastLevel != levelDto.getLevelNo()) {
+								selectedCustomerContainer.setChildrenAllowed(levelDto, true);
 							} else {
-								selectedCustomerContainer.setChildrenAllowed(dto, false);
+								selectedCustomerContainer.setChildrenAllowed(levelDto, false);
 							}
-							selectedCustomerContainer.setParent(dto, tempdto);
+							selectedCustomerContainer.setParent(levelDto, tempdto);
 							break;
 						}
 					} else {
-						selectedCustomerContainer.addBean(dto);
-						if (forecastLevel != dto.getLevelNo()) {
-							selectedCustomerContainer.setChildrenAllowed(dto, true);
+						selectedCustomerContainer.addBean(levelDto);
+						if (forecastLevel != levelDto.getLevelNo()) {
+							selectedCustomerContainer.setChildrenAllowed(levelDto, true);
 						} else {
-							selectedCustomerContainer.setChildrenAllowed(dto, false);
+							selectedCustomerContainer.setChildrenAllowed(levelDto, false);
 						}
-						selectedCustomerContainer.setParent(dto, tempdto);
+						selectedCustomerContainer.setParent(levelDto, tempdto);
 						break;
 					}
 				}
