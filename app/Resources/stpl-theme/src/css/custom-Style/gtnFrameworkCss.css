@@ -1580,4 +1580,5 @@
 
 .border-zero-table .v-table-header-wrap, .border-zero-table .v-table-body-wrapper.v-table-body{
     border: 0px !important;
+    overflow-x: hidden !important;
 }

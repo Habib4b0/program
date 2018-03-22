@@ -256,14 +256,14 @@ public class GtnFrameworkRelationshipLevelDefintionBean
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int PRIME = 31;
 		int result = 1;
-		result = prime * result + ((hierarchyLevelBean == null) ? 0 : hierarchyLevelBean.hashCode());
-		result = prime * result + ((hierarchyNo == null) ? 0 : hierarchyNo.hashCode());
-		result = prime * result + relationShipLevelValue;
-		result = prime * result + relationshipBuilderSid;
-		result = prime * result + relationshipLevelSid;
-		result = prime * result + relationshipVersionNo;
+		result = PRIME * result + ((hierarchyLevelBean == null) ? 0 : hierarchyLevelBean.hashCode());
+		result = PRIME * result + ((hierarchyNo == null) ? 0 : hierarchyNo.hashCode());
+		result = PRIME * result + relationShipLevelValue;
+		result = PRIME * result + relationshipBuilderSid;
+		result = PRIME * result + relationshipLevelSid;
+		result = PRIME * result + relationshipVersionNo;
 		return result;
 	}
 
@@ -292,9 +292,7 @@ public class GtnFrameworkRelationshipLevelDefintionBean
 			return false;
 		if (relationshipLevelSid != other.relationshipLevelSid)
 			return false;
-		if (relationshipVersionNo != other.relationshipVersionNo)
-			return false;
-		return true;
+		return relationshipVersionNo == other.relationshipVersionNo;
 	}
 
 }

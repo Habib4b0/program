@@ -68,6 +68,7 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_CSV_EXPORT_FILE_SERVICE = "/gtnCsvExportFileService";
 	public static final String GTN_BCP_SERVICE = "/gtnBcpService";
 	public static final String CALCULATE = "/calulate";
+	public static final String GTN_DOWNLOAD_FILE_SERVICE="/gtnDownloadAttachmentService";
 
 	/**
 	 * Forecast dataselection Constants

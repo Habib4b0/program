@@ -652,13 +652,9 @@ public class AbstractSearchForm extends CustomComponent {
                                     }
                                     resultTable.removeItem(resultTable.getValue());
                                 } catch (SystemException e) {
-                                    final String errorMssg = ErrorCodeUtil.getErrorMessage(e);
-                                    LOGGER.error(errorMssg);
-                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMssg);
-                                } catch (PortalException e) {
-                                    LOGGER.error(e.getMessage());
-                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
-                                } catch (Exception e) {
+                                    LOGGER.error(ErrorCodeUtil.getErrorMessage(e));
+                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getErrorMessage(e));
+                                } catch (PortalException | NumberFormatException e) {
                                     LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
                                 }

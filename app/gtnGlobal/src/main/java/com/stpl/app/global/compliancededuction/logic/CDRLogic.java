@@ -103,7 +103,7 @@ public class CDRLogic {
     public List<SearchResultsDTO> loadCDRResults(
             final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
         List<SearchResultsDTO> searchList;
-        LOGGER.debug("Entering searchRebatePlan with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
+        LOGGER.debug("Entering searchRebatePlan with start of={} and endIndex of= {}  Column Size + {}" , start , end ,  ((columns == null) ? columns : columns.size()));
         StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, false);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
@@ -385,7 +385,7 @@ public class CDRLogic {
     public void saveOrUpdateNotesTab(List<NotesDTO> uploadedData, List<NotesDTO> removeDetailsList, int cdrModelSid) {
         NotesTabLogic notesLogic = new NotesTabLogic();
         try {
-            LOGGER.debug("removeDetailsList.size()" + removeDetailsList.size());
+            LOGGER.debug("removeDetailsList.size() {}" , removeDetailsList.size());
             if (removeDetailsList.size() != 0) {
                 for (int i = 0; i < removeDetailsList.size(); i++) {
                     NotesDTO dtoValue = removeDetailsList.get(i);
