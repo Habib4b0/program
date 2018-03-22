@@ -125,7 +125,7 @@ public class CommonUtil {
      * @return
      */
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug(" Inside callProcedure with Procedure Name " + procedureName);
+        LOGGER.debug(" Inside callProcedure with Procedure Name {}" , procedureName);
 
         DataSource datasource = null;
 

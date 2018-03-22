@@ -44,7 +44,7 @@ public final class UDCIncrementCheck {
      */
     public static void increment(final String value,final String listName) {
         try{
-         LOGGER.debug("Entering increment with DESCRIPTION value is   :::: "+value);
+         LOGGER.debug("Entering increment with DESCRIPTION value is   :::: {}",value);
         final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION,
                 value));
@@ -79,7 +79,7 @@ public final class UDCIncrementCheck {
      */
     public static void decrement(final String value,final String listName) {
         try{
-         LOGGER.debug("Entering decrement with DESCRIPTION value is   :::: "+value);
+         LOGGER.debug("Entering decrement with DESCRIPTION value is   :::: {}",value);
         final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION,
                 value));
@@ -115,8 +115,8 @@ public final class UDCIncrementCheck {
      */
     public static void increment(final int value,final String listName) {
         try{
-         LOGGER.debug("Entering increment with DESCRIPTION value is   :::: "+value);
-          LOGGER.debug("Entering increment with DESCRIPTION listName is   :::: "+listName);
+         LOGGER.debug("Entering increment with DESCRIPTION value is   :::: {}",value);
+          LOGGER.debug("Entering increment with DESCRIPTION listName is   :::: {}",listName);
         final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HELPER_TABLE_SID,
                 value));
@@ -151,7 +151,7 @@ public final class UDCIncrementCheck {
      */
     public static void decrement(final int value,final String listName) {
         try{
-         LOGGER.debug("Entering decrement with DESCRIPTION value is   :::: "+value);
+         LOGGER.debug("Entering decrement with DESCRIPTION value is   :::: {}",value);
         final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HELPER_TABLE_SID,
                 value));

@@ -56,7 +56,7 @@ public class CDRView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        LOGGER.debug("UserId  =========     "+sessionDTO.getUserId());
+        LOGGER.debug("UserId  =========  {}",sessionDTO.getUserId());
         if (cdrForm != null) {
             this.removeAllComponents();
             binder = new ErrorfulFieldGroup(new BeanItem(new CDRDto()));

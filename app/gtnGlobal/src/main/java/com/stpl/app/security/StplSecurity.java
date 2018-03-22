@@ -180,7 +180,7 @@ public StplSecurityDAO getDto() {
      * @throws SystemException the system exception
      */
     public Map<String, AppPermission> getBusinessFunctionPermission(final String userId,final String moduleName) throws PortalException, SystemException {
-        LOGGER.debug(StringUtils.EMPTY+userId);
+        LOGGER.debug("User id in getBusinessFunctionPermission {}" , userId);
          Map<String, AppPermission> functionHm;
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
@@ -348,7 +348,7 @@ public StplSecurityDAO getDto() {
          editPermission = getModePermission(businessRoleIds, moduleName,false,false,true,false);
         }
         final Map<String, AppPermission> fieldHm = listOfFieldAppPermissionMap(tabPermissionList,addPermission,viewPermission, editPermission, FIELD_VALUE);
-        LOGGER.debug("End of getBusinessFieldPermission() with fieldHm value size=" + fieldHm.size());
+        LOGGER.debug("End of getBusinessFieldPermission() with fieldHm value size= {}" , fieldHm.size());
         return fieldHm;
     }
   public Map<String, AppPermission> listOfFieldAppPermissionMap(final List permissionList,final Set addpermission,final Set viewpermission ,final Set editpermission, final int type) {
@@ -378,7 +378,7 @@ public StplSecurityDAO getDto() {
 
             }
         }
-        LOGGER.debug("End of listToAppPermissionMap() with permissionHm value size=" + permissionHm.size());
+        LOGGER.debug("End of listToAppPermissionMap() with permissionHm value size= {}" , permissionHm.size());
         return permissionHm;
     }
   private List getBuisnessColumn(String businessRoleIds, String moduleName) {

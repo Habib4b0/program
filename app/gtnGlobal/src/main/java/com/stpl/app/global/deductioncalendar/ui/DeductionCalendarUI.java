@@ -66,8 +66,8 @@ public class DeductionCalendarUI extends UI {
             VaadinSession.getCurrent().setAttribute(ConstantsUtils.USER_ID,userId);
             sessionDTO.setUserId(userId);
             sessionDTO.setUiSessionId(sessionId);
-            LOGGER.info("USER_ID: "+userId);
-            LOGGER.info("SESSION_ID: "+sessionId);
+            LOGGER.info("USER_ID: {}",userId);
+            LOGGER.info("SESSION_ID: {}",sessionId);
             VaadinSession.getCurrent().setAttribute(ConstantsUtils.USER_ID, userId);
             navigator.addView(AbstractSearchView.NAME, new AbstractSearchView(ConstantUtil.DEDUCTION_CALENDAR,sessionDTO));
             navigator.addView(DeductionCalendarView.NAME, new DeductionCalendarView(sessionDTO));
