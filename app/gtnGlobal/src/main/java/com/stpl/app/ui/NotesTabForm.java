@@ -117,7 +117,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				tableLayout.setVisible(false);
 			}
 		}
-		LOGGER.debug("userid :" + vUserId + " Username : " + userName);
+		LOGGER.debug("userid : {} Username : {}", vUserId , userName);
 		if (isViewMode) {
 			removeAndDisablingComponents();
 		}
@@ -186,7 +186,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				String name = file + sb.substring(sb.indexOf("."));
 				File renameFileUpload = GtnFileUtil.getFile(fileUploadPath + name);
 				destFileUploadCheck=destFileUpload.renameTo(renameFileUpload);
-				LOGGER.info("File is renamed successfully : "+destFileUploadCheck);
+				LOGGER.info("File is renamed successfully : {}",destFileUploadCheck);
 				if (!StringUtils.isBlank(file)) {
 					attachmentDTO.setDocumentName(name);
 				} else {
@@ -288,7 +288,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error("Error------>" + e);
+			LOGGER.error("Error------> {}" , e);
 		}
 	}
 
@@ -321,8 +321,8 @@ public class NotesTabForm extends AbstractNotesTab {
 			} else if (binder.getField(masterTableSid) != null) {
 				masterTableSidValue = String.valueOf(binder.getField(masterTableSid).getValue());
 			}
-			LOGGER.debug("masterTableSid :" + masterTableSid);
-			LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
+			LOGGER.debug("masterTableSid : {}" , masterTableSid);
+			LOGGER.debug("masterTableSidValue : {}" , masterTableSidValue);
 
 			int systemId = masterTableSidValue.equals(StringUtils.EMPTY) ? 0
 					: Integer.parseInt(masterTableSidValue.replace(',', ' '));
@@ -330,7 +330,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				attachmentsListBean.addAll(logic.getAttachmentDTOList(systemId, dbModuleName, fileUploadPath));
 			}
 		} catch (CommitException e) {
-			LOGGER.error("Error while commiting the binder :" + e);
+			LOGGER.error("Error while commiting the binder : {}" , e);
 		}
 	}
         

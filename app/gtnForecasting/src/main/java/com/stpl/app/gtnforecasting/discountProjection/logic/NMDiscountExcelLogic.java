@@ -160,8 +160,8 @@ public class NMDiscountExcelLogic {
 
         List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
         discountProjectionDTO.setLevelName(levelName.toString());
-        LOGGER.info("Size=============" + levelName.size());
-        LOGGER.info("List=============" + levelName);
+        LOGGER.info("Size============={}" , levelName.size());
+        LOGGER.info("List============={}" , levelName);
         if (projectionSelection.getDisplayFormat().length == 1 && projectionSelection.getDisplayFormat().length > 0) {
             int index = (int) projectionSelection.getDisplayFormat()[0];
             if (index == 0) {
