@@ -457,7 +457,7 @@ public class DSLogic {
 
             list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(saveFileQuery);
 
-            if (list.size() == 0) {
+            if (list.isEmpty()) {
                 fileFlag = true;
             }
             return fileFlag;
