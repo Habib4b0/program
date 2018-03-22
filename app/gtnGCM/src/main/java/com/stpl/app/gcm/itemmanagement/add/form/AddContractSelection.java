@@ -698,7 +698,7 @@ public class AddContractSelection extends CustomComponent {
     private Boolean submitButtonCheck() {
         List input = AbstractLogic.getResultsInput(selection);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check", null);
-        LOGGER.debug("submitButtonCheck :::: list-->>" + list.size());
+        LOGGER.debug("submitButtonCheck :::: list-->>{}" , list.size());
         if (AbstractLogic.getCount(list) == 0) {
             return BooleanConstant.getTrueFlag();
         } else {

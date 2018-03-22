@@ -407,7 +407,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
 
     // For CSV Export. Do not delete
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  PortalException {
-        LOGGER.info("Entering createWorkSheetContent with start " + start + " end " + end);
+        LOGGER.info("Entering createWorkSheetContent with start {} end {} " , start , end);
         try {
 
             List tempVisibleColumns;

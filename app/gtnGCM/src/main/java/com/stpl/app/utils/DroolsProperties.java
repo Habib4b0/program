@@ -28,16 +28,16 @@ public class DroolsProperties {
         try {
             path = System.getProperty("jboss.server.config.dir");
             if (!isPrinted) {
-                logger.debug("jboss.server.config.dir :" + path);
+                logger.debug("jboss.server.config.dir : {} " , path);
             }
             path = path.replace("standalone", "bpmconfig");
             path = path.replace("configuration", "forecasting_properties.properties");
             if (!isPrinted) {
-                logger.debug("Resources Path :[" + path + "]");
+                logger.debug("Resources Path :[ {} ]" ,  path );
             }
             File file = new File(path);
             if (!isPrinted) {
-                logger.debug("File resources Path :" + file.getAbsolutePath());
+                logger.debug("File resources Path : {} " , file.getAbsolutePath());
             }
             try (FileInputStream fileInput = new FileInputStream(file)) {
                 properties.load(fileInput);
@@ -47,14 +47,14 @@ public class DroolsProperties {
                 while (enuKeys.hasMoreElements()) {
                     String key = (String) enuKeys.nextElement();
                     String value = properties.getProperty(key);
-                    logger.debug("Data in Properties File :Key :" + key + ": Value :" + value);
+                    logger.debug("Data in Properties File :Key : {} : Value : {} " , key , value);
                 }
                 isPrinted = true;
             }
             return (Properties)properties.clone();
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage());
-            logger.error("Please check the hierarchy_properties.properties file in following path :[" + path + "]");
+            logger.error("Please check the hierarchy_properties.properties file in following path :[ {} " , path );
             throw new IllegalArgumentException("Error while reading the property file :" + e);
         } catch (IOException e) {
             logger.error(e.getMessage());
