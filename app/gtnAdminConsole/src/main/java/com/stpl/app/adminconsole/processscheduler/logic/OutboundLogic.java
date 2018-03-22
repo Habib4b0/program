@@ -195,7 +195,7 @@ public class OutboundLogic {
     private StringBuilder getHdFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         loadHdFilterMap();
         if (filterSet != null) {
-            stringBuilder.append(AbstractFilterLogic.getInstance().filterQueryGenerator(filterSet, hierarchyFilterMap).toString().replace("where", " AND"));
+            stringBuilder.append(AbstractFilterLogic.getAdminInstance().filterQueryGenerator(filterSet, hierarchyFilterMap).toString().replace("where", " AND"));
         }
         return stringBuilder;
     }

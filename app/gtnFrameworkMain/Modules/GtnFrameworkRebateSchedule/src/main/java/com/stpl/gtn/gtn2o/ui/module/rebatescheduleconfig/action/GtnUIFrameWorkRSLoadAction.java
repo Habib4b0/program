@@ -49,7 +49,7 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		GtnWsRebateScheduleInfoBean rsInfoBean;
 		List<NotesTabBean> beanList;
 		int systemId = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty("systemId");
-		boolean isEditable = true;
+		boolean isEditable = false;
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 
@@ -76,7 +76,6 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		loadNotesTab(beanList, rsInfoBean);
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
 		if (mode == GtnUIFrameworkModeType.VIEW) {
-			isEditable = false;
 			setTableHeaderAndVisibleColumn(isEditable);
 			setTableEnableDisable(isEditable);
 		} else if (mode.equals("EDIT")) {

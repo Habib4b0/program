@@ -132,9 +132,9 @@ public class GtnFrameworkCCPInsertService {
 	}
 
 	public static String replaceTableNames(String query, final Map<String, String> tableNameMap) {
-		String tempQuery = "";
+		String tempQuery = query;
 		for (Map.Entry<String, String> key : tableNameMap.entrySet()) {
-			tempQuery = query.replaceAll("(?i:\\b" + key.getKey() + "\\b)", key.getValue());
+			tempQuery = tempQuery.replaceAll("(?i:\\b" + key.getKey() + "\\b)", key.getValue());
 		}
 		return tempQuery;
 	}

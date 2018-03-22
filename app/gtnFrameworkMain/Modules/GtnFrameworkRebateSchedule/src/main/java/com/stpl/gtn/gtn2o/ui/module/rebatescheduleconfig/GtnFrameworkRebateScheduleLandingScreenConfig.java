@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig;
 
 import java.util.ArrayList;
@@ -44,6 +39,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 	private static Object[] enableCopyField;
 	private static String[] visibleCopyFields;
+
 	public static Object[] getEnableCopyField() {
 		return enableCopyField.clone();
 	}
@@ -433,7 +429,6 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		searchButtonConfig.setComponentName("Search");
 		searchButtonConfig.setAuthorizationIncluded(true);
 
-
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig validationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
@@ -459,7 +454,6 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		onFailureList.add(alertActionConfig);
 		validationActionConfig.addActionParameter(onFailureList);
 		actionConfigList.add(validationActionConfig);
-
 
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider.getUIFrameworkActionConfig(
 				GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION, GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
@@ -820,7 +814,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		actionParams.add(GtnFrameworkFilterBarInvisibleAction.class.getName());
 		actionParams.add(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
 		Map<String, Boolean> filterInvisibleMap = new HashMap<>();
-		filterInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID,Boolean.FALSE);
+		filterInvisibleMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, Boolean.FALSE);
 		actionParams.add(filterInvisibleMap);
 		filterBarInvisibleAction.setActionParameterList(actionParams);
 		actionConfigList.add(filterBarInvisibleAction);
@@ -1238,7 +1232,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		defaultFieldValueList.add(resetComponentValueListTemp);
 		return defaultFieldValueList;
 	}
-	
+
 	private void addCopyButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
 
 		GtnUIFrameworkComponentConfig copyButtonConfig = configProvider.getUIFrameworkComponentConfig("gtnCopyButton",
@@ -1259,13 +1253,11 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		landingScreenCopyButtonAlertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
 		List<Object> landingScreenCopyButtonAlertParamsList = new ArrayList<>();
 		landingScreenCopyButtonAlertParamsList.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
-		landingScreenCopyButtonAlertParamsList
-				.add(GtnFrameworkRSConstants.ERROR_MESSAGE_COPY_HEADER);
+		landingScreenCopyButtonAlertParamsList.add(GtnFrameworkRSConstants.ERROR_MESSAGE_COPY_HEADER);
 		landingScreenCopyButtonAlertParamsList.add(GtnFrameworkRSConstants.ERROR_MESSAGE_COPY_MESSAGE);
 		landingScreenCopyButtonAlertActionConfig.setActionParameterList(landingScreenCopyButtonAlertParamsList);
 		copyActionConfigList.add(landingScreenCopyButtonAlertActionConfig);
 
-		
 		GtnUIFrameWorkActionConfig navigationCopyActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 		navigationCopyActionConfig.setActionParameterList(
@@ -1288,7 +1280,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		actionParameterList.add(captionList);
 		changeCaptionActionConfig.setActionParameterList(actionParameterList);
 		copyActionConfigList.add(changeCaptionActionConfig);
-		
+
 		GtnUIFrameWorkActionConfig enableCopyAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
 		makeObjectArray(enableCopyAction);
@@ -1336,13 +1328,13 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		actionCopyParams.add(filterCopyInvisibleMap);
 		filterBarCopyInvisibleAction.setActionParameterList(actionCopyParams);
 		copyActionConfigList.add(filterBarCopyInvisibleAction);
-        
+
 		copyButtonConfig.setGtnUIFrameWorkActionConfigList(copyActionConfigList);
 
 	}
 
 	private static List<Object> makeParameterList() {
-        setVisibleCopyFields(new String[] { GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON,
+		setVisibleCopyFields(new String[] { GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_ADD_VIEW_A_ADD_RESET_BUTTON,
 				GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON,
 				GtnFrameworkRSConstants.RS_ITEM_ADDITION_INFORMATION_LAYOUT,
@@ -1354,7 +1346,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 	}
 
 	private static void makeObjectArray(GtnUIFrameWorkActionConfig enableCopyAction) {
-        setEnableCopyField( new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
+		setEnableCopyField(new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
 				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,

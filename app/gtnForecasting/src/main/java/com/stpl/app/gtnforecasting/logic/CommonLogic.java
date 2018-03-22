@@ -4836,13 +4836,6 @@ public class CommonLogic {
         return String.valueOf(userDefinedList.get(0));
     }
 
-    private String getPrimaryKeyColumn(String mainTableName) throws SystemException, PortalException {
-        SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
-        List primaryKeyList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("primary-Key").replace("@TABLENAME", mainTableName));
-        return String.valueOf(primaryKeyList.get(0));
-    }
-
-    
     public static void checkMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem, String obj) {
         if (customMenuItem != null && customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
