@@ -572,7 +572,7 @@ public class CFFLogic {
         int count = 0;
         List parameters;
         List resultCountList;
-        String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap(false)).toString();
+        String filterQuery = AbstractFilterLogic.getCffInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap(false)).toString();
         parameters = getParametersForCffSearch(binderDto);
         filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, "AND");
         parameters.add(filterQuery);
@@ -661,8 +661,8 @@ public class CFFLogic {
      */
     public List<CFFSearchDTO> getSearchResults(final CFFSearchDTO binderDto) {
         LOGGER.debug("Inside Search Results");
-        String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap(false)).toString();
-        String orderBy = AbstractFilterLogic.getInstance().orderByQueryGenerator(binderDto.getOrderByColumns(), getFilterMap(true)).toString();
+        String filterQuery = AbstractFilterLogic.getCffInstance().filterQueryGenerator(binderDto.getFilters(), getFilterMap(false)).toString();
+        String orderBy = AbstractFilterLogic.getCffInstance().orderByQueryGenerator(binderDto.getOrderByColumns(), getFilterMap(true)).toString();
         List<CFFSearchDTO> cffMasterList;
         List parameterslist;
         parameterslist = getParametersForCffSearch(binderDto);
@@ -813,7 +813,7 @@ public class CFFLogic {
                     list.add(businessUnit);
                     list.add(sessionDTO.getCompanySystemId());
                     if (filters != null) {
-                        String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionMap()).toString();
+                        String filterQuery = AbstractFilterLogic.getCffInstance().filterQueryGenerator(filters, getFileSelectionMap()).toString();
                         filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.AND);
                         list.add(filterQuery);
                     } else {
@@ -849,7 +849,7 @@ public class CFFLogic {
                     list.add(businessUnit);
                     list.add(sessionDTO.getCompanySystemId());
                     if (filters != null) {
-                        String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionMap()).toString();
+                        String filterQuery = AbstractFilterLogic.getCffInstance().filterQueryGenerator(filters, getFileSelectionMap()).toString();
                         filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.AND);
                         list.add(filterQuery);
                     } else {
@@ -1209,7 +1209,7 @@ public class CFFLogic {
     public int getFileSelectionCount(String cffMasterId, Set<Container.Filter> filters) {
         int count = 0;
         String recordCount;
-        String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionFilterMap()).toString();
+        String filterQuery = AbstractFilterLogic.getCffInstance().filterQueryGenerator(filters, getFileSelectionFilterMap()).toString();
         String query = SQlUtil.getQuery("getFileSelectionCount");
         query = query.replace("?", cffMasterId);
         filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.AND);
@@ -1227,7 +1227,7 @@ public class CFFLogic {
 
     public List getFileSelection(String cffMasterId, Set<Container.Filter> filters) {
         List list;
-        String filterQuery = AbstractFilterLogic.getInstance().filterQueryGenerator(filters, getFileSelectionFilterMap()).toString();
+        String filterQuery = AbstractFilterLogic.getCffInstance().filterQueryGenerator(filters, getFileSelectionFilterMap()).toString();
         String query = SQlUtil.getQuery("getFileSelection");
         query = query.replace("?", cffMasterId);
         filterQuery = filterQuery.replace(StringConstantsUtil.WHERE, StringConstantsUtil.AND);
