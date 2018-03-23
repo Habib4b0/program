@@ -61,7 +61,7 @@ FORECAST_CONF AS(
 	FC.VERSION_NO,
 	FC.ACTIVE_START_DATE,
 	FC.ACTIVE_END_DATE,
-	usr.lastName + ',' + usr.firstName as CREATED_BY,
+	usr.lastName + ',' + usr.firstName AS CREATED_BY,
 	FC.Active_Inactive
 FROM
 	FORECAST_CONF FC
