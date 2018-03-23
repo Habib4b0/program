@@ -29,6 +29,9 @@ public class CurrentContractTableLogic extends PageTableLogic {
     private boolean firstTime = true;
     private SessionDTO session;
 
+    public CurrentContractTableLogic() {
+    }
+
     /**
      * Record count logic
      *

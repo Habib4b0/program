@@ -28,6 +28,9 @@ public class SalesTabTableLogic extends PageTreeTableLogic {
     private int projectionId = 0;
     private SessionDTO session;
 
+    public SalesTabTableLogic() {
+    }
+
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         Map<Integer, Object> map = new HashMap<>();

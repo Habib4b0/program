@@ -20,6 +20,9 @@ public class PromteTpSearchCriteria implements BeanSearchCriteria {
     @SuppressWarnings("unused")
 	private boolean dirty;
 
+    public PromteTpSearchCriteria() {
+    }
+
     @Override
     public Set<Container.Filter> getFilters() {
         return filters == null ? filters : Collections.unmodifiableSet(filters);

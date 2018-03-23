@@ -37,7 +37,7 @@ public class PromoteTpSearchDao implements BeanDAO<PromoteTpToChDto> {
 
             LOGGER.error("",ex);
         }
-        LOGGER.debug("count in PromoteTpSearchDao---->" + count);
+        LOGGER.debug("count in PromoteTpSearchDao----> {} " , count);
         return count;
     }
 

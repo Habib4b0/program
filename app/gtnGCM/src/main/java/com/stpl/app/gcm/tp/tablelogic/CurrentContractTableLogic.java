@@ -33,6 +33,9 @@ public class CurrentContractTableLogic extends PageTableLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
 
+    public CurrentContractTableLogic() {
+    }
+
     /**
      * Record count method
      *

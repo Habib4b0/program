@@ -29,6 +29,9 @@ public class FileDetailsTableLogic extends PageTableLogic {
     private boolean isResultsEmpty;
     private boolean isReset = false;
 
+    public FileDetailsTableLogic() {
+    }
+
     @Override
     public int getCount() {
         int count = 0;

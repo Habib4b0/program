@@ -974,7 +974,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  PortalException {
-        LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
+        LOGGER.debug("Entering createWorkSheetContent with start {} end {} " , start , end);
         try {
             List tempVisibleColumns = new ArrayList(Arrays.asList(Constants.getInstance().excelContractSelectionColumns));
             tempVisibleColumns.remove(0);

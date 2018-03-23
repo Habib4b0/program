@@ -18,6 +18,10 @@ public class ApprovalDetailsDTO {
   private Date approvedDate;
   private String approvalSequence=StringUtils.EMPTY;
   private String approvalStatus=StringUtils.EMPTY;
+
+    public ApprovalDetailsDTO() {
+    }
+  
     public String getApprovedBy() {
         return approvedBy;
     }

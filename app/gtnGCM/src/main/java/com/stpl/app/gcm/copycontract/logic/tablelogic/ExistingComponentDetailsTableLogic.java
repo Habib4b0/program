@@ -26,6 +26,9 @@ public class ExistingComponentDetailsTableLogic extends PageTableLogic {
     private ExistingComponentDTO dto;
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingComponentDetailsTableLogic.class);
 
+    public ExistingComponentDetailsTableLogic() {
+    }
+
     /**
      * Record count logic
      *

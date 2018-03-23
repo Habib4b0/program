@@ -2285,7 +2285,7 @@ public class PromoteTPLogic {
      */
     public List<HelperDTO> getDropDownList(final String listType)  {
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+        LOGGER.debug("entering getDropDownList method with paramater listType= {} " , listType);
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -2299,7 +2299,7 @@ public class PromoteTPLogic {
                         helperTable.getDescription()));
             }
         }
-        LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+        LOGGER.debug(" getDropDownList method ends with return value strList size = {} " , helperList.size());
         return helperList;
     }
 
@@ -2866,7 +2866,7 @@ public class PromoteTPLogic {
             query.append(",'").append(contractType).append('\'');
         }
         query.append("  )");
-        LOGGER.debug("insert query " + query.toString());
+        LOGGER.debug("insert query {} " , query.toString());
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
@@ -2922,7 +2922,7 @@ public class PromoteTPLogic {
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
             query.append("AND SCREEN_NAME='").append(contractType).append('\'');
         }
-        LOGGER.debug("update query " + query.toString());
+        LOGGER.debug("update query {} " , query.toString());
 
         HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 
@@ -2956,7 +2956,7 @@ public class PromoteTPLogic {
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
             query.append("AND SCREEN_NAME='").append(contractType).append('\'');
         }
-        LOGGER.debug("update query " + query.toString());
+        LOGGER.debug("update query {} " , query.toString());
 
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;

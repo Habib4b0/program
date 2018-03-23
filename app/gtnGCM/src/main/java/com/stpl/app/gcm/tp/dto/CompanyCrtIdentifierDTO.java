@@ -28,6 +28,9 @@ public class CompanyCrtIdentifierDTO implements Serializable {
     private Date tradeStartDate;
     private Date tradeEndDate;
 
+    public CompanyCrtIdentifierDTO() {
+    }
+
     /**
      * The Constant serialVersionUID.
      */

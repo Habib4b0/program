@@ -20,6 +20,9 @@ public class SessionDTO implements Serializable{
     private int start;
     private boolean pageFlag;
 
+    public SessionDTO() {
+    }
+
     public Date getFromDate() {
         return fromDate == null ? null : (Date) fromDate.clone();
     }

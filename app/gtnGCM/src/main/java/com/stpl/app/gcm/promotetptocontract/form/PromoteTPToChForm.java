@@ -356,7 +356,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
             StringBuilder statementBuilder = new StringBuilder("{call PRC_CCP_POPULATION('");
             try (Connection connection = datasource.getConnection();
                     CallableStatement statement = connection.prepareCall(statementBuilder.toString())) {
-                LOGGER.debug("Got Connection " + connection.toString() + ", ");
+                LOGGER.debug("Got Connection {} " , connection.toString());
 
                 statementBuilder.append(sessionIdValue).append("')}");
 

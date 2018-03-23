@@ -47,6 +47,9 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     private Map<String, SalesProjectionResultsDTO> loadDataMap = new HashMap<>();
     private String pivotValue = StringUtils.EMPTY;
 
+    public NMSalesProjectionResultsTableLogic() {
+    }
+
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated= {}, and start= {}, and offset={}" , firstGenerated, start, offset);

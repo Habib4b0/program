@@ -34,6 +34,9 @@ public class NdcFilterCriteria implements SearchCriteria {
      */
     private String filter;
 
+    public NdcFilterCriteria() {
+    }
+
     /**
      * Gets the description.
      *

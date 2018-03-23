@@ -37,6 +37,9 @@ public class AbstractContractSelectionTableLogic extends PageTableLogic {
     private List input;
     private final List withStringinput = new ArrayList();
 
+    public AbstractContractSelectionTableLogic() {
+    }
+
     @Override
     public int getCount() {
         if (isGenerated) {

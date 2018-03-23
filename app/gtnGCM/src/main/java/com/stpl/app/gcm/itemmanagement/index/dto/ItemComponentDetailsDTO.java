@@ -47,6 +47,9 @@ public class ItemComponentDetailsDTO implements Cloneable {
     private String columnName = StringUtils.EMPTY;
     private Integer caseNo = 1;
 
+    public ItemComponentDetailsDTO() {
+    }
+
     public Boolean getCheckRecord() {
         return checkRecord;
     }

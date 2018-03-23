@@ -78,6 +78,9 @@ public class PPAProjectionResultsLogic {
     private int currentfrquencyForWacReset=3;
     private int cureentWacFrquencyIndex=3;
 
+    public PPAProjectionResultsLogic() {
+    }
+
     public List getChartList() {
         return chartList == null ? chartList : new ArrayList<>(chartList);
     }

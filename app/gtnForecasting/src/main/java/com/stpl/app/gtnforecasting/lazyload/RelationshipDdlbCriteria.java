@@ -17,6 +17,9 @@ public class RelationshipDdlbCriteria  implements SearchCriteria {
     private int lastCount;
     private boolean dirty = true;
     private String filter = StringUtils.EMPTY;
+
+    public RelationshipDdlbCriteria() {
+    }
     
     @Override
     public int getLastCount() {

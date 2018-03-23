@@ -36,6 +36,9 @@ public class MasterFcpWorkSheetTableLogic  extends PageTreeTableLogic {
      * The Constant LOGGER.
      */
     private final Logger LOGGER = LoggerFactory.getLogger(MasterFcpWorkSheetTableLogic.class);
+
+    public MasterFcpWorkSheetTableLogic() {
+    }
     
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {

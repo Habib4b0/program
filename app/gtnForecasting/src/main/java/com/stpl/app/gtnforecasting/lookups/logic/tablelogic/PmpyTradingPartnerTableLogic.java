@@ -32,6 +32,9 @@ public class PmpyTradingPartnerTableLogic extends PageTableLogic {
     private boolean isResultsEmpty;
     private boolean isReset = false;
 
+    public PmpyTradingPartnerTableLogic() {
+    }
+
     @Override
     public int getCount() {
         int count = 0;

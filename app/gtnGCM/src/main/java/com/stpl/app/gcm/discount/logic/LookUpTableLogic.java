@@ -24,6 +24,9 @@ public class LookUpTableLogic extends PageTableLogic {
     private ErrorfulFieldGroup discountChBinder;
     private String moduleName;
 
+    public LookUpTableLogic() {
+    }
+
     /**
      * Record count logic
      *
