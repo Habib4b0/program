@@ -214,7 +214,7 @@ public class MessageBox implements ClickListener{
 	 */
 	public MessageBox setWidth(String width) {
 		window.setWidth(width);
-		if ( (-1f <= window.getWidth()) ||  (-1f >= window.getWidth())) {
+		if ( (-1f < window.getWidth()) ||  (-1f > window.getWidth())) {
 			mainLayout.setWidth("100%");
 		} else {
 			mainLayout.setWidth(-1f, Unit.PIXELS);
@@ -230,7 +230,7 @@ public class MessageBox implements ClickListener{
 	 */
 	public MessageBox setWidth(float width, Unit unit) {
 		window.setWidth(width, unit);
-		if ((-1f <= window.getWidth()) || (-1f >= window.getWidth())) {
+		if ((-1f < window.getWidth()) || (-1f > window.getWidth())) {
 			mainLayout.setWidth("100%");
 		} else {
 			mainLayout.setWidth(-1f, Unit.PIXELS);
@@ -245,7 +245,7 @@ public class MessageBox implements ClickListener{
 	 */
 	public MessageBox setHeight(String height) {
 		window.setHeight(height);
-		if ((-1f <= window.getHeight()) || (-1f >= window.getHeight())) {
+		if ((-1f < window.getHeight()) || (-1f > window.getHeight())) {
 			mainLayout.setHeight("100%");
 		} else {
 			mainLayout.setHeight(-1f, Unit.PIXELS);
@@ -261,7 +261,7 @@ public class MessageBox implements ClickListener{
 	 */
 	public MessageBox setHeight(float height, Unit unit) {
 		window.setHeight(height, unit);
-		if ((-1f <= window.getHeight()) || (-1f >= window.getHeight())) {
+		if ((-1f < window.getHeight()) || (-1f > window.getHeight())) {
 			mainLayout.setHeight("100%");
 		} else {
 			mainLayout.setHeight(-1f, Unit.PIXELS);
