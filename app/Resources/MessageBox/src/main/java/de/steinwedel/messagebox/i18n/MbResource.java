@@ -5,11 +5,11 @@ import java.util.ListResourceBundle;
 import de.steinwedel.messagebox.ButtonId;
 
 /**
- * I18n for the button captions. Here is the Japanese translation implemented.
+ * I18n for the button captions. The Default values are English.
  * 
  * @author Dieter Steinwedel
  */
-public class MBResource_ja extends ListResourceBundle {
+public class MbResource extends ListResourceBundle {
 
 	/**
 	 * See {@link java.util.ListResourceBundle#getContents()}
@@ -17,16 +17,16 @@ public class MBResource_ja extends ListResourceBundle {
 	@Override
 	protected Object[][] getContents() {
 		return new Object[][] {
-				{ButtonId.OK.toString(), "OK"},
-				{ButtonId.ABORT.toString(), "中止"},
-				{ButtonId.CANCEL.toString(), "ャンセル"},
-				{ButtonId.YES.toString(), "はい"},
-				{ButtonId.NO.toString(), "いいえ"},
-				{ButtonId.CLOSE.toString(), "閉じる"},
-				{ButtonId.SAVE.toString(), "保存"},
-				{ButtonId.RETRY.toString(), "再試行"},
-				{ButtonId.IGNORE.toString(), "無視"},
-				{ButtonId.HELP.toString(), "ヘルプ"},
+				{ButtonId.OK.toString(), "Ok"},
+		        {ButtonId.ABORT.toString(), "Abort"},
+		        {ButtonId.CANCEL.toString(), "Cancel"},
+		        {ButtonId.YES.toString(), "Yes"},
+		        {ButtonId.NO.toString(), "No"},
+		        {ButtonId.CLOSE.toString(), "Close"},
+		        {ButtonId.SAVE.toString(), "Save"},
+		        {ButtonId.RETRY.toString(), "Retry"},
+		        {ButtonId.IGNORE.toString(), "Ignore"},
+		        {ButtonId.HELP.toString(), "Help"},
 		        {ButtonId.CUSTOM_1.toString(), "Custom 1"},
 		        {ButtonId.CUSTOM_2.toString(), "Custom 2"},
 		        {ButtonId.CUSTOM_3.toString(), "Custom 3"},

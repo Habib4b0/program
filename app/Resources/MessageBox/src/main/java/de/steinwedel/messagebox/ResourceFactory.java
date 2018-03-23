@@ -7,7 +7,7 @@ import com.vaadin.server.ClassResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import de.steinwedel.messagebox.i18n.MBResource;
+import de.steinwedel.messagebox.i18n.MbResource;
 
 import com.vaadin.ui.Label;
 import com.vaadin.shared.ui.ContentMode;
@@ -24,11 +24,13 @@ import com.vaadin.shared.ui.ContentMode;
 public class ResourceFactory implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private static final String ICON_FAM_CROSS_PNG = "icons/famfamfam/cross.png";
 
 	/**
-	 * The basename of <code>ResourceBundle</code> for displaying localized button captions. Is set to {@link MBResource} as default.
+	 * The basename of <code>ResourceBundle</code> for displaying localized button captions. Is set to {@link MbResource} as default.
 	 */
-	private String basename = MBResource.class.getName();
+	private String basename = MbResource.class.getName();
 	
 	/**
 	 * The <code>ResourceBundle</code> for displaying localized button captions.
@@ -72,13 +74,13 @@ public class ResourceFactory implements Serializable {
 		case OK:
 			return new ClassResource(ResourceFactory.class, "icons/famfamfam/tick.png");
 		case ABORT:
-			return new ClassResource(ResourceFactory.class, "icons/famfamfam/cross.png");
+			return new ClassResource(ResourceFactory.class, ICON_FAM_CROSS_PNG);
 		case CANCEL:
-			return new ClassResource(ResourceFactory.class, "icons/famfamfam/cross.png");
+			return new ClassResource(ResourceFactory.class, ICON_FAM_CROSS_PNG);
 		case YES:
 			return new ClassResource(ResourceFactory.class, "icons/famfamfam/tick.png");
 		case NO:
-			return new ClassResource(ResourceFactory.class, "icons/famfamfam/cross.png");
+			return new ClassResource(ResourceFactory.class, ICON_FAM_CROSS_PNG);
 		case CLOSE:
 			return new ClassResource(ResourceFactory.class, "icons/famfamfam/door.png");
 		case SAVE:
