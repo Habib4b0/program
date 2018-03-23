@@ -32,7 +32,9 @@ public class GtnWsRebateScheduleInfoBean {
 	private String paymentGracePeriod;
 	private String evaluationRuleAssociation;
 	private String calculationRule;
-    private boolean rsIdAlreadyExist;
+	private String rsStatus;
+
+	private boolean rsIdAlreadyExist;
 
 	private Integer rebateScheduleStatus;
 	private Integer rebateScheduleType;
@@ -434,19 +436,19 @@ public class GtnWsRebateScheduleInfoBean {
 	}
 
 	public Date getRebateScheduleStartDate() {
-		return  rebateScheduleStartDate==null ? null :(Date)rebateScheduleStartDate.clone();
+		return rebateScheduleStartDate == null ? null : (Date) rebateScheduleStartDate.clone();
 	}
 
 	public void setRebateScheduleStartDate(Date rebateScheduleStartDate) {
-		this.rebateScheduleStartDate = rebateScheduleStartDate==null ? null :(Date)rebateScheduleStartDate.clone();
+		this.rebateScheduleStartDate = rebateScheduleStartDate == null ? null : (Date) rebateScheduleStartDate.clone();
 	}
 
 	public Date getRebateScheduleEndDate() {
-		return  rebateScheduleEndDate==null ? null :(Date)rebateScheduleEndDate.clone();
+		return rebateScheduleEndDate == null ? null : (Date) rebateScheduleEndDate.clone();
 	}
 
 	public void setRebateScheduleEndDate(Date rebateScheduleEndDate) {
-		this.rebateScheduleEndDate = rebateScheduleEndDate==null ? null :(Date)rebateScheduleEndDate.clone();
+		this.rebateScheduleEndDate = rebateScheduleEndDate == null ? null : (Date) rebateScheduleEndDate.clone();
 	}
 
 	public Integer getSystemId() {
@@ -488,12 +490,21 @@ public class GtnWsRebateScheduleInfoBean {
 	public void setIfpDataList(List<Object> ifpDataList) {
 		this.ifpDataList = ifpDataList != null ? Collections.unmodifiableList(ifpDataList) : ifpDataList;
 	}
-    public boolean isRsIdAlreadyExist() {
+
+	public boolean isRsIdAlreadyExist() {
 		return rsIdAlreadyExist;
 	}
 
 	public void setRsIdAlreadyExist(boolean rsIdAlreadyExist) {
 		this.rsIdAlreadyExist = rsIdAlreadyExist;
+	}
+
+	public String getRsStatus() {
+		return rsStatus;
+	}
+
+	public void setRsStatus(String rsStatus) {
+		this.rsStatus = rsStatus;
 	}
 
 }
