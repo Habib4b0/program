@@ -194,7 +194,7 @@ public class GtnCommonUtil {
 							String.valueOf(gtnWebServiceAllListConfig.getUserIdNameMap().get(obj[3])));
 				}
 
-				notesTabBean.setMasterTableSystemId(getInteger(obj[4])== null ? 0 :getInteger(obj[4]) );
+				notesTabBean.setMasterTableSystemId(getInteger(obj[4]));
 
 				notesTabRequestList.add(notesTabBean);
 			}

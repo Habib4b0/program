@@ -648,7 +648,7 @@ public class GtnWsRelationshipBuilderService {
 
 	public List<GtnWsRecordBean> loadAutoBuildData(int hierarchyDefSid, int hierarchyVersionNo,
 			GtnWsRecordBean selectedTreeBean, List<String> hiddenIdList)
-			throws GtnFrameworkGeneralException, CloneNotSupportedException {
+			throws GtnFrameworkGeneralException {
 		List<HierarchyLevelDefinitionBean> hierarchyList = gtnWsRelationshipBuilderHierarchyFileGenerator
 				.getRBHierarchyLevelDefinitionBySid(hierarchyDefSid, hierarchyVersionNo);
 
@@ -701,7 +701,7 @@ public class GtnWsRelationshipBuilderService {
 
 	private List<GtnWsRecordBean> getNextlevelDataForAutoBuild(List<HierarchyLevelDefinitionBean> hierarchyList,
 			GtnWsRecordBean selectedTreeBean, List<String> masterSidList)
-			throws GtnFrameworkGeneralException, CloneNotSupportedException {
+			throws GtnFrameworkGeneralException {
 
 		String levelNo = selectedTreeBean
 				.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal());

@@ -95,7 +95,8 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = getHierarchyBuilder(
 					relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			if (automaticService.checkAutomaticRelation(relationshipBuilderSid)
-					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
+					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)
+			) {
 				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
 				return Boolean.TRUE;
 			}
