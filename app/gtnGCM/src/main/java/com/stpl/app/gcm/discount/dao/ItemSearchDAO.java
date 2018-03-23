@@ -39,7 +39,7 @@ public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
 
         try {
             count = logic.getItemSearchCount();
-            LOGGER.debug("count--> " + count);
+            LOGGER.debug("count--> {} " , count);
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }
@@ -50,7 +50,7 @@ public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
     public List<ContractsDetailsDto> find(SearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list) {
         List<ContractsDetailsDto> resultList = new ArrayList<>();
         try {
-            LOGGER.debug("find--> " + startIndex + "     " + offset);
+            LOGGER.debug("find--> {}  {}" , startIndex , offset);
             resultList = logic.getItemSearch(removeDiscountDto);
         } catch (Exception ex) {
             LOGGER.error("",ex);

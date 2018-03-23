@@ -104,7 +104,7 @@ public class GtnFrameworkProductLevelLoadService {
 			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList, int customerRelationVersionNo)
 			throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryGeneratorBean queryBean = getCustomerContractSidQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, Boolean.FALSE);
+				customerHierarchyLevelDefinitionList, false);
 		if (queryBean == null || customerRelationVersionNo == 0) {
 			return Collections.emptyList();
 		}

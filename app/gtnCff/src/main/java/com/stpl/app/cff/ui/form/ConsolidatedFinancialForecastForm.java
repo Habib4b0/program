@@ -646,7 +646,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));
 
 			} catch (final SystemException | ParseException ex) {
-				LOGGER.error(ex + " NonMandatedEditWindow - loadSessionDTO");
+				LOGGER.error("{} NonMandatedEditWindow - loadSessionDTO", ex);
 			}
 		}
 	}

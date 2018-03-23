@@ -1337,7 +1337,7 @@ public class SelectionLogic {
     public List<SelectionDTO> getCustomizedSearchFormFromObject(
             final List list) {
 
-        LOGGER.debug("Entering getCustomizedSearchFormFromObject p1: " + ((list == null) ? list : list.size()) + " p2: ");
+        LOGGER.debug("Entering getCustomizedSearchFormFromObject p1: {} p2: " , ((list == null) ? list : list.size()));
         final List<SelectionDTO> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -1467,7 +1467,7 @@ public class SelectionLogic {
             }
         }
 
-        LOGGER.debug("returns searchItemList size " + searchItemList.size());
+        LOGGER.debug("returns searchItemList size {}" , searchItemList.size());
         return searchItemList;
     }
 

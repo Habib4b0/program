@@ -350,7 +350,7 @@ public class PromoteTP extends VerticalLayout {
                     companyMasterSids.add(session.getCompanyMasterSid());
                     session.setCompanyMasterSids(companyMasterSids);
                     session.setSearchSessionId(searchSessionId);
-                    LOGGER.debug("createSearchSessionId before callCompanyInsert:" + searchSessionId);
+                    LOGGER.debug("createSearchSessionId before callCompanyInsert: {} " , searchSessionId);
 
                 }
             }
