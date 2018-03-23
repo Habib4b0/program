@@ -723,7 +723,7 @@ public class FileManagementLookup extends Window {
 						}
 					}
 					detailsBean.addItem(idList);
-					if (idList.size() > 0) {
+					if (!idList.isEmpty()) {
 						deleteFlag = false;
 						selectClose = true;
 						saveflag = false;
