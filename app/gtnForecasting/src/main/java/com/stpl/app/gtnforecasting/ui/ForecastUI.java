@@ -84,6 +84,9 @@ public class ForecastUI extends UI {
 
     private static boolean EXCEL_CLOSE = false;
 
+    public ForecastUI() {
+    }
+
     /**
      * This method is used to register the navigations for different views.
      *

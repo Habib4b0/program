@@ -103,6 +103,9 @@ public class NMProjectionVarianceLogic {
     private List chartList;
     private static final String FROM = " FROM ";
 
+    public NMProjectionVarianceLogic() {
+    }
+
     public List getChartList() {
         return chartList == null ? chartList : new ArrayList<>(chartList);
     }

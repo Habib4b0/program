@@ -31,6 +31,9 @@ public class PRChart {
      */
     private ProjectionSelectionDTO projSelDTO;
 
+    public PRChart() {
+    }
+
     /**
      * The Constructor.
      *

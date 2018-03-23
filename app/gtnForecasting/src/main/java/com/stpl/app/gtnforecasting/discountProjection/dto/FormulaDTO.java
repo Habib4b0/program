@@ -28,6 +28,9 @@ public class FormulaDTO {
    private String formulaID = StringUtils.EMPTY;
    private String itemId = StringUtils.EMPTY;
    private String version = StringUtils.EMPTY;
+
+    public FormulaDTO() {
+    }
    
     public int getForectastingFormulaSid() {
         return formulaSystemID;

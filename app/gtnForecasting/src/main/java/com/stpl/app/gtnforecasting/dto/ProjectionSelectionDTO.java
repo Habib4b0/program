@@ -284,6 +284,9 @@ public class ProjectionSelectionDTO {
     private GtnSmallHashMap multipleVariableCheckMap = new GtnSmallHashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Map<String,String> updateQueryMap = new HashMap<>();
+
+    public ProjectionSelectionDTO() {
+    }
     
     public List<String> getDeductionLevelFilter() {
         return deductionLevelFilter == null ? deductionLevelFilter : new ArrayList<>(deductionLevelFilter);

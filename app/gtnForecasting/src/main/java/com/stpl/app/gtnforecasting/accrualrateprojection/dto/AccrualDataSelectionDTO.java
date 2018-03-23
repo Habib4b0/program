@@ -21,6 +21,9 @@ public class AccrualDataSelectionDTO {
     private String actionFlag = StringUtils.EMPTY;
     private Integer deductionValueId ;
 
+    public AccrualDataSelectionDTO() {
+    }
+
     public String getDeductionValue() {
         return deductionValue;
     }

@@ -35,6 +35,9 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
     private SessionDTO sessionDTO;
     public static final Logger LOGGER = LoggerFactory.getLogger(PhsResultsTableLogic.class);
+
+    public PhsResultsTableLogic() {
+    }
     
     @Override
     public int getCount() {

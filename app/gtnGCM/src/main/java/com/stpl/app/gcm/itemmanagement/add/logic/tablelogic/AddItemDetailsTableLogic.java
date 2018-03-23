@@ -37,6 +37,10 @@ public class AddItemDetailsTableLogic extends PageTableLogic {
     private boolean isSummary = false;
     private List<ItemIndexDto> selectedItemList;
     public static final Logger LOGGER = LoggerFactory.getLogger(AddItemDetailsTableLogic.class);
+
+    public AddItemDetailsTableLogic() {
+    }
+    
     /**
      * Record count method
      *

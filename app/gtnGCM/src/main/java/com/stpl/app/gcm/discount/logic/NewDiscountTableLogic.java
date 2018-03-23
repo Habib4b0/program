@@ -23,6 +23,9 @@ public class NewDiscountTableLogic extends PageTableLogic {
     private SessionDTO sessionDTO;
     private static final Logger LOGGER = LoggerFactory.getLogger(NewDiscountTableLogic.class);
 
+    public NewDiscountTableLogic() {
+    }
+
     /**
      * Record count logic
      *

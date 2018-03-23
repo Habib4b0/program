@@ -172,6 +172,9 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private Map<String, Integer> discountNameMap = new HashMap<>();
     private boolean conversionNeeded = false;
 
+    public PVSelectionDTO() {
+    }
+
     @Override
     public int getLevelNo() {
         return levelNo;

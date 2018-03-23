@@ -110,6 +110,9 @@ public class SelectionDTO implements Cloneable {
     private boolean isItemAddTab=false;
     private String transferScreenName ;
     private List<Thread> threadList = new ArrayList();
+
+    public SelectionDTO() {
+    }
     
     
     

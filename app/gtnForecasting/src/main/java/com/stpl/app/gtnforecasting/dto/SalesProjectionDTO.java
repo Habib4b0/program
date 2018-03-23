@@ -127,6 +127,9 @@ public class SalesProjectionDTO {
     /** The projections. */
     private String projections;
 
+    public SalesProjectionDTO() {
+    }
+
     /**
      * Gets the product.
      *
