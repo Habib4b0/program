@@ -18,6 +18,10 @@ public class Sql {
 
     private List<SqlEntity> sqlEntity;
 
+    public Sql(List<SqlEntity> sqlEntity) {
+        this.sqlEntity = sqlEntity;
+    }
+    
     public List<SqlEntity> getSqlEntity() {
         return sqlEntity;
     }

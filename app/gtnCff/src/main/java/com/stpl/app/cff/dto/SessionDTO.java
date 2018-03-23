@@ -119,6 +119,10 @@ public class SessionDTO implements Cloneable {
     private int customerRelationVersion = 0;
     private int productRelationVersion = 0;
     private Date cffEligibleDate;
+
+    public SessionDTO() {
+    }
+    
     public boolean isHasTradingPartner() {
         return hasTradingPartner;
     }

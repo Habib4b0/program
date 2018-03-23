@@ -29,6 +29,9 @@ public class ForecastYearCriteria implements SearchCriteria {
 	/** The filter. */
 	private String filter;
 
+    public ForecastYearCriteria() {
+    }
+
 	/**
 	 * Gets the description.
 	 *

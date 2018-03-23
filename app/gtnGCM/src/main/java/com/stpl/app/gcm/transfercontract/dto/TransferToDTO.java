@@ -27,6 +27,9 @@ public class TransferToDTO {
     private String rsContractSid = StringUtils.EMPTY;
     private Integer level;
 
+    public TransferToDTO() {
+    }
+
     public String getContractSid() {
         return contractSid;
     }

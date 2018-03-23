@@ -67,6 +67,9 @@ public class MPmpyDTO extends ExtMapDTO{
     public static final String COMMA = ",";
     
     private String firstColumn = StringUtils.EMPTY;
+
+    public MPmpyDTO() {
+    }
     
     public String getProductNo() {
         return productNo;

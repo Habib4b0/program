@@ -61,6 +61,9 @@ public class BaselinePeriodDTO implements Serializable {
     /** The rolling end period. */
     private String rollingEndPeriod;
 
+    public BaselinePeriodDTO() {
+    }
+
     /**
      * Gets the price type ddlb.
      *

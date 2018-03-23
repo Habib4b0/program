@@ -29,6 +29,9 @@ public class ExistingComponentResultsTableLogic extends PageTableLogic {
     private final List newInput = new ArrayList();
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingComponentResultsTableLogic.class);
 
+    public ExistingComponentResultsTableLogic() {
+    }
+
     /**
      * Record count logic
      *

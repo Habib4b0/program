@@ -159,6 +159,9 @@ public class SalesLogic {
     public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     public static final String DF_LEVEL_NAME = "dfLevelName";
 
+    public SalesLogic() {
+    }
+
     public SessionDTO getSession() {
         return session;
     }

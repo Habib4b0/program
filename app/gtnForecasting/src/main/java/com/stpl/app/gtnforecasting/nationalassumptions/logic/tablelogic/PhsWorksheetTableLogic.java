@@ -33,6 +33,9 @@ public class PhsWorksheetTableLogic extends PageTreeTableLogic {
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
     private SessionDTO sessionDTO;
 
+    public PhsWorksheetTableLogic() {
+    }
+
     @Override
     public int getCount(){
         int count = 0;

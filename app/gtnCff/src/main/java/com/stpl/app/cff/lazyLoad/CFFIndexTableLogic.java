@@ -36,6 +36,10 @@ public class CFFIndexTableLogic extends PageTableLogic {
     private final CFFLogic cffLogic = new CFFLogic();
     private boolean isGenerate = false;
     private boolean isReset = true;
+
+    public CFFIndexTableLogic() {
+    }
+    
     /**
      * Method to get the no of count for Searching results.
      *

@@ -40,6 +40,9 @@ public class SalesProjectionResultsTree {
     protected SalesProjectionResultsTreeBuildCreteria creteria;
     private SPRStaticData[] staticdata;
 
+    public SalesProjectionResultsTree() {
+    }
+
     public SalesPRBaseNode getApex() {
         return apex;
     }

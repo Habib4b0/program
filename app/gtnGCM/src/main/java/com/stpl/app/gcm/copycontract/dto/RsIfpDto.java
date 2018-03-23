@@ -76,6 +76,9 @@ public class RsIfpDto implements Serializable {
      */
     private String inboundStatus;
 
+    public RsIfpDto() {
+    }
+
     public int getManfCompanyMasterSid() {
         return manfCompanyMasterSid;
     }

@@ -102,6 +102,9 @@ public class LookupDTO {
     private String rebatePlanType = StringUtils.EMPTY;
     private String rebatePlanSysId = StringUtils.EMPTY;
 
+    public LookupDTO() {
+    }
+
     public String getCfpId() {
         return cfpId;
     }
