@@ -70,6 +70,9 @@ public class ContractResultDTO {
 
     private HelperDTO statusDescription = new HelperDTO(0, Constants.SELECT_ONE);
 
+    public ContractResultDTO() {
+    }
+
     public Integer getUserId() {
         return userId;
     }

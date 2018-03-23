@@ -34,6 +34,9 @@ public class ComparisonLookupDTO {
     protected List<String> projNameList = new ArrayList<>();
     protected Map<Integer, String> projectionMap = new HashMap<>();
 
+    public ComparisonLookupDTO() {
+    }
+
     public String getWorkflowStatus() {
         return workflowStatus;
     }

@@ -40,6 +40,9 @@ public class TabSelectionDTO {
     private int summaryProjectionId;
     private String foreCastingType = StringUtils.EMPTY;
 
+    public TabSelectionDTO() {
+    }
+
     public String getLevelValue() {
         return levelValue;
     }

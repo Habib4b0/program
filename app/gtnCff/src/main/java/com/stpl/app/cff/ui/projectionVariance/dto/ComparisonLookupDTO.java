@@ -50,6 +50,9 @@ public class ComparisonLookupDTO {
     private int start;
     private int offset;
 
+    public ComparisonLookupDTO() {
+    }
+
     public String getWorkflowStatus() {
         return workflowStatus;
     }

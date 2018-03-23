@@ -36,6 +36,9 @@ public class MedicaidWorkSheetTableLogic extends PageTreeTableLogic {
     
     private SessionDTO sessionDTO;
 
+    public MedicaidWorkSheetTableLogic() {
+    }
+
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated= {}, and start= {}, and offset= {}" , firstGenerated, start, offset);

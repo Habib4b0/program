@@ -18,6 +18,9 @@ public class AssumptionSalesDTO {
     private String productGrowth;
     private String accountGrowth;
 
+    public AssumptionSalesDTO() {
+    }
+
     public String getProjectionPeriod() {
         return projectionPeriod;
     }

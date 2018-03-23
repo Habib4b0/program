@@ -19,6 +19,9 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 	private Set<Filter> filters;
 	private int lastCount;
 	private boolean dirty;
+
+    public DataSelectionSearchCriteria() {
+    }
 	
 	@Override
 	public Set<Filter> getFilters() {

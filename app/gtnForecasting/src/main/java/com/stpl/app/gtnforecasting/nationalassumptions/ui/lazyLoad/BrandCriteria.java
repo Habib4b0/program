@@ -39,6 +39,9 @@ public class BrandCriteria implements SearchCriteria {
      */
     private String filter;
 
+    public BrandCriteria() {
+    }
+
     /**
      * Gets the description.
      *

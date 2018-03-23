@@ -31,6 +31,9 @@ public class ComparisonTableLogic extends PageTableLogic {
     private ComparisonLookupDTO comparisonLookup;
     private final ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
 
+    public ComparisonTableLogic() {
+    }
+
     @Override
     public int getCount() {
         int count = 0;

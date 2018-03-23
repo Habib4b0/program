@@ -40,6 +40,9 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
     private String dfLevelNumber = StringUtils.EMPTY;
     private String dfLevelName = StringUtils.EMPTY;
 
+    public ProjectionVarianceDTO() {
+    }
+
     public String getDfLevelNumber() {
         return dfLevelNumber;
     }

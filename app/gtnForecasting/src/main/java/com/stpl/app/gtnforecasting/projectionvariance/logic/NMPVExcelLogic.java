@@ -341,6 +341,8 @@ public class NMPVExcelLogic {
                     groupName = groupName == null ? "" : groupName;
                     detail.setHierarchyNo(obj[1].toString());
                     detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
+                    detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                            detail.addStringProperties(DF_LEVEL_NAME, groupName);
                 } else {
                      if (CommonUtil.isValueEligibleForLoading()) {
                         getFormattedExcelColumns(detail, hierarchy, obj);

@@ -96,6 +96,9 @@ public class RemoveDiscountDto {
     private Integer userId;
    private boolean search;
 
+    public RemoveDiscountDto() {
+    }
+
     public String getAliastype() {
         return aliastype;
     }

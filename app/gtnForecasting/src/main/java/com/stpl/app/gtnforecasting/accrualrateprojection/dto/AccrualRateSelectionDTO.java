@@ -68,6 +68,9 @@ public class AccrualRateSelectionDTO {
     
     private SessionDTO sessionDto;
 
+    public AccrualRateSelectionDTO() {
+    }
+
     public Date getStartDate() {
         return startDate == null ? null : (Date) startDate.clone();
     }

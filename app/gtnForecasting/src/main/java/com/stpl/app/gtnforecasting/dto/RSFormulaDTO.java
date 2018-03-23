@@ -35,6 +35,9 @@ public class RSFormulaDTO {
    private String deductionCategory = StringUtils.EMPTY;
    private String indicator = StringUtils.EMPTY;
    private String propertyId = StringUtils.EMPTY;
+
+    public RSFormulaDTO() {
+    }
    
     public int getForectastingFormulaSid() {
         return formulaSystemID;

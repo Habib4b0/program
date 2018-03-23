@@ -174,6 +174,9 @@ public class SessionDTO implements Serializable {
     private int deductionRelationVersion = 0;
     private Date forecastEligibleDate;
 
+    public SessionDTO() {
+    }
+
     public String getAltFromPeriod() {
         return altFromPeriod;
     }

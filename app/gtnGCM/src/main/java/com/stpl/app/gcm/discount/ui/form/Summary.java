@@ -114,6 +114,9 @@ public class Summary extends CustomComponent {
     private RemoveDiscount removeDiscount;
     private static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
 
+    public Summary() {
+    }
+
     public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, TabSheet mainTab, RemoveDiscount removeDiscount) {
         VerticalLayout vLayout = new VerticalLayout();
         this.removeDiscount = removeDiscount;

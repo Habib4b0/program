@@ -26,6 +26,10 @@ public class FileSelectionTableLogic extends PageTableLogic {
     private boolean iscount=false;
     private SessionDTO sessionDTO;
     private String businessUnit;
+
+    public FileSelectionTableLogic() {
+    }
+    
     @Override
     public int getCount() {
         int count =0;

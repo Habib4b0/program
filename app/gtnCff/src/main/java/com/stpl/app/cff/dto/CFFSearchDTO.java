@@ -48,6 +48,9 @@ public class CFFSearchDTO {
     private String activeToDateExcel;
     private String finalApprovalDateExcel;
 
+    public CFFSearchDTO() {
+    }
+
     public String getFinancialForecastId() {
         return financialForecastId;
     }

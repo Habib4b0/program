@@ -68,6 +68,9 @@ public class LoadTabLogic {
     private static final DecimalFormat PER2DECIMAL = new DecimalFormat("#,##0.00%");
     private final CommonDao DAO = CommonImpl.getInstance();
 
+    public LoadTabLogic() {
+    }
+
     public int getLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, int projectionId, SessionDTO session) {
         LOGGER.debug("Inside getLevelCount");
         int count = 0;

@@ -26,6 +26,9 @@ public class ItemIndexTableLogic extends PageTableLogic {
     private SelectionDTO selection = new SelectionDTO();
     private List<ItemIndexDto> selecteditemList;
 
+    public ItemIndexTableLogic() {
+    }
+
     /**
      * Record count logic
      *

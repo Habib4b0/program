@@ -27,6 +27,9 @@ public class ComponentInfoTableLogic extends PageTableLogic {
     private String indicator;
     private boolean summaryFlag;
 
+    public ComponentInfoTableLogic() {
+    }
+
     @Override
     public int getCount() {
         int count = 0;

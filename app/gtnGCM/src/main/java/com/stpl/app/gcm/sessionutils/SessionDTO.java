@@ -53,6 +53,9 @@ public class SessionDTO implements Serializable, Cloneable {
     private int fromProjectionId = 0;
     private int toProjectionId = 0;
 
+    public SessionDTO() {
+    }
+
     public Integer getWorkflowId() {
         return workflowId;
     }
