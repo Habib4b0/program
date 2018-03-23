@@ -134,7 +134,6 @@ public class NMDiscountExcelLogic {
           String projectedValue=commonLogic.getFormattedValue(PERCENTAGE_FORMAT, Constant.NULL.equals(String.valueOf(obj[NumericConstants.SEVEN])) ? DASH : String.valueOf(obj[NumericConstants.SEVEN]));
           discountProjectionDTO.addStringProperties(header + PROJECTED_RATE,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
                       column, projectedValue) );
-//          projectedValue=commonLogic.getFormattedValue(PERCENTAGE_FORMAT, Constant.NULL.equals(String.valueOf(obj[NumericConstants.NINE])) ? DASH : String.valueOf(obj[NumericConstants.NINE]));
           projectedValue=Constant.NULL.equals(value)?DASH:value;
           discountProjectionDTO.addStringProperties(header + PROJECTED_AMOUNT,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
                       column, projectedValue) );
