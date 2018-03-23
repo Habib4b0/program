@@ -239,14 +239,14 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	}
 
 	private void checkCopyMode(String componentId) {
-		if (componentId.equals("gtnCopyButton")) {
+		if (componentId.equals(GtnFrameworkRSConstants.GTN_COPY_BUTTON)) {
 			setValuesToComponents(componentId);
 		}
 	}
 
 	private void setValuesToComponents(String componentId) {
 
-		if (componentId.equals("gtnCopyButton")) {
+		if (componentId.equals(GtnFrameworkRSConstants.GTN_COPY_BUTTON)) {
 			GtnUIFrameworkBaseComponent rsGrpId = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkRSConstants.RS_ID_GRP);
 			GtnUIFrameworkBaseComponent rsGrpNo = GtnUIFrameworkGlobalUI
