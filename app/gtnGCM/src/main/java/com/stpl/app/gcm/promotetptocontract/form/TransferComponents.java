@@ -952,7 +952,7 @@ public class TransferComponents extends CustomComponent implements View {
             if (level.equals(Constants.ONE)) {
                 String companySid = session.getCompanyMasterSid();
                 String componentQuery = queryUtils.getCompanyInformation(companySid);
-                LOGGER.debug(" populate btn  query " + componentQuery);
+                LOGGER.debug(" populate btn  query {} " , componentQuery);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     contractInfoContainer.removeAllItems();
@@ -1002,7 +1002,7 @@ public class TransferComponents extends CustomComponent implements View {
                 } else if (level.equals(Constants.FOUR)) {
                     componentQuery = queryUtils.getRSDetails(ifpId);
                 }
-                LOGGER.debug(" Populate button query 2" + componentQuery);
+                LOGGER.debug(" Populate button query 2 {} " , componentQuery);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     contractInfoContainer.removeAllItems();

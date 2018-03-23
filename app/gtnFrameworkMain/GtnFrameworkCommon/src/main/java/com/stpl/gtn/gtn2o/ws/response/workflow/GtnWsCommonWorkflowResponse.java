@@ -25,6 +25,7 @@ public class GtnWsCommonWorkflowResponse implements GtnWSResponseData {
     private List<String> roleList;
     private String processVariable;
     private List<GtnWsRecordBean> resultList = new ArrayList<>();
+	private String friendlyUrl;
 
     public String getWorkflowId() {
         return workflowId;
@@ -89,7 +90,13 @@ public class GtnWsCommonWorkflowResponse implements GtnWSResponseData {
     public void setProcessVariable(String processVariable) {
         this.processVariable = processVariable;
     }
-    
-    
+
+	public String getFriendlyUrl() {
+		return friendlyUrl;
+	}
+
+	public void setFriendlyUrl(String friendlyUrl) {
+		this.friendlyUrl = friendlyUrl;
+	}
 
 }

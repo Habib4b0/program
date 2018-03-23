@@ -367,7 +367,7 @@ public class ProcessSchedulerLogic {
 		parameters.add(sessionDTO.getSessionId());
 		countQuery = countQuery.replace("@USER_ID", sessionDTO.getUserId());
 		countQuery = countQuery.replace("@SESSION_ID", sessionDTO.getSessionId());
-		String filterQuery = AbstractFilterLogic.getInstance()
+		String filterQuery = AbstractFilterLogic.getAdminInstance()
 				.filterQueryGenerator(binderDto.getFilters(), getFilterMap()).toString();
 		if (filterQuery != null) {
 			filterQuery = filterQuery.replace("where", "AND");
@@ -396,9 +396,9 @@ public class ProcessSchedulerLogic {
 	public List<ProcessSchedulerDTO> getSearchResults(final ProcessSchedulerDTO binderDto,
 			final SessionDTO sessionDTO) {
 		LOGGER.debug("Inside Search Results");
-		String filterQuery = AbstractFilterLogic.getInstance()
+		String filterQuery = AbstractFilterLogic.getAdminInstance()
 				.filterQueryGenerator(binderDto.getFilters(), getFilterMap()).toString();
-		String orderBy = AbstractFilterLogic.getInstance()
+		String orderBy = AbstractFilterLogic.getAdminInstance()
 				.orderByQueryGenerator(binderDto.getOrderByColumns(), getFilterMap(), "CFF_OUTBOUND").toString();
 		List<ProcessSchedulerDTO> cffMasterList;
 		List<Object[]> resultList;

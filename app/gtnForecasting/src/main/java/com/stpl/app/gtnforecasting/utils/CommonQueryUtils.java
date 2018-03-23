@@ -6,8 +6,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 

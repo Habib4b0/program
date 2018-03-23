@@ -218,7 +218,7 @@ public class CfpContractDetailsImpl {
             if (column != null) {
                 sql += " ORDER BY " + column + " " + orderBy + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
             }
-            LOGGER.debug("getCompaniesList" + sql);
+            LOGGER.debug("getCompaniesList {} " , sql);
             
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
