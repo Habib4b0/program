@@ -358,7 +358,7 @@ public class ProjectionVarianceLogic {
         } else {
             query.append(andOperator).append("   BRAND LIKE ").append("'%' ");
         }
-        StringBuilder orderBy = AbstractFilterLogic.getCffInstance().orderByQueryGenerator(comparisonLookup.getSortColumns(), getOrderByMap());
+        StringBuilder orderBy = AbstractFilterLogic.getInstance().orderByQueryGenerator(comparisonLookup.getSortColumns(), getOrderByMap());
         query.append(orderBy.toString());
         query.append(" OFFSET ").append(comparisonLookup.getStart()).append(" ROWS FETCH NEXT ").append(comparisonLookup.getOffset()).append(" ROWS ONLY");
         
@@ -2853,7 +2853,7 @@ public class ProjectionVarianceLogic {
             inputList.add(" ");
         }
         inputList.add(comparisonLookup.getCurrentProjId());
-        StringBuilder filter = AbstractFilterLogic.getCffInstance().filterQueryGenerator(comparisonLookup.getFilter(), getFilerMap());
+        StringBuilder filter = AbstractFilterLogic.getInstance().filterQueryGenerator(comparisonLookup.getFilter(), getFilerMap());
 
         if (filter != null) {
             inputList.add(filter.toString());
