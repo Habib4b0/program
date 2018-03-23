@@ -11,6 +11,11 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBe
 
 public class GtnFrameworkRelationshipLevelDefintionBean
 		implements Comparable<GtnFrameworkRelationshipLevelDefintionBean>, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private HierarchyLevelDefinitionBean hierarchyLevelBean = new HierarchyLevelDefinitionBean();
 
 	private int relationshipBuilderSid;
@@ -18,6 +23,10 @@ public class GtnFrameworkRelationshipLevelDefintionBean
 	private int relationshipLevelSid;
 	private int relationshipVersionNo;
 	private String hierarchyNo;
+
+	public GtnFrameworkRelationshipLevelDefintionBean() {
+		super();
+	}
 
 	public HierarchyLevelDefinitionBean getHierarchyLevelBean() {
 		return hierarchyLevelBean;
@@ -243,6 +252,47 @@ public class GtnFrameworkRelationshipLevelDefintionBean
 	@Override
 	public int compareTo(GtnFrameworkRelationshipLevelDefintionBean obj) {
 		return Integer.compare(hierarchyLevelBean.getLevelNo(), obj.getLevelNo());
+	}
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((hierarchyLevelBean == null) ? 0 : hierarchyLevelBean.hashCode());
+		result = PRIME * result + ((hierarchyNo == null) ? 0 : hierarchyNo.hashCode());
+		result = PRIME * result + relationShipLevelValue;
+		result = PRIME * result + relationshipBuilderSid;
+		result = PRIME * result + relationshipLevelSid;
+		result = PRIME * result + relationshipVersionNo;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GtnFrameworkRelationshipLevelDefintionBean other = (GtnFrameworkRelationshipLevelDefintionBean) obj;
+		if (hierarchyLevelBean == null) {
+			if (other.hierarchyLevelBean != null)
+				return false;
+		} else if (!hierarchyLevelBean.equals(other.hierarchyLevelBean))
+			return false;
+		if (hierarchyNo == null) {
+			if (other.hierarchyNo != null)
+				return false;
+		} else if (!hierarchyNo.equals(other.hierarchyNo))
+			return false;
+		if (relationShipLevelValue != other.relationShipLevelValue)
+			return false;
+		if (relationshipBuilderSid != other.relationshipBuilderSid)
+			return false;
+		if (relationshipLevelSid != other.relationshipLevelSid)
+			return false;
+		return relationshipVersionNo == other.relationshipVersionNo;
 	}
 
 }

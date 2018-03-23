@@ -11,6 +11,7 @@ import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesBaseNode;
 import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesProjectionNodeCP;
 import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesProjectionNodeCustom;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.UiUtils;
@@ -81,7 +82,12 @@ public class SalesProjectionTree {
         } else {
             CommonLogic cmLogic = new CommonLogic();
             String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO);
-            sql += " Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO";
+            sql = sql.replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO()));
+            if (projSelDTO.isLevelFilter()) {
+            sql += SQlUtil.getQuery("custom-view-sales-condition-query");
+            }else{
+             sql += " Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO";
+            }
             return (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames()));
         }
     }

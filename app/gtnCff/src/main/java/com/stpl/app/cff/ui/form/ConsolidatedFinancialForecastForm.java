@@ -526,6 +526,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDto.setProductHierarchyVersion(dataSelectionDto.getProductHierVersionNo());
 					sessionDto.setCustomerRelationVersion(dataSelectionDto.getCustomerRelationShipVersionNo());
 					sessionDto.setProductRelationVersion(dataSelectionDto.getProductRelationShipVersionNo());
+                                        sessionDto.setDeductionRelationVersion(dataSelectionDto.getDeductionRelationShipVersionNo());
 					sessionDto.setScreenName("CCP_HIERARCHY");
 					CFFQueryUtils.createTempTables(sessionDto);
 					dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
@@ -561,12 +562,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					final int customerSelectedLevel = Integer
 							.parseInt(dataSelectionDto.getCustomerHierarchyInnerLevel());
 					final int productSelectedLeve = Integer.parseInt(dataSelectionDto.getProductHierarchyInnerLevel());
-					final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
-							.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
-									dataSelectionDto.getCustomerHierVersionNo());
-					final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic
-							.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getProdHierSid()),
-									dataSelectionDto.getProductHierVersionNo());
 
 					final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
 							dataSelectionDto.getProjectionId(), BooleanConstant.getTrueFlag(), customerSelectedLevel,
@@ -727,6 +722,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				vSessionDTO.setProductHierarchyVersion(dataSelectionDto.getProductHierVersionNo());
 				vSessionDTO.setCustomerRelationVersion(dataSelectionDto.getCustomerRelationShipVersionNo());
 				vSessionDTO.setProductRelationVersion(dataSelectionDto.getProductRelationShipVersionNo());
+                                vSessionDTO.setDeductionRelationVersion(dataSelectionDto.getDeductionRelationShipVersionNo());
 				dataSelectionDto.setCustomerHierSid(String.valueOf(vSessionDTO.getCustomerHierarchyId()));
 				dataSelectionDto
 						.setCustRelationshipBuilderSid(String.valueOf(vSessionDTO.getCustRelationshipBuilderSid()));
@@ -747,12 +743,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						dataSelectionDto.getProductRelationShipVersionNo());
 				final int customerSelectedLevel = Integer.parseInt(dataSelectionDto.getCustomerHierarchyInnerLevel());
 				final int productSelectedLeve = Integer.parseInt(dataSelectionDto.getProductHierarchyInnerLevel());
-				final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
-						Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
-						dataSelectionDto.getCustomerHierVersionNo());
-				final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
-						Integer.parseInt(dataSelectionDto.getProdHierSid()),
-						dataSelectionDto.getProductHierVersionNo());
 
 				final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
 						dataSelectionDto.getProjectionId(), BooleanConstant.getTrueFlag(), customerSelectedLevel,
@@ -949,6 +939,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				? Integer.parseInt(resultList[NumericConstants.TWENTY_SEVEN].toString()) : 0);
 		dataSelectionDto.setProductRelationShipVersionNo(resultList[NumericConstants.TWENTY_EIGHT] != null
 				? Integer.parseInt(resultList[NumericConstants.TWENTY_EIGHT].toString()) : 0);
+		dataSelectionDto.setDeductionRelationShipVersionNo(resultList[NumericConstants.TWENTY_NINE] != null
+				? Integer.parseInt(resultList[NumericConstants.TWENTY_NINE].toString()) : 0);
 
 	}
 

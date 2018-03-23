@@ -76,11 +76,11 @@ public class RelationShipFilterLogic {
 	}
 
 	public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
-			List<String> groupFilteredCompanies, int hierarchySid, String dedLevel, String dedValue,
+			List<String> groupFilteredCompanies, String dedLevel, String dedValue,
 			int relationVersionNo, Date forecastEligibleDate, Map<String, String> customerDescMap)
 			throws CloneNotSupportedException {
 		GtnForecastHierarchyInputBean inputBean = createInputBean(selectedHierarchyLevelDto, relationshipSid,
-				groupFilteredCompanies, dedLevel, dedValue, relationVersionNo, forecastEligibleDate, Boolean.FALSE);
+				groupFilteredCompanies, dedLevel, dedValue, relationVersionNo, forecastEligibleDate, false);
 		String query = getLoadDataQuery(inputBean);
 		return customizeRelation(query, selectedHierarchyLevelDto, customerDescMap, relationVersionNo, false);
 	}
@@ -94,8 +94,8 @@ public class RelationShipFilterLogic {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
 				Object[] obj = resultsDataList.get(i);
-				dto.setDisplayValue(customerDescMap.get(obj[NumericConstants.FOUR]));
-				dto.setLevel(customerDescMap.get(obj[NumericConstants.FOUR]));
+				dto.setDisplayValue(customerDescMap.get(String.valueOf(obj[NumericConstants.FOUR])));
+				dto.setLevel(customerDescMap.get(String.valueOf(obj[NumericConstants.FOUR])));
 				dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.ZERO]));
 				dto.setLevelNo(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])));
 				dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
@@ -224,7 +224,7 @@ public class RelationShipFilterLogic {
 		inputBean.setSelectedCustomerList(
 				LevelDtoToRelationShipBeanConverter.convetToRelationBean(selectedCustomerContractList));
 
-		inputBean.setBusinessUnitValue(businessUnitValue);
+		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));
 		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
 		if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
 			inputBean.setSelectedCustomerHierarcySid(selectedCustomerContractList.get(0).getHierarchyId());
@@ -451,7 +451,7 @@ public class RelationShipFilterLogic {
 		inputBean.setSelectedHierarchyLevelDto(
 				LevelDtoToRelationShipBeanConverter.convertLevelDtoToRelationBean(selectedHierarchyLevelDto));
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
-		inputBean.setBusinessUnitValue(businessUnitValue);
+		inputBean.setBusinessUnitValue(String.valueOf(businessUnitValue));
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();

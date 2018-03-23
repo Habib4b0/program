@@ -218,10 +218,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
                     } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
-                    }
+                }
                     if (i == exportAt) {
                         exp.exportMultipleTabs(true);
-                    } else {
+            } else {
                         exp.exportMultipleTabs(false);
                     }
                 }
@@ -988,6 +988,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void getExcelSalesCommercial() {
         try {
+            String parentKey;
+            String tempKey;
             List<Object[]> salesExcelList = getSalesExcelResults(projectionDTO);
             NMSalesExcelLogic nmSalesExcelLogic = new NMSalesExcelLogic();
             List historyColumn = salesLogic.getHistoryColumn(salesLogic.getHeader(projectionDTO));
@@ -1002,14 +1004,21 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 }
                 excelContainer.addBean(itemId);
                 Object parentItemId;
-                String parentKey = CommonUtil.getParentItemId(key, projectionDTO.isIsCustomHierarchy(), itemId.getParentHierarchyNo());
+                key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
+                tempKey = key.trim();
+                if (projectionDTO.isIsCustomHierarchy()) {
+                    parentKey = itemId.getParentHierarchyNo();
+                    if (!(itemId.getParentHierarchyNo() == null || "null".equals(itemId.getParentHierarchyNo()))) {
+                        tempKey = itemId.getParentHierarchyNo().trim() + "~" + key.trim();
+                    }
+                } else {
+                    parentKey = CommonUtil.getParentItemId(key, projectionDTO.isIsCustomHierarchy(), itemId.getParentHierarchyNo());
+                }
                 parentItemId = excelParentRecords.get(parentKey);
-
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
                 }
-                parentItemId = itemId;
-                excelParentRecords.put(key, itemId);
+                excelParentRecords.put(tempKey, itemId);
                 excelContainer.setChildrenAllowed(itemId, true);
             }
             excelContainer.sort(new Object[]{"levelName"}, new boolean[]{true});

@@ -3297,9 +3297,10 @@
         <column db-name="BUSINESS_UNIT" name="businessUnit" primary="false" type="int"/>
         <column db-name="DEDUCTION_HIERARCHY_SID" name="deductionHierarchySid" primary="false" type="String" convert-null="false"/>
         <column db-name="DED_RELATIONSHIP_BULDER_SID" name="dedRelationshipBuilderSid" primary="false" type="String" convert-null="false"/>
-         <column db-name="PROJECTION_CUST_VERSION" name="projectionCustVersionNo" primary="false" type="int"/>
+        <column db-name="PROJECTION_CUST_VERSION" name="projectionCustVersionNo" primary="false" type="int"/>
         <column db-name="PROJECTION_PROD_VERSION" name="projectionProdVersionNo" primary="false" type="int"/>
-	<column db-name="FORECAST_ELIGIBLE_DATE" name="forecastEligibleDate" primary="false" type="Date"/>
+	    <column db-name="FORECAST_ELIGIBLE_DATE" name="forecastEligibleDate" primary="false" type="Date"/>
+	    <column db-name="PROJECTION_DED_VERSION" name="projectionDedVersionNo" primary="false" type="int"/>
     </entity>
     <entity cache-enabled="false" data-source="extDataSource" local-service="true" name="ProjectionProdDetails" remote-service="false"  table="PROJECTION_PROD_DETAILS">
         <column db-name="PRODUCT_NAME" name="productName" primary="false" type="String"/>

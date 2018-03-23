@@ -105,6 +105,7 @@ public class RelationshipLevelValuesMasterBean {
 		customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
 		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.ZERO]));
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+                customSql = customSql.replace("?RLDV",sessionDTO.getDeductionRelationVersion() + StringUtils.EMPTY);
 		boolean isUDC = tempListObject[2].equals(1) && tempListObject[3].equals(1);
 		boolean isRSID = tempListObject[2].equals(0) && tempListObject[3].equals(0);
 		boolean isHelperTableJoin = tempListObject[2].equals(1);

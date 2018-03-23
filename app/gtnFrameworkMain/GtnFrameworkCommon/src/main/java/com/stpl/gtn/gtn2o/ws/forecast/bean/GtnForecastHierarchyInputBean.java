@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.forecast.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private int selectedProductRelationShipBuilderVersionNo;
 	private int selectedProductHierarcySid;
 	private int selectedProductHierarchyVersionNo;
-	private Object businessUnitValue;
+	private String businessUnitValue;
 	private String hierarchyIndicator;
 	private Map<String, String> tempTableMap;
 
@@ -44,6 +45,9 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	private GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto;
 
+	public GtnForecastHierarchyInputBean() {
+		super();
+	}
 
 	public String getHieraryQuery() {
 		return hieraryQuery;
@@ -138,19 +142,20 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	}
 
 	public Date getForecastEligibleDate() {
-		return forecastEligibleDate;
+		return forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
-		this.forecastEligibleDate = forecastEligibleDate;
+		this.forecastEligibleDate = forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public List<String> getGroupFilterCompenies() {
-		return groupFilterCompenies;
+		return groupFilterCompenies != null ? new ArrayList<>(groupFilterCompenies) : groupFilterCompenies;
 	}
 
 	public void setGroupFilterCompenies(List<String> groupFilterCompenies) {
-		this.groupFilterCompenies = groupFilterCompenies;
+		this.groupFilterCompenies = groupFilterCompenies != null ? new ArrayList<>(groupFilterCompenies)
+				: groupFilterCompenies;
 	}
 
 	public int getLevelNo() {
@@ -195,11 +200,11 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	}
 
 
-	public Object getBusinessUnitValue() {
+	public String getBusinessUnitValue() {
 		return businessUnitValue;
 	}
 
-	public void setBusinessUnitValue(Object businessUnitValue) {
+	public void setBusinessUnitValue(String businessUnitValue) {
 		this.businessUnitValue = businessUnitValue;
 	}
 
@@ -220,19 +225,21 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	}
 
 	public List<GtnFrameworkRelationshipLevelDefintionBean> getSelectedCustomerList() {
-		return selectedCustomerList;
+		return selectedCustomerList != null ? new ArrayList<>(selectedCustomerList) : selectedCustomerList;
 	}
 
 	public void setSelectedCustomerList(List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList) {
-		this.selectedCustomerList = selectedCustomerList;
+		this.selectedCustomerList = selectedCustomerList != null ? new ArrayList<>(selectedCustomerList)
+				: selectedCustomerList;
 	}
 
 	public List<GtnFrameworkRelationshipLevelDefintionBean> getSelectedProductList() {
-		return selectedProductList;
+		return selectedProductList != null ? new ArrayList<>(selectedProductList) : selectedProductList;
 	}
 
 	public void setSelectedProductList(List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList) {
-		this.selectedProductList = selectedProductList;
+		this.selectedProductList = selectedProductList != null ? new ArrayList<>(selectedProductList)
+				: selectedProductList;
 	}
 
 	public int getSelectedProductRelationShipBuilderSid() {
