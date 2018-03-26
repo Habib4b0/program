@@ -27,6 +27,8 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabSheet
 import com.stpl.gtn.gtn2o.ui.framework.component.textarea.GtnUIFrameworkTextAreaComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.comboboxmultiselect.GtnUIFrameworkComboBoxMultiselectComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date.GtnUIFrameworkDateFieldComponent;
 
 public enum GtnUIFrameworkComponentType {
 
@@ -80,7 +82,11 @@ public enum GtnUIFrameworkComponentType {
 
 	ERROR_BANNER(new GtnUIFrameworkErrorBannerComponent()),
 
-	CALENDAR_FIELD(new GtnUIFrameworkCalendarComponent());
+	CALENDAR_FIELD(new GtnUIFrameworkCalendarComponent()),
+	
+	COMBOBOXMULTISELECT(new GtnUIFrameworkComboBoxMultiselectComponent()),
+	
+	DATEFIELDVAADIN8(new GtnUIFrameworkDateFieldComponent());
 
 	private GtnUIFrameworkComponent gtnComponent;
 
