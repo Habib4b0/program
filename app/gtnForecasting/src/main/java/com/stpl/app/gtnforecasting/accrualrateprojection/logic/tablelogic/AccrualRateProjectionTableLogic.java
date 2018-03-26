@@ -40,6 +40,10 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
     
     private boolean isViewMode;
 
+    public AccrualRateProjectionTableLogic() {
+        super();
+    }
+
     @Override
     public int getCount() {
         LOGGER.debug("Inside Count= {} " ,tabName);

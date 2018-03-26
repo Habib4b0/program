@@ -22,6 +22,10 @@ public class RebateTableLogic extends PageTableLogic {
     private boolean generate = false;
     private ErrorfulFieldGroup discountChBinder;
 
+    public RebateTableLogic() {
+        super();
+    }
+
     /**
      * Record count logic
      *

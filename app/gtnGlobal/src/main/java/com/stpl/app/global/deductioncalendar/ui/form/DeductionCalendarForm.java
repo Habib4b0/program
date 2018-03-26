@@ -455,7 +455,11 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
             targetItem = new BeanItem<>(
                     (DeductionCalendarDTO) obj);
         }
-        return (DeductionCalendarDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (DeductionCalendarDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     /**

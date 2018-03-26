@@ -1313,7 +1313,11 @@ public class SelectionLogic {
             targetItem = new BeanItem<>(
                     (SelectionDTO) obj);
         }
-        return (SelectionDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (SelectionDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     private void loadCriteriaInMap() {

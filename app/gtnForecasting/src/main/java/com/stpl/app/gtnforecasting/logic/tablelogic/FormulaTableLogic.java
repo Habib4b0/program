@@ -28,6 +28,10 @@ public class FormulaTableLogic extends PageTableLogic{
     private boolean isReset = false;
     private boolean isDetails = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(FormulaTableLogic.class);
+
+    public FormulaTableLogic() {
+        super();
+    }
     
     @Override
     public int getCount() {

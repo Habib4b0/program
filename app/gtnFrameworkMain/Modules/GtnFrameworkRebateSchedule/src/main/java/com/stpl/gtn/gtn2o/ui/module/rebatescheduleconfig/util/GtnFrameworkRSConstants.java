@@ -28,6 +28,7 @@ public class GtnFrameworkRSConstants {
 	public static final String RP_POP_UP_SEARCH_RESULT_TABLE = "rpPopUpSearchResultTable";
 	public static final String FORMULA_POP_UP_SEARCH_RESULT_TABLE = "FormulaPopUpsearchResultTable";
 	public static final String NS_SEARCH_RESULT_TABLE = "netSalesSearchResultTable";
+	public static final String GTN_COPY_BUTTON = "gtnCopyButton";
 
 	private GtnFrameworkRSConstants() {
 		/**

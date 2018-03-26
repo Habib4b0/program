@@ -20,6 +20,10 @@ public class ItemSearchCriteria implements SearchCriteria {
     private final boolean customDirty = false;
     private String filter = StringUtils.EMPTY;
 
+    public ItemSearchCriteria() {
+        super();
+    }
+
     @Override
     public int getLastCount() {
         return lastCount;

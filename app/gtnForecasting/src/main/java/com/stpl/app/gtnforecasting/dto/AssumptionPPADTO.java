@@ -19,6 +19,10 @@ public class AssumptionPPADTO {
     private String ppaDiscountDollar;
     private String ppaDiscountPer;
 
+    public AssumptionPPADTO() {
+        super();
+    }
+
     public String getProjectionPeriod() {
         return projectionPeriod;
     }

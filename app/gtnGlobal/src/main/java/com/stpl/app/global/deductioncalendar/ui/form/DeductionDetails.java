@@ -720,7 +720,11 @@ public class DeductionDetails extends CustomComponent {
             targetItem = new BeanItem<>(
                     (TableDTO) obj);
         }
-        return (TableDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void disableFieldsOnView() {

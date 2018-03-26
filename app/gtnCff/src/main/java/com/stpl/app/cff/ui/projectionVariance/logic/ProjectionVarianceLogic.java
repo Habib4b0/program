@@ -121,6 +121,10 @@ public class ProjectionVarianceLogic {
     public static final String CONCAT_CONDITION = "', ',') C WHERE CH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
     public static final String WHERE_FILTER_CCPD = " WHERE FILTER_CCPD = 1 ";
 
+    public ProjectionVarianceLogic() {
+        super();
+    }
+
     public List getChartList() {
         return chartList == null ? chartList : new ArrayList<>(chartList);
     }

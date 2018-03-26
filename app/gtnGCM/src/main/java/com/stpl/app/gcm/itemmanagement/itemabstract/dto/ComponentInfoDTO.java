@@ -89,6 +89,10 @@ public class ComponentInfoDTO {
     private String nepFormula = StringUtils.EMPTY;
     private String nep = StringUtils.EMPTY;
 
+    public ComponentInfoDTO() {
+        super();
+    }
+
     public String getItemNo() {
         return itemNo;
     }

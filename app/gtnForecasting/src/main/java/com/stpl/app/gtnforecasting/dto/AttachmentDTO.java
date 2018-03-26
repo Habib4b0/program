@@ -16,6 +16,10 @@ import java.util.Date;
  */
 public class AttachmentDTO implements Serializable {
 
+    public AttachmentDTO() {
+        super();
+    }
+
     /**
      * The Constant serialVersionUID.
      */

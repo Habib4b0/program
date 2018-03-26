@@ -28,6 +28,10 @@ public class NdcCriteria implements SearchCriteria {
      */
     private int lastCount;
 
+    public NdcCriteria() {
+        super();
+    }
+
     /**
      * The dirty.
      */

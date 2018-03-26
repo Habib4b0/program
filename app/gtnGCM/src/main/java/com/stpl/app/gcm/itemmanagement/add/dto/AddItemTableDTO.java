@@ -114,6 +114,10 @@ public class AddItemTableDTO {
     private int baseLineWacPriceType;
     private Date baseLineWacDate;
 
+    public AddItemTableDTO() {
+        super();
+    }
+
     public String getColumnName() {
         return columnName;
     }

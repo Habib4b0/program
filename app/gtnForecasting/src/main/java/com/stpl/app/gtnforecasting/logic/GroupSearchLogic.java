@@ -34,6 +34,10 @@ public class GroupSearchLogic extends PageTableLogic {
     private final DataSelectionLogic logic = new DataSelectionLogic();
     private GroupDTO dto;
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupSearchLogic.class);
+
+    public GroupSearchLogic() {
+        super();
+    }
     
 
     @Override
