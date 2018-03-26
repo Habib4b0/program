@@ -1820,7 +1820,7 @@ public class NewDiscountTab extends CustomComponent {
     @UiHandler("levelRemoveBtn")
     public void levelRemoveBtnLogic(Button.ClickEvent event) {
 
-        LOGGER.debug(" buttonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
+        LOGGER.debug(" buttonClick ( ClickEvent event ) name= {} " , event.getButton().getCaption());
         if (dashBoardTreeContainer.getItemIds().size() > Constants.ZERO) {
             if (dashboardTreeTable.getValue() == null) {
                 AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "Please highlight a component to Remove.");
@@ -2038,7 +2038,7 @@ public class NewDiscountTab extends CustomComponent {
 
     @UiHandler("removeBtn")
     public void removeBtnLogic(Button.ClickEvent event) {
-        LOGGER.debug(" buttonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
+        LOGGER.debug(" buttonClick ( ClickEvent event ) name={} " , event.getButton().getCaption());
         if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,false) > 0) {
             if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
                 newDiscountTabDto.setCategory(Constants.IndicatorConstants.IFP.getConstant());

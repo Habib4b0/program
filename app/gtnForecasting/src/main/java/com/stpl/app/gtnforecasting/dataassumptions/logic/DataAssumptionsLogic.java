@@ -42,6 +42,10 @@ public class DataAssumptionsLogic {
 
     private final SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
+    public DataAssumptionsLogic() {
+        super();
+    }
+
     public List getCustomizedData(List<Object[]> list) {
         List<DataAssumptionDTO> finalList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {

@@ -34,6 +34,10 @@ public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
     private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
     public static final Logger LOGGER = LoggerFactory.getLogger(AlternateHistoryAllocationTableLogic.class);
     private Set checkedCCPSet = new HashSet();
+
+    public AlternateHistoryAllocationTableLogic() {
+        super();
+    }
     
     /**
      * Loads the table in sales projection based on start and end index.

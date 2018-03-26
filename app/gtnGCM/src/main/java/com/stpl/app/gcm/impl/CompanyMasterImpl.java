@@ -646,7 +646,7 @@ public class CompanyMasterImpl {
 
             }
 
-            LOGGER.debug("Final sql statement----------->" + sql);
+            LOGGER.debug("Final sql statement-----------> {} " , sql);
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
 
@@ -864,7 +864,7 @@ public class CompanyMasterImpl {
                     queryString.append(ROWS_ONLY);
                 }
             }
-            LOGGER.debug("queryString-------------->" + queryString);
+            LOGGER.debug("queryString-------------->{}" , queryString);
             
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
@@ -904,7 +904,7 @@ public class CompanyMasterImpl {
             } else {
                 queryString.append(SQlUtil.getQuery("getCompanyTypeCountForPromoteTpToCh"));
             }
-             LOGGER.debug(" Company search getCompanyTypeCount Query -- "+queryString.toString());
+             LOGGER.debug(" Company search getCompanyTypeCount Query -- {} ", queryString.toString());
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
         } catch (Exception ex) {
@@ -1117,7 +1117,7 @@ public class CompanyMasterImpl {
                 queryString.append(" ) A ");
                  
             }
-            LOGGER.debug(" Company search Query -- \n"+queryString.toString());
+            LOGGER.debug(" Company search Query -- \n {} ",queryString.toString());
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
         } catch (Exception e) {
@@ -1399,7 +1399,7 @@ public class CompanyMasterImpl {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("In saveCcp ->"+e.getMessage());
+            LOGGER.error("In saveCcp -> {} ",e.getMessage());
             LOGGER.error(hierarchyQuery);
             LOGGER.error(levelQuery);
             LOGGER.error(ccpQueryList.toString());

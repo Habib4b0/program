@@ -75,7 +75,7 @@ public class ContractSearchLogic {
 
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("Helper Table listType=" + listType);
+        LOGGER.debug("Helper Table listType= {} " , listType);
         final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
         helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -88,7 +88,7 @@ public class ContractSearchLogic {
                         helperTable.getDescription()));
             }
         }
-        LOGGER.debug("Helper Table list size =" + helperList.size());
+        LOGGER.debug("Helper Table list size = {} " , helperList.size());
         return helperList;
     }
 

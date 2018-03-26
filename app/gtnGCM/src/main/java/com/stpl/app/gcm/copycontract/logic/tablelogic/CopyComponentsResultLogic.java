@@ -29,6 +29,10 @@ public class CopyComponentsResultLogic extends PageTableLogic {
   private final CopyContractLogic logic = new CopyContractLogic();
   private int count;
   private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsResultLogic.class);
+
+    public CopyComponentsResultLogic() {
+        super();
+    }
   
 
     @Override

@@ -18,6 +18,17 @@ public class GtnFrameworkRSConstants {
 	public static final String FORMULA_NO = "formulaNo";
 	public static final String RS_BUNDLE_NO = "rsBundleNo";
 	public static final String DESCRIPTION = "description";
+	public static final String NO = "No";
+	public static final String NAME = "Name";
+	public static final String RP_POP_UP_VIEW_SELECT_BUTTON = "rebatePlanPopUpViewSelectButton";
+	public static final String NS_FORMULA_POP_UP_VIEW_ADD_SELECT_BUTTON = "netSalesFormulaPopUpViewAddButton";
+	public static final String DC_POP_UP_VIEW_SELECT_BUTTON = "dcPopUpViewSelectButton";
+	public static final String FORMULA_POP_UP_SEARCH_VIEW_ADD_BUTTON = "FormulaPopUpSearchSearchViewAddButton";
+	public static final String DC_POP_UP_SEARCH_RESULT_TABLE = "dcPopUpSearchResultTable";
+	public static final String RP_POP_UP_SEARCH_RESULT_TABLE = "rpPopUpSearchResultTable";
+	public static final String FORMULA_POP_UP_SEARCH_RESULT_TABLE = "FormulaPopUpsearchResultTable";
+	public static final String NS_SEARCH_RESULT_TABLE = "netSalesSearchResultTable";
+	public static final String GTN_COPY_BUTTON = "gtnCopyButton";
 
 	private GtnFrameworkRSConstants() {
 		/**

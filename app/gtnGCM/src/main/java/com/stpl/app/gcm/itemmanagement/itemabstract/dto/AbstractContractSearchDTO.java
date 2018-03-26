@@ -105,6 +105,10 @@ public class AbstractContractSearchDTO {
     private String baseLineWacManual = StringUtils.EMPTY;
     private int baseLineWacPriceType;
     private Date baseLineWacDate;
+
+    public AbstractContractSearchDTO() {
+        super();
+    }
     
     public Integer getTempSid() {
         return tempSid;

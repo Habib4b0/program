@@ -141,7 +141,7 @@ public class QuartzListener implements ServletContextListener {
 			generateCronStringTime(profile, cronStringList);
 			generateCronStringInterval(profile, cronStringList);
 
-			if (cronStringList.size() == 0) {
+			if (cronStringList.isEmpty()) {
 				System.out.println("No triggers set for job " + profile.getProcessDisplayName());
 			}
 

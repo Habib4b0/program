@@ -22,6 +22,10 @@ public class ProductGroupLookUpDTO implements Serializable {
     private String productGroupDescription;
     private String companyNo;
 
+    public ProductGroupLookUpDTO() {
+        super();
+    }
+
     public String getCompany() {
         return company;
     }
