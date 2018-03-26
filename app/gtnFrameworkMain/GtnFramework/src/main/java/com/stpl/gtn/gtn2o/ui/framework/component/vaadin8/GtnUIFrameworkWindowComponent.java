@@ -70,9 +70,9 @@ public class GtnUIFrameworkWindowComponent extends Window {
 class WindowTray extends Window {
 
 	private static final long serialVersionUID = 1L;
-	private MenuBar minimizeTray = new MenuBar(); 
+	private MenuBar minimizeTray = new MenuBar();
 	private Map<String, Window> miniMizedWindowsMap = new HashMap<>();
-	private MenuBar.MenuItem item  = minimizeTray.addItem("window", null);
+	private MenuBar.MenuItem item = minimizeTray.addItem("window", null);
 
 	public WindowTray() {
 		super();
@@ -99,10 +99,10 @@ class WindowTray extends Window {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int Prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((miniMizedWindowsMap == null) ? 0 : miniMizedWindowsMap.hashCode());
-		result = prime * result + ((minimizeTray == null) ? 0 : minimizeTray.hashCode());
+		result = Prime * result + ((miniMizedWindowsMap == null) ? 0 : miniMizedWindowsMap.hashCode());
+		result = Prime * result + ((minimizeTray == null) ? 0 : minimizeTray.hashCode());
 		return result;
 	}
 

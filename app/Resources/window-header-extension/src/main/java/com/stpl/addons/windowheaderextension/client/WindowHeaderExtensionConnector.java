@@ -20,83 +20,77 @@ import com.vaadin.shared.ui.Connect;
 // corresponding server-side component
 @Connect(WindowHeaderExtension.class)
 public class WindowHeaderExtensionConnector extends AbstractExtensionConnector {
-    public static final String CLASSNAME = "windowheader";
-    VWindow window;
-    Element buttonDiv;
-    // ServerRpc is used to send events to server. Communication implementation
-    // is automatically created here
-    private final WindowHeaderExtensionServerRpc rpc = RpcProxy
-            .create(WindowHeaderExtensionServerRpc.class, this);
+	public static final String CLASSNAME = "windowheader";
+	VWindow window;
+	Element buttonDiv;
+	// ServerRpc is used to send events to server. Communication implementation
+	// is automatically created here
+	private final WindowHeaderExtensionServerRpc rpc = RpcProxy.create(WindowHeaderExtensionServerRpc.class, this);
 
-    public WindowHeaderExtensionConnector() {
-    }
+	// We must implement getState() to cast to correct type
+	@Override
+	public WindowHeaderExtensionState getState() {
+		return (WindowHeaderExtensionState) super.getState();
+	}
 
-    // We must implement getState() to cast to correct type
-    @Override
-    public WindowHeaderExtensionState getState() {
-        return (WindowHeaderExtensionState) super.getState();
-    }
+	@Override
+	protected void extend(ServerConnector target) {
+		target.addStateChangeHandler(new StateChangeEvent.StateChangeHandler() {
+			private static final long serialVersionUID = -8439729365677484553L;
 
-    @Override
-    protected void extend(ServerConnector target) {
-        target.addStateChangeHandler(new StateChangeEvent.StateChangeHandler() {
-            private static final long serialVersionUID = -8439729365677484553L;
+			@Override
+			public void onStateChanged(StateChangeEvent stateChangeEvent) {
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-            @Override
-            public void onStateChanged(StateChangeEvent stateChangeEvent) {
-                Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+					@Override
+					public void execute() {
+						// nothing to be scheduled
+					}
+				});
+			}
 
-                    @Override
-                    public void execute() {
+		});
 
-                    }
-                });
-            }
+		window = ((WindowConnector) target).getWidget();
 
-        });
+		buttonDiv = DOM.createDiv();
+		buttonDiv.addClassName(CLASSNAME + "-button");
+		buttonDiv.setInnerHTML(getState().iconHtml);
 
-        window = ((WindowConnector) target).getWidget();
+		// if tooltip is not null or empty, add to div
+		if (getState().tooltipText != null && !getState().tooltipText.trim().isEmpty()) {
+			buttonDiv.addClassName("tooltip");
 
-        buttonDiv = DOM.createDiv();
-        buttonDiv.addClassName(CLASSNAME + "-button");
-        buttonDiv.setInnerHTML(getState().iconHtml);
+			Element tooltip = DOM.createSpan();
+			tooltip.addClassName("tooltiptext");
+			tooltip.setInnerText(getState().tooltipText.trim());
 
-        // if tooltip is not null or empty, add to div
-        if (getState().tooltipText != null
-                && !getState().tooltipText.trim().isEmpty()) {
-            buttonDiv.addClassName("tooltip");
+			buttonDiv.appendChild(tooltip);
+		}
 
-            Element tooltip = DOM.createSpan();
-            tooltip.addClassName("tooltiptext");
-            tooltip.setInnerText(getState().tooltipText.trim());
+		Style s = buttonDiv.getStyle();
+		double visibleChildren = window.header.getChildCount() - 1D;
+		s.setRight(visibleChildren * 33.0, Style.Unit.PX);
+		window.header.getFirstChildElement().getStyle().setProperty("border-radius", 0.0, Style.Unit.PX);
 
-            buttonDiv.appendChild(tooltip);
-        }
+		window.header.insertFirst(buttonDiv);
+		addButtonClickListener(buttonDiv);
 
-        Style s = buttonDiv.getStyle();
-        double visibleChildren = window.header.getChildCount() - 1;
-        s.setRight(visibleChildren * 33.0, Style.Unit.PX);
-        window.header.getFirstChildElement().getStyle()
-                .setProperty("border-radius", 0.0, Style.Unit.PX);
+		Element caption = (Element) window.header.getLastChild();
+		caption.getStyle().setHeight(36, Unit.PX);
+	}
 
-        window.header.insertFirst(buttonDiv);
-        addButtonClickListener(buttonDiv);
+	public native void addButtonClickListener(Element el)
+	/*-{
+	    var self = this;
+	    el.onclick = $entry(function () {
+	        self.@com.stpl.addons.windowheaderextension.client.WindowHeaderExtensionConnector::buttonClicked()();
+	    });
+	
+	}-*/;
 
-        Element caption = (Element) window.header.getLastChild();
-        caption.getStyle().setHeight(36, Unit.PX);
-    }
-
-    public native void addButtonClickListener(Element el)
-    /*-{
-        var self = this;
-        el.onclick = $entry(function () {
-            self.@com.stpl.addons.windowheaderextension.client.WindowHeaderExtensionConnector::buttonClicked()();
-        });
-    
-    }-*/;
-
-    private void buttonClicked() {
-        rpc.buttonClick();
-    }
+	private void buttonClicked() {
+		rpc.buttonClick();
+	}
 
 }
