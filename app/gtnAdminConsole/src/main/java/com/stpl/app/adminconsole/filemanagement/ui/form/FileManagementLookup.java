@@ -1729,9 +1729,9 @@ public class FileManagementLookup extends Window {
 					configureExcelResultTable();
 					loadExcelTable(resultDTO);
 					VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, "true");
-					ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), "File Management Results",
+					ExcelExport fileManagementexcel = new ExcelExport(new ExtCustomTableHolder(excelTable), "File Management Results",
 							"File Management Results", "FileManagementResults.xls", false);
-					excel.export();
+					fileManagementexcel.export();
 					tableLayout.removeComponent(excelTable);
 				} catch (Exception ex) {
 					LOGGER.error(ex.getMessage());
