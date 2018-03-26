@@ -75,6 +75,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -1727,6 +1728,7 @@ public class FileManagementLookup extends Window {
 				try {
 					configureExcelResultTable();
 					loadExcelTable(resultDTO);
+					VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, "true");
 					ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), "File Management Results",
 							"File Management Results", "FileManagementResults.xls", false);
 					excel.export();
