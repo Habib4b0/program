@@ -61,6 +61,7 @@ public class NationalAssumptionsUI extends UI {
     protected SessionUtil sessionUtil = new SessionUtil();
 
     public NationalAssumptionsUI() {
+        super();
     }
 
     /* (non-Javadoc)

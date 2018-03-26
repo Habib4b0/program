@@ -27,6 +27,7 @@ public class PriceTypeCriteria implements SearchCriteria{
 	private String filter;
 
     public PriceTypeCriteria() {
+        super();
     }
 
 	/**

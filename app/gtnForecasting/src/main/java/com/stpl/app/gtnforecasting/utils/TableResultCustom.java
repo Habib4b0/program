@@ -15,6 +15,7 @@ public class TableResultCustom {
 	private String[] objResultHeader;
 
     public TableResultCustom() {
+        super();
     }
 	
 		/**

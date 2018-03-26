@@ -75,6 +75,7 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     private String dfLevelName = StringUtils.EMPTY;
 
     public DiscountProjectionDTO() {
+        super();
     }
 
     public String getDfLevelNumber() {

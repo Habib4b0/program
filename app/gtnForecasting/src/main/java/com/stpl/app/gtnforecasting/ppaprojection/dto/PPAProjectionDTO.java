@@ -52,6 +52,7 @@ public class PPAProjectionDTO extends ExtListDTO implements Cloneable {
     private List<String> helperList=new ArrayList<>();
 
     public PPAProjectionDTO() {
+        super();
     }
     
     public List<String> getHelperList() {

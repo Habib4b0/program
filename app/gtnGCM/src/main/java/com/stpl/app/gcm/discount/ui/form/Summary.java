@@ -115,6 +115,7 @@ public class Summary extends CustomComponent {
     private static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
 
     public Summary() {
+        super();
     }
 
     public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, TabSheet mainTab, RemoveDiscount removeDiscount) {

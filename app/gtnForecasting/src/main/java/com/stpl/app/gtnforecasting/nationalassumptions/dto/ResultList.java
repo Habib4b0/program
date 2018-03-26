@@ -21,6 +21,7 @@ public class ResultList {
 	private String flag = "fail";
 
     public ResultList() {
+        super();
     }
 
     public DataSelectionDTO getDataSelectionDTO() {

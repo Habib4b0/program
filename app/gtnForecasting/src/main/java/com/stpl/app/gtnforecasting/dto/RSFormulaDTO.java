@@ -37,6 +37,7 @@ public class RSFormulaDTO {
    private String propertyId = StringUtils.EMPTY;
 
     public RSFormulaDTO() {
+        super();
     }
    
     public int getForectastingFormulaSid() {

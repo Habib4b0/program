@@ -30,6 +30,7 @@ public class ExistingComponentResultsTableLogic extends PageTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingComponentResultsTableLogic.class);
 
     public ExistingComponentResultsTableLogic() {
+        super();
     }
 
     /**

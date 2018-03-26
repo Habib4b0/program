@@ -29,6 +29,7 @@ public class SalesTabDTO extends ExtMapDTO implements Comparator<SalesTabDTO> {
     private Integer itemMasterSid;
 
     public SalesTabDTO() {
+        super();
     }
 
     public String getLevelValue() {

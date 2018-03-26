@@ -23,6 +23,7 @@ public class FormulaDTO {
     private HelperDTO netSalesformulaType;
 
     public FormulaDTO() {
+        super();
     }
 
     public String getFormulaId() {

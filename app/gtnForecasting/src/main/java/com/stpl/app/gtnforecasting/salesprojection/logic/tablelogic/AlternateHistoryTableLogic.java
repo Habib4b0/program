@@ -33,6 +33,7 @@ public class AlternateHistoryTableLogic extends PageTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(AlternateHistoryTableLogic.class);
 
     public AlternateHistoryTableLogic() {
+        super();
     }
   
 

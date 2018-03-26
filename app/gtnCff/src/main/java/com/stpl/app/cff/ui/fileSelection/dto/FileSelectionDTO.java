@@ -27,6 +27,7 @@ public class FileSelectionDTO {
     private String fileTypeValue = StringUtils.EMPTY;
 
     public FileSelectionDTO() {
+        super();
     }
 
     public String getFileName() {

@@ -24,6 +24,7 @@ public class FormulaIdTableLogic extends PageTableLogic {
     private final AbstractLogic logic = AbstractLogic.getInstance();
 
     public FormulaIdTableLogic() {
+        super();
     }
 
     @Override

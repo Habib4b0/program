@@ -21,6 +21,7 @@ public class ItemSearchCriteria implements SearchCriteria {
     private String filter = StringUtils.EMPTY;
 
     public ItemSearchCriteria() {
+        super();
     }
 
     @Override

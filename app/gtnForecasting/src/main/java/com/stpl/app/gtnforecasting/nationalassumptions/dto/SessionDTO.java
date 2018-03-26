@@ -21,6 +21,7 @@ public class SessionDTO implements Serializable{
     private boolean pageFlag;
 
     public SessionDTO() {
+        super();
     }
 
     public Date getFromDate() {

@@ -97,6 +97,7 @@ public class RemoveDiscountDto {
    private boolean search;
 
     public RemoveDiscountDto() {
+        super();
     }
 
     public String getAliastype() {

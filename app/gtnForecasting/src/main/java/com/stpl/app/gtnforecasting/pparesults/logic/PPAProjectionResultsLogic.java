@@ -79,6 +79,7 @@ public class PPAProjectionResultsLogic {
     private int cureentWacFrquencyIndex=3;
 
     public PPAProjectionResultsLogic() {
+        super();
     }
 
     public List getChartList() {

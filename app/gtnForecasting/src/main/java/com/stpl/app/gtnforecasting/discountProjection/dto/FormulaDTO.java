@@ -30,6 +30,7 @@ public class FormulaDTO {
    private String version = StringUtils.EMPTY;
 
     public FormulaDTO() {
+        super();
     }
    
     public int getForectastingFormulaSid() {

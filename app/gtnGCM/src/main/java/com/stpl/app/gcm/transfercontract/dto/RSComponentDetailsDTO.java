@@ -30,6 +30,7 @@ public class RSComponentDetailsDTO {
     private Date attachedDate;
 
     public RSComponentDetailsDTO() {
+        super();
     }
 
     public String getItemNo() {

@@ -40,6 +40,7 @@ public class FcpResultsTableLogic extends PageTreeTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(FcpResultsTableLogic.class);
 
     public FcpResultsTableLogic() {
+        super();
     }
 
     @Override

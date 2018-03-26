@@ -23,6 +23,7 @@ public class AbstractSummaryDTO extends ExtMapDTO {
     private Integer rebateProgramType;
 
     public AbstractSummaryDTO() {
+        super();
     }
 
     public String getLevelValue() {

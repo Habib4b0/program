@@ -29,6 +29,7 @@ public class CompanyCrtIdentifierDTO implements Serializable {
     private Date tradeEndDate;
 
     public CompanyCrtIdentifierDTO() {
+        super();
     }
 
     /**

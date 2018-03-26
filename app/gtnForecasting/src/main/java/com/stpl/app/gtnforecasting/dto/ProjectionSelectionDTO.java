@@ -286,6 +286,7 @@ public class ProjectionSelectionDTO {
     private Map<String,String> updateQueryMap = new HashMap<>();
 
     public ProjectionSelectionDTO() {
+        super();
     }
     
     public List<String> getDeductionLevelFilter() {

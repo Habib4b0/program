@@ -24,6 +24,7 @@ public class NewDiscountTableLogic extends PageTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewDiscountTableLogic.class);
 
     public NewDiscountTableLogic() {
+        super();
     }
 
     /**

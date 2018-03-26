@@ -29,6 +29,7 @@ public class SalesTabTableLogic extends PageTreeTableLogic {
     private SessionDTO session;
 
     public SalesTabTableLogic() {
+        super();
     }
 
     @Override

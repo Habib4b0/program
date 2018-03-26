@@ -41,6 +41,7 @@ public class SalesProjectionResultsTree {
     private SPRStaticData[] staticdata;
 
     public SalesProjectionResultsTree() {
+        super();
     }
 
     public SalesPRBaseNode getApex() {

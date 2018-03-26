@@ -42,6 +42,7 @@ public class ComponentLookUpDTO {
     private String endNewDate = StringUtils.EMPTY;
 
     public ComponentLookUpDTO() {
+        super();
     }
 
     public String getComponentId() {

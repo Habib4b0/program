@@ -50,6 +50,7 @@ public class ItemIndexDto {
     private String fromSid = StringUtils.EMPTY;
 
     public ItemIndexDto() {
+        super();
     }
 
     public String getPlaceHolderValue() {

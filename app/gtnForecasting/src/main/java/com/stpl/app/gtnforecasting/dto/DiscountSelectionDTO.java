@@ -34,6 +34,7 @@ public class DiscountSelectionDTO {
     private   List<List<String>> discountRSlist =new ArrayList<>();
 
     public DiscountSelectionDTO() {
+        super();
     }
 
     /**

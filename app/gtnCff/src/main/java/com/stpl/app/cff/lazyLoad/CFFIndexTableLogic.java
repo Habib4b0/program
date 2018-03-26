@@ -38,6 +38,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
     private boolean isReset = true;
 
     public CFFIndexTableLogic() {
+        super();
     }
     
     /**

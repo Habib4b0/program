@@ -161,6 +161,7 @@ public class SalesLogic {
     public static final String AND_FILTER_CCP_JOIN = " AND FILTER_CCP = 1";
 
     public SalesLogic() {
+        super();
     }
 
     public SessionDTO getSession() {

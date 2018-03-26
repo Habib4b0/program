@@ -23,6 +23,7 @@ public class ItemDetailsTableLogic extends PageTableLogic {
     private SelectionDTO selection;
 
     public ItemDetailsTableLogic() {
+        super();
     }
 
     @Override
