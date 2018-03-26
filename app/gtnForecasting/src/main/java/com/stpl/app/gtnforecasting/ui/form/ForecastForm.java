@@ -400,7 +400,7 @@ public class ForecastForm extends AbstractForm {
 		} else {
 			tabSheet.setSelectedTab(1);
 		}
-	}
+        }
 
 	protected void initializeLazyTabLoad(final Map<Integer, Boolean> tabLazyLoadMap, final int componentCount) {
 		tabLazyLoadMap.clear();
@@ -2363,7 +2363,7 @@ public class ForecastForm extends AbstractForm {
 			nmDiscountInsertProcedure();
 			// Discount Contrat Details Methodology Procedure
 			callContractDetailsPrcForDiscount();
-
+			
 			break;
 
 		case Constant.VIEW:

@@ -74,6 +74,9 @@ public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<Projec
     private String ccpIds=StringUtils.EMPTY;
             
     private String parentHierarchyNo = StringUtils.EMPTY;
+
+    public ProjectionResultsDTO() {
+    }
             
     public String getGroup() {
         return group;

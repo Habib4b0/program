@@ -105,6 +105,7 @@ public class GtnWsCMasterEdit {
 			cmResponseBean.setGtnCMasterCompanyTradeClassBeanList(getCmTradeClassDetails(companyInformationBean));
 			cmResponseBean.setGtnCMasterCompanyParentBeanList(getCmParentDetails(companyInformationBean));
 			cmResponseBean.setGtnCMasterCompanyNotesTabBeanList(getCmNotesTabDetails(companyInformationBean));
+			cmResponseBean.setGtnCMasterCompanyNotesTabBeanList(getCmNotesTabAttachDetails(companyInformationBean));
 			for (int i = 0; gtnCMasterFinancialCloseBean != null && i < gtnCMasterFinancialCloseBean.size(); i++) {
 				getFinancialCloseTab(companyInformationBean, gtnCMasterFinancialCloseBean.get(i));
 			}
@@ -411,4 +412,18 @@ public class GtnWsCMasterEdit {
 			logger.info("Exit deleteTempTable");
 		}
 	}
+	private List<NotesTabBean> getCmNotesTabAttachDetails(GtnCMasterInformationBean companyInformationBean)
+			throws GtnFrameworkGeneralException {
+		logger.info("Enter getCmNotesTabAttachDetails");
+		String cmNotesTabDetailsSelectQuery = "Select MASTER_TABLE_NAME,FILE_NAME, CREATED_DATE, CREATED_BY ,ATTACHMENT_SID,FILE_DATA from ATTACHMENT   "
+				+ "where ATTACHMENT_TABLE_SID = " + companyInformationBean.getCompanyMasterSystemId() + ";";
+		@SuppressWarnings("unchecked")
+		List<Object[]> cmNotesDetailsAttachResultList = (List<Object[]>) gtnSqlQueryEngine
+				.executeSelectQuery(cmNotesTabDetailsSelectQuery);
+		List<NotesTabBean> cmNotesAttachDetailsInfoBeanList = GtnCommonUtil.getNotesTabBean(cmNotesDetailsAttachResultList,
+				gtnWebServiceAllListConfig);
+		logger.info("Exit getCmNotesTabDetails");
+		return cmNotesAttachDetailsInfoBeanList;
+	}
+
 }

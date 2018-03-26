@@ -132,8 +132,8 @@ public class CDRForm extends StplCustomComponent {
 
         mainTab.addTab(notesTabForm, "Notes", null, 1);
         mainTab.setSizeFull();
-        LOGGER.debug("sessionDTO ...CRDForm.>>>>" + sessionDTO.getUserId());
-        LOGGER.debug("sessionDTO ...CRDForm.>>>>" + sessionDTO.getMode());
+        LOGGER.debug("sessionDTO ...CRDForm.>>>> {}" , sessionDTO.getUserId());
+        LOGGER.debug("sessionDTO ...CRDForm.>>>> {}" , sessionDTO.getMode());
         if (sessionDTO.getMode().equals(ConstantsUtils.EDIT) || sessionDTO.getMode().equals(ConstantsUtils.COPY)) {
 
             notesTabForm.readOnlyNotesHistory(false);
@@ -262,7 +262,7 @@ public class CDRForm extends StplCustomComponent {
                                             saveBtn.setCaption(ConstantsUtils.UPDATE);
                                         }
                                         logic.updateRuleModelEditLogic((CDRDto) ruleInfoList.get(0), sessionDTO, notesTabForm.getAddedNotes());
-                                        LOGGER.debug("id after save" + sessionDTO.getSystemId());
+                                        LOGGER.debug("id after save {}" , sessionDTO.getSystemId());
 
                                         logic.updateRulesDetailsEditLogic(ruleInfoList, sessionDTO);
                                         logic.saveOrUpdateNotesTab(notesTabForm.getUploadedData(), notesTabForm.removeDetailsList(), sessionDTO.getSystemId());

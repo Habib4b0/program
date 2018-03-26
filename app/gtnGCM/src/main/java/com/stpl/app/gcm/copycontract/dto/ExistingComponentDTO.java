@@ -103,6 +103,10 @@ public class ExistingComponentDTO {
     private String rebatePlanName = StringUtils.EMPTY;
     private String rebateAmount = StringUtils.EMPTY;
     private String bundleNo = StringUtils.EMPTY;
+
+    public ExistingComponentDTO() {
+    }
+    
     public String getPriceType() {
         return priceType;
     }

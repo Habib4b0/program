@@ -72,6 +72,9 @@ public class DiscountProjectionResultsDTO extends ExtMapDTO {
     private Integer totalDiscountCount = 0;
     private String parentHierarchyNo = StringUtils.EMPTY;
 
+    public DiscountProjectionResultsDTO() {
+    }
+
     public String getLevel() {
         return level;
     }

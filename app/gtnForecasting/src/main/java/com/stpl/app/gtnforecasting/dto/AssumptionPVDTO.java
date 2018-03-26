@@ -157,6 +157,9 @@ public class AssumptionPVDTO implements Serializable {
     
     private String childCamId=StringUtils.EMPTY;
 
+    public AssumptionPVDTO() {
+    }
+
     public String getChildCamId() {
         return childCamId;
     }

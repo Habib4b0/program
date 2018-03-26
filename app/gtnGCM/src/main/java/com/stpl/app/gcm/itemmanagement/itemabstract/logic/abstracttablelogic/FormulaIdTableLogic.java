@@ -23,6 +23,9 @@ public class FormulaIdTableLogic extends PageTableLogic {
     private boolean generate = true;
     private final AbstractLogic logic = AbstractLogic.getInstance();
 
+    public FormulaIdTableLogic() {
+    }
+
     @Override
     public int getCount() {
         int count = 0;

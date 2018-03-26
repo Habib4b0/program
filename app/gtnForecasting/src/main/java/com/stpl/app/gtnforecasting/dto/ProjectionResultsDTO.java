@@ -71,7 +71,9 @@ public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<Projec
     private ProjectionResultsDTO suppDTO;
     
     private String discountValue=StringUtils.EMPTY;
-    
+
+    public ProjectionResultsDTO() {
+    }
     
     public String getGroup() {
         return group;

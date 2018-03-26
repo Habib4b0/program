@@ -13,6 +13,9 @@ public class TableResultCustom {
 	
 	/** The obj result header. */
 	private String[] objResultHeader;
+
+    public TableResultCustom() {
+    }
 	
 		/**
          * Getter for objResult.

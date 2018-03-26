@@ -259,6 +259,8 @@ public class GtnFrameworkItemMasterSaveAction
 			for (NotesDTO note : notesDTOs) {
 				imNotesBean = new NotesTabBean();
 				imNotesBean.setMasterTableName("ITEM_MASTER");
+				imNotesBean.setMasterTableSystemId(note.getDocDetailsId());
+				imNotesBean.setFileName(note.getDocumentName());
 				imNotesBean.setFilePath(note.getDocumentFullPath());
 				imNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				imNotesBean.setCreatedDate(new Date());

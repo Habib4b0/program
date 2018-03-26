@@ -34,8 +34,6 @@ public class GtnFrameworkProductLevelLoadService {
 	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
-
-
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
@@ -83,7 +81,7 @@ public class GtnFrameworkProductLevelLoadService {
 		List<Set> sidList = getCustomerConractSid(inputBean.getSelectedCustomerList(),
 				customerHierarchyLevelList, inputBean.getSelectedCustomerRelationShipBuilderVersionNo());
 		getWhereQueryForProductLevel(sidList, queryBean);
-		if (!String.valueOf(inputBean.getBusinessUnitValue()).equals("null")
+		if (!inputBean.getBusinessUnitValue().equals("null")
 				&& !String.valueOf(inputBean.getBusinessUnitValue()).equals("0")
 				&& !String.valueOf(inputBean.getBusinessUnitValue()).isEmpty()) {
 			queryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
@@ -106,7 +104,7 @@ public class GtnFrameworkProductLevelLoadService {
 			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList, int customerRelationVersionNo)
 			throws GtnFrameworkGeneralException {
 		GtnFrameworkQueryGeneratorBean queryBean = getCustomerContractSidQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, Boolean.FALSE);
+				customerHierarchyLevelDefinitionList, false);
 		if (queryBean == null || customerRelationVersionNo == 0) {
 			return Collections.emptyList();
 		}

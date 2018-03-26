@@ -26,6 +26,9 @@ public class FileSelectionDTO {
     private boolean fileChanged=false;
     private String fileTypeValue = StringUtils.EMPTY;
 
+    public FileSelectionDTO() {
+    }
+
     public String getFileName() {
         return fileName;
     }

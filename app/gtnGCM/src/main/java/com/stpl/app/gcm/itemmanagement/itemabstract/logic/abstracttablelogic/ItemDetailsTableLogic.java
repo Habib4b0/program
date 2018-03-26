@@ -22,6 +22,9 @@ public class ItemDetailsTableLogic extends PageTableLogic {
     private final SummaryLogic logic = new SummaryLogic();
     private SelectionDTO selection;
 
+    public ItemDetailsTableLogic() {
+    }
+
     @Override
     public int getCount() {
 

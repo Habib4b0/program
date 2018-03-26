@@ -5618,6 +5618,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             excelContainer.sort(new Object[]{LEVEL_NAME_PROPERTY}, new boolean[]{true});
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+            LOGGER.info(e.getMessage(),e);
         }
     }
 

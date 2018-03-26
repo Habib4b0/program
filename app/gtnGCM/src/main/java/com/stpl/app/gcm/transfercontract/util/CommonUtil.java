@@ -46,7 +46,7 @@ public final class CommonUtil {
         try {
             intValue = Integer.parseInt(String.valueOf(input));
         } catch (NumberFormatException nfe) {
-            LOGGER.debug(String.valueOf(input) + " is not a number. So setting the value as 0");
+            LOGGER.debug(" {}  is not a number. So setting the value as 0" , String.valueOf(input));
         }
         return intValue;
     }
@@ -57,7 +57,7 @@ public final class CommonUtil {
     }
 
     public static String getQuery(final Map<String, String> input, final String queryName) {
-        LOGGER.debug("queryName-->>" + queryName);
+        LOGGER.debug("queryName-->> {} " , queryName);
         StringBuilder queryString = new StringBuilder(SQlUtil.getQuery(queryName) != null ? SQlUtil.getQuery(queryName) : StringUtils.EMPTY);
         if (input != null) {
             for (Map.Entry<String, String> entry : input.entrySet()) {
@@ -68,7 +68,7 @@ public final class CommonUtil {
                 }
             }
         }
-        LOGGER.debug("Query : " + queryString);
+        LOGGER.debug("Query : {} " , queryString);
         return queryString.toString();
     }
 
@@ -90,7 +90,7 @@ public final class CommonUtil {
     }
     
     public static String getQuery(final Map<String, String> input, final Map<String, String> inputToAppend, final String queryName) {
-        LOGGER.debug("queryName-->>" + queryName);
+        LOGGER.debug("queryName-->> {} " , queryName);
         StringBuilder queryString = new StringBuilder(SQlUtil.getQuery(queryName) != null ? SQlUtil.getQuery(queryName) : StringUtils.EMPTY);
         if (input != null) {
             for (Map.Entry<String, String> entry : input.entrySet()) {
@@ -115,7 +115,7 @@ public final class CommonUtil {
                 }
             }
         }
-        LOGGER.debug("Query : " + queryString);
+        LOGGER.debug("Query : {} " , queryString);
         return queryString.toString();
     }
 }

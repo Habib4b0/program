@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.module.companymaster.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -18,6 +21,7 @@ import com.stpl.gtn.gtn2o.queryengine.config.GtnFrameworkQueryEngineConfig;
 import com.stpl.gtn.gtn2o.queryengine.config.GtnFrameworkQueryEngineMainConfig;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkQueryEngineMain;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterCompanyParentBean;
@@ -27,6 +31,7 @@ import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterIdentifierInfoBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterInformationBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -78,7 +83,7 @@ public class GtnWsCMasterAdd {
 
 	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_WS_CM_SAVE_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse saveCompanyMaster(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest)  {
 		LOGGER.info("Enter saveCompanyMaster");
 		int count = 0;
 		if (gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean().getGtnCMasterInformationBean()
@@ -103,7 +108,7 @@ public class GtnWsCMasterAdd {
 		mainConfig = configureDataArray(mainConfig, gtnWsRequest);
 		mainConfig = buildQueryConfigForCMaster(mainConfig, gtnWsRequest);
 		LOGGER.info("Exit saveCompanyMaster");
-		return executeQuery(mainConfig);
+		return executeQuery(mainConfig,gtnWsRequest);
 	}
 
 	private void checkParentDetailsList(int companyMasterSid) {
@@ -195,7 +200,7 @@ public class GtnWsCMasterAdd {
 		}
 	}
 
-	public GtnUIFrameworkWebserviceResponse executeQuery(GtnFrameworkQueryEngineMainConfig mainConfig) {
+	public GtnUIFrameworkWebserviceResponse executeQuery(GtnFrameworkQueryEngineMainConfig mainConfig, GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		LOGGER.info("ExecuteQuery");
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse generalWSResponse = new GtnWsGeneralResponse();
@@ -218,6 +223,10 @@ public class GtnWsCMasterAdd {
 			}
 			generalCmResponse.getGtnCMasterBean().getGtnCMasterInformationBean()
 					.setCompanyMasterSystemId((int) mainConfig.getQueryMemoryArray()[29]);
+			getfileInsertAttachTODb( mainConfig,gtnWsRequest);
+			
+			LOGGER.info("system id" +(int) mainConfig.getQueryMemoryArray()[29] );
+			
 
 		} catch (Exception ex) {
 			LOGGER.error("Exception in executig query-", ex);
@@ -237,7 +246,7 @@ public class GtnWsCMasterAdd {
 	}
 
 	public GtnFrameworkQueryEngineMainConfig buildQueryConfigForCMaster(GtnFrameworkQueryEngineMainConfig mainConfig,
-			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+			GtnUIFrameworkWebserviceRequest gtnWsRequest)  {
 		LOGGER.info("Enter buildQueryConfigForCMaster");
 
 		GtnCMasterBean companyMasterBean = gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean();
@@ -310,7 +319,7 @@ public class GtnWsCMasterAdd {
 			GtnFrameworkQueryEngineConfig cmNotesTabBeanConfig = new GtnFrameworkQueryEngineConfig();
 			LOGGER.info(GtnFrameworkWebserviceConstant.CURRENT_PARAM_POSITION + currentParamPos);
 			LOGGER.debug(companyNotesTabBean.toString());
-			currentParamPos = getCmNotesTabQueryConfig(cmNotesTabBeanConfig, currentParamPos,
+			currentParamPos = getfileInsertTODb(cmNotesTabBeanConfig, currentParamPos,
 					companyMasterIdentifierPosition);
 			childQueryConfigList.add(cmNotesTabBeanConfig);
 		}
@@ -369,7 +378,7 @@ public class GtnWsCMasterAdd {
 	}
 
 	private GtnFrameworkQueryEngineMainConfig configureDataArray(GtnFrameworkQueryEngineMainConfig mainConfig,
-			GtnUIFrameworkWebserviceRequest request) {
+			GtnUIFrameworkWebserviceRequest request)  {
 		Object[] saveDataArray;
 		List<Object> saveDataList = new ArrayList<>();
 		GtnCMasterBean cmRequest = request.getGtnCMasterRequest().getGtnCMasterBean();
@@ -530,7 +539,7 @@ public class GtnWsCMasterAdd {
 		return currentPos;
 	}
 
-	private int getCmNotesTabQueryConfig(GtnFrameworkQueryEngineConfig cmNotesTabQueryConfig, int currentParamPos,
+	private int getfileInsertTODb(GtnFrameworkQueryEngineConfig cmNotesTabQueryConfig, int currentParamPos,
 			int companyMasterIdentifierPosition) {
 		LOGGER.info("Enter getCmNotesTabQueryConfig");
 		int currentPos;
@@ -762,7 +771,8 @@ public class GtnWsCMasterAdd {
 		String tradeClassDeleteQuery = getTradeClassDeleteQuery(companyInformationBean);
 		String parentDetailsDeleteQuery = getParentDetailsDeleteQuery(companyInformationBean);
 		String notesTabDeleteQuery = getnotesTabDeleteQuery(companyInformationBean);
-
+		String notesTabAttachmentDeleteQuery = getnotesTabAttachmentDeleteQuery(companyInformationBean);
+		
 		GtnFrameworkQueryConfig udcDeleteQueryConfig = new GtnFrameworkQueryConfig();
 		udcDeleteQueryConfig.setQuery(udcDeleteQuery);
 		udcDeleteQueryConfig.setUpdateOrDeleteQuery(true);
@@ -787,6 +797,11 @@ public class GtnWsCMasterAdd {
 		notesTabDeleteConfig.setQuery(notesTabDeleteQuery);
 		notesTabDeleteConfig.setUpdateOrDeleteQuery(true);
 		notesTabDeleteConfig.setDataTypeArray(null);
+		
+		GtnFrameworkQueryConfig notesTabAttachmentDeleteConfig = new GtnFrameworkQueryConfig();
+		notesTabAttachmentDeleteConfig.setQuery(notesTabAttachmentDeleteQuery);
+		notesTabAttachmentDeleteConfig.setUpdateOrDeleteQuery(true);
+		notesTabAttachmentDeleteConfig.setDataTypeArray(null);
 
 		childDeleteQueries.add(udcDeleteQueryConfig);
 		childDeleteQueries.add(identifierDeleteQueryConfig);
@@ -799,6 +814,11 @@ public class GtnWsCMasterAdd {
 
 	public String getnotesTabDeleteQuery(GtnCMasterInformationBean companyInformationBean) {
 		return "DELETE FROM MASTER_DATA_FILES WHERE MASTER_TABLE_SID="
+				+ companyInformationBean.getCompanyMasterSystemId() + " AND MASTER_TABLE_NAME='" + "COMPANY_MASTER'";
+	}
+	
+	public String getnotesTabAttachmentDeleteQuery(GtnCMasterInformationBean companyInformationBean) {
+		return "DELETE FROM ATTACHMENT WHERE ATTACHMENT_TABLE_SID="
 				+ companyInformationBean.getCompanyMasterSystemId() + " AND MASTER_TABLE_NAME='" + "COMPANY_MASTER'";
 	}
 
@@ -1025,5 +1045,43 @@ public class GtnWsCMasterAdd {
 		}
 		return resultsDb3;
 	}
+	
+	public void getfileInsertAttachTODb(GtnFrameworkQueryEngineMainConfig cmNotesTabQueryConfig, GtnUIFrameworkWebserviceRequest gtnWsRequest)  {
+		LOGGER.info("Enter getCmNotesTabinsertDbConfig");
+		List<NotesTabBean> cmNotesTabRequestList = gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean().getGtnCMasterCompanyNotesTabBeanList();
+		Session session = getSessionFactory().openSession();
+		Transaction tx1 = session.beginTransaction();
+		try {
+			Attachment attach = new Attachment();
+			if (cmNotesTabRequestList != null && !cmNotesTabRequestList.isEmpty()) {
+				for (NotesTabBean notesTabRequest : cmNotesTabRequestList) {
+					byte[] fileBytes = readBytesFromFile(notesTabRequest.getFilePath());
+					attach.setAttachmentTableSid( (Integer) cmNotesTabQueryConfig.getQueryMemoryArray()[29]);
+					attach.setFileName(notesTabRequest.getFileName());
+					attach.setFileData(fileBytes);
+					attach.setMasterTableName(notesTabRequest.getMasterTableName());
+					attach.setCreatedBy(notesTabRequest.getCreatedBy());
+					attach.setCreatedDate(new Date());
+					session.saveOrUpdate(attach);
+					tx1.commit();
+				}
+			}
+		} catch (Exception e) {
+			tx1.rollback();
+			LOGGER.error("Exception in save attachQuery ", e);
+		} finally {
+			session.close();
+		}
+	}
+	private static byte[] readBytesFromFile(String filePath) throws IOException  {
+		File inputFile = GtnFileNameUtils.getFile(filePath);
+        FileInputStream inputStreamCm= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+        byte[] fileBytes = new byte[(int) inputFile.length()];
+        int i=inputStreamCm.read(fileBytes);
+        if(i>0) 
+        return fileBytes;
+		return  new byte[0];
 
+	}
+ 
 }

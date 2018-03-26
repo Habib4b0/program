@@ -79,7 +79,9 @@ public class CFFResultsDTO {
     
     private String workflowStatus = StringUtils.EMPTY;
 
-   
+    public CFFResultsDTO() {
+    }
+
     public String getProjectionType() {
         return projectionType;
     }

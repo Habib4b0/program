@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup;
 
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSFieldFactoryPopupDetailAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -137,12 +138,18 @@ public class GtnFrameworkNetSaleRulePopupConfig {
 				namspacePrefix + "detailsBtn", true, parent, GtnUIFrameworkComponentType.BUTTON);
 		searchButtonConfig.setComponentName("DETAILS");
 		searchButtonConfig.setAuthorizationIncluded(true);
-		componentList.add(searchButtonConfig);
 
+		List<GtnUIFrameWorkActionConfig> actionListConfig = new ArrayList<>();
 		GtnUIFrameWorkActionConfig validationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
 		validationActionConfig.setFieldValues(Arrays.asList(namspacePrefix + GtnFrameworkCommonConstants.RESULT_TABLE));
 		validationActionConfig.addActionParameter(GtnUIFrameworkValidationType.OR);
+
+		GtnUIFrameWorkActionConfig rsDetailAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		rsDetailAction
+				.setActionParameterList(Arrays.asList(GtnFrameworkRSFieldFactoryPopupDetailAction.class.getName()));
+		actionListConfig.add(rsDetailAction);
 
 		GtnUIFrameWorkActionConfig tableLoadActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -150,11 +157,10 @@ public class GtnFrameworkNetSaleRulePopupConfig {
 		tableLoadActionConfig.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.RESULT_TABLE);
 		tableLoadActionConfig.addActionParameter(4);
 		tableLoadActionConfig.addActionParameter(namspacePrefix + GtnFrameworkRSConstants.DETAILS_RESULT_TABLE);
+		actionListConfig.add(tableLoadActionConfig);
 
-		validationActionConfig.addActionParameter(new ArrayList<GtnUIFrameWorkActionConfig>());
-		validationActionConfig.addActionParameter(Arrays.asList(tableLoadActionConfig));
-
-		searchButtonConfig.addGtnUIFrameWorkActionConfig(validationActionConfig);
+		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionListConfig);
+		componentList.add(searchButtonConfig);
 	}
 
 	private void addButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,

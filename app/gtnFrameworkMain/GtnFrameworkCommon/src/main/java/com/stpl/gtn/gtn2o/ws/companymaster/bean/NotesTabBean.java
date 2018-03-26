@@ -3,6 +3,8 @@ package com.stpl.gtn.gtn2o.ws.companymaster.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+
+
 public class NotesTabBean implements Serializable {
 
 	private static final long serialVersionUID = 3908224499045075125L;
@@ -16,6 +18,8 @@ public class NotesTabBean implements Serializable {
 	private String masterTableName;
         
  	private String filePath;
+ 	
+ 	private String fileName;
 
 	private Date createdDate;
 
@@ -71,4 +75,11 @@ public class NotesTabBean implements Serializable {
 		this.createdByName = createdByName;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 }

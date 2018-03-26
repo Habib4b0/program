@@ -435,7 +435,7 @@ public class CommonUtils {
         query.add(RestrictionsFactoryUtil.eq("name", "ETL"));
         query.add(RestrictionsFactoryUtil.in("roleId", roleList));
         List<Role> userList = RoleLocalServiceUtil.dynamicQuery(query);
-        if (!userList.isEmpty() && userList.size() > 0) {
+        if (!userList.isEmpty()) {
             return true;
         }
         return false;

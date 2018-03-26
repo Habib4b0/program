@@ -27,6 +27,9 @@ public class CFFDTO {
     private Date modifiedDate;   
     private String projectionIds; 
 
+    public CFFDTO() {
+    }
+
     public String getUpdateCycleApprovalName() {
         return updateCycleApprovalName;
     }

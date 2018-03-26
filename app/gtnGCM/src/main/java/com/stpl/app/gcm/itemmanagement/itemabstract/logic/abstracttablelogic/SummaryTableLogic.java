@@ -30,6 +30,9 @@ public class SummaryTableLogic extends PageTreeTableLogic {
     private final RemoveItemLogic logic = new RemoveItemLogic();
     private boolean isSales;
 
+    public SummaryTableLogic() {
+    }
+
     @Override
     public int getCount() {
         int count = 0;

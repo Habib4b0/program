@@ -111,6 +111,9 @@ public class NationalAssumptionLogic {
     private final DecimalFormat CUR_FOUR = new DecimalFormat("$#,##0.0000");
     private static final CommonResultsDAO commonDAO = new CommonResultsDAOImpl();
 
+    public NationalAssumptionLogic() {
+    }
+
     /**
      * Gets the periods.
      *

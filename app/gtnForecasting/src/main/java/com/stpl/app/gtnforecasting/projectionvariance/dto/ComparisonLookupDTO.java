@@ -38,6 +38,9 @@ public class ComparisonLookupDTO {
     protected boolean isSubmitFlag = false;
     private String contractHolder = StringUtils.EMPTY;
     private Date createdDate = null;
+
+    public ComparisonLookupDTO() {
+    }
     
 
     public String getWorkflowStatus() {

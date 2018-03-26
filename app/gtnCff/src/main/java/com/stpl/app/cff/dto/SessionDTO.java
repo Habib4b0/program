@@ -118,7 +118,12 @@ public class SessionDTO implements Cloneable {
     private int productHierarchyVersion = 0;
     private int customerRelationVersion = 0;
     private int productRelationVersion = 0;
+    private int deductionRelationVersion = 0;
     private Date cffEligibleDate;
+
+    public SessionDTO() {
+    }
+    
     public boolean isHasTradingPartner() {
         return hasTradingPartner;
     }
@@ -949,5 +954,13 @@ public class SessionDTO implements Cloneable {
         public void setCffEligibleDate(Date cffEligibleDate) {
             this.cffEligibleDate = cffEligibleDate;
         }
+
+    public int getDeductionRelationVersion() {
+        return deductionRelationVersion;
+    }
+
+    public void setDeductionRelationVersion(int deductionRelationVersion) {
+        this.deductionRelationVersion = deductionRelationVersion;
+    }
         
 }

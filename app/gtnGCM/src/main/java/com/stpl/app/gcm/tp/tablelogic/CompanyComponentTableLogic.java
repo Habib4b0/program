@@ -24,6 +24,9 @@ public class CompanyComponentTableLogic extends PageTableLogic {
     private String componentSelectionValue;
     private String[] id;
 
+    public CompanyComponentTableLogic() {
+    }
+
     /**
      * Record count logic
      *

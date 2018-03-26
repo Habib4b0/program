@@ -22,6 +22,9 @@ public class AssumptionCIDTDTO {
     private String effectiveDate;
     private String annualGrossSales;
 
+    public AssumptionCIDTDTO() {
+    }
+
     public String getContractHolderOrTP() {
         return contractHolderOrTP;
     }

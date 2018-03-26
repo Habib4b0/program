@@ -197,6 +197,9 @@ public class RemoveDiscount extends CustomComponent {
     private int sessionId;
     private final List<Object> rsSidList = new ArrayList<>();
 
+    public RemoveDiscount() {
+    }
+
     public Component getContent(final List<RemoveDiscountDto> selecteditemList, TabSheet mainTab, Summary summary, RemoveDiscount removeDiscount, int userID, int sessionID) {
         this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         this.removeDiscount = removeDiscount;

@@ -20,6 +20,9 @@ public class ResultList {
 	private Set<DataSelectionDTO> selectedProducts = new HashSet<>();
 	private String flag = "fail";
 
+    public ResultList() {
+    }
+
     public DataSelectionDTO getDataSelectionDTO() {
         return dataSelectionDTO;
     }

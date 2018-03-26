@@ -34,6 +34,10 @@ public class PromoteTpToChDto implements Serializable {
     private String zip = StringUtils.EMPTY;
     private boolean reset = false;
     private HelperDTO tradeClass_DTO;
+
+    public PromoteTpToChDto() {
+    }
+    
     public Boolean getReset() {
         return reset;
     }

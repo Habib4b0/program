@@ -30,6 +30,9 @@ public class ComponentInfoLogic extends PageTableLogic {
     private final CopyContractLogic logic = new CopyContractLogic();
     private int count;
     private static final Logger LOGGER = LoggerFactory.getLogger(ComponentInfoLogic.class);
+
+    public ComponentInfoLogic() {
+    }
     
     
     @Override

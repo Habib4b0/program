@@ -90,7 +90,8 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 			{ "DED_RELATIONSHIP_BULDER_SID", Types.VARCHAR },
 			{ "PROJECTION_CUST_VERSION", Types.INTEGER },
 			{ "PROJECTION_PROD_VERSION", Types.INTEGER },
-			{ "FORECAST_ELIGIBLE_DATE", Types.TIMESTAMP }
+			{ "FORECAST_ELIGIBLE_DATE", Types.TIMESTAMP },
+			{ "PROJECTION_DED_VERSION", Types.INTEGER }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -128,9 +129,10 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 		TABLE_COLUMNS_MAP.put("PROJECTION_CUST_VERSION", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("PROJECTION_PROD_VERSION", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("FORECAST_ELIGIBLE_DATE", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("PROJECTION_DED_VERSION", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table PROJECTION_MASTER (PRODUCT_HIERARCHY_LEVEL INTEGER,SAVE_FLAG BOOLEAN,PROJECTION_NAME VARCHAR(75) null,TO_DATE DATE null,PROJECTION_MASTER_SID INTEGER not null primary key IDENTITY,FORECASTING_TYPE VARCHAR(75) null,PRODUCT_HIER_VERSION_NO INTEGER,CUSTOMER_HIER_VERSION_NO INTEGER,MODIFIED_DATE DATE null,CUSTOMER_HIERARCHY_LEVEL INTEGER,FROM_DATE DATE null,PRODUCT_HIERARCHY_SID VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY INTEGER,CUSTOMER_HIERARCHY_SID VARCHAR(75) null,COMPANY_GROUP_SID VARCHAR(75) null,BRAND_TYPE BOOLEAN,MODIFIED_BY INTEGER,PROJECTION_DESCRIPTION VARCHAR(75) null,IS_APPROVED VARCHAR(75) null,ITEM_GROUP_SID VARCHAR(75) null,COMPANY_MASTER_SID VARCHAR(75) null,CUSTOMER_HIERARCHY_INNER_LEVEL INTEGER,PRODUCT_HIERARCHY_INNER_LEVEL INTEGER,CUST_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,PROD_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,DISCOUNT_TYPE INTEGER,BUSINESS_UNIT INTEGER,DEDUCTION_HIERARCHY_SID VARCHAR(75) null,DED_RELATIONSHIP_BULDER_SID VARCHAR(75) null,PROJECTION_CUST_VERSION INTEGER,PROJECTION_PROD_VERSION INTEGER,FORECAST_ELIGIBLE_DATE DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table PROJECTION_MASTER (PRODUCT_HIERARCHY_LEVEL INTEGER,SAVE_FLAG BOOLEAN,PROJECTION_NAME VARCHAR(75) null,TO_DATE DATE null,PROJECTION_MASTER_SID INTEGER not null primary key IDENTITY,FORECASTING_TYPE VARCHAR(75) null,PRODUCT_HIER_VERSION_NO INTEGER,CUSTOMER_HIER_VERSION_NO INTEGER,MODIFIED_DATE DATE null,CUSTOMER_HIERARCHY_LEVEL INTEGER,FROM_DATE DATE null,PRODUCT_HIERARCHY_SID VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY INTEGER,CUSTOMER_HIERARCHY_SID VARCHAR(75) null,COMPANY_GROUP_SID VARCHAR(75) null,BRAND_TYPE BOOLEAN,MODIFIED_BY INTEGER,PROJECTION_DESCRIPTION VARCHAR(75) null,IS_APPROVED VARCHAR(75) null,ITEM_GROUP_SID VARCHAR(75) null,COMPANY_MASTER_SID VARCHAR(75) null,CUSTOMER_HIERARCHY_INNER_LEVEL INTEGER,PRODUCT_HIERARCHY_INNER_LEVEL INTEGER,CUST_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,PROD_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,DISCOUNT_TYPE INTEGER,BUSINESS_UNIT INTEGER,DEDUCTION_HIERARCHY_SID VARCHAR(75) null,DED_RELATIONSHIP_BULDER_SID VARCHAR(75) null,PROJECTION_CUST_VERSION INTEGER,PROJECTION_PROD_VERSION INTEGER,FORECAST_ELIGIBLE_DATE DATE null,PROJECTION_DED_VERSION INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table PROJECTION_MASTER";
 	public static final String ORDER_BY_JPQL = " ORDER BY projectionMaster.projectionMasterSid ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY PROJECTION_MASTER.PROJECTION_MASTER_SID ASC";
@@ -222,6 +224,7 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 		attributes.put("projectionCustVersionNo", getProjectionCustVersionNo());
 		attributes.put("projectionProdVersionNo", getProjectionProdVersionNo());
 		attributes.put("forecastEligibleDate", getForecastEligibleDate());
+		attributes.put("projectionDedVersionNo", getProjectionDedVersionNo());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -443,6 +446,13 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 
 		if (forecastEligibleDate != null) {
 			setForecastEligibleDate(forecastEligibleDate);
+		}
+
+		Integer projectionDedVersionNo = (Integer)attributes.get(
+				"projectionDedVersionNo");
+
+		if (projectionDedVersionNo != null) {
+			setProjectionDedVersionNo(projectionDedVersionNo);
 		}
 	}
 
@@ -807,6 +817,16 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 	}
 
 	@Override
+	public int getProjectionDedVersionNo() {
+		return _projectionDedVersionNo;
+	}
+
+	@Override
+	public void setProjectionDedVersionNo(int projectionDedVersionNo) {
+		_projectionDedVersionNo = projectionDedVersionNo;
+	}
+
+	@Override
 	public ProjectionMaster toEscapedModel() {
 		if (_escapedModel == null) {
 			_escapedModel = (ProjectionMaster)ProxyUtil.newProxyInstance(_classLoader,
@@ -853,6 +873,7 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 		projectionMasterImpl.setProjectionCustVersionNo(getProjectionCustVersionNo());
 		projectionMasterImpl.setProjectionProdVersionNo(getProjectionProdVersionNo());
 		projectionMasterImpl.setForecastEligibleDate(getForecastEligibleDate());
+		projectionMasterImpl.setProjectionDedVersionNo(getProjectionDedVersionNo());
 
 		projectionMasterImpl.resetOriginalValues();
 
@@ -1105,12 +1126,14 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 			projectionMasterCacheModel.forecastEligibleDate = Long.MIN_VALUE;
 		}
 
+		projectionMasterCacheModel.projectionDedVersionNo = getProjectionDedVersionNo();
+
 		return projectionMasterCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(69);
 
 		sb.append("{productHierarchyLevel=");
 		sb.append(getProductHierarchyLevel());
@@ -1178,6 +1201,8 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 		sb.append(getProjectionProdVersionNo());
 		sb.append(", forecastEligibleDate=");
 		sb.append(getForecastEligibleDate());
+		sb.append(", projectionDedVersionNo=");
+		sb.append(getProjectionDedVersionNo());
 		sb.append("}");
 
 		return sb.toString();
@@ -1185,7 +1210,7 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(103);
+		StringBundler sb = new StringBundler(106);
 
 		sb.append("<model><model-name>");
 		sb.append("com.stpl.app.model.ProjectionMaster");
@@ -1323,6 +1348,10 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 			"<column><column-name>forecastEligibleDate</column-name><column-value><![CDATA[");
 		sb.append(getForecastEligibleDate());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>projectionDedVersionNo</column-name><column-value><![CDATA[");
+		sb.append(getProjectionDedVersionNo());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1366,5 +1395,6 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 	private int _projectionCustVersionNo;
 	private int _projectionProdVersionNo;
 	private Date _forecastEligibleDate;
+	private int _projectionDedVersionNo;
 	private ProjectionMaster _escapedModel;
 }

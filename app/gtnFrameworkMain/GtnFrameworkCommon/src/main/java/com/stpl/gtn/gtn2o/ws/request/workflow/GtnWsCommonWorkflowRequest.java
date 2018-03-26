@@ -24,6 +24,7 @@ public class GtnWsCommonWorkflowRequest implements GtnWSRequestData {
 
 	private int processInstanceId;
 	private boolean roleMatched;
+	private String friendlyUrl;
 
 	private GtnWsWorkflowInboxBean gtnWorkflowInboxBean;
 
@@ -99,5 +100,12 @@ public class GtnWsCommonWorkflowRequest implements GtnWSRequestData {
 		this.roleMatched = roleMatched;
 	}
 
+	public String getFriendlyUrl() {
+		return friendlyUrl;
+	}
+
+	public void setFriendlyUrl(String friendlyUrl) {
+		this.friendlyUrl = friendlyUrl;
+	}
 
 }

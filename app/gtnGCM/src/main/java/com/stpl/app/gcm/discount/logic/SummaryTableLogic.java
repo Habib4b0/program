@@ -26,6 +26,9 @@ public class SummaryTableLogic extends PageTreeTableLogic {
     private boolean generate = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryTableLogic.class);
 
+    public SummaryTableLogic() {
+    }
+
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         Map<Integer, Object> map = new HashMap<>();
@@ -44,7 +47,7 @@ public class SummaryTableLogic extends PageTreeTableLogic {
     public int getCount() {
         if (generate) {
             int count = itemLogic.getConfigureSalesCount(getLastParent(), removeDiscountDto);
-            LOGGER.debug("count" + count);
+            LOGGER.debug("count {} " , count);
             return count;
         }
         return 0;

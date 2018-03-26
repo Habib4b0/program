@@ -114,6 +114,9 @@ public class Summary extends CustomComponent {
     private RemoveDiscount removeDiscount;
     private static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
 
+    public Summary() {
+    }
+
     public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, TabSheet mainTab, RemoveDiscount removeDiscount) {
         VerticalLayout vLayout = new VerticalLayout();
         this.removeDiscount = removeDiscount;
@@ -127,7 +130,7 @@ public class Summary extends CustomComponent {
     }
 
     public void configureFields() {
-        LOGGER.debug("Entering summary configure Fields with" + dto.getRsSystemId());
+        LOGGER.debug("Entering summary configure Fields with {} " , dto.getRsSystemId());
         summaryLayout.removeAllComponents();
         summaryLayout.addComponent(summaryResultsTable);
         HorizontalLayout componentControls = ResponsiveUtils.getResponsiveControls(infoLogic.createControls());
@@ -278,7 +281,7 @@ public class Summary extends CustomComponent {
      */
     @SuppressWarnings("serial")
     private void loadResultTable() {
-        LOGGER.debug("Entering loadResultTable with " + dto.getRsSystemId());
+        LOGGER.debug("Entering loadResultTable with {} " , dto.getRsSystemId());
         List<RemoveDiscountDto> projDetails = discountLogic.getprojectionValues(removeDiscountDto, contractList, rsList);
         removeDiscountDto.setContractSid(Integer.parseInt(contractList.get(0).toString()));
         removeDiscountDto.setRsContractSid(dto.getRsSystemId());

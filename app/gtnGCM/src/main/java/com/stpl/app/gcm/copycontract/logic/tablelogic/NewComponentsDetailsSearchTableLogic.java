@@ -31,6 +31,9 @@ public class NewComponentsDetailsSearchTableLogic extends PageTableLogic {
     private final NewComponentDTO selection = new NewComponentDTO();
     private static final Logger LOGGER = LoggerFactory.getLogger(NewComponentsDetailsSearchTableLogic.class);
 
+    public NewComponentsDetailsSearchTableLogic() {
+    }
+
     /**
      * Record count logic
      *

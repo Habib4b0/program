@@ -23,6 +23,9 @@ public class ContractSearchTableLogic extends PageTableLogic {
     private ContractSearchDTO binderDTO;
     private boolean generate;
 
+    public ContractSearchTableLogic() {
+    }
+
     @Override
     public int getCount() {
         if (generate) {

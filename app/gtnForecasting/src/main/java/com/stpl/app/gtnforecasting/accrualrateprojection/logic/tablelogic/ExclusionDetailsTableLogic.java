@@ -33,6 +33,9 @@ public class ExclusionDetailsTableLogic  extends PageTableLogic {
     
     private boolean isViewMode;
 
+    public ExclusionDetailsTableLogic() {
+    }
+
     @Override
     public int getCount() {
         int count = 0;

@@ -1330,7 +1330,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         }
                     }
 
-                    if (returnList.get(0).size() == 0) {
+                    if (returnList.get(0).isEmpty()) {
                         AbstractNotificationUtils.getErrorNotification("Populate Error", "In NDC:" + notifyContent + " are not having any prior values");
                     } else {
                         new AbstractNotificationUtils() {
