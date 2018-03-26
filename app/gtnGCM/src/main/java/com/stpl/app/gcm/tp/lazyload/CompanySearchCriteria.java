@@ -22,6 +22,10 @@ public class CompanySearchCriteria implements BeanSearchCriteria {
     @SuppressWarnings("unused")
 	private boolean dirty;
 
+    public CompanySearchCriteria() {
+        super();
+    }
+
     @Override
     public int getLastCount() {
         return lastCount;

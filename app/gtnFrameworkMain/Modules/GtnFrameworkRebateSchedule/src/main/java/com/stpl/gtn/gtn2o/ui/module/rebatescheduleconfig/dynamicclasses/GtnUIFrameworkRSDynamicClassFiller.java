@@ -25,6 +25,9 @@ import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnUIFrameworkRS
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnUIFrameworkRSPopulateAction;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnUIFrameworkRSSaveConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnUIFrameworkRSValidationActionIsRecordSelected;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSFieldFactoryPopupDetailAction;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSFieldFactoryPopupFormulaDetailAction;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSFieldFactoryPopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.validation.GtnUIFrameWorkRSSaveMandatoryAlert;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.validation.GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.validation.GtnUIFrameworkRsItemAdditionValidationAction;
@@ -89,7 +92,14 @@ public class GtnUIFrameworkRSDynamicClassFiller implements GtnUIDynamicObjectFil
 				new GtnFrameworkFilterBarInvisibleAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameWorkRSSearchNoticationAction.class.getName(),
 				new GtnUIFrameWorkRSSearchNoticationAction());
-                
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkRSFieldFactoryPopupSelectAction.class.getName(),
+				new GtnFrameworkRSFieldFactoryPopupSelectAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkRSFieldFactoryPopupDetailAction.class.getName(),
+				new GtnFrameworkRSFieldFactoryPopupDetailAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnFrameworkRSFieldFactoryPopupFormulaDetailAction.class.getName(),
+				new GtnFrameworkRSFieldFactoryPopupFormulaDetailAction());
+
 	}
 
 }

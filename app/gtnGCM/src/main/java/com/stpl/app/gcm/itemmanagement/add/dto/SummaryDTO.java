@@ -36,6 +36,10 @@ public class SummaryDTO {
     private String rarCategory = StringUtils.EMPTY;
     private String itemstartdate = StringUtils.EMPTY;
 
+    public SummaryDTO() {
+        super();
+    }
+
     public String getRarCategory() {
         return rarCategory;
     }

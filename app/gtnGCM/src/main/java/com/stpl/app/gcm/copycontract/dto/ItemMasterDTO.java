@@ -470,6 +470,10 @@ public class ItemMasterDTO implements Serializable {
      */
     private String internalNotes = StringUtils.EMPTY;
 
+    public ItemMasterDTO() {
+        super();
+    }
+
     public HelperDTO getBrandDdlb() {
         return brandDdlb;
     }

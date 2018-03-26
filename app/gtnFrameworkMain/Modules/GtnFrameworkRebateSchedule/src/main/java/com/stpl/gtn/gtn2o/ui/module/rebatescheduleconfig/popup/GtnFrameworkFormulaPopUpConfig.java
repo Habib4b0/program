@@ -1,6 +1,7 @@
 
 package com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup;
 
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSFieldFactoryPopupFormulaDetailAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,7 +30,8 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkFormulaPopUpConfig {
 
-	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	private final GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider
+			.getInstance();
 
 	public GtnUIFrameworkViewConfig getSearchView() {
 		GtnUIFrameworkViewConfig view = configProvider.getViewConfig(
@@ -241,6 +243,27 @@ public class GtnFrameworkFormulaPopUpConfig {
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
+		GtnUIFrameWorkActionConfig validationConfigAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
+
+		validationConfigAction.setFieldValues(
+				Arrays.asList(GtnFrameworkCommonConstants.FORMULA_TYPE, GtnFrameworkCommonConstants.FORMULA_NO,
+						GtnFrameworkCommonConstants.FORMULA_NAME, GtnFrameworkCommonConstants.SYSTEM_ID));
+		validationConfigAction.addActionParameter(GtnUIFrameworkValidationType.OR);
+
+		List<GtnUIFrameWorkActionConfig> onFailureList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig alertActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> alertParams = new ArrayList<>();
+		alertParams.add("No Search Criteria");
+		alertParams.add("Please enter Search Criteria.");
+		alertActionConfig.setActionParameterList(alertParams);
+
+		onFailureList.add(alertActionConfig);
+		validationConfigAction.addActionParameter(onFailureList);
+		actionConfigList.add(validationConfigAction);
+
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 
@@ -378,7 +401,7 @@ public class GtnFrameworkFormulaPopUpConfig {
 	private void formulaDetailsResultDataTable(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig forumlaPopUpDeatilsTableConfig = configProvider.getUIFrameworkComponentConfig(
 				"FormulaPopUpformulaDetailsattachResultTable", true,
-				GtnFrameworkCommonConstants.FORMULA_DETAILS_RESULT_LAYOUT, GtnUIFrameworkComponentType.PAGEDTABLE);
+				GtnFrameworkCommonConstants.FORMULA_DETAILS_RESULT_LAYOUT, GtnUIFrameworkComponentType.DATATABLE);
 		forumlaPopUpDeatilsTableConfig.setComponentName(GtnFrameworkCommonConstants.RESULTS);
 		forumlaPopUpDeatilsTableConfig.setAuthorizationIncluded(true);
 
@@ -389,6 +412,7 @@ public class GtnFrameworkFormulaPopUpConfig {
 		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
 		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
 		forumlaPopUpDeatilsTableConfig.setComponentStyle(tableStyle);
+		forumlaPopUpDeatilsTableConfig.setComponentHight("278px");
 
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
 
@@ -400,8 +424,6 @@ public class GtnFrameworkFormulaPopUpConfig {
 		GtnUIFrameworkPagedTableConfig forumlaPopUpDeatilsTable = new GtnUIFrameworkPagedTableConfig();
 		forumlaPopUpDeatilsTableConfig.setGtnPagedTableConfig(forumlaPopUpDeatilsTable);
 
-		forumlaPopUpDeatilsTable.setItemPerPage(5);
-		forumlaPopUpDeatilsTable.setPageLength(5);
 		forumlaPopUpDeatilsTable.setEditable(false);
 		forumlaPopUpDeatilsTable.setFilterBar(false);
 		forumlaPopUpDeatilsTable.setSelectable(true);
@@ -485,12 +507,20 @@ public class GtnFrameworkFormulaPopUpConfig {
 		detailsButtonConfig.setAuthorizationIncluded(true);
 		detailsButtonConfig.setComponentName("DETAILS");
 
-		componentList.add(detailsButtonConfig);
+		List<GtnUIFrameWorkActionConfig> listActionConfig = new ArrayList<>();
 		GtnUIFrameWorkActionConfig validationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
 		validationActionConfig
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.FORMULA_POPUP_SEARCH_RESULT_TABLE));
 		validationActionConfig.addActionParameter(GtnUIFrameworkValidationType.OR);
+		listActionConfig.add(validationActionConfig);
+
+		GtnUIFrameWorkActionConfig rsFormulaDetailAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		rsFormulaDetailAction.setActionParameterList(
+				Arrays.asList(GtnFrameworkRSFieldFactoryPopupFormulaDetailAction.class.getName()));
+		rsFormulaDetailAction.addActionParameter(GtnFrameworkCommonConstants.FORMULA_POPUP_SEARCH_RESULT_TABLE);
+		listActionConfig.add(rsFormulaDetailAction);
 
 		GtnUIFrameWorkActionConfig tableLoadActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -498,11 +528,10 @@ public class GtnFrameworkFormulaPopUpConfig {
 		tableLoadActionConfig.addActionParameter(GtnFrameworkCommonConstants.FORMULA_POPUP_SEARCH_RESULT_TABLE);
 		tableLoadActionConfig.addActionParameter(4);
 		tableLoadActionConfig.addActionParameter("FormulaPopUpformulaDetailsattachResultTable");
+		listActionConfig.add(tableLoadActionConfig);
 
-		validationActionConfig.addActionParameter(new ArrayList<GtnUIFrameWorkActionConfig>());
-		validationActionConfig.addActionParameter(Arrays.asList(tableLoadActionConfig));
-
-		detailsButtonConfig.addGtnUIFrameWorkActionConfig(validationActionConfig);
+		detailsButtonConfig.setGtnUIFrameWorkActionConfigList(listActionConfig);
+		componentList.add(detailsButtonConfig);
 
 	}
 

@@ -141,7 +141,7 @@ public class ProcessSchedulerLogic {
 		SimpleDateFormat date1 = new SimpleDateFormat("MM/dd/yyyy");
 		final HashMap<String, String> userInfoMap = (HashMap<String, String>) com.stpl.app.adminconsole.common.util.CommonUtil
 				.getCreatedByUser();
-		if (list != null && list.size() != 0) {
+		if (list != null && !list.isEmpty()) {
 			for (int i = 0; i < list.size(); i++) {
 				Object[] obj = (Object[]) list.get(i);
 				ProcessSchedulerDTO dto = new ProcessSchedulerDTO();
@@ -367,7 +367,7 @@ public class ProcessSchedulerLogic {
 		parameters.add(sessionDTO.getSessionId());
 		countQuery = countQuery.replace("@USER_ID", sessionDTO.getUserId());
 		countQuery = countQuery.replace("@SESSION_ID", sessionDTO.getSessionId());
-		String filterQuery = AbstractFilterLogic.getInstance()
+		String filterQuery = AbstractFilterLogic.getAdminInstance()
 				.filterQueryGenerator(binderDto.getFilters(), getFilterMap()).toString();
 		if (filterQuery != null) {
 			filterQuery = filterQuery.replace("where", "AND");
@@ -396,9 +396,9 @@ public class ProcessSchedulerLogic {
 	public List<ProcessSchedulerDTO> getSearchResults(final ProcessSchedulerDTO binderDto,
 			final SessionDTO sessionDTO) {
 		LOGGER.debug("Inside Search Results");
-		String filterQuery = AbstractFilterLogic.getInstance()
+		String filterQuery = AbstractFilterLogic.getAdminInstance()
 				.filterQueryGenerator(binderDto.getFilters(), getFilterMap()).toString();
-		String orderBy = AbstractFilterLogic.getInstance()
+		String orderBy = AbstractFilterLogic.getAdminInstance()
 				.orderByQueryGenerator(binderDto.getOrderByColumns(), getFilterMap(), "CFF_OUTBOUND").toString();
 		List<ProcessSchedulerDTO> cffMasterList;
 		List<Object[]> resultList;
@@ -909,7 +909,7 @@ public class ProcessSchedulerLogic {
 	 */
 	public void cffOutboundInsertProc(final String userId, final String sessionId, final List cffIds) {
 
-		if (cffIds != null && cffIds.size() != 0) {
+		if (cffIds != null && !cffIds.isEmpty()) {
 			try {
 				LOGGER.debug("Inside cffOutboundInsertProc with cffids= {}" , cffIds.size());
 				StringBuilder sb = new StringBuilder(
@@ -1075,7 +1075,7 @@ public class ProcessSchedulerLogic {
 		String query = SQlUtil.getQuery("getRunningStatus");
 		query = query.replace("@PROCESS", processName);
 		List status = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		if (status != null && status.size() > 0) {
+		if (status != null && !status.isEmpty()) {
 			return String.valueOf(status.get(0)).equalsIgnoreCase("Y");
 		}
 		return false;

@@ -26,6 +26,10 @@ public class NotesDTO implements Serializable {
     private String userName;
     private int userId;
 
+    public NotesDTO() {
+        super();
+    }
+
     public int getDocDetailsId() {
         return docDetailsId;
     }

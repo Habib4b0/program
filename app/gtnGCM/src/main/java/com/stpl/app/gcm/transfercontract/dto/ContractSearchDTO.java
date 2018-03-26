@@ -48,6 +48,10 @@ public class ContractSearchDTO {
     private Integer sessionId;
     private Integer userId;
 
+    public ContractSearchDTO() {
+        super();
+    }
+
     public Integer getSessionId() {
         return sessionId;
     }

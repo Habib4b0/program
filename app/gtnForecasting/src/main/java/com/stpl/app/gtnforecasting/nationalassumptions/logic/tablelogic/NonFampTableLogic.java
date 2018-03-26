@@ -40,6 +40,10 @@ public class NonFampTableLogic extends PageTreeTableLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NonFampTableLogic.class);    
+
+    public NonFampTableLogic() {
+        super();
+    }
     
     
      @Override

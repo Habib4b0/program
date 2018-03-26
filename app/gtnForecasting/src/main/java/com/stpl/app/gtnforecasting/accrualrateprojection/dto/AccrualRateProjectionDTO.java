@@ -16,6 +16,10 @@ public class AccrualRateProjectionDTO extends ExtListDTO{
     private String product;
 
     private String group;
+
+    public AccrualRateProjectionDTO() {
+        super();
+    }
   
  public String getProduct() {
         return product;

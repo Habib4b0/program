@@ -222,6 +222,10 @@ public class FileMananagementResultDTO implements Serializable {
     private String brandName = DEFAULT;
     private String businessUnit=DEFAULT;
     private int company;
+
+    public FileMananagementResultDTO() {
+        super();
+    }
     
     public String getBrandName() {
         return brandName;

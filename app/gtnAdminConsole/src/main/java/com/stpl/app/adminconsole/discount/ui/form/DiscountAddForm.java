@@ -838,10 +838,10 @@ public class DiscountAddForm extends CustomComponent implements View {
             }
             List<DiscountSearchDTO> list = logic.getSearchResults(searchDTO);
             availableResultsBean.removeAllItems();
-            if (list.size() > 0) {
-                availableResultsBean.addAll(list);
-            } else {
+            if (list.isEmpty()) {
                 Notification.show("No Results found");
+            } else {
+                availableResultsBean.addAll(list);
             }
         } catch (SystemException ex) {
            LOGGER.error(ex.getMessage());

@@ -72,6 +72,10 @@ public class MMDPRLogic {
     private final HashMap<String, String> map = new HashMap<>();
     private boolean viewFlag = false;
 
+    public MMDPRLogic() {
+        super();
+    }
+
     public List<DiscountProjectionResultsDTO> getConfiguredMMDicountResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
          viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
         List<DiscountProjectionResultsDTO> resultList;

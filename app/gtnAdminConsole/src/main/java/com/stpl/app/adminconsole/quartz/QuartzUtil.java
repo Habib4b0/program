@@ -108,7 +108,7 @@ public class QuartzUtil {
 			return null;
 		}
 
-		if (hourlist.size() == 0) {
+		if (hourlist.isEmpty()) {
 			return null;
 		}
 		Collections.sort(hourlist);

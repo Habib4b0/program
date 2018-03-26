@@ -17,6 +17,10 @@ public class AssumptionDiscountDTO {
     private String group;
     private String brand;
 
+    public AssumptionDiscountDTO() {
+        super();
+    }
+
     public String getProjectionPeriod() {
         return projectionPeriod;
     }

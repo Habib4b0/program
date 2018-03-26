@@ -253,6 +253,10 @@ public class ProjectionSelectionDTO {
     private String ccpIds=StringUtils.EMPTY;
     private Object[] displayFormat = null;
     private Object conversionFactor = null;
+
+    public ProjectionSelectionDTO() {
+        super();
+    }
     
     public List<String> getdPVariablesList() {
         return dPVariablesList == null ? dPVariablesList : new ArrayList<>(dPVariablesList);

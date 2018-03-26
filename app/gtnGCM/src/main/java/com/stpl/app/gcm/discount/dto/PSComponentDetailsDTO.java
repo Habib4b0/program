@@ -21,6 +21,10 @@ public class PSComponentDetailsDTO {
     private String endDate;
     private String therapyClass = StringUtils.EMPTY;
 
+    public PSComponentDetailsDTO() {
+        super();
+    }
+
     public String getItemNo() {
         return itemNo;
     }

@@ -127,6 +127,10 @@ public class SalesProjectionDTO {
     /** The projections. */
     private String projections;
 
+    public SalesProjectionDTO() {
+        super();
+    }
+
     /**
      * Gets the product.
      *
