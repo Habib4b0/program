@@ -481,7 +481,6 @@ public class GtnWsContractHeaderService {
 
 				session.saveOrUpdate(aliasMaster);
 			}
-           session.close();
 		}
 	}
 
