@@ -65,67 +65,69 @@ public class GtnUIFrameworkWindowComponent extends Window {
 		}
 	}
 
-}
+	public static class WindowTray extends Window {
 
-class WindowTray extends Window {
+		private static final long serialVersionUID = 1L;
+		private MenuBar minimizeTray = new MenuBar();
+		private Map<String, Window> miniMizedWindowsMap = new HashMap<>();
+		private MenuBar.MenuItem item = minimizeTray.addItem("window", null);
 
-	private static final long serialVersionUID = 1L;
-	private MenuBar minimizeTray = new MenuBar();
-	private Map<String, Window> miniMizedWindowsMap = new HashMap<>();
-	private MenuBar.MenuItem item = minimizeTray.addItem("window", null);
+		public WindowTray() {
+			super();
+			init();
+		}
 
-	public WindowTray() {
-		super();
-		init();
-	}
+		public void addWindow(Window subWindow) {
 
-	public void addWindow(Window subWindow) {
+			miniMizedWindowsMap.put(subWindow.getCaption(), subWindow);
+			item.addItem(subWindow.getCaption(), selectedItem -> {
+				Window foundWindow = miniMizedWindowsMap.get(selectedItem.getText());
+				foundWindow.removeStyleName("dumil");
+				foundWindow.bringToFront();
+				item.removeChild(selectedItem);
+			});
+		}
 
-		miniMizedWindowsMap.put(subWindow.getCaption(), subWindow);
-		item.addItem(subWindow.getCaption(), selectedItem -> {
-			Window foundWindow = miniMizedWindowsMap.get(selectedItem.getText());
-			foundWindow.removeStyleName("dumil");
-			foundWindow.bringToFront();
-			item.removeChild(selectedItem);
-		});
-	}
+		private void init() {
+			this.setClosable(false);
+			this.setResizable(false);
+			setContent(minimizeTray);
+			this.setPosition(0, 500);
+		}
 
-	private void init() {
-		this.setClosable(false);
-		this.setResizable(false);
-		setContent(minimizeTray);
-		this.setPosition(0, 500);
-	}
+		@Override
+		public int hashCode() {
+			final int PRIME = 31;
+			int result = super.hashCode();
+			result = PRIME * result + ((miniMizedWindowsMap == null) ? 0 : miniMizedWindowsMap.hashCode());
+			result = PRIME * result + ((minimizeTray == null) ? 0 : minimizeTray.hashCode());
+			return result;
+		}
 
-	@Override
-	public int hashCode() {
-		final int Prime = 31;
-		int result = super.hashCode();
-		result = Prime * result + ((miniMizedWindowsMap == null) ? 0 : miniMizedWindowsMap.hashCode());
-		result = Prime * result + ((minimizeTray == null) ? 0 : minimizeTray.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			}
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			WindowTray other = (WindowTray) obj;
+			if (miniMizedWindowsMap == null) {
+				if (other.miniMizedWindowsMap != null)
+					return false;
+			} else if (!miniMizedWindowsMap.equals(other.miniMizedWindowsMap))
+				return false;
+			if (minimizeTray == null) {
+				if (other.minimizeTray != null)
+					return false;
+			} else if (!minimizeTray.equals(other.minimizeTray))
+				return false;
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		WindowTray other = (WindowTray) obj;
-		if (miniMizedWindowsMap == null) {
-			if (other.miniMizedWindowsMap != null)
-				return false;
-		} else if (!miniMizedWindowsMap.equals(other.miniMizedWindowsMap))
-			return false;
-		if (minimizeTray == null) {
-			if (other.minimizeTray != null)
-				return false;
-		} else if (!minimizeTray.equals(other.minimizeTray))
-			return false;
-		return true;
-	}
+		}
 
+	}
 }
