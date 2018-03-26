@@ -838,7 +838,45 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
     <entity id="getLatestCCPProjection">
         <query>
              <![CDATA[ 
-              SELECT WORKFLOW_MASTER_SID,
+               /*
+cff master sid should be passed here
+*/
+DECLARE @CFF_MASTER_SID INT ='?'
+
+
+IF Object_id('TEMPDB..#CFF_APPROVED') IS NOT NULL
+  DROP TABLE #CFF_APPROVED
+
+SELECT CFF_NAME,
+       APPROVED_DATE,
+       CFF_TYPE,
+       CREATED_DATE,
+       CCP_DETAILS_SID
+INTO   #CFF_APPROVED
+FROM   (SELECT CFF_NAME,
+               CD.CCP_DETAILS_SID,
+               C.APPROVED_DATE,
+               CM.CFF_TYPE,
+               CM.CREATED_DATE,
+               Row_number()
+                 OVER (
+                   PARTITION BY CD.CCP_DETAILS_SID
+                   ORDER BY CFF_APPROVAL_DETAILS_SID DESC ) RN
+        FROM   CFF_APPROVAL_DETAILS C
+               JOIN HELPER_TABLE HT
+                 ON C.APPROVAL_STATUS = HT.HELPER_TABLE_SID
+               JOIN CFF_DETAILS CD
+                 ON CD.CFF_MASTER_SID = C.CFF_MASTER_SID
+               JOIN CFF_MASTER CM
+                 ON CM.CFF_MASTER_SID = CD.CFF_MASTER_SID
+        WHERE  DESCRIPTION = 'APPROVED'
+               AND EXISTS (SELECT 1
+                           FROM   CFF_DETAILS CCD
+                           WHERE  CCD.CFF_MASTER_SID = @CFF_MASTER_SID
+                                  AND CCD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID))A
+WHERE  A.RN = 1
+
+SELECT WORKFLOW_MASTER_SID,
        WORKFLOW_ID,
        PROJECTION_MASTER_SID,
        PROJECTION_NAME,
@@ -849,12 +887,14 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
        APPROVED_BY,
        CREATED_DATE,
        CFF_NAME,
-       CFf_TYPE
+
+       CFF_TYPE
 FROM   (SELECT *,
                Row_number()
                  OVER(
-                   partition BY projection_master_sid
-                   ORDER BY CFF_APPROVED_DATE DESC) rno
+
+                   PARTITION BY PROJECTION_MASTER_SID
+                   ORDER BY CFF_APPROVED_DATE DESC) RNO
         FROM   (SELECT DISTINCT WM.WORKFLOW_MASTER_SID,
                                 WM.WORKFLOW_ID,
                                 PM.PROJECTION_MASTER_SID,
@@ -867,7 +907,7 @@ FROM   (SELECT *,
                                 WM.CREATED_DATE,
                                 OU.CFF_NAME,
                                 OU.APPROVED_DATE AS CFF_APPROVED_DATE,
-                                CFF.CREATED_DATE AS cff_date,
+                                OU.CREATED_DATE  AS CFF_DATE,
                                 OU.CFF_TYPE
                 FROM   DBO.CFF_DETAILS CFFD
                        JOIN DBO.WORKFLOW_MASTER WM
@@ -876,22 +916,14 @@ FROM   (SELECT *,
                          ON CFFD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
                        JOIN DBO.HELPER_TABLE HT
                          ON HT.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
-                           AND CFFD.CFF_MASTER_SID = '?'
-                       OUTER APPLY (SELECT TOP 1 CFF_NAME, C.APPROVED_DATE,CM.CFF_TYPE
-                                    FROM   CFF_APPROVAL_DETAILS C
-                                           JOIN HELPER_TABLE HT
-                                             ON C.APPROVAL_STATUS = HT.HELPER_TABLE_SID
-                                           JOIN CFF_DETAILS CD
-                                             ON CD.CFF_MASTER_SID = C.CFF_MASTER_SID
-                                           JOIN CFF_MASTER CM
-                                             ON CM.CFF_MASTER_SID = CD.CFF_MASTER_SID
-                                    WHERE  DESCRIPTION = 'APPROVED'
-                                           AND CFFD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
-                                    ORDER  BY CFF_APPROVAL_DETAILS_SID DESC) OU
+                            AND CFFD.CFF_MASTER_SID = @CFF_MASTER_SID
+                       LEFT JOIN #CFF_APPROVED OU
+                              ON OU.CCP_DETAILS_SID = CFFD.CCP_DETAILS_SID
+
                        LEFT JOIN CFF_MASTER CFF
-                              ON CFF.CFF_NAME = OU.CFF_NAME)a)b
-WHERE  rno = 1
-ORDER  BY PROJECTION_MASTER_SID
+                              ON CFF.CFF_NAME = OU.CFF_NAME)A)B
+WHERE  RNO = 1
+ORDER  BY PROJECTION_MASTER_SID 
                       ]]>
         </query>
     </entity>
