@@ -1,21 +1,22 @@
 package de.steinwedel.messagebox;
 
 import java.util.ArrayList;
-
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Embedded;
-import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.v7.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+
+
 
 /**
  * <p><b>DESCRIPTION AND FEATURES</b></p>
@@ -62,7 +63,7 @@ import com.vaadin.ui.Window;
  * 
  * @author Dieter Steinwedel
  */
-public class MessageBox implements ClickListener {
+public class MessageBox implements ClickListener{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -71,44 +72,44 @@ public class MessageBox implements ClickListener {
 	/**
 	 * You can override the class {@link ResourceFactory} to customize the default icons. Even the I18n for button captions is implemented in this class. 
 	 */
-	public static ResourceFactory RESOURCE_FACTORY = new ResourceFactory();
+	public static final ResourceFactory RESOURCE_FACTORY = new ResourceFactory();
 
 	/**
 	 * Switches the default behavior the window between modal and none-modal.
 	 * The default value is <code>true</code>.
 	 */
-	public static boolean DEFAULT_MODAL = true;
+	public static final boolean DEFAULT_MODAL = true;
 	
 	/**
 	 * Configures the default behavior, if the dialog is automatically closed or not after a dialog button is clicked.
 	 * The default value is <code>true</code>.
 	 */
-	public boolean DEFAULT_AUTO_CLOSE = true;
+	public static final boolean DEFAULT_AUTO_CLOSE = true;
 	
 	/**
 	 * Configures the default button alignment.
 	 * The default value is <code>Alignment.MIDDLE_RIGHT</code>.
 	 */
-	public Alignment DEFAULT_BUTTON_ALIGNMENT = Alignment.MIDDLE_RIGHT;
+	public static final Alignment DEFAULT_BUTTON_ALIGNMENT = Alignment.MIDDLE_RIGHT;
 	
 	/**
 	 * You can implement transitions inside the {@link TransitionListener}. 
 	 */
-	public static TransitionListener TRANSITION_LISTENER;
+	private TransitionListener transitionListener;
 	
 	/**
 	 * Defines the default width of the dialog icon. It is recommended to set it unequal '-1px', 
 	 * because otherwise there is re-rendering of dialog recognizable when the dialog is displayed.
 	 * The cause is, that the icon is lazy loaded. 
 	 */
-	public static String DEFAULT_ICON_WIDTH = "48px";
+	public static final String DEFAULT_ICON_WIDTH = "48px";
 	
 	/**
 	 * Defines the default height of the dialog icon. It is recommended to set it unequal '-1px', 
 	 * because otherwise there is re-rendering of dialog recognizable when the dialog is displayed.
 	 * The cause is, that the icon is lazy loaded. 
 	 */
-	public static String DEFAULT_ICON_HEIGHT = "48px";
+	public static final String DEFAULT_ICON_HEIGHT = "48px";
 	
 	// dialog specific configurations =========================================
 	
@@ -181,7 +182,7 @@ public class MessageBox implements ClickListener {
 		this.listener = listener;
 		this.autoClose = DEFAULT_AUTO_CLOSE;
 		
-		buttons = new ArrayList<Component>();
+		buttons = new ArrayList<>();
 		for (ButtonId id : buttonIds) {
 			buttons.add(RESOURCE_FACTORY.getButton(id));
 		}
@@ -213,7 +214,7 @@ public class MessageBox implements ClickListener {
 	 */
 	public MessageBox setWidth(String width) {
 		window.setWidth(width);
-		if (-1f != window.getWidth()) {
+		if ( (-1f < window.getWidth()) ||  (-1f > window.getWidth())) {
 			mainLayout.setWidth("100%");
 		} else {
 			mainLayout.setWidth(-1f, Unit.PIXELS);
@@ -229,7 +230,7 @@ public class MessageBox implements ClickListener {
 	 */
 	public MessageBox setWidth(float width, Unit unit) {
 		window.setWidth(width, unit);
-		if (-1f != window.getWidth()) {
+		if ((-1f < window.getWidth()) || (-1f > window.getWidth())) {
 			mainLayout.setWidth("100%");
 		} else {
 			mainLayout.setWidth(-1f, Unit.PIXELS);
@@ -244,7 +245,7 @@ public class MessageBox implements ClickListener {
 	 */
 	public MessageBox setHeight(String height) {
 		window.setHeight(height);
-		if (-1f != window.getHeight()) {
+		if ((-1f < window.getHeight()) || (-1f > window.getHeight())) {
 			mainLayout.setHeight("100%");
 		} else {
 			mainLayout.setHeight(-1f, Unit.PIXELS);
@@ -260,7 +261,7 @@ public class MessageBox implements ClickListener {
 	 */
 	public MessageBox setHeight(float height, Unit unit) {
 		window.setHeight(height, unit);
-		if (-1f != window.getHeight()) {
+		if ((-1f < window.getHeight()) || (-1f > window.getHeight())) {
 			mainLayout.setHeight("100%");
 		} else {
 			mainLayout.setHeight(-1f, Unit.PIXELS);
@@ -459,6 +460,7 @@ public class MessageBox implements ClickListener {
 		return showCustomized(icon, title, messageComponent, null, buttonIds);
 	}
 	
+	
 	/**
 	 * Displays a messagebox with a custom component for message.
 	 * @param icon The icon, that should be displayed.
@@ -587,7 +589,7 @@ public class MessageBox implements ClickListener {
 		}		
 		
 		// Add window to the UI
-		if (TRANSITION_LISTENER == null || (TRANSITION_LISTENER != null && TRANSITION_LISTENER.show(this))) {
+		if (transitionListener == null || transitionListener.show(this)) {
 			UI.getCurrent().addWindow(window);
 		}		
 	}
@@ -596,7 +598,7 @@ public class MessageBox implements ClickListener {
 	 * Closes the window if open.
 	 */
 	public void close() {
-		if (TRANSITION_LISTENER == null || (TRANSITION_LISTENER != null && TRANSITION_LISTENER.close(this))) {
+		if (transitionListener == null || transitionListener.close(this)) {
 			UI.getCurrent().removeWindow(window);
 		}
 	}

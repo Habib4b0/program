@@ -42,7 +42,8 @@
         <module>MessageBox</module>
         <module>calendarfield</module>
         <module>vaadin-widgetset</module>
-        <module>ErrorLabel</module> 
+        <module>ErrorLabel</module>
+      <module>window-header-extension</module> 
     </modules>
     <repositories>
         <repository>
