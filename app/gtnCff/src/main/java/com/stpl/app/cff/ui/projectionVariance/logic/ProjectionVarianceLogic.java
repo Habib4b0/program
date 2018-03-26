@@ -122,6 +122,7 @@ public class ProjectionVarianceLogic {
     public static final String WHERE_FILTER_CCPD = " WHERE FILTER_CCPD = 1 ";
 
     public ProjectionVarianceLogic() {
+        super();
     }
 
     public List getChartList() {

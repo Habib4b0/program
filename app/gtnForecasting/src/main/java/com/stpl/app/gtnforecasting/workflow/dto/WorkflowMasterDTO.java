@@ -35,6 +35,7 @@ public class WorkflowMasterDTO implements Serializable {
     private Date approvedDate;
 
     public WorkflowMasterDTO() {
+        super();
     }
 
     public String getFileName() {

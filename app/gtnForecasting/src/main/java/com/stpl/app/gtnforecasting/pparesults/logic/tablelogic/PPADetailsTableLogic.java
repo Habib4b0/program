@@ -25,6 +25,7 @@ public class PPADetailsTableLogic extends PageTableLogic{
     private SessionDTO sessionDTO;
 
     public PPADetailsTableLogic() {
+        super();
     }
     
     @Override

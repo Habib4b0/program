@@ -176,6 +176,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private boolean conversionNeeded = false;
 
     public PVSelectionDTO() {
+        super();
     }
 
     public int getProjectionNo() {

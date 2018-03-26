@@ -69,6 +69,7 @@ public class AccrualRateSelectionDTO {
     private SessionDTO sessionDto;
 
     public AccrualRateSelectionDTO() {
+        super();
     }
 
     public Date getStartDate() {

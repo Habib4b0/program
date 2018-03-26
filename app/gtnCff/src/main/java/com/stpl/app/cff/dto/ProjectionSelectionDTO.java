@@ -255,6 +255,7 @@ public class ProjectionSelectionDTO {
     private Object conversionFactor = null;
 
     public ProjectionSelectionDTO() {
+        super();
     }
     
     public List<String> getdPVariablesList() {

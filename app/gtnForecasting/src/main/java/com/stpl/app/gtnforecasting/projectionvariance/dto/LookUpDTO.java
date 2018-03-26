@@ -138,6 +138,7 @@ public class LookUpDTO implements Serializable {
         private String yearValue;
 
     public LookUpDTO() {
+        super();
     }
         
 	/**

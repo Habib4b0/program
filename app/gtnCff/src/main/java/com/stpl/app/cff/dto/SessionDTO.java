@@ -122,6 +122,7 @@ public class SessionDTO implements Cloneable {
     private Date cffEligibleDate;
 
     public SessionDTO() {
+        super();
     }
     
     public boolean isHasTradingPartner() {

@@ -39,6 +39,7 @@ public class AddItemDetailsTableLogic extends PageTableLogic {
     public static final Logger LOGGER = LoggerFactory.getLogger(AddItemDetailsTableLogic.class);
 
     public AddItemDetailsTableLogic() {
+        super();
     }
     
     /**

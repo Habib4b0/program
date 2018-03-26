@@ -69,6 +69,7 @@ public class LoadTabLogic {
     private final CommonDao DAO = CommonImpl.getInstance();
 
     public LoadTabLogic() {
+        super();
     }
 
     public int getLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, int projectionId, SessionDTO session) {

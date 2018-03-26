@@ -115,6 +115,7 @@ public class AddItemTableDTO {
     private Date baseLineWacDate;
 
     public AddItemTableDTO() {
+        super();
     }
 
     public String getColumnName() {

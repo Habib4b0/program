@@ -22,6 +22,7 @@ public class AccrualDataSelectionDTO {
     private Integer deductionValueId ;
 
     public AccrualDataSelectionDTO() {
+        super();
     }
 
     public String getDeductionValue() {

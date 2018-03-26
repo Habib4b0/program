@@ -21,6 +21,7 @@ public class PromteTpSearchCriteria implements BeanSearchCriteria {
 	private boolean dirty;
 
     public PromteTpSearchCriteria() {
+        super();
     }
 
     @Override

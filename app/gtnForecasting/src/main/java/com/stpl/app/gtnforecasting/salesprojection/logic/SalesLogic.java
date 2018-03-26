@@ -160,6 +160,7 @@ public class SalesLogic {
     public static final String DF_LEVEL_NAME = "dfLevelName";
 
     public SalesLogic() {
+        super();
     }
 
     public SessionDTO getSession() {

@@ -51,6 +51,7 @@ public class ComparisonLookupDTO {
     private int offset;
 
     public ComparisonLookupDTO() {
+        super();
     }
 
     public String getWorkflowStatus() {

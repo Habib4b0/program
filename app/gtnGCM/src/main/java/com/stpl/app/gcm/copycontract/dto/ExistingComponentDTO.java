@@ -105,6 +105,7 @@ public class ExistingComponentDTO {
     private String bundleNo = StringUtils.EMPTY;
 
     public ExistingComponentDTO() {
+        super();
     }
     
     public String getPriceType() {

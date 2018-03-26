@@ -144,6 +144,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
     private int createdByValue;
 
     public ItemIrtIdentifierDTO() {
+        super();
     }
 
     public int getCreatedByValue() {

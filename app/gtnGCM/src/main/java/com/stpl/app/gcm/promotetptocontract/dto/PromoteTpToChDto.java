@@ -36,6 +36,7 @@ public class PromoteTpToChDto implements Serializable {
     private HelperDTO tradeClass_DTO;
 
     public PromoteTpToChDto() {
+        super();
     }
     
     public Boolean getReset() {

@@ -21,6 +21,7 @@ public class CFPSearchCriteria implements BeanSearchCriteria {
 	private boolean dirty;
 
     public CFPSearchCriteria() {
+        super();
     }
 
     @Override

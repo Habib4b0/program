@@ -28,6 +28,7 @@ public class TransferToDTO {
     private Integer level;
 
     public TransferToDTO() {
+        super();
     }
 
     public String getContractSid() {

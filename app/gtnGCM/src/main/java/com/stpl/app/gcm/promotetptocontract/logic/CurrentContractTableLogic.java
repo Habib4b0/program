@@ -30,6 +30,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
     private SessionDTO session;
 
     public CurrentContractTableLogic() {
+        super();
     }
 
     /**

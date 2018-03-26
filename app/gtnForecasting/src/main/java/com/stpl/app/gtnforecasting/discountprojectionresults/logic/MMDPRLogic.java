@@ -73,6 +73,7 @@ public class MMDPRLogic {
     private boolean viewFlag = false;
 
     public MMDPRLogic() {
+        super();
     }
 
     public List<DiscountProjectionResultsDTO> getConfiguredMMDicountResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {

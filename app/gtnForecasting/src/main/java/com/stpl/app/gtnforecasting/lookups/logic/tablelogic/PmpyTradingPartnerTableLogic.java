@@ -33,6 +33,7 @@ public class PmpyTradingPartnerTableLogic extends PageTableLogic {
     private boolean isReset = false;
 
     public PmpyTradingPartnerTableLogic() {
+        super();
     }
 
     @Override

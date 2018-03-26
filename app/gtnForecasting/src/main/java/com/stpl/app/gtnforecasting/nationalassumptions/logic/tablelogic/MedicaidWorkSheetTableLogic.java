@@ -37,6 +37,7 @@ public class MedicaidWorkSheetTableLogic extends PageTreeTableLogic {
     private SessionDTO sessionDTO;
 
     public MedicaidWorkSheetTableLogic() {
+        super();
     }
 
     @Override

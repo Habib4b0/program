@@ -28,6 +28,7 @@ public class ComponentDetailsDTO {
     private Date attachedDate;
 
     public ComponentDetailsDTO() {
+        super();
     }
 
     public String getItemNo() {

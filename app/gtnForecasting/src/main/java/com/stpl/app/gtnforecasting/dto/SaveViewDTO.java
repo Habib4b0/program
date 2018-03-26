@@ -36,6 +36,7 @@ public class SaveViewDTO {
     private String viewType = "Private";
 
     public SaveViewDTO() {
+        super();
     }
 
     /**

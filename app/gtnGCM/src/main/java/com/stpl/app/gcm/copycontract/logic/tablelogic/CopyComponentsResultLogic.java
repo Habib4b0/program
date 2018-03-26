@@ -31,6 +31,7 @@ public class CopyComponentsResultLogic extends PageTableLogic {
   private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsResultLogic.class);
 
     public CopyComponentsResultLogic() {
+        super();
     }
   
 
