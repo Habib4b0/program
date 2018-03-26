@@ -346,10 +346,7 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 				companyMasterAttachmentDTO.setDocumentName("--");
 				String tempfilePath = companyMasterNotesTabBean.getFilePath();
 				companyMasterAttachmentDTO.setDocumentFullPath(tempfilePath);
-				String fileNameWithId = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
-						+ filePath.substring(filePath.lastIndexOf('.'));
-				String fileName = fileNameWithId;
-				companyMasterAttachmentDTO.setDocumentName(fileName);
+				companyMasterAttachmentDTO.setDocumentName(filePath);
 				SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 				TimeZone central = TimeZone.getTimeZone("CST");
 				format.setTimeZone(central);
