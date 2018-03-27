@@ -1139,14 +1139,16 @@ public class FileManagementLookup extends Window {
 			} else {
 				targetItem = NULLITEM;
 			}
-                        final String fileNameListValue = new String();
+                        String fileNameListValue = "";
+                        String versionListValue  = "";
                         if (targetItem != null) {
-                            ((FileMananagementResultDTO) targetItem.getBean()).getFileName();
+                            fileNameListValue = ((FileMananagementResultDTO) targetItem.getBean()).getFileName();
+                            versionListValue = ((FileMananagementResultDTO) targetItem.getBean()).getVersion();
+                            selectedFileCountry = ((FileMananagementResultDTO) targetItem.getBean()).getCountry();
+                            selectedFile = ((FileMananagementResultDTO) targetItem.getBean()).getFileType();
+                            fileMgtDTO = (FileMananagementResultDTO) targetItem.getBean();
                         }
-			final String versionListValue = ((FileMananagementResultDTO) targetItem.getBean()).getVersion();
-			selectedFileCountry = ((FileMananagementResultDTO) targetItem.getBean()).getCountry();
-			selectedFile = ((FileMananagementResultDTO) targetItem.getBean()).getFileType();
-			fileMgtDTO = (FileMananagementResultDTO) targetItem.getBean();
+			
 			fileNameList.setValue(String.valueOf(fileNameListValue));
 			versionList.setValue(String.valueOf(versionListValue));
 
