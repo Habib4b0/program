@@ -36,6 +36,11 @@ public class AttachmentDTO implements Serializable {
      */
     private String userName;
     private String documentFullPath;
+
+    public AttachmentDTO() {
+        super();
+    }
+    
     /**
      * getter for docDetailsId field .
      *

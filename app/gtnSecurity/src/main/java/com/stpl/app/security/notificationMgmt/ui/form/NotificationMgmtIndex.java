@@ -493,9 +493,13 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
                 targetItem = new BeanItem<NotificationMgmtIndexDTO>(
                         (NotificationMgmtIndexDTO) id);
             }
-            NotificationMgmtIndexDTO notiMgmtIndexDto = (NotificationMgmtIndexDTO) targetItem.getBean();
-            notiMgmtIndexDto.setCategoryddlb(((NotificationMgmtIndexDTO) targetItem.getBean()).getCategoryddlb());
-    return notiMgmtIndexDto;
+            
+            NotificationMgmtIndexDTO notiMgmtIndexDto = new NotificationMgmtIndexDTO();
+            if (targetItem != null) {
+                notiMgmtIndexDto = (NotificationMgmtIndexDTO) targetItem.getBean();
+                notiMgmtIndexDto.setCategoryddlb(((NotificationMgmtIndexDTO) targetItem.getBean()).getCategoryddlb());
+            }
+            return notiMgmtIndexDto;
         }
        return null;
     }

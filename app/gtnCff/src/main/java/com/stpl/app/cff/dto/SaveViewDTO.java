@@ -32,6 +32,10 @@ public class SaveViewDTO {
      */
     private String viewType = "Private";
 
+    public SaveViewDTO() {
+        super();
+    }
+
     /**
      * Gets the view id.
      *

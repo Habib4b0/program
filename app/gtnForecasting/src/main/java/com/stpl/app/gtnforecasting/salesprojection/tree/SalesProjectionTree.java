@@ -82,12 +82,12 @@ public class SalesProjectionTree {
         } else {
             CommonLogic cmLogic = new CommonLogic();
             String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO);
-            sql = sql.replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO()));
             if (projSelDTO.isLevelFilter()) {
             sql += SQlUtil.getQuery("custom-view-sales-condition-query");
             }else{
              sql += " Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO";
             }
+            sql = sql.replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO()));
             return (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames()));
         }
     }

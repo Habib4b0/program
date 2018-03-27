@@ -17,6 +17,10 @@ public class DdlbCriteria implements SearchCriteria {
     @SuppressWarnings("unused")
 	private boolean dirty;
 
+    public DdlbCriteria() {
+        super();
+    }
+
     @Override
     public int getLastCount() {
         return lastCount;

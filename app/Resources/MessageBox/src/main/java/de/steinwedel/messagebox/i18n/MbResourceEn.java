@@ -5,6 +5,6 @@ package de.steinwedel.messagebox.i18n;
  * 
  * @author Dieter Steinwedel
  */
-public class MBResource_en extends MBResource {
+public class MbResourceEn extends MbResource {
 
 }

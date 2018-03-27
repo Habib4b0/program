@@ -9,7 +9,7 @@ import de.steinwedel.messagebox.ButtonId;
  * 
  * @author Dieter Steinwedel
  */
-public class MBResource_ru extends ListResourceBundle {
+public class MbResourceRu extends ListResourceBundle {
 
 	/**
 	 * See {@link java.util.ListResourceBundle#getContents()}

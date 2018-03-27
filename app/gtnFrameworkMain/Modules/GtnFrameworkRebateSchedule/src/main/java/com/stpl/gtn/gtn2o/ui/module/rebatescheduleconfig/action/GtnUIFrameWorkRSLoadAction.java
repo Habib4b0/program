@@ -32,6 +32,13 @@ import com.stpl.gtn.gtn2o.ws.request.rebateschedule.GtnWsRebateScheduleGeneralRe
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+
+	private static final String EMPTY = "";
+
+	public static String getEmpty() {
+		return EMPTY;
+	}
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -162,6 +169,7 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 						: rebateScheduleInfoBean.getCalculationRule());
 		GtnUIFrameWorkCalculationTypeChangeAction changeAction = new GtnUIFrameWorkCalculationTypeChangeAction();
 		changeAction.doAction(componentId, null);
+		checkCopyMode(componentId);
 	}
 
 	private void setTableHeaderAndVisibleColumn(boolean isEditable) throws GtnFrameworkValidationFailedException {
@@ -230,4 +238,35 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 
 	}
 
+	private void checkCopyMode(String componentId) {
+		if (componentId.equals(GtnFrameworkRSConstants.GTN_COPY_BUTTON)) {
+			setValuesToComponents(componentId);
+		}
+	}
+
+	private void setValuesToComponents(String componentId) {
+
+		if (componentId.equals(GtnFrameworkRSConstants.GTN_COPY_BUTTON)) {
+			GtnUIFrameworkBaseComponent rsGrpId = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkRSConstants.RS_ID_GRP);
+			GtnUIFrameworkBaseComponent rsGrpNo = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkRSConstants.RS_NO_GRP);
+			GtnUIFrameworkBaseComponent rsGrpName = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkRSConstants.RS_NAME_GRP);
+			GtnUIFrameworkBaseComponent rsId = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1);
+			GtnUIFrameworkBaseComponent rsNo = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1);
+			GtnUIFrameworkBaseComponent rsName = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1);
+
+			rsGrpId.loadFieldValue(getEmpty());
+			rsGrpNo.loadFieldValue(getEmpty());
+			rsGrpName.loadFieldValue(getEmpty());
+			rsId.loadFieldValue(getEmpty());
+			rsNo.loadFieldValue(getEmpty());
+			rsName.loadFieldValue(getEmpty());
+		}
+
+	}
 }

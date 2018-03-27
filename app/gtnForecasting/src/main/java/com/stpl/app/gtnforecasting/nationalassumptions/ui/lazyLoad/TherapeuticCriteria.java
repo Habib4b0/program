@@ -39,6 +39,10 @@ public class TherapeuticCriteria implements SearchCriteria {
      */
     private String filter;
 
+    public TherapeuticCriteria() {
+        super();
+    }
+
     /**
      * Gets the description.
      *

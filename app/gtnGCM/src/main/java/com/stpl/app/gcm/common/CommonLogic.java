@@ -99,6 +99,10 @@ public class CommonLogic {
     public static final String PRC_MANDATED_SALES_INSERT = "Prc_mandated_sales_insert";
     public static final String PROJECTION_CREATED_WITH_FORECASTING = "'\n new Projection created with forecasting type -";
 
+    public CommonLogic() {
+        super();
+    }
+
     public int getProdRelationshipId() {
         return prodRelationshipId;
     }

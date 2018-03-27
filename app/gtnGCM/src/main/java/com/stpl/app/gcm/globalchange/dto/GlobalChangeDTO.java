@@ -31,6 +31,10 @@ public class GlobalChangeDTO {
     private String state = StringUtils.EMPTY;
     private String zip = StringUtils.EMPTY;
 
+    public GlobalChangeDTO() {
+        super();
+    }
+
     public String getAddress1() {
         return address1;
     }

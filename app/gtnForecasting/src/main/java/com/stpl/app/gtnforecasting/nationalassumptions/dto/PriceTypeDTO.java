@@ -76,6 +76,10 @@ public class PriceTypeDTO implements Serializable {
     private String priceBasis;
     private String cpiCompounding;
 
+    public PriceTypeDTO() {
+        super();
+    }
+
     /**
      * Gets the price type.
      *

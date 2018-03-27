@@ -30,6 +30,10 @@ public class ItemSearchTableLogic extends PageTableLogic {
     private boolean isResultsEmpty;
     private boolean isReset = false;
 
+    public ItemSearchTableLogic() {
+        super();
+    }
+
     @Override
     public int getCount() {
         int count = 0;

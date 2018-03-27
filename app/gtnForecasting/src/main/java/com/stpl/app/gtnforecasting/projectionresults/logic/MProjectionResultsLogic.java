@@ -79,6 +79,11 @@ public class MProjectionResultsLogic {
     private List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     // To Persist the Total Procedure Input
     private Object[] totalPRCInput;
+
+    public MProjectionResultsLogic() {
+        super();
+    }
+    
     public List<ProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if ( projSelDTO.getSessionDTO().isPrRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, totalPRCInput)) {
