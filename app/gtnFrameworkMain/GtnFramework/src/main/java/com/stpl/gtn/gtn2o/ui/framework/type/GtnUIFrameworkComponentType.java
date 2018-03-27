@@ -27,8 +27,12 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabSheet
 import com.stpl.gtn.gtn2o.ui.framework.component.textarea.GtnUIFrameworkTextAreaComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.comboboxmultiselect.GtnUIFrameworkComboBoxMultiselectComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date.GtnUIFrameworkDateFieldComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.popuptextfield.GtnUIFrameworkPopupTextBox;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.radiobuttongroup.GtnUIFrameworkRadioButtonGroupComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.textbox.GtnUIFrameworkTextBoxComponent;
 
 public enum GtnUIFrameworkComponentType {
 
@@ -86,7 +90,15 @@ public enum GtnUIFrameworkComponentType {
 	
 	COMBOBOXMULTISELECT(new GtnUIFrameworkComboBoxMultiselectComponent()),
 	
-	DATEFIELDVAADIN8(new GtnUIFrameworkDateFieldComponent());
+	DATEFIELDVAADIN8(new GtnUIFrameworkDateFieldComponent()),
+	
+	TEXTBOX_VAADIN8(new GtnUIFrameworkTextBoxComponent()),
+	
+	COMBOBOX_VAADIN8(new GtnUIFrameworkComboBoxComponent()),
+	
+	RADIOBUTTON_VAADIN8(new GtnUIFrameworkRadioButtonGroupComponent()),
+	
+	POPUPTEXTBOX_VAADIN8(new GtnUIFrameworkPopupTextBox());
 
 	private GtnUIFrameworkComponent gtnComponent;
 
