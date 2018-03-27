@@ -3270,7 +3270,7 @@ public class ProjectionVarianceLogic {
         boolean isHierarchyNoNotAvailable = checkHierarchyAvailability(hierarchyNo);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if (!hierarchyNo.contains(",")) {
+            if (hierarchyNo != null && !hierarchyNo.contains(",")) {
                 if (hierarchyValidation(entry, levelNo, hierarchyIndicator, isHierarchyNoNotAvailable, hierarchyNo)) {
                     if (isNotFirstElement) {
                         stringBuilder.append(",\n");

@@ -1108,7 +1108,7 @@ public class CFFLogic {
         } else {
             inputList.add(CommonUtils.CHAR_PERCENT);
         }
-        if (viewType.equalsIgnoreCase("private")) {
+        if (("private").equalsIgnoreCase(viewType)) {
             if (StringUtils.isNotEmpty(userId)
                     && StringUtils.isNotBlank(userId)) {
                 inputList.add("AND FVM.created_By = " + userId);
