@@ -627,7 +627,7 @@ WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
         
       
 
- SELECT B.ITEM_NO ,
+ SELECT B.ITEM_ID ,
        B.ITEM_NAME,
        A.NDC9,
        A.ITEM_DESC,
