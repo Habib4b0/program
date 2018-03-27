@@ -852,14 +852,14 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 */
 	public static Leveldto getBeanFromId(Object obj) {
 
-		BeanItem<?> targetItem = null;
+		BeanItem<?> targetItemFromBean = null;
 		if (obj instanceof BeanItem<?>) {
-			targetItem = (BeanItem<?>) obj;
+			targetItemFromBean = (BeanItem<?>) obj;
 		} else if (obj instanceof Leveldto) {
-			targetItem = new BeanItem<>((Leveldto) obj);
+			targetItemFromBean = new BeanItem<>((Leveldto) obj);
 		}
-                if (targetItem != null) {
-                    return (Leveldto) targetItem.getBean();
+                if (targetItemFromBean != null) {
+                    return (Leveldto) targetItemFromBean.getBean();
                 } else {
                     return null;
                 }
