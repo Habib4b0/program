@@ -165,7 +165,6 @@ public class GtnWsRebatePlanController {
 				rebatePlanInfoBean.setRebatePlanRuleDetailBean(
 						setRpTierDetailsBean(rpTierSet, rebatePlanInfoBean.getFormulaType()));
 				rebatePlanInfoBean.setNoteBeanList(getRpNotesTabDetails(systemId));
-				rebatePlanInfoBean.setNoteBeanList(getRpNotesTabAttachDetails(systemId));
 			}
 		} catch (Exception ex) {
 			throw new GtnFrameworkGeneralException(ex);
