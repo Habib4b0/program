@@ -4230,8 +4230,9 @@ public class ProjectionResultsLogic {
                 final Object[] obj = (Object[]) list1;
                 discountNamelist.add(String.valueOf(obj[1]));
             }
+            list.clear();
         }
-        list.clear();
+        
         return discountNamelist;
     }
    
