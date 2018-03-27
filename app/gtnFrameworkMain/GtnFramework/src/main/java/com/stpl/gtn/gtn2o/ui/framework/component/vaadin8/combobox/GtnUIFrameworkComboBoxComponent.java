@@ -281,7 +281,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 		ComboBox vaadinComboBox = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 		vaadinComboBox.setEnabled(componentConfig.isEnable());
 		GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
-		vaadinComboBox.setRequiredIndicatorVisible(true);
+		vaadinComboBox.setRequiredIndicatorVisible(Boolean.TRUE);
 		vaadinComboBox.setVisible(componentConfig.isVisible());
 		SessioBeanForCombobox sessioBeanForVaadin8 = SessioBeanForCombobox.getInstance();
 		List<String> captionList = sessioBeanForVaadin8.getCaptionList();
