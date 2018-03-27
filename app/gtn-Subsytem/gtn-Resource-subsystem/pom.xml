@@ -167,11 +167,17 @@
 			<artifactId>ext-container</artifactId>
 			<version>2.0</version>
 		</dependency>
+       <dependency>
+			<groupId>com.stpl.addons</groupId>
+			<artifactId>window-header-extension</artifactId>
+			<version>2.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.stpl.widgetset</groupId>
 			<artifactId>vaadin-widgetset</artifactId>
 			<version>2.0</version>
 		</dependency>
+     
 	</dependencies>
 	<build>
 		<finalName>${resource.subsystem.order}.${project.artifactId}</finalName>
