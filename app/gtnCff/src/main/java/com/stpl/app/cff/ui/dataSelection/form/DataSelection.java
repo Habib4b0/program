@@ -2997,7 +2997,7 @@ public class DataSelection extends AbstractDataSelection {
 							.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds());
 				}
 
-				if (companyLevel != null) {
+				if (companyLevel != null && productHierarchyDto != null) {
 					innerLevelValues = logic.loadInnerLevel(companyLevel.getLevel(),
 							productHierarchyDto.getHierarchyId(), selectedLevelSids, false, companyLevel.getFieldName(),
 							relationshipSid, productDescriptionMap, StringUtils.EMPTY, screenName,
