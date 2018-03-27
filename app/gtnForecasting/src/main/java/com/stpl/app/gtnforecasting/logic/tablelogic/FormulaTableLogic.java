@@ -30,6 +30,7 @@ public class FormulaTableLogic extends PageTableLogic{
     private static final Logger LOGGER = LoggerFactory.getLogger(FormulaTableLogic.class);
 
     public FormulaTableLogic() {
+        super();
     }
     
     @Override

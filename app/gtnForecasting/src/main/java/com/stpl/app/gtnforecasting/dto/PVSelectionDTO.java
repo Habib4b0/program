@@ -173,6 +173,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private boolean conversionNeeded = false;
 
     public PVSelectionDTO() {
+        super();
     }
 
     @Override

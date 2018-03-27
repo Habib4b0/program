@@ -36,6 +36,7 @@ public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
     private Set checkedCCPSet = new HashSet();
 
     public AlternateHistoryAllocationTableLogic() {
+        super();
     }
     
     /**

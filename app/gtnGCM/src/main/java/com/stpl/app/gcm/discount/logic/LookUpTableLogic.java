@@ -25,6 +25,7 @@ public class LookUpTableLogic extends PageTableLogic {
     private String moduleName;
 
     public LookUpTableLogic() {
+        super();
     }
 
     /**

@@ -20,6 +20,7 @@ public class ApprovalDetailsDTO {
   private String approvalStatus=StringUtils.EMPTY;
 
     public ApprovalDetailsDTO() {
+        super();
     }
   
     public String getApprovedBy() {

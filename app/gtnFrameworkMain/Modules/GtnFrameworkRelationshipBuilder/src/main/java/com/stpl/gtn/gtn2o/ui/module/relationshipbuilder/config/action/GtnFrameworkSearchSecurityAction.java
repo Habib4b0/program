@@ -32,7 +32,8 @@ public class GtnFrameworkSearchSecurityAction implements GtnUIFrameWorkAction, G
 		boolean enability = (Boolean) parameters.get(1);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString()).setComponentEnable(enability);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString()).setComponentEnable(enability);
-	}
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString()).setComponentEnable(enability);
+                }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

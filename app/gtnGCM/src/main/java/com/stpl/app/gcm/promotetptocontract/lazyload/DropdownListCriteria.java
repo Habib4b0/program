@@ -18,6 +18,7 @@ public class DropdownListCriteria implements SearchCriteria {
 	private boolean dirty;
 
     public DropdownListCriteria() {
+        super();
     }
 
     @Override

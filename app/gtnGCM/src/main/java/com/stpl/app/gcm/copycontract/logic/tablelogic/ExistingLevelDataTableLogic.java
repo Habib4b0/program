@@ -28,6 +28,7 @@ public class ExistingLevelDataTableLogic extends PageTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingLevelDataTableLogic.class);
 
     public ExistingLevelDataTableLogic() {
+        super();
     }
 
     /**

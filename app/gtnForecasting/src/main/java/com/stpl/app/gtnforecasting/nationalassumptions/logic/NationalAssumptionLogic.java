@@ -112,6 +112,7 @@ public class NationalAssumptionLogic {
     private static final CommonResultsDAO commonDAO = new CommonResultsDAOImpl();
 
     public NationalAssumptionLogic() {
+        super();
     }
 
     /**

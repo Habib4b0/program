@@ -40,6 +40,7 @@ public class ComparisonLookupDTO {
     private Date createdDate = null;
 
     public ComparisonLookupDTO() {
+        super();
     }
     
 

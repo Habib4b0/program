@@ -41,6 +41,7 @@ public class TabSelectionDTO {
     private String foreCastingType = StringUtils.EMPTY;
 
     public TabSelectionDTO() {
+        super();
     }
 
     public String getLevelValue() {

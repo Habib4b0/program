@@ -47,6 +47,7 @@ public class ContractBrandDTO {
     private int brandMasterSid=0;
 
     public ContractBrandDTO() {
+        super();
     }
 
     public String getBrandSid() {

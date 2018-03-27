@@ -158,8 +158,10 @@ public class SalesLogic {
     protected com.stpl.app.utils.QueryUtils utils = new com.stpl.app.utils.QueryUtils();
     public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     public static final String DF_LEVEL_NAME = "dfLevelName";
+    public static final String AND_FILTER_CCP_JOIN = " AND FILTER_CCP = 1";
 
     public SalesLogic() {
+        super();
     }
 
     public SessionDTO getSession() {
@@ -1727,7 +1729,7 @@ public class SalesLogic {
             String updateQuery = SQlUtil.getQuery(queryName);
             updateQuery = updateQuery.replace("[?CHECK_RECORD]", isChecked ? "1" : "0");
 
-            finalQuery = hierarchyInserQuery + updateQuery;
+            finalQuery = hierarchyInserQuery.concat(updateQuery).concat(AND_FILTER_CCP_JOIN);
         }
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -1738,6 +1740,7 @@ public class SalesLogic {
         }
         return count;
     }
+    
     private String getViewTypeQuery(String viewType) {
         String table;
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(viewType)) {

@@ -21,6 +21,7 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 	private boolean dirty;
 
     public DataSelectionSearchCriteria() {
+        super();
     }
 	
 	@Override

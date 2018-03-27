@@ -28,6 +28,7 @@ public class ForecastDTO {
     private Date historyEndDate;
 
     public ForecastDTO() {
+        super();
     }
 
     public Date getForecastStartDate() {

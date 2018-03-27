@@ -36,6 +36,7 @@ public class AttachmentDTO implements Serializable {
     private String documentFullPath;
 
     public AttachmentDTO() {
+        super();
     }
     
     /**

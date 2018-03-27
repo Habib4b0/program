@@ -18,8 +18,8 @@ public class Sql {
 
     private List<SqlEntity> sqlEntity;
 
-    public Sql(List<SqlEntity> sqlEntity) {
-        this.sqlEntity = sqlEntity;
+    public Sql() {
+        super();
     }
     
     public List<SqlEntity> getSqlEntity() {

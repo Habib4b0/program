@@ -23,6 +23,7 @@ public class RebateTableLogic extends PageTableLogic {
     private ErrorfulFieldGroup discountChBinder;
 
     public RebateTableLogic() {
+        super();
     }
 
     /**

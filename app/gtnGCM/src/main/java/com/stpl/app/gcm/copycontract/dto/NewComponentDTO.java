@@ -104,6 +104,7 @@ public class NewComponentDTO implements Serializable {
     private HelperDTO rebateScheduleCategory;
 
     public NewComponentDTO() {
+        super();
     }
     
     public String getFormulaType() {

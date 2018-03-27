@@ -31,6 +31,7 @@ public class SummaryTableLogic extends PageTreeTableLogic {
     private boolean isSales;
 
     public SummaryTableLogic() {
+        super();
     }
 
     @Override

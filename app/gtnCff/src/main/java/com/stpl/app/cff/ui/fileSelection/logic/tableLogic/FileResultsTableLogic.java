@@ -29,6 +29,7 @@ public class FileResultsTableLogic extends PageTableLogic {
     private boolean isReset = false;
 
     public FileResultsTableLogic() {
+        super();
     }
 
     @Override

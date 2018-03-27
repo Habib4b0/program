@@ -178,6 +178,7 @@ public class LookUpDTO implements Serializable {
     private int ccpDetailsSid;
 
     public LookUpDTO() {
+        super();
     }
 
     /**
