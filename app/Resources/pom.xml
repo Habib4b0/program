@@ -41,9 +41,10 @@
         <module>customdatefield</module>
         <module>MessageBox</module>
         <module>calendarfield</module>
+      <module>window-header-extension</module> 
         <module>vaadin-widgetset</module>
         <module>ErrorLabel</module>
-      <module>window-header-extension</module> 
+      
     </modules>
     <repositories>
         <repository>

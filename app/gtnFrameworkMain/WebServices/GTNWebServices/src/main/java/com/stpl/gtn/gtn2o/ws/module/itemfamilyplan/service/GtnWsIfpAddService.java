@@ -566,8 +566,6 @@ public class GtnWsIfpAddService {
 		GtnWsIfpReponse cfpResponse = new GtnWsIfpReponse();
 		cfp.setNotesTabList(
 				getIfpNotesTabDetails(gtnWsRequest.getGtnWsIfpRequest().getGtnIFamilyPlan().getIfpInfo().getIfpSid()));
-		cfp.setNotesTabList(
-				getCfpNotesTabAttachDetails(gtnWsRequest.getGtnWsIfpRequest().getGtnIFamilyPlan().getIfpInfo().getIfpSid()));
 		cfpResponse.setGtnIFamilyPlan(cfp);
 		response.setGtnWsIfpReponse(cfpResponse);
 

@@ -89,6 +89,12 @@ then
 touch $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/replace_dir_stu.txt
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/dir_struct.sh
 fi
+if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties ]
+then
+  cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties  $Gtn_Framework_Base_path/ETL-InterfaceUriConfig/
+chmod -R 777 $Gtn_Framework_Base_path/ETL-InterfaceUriConfig/interfaceUrlMapping.properties
+fi
+
 
 echo "file in process"
 count=`ls -1 $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.jar 2>/dev/null | wc -l`
@@ -296,9 +302,6 @@ chown -R $APP_User:$Chown $install_path
 chown $APP_User:etl $install_path
 chown $APP_User:etl $install_path/etl
 chown -R $APP_User:etl $install_path/etl/staging
-find $install_path/etl -d -name "Input" | xargs chmod 770  2>/dev/null
-find $install_path/etl -d -name "GALDERMA_FILES_UPLOAD" | xargs chmod 770 2>/dev/null
-chown -R $APP_User:etl $install_path/logs
 chown -R $APP_User:etl $install_path/DB_Script
 chown $APP_User:etl $install_path
 
