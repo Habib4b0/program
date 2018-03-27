@@ -901,41 +901,41 @@ public class MMDPRLogic {
         return projDTOList;
     }
 
-    public int getConfiguredMMDiscountResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
+    public int getConfiguredMMDiscountResultsCount(Object parentId, ProjectionSelectionDTO projectionSelectionDTO) {
         int count = 0;
-        projSelDTO.setYear(Constant.ALL);
+        projectionSelectionDTO.setYear(Constant.ALL);
 
-        if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
-            projSelDTO.setActualsOrProjections("Actuals and Projections");
+        if (projectionSelectionDTO.getActualsOrProjections().equals(Constant.BOTH)) {
+            projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }
-        if (ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(1);
-        } else if (Constant.SEMIANNUALLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.TWO);
-        } else if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.FOUR);
-        } else if (Constant.MONTHLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.TWELVE);
+        if (ANNUALLY.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(1);
+        } else if (Constant.SEMIANNUALLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.TWO);
+        } else if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.FOUR);
+        } else if (Constant.MONTHLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.TWELVE);
         }
 
         if (parentId instanceof DiscountProjectionResultsDTO) {
 
             DiscountProjectionResultsDTO parentDto = (DiscountProjectionResultsDTO) parentId;
-            if (projSelDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
+            if (projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
                 /*
                  * This code will be used for pivot view count
                  */
 
                 if (Constant.PROJECTION_TOTAL.equals(parentDto.getLevelValue()) || Constant.MANDATED_DISCOUNT.equals(parentDto.getLevelValue())
                         || Constant.NON_MANDATED_SUPPLEMENTAL.equals(parentDto.getLevelValue()) || Constant.MANDATED_SUPPLEMENTAL.equals(parentDto.getLevelValue())) {
-                    List<String> periods = getProjectionTotalCount(projSelDTO);
+                    List<String> periods = getProjectionTotalCount(projectionSelectionDTO);
                     count += periods.size();
                 } else if (Constant.NON_MANDATED_SUPPLEMENTAL.equals(parentDto.getSupplementalLevelName())) {
-                    count += dqLogic.getCount(parentDto, projSelDTO, false);
-                } else if (projSelDTO.isFilterDdlb() && projSelDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
+                    count += dqLogic.getCount(parentDto, projectionSelectionDTO, false);
+                } else if (projectionSelectionDTO.isFilterDdlb() && projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
                     count += 1;
                 } else {
-                    count += dqLogic.getCount(parentDto, projSelDTO, true);
+                    count += dqLogic.getCount(parentDto, projectionSelectionDTO, true);
                 }
 
             } else {
@@ -944,25 +944,25 @@ public class MMDPRLogic {
                 }
 
                 if (Constant.COMMERCIAL_SUPPLEMENTAL_DISCOUNT.equals(parentDto.getGroup())) {
-                    count += dqLogic.getCount(parentDto, projSelDTO, false);
+                    count += dqLogic.getCount(parentDto, projectionSelectionDTO, false);
                 } else {
 
-                    count += dqLogic.getCount(parentDto, projSelDTO, true);
+                    count += dqLogic.getCount(parentDto, projectionSelectionDTO, true);
                 }
 
             }
 
-        } else if (projSelDTO.isFilterDdlb() && projSelDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
-            count += projSelDTO.getPeriodList().size();
+        } else if (projectionSelectionDTO.isFilterDdlb() && projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
+            count += projectionSelectionDTO.getPeriodList().size();
         } else {
-            if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(projSelDTO.getDiscountValue())) {
+            if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.THREE;
-            } else if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getDiscountValue())) {
+            } else if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.THREE;
-            } else if (Constant.BOTH.equalsIgnoreCase(projSelDTO.getDiscountValue())) {
+            } else if (Constant.BOTH.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.FOUR;
             }
-            if (projSelDTO.isFilterDdlb()) {
+            if (projectionSelectionDTO.isFilterDdlb()) {
                 count += 1;
             }
         }
