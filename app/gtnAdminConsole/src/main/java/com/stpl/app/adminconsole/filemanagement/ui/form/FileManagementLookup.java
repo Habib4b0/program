@@ -1139,7 +1139,10 @@ public class FileManagementLookup extends Window {
 			} else {
 				targetItem = NULLITEM;
 			}
-			final String fileNameListValue = ((FileMananagementResultDTO) targetItem.getBean()).getFileName();
+                        final String fileNameListValue = new String();
+                        if (targetItem != null) {
+                            ((FileMananagementResultDTO) targetItem.getBean()).getFileName();
+                        }
 			final String versionListValue = ((FileMananagementResultDTO) targetItem.getBean()).getVersion();
 			selectedFileCountry = ((FileMananagementResultDTO) targetItem.getBean()).getCountry();
 			selectedFile = ((FileMananagementResultDTO) targetItem.getBean()).getFileType();
@@ -1933,7 +1936,11 @@ public class FileManagementLookup extends Window {
 			targetItem = new BeanItem<>((FileMananagementResultDTO) obj);
 		}
 		LOGGER.debug("End of getBeanFromId method");
-		return (FileMananagementResultDTO) targetItem.getBean();
+                if (targetItem != null) {
+                    return (FileMananagementResultDTO) targetItem.getBean();
+                } else {
+                    return null;
+                }
 	}
 
 	@SuppressWarnings("rawtypes")
