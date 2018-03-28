@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SessioBeanForCombobox {
 
-	private static SessioBeanForCombobox sessioBeanForVaadin8 = null;
+	protected static SessioBeanForCombobox sessioBeanForVaadin8 = null;
 	private List<String> captionList;
 	private List valueList;
 	
@@ -13,10 +13,11 @@ public class SessioBeanForCombobox {
 		
 	}
 	
-	public static SessioBeanForCombobox getInstance(){
-        if(sessioBeanForVaadin8 == null){
-        	sessioBeanForVaadin8 = new SessioBeanForCombobox();
+	public static synchronized SessioBeanForCombobox getInstance(){
+        if(sessioBeanForVaadin8 != null){
+        	 return sessioBeanForVaadin8;
         }
+        sessioBeanForVaadin8 = new SessioBeanForCombobox();
         return sessioBeanForVaadin8;
     }
 

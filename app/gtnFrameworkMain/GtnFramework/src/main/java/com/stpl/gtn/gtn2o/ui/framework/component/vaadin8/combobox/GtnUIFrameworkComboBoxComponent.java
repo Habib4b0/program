@@ -188,7 +188,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 			if (comboboxConfig.isIntegerItemCode()) {
 				List<Integer> integerList = new ArrayList<>();
 				for (String str : response.getItemCodeList()) {
-					integerList.add(Integer.parseInt(str));
+					integerList.add(Integer.valueOf(str));
 				}
 				vaadinCombobox = fillDataAndCaption(comboboxConfig, integerList, response.getItemValueList());
 			} else {
@@ -242,7 +242,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 
 		GtnUIFrameworkWebserviceComboBoxResponse comboboxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
 
-		if (comboboxConfig.getSourceType().equals(GtnUiFrameworkComboBoxSourceType.VALUES_FROM_SERVICE)) {
+		if ((GtnUiFrameworkComboBoxSourceType.VALUES_FROM_SERVICE)==(comboboxConfig.getSourceType())) {
 			return getResponseFromService(comboboxConfig, comboBoxWhereClauseParamList);
 		}
 
@@ -281,7 +281,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 		ComboBox vaadinComboBox = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 		vaadinComboBox.setEnabled(componentConfig.isEnable());
 		GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
-		vaadinComboBox.setRequiredIndicatorVisible(Boolean.TRUE);
+		vaadinComboBox.setRequiredIndicatorVisible(true);
 		vaadinComboBox.setVisible(componentConfig.isVisible());
 		SessioBeanForCombobox sessioBeanForVaadin8 = SessioBeanForCombobox.getInstance();
 		List<String> captionList = sessioBeanForVaadin8.getCaptionList();
