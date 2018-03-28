@@ -296,7 +296,9 @@ public class NmDiscountImpl {
                     }
                 } else {
                     List<String> hierarchyNoList = getHierarchyListForCustomView(projectionId, hierarchyIndicator, userGroup, customViewDetails, discountList, userId, sessionId, isProgram, startIndex, endIndex, isAltHistory, viewFlag);
-                    hierarchyNumbers = intermediate + hierarchyNoList.get(0) + ") as  HierarchyNos ";
+                    if (hierarchyNoList != null) {
+                        hierarchyNumbers = intermediate + hierarchyNoList.get(0) + ") as  HierarchyNos ";
+                    }
                 }
 
                 if (hierarchyNumbers.isEmpty()) {

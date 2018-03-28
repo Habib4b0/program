@@ -682,7 +682,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                     (SalesProjectionResultsDTO) obj);
         }
         LOGGER.info("getBeanFromId method ends");
-        return (SalesProjectionResultsDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (SalesProjectionResultsDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void saveSPResults() {

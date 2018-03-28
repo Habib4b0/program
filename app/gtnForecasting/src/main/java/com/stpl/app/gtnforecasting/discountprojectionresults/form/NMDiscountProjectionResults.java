@@ -424,15 +424,15 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 toHist = true;
                 projectionDTO.setHistory(hist.toString());
 
-                if (freq.equals(QUARTERLY)) {
+                if (freq != null && freq.equals(QUARTERLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (freq != null && freq.equals(SEMI_ANNUALLY.getConstant())) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(MONTHLY)) {
+                } else if (freq != null && freq.equals(MONTHLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(ANNUALLY)) {
+                } else if (freq != null && freq.equals(ANNUALLY)) {
                     String histPeriod = String.valueOf(hist);
                     historyNum = Integer.parseInt(histPeriod.trim());
                 }

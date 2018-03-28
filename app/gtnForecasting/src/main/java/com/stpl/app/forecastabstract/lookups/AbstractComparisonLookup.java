@@ -98,13 +98,13 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	/**
 	 * The Constant COMPARISON_RESULTS_COLUMNS.
 	 */
-	public final Object[] comparisonResultsColumns = new Object[] { Constant.PROJECTION_NAME,
+	public static final Object[] comparisonResultsColumns = new Object[] { Constant.PROJECTION_NAME,
 			Constant.PROJECTIONDESCRIPTION, Constant.MARKET_TYPE, "contractHolder", Constant.CONTRACT, Constant.BRAND,
 			"createdDateFrom", "createdBy" };
 	/**
 	 * The Constant COMPARISON_RESULTS_HEADER.
 	 */
-	public final String[] comparisonResultsHeader = new String[] { "Projection Name", "Description", "Market Type",
+	public static final String[] comparisonResultsHeader = new String[] { "Projection Name", "Description", "Market Type",
 			"Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By" };
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractComparisonLookup.class);
 	protected Button addButton = new Button(BTN_ADD.getConstant());

@@ -793,7 +793,11 @@ public class PhsResults extends CustomComponent implements View {
             targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
-        return (TableDTO) targetItem.getBean();
+        if(targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void callPhsProcedure() throws SQLException, NamingException {

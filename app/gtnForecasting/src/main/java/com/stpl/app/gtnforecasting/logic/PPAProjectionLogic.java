@@ -483,9 +483,10 @@ public class PPAProjectionLogic {
                     count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, BooleanConstant.getTrueFlag(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                 } else {
                     PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
-                    selection.setLevelNo(dto.getLevelNo() + 1);
-                    count = configureLevelsCount(selection.getLevelNo(), selection, dto.getHirarechyNo(), BooleanConstant.getFalseFlag(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-
+                    if (dto != null) {
+                        selection.setLevelNo(dto.getLevelNo() + 1);
+                        count = configureLevelsCount(selection.getLevelNo(), selection, dto.getHirarechyNo(), BooleanConstant.getFalseFlag(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
+                    }
                 }
 
             } else {

@@ -529,7 +529,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                     getBtnSubmit().setVisible(false);
                 }
             }
-        } else if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
+        } else if (session != null && (session.getAction()).equalsIgnoreCase(ACTION_VIEW.getConstant())) {
             getBtnSubmit().setEnabled(false);
             getBtnSave().setEnabled(false);
         } else {

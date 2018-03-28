@@ -165,11 +165,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float maxSplitPosition = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 300;
+    private static final float minSplitPosition = 300;
     /**
      * The split position.
      */
@@ -1351,7 +1351,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             targetItem = new BeanItem<>(
                     (SalesRowDto) obj);
         }
-        return (SalesRowDto) targetItem.getBean();
+        if (targetItem != null) {
+            return (SalesRowDto) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -2973,7 +2977,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     tempSalesvalue = true;
                 }
 
-                if (value.contains(Constant.ACTUALUNITS)) {
+                if (value != null && value.contains(Constant.ACTUALUNITS)) {
                     tempUnitValue = true;
                 }
             }

@@ -44,7 +44,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
         clearAll();
         this.isCustomHierarchy = isCustomHierarchy;
         this.levelNo = levelNo;
-        this.currentHierarchy = currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
+        this.currentHierarchy = currentHierarchy == null ? new ArrayList<>(currentHierarchy) : currentHierarchy;
         this.customId = customId;
         if (!isCustomHierarchy) {
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
@@ -200,7 +200,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
         if (!dataLoad) {
             return 0;
         }
-        List list = null;
+        List list = new ArrayList();
         try {
             int levelNumber = 0;
             String hierarchyNo = StringUtils.EMPTY;
@@ -298,14 +298,16 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             if (levelNumber != 0 && treeLevelNo != 0) {
                 setMaxExpandLevelNo(treeLevelNo);
             }
-            if (list == null || list.size() == 0) {
-                return 0;
-            }
+            
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        return Integer.parseInt(list.get(0).toString());
-    }
+        if (list.isEmpty()) {
+                return 0;
+        } else {
+            return Integer.parseInt(list.get(0).toString());
+        }
+        }
 
     public int getMaxExpandLevelNo() {
         return maxExpandLevelNo;
