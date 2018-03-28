@@ -91,6 +91,7 @@ chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/dir_struct.sh
 fi
 if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties ]
 then
+  mkdir -p $Gtn_Framework_Base_path/ETL-InterfaceUriConfig
   cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties  $Gtn_Framework_Base_path/ETL-InterfaceUriConfig/
 chmod -R 777 $Gtn_Framework_Base_path/ETL-InterfaceUriConfig/interfaceUrlMapping.properties
 fi
