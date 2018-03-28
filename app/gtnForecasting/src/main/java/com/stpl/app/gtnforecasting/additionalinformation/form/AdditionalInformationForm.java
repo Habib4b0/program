@@ -62,7 +62,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     private final NotesTabLogic logic = new NotesTabLogic();
     private NotesDTO tableBean = new NotesDTO();
 
-    protected static final String mode = StringUtils.EMPTY;
+    protected static final String MODE = StringUtils.EMPTY;
     protected final boolean isAddMode;
     protected final boolean isEditMode;
     protected final boolean isViewMode;

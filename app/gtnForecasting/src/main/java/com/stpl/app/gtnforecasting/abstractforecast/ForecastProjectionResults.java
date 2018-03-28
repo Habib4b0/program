@@ -159,9 +159,9 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected CustomTableHeaderDTO rightHeader= new CustomTableHeaderDTO();
     protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     protected List<CustomViewMaster> customViewList = new ArrayList<>();
-    protected static final float maxSplitPosition = 1000;
-    protected static final float minSplitPosition = 200;
-    protected static final float splitPosition = 300;
+    protected static final float MAX_SPLIT_POSITION = 1000;
+    protected static final float MIN_SPLIT_POSITION = 200;
+    protected static final float SPLIT_POSITION = 300;
     protected ExtCustomTreeTable exceltable;
     protected int tradingPartnerNo = 0;
     protected boolean isTabVisible = true;
@@ -411,9 +411,9 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         periodTableId.addStyleName(Constant.CENTER_CHECK);
     }

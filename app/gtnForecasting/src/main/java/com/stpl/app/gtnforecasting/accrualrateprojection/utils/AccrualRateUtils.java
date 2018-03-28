@@ -41,8 +41,8 @@ public class AccrualRateUtils {
     public static final String ALL_BRANDS = "All Brands";
     public static final String ALL_PRODUCTS = "All Products";
     public static final String SELECT_VARIABLES = "-Select Variables-";
-    public static final Object[] historyPeriods = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months"};
-    public static final Object[] historyPeriods12 = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months",
+    public final Object[] historyPeriods = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months"};
+    public final Object[] historyPeriods12 = {Constant.SELECT_ONE, "1 Month", "2 Months", "3 Months", "4 Months", "5 Months", "6 Months",
     "7 Months", "8 Months", "9 Months", "10 Months", "11 Months", "12 Months"};
     public static final String SALES = "Sales";
     public static final String PRICE = "Price";
@@ -60,10 +60,10 @@ public class AccrualRateUtils {
     public static final String GROUP_ONE = "group1";
     public static final String SPACE = " ";
     public static final String EFFECTIVE_ACCRUAL_RATE = "Effective Accrual Rate";
-    public static final String[] availableValuesVisibleHeaders = {"Available Values"};
-    public static final Object[] availableValuesVisibleColumns = {"companyId"};
-    public static final String[] excludedValuesVisibleHeaders = {"Excluded Field", " Value"};
-    public static final Object[] excludedValuesVisibleColumns = {"excludedField", Constant.COMPANY_NAME};
+    public final String[] availableValuesVisibleHeaders = {"Available Values"};
+    public final Object[] availableValuesVisibleColumns = {"companyId"};
+    public final String[] excludedValuesVisibleHeaders = {"Excluded Field", " Value"};
+    public final Object[] excludedValuesVisibleColumns = {"excludedField", Constant.COMPANY_NAME};
     public static final String DOT = ".";
     public static final String RESET_CONFIRMATION = "Reset Confirmation";
     public static final String RATE = "Rate";
