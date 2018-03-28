@@ -39,7 +39,7 @@ cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/ETL_Build/* $RPM_BUI
 fi
 if [ -d "$folderexist"Conf ]
 then
-mkdir -p  $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig
+mkdir -p  $RPM_BUILD_ROOT%{prefix}/conf/
 cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Conf/* $RPM_BUILD_ROOT%{prefix}/conf/
 fi
 
@@ -91,6 +91,7 @@ chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/dir_struct.sh
 fi
 if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties ]
 then
+mkdir -p $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/
   cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties  $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/interfaceUrlMapping.properties
 fi
