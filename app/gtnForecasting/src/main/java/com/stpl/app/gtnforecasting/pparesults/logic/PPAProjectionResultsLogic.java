@@ -773,7 +773,7 @@ public class PPAProjectionResultsLogic {
         query = query.replace(Constant.COMPSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedCustomer()));
         query = query.replace(Constant.BRANDSID_AT_SMALL, String.valueOf(ppaDetailsDTO.getSelectedBrand()));
 
-        if (filter != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
+        if (filter != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filter)))) {
             if (!filter.isEmpty()) {
                 switch (ddlbType) {
                     case Constant.CONTRACT:
@@ -911,7 +911,7 @@ public class PPAProjectionResultsLogic {
         } else {
             query = query.replace("AND IM.ITEM_MASTER_SID NOT IN (@itemsid)", StringUtils.EMPTY);
         }
-        if (filterText != null || !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText)))) {
+        if (filterText != null && !(Constant.NULL.equalsIgnoreCase(String.valueOf(filterText)))) {
             if (!filterText.isEmpty()) {
                 switch (ddlbtype) {
                     case Constant.ITEM_NO:

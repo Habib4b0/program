@@ -112,7 +112,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected File fileUpload;
     protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(CommonUtil.getFilePath("tst")));
     protected static String fileName;
-    protected final String NOTES_HISTORY = "Notes History";
+    protected static final String NOTES_HISTORY = "Notes History";
     protected File filePath;
     protected File wordFile;
     protected File pdfFile;

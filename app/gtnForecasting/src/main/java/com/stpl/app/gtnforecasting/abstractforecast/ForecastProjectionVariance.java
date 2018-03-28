@@ -315,15 +315,15 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float splitPosition = 300;
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float maxSplitPosition = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float minSplitPosition = 200;
     /**
      * Excel table
      */

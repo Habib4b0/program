@@ -62,7 +62,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -284,8 +283,7 @@ public class PMPYCalculator extends Window {
 
     private static final String REGEX = "(^[0-9]+(\\.[0-9])?$)";
 
-    private final Calendar calendar = CommonUtils.getCalendar();
-
+    
     private final FreezeFilterTable contractHolderTable = new FreezeFilterTable();
     private final FreezeFilterTable tradingHistoryTable = new FreezeFilterTable();
     private ExtTreeContainer<PMPYRowDto> chTreeContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
@@ -303,17 +301,17 @@ public class PMPYCalculator extends Window {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float maxSplitPosition = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 1;
+    private static final float minSplitPosition = 1;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 94;
+    private static final float splitPosition = 94;
 
     private String tradeName = StringUtils.EMPTY;
 
@@ -1201,13 +1199,13 @@ public class PMPYCalculator extends Window {
             return;
         } else {
             if (chValue) {
-                PMPYRowDto actualSaleDto = null;
-                PMPYRowDto actualUnitDto = null;
+                PMPYRowDto pmpyActualSaleDto = new PMPYRowDto();
+                PMPYRowDto pmpyActualUnitDto = new PMPYRowDto();
                 for (PMPYRowDto dto : chTreeContainer.getBeans()) {
                     if (dto.getType().equals(Constant.SALES_SMALL)) {
-                        actualSaleDto = dto;
+                        pmpyActualSaleDto = dto;
                     } else if (dto.getType().equals(Constant.UNITS_SMALL)) {
-                        actualUnitDto = dto;
+                        pmpyActualUnitDto = dto;
                     }
                 }
 
@@ -1215,27 +1213,27 @@ public class PMPYCalculator extends Window {
                 Double unitsValue;
                 for (Object key : chtCheckBoxMap) {
 
-                    salesValue = Double.valueOf(String.valueOf(actualSaleDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
-                    unitsValue = Double.valueOf(String.valueOf(actualUnitDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    salesValue = Double.valueOf(String.valueOf(pmpyActualSaleDto.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    unitsValue = Double.valueOf(String.valueOf(pmpyActualUnitDto.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
                     calculatedSalesVal += salesValue;
                     calculatedUnitsVal += unitsValue;
                 }
 
             } else if (tpValue) {
-                PMPYRowDto actualSaleDto = null;
-                PMPYRowDto actualUnitDto = null;
+                PMPYRowDto pmpyActSaleDto = new PMPYRowDto();
+                PMPYRowDto pmpyActUnitDto = new PMPYRowDto();
                 for (PMPYRowDto dto : tpTreeContainer.getBeans()) {
                     if (dto.getType().equals(Constant.SALES_SMALL)) {
-                        actualSaleDto = dto;
+                        pmpyActSaleDto = dto;
                     } else if (dto.getType().equals(Constant.UNITS_SMALL)) {
-                        actualUnitDto = dto;
+                        pmpyActUnitDto = dto;
                     }
                 }
                 Double salesValue;
                 Double unitsValue;
                 for (Object key : tptCheckBoxMap) {
-                    salesValue = Double.valueOf(String.valueOf(actualSaleDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
-                    unitsValue = Double.valueOf(String.valueOf(actualUnitDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    salesValue = Double.valueOf(String.valueOf(pmpyActSaleDto.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    unitsValue = Double.valueOf(String.valueOf(pmpyActUnitDto.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
                     calculatedSalesVal += salesValue;
                     calculatedUnitsVal += unitsValue;
                 }
@@ -1624,8 +1622,11 @@ public class PMPYCalculator extends Window {
             targetItem = new BeanItem<>((SalesProjectionResultsDTO) identifier);
         }
         LOGGER.debug("End of getBeanFromId method");
-
-        return (SalesProjectionResultsDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (SalesProjectionResultsDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     /**

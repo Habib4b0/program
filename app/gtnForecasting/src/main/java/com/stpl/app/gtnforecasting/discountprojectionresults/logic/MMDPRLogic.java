@@ -832,7 +832,7 @@ public class MMDPRLogic {
                             dto.setParent(1);
                             checkYear = commonColumn;
                         }
-                        if (i == list.size() - 1) {
+                        if (i == list.size() - 1 && dto != null) {
                             customizeManSupp(list, dto, projSelDTO, checkYear);
                             dto.setSupplementalLevelName(Constant.CUSTOMER_SMALL);
                             resultList.add(dto);

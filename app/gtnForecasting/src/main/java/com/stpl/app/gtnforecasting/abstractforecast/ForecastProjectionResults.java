@@ -159,9 +159,9 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected CustomTableHeaderDTO rightHeader= new CustomTableHeaderDTO();
     protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     protected List<CustomViewMaster> customViewList = new ArrayList<>();
-    protected final float maxSplitPosition = 1000;
-    protected final float minSplitPosition = 200;
-    protected final float splitPosition = 300;
+    protected static final float maxSplitPosition = 1000;
+    protected static final float minSplitPosition = 200;
+    protected static final float splitPosition = 300;
     protected ExtCustomTreeTable exceltable;
     protected int tradingPartnerNo = 0;
     protected boolean isTabVisible = true;

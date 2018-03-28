@@ -188,17 +188,17 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     /**
      * The max split position.
      */
-    public final float maxSplitPosition = 1000;
+    public static final float maxSplitPosition = 1000;
 
     /**
      * The min split position.
      */
-    public final float minSplitPosition = 200;
+    public static final float minSplitPosition = 200;
 
     /**
      * The split position.
      */
-    public final float splitPosition = 300;
+    public static final float splitPosition = 300;
 
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
