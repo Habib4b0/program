@@ -94,10 +94,10 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 
 	}
 
-	private void loadStyles(final Component component, final List<String> styles) {
-		if (styles != null) {
-			for (String style : styles) {
-				component.addStyleName(style);
+	private void loadStyles(final Component component, final List<String> stylesForTextBox) {
+		if (stylesForTextBox != null) {
+			for (String styleText : stylesForTextBox) {
+				component.addStyleName(styleText);
 			}
 		}
 	}
@@ -111,51 +111,51 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
-		AbstractTextField textField = (AbstractTextField) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
-		textField.setVisible(componentConfig.isVisible());
-		textField.setEnabled(componentConfig.isEnable());
-		String value = "";
+		AbstractTextField abstractTextField = (AbstractTextField) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
+		abstractTextField.setVisible(componentConfig.isVisible());
+		abstractTextField.setEnabled(componentConfig.isEnable());
+		String textValue = "";
 		if (componentConfig.getComponentValue() != null) {
-			value = String.valueOf(componentConfig.getComponentValue());
+			textValue = String.valueOf(componentConfig.getComponentValue());
 		}
-		if (textField.isReadOnly()) {
-			textField.setReadOnly(false);
-			textField.setValue(value);
-			textField.setReadOnly(true);
+		if (abstractTextField.isReadOnly()) {
+			abstractTextField.setReadOnly(false);
+			abstractTextField.setValue(textValue);
+			abstractTextField.setReadOnly(true);
 		} else {
-			textField.setValue(value);
+			abstractTextField.setValue(textValue);
 		}
 
-		GtnUIFrameworkTextBoxConfig textboxConfig = componentConfig.getGtnTextBoxConfig();
+		GtnUIFrameworkTextBoxConfig textBoxComponentConfig = componentConfig.getGtnTextBoxConfig();
 		Binder<ComponentBinderValidatorBean> textBoxBinder = new Binder<>();
-		if (textboxConfig != null) {
-			if (textboxConfig.isRequired()) {
-				textBoxBinder.forField(textField).asRequired(textboxConfig.getRequiredMessage())
+		if (textBoxComponentConfig != null) {
+			if (textBoxComponentConfig.isRequired()) {
+				textBoxBinder.forField(abstractTextField).asRequired(textBoxComponentConfig.getRequiredMessage())
 						.bind(ComponentBinderValidatorBean::getRequiredField, ComponentBinderValidatorBean::setRequiredField);
 			}
-			textField.setEnabled(textboxConfig.isEnable());
+			abstractTextField.setEnabled(textBoxComponentConfig.isEnable());
 		}
 
 	}
 
-	private void fillTextBox(GtnUIFrameworkTextBoxConfig textBoxConfig, TextField vaadinTextBox) {
-		GtnUIFrameworkWebserviceTextBoxResponse response = getResponseFromService(textBoxConfig);
-		if (response != null) {
-			vaadinTextBox.setValue(response.getDefaultValue());
+	private void fillTextBox(GtnUIFrameworkTextBoxConfig textBoxConfig, TextField vaadin8TextBox) {
+		GtnUIFrameworkWebserviceTextBoxResponse textBoxResponse = getResponseFromService(textBoxConfig);
+		if (textBoxResponse != null) {
+			vaadin8TextBox.setValue(textBoxResponse.getDefaultValue());
 		}
 	}
 
 	private GtnUIFrameworkWebserviceTextBoxResponse getResponseFromService(GtnUIFrameworkTextBoxConfig textBoxConfig) {
-		GtnUIFrameworkWebserviceTextBoxResponse response = new GtnUIFrameworkWebserviceTextBoxResponse();
-		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnUIFrameworkWebserviceTextBoxResponse textBoxResponse = new GtnUIFrameworkWebserviceTextBoxResponse();
+		GtnUIFrameworkWebServiceClient textBoxWsclient = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest textBoxRequest = new GtnUIFrameworkWebserviceRequest();
 		if (textBoxConfig.getLoadingUrl() != null) {
-			response = wsclient
-					.callGtnWebServiceUrl(textBoxConfig.getLoadingUrl(), request,
+			textBoxResponse = textBoxWsclient
+					.callGtnWebServiceUrl(textBoxConfig.getLoadingUrl(), textBoxRequest,
 							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
 					.getGtnUIFrameworkWebserviceTextBoxResponse();
 		}
-		return response;
+		return textBoxResponse;
 	}
 
 	private TextField generateAbstaractTextField(GtnUIFrameworkComponentConfig componentConfig) {

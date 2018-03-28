@@ -1536,13 +1536,7 @@ public class PMPYCalculator extends Window {
             AbstractNotificationUtils.getErrorNotification("No Projection Period Total", "Please complete the PMPY calculation before clicking IMPORT.");
         } else {
             String tempStringValue = StringUtils.EMPTY;
-            final int currentYearValue = calendar.get(Calendar.YEAR);
-            final int yearOneVal = currentYearValue + 1;
-            final int yearTwoVal = currentYearValue + NumericConstants.TWO;
-            final int yearThreeVal = currentYearValue + NumericConstants.THREE;
             String queryNameString = StringUtils.EMPTY;
-            final int[] yearArray = new int[]{currentYearValue, yearOneVal, yearTwoVal, yearThreeVal};
-            
             int annualValue;
             Double calculatedDoubleValue = 0.0;
 
