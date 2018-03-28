@@ -301,17 +301,17 @@ public class PMPYCalculator extends Window {
     /**
      * The max split position.
      */
-    private static final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POSITION = 1000;
 
     /**
      * The min split position.
      */
-    private static final float minSplitPosition = 1;
+    private static final float MIN_SPLIT_POSITION = 1;
 
     /**
      * The split position.
      */
-    private static final float splitPosition = 94;
+    private static final float SPLIT_POSITION = 94;
 
     private String tradeName = StringUtils.EMPTY;
 
@@ -1702,13 +1702,13 @@ public class PMPYCalculator extends Window {
             visiHeaders.add(String.valueOf(obj));
         }
 
-        tradingHistoryTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        tradingHistoryTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        tradingHistoryTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        tradingHistoryTable.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        tradingHistoryTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        tradingHistoryTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
 
-        contractHolderTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        contractHolderTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        contractHolderTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        contractHolderTable.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        contractHolderTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        contractHolderTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
      
         contractHolderTable.setWidth(NumericConstants.NINE_HUNDRED, UNITS_PIXELS);
         tradingHistoryTable.setWidth(NumericConstants.NINE_HUNDRED, UNITS_PIXELS);

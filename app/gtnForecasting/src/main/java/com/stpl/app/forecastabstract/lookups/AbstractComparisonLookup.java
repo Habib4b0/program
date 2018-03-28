@@ -98,13 +98,13 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	/**
 	 * The Constant COMPARISON_RESULTS_COLUMNS.
 	 */
-	public static final Object[] comparisonResultsColumns = new Object[] { Constant.PROJECTION_NAME,
+	protected static final Object[] COMPARISON_RESULTS_COLUMN = new Object[] { Constant.PROJECTION_NAME,
 			Constant.PROJECTIONDESCRIPTION, Constant.MARKET_TYPE, "contractHolder", Constant.CONTRACT, Constant.BRAND,
 			"createdDateFrom", "createdBy" };
 	/**
 	 * The Constant COMPARISON_RESULTS_HEADER.
 	 */
-	public static final String[] comparisonResultsHeader = new String[] { "Projection Name", "Description", "Market Type",
+	protected static final String[] COMPARISON_RESULT_HEADER = new String[] { "Projection Name", "Description", "Market Type",
 			"Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By" };
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractComparisonLookup.class);
 	protected Button addButton = new Button(BTN_ADD.getConstant());
@@ -254,15 +254,15 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 
 		resultsPanel.setContent(results);
 		results.setContainerDataSource(resultsBean);
-		Object[] objColumn = comparisonResultsColumns;
+		Object[] objColumn = COMPARISON_RESULTS_COLUMN;
 		for (Object objColumn1 : objColumn) {
 			String value = objColumn1.toString();
 			if (value.endsWith("Date")) {
 				results.setColumnAlignment(objColumn1, ExtCustomTable.Align.CENTER);
 			}
 		}
-		results.setVisibleColumns(comparisonResultsColumns);
-		results.setColumnHeaders(comparisonResultsHeader);
+		results.setVisibleColumns(COMPARISON_RESULTS_COLUMN);
+		results.setColumnHeaders(COMPARISON_RESULT_HEADER);
 		results.setSelectable(true);
 		results.setMultiSelect(true);
 		results.setFilterBarVisible(true);
@@ -313,8 +313,8 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 		Panel selectedProjections = UiUtils.addCommonPanel(PROJECTIONS.getConstant());
 		selectedProjections.setContent(selectedProjection);
 		selectedProjection.setContainerDataSource(selectedResultsBean);
-		selectedProjection.setVisibleColumns(comparisonResultsColumns);
-		selectedProjection.setColumnHeaders(comparisonResultsHeader);
+		selectedProjection.setVisibleColumns(COMPARISON_RESULTS_COLUMN);
+		selectedProjection.setColumnHeaders(COMPARISON_RESULT_HEADER);
 		selectedProjection.setSelectable(true);
 		selectedProjection.setMultiSelect(true);
 		selectedProjection.setFilterBarVisible(true);

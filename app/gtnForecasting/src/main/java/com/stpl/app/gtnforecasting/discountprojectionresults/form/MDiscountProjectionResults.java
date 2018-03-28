@@ -363,9 +363,9 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
     private void initializeResultTable() {
         getResultsTable().markAsDirty();
         getResultsTable().setSelectable(false);
-        getResultsTable().setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        getResultsTable().setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         getResultsTable().addStyleName("valo-theme-extfiltertable");
     }
 

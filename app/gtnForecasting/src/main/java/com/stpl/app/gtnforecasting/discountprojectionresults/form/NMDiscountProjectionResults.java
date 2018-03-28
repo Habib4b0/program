@@ -403,9 +403,9 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         getResultsTable().markAsDirty();
         getResultsTable().setSelectable(false);
         getResultsTable().setPageLength(NumericConstants.EIGHTEEN);
-        getResultsTable().setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        getResultsTable().setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         getResultsTable().addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
