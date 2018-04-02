@@ -374,6 +374,7 @@ public class NonMandatedDTO {
     private Double projCol16Units = DEFAULT_DOUBLE;
 
     public NonMandatedDTO() {
+        super();
     }
 
     /**

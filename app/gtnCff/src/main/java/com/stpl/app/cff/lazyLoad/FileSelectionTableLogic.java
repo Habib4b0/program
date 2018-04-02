@@ -28,6 +28,7 @@ public class FileSelectionTableLogic extends PageTableLogic {
     private String businessUnit;
 
     public FileSelectionTableLogic() {
+        super();
     }
     
     @Override

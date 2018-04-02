@@ -21,6 +21,7 @@ public class DiscountProjectionResultsDTO extends ExtMapDTO{
    private String empty;
 
     public DiscountProjectionResultsDTO() {
+        super();
     }
   
      /**

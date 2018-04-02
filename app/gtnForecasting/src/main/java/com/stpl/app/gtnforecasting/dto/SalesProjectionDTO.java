@@ -128,6 +128,7 @@ public class SalesProjectionDTO {
     private String projections;
 
     public SalesProjectionDTO() {
+        super();
     }
 
     /**

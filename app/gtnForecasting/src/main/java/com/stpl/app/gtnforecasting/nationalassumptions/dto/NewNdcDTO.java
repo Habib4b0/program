@@ -52,6 +52,7 @@ public class NewNdcDTO implements Serializable {
         private String ndcDescription=StringUtils.EMPTY;
 
     public NewNdcDTO() {
+        super();
     }
 
     public int getItemMasterSid() {

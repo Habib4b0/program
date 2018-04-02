@@ -615,7 +615,9 @@ public final class AccrualRateProjectionLogic {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
                 connection.close();
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());
@@ -785,22 +787,12 @@ public final class AccrualRateProjectionLogic {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    String filterString = Constant.PERCENT + stringFilter.getFilterString() + Constant.PERCENT;
-                    if (AccrualRateUtils.EXCLUDED_FIELD.equals(stringFilter.getPropertyId())) {
-                        filterString = filterString.replace(Constant.PERCENT, StringUtils.EMPTY);
-                        if (StringUtils.isNotBlank(filterString)) {
-
-                            query.append(" AND CM.COMPANY_ID LIKE '%").append(filterString).append("%'");
-
-                        }
-
+                    String filterString = stringFilter.getFilterString();
+                    if (filterString != null && AccrualRateUtils.EXCLUDED_FIELD.equals(stringFilter.getPropertyId()) && StringUtils.isNotBlank(filterString)) {
+                        query.append(" AND CM.COMPANY_ID LIKE '%").append(filterString).append("%'");
                     }
-                    if (AccrualRateUtils.COMPANY_NAME.equals(stringFilter.getPropertyId())) {
-                        filterString = filterString.replace(Constant.PERCENT, StringUtils.EMPTY);
-                        if (StringUtils.isNotBlank(filterString)) {
-
-                            query.append(" AND CM.COMPANY_NAME LIKE '%").append(filterString).append("%'");
-                        }
+                    if (filterString != null && StringUtils.isNotBlank(filterString) && AccrualRateUtils.COMPANY_NAME.equals(stringFilter.getPropertyId())) {
+                        query.append(" AND CM.COMPANY_NAME LIKE '%").append(filterString).append("%'");
                     }
                 }
             }
@@ -822,22 +814,12 @@ public final class AccrualRateProjectionLogic {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    String filterString = Constant.PERCENT + stringFilter.getFilterString() + Constant.PERCENT;
-                    if (AccrualRateUtils.EXCLUDED_FIELD.equals(stringFilter.getPropertyId())) {
-                        filterString = filterString.replace(Constant.PERCENT, StringUtils.EMPTY);
-                        if (StringUtils.isNotBlank(filterString)) {
-
-                            query.append(" AND CM.COMPANY_ID LIKE '%").append(filterString).append("%'");
-
-                        }
-
+                    String filterString = stringFilter.getFilterString();
+                    if (filterString != null && AccrualRateUtils.EXCLUDED_FIELD.equals(stringFilter.getPropertyId()) && StringUtils.isNotBlank(filterString)) {
+                        query.append(" AND CM.COMPANY_ID LIKE '%").append(filterString).append("%'");
                     }
-                    if (AccrualRateUtils.COMPANY_NAME.equals(stringFilter.getPropertyId())) {
-                        filterString = filterString.replace(Constant.PERCENT, StringUtils.EMPTY);
-                        if (StringUtils.isNotBlank(filterString)) {
-
+                    if (filterString != null && AccrualRateUtils.COMPANY_NAME.equals(stringFilter.getPropertyId()) && StringUtils.isNotBlank(filterString)) {
                             query.append(" AND CM.COMPANY_NAME LIKE '%").append(filterString).append("%'");
-                        }
                     }
                 }
             }

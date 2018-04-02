@@ -38,6 +38,7 @@ public class AbstractContractSelectionTableLogic extends PageTableLogic {
     private final List withStringinput = new ArrayList();
 
     public AbstractContractSelectionTableLogic() {
+        super();
     }
 
     @Override

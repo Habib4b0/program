@@ -1035,7 +1035,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             targetItem = new BeanItem<>(
                     (ProjectionVarianceDTO) obj);
         }
-        return (ProjectionVarianceDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (ProjectionVarianceDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     private void loadProjectionSelection() {

@@ -32,6 +32,7 @@ public class ComparisonTableLogic extends PageTableLogic {
     private final ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
 
     public ComparisonTableLogic() {
+        super();
     }
 
     @Override

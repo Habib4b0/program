@@ -27,6 +27,7 @@ public class SummaryTableLogic extends PageTreeTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryTableLogic.class);
 
     public SummaryTableLogic() {
+        super();
     }
 
     @Override

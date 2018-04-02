@@ -32,6 +32,7 @@ public class NewComponentsDetailsSearchTableLogic extends PageTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewComponentsDetailsSearchTableLogic.class);
 
     public NewComponentsDetailsSearchTableLogic() {
+        super();
     }
 
     /**

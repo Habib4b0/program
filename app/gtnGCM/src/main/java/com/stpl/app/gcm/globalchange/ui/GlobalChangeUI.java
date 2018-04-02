@@ -44,6 +44,7 @@ public class GlobalChangeUI extends UI {
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalChangeUI.class);
 
     public GlobalChangeUI() {
+        super();
     }
 
     @Override

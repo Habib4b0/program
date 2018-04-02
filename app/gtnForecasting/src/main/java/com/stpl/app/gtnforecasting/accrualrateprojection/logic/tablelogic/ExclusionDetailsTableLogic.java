@@ -34,6 +34,7 @@ public class ExclusionDetailsTableLogic  extends PageTableLogic {
     private boolean isViewMode;
 
     public ExclusionDetailsTableLogic() {
+        super();
     }
 
     @Override

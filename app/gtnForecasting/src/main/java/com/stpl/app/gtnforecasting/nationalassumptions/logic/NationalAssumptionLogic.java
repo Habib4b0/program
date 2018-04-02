@@ -112,6 +112,7 @@ public class NationalAssumptionLogic {
     private static final CommonResultsDAO commonDAO = new CommonResultsDAOImpl();
 
     public NationalAssumptionLogic() {
+        super();
     }
 
     /**
@@ -235,7 +236,11 @@ public class NationalAssumptionLogic {
             targetItem = new BeanItem<>(
                     (BaselinePeriodDTO) id);
         }
-        return (BaselinePeriodDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (BaselinePeriodDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public String removePriceType(PriceTypeDTO priceType, SessionDTO session) {

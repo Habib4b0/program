@@ -917,11 +917,13 @@ public class SPRCommonLogic {
 
                 try {
                     CustomViewMaster customViewMaster = getCustomView(customId);
-                    customViewMaster.setProjectionMasterSid(session.getProjectionId());
-                    customViewMaster.setViewName(viewName);
-                    customViewMaster.setModifiedBy(userId);
-                    customViewMaster.setModifiedDate(date);
-                    customViewMaster = commonDao.updateCustomView(customViewMaster);
+                    if (customViewMaster != null) {
+                        customViewMaster.setProjectionMasterSid(session.getProjectionId());
+                        customViewMaster.setViewName(viewName);
+                        customViewMaster.setModifiedBy(userId);
+                        customViewMaster.setModifiedDate(date);
+                        customViewMaster = commonDao.updateCustomView(customViewMaster);
+                    }
                     if (customViewMaster != null) {
                         customId = customViewMaster.getCustomViewMasterSid();
                         List<CustomViewDetails> detailsList = getCustomViewDetails(customId);
@@ -1136,7 +1138,7 @@ public class SPRCommonLogic {
     }
 
     public static int getIndicatorCount(int viewName) {
-        List<CustomViewDetails> list = null;
+        List<CustomViewDetails> list = new ArrayList<>();
 		DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
         try {

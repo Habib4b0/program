@@ -30,6 +30,7 @@ public class ForecastYearCriteria implements SearchCriteria {
 	private String filter;
 
     public ForecastYearCriteria() {
+        super();
     }
 
 	/**

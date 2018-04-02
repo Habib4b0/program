@@ -38,7 +38,7 @@ public class CommonQueryUtils {
         return sql.toString();
     }
     public static String getQuery1(String queryName) {
-        StringBuilder sql = null;
+        StringBuilder sql = new StringBuilder();
         try {
             sql = new StringBuilder();
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
@@ -99,7 +99,7 @@ public class CommonQueryUtils {
     }
 
     public static String getAppQuery(List input, String queryName) {
-        StringBuilder sql = null;
+        StringBuilder sql = new StringBuilder();
         try {
             sql = new StringBuilder();
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
@@ -130,7 +130,7 @@ public class CommonQueryUtils {
 
     public static String getAppDataQuery(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
-        StringBuilder sql = null;
+        StringBuilder sql = new StringBuilder();
         LOGGER.debug("queryName - - >> {} ", queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {

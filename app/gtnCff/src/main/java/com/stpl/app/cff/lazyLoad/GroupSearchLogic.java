@@ -33,6 +33,7 @@ public class GroupSearchLogic extends PageTableLogic{
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GroupSearchLogic.class);
 
     public GroupSearchLogic() {
+        super();
     }
 
     @Override

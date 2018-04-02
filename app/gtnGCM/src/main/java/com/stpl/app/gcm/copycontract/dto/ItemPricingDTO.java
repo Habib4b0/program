@@ -181,6 +181,7 @@ public class ItemPricingDTO implements Serializable {
     private int createdByValue;
 
     public ItemPricingDTO() {
+        super();
     }
 
     public int getCreatedByValue() {

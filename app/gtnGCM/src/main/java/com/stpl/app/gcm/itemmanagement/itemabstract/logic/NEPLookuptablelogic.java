@@ -28,6 +28,7 @@ public class NEPLookuptablelogic extends PageTableLogic {
     private FormulaDTO formulaDto;
 
     public NEPLookuptablelogic() {
+        super();
     }
 
     @Override

@@ -34,6 +34,7 @@ public class ItemSearchDTO implements Serializable{
     private HelperDTO helperStatus = new HelperDTO(0, ConstantsUtil.SELECT_ONE);
 
     public ItemSearchDTO() {
+        super();
     }
     
     public String getItemName() {

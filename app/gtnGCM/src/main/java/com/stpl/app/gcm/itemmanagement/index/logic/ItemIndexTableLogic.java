@@ -27,6 +27,7 @@ public class ItemIndexTableLogic extends PageTableLogic {
     private List<ItemIndexDto> selecteditemList;
 
     public ItemIndexTableLogic() {
+        super();
     }
 
     /**

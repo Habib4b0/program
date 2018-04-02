@@ -25,6 +25,7 @@ public class RebateTabDTO extends ExtMapDTO implements Comparator<SalesTabDTO> {
     private Integer rebateProgramType;
 
     public RebateTabDTO() {
+        super();
     }
 
     public String getLevelValue() {

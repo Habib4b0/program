@@ -367,7 +367,9 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                 if (selectedBeanId instanceof ProjectionNameDTO) {
                     targetItem = new BeanItem<>((ProjectionNameDTO) selectedBeanId);
                 }
-                treeBean = (ProjectionNameDTO) targetItem.getBean();
+                if (targetItem != null) {
+                    treeBean = (ProjectionNameDTO) targetItem.getBean();
+                }
                 LOGGER.debug("In add form attributesTable.addItemClickListener Ended");
             }
         });
@@ -407,7 +409,9 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                 if (availableBeanId instanceof ProjectionNameDTO) {
                     targetItem = new BeanItem<>((ProjectionNameDTO) availableBeanId);
                 }
-                treeBean = (ProjectionNameDTO) targetItem.getBean();
+                if (targetItem != null) {
+                    treeBean = (ProjectionNameDTO) targetItem.getBean();
+                }
                 LOGGER.debug("In addHierarchyTree hierarchyTree.addItemClickListener Ended");
             }
         });
@@ -439,12 +443,10 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                 } else if (sourceItemId instanceof ProjectionNameDTO) {
                     beanItem = new BeanItem<>((ProjectionNameDTO) sourceItemId);
                 }
-
-
-                final ProjectionNameDTO bean = (ProjectionNameDTO) beanItem.getBean();
-
-                setToTarget(bean);
-
+                if (beanItem != null) {
+                    final ProjectionNameDTO bean = (ProjectionNameDTO) beanItem.getBean();
+                    setToTarget(bean);
+                }
             }
         });
         content.addComponent(selectedResults);
@@ -717,11 +719,14 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
         } else if (systemId instanceof ProjectionNameDTO) {
             targetItem = new BeanItem<>((ProjectionNameDTO) systemId);
         } else {
-
             targetItem = NULL_OBJECT;
         }
         LOGGER.debug("End of getBeanFromId method");
-        return (ProjectionNameDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (ProjectionNameDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
 	public ProjectionNameDTO getProjectionNameDTO() {

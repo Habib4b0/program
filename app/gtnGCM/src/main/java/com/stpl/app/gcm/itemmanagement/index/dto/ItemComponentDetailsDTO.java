@@ -48,6 +48,7 @@ public class ItemComponentDetailsDTO implements Cloneable {
     private Integer caseNo = 1;
 
     public ItemComponentDetailsDTO() {
+        super();
     }
 
     public Boolean getCheckRecord() {

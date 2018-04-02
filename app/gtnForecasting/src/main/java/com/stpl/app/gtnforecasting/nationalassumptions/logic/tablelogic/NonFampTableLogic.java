@@ -42,6 +42,7 @@ public class NonFampTableLogic extends PageTreeTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(NonFampTableLogic.class);    
 
     public NonFampTableLogic() {
+        super();
     }
     
     

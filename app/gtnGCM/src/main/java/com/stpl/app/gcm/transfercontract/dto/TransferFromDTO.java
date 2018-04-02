@@ -25,6 +25,7 @@ public class TransferFromDTO {
     private Integer level;
 
     public TransferFromDTO() {
+        super();
     }
 
     public Integer getLevel() {

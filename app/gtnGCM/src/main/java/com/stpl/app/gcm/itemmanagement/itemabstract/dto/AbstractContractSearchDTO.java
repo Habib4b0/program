@@ -107,6 +107,7 @@ public class AbstractContractSearchDTO {
     private Date baseLineWacDate;
 
     public AbstractContractSearchDTO() {
+        super();
     }
     
     public Integer getTempSid() {

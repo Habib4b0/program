@@ -24,6 +24,7 @@ public class ContractSearchTableLogic extends PageTableLogic {
     private boolean generate;
 
     public ContractSearchTableLogic() {
+        super();
     }
 
     @Override

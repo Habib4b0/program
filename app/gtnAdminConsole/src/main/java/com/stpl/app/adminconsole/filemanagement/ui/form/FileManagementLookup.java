@@ -15,8 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -26,6 +28,10 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
@@ -60,46 +66,41 @@ import com.stpl.ifs.ui.util.GtnWsCsvExportUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.ifs.util.constants.BooleanConstant;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.ErrorHandler;
+import com.vaadin.server.Page;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.validator.AbstractValidator;
 import com.vaadin.v7.event.ItemClickEvent;
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.ErrorHandler;
-import com.vaadin.server.Page;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.DefaultFieldFactory;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.OptionGroup;
-import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.v7.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import org.asi.ui.addons.lazycontainer.LazyContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 
 /**
  * The Class FileManagementLookup.
@@ -723,7 +724,7 @@ public class FileManagementLookup extends Window {
 						}
 					}
 					detailsBean.addItem(idList);
-					if (idList.size() > 0) {
+					if (!idList.isEmpty()) {
 						deleteFlag = false;
 						selectClose = true;
 						saveflag = false;
@@ -1138,11 +1139,16 @@ public class FileManagementLookup extends Window {
 			} else {
 				targetItem = NULLITEM;
 			}
-			final String fileNameListValue = ((FileMananagementResultDTO) targetItem.getBean()).getFileName();
-			final String versionListValue = ((FileMananagementResultDTO) targetItem.getBean()).getVersion();
-			selectedFileCountry = ((FileMananagementResultDTO) targetItem.getBean()).getCountry();
-			selectedFile = ((FileMananagementResultDTO) targetItem.getBean()).getFileType();
-			fileMgtDTO = (FileMananagementResultDTO) targetItem.getBean();
+                        String fileNameListValue = "";
+                        String versionListValue  = "";
+                        if (targetItem != null) {
+                            fileNameListValue = ((FileMananagementResultDTO) targetItem.getBean()).getFileName();
+                            versionListValue = ((FileMananagementResultDTO) targetItem.getBean()).getVersion();
+                            selectedFileCountry = ((FileMananagementResultDTO) targetItem.getBean()).getCountry();
+                            selectedFile = ((FileMananagementResultDTO) targetItem.getBean()).getFileType();
+                            fileMgtDTO = (FileMananagementResultDTO) targetItem.getBean();
+                        }
+			
 			fileNameList.setValue(String.valueOf(fileNameListValue));
 			versionList.setValue(String.valueOf(versionListValue));
 
@@ -1727,9 +1733,10 @@ public class FileManagementLookup extends Window {
 				try {
 					configureExcelResultTable();
 					loadExcelTable(resultDTO);
-					ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), "File Management Results",
+					VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, "true");
+					ExcelExport fileManagementexcel = new ExcelExport(new ExtCustomTableHolder(excelTable), "File Management Results",
 							"File Management Results", "FileManagementResults.xls", false);
-					excel.export();
+					fileManagementexcel.export();
 					tableLayout.removeComponent(excelTable);
 				} catch (Exception ex) {
 					LOGGER.error(ex.getMessage());
@@ -1931,7 +1938,11 @@ public class FileManagementLookup extends Window {
 			targetItem = new BeanItem<>((FileMananagementResultDTO) obj);
 		}
 		LOGGER.debug("End of getBeanFromId method");
-		return (FileMananagementResultDTO) targetItem.getBean();
+                if (targetItem != null) {
+                    return (FileMananagementResultDTO) targetItem.getBean();
+                } else {
+                    return null;
+                }
 	}
 
 	@SuppressWarnings("rawtypes")

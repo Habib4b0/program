@@ -9,11 +9,9 @@ import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.NotesDTO;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnUIFrameworkLoadNotesTabAction implements GtnUIFrameWorkAction {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkLoadNotesTabAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -37,18 +35,14 @@ public class GtnUIFrameworkLoadNotesTabAction implements GtnUIFrameWorkAction {
 				.get(0);
 		String internalNotes = String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1));
 		NotesDTO attachmentDTO;
-		String fileNameWithId;
 		String filePath;
 		if (notesTabBeanList != null) {
 			for (NotesTabBean notesTabBean : notesTabBeanList) {
 				attachmentDTO = new NotesDTO();
 				filePath = notesTabBean.getFilePath();
-				gtnLogger.info("file path+++" + filePath);
-				fileNameWithId = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
-						+ filePath.substring(filePath.lastIndexOf('.'));
 				attachmentDTO.setDocDetailsId(notesTabBean.getMasterTableSystemId());
 				attachmentDTO.setDocumentFullPath(filePath);
-				attachmentDTO.setDocumentName(fileNameWithId);
+				attachmentDTO.setDocumentName(filePath);
 				format.setTimeZone(central);
 				attachmentDTO.setDateAdded(format.format(notesTabBean.getCreatedDate()));
 				attachmentDTO.setUserId(notesTabBean.getCreatedBy());

@@ -34,6 +34,7 @@ public class PhsWorksheetTableLogic extends PageTreeTableLogic {
     private SessionDTO sessionDTO;
 
     public PhsWorksheetTableLogic() {
+        super();
     }
 
     @Override
