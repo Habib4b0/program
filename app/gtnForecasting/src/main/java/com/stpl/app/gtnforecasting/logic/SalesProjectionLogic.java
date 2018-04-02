@@ -124,7 +124,9 @@ public class SalesProjectionLogic {
             throw new SystemException(ex);
         } finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -188,7 +190,9 @@ public class SalesProjectionLogic {
 
         } finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                LOGGER.error(e.getMessage());
             }
@@ -323,7 +327,9 @@ public class SalesProjectionLogic {
             throw new SystemException(ex);
         } finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
                 connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
@@ -359,7 +365,9 @@ public class SalesProjectionLogic {
             throw new SystemException(ex);
         } finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -1026,7 +1034,9 @@ public class SalesProjectionLogic {
 
         } finally {
             try {
-                statement.close();
+                if(statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -1129,7 +1139,7 @@ public class SalesProjectionLogic {
 
     public Map<String, Boolean> getCheckRecordDetails(Object[] inputs) {
         Map<String, Boolean> checkDetails = new HashMap<>();
-        List list = null;
+        List list = new ArrayList();
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             list = salesProjectionDAO.getSalesProjection(inputs);

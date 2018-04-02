@@ -527,7 +527,11 @@ public class AlternateSummery extends CustomComponent {
             targetItem = new BeanItem<>(
                     (SalesRowDto) obj);
         }
-        return (SalesRowDto) targetItem.getBean();
+        if (targetItem != null) {
+            return (SalesRowDto) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     /**

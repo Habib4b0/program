@@ -363,9 +363,9 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
     private void initializeResultTable() {
         getResultsTable().markAsDirty();
         getResultsTable().setSelectable(false);
-        getResultsTable().setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        getResultsTable().setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         getResultsTable().addStyleName("valo-theme-extfiltertable");
     }
 
@@ -383,16 +383,16 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
                 histFlag = true;
                 projectionDTO.setHistory(hist.toString());
-                if (freq.equals(QUARTERLY)) {
+                if (freq != null && freq.equals(QUARTERLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (freq != null && freq.equals(SEMI_ANNUALLY.getConstant())) {
                     historyNum = String.valueOf(hist).endsWith("Periods") ? Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim())
                             : Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Period", StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(MONTHLY)) {
+                } else if (freq != null && freq.equals(MONTHLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(ANNUALLY)) {
+                } else if (freq != null && freq.equals(ANNUALLY)) {
                     String histPeriod = String.valueOf(hist);
                     if (histPeriod.endsWith(Constant.YEAR) || histPeriod.endsWith("Years")) {
                         historyNum = histPeriod.endsWith(Constant.YEAR) ? Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim()) : Integer.parseInt(String.valueOf(hist).replace("Years", StringUtils.EMPTY).trim());

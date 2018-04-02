@@ -17,6 +17,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +117,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     public Map<Integer, Object> loadData(int start, int offset) {
 
         Map<Integer, Object> finalMap = new HashMap<>();
-        List<PPAProjectionDTO> list = null;
+        List<PPAProjectionDTO> list = new ArrayList<>();
         Object lp = getLastParent();
         try {
             list = logic.getPPALogicData(selection, lp, start, offset, rightDto);

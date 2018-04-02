@@ -282,6 +282,7 @@ public class WorkflowLogic {
                 }
             } else {
                 LOGGER.error("workflowMaster not created");
+                return null;
             }
 
         } catch (SystemException ex) {
@@ -395,7 +396,9 @@ public class WorkflowLogic {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
-                st.close();
+                if (st != null) {
+                    st.close();
+                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }

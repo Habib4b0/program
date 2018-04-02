@@ -315,15 +315,15 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POSITION = 300;
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POSITION = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MIN_SPLIT_POSITION = 200;
     /**
      * Excel table
      */
@@ -473,9 +473,9 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected void initializeResultTable() {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
