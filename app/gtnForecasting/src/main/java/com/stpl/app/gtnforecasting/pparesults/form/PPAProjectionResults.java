@@ -1165,13 +1165,14 @@ public class PPAProjectionResults extends CustomComponent implements View {
             } catch (IllegalArgumentException | NullPointerException ex) {
                 LOGGER.error(ex.getMessage());
             }
+        } else {
+            ppaDetailsLookup.addCloseListener(new Window.CloseListener() {
+                @Override
+                public void windowClose(Window.CloseEvent e) {
+                    ppaDetailsLookup = null;
+                }
+            });
         }
-        ppaDetailsLookup.addCloseListener(new Window.CloseListener() {
-            @Override
-            public void windowClose(Window.CloseEvent e) {
-                ppaDetailsLookup = null;
-            }
-        });
     }
 
     @SuppressWarnings("serial")

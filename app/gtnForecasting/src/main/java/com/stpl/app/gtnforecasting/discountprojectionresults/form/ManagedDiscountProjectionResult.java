@@ -288,15 +288,15 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
                 projectionDTO.setHistory(String.valueOf(hist).replace("Years", Constant.YEAR));
                 hist = String.valueOf(hist).replace("Years", Constant.YEAR);
 
-                if (freq.equals(QUARTERLY)) {
+                if (freq != null && freq.equals(QUARTERLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (freq != null && freq.equals(SEMI_ANNUALLY.getConstant())) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(MONTHLY)) {
+                } else if (freq != null && freq.equals(MONTHLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(ANNUALLY)) {
+                } else if (freq != null && freq.equals(ANNUALLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim());
                 }
             }

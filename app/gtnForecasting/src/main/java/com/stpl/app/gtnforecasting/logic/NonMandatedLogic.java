@@ -619,7 +619,9 @@ public class NonMandatedLogic {
 			throw new SystemException(ex);
 		} finally {
 			try {
+                            if (statement != null) {
 				statement.close();
+                            }
 			} catch (SQLException e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -1489,14 +1491,14 @@ public class NonMandatedLogic {
 		projectionMaster.setProjectionProdVersionNo(dataSelectionDTO.getProductRelationShipVersionNo());
 		Object[] obj = null;
 		if (CommonUtil.isValueEligibleForLoading()) {
-			obj = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
-		}
-		projectionMaster
-				.setDedRelationshipBuilderSid(CommonUtil.isValueEligibleForLoading() ? obj[0].toString() : null);
-		projectionMaster.setDeductionHierarchySid(CommonUtil.isValueEligibleForLoading() ? obj[1].toString() : null);
-                projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
-                List versionNoList = getDeductionVersionNoList(obj[0].toString());
-                projectionMaster.setProjectionDedVersionNo(CommonUtil.isValueEligibleForLoading() ? (int) versionNoList.get(0) : null);
+                    obj = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
+
+                    projectionMaster.setDedRelationshipBuilderSid(String.valueOf(obj[0]));
+                    projectionMaster.setDeductionHierarchySid(String.valueOf(obj[1]));
+                    projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
+                    List versionNoList = getDeductionVersionNoList(obj[0].toString());
+                    projectionMaster.setProjectionDedVersionNo(CommonUtil.isValueEligibleForLoading() ? (int) versionNoList.get(0) : null);
+                }
                 projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
 		return projectionMaster.getProjectionMasterSid();
 

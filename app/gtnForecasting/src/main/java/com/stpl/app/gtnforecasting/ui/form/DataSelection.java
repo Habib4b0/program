@@ -571,7 +571,7 @@ public class DataSelection extends ForecastDataSelection {
 				if (companyLevel != null) {
 
 					innerLevelValues = logic.loadInnerLevel(companyLevel.getLevel(),
-							productHierarchyDto.getHierarchyId(), selectedLevelSids, false, companyLevel.getFieldName(),
+							productHierarchyDto == null ? null : productHierarchyDto.getHierarchyId(), selectedLevelSids, false, companyLevel.getFieldName(),
 							relationshipSid, productDescriptionMap, StringUtils.EMPTY, screenName,
 							discountDTO != null ? discountDTO.getRsModelSid() : 0, companyLevel.getLevelNo(),
 							StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(), businessUnit.getValue());
@@ -1500,7 +1500,7 @@ public class DataSelection extends ForecastDataSelection {
 																		? Constant.RS_TYPE : StringUtils.EMPTY;
 						dedValue = String.valueOf(deductionValue.getValue());
 					}
-					innerLevelValues = logic.loadInnerLevel(ndcLevel.getLevel(), productHierarchyDto.getHierarchyId(),
+					innerLevelValues = logic.loadInnerLevel(ndcLevel.getLevel(), productHierarchyDto == null ? null : productHierarchyDto.getHierarchyId(),
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds()),
 							true, ndcLevel.getFieldName(), relationshipSid, productDescriptionMap,
 							INDICATOR_LEVEL_NDC.getConstant(), screenName,
@@ -2033,7 +2033,7 @@ public class DataSelection extends ForecastDataSelection {
 						discountDTO = (CompanyDdlbDto) discount.getValue();
 					}
 					innerLevelValues = logic.loadInnerLevel(customerLevelDto.getLevel(),
-							customerHierarchyDto.getHierarchyId(),
+							customerHierarchyDto == null ? null : customerHierarchyDto.getHierarchyId(),
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedCustomerContainer.getItemIds()),
 							false, customerLevelDto.getFieldName(), relationshipSid, customerDescriptionMap,
 							INDICATOR_LEVEL_CUSTOMER.getConstant(), screenName,

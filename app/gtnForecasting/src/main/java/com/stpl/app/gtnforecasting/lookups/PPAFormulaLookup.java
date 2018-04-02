@@ -302,7 +302,11 @@ public class PPAFormulaLookup extends Window {
             targetItem = new BeanItem<>(
                     (RSFormulaDTO) obj);
         }
-        return (RSFormulaDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (RSFormulaDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     /**
