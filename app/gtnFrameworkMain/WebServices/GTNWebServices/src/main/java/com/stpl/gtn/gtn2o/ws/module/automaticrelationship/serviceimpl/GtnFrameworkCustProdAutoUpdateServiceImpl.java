@@ -103,7 +103,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
-		return Boolean.FALSE;
+		return false;
 	}
 
 	@Override

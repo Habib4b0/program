@@ -725,7 +725,7 @@ public class GtnWsContractDashboardLogic {
 			throws GtnFrameworkGeneralException {
 		int levelId = recordBean.getIntegerPropertyByIndex(4);
 		ContractMaster contractMaster = session.load(ContractMaster.class, levelId);
-		contractMaster.setProcessStatus(true);
+		contractMaster.setProcessStatus(Boolean.TRUE);
 		contractMaster.setModifiedBy(Integer.valueOf(cdRequest.getUserId()));
 		contractMaster.setModifiedDate(new Date());
 		contractMaster.setSource("GTN");

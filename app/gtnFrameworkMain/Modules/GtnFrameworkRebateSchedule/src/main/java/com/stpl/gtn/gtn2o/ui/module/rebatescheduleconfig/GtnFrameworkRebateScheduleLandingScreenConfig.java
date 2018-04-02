@@ -669,7 +669,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(new ArrayList<Object>(Arrays.asList(visibleFields)));
 
 		visibleAction.setActionParameterList(visibleParameters);
@@ -681,7 +681,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		parameters.add(GtnUIFrameWorkRSLoadAction.class.getName());
 		parameters.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(30);
 		editActionConfig.setActionParameterList(parameters);
 		actionConfigList.add(editActionConfig);
@@ -781,7 +781,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
 
 		List<Object> visibleActionParameters = new ArrayList<>();
-		visibleActionParameters.add(true);
+		visibleActionParameters.add(Boolean.TRUE);
 		visibleActionParameters.add(Arrays.asList(layoutVisibleArray));
 
 		layoutVisibleAction.setActionParameterList(visibleActionParameters);
@@ -1050,7 +1050,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(false);
+		visibleParameters.add(Boolean.FALSE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 
 		visibleAction.setActionParameterList(visibleParameters);

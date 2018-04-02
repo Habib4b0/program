@@ -39,7 +39,7 @@ public class GtnFrameworkCfpTabChangeAction
 					GtnFrameworkCfpValueChangeManager.setValueChangeAllowed(false);
 					GtnUIFrameworkPagedTableLogic logic = (GtnUIFrameworkPagedTableLogic) cfpCompaniesTabResultDataTable
 							.getContainerLogic();
-					logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+					logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 					cfpCompaniesTabResultDataTable.setData(null);
 				}
 

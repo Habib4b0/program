@@ -45,7 +45,7 @@ public class GtnFrameworkCGrpCopyAction
 		if (gtnWsRecordBeanCopy == null) {
 			return;
 		}
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
 
 		GtnCompanyGrpInformationBean cGrpInfoBean = new GtnCompanyGrpInformationBean();
@@ -74,7 +74,7 @@ public class GtnFrameworkCGrpCopyAction
 
 			GtnUIFrameworkPagedTableLogic cGrpSelectedResultTableLogic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("cGrpSelectedResultTable").getLogicFromPagedDataTable();
-			cGrpSelectedResultTableLogic.startSearchProcess(null, Boolean.TRUE);
+			cGrpSelectedResultTableLogic.startSearchProcess(null, true);
 
 			GtnUIFrameworkGlobalUI.addSessionProperty("companyGrpSid", 0);
 			GtnUIFrameworkGlobalUI.addSessionProperty("versionId", 1);

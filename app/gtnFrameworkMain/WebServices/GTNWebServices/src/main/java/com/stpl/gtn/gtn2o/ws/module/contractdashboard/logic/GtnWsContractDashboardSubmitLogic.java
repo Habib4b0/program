@@ -68,7 +68,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		int count = 0;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(ImtdCfpDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID, cdRequest.getUserId()))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))
 					.add(Restrictions.ne(GtnFrameworkWebserviceConstant.OPERATION, "D"))
@@ -87,7 +87,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		try (Session session = getController().getSessionFactory().openSession()) {
 
 			Criteria cr = session.createCriteria(ImtdCfpDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID, cdRequest.getUserId()))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))
 					.add(Restrictions.ne(GtnFrameworkWebserviceConstant.OPERATION, "D")).add(Restrictions.isNull(field))
@@ -105,7 +105,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		int count = 0;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(ImtdCfpDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID, cdRequest.getUserId()))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))
 					.add(Restrictions.ne(GtnFrameworkWebserviceConstant.OPERATION, "D")).add(Restrictions.isNull(field))
@@ -122,7 +122,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		int count = 0;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(ImtdCfpDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID, cdRequest.getUserId()))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))
 					.add(Restrictions.ne(GtnFrameworkWebserviceConstant.OPERATION, "D"))
@@ -141,7 +141,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		int count = 0;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(ImtdItemPriceRebateDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID,
 							Integer.valueOf(cdRequest.getUserId())))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))
@@ -160,7 +160,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		int count = 0;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(ImtdItemPriceRebateDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID,
 							Integer.valueOf(cdRequest.getUserId())))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))
@@ -181,7 +181,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		int count = 0;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(ImtdItemPriceRebateDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID,
 							Integer.valueOf(cdRequest.getUserId())))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))
@@ -201,7 +201,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		int count = 0;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(ImtdItemPriceRebateDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID,
 							Integer.valueOf(cdRequest.getUserId())))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))
@@ -884,7 +884,7 @@ public class GtnWsContractDashboardSubmitLogic {
 		int count = 0;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(ImtdItemPriceRebateDetails.class)
-					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, true))
+					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CHECK_RECORD, Boolean.TRUE))
 					.add(Restrictions.eq(GtnFrameworkWebserviceConstant.USERS_SID,
 							Integer.valueOf(cdRequest.getUserId())))
 					.add(Restrictions.eq(GtnFrameworkCommonConstants.SESSION_ID, cdRequest.getSessionId()))

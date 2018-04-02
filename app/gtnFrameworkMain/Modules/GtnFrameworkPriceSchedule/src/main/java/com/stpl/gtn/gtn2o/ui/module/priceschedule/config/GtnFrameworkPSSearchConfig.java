@@ -396,7 +396,7 @@ public class GtnFrameworkPSSearchConfig {
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
 				"priceSchedule", "priceScheduleSearch");
 		psSearchResultTable.setEditable(false);
-		psSearchResultTable.setSinkItemPerPageWithPageLength(Boolean.FALSE);
+		psSearchResultTable.setSinkItemPerPageWithPageLength(false);
 		psSearchResultTable.setItemPerPage(10);
 		psSearchResultTable.setPageLength(10);
 		psSearchResultTable.setTableColumnDataType(new Class<?>[] { String.class, String.class, String.class,
@@ -463,7 +463,7 @@ public class GtnFrameworkPSSearchConfig {
 		parameters.add(GtnUIFrameWorkPSLoadAction.class.getName());
 		parameters.add(GtnFrameworkCommonConstants.PS_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(0);
 
 		editActionConfig.setActionParameterList(parameters);
@@ -618,7 +618,7 @@ public class GtnFrameworkPSSearchConfig {
 		parameters.add(GtnUIFrameWorkPSLoadAction.class.getName());
 		parameters.add(GtnFrameworkCommonConstants.PS_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(0);
 
 		editActionConfig.setActionParameterList(parameters);
@@ -677,7 +677,7 @@ public class GtnFrameworkPSSearchConfig {
 				GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 
 		visibleAction.setActionParameterList(visibleParameters);
@@ -722,7 +722,7 @@ public class GtnFrameworkPSSearchConfig {
 		parameters.add(GtnUIFrameWorkPSLoadAction.class.getName());
 		parameters.add(GtnFrameworkCommonConstants.PS_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(0);
 
 		editActionConfig.setActionParameterList(parameters);
@@ -763,7 +763,7 @@ public class GtnFrameworkPSSearchConfig {
 				"psPriceProtectionTabPopulateAllButton","massUpdatePanel","pricingMassUpdatePanel"};
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(false);
+		visibleParameters.add(Boolean.FALSE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 
 		visibleAction.setActionParameterList(visibleParameters);

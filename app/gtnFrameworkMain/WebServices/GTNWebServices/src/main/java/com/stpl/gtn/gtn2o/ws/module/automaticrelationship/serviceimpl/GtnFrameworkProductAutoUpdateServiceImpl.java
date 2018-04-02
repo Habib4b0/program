@@ -115,7 +115,7 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		return Boolean.FALSE;
+		return false;
 	}
 
 	@Override

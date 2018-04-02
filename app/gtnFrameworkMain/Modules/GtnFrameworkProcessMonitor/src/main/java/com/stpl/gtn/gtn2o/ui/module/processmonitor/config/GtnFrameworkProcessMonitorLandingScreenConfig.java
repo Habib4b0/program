@@ -728,7 +728,7 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnWsProcessMonitorConstants.PROCESS_MONITOR_TABLE_CLICK_ACTION);
 		editActionConfig.addActionParameter("searchResultTable");
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.PROCESS_NAME);
-		editActionConfig.addActionParameter(true);
+		editActionConfig.addActionParameter(Boolean.TRUE);
 		itemDoubleClickActionConfigList.add(editActionConfig);
 		processMonitorSearchResult.setGtnUIFrameWorkActionConfigList(itemDoubleClickActionConfigList);
 

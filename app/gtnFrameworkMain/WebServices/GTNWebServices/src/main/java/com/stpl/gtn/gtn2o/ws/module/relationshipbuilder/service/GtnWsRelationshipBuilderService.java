@@ -1383,7 +1383,7 @@ public class GtnWsRelationshipBuilderService {
 		List<Object> properties = Arrays.<Object>asList(levelBean.getLevelValue(), levelBean.getLevelNo(),
 				levelBean.getLevelName(), levelBean.getParentNode(), levelBean.getPrimaryKeyColumn(),
 				levelBean.getHierarchyLevelSystemId(), levelBean.getRelationshipLevelSystemId(),
-				levelBean.getHiddenId(), levelBean.getHierarchyNo(), levelBean.getLevelValueReference(), false);
+				levelBean.getHiddenId(), levelBean.getHierarchyNo(), levelBean.getLevelValueReference(), Boolean.FALSE);
 		dto.setProperties(properties);
 		dto.addAdditionalProperty(levelBean.getLevelNo());
 		return dto;

@@ -58,7 +58,7 @@ public class GtnWsAutomaticRelationController {
 
 			
 			automaticService.checkAndUpdateAllRelationShip("");
-			relationResponse.setRelationUpdate(Boolean.TRUE);
+			relationResponse.setRelationUpdate(true);
 			generalResponse.setAutomaticRelationResponse(relationResponse);
 		} catch (Exception ex) {
 			LOGGER.error("Error in automaticRelationUpdateForAllLevel", ex);
@@ -74,7 +74,7 @@ public class GtnWsAutomaticRelationController {
 		GtnUIFrameworkWebserviceResponse generalResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			automaticService.waitForRelaitonUpdatetoFinish();
-			relationResponse.setRelationUpdate(Boolean.TRUE);
+			relationResponse.setRelationUpdate(true);
 			generalResponse.setAutomaticRelationResponse(relationResponse);
 		} catch (Exception ex) {
 			LOGGER.error("Error in waitAutomaticRelationUpdateForAllLevel", ex);

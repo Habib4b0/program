@@ -79,7 +79,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 
 	@Override
 	public boolean checkAutomaticRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
-		return Boolean.TRUE;
+		return true;
 	}
 
 	@Override

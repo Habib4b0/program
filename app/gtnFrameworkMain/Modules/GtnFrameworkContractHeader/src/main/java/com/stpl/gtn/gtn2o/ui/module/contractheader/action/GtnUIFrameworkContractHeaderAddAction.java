@@ -33,7 +33,7 @@ public class GtnUIFrameworkContractHeaderAddAction
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("Entering GtnFrameworkItemMasterAddAction doAction ");
 		try {
-			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			setValueToComponents(componentId);
 			GtnUIFrameworkGlobalUI.addSessionProperty("contractMasterSid", 0);
 		} catch (Exception e) {

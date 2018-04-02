@@ -154,7 +154,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		if (!comboboxConfig.isHasDefaultValue()) {
 			String defaultValue = comboboxConfig.getDefaultValue() != null
 					? String.valueOf(comboboxConfig.getDefaultValue()) : GtnFrameworkCommonStringConstants.SELECT_ONE;
-			vaadinComboBox.setNullSelectionAllowed(Boolean.TRUE);
+			vaadinComboBox.setNullSelectionAllowed(true);
 			vaadinComboBox.setNullSelectionItemId(0);
 			vaadinComboBox.addItem(0);
 			vaadinComboBox.setItemCaption(0, defaultValue);
@@ -174,7 +174,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		}
 
 		if (comboboxConfig.isHasDefaultValue() && !vaadinComboBox.getItemIds().isEmpty() ) {
-			vaadinComboBox.setNullSelectionAllowed(Boolean.FALSE);
+			vaadinComboBox.setNullSelectionAllowed(false);
 			vaadinComboBox.setValue(vaadinComboBox.getItemIds().iterator().next());
 		}
 
