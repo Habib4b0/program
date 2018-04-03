@@ -955,7 +955,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
 
     public void checkMultiVariables(final String period, final String refreshName) {
-        if (multipleVariableCheckMap.get(period.trim()) == null) {
+        if (multipleVariableCheckMap.get(period.trim()) == null || multipleVariableCheckMap.get(period.trim()).equals(refreshName)) {
             multipleVariableCheckMap.put(period.trim(), refreshName);
         } else {
             isMultipleVariablesUpdated = true;
