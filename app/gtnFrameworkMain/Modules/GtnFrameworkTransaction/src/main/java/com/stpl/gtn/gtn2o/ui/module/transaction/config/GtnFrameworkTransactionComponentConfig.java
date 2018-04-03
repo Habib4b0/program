@@ -154,7 +154,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				List<GtnUIFrameworkComponentConfig> reprocessAndRemoveComponentList = new ArrayList<>();
 				addReprocessButtonComponent(reprocessAndRemoveComponentList,
 						componentBean.getReprocessingWebServiceURL(), componentBean, portletName);
-				addRemoveButtonComponent(reprocessAndRemoveComponentList,componentBean,portletName);
+				addRemoveButtonComponent(reprocessAndRemoveComponentList, componentBean, portletName);
 				transactionBean.setReprocessAndRemoveComponentList(reprocessAndRemoveComponentList);
 			}
 			List<GtnUIFrameworkComponentConfig> excelBtnComponentList = new ArrayList<>();
@@ -383,15 +383,19 @@ public class GtnFrameworkTransactionComponentConfig {
 		companyIdConfig.setAddToParent(true);
 		companyIdConfig.setEnable(isEnable);
 		companyIdConfig.setDefaultFocus(component.isDefaultFocus());
+
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+
 		if (component.isLengthValidator()) {
-			GtnUIFrameworkValidationConfig transactionLengthValConfig = new GtnUIFrameworkValidationConfig();
-			transactionLengthValConfig.setAttachLengthValidatior(true);
-			transactionLengthValConfig.setMinSize(component.getMinLength());
-			transactionLengthValConfig.setMaxLength(component.getMaxLength());
-			transactionLengthValConfig
+			validationConfig.setAttachLengthValidatior(true);
+			validationConfig.setMinSize(component.getMinLength());
+			validationConfig.setMaxLength(component.getMaxLength());
+			validationConfig
 					.setRegxValidationMessage("Length should be less than " + component.getMaxLength() + " Characters");
-			companyIdConfig.setGtnUIFrameworkValidationConfig(transactionLengthValConfig);
+
 		}
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		companyIdConfig.setGtnUIFrameworkValidationConfig(validationConfig);
 		componentList.add(companyIdConfig);
 	}
 
@@ -426,6 +430,9 @@ public class GtnFrameworkTransactionComponentConfig {
 		companyStatus.setGtnComboboxConfig(companyStatusConfig);
 		companyStatusConfig.setIntegerItemCode(!component.isLoadDescription());
 		getAdditonalSetting(component, companyStatus, companyStatusConfig);
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		companyStatus.setGtnUIFrameworkValidationConfig(validationConfig);
 		companyStatus.setDefaultFocus(component.isDefaultFocus());
 
 	}
@@ -481,6 +488,9 @@ public class GtnFrameworkTransactionComponentConfig {
 			companyStatus.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.DATE_CENTER_ALIGN));
 		}
 		companyStatus.setEnable(isEnable);
+		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
+		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		companyStatus.setGtnUIFrameworkValidationConfig(validationConfig);
 		componentList.add(companyStatus);
 	}
 
@@ -675,9 +685,28 @@ public class GtnFrameworkTransactionComponentConfig {
 		customAlertAction.addActionParameter(GtnUIFrameworkTransactionAlertAction.class.getName());
 		customAlertAction.addActionParameter(mandatoryMsgHeaderList);
 		customAlertAction.addActionParameter(mandatoryMsgBodyList);
+
+		GtnUIFrameWorkActionConfig searchValidationActionConfig = new GtnUIFrameWorkActionConfig();
+		searchValidationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
+		List searchComponentIdList = new ArrayList<>(searchComponentID);
+		searchComponentIdList.addAll(descriptionList);
+		searchValidationActionConfig.setFieldValues(searchComponentIdList);
+
+		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
+		alertActionConfig.setActionType(GtnUIFrameworkActionType.WARNING_ACTION);
+
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add("Search Criteria ");
+		alertParamsList.add("Please enter/select search criteria.");
+
+		alertActionConfig.setActionParameterList(alertParamsList);
+		searchValidationActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.OR, Arrays.asList(alertActionConfig)));
+
 		validationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(customAlertAction)));
 		actionConfigList.add(validationActionConfig);
+		actionConfigList.add(searchValidationActionConfig);
 
 		if (totalCombination > 0) {
 			Object tableNameForDemand = tableName;
@@ -842,8 +871,8 @@ public class GtnFrameworkTransactionComponentConfig {
 
 	}
 
-	private void addRemoveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, 
-			GtnUIFrameworkTransactionComponentTypeListBean componentBean,String portletName) {
+	private void addRemoveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean, String portletName) {
 		GtnUIFrameworkComponentConfig resetButtonConfig = new GtnUIFrameworkComponentConfig();
 		resetButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setComponentId("gtnRemove01");
@@ -855,21 +884,22 @@ public class GtnFrameworkTransactionComponentConfig {
 		List<GtnUIFrameWorkActionConfig> gtnUIFrameworkRemoveConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig removeAlertAction = new GtnUIFrameWorkActionConfig();
 		removeAlertAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		removeAlertAction
-				.setActionParameterList(Arrays.asList(GtnFrameworkTransactionReprocessRemoveValidation.class.getName(),
-						remove, GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT,componentBean.isOutBoundModule(),portletName));
+		removeAlertAction.setActionParameterList(
+				Arrays.asList(GtnFrameworkTransactionReprocessRemoveValidation.class.getName(), remove,
+						GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT, componentBean.isOutBoundModule(), portletName));
 		gtnUIFrameworkRemoveConfigList.add(removeAlertAction);
 		List<GtnUIFrameWorkActionConfig> removeActionList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig removeAction = new GtnUIFrameWorkActionConfig();
 		removeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		removeAction.setActionParameterList(
-				Arrays.asList(GtnUIFrameworkTransactionReprocessRemoveAction.class.getName(), remove,
-						GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT, GtnTransactionUIConstants.SEARCH_TABLE_ID,componentBean.getReprocessingWebServiceURL(),
-				componentBean.isOutBoundModule(), componentBean.getStagingInsertColumns(),
-				componentBean.getStagingUpdateColumns(), componentBean.getStagingUpdateColumnsValues()));
+		removeAction
+				.setActionParameterList(Arrays.asList(GtnUIFrameworkTransactionReprocessRemoveAction.class.getName(),
+						remove, GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT,
+						GtnTransactionUIConstants.SEARCH_TABLE_ID, componentBean.getReprocessingWebServiceURL(),
+						componentBean.isOutBoundModule(), componentBean.getStagingInsertColumns(),
+						componentBean.getStagingUpdateColumns(), componentBean.getStagingUpdateColumnsValues()));
 		removeActionList.add(removeAction);
-		
+
 		GtnUIFrameWorkActionConfig removeConfirmationActionConfig = new GtnUIFrameWorkActionConfig();
 		removeConfirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		List<Object> removeConfirmationAlertParams = new ArrayList<>();
@@ -947,11 +977,12 @@ public class GtnFrameworkTransactionComponentConfig {
 			fieldConfig.setComponentType(gtnUIFrameworkComponentType);
 
 			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-			GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                        customAction.addActionParameter(GtnUIFrameworkTransactionTableCheckAction.class.getName());
-                        customAction.addActionParameter(GtnTransactionUIConstants.SEARCH_TABLE_ID);
-                        customAction.addActionParameter(GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT);
-                        customAction.addActionParameter(checkAll);
+			GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.CUSTOM_ACTION);
+			customAction.addActionParameter(GtnUIFrameworkTransactionTableCheckAction.class.getName());
+			customAction.addActionParameter(GtnTransactionUIConstants.SEARCH_TABLE_ID);
+			customAction.addActionParameter(GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT);
+			customAction.addActionParameter(checkAll);
 			actionConfigList.add(customAction);
 			fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(actionConfigList);
 

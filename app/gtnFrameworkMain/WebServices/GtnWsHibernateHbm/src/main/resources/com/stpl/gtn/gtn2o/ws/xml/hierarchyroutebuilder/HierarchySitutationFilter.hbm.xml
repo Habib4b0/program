@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 28, 2018 5:20:21 PM by Hibernate Tools 5.2.8.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class  dynamic-insert="false" dynamic-update="false" mutable="true" name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchySitutationFilter" optimistic-lock="version" polymorphism="implicit"  select-before-update="false" table="HIERARCHY_SITUTATION_FILTER">
+        <id name="hierarchySitutationFilterSid" type="java.lang.Integer">
+            <column name="HIERARCHY_SITUTATION_FILTER_SID"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="hierarchySitutationTableSid" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="HIERARCHY_SITUTATION_TABLE_SID"/>
+        </property>
+        <property generated="never" lazy="false" name="leftColumn" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="LEFT_COLUMN"/>
+        </property>
+        <property generated="never" lazy="false" name="rightColumn" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="RIGHT_COLUMN"/>
+        </property>
+        <property generated="never" lazy="false" name="operatorType" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="OPERATOR_TYPE"/>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 23, 2018 6:00:37 PM by Hibernate Tools 5.2.8.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class  dynamic-insert="false" dynamic-update="false" mutable="true" name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyHelperSelect" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="HIERARCHY_HELPER_SELECT">
+        <composite-id class="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyHelperSelectId" mapped="false" name="id" unsaved-value="undefined">
+            <key-property name="masterTableSid" type="int">
+                <column name="MASTER_TABLE_SID"/>
+            </key-property>
+            <key-property name="actualColumnName" type="string">
+                <column length="100" name="ACTUAL_COLUMN_NAME"/>
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

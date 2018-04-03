@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSelectColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -81,7 +81,7 @@ public class GtnWsRelationshipBuilderHelperService {
 		final String hierarchyCategory = hierListValues.get(1).toString();
 		final int levelNo = Integer.parseInt(hierListValues.get(2).toString());
 		String rule = String.valueOf(hierListValues.get(3));
-		final GtnFrameworkSingleColumnRelationBean dto = gtnFrameworkEntityMasterBean
+		final GtnFrameworkSelectColumnRelationBean dto = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
 
 		String sqlString = "";
@@ -122,7 +122,7 @@ public class GtnWsRelationshipBuilderHelperService {
 
 	}
 
-	public String addTableJoin(GtnFrameworkSingleColumnRelationBean keyBean) {
+	public String addTableJoin(GtnFrameworkSelectColumnRelationBean keyBean) {
 		if (keyBean.getMappingColumnName() != null && !keyBean.getMappingColumnName().isEmpty()) {
 			StringBuilder tempQuery = new StringBuilder();
 			tempQuery.append(" JOIN ");
@@ -153,7 +153,7 @@ public class GtnWsRelationshipBuilderHelperService {
 				final String value = colArray[3];
 				otherColumn = otherColumn.replace(REPLACE_STRING, "");
 				gtnFrameworkEntityMasterBean.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
-				final GtnFrameworkSingleColumnRelationBean dto = gtnFrameworkEntityMasterBean
+				final GtnFrameworkSelectColumnRelationBean dto = gtnFrameworkEntityMasterBean
 						.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
 				if (dto != null) {
 					final StringBuilder subQuery = new StringBuilder();

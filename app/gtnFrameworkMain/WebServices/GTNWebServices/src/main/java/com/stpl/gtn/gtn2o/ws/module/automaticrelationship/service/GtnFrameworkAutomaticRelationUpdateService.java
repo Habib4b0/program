@@ -183,11 +183,9 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		HelperTable hierarchyCat = session.load(HelperTable.class,
 				relationshipBuilder.getHierarchyDefinition().getHierarchyCategory());
 		relationBean.setHierarchycategory(hierarchyCat.getDescription());
-
 		return relationBean;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<HierarchyLevelDefinitionBean> getHierarchyBuilder(Integer hierarchyBuilderSid, int hierarchyVersionNo)
 			throws GtnFrameworkGeneralException {
 		List<Object> input = new ArrayList<>();
@@ -199,6 +197,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 
 	private List<HierarchyLevelDefinitionBean> executeAndGetCustomizedResult(String finalQuery)
 			throws GtnFrameworkGeneralException {
+		@SuppressWarnings("unchecked")
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = new ArrayList<>();
 		for (Object[] objects : resultList) {

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.concurrency.GtnFramworkCustProdCheckForAutoUpdateQueryGenerator;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
@@ -33,7 +33,7 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Callable<String> {
 	@Autowired
 	private GtnFrameworkHierarchyService gtnHierarchyServiceBuilder;
 	@Autowired
-	private GtnFramworkCustProdCheckForAutoUpdateQueryGenerator gtnCustProdQueryGenerator;
+	private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
 	private GtnWsRelationshipBuilderBean relationBean;
 	private List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList;
@@ -105,7 +105,6 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Callable<String> {
 	public String call() throws Exception {
 		try {
 			HierarchyLevelDefinitionBean currnetHierarchyLevelBean = hierarchyLevelDefinitionList.get(index);
-
 			HierarchyLevelDefinitionBean previousHierarchyLevelBean = HierarchyLevelDefinitionBean
 					.getPreviousLinkedLevel(hierarchyLevelDefinitionList, currnetHierarchyLevelBean);
 			List<Object> inputs = new ArrayList<>();
@@ -114,10 +113,11 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Callable<String> {
 			inputs.add(relationBean.getVersionNo());
 			inputs.add(currnetHierarchyLevelBean.getLevelNo());
 			inputs.add(relationBean.getVersionNo());
+			inputs.add(queryGeneratorService.getHierarchyNo(hierarchyLevelDefinitionList, currnetHierarchyLevelBean));
 			List<Object> inputsForFinalQuery = null;
-			GtnFrameworkQueryGeneratorBean hierarchyQuery = gtnCustProdQueryGenerator
-					.getFinalCheckQuery(currnetHierarchyLevelBean,
-							previousHierarchyLevelBean, hierarchyLevelDefinitionList);
+			GtnFrameworkQueryGeneratorBean hierarchyQuery = queryGeneratorService
+					.getQuerybySituationNameAndLevel(currnetHierarchyLevelBean, "CHECK_AUTO_UPDATE",
+							hierarchyLevelDefinitionList);
 			String query = gtnWsSqlService.getReplacedQuery(inputs, hierarchyQuery.generateQuery());
 			inputsForFinalQuery = new ArrayList<>();
 			inputsForFinalQuery.add(relationBean.getRelationshipBuilderSid());

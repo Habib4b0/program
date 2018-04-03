@@ -3,9 +3,9 @@
 <hibernate-configuration>
   <session-factory name="GtnFramework">
     <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-    <property name="hibernate.connection.password">*U6s5ZKW~C4\Mdev</property>
-    <property name="hibernate.connection.url">jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APP_UNIT</property>
-    <property name="hibernate.connection.username">bpigtn_agn_unit</property>
+    <property name="hibernate.connection.password">^D$b2K5!</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA</property>
+    <property name="hibernate.connection.username">bpigtn_db</property>
     <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
 	<mapping package="com.stpl.gtn.gtn2o.ws.entity"/>
   </session-factory>

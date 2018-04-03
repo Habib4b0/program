@@ -31,13 +31,13 @@ public class GtnFrameworkDeductionAutoUpdateServiceImplTest {
 	public void checkForAutoUpdate() {
 		try {
 			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(743);
-		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList;
-		System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
+			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList;
+			System.setProperty("gtn.app.data.path", "D:/SERVERS/BASEPATH");
 			hierarchyDefinitionList = service.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(),
 					relationBean.getHierarchyVersion());
-			automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList);
+			// automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList);
+			automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
 		} catch (Exception e) {
-			
 			e.printStackTrace();
 		}
 

@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyQueryGenerator;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.querygenerator.GtnWsAllHierarchyQueryGenerator;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -34,7 +34,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 	private GtnWsSqlService gtnWsSqlService;
 
 
-	private GtnWsRelationshipBuilderHierarchyQueryGenerator queryGeneratorService;
+	private GtnWsAllHierarchyQueryGenerator queryGeneratorService;
 
 	public GtnWsRelationshipBuilderHierarchyFileGeneratorService() {
 		super();
@@ -88,11 +88,11 @@ public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 		this.gtnWsSqlService = gtnWsSqlService;
 	}
 
-	public GtnWsRelationshipBuilderHierarchyQueryGenerator getQueryGeneratorService() {
+	public GtnWsAllHierarchyQueryGenerator getQueryGeneratorService() {
 		return queryGeneratorService;
 	}
 
-	public void setQueryGeneratorService(GtnWsRelationshipBuilderHierarchyQueryGenerator queryGeneratorService) {
+	public void setQueryGeneratorService(GtnWsAllHierarchyQueryGenerator queryGeneratorService) {
 		this.queryGeneratorService = queryGeneratorService;
 	}
 

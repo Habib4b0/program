@@ -109,6 +109,8 @@ public class CommonUtils {
        
     private static SessionDTO sessionDto=new SessionDTO();
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
+    public static final String TWENTYNINEPX = "29px";
+
     
     /**
      * Creates the clara.

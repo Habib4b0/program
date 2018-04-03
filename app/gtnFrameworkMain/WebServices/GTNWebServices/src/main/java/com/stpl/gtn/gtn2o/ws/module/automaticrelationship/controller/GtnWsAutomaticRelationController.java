@@ -55,8 +55,6 @@ public class GtnWsAutomaticRelationController {
 		GtnFrameworkAutomaticRelationshipResponse relationResponse = new GtnFrameworkAutomaticRelationshipResponse();
 		GtnUIFrameworkWebserviceResponse generalResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
-
-			
 			automaticService.checkAndUpdateAllRelationShip("");
 			relationResponse.setRelationUpdate(true);
 			generalResponse.setAutomaticRelationResponse(relationResponse);

@@ -582,8 +582,6 @@ public class GtnWsCfpAddService {
 		}
 		cfp.setNotesTabList(
 				getCfpNotesTabDetails(gtnWsRequest.getGtnWsCfpRequest().getGtnCFamilyPlan().getCfpInfo().getCfpSid()));
-		cfp.setNotesTabList(
-				getCfpNotesTabAttachDetails(gtnWsRequest.getGtnWsCfpRequest().getGtnCFamilyPlan().getCfpInfo().getCfpSid()));
 		cfpResponse.setGtnCFamilyPlan(cfp);
 		response.setGtnWsCfpReponse(cfpResponse);
 	}
@@ -654,11 +652,4 @@ public class GtnWsCfpAddService {
 		return GtnCommonUtil.getNotesTabBean(cmNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
 	
-	private List<NotesTabBean> getCfpNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
-		logger.info("Enter getCfpNotesTabAttachDetails");
-		String cmNotesTabDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_SELECT + +systemId
-				+ " AND MASTER_TABLE_NAME='CFP_MODEL'";
-		List<?> cmNotesDetailsResultList = gtnSqlQueryEngine.executeSelectQuery(cmNotesTabDetailsSelectQuery);
-		return GtnCommonUtil.getNotesTabBean(cmNotesDetailsResultList, gtnWebServiceAllListConfig);
-	}
 }

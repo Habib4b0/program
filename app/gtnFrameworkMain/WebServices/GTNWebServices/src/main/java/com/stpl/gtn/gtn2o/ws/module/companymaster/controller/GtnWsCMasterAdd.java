@@ -130,7 +130,7 @@ public class GtnWsCMasterAdd {
 				countCheckParentDetailsList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(
 						gtnWsSqlService.getQuery(Arrays.asList(parentDetailsSid),
 								"checkCompanyGroupDetailsParentDetailsExists"));
-				int countCheck=countCheckParentDetailsList.get(0);
+				int countCheck=countCheckParentDetailsList.isEmpty() ? 0 : countCheckParentDetailsList.get(0);
 				if (countCheck == 1) {
 					parentDetailsSidList.add(parentDetailsSid);
 				}
@@ -979,7 +979,7 @@ public class GtnWsCMasterAdd {
 		StringBuilder sql = new StringBuilder();
 		sql.append(gtnWsSqlService.getQuery("getFetchCurrentMonthQuery"));
 		sql.append("WHERE DESCRIPTION = '").append(gtnWsRequest.getGtnWsGeneralRequest().getExtraParameter())
-				.append("' ");
+				.append("'");
 
 		return sql.toString();
 
