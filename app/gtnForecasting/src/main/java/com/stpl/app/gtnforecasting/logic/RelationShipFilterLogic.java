@@ -183,15 +183,17 @@ public class RelationShipFilterLogic {
 			List<String> groupFilteredCompanies, String dedLevel, String dedValue, int relationVersionNo,
 			Date forecastEligibleDate, List<Leveldto> levelHierarchyLevelDefinitionList, int lastLevelNo) {
 		Leveldto LastHierarchyLevelDto = Leveldto.getLastLinkedLevel(levelHierarchyLevelDefinitionList);
-		String queryString = getQueryForSelectedCustomer(selectedHierarchyLevelDto,
+		String queryString = getQueryFroSelectedCustomer(selectedHierarchyLevelDto,
 				groupFilteredCompanies, dedLevel, dedValue);
 		List<String> inputList = new ArrayList<>();
 		StringBuilder query = new StringBuilder(queryString);
 		inputList.add(String.valueOf(relationshipSid));
 		inputList.add(String.valueOf(LastHierarchyLevelDto.getLevelNo()));
 		inputList.add(String.valueOf(relationVersionNo));
+		inputList.add(String.valueOf("'" + selectedHierarchyLevelDto.getHierarchyNo() + "%'"));
 		inputList.add(String.valueOf(relationVersionNo));
-		inputList.add(String.valueOf(lastLevelNo));
+		inputList.add(String.valueOf(lastLevelNo + 1));
+		inputList.add(String.valueOf("'" + selectedHierarchyLevelDto.getHierarchyNo() + "'"));
 		if (forecastEligibleDate != null) {
 			inputList.add(dateFormat.format(forecastEligibleDate));
 			inputList.add(dateFormat.format(forecastEligibleDate));
@@ -201,7 +203,7 @@ public class RelationShipFilterLogic {
 		return QueryUtils.getQuery(query.toString(), inputList);
 	}
 
-	private String getQueryForSelectedCustomer(Leveldto selectedHierarchyLevelDto,
+	private String getQueryFroSelectedCustomer(Leveldto selectedHierarchyLevelDto,
 			List<String> groupFilteredCompanies, String dedLevel, String dedValue) {
 
 		GtnForecastHierarchyInputBean inputBean = createInputForselecteCustomer(selectedHierarchyLevelDto,
@@ -419,47 +421,12 @@ public class RelationShipFilterLogic {
 
 	public String getFinalChildLevelQueryForProduct(Leveldto selectedHierarchyLevelDto, int relationVersionNo,
 			String businessUnitValue, int lowestLevelNo, int subListIndex) {
-		List<Leveldto> hierarchyLevelDefinitionList = getHierarchyLevelDefinition(
-				selectedHierarchyLevelDto.getHierarchyId(), selectedHierarchyLevelDto.getHierarchyVersionNo());
-		List<String> input = new ArrayList<>();
-		input.add(String.valueOf(relationVersionNo));
-		input.add("'" + selectedHierarchyLevelDto.getHierarchyNo() + "'");
-		input.add(String.valueOf(relationVersionNo));
-		input.add(String.valueOf(lowestLevelNo + 1));
-		input.add("'" + selectedHierarchyLevelDto.getHierarchyNo() + "'");
-		List<String> whereQuerys = getRelationQueries(
-				Integer.parseInt(selectedHierarchyLevelDto.getRelationShipBuilderId()), relationVersionNo,
-				hierarchyLevelDefinitionList.toArray(new Leveldto[hierarchyLevelDefinitionList.size()]));
-		if (!whereQuerys.isEmpty()) {
-			input.addAll(whereQuerys.subList(0, subListIndex - 1));
-		}
-		String finalQuery = getChildLevelQueryForProduct(selectedHierarchyLevelDto, businessUnitValue);
-		return QueryUtils.getQuery(finalQuery, input);
-	}
-
-	private List<String> getRelationQueries(int relationshipSid, int relationVersionNo,
-			Leveldto... levelHierarchyLevelDefinitionList) {
-		List<String> queryList = new ArrayList<>();
-		List<Object> input = new ArrayList<>();
-		for (Leveldto levelDto : levelHierarchyLevelDefinitionList) {
-			if (!levelDto.isUserDefined()) {
-				input.add(levelDto.getLevelNo());
-				input.add(relationshipSid);
-				input.add(relationVersionNo);
-				String relationQuery = QueryUtils.getQuery(input, "relationShipSubQuery");
-				queryList.add(relationQuery);
-				input.clear();
-			}
-		}
-		return queryList;
-	}
-
-	private String getChildLevelQueryForProduct(Leveldto selectedHierarchyLevelDto, String businessUnitValue) {
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setSelectedHierarchyLevelDto(
 				LevelDtoToRelationShipBeanConverter.convertLevelDtoToRelationBean(selectedHierarchyLevelDto));
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		inputBean.setBusinessUnitValue(businessUnitValue);
+		inputBean.setLowestLevelNo(lowestLevelNo);
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
@@ -471,8 +438,8 @@ public class RelationShipFilterLogic {
 		GtnWsForecastResponse foreCastResponse = relationProductResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
-		
 	}
+
 
 
 	public static GtnWsSecurityToken getGsnWsSecurityToken() {

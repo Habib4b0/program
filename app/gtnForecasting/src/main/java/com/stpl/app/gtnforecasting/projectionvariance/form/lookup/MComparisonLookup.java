@@ -353,7 +353,11 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
             targetItem = new BeanItem<>(
                     (ComparisonLookupDTO) obj);
         }
-        return (ComparisonLookupDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (ComparisonLookupDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -362,7 +362,11 @@ public class ItemSearchLookup extends Window {
         } else if (obj instanceof ItemSearchDTO) {
             targetItem = new BeanItem<>((ItemSearchDTO) obj);
         }
-        return (ItemSearchDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (ItemSearchDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     /**

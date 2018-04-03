@@ -410,10 +410,10 @@ public class OutboundLogic {
                             hierarchyDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.HIERARCHY_NAME, filterString));
                             hierarchyDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
                             List hdResultList = dao.getHierachyDefinitionList(hierarchyDynamicQuery);
-                            if (hdResultList.size() > 0) {
-                                relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.HIERARCHY_DEFINATION_SID, hdResultList));
-                            } else {
+                            if (hdResultList.isEmpty()) {
                                 relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HIERARCHY_DEFINATION_SID, 0));
+                            } else {
+                                relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.HIERARCHY_DEFINATION_SID, hdResultList));
                             }
                         }
                     } else if (filter instanceof Compare) {

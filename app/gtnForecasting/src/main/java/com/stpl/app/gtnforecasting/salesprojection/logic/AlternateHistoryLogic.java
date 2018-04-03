@@ -554,7 +554,7 @@ public class AlternateHistoryLogic {
             String freq = dto.getFrequency();
 
             String projection = dto.getActualsOrProjections();
-            AlternateHistoryDTO altDTO = null;
+            AlternateHistoryDTO altDTO = new AlternateHistoryDTO();
             String commonColumn;
             Map<String, Object> parameters = new HashMap<>();
             if (filters != null) {

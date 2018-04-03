@@ -505,8 +505,11 @@ public class ContractBrandLookup extends Window {
             targetItem = new BeanItem<>(
                     (ContractBrandDTO) obj);
         }
-
-        return (ContractBrandDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (ContractBrandDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
  
 

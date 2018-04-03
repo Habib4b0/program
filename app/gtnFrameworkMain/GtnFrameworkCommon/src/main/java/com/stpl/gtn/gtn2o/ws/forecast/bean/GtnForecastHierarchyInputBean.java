@@ -6,6 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Srithar.Raju
+ *
+ */
 public class GtnForecastHierarchyInputBean implements Serializable {
 
 	/**
@@ -26,6 +30,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private Date forecastEligibleDate;
 	private List<String> groupFilterCompenies;
 	private int levelNo;
+	private int lowestLevelNo;
 	private int projectionId;
 	private boolean isNdc;
 	private int selectedCustomerRelationShipBuilderSid;
@@ -296,6 +301,14 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	public void setHierarchyIndicator(String hierarchyIndicator) {
 		this.hierarchyIndicator = hierarchyIndicator;
+	}
+
+	public int getLowestLevelNo() {
+		return lowestLevelNo;
+	}
+
+	public void setLowestLevelNo(int lowestLevelNo) {
+		this.lowestLevelNo = lowestLevelNo;
 	}
 
 }

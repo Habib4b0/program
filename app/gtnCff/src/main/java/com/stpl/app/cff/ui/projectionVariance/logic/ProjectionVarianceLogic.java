@@ -121,6 +121,10 @@ public class ProjectionVarianceLogic {
     public static final String CONCAT_CONDITION = "', ',') C WHERE CH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
     public static final String WHERE_FILTER_CCPD = " WHERE FILTER_CCPD = 1 ";
 
+    public ProjectionVarianceLogic() {
+        super();
+    }
+
     public List getChartList() {
         return chartList == null ? chartList : new ArrayList<>(chartList);
     }
@@ -3266,7 +3270,7 @@ public class ProjectionVarianceLogic {
         boolean isHierarchyNoNotAvailable = checkHierarchyAvailability(hierarchyNo);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if (!hierarchyNo.contains(",")) {
+            if (checkHierarchyNo(hierarchyNo)) {
                 if (hierarchyValidation(entry, levelNo, hierarchyIndicator, isHierarchyNoNotAvailable, hierarchyNo)) {
                     if (isNotFirstElement) {
                         stringBuilder.append(",\n");
@@ -3282,6 +3286,10 @@ public class ProjectionVarianceLogic {
                 isNotFirstHierarchy = true;
             }
         }
+    }
+
+    private static boolean checkHierarchyNo(String hierarchyNo) {
+        return hierarchyNo != null && !hierarchyNo.contains(",");
     }
 
     private boolean checkHierarchyAvailability(String hierarchyNo) {

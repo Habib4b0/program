@@ -334,6 +334,10 @@ public class PMPYCalculatorDTO implements Serializable {
      */
     private String paymentTerm = StringUtils.EMPTY;
 
+    public PMPYCalculatorDTO() {
+        super();
+    }
+
     /**
      * Gets the quaterThree2012.
      *

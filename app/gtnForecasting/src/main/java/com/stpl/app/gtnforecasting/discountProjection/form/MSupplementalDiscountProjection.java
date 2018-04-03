@@ -918,7 +918,11 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             targetItem = new BeanItem<>(
                     (DiscountProjectionDTO) obj);
         }
-        return (DiscountProjectionDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (DiscountProjectionDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void saveFromTableField(Object itemId, Object propertyId, String value, boolean flag) {
@@ -1330,7 +1334,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         }
                     }
 
-                    if (returnList.get(0).size() == 0) {
+                    if (returnList.get(0).isEmpty()) {
                         AbstractNotificationUtils.getErrorNotification("Populate Error", "In NDC:" + notifyContent + " are not having any prior values");
                     } else {
                         new AbstractNotificationUtils() {

@@ -85,7 +85,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         this.isCustomHierarchy = isCustomHierarchy;
         this.levelNo = levelNo;
         this.hierarchyIndicator = hierarchyIndicator;
-        this.currentHierarchy = currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
+        this.currentHierarchy = currentHierarchy == null ? new ArrayList<>(currentHierarchy) : currentHierarchy;
         this.isParent = isParent;
         this.startAndEndPeriods = startAndEndPeriods == null ? startAndEndPeriods : new ArrayList<>(startAndEndPeriods);
         this.customId = customId;
@@ -410,15 +410,16 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             if (alternateProjectionSelection.isIsTotal() && !alternateProjectionSelection.isIsFilter()) {
                 alternatePivotCount += 1;
             }
-            if (list == null || list.isEmpty()) {
-                return 0 + alternatePivotCount;
-            }
+            
         } catch (Exception ex) {
             LOGGER.error("getCount -= {} " , ex);
 
         }
-
-        return alternatePivotCount + list.size();
+        if (list == null || list.isEmpty()) {
+            return 0 + alternatePivotCount;
+        } else {
+            return alternatePivotCount + list.size();
+        }
     }
 
     public LevelMap getLevelMap(int levelValue, int count, int levelIndex) {

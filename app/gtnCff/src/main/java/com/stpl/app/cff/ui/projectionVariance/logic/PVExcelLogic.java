@@ -379,7 +379,10 @@ public class PVExcelLogic {
     private void calculateAndCustomizeTotalPivot() {
         if (pivotPriorProjIdList != null) {
             pivotPriorProjIdList.clear();
+        } else {
+            pivotPriorProjIdList = new ArrayList<>();
         }
+        
         for (Integer projId : selection.getProjIdList()) {
             pivotPriorProjIdList.add(projId);
         }

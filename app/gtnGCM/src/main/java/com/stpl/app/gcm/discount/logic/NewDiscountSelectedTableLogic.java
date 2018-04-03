@@ -28,6 +28,10 @@ public class NewDiscountSelectedTableLogic extends PageTableLogic {
     private boolean generate = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(NewDiscountSelectedTableLogic.class);
 
+    public NewDiscountSelectedTableLogic() {
+        super();
+    }
+
     /**
      * Record count logic
      *

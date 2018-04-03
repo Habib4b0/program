@@ -130,6 +130,10 @@ public class CopyComponentDTO implements Serializable {
     private HelperDTO deductionInclusion;
     private HelperDTO rebatePlanLevel;
 
+    public CopyComponentDTO() {
+        super();
+    }
+
     public String getCompanyStatus() {
         return companyStatus;
     }

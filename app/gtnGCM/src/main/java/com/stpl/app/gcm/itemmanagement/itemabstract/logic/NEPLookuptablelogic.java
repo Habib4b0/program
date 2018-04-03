@@ -27,6 +27,10 @@ public class NEPLookuptablelogic extends PageTableLogic {
     private boolean isReset = false;
     private FormulaDTO formulaDto;
 
+    public NEPLookuptablelogic() {
+        super();
+    }
+
     @Override
     public int getCount() {
         int count = 0;

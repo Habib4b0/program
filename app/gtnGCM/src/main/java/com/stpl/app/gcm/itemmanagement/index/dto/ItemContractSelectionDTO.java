@@ -50,6 +50,10 @@ public class ItemContractSelectionDTO implements Cloneable {
     private Integer endIndex = 0;
     private boolean isCount = false;
 
+    public ItemContractSelectionDTO() {
+        super();
+    }
+
     public Integer getContractSid() {
         return contractSid;
     }

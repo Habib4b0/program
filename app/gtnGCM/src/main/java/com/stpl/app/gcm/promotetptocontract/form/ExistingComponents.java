@@ -903,7 +903,7 @@ public class ExistingComponents extends CustomComponent implements View {
                     camInExis.setInboundStatus("A");
                     camInExis.setContractMasterSid(contractMasterSid);
                     ContractAliasMaster CAM1 = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(camInExis);
-                    LOGGER.debug("CAM1" + CAM1.getContractAliasMasterSid());
+                    LOGGER.debug("CAM1 {} " , CAM1.getContractAliasMasterSid());
 
                 } else if (level.equals(Constants.ONE)) {
 
