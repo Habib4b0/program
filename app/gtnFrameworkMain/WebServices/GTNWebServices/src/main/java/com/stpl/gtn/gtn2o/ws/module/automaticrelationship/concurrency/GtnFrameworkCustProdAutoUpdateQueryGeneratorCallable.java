@@ -5,18 +5,14 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.GtnFrameworkQueryGeneraterServiceImpl;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.service.GtnFrameworkJoinQueryGeneratorService;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.service.GtnFrameworkSelectQueryGeneratorService;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.service.GtnFrameworkWhereQueryGeneratorService;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSelectColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.querygenerator.GtnFrameworkHierarchyQueryGenerator;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
@@ -28,21 +24,15 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 	private GtnWsRelationshipBuilderBean relationBean;
 	private int index;
 	private List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList;
-
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 	@Autowired
-	private GtnFrameworkHierarchyService hierarchyService;
+	private GtnFrameworkHierarchyQueryGenerator queryGenerator;
+	@Autowired
+	private GtnFrameworkQueryGeneratorService queryGeneratorService;
+	@Autowired
+	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
-	@Autowired
-	@Qualifier("CustProdSelect")
-	private GtnFrameworkSelectQueryGeneratorService selectService;
-	@Autowired
-	@Qualifier("CustProdJoin")
-	private GtnFrameworkJoinQueryGeneratorService joinService;
-	@Autowired
-	@Qualifier("CustProdWhere")
-	private GtnFrameworkWhereQueryGeneratorService whereService;
 
 	private int customertUpdatedVersionNo;
 
@@ -80,35 +70,27 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 
 	@Override
 	public String call() throws Exception {
-		GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
 		HierarchyLevelDefinitionBean customerHierarchyLevelBean = hierarchyLevelDefinitionList.get(index);
 		if (customerHierarchyLevelBean.isUserDefined()) {
 			return checkAndInserUserDefinedLevels(relationBean, customerHierarchyLevelBean);
 		}
-		GtnFrameworkHierarchyQueryBean customerHierarchyQuery = fileService.getQueryFromFile(
-				customerHierarchyLevelBean.getHierarchyDefinitionSid(),
-				customerHierarchyLevelBean.getHierarchyLevelDefinitionSid(), customerHierarchyLevelBean.getVersionNo());
 		HierarchyLevelDefinitionBean previousHierarchyLevelBean = HierarchyLevelDefinitionBean
 				.getPreviousLinkedLevel(hierarchyLevelDefinitionList, customerHierarchyLevelBean);
-		GtnFrameworkQueryGeneratorBean querygeneratorBean = customerHierarchyQuery.getQuery();
-		GtnFrameworkQueryGeneraterServiceImpl customerQueryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
-				selectService, joinService, whereService);
-		customerQueryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
-				customertUpdatedVersionNo, index);
-		List<Object> inputsList = new ArrayList<>();
+		GtnFrameworkQueryGeneratorBean querygeneratorBean = queryGeneratorService.getQuerybySituationNameAndLevel(
+				customerHierarchyLevelBean, "AUTOMATIC_INSERT", hierarchyLevelDefinitionList);
+		List<Object> inputsList = getInputListForSelectClause();
 		inputsList.add(relationBean.getRelationshipBuilderSid());
 		inputsList.add(previousHierarchyLevelBean.getLevelNo());
 		inputsList.add(customertUpdatedVersionNo);
 		inputsList.add(customerHierarchyLevelBean.getLevelNo());
 		inputsList.add(customertUpdatedVersionNo > 1 ? customertUpdatedVersionNo - 1 : 1);
+		inputsList.add(queryGeneratorService.getHierarchyNo(hierarchyLevelDefinitionList, customerHierarchyLevelBean));
 		inputsList.add(customerHierarchyLevelBean.getLevelNo());
 		inputsList.add(customertUpdatedVersionNo > 1 ? customertUpdatedVersionNo - 1 : 1);
-		hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
 		String query = gtnWsSqlService.getReplacedQuery(inputsList, querygeneratorBean.generateQuery());
 		List<String> insertQueryInput = new ArrayList<>();
 		insertQueryInput.add(query);
-		return gtnWsSqlService.getQuery(insertQueryInput,
-				"relationShipSubQueryToInsertAutomaticData");
+		return gtnWsSqlService.getQuery(insertQueryInput, "relationShipSubQueryToInsertAutomaticData");
 	}
 
 	private String checkAndInserUserDefinedLevels(GtnWsRelationshipBuilderBean relationBean,
@@ -132,6 +114,23 @@ public class GtnFrameworkCustProdAutoUpdateQueryGeneratorCallable implements Cal
 		inputList.add(relationBean.getRelationshipBuilderSid());
 
 		return gtnWsSqlService.getQuery(inputList, "RelationInsertForIntermediate userDefined");
+	}
+
+	public List<Object> getInputListForSelectClause() {
+		HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(index);
+		GtnFrameworkSelectColumnRelationBean keyListBean = gtnFrameworkEntityMasterBean
+				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyLevelBean.getTableName(),
+						hierarchyLevelBean.getFieldName());
+		List<Object> input = new ArrayList<>();
+		input.add(keyListBean.getJoinColumnTable() + "." + keyListBean.getWhereClauseColumn());
+		input.add(relationBean.getRelationshipBuilderSid());
+		input.add(hierarchyLevelBean.getHierarchyLevelDefinitionSid());
+		input.add(hierarchyLevelBean.getLevelNo());
+		input.add("'" + hierarchyLevelBean.getLevelName() + "'");
+		input.add(relationBean.getCreatedBy());
+		input.add(relationBean.getCreatedBy());
+		input.add(customertUpdatedVersionNo);
+		return input;
 	}
 
 }

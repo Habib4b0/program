@@ -21,7 +21,7 @@ public class GtnFrameworkTransactionViewTemplateConfig {
 		this.isInvalid = isInvalid;
 	}
 
-	public GtnUIFrameworkViewConfig getTransactionView(){
+	public GtnUIFrameworkViewConfig getTransactionView() {
 		GtnUIFrameworkViewConfig addView = new GtnUIFrameworkViewConfig();
 		addView.setViewName("Add View");
 		addView.setViewId("V002");
@@ -38,7 +38,7 @@ public class GtnFrameworkTransactionViewTemplateConfig {
 	}
 
 	private void addViewFieldLayout(List<GtnUIFrameworkComponentConfig> componentList) {
-		
+
 		GtnUIFrameworkLayoutConfig layout = new GtnUIFrameworkLayoutConfig();
 		layout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		GtnUIFrameworkComponentConfig gtnLayout = new GtnUIFrameworkComponentConfig();
@@ -48,7 +48,7 @@ public class GtnFrameworkTransactionViewTemplateConfig {
 		gtnLayout.setAddToParent(false);
 		gtnLayout.setGtnLayoutConfig(layout);
 		componentList.add(gtnLayout);
-		
+
 		GtnUIFrameworkLayoutConfig horiLayout = new GtnUIFrameworkLayoutConfig();
 		horiLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig horiGtnLayout = new GtnUIFrameworkComponentConfig();
@@ -83,7 +83,7 @@ public class GtnFrameworkTransactionViewTemplateConfig {
 		GtnUIFrameworkComponentConfig searchButtonConfig = new GtnUIFrameworkComponentConfig();
 		searchButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		searchButtonConfig.setComponentId("BackButton");
-		searchButtonConfig.setComponentName("Back");
+		searchButtonConfig.setComponentName("CLOSE");
 		searchButtonConfig.setAddToParent(true);
 		searchButtonConfig.setParentComponentId("backButtonlayout");
 		componentList.add(searchButtonConfig);

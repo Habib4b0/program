@@ -7,6 +7,7 @@ public class GtnFramworkTableBean {
 	private String inboundStatusColumn;
 	private String inboundStatusValue;
 	private String modifiedDateColumn = "MODIFIED_DATE";
+	private String primaryKeyColumn;
 
 	public GtnFramworkTableBean(int tableId, String tablename, String inboundStatusColumn, String inboundStatusValue) {
 		super();
@@ -55,6 +56,14 @@ public class GtnFramworkTableBean {
 
 	public Object getTableNameAndInboudColumn() {
 		return tablename + "." + inboundStatusColumn;
+	}
+
+	public String getPrimaryKeyColumn() {
+		return primaryKeyColumn;
+	}
+
+	public void setPrimaryKeyColumn(String primaryKeyColumn) {
+		this.primaryKeyColumn = primaryKeyColumn;
 	}
 
 	public String getInboundStatusColumn(String fromTableAlies) {

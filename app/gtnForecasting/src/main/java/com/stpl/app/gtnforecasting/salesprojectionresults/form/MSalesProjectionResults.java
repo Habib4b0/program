@@ -457,23 +457,23 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         int historyNum = 0;
         Object freq = frequency.getValue();
         boolean toFreq = false;
-            if ((freq != null) && (!SELECT_ONE.equals(freq.toString()))) {
+            if (isValid(freq)) {
                 toFreq = true;
                 projectionDTO.setFrequency(freq.toString());
             }
         Object hist = history.getValue();
         boolean toHist = false;
-            if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
+            if (isValid(hist)) {
                 toHist = true;
-                if (freq.equals(QUARTERLY)) {
+                if ((freq != null) && freq.equals(QUARTERLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY)) {
+                } else if ((freq != null) && freq.equals(SEMI_ANNUALLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(MONTHLY)) {
+                } else if ((freq != null) && freq.equals(MONTHLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(ANNUALLY)) {
+                } else if ((freq != null) && freq.equals(ANNUALLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 }
                 projectionDTO.setHistory(hist.toString());
@@ -498,7 +498,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             projectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             projectionDTO.setStartDate(session.getFromDate());
             projectionDTO.setStartDate(session.getToDate());
-            if (session.getFromDate() != null && session.getToDate() != null) {
+            if (isValidDate()) {
                 projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), session.getToDate(), projectionDTO.getFrequency()));
             }
             projectionDTO.setForecastDTO(session.getForecastDTO());
@@ -507,6 +507,14 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         }
 
         return toRet;
+    }
+
+    private static boolean isValid(Object obj) {
+        return (obj != null) && (!SELECT_ONE.equals(obj.toString()));
+    }
+
+    private boolean isValidDate() {
+        return session.getFromDate() != null && session.getToDate() != null;
     }
 
     public void viewChange(boolean viewChange) {

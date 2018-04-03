@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 27, 2018 3:59:38 PM by Hibernate Tools 5.2.8.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class  dynamic-insert="false" dynamic-update="false" mutable="true" name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchySitutationDetails" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="HIERARCHY_SITUTATION_DETAILS">
+        <id name="hierarchySitutationDetailsSid" type="java.lang.Integer">
+            <column name="HIERARCHY_SITUTATION_DETAILS_SID"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="hierarchySitutationTableSid" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="HIERARCHY_SITUTATION_TABLE_SID"/>
+        </property>
+        <property generated="never" lazy="false" name="tableName" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="TABLE_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="aliasName" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="ALIAS_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="joinType" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="JOIN_TYPE"/>
+        </property>
+        <property generated="never" lazy="false" name="filterColumn" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="FILTER_COLUMN"/>
+        </property>
+    </class>
+</hibernate-mapping>

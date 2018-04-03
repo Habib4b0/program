@@ -58,6 +58,7 @@ public class DiscountQueryBuilder {
     public static final String SELECTED_HIERARCHY_JOIN = "[?SELECTED_HIERARCHY_JOIN]";
     public static final String RS_JOIN = "@RSJOIN";
     private static final String REL_COLUMN = "@REL_COLUMN";
+    private static final String MANUAL_ENTRY_COUNT = " / ( CASE WHEN @REFRESHED_NAME = 'AMOUNT' THEN AMOUNT_COUNT * @PERIOD_COUNT ELSE RATE_RPU_COUNT END) ";
    
     public boolean updateInputsForAdjustment(String frequency, String levelType, String adjustmentType, String adjustmentBasis,
             String adjustmentValue, String allocationMethodology, Map<String, Map<String, List<String>>> periodsMap) {
@@ -545,7 +546,7 @@ public class DiscountQueryBuilder {
             if ("GROWTH".equals(refreshName)) {
                 customSql = customSql.replace("@SETTER", "DPT.GROWTH = " + fieldValue);
             } else {
-                customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue);
+                customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue + MANUAL_ENTRY_COUNT );
             }
 
             if (!frequency.equals(ANNUALLY.getConstant())) {
@@ -650,7 +651,6 @@ public class DiscountQueryBuilder {
     public List getDiscountProjection(final boolean isProgram, final String frequency, final List<String> discountList,
             final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final boolean isCustom, final List<String> customViewDetails, final int treeLevelNo,
             final int start, final int end, final String userGroup) {
-        getDiscountPrograms(session, "DiscountProgram");
         String queryBuilder = SQlUtil.getQuery("discountGenerateCustom");
         queryBuilder = queryBuilder.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
                 .replace("?F", String.valueOf(frequency.charAt(0))) //Selected Frequency initial char

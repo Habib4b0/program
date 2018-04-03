@@ -479,10 +479,8 @@ public class QueryUtils {
         return queryString.toString();
     }
     public static String getQuery(List input, String queryName) {
-        StringBuilder sql = null;
+        StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));
         try {
-            sql = new StringBuilder();
-            sql = new StringBuilder(SQlUtil.getQuery(queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }

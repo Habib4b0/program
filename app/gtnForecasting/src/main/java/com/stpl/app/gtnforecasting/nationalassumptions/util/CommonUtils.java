@@ -134,7 +134,9 @@ public class CommonUtils {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
-                xml.close();
+                if (xml != null) {
+                    xml.close();
+                }
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }
