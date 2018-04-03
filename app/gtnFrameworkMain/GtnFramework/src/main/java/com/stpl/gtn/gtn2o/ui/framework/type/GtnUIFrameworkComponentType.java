@@ -30,6 +30,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponen
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.comboboxmultiselect.GtnUIFrameworkComboBoxMultiselectComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date.GtnUIFrameworkDateFieldComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.popuptextbox.GtnUIFrameworkPopupTextBox;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.radiobuttongroup.GtnUIFrameworkRadioButtonGroupComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.textbox.GtnUIFrameworkTextBoxComponent;
 
@@ -95,7 +96,9 @@ public enum GtnUIFrameworkComponentType {
 	
 	COMBOBOX_VAADIN8(new GtnUIFrameworkComboBoxComponent()),
 	
-	RADIOBUTTON_VAADIN8(new GtnUIFrameworkRadioButtonGroupComponent());
+	RADIOBUTTON_VAADIN8(new GtnUIFrameworkRadioButtonGroupComponent()),
+	
+	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox());
 	
 	private GtnUIFrameworkComponent gtnComponent;
 
