@@ -21,11 +21,12 @@ import com.vaadin.client.Paintable;
 import com.vaadin.client.UIDL;
 import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.StateChangeEvent;
+import com.vaadin.client.ui.AbstractFieldConnector;
+
 import static com.vaadin.client.ui.AbstractComponentConnector.isRealUpdate;
-import com.vaadin.v7.client.ui.AbstractFieldConnector;
 import com.vaadin.shared.ui.Connect;
-import com.vaadin.v7.shared.ui.datefield.DateFieldConstants;
-import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.shared.ui.datefield.DateTimeResolution;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -48,7 +49,7 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
         // Save details
         getWidget().client = client;
         getWidget().paintableId = uidl.getId();
-        getWidget().immediate = getState().immediate;
+        //getWidget().immediate = getState().immediate;
         getWidget().headerCalendarPanel.setIsYear(uidl.getBooleanAttribute("isYear"));
         getWidget().headerCalendarPanel.setTotalCol(uidl.getIntAttribute("totalCol"));
         getWidget().headerCalendarPanel.setTotalRow(uidl.getIntAttribute("totalRow"));
@@ -71,13 +72,13 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
 
         // We show week numbers only if the week starts with Monday, as ISO 8601
         // specifies
-        getWidget().setShowISOWeekNumbers(
-                uidl.getBooleanAttribute(DateFieldConstants.ATTR_WEEK_NUMBERS)
-                        && getWidget().dts.getFirstDayOfWeek() == 1);
+//        getWidget().setShowISOWeekNumbers(
+//                uidl.getBooleanAttribute(DateFieldConstants.ATTR_WEEK_NUMBERS)
+//                        && getWidget().dts.getFirstDayOfWeek() == 1);
 
         
 
-        getWidget().setCurrentResolution(Resolution.DAY);
+        getWidget().setCurrentResolution(DateTimeResolution.DAY);
 
         // Add stylename that indicates current resolution
         setWidgetStyleName(
@@ -156,17 +157,17 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
     public void onStateChanged(StateChangeEvent stateChangeEvent) {
         super.onStateChanged(stateChangeEvent);
         getWidget().setTabIndex(getState().tabIndex);
-        getWidget().headerCalendarPanel.setRangeStart(getState().rangeStart);
-        getWidget().headerCalendarPanel.setRangeEnd(getState().rangeEnd);        
+//        getWidget().headerCalendarPanel.setRangeStart(getState().rangeStart);
+//        getWidget().headerCalendarPanel.setRangeEnd(getState().rangeEnd);        
     }
 
     @Override
     public VCalendarField getWidget() {
         return (VCalendarField) super.getWidget();
     }
-
-    @Override
-    public CalendarFieldState getState() {
-        return (CalendarFieldState) super.getState();
-    }
+//
+//    @Override
+//    public CalendarFieldState getState() {
+//        return (CalendarFieldState) super.getState();
+//    }
 }

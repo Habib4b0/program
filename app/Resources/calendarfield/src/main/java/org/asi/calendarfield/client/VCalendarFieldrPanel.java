@@ -50,7 +50,7 @@ import com.vaadin.client.DateTimeService;
 import com.vaadin.client.VConsole;
 import com.vaadin.client.ui.FocusableFlexTable;
 import com.vaadin.client.ui.SubPartAware;
-import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import com.vaadin.shared.util.SharedUtil;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,7 +59,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.asi.calendarfield.client.CalenderFieldUtil.CalendarDate;
-//import com.vaadin.client.WidgetUtil;
 
 /**
  *
@@ -131,7 +130,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
             }
             Day clickedDay=(Day) event.getSource();
             Date newDate = clickedDay.getDate();
-            if (!isDateInsideRange(newDate, Resolution.DAY)||!isEnabledDate(newDate)) {
+            if (!isDateInsideRange(newDate, DateTimeResolution.DAY)||!isEnabledDate(newDate)) {
                 return;
             }
             if (newDate.getMonth() != displayedMonth.getMonth()
@@ -153,7 +152,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
     private VEventButton nextMonth;
     FlexTable bodyDays = new FlexTable();
 //    private FlexTable days = new FlexTable();
-    private Resolution resolution = Resolution.YEAR;
+    private DateTimeResolution resolution = DateTimeResolution.YEAR;
     private Timer mouseTimer;
     private Set<String> values = new HashSet<String>();
 //    private Date value;
@@ -369,11 +368,11 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         return false;
     }
 
-    public Resolution getResolution() {
+    public DateTimeResolution getResolution() {
         return resolution;
     }
 
-    public void setResolution(Resolution resolution) {
+    public void setResolution(DateTimeResolution resolution) {
         this.resolution = resolution;
     }
 
@@ -537,14 +536,14 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
             Date prevMonthDate = (Date) focusedDate.clone();
             removeOneMonth(prevMonthDate);
 
-            if (!isDateInsideRange(prevMonthDate, Resolution.MONTH)) {
+            if (!isDateInsideRange(prevMonthDate, DateTimeResolution.MONTH)) {
                 prevMonth.addStyleName(CN_OUTSIDE_RANGE);
             } else {
                 prevMonth.removeStyleName(CN_OUTSIDE_RANGE);
             }
             Date nextMonthDate = (Date) focusedDate.clone();
             addOneMonth(nextMonthDate);
-            if (!isDateInsideRange(nextMonthDate, Resolution.MONTH)) {
+            if (!isDateInsideRange(nextMonthDate, DateTimeResolution.MONTH)) {
                 nextMonth.addStyleName(CN_OUTSIDE_RANGE);
             } else {
                 nextMonth.removeStyleName(CN_OUTSIDE_RANGE);
@@ -553,7 +552,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
 
         Date prevYearDate = (Date) focusedDate.clone();
         prevYearDate.setYear(prevYearDate.getYear() - 1);
-        if (!isDateInsideRange(prevYearDate, Resolution.YEAR)) {
+        if (!isDateInsideRange(prevYearDate, DateTimeResolution.YEAR)) {
             prevYear.addStyleName(CN_OUTSIDE_RANGE);
         } else {
             prevYear.removeStyleName(CN_OUTSIDE_RANGE);
@@ -561,7 +560,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
 
         Date nextYearDate = (Date) focusedDate.clone();
         nextYearDate.setYear(nextYearDate.getYear() + 1);
-        if (!isDateInsideRange(nextYearDate, Resolution.YEAR)) {
+        if (!isDateInsideRange(nextYearDate, DateTimeResolution.YEAR)) {
             nextYear.addStyleName(CN_OUTSIDE_RANGE);
         } else {
             nextYear.removeStyleName(CN_OUTSIDE_RANGE);
@@ -598,7 +597,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
      * @param date
      * @return
      */
-    private boolean isDateInsideRange(Date date, Resolution minResolution) {
+    private boolean isDateInsideRange(Date date, DateTimeResolution minResolution) {
         assert (date != null);
 
         return isAcceptedByRangeEnd(date, minResolution)
@@ -616,7 +615,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
      * @param minResolution
      * @return
      */
-    private boolean isAcceptedByRangeStart(Date date, Resolution minResolution) {
+    private boolean isAcceptedByRangeStart(Date date, DateTimeResolution minResolution) {
         assert (date != null);
 
         // rangeStart == null means that we accept all values below rangeEnd
@@ -627,10 +626,10 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         Date valueDuplicate = (Date) date.clone();
         Date rangeStartDuplicate = (Date) rangeStart.clone();
 
-        if (minResolution == Resolution.YEAR) {
+        if (minResolution == DateTimeResolution.YEAR) {
             return valueDuplicate.getYear() >= rangeStartDuplicate.getYear();
         }
-        if (minResolution == Resolution.MONTH) {
+        if (minResolution == DateTimeResolution.MONTH) {
             valueDuplicate = clearDateBelowMonth(valueDuplicate);
             rangeStartDuplicate = clearDateBelowMonth(rangeStartDuplicate);
         } else {
@@ -652,7 +651,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
      * @param minResolution
      * @return
      */
-    private boolean isAcceptedByRangeEnd(Date date, Resolution minResolution) {
+    private boolean isAcceptedByRangeEnd(Date date, DateTimeResolution minResolution) {
         assert (date != null);
 
         // rangeEnd == null means that we accept all values above rangeStart
@@ -663,10 +662,10 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         Date valueDuplicate = (Date) date.clone();
         Date rangeEndDuplicate = (Date) rangeEnd.clone();
 
-        if (minResolution == Resolution.YEAR) {
+        if (minResolution == DateTimeResolution.YEAR) {
             return valueDuplicate.getYear() <= rangeEndDuplicate.getYear();
         }
-        if (minResolution == Resolution.MONTH) {
+        if (minResolution == DateTimeResolution.MONTH) {
             valueDuplicate = clearDateBelowMonth(valueDuplicate);
             rangeEndDuplicate = clearDateBelowMonth(rangeEndDuplicate);
         } else {
@@ -845,7 +844,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
                             day.setStyleName(parent.getStylePrimaryName()
                                     + "-calendarpanel-day");
 
-                            if (!isDateInsideRange(dayDate, Resolution.DAY)) {
+                            if (!isDateInsideRange(dayDate, DateTimeResolution.DAY)) {
                                 day.addStyleDependentName(CN_OUTSIDE_RANGE);
                             }
                             if (!isEnabledDate(dayDate)) {
@@ -1006,14 +1005,14 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         Date requestedNextMonthDate = (Date) focusedDate.clone();
         addOneMonth(requestedNextMonthDate);
 
-        if (!isDateInsideRange(requestedNextMonthDate, Resolution.MONTH)) {
+        if (!isDateInsideRange(requestedNextMonthDate, DateTimeResolution.MONTH)) {
             return;
         }
 
         // Now also checking whether the day is inside the range or not. If not
         // inside,
         // correct it
-        if (!isDateInsideRange(requestedNextMonthDate, Resolution.DAY)) {
+        if (!isDateInsideRange(requestedNextMonthDate, DateTimeResolution.DAY)) {
             requestedNextMonthDate = adjustDateToFitInsideRange(requestedNextMonthDate);
         }
 
@@ -1065,11 +1064,11 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         Date requestedPreviousMonthDate = (Date) focusedDate.clone();
         removeOneMonth(requestedPreviousMonthDate);
 
-        if (!isDateInsideRange(requestedPreviousMonthDate, Resolution.MONTH)) {
+        if (!isDateInsideRange(requestedPreviousMonthDate, DateTimeResolution.MONTH)) {
             return;
         }
 
-        if (!isDateInsideRange(requestedPreviousMonthDate, Resolution.DAY)) {
+        if (!isDateInsideRange(requestedPreviousMonthDate, DateTimeResolution.DAY)) {
             requestedPreviousMonthDate = adjustDateToFitInsideRange(requestedPreviousMonthDate);
         }
         focusedDate.setTime(requestedPreviousMonthDate.getTime());
@@ -1089,12 +1088,12 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         Date previousYearDate = (Date) focusedDate.clone();
         previousYearDate.setYear(previousYearDate.getYear() - years);
         // Do not focus if not inside range
-        if (!isDateInsideRange(previousYearDate, Resolution.YEAR)) {
+        if (!isDateInsideRange(previousYearDate, DateTimeResolution.YEAR)) {
             return;
         }
         // If we remove one year, but have to roll back a bit, fit it
         // into the calendar. Also the months have to be changed
-        if (!isDateInsideRange(previousYearDate, Resolution.DAY)) {
+        if (!isDateInsideRange(previousYearDate, DateTimeResolution.DAY)) {
             previousYearDate = adjustDateToFitInsideRange(previousYearDate);
 
             focusedDate.setYear(previousYearDate.getYear());
@@ -1131,12 +1130,12 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         Date nextYearDate = (Date) focusedDate.clone();
         nextYearDate.setYear(nextYearDate.getYear() + years);
         // Do not focus if not inside range
-        if (!isDateInsideRange(nextYearDate, Resolution.YEAR)) {
+        if (!isDateInsideRange(nextYearDate, DateTimeResolution.YEAR)) {
             return;
         }
         // If we add one year, but have to roll back a bit, fit it
         // into the calendar. Also the months have to be changed
-        if (!isDateInsideRange(nextYearDate, Resolution.DAY)) {
+        if (!isDateInsideRange(nextYearDate, DateTimeResolution.DAY)) {
             nextYearDate = adjustDateToFitInsideRange(nextYearDate);
 
             focusedDate.setYear(nextYearDate.getYear());

@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.HasEnabled;
 import com.vaadin.client.ApplicationConnection;
 import com.vaadin.client.DateTimeService;
 import com.vaadin.client.ui.Field;
-import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -42,34 +42,37 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
     /** For internal use only. May be removed or replaced in the future. */
     public boolean immediate;
 
-    @Deprecated
-    public static final Resolution RESOLUTION_YEAR = Resolution.YEAR;
-    @Deprecated
-    public static final Resolution RESOLUTION_MONTH = Resolution.MONTH;
-    @Deprecated
-    public static final Resolution RESOLUTION_DAY = Resolution.DAY;
-    @Deprecated
-    public static final Resolution RESOLUTION_HOUR = Resolution.HOUR;
-    @Deprecated
-    public static final Resolution RESOLUTION_MIN = Resolution.MINUTE;
-    @Deprecated
-    public static final Resolution RESOLUTION_SEC = Resolution.SECOND;
+    
+    public static final DateTimeResolution RESOLUTION_YEAR = DateTimeResolution.YEAR;
+    
+    public static final DateTimeResolution RESOLUTION_MONTH = DateTimeResolution.MONTH;
+    
+    public static final DateTimeResolution RESOLUTION_DAY = DateTimeResolution.DAY;
+   
+    public static final DateTimeResolution RESOLUTION_HOUR = DateTimeResolution.HOUR;
+   
+    public static final DateTimeResolution RESOLUTION_MIN = DateTimeResolution.MINUTE;
+   
+    public static final DateTimeResolution RESOLUTION_SEC = DateTimeResolution.SECOND;
 
     /** For internal use only. May be removed or replaced in the future. */
-    public static String resolutionToString(Resolution res) {
-        if (res.getCalendarField() > Resolution.DAY.getCalendarField()) {
-            return "full";
-        }
-        if (res == Resolution.DAY) {
+    public static String resolutionToString(DateTimeResolution res) {
+//        if (res.getCalendarField() > Resolution.DAY.getCalendarField()) {
+//            return "full";
+//        }
+        if (res == DateTimeResolution.DAY) {
             return "day";
         }
-        if (res == Resolution.MONTH) {
+        if (res == DateTimeResolution.MONTH) {
             return "month";
         }
-        return "year";
+        if (res == DateTimeResolution.YEAR) {
+            return "year";
+        }
+        return "full";
     }
 
-    protected Resolution currentResolution = Resolution.YEAR;
+    protected DateTimeResolution currentResolution = DateTimeResolution.YEAR;
 
     protected String currentLocale;
 
@@ -133,11 +136,11 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
         DateTimeService.setMilliseconds(date, ms);
     }
 
-    public Resolution getCurrentResolution() {
+    public DateTimeResolution getCurrentResolution() {
         return currentResolution;
     }
 
-    public void setCurrentResolution(Resolution currentResolution) {
+    public void setCurrentResolution(DateTimeResolution currentResolution) {
         this.currentResolution = currentResolution;
     }
 
