@@ -11639,6 +11639,10 @@
           <column_name>CALCULATION_RULE_LEVEL</column_name>
           <stream_name>new_calculation_rule_level</stream_name>
         </field>
+        <field>
+          <column_name>CALCULATION_LEVEL</column_name>
+          <stream_name>rebate_plan_level_code</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -12056,6 +12060,10 @@
         <field>
           <column_name>CALCULATION_RULE_LEVEL</column_name>
           <stream_name>new_calculation_rule_level</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_LEVEL</column_name>
+          <stream_name>rebate_plan_level_code</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -13228,6 +13236,10 @@
         <name>EVALUATION_RULE_LEVEL</name>
         <rename>EVALUATION_RULE_LEVEL</rename>
         </value>
+      <value>
+        <name>CALCULATION_LEVEL</name>
+        <rename>rebate_plan_level_code</rename>
+        </value>
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -13450,6 +13462,10 @@
       <value>
         <name>CALCULATION_TYPE</name>
         <rename>new_calculation_type</rename>
+        </value>
+      <value>
+        <name>CALCULATION_LEVEL</name>
+        <rename>rebate_plan_level_code</rename>
         </value>
       </lookup>
      <cluster_schema/>
