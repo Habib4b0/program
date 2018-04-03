@@ -1098,7 +1098,7 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 
 		componentList.add(companyType);
 
-		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig("CALCULATION_LEVEL",
+		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig("REBATE_PLAN_LEVEL",
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyType.setGtnComboboxConfig(companyTypeConfig);
