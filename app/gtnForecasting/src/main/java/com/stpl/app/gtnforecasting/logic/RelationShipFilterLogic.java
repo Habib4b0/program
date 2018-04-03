@@ -426,6 +426,7 @@ public class RelationShipFilterLogic {
 				LevelDtoToRelationShipBeanConverter.convertLevelDtoToRelationBean(selectedHierarchyLevelDto));
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		inputBean.setBusinessUnitValue(businessUnitValue);
+		inputBean.setRelationVersionNo(relationVersionNo);
 		inputBean.setLowestLevelNo(lowestLevelNo);
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
