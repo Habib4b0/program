@@ -275,7 +275,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 				dedQuery.append(",'.'");
 				continue;
 			}
-			dedQuery.append(",");
+			dedQuery.append(',');
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
 			dedQuery.append(singleColumnRelationBean.getActualTtableName() + "."
@@ -285,7 +285,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 		dedFinalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
 		dedFinalQuery.append(dedQuery);
 		dedQuery.append(",'%'");
-		dedFinalQuery.append(")");
+		dedFinalQuery.append(')');
 		return dedFinalQuery.toString();
 	}
 }

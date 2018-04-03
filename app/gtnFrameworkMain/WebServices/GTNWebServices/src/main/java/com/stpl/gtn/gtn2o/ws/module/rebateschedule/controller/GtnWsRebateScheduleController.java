@@ -196,12 +196,12 @@ public class GtnWsRebateScheduleController {
 
 				for (String key : psUpdateBean.getPropertyValueMap().keySet()) {
 					if (isAdded) {
-						updateQuery.append(",").append(componetMap.get(key).getDbColumnName()).append("='")
-								.append(psUpdateBean.getPropertyValueMap().get(key)).append("'");
+						updateQuery.append(',').append(componetMap.get(key).getDbColumnName()).append("='")
+								.append(psUpdateBean.getPropertyValueMap().get(key)).append("' ");
 
 					} else {
 						updateQuery.append(componetMap.get(key).getDbColumnName()).append("='")
-								.append(psUpdateBean.getPropertyValueMap().get(key)).append("'");
+								.append(psUpdateBean.getPropertyValueMap().get(key)).append("' ");
 						isAdded = true;
 					}
 
@@ -210,14 +210,14 @@ public class GtnWsRebateScheduleController {
 			} else {
 
 				updateQuery.append("").append(componetMap.get(psUpdateBean.getPropertyId()).getDbColumnName())
-						.append("=");
+						.append('=');
 
-				updateQuery.append("'").append(psUpdateBean.getValue()).append("'");
+				updateQuery.append(" '").append(psUpdateBean.getValue()).append("' ");
 
 			}
 
 			updateQuery.append(" WHERE  USERS_SID='").append(generalWSRequest.getUserId()).append("' AND SESSION_ID='")
-					.append(generalWSRequest.getSessionId()).append("'");
+					.append(generalWSRequest.getSessionId()).append("' ");
 			if (!psUpdateBean.isCheckAll()) {
 				updateQuery.append(" AND CHECK_RECORD='1' ");
 			}
@@ -336,10 +336,10 @@ public class GtnWsRebateScheduleController {
 			}
 
 			if (userId != null) {
-				sql.append("  users_Sid='").append(userId).append("'");
+				sql.append("  users_Sid='").append(userId).append("' ");
 			}
 			if (sessionId != null) {
-				sql.append(" and session_Id='").append(sessionId).append("'");
+				sql.append(" and session_Id='").append(sessionId).append("' ");
 			}
 
 			if (process.equalsIgnoreCase("tempCheckedCount") || process.equalsIgnoreCase("Status")

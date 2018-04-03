@@ -473,7 +473,7 @@ public class GtnWsRelationshipBuilderService {
 		for (GtnWebServiceSearchCriteria searchFilterCriteria : gtnWsRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList()) {
 			if (searchFilterCriteria.isFilter()) {
-				queryBuilder.append("%").append(searchFilterCriteria.getFilterValue1()).append("%");
+				queryBuilder.append('%').append(searchFilterCriteria.getFilterValue1()).append('%');
 				finalQueryBean.addWhereClauseBean(selectPrimaryColumn, null, GtnFrameworkOperatorType.LIKE,
 						GtnFrameworkDataType.STRING, queryBuilder.toString());
 			}
@@ -693,7 +693,7 @@ public class GtnWsRelationshipBuilderService {
 		StringBuilder hierarchyNo = new StringBuilder();
 		for (String masterSid : tempMasterSid) {
 			hierarchyNo.append(masterSid);
-			hierarchyNo.append(".");
+			hierarchyNo.append('.');
 		}
 		hierarchyNo.replace(hierarchyNo.lastIndexOf("."), hierarchyNo.lastIndexOf(".") + 1, ".");
 		return hierarchyNo.toString();

@@ -379,15 +379,15 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			finalFormula.insert(0, "(");
 			for (int j = 0; j < str.length; j++) {
 				if (j == 1 && j != str.length - 1) {
-					finalFormula.append("(");
+					finalFormula.append('(');
 				}
 				finalFormula.append(str[j]);
 				if (j == str.length - 1) {
-					finalFormula.append(")");
+					finalFormula.append(')');
 				}
 			}
 			if (i != 0) {
-				finalFormula.append(")");
+				finalFormula.append(')');
 			}
 		}
 		return finalFormula.toString();
@@ -401,7 +401,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			finalFormula.insert(0, "(");
                         firstLastString=formulaFormation(str, finalFormula, firstLastString, i);
 			if (i != 0) {
-				finalFormula.append(")");
+				finalFormula.append(')');
                                 firstLastString=finalFormula.toString();
 			}
 		}
@@ -412,7 +412,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
         String newFormula=firstLastString;
         for (int j = 0; j < str.length; j++) {
             if (j == 1 && j != str.length - 1) {
-                finalFormula.append("(");
+                finalFormula.append('(');
             }
             String percentString = j == 1 ? str[j] : ("*".concat(firstLastString.concat("/100")));
             String formulaName = str[j].equals("%") ? percentString : str[j];
@@ -420,7 +420,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
             formulaName = operatorCheck(formulaName) ? "[".concat(formulaName).concat("]") : formulaName;
             finalFormula.append(formulaName);
             if (j == str.length - 1) {
-                finalFormula.append(")");
+                finalFormula.append(')');
                 newFormula=finalFormula.toString();
             }
         }

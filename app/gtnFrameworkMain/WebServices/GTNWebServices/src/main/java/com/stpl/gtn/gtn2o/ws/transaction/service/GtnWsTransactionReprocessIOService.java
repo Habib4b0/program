@@ -156,7 +156,7 @@ public class GtnWsTransactionReprocessIOService {
 			for (int i = 0; i < updateColumn.length; i++) {
 				conditionalUpdate.append(updateColumn[i]).append("= '").append(updateColumnValues[i]).append("' ");
 				if (i != updateColumn.length - 1) {
-					conditionalUpdate.append(",");
+					conditionalUpdate.append(',');
 				}
 			}
 			conditionalUpdate.append(" where ").append(whereCondition);

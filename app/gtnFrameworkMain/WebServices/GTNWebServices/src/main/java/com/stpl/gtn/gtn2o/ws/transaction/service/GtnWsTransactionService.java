@@ -471,9 +471,9 @@ public class GtnWsTransactionService {
 
 	private String getFilePath() throws GtnFrameworkGeneralException {
 		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
-		filePath.append("/");
+		filePath.append('/');
 		filePath.append("exceltransaction");
-		filePath.append("/");
+		filePath.append('/');
 		Path path = Paths.get(filePath.toString());
 		if (!Files.exists(path)) {
 			try {
@@ -676,7 +676,7 @@ public class GtnWsTransactionService {
 		if (countOfSingleQuote > 0) {
 			StringBuilder finalStr = new StringBuilder();
 			for (int i = 0; i < countOfSingleQuote / 2; i++) {
-				finalStr.append("'");
+				finalStr.append("' ");
 			}
 			tempStr = searchValue.replace("'", StringUtils.EMPTY) + finalStr.toString();
 		}

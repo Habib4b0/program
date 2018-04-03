@@ -248,12 +248,12 @@ public class GtnWsCfpSaveService {
 					cmNotesTabQuery.append(" (").append(cfpBean.getCfpInfo().getCfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				} else {
 					cmNotesTabQuery.append(",(").append(cfpBean.getCfpInfo().getCfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				}
 				i++;
 			}
