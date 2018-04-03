@@ -428,6 +428,7 @@ public class RelationShipFilterLogic {
 		inputBean.setBusinessUnitValue(businessUnitValue);
 		inputBean.setRelationVersionNo(relationVersionNo);
 		inputBean.setLowestLevelNo(lowestLevelNo);
+		inputBean.setLevelNo(subListIndex);
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
