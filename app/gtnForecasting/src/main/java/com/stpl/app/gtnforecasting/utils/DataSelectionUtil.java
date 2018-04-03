@@ -283,8 +283,11 @@ public class DataSelectionUtil {
 		} else if (obj instanceof Leveldto) {
 			targetItem = new BeanItem<>((Leveldto) obj);
 		}
-
-		return (Leveldto) targetItem.getBean();
+                if (targetItem != null) {
+                    return (Leveldto) targetItem.getBean();
+                } else {
+                    return null;
+                }
 	}
 
 	public static String getCcpWithCC(List<Leveldto> ccList, final String tableIndicator) {
@@ -495,7 +498,7 @@ public class DataSelectionUtil {
 			selectedRelationshipLevelSids = new ArrayList<>();
 			for (Object item : itemIds) {
 				dto = DataSelectionUtil.getBeanFromId(item);
-				selectedRelationshipLevelSids.add(dto.getRelationshipLevelSid());
+				selectedRelationshipLevelSids.add(dto != null ? dto.getRelationshipLevelSid() : null);
 			}
 		}
 		return selectedRelationshipLevelSids;

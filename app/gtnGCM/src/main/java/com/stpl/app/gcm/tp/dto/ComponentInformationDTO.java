@@ -51,6 +51,10 @@ public class ComponentInformationDTO {
     private String companyStatus = StringUtils.EMPTY;
     private Date attachedDate;
 
+    public ComponentInformationDTO() {
+        super();
+    }
+
     public String getItemNo() {
         return itemNo;
     }

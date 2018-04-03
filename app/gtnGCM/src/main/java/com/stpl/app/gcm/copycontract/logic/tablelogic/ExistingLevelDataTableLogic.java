@@ -27,6 +27,10 @@ public class ExistingLevelDataTableLogic extends PageTableLogic {
     private Integer id;
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingLevelDataTableLogic.class);
 
+    public ExistingLevelDataTableLogic() {
+        super();
+    }
+
     /**
      * Record count logic
      *

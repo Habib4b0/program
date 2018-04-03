@@ -946,8 +946,11 @@ public class MPmpyCalculator extends Window {
             targetItem = new BeanItem<>(
                     (MPmpyDTO) obj);
         }
-
-        return (MPmpyDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (MPmpyDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void loadPMPYTable(boolean isExcelExport, ExtTreeContainer<MPmpyDTO> excelContainer)  {

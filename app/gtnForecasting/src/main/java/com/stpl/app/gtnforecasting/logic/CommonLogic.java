@@ -287,12 +287,13 @@ public class CommonLogic {
 
                 try {
                     CustomViewMaster customViewMaster = getCustomView(customId);
-                    customViewMaster.setProjectionMasterSid(session.getProjectionId());
-                    customViewMaster.setViewName(viewName);
-                    customViewMaster.setModifiedBy(userId);
-                    customViewMaster.setModifiedDate(date);
-                    customViewMaster = commonDao.updateCustomView(customViewMaster);
                     if (customViewMaster != null) {
+                        customViewMaster.setProjectionMasterSid(session.getProjectionId());
+                        customViewMaster.setViewName(viewName);
+                        customViewMaster.setModifiedBy(userId);
+                        customViewMaster.setModifiedDate(date);
+                        customViewMaster = commonDao.updateCustomView(customViewMaster);
+                    
                         customId = customViewMaster.getCustomViewMasterSid();
                         List<CustomViewDetails> detailsList = null;
                         if (session.getCustomDetailMap().containsKey(customId)) {
@@ -2034,7 +2035,7 @@ public class CommonLogic {
     }
 
     public static int getIndicatorCount(int viewName) {
-        List<CustomViewDetails> list = null;
+        List<CustomViewDetails> list = new ArrayList<>();
         DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
         try {
@@ -4836,13 +4837,6 @@ public class CommonLogic {
         return String.valueOf(userDefinedList.get(0));
     }
 
-    private String getPrimaryKeyColumn(String mainTableName) throws SystemException, PortalException {
-        SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
-        List primaryKeyList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("primary-Key").replace("@TABLENAME", mainTableName));
-        return String.valueOf(primaryKeyList.get(0));
-    }
-
-    
     public static void checkMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem, String obj) {
         if (customMenuItem != null && customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {
@@ -5145,6 +5139,28 @@ public class CommonLogic {
                 break;
             default:
                 header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+        }
+        return header;
+    }
+
+     public String getHeaderForExcelDiscount(Character freq, Object[] obj,String discountId,String separator) {
+        String header;
+        switch (freq) {
+            case 'A':
+                header = String.valueOf(obj[NumericConstants.TWO]);
+                break;
+            case 'Q':
+                header = Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                break;
+            case 'S':
+                header = Constant.S_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                break;
+            case 'M':
+                String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])) - 1);
+                header = monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO].toString();
+                break;
+            default:
+                header = Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
         }
         return header;
     }

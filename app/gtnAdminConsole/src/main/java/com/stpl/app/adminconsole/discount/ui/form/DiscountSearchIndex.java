@@ -877,7 +877,10 @@ public class DiscountSearchIndex extends CustomComponent implements View {
             } else {
                 targetItem = NULLOBJECT;
             }
-            deductionGroupSid = ((DiscountSearchDTO) targetItem.getBean()).getDeductionGroupSid();
+            
+            if (targetItem != null) {
+                deductionGroupSid = ((DiscountSearchDTO) targetItem.getBean()).getDeductionGroupSid();
+            }
         }
         LOGGER.debug("resultsItemClick Method Ended");
     }

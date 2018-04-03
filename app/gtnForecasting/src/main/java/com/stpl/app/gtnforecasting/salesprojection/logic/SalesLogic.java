@@ -158,6 +158,11 @@ public class SalesLogic {
     protected com.stpl.app.utils.QueryUtils utils = new com.stpl.app.utils.QueryUtils();
     public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     public static final String DF_LEVEL_NAME = "dfLevelName";
+    public static final String AND_FILTER_CCP_JOIN = " AND FILTER_CCP = 1";
+
+    public SalesLogic() {
+        super();
+    }
 
     public SessionDTO getSession() {
         return session;
@@ -1488,11 +1493,11 @@ public class SalesLogic {
                 input.put("?RBSIDC?", projectionDTO.getCustRelationshipBuilderSid());
                 input.put("?RBSIDP?", projectionDTO.getProdRelationshipBuilderSid());
                 input.put("?CVSID?", String.valueOf(projectionDTO.getCustomId()));
-                input.put(LEVEL_NO_C.getConstant(), splitArray[NumericConstants.THREE]);
-                input.put(LEVEL_NO_P.getConstant(), splitArray[NumericConstants.FOUR]);
-                input.put(H_INDICATOR.getConstant(), splitArray[NumericConstants.FIVE]);
-                input.put(Constant.HNOC1, splitArray[NumericConstants.SIX]);
-                input.put(Constant.HNOP1, splitArray[NumericConstants.SEVEN]);
+                input.put(LEVEL_NO_C.getConstant(), splitArray == null ? null : splitArray[NumericConstants.THREE]);
+                input.put(LEVEL_NO_P.getConstant(), splitArray == null ? null : splitArray[NumericConstants.FOUR]);
+                input.put(H_INDICATOR.getConstant(), splitArray == null ? null : splitArray[NumericConstants.FIVE]);
+                input.put(Constant.HNOC1, splitArray == null ? null : splitArray[NumericConstants.SIX]);
+                input.put(Constant.HNOP1, splitArray == null ? null : splitArray[NumericConstants.SEVEN]);
             }
             if (isSaveCheck) {
                 if (splitArray != null && String.valueOf(splitArray[NumericConstants.TWO]).equals(Constant.TRUE)) {
@@ -1724,7 +1729,7 @@ public class SalesLogic {
             String updateQuery = SQlUtil.getQuery(queryName);
             updateQuery = updateQuery.replace("[?CHECK_RECORD]", isChecked ? "1" : "0");
 
-            finalQuery = hierarchyInserQuery + updateQuery;
+            finalQuery = hierarchyInserQuery.concat(updateQuery).concat(AND_FILTER_CCP_JOIN);
         }
 
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -1735,6 +1740,7 @@ public class SalesLogic {
         }
         return count;
     }
+    
     private String getViewTypeQuery(String viewType) {
         String table;
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(viewType)) {
@@ -2266,7 +2272,9 @@ public class SalesLogic {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
                 connection.close();
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
@@ -2802,7 +2810,9 @@ public class SalesLogic {
         } catch (SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());
         } finally {
-            statement.close();
+            if (statement != null) {
+                statement.close();
+            }
             connection.close();
         }
         return status;
@@ -3035,7 +3045,9 @@ public class SalesLogic {
         } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());
         } finally {
-            statement.close();
+            if (statement != null) {
+                statement.close();
+            }
             connection.close();
         }
     }
@@ -3070,7 +3082,9 @@ public class SalesLogic {
             LOGGER.error("{}, {}",new Date(), ex.getMessage());
             throw new SystemException(ex);
         } finally {
-            statement.close();
+            if (statement != null) {
+                statement.close();
+            }
             connection.close();
         }
     }
@@ -3594,7 +3608,9 @@ public class SalesLogic {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
                 connection.close();
             } catch (SQLException ex) {
                 LOGGER.error(ex.getMessage());

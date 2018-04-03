@@ -31,6 +31,10 @@ public class AlternateHistoryTableLogic extends PageTableLogic {
     private SessionDTO session;
     private boolean isAvailable = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(AlternateHistoryTableLogic.class);
+
+    public AlternateHistoryTableLogic() {
+        super();
+    }
   
 
     @Override

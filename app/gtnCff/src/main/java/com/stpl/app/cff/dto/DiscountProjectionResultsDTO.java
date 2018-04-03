@@ -19,6 +19,10 @@ public class DiscountProjectionResultsDTO extends ExtMapDTO{
    private String hierarchyNo; 
    private String isParent;
    private String empty;
+
+    public DiscountProjectionResultsDTO() {
+        super();
+    }
   
      /**
      * The parent node.

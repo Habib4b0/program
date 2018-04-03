@@ -673,7 +673,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 LOGGER.error(e.getMessage());
             }
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -719,9 +721,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
-
-                
-
             }
         } catch (SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());
@@ -734,7 +733,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 LOGGER.error(e.getMessage());
             }
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -1321,7 +1322,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
     public static int getIndicatorCount(int viewName) {
-        List<CustomViewDetails> list = null;
+        List<CustomViewDetails> list = new ArrayList<>();
         DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, viewName));
         try {
@@ -2910,11 +2911,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return String.valueOf(userDefinedList.get(0));
     }
 
-    private static String getPrimaryKeyColumn(String mainTableName) throws SystemException, PortalException {
-        List primaryKeyList = (List) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("primary-Key").replace("@TABLENAME", mainTableName));
-        return String.valueOf(primaryKeyList.get(0));
-    }
-    
     public static void checkMenuBarItem(CustomMenuBar.CustomMenuItem customMenuItem, String obj) {
         if (customMenuItem != null && customMenuItem.getChildren() != null && !customMenuItem.getChildren().isEmpty()) {
             for (CustomMenuBar.CustomMenuItem object : customMenuItem.getChildren()) {

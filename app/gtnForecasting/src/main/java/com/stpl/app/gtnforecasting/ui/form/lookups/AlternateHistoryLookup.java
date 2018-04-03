@@ -343,7 +343,11 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
         } else if (obj instanceof AlternateHistoryDTO) {
             targetItem = new BeanItem<>((AlternateHistoryDTO) obj);
         }
-        return (AlternateHistoryDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (AlternateHistoryDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     private void configureFields() {

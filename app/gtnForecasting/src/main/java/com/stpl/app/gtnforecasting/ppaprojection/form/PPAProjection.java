@@ -1524,7 +1524,7 @@ public class PPAProjection extends CustomComponent implements View {
         Object[] leftColumns=new Object[NumericConstants.FIVE+(NumericConstants.FOUR*variableSize)];
         String[] leftHeaders=new String[NumericConstants.FIVE+(NumericConstants.FOUR*variableSize)];
         System.arraycopy(fullHeader.getSingleColumns().toArray(), 0, leftColumns, 0, NumericConstants.FIVE);
-        ExcelExport export = null;
+        ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable));
         int sheetCount=0;
         for (int i = NumericConstants.FIVE; i < fullHeader.getSingleColumns().toArray().length; i += (NumericConstants.FOUR*variableSize)) {
             System.arraycopy(fullHeader.getSingleColumns().toArray(), i, leftColumns, NumericConstants.FIVE,NumericConstants.FOUR*variableSize);

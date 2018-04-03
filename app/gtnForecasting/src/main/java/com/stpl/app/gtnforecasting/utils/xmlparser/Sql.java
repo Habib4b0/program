@@ -20,6 +20,10 @@ public class Sql {
 
     private List<SqlEntity> sqlEntity;
 
+    public Sql() {
+        super();
+    }
+
     public List<SqlEntity> getSqlEntity() {
         return sqlEntity == null ? sqlEntity : Collections.unmodifiableList(sqlEntity);
     }

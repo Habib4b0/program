@@ -318,6 +318,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		searchSecurityAction.addActionParameter(true);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_DELETE_BUTTON);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_EDIT_BUTTON);
+		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_COPY_BUTTON);
 		searchButtonConfig.addGtnUIFrameWorkActionConfig(searchSecurityAction);
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
@@ -360,6 +361,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		searchSecurityAction.addActionParameter(false);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_DELETE_BUTTON);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_EDIT_BUTTON);
+        searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_COPY_BUTTON);
 		searchButtonConfig.addGtnUIFrameWorkActionConfig(searchSecurityAction);
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);

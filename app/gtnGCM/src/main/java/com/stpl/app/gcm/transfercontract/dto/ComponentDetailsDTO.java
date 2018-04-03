@@ -27,6 +27,10 @@ public class ComponentDetailsDTO {
     private String formulaId = StringUtils.EMPTY;
     private Date attachedDate;
 
+    public ComponentDetailsDTO() {
+        super();
+    }
+
     public String getItemNo() {
         return itemNo;
     }
