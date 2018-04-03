@@ -6,17 +6,11 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.GtnFrameworkQueryGeneraterServiceImpl;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.service.GtnFrameworkJoinQueryGeneratorService;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.service.GtnFrameworkSelectQueryGeneratorService;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.service.GtnFrameworkWhereQueryGeneratorService;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
@@ -32,17 +26,8 @@ public class GtnFrameworkDedAutoUpdateQueryGeneratorCallable implements Callable
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
-
-
 	@Autowired
-	@Qualifier("DeductionSelect")
-	private GtnFrameworkSelectQueryGeneratorService selectService;
-	@Autowired
-	@Qualifier("DeductionWhere")
-	private GtnFrameworkWhereQueryGeneratorService whereService;
-	@Autowired
-	@Qualifier("DeductionJoin")
-	private GtnFrameworkJoinQueryGeneratorService joinService;
+	private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
 	private int customertUpdatedVersionNo;
 
@@ -72,18 +57,19 @@ public class GtnFrameworkDedAutoUpdateQueryGeneratorCallable implements Callable
 
 	@Override
 	public String call() throws Exception {
-		GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
 		HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(index);
-		GtnFrameworkHierarchyQueryBean hierarchyQuery = fileService.getQueryFromFile(
-				hierarchyLevelBean.getHierarchyDefinitionSid(), hierarchyLevelBean.getHierarchyLevelDefinitionSid(),
-				hierarchyLevelBean.getVersionNo());
-		GtnFrameworkQueryGeneratorBean querygeneratorBean = hierarchyQuery.getQuery();
-
-		GtnFrameworkQueryGeneraterServiceImpl queryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
-				selectService, joinService, whereService);
-		queryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
-				customertUpdatedVersionNo, index);
-		List<String> firstInput = new ArrayList<>();
+		GtnFrameworkQueryGeneratorBean querygeneratorBean = queryGeneratorService.getQuerybySituationNameAndLevel(
+				hierarchyLevelBean, "AUTO_UPDATE_DEDUCTION", hierarchyLevelDefinitionList);
+		List<Object> firstInput = new ArrayList<>();
+		firstInput.add(relationBean.getRelationshipBuilderSid());
+		firstInput.add(hierarchyLevelBean.getHierarchyLevelDefinitionSid());
+		firstInput.add(hierarchyLevelBean.getLevelNo());
+		firstInput.add("'" + hierarchyLevelBean.getLevelName() + "'");
+		firstInput.add(relationBean.getRelationshipBuilderSid());
+		firstInput.add(relationBean.getCreatedBy());
+		firstInput.add(relationBean.getModifiedBy());
+		firstInput.add(customertUpdatedVersionNo);
+		firstInput.add(relationBean.getRelationshipBuilderSid());
 		firstInput.add(getListToString(itemMastersidList));
 		String insertQuery = gtnWsSqlService.getReplacedQuery(firstInput, querygeneratorBean.generateQuery());
 		List<String> insertQueryInput = new ArrayList<>();

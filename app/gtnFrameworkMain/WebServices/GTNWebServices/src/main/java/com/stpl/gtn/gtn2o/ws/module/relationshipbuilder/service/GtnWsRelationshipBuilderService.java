@@ -29,7 +29,7 @@ import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSelectColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -517,7 +517,7 @@ public class GtnWsRelationshipBuilderService {
 
 				logger.info("finalQuery--->>" + finalQueryBean.generateQuery());
 
-				GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
+				GtnFrameworkSelectColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 						.getKeyRelationBeanUsingTableIdAndColumnName(destinationHierarchyBean.getTableName(),
 								destinationHierarchyBean.getFieldName());
 				hierarchyService.getInboundRestrictionQueryForAutoUpdate(finalQueryBean);
@@ -870,7 +870,7 @@ public class GtnWsRelationshipBuilderService {
 		finalQueryBean.addSelectClauseBean(null, "LEVEL_NO", Boolean.FALSE, String.valueOf(hierarchyBean.getLevelNo()));
 		finalQueryBean.addSelectClauseBean(null, "LELVEL_NAME", Boolean.FALSE,
 				String.valueOf("'" + hierarchyBean.getLevelName() + "'"));
-		GtnFrameworkSingleColumnRelationBean keyRelationBean = gtnFrameworkEntityMasterBean
+		GtnFrameworkSelectColumnRelationBean keyRelationBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyBean.getTableName(),
 						hierarchyBean.getFieldName());
 		String tempHierarchyNo;
@@ -959,7 +959,7 @@ public class GtnWsRelationshipBuilderService {
 		return levelValuesDTO;
 	}
 
-	private HierarchyLevelsBean getRelationPrimaryColumnValues(GtnFrameworkSingleColumnRelationBean keyRelationBean,
+	private HierarchyLevelsBean getRelationPrimaryColumnValues(GtnFrameworkSelectColumnRelationBean keyRelationBean,
 			GtnWsRelationshipLevelDefinitionBean relationBean, HierarchyLevelsBean levelValuesDTO)
 			throws GtnFrameworkGeneralException {
 		try {
@@ -981,7 +981,7 @@ public class GtnWsRelationshipBuilderService {
 
 	@SuppressWarnings("rawtypes")
 	private HierarchyLevelsBean getHierarchyLevelBean(List result, HierarchyLevelsBean levelValuesDTO,
-			GtnFrameworkSingleColumnRelationBean keyRelationBean) {
+			GtnFrameworkSelectColumnRelationBean keyRelationBean) {
 		if (result != null && !result.isEmpty()) {
 			Object[] obj = (Object[]) result.get(0);
 			levelValuesDTO.setLevelValue(String.valueOf(obj[0]));
@@ -995,7 +995,7 @@ public class GtnWsRelationshipBuilderService {
 			HierarchyLevelsBean levelValuesDTO, String tableName, String columnName)
 			throws GtnFrameworkGeneralException {
 		try {
-			GtnFrameworkSingleColumnRelationBean keyRelationBean = gtnFrameworkEntityMasterBean
+			GtnFrameworkSelectColumnRelationBean keyRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
 			if (keyRelationBean != null) {
 				getRelationPrimaryColumnValues(keyRelationBean, relationBean, levelValuesDTO);
