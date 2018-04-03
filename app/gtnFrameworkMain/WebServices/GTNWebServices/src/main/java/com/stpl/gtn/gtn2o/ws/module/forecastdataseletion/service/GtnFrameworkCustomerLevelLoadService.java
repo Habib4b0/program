@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.forecasting.querygenerator.serviceimpl.GtnFrameworkCustLevelQueryGenerator;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
@@ -22,10 +22,9 @@ public class GtnFrameworkCustomerLevelLoadService {
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 	@Autowired
-	private GtnFrameworkCustLevelQueryGenerator customerQueryGenerator;
-	@Autowired
 	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
-
+	@Autowired
+	private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
 	public GtnFrameworkCustomerLevelLoadService() {
 		super();
@@ -38,9 +37,12 @@ public class GtnFrameworkCustomerLevelLoadService {
 				.getHierarchyBuilder(inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo());
 		HierarchyLevelDefinitionBean lastLevelDto = HierarchyLevelDefinitionBean
 				.getLastLinkedLevel(hierarchyDefinitionList);
-		HierarchyLevelDefinitionBean selectedHierarchyLevelDto=HierarchyLevelDefinitionBean.getBeanByLevelNo(inputBean.getLevelNo(), hierarchyDefinitionList);
-		GtnFrameworkQueryGeneratorBean queryBean = customerQueryGenerator.getAvailableTableLoadQuery(inputBean,
-				lastLevelDto, hierarchyDefinitionList);
+		HierarchyLevelDefinitionBean selectedHierarchyLevelDto = HierarchyLevelDefinitionBean
+				.getBeanByLevelNo(inputBean.getLevelNo(), hierarchyDefinitionList);
+		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
+				"LOAD_AVAILABLE_TABLE", hierarchyDefinitionList);
+		queryGeneratorService.getWhereQueryBasedOnHierarchyType(inputBean.getHierarchyType(),
+				inputBean.getGroupFilterCompenies(), queryBean);
 		StringBuilder finalQuery = new StringBuilder(queryBean.generateQuery());
 		List<Object> inputList = new ArrayList<>();
 		inputList.add(inputBean.getRelationShipBuilderSid());
@@ -56,4 +58,5 @@ public class GtnFrameworkCustomerLevelLoadService {
 		}
 		return gtnWsSqlService.getReplacedQuery(inputList, finalQuery.toString());
 	}
+
 }

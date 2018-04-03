@@ -3,8 +3,8 @@
 
 <hibernate-reverse-engineering>
 
-<schema-selection match-catalog="BPIGTN_AGN_APP_UNIT" match-schema="dbo"/>
+<schema-selection match-catalog="BPIGTN_AGN_APPL7_QA" match-schema="dbo"/>
   
-<table-filter match-name=""/>
+<table-filter match-name="HIERARCHY_SITUTATION_FILTER"/>
  
 </hibernate-reverse-engineering>

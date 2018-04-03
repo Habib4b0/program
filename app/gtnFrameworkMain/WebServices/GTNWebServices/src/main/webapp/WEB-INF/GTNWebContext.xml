@@ -27,7 +27,7 @@
 			<list>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/HelperTable.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyIdentifier.hbm.xml</value>
-				 <value>/com/stpl/gtn/gtn2o/ws/xml/Attachment.hbm.xml</value> 
+				<value>/com/stpl/gtn/gtn2o/ws/xml/Attachment.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyMaster.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyParentDetails.hbm.xml
 				</value>
@@ -377,7 +377,20 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyRestrictionMaster.hbm.xml
 				</value>
-
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTable.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTableDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyColumnSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyHelperSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationFilter.hbm.xml
+				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnModuleComponentMaster.hbm.xml
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnModuleComponentRoleDetails.hbm.xml
