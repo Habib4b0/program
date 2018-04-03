@@ -36,7 +36,6 @@ public class GtnFrameworkCCPInserServiceTest {
 			inputBean.setLevelNo(4);
 			System.out.println(service.getProductLevelQuery(inputBean));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

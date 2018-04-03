@@ -27,7 +27,6 @@ public class GtnFrameworkLoadDiscountServiceTest {
 			inputBean.setLevelNo(3);
 			System.out.println(service.queryFormationForLoadingDdlb(inputBean));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

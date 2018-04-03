@@ -38,7 +38,6 @@ public class GtnFrameworkCustomerLevelLoadServiceTest {
 			service.insertToCPPTable(inputBean);
 			System.out.println();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
