@@ -76,7 +76,7 @@ public class GtnWsCommercialDSController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
 					.getGtnWsSqlService().getQuery(getProductHierarchyLookUpInput(productHierarchyRequest), queryName));
 			if (productHierarchyRequest.getGtnWsSearchRequest().isCount()) {
-				productHierarchySerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				productHierarchySerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(result);
@@ -224,7 +224,7 @@ public class GtnWsCommercialDSController {
 					.executeQuery(gtnGeneralServiceController.getGtnWsSqlService()
 							.getQuery(getCustomerHierarchyLookUpInput(customerHierarchyWsRequest), queryName));
 			if (customerHierarchyWsRequest.getGtnWsSearchRequest().isCount()) {
-				customerHierarchySerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				customerHierarchySerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable customerHierarchyDataTable = new GtnUIFrameworkDataTable();
 				customerHierarchyDataTable.addData(result);
@@ -344,7 +344,7 @@ public class GtnWsCommercialDSController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
 					.getGtnWsSqlService().getQuery(getProductGroupLookUpInput(productGroupRequest), queryName));
 			if (productGroupRequest.getGtnWsSearchRequest().isCount()) {
-				productGroupSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				productGroupSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable productGroupDataTable = new GtnUIFrameworkDataTable();
 				productGroupDataTable.addData(result);
@@ -463,7 +463,7 @@ public class GtnWsCommercialDSController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
 					.getGtnWsSqlService().getQuery(getCustomerGroupLookUpInput(customerGroupRequest), queryName));
 			if (customerGroupRequest.getGtnWsSearchRequest().isCount()) {
-				customerGroupSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				customerGroupSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable customerGroupDataTable = new GtnUIFrameworkDataTable();
 				customerGroupDataTable.addData(result);

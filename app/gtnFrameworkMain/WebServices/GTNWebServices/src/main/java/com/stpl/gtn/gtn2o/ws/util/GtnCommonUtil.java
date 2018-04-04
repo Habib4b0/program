@@ -205,7 +205,7 @@ public class GtnCommonUtil {
 	public static String getFormatedDate(GtnWsCheckAllUpdateBean rsUpdateBean) throws GtnFrameworkGeneralException {
 		String formattedDate = StringUtils.EMPTY;
 		try {
-			Date date = new Date(Long.valueOf(String.valueOf(rsUpdateBean.getValue())));
+			Date date = new Date(Long.parseLong(String.valueOf(rsUpdateBean.getValue())));
 			SimpleDateFormat formatter = new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_M_MDD_H_HMMSS);
 			formattedDate = formatter.format(date);
 		} catch (Exception ex) {

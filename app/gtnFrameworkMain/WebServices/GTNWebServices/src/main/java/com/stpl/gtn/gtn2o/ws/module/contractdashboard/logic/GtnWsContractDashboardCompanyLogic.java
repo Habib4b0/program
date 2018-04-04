@@ -225,9 +225,9 @@ public class GtnWsContractDashboardCompanyLogic {
 				imtdCompany.setOperation("A");
 				imtdCompany.setSessionId(getRequest.getSessionId());
 				imtdCompany.setUsersSid(getRequest.getUserId());
-				imtdCompany.setCreatedBy(Integer.valueOf(getRequest.getUserId()));
+				imtdCompany.setCreatedBy(Integer.parseInt(getRequest.getUserId()));
 				imtdCompany.setCreatedDate(new Date());
-				imtdCompany.setModifiedBy(Integer.valueOf(getRequest.getUserId()));
+				imtdCompany.setModifiedBy(Integer.parseInt(getRequest.getUserId()));
 				imtdCompany.setModifiedDate(new Date());
 				imtdCompany.setImtdCreatedDate(new Date());
 				imtdCompany.setTradingPartnerContractNo(recordBean.getStringPropertyByIndex(13));

@@ -104,7 +104,7 @@ public class GtnWsPeriodConfigurationController {
 
 			List<Object[]> result = executeQuery(getQuery(inputlist, queryName));
 			if (periodConfigRequest.getGtnWsSearchRequest().isCount()) {
-				periodConfigSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				periodConfigSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(result);
