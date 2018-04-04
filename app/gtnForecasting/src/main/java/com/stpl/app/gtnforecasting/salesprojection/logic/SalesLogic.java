@@ -2983,7 +2983,7 @@ public class SalesLogic {
         saveQuery = saveQuery.replace("[?USER_GROUP]", userGroupValue);
         saveQuery = saveQuery.replace("[?HIERARCHY_NO]", hierarchyNo);
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+        salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }
 
     /**

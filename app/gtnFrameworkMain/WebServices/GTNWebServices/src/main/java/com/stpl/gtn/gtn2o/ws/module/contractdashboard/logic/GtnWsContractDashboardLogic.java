@@ -224,7 +224,7 @@ public class GtnWsContractDashboardLogic {
 	void addInputWhereConditions(StringBuilder inputWhereConditions, GtnWebServiceSearchCriteria searchCriteria,
 			String comp, boolean leftSearch, String and, String where) {
 		String postFix = "";
-		if (!leftSearch && Integer.valueOf(comp.trim()) > 3
+		if (!leftSearch && Integer.parseInt(comp.trim()) > 3
 				&& (searchCriteria.getFieldId().contains("ifpItemNo")
 						|| searchCriteria.getFieldId().contains("ifpItemName")
 						|| searchCriteria.getFieldId().contains("ifpTherapeuticClass")
@@ -726,7 +726,7 @@ public class GtnWsContractDashboardLogic {
 		int levelId = recordBean.getIntegerPropertyByIndex(4);
 		ContractMaster contractMaster = session.load(ContractMaster.class, levelId);
 		contractMaster.setProcessStatus(Boolean.TRUE);
-		contractMaster.setModifiedBy(Integer.valueOf(cdRequest.getUserId()));
+		contractMaster.setModifiedBy(Integer.parseInt(cdRequest.getUserId()));
 		contractMaster.setModifiedDate(new Date());
 		contractMaster.setSource("GTN");
 		contractMaster.setInboundStatus(GtnFrameworkCommonStringConstants.INBOUND_STATUS_C.charAt(0));
@@ -769,9 +769,9 @@ public class GtnWsContractDashboardLogic {
 		if (endDate != 0L) {
 			cfpContract.setCfpEndDate(new Date(endDate));
 		}
-		cfpContract.setCreatedBy(Integer.valueOf(cdRequest.getUserId()));
+		cfpContract.setCreatedBy(Integer.parseInt(cdRequest.getUserId()));
 		cfpContract.setCreatedDate(new Date());
-		cfpContract.setModifiedBy(Integer.valueOf(cdRequest.getUserId()));
+		cfpContract.setModifiedBy(Integer.parseInt(cdRequest.getUserId()));
 		cfpContract.setModifiedDate(new Date());
 		cfpContract.setCfpContractAttachedDate(new Date());
 		cfpContract.setRecordLockStatus(false);
@@ -843,9 +843,9 @@ public class GtnWsContractDashboardLogic {
 		if (endDate != 0L) {
 			ifpContract.setIfpEndDate(new Date(endDate));
 		}
-		ifpContract.setCreatedBy(Integer.valueOf(cdRequest.getUserId()));
+		ifpContract.setCreatedBy(Integer.parseInt(cdRequest.getUserId()));
 		ifpContract.setCreatedDate(new Date());
-		ifpContract.setModifiedBy(Integer.valueOf(cdRequest.getUserId()));
+		ifpContract.setModifiedBy(Integer.parseInt(cdRequest.getUserId()));
 		ifpContract.setModifiedDate(new Date());
 		ifpContract.setIfpContractAttachedDate(new Date());
 		ifpContract.setRecordLockStatus(false);
@@ -933,9 +933,9 @@ public class GtnWsContractDashboardLogic {
 		if (endDate != 0L) {
 			psContract.setPsEndDate(new Date(endDate));
 		}
-		psContract.setCreatedBy(Integer.valueOf(cdRequest.getUserId()));
+		psContract.setCreatedBy(Integer.parseInt(cdRequest.getUserId()));
 		psContract.setCreatedDate(new Date());
-		psContract.setModifiedBy(Integer.valueOf(cdRequest.getUserId()));
+		psContract.setModifiedBy(Integer.parseInt(cdRequest.getUserId()));
 		psContract.setModifiedDate(new Date());
 		psContract.setPsContractAttachedDate(new Date());
 		psContract.setRecordLockStatus(false);
@@ -1032,9 +1032,9 @@ public class GtnWsContractDashboardLogic {
 		rsContract.setHelperTableByRebateRuleType(rsModel.getHelperTableByRebateRuleType());
 		rsContract.setHelperTableByRebatePlanLevel(rsModel.getHelperTableByRebatePlanLevel());
 		rsContract.setRebateRuleAssociation(rsModel.getRebateRuleAssociation());
-		rsContract.setCreatedBy(Integer.valueOf(cdRequest.getUserId()));
+		rsContract.setCreatedBy(Integer.parseInt(cdRequest.getUserId()));
 		rsContract.setCreatedDate(new Date());
-		rsContract.setModifiedBy(Integer.valueOf(cdRequest.getUserId()));
+		rsContract.setModifiedBy(Integer.parseInt(cdRequest.getUserId()));
 		rsContract.setModifiedDate(new Date());
 		rsContract.setRecordLockStatus(false);
 		rsContract.setInboundStatus(GtnFrameworkCommonStringConstants.INBOUND_STATUS_A.charAt(0));

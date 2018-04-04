@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.module.transaction.constants.GtnFrameworkTransactio
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionTableCheckAllBean;
+import java.util.Locale;
 
 public class GtnUIFrameworkTransactionInvalidIntegrationLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
@@ -55,7 +56,7 @@ public class GtnUIFrameworkTransactionInvalidIntegrationLoadAction
                 GtnUIFrameworkTransactionComponentListForInvalidBean bean = new GtnUIFrameworkTransactionComponentListForInvalidBean();
                 config.getComponentsForModules(
                         GtnFrameworkTransactionTableName.valueOf(moduleName.replace(' ',
-                                '_').toUpperCase()).getTableName(),
+                                '_').toUpperCase(Locale.ENGLISH)).getTableName(),
                         true, null, null, tableName, bean, moduleName);
                 getComponentForInvalidModules(bean, fieldValues, tableName, isVisible);
                 moduleComponentMap.put(moduleName, bean);
@@ -98,7 +99,7 @@ public class GtnUIFrameworkTransactionInvalidIntegrationLoadAction
 		} else {
 			tableName = GtnFrameworkTransactionInvalidTableName.valueOf(moduleName
 					.replace(' ', '_')
-					.toUpperCase()).getTableName();
+					.toUpperCase(Locale.ENGLISH)).getTableName();
 
 		}
 

@@ -237,7 +237,7 @@ public class GtnWsCMasterFinancialClose {
 
 			if (isCount) {
 
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
@@ -385,7 +385,7 @@ public class GtnWsCMasterFinancialClose {
 			List<Object> periodValues = (List<Object>) gtnSqlQueryEngine.executeSelectQuery(periodQuery);
 			@SuppressWarnings("unchecked")
 			List<Integer> statusValues = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(statusQuery);
-			Integer periodId = periodValues.isEmpty() ? 0 : Integer.valueOf(String.valueOf(periodValues.get(0)));
+			Integer periodId = periodValues.isEmpty() ? 0 : Integer.parseInt(String.valueOf(periodValues.get(0)));
 			Integer statusId = statusValues.isEmpty() ? 0 : statusValues.get(0);
 
 			String stringQuery = gtnWsSqlService.getQuery("insertTempTable");

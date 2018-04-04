@@ -186,6 +186,7 @@ cd $Gtn_Framework_Base_path
 jar -xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
 rm -rf $Gtn_Framework_Base_path/WEB-INF $Gtn_Framework_Base_path/META-INF $Gtn_Framework_Base_path/OSGI-INF $Gtn_Framework_Base_path/com 
 chown -R $APP_User:$Chown $Gtn_Framework_Base_path
+cd -
 fi
 
 

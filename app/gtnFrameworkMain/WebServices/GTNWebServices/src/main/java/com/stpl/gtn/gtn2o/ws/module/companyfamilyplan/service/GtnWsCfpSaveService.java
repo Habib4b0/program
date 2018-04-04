@@ -140,7 +140,7 @@ public class GtnWsCfpSaveService {
 							: Integer.valueOf(info.getParentCfpId()));
 			updateCfpModel.setParentCfpName(info.getParentCfpName());
 			updateCfpModel.setInternalNotes(info.getInternalNotes());
-			updateCfpModel.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
+			updateCfpModel.setModifiedBy(Integer.parseInt(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
 			updateCfpModel.setModifiedDate(new Date());
 			updateCfpModel.setSalesInclusion(info.getSalesInclusion());
 			session.saveOrUpdate(updateCfpModel);
