@@ -50,6 +50,8 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	private GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto;
 
+	private boolean isCff;
+
 	public GtnForecastHierarchyInputBean() {
 		super();
 	}
@@ -124,6 +126,14 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	public String getFieldName() {
 		return fieldName;
+	}
+
+	public boolean isCff() {
+		return isCff;
+	}
+
+	public void setCff(boolean isCff) {
+		this.isCff = isCff;
 	}
 
 	public void setFieldName(String fieldName) {
