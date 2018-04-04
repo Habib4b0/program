@@ -62,6 +62,7 @@ public class BaselinePeriodDTO implements Serializable {
     private String rollingEndPeriod;
 
     public BaselinePeriodDTO() {
+        super();
     }
 
     /**

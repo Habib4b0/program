@@ -35,6 +35,7 @@ public class ComparisonLookupDTO {
     protected Map<Integer, String> projectionMap = new HashMap<>();
 
     public ComparisonLookupDTO() {
+        super();
     }
 
     public String getWorkflowStatus() {

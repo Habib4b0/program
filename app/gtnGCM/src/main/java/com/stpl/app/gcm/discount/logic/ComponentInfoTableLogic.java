@@ -28,6 +28,7 @@ public class ComponentInfoTableLogic extends PageTableLogic {
     private boolean summaryFlag;
 
     public ComponentInfoTableLogic() {
+        super();
     }
 
     @Override

@@ -27,6 +27,7 @@ public class ExistingComponentDetailsTableLogic extends PageTableLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingComponentDetailsTableLogic.class);
 
     public ExistingComponentDetailsTableLogic() {
+        super();
     }
 
     /**

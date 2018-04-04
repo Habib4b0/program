@@ -40,6 +40,7 @@ public class PSComponentDetailsDTO {
     private Date attachedDate;
 
     public PSComponentDetailsDTO() {
+        super();
     }
 
     public String getItemNo() {

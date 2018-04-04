@@ -646,7 +646,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 		List<String> productHierarchyEndLevelsHierNo = new ArrayList<>();
 		for (Object item : selectedProductContainer.getItemIds()) {
-			if (!selectedProductContainer.hasChildren(item)) {
+			if (getBeanFromId(item) != null && !selectedProductContainer.hasChildren(item)) {
 				productHierarchyEndLevelsHierNo.add(getBeanFromId(item).getHierarchyNo());
 			}
 		}
@@ -852,14 +852,17 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 */
 	public static Leveldto getBeanFromId(Object obj) {
 
-		BeanItem<?> targetItem = null;
+		BeanItem<?> targetItemFromBean = null;
 		if (obj instanceof BeanItem<?>) {
-			targetItem = (BeanItem<?>) obj;
+			targetItemFromBean = (BeanItem<?>) obj;
 		} else if (obj instanceof Leveldto) {
-			targetItem = new BeanItem<>((Leveldto) obj);
+			targetItemFromBean = new BeanItem<>((Leveldto) obj);
 		}
-
-		return (Leveldto) targetItem.getBean();
+                if (targetItemFromBean != null) {
+                    return (Leveldto) targetItemFromBean.getBean();
+                } else {
+                    return null;
+                }
 	}
 
 	public ViewDTO getViewDTO() {

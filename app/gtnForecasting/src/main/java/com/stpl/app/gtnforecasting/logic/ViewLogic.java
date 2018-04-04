@@ -141,7 +141,7 @@ public class ViewLogic {
             dynamicQuery.setProjection(productProjectionList);
 
             List result = dataSelection.getForecastViewFromName(dynamicQuery);
-            if (result == null && result.isEmpty()) {
+            if (result == null || result.isEmpty()) {
                 return null;
             }
             objects = (Object[]) result.get(0);

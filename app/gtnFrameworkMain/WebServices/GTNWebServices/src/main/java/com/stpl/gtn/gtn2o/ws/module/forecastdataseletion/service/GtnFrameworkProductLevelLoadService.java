@@ -12,11 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.forecasting.querygenerator.serviceimpl.GtnFrameworkProdLevelQueryGenerator;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkFileReadWriteService;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -35,18 +31,14 @@ public class GtnFrameworkProductLevelLoadService {
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 	@Autowired
-	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
-
-	@Autowired
-	private GtnFrameworkFileReadWriteService fileService;
-	@Autowired
-	private GtnFrameworkProdLevelQueryGenerator queryGeneratorService;
-	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+	@Autowired
+	private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
 	public GtnFrameworkProductLevelLoadService() {
 		super();
 	}
+
 	public String getProductLevelQuery(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = relationUpdateService
 				.getHierarchyBuilder(inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo());
@@ -75,11 +67,15 @@ public class GtnFrameworkProductLevelLoadService {
 				inputBean.getSelectedCustomerHierarcySid(), inputBean.getSelectedCustomerHierarchyVersionNo());
 		HierarchyLevelDefinitionBean lastLevelDto = HierarchyLevelDefinitionBean
 				.getLastLinkedLevel(hierarchyDefinitionList);
-		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getAvailableTableLoadQuery(inputBean,
-				lastLevelDto, hierarchyDefinitionList);
+		String situationName = "LOAD_AVAILABLE_TABLE_PRODUCT";
+		if (inputBean.isNdc()) {
+			situationName = "LOAD_AVAILABLE_TABLE_FOR_NDC";
+		}
+		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
+				situationName, hierarchyDefinitionList);
 
-		List<Set> sidList = getCustomerConractSid(inputBean.getSelectedCustomerList(),
-				customerHierarchyLevelList, inputBean.getSelectedCustomerRelationShipBuilderVersionNo());
+		List<Set> sidList = getCustomerConractSid(inputBean.getSelectedCustomerList(), customerHierarchyLevelList,
+				inputBean.getSelectedCustomerRelationShipBuilderVersionNo());
 		getWhereQueryForProductLevel(sidList, queryBean);
 		if (!inputBean.getBusinessUnitValue().equals("null")
 				&& !String.valueOf(inputBean.getBusinessUnitValue()).equals("0")
@@ -96,30 +92,26 @@ public class GtnFrameworkProductLevelLoadService {
 		return gtnWsSqlService.getReplacedQuery(inputList, queryBean.generateQuery());
 	}
 
-
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private List<Set> getCustomerConractSid(
 			List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerContractList,
 			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList, int customerRelationVersionNo)
 			throws GtnFrameworkGeneralException {
-		GtnFrameworkQueryGeneratorBean queryBean = getCustomerContractSidQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, false);
-		if (queryBean == null || customerRelationVersionNo == 0) {
+		if (customerRelationVersionNo == 0 || customerHierarchyLevelDefinitionList == null
+				|| customerHierarchyLevelDefinitionList.isEmpty()) {
 			return Collections.emptyList();
 		}
-		int relationshipSid = selectedCustomerContractList.get(0).getRelationshipBuilderSid();
-		List<String> whereQueries = getRelationQueries(relationshipSid, customerRelationVersionNo,
-				customerHierarchyLevelDefinitionList
-						.toArray(new HierarchyLevelDefinitionBean[customerHierarchyLevelDefinitionList.size()]));
+		HierarchyLevelDefinitionBean lastLinketLevel = HierarchyLevelDefinitionBean
+				.getLastLinkedLevel(customerHierarchyLevelDefinitionList);
+		GtnFrameworkQueryGeneratorBean customerQueryBean = queryGeneratorService
+				.getQuerybySituationNameAndLevel(lastLinketLevel, "CCP_PRODUCT_CUSTOMER",
+						customerHierarchyLevelDefinitionList);
+		queryGeneratorService.getWhereQueryForCustomerAndContract(selectedCustomerContractList, customerQueryBean);
 		List<Set> finalList = new ArrayList<>();
 		Set<Integer> customerSidSet = new HashSet<>();
 		Set<Integer> contractSidSet = new HashSet<>();
-
-		getWhereQueryForCustomerAndContract(selectedCustomerContractList, 
-				queryBean);
-		String finalQuery = gtnWsSqlService.getReplacedQuery(whereQueries,queryBean.generateQuery() );
-		List<Object[]> results = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
+		List<Object[]> results = (List<Object[]>) gtnSqlQueryEngine
+				.executeSelectQuery(customerQueryBean.generateQuery());
 		for (Object[] object : results) {
 			customerSidSet.add(getIntegerValue(object, 0));
 			contractSidSet.add(getIntegerValue(object, 1));
@@ -129,27 +121,6 @@ public class GtnFrameworkProductLevelLoadService {
 		return finalList;
 	}
 
-	private GtnFrameworkQueryGeneratorBean getCustomerContractSidQuery(
-			List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerContractList,
-			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList, boolean isProduct) {
-		if (selectedCustomerContractList == null || selectedCustomerContractList.isEmpty())
-			return null;
-
-		HierarchyLevelDefinitionBean lastLinketLevel = HierarchyLevelDefinitionBean
-				.getLastLinkedLevel(customerHierarchyLevelDefinitionList);
-		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(lastLinketLevel);
-		queryBean.removeAllWhereClauseConfigList();
-		queryBean.removeSelectClauseByIndex(0);
-		queryBean.removeSelectClauseByIndex(0);
-		if (isProduct) {
-			queryBean.addSelectClauseBean("ITEM_MASTER.ITEM_MASTER_SID", "ITEM_MASTER_SID1", Boolean.TRUE, null);
-			return queryBean;
-		}
-		queryBean.addSelectClauseBean("COMPANY_MASTER.COMPANY_MASTER_SID", "COMPANY_MASTER_SID1", Boolean.TRUE, null);
-		queryBean.addSelectClauseBean("CONTRACT_MASTER.CONTRACT_MASTER_SID", "CONTRACT_MASTER_SID1", Boolean.TRUE,
-				null);
-		return queryBean;
-	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void getWhereQueryForProductLevel(List<Set> sidListb, GtnFrameworkQueryGeneratorBean queryBean) {
@@ -168,72 +139,6 @@ public class GtnFrameworkProductLevelLoadService {
 	}
 
 
-	private void getWhereQueryForCustomerAndContract(
-			List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerContractList,
-			GtnFrameworkQueryGeneratorBean queryBean) {
-		List<GtnFrameworkRelationshipLevelDefintionBean> modifiableList = new ArrayList<>(selectedCustomerContractList);
-		Collections.sort(modifiableList);
-		int maxlevelNo = 0;
-		for (GtnFrameworkRelationshipLevelDefintionBean leveldto : modifiableList) {
-			if (maxlevelNo < leveldto.getLevelNo())
-				maxlevelNo = leveldto.getLevelNo();
-		}
-		getWhereQueryByAllRelationShip(modifiableList, maxlevelNo, 0, queryBean);
-	}
-
-	@SuppressWarnings("unchecked")
-	private void getWhereQueryByAllRelationShip(List<GtnFrameworkRelationshipLevelDefintionBean> modifiableList,
-			int maxlevelNo,
-			int startPosition, GtnFrameworkQueryGeneratorBean queryBean) {
-		String whereClauseFieldName = "";
-		for (int i = startPosition; i < maxlevelNo; i++) {
-			List<Object> dataList = GtnFrameworkRelationshipLevelDefintionBean
-					.getLinkedLevelListByLevelNo(modifiableList, i + 1);
-
-			Set<String> masterSids = (Set<String>) dataList.get(0);
-			List<GtnFrameworkRelationshipLevelDefintionBean> levelBeanList = (List<GtnFrameworkRelationshipLevelDefintionBean>) dataList
-					.get(1);
-			if (levelBeanList.isEmpty())
-				continue;
-
-			String tableName = levelBeanList.get(0).getTableName();
-			String fieldName = levelBeanList.get(0).getFieldName();
-
-			GtnFrameworkSingleColumnRelationBean keyListBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(tableName, fieldName);
-
-			whereClauseFieldName = keyListBean.getWhereClauseColumn();
-			queryBean.addWhereClauseBean(keyListBean.getActualTtableName() + "." + whereClauseFieldName, null,
-					GtnFrameworkOperatorType.IN, GtnFrameworkDataType.LIST, new ArrayList<>(masterSids));
-		}
-	}
-
-
-	private GtnFrameworkQueryGeneratorBean getQueryForLinkedLevel(
-			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
-		GtnFrameworkHierarchyQueryBean queryBaen = fileService.getQueryFromFile(
-				selectedHierarchyLevelDto.getHierarchyDefinitionSid(),
-				selectedHierarchyLevelDto.getHierarchyLevelDefinitionSid(), selectedHierarchyLevelDto.getVersionNo());
-		return queryBaen.getQuery();
-
-	}
-
-	private List<String> getRelationQueries(int relationshipSid, int relationVersionNo,
-			HierarchyLevelDefinitionBean... levelHierarchyLevelDefinitionList) {
-		List<String> queryList = new ArrayList<>();
-		List<Object> input = new ArrayList<>();
-		for (HierarchyLevelDefinitionBean levelDto : levelHierarchyLevelDefinitionList) {
-			if (!levelDto.isUserDefined()) {
-				input.add(levelDto.getLevelNo());
-				input.add(relationshipSid);
-				input.add(relationVersionNo);
-				String relationQuery = gtnWsSqlService.getQuery(input, "relationShipSubQuery");
-				queryList.add(relationQuery);
-				input.clear();
-			}
-		}
-		return queryList;
-	}
 
 	private Integer getIntegerValue(Object[] objects, int index) {
 		return Integer.valueOf(objects[index] == null ? "0" : objects[index].toString());

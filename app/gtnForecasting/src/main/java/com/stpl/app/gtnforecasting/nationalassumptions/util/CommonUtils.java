@@ -109,6 +109,8 @@ public class CommonUtils {
        
     private static SessionDTO sessionDto=new SessionDTO();
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
+    public static final String TWENTYNINEPX = "29px";
+
     
     /**
      * Creates the clara.
@@ -134,7 +136,9 @@ public class CommonUtils {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
-                xml.close();
+                if (xml != null) {
+                    xml.close();
+                }
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }

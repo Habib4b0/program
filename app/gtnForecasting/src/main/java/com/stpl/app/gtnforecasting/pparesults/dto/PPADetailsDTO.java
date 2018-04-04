@@ -61,6 +61,7 @@ public class PPADetailsDTO implements Serializable {
     private String rebateScheduleName = StringUtils.EMPTY;
 
     public PPADetailsDTO() {
+        super();
     }
    
     public String getPeriod() {

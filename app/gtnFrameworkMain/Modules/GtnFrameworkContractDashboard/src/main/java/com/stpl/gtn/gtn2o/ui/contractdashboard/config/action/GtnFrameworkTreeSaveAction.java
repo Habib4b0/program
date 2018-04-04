@@ -53,7 +53,7 @@ public class GtnFrameworkTreeSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 			confirmationMessageBuilder.append(treeNode.getStringPropertyByIndex(2));
 			comma = ", ";
 		}
-		confirmationMessageBuilder.append("?");
+		confirmationMessageBuilder.append('?');
 		confirmSaveTree(componentId, parameters, confirmationMessageBuilder.toString(), treeNodes);
 	}
 

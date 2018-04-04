@@ -48,6 +48,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     private String pivotValue = StringUtils.EMPTY;
 
     public NMSalesProjectionResultsTableLogic() {
+        super();
     }
 
     @Override

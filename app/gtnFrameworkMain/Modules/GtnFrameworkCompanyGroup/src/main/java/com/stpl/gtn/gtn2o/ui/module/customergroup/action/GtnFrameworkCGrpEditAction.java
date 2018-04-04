@@ -45,7 +45,7 @@ public class GtnFrameworkCGrpEditAction
 		if (gtnWsRecordBean == null) {
 			return;
 		}
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
 
 		GtnCompanyGrpInformationBean cGrpInfoBean = new GtnCompanyGrpInformationBean();
@@ -74,7 +74,7 @@ public class GtnFrameworkCGrpEditAction
 
 			GtnUIFrameworkPagedTableLogic cfpCaTabRightTablelogic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("cGrpSelectedResultTable").getLogicFromPagedDataTable();
-			cfpCaTabRightTablelogic.startSearchProcess(null, Boolean.TRUE);
+			cfpCaTabRightTablelogic.startSearchProcess(null, true);
 
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);

@@ -54,10 +54,10 @@ public class GtnFrameworkNsfDeductionTabCheckAllAction implements GtnUIFrameWork
 			nsfInfoBean.setValue(value);
 			updateField(componentId);
 
-			GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
+			GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(false);
 			GtnUIFrameworkPagedTableLogic pagedLogic = nsfTableBaseComponent.getLogicFromPagedDataTable();
-			pagedLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
-			GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+			pagedLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
+			GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(true);
 		} catch (GtnFrameworkValidationFailedException ex) {
 			LOGGER.error("Exception in GtnFramework Nsf Deduction Tab CheckAll Action", ex);
 		}
@@ -77,7 +77,7 @@ public class GtnFrameworkNsfDeductionTabCheckAllAction implements GtnUIFrameWork
 		updateCheckReocrdRequest.setGtnWsGeneralRequest(generalWSRequest);
 
 		GtnUIFrameworkNsfInfoBean nsfBean = new GtnUIFrameworkNsfInfoBean();
-		nsfBean.setCheckAll(Boolean.TRUE);
+		nsfBean.setCheckAll(true);
 		nsfBean.setColumnId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 
 		nsfBean.setValue(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)

@@ -81,6 +81,7 @@ public class MProjectionResultsLogic {
     private Object[] totalPRCInput;
 
     public MProjectionResultsLogic() {
+        super();
     }
     
     public List<ProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {

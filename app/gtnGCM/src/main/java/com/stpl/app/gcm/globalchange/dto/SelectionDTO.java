@@ -112,6 +112,7 @@ public class SelectionDTO implements Cloneable {
     private List<Thread> threadList = new ArrayList();
 
     public SelectionDTO() {
+        super();
     }
     
     

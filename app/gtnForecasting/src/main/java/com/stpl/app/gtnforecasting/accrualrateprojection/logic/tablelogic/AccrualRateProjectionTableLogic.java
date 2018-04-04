@@ -41,6 +41,7 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
     private boolean isViewMode;
 
     public AccrualRateProjectionTableLogic() {
+        super();
     }
 
     @Override

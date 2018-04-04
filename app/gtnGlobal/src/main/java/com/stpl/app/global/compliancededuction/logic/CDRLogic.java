@@ -107,7 +107,7 @@ public class CDRLogic {
         StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, false);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
-        if (columns.isEmpty()) {
+        if (columns == null || columns.isEmpty()) {
             queryBuilder.append("ORDER BY RULE_NO ASC");
         } else {
             for (Iterator<SortByColumn> iterator = columns.iterator(); iterator.hasNext();) {

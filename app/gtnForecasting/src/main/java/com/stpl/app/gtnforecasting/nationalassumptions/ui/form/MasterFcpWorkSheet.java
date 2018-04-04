@@ -865,7 +865,11 @@ public class MasterFcpWorkSheet extends Window {
             targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
-        return (TableDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void loadNdc() {

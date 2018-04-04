@@ -276,7 +276,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private boolean isRateUpdatedManually = false;
     private boolean isRPUUpdatedManually = false;
     private boolean isAmountUpdatedManually = false;
-    private boolean isGrowthUpdatedManually = false;
     private BeanItemContainer<String> tableGroupDdlbBean = new BeanItemContainer<>(String.class);
     private String actualCCPs = StringUtils.EMPTY;
     private int rsModelSid = 0;
@@ -831,7 +830,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         }
                     } else if (property.contains(Constant.GROWTH)) {
                         refreshName = "GROWTH";
-                        isGrowthUpdatedManually = true;
                     }
                     saveDto.setPeriodNo(isInteger(periodToUpdate) ? Integer.parseInt(periodToUpdate) : 0);
                     saveDto.setYear(Integer.parseInt(yearToUpdate));
@@ -957,7 +955,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
 
     public void checkMultiVariables(final String period, final String refreshName) {
-        if (multipleVariableCheckMap.get(period.trim()) == null) {
+        if (multipleVariableCheckMap.get(period.trim()) == null || multipleVariableCheckMap.get(period.trim()).equals(refreshName)) {
             multipleVariableCheckMap.put(period.trim(), refreshName);
         } else {
             isMultipleVariablesUpdated = true;
@@ -1116,10 +1114,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     if (!isMultipleVariablesUpdated) {
-                        if (isGrowthUpdatedManually || isRateUpdatedManually || isRPUUpdatedManually
+                        if (isRateUpdatedManually || isRPUUpdatedManually
                                 || isAmountUpdatedManually) {
                             LOGGER.debug("inside if refreshBtn--------------------------------- ");
-                            isGrowthUpdatedManually = false;
                             isRateUpdatedManually = false;
                             isRPUUpdatedManually = false;
                             isAmountUpdatedManually = false;
@@ -3447,7 +3444,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void generateBtnClickLogic(Boolean isGenerate) {
-        isGrowthUpdatedManually = false;
         isRateUpdatedManually = false;
         isRPUUpdatedManually = false;
         isAmountUpdatedManually = false;

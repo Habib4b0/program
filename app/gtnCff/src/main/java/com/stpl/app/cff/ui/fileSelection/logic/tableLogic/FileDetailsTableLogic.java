@@ -30,6 +30,7 @@ public class FileDetailsTableLogic extends PageTableLogic {
     private boolean isReset = false;
 
     public FileDetailsTableLogic() {
+        super();
     }
 
     @Override

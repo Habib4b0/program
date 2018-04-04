@@ -23,6 +23,7 @@ public class AssumptionCIDTDTO {
     private String annualGrossSales;
 
     public AssumptionCIDTDTO() {
+        super();
     }
 
     public String getContractHolderOrTP() {

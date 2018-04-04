@@ -21,6 +21,7 @@ public class Sql {
     private List<SqlEntity> sqlEntity;
 
     public Sql() {
+        super();
     }
 
     public List<SqlEntity> getSqlEntity() {

@@ -37,6 +37,7 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
     public static final Logger LOGGER = LoggerFactory.getLogger(PhsResultsTableLogic.class);
 
     public PhsResultsTableLogic() {
+        super();
     }
     
     @Override

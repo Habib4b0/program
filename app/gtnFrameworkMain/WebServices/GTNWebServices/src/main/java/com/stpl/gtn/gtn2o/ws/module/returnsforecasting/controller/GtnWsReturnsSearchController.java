@@ -62,7 +62,7 @@ public class GtnWsReturnsSearchController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(
 					gtnWsSqlService.getQuery(getSearchInput(gtnWsRequest), queryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(result);
@@ -127,15 +127,15 @@ public class GtnWsReturnsSearchController {
 			if (searchCriteria.getFilterValue2() != null) {
 				searchCriteria.setFilterValue2(getDate(searchCriteria.getFilterValue2()));
 				inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN)
-						.append(filterAndSortingProjectionCriteriaMap().get(searchCriteria.getFieldId())).append(" ")
+						.append(filterAndSortingProjectionCriteriaMap().get(searchCriteria.getFieldId())).append(' ')
 						.append(searchCriteria.getExpression()).append(" '").append(searchCriteria.getFilterValue1())
-						.append("' AND '").append(searchCriteria.getFilterValue2()).append("'");
+						.append("' AND '").append(searchCriteria.getFilterValue2()).append("' ");
 			}
 		} else {
 			inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN)
-					.append(filterAndSortingProjectionCriteriaMap().get(searchCriteria.getFieldId())).append(" ")
+					.append(filterAndSortingProjectionCriteriaMap().get(searchCriteria.getFieldId())).append(' ')
 					.append(searchCriteria.getExpression()).append(" '").append(searchCriteria.getFilterValue1())
-					.append("'");
+					.append("' ");
 		}
 	}
 
@@ -147,15 +147,15 @@ public class GtnWsReturnsSearchController {
 		} else if (searchCriteria.getFieldId().contains("Period")) {
 
 			inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN)
-					.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(" ")
+					.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(' ')
 					.append(searchCriteria.getExpression()).append(" '")
-					.append(GtnCommonUtil.getDateFromQuarter(searchCriteria.getFilterValue1())).append("'");
+					.append(GtnCommonUtil.getDateFromQuarter(searchCriteria.getFilterValue1())).append("' ");
 		} else {
 
 			inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN)
-					.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(" ")
+					.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(' ')
 					.append(searchCriteria.getExpression()).append(" '")
-					.append(searchCriteria.getFilterValue1().replace("*", "%")).append("'");
+					.append(searchCriteria.getFilterValue1().replace('*', '%')).append("' ");
 		}
 	}
 

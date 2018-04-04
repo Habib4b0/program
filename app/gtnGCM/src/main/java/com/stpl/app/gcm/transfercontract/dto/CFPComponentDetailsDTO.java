@@ -24,6 +24,7 @@ public class CFPComponentDetailsDTO {
     private Date attachedDate;
 
     public CFPComponentDetailsDTO() {
+        super();
     }
 
     public String getTradingPartnerNo() {

@@ -23,6 +23,7 @@ public class CompanySearchCriteria implements BeanSearchCriteria {
 	private boolean dirty;
 
     public CompanySearchCriteria() {
+        super();
     }
 
     @Override

@@ -19,6 +19,7 @@ public class RelationshipDdlbCriteria  implements SearchCriteria {
     private String filter = StringUtils.EMPTY;
 
     public RelationshipDdlbCriteria() {
+        super();
     }
     
     @Override

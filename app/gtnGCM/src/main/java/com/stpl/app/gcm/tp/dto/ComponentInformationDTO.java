@@ -52,6 +52,7 @@ public class ComponentInformationDTO {
     private Date attachedDate;
 
     public ComponentInformationDTO() {
+        super();
     }
 
     public String getItemNo() {

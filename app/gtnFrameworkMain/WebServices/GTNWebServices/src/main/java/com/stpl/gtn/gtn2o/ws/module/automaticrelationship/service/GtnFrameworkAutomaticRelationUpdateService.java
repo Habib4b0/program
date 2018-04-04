@@ -98,11 +98,11 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)
 			) {
 				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
-				return Boolean.TRUE;
+				return true;
 			}
 			LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
 		}
-		return Boolean.FALSE;
+		return false;
 	}
 
 	public GtnFrameworkAutoupdateService getAutomaticserviceObject(String hierarchyCat) {
@@ -183,11 +183,9 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		HelperTable hierarchyCat = session.load(HelperTable.class,
 				relationshipBuilder.getHierarchyDefinition().getHierarchyCategory());
 		relationBean.setHierarchycategory(hierarchyCat.getDescription());
-
 		return relationBean;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<HierarchyLevelDefinitionBean> getHierarchyBuilder(Integer hierarchyBuilderSid, int hierarchyVersionNo)
 			throws GtnFrameworkGeneralException {
 		List<Object> input = new ArrayList<>();
@@ -199,6 +197,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 
 	private List<HierarchyLevelDefinitionBean> executeAndGetCustomizedResult(String finalQuery)
 			throws GtnFrameworkGeneralException {
+		@SuppressWarnings("unchecked")
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = new ArrayList<>();
 		for (Object[] objects : resultList) {
@@ -250,10 +249,10 @@ public class GtnFrameworkAutomaticRelationUpdateService {
                 if ((int) resultData.get(0) == 1) {
 				deductionRelationService.saveRelationship(relationBeanManual);
                 }
-                return Boolean.TRUE;
+                return true;
             }
             LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
-            return Boolean.FALSE;
+            return false;
         }
 
 	public void deleteUnwantedUserDefinedLevels(int relationshipBuilderSid, int customertUpdatedVersionNo)

@@ -18,6 +18,7 @@ public class DdlbCriteria implements SearchCriteria {
 	private boolean dirty;
 
     public DdlbCriteria() {
+        super();
     }
 
     @Override

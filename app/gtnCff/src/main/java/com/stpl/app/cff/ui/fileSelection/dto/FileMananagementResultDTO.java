@@ -224,6 +224,7 @@ public class FileMananagementResultDTO implements Serializable {
     private int company;
 
     public FileMananagementResultDTO() {
+        super();
     }
     
     public String getBrandName() {

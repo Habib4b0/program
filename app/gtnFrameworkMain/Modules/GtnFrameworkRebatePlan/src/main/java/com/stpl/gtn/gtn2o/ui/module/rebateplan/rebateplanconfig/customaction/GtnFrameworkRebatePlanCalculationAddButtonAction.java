@@ -93,7 +93,7 @@ public class GtnFrameworkRebatePlanCalculationAddButtonAction
 				simpleOrComplex(i, record, combobox, formulaType);
 				if (i == 3 && combobox.getIntegerFromField() < 0) {
 					// true if value is newly added in value ddlb
-					record.addProperties("newItem", true);
+					record.addProperties("newItem", Boolean.TRUE);
 					record.addAdditionalProperty("newItem");
 				}
 			} else {

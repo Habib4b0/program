@@ -437,7 +437,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameworkFieldEnableDisableAction.class.getName());
 		customAction.addActionParameter(componentConfig.getComponentId());
-		customAction.addActionParameter(true);
+		customAction.addActionParameter(Boolean.TRUE);
 		customAction.addActionParameter("child");
 		customAction.setFieldValues(Arrays.asList(cdPricingTabPrefix + TEXT_PPSID, cdPricingTabPrefix + TEXT_PPS_NAME));
 		componentConfig.addGtnUIFrameWorkActionConfig(customAction);

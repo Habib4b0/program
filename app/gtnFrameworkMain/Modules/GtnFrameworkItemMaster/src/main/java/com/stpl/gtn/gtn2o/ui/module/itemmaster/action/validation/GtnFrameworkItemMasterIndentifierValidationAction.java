@@ -53,7 +53,7 @@ public class GtnFrameworkItemMasterIndentifierValidationAction
 				.getIntegerFromField();
 		Date startDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemIdentifierStartDate")
 				.getDateFromDateField();
-		String appender = " ";
+		String appender = "  ";
 		if (qualifierId == null || qualifierId == 0) {
 			feildMsg.append(appender).append("Item Qualifier Name");
 			appender = " , ";

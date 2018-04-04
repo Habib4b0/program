@@ -85,6 +85,7 @@ public class ForecastUI extends UI {
     private static boolean EXCEL_CLOSE = false;
 
     public ForecastUI() {
+        super();
     }
 
     /**

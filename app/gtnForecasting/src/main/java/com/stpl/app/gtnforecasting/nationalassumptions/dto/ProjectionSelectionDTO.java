@@ -116,6 +116,7 @@ public class ProjectionSelectionDTO {
       private String ndc9Value = StringUtils.EMPTY;
 
     public ProjectionSelectionDTO() {
+        super();
     }
       
     public boolean isIsFilter() {

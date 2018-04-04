@@ -165,7 +165,6 @@ public class GtnWsRebatePlanController {
 				rebatePlanInfoBean.setRebatePlanRuleDetailBean(
 						setRpTierDetailsBean(rpTierSet, rebatePlanInfoBean.getFormulaType()));
 				rebatePlanInfoBean.setNoteBeanList(getRpNotesTabDetails(systemId));
-				rebatePlanInfoBean.setNoteBeanList(getRpNotesTabAttachDetails(systemId));
 			}
 		} catch (Exception ex) {
 			throw new GtnFrameworkGeneralException(ex);
@@ -537,7 +536,7 @@ public class GtnWsRebatePlanController {
 			rpTier.setTierLevel(Integer.toString(i));
 			rpTier.setHelperTable(session.get(HelperTable.class, ruleDetailBean.getOperator()));
 			rpTier.setTierValue(ruleDetailBean.getValueDesc() != null
-					? BigDecimal.valueOf(Double.valueOf(ruleDetailBean.getValueDesc()))
+					? BigDecimal.valueOf(Double.parseDouble(ruleDetailBean.getValueDesc()))
 					: BigDecimal.ZERO);
 			rpTier.setTierTolerance(
 					ruleDetailBean.getTierTolerance() != null ? BigDecimal.valueOf(ruleDetailBean.getTierTolerance())

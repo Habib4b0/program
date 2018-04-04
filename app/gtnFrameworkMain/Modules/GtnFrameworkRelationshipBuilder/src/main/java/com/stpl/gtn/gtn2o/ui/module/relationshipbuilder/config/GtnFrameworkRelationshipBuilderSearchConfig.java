@@ -315,9 +315,10 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		GtnUIFrameWorkActionConfig searchSecurityAction = new GtnUIFrameWorkActionConfig();
 		searchSecurityAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		searchSecurityAction.addActionParameter(GtnFrameworkSearchSecurityAction.class.getName());
-		searchSecurityAction.addActionParameter(true);
+		searchSecurityAction.addActionParameter(Boolean.TRUE);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_DELETE_BUTTON);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_EDIT_BUTTON);
+		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_COPY_BUTTON);
 		searchButtonConfig.addGtnUIFrameWorkActionConfig(searchSecurityAction);
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
@@ -357,9 +358,10 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		GtnUIFrameWorkActionConfig searchSecurityAction = new GtnUIFrameWorkActionConfig();
 		searchSecurityAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		searchSecurityAction.addActionParameter(GtnFrameworkSearchSecurityAction.class.getName());
-		searchSecurityAction.addActionParameter(false);
+		searchSecurityAction.addActionParameter(Boolean.FALSE);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_DELETE_BUTTON);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_EDIT_BUTTON);
+        searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_COPY_BUTTON);
 		searchButtonConfig.addGtnUIFrameWorkActionConfig(searchSecurityAction);
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
@@ -545,7 +547,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		editActionConfig.addActionParameter("Edit Error");
 		editActionConfig.addActionParameter("Please select a record to edit");
 		editActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD);
-		editActionConfig.addActionParameter(false);
+		editActionConfig.addActionParameter(Boolean.FALSE);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.SAVE_BUTTON);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESET_BUTTON);
 		editActionConfig.addActionParameter("removeFromTreeBtn");
@@ -593,7 +595,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		viewActionConfig.addActionParameter("View Error");
 		viewActionConfig.addActionParameter("Please select a record to view");
 		viewActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD);
-		viewActionConfig.addActionParameter(true);
+		viewActionConfig.addActionParameter(Boolean.TRUE);
 		viewActionConfig.addActionParameter(GtnFrameworkCommonConstants.SAVE_BUTTON);
 		viewActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESET_BUTTON);
 		viewActionConfig.addActionParameter("removeFromTreeBtn");

@@ -25,6 +25,7 @@ public class CompanyComponentTableLogic extends PageTableLogic {
     private String[] id;
 
     public CompanyComponentTableLogic() {
+        super();
     }
 
     /**
