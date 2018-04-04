@@ -769,12 +769,12 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 if (parentKey.contains("~")) {
                     String[] str = parentKey.split("~");
                     var = str[str.length - 1] + "$";
-                    parentKey = var + parentKey.substring(0, parentKey.toString().lastIndexOf('~'));
+                    parentKey = var + parentKey.substring(0, parentKey.lastIndexOf('~'));
                 } else {
                     parentKey = key.substring(key.lastIndexOf('$') + 1);
                 }
-            } else if (parentKey.toString().contains("~")) {
-                parentKey = parentKey.toString().substring(parentKey.toString().lastIndexOf('~') + 1);
+            } else if (parentKey.contains("~")) {
+                parentKey = parentKey.substring(parentKey.lastIndexOf('~') + 1);
                 if (!projectionSelectionDTO.isIsCustomHierarchy() || !Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(projectionSelectionDTO.getPivotView())) {
                     parentKey = parentKey.substring(parentKey.indexOf('-') + 1);
                 }
