@@ -4663,29 +4663,8 @@ public class CommonLogic {
 					formedQuery = getQueryForLoadingDiscount(inputBean);
                     query = formedQuery;
                 }
-
-               
-                query = (productList.isEmpty() || isuserDefined) ? query
-                        : (SQlUtil.getQuery("product-dynamic-filter").replace(Constant.LEVEL_VALUES, productList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
-								.replace(Constant.RELBUILD_SID, projDto.getSessionDTO().getProdRelationshipBuilderSid())
-								+ query);
-
-                query = (deductionList.isEmpty() || isuserDefined) ? query
-                        : (SQlUtil.getQuery("deduction-dynamic-filter").replace(Constant.DEDLEVEL_VALUES, deductionList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
-								.replace("@DEDRELBUILDSID", projDto.getSessionDTO().getDedRelationshipBuilderSid())
-								+ query);
-
-				StringBuilder sb = new StringBuilder(query);
-
-				if (!productList.isEmpty() && !isuserDefined) {
-					sb.insert(query.lastIndexOf("WHERE"),
-							" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%'  ");
-				}
-				if (!deductionList.isEmpty() && !isuserDefined) {
-					sb.insert(query.lastIndexOf("WHERE"),
-							" JOIN ST_NM_DISCOUNT_PROJ_MASTER SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
-				}
-
+                query = getReplacedQuery(projDto, productList, deductionList, query, isuserDefined);
+				StringBuilder sb = getJoinReplaced(productList, deductionList, query, isuserDefined);
 				stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(
 						QueryUtil.replaceTableNames(sb.toString(), projDto.getSessionDTO().getCurrentTableNames()));
 
@@ -4695,6 +4674,35 @@ public class CommonLogic {
         }
         return stockList;
     }
+
+	private StringBuilder getJoinReplaced(List<Object> productList, List<Object> deductionList, String query,
+			boolean isuserDefined) {
+		StringBuilder sb = new StringBuilder(query);
+
+		if (!productList.isEmpty() && !isuserDefined) {
+			sb.insert(query.lastIndexOf(Constant.WHERE_CAPS),
+					" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%'  ");
+		}
+		if (!deductionList.isEmpty() && !isuserDefined) {
+			sb.insert(query.lastIndexOf(Constant.WHERE_CAPS),
+					" JOIN ST_NM_DISCOUNT_PROJ_MASTER SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
+		}
+		return sb;
+	}
+
+	private String getReplacedQuery(ProjectionSelectionDTO projDto, List<Object> productList,
+			List<Object> deductionList, String query, boolean isuserDefined) {
+		query = (productList.isEmpty() || isuserDefined) ? query
+		        : (SQlUtil.getQuery("product-dynamic-filter").replace(Constant.LEVEL_VALUES, productList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
+						.replace(Constant.RELBUILD_SID, projDto.getSessionDTO().getProdRelationshipBuilderSid())
+						+ query);
+
+		query = (deductionList.isEmpty() || isuserDefined) ? query
+		        : (SQlUtil.getQuery("deduction-dynamic-filter").replace(Constant.DEDLEVEL_VALUES, deductionList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
+						.replace("@DEDRELBUILDSID", projDto.getSessionDTO().getDedRelationshipBuilderSid())
+						+ query);
+		return query;
+	}
 
 
     public List<Object[]> getProductLevelValues(int projectionId, String type, ProjectionSelectionDTO projectionDto,List<Object> customerFilter,List<Object> deductionFilter,String versionNo) {
@@ -4728,11 +4736,11 @@ public class CommonLogic {
 				StringBuilder sb = new StringBuilder(query);
 
 				if (!customerFilter.isEmpty() && !isuserDefined) {
-					sb.insert(query.lastIndexOf("WHERE"),
+					sb.insert(query.lastIndexOf(Constant.WHERE_CAPS),
 							" JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
 				}
 				if (!deductionFilter.isEmpty() && !isuserDefined) {
-					sb.insert(query.lastIndexOf("WHERE"),
+					sb.insert(query.lastIndexOf(Constant.WHERE_CAPS),
 							" JOIN ST_NM_DISCOUNT_PROJ_MASTER SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
 				}
 

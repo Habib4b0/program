@@ -894,14 +894,14 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
     public static String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-        String user = StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " \n";
-        return user;
+		return StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table
+				+ ".SESSION_ID=" + sessionId + " \n";
     }
 
-    public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String CCP) {
-        String ccpWhereCond = StringConstantsUtil.SMALL_AND + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP + ".RELATIONSHIP_LEVEL_SID \n"
-                + StringConstantsUtil.SMALL_AND + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
-        return ccpWhereCond;
+    public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
+		return StringConstantsUtil.SMALL_AND + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
+				+ ".RELATIONSHIP_LEVEL_SID \n"
+                + StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
     }
 
     public static String getPeriodRestrictionQuery(ProjectionSelectionDTO projSelDTO) {
@@ -2752,13 +2752,14 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 										projDto.getSessionDTO().getDedRelationshipBuilderSid())
 								+ query);
 				StringBuilder sb = new StringBuilder(query);
+				String whereString = StringConstantsUtil.WHERE_CAPS;
 				if (!projDto.getProductLevelFilter().isEmpty()) {
-					sb.insert(query.lastIndexOf("WHERE"),
+					sb.insert(query.lastIndexOf(whereString),
 							" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
 				}
 
 				if (!projDto.getDeductionLevelFilter().isEmpty()) {
-					sb.insert(query.lastIndexOf("WHERE"),
+					sb.insert(query.lastIndexOf(whereString),
 							" JOIN ST_CCP_DEDUCTION_HIERARCHY SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
 				}
             
@@ -2836,12 +2837,12 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             
 			StringBuilder sb = new StringBuilder(query);
 			if (!projectionDto.getCustomerLevelFilter().isEmpty()) {
-				sb.insert(query.lastIndexOf("WHERE"),
+				sb.insert(query.lastIndexOf(StringConstantsUtil.WHERE_CAPS),
 						" JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
 			}
 
 			if (!projectionDto.getDeductionLevelFilter().isEmpty()) {
-				sb.insert(query.lastIndexOf("WHERE"),
+				sb.insert(query.lastIndexOf(StringConstantsUtil.WHERE_CAPS),
 						" JOIN ST_CCP_DEDUCTION_HIERARCHY SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
 			}
 
