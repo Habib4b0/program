@@ -38,10 +38,10 @@ public class GtnFrameworkPSPriceTabTableCheckAction implements GtnUIFrameWorkAct
 		GtnUIFrameworkGlobalUI.updateFieldByMassUpdate(checkAllUpdateBean,
 				"/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_PRICETAB_POPULATE_SERVICE);
 
-		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
+		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(false);
 		GtnUIFrameworkPagedTableLogic logic = tableBaseComponent.getLogicFromPagedDataTable();
-		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
-		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
+		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(true);
 	}
 
 	@Override

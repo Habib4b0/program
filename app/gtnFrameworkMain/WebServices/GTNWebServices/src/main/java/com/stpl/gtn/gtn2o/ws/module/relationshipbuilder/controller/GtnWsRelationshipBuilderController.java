@@ -184,7 +184,7 @@ public class GtnWsRelationshipBuilderController {
 					inputWhereConditions.append(where).append(and)
 							.append(searchCriteriaMap().get(searchCriteria.getFieldId()))
 							.append(GtnFrameworkWebserviceConstant.GREATER_VAR).append(searchCriteria.getFilterValue1())
-							.append("'");
+							.append("' ");
 					and = GtnFrameworkWebserviceConstant.AND_COLUMN;
 					where = "";
 				} else if (searchCriteria.getFieldId().contains("DateTo")) {
@@ -192,14 +192,14 @@ public class GtnWsRelationshipBuilderController {
 					inputWhereConditions.append(where).append(and)
 							.append(searchCriteriaMap().get(searchCriteria.getFieldId()))
 							.append(GtnFrameworkWebserviceConstant.LESSER).append(searchCriteria.getFilterValue1())
-							.append("'");
+							.append("' ");
 					and = GtnFrameworkWebserviceConstant.AND_COLUMN;
 					where = "";
 				} else {
 					inputWhereConditions.append(where).append(and)
-							.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(" ")
+							.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(' ')
 							.append(searchCriteria.getExpression().replace("EQUALS", "=")).append(" '")
-							.append(searchCriteria.getFilterValue1().replace("*", "%")).append("'");
+							.append(searchCriteria.getFilterValue1().replace("*", "%")).append("' ");
 					and = GtnFrameworkWebserviceConstant.AND_COLUMN;
 					where = "";
 				}

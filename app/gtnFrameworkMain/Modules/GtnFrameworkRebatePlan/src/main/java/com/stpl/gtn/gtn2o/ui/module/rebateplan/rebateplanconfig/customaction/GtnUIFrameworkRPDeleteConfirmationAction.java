@@ -50,7 +50,7 @@ public class GtnUIFrameworkRPDeleteConfirmationAction
 		parameters.add("/" + GtnWsCDRContants.RP_SERVICE + GtnWsCDRContants.REMOVE_RP_REC);
 		parameters.add(GtnFrameworkCommonConstants.RP_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(14);
 
 		editActionConfig.setActionParameterList(parameters);

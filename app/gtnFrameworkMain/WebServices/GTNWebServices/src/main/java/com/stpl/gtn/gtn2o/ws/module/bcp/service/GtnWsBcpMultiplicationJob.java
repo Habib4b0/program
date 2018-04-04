@@ -80,10 +80,10 @@ public class GtnWsBcpMultiplicationJob implements Runnable {
 				newValue[4] = currentValue[4].multiply(lastValue[4]).setScale(15, RoundingMode.FLOOR);
 				newValue[5] = currentValue[5].multiply(lastValue[5]).setScale(15, RoundingMode.FLOOR);
 
-				updatedLine.append(sourceLine[ndcIndex]).append(",").append(sourceLine[1]).append(",")
-						.append(newValue[0].toPlainString()).append(",").append(newValue[1].toPlainString()).append(",")
-						.append(newValue[2].toPlainString()).append(",").append(newValue[3].toPlainString()).append(",")
-						.append(newValue[4].toPlainString()).append(",").append(newValue[5].toPlainString()).append(",")
+				updatedLine.append(sourceLine[ndcIndex]).append(',').append(sourceLine[1]).append(',')
+						.append(newValue[0].toPlainString()).append(',').append(newValue[1].toPlainString()).append(',')
+						.append(newValue[2].toPlainString()).append(',').append(newValue[3].toPlainString()).append(',')
+						.append(newValue[4].toPlainString()).append(',').append(newValue[5].toPlainString()).append(',')
 						.append(String.valueOf(sourceLine[priceTypeIndex])).append(System.lineSeparator());
 			} else {
 				for (int i = 0; i < lastValue.length; i++) {
@@ -96,10 +96,10 @@ public class GtnWsBcpMultiplicationJob implements Runnable {
 				newValue[3] = currentValue[3].multiply(lastValue[3]).setScale(15, RoundingMode.FLOOR);
 				newValue[4] = currentValue[4].multiply(lastValue[4]).setScale(15, RoundingMode.FLOOR);
 				newValue[5] = currentValue[5].multiply(lastValue[5]).setScale(15, RoundingMode.FLOOR);
-				updatedLine.append(sourceLine[ndcIndex]).append(",").append(sourceLine[1]).append(",")
-						.append(newValue[0].toPlainString()).append(",").append(newValue[1].toPlainString()).append(",")
-						.append(newValue[2].toPlainString()).append(",").append(newValue[3].toPlainString()).append(",")
-						.append(newValue[4].toPlainString()).append(",").append(newValue[5].toPlainString()).append(",")
+				updatedLine.append(sourceLine[ndcIndex]).append(',').append(sourceLine[1]).append(',')
+						.append(newValue[0].toPlainString()).append(',').append(newValue[1].toPlainString()).append(',')
+						.append(newValue[2].toPlainString()).append(',').append(newValue[3].toPlainString()).append(',')
+						.append(newValue[4].toPlainString()).append(',').append(newValue[5].toPlainString()).append(',')
 						.append(String.valueOf(sourceLine[priceTypeIndex])).append(System.lineSeparator());
 			}
 			lastValue = newValue;
@@ -122,12 +122,12 @@ public class GtnWsBcpMultiplicationJob implements Runnable {
 			if (lastCCP.equals(String.valueOf(sourceLine[0]))) {
 				newValue = currentValue.multiply(lastValue).setScale(15, RoundingMode.FLOOR);
 				if (salesFlag) {
-					updatedLine.append(sourceLine[0]).append(",").append(sourceLine[1]).append(",")
+					updatedLine.append(sourceLine[0]).append(',').append(sourceLine[1]).append(',')
 							.append(newValue.toPlainString()).append(System.lineSeparator());
 				} else {
 
-					updatedLine.append(sourceLine[0]).append(",").append(sourceLine[1]).append(",")
-							.append(sourceLine[2]).append(",").append(newValue.toPlainString()).append(",")
+					updatedLine.append(sourceLine[0]).append(',').append(sourceLine[1]).append(',')
+							.append(sourceLine[2]).append(',').append(newValue.toPlainString()).append(',')
 							.append(sourceLine[5]).append(System.lineSeparator());
 				}
 
@@ -136,11 +136,11 @@ public class GtnWsBcpMultiplicationJob implements Runnable {
 				lastCCP = String.valueOf(sourceLine[0]);
 				newValue = currentValue.multiply(lastValue).setScale(15, RoundingMode.FLOOR);
 				if (salesFlag) {
-					updatedLine.append(String.valueOf(sourceLine[0])).append(",").append(sourceLine[1]).append(",")
+					updatedLine.append(String.valueOf(sourceLine[0])).append(',').append(sourceLine[1]).append(',')
 							.append(newValue.toPlainString()).append(System.lineSeparator());
 				} else {
-					updatedLine.append(String.valueOf(sourceLine[0])).append(",").append(sourceLine[1]).append(",")
-							.append(sourceLine[2]).append(",").append(newValue.toPlainString()).append(",")
+					updatedLine.append(String.valueOf(sourceLine[0])).append(',').append(sourceLine[1]).append(',')
+							.append(sourceLine[2]).append(',').append(newValue.toPlainString()).append(',')
 							.append(sourceLine[5]).append(System.lineSeparator());
 				}
 			}
@@ -188,11 +188,11 @@ public class GtnWsBcpMultiplicationJob implements Runnable {
 	private void salesFlagCheck(boolean salesFlag, Object[] sourceLine, BigDecimal newValue,
 			StringBuilder updatedLine) {
 		if (salesFlag) {
-			updatedLine.append(sourceLine[0]).append(",").append(sourceLine[1]).append(",")
+			updatedLine.append(sourceLine[0]).append(',').append(sourceLine[1]).append(',')
 					.append(newValue.toPlainString()).append(System.lineSeparator());
 		} else {
-			updatedLine.append(sourceLine[0]).append(",").append(sourceLine[1]).append(",").append(sourceLine[2])
-					.append(",").append(newValue.toPlainString()).append(",").append(sourceLine[5])
+			updatedLine.append(sourceLine[0]).append(',').append(sourceLine[1]).append(',').append(sourceLine[2])
+					.append(',').append(newValue.toPlainString()).append(',').append(sourceLine[5])
 					.append(System.lineSeparator());
 		}
 	}

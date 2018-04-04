@@ -48,18 +48,18 @@ public class GtnUIFrameworkTransactionInvalidIntegrationLoadAction
 				.getVaadinBaseComponent(fieldValues.get(9)).getComponentData().getSharedPopupData();
 
 		GtnFrameworkTransactionComponentConfig config = new GtnFrameworkTransactionComponentConfig();
-		if (moduleComponentMap.containsKey(moduleName)) {
-			GtnUIFrameworkTransactionComponentListForInvalidBean bean = moduleComponentMap.get(moduleName);
-			getComponentForInvalidModules(bean, fieldValues, tableName, isVisible);
-		} else {
-			GtnUIFrameworkTransactionComponentListForInvalidBean bean = new GtnUIFrameworkTransactionComponentListForInvalidBean();
-			config.getComponentsForModules(
-					GtnFrameworkTransactionTableName.valueOf(moduleName.replace(GtnFrameworkCommonStringConstants.SPACE,
-							GtnFrameworkCommonStringConstants.UNDERSCORE).toUpperCase()).getTableName(),
-					true, null, null, tableName, bean, moduleName);
-			getComponentForInvalidModules(bean, fieldValues, tableName, isVisible);
-			moduleComponentMap.put(moduleName, bean);
-		}
+		          if (moduleComponentMap.containsKey(moduleName)) {
+                GtnUIFrameworkTransactionComponentListForInvalidBean bean = moduleComponentMap.get(moduleName);
+                getComponentForInvalidModules(bean, fieldValues, tableName, isVisible);
+            } else {
+                GtnUIFrameworkTransactionComponentListForInvalidBean bean = new GtnUIFrameworkTransactionComponentListForInvalidBean();
+                config.getComponentsForModules(
+                        GtnFrameworkTransactionTableName.valueOf(moduleName.replace(' ',
+                                '_').toUpperCase()).getTableName(),
+                        true, null, null, tableName, bean, moduleName);
+                getComponentForInvalidModules(bean, fieldValues, tableName, isVisible);
+                moduleComponentMap.put(moduleName, bean);
+            }
 
 	}
 
@@ -97,7 +97,7 @@ public class GtnUIFrameworkTransactionInvalidIntegrationLoadAction
 			tableName = GtnFrameworkTransactionInvalidTableName.valueOf("SELECT_ONE").getTableName();
 		} else {
 			tableName = GtnFrameworkTransactionInvalidTableName.valueOf(moduleName
-					.replace(GtnFrameworkCommonStringConstants.SPACE, GtnFrameworkCommonStringConstants.UNDERSCORE)
+					.replace(' ', '_')
 					.toUpperCase()).getTableName();
 
 		}

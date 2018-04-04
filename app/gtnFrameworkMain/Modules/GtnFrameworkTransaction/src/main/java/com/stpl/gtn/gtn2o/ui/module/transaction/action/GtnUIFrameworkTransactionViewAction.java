@@ -47,7 +47,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("----------Inside doAction ---------------");
 
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		boolean isInvalid = (Boolean) actionParamList.get(8);
 		String tableName = (String) actionParamList.get(2);

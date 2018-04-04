@@ -68,11 +68,11 @@ public class GtnFrameworkAutomaticRunnable implements Runnable {
 					relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			if (automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
 				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
-				return Boolean.TRUE;
+				return true;
 			}
 			LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
 		}
-		return Boolean.FALSE;
+		return false;
 	}
 
 

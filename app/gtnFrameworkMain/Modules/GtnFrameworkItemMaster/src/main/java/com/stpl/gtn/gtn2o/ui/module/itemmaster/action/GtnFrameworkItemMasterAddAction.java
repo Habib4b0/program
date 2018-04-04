@@ -45,7 +45,7 @@ public class GtnFrameworkItemMasterAddAction
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("Entering GtnFrameworkItemMasterAddAction doAction ");
 		try {
-			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			GtnWsItemMasterInfoBean info = new GtnWsItemMasterInfoBean();
 			configureInformationTabComponents(componentId, info);
 			configureIdentifierTable();

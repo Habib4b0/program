@@ -25,7 +25,7 @@ public class GtnFrameworkIfpItemsRecordChangeAction implements GtnUIFrameWorkAct
 		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(false);
 		GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("ifpItemsTabResultDataTable").getLogicFromPagedDataTable();
-		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(true);
 	}
 

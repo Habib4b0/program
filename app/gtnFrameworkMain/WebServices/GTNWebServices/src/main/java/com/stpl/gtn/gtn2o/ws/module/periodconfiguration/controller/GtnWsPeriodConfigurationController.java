@@ -344,9 +344,9 @@ public class GtnWsPeriodConfigurationController {
 					String value = searchCriteria.getFilterValue1();
 					if ("LIKE".equalsIgnoreCase(searchCriteria.getExpression())) {
 						StringBuilder valueBuilder = new StringBuilder();
-						valueBuilder.append("%");
+						valueBuilder.append('%');
 						valueBuilder.append(value);
-						valueBuilder.append("%");
+						valueBuilder.append('%');
 						value = valueBuilder.toString();
 					}
 					inputWhereConditions.append(where).append(and)
@@ -396,22 +396,22 @@ public class GtnWsPeriodConfigurationController {
 				sql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
 						.append(" as float)) as datetime) >= '").append(GtnCommonUtil.getDate(value1)).append("' AND ");
 				sql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) <= '").append(GtnCommonUtil.getDate(value2)).append("'");
+						.append(" as float)) as datetime) <= '").append(GtnCommonUtil.getDate(value2)).append("' ");
 				break;
 			case "AND":
 				sql.append(field).append(" < '").append(value1).append("' AND ");
-				sql.append(field).append(" > '").append(value2).append("'");
+				sql.append(field).append(" > '").append(value2).append("' ");
 				break;
 			case "GREATER_OR_EQUAL":
 				sql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) >= '").append(GtnCommonUtil.getDate(value1)).append("'");
+						.append(" as float)) as datetime) >= '").append(GtnCommonUtil.getDate(value1)).append("' ");
 				break;
 			case "LESS_OR_EQUAL":
 				sql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) <= '").append(GtnCommonUtil.getDate(value1)).append("'");
+						.append(" as float)) as datetime) <= '").append(GtnCommonUtil.getDate(value1)).append("' ");
 				break;
 			case "LIKE":
-				sql.append(field).append(" ").append(expersion).append(" '")
+				sql.append(field).append(' ').append(expersion).append(" '")
 						.append(value1.replace('*', '%').replaceAll("\\s+", "%")).append("' ");
 				break;
 			case "EQUAL":
@@ -425,7 +425,7 @@ public class GtnWsPeriodConfigurationController {
 				sql.append(field).append(" < '").append(value1).append("' ");
 				break;
 			default:
-				sql.append(field).append(" ").append(expersion).append(" '").append(value1).append("' ");
+				sql.append(field).append(' ').append(expersion).append(" '").append(value1).append("' ");
 				break;
 			}
 			return sql.toString();
