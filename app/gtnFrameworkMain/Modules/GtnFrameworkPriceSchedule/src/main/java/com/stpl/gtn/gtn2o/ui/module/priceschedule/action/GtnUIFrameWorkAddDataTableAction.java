@@ -48,15 +48,15 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction, G
 			inputValueMap.put("userId", GtnUIFrameworkGlobalUI.getCurrentUser());
 			inputValueMap.put("ps_id", psId);
 			loadDataFromService(inputValueMap);
-			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
-			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
+			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
+			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(false);
 			Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
 			if (mode != null && mode != GtnUIFrameworkModeType.VIEW)
-				new GtnUIFrameWorkPSLoadAction().loadPriceTabsForView(0, Boolean.TRUE);
+				new GtnUIFrameWorkPSLoadAction().loadPriceTabsForView(0, true);
 			else
-				new GtnUIFrameWorkPSLoadAction().loadPriceTabsForView(0, Boolean.FALSE);
-			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
-			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+				new GtnUIFrameWorkPSLoadAction().loadPriceTabsForView(0, false);
+			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(true);
+			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);
 		}
 	}
 
@@ -111,8 +111,8 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction, G
 				GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
 
 		priceTabTableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
-		setTableEnableDisable(Boolean.TRUE);
-		boolean isActiveFlag = Boolean.TRUE;
+		setTableEnableDisable(true);
+		boolean isActiveFlag = true;
 		priceTabTableLogic.startSearchProcess(new ArrayList<String>(), isActiveFlag);
 
 		GtnUIFrameworkComponentData psPriceProtectionTabResultDataTableomponentData = GtnUIFrameworkGlobalUI

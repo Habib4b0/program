@@ -224,7 +224,7 @@ public class GtnWsCfpAddService {
 		for (GtnWebServiceOrderByCriteria gtnWebServiceOrderByCriteria : gtnWebServiceOrderByCriteriaList) {
 			String property = gtnWebServiceOrderByCriteria.getPropertyId();
 			columnName = getCmAdditionTabColumns(property, false);
-			sortByQuery.append(separator).append(columnName).append(" ")
+			sortByQuery.append(separator).append(columnName).append(' ')
 					.append(gtnWebServiceOrderByCriteria.getOrderByCriteria());
 			separator = comma;
 		}
@@ -275,10 +275,10 @@ public class GtnWsCfpAddService {
 				whereSqlBuilder.append(dbName).append(" > '")
 						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue))).append("' AND ");
 				whereSqlBuilder.append(dbName).append(" < '")
-						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue2))).append("'");
+						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue2))).append("' ");
 				break;
 			case "LIKE":
-				whereSqlBuilder.append(dbName).append(" ").append(expression).append(" '")
+				whereSqlBuilder.append(dbName).append(' ').append(expression).append(" '")
 						.append(filterValue.replace('*', '%').replace("_", "[_]")).append("' ");
 				break;
 			case "EQUAL":
@@ -298,18 +298,18 @@ public class GtnWsCfpAddService {
 				whereSqlBuilder.append(dbName).append(" > '")
 						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue))).append("' OR ");
 				whereSqlBuilder.append(dbName).append(" = '")
-						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue))).append("'");
+						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue))).append("' ");
 				break;
 
 			case "LESS_OR_EQUAL":
 				whereSqlBuilder.append(dbName).append(" < '")
 						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue))).append("' OR ");
 				whereSqlBuilder.append(dbName).append(" = '")
-						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue))).append("'");
+						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue))).append("' ");
 				break;
 
 			default:
-				whereSqlBuilder.append(dbName).append(" ").append(expression).append(" '").append(filterValue)
+				whereSqlBuilder.append(dbName).append(' ').append(expression).append(" '").append(filterValue)
 						.append("' ");
 				break;
 			}
@@ -402,7 +402,7 @@ public class GtnWsCfpAddService {
 		for (GtnWebServiceOrderByCriteria gtnWebServiceOrderByCriteria : gtnWebServiceOrderByCriteriaList) {
 			String property = gtnWebServiceOrderByCriteria.getPropertyId();
 			columnName = getCompaniesTabColumns(property, false);
-			sortByQuery.append(separator).append(columnName).append(" ")
+			sortByQuery.append(separator).append(columnName).append(' ')
 					.append(gtnWebServiceOrderByCriteria.getOrderByCriteria());
 			separator = comma;
 		}

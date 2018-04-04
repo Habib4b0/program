@@ -29,12 +29,12 @@ public class GtnWsColumnDetailsConfig {
 	public String getColumnNameForSelectClause() {
 		StringBuilder selectClause = new StringBuilder();
 		getColumnName(selectClause);
-		return selectClause.append(" ").toString();
+		return selectClause.append(' ').toString();
 	}
 
 	private void getColumnName(StringBuilder selectClause) {
 		if (tableAlias != null && !"".equals(tableAlias)) {
-			selectClause.append(tableAlias).append(".").append(dbColumnName);
+			selectClause.append(tableAlias).append('.').append(dbColumnName);
 		} else {
 			selectClause.append(dbColumnName);
 		}
@@ -43,7 +43,7 @@ public class GtnWsColumnDetailsConfig {
 	public String getColumnNameForWhereClause() {
 		StringBuilder selectClause = new StringBuilder();
 		if (tableAlias != null && !"".equals(tableAlias)) {
-			selectClause.append(tableAlias).append(".");
+			selectClause.append(tableAlias).append('.');
 		}
 		if (whereClauseColumn != null && !"".equals(whereClauseColumn)) {
 			selectClause.append(whereClauseColumn);
@@ -52,22 +52,22 @@ public class GtnWsColumnDetailsConfig {
 			selectClause.append(dbColumnName);
 		}
 
-		return selectClause.append(" ").toString();
+		return selectClause.append(' ').toString();
 	}
 
 	public String getHelperTableMappedColumnNameForOrderByClause() {
 		StringBuilder selectClause = new StringBuilder();
-		selectClause.append(helperTableAliasName).append(".");
+		selectClause.append(helperTableAliasName).append('.');
 
 		selectClause.append(helperTableColumnName);
 
-		return selectClause.append(" ").toString();
+		return selectClause.append(' ').toString();
 	}
 
 	public String getColumnNameForWhereAndOrderByClause() {
 		StringBuilder selectClause = new StringBuilder();
 		if (tableAlias != null && !"".equals(tableAlias)) {
-			selectClause.append(tableAlias).append(".");
+			selectClause.append(tableAlias).append('.');
 		}
 		if (whereClauseColumn != null && !"".equals(whereClauseColumn)) {
 			selectClause.append(whereClauseColumn);
@@ -75,7 +75,7 @@ public class GtnWsColumnDetailsConfig {
 			selectClause.append(dbColumnName);
 		}
 
-		return selectClause.append(" ").toString();
+		return selectClause.append(' ').toString();
 	}
 
 	public String getAliasName() {

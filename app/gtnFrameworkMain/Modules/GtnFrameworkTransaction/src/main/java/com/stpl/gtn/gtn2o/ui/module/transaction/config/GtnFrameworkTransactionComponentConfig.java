@@ -567,7 +567,7 @@ public class GtnFrameworkTransactionComponentConfig {
 			navigationActionConfig.addActionParameter("V002");
 			actionConfigList.add(navigationActionConfig);
 			GtnUIFrameWorkActionConfig viewActionConfig = new GtnUIFrameWorkActionConfig();
-			getViewActionconfig(viewActionConfig, tableName, false, viewModeComponents, viewModeOrderComponents,
+			getViewActionconfig(viewActionConfig, tableName, Boolean.FALSE, viewModeComponents, viewModeOrderComponents,
 					listViewComponent);
 
 			actionConfigList.add(viewActionConfig);
@@ -958,7 +958,7 @@ public class GtnFrameworkTransactionComponentConfig {
 			viewAction.setFieldValues(Arrays.asList("intefaceName", "transactionViewLayout"));
 			hylinkButton.addGtnUIFrameWorkActionConfig(viewAction);
 			GtnUIFrameWorkActionConfig viewActionConfig = new GtnUIFrameWorkActionConfig();
-			getViewActionconfig(viewActionConfig, tableName, true, viewModeComponents, viewModeOrderComponents,
+			getViewActionconfig(viewActionConfig, tableName, Boolean.TRUE, viewModeComponents, viewModeOrderComponents,
 					listViewComponent);
 			hylinkButton.addGtnUIFrameWorkActionConfig(viewActionConfig);
 		}

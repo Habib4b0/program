@@ -417,7 +417,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		customAction.addActionParameter(GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
 		customAction.addActionParameter(GtnFrameworkCommonConstants.ITEM_FAMILYPLAN_SYSTEM_ID);
 		customAction.addActionParameter(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE);
-		customAction.addActionParameter(true);
+		customAction.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(customAction);
 		searchResults.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
@@ -464,7 +464,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction.addActionParameter(true);
+		visibleAction.addActionParameter(Boolean.TRUE);
 		visibleAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.IFPADD_RESET_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ADD_SAVE_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT,
@@ -473,7 +473,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction1 = new GtnUIFrameWorkActionConfig();
 		visibleAction1.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction1.addActionParameter(false);
+		visibleAction1.addActionParameter(Boolean.FALSE);
 		visibleAction1.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT_ON_VIEW));
 		actionConfigList.add(visibleAction1);
@@ -553,12 +553,12 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		ifpEditActionConfig.addActionParameter(GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
 		ifpEditActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_FAMILYPLAN_SYSTEM_ID);
 		ifpEditActionConfig.addActionParameter(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE);
-		ifpEditActionConfig.addActionParameter(true);
+		ifpEditActionConfig.addActionParameter(Boolean.TRUE);
 		onSucessActionConfigList.add(ifpEditActionConfig);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction.addActionParameter(true);
+		visibleAction.addActionParameter(Boolean.TRUE);
 		visibleAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.IFPADD_RESET_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ADD_SAVE_BUTTON, GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT,
@@ -567,7 +567,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction1 = new GtnUIFrameWorkActionConfig();
 		visibleAction1.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction1.addActionParameter(false);
+		visibleAction1.addActionParameter(Boolean.FALSE);
 		visibleAction1.addActionParameter(
 				Arrays.asList(GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT_ON_VIEW));
 		onSucessActionConfigList.add(visibleAction1);
@@ -652,12 +652,12 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		ifpViewtActionConfig.addActionParameter(GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
 		ifpViewtActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_FAMILYPLAN_SYSTEM_ID);
 		ifpViewtActionConfig.addActionParameter("ifprightResultTableOnView");
-		ifpViewtActionConfig.addActionParameter(false);
+		ifpViewtActionConfig.addActionParameter(Boolean.FALSE);
 		onSucessActionConfigList.add(ifpViewtActionConfig);
 
 		GtnUIFrameWorkActionConfig ifpVisibleAction = new GtnUIFrameWorkActionConfig();
 		ifpVisibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		ifpVisibleAction.addActionParameter(false);
+		ifpVisibleAction.addActionParameter(Boolean.FALSE);
 		ifpVisibleAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.IFPADD_RESET_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ADD_SAVE_BUTTON, GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ITEMSMASS_UPDATE_PANEL_LAYOUT,
@@ -667,7 +667,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction1 = new GtnUIFrameWorkActionConfig();
 		visibleAction1.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction1.addActionParameter(true);
+		visibleAction1.addActionParameter(Boolean.TRUE);
 		visibleAction1.addActionParameter(
 				Arrays.asList(GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT_ON_VIEW));
 		onSucessActionConfigList.add(visibleAction1);

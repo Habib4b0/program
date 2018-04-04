@@ -77,20 +77,20 @@ public class GtnFrameworkPSItemAdditionTabConfig {
 	private void addOptionGroup(List<GtnUIFrameworkComponentConfig> componentList) {
 
 		GtnUIFrameworkComponentConfig psItemAdditionMassUpdateLayout = configProvider.getHorizontalLayoutConfig(
-				"psItemAdditionmassupdatelayout", Boolean.TRUE,
+				"psItemAdditionmassupdatelayout", true,
 				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_FIELD_SEARCH_LAYOUT);
 		psItemAdditionMassUpdateLayout.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.STPL_MARGIN_TOP_40,GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_1));
 		componentList.add(psItemAdditionMassUpdateLayout);
 
 		GtnUIFrameworkComponentConfig itemOrIfpOption = configProvider.getUIFrameworkComponentConfig("itemOrIfpOption",
-				Boolean.TRUE, "psItemAdditionmassupdatelayout", GtnUIFrameworkComponentType.OPTIONGROUP);
+				true, "psItemAdditionmassupdatelayout", GtnUIFrameworkComponentType.OPTIONGROUP);
         itemOrIfpOption.setComponentName("Search Type");
 		itemOrIfpOption.setAuthorizationIncluded(true);
 		componentList.add(itemOrIfpOption);
 
 		GtnUIFrameworkOptionGroupConfig itemOrIfpOptionConfig = configProvider
-				.getOptionGroupConfig(Arrays.asList("Item", "IFP"), "IFP", Boolean.FALSE);
-		itemOrIfpOptionConfig.setEnable(Boolean.FALSE);
+				.getOptionGroupConfig(Arrays.asList("Item", "IFP"), "IFP", false);
+		itemOrIfpOptionConfig.setEnable(false);
 		itemOrIfpOption.setGtnUIFrameworkOptionGroupConfig(itemOrIfpOptionConfig);
 		itemOrIfpOption.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
 	}
@@ -260,15 +260,15 @@ public class GtnFrameworkPSItemAdditionTabConfig {
 
 	private void leftResultDataTable(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig psLeftResultTableConfig = configProvider.getUIFrameworkComponentConfig(
-				GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE, Boolean.TRUE, "CFPleftResultLayout",
+				GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE, true, "CFPleftResultLayout",
 				GtnUIFrameworkComponentType.PAGEDTABLE);
 		psLeftResultTableConfig.setAuthorizationIncluded(true);
 		psLeftResultTableConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_400);
 		psLeftResultTableConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(psLeftResultTableConfig);
 
-		GtnUIFrameworkPagedTableConfig psleftResultTable = configProvider.getPagedTableConfig(Boolean.TRUE,
-				Boolean.TRUE, "/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_SEARCH_SERVICE,
+		GtnUIFrameworkPagedTableConfig psleftResultTable = configProvider.getPagedTableConfig(true,
+				true, "/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_SEARCH_SERVICE,
 				"/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_SEARCH_SERVICE,
 				"priceScheduleItemAddition", "priceScheduleItemAddition");
 		psLeftResultTableConfig.setGtnPagedTableConfig(psleftResultTable);

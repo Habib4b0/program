@@ -105,7 +105,7 @@ public class GtnFrameworkCfpResetAction
 					GtnUIFrameworkPagedTableLogic cfpCaTabRightTablelogic = GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent(GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE)
 							.getLogicFromPagedDataTable();
-					cfpCaTabRightTablelogic.startSearchProcess(null, Boolean.TRUE);
+					cfpCaTabRightTablelogic.startSearchProcess(null, true);
 
 					ExtPagedTable<?> selectedTable = (ExtPagedTable<?>) GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent("CFPleftResultTable").getExtCustomTable();
@@ -128,7 +128,7 @@ public class GtnFrameworkCfpResetAction
 							.getVaadinBaseComponent(GtnFrameworkCommonConstants.CFP_COMPANIES_TAB_RESULT_DATA_TABLE)
 							.getLogicFromPagedDataTable();
 					cfpCompaniesTabTablelogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(),
-							Boolean.TRUE);
+							true);
 					OptionGroup massCheck = (OptionGroup) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpMassCheck")
 							.getComponent();
 					massCheck.setValue(GtnFrameworkCommonStringConstants.DISABLE);
