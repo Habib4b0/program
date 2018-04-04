@@ -1508,7 +1508,7 @@ public class NonMandatedLogic {
 		List<String> input = new ArrayList<>();
 		input.add(prdRelSid);
 		String sql = QueryUtils.getQuery(input, "DeductionRelationshipId");
-		List list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
+		List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
 		return list == null || list.isEmpty() ? null : (Object[]) list.get(0);
 	}
 
