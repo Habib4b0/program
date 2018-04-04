@@ -131,7 +131,11 @@ public class MethodologyLookUp extends Window {
             targetItem = new BeanItem<>(
                     (FormulaDTO) obj);
         }
-        return (FormulaDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (FormulaDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
     
     /**

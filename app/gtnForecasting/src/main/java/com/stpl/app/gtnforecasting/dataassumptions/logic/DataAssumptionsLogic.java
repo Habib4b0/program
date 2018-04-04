@@ -100,8 +100,10 @@ public class DataAssumptionsLogic {
 
         Map<String, Object> input = new HashMap<>();
         StringBuilder filterQString = AbstractFilterLogic.getInstance().filterQueryDefaultOrder(searchCriteria, getQueryMap());
+        String filterQueryString = "";
         if (filterQString != null) {
-            input.put("[$RECORD_FILTER]", filterQString.toString());
+            filterQueryString = filterQString.toString();
+            input.put("[$RECORD_FILTER]", filterQueryString);
         } else {
             input.put("[$RECORD_FILTER]", StringUtils.EMPTY);
         }
@@ -120,7 +122,7 @@ public class DataAssumptionsLogic {
             input.put("[$END]", end);
             String query = QueryUtils.getAppQuery(input, "currentFile").replace("[@PROJECTION_MASTERID]", String.valueOf(sessionDTO.getProjectionId()));
             query = query.replace("[$WORKFLOWSTATUS]", StringUtils.isBlank(sessionDTO.getWorkflowStatus()) && Constant.VIEW.equals(sessionDTO.getAction()) ? sessionDTO.getAction() : String.valueOf(sessionDTO.getWorkflowStatus()))
-                    .replace("[$WHERECOND]", StringUtils.isBlank(filterQString.toString()) ? " WHERE " : " AND ");
+                    .replace("[$WHERECOND]", StringUtils.isBlank(filterQueryString) ? " WHERE " : " AND ");
             sql.append(query);
         }
 
