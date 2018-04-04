@@ -1374,7 +1374,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 }
 
             } else {
-                String growthString = String.valueOf(value.getValue().toString());
+                String growthString = String.valueOf(value.getValue());
                 if (StringUtils.isNotBlank(growthString)) {
                     growthString = growthString.replace(Constant.PERCENT, StringUtils.EMPTY).replace("$", StringUtils.EMPTY).replaceAll(",", StringUtils.EMPTY);
                 }

@@ -4698,7 +4698,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     endTempYear = endPeriod.trim().substring(NumericConstants.TWO);
                     endTempSubYear = endPeriod.replace(endTempYear, StringUtils.EMPTY).trim();
                 } else if (defval == NumericConstants.TWELVE) {
-                    startTempYear = startPeriod.toString().trim().substring(NumericConstants.THREE);
+                    startTempYear = startPeriod.trim().substring(NumericConstants.THREE);
                     String startTmpSubYear = startPeriod.replace(startTempYear, StringUtils.EMPTY).trim();
                     startTempSubYear = monthMap.get(startTmpSubYear).toString();
                     endTempYear = endPeriod.trim().substring(NumericConstants.THREE);

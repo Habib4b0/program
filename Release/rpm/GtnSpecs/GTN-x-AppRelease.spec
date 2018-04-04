@@ -264,9 +264,9 @@ for  filename in $x
 do
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 LOGDATE=`date +%Y-%m-%d`
-log_file="$install_path/logs/$DB_Schema_Name/$DB_Script_Name/Log_"$DB_Script_Name"_$LOGDATE.log"
-mkdir -p "$install_path/logs/$DB_Schema_Name/$DB_Script_Name"
-chmod 777 "$install_path/logs/$DB_Schema_Name/$DB_Script_Name"
+log_file="$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name/Log_"$DB_Script_Name"_$LOGDATE.log"
+mkdir -p "$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name"
+chmod 777 "$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name"
 #echo $DATE
 echo "$filename.."
 echo "INFO $DATE Executing file $filename...">>$log_file
@@ -301,11 +301,9 @@ fi
 
 chmod -R 750 $install_path
 chown -R $APP_User:$Chown $install_path
-chown $APP_User:etl $install_path
-chown $APP_User:etl $install_path/etl
-chown -R $APP_User:etl $install_path/etl/staging
-chown -R $APP_User:etl $install_path/DB_Script
-chown $APP_User:etl $install_path
+
+chown -R $APP_User:etl $GTN_APP_DATA_PATH
+chmod -R 750 $GTN_APP_DATA_PATH
 
 %files
 %{prefix}/
