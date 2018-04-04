@@ -1644,3 +1644,25 @@ background : white
 .portlet-title-text{
 	overflow:inherit;
 }
+
+/* Bpm Gtn Css */
+
+.uf-workbench-layout .navbar-pf .navbar-primary {
+    background: white;
+}
+
+.uf-workbench-layout table {
+    height: 36px;
+}
+
+.uf-workbench-layout{
+font-family: "Segoe UI",Arial,Helvetica,sans-serif !important;
+font-size: 13px !important;
+}
+.uf-workbench-layout .navbar-pf .navbar-nav>li>a {
+color: #222 !important;
+}
+
+.uf-workbench-layout .navbar-pf .navbar-primary>.active>a,.navbar-pf .navbar-primary>.active>a:focus,.navbar-pf .navbar-primary>.active>a:hover,.navbar-pf .navbar-primary>.open>a,.navbar-pf .navbar-primary>.open>a:focus,.navbar-pf .navbar-primary>.open>a:hover {
+background: #ffff;
+}
