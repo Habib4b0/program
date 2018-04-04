@@ -120,7 +120,7 @@ public class GtnWsCMasterDelete {
 		final String deleteCmParentDetails = "Select count(*) from COMPANY_PARENT_DETAILS where  \"INBOUND_STATUS\" <> 'D' AND COMPANY_MASTER_SID ="
 				+ companyInformationBean.getCompanyMasterSystemId() + ";";
 		List<?> result = gtnSqlQueryEngine.executeSelectQuery(deleteCmParentDetails);
-		return result == null || result.isEmpty() || Integer.valueOf(result.get(0).toString()) == 0 ? true : false;
+		return result == null || result.isEmpty() || Integer.parseInt(result.get(0).toString()) == 0 ? true : false;
 	}
 
 	private boolean cfpCompanyValidation(GtnCMasterInformationBean companyInformationBean)
@@ -128,7 +128,7 @@ public class GtnWsCMasterDelete {
 		final String deleteCmParentDetails = "Select count(*) from CFP_DETAILS where  \"INBOUND_STATUS\" <> 'D' AND COMPANY_MASTER_SID ="
 				+ companyInformationBean.getCompanyMasterSystemId() + ";";
 		List<?> result = gtnSqlQueryEngine.executeSelectQuery(deleteCmParentDetails);
-		return result == null || result.isEmpty() || Integer.valueOf(result.get(0).toString()) == 0 ? true : false;
+		return result == null || result.isEmpty() || Integer.parseInt(result.get(0).toString()) == 0 ? true : false;
 	}
 
 	private boolean contractCompanyValidation(GtnCMasterInformationBean companyInformationBean)
@@ -136,7 +136,7 @@ public class GtnWsCMasterDelete {
 		final String deleteCmParentDetails = "Select count(*) from CFP_CONTRACT_DETAILS where  \"INBOUND_STATUS\" <> 'D' AND COMPANY_MASTER_SID ="
 				+ companyInformationBean.getCompanyMasterSystemId() + ";";
 		List<?> result = gtnSqlQueryEngine.executeSelectQuery(deleteCmParentDetails);
-		return result == null || result.isEmpty() || Integer.valueOf(result.get(0).toString()) == 0 ? true : false;
+		return result == null || result.isEmpty() || Integer.parseInt(result.get(0).toString()) == 0 ? true : false;
 	}
 
 }

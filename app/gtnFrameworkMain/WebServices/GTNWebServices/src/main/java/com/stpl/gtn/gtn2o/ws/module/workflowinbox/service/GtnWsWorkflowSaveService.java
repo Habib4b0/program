@@ -112,15 +112,15 @@ public class GtnWsWorkflowSaveService {
 
 			workflowModel.setBrandId(masterbean.getBrandIdArm());
 			workflowModel.setAdjustmentType(String.valueOf(masterbean.getAdjustmentType()));
-			workflowModel.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
+			workflowModel.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
 			Map<Integer, String> map = gtnWebServiceAllListConfig.getUserIdNameMap();
 			String createdBy = getKeyFromValue(map, masterbean.getCreatedByPrivate());
 			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
 			if (createdBy != null) {
-				workflowModel.setWfCreatedBy(Integer.valueOf(createdBy));
+				workflowModel.setWfCreatedBy(Integer.parseInt(createdBy));
 			}
 			if (approvedBy != null) {
-				workflowModel.setApprovedBy(Integer.valueOf(approvedBy));
+				workflowModel.setApprovedBy(Integer.parseInt(approvedBy));
 			}
 			workflowModel.setCreatedDate(new Date());
 			workflowModel.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
