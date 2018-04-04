@@ -359,7 +359,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 		companyInformation.setCreatedDate(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("companyInformationCreatedDate").getDateFromDateField());
 		companyInformation.setModifiedBy(
-				(systemId != null && systemId > 0) ? Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()) : 0);
+				(systemId != null && systemId > 0) ? Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()) : 0);
 		companyInformation.setModifiedDate(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("companyInformationModifiedDate").getDateFromDateField());
 	}

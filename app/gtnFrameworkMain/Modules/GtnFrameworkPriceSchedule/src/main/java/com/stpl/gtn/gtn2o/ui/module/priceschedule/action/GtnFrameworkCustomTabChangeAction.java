@@ -34,9 +34,9 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPriceProtectionMainButtonLayout").setVisible(false);
 		}
 		if (position == 2 || position == 3) {
-			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
-			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
-			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
+			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);
+			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(true);
+			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(false);
 			String previousTable = GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE;
 			String currentTable = GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE;
 			if (position == 3) {
@@ -61,12 +61,12 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, 
 						.setColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID, true, checkValue);
 				}
 			
-			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(true);
 			return;
 		}
-		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
-		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
-		GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
+		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(false);
+		GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(true);
 		}
 
 	@Override

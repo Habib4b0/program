@@ -130,7 +130,7 @@ public class GtnUIFrameworkPagedTreeTableLogic extends PageTreeTableLogic {
 	@Override
 	protected void createCurrentPageStart() {
 		setCurrentPageProgress(true);
-		setRefresh(Boolean.FALSE);
+		setRefresh(false);
 		for (Map.Entry<String, Object> loadData : loadDataMap.entrySet()) {
 			removeExpandedTreeDataFetchable(loadData.getKey());
 			addCurrentPageData(loadData.getKey(), loadData.getValue());
@@ -150,7 +150,7 @@ public class GtnUIFrameworkPagedTreeTableLogic extends PageTreeTableLogic {
 	@Override
 	protected void createCurrentPageEnd() {
 		setCurrentPageProgress(false);
-		setRefresh(Boolean.TRUE);
+		setRefresh(true);
 	}
 
 	@Override

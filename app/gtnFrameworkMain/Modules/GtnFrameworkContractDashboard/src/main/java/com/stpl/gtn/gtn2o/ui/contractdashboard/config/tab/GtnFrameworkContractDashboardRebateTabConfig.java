@@ -609,7 +609,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		cdRsDesignationEnableAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		cdRsDesignationEnableAction.addActionParameter(GtnUIFrameworkFieldEnableDisableAction.class.getName());
 		cdRsDesignationEnableAction.addActionParameter(rebateScheduleDesignationConfig.getComponentId());
-		cdRsDesignationEnableAction.addActionParameter(true);
+		cdRsDesignationEnableAction.addActionParameter(Boolean.TRUE);
 		cdRsDesignationEnableAction.addActionParameter("child");
 		cdRsDesignationEnableAction.setFieldValues(Arrays.asList(cdRebateTabPrefix + PARENT_RS_ID));
 		rebateScheduleDesignationConfig.addGtnUIFrameWorkActionConfig(cdRsDesignationEnableAction);
