@@ -41,15 +41,15 @@ public class GtnUIFrameWorkTriggerDataTablesAction implements GtnUIFrameWorkActi
 			GtnUIFrameworkPagedTableLogic priceTabTableLogic = psPricingTabResultDataTablecomponentData
 					.getCurrentPageTableLogic();
 			priceTabTableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
-			priceTabTableLogic.startSearchProcess(new ArrayList<String>(), Boolean.TRUE);
+			priceTabTableLogic.startSearchProcess(new ArrayList<String>(), true);
 
 			GtnUIFrameworkComponentData psPriceProtectionTabResultDataTableomponentData = GtnUIFrameworkGlobalUI
 					.getVaadinComponentData("psPriceProtectionTabResultDataTable");
 			GtnUIFrameworkPagedTableLogic priceProtectionTabTableLogic = psPriceProtectionTabResultDataTableomponentData
 					.getCurrentPageTableLogic();
 			priceProtectionTabTableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
-			priceProtectionTabTableLogic.startSearchProcess(new ArrayList<String>(), Boolean.TRUE);
-			GtnUIFrameworkGlobalUI.addSessionProperty("ValueChangeAllowed", true);
+			priceProtectionTabTableLogic.startSearchProcess(new ArrayList<String>(), true);
+			GtnUIFrameworkGlobalUI.addSessionProperty("ValueChangeAllowed", Boolean.TRUE);
 		}
 
 	}

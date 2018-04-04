@@ -66,7 +66,7 @@ public class GtnWsProcessSchedulerController {
 		List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, queryName));
 
 		if (processSchedulerRequest.getGtnWsSearchRequest().isCount()) {
-			gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 		} else {
 			GtnUIFrameworkDataTable processSchedulerDataTable = new GtnUIFrameworkDataTable();
 			processSchedulerDataTable.addData(result);

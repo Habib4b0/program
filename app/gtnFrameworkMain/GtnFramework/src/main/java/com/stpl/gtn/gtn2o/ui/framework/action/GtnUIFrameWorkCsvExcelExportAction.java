@@ -118,8 +118,8 @@ public class GtnUIFrameWorkCsvExcelExportAction implements GtnUIFrameWorkAction 
 		File tempFile = GtnFileNameUtils.getFile(filePath);
 		try {
 			if (Page.getCurrent().getWebBrowser().isFirefox()) {
-				exportFile = exportFile.replace(GtnFrameworkCommonStringConstants.SPACE,
-						GtnFrameworkCommonStringConstants.UNDERSCORE);
+				exportFile = exportFile.replace(' ', '_');
+						
 			}
 
 			resource = new TemporaryFileDownloadResource(null,

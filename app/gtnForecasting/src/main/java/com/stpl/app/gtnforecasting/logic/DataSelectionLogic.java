@@ -2611,7 +2611,7 @@ public class DataSelectionLogic {
         public Date getDefaultEligibleDateFromForecastConfiguration() {
             String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Commercial')";
             List forecastEligibleDate = (List)salesProjectionDAO.executeSelectQuery(query, null, null);
-            return forecastEligibleDate != null ? (Date) forecastEligibleDate.get(0) : null;
+            return forecastEligibleDate != null && !forecastEligibleDate.isEmpty() ? (Date) forecastEligibleDate.get(0) : null;
         }
         
         public String getremovedcontractbasedonEligibleDate(final SessionDTO session) {

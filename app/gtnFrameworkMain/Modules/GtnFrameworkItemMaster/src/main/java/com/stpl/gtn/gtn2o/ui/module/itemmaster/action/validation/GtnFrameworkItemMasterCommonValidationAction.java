@@ -55,7 +55,7 @@ public class GtnFrameworkItemMasterCommonValidationAction implements GtnUIFrameW
 		int pricingTableSize = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemMasterPricingattachResultTable")
 				.getExtPagedTableSize();
 
-		String appender = " ";
+		String appender = "  ";
 		String msg = "";
 
 		StringBuilder fieldMsg = new StringBuilder();
@@ -159,7 +159,7 @@ public class GtnFrameworkItemMasterCommonValidationAction implements GtnUIFrameW
 	}
 
 	private void getItemInfoTabValidation(StringBuilder errorMessage) throws GtnFrameworkGeneralException {
-		String appender = " ";
+		String appender = "  ";
 		String itemType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabItemType")
 				.getCaptionFromComboBox();
 		String ndcId = "NDC-11".equals(itemType) ? "ifpItemInformationTabValueDropDown" : "itemInformationTabNDC9";

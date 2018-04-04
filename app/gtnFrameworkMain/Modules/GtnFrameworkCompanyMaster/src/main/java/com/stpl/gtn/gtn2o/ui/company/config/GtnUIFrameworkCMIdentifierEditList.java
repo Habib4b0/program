@@ -73,30 +73,30 @@ public class GtnUIFrameworkCMIdentifierEditList {
 		GtnUIFrameworkComponentConfig projectionOptionMainLayoutConfig = configProvider.getCssLayoutConfig(
 				GtnFrameworkCompanyStringContants.EDIT_LIST_MAIN_LAYOUT, true,
 				GtnFrameworkCompanyStringContants.IDENTIFIER_EDIT_LIST_PANEL_LAYOUT);
-		projectionOptionMainLayoutConfig.setSpacing(Boolean.TRUE);
+		projectionOptionMainLayoutConfig.setSpacing(true);
 		projectionOptionMainLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		projectionOptionMainLayoutConfig.getGtnLayoutConfig().setComponentColumnSize(GtnWsNumericConstants.TWELVE);
 		componentList.add(projectionOptionMainLayoutConfig);
 
 		GtnUIFrameworkComponentConfig projectionOptionInnerLayoutConfig = configProvider.getCssLayoutConfig(
 				"editListFieldInnerLayout", true, GtnFrameworkCompanyStringContants.EDIT_LIST_MAIN_LAYOUT);
-		projectionOptionInnerLayoutConfig.setSpacing(Boolean.TRUE);
+		projectionOptionInnerLayoutConfig.setSpacing(true);
 		projectionOptionInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_8);
 		componentList.add(projectionOptionInnerLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig privateViewCompanyProjectionNameLayoutConfig = new GtnUIFrameworkLayoutConfig();
 		privateViewCompanyProjectionNameLayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.COL2_LAYOUT);
 		GtnUIFrameworkComponentConfig privateViewCompanyProjectionNameLayout = configProvider
-				.getUIFrameworkComponentConfig(GtnFrameworkCompanyStringContants.EDIT_LIST_FIELD_LAYOUT, Boolean.TRUE,
+				.getUIFrameworkComponentConfig(GtnFrameworkCompanyStringContants.EDIT_LIST_FIELD_LAYOUT, true,
 						"editListFieldInnerLayout", GtnUIFrameworkComponentType.LAYOUT);
 		privateViewCompanyProjectionNameLayout.setGtnLayoutConfig(privateViewCompanyProjectionNameLayoutConfig);
 		componentList.add(privateViewCompanyProjectionNameLayout);
 
 		GtnUIFrameworkComponentConfig fromToLayoutConfig = configProvider.getCssLayoutConfig("notesMainLayout",
-				Boolean.TRUE, GtnFrameworkCompanyStringContants.EDIT_LIST_MAIN_LAYOUT);
+				true, GtnFrameworkCompanyStringContants.EDIT_LIST_MAIN_LAYOUT);
 		fromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fromToLayoutConfig.setMargin(true);
-		fromToLayoutConfig.setSpacing(Boolean.TRUE);
+		fromToLayoutConfig.setSpacing(true);
 		fromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		componentList.add(fromToLayoutConfig);
 

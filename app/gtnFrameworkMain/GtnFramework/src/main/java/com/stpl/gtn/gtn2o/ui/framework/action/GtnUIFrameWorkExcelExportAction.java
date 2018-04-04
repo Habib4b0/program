@@ -315,8 +315,7 @@ public class GtnUIFrameWorkExcelExportAction implements GtnUIFrameWorkAction {
 		TemporaryFileDownloadResource resource;
 		try (FileOutputStream fileOut = new FileOutputStream(tempFile);) {
 			if (Page.getCurrent().getWebBrowser().isFirefox()) {
-				exportFile = exportFile.replace(GtnFrameworkCommonStringConstants.SPACE,
-						GtnFrameworkCommonStringConstants.UNDERSCORE);
+				exportFile = exportFile.replace(' ', '_');
 			}
 			workBook.write(fileOut);
 			resource = new TemporaryFileDownloadResource(null, exportFile + GtnFrameworkCommonStringConstants.DOT_XLS,

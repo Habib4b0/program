@@ -49,7 +49,7 @@ public class GtnUIFrameworkPSDeleteConfirmationAction implements GtnUIFrameWorkA
 		parameters.add("/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_DELECTE_SERVICE);
 		parameters.add("psSearchResultTable");
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(0);
 
 		editActionConfig.setActionParameterList(parameters);

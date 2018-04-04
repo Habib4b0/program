@@ -208,12 +208,12 @@ public class GtnWsIfpSaveService {
 					cmNotesTabQuery.append(" (").append(ifpBean.getIfpInfo().getIfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				} else {
 					cmNotesTabQuery.append(",(").append(ifpBean.getIfpInfo().getIfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				}
 				i++;
 			}

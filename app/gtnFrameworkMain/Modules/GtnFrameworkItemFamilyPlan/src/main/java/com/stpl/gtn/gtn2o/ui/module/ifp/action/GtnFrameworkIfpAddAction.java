@@ -39,7 +39,7 @@ public class GtnFrameworkIfpAddAction
 
 		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(false);
 		setValueToComponents(componentId);
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
 		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();

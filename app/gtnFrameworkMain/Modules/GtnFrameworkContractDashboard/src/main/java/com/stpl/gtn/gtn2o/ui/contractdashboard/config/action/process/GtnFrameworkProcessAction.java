@@ -314,7 +314,7 @@ public class GtnFrameworkProcessAction implements GtnUIFrameWorkAction ,GtnUIFra
 		StringBuilder stringBuilder = new StringBuilder("1");
 		for (int i = 0; i < 4; i++) {
 			if (contractStructure[i] != 0) {
-				stringBuilder.append("-");
+				stringBuilder.append('-');
 				stringBuilder.append((i + 2));
 			}
 		}

@@ -29,7 +29,7 @@ public class GtnWsXmlParserService {
 		JAXBContext contextObj = JAXBContext.newInstance(GtnWsBPIGeneratorIDs.class);
 
 		Marshaller marshallerObj = contextObj.createMarshaller();
-		marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
 		marshallerObj.marshal(gtnWsBPIGeneratorIDs, new FileOutputStream(xmlPath));
 	}

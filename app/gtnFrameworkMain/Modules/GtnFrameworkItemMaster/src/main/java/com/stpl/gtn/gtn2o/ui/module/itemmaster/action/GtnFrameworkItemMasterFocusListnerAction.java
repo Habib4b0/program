@@ -28,7 +28,7 @@ public class GtnFrameworkItemMasterFocusListnerAction implements GtnUIFrameWorkA
 		GtnUIFrameworkComponentData componentData = baseComponent.getComponentData();
 		GtnUIFrameworkActionParameter actionParameter = componentData.getActionParameter();
 		if (!actionParameter.getItemId().getBooleanProperty((String) actionParamList.get(1))) {
-			actionParameter.getItemId().addBooleanProperties((String) actionParamList.get(1), true);
+			actionParameter.getItemId().addBooleanProperties((String) actionParamList.get(1), Boolean.TRUE);
 		}
 	}
 

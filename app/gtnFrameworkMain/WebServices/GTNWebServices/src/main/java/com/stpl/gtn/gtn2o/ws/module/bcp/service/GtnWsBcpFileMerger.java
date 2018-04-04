@@ -43,7 +43,7 @@ public class GtnWsBcpFileMerger {
 			strb.append("cat ");
                         GTNLOGGER.info("fileList size in mergeFiles ======"+fileList.size());
 			for (String sourceFile : fileList) {
-				strb.append(sourceFile).append(" ");
+				strb.append(sourceFile).append(' ');
 			}
 			strb.append(" > ");
 			strb.append(finalFile);
@@ -89,7 +89,7 @@ public class GtnWsBcpFileMerger {
 		command[1] = "/c";
 
 		for (int i = 0; i < fileList.size(); i++) {
-			command[i + 2] = "type " + fileList.get(i).replace("/", "\\") + " >> " + finalFile;
+			command[i + 2] = "type " + fileList.get(i).replace('/', '\\') + " >> " + finalFile;
 		}
 		return command;
 	}

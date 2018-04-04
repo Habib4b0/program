@@ -79,7 +79,7 @@ public class GtnWsCMasterAddQualifier {
 			if (isCount) {
 				result = gtnGeneralServiceController
 						.executeQuery(gtnWsSqlService.getQuery("getCompanyQualifierCountQuery"));
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 
 			} else {
 				result = gtnGeneralServiceController

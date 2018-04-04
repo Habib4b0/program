@@ -199,7 +199,7 @@ public class DPQueryUtils {
             query = query + " WHERE " + levelSelectionStatement + connector + " HLD.HIERARCHY_NO in(" + hierarchyNumbers + ")\n";
         }
         query = query + ")CCP";
-        return query.toString();
+        return query;
     }
 
     public String getCustomCCPDetailsQuery(String hierarchyIndicator, int projectionId, List<String> customViewDetails, boolean custom, String hierarchyNo) {
@@ -236,7 +236,7 @@ public class DPQueryUtils {
             query = query + "    WHERE HLD" + hierarchyIndicator + ".HIERARCHY_NO = '" + hierarchyNo + "'";
         }
         query = query + ") CCP";
-        return query.toString();
+        return query;
     }
 
     public String getLevelvalues(boolean isLevelFilter, int endLevelNo, boolean isCustomHierarchy, int projectionId, String hierarchy, int startLevelNo) {
