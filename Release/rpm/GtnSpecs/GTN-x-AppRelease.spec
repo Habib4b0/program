@@ -182,9 +182,9 @@ fi
 if [ -e $install_path/tempdeploy/GtnFrameworkTransaction.jar ];
 then
 mkdir -p $Gtn_Framework_Base_path/transaction_json
-jar xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
-cp  -R /WEB-INF/classes/transaction_json $Gtn_Framework_Base_path
-rm -rf /WEB-INF /META-INF
+cd $Gtn_Framework_Base_path
+jar -xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
+rm -rf $Gtn_Framework_Base_path/WEB-INF $Gtn_Framework_Base_path/META-INF $Gtn_Framework_Base_path/OSGI-INF $Gtn_Framework_Base_path/com 
 chown -R $APP_User:$Chown $Gtn_Framework_Base_path
 fi
 
