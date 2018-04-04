@@ -720,7 +720,11 @@ public class DeductionDetails extends CustomComponent {
             targetItem = new BeanItem<>(
                     (TableDTO) obj);
         }
-        return (TableDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void disableFieldsOnView() {
@@ -900,7 +904,7 @@ public class DeductionDetails extends CustomComponent {
         LOGGER.debug("Inside updateCheckForParentLevels");
         TableDTO dto = (TableDTO) itemId;
         int newRecordsCount = updatedRecordsNo;
-        LOGGER.debug(" updatedRecordsNo " + newRecordsCount);
+        LOGGER.debug(" updatedRecordsNo {}" , newRecordsCount);
         if (checkValue) {
             if (newRecordsCount > dto.getUncheckCount()) {
                 newRecordsCount = dto.getUncheckCount();
@@ -908,7 +912,7 @@ public class DeductionDetails extends CustomComponent {
         } else if (newRecordsCount < dto.getUncheckCount()) {
             newRecordsCount = dto.getUncheckCount();
         }
-        LOGGER.debug((checkValue ? "Checked" : "Unchecked") + " updatedRecordsNo " + newRecordsCount);
+        LOGGER.debug( "{} updatedRecordsNo {}" , (checkValue ? "Checked" : "Unchecked") , newRecordsCount);
         List<String> hierarchyNos = tableLogic.getAllParentLevels(itemId);
 
         for (String hierarchyNo : hierarchyNos) {
@@ -920,13 +924,13 @@ public class DeductionDetails extends CustomComponent {
             }
             if (tempId != null) {
                 TableDTO tempDto = (TableDTO) tempId;
-                LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Parent Uncheck count before " + tempDto.getUncheckCount());
+                LOGGER.debug(  "{} {}   Parent Uncheck count before {}" , tempDto.getLevelNo(), tempDto.getGroup(), tempDto.getUncheckCount());
                 if (checkValue) {
                     tempDto.setUncheckCount(0);
                 } else {
                     tempDto.setUncheckCount(tempDto.getUncheckCount() + newRecordsCount);
                 }
-                LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Parent Uncheck count after " + tempDto.getUncheckCount());
+                LOGGER.debug(  "{} {}   Parent Uncheck count after {}" , tempDto.getLevelNo(), tempDto.getGroup(), tempDto.getUncheckCount());
                 if (tempDto.getUncheckCount() == 0) {
                     leftTable.setColumnCheckBox(ConstantsUtils.CHECK, true, true);
                 } else {
@@ -958,14 +962,14 @@ public class DeductionDetails extends CustomComponent {
             }
             if (tempId != null) {
                 TableDTO tempDto = (TableDTO) tempId;
-                LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Child Uncheck count before " + tempDto.getUncheckCount());
+                LOGGER.debug("{} {} Child Uncheck count before {}" ,tempDto.getLevelNo(), tempDto.getGroup(), tempDto.getUncheckCount());
 
                 if (checkValue) {
                     tempDto.setUncheckCount(0);
                 } else {
                     tempDto.setUncheckCount(tempDto.getCcpCount());
                 }
-                LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Child Uncheck count after " + tempDto.getUncheckCount());
+                LOGGER.debug("{} {} Child Uncheck count after {}" ,tempDto.getLevelNo(), tempDto.getGroup(), tempDto.getUncheckCount());
                 updateChecks(tempId, isPresentInContainer);
             }
         }

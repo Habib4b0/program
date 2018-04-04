@@ -1511,7 +1511,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
-        LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
+        LOGGER.debug("Entering createWorkSheetContent with start {} end {}" , start , end);
         try {
             CommmonLogic logic = new CommmonLogic();
             List searchList = new ArrayList();
@@ -1546,7 +1546,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 createWorkSheetInfo("Component_Information", componentInformationTable);
             }
         } catch (SystemException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            LOGGER.error(e + "at excel export");
+            LOGGER.error(" {} at excel export", e);
         }
     }
 

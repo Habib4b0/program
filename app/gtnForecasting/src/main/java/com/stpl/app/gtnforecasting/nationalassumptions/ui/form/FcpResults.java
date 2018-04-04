@@ -856,7 +856,11 @@ public class FcpResults extends CustomComponent implements View {
             targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
-        return (TableDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void callFcpProcedure() throws NamingException, SQLException  {

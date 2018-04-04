@@ -23,6 +23,10 @@ public class CFPComponentDetailsDTO {
     private String tradeClass = StringUtils.EMPTY;
     private Date attachedDate;
 
+    public CFPComponentDetailsDTO() {
+        super();
+    }
+
     public String getTradingPartnerNo() {
         return tradingPartnerNo;
     }

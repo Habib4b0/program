@@ -4,37 +4,6 @@
 	in the editor. -->
 
 <sql>
-	<entity id="GET_CONTRACT_LEVEL">
-		<query> 
-                    <![CDATA[
-        SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES,LEVEL_NO 
-        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
-        AND LEVEL_NAME = 'CONTRACT' AND (@HIERARCHY_DETAILS)
-                            ]]>
-		</query>
-	</entity>
-
-	<entity id="GET_CUSTOMER_LEVEL">
-		<query> 
-                    <![CDATA[
-        SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES,LEVEL_NO 
-        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
-        AND (LEVEL_NAME = 'Customer' OR LEVEL_NAME = 'Trading Partner' OR  LEVEL_NAME = 'TradingPartner') AND (@HIERARCHY_DETAILS)
-                            ]]>
-		</query>
-	</entity>
-
-
-	<entity id="GET_PRODUCT_LEVEL">
-		<query> 
-                    <![CDATA[
-       SELECT HIERARCHY_NO, RELATIONSHIP_LEVEL_VALUES
-        from RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_BUILDER_SID = @RELATION_SID
-        AND (LEVEL_NAME = 'Item' OR LEVEL_NAME = 'Product' OR  LEVEL_NAME = 'NDC') AND (@HIERARCHY_DETAILS)
-                            ]]>
-		</query>
-	</entity>
-
 	<entity id="CCP_HIERARCHY_INSERT">
 		<query> 
                     <![CDATA[
@@ -107,34 +76,6 @@ SELECT COM.RELATIONSHIP_LEVEL_VALUES AS COMPANY_MASTER_SID,
 FROM   COMPANY COM
        JOIN CONTRACT C
          ON COM.HIERARCHY_NO LIKE C.HIERARCHY_NO + '%' -- LHS Should have bigger level no than RHS
-             ]]>
-		</query>
-	</entity>
-
-	<entity id="CCP_HIERARCHY_INSERT_PRODUCT">
-		<query> 
-                    <![CDATA[ 
-                    IF Object_id('tempdb..#ITEM') IS NOT NULL
-  DROP TABLE #ITEM
-
-CREATE TABLE #ITEM
-  (
-     ITEM_MASTER_SID INT,
-     HIERARCHY_NO    VARCHAR(50)
-  );
-
-INSERT INTO #ITEM
-            (ITEM_MASTER_SID,
-             HIERARCHY_NO)
-SELECT RELATIONSHIP_LEVEL_VALUES,
-       HIERARCHY_NO
-FROM   RELATIONSHIP_LEVEL_DEFINITION
-WHERE  RELATIONSHIP_BUILDER_SID = 63
-       AND ( LEVEL_NAME = 'Item'
-              OR LEVEL_NAME = 'Product'
-              OR LEVEL_NAME = 'NDC' )
-       AND ( HIERARCHY_NO LIKE '63-1.%' )
-   
              ]]>
 		</query>
 	</entity>
@@ -218,7 +159,7 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
 	<entity id="getRelationshipLevelValues">
 		<query> 
             <![CDATA[ 
-                SELECT
+                SELECT DISTINCT
                     RLD.HIERARCHY_NO,
                     TEMP.?FIELD VALUE,
                     LEVEL_NAME,
@@ -277,6 +218,7 @@ from
 		JOIN HIERARCHY_LEVEL_DEFINITION HLD ON
 			HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
 			AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
+			AND RLD.VERSION_NO = ?RBVERSION
 		JOIN HIERARCHY_DEFINITION HD ON
 			HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
 		LEFT JOIN vw_helper_list JVIEW ON
@@ -960,6 +902,7 @@ where
              where 
                                  RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
                                 AND RLD.LEVEL_NO = ?LNO
+                                AND RLD.VERSION_NO = ?RLDV
 
              GROUP BY   RLD.HIERARCHY_NO,
                     ?DEDGROUPBY,
@@ -997,7 +940,10 @@ where
                     HLD.FIELD_NAME,
                     RLD.RELATIONSHIP_LEVEL_SID,
                     RLD.HIERARCHY_NO,
-                    RLD.RELATIONSHIP_BUILDER_SID
+                    RLD.RELATIONSHIP_BUILDER_SID,
+                     HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+                    HLD.HIERARCHY_DEFINITION_SID,
+                    HLD.VERSION_NO
                 FROM 
                     dbo.RELATIONSHIP_LEVEL_DEFINITION RLD 
                         JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
@@ -1022,7 +968,10 @@ where
                     HLD.FIELD_NAME,
                     RLD.RELATIONSHIP_LEVEL_SID,
                     RLD.HIERARCHY_NO,
-                    RLD.RELATIONSHIP_BUILDER_SID
+                    RLD.RELATIONSHIP_BUILDER_SID,
+                     HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+                    HLD.HIERARCHY_DEFINITION_SID,
+                    HLD.VERSION_NO
                 FROM
                     dbo.RELATIONSHIP_LEVEL_DEFINITION RLD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
                         ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
@@ -1100,5 +1049,50 @@ AND (CFP_ELIGIBLE_DATE>= FORECAST_ELIGIBLE_DATE OR CFP_ELIGIBLE_DATE IS NULL);
             ]]>
             </query>
         </entity>
-
+        
+         <entity id="childLevelsHierarchyNo">
+            <query> 
+            <![CDATA[ 
+                SELECT
+                    DISTINCT RLD.LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALUES,
+                    RLD.PARENT_NODE,
+                    RLD.LEVEL_NAME,
+                    HLD.LEVEL_VALUE_REFERENCE,
+                    HLD.TABLE_NAME,
+                    HLD.FIELD_NAME,
+                    RLD.RELATIONSHIP_LEVEL_SID,
+                    RLD.HIERARCHY_NO,
+                    RLD.RELATIONSHIP_BUILDER_SID,
+                   HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+                    HLD.HIERARCHY_DEFINITION_SID,
+                    HLD.VERSION_NO
+                FROM
+                    dbo.RELATIONSHIP_LEVEL_DEFINITION RLD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                    AND RLD.hierarchy_No IN (?)
+                    AND RLD.level_No <= ?
+                    AND RLD.VERSION_NO = ?
+                    AND HLD.VERSION_NO = ?
+                ORDER BY
+                    RLD.LEVEL_NO ASC              
+            ]]>
+            </query>
+        </entity>
+        
+        <entity id="getDedRelationshipVersionNo">
+		<query> 
+        <![CDATA[            
+SELECT
+	VERSION_NO
+from
+	RELATIONSHIP_BUILDER
+where
+	RELATIONSHIP_BUILDER_SID = ?
+ORDER by
+	VERSION_NO DESC
+         ]]>
+		</query>
+	</entity>
+        
 </sql>

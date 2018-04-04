@@ -444,7 +444,9 @@ public class AdditionalInformation extends CustomComponent {
         } else if (tableBeanId instanceof AttachmentDTO) {
             targetItem = new BeanItem<>((AttachmentDTO) tableBeanId);
         }
-        tableBean = (AttachmentDTO) targetItem.getBean();
+        if (targetItem != null) {
+            tableBean = (AttachmentDTO) targetItem.getBean();
+        }
         LOGGER.debug("Ends resultsTable itemClick method");
     }
 

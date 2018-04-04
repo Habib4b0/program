@@ -373,6 +373,9 @@ public class NonMandatedDTO {
     /** The proj col16 units. */
     private Double projCol16Units = DEFAULT_DOUBLE;
 
+    public NonMandatedDTO() {
+        super();
+    }
 
     /**
      * Gets the group.

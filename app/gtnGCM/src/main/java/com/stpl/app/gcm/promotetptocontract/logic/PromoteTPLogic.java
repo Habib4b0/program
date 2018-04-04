@@ -1281,56 +1281,56 @@ public class PromoteTPLogic {
 
         if (!conSelDTO.getContractNo().equals(StringUtils.EMPTY) && !conSelDTO.getContractNo().equals(Constants.NULL)) {
             String contractNo = conSelDTO.getContractNo().replace('*', '%');
-            query.append("AND CON.CONTRACT_NO like '" + contractNo + "'  \n    ");
+            query.append("AND CON.CONTRACT_NO like '" ).append( contractNo ).append( "'  \n    ");
         }
         if (!conSelDTO.getCompanySystemId().equals(StringUtils.EMPTY) && !conSelDTO.getCompanySystemId().equals(Constants.NULL)) {
             String companyMasterSid = conSelDTO.getCompanySystemId();
-            query.append("AND CM1.COMPANY_MASTER_SID = '" + companyMasterSid + "'   \n  ");
+            query.append("AND CM1.COMPANY_MASTER_SID = '" ).append( companyMasterSid ).append( "'   \n  ");
             
         }
         if (!conSelDTO.getContractName().equals(StringUtils.EMPTY) && !conSelDTO.getContractName().equals(Constants.NULL)) {
             String contractName = conSelDTO.getContractName().replace('*', '%');
-            query.append(" AND CON.CONTRACT_NAME like '" + contractName + "'  \n  ");
+            query.append(" AND CON.CONTRACT_NAME like '" ).append( contractName ).append( "'  \n  ");
             
         }
         if (!conSelDTO.getContractHolder().equals(StringUtils.EMPTY) && !conSelDTO.getContractHolder().equals(Constants.NULL)) {
             String contractHolder = conSelDTO.getContractHolder();
-            query.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID='" + contractHolder + "'   \n   ");
+            query.append(" AND CON.CONT_HOLD_COMPANY_MASTER_SID='" ).append( contractHolder ).append( "'   \n   ");
             
         }
         if (!conSelDTO.getMarketType().equals(StringUtils.EMPTY) && !conSelDTO.getMarketType().equals(Constants.NULL)) {
             String contractType = conSelDTO.getMarketType();
-            query.append(" AND CON.CONTRACT_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" + contractType + "' and HT.LIST_NAME = 'CONTRACT_TYPE' ) \n ");
+            query.append(" AND CON.CONTRACT_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" ).append( contractType ).append( "' and HT.LIST_NAME = 'CONTRACT_TYPE' ) \n ");
             
         }
         if (!conSelDTO.getRebateScheduleId().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleId().equals(Constants.NULL)) {
             String rsId = conSelDTO.getRebateScheduleId().replace('*', '%');
-            query.append(" AND RS_CON.RS_ID like '" + rsId + "'  \n    ");
+            query.append(" AND RS_CON.RS_ID like '" ).append( rsId ).append( "'  \n    ");
         }
         if (!conSelDTO.getRebateScheduleName().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleName().equals(Constants.NULL)) {
             String rsName = conSelDTO.getRebateScheduleName().replace('*', '%');
-            query.append(" AND RS_CON.RS_NAME like '" + rsName + "'  \n  ");
+            query.append(" AND RS_CON.RS_NAME like '" ).append( rsName ).append( "'  \n  ");
         }
         if (!conSelDTO.getRebateScheduleType().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleType().equals(Constants.NULL)) {
             String rsType = conSelDTO.getRebateScheduleType();
-            query.append(" AND RS_CON.RS_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" + rsType + "' and HT.LIST_NAME = 'RS_TYPE' ) \n ");
+            query.append(" AND RS_CON.RS_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" ).append( rsType ).append( "' and HT.LIST_NAME = 'RS_TYPE' ) \n ");
         }
 
         if (!conSelDTO.getRebateScheduleNo().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleNo().equals(Constants.NULL)) {
             String rsNo = conSelDTO.getRebateScheduleNo().replace('*', '%');
-            query.append(" AND RS_CON.RS_NO like '" + rsNo + "' \n ");
+            query.append(" AND RS_CON.RS_NO like '" ).append( rsNo ).append( "' \n ");
         }
         if (!conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY) && !conSelDTO.getRebateScheduleCategory().equals(StringUtils.EMPTY)) {
             String rsCategory = conSelDTO.getRebateScheduleCategory();
-            query.append(" AND RS_CON.RS_CATEGORY in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" + rsCategory + "' and HT.LIST_NAME = 'RS_CATEGORY' ) \n ");
+            query.append(" AND RS_CON.RS_CATEGORY in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" ).append( rsCategory ).append( "' and HT.LIST_NAME = 'RS_CATEGORY' ) \n ");
         }
 
         if (!conSelDTO.getRebateProgramType().equals(StringUtils.EMPTY) && !conSelDTO.getRebateProgramType().equals(Constants.NULL)) {
             String rsProgType = conSelDTO.getRebateProgramType();
-            query.append(" AND RS_CON.REBATE_PROGRAM_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" + rsProgType + "' and HT.LIST_NAME = 'RS_PROGRAM_TYPE' ) \n ");
+            query.append(" AND RS_CON.REBATE_PROGRAM_TYPE in (SELECT HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HT.DESCRIPTION ='" ).append( rsProgType ).append( "' and HT.LIST_NAME = 'RS_PROGRAM_TYPE' ) \n ");
         }
 
-        query.append(" ORDER BY  CFP_CON.CFP_CONTRACT_SID,RS_CON.RS_CONTRACT_SID,IFP_CON.IFP_CONTRACT_SID,PS_CON.PS_CONTRACT_SID   OFFSET " + start + " ROWS FETCH NEXT " + end + " ROWS ONLY    ");
+        query.append(" ORDER BY  CFP_CON.CFP_CONTRACT_SID,RS_CON.RS_CONTRACT_SID,IFP_CON.IFP_CONTRACT_SID,PS_CON.PS_CONTRACT_SID   OFFSET " ).append( start ).append( " ROWS FETCH NEXT " ).append( end ).append( " ROWS ONLY    ");
         return query.toString();
     }
 
@@ -1460,17 +1460,17 @@ public class PromoteTPLogic {
         query.append("UPDATE IMTD_ITEM_PRICE_REBATE_DETAILS SET   ");
         if (fieldName.equals("Status")) {
 
-            query.append(" ATTACHED_STATUS='" + (Integer) value + "' ");
+            query.append(" ATTACHED_STATUS='" ).append( (Integer) value ).append( "' ");
         } else if (fieldName.equals("Company Start Date")) {
 
-            query.append(" START_DATE='" + dateFormater.format((Date) value) + "' ");
+            query.append(" START_DATE='" ).append( dateFormater.format((Date) value) ).append( "' ");
         } else if (fieldName.equals("Company End Date")) {
-            query.append(" END_DATE='" + dateFormater.format((Date) value) + "' ");
+            query.append(" END_DATE='" ).append( dateFormater.format((Date) value) ).append( "' ");
         }
         query.append("WHERE CHECK_RECORD='1'");
 
-        query.append("AND USERS_SID='" + userId + "'  ");
-        query.append("AND SESSION_ID= '" + sessionId + "'  ");
+        query.append("AND USERS_SID='" ).append( userId ).append( "'  ");
+        query.append("AND SESSION_ID= '" ).append( sessionId ).append( "'  ");
         HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 
         return updateStatus;
@@ -2285,7 +2285,7 @@ public class PromoteTPLogic {
      */
     public List<HelperDTO> getDropDownList(final String listType)  {
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+        LOGGER.debug("entering getDropDownList method with paramater listType= {} " , listType);
         final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -2299,7 +2299,7 @@ public class PromoteTPLogic {
                         helperTable.getDescription()));
             }
         }
-        LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+        LOGGER.debug(" getDropDownList method ends with return value strList size = {} " , helperList.size());
         return helperList;
     }
 
@@ -2866,7 +2866,7 @@ public class PromoteTPLogic {
             query.append(",'").append(contractType).append('\'');
         }
         query.append("  )");
-        LOGGER.debug("insert query " + query.toString());
+        LOGGER.debug("insert query {} " , query.toString());
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
@@ -2922,7 +2922,7 @@ public class PromoteTPLogic {
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
             query.append("AND SCREEN_NAME='").append(contractType).append('\'');
         }
-        LOGGER.debug("update query " + query.toString());
+        LOGGER.debug("update query {} " , query.toString());
 
         HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 
@@ -2956,7 +2956,7 @@ public class PromoteTPLogic {
         if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
             query.append("AND SCREEN_NAME='").append(contractType).append('\'');
         }
-        LOGGER.debug("update query " + query.toString());
+        LOGGER.debug("update query {} " , query.toString());
 
         count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;

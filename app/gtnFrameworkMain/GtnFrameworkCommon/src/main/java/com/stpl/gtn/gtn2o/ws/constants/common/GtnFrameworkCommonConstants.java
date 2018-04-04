@@ -22,8 +22,10 @@ public class GtnFrameworkCommonConstants {
 	/**
 	 * Common For All Modules
 	 */
+        public static final String NULL_CONSTANT = "null";
         public static final String NET_SALES_FORMULA_ID = "Net Sales Formula ID";
         public static final String NET_SALES_FORMULA_NO = "Net Sales Formula NO";
+        public static final String NET_SALES_FORMULA_NO_LABEL = "Net Sales Formula No";
 	public static final String VALIDATION_ERROR = "Validation Error :";
 	public static final Class<?> JAVA_LANG_STRING = String.class;
 	public static final Class<?> JAVA_UTIL_DATE = Date.class;
@@ -1118,5 +1120,6 @@ public class GtnFrameworkCommonConstants {
 	public static final String UDC_CATEGORY_FILETYPE_FIELDLAYOUT = "fileTypeFieldLayout";
 	public static final String REBATE_PLAN_STATUS = "rebatePlanStatus";
 	public static final String REBATE_PLAN_POPUP_TYPE = "rpPopUpRebatePlanType";
-	public static final String FILE_TYPE = "FILE_TYPE";     
+	public static final String FILE_TYPE = "FILE_TYPE";
+	public static final String REBATE_SCHEDULE_ID = "rebateScheduleId1";
 }

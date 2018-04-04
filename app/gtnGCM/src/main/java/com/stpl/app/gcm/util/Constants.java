@@ -130,6 +130,15 @@ public class Constants {
     public static final String ALIAS_END_DATE = "aliasenddate";
     public static final String SELECT_CORRECT_NODE = "Please Select Correct Node";
     public static final String STATUS_S = "status";
+    public static final String SALES_INCLUSION = "salesInclusion";
+    public static final String REBATE_PROGRAM_TYPE = "rsRarType";
+    public static final String PAYMENT_METHOD_PROP= "paymentMethod";
+    public static final String PAYMENT_FREQUENCY_PROP = "paymentFrequency";
+    public static final String CALCULATION_TYPE = "calculationType";
+    public static final String CALCULATION_LEVEL = "calculationLevel";
+    public static final String DEDUCTION_INCLUSION = "deductionInclusion";
+    public static final String REBATE_SCHEDULE_CATEGORY = "rebateScheduleCategory";
+    public static final String REBATE_PLAN_LEVEL_PROP = "rebatePlanLevel";
     public static final String CURRENT_CONTRACT_LABEL = "Current Contract";
     public final String[] companySearch = {Constants.COMPANY_ID, Constants.COMPANYNAME, Constants.COMPANYNO, COMPANYSTATUS, Constants.COMPANYTYPE, Constants.COMPANYCATEGORY, Constants.TRADECLASS};
     /**
@@ -1406,7 +1415,11 @@ public class Constants {
             Constants for Item Management List Names
      */
     public static final String LOCKED_STATUS_LISTNAME = "LOCKED_STATUS";
+    public static final String CALCULATION_TYPE_LISTNAME= "CALCULATION_TYPE";
+    public static final String REBATE_FREQUENCY_LISTNAME = "REBATE_FREQUENCY";
+    public static final String CALCULATION_LEVEL_LISTNAME = "CALCULATION_LEVEL";
     public static final String NS_FORMULA_TYPE_LISTNAME = "NS_FORMULA_TYPE";
+    public static final String RS_CATEGORY_LISTNAME = "RS_CATEGORY";
     
     public static final String SEARCH_ICON = "searchicon";
     

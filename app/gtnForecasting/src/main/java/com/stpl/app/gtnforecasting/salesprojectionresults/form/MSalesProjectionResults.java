@@ -6,6 +6,39 @@
  */
 package com.stpl.app.gtnforecasting.salesprojectionresults.form;
 
+import static com.stpl.app.gtnforecasting.utils.Constant.ANNUALLY;
+import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
+import static com.stpl.app.gtnforecasting.utils.Constant.QUARTERLY;
+import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
+import static com.stpl.app.gtnforecasting.utils.Constant.YEAR;
+import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.QUARTERS;
+import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHS;
+import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
+import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
+import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
@@ -23,12 +56,6 @@ import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.ANNUALLY;
-import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.QUARTERS;
-import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
-import static com.stpl.app.gtnforecasting.utils.Constant.QUARTERLY;
-import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.utils.Constant.YEAR;
 import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.gtnforecasting.utils.MandatedChartUtils;
@@ -37,17 +64,12 @@ import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHS;
-import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
-import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.constants.BooleanConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
@@ -59,29 +81,10 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class SalesProjectionResults.
@@ -454,23 +457,23 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         int historyNum = 0;
         Object freq = frequency.getValue();
         boolean toFreq = false;
-            if ((freq != null) && (!SELECT_ONE.equals(freq.toString()))) {
+            if (isValid(freq)) {
                 toFreq = true;
                 projectionDTO.setFrequency(freq.toString());
             }
         Object hist = history.getValue();
         boolean toHist = false;
-            if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
+            if (isValid(hist)) {
                 toHist = true;
-                if (freq.equals(QUARTERLY)) {
+                if ((freq != null) && freq.equals(QUARTERLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY)) {
+                } else if ((freq != null) && freq.equals(SEMI_ANNUALLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(MONTHLY)) {
+                } else if ((freq != null) && freq.equals(MONTHLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(ANNUALLY)) {
+                } else if ((freq != null) && freq.equals(ANNUALLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
                 }
                 projectionDTO.setHistory(hist.toString());
@@ -495,7 +498,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             projectionDTO.setProductLevelNo(Integer.parseInt(session.getProductLevelNumber()));
             projectionDTO.setStartDate(session.getFromDate());
             projectionDTO.setStartDate(session.getToDate());
-            if (session.getFromDate() != null && session.getToDate() != null) {
+            if (isValidDate()) {
                 projectionDTO.setProjectionNum(CommonUtils.getProjections(new Date(), session.getToDate(), projectionDTO.getFrequency()));
             }
             projectionDTO.setForecastDTO(session.getForecastDTO());
@@ -504,6 +507,14 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         }
 
         return toRet;
+    }
+
+    private static boolean isValid(Object obj) {
+        return (obj != null) && (!SELECT_ONE.equals(obj.toString()));
+    }
+
+    private boolean isValidDate() {
+        return session.getFromDate() != null && session.getToDate() != null;
     }
 
     public void viewChange(boolean viewChange) {
@@ -875,7 +886,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             }
         }
 
-        final MandatedChartUtils chart = new MandatedChartUtils(chartList, String.valueOf(frequency.getValue()), String.valueOf(history.getValue()), fullHeader, Constant.SALES_PROJECTION_RESULTS, projectionDTO);
+		final MandatedChartUtils chart = new MandatedChartUtils(String.valueOf(frequency.getValue()),
+				String.valueOf(history.getValue()), fullHeader, Constant.SALES_PROJECTION_RESULTS, projectionDTO);
         final MandatedGraphWindow salesGraphWindow = new MandatedGraphWindow(chart.getChart(), Constant.SALES_PROJECTION_RESULTS);
         UI.getCurrent().addWindow(salesGraphWindow);
         salesGraphWindow.focus();

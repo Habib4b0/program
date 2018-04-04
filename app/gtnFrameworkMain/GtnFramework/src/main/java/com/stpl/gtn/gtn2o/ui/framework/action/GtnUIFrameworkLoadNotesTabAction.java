@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 public class GtnUIFrameworkLoadNotesTabAction implements GtnUIFrameWorkAction {
 
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -34,17 +35,14 @@ public class GtnUIFrameworkLoadNotesTabAction implements GtnUIFrameWorkAction {
 				.get(0);
 		String internalNotes = String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1));
 		NotesDTO attachmentDTO;
-		String fileNameWithId;
 		String filePath;
 		if (notesTabBeanList != null) {
 			for (NotesTabBean notesTabBean : notesTabBeanList) {
 				attachmentDTO = new NotesDTO();
 				filePath = notesTabBean.getFilePath();
-				fileNameWithId = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
-						+ filePath.substring(filePath.lastIndexOf('.'));
 				attachmentDTO.setDocDetailsId(notesTabBean.getMasterTableSystemId());
 				attachmentDTO.setDocumentFullPath(filePath);
-				attachmentDTO.setDocumentName(fileNameWithId);
+				attachmentDTO.setDocumentName(filePath);
 				format.setTimeZone(central);
 				attachmentDTO.setDateAdded(format.format(notesTabBean.getCreatedDate()));
 				attachmentDTO.setUserId(notesTabBean.getCreatedBy());

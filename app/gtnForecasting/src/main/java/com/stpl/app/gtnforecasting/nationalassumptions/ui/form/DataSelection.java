@@ -877,7 +877,11 @@ public class DataSelection extends CustomComponent implements View {
             targetItem = new BeanItem<>(
                     (DataSelectionDTO) id);
         }
-        return (DataSelectionDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (DataSelectionDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void moveToAvailable(Object item) {
@@ -971,8 +975,8 @@ public class DataSelection extends CustomComponent implements View {
                     productGroupId = value.getItemGroupSid();
                     productGroup.setReadOnly(true);
                     company.select(value.getCompanySid());
-                    company.setItemCaption(value.getCompanySid(), value.getCompany());
-                    company.setImmediate(true);
+                    company.setItemCaption(value.getCompanySid(), value.getCompany()+ Constant.SPACE + Constant.DASH_NO_DATA + Constant.SPACE + value.getCompany());
+                    company.setImmediate(true);																				
                     loadOnChangeEvent();
                 }
             }

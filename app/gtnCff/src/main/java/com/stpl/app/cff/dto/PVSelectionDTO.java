@@ -175,6 +175,10 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private String uomCode = StringUtils.EMPTY;
     private boolean conversionNeeded = false;
 
+    public PVSelectionDTO() {
+        super();
+    }
+
     public int getProjectionNo() {
         return projectionNo;
     }

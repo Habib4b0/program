@@ -434,12 +434,12 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String HTTP = "http://";
 	public static final String HTTPS = "https://";
 	public static final String ARM = "ARM";
-	public static final String WEB_COMMERCIAL = "/web/guest/commercial?nmFlow='true'";
+	public static final String WEB_COMMERCIAL = "?nmFlow='true'";
 	public static final String WEB_GOVERNMENT = "/web/guest/government?mFlow='true'";
 	public static final String WEB_BASERATE = "/web/guest/base-rate?nmFlow='true'";
 	public static final String WEB_FIXEDDOLLAR = "/web/guest/fixed-dollar-adjustment?nmFlow='true'";
 	public static final String WEB_ARP = "/web/guest/accrual-rate-projection?arFlow='true'";
-	public static final String WEB_CONTRACT_DASHBOARD = "/web/guest/contract-dashboard?cwFlow='true'";
+	public static final String WEB_CONTRACT_DASHBOARD = "?cwFlow='true'";
 	public static final String WEB_FORECAST_RETURNS = "/web/guest/forecast-returns?reFlow='true'";
 	public static final String WEB_FIXEDDOLLAR_ARMFLOW = "/web/guest/fixed-dollar-adjustment?armFlow='true'";
 	public static final String WEB_GOVERNMENT_NMFLOW = "/web/guest/government?nmFlow='true'";
@@ -491,6 +491,7 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String GETGCMWORKFLOWLIST = "/getGcmWfList";
 	public static final String EQUAL = "=";
 	public static final String RECORD_BEAN = "RecordBean";
+	public static final String WEB_GUEST = "/web/guest";
                     
 	private static final List<String> VIEW_SAVE_FIELDS = Arrays.asList(WORKFLOWID, WORKFLOWNAME, WORKFLOW_DESC,
 			CREATEDFROM, CREATEDTO, APPROVEDFROM, APPROVEDTO, CONTRACTID, CONTRACTNO, COMPANYNO, COMPANYNAME,

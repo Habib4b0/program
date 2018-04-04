@@ -22,6 +22,10 @@ public class FormulaDTO {
     private boolean isCount = false;
     private HelperDTO netSalesformulaType;
 
+    public FormulaDTO() {
+        super();
+    }
+
     public String getFormulaId() {
         return formulaId;
     }

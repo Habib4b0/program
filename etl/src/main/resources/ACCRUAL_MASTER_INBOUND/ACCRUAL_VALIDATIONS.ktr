@@ -179,10 +179,8 @@
   <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason 7</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
   <hop> <from>INVALID COUNT</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 2</from><to>INVALID UPDATE</to><enabled>Y</enabled> </hop>
-  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>FINAL AUDIT WAIT</from><to>FINAL AUDIT GENERATION</to><enabled>N</enabled> </hop>
   <hop> <from>REMOVE FIELDS</from><to>FINAL AUDIT WAIT</to><enabled>Y</enabled> </hop>
   <hop> <from>ADD SORT</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
@@ -344,7 +342,7 @@
   <hop> <from>Switch &#x2f; Case 2</from><to>Database lookup</to><enabled>Y</enabled> </hop>
   <hop> <from>Database lookup</from><to>Update</to><enabled>Y</enabled> </hop>
   <hop> <from>Database lookup</from><to>Table output</to><enabled>Y</enabled> </hop>
-  <hop> <from>Update</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Memory Group by</to><enabled>N</enabled> </hop>
   <hop> <from>Add constants 3 2 2 2</from><to>If Already deleted</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>DELETE</to><enabled>Y</enabled> </hop>
@@ -369,6 +367,15 @@
   <hop> <from>PROVISION_ID</from><to>RS LOOK UP 2</to><enabled>Y</enabled> </hop>
   <hop> <from>PROVISION_ID</from><to>BUSINESS_UNIT_ID</to><enabled>Y</enabled> </hop>
   <hop> <from>CONTRACT_MASTER 3</from><to>SALES_MASTER</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 2 2</from><to>INVALID UPDATE 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>Add constants 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID TABLE 3</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Database join 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calculator 2</from><to>Add constants 3 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 4</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database join 4</from><to>Calculator 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Invalid Reason 7</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Add constants 3 4</to><enabled>N</enabled> </hop>
   </order>
   <step>
     <name>ACCOUNT_ID</name>
@@ -529,13 +536,13 @@
         </key>
       <value>
         <name>ADD_COUNT</name>
-        <rename>ADD_COUNT</rename>
+        <rename>ADD_COUNT_CALC</rename>
         </value>
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1267</xloc>
-      <yloc>3945</yloc>
+      <xloc>1198</xloc>
+      <yloc>4153</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -885,51 +892,6 @@
     </step>
 
   <step>
-    <name>Add constants</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>STATUS_R</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>R</nullif>
-        <length>5</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>APPLICATION_PROCESS</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>ACCRUAL_INBOUND_INTERFACE</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1261</xloc>
-      <yloc>3860</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Add constants 2</name>
     <type>Constant</type>
     <description/>
@@ -958,6 +920,39 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1804</xloc>
       <yloc>955</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 2 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>5</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>900</xloc>
+      <yloc>3993</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1731,6 +1726,51 @@
     </step>
 
   <step>
+    <name>Add constants 3 4</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>STATUS_R</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>R</nullif>
+        <length>5</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>APPLICATION_PROCESS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ACCRUAL_INBOUND_INTERFACE</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1200</xloc>
+      <yloc>4051</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Add constants 4</name>
     <type>Constant</type>
     <description/>
@@ -2357,6 +2397,39 @@
     </step>
 
   <step>
+    <name>Calculator 2</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+       <calculation><field_name>ADD_COUNT_CALC</field_name>
+<calc_type>SUBTRACT</calc_type>
+<field_a>SENT_RECORD_COUNT</field_a>
+<field_b>INVALID_RECORD_COUNT</field_b>
+<field_c/>
+<value_type>None</value_type>
+<value_length>-1</value_length>
+<value_precision>-1</value_precision>
+<remove>N</remove>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<currency_symbol/>
+</calculation>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1292</xloc>
+      <yloc>3992</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>DELETE</name>
     <type>SortRows</type>
     <description/>
@@ -2567,6 +2640,40 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>2185</xloc>
       <yloc>1736</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Database join 4</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <rowlimit>0</rowlimit>
+    <sql>select SENT_RECORD_COUNT,INVALID_RECORD_COUNT from dbo.AUDIT_MASTER_INBOUND where BATCH_ID &#x3d;&#x3f; and CREATED_DATE in &#xd;&#xa;&#x28;SELECT TOP 1 CREATED_DATE&#xd;&#xa;                                   FROM   audit_master_inbound&#xd;&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xd;&#xa;                                          AND BATCH_ID &#x3d; &#x3f; ORDER BY CREATED_DATE DESC&#x29;</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+      </field>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+      </field>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1281</xloc>
+      <yloc>3871</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2883,7 +2990,7 @@
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>&#xa;SELECT REASON_FOR_FAILURE,&#xa;              Count&#x28;&#x2a;&#x29; AS &#x27;NEW_COUNT&#x27;,BATCH_ID as new_batch&#xa;        FROM  IVLD_ACCRUAL_INBOUND&#xa;        WHERE  batch_id &#x3d; &#x3f;&#xa;		   AND &#x28; INTF_INSERTED_DATE &#x3e; &#x28;SELECT TOP 1 CREATED_DATE&#xa;                                   FROM   audit_master_inbound&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xa;                                          AND BATCH_ID &#x3d; &#x3f;&#x29; &#x29; &#xa;        GROUP  BY REASON_FOR_FAILURE,BATCH_ID&#xa;</sql>
+    <sql>&#xa;SELECT REASON_FOR_FAILURE,&#xa;              Count&#x28;&#x2a;&#x29; AS &#x27;NEW_COUNT&#x27;,BATCH_ID as new_batch&#xa;        FROM  IVLD_ACCRUAL_INBOUND&#xa;        WHERE  batch_id &#x3d; &#x3f;&#xa;		   AND &#x28; INTF_INSERTED_DATE &#x3e; &#x28;SELECT TOP 1 CREATED_DATE&#xa;                                   FROM   audit_master_inbound&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xa;                                          AND BATCH_ID &#x3d; &#x3f; ORDER BY CREATED_DATE DESC &#x29; &#x29; &#xa;        GROUP  BY REASON_FOR_FAILURE,BATCH_ID&#xa;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -4215,7 +4322,7 @@
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT&#xa;IVLD_ACCRUAL_INBOUND_SID&#xa;,ACCRUAL_INTFID&#xa;,ACCRUAL_ID&#xa;,SALES_MASTER_ID&#xa;,GL_ACCOUNT&#xa;,COMPANY_ID&#xa;,COMPANY_NO&#xa;,COMP_IDENT_CODE_QUALIFIER&#xa;,COMPANY_COST_CENTER&#xa;,ACCOUNT_ID&#xa;,ACCOUNT_NO&#xa;,ACCOUNT_NAME&#xa;,ACCT_IDENT_CODE_QUALIFIER&#xa;,ITEM_ID&#xa;,ITEM_NO&#xa;,ITEM_IDENT_CODE_QUALIFIER&#xa;,CONTRACT_ID&#xa;,BRAND_ID&#xa;,CATEGORY_ID&#xa;,PROVISION_ID&#xa;,ACCRUAL_TYPE&#xa;,ACCRUAL_PERIOD_START_DATE&#xa;,ACCRUAL_PERIOD_END_DATE&#xa;,DEDUCTION_AMOUNT&#xa;,SUB_LEDGER&#xa;,SUB_LEDGER_TYPE&#xa;,DOCUMENT_TYPE&#xa;,POSTING_DATE&#xa;,GL_DATE&#xa;,RECORD_CREATED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,REASON_FOR_FAILURE&#xa;,INTF_INSERTED_DATE&#xa;,ERROR_CODE&#xa;,ERROR_FIELD&#xa;,REPROCESSED_FLAG&#xa;,CHECK_RECORD&#xa;,GL_COMPANY_MASTER_SID&#xa;,GL_COMPANY_NAME&#xa;,PROGRAM_TYPE&#xa;,PROGRAM_NO&#xa;,ITEM_NAME&#xa;,POSTING_INDICATOR&#xa;,CONTRACT_NO&#xa;,BRAND_NAME&#xa;,CONTRACT_NAME&#xa;,COMPANY_NAME&#xa;,BUSINESS_UNIT_ID&#xa;,BUSINESS_UNIT_NO&#xa;,BU_IDENT_CODE_QUALIFIER&#xa;,BUSINESS_UNIT_NAME&#xa;,ACCRUAL_CATEGORY&#xa;,ACCRUAL_SCHEDULE_TYPE&#xa;,ACCRUAL_PROGRAM_TYPE&#xa;,SALES_AMOUNT&#xa;,QUANTITY&#xa;,ACCRUAL_UDC1&#xa;,ACCRUAL_UDC2&#xa;,ACCRUAL_UDC3&#xa;,ACCRUAL_UDC4&#xa;,ACCRUAL_UDC5&#xa;,ACCRUAL_UDC6&#xa;,ACCRUAL_CATEGORY&#xa;, &#x27;&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACCRUAL_INBOUND_INTERFACE&#x2f;Processed&#x2f;ACCRUAL_INBOUND_INTERFACE_&#x27;&#x2b;BATCH_ID&#x2b;&#x27;_&#x27;&#x2b;CONVERT&#x28;VARCHAR&#x28;20&#x29;,GETDATE&#x28;&#x29;,112&#x29;&#x2b;&#x27;_&#x27;&#x2b;replace&#x28;convert&#x28;varchar&#x28;50&#x29;,GETDATE&#x28;&#x29;,108&#x29;,&#x27;&#x3a;&#x27;,&#x27;&#x27;&#x29;&#x2b;&#x27;-&#x27;&#x2b;&#x27;REJECT&#x27;   as a &#xa;, &#x27;&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;ACCRUAL_INBOUND_INTERFACE_&#x27;&#x2b;BATCH_ID&#x2b;&#x27;_&#x27;&#x2b;CONVERT&#x28;VARCHAR&#x28;20&#x29;,GETDATE&#x28;&#x29;,112&#x29;&#x2b;&#x27;_&#x27;&#x2b;replace&#x28;convert&#x28;varchar&#x28;50&#x29;,GETDATE&#x28;&#x29;,108&#x29;,&#x27;&#x3a;&#x27;,&#x27;&#x27;&#x29;&#x2b;&#x27;-&#x27;&#x2b;&#x27;REJECT&#x27;  as b&#xa;  FROM   IVLD_ACCRUAL_INBOUND&#xa; WHERE BATCH_ID&#x3d;&#x3f;&#xa; AND &#x28; INTF_INSERTED_DATE &#x3e; &#x28;SELECT TOP 1 CREATED_DATE&#xa;                                   FROM   audit_master_inbound&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xa;                                          AND BATCH_ID &#x3d; &#x3f;  ORDER BY CREATED_DATE DESC&#x29; &#x29; &#xa;</sql>
+    <sql>SELECT&#xa;ACCRUAL_INTFID&#xa;,ACCRUAL_ID&#xa;,SALES_MASTER_ID&#xa;,GL_ACCOUNT&#xa;,COMPANY_ID&#xa;,COMPANY_NO&#xa;,COMP_IDENT_CODE_QUALIFIER&#xa;,COMPANY_COST_CENTER&#xa;,ACCOUNT_ID&#xa;,ACCOUNT_NO&#xa;,ACCOUNT_NAME&#xa;,ACCT_IDENT_CODE_QUALIFIER&#xa;,ITEM_ID&#xa;,ITEM_NO&#xa;,ITEM_IDENT_CODE_QUALIFIER&#xa;,CONTRACT_ID&#xa;,BRAND_ID&#xa;,CATEGORY_ID&#xa;,PROVISION_ID&#xa;,ACCRUAL_TYPE&#xa;,ACCRUAL_PERIOD_START_DATE&#xa;,ACCRUAL_PERIOD_END_DATE&#xa;,DEDUCTION_AMOUNT&#xa;,SUB_LEDGER&#xa;,SUB_LEDGER_TYPE&#xa;,DOCUMENT_TYPE&#xa;,POSTING_DATE&#xa;,GL_DATE&#xa;,RECORD_CREATED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,REASON_FOR_FAILURE&#xa;,INTF_INSERTED_DATE&#xa;,ERROR_CODE&#xa;,ERROR_FIELD&#xa;,REPROCESSED_FLAG&#xa;,CHECK_RECORD&#xa;,GL_COMPANY_MASTER_SID&#xa;,GL_COMPANY_NAME&#xa;,PROGRAM_TYPE&#xa;,PROGRAM_NO&#xa;,ITEM_NAME&#xa;,POSTING_INDICATOR&#xa;,CONTRACT_NO&#xa;,BRAND_NAME&#xa;,CONTRACT_NAME&#xa;,COMPANY_NAME&#xa;,BUSINESS_UNIT_ID&#xa;,BUSINESS_UNIT_NO&#xa;,BU_IDENT_CODE_QUALIFIER&#xa;,BUSINESS_UNIT_NAME&#xa;,ACCRUAL_CATEGORY&#xa;,ACCRUAL_SCHEDULE_TYPE&#xa;,ACCRUAL_PROGRAM_TYPE&#xa;,SALES_AMOUNT&#xa;,QUANTITY&#xa;,ACCRUAL_UDC1&#xa;,ACCRUAL_UDC2&#xa;,ACCRUAL_UDC3&#xa;,ACCRUAL_UDC4&#xa;,ACCRUAL_UDC5&#xa;,ACCRUAL_UDC6&#xa;,ACCRUAL_CATEGORY&#xd;&#xa;,IVLD_ACCRUAL_INBOUND_SID&#xa;, &#x27;&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ACCRUAL_INBOUND_INTERFACE&#x2f;Processed&#x2f;ACCRUAL_INBOUND_INTERFACE_&#x27;&#x2b;BATCH_ID&#x2b;&#x27;_&#x27;&#x2b;CONVERT&#x28;VARCHAR&#x28;20&#x29;,GETDATE&#x28;&#x29;,112&#x29;&#x2b;&#x27;_&#x27;&#x2b;replace&#x28;convert&#x28;varchar&#x28;50&#x29;,GETDATE&#x28;&#x29;,108&#x29;,&#x27;&#x3a;&#x27;,&#x27;&#x27;&#x29;&#x2b;&#x27;-&#x27;&#x2b;&#x27;REJECT&#x27;   as a &#xa;, &#x27;&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;ACCRUAL_INBOUND_INTERFACE_&#x27;&#x2b;BATCH_ID&#x2b;&#x27;_&#x27;&#x2b;CONVERT&#x28;VARCHAR&#x28;20&#x29;,GETDATE&#x28;&#x29;,112&#x29;&#x2b;&#x27;_&#x27;&#x2b;replace&#x28;convert&#x28;varchar&#x28;50&#x29;,GETDATE&#x28;&#x29;,108&#x29;,&#x27;&#x3a;&#x27;,&#x27;&#x27;&#x29;&#x2b;&#x27;-&#x27;&#x2b;&#x27;REJECT&#x27;  as b&#xa;  FROM   IVLD_ACCRUAL_INBOUND&#xa; WHERE BATCH_ID&#x3d;&#x3f;&#xa; AND &#x28; INTF_INSERTED_DATE &#x3e; &#x28;SELECT TOP 1 CREATED_DATE&#xa;                                   FROM   audit_master_inbound&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;ACCRUAL_INBOUND_INTERFACE&#x27;&#xa;                                          AND BATCH_ID &#x3d; &#x3f;  ORDER BY CREATED_DATE DESC&#x29; &#x29; &#xa;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -10310,6 +10417,51 @@
     </step>
 
   <step>
+    <name>INVALID UPDATE 2 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>AUDIT_MASTER_INBOUND</table>
+      <key>
+        <name>BATCH_ID</name>
+        <field>BATCH_ID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>STATUS_R</name>
+        <field>STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>INVALID_RECORD_COUNT</name>
+        <rename>Invalid_Count</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>753</xloc>
+      <yloc>4011</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>ITEM MASTER LOOKUP</name>
     <type>DBLookup</type>
     <description/>
@@ -12576,8 +12728,41 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1265</xloc>
-      <yloc>3747</yloc>
+      <xloc>1217</xloc>
+      <yloc>3759</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Memory Group by 2</name>
+    <type>MemoryGroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>BATCH_ID</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>Invalid_Count</aggregate>
+          <subject>ACCRUAL_ID</subject>
+          <type>COUNT_ALL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1035</xloc>
+      <yloc>3951</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -12721,18 +12906,6 @@
       <splitevery>0</splitevery>
     </file>
     <fields>
-      <field>
-        <name>IVLD_ACCRUAL_INBOUND_SID</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>9</length>
-        <precision>0</precision>
-      </field>
       <field>
         <name>ACCRUAL_INTFID</name>
         <type>Integer</type>
@@ -13536,6 +13709,18 @@
         <trim_type>none</trim_type>
         <length>100</length>
         <precision>-1</precision>
+      </field>
+      <field>
+        <name>IVLD_ACCRUAL_INBOUND_SID</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>9</length>
+        <precision>0</precision>
       </field>
     </fields>
      <cluster_schema/>
@@ -15463,6 +15648,18 @@
       </field>
       <field>
         <name>BUSINESS_UNIT_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>IVLD_ACCRUAL_INBOUND_SID</name>
         <type>String</type>
         <format/>
         <currency/>

@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.module.priceschedule.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsCheckAllUpdateBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
@@ -100,6 +104,7 @@ public class GtnWsPriceScheduleService {
 			if (psInfoBean.getSystemId() != 0) {
 				deletePsDetails(psInfoBean.getSystemId(), session);
 				notesTabDelete(psInfoBean.getSystemId(), session);
+				notesTabAttachDelete(psInfoBean.getSystemId(), session);
 				psUpdateToPSModel(userId, psInfoBean, session);
 			} else {
 
@@ -112,6 +117,7 @@ public class GtnWsPriceScheduleService {
 			psSaveInsertToPSDetails(psInfoBean.getSystemId(), userId, sessionId, session);
 			if (psInfoBean.getNoteBeanList() != null && !psInfoBean.getNoteBeanList().isEmpty()) {
 				psNotesTabInsert(psInfoBean, session);
+				psNotesTabAttachInsert(psInfoBean, session);
 			}
 			transaction.commit();
 		} catch (Exception ex) {
@@ -176,6 +182,15 @@ public class GtnWsPriceScheduleService {
 		GtnFrameworkDataType[] rsNotesTabDeleteQueryTypes = { GtnFrameworkDataType.INTEGER };
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(rsNotesTabDeleteQuery, rsNotesTabDeleteQueryParams,
 				rsNotesTabDeleteQueryTypes, session);
+	}
+	
+
+	private void notesTabAttachDelete(int systemId, Session session) throws GtnFrameworkGeneralException {
+		String psNotesTabAttachDeleteQuery = gtnWsSqlService.getQuery("getNotesTabAttachDeleteQuery");
+		Object[] psNotesTabAttachDeleteQueryParams = { systemId };
+		GtnFrameworkDataType[] psNotesTabDeleteQueryTypes = { GtnFrameworkDataType.INTEGER };
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(psNotesTabAttachDeleteQuery, psNotesTabAttachDeleteQueryParams,
+				psNotesTabDeleteQueryTypes, session);
 	}
 
 	private void psSaveInsertToPSDetails(int psmodelSid, String userId, String sessionId, Session session)
@@ -301,6 +316,7 @@ public class GtnWsPriceScheduleService {
 		try {
 			deletePsDetails(sysId, session);
 			notesTabDelete(sysId, session);
+			notesTabAttachDelete(sysId, session);
 			deletePsModel(sysId, session);
 			transaction.commit();
 		} catch (Exception ex) {
@@ -333,6 +349,7 @@ public class GtnWsPriceScheduleService {
 		if (rPInfo != null) {
 			psInfoBean = setPsInfoBean(rPInfo.get(0));
 			psInfoBean.setNoteBeanList(getPsNotesTabDetails(systemId));
+			psInfoBean.setNoteBeanList(getPsNotesTabAttachDetails(systemId));
 		}
 
 		return psInfoBean;
@@ -361,6 +378,17 @@ public class GtnWsPriceScheduleService {
 		GtnFrameworkDataType[] psInfoQueryTypes = { GtnFrameworkDataType.INTEGER };
 		List<Object[]> psNotesDetailsResultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(psNotesTabDetailsQuery, psNotesTabDetailsQueryParams, psInfoQueryTypes);
+		return GtnCommonUtil.getNotesTabBean(psNotesDetailsResultList, gtnWebServiceAllListConfig);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private List<NotesTabBean> getPsNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
+
+		String psNotesTabAttachDetailsQuery = gtnWsSqlService.getQuery("psNotesTabAttachDetailsQuery");
+		Object[] psNotesTabAttachDetailsQueryParams = { systemId };
+		GtnFrameworkDataType[] psInfoQueryTypes = { GtnFrameworkDataType.INTEGER };
+		List<Object[]> psNotesDetailsResultList = (List<Object[]>) gtnSqlQueryEngine
+				.executeSelectQuery(psNotesTabAttachDetailsQuery, psNotesTabAttachDetailsQueryParams, psInfoQueryTypes);
 		return GtnCommonUtil.getNotesTabBean(psNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
 
@@ -464,5 +492,52 @@ public class GtnWsPriceScheduleService {
 				imtdPsDetailsInsertQueryTypes);
 
 	}
+	private Integer psNotesTabAttachInsert(GtnUIFrameWorkPSInfoBean psInfoBean, Session session)
+			throws GtnFrameworkGeneralException {
+		List<NotesTabBean> psNotesTabRequestList = psInfoBean.getNoteBeanList();
+		StringBuilder psNoteTabAttachFinalQuery = new StringBuilder();
+		List<GtnFrameworkDataType> psNotesQueryDataTypeList = new ArrayList<>();
+		List<Object> psNotesQueryParamList = new ArrayList<>();
+		for (NotesTabBean notesTabRequest : psNotesTabRequestList) {
+			psNoteTabAttachFinalQuery.append(GtnWsQueryConstants.NOTES_ATTACH_INSERT);
+
+			psNotesQueryDataTypeList.add(GtnFrameworkDataType.INTEGER);
+			psNotesQueryParamList.add(psInfoBean.getSystemId());
+
+			psNotesQueryDataTypeList.add(GtnFrameworkDataType.STRING);
+			psNotesQueryParamList.add(notesTabRequest.getFileName());
+
+			psNotesQueryDataTypeList.add(GtnFrameworkDataType.BYTE);
+			try {
+				psNotesQueryParamList.add(readBytesFromFile(notesTabRequest.getFilePath()));
+			} catch (IOException e) {
+				throw new GtnFrameworkGeneralException(e);
+			}
+
+			psNotesQueryDataTypeList.add(GtnFrameworkDataType.STRING);
+			psNotesQueryParamList.add(notesTabRequest.getMasterTableName());
+			
+			psNotesQueryDataTypeList.add(GtnFrameworkDataType.INTEGER);
+			psNotesQueryParamList.add(notesTabRequest.getCreatedBy());
+
+		}
+		if (psNoteTabAttachFinalQuery.length() > 0) {
+			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(psNoteTabAttachFinalQuery.toString(),
+					psNotesQueryParamList.toArray(),
+					psNotesQueryDataTypeList.toArray(new GtnFrameworkDataType[psNotesQueryDataTypeList.size()]),
+					session);
+		}
+		return 0;
+		
+	}
+	 private static byte[] readBytesFromFile(String filePath) throws IOException {
+		 File inputFile = GtnFileNameUtils.getFile(filePath);
+	        FileInputStream inputStreamPs= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+	        byte[] fileBytes = new byte[(int) inputFile.length()];
+	        int i=inputStreamPs.read(fileBytes);
+	        if(i>0) 
+	        return fileBytes;
+			return  new byte[0];
+	    }
 
 }

@@ -99,8 +99,8 @@ public class FileManagementLogic {
 		return foecastYearCount;
 	}
 
-	public void setFoecastYearCount(final int itemPricingQualifierNameCount) {
-		this.foecastYearCount = itemPricingQualifierNameCount;
+	public static void setFoecastYearCount(final int itemPricingQualifierNameCount) {
+		FileManagementLogic.foecastYearCount = itemPricingQualifierNameCount;
 	}
 
 	public FileManagementLogicDAO getDao() {
@@ -561,7 +561,7 @@ public class FileManagementLogic {
 			versions = HelperTableLocalServiceUtil.executeSelectQuery(sqlString);
 		}
 		versionList.addAll(versions);
-		if (versionList.size() > 0) {
+		if (!versionList.isEmpty()) {
 			List<Integer> tmpList = new ArrayList<>();
 			String etlVer = ConstantsUtils.EMPTY;
 			for (int i = 0; i < versionList.size(); i++) {

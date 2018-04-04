@@ -22,7 +22,7 @@ public class PMPYCalculatorDTO implements Serializable {
 
     
     
-    protected Map<String,String> properties=new HashMap<>();
+    protected transient Map<String,String> properties=new HashMap<>();
 
     public Map<String, String> getProperties() {
         return properties;
@@ -333,6 +333,10 @@ public class PMPYCalculatorDTO implements Serializable {
      * The payment term.
      */
     private String paymentTerm = StringUtils.EMPTY;
+
+    public PMPYCalculatorDTO() {
+        super();
+    }
 
     /**
      * Gets the quaterThree2012.

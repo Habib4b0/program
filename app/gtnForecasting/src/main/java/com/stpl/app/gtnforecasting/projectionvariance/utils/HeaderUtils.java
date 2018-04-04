@@ -163,7 +163,7 @@ public class HeaderUtils {
             int year=0;
             int count=0;
             List<Object> yearwiseColumns;
-            List<Object> visibleColumns = null;
+            List<Object> visibleColumns = new ArrayList<>();
             List<Object> columnHeaders = null;
             List<Object> doubleVisibleColumns = null;
             List<Object> doubleColumnHeaders = null;

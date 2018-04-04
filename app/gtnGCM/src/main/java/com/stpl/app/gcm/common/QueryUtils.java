@@ -376,7 +376,7 @@ public class QueryUtils {
     }
 
     public String getSummaryCountQuery(RemoveDiscountDto dto) {
-        LOGGER.debug("Entering getSummaryCountQuery" + dto.getFromDate() + dto.getToDate());
+        LOGGER.debug("Entering getSummaryCountQuery {} {} " , dto.getFromDate() , dto.getToDate());
         String select = StringUtils.EMPTY;
         String where = StringUtils.EMPTY;
         if (dto.getLevelNo() == 1) {
@@ -1258,7 +1258,7 @@ public class QueryUtils {
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
 
-        LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+        LOGGER.debug("entering getDropDownList method with paramater listType= {} " , listType);
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         dynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -1275,7 +1275,7 @@ public class QueryUtils {
             }
         }
 
-        LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+        LOGGER.debug(" getDropDownList method ends with return value strList size = {} " , helperList.size());
 
         return helperList;
     }
@@ -2144,7 +2144,7 @@ public class QueryUtils {
     }
 
     public String getTempTableValue(String temptableSId) {
-        String query = " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
+        String query = " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS_SID,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
         return query;
     }
 

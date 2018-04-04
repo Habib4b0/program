@@ -711,6 +711,7 @@ public class PhsResults extends CustomComponent implements View {
                             }
                             worksheetProjDto.setAdjust(false);
                             worksheetProjDto.setNdcWSdto(ndcDto);
+                            final List<String> phsColumns = new ArrayList<>(projectionDTO.getColumns());
                             final MasterPhsWorksheet lookUp = new MasterPhsWorksheet(worksheetProjDto,sessionDTO);
                             UI.getCurrent().addWindow(lookUp);
                             lookUp.addCloseListener(new Window.CloseListener() {
@@ -720,6 +721,7 @@ public class PhsResults extends CustomComponent implements View {
                                     projectionDTO.setBrandSeclected(false);
                                     projectionDTO.setBrandWSdto(brandWorksheetDto);
                                     lookUp.closeLogic();
+                                    projectionDTO.setColumns(phsColumns);
                                     if (lookUp.isSubmit()) {
                                         loadResultTable();
                                     }
@@ -791,7 +793,11 @@ public class PhsResults extends CustomComponent implements View {
             targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
-        return (TableDTO) targetItem.getBean();
+        if(targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void callPhsProcedure() throws SQLException, NamingException {

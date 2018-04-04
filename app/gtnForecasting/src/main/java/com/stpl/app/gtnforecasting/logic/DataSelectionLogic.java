@@ -5,6 +5,30 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
+import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
@@ -24,13 +48,11 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractFilterLogic;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.gtnforecasting.utils.Converters;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CompanyMaster;
@@ -56,37 +78,17 @@ import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.app.utils.Constants.IndicatorConstants;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.QueryUtil;
-import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.TreeTable;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The Class DataSelectionLogic.
@@ -101,6 +103,7 @@ public class DataSelectionLogic {
 	 */
 	private final DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
 	public static final String RBSID = "?RBSID";
+	public static final String RBVERSION = "?RBVERSION";
 	public static final String SELECT_CAPS = " SELECT ";
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
@@ -173,7 +176,7 @@ public class DataSelectionLogic {
 	 * @return the list
 	 */
 	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName, int hierarchyVersion) {
-		LOGGER.debug(" hierarchyName= {} ",hierarchyName);
+		LOGGER.debug(" hierarchyName=  {}",hierarchyName);
 		List<Leveldto> resultList = new ArrayList<>();
 		Leveldto leveldto;
 		List<Object> input = new ArrayList<>();
@@ -1178,19 +1181,6 @@ public class DataSelectionLogic {
 		return returnList;
 	}
 
-	public void insertToCcpMap(List<String> relationshipBuilderSids, String screenName) throws SystemException {
-		List<String> relationshipBuilderSidsList = null;
-		Map<String, Object> parameters = new HashMap<>();
-		if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
-			relationshipBuilderSidsList = new ArrayList<>(relationshipBuilderSids);
-		}
-		parameters.put(Constant.INDICATOR, "insertToCcpMap");
-		parameters.put("relationshipBuilderSids", relationshipBuilderSidsList);
-		parameters.put("scrennName", screenName);
-		dataSelectionDao.saveCcp(parameters);
-
-	}
-
 	public void saveCcp(final List<Leveldto> customerEndLevels, final String productHierarchyEndLevelsHierNos,
 			final String indicator, final String projectionId) throws SystemException {
 		if (customerEndLevels != null && !customerEndLevels.isEmpty()) {
@@ -1237,6 +1227,10 @@ public class DataSelectionLogic {
 					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 					dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 					dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
+					dto.setHierarchyLevelDefnId(String.valueOf(objects[NumericConstants.TEN]));
+					dto.setHierarchyId(DataTypeConverter.convertObjectToInt(objects[NumericConstants.ELEVEN]));
+					dto.setHierarchyVersionNo(DataTypeConverter.convertObjectToInt(objects[NumericConstants.TWELVE]));
+					dto.setRelationShipVersionNo(relationShipVersion);
 					if (descriptionMap != null) {
 						dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
 					}
@@ -1326,28 +1320,35 @@ public class DataSelectionLogic {
 		return returnList;
 	}
 
-	public List<Leveldto> getChildLevelsWithHierarchyNo(String hierarchyNo, int lowestLevelNo,
+	public List<Leveldto> getChildLevelsWithHierarchyNo(int lowestLevelNo,
 			final Map<String, String> descriptionMap, Object businessUnit, Leveldto selectedLevelDto,
-			int hierarchyVersion, int relationShipVersion, int subListIndex) {
-		List<Object[]> resultss;
+			int hierarchyVersion, int relationShipVersion, int subListIndex, Date forecastEligibleDate,
+			boolean isProduct) {
+		List<Object[]> resultss = null;
 		List<Leveldto> resultList = null;
 		try {
 			Leveldto dto;
-			List<Object> inputs = new ArrayList<>();
-			inputs.add(hierarchyNo);
-			inputs.add(hierarchyNo);
-			inputs.add(lowestLevelNo);
-			inputs.add(relationShipVersion);
-			inputs.add(hierarchyVersion);
-			String query = StringUtils.EMPTY;
-			if (!String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).equals("0")
-					&& !String.valueOf(businessUnit).isEmpty()) {
-				query = relationLogic.getChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
+			String query;
+			if (isProduct) {
+				query = relationLogic.getFinalChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
 						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
 				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
 			} else {
-				query = "getChildLevelsWithHierarchyNo_New";
-				resultss = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtils.getQuery(inputs, query));
+				List<Object> inputs = new ArrayList<>();
+				resultList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
+						hierarchyVersion);
+				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
+						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, resultList,
+						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
+				inputs.add(StringUtils.join(relationHierarchy, ","));
+				inputs.add(lowestLevelNo);
+				inputs.add(relationShipVersion);
+				inputs.add(hierarchyVersion);
+
+				if (!relationHierarchy.isEmpty()) {
+					resultss = HelperTableLocalServiceUtil
+							.executeSelectQuery(QueryUtils.getQuery(inputs, "childLevelsHierarchyNo"));
+				}
 			}
 
 			if (resultss != null) {
@@ -1365,6 +1366,10 @@ public class DataSelectionLogic {
 					dto.setRelationshipLevelSid(DataTypeConverter.convertObjectToInt(objects[NumericConstants.SEVEN]));
 					dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 					dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
+					dto.setHierarchyLevelDefnId(String.valueOf(objects[NumericConstants.TEN]));
+					dto.setHierarchyId(DataTypeConverter.convertObjectToInt(objects[NumericConstants.ELEVEN]));
+					dto.setHierarchyVersionNo(DataTypeConverter.convertObjectToInt(objects[NumericConstants.TWELVE]));
+					dto.setRelationShipVersionNo(relationShipVersion);
 					if (descriptionMap != null) {
 						dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
 					}
@@ -1573,7 +1578,7 @@ public class DataSelectionLogic {
 			List<Object> list;
 			StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
-					+ "RELATIONSHIP_BUILDER_SID='" + rbID + "'\n" + "and \n" + "LEVEL_NAME='Market Type'");
+					+ "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and  LEVEL_NAME='Market Type'");
 			CommonDAO spDAO = new CommonDAOImpl();
 			list = (List) spDAO.executeSelectQuery(queryString.toString(), null, null);
 			return list;
@@ -1766,10 +1771,10 @@ public class DataSelectionLogic {
 			List list;
 			StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES,LEVEL_NO from RELATIONSHIP_LEVEL_DEFINITION \n"
-					+ "where RELATIONSHIP_LEVEL_SID in ( select RELATIONSHIP_LEVEL_SID\n"
-					+ "from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID= ");
+					).append( "where RELATIONSHIP_LEVEL_SID in ( select RELATIONSHIP_LEVEL_SID\n"
+					).append( "from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID= ");
 			if (projectionId != 0) {
-				queryString.append(StringUtils.EMPTY + projectionId);
+				queryString.append(StringUtils.EMPTY ).append( projectionId);
 				queryString.append(" ) and LEVEL_NAME='Market TYPE'");
 			}
 			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString(), null, null);
@@ -2295,6 +2300,7 @@ public class DataSelectionLogic {
 			boolean isCustomerHierarchy) {
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeduction");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));
 		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
 		Map<String, List> resultMap = new HashMap<>();
@@ -2614,4 +2620,11 @@ public class DataSelectionLogic {
             List<Object[]> removedcontract = QueryUtils.getAppData(inputList, "eligibledatealertquery",null);
             return   removedcontract.toString().replace("[", "").replace("]", "");
         }
+        
+    public Date getWorkflowEligibleDateFromProjMaster(final DataSelectionDTO dataSelectionDTO) {
+        String datequery = "SELECT FORECAST_ELIGIBLE_DATE FROM PROJECTION_MASTER where PROJECTION_MASTER_SID=" + dataSelectionDTO.getProjectionId() + "";
+        List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery, null, null);
+        return workflowforecastEligibleDate != null ? (Date) workflowforecastEligibleDate.get(0) : null;
+    }
+        
 }

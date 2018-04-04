@@ -132,6 +132,11 @@ public class ComponentInfoDTO implements Serializable {
     private List<ComponentInfoDTO> ifpList=new ArrayList<>();
     private List<ComponentInfoDTO> rsList=new ArrayList<>();
     private List<ComponentInfoDTO> psList=new ArrayList<>();
+
+    public ComponentInfoDTO() {
+        super();
+    }
+    
     public String getRsType() {
         return rsType;
     }

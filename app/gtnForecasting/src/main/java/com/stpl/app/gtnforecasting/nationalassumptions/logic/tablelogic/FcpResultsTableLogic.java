@@ -39,6 +39,10 @@ public class FcpResultsTableLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(FcpResultsTableLogic.class);
 
+    public FcpResultsTableLogic() {
+        super();
+    }
+
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated= {}, and start= {}, and offser= {}" , firstGenerated, start, offset);

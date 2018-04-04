@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.module.contractheader.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -23,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.contract.bean.GtnWsContractMasterBean;
 import com.stpl.gtn.gtn2o.ws.contract.bean.GtnwsContractAliasMasterBean;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.companygroup.CompanyGroup;
+import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster;
 import com.stpl.gtn.gtn2o.ws.entity.contract.ContractAliasMaster;
 import com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster;
@@ -46,6 +51,9 @@ public class GtnWsContractHeaderService {
 	}
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsContractHeaderService.class);
+	
+	@Autowired
+	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
@@ -55,7 +63,13 @@ public class GtnWsContractHeaderService {
 
 	@Autowired
 	private GtnFrameworkAutomaticService automaticRelationService;
+	
+	public org.hibernate.SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
 
+	public static final String CONTRACT_MASTER="'CONTRACT_MASTER'";
+	
 	public void getCompanyHeaderFetchQuery(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			GtnUIFrameworkWebserviceResponse response) throws GtnFrameworkGeneralException {
 
@@ -150,6 +164,7 @@ public class GtnWsContractHeaderService {
 			cGrpResponse.setGtnWsContractMasterBean(infoBean);
 			cGrpResponse.setGtnwsContractAliasMasterBeanList(fetchContractAlias(session, systemId));
 			cGrpResponse.setNotesTabList(getNotesTabDetails(systemId));
+			cGrpResponse.setNotesTabList(getNotesTabAttachDetails(systemId));
 			response.setGtnWsContractHeaderResponse(cGrpResponse);
 			tx.commit();
 		} catch (Exception e) {
@@ -466,20 +481,32 @@ public class GtnWsContractHeaderService {
 
 				session.saveOrUpdate(aliasMaster);
 			}
-
 		}
 	}
 
 	public void saveNotesTabDetails(GtnWsContractHeaderRequest imRquest, int masterSid)
 			throws GtnFrameworkGeneralException {
+		logger.info("contract master sid=" + masterSid);
 		deleteNotesTab(imRquest.getGtnWsContractMasterBean().getContractMasterSid());
+		deleteNotesAttachTab(imRquest.getGtnWsContractMasterBean().getContractMasterSid());
 		notesTabInsert(imRquest, masterSid);
+		notesTabAttachInsert(imRquest, masterSid);
 	}
 
 	private int deleteNotesTab(int systemId) throws GtnFrameworkGeneralException {
-
+		logger.info("Enter Item Master notesTabdelete");
 		String deleteQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_DELETE + systemId
 				+ " AND MASTER_TABLE_NAME='CONTRACT_MASTER'";
+		logger.info("Exit Item Master notesTabdelete");
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteQuery);
+
+	}
+	
+	private int deleteNotesAttachTab(int systemId) throws GtnFrameworkGeneralException {
+		logger.info("Enter Item Master notesTabAttachdelete");
+		String deleteQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_DELETE + systemId
+				+ " AND MASTER_TABLE_NAME='CONTRACT_MASTER'";
+		logger.info("Exi Item Master notesTabAttachdelete");
 		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteQuery);
 	}
 
@@ -571,7 +598,7 @@ public class GtnWsContractHeaderService {
 	private List<NotesTabBean> getNotesTabDetails(int systemId) throws GtnFrameworkGeneralException {
 		logger.info("Enter getNotesTabDetails");
 		String cmNotesTabDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_SELECT + systemId
-				+ " AND MASTER_TABLE_NAME='CONTRACT_MASTER'";
+				+ " AND MASTER_TABLE_NAME=" + CONTRACT_MASTER;
 		List<Object[]> cmNotesDetailsResultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(cmNotesTabDetailsSelectQuery);
 		List<NotesTabBean> cmNotesDetailsInfoBeanList = GtnCommonUtil.getNotesTabBean(cmNotesDetailsResultList,
@@ -579,4 +606,57 @@ public class GtnWsContractHeaderService {
 		logger.info("Exit getNotesTabDetails");
 		return cmNotesDetailsInfoBeanList;
 	}
+	
+	@SuppressWarnings("unchecked")
+	private List<NotesTabBean> getNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
+		logger.info("Enter getNotesTabAttachDetails");
+		String chNotesTabAttachDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_SELECT + systemId
+				+ " AND MASTER_TABLE_NAME=" + CONTRACT_MASTER;
+		List<Object[]> chNotesAttachDetailsResultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(chNotesTabAttachDetailsSelectQuery);
+		logger.info("Exit getNotesTabAttachDetails");
+		return GtnCommonUtil.getNotesTabBean(chNotesAttachDetailsResultList, gtnWebServiceAllListConfig);
+	}
+
+	private void  notesTabAttachInsert(GtnWsContractHeaderRequest imRquest, int masterSid) throws  GtnFrameworkGeneralException {
+		logger.info("Enter contract notesTabAttachInsert");
+		Session session = gtnWebServiceAllListConfig.getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
+		Attachment attach=new Attachment();
+		List<NotesTabBean> notesTabRequestList = imRquest.getNoteBeanList();
+		try{
+		if (notesTabRequestList != null && !notesTabRequestList.isEmpty()) {
+			for (NotesTabBean notesTabRequest : notesTabRequestList) {
+		byte[] fileBytes = readBytesFromFile(notesTabRequest.getFilePath());
+		attach.setAttachmentTableSid(masterSid);
+		attach.setFileName(notesTabRequest.getFileName());
+		attach.setFileData(fileBytes);
+		attach.setMasterTableName(notesTabRequest.getMasterTableName());
+		attach.setCreatedDate(new Date());
+		attach.setCreatedBy(notesTabRequest.getCreatedBy());
+		session.saveOrUpdate(attach);
+		tx.commit();
+			}
+		}
+		}
+		catch(Exception e)
+		{
+			tx.rollback();
+			logger.error("Exception in notesTabAttachInsert");
+		}
+		finally {
+			session.close();
+		}
+	}
+	
+	private static byte[] readBytesFromFile(String filePath) throws IOException {
+		File inputFile = GtnFileNameUtils.getFile(filePath);
+        FileInputStream inputStreamCh= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+        byte[] fileBytes = new byte[(int) inputFile.length()];
+        int i=inputStreamCh.read(fileBytes);
+        if(i>0) 
+        return fileBytes;
+		return  new byte[0];
+
+    }
+
 }

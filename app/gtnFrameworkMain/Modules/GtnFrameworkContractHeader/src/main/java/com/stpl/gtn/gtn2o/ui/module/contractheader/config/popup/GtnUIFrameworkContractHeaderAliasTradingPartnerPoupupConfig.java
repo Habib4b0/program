@@ -127,7 +127,7 @@ public class GtnUIFrameworkContractHeaderAliasTradingPartnerPoupupConfig {
 				tabName + GtnUIFrameworkContractHeaderStringContants.TP_SEARCHCOMPANY_NO, true,
 				tabName + "TpSearchcompanyNolayout", GtnUIFrameworkComponentType.TEXTBOX);
 		companyNoConfig.setAuthorizationIncluded(true);
-		companyNoConfig.setComponentName("Company NO");
+		companyNoConfig.setComponentName(GtnUIFrameworkContractHeaderStringContants.COMPANY_NO);
 		GtnUIFrameworkValidationConfig validationConfig = configProvider
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		validationConfig.setMaxLength(5);
@@ -293,11 +293,12 @@ public class GtnUIFrameworkContractHeaderAliasTradingPartnerPoupupConfig {
 						tabName + GtnUIFrameworkContractHeaderStringContants.TP_SEARCHCOMPANY_NO,
 						tabName + GtnUIFrameworkContractHeaderStringContants.TP_SEARCHCOMPANY_NAME,
 						tabName + GtnUIFrameworkContractHeaderStringContants.TP_SEARCHCOMPANY_STATUS,
-						tabName + GtnUIFrameworkContractHeaderStringContants.TP_SEARCHCOMPANY_TYPE }));
+						tabName + GtnUIFrameworkContractHeaderStringContants.TP_SEARCHCOMPANY_TYPE,
+						tabName + GtnUIFrameworkContractHeaderStringContants.TPSEARCH_RESULT_TABLE }));
 
 		paramsList.add(Arrays.asList(new Object[] { GtnFrameworkCommonStringConstants.STRING_EMPTY,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
-				null }));
+				null, null }));
 		resetActionConfig.setActionParameterList(paramsList);
 		actionConfigList.add(resetActionConfig);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

@@ -90,9 +90,9 @@ public class GtnFrameworkNSSearchConfig {
 	private void addNsButtonLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider
 				.getCssLayoutConfig(GtnFrameworkCommonConstants.NET_SALES_FORMULA_SEARCH_BUTTON_LAYOUT, false, null);
-		componentList.add(gtnLayout);
-		addNsResetButtonComponent(componentList);
+		componentList.add(gtnLayout);		
 		addNsSearchButtonComponent(componentList);
+        addNsResetButtonComponent(componentList);
 	}
 
 	private void addNsFieldComponent(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -154,7 +154,7 @@ public class GtnFrameworkNSSearchConfig {
 				GtnFrameworkCommonConstants.FORMULA_NO, true, GtnFrameworkCommonConstants.FORMULA_NO_LAYOUT,
 				GtnUIFrameworkComponentType.TEXTBOX);
 		formulaNoConfig.setAuthorizationIncluded(true);
-		formulaNoConfig.setComponentName(GtnFrameworkCommonConstants.NET_SALES_FORMULA_NO);
+		formulaNoConfig.setComponentName(GtnFrameworkCommonConstants.NET_SALES_FORMULA_NO_LABEL);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
 		formulaNoConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
@@ -302,7 +302,7 @@ public class GtnFrameworkNSSearchConfig {
 		nsSearchPopupResultsTableConfig.setTableColumnDataType(new Class[] { String.class, String.class, String.class,
 				String.class, Date.class, String.class, Date.class, String.class });
 		nsSearchPopupResultsTableConfig.setTableVisibleHeader(
-				new String[] { "Net Sales Formula Type", GtnFrameworkCommonConstants.NET_SALES_FORMULA_ID, GtnFrameworkCommonConstants.NET_SALES_FORMULA_NO,
+				new String[] { "Net Sales Formula Type", GtnFrameworkCommonConstants.NET_SALES_FORMULA_ID, GtnFrameworkCommonConstants.NET_SALES_FORMULA_NO_LABEL,
 						"Net Sales Formula Name", "Creation Date", "Created By", "Modified Date", "Modified By" });
 		nsSearchPopupResultsTableConfig.setTableColumnMappingId(new Object[] { GtnFrameworkCommonConstants.FORMULA_TYPE,
 				GtnFrameworkCommonConstants.FORMULA_ID, GtnFrameworkCommonConstants.FORMULA_NO,

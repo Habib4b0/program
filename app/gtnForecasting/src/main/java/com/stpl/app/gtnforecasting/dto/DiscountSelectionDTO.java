@@ -33,6 +33,10 @@ public class DiscountSelectionDTO {
     private String rsName = StringUtils.EMPTY;
     private   List<List<String>> discountRSlist =new ArrayList<>();
 
+    public DiscountSelectionDTO() {
+        super();
+    }
+
     /**
      * Checks if is check record.
      *

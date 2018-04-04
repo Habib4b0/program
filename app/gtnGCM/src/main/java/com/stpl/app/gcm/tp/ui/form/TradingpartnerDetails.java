@@ -299,7 +299,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
-        LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
+        LOGGER.debug("Entering createWorkSheetContent with start {}  end  {} " , start , end);
         try {
             CommmonLogic logic = new CommmonLogic();
             if (tradingPartnerDetailsContainer.size() > 0) {

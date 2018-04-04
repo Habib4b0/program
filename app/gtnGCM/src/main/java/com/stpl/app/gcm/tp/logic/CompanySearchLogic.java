@@ -346,7 +346,7 @@ public class CompanySearchLogic {
         List resultList;
         List<TradingPartnerDTO> returnList;
         query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
-        query.append(" AND cm.COMPANY_MASTER_SID in (" + CommonUtils.CollectionToString(companyMasterSids, true) + ")");
+        query.append(" AND cm.COMPANY_MASTER_SID in (" ).append( CommonUtils.CollectionToString(companyMasterSids, true) ).append( ')');
         resultList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         returnList = Converters.searchCompany(resultList);
         return returnList;

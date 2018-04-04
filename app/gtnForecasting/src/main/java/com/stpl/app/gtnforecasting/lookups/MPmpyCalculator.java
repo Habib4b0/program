@@ -3,6 +3,31 @@
  */
 package com.stpl.app.gtnforecasting.lookups;
 
+import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
+import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION;
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+
+import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
@@ -17,12 +42,9 @@ import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.gtnforecasting.utils.MandatedChartUtils;
 import com.stpl.app.gtnforecasting.utils.MandatedGraphWindow;
 import com.stpl.app.utils.Constants.FrequencyConstants;
-import static com.stpl.app.utils.Constants.ResourceConstants.*;
-import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
@@ -41,24 +63,6 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.lang.reflect.InvocationTargetException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
 
 /**
  * The Class MPmpyCalculator.
@@ -383,7 +387,8 @@ public class MPmpyCalculator extends Window {
                         MPmpyDTO dto = (MPmpyDTO) obj;                        
                             chartList.add(dto);                        
                     }
-                    final MandatedChartUtils chart = new MandatedChartUtils(chartList, String.valueOf(frequencyDDLB.getValue()), StringUtils.EMPTY, headerDTO, "PMPYCalculator", projectionDTO);
+					final MandatedChartUtils chart = new MandatedChartUtils(String.valueOf(frequencyDDLB.getValue()),
+							StringUtils.EMPTY, headerDTO, "PMPYCalculator", projectionDTO);
                     final MandatedGraphWindow pmpyGraphWindow = new MandatedGraphWindow(chart.getChart(), Constant.PMPY_CALCULATOR);
                     UI.getCurrent().addWindow(pmpyGraphWindow);
                     pmpyGraphWindow.focus();
@@ -941,8 +946,11 @@ public class MPmpyCalculator extends Window {
             targetItem = new BeanItem<>(
                     (MPmpyDTO) obj);
         }
-
-        return (MPmpyDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (MPmpyDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void loadPMPYTable(boolean isExcelExport, ExtTreeContainer<MPmpyDTO> excelContainer)  {

@@ -6,6 +6,7 @@
 
 package com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -38,7 +39,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
  * @see com.stpl.app.model.impl.HistHierarchyLevelDefnModelImpl
  * @generated
  */
-public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDefinitionBean> {
+public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDefinitionBean>, Serializable {
 
 	public HierarchyLevelDefinitionBean() {
 		super();
@@ -57,6 +58,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 	private String actionFlag;
 	private int hierarchyDefinitionSid;
 	private int modifiedBy;
+	private String hierarchyCategory;
 	private String levelName;
 	private int defaultVlaue;
 
@@ -120,6 +122,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		return createdDate == null ? null : (Date) createdDate.clone();
 	}
 
+
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
@@ -180,6 +183,14 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		this.levelName = levelName;
 	}
 
+	public String getHierarchyCategory() {
+		return hierarchyCategory;
+	}
+
+	public void setHierarchyCategory(String hierarchyCategory) {
+		this.hierarchyCategory = hierarchyCategory;
+	}
+
 	@Override
 	public int compareTo(HierarchyLevelDefinitionBean obj) {
 		return Integer.compare(levelNo, obj.getLevelNo());
@@ -218,8 +229,8 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 	}
 
 	public static HierarchyLevelDefinitionBean getLastLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
-		int levelNo = HierarchyLevelDefinitionBean.getLastLinkedLevelNo(hierarchyList);
-		return HierarchyLevelDefinitionBean.getBeanByLevelNo(levelNo, hierarchyList);
+		int levelNo = getLastLinkedLevelNo(hierarchyList);
+		return getBeanByLevelNo(levelNo, hierarchyList);
 	}
 
 	public static int getFirstLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
@@ -249,6 +260,8 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		return null;
 	}
 
+
+
 	public void customize(Object[] result) {
 		setHierarchyLevelDefinitionSid((Integer) result[0]);
 		setLevelNo((((BigDecimal) result[1]).intValue()));
@@ -258,6 +271,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		setTableName((String) result[5]);
 		setFieldName((String) result[6]);
 		setVersionNo((Integer) result[7]);
+		setHierarchyCategory((String) result[8]);
 	}
 
 	public static HierarchyLevelDefinitionBean getPreviousLinkedLevel(

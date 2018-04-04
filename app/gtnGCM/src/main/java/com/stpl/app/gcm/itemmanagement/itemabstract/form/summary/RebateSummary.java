@@ -72,7 +72,7 @@ public class RebateSummary extends Summary {
         }
 
         List<AbstractSummaryDTO> resultList = logic.getConfiguredRebateTabResults(new Object(), selectionDTO, true);
-        LOGGER.debug("resultList--->>" + resultList);
+        LOGGER.debug("resultList--->>{}" , resultList);
         loadDataToContainer(resultList, null);
     }
 

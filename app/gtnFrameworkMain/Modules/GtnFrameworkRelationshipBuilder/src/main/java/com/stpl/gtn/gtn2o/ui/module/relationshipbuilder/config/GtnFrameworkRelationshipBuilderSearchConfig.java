@@ -318,6 +318,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		searchSecurityAction.addActionParameter(true);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_DELETE_BUTTON);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_EDIT_BUTTON);
+		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_COPY_BUTTON);
 		searchButtonConfig.addGtnUIFrameWorkActionConfig(searchSecurityAction);
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
@@ -360,6 +361,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		searchSecurityAction.addActionParameter(false);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_DELETE_BUTTON);
 		searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_EDIT_BUTTON);
+        searchSecurityAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.GTN_COPY_BUTTON);
 		searchButtonConfig.addGtnUIFrameWorkActionConfig(searchSecurityAction);
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
@@ -641,7 +643,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		copyActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
 		copyActionConfig.addActionParameter("Are you sure you want to copy record ");
 		copyActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD);
-		copyActionConfig.addActionParameter(true);
+		copyActionConfig.addActionParameter(Boolean.TRUE);
 		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.SAVE_BUTTON);
 		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.RESET_BUTTON);
 		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.REMOVE_FROM_TREE_BTN);

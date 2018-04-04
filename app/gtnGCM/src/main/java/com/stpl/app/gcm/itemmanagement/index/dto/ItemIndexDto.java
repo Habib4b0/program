@@ -49,6 +49,10 @@ public class ItemIndexDto {
     private String placeHolderValue = StringUtils.EMPTY;
     private String fromSid = StringUtils.EMPTY;
 
+    public ItemIndexDto() {
+        super();
+    }
+
     public String getPlaceHolderValue() {
         return placeHolderValue;
     }

@@ -142,6 +142,7 @@ EXEC( @SQL )
 						JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
 							LEVEL_NO = 10
 							AND relationship_builder_sid = @RELVALUE
+                                                        AND VERSION_NO = @RELVERSION
 							AND RLD.RELATIONSHIP_LEVEL_VALUES = MAS.RS_CONTRACT_SID
  
  

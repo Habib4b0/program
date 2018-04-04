@@ -60,8 +60,8 @@ public class FileUploader implements Receiver {
 				isFileCreated=file.createNewFile();
 				outputStream = GtnFileUtil.getFileOutputStream(file);
 			}
-			LOGGER.info("File is deleted successfully : "+isFileExists);
-			LOGGER.info("File is created successfully : "+isFileCreated);
+			LOGGER.info("File is deleted successfully : {}",isFileExists);
+			LOGGER.info("File is created successfully : {}",isFileCreated);
 		} catch (final java.io.FileNotFoundException e) {
 			new Notification("Could not open file ", e.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());

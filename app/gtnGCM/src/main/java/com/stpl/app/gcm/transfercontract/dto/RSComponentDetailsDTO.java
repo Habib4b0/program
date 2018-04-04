@@ -29,6 +29,10 @@ public class RSComponentDetailsDTO {
     private String bundleNo = StringUtils.EMPTY;
     private Date attachedDate;
 
+    public RSComponentDetailsDTO() {
+        super();
+    }
+
     public String getItemNo() {
         return itemNo;
     }

@@ -54,7 +54,9 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 		routeBean.setRouteFrom(sourceEntityId);
 		routeBean.setRouteTo(destinationEntityId);
 
-		getPath(destinationTableId, sourceTableId, 0, routeBean);
+		if (!getPath(destinationTableId, sourceTableId, 0, routeBean)) {
+			routeBean.clearPathListBean();
+		}
 		return routeBean;
 	}
 

@@ -66,14 +66,14 @@ public class NmPpaProjectionMasterImpl {
             }
             
             sql.append("FROM  ST_NM_PPA_PROJECTION_MASTER A JOIN PROJECTION_DETAILS B ON"
-                    + " A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
-                    + "JOIN  PROJECTION_CUST_HIERARCHY D ON D.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID \n"
-                    + "JOIN  RELATIONSHIP_LEVEL_DEFINITION E ON E.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID \n"
-                    + "JOIN  ST_NM_PPA_PROJECTION PA ON PA.PROJECTION_DETAILS_SID=A.PROJECTION_DETAILS_SID \n"
-                    + "JOIN  PERIOD Apr on PA.PERIOD_SID=Apr.PERIOD_SID  \n"
-                    + "WHERE B.PROJECTION_MASTER_SID="
-                    + projectionId + " and E.PARENT_NODE = '" + parent + "' \n"
-                    + "and E.LEVEL_NO=" + levelNo + " \n");
+                    ).append( " A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID \n"
+                    ).append( "JOIN  PROJECTION_CUST_HIERARCHY D ON D.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID \n"
+                    ).append( "JOIN  RELATIONSHIP_LEVEL_DEFINITION E ON E.RELATIONSHIP_LEVEL_SID = D.RELATIONSHIP_LEVEL_SID \n"
+                    ).append( "JOIN  ST_NM_PPA_PROJECTION PA ON PA.PROJECTION_DETAILS_SID=A.PROJECTION_DETAILS_SID \n"
+                    ).append( "JOIN  PERIOD Apr on PA.PERIOD_SID=Apr.PERIOD_SID  \n"
+                    ).append( "WHERE B.PROJECTION_MASTER_SID="
+                    ).append( projectionId ).append( " and E.PARENT_NODE = '" ).append( parent ).append( "' \n"
+                    ).append( "and E.LEVEL_NO=" ).append( levelNo ).append( " \n");
             if (levelName != null&&!levelName.equals(StringUtils.EMPTY)) {
                 sql.append(" E.LEVEL_NAME=");
                 sql.append(levelName);
@@ -240,20 +240,20 @@ public class NmPpaProjectionMasterImpl {
                  sql.append(" PROJECTION_PROD_HIERARCHY PCH ");
             }
                  sql.append(" ON PD.PROJECTION_MASTER_SID = PCH.PROJECTION_MASTER_SID\n"
-                    + " JOIN   RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID\n"
-                    + " JOIN   dbo.ST_NM_PPA_PROJECTION_MASTER PPAM ON PD.PROJECTION_DETAILS_SID = PPAM.PROJECTION_DETAILS_SID\n"
-                    + " JOIN   dbo.ST_NM_PPA_PROJECTION NMPPA ON PD.PROJECTION_DETAILS_SID = NMPPA.PROJECTION_DETAILS_SID\n"
-                    + " JOIN   dbo.ST_NM_ACTUAL_PPA APPA ON PD.PROJECTION_DETAILS_SID = APPA.PROJECTION_DETAILS_SID\n"
-                    + " JOIN   dbo.\"PERIOD\" PER ON PER.PERIOD_SID = APPA.PERIOD_SID\n"
-                    + " WHERE  PM.PROJECTION_MASTER_SID = \n"
-                    + projectionId);
+                    ).append( " JOIN   RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID\n"
+                    ).append( " JOIN   dbo.ST_NM_PPA_PROJECTION_MASTER PPAM ON PD.PROJECTION_DETAILS_SID = PPAM.PROJECTION_DETAILS_SID\n"
+                    ).append( " JOIN   dbo.ST_NM_PPA_PROJECTION NMPPA ON PD.PROJECTION_DETAILS_SID = NMPPA.PROJECTION_DETAILS_SID\n"
+                    ).append( " JOIN   dbo.ST_NM_ACTUAL_PPA APPA ON PD.PROJECTION_DETAILS_SID = APPA.PROJECTION_DETAILS_SID\n"
+                    ).append( " JOIN   dbo.\"PERIOD\" PER ON PER.PERIOD_SID = APPA.PERIOD_SID\n"
+                    ).append( " WHERE  PM.PROJECTION_MASTER_SID = \n"
+                    ).append( projectionId);
             if (levelName != null&&!levelName.equals(StringUtils.EMPTY)) {
                 sql.append("    AND LEVEL_NO = \n"
-                        + levelNo
-                        + "    AND PARENT_NODE = \n"
-                        + "'"+parent+"'");
+                        ).append( levelNo
+                        ).append( "    AND PARENT_NODE = \n"
+                        ).append( '\'').append(parent).append('\'');
                 sql.append(" and RELATIONSHIP_LEVEL_VALUES=");
-                sql.append("'"+levelName+"'");
+                sql.append('\'').append(levelName).append('\'');
             }
             
             if (!frequency.equals(Constants.ANNUALLY)) {
@@ -371,20 +371,20 @@ public class NmPpaProjectionMasterImpl {
                  sql.append(" PROJECTION_PROD_HIERARCHY PCH ");
             }
                 sql.append(" ON PD.PROJECTION_MASTER_SID = PCH.PROJECTION_MASTER_SID\n"
-                    + " JOIN   RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID\n"
-                    + " JOIN   dbo.ST_NM_PPA_PROJECTION_MASTER PPAM ON PD.PROJECTION_DETAILS_SID = PPAM.PROJECTION_DETAILS_SID\n"
-                    + " JOIN   dbo.ST_NM_PPA_PROJECTION NMPPA ON PD.PROJECTION_DETAILS_SID = NMPPA.PROJECTION_DETAILS_SID\n"
-                    + " JOIN   dbo.ST_NM_ACTUAL_PPA APPA ON PD.PROJECTION_DETAILS_SID = APPA.PROJECTION_DETAILS_SID\n"
-                    + " JOIN   dbo.\"PERIOD\" PER ON PER.PERIOD_SID = NMPPA.PERIOD_SID\n"
-                    + " WHERE  PM.PROJECTION_MASTER_SID = \n"
-                    + projectionId);
+                    ).append( " JOIN   RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID\n"
+                    ).append( " JOIN   dbo.ST_NM_PPA_PROJECTION_MASTER PPAM ON PD.PROJECTION_DETAILS_SID = PPAM.PROJECTION_DETAILS_SID\n"
+                    ).append( " JOIN   dbo.ST_NM_PPA_PROJECTION NMPPA ON PD.PROJECTION_DETAILS_SID = NMPPA.PROJECTION_DETAILS_SID\n"
+                    ).append( " JOIN   dbo.ST_NM_ACTUAL_PPA APPA ON PD.PROJECTION_DETAILS_SID = APPA.PROJECTION_DETAILS_SID\n"
+                    ).append( " JOIN   dbo.\"PERIOD\" PER ON PER.PERIOD_SID = NMPPA.PERIOD_SID\n"
+                    ).append( " WHERE  PM.PROJECTION_MASTER_SID = \n"
+                    ).append( projectionId);
             if (levelName != null&&!levelName.equals(StringUtils.EMPTY)) {
                 sql.append("    AND LEVEL_NO = \n"
-                        + levelNo
-                        + "    AND PARENT_NODE =\n"
-                        + "'"+parent+"'");
+                        ).append( levelNo
+                        ).append( "    AND PARENT_NODE =\n"
+                        ).append( '\'').append(parent).append('\'');
                 sql.append(" and RELATIONSHIP_LEVEL_VALUES=");
-                sql.append("'"+levelName+"'");
+                sql.append('\'').append(levelName).append('\'');
             }
             if (!frequency.equals(Constants.ANNUALLY)) {
                 sql.append(" and PER.PERIOD_SID in (SELECT period_sid \n"
@@ -486,21 +486,21 @@ public class NmPpaProjectionMasterImpl {
         List<Object> resultList = new ArrayList<Object>();
         try {
           
-            sql.append("SELECT        RLD.RELATIONSHIP_LEVEL_VALUES, RLD.LEVEL_NO,RLD.HIERARCHY_LEVEL_DEFINITION_SID, \n"
-                    + "                        RLD.PARENT_NODE,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n"
-                    + "FROM            RELATIONSHIP_LEVEL_DEFINITION RLD JOIN\n"
-                    + "                         PROJECTION_CUST_HIERARCHY  PCH ON \n"
-                    + "                         RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID  JOIN\n"
-                    + "                         PROJECTION_MASTER PM ON PCH.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID  JOIN\n"
-                    + "                         PROJECTION_DETAILS PD ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID\n"
-                    + "WHERE        PM.PROJECTION_MASTER_SID = "
-                    +projectionId
-                    + " and RLD.LEVEL_NO="
-                    +levelNo
-                    + " and RLD.PARENT_NODE='"
-                    +parent
-                    + "' group by RLD.RELATIONSHIP_LEVEL_VALUES,RLD.LEVEL_NO,\n"
-                    + "RLD.PARENT_NODE,RLD.HIERARCHY_LEVEL_DEFINITION_SID,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n" );
+            sql.append("SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.LEVEL_NO,RLD.HIERARCHY_LEVEL_DEFINITION_SID, \n"
+                    ).append( " RLD.PARENT_NODE,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n"
+                    ).append( " FROM RELATIONSHIP_LEVEL_DEFINITION RLD JOIN\n"
+                    ).append( " PROJECTION_CUST_HIERARCHY  PCH ON \n"
+                    ).append( " RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID  JOIN\n"
+                    ).append( " PROJECTION_MASTER PM ON PCH.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID  JOIN\n"
+                    ).append( " PROJECTION_DETAILS PD ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID\n"
+                    ).append( " WHERE PM.PROJECTION_MASTER_SID = "
+                    ).append(projectionId
+                    ).append( " and RLD.LEVEL_NO="
+                    ).append(levelNo
+                    ).append( " and RLD.PARENT_NODE='"
+                    ).append(parent
+                    ).append( "' group by RLD.RELATIONSHIP_LEVEL_VALUES,RLD.LEVEL_NO,\n"
+                    ).append( "RLD.PARENT_NODE,RLD.HIERARCHY_LEVEL_DEFINITION_SID,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n" );
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -515,21 +515,21 @@ public class NmPpaProjectionMasterImpl {
         
         List<Object> resultList = new ArrayList<Object>();
         try {
-            sql.append("SELECT        RLD.RELATIONSHIP_LEVEL_VALUES, RLD.LEVEL_NO,RLD.HIERARCHY_LEVEL_DEFINITION_SID, \n"
-                    + "                        RLD.PARENT_NODE,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n"
-                    + "FROM            RELATIONSHIP_LEVEL_DEFINITION RLD JOIN\n"
-                    + "                         PROJECTION_PROD_HIERARCHY  PCH ON \n"
-                    + "                         RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID  JOIN\n"
-                    + "                         PROJECTION_MASTER PM ON PCH.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID  JOIN\n"
-                    + "                         PROJECTION_DETAILS PD ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID\n"
-                    + "WHERE        PM.PROJECTION_MASTER_SID = "
-                    +projectionId
-                    + " and RLD.LEVEL_NO="
-                    +levelNo
-                    + " and RLD.PARENT_NODE='"
-                    +parent
-                    + "' group by RLD.RELATIONSHIP_LEVEL_VALUES,RLD.LEVEL_NO,\n"
-                    + "RLD.PARENT_NODE,RLD.HIERARCHY_LEVEL_DEFINITION_SID,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n" );
+            sql.append(" SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.LEVEL_NO,RLD.HIERARCHY_LEVEL_DEFINITION_SID, \n"
+                    ).append( " RLD.PARENT_NODE,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n"
+                    ).append( " FROM RELATIONSHIP_LEVEL_DEFINITION RLD JOIN\n"
+                    ).append( " PROJECTION_PROD_HIERARCHY  PCH ON \n"
+                    ).append( " RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID  JOIN\n"
+                    ).append( " PROJECTION_MASTER PM ON PCH.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID  JOIN\n"
+                    ).append( " PROJECTION_DETAILS PD ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID\n"
+                    ).append( " WHERE PM.PROJECTION_MASTER_SID = "
+                    ).append(projectionId
+                    ).append( " and RLD.LEVEL_NO="
+                    ).append(levelNo
+                    ).append( " and RLD.PARENT_NODE='"
+                    ).append(parent
+                    ).append( "' group by RLD.RELATIONSHIP_LEVEL_VALUES,RLD.LEVEL_NO,\n"
+                    ).append( "RLD.PARENT_NODE,RLD.HIERARCHY_LEVEL_DEFINITION_SID,RLD.HIERARCHY_NO,RLD.RELATIONSHIP_BUILDER_SID \n" );
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString()); 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
