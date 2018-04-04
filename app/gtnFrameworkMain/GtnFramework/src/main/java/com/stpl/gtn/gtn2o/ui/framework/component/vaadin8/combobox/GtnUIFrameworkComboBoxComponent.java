@@ -39,7 +39,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 		try {
 
 			final GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
-			ComboBox vaadinComboBox = fillComboBox(comboboxConfig, null, componentConfig.getSourceViewId());
+			ComboBox vaadinComboBox = fillComboBox(comboboxConfig, null, componentConfig.getSourceViewId(),new ComboBox());
 
 			if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty() && vaadinComboBox!= null) {
 				vaadinComboBox.setCaption(componentConfig.getComponentName());
@@ -153,47 +153,50 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 				componentId);
 		vaadinComboBoxComponent.setItems(new ArrayList<>());
 
-		vaadinComboBoxComponent = fillComboBox(comboboxComponentConfig, comboBoxRequestInputList, sourceViewId);
+		vaadinComboBoxComponent = fillComboBox(comboboxComponentConfig, comboBoxRequestInputList, sourceViewId,vaadinComboBoxComponent);
 		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
 		
 	}
 
 	private ComboBox fillComboBox(GtnUIFrameworkComboBoxConfig comboboxConfig,
-			List<Object> comboBoxWhereClauseParamList, String sourceViewId) {
+			List<Object> comboBoxWhereClauseParamList, String sourceViewId, ComboBox vaadinCombobox) {
 
 		GtnUIFrameworkWebserviceComboBoxResponse response = getResponseFromSource(comboboxConfig,
 				comboBoxWhereClauseParamList, sourceViewId);
-		ComboBox vaadinCombobox;
-
-		vaadinCombobox = fillComboboxFromResponse(response, comboboxConfig);
-
-		if ( vaadinCombobox !=null && comboboxConfig.getItemValues() != null ) {
+		try{
+		if (comboboxConfig.getItemValues() != null ) {
 			vaadinCombobox.setItems(comboboxConfig.getItemValues());
 			if (comboboxConfig.getItemCaptionValues() != null) {
 
 				vaadinCombobox = fillDataAndCaption(comboboxConfig, comboboxConfig.getItemValues(),
-						comboboxConfig.getItemCaptionValues());
+						comboboxConfig.getItemCaptionValues(),vaadinCombobox);
 			} else {
 				vaadinCombobox = fillDataAndCaption(comboboxConfig, comboboxConfig.getItemValues(),
-						comboboxConfig.getItemValues());
+						comboboxConfig.getItemValues(),vaadinCombobox);
 			}
+			return vaadinCombobox;
+		}
+		
+		vaadinCombobox = fillComboboxFromResponse(response, comboboxConfig,vaadinCombobox);
+		}
+		catch(Exception e){
+			gtnLogger.error("Error message", e);
 		}
 		return vaadinCombobox;
 	}
 
 	private ComboBox fillComboboxFromResponse(GtnUIFrameworkWebserviceComboBoxResponse response,
-			GtnUIFrameworkComboBoxConfig comboboxConfig) {
-		ComboBox vaadinCombobox;
+			GtnUIFrameworkComboBoxConfig comboboxConfig, ComboBox vaadinCombobox) {
 		if (response != null && response.getItemCodeList() != null && !response.getItemCodeList().isEmpty()) {
 			if (comboboxConfig.isIntegerItemCode()) {
 				List<Integer> integerList = new ArrayList<>();
 				for (String str : response.getItemCodeList()) {
 					integerList.add(Integer.valueOf(str));
 				}
-				vaadinCombobox = fillDataAndCaption(comboboxConfig, integerList, response.getItemValueList());
+				vaadinCombobox = fillDataAndCaption(comboboxConfig, integerList, response.getItemValueList(),vaadinCombobox);
 			} else {
 				vaadinCombobox = fillDataAndCaption(comboboxConfig, response.getItemCodeList(),
-						response.getItemValueList());
+						response.getItemValueList(),vaadinCombobox);
 			}
 			return vaadinCombobox;
 		}
@@ -201,10 +204,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 	}
 
 	private ComboBox fillDataAndCaption(GtnUIFrameworkComboBoxConfig comboboxConfig, List itemCodeList,
-			List<String> itemValueList) {
+			List<String> itemValueList, ComboBox vaadin8ComboBox) {
 		List valueList = new ArrayList<>(itemCodeList);
 		List<String> captionList = new ArrayList<>(itemValueList);
-		ComboBox vaadin8ComboBox = null;
 		SessioBeanForCombobox sessioBeanForVaadin8 = SessioBeanForCombobox.getInstance();
 		sessioBeanForVaadin8.setCaptionList(captionList);
 		sessioBeanForVaadin8.setValueList(valueList);
@@ -225,7 +227,6 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 				}
 			}
 		}
-		
 		return vaadin8ComboBox;
 	}
 

@@ -20,7 +20,6 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
 public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent {
@@ -34,12 +33,9 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent {
 		TextField popupTextField = new TextField();
 		popupTextField.setId(componentConfig.getComponentId());
 		HorizontalLayout horizontalLayoutPopupTextField = new HorizontalLayout();
-		Label label = new Label(componentConfig.getComponentName());
-
-		horizontalLayoutPopupTextField.addComponents(label, popupTextField);
-
-		if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty()) {
-			popupTextField.setCaption(componentConfig.getComponentName());
+		
+	if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty()) {
+		popupTextField.setCaption(componentConfig.getComponentName());
 		}
 		textBoxBinder.forField(popupTextField).withNullRepresentation(GtnFrameworkCommonStringConstants.STRING_EMPTY)
 				.bind(ComponentBinderValidatorBean::getWithNullRepresentation,
@@ -62,12 +58,13 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent {
 
 		popupTextField.addStyleName(GtnFrameworkCssConstants.SEARCHICON);
 		loadStyles(popupTextField, componentConfig.getComponentStyle());
+		horizontalLayoutPopupTextField.addComponents(popupTextField);
 		gtnLogger.info("End into the buildVaadinComponent () of GtnUIFrameworkPopupTextField ");
-		popupTextFieldListener(popupTextField, componentConfig, horizontalLayoutPopupTextField);
+		horizontalLayoutPopupTextField=popupTextFieldListener(popupTextField, componentConfig, horizontalLayoutPopupTextField);
 		return horizontalLayoutPopupTextField;
 	}
 
-	public void popupTextFieldListener(AbstractComponent component, final GtnUIFrameworkComponentConfig popupComponentConfig,
+	public HorizontalLayout popupTextFieldListener(AbstractComponent component, final GtnUIFrameworkComponentConfig popupComponentConfig,
 			HorizontalLayout horizontalLayout) {
 		TextField popupTextField = (TextField) component;
 		popupTextField.setVisible(popupComponentConfig.isVisible());
@@ -90,6 +87,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent {
 				}
 			}
 		});
+		return horizontalLayout;
 	}
 
 	@Override
