@@ -94,7 +94,7 @@ public class GtnWsContractDashboardCompanyLogic {
 				} else if (i != 0) {
 					String field = searchRequest.getGtnWebServiceSearchCriteriaList().get(i - 1).getFilterValue1()
 							.trim();
-					String value = searchCriteria.getFilterValue1().replace("*", "%");
+					String value = searchCriteria.getFilterValue1().replace('*', '%');
 
 					inputWhereConditions.append(getWhereClauseForCmAddition(field, value));
 				}
@@ -492,9 +492,9 @@ public class GtnWsContractDashboardCompanyLogic {
 				String value = searchCriteria.getFilterValue1();
 				if ("LIKE".equalsIgnoreCase(searchCriteria.getExpression())) {
 					StringBuilder valueBuilder = new StringBuilder();
-					valueBuilder.append("%");
+					valueBuilder.append('%');
 					valueBuilder.append(value);
-					valueBuilder.append("%");
+					valueBuilder.append('%');
 					value = valueBuilder.toString();
 				}
 				whereBuilder.append(AND);

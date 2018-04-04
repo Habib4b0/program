@@ -243,10 +243,10 @@ public class GtnWsReturnForecastDataSelectionController {
 
 				switch (searchCriteria.getFieldId()) {
 				case "hierarchyType":
-					hierarchyLookupType = searchCriteria.getFilterValue1().replace("*", "%");
+					hierarchyLookupType = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "hierarchyName":
-					hierarchyLookupName = searchCriteria.getFilterValue1().replace("*", "%");
+					hierarchyLookupName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "hierName":
 					hierarchyLookupNameListVie = "AND c.HIERARCHY_NAME like '%" + searchCriteria.getFilterValue1()
@@ -372,10 +372,10 @@ public class GtnWsReturnForecastDataSelectionController {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "productGroupName":
-					returnsProductGroupName = searchCriteria.getFilterValue1().replace("*", "%");
+					returnsProductGroupName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "productGroupNo":
-					returnsProductGroupNo = searchCriteria.getFilterValue1().replace("*", "%");
+					returnsProductGroupNo = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "productGroupNameFilterView":
 					returnsProductGroupNameFilterView = "AND (IG.ITEM_GROUP_NAME LIKE '%"
@@ -618,9 +618,9 @@ public class GtnWsReturnForecastDataSelectionController {
 				: expressionString;
 		switch (searchCriteria.getFieldId()) {
 		case "privateViewName":
-			return searchCriteria.getFilterValue1().replace("*", "%");
+			return searchCriteria.getFilterValue1().replace('*', '%');
 		case "viewName":
-			return searchCriteria.getFilterValue1().replace("*", "%").trim();
+			return searchCriteria.getFilterValue1().replace('*', '%').trim();
 		case GtnFrameworkWebserviceConstant.VIEW_NAME_FILTER:
 			return "AND FVM.VIEW_NAME like '%" + searchCriteria.getFilterValue1() + "%'";
 		case GtnFrameworkWebserviceConstant.VIEW_DESCRIPTION_FILTER:

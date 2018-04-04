@@ -232,7 +232,7 @@ public class GtnWsContractDashboardLogic {
 			postFix = comp;
 		}
 		String searchQuery = searchCriteriaMap().get(searchCriteria.getFieldId() + postFix);
-		StringBuilder value = new StringBuilder(" '" + searchCriteria.getFilterValue1().replace("*", "%") + "'");
+		StringBuilder value = new StringBuilder(" '" + searchCriteria.getFilterValue1().replace('*', '%') + "' ");
 		String expression = " " + searchCriteria.getExpression().replace("EQUALS", "=");
 		if (searchQuery.contains("in (")) {
 			value.append(value + ")");
@@ -725,7 +725,7 @@ public class GtnWsContractDashboardLogic {
 			throws GtnFrameworkGeneralException {
 		int levelId = recordBean.getIntegerPropertyByIndex(4);
 		ContractMaster contractMaster = session.load(ContractMaster.class, levelId);
-		contractMaster.setProcessStatus(true);
+		contractMaster.setProcessStatus(Boolean.TRUE);
 		contractMaster.setModifiedBy(Integer.valueOf(cdRequest.getUserId()));
 		contractMaster.setModifiedDate(new Date());
 		contractMaster.setSource("GTN");

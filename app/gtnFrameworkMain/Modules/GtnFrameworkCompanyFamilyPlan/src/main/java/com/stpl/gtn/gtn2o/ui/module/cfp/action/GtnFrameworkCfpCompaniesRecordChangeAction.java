@@ -27,7 +27,7 @@ public class GtnFrameworkCfpCompaniesRecordChangeAction implements GtnUIFrameWor
 		GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("cfpCompaniesTabResultDataTable").getLogicFromPagedDataTable();
 
-		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 		GtnFrameworkCfpValueChangeManager.setValueChangeAllowed(true);
 	}
 

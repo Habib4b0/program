@@ -42,7 +42,7 @@ public class GtnFrameworkItemMasterPricingValidationAction implements GtnUIFrame
 				.getIntegerFromField();
 		Integer uom = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemPricingItemUOM").getIntegerFromField();
 		Date startDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemPricingStartDate").getDateFromDateField();
-		String appender = " ";
+		String appender = "  ";
 		if (qualifierId == null || qualifierId == 0) {
 			feildMsg.append(appender).append("Pricing Qualifier Name");
 			appender = " , ";

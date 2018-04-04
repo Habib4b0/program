@@ -92,7 +92,7 @@ public class GtnFrameworkIfpMoveAllRightAction
 
 	private void reloadRightTable() throws GtnFrameworkValidationFailedException {
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE)
-				.getLogicFromPagedDataTable().startSearchProcess(null, Boolean.TRUE);
+				.getLogicFromPagedDataTable().startSearchProcess(null, true);
 	}
 
 	@Override

@@ -1537,22 +1537,22 @@ public class GtnWsContractDashboardController {
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
 						.append(" as float)) as datetime) >= '").append(parseDate(value1)).append("' AND ");
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) <= '").append(parseDate(value2)).append("'");
+						.append(" as float)) as datetime) <= '").append(parseDate(value2)).append("' ");
 				break;
 			case "AND":
 				cdWhereClauseSql.append(field).append(" < '").append(value1).append("' AND ");
-				cdWhereClauseSql.append(field).append(" > '").append(value2).append("'");
+				cdWhereClauseSql.append(field).append(" > '").append(value2).append("' ");
 				break;
 			case "GREATER_OR_EQUAL":
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) >= '").append(parseDate(value1)).append("'");
+						.append(" as float)) as datetime) >= '").append(parseDate(value1)).append("' ");
 				break;
 			case "LESS_OR_EQUAL":
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) <= '").append(parseDate(value1)).append("'");
+						.append(" as float)) as datetime) <= '").append(parseDate(value1)).append("' ");
 				break;
 			case "LIKE":
-				cdWhereClauseSql.append(field).append(" ").append(expersion).append(" '")
+				cdWhereClauseSql.append(field).append(' ').append(expersion).append(" '")
 						.append(value1.replace('*', '%').replaceAll("\\s+", "%")).append("' ");
 				break;
 			case "EQUAL":
@@ -1566,7 +1566,7 @@ public class GtnWsContractDashboardController {
 				cdWhereClauseSql.append(field).append(" < '").append(value1).append("' ");
 				break;
 			default:
-				cdWhereClauseSql.append(field).append(" ").append(expersion).append(" '").append(value1).append("' ");
+				cdWhereClauseSql.append(field).append(' ').append(expersion).append(" '").append(value1).append("' ");
 				break;
 			}
 			return cdWhereClauseSql.toString();

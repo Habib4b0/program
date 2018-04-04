@@ -138,7 +138,7 @@ public class GtnUIFrameWorkSetDefaultAction implements GtnUIFrameWorkAction {
 		if (componentData.getCustomData() instanceof ExtPagedTable) {
 			ExtPagedTable<?> resultsTable = (ExtPagedTable<?>) componentData.getCustomData();
 			GtnUIFrameworkPagedTableLogic logic = (GtnUIFrameworkPagedTableLogic) resultsTable.getContainerLogic();
-			logic.startSearchProcess(null, null, Boolean.FALSE);
+			logic.startSearchProcess(null, null, false);
 		}
 	}
 
@@ -151,7 +151,7 @@ public class GtnUIFrameWorkSetDefaultAction implements GtnUIFrameWorkAction {
 		if (componentData.getCustomData() instanceof ExtPagedTable) {
 			ExtPagedTable<?> resultsTable = (ExtPagedTable<?>) componentData.getCustomData();
 			GtnUIFrameworkPagedTableLogic logic = (GtnUIFrameworkPagedTableLogic) resultsTable.getContainerLogic();
-			logic.startSearchProcess(null, null, Boolean.FALSE);
+			logic.startSearchProcess(null, null, false);
 		}
 	}
 }

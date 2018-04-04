@@ -526,7 +526,7 @@ public class GtnWsCMasterFinancialClose {
 					selectType);
 
 			if (resultList.isEmpty()) {
-				gtnResponse.setOutBountData(new Object[] { false });
+				gtnResponse.setOutBountData(new Object[] { Boolean.FALSE });
 			} else {
 				Object[] resultArray = { resultList.get(0) };
 				gtnResponse.setOutBountData(resultArray);

@@ -79,7 +79,7 @@ public class GtnWsDataselectionHierarchyUpdateService {
 		String query = gtnWsSqlService.getQuery(queryName);
 		@SuppressWarnings("unchecked")
 		List<Object> results = (List<Object>) gtnSqlQueryEngine.executeSelectQuery(query, input);
-		return results.isEmpty() ? Boolean.FALSE : Integer.parseInt(results.get(0).toString()) == 1;
+		return results.isEmpty() ? false : Integer.parseInt(results.get(0).toString()) == 1;
 	}
 
 }

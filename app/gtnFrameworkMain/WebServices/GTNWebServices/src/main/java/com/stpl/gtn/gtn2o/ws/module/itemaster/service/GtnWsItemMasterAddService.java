@@ -560,11 +560,11 @@ public class GtnWsItemMasterAddService {
 			for (Iterator<GtnWebServiceOrderByCriteria> iterator = gtnWebServiceOrderByCriteriaList.iterator(); iterator
 					.hasNext();) {
 				GtnWebServiceOrderByCriteria gtnWebServiceOrderByCriteria = iterator.next();
-				orderByBuilder.append(" ").append(columnPropertyMap.get(gtnWebServiceOrderByCriteria.getPropertyId()))
-						.append(" ").append(gtnWebServiceOrderByCriteria.getOrderByCriteria());
+				orderByBuilder.append(' ').append(columnPropertyMap.get(gtnWebServiceOrderByCriteria.getPropertyId()))
+						.append(' ').append(gtnWebServiceOrderByCriteria.getOrderByCriteria());
 			}
 		} else {
-			orderByBuilder.append(" ").append(defaultOrderColumn).append(" ").append(defalutOrder);
+			orderByBuilder.append(' ').append(defaultOrderColumn).append(' ').append(defalutOrder);
 		}
 		return orderByBuilder.toString();
 	}

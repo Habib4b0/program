@@ -258,7 +258,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 		 */
 		gtnLogger.info("restrictReloadFlag :" + restrictReloadFlag);
 		if (restrictReloadFlag != null && restrictReloadFlag) {
-			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", false);
+			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.FALSE);
 			return;
 		}
 		try {

@@ -521,7 +521,7 @@ public class GtnUIFrameworkBaseComponent {
 		ComboBox vaadinComboBox = (ComboBox) getComponent();
 		vaadinComboBox.removeAllItems();
 		vaadinComboBox.addItem(itemIdToAdd);
-		vaadinComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		vaadinComboBox.setNullSelectionAllowed(true);
 		vaadinComboBox.setNullSelectionItemId(0);
 		vaadinComboBox.select(itemIdToSelect);
 	}
@@ -902,7 +902,7 @@ public class GtnUIFrameworkBaseComponent {
 		ComboBox vaadinComboBox = (ComboBox) getComponent();
 		vaadinComboBox.removeAllItems();
 		vaadinComboBox.addItems(itemIdToAdd);
-		vaadinComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		vaadinComboBox.setNullSelectionAllowed(true);
 		vaadinComboBox.setNullSelectionItemId(0);
 		vaadinComboBox.select(itemIdToSelect);
 	}
@@ -930,7 +930,7 @@ public class GtnUIFrameworkBaseComponent {
 	public void resetMassupdateCombobox(List<?> itemIdToAdd) {
 		ComboBox vaadinComboBox = (ComboBox) getComponent();
 		vaadinComboBox.removeAllItems();
-		vaadinComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		vaadinComboBox.setNullSelectionAllowed(true);
 		vaadinComboBox.setNullSelectionItemId(GtnFrameworkCommonStringConstants.SELECT_ONE);
 		vaadinComboBox.addItem(GtnFrameworkCommonStringConstants.SELECT_ONE);
 		vaadinComboBox.addItems(itemIdToAdd);
@@ -1004,7 +1004,7 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadMassUpdateComboBox(List<String> itemCodeList, List<String> itemValueList) {
 		ComboBox massUpdateComboBox = ((ComboBox) this.component);
 		massUpdateComboBox.removeAllItems();
-		massUpdateComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		massUpdateComboBox.setNullSelectionAllowed(true);
 		massUpdateComboBox.setNullSelectionItemId(0);
 		massUpdateComboBox.addItem(0);
 		massUpdateComboBox.setItemCaption(0, GtnFrameworkCommonStringConstants.SELECT_ONE);

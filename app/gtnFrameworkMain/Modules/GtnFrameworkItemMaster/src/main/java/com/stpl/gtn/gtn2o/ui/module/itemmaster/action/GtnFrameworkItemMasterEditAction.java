@@ -91,7 +91,7 @@ public class GtnFrameworkItemMasterEditAction
 		boolean isEditable = (boolean) actionParamList.get(3);
 
 		GtnWsRecordBean selectedItem = getValueFromTable(gtnUIFrameWorkActionConfig);
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		GtnUIFrameworkWebserviceResponse response = loadItemMasterData(selectedItem, propertyId);
 
 		if (!response.getGtnWsGeneralResponse().isSucess()) {
