@@ -217,26 +217,28 @@ public class GtnWsForecastConfigurationUtil {
 
 	private static List<Integer> getCalculatedForecastPeriod(int futtempFreq, int frequencyDivision, int futureFreq,
 			int futureYear) {
-		if ((futtempFreq > frequencyDivision) && frequencyDivision != 2) {// monthly
-			futureYear = futureYear + (futtempFreq / frequencyDivision);
-			futureFreq = 1;
-			if (futtempFreq % frequencyDivision > 0) {
-				futureFreq = (futtempFreq % frequencyDivision) - 1;
-			} else if ((futtempFreq % frequencyDivision == 0) && frequencyDivision == 4) {// quarter
-				futureFreq = 3;
+            int newfutureYear = futureYear;
+            int newfutureFreq = futureFreq;
+		if ((newfutureYear > frequencyDivision) && frequencyDivision != 2) {// monthly
+			futureYear = futureYear + (newfutureYear / frequencyDivision);			
+			newfutureFreq = 1;
+			if (newfutureYear % frequencyDivision > 0) {
+				newfutureFreq = (newfutureYear % frequencyDivision) - 1;
+			} else if ((newfutureYear % frequencyDivision == 0) && frequencyDivision == 4) {// quarter
+				newfutureFreq = 3;
 				futureYear = futureYear - 1;
 			}
-		} else if (futtempFreq > frequencyDivision) {// semi-annual
-			futureYear = futureYear + (futtempFreq / frequencyDivision) - 1;
-			futureFreq = 1;
-			if (futtempFreq % frequencyDivision > 0) {
-				futureFreq = (futtempFreq % frequencyDivision) + 1;
+		} else if (newfutureYear > frequencyDivision) {// semi-annual
+			futureYear = futureYear + (newfutureYear / frequencyDivision) - 1;
+			newfutureFreq = 1;
+			if (newfutureYear % frequencyDivision > 0) {
+				newfutureFreq = (newfutureYear % frequencyDivision) + 1;
 			}
-		}
+                        }
 		List<Integer> list = new ArrayList<>();
 		list.add(frequencyDivision);
-		list.add(futureFreq);
-		list.add(futureYear);
+		list.add(newfutureFreq);
+		list.add(newfutureYear);
 		return list;
 	}
 
