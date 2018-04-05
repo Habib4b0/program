@@ -69,7 +69,7 @@ public class GtnFrameworkIfpMoveAllLeftAction
 						.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE)
 						.getLogicFromPagedDataTable();
 				logic.clearFilters();
-				logic.startSearchProcess(null, Boolean.TRUE);
+				logic.startSearchProcess(null, true);
 			}
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);

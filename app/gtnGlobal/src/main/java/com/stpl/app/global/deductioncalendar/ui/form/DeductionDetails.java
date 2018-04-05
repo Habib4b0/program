@@ -22,6 +22,7 @@ import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
@@ -76,6 +77,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 public class DeductionDetails extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionDetails.class);
+    
+    
 
     @UiField("dataview")
     private OptionGroup dataview;
@@ -264,7 +267,7 @@ public class DeductionDetails extends CustomComponent {
             if (!ConstantsUtils.NULL.equals(detailsDto.getForecastToDate())&& !StringUtils.EMPTY.equals(detailsDto.getForecastToDate())) {
                 to.setValue(sdf.parse(detailsDto.getForecastToDate()));
             }
-            filterDdlb.setNullSelectionAllowed(Boolean.TRUE);
+            filterDdlb.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
             filterDdlb.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
             filterDdlb.addItem(ConstantsUtils.SELECT_ONE);
             dataview.addItem(ConstantsUtils.CUSTOMER);
@@ -304,7 +307,7 @@ public class DeductionDetails extends CustomComponent {
             variable.addItem("Dollar");
             variable.select(ConstantsUtils.DOLLARS);
             variable.addItem("Unit");
-            variable.setItemEnabled("Unit", Boolean.FALSE);
+            variable.setItemEnabled("Unit", BooleanConstant.getFalseFlag());
             adjustmentPeriods.addItem("All");
             adjustmentPeriods.select(ConstantsUtils.ALL);
             adjustmentPeriods.addItem(ConstantsUtils.SELECT1);
@@ -633,11 +636,11 @@ public class DeductionDetails extends CustomComponent {
             }
             initializeResultTable();
             configureResultTable();
-            Boolean checkall = true;
+            Boolean checkall = BooleanConstant.getTrueFlag();
             for (Object component : resultBeanContainer.getItemIds()) {
                 TableDTO dto = (TableDTO) component;
-                if (dto.getCheck() != null && dto.getCheck().equals(false)) {
-                    checkall = false;
+                if (dto.getCheck() != null && dto.getCheck().equals(BooleanConstant.getFalseFlag())) {
+                    checkall = BooleanConstant.getFalseFlag();
                     break;
                 }
             }
@@ -663,7 +666,7 @@ public class DeductionDetails extends CustomComponent {
             @Override
             public void buttonClick(ClickEvent event) {
                 try {
-                    detailsDto.setGenerated(Boolean.TRUE);
+                    detailsDto.setGenerated(BooleanConstant.getTrueFlag());
                     loadStartAndEndPeriodDDLB();
                     Date foreFrom = CommonUtil.stringToDateFormat(detailsDto.getForecastFromDate());
                     Date foreTo = CommonUtil.stringToDateFormat(detailsDto.getForecastToDate());
@@ -717,7 +720,11 @@ public class DeductionDetails extends CustomComponent {
             targetItem = new BeanItem<>(
                     (TableDTO) obj);
         }
-        return (TableDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void disableFieldsOnView() {
@@ -897,7 +904,7 @@ public class DeductionDetails extends CustomComponent {
         LOGGER.debug("Inside updateCheckForParentLevels");
         TableDTO dto = (TableDTO) itemId;
         int newRecordsCount = updatedRecordsNo;
-        LOGGER.debug(" updatedRecordsNo " + newRecordsCount);
+        LOGGER.debug(" updatedRecordsNo {}" , newRecordsCount);
         if (checkValue) {
             if (newRecordsCount > dto.getUncheckCount()) {
                 newRecordsCount = dto.getUncheckCount();
@@ -905,7 +912,7 @@ public class DeductionDetails extends CustomComponent {
         } else if (newRecordsCount < dto.getUncheckCount()) {
             newRecordsCount = dto.getUncheckCount();
         }
-        LOGGER.debug((checkValue ? "Checked" : "Unchecked") + " updatedRecordsNo " + newRecordsCount);
+        LOGGER.debug( "{} updatedRecordsNo {}" , (checkValue ? "Checked" : "Unchecked") , newRecordsCount);
         List<String> hierarchyNos = tableLogic.getAllParentLevels(itemId);
 
         for (String hierarchyNo : hierarchyNos) {
@@ -917,13 +924,13 @@ public class DeductionDetails extends CustomComponent {
             }
             if (tempId != null) {
                 TableDTO tempDto = (TableDTO) tempId;
-                LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Parent Uncheck count before " + tempDto.getUncheckCount());
+                LOGGER.debug(  "{} {}   Parent Uncheck count before {}" , tempDto.getLevelNo(), tempDto.getGroup(), tempDto.getUncheckCount());
                 if (checkValue) {
                     tempDto.setUncheckCount(0);
                 } else {
                     tempDto.setUncheckCount(tempDto.getUncheckCount() + newRecordsCount);
                 }
-                LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Parent Uncheck count after " + tempDto.getUncheckCount());
+                LOGGER.debug(  "{} {}   Parent Uncheck count after {}" , tempDto.getLevelNo(), tempDto.getGroup(), tempDto.getUncheckCount());
                 if (tempDto.getUncheckCount() == 0) {
                     leftTable.setColumnCheckBox(ConstantsUtils.CHECK, true, true);
                 } else {
@@ -955,14 +962,14 @@ public class DeductionDetails extends CustomComponent {
             }
             if (tempId != null) {
                 TableDTO tempDto = (TableDTO) tempId;
-                LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Child Uncheck count before " + tempDto.getUncheckCount());
+                LOGGER.debug("{} {} Child Uncheck count before {}" ,tempDto.getLevelNo(), tempDto.getGroup(), tempDto.getUncheckCount());
 
                 if (checkValue) {
                     tempDto.setUncheckCount(0);
                 } else {
                     tempDto.setUncheckCount(tempDto.getCcpCount());
                 }
-                LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Child Uncheck count after " + tempDto.getUncheckCount());
+                LOGGER.debug("{} {} Child Uncheck count after {}" ,tempDto.getLevelNo(), tempDto.getGroup(), tempDto.getUncheckCount());
                 updateChecks(tempId, isPresentInContainer);
             }
         }

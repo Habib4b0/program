@@ -25,6 +25,7 @@ import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
@@ -93,6 +94,7 @@ public class Summary extends CustomComponent {
     private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     private final BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     public static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
+    
     private final DiscountLogic discountLogic = new DiscountLogic();
     private final List contractList = new ArrayList();
     private final List companyList = new ArrayList();
@@ -112,6 +114,10 @@ public class Summary extends CustomComponent {
     private RemoveDiscount removeDiscount;
     private static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
 
+    public Summary() {
+        super();
+    }
+
     public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, TabSheet mainTab, RemoveDiscount removeDiscount) {
         VerticalLayout vLayout = new VerticalLayout();
         this.removeDiscount = removeDiscount;
@@ -125,7 +131,7 @@ public class Summary extends CustomComponent {
     }
 
     public void configureFields() {
-        LOGGER.debug("Entering summary configure Fields with" + dto.getRsSystemId());
+        LOGGER.debug("Entering summary configure Fields with {} " , dto.getRsSystemId());
         summaryLayout.removeAllComponents();
         summaryLayout.addComponent(summaryResultsTable);
         HorizontalLayout componentControls = ResponsiveUtils.getResponsiveControls(infoLogic.createControls());
@@ -205,7 +211,7 @@ public class Summary extends CustomComponent {
                 AbstractLogic logic = AbstractLogic.getInstance();
                 if ("contractStatus".equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", true);
+                    logic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
                     return marketTypeDdlb;
                 }
                 return null;
@@ -276,7 +282,7 @@ public class Summary extends CustomComponent {
      */
     @SuppressWarnings("serial")
     private void loadResultTable() {
-        LOGGER.debug("Entering loadResultTable with " + dto.getRsSystemId());
+        LOGGER.debug("Entering loadResultTable with {} " , dto.getRsSystemId());
         List<RemoveDiscountDto> projDetails = discountLogic.getprojectionValues(removeDiscountDto, contractList, rsList);
         removeDiscountDto.setContractSid(Integer.parseInt(contractList.get(0).toString()));
         removeDiscountDto.setRsContractSid(dto.getRsSystemId());

@@ -267,7 +267,7 @@ public class GtnWsTransactionService {
 			criteria.add(Restrictions.sqlRestriction(" round(" + columnName + " ,3) = ?", doubleFilterValues,
 					doubleFilterTypes));
 		} else if (columns.getFieldId().equals(GtnFrameworkWebserviceConstant.CHECK_RECORD)) {
-			criteria.add(Restrictions.eq(columns.getFieldId(), true));
+        			criteria.add(Restrictions.eq(columns.getFieldId(), Boolean.TRUE));
 		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(), value));
 		}
@@ -470,10 +470,10 @@ public class GtnWsTransactionService {
 	}
 
 	private String getFilePath() throws GtnFrameworkGeneralException {
-		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH));
-		filePath.append("/");
+		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
+		filePath.append('/');
 		filePath.append("exceltransaction");
-		filePath.append("/");
+		filePath.append('/');
 		Path path = Paths.get(filePath.toString());
 		if (!Files.exists(path)) {
 			try {
@@ -548,7 +548,7 @@ public class GtnWsTransactionService {
 			GtnWsSearchRequest gtnWsSearchRequest, GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException {
 		int count = gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
-		Boolean excelComplete = false;
+		Boolean excelComplete = Boolean.FALSE;
 		List<Object> list = new ArrayList<>();
 		String filePath = getFilePath();
 		String filename = gtnWsSearchRequest.getSearchModuleName() + GtnFrameworkCommonStringConstants.UNDERSCORE
@@ -569,7 +569,7 @@ public class GtnWsTransactionService {
 					gtnWsRequest.getGtnWsSearchRequest().setTableRecordStart(offset);
 					if (i == maxNbrOfLoop) {
 						gtnWsRequest.getGtnWsSearchRequest().setTableRecordOffset(count);
-						excelComplete = true;
+						excelComplete = Boolean.TRUE;
 					} else {
 						offset = i * GtnWsNumericConstants.BATCH_COUNT;
 						gtnWsRequest.getGtnWsSearchRequest().setTableRecordOffset(GtnWsNumericConstants.BATCH_COUNT);
@@ -582,7 +582,7 @@ public class GtnWsTransactionService {
 			} else {
 				List<Object[]> resultList = (List<Object[]>) getSearchDetails(gtnWsRequest.getGtnWsSearchRequest(),
 						gtnWsRequest.getGtnWsSearchRequest().isCount(), true);
-				writeFile(resultList, printWriter, writer, true, tableColumnFormatList);
+				writeFile(resultList, printWriter, writer, Boolean.TRUE, tableColumnFormatList);
 
 			}
 		} catch (IOException e) {
@@ -627,7 +627,7 @@ public class GtnWsTransactionService {
 			String isActiveValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			int isActiveIndex = projectionColumns.indexOf(GtnFrameworkWebserviceConstant.ACTIVE);
 			if (ob[isActiveIndex] != null) {
-				isActiveValue = ob[isActiveIndex].equals(true) ? "NO" : "YES";
+				isActiveValue = ob[isActiveIndex].equals(Boolean.TRUE) ? "NO" : "YES";
 			}
 			ob[isActiveIndex] = isActiveValue;
 		}
@@ -635,9 +635,9 @@ public class GtnWsTransactionService {
 	}
 
 	private boolean getValidOrInvalidModules(String searchModuleName) {
-		Boolean isInvalid = false;
+		Boolean isInvalid = Boolean.FALSE;
 		if (searchModuleName.startsWith("Ivld")) {
-			isInvalid = true;
+			isInvalid = Boolean.TRUE;
 		}
 		return isInvalid;
 	}
@@ -676,7 +676,7 @@ public class GtnWsTransactionService {
 		if (countOfSingleQuote > 0) {
 			StringBuilder finalStr = new StringBuilder();
 			for (int i = 0; i < countOfSingleQuote / 2; i++) {
-				finalStr.append("'");
+				finalStr.append("' ");
 			}
 			tempStr = searchValue.replace("'", StringUtils.EMPTY) + finalStr.toString();
 		}

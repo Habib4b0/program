@@ -30,7 +30,7 @@ public class CfpContractDetailsImpl {
      * @return
      */
     public static Boolean saveCfpDetailsAttached(final List<Object> input, final Object future) {
-        Boolean retFlag;
+        boolean retFlag;
         String sql = StringUtils.EMPTY;
         try {
             sql = SQlUtil.getQuery("com.contractDashboard.saveCFP");
@@ -218,7 +218,7 @@ public class CfpContractDetailsImpl {
             if (column != null) {
                 sql += " ORDER BY " + column + " " + orderBy + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY";
             }
-            LOGGER.debug("getCompaniesList" + sql);
+            LOGGER.debug("getCompaniesList {} " , sql);
             
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {

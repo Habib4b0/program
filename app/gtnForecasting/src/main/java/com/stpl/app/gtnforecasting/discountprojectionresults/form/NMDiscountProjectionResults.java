@@ -56,6 +56,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
@@ -92,6 +93,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class NMDiscountProjectionResults extends ForecastDiscountProjectionResults {
 
     private final SessionDTO sessionDto;
+    
+    
 
     private String screenName = StringUtils.EMPTY;
 
@@ -206,7 +209,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     protected void excelButtonLogic() {
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        exceltable.setRefresh(Boolean.TRUE);
+        exceltable.setRefresh(BooleanConstant.getTrueFlag());
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
         int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
@@ -400,9 +403,9 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         getResultsTable().markAsDirty();
         getResultsTable().setSelectable(false);
         getResultsTable().setPageLength(NumericConstants.EIGHTEEN);
-        getResultsTable().setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        getResultsTable().setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         getResultsTable().addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
@@ -421,15 +424,15 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 toHist = true;
                 projectionDTO.setHistory(hist.toString());
 
-                if (freq.equals(QUARTERLY)) {
+                if (freq != null && freq.equals(QUARTERLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (freq != null && freq.equals(SEMI_ANNUALLY.getConstant())) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(MONTHLY)) {
+                } else if (freq != null && freq.equals(MONTHLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(ANNUALLY)) {
+                } else if (freq != null && freq.equals(ANNUALLY)) {
                     String histPeriod = String.valueOf(hist);
                     historyNum = Integer.parseInt(histPeriod.trim());
                 }
@@ -777,7 +780,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
         setExcelResultBeanContainer(new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP));
         getExcelResultBeanContainer().setColumnProperties(getFullHeader().getProperties());
-        exceltable.setRefresh(Boolean.FALSE);
+         exceltable.setRefresh(BooleanConstant.getFalseFlag());
         exceltable.setContainerDataSource(getExcelResultBeanContainer());
         exceltable.setVisibleColumns(getFullHeader().getSingleColumns().toArray());
         exceltable.setColumnHeaders(getFullHeader().getSingleHeaders().toArray(new String[getFullHeader().getSingleHeaders().size()]));
@@ -897,11 +900,11 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
             final StplSecurity stplSecurity = new StplSecurity();
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.DISCOUNT_PROJECTION_RESULTS);
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
-                generateBtn.setVisible(Boolean.FALSE);
-                expandBtn.setVisible(Boolean.FALSE);
-                collapseBtn.setVisible(Boolean.FALSE);
-                newBtn.setVisible(Boolean.FALSE);
-                editBtn.setVisible(Boolean.FALSE);
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+                newBtn.setVisible(BooleanConstant.getFalseFlag());
+                editBtn.setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(NMDiscountProjection.class.getName()).error( StringUtils.EMPTY, ex);

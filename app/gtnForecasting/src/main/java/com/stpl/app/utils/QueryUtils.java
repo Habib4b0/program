@@ -479,10 +479,8 @@ public class QueryUtils {
         return queryString.toString();
     }
     public static String getQuery(List input, String queryName) {
-        StringBuilder sql = null;
+        StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));
         try {
-            sql = new StringBuilder();
-            sql = new StringBuilder(SQlUtil.getQuery(queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
@@ -761,6 +759,7 @@ public class QueryUtils {
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@PRICE_GROUP_TYPE", discountName.contains(TILT) ? discountName.split(TILT)[1] : discountName );
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@LEVELVALUES", projectionSelection.getDeductionLevelFilter().toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY));
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@RELBUILDSID", projectionSelection.getSessionDTO().getDedRelationshipBuilderSid() );
+                masterTableUpdateQuery = masterTableUpdateQuery.replace(Constant.RELVERSION, String.valueOf(projectionSelection.getSessionDTO().getDeductionRelationVersion()));
                commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()), null, null);
     }
     

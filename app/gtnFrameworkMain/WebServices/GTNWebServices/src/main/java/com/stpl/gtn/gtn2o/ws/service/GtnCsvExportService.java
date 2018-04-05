@@ -75,12 +75,12 @@ public class GtnCsvExportService {
     }
 
     private String createFilePath(String exportName) throws GtnFrameworkGeneralException {
-        StringBuilder csvPath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH));
-        csvPath.append("/");
+        StringBuilder csvPath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_DATA_PATH));
+        csvPath.append('/');
         csvPath.append(GtnFrameworkCommonStringConstants.CSV_EXPORT_PATH);
-        csvPath.append("/");
+        csvPath.append('/');
         csvPath.append(exportName);
-        csvPath.append("/");
+        csvPath.append('/');
         Path path = Paths.get(csvPath.toString());
         if (!Files.exists(path)) {
             try {

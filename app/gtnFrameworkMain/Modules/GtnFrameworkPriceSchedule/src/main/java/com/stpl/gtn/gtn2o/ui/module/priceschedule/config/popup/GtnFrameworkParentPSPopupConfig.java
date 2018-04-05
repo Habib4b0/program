@@ -46,7 +46,7 @@ public class GtnFrameworkParentPSPopupConfig {
 
 	private void addSearchCriteriaPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig parentPSPopupSearchCriteriaLayout = configProvider
-				.getCssLayoutConfig(GtnFrameworkCommonConstants.PARENT_PS_SEARCH_CRITERIA_LAYOUT, Boolean.FALSE, null);
+				.getCssLayoutConfig(GtnFrameworkCommonConstants.PARENT_PS_SEARCH_CRITERIA_LAYOUT, false, null);
 		List<String> styleList = new ArrayList<>();
 		styleList.add(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
 		parentPSPopupSearchCriteriaLayout.setComponentStyle(styleList);

@@ -82,11 +82,11 @@ public class GtnFrameworkCfpSaveAction
 				GtnUIFrameworkPagedTableLogic logic1 = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("CFPrightResultTable").getLogicFromPagedDataTable();
 
-				logic1.startSearchProcess(null, Boolean.TRUE);
+				logic1.startSearchProcess(null, true);
 				GtnUIFrameworkPagedTableLogic logic2 = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("cfpCompaniesTabResultDataTable").getLogicFromPagedDataTable();
 
-				logic2.startSearchProcess(null, Boolean.TRUE);
+				logic2.startSearchProcess(null, true);
 				TabSheet sheet = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpTabSheet").getAsTabSheet();
 				sheet.setSelectedTab(sheet.getTab(0));
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpAddDeleteButton", componentId)
@@ -144,7 +144,9 @@ public class GtnFrameworkCfpSaveAction
 			for (NotesDTO note : notesDTOs) {
 				cfpNotesBean = new NotesTabBean();
 				cfpNotesBean.setMasterTableName("CFP_MODEL");
+				cfpNotesBean.setMasterTableSystemId(note.getDocDetailsId());
 				cfpNotesBean.setFilePath(note.getDocumentFullPath());
+				cfpNotesBean.setFileName(note.getDocumentName());
 				cfpNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				cfpNotesBean.setCreatedDate(new Date());
 				cfpNotesBeanList.add(cfpNotesBean);

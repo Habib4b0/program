@@ -35,12 +35,12 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		prodSelectionMainlayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		prodSelectionMainlayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROD_SELECTION_MAINLAYOUT);
-		prodSelectionMainlayout.setAddToParent(Boolean.TRUE);
+		prodSelectionMainlayout.setAddToParent(true);
 		prodSelectionMainlayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		prodSelectionMainlayout.setGtnLayoutConfig(parentVerticalLayout);
 		prodSelectionMainlayout.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productSelectionPanel");
-		parentVerticalLayout.setSpacing(Boolean.TRUE);
+		parentVerticalLayout.setSpacing(true);
 		componentList.add(prodSelectionMainlayout);
 
 		GtnUIFrameworkLayoutConfig hierarchyRelationshiplayout = new GtnUIFrameworkLayoutConfig();
@@ -49,7 +49,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		hierarchyRelationshipConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		hierarchyRelationshipConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.HIERARCHY_RELATIONSHIP_LAYOUT);
-		hierarchyRelationshipConfig.setAddToParent(Boolean.TRUE);
+		hierarchyRelationshipConfig.setAddToParent(true);
 		hierarchyRelationshipConfig.setGtnLayoutConfig(hierarchyRelationshiplayout);
 		hierarchyRelationshipConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROD_SELECTION_MAINLAYOUT);
@@ -61,8 +61,8 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		productSelectionInnerPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROD_SELECTION_MAINLAYOUT);
 		productSelectionInnerPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		productSelectionInnerPanel.setAddToParent(Boolean.TRUE);
-		productSelectionInnerPanel.setSpacing(Boolean.TRUE);
+		productSelectionInnerPanel.setAddToParent(true);
+		productSelectionInnerPanel.setSpacing(true);
 		componentList.add(productSelectionInnerPanel);
 
 		GtnUIFrameworkLayoutConfig productSelectionInnerlayout = new GtnUIFrameworkLayoutConfig();
@@ -72,7 +72,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		productSelectionInnerConfig.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		productSelectionInnerConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_SELECTION_INNERLAYOUT);
-		productSelectionInnerConfig.setAddToParent(Boolean.TRUE);
+		productSelectionInnerConfig.setAddToParent(true);
 		productSelectionInnerConfig.setGtnLayoutConfig(productSelectionInnerlayout);
 		productSelectionInnerConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productSelectionInnerPanel");
@@ -84,7 +84,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		productSelectionInnerCssLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		productSelectionInnerCssLayoutConfig.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productSelectionInnerCssLayout");
-		productSelectionInnerCssLayoutConfig.setAddToParent(Boolean.TRUE);
+		productSelectionInnerCssLayoutConfig.setAddToParent(true);
 		productSelectionInnerCssLayoutConfig.setGtnLayoutConfig(productSelectionInnerCsslayout);
 		productSelectionInnerCssLayoutConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productSelectionInnerlayout");
@@ -108,7 +108,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		hierarchyRelationshipConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		hierarchyRelationshipConfig.setComponentId("hierarchyRelationshipConfig");
 		hierarchyRelationshipConfig.setComponentName("hierarchyRelationshipConfig");
-		hierarchyRelationshipConfig.setAddToParent(Boolean.TRUE);
+		hierarchyRelationshipConfig.setAddToParent(true);
 		hierarchyRelationshipConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		hierarchyRelationshipConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyRelationshipLayout");
@@ -121,7 +121,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				true, hierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig hierarchy = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"producthierarchy", true,
-				hierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+				hierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		hierarchy.setComponentName("Hierarchy: ");
 
 		GtnUIFrameWorkActionConfig hierarchypopupAction = new GtnUIFrameWorkActionConfig();
@@ -136,7 +136,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				.getHorizontalLayoutConfig("relationshipLayout", true, hierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig relationship = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"relationship", true,
-				relationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				relationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		relationship.setComponentName("Relationship: ");
 
 		GtnUIFrameworkComboBoxConfig relationshipLoadConfig = configProvider.getComboBoxConfig(
@@ -148,7 +148,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				hierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig level = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"level", true,
-				levelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				levelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		level.setComponentName("Level: ");
 
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(
@@ -173,7 +173,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		productSelectionDualListBoxComponent.setComponentName("Product Selection");
 		productSelectionDualListBoxComponent.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productSelectionInnerlayout");
-		productSelectionDualListBoxComponent.setAddToParent(Boolean.TRUE);
+		productSelectionDualListBoxComponent.setAddToParent(true);
 
 		componentList.add(productSelectionDualListBoxComponent);
 		GtnUIFrameworkDualListBoxConfig productSelectionDualListBoxConfig = new GtnUIFrameworkDualListBoxConfig();

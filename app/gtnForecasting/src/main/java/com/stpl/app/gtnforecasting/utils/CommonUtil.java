@@ -22,6 +22,7 @@ import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
@@ -370,9 +371,11 @@ public class CommonUtil {
      */
     public Runnable createRunnable(final Object... inputs) {
         final String caseName = inputs[0].toString();
+        VaadinSession session = VaadinSession.getCurrent();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                VaadinSession.setCurrent(session);
                 switch (caseName) {
                     case Constant.MERGE_QUERY:
                         HelperTableLocalServiceUtil.executeUpdateQuery(inputs[1].toString());
@@ -733,5 +736,38 @@ public class CommonUtil {
 
 		return parentKey;
 	}
-
+   
+    private static String setLevelNameValuesForDP(int index, List<Object> levelNameList, Object[] displayFormatIndex) {
+        String formattedNameValue = StringUtils.EMPTY;
+        int fromIndex = (int) displayFormatIndex[index];
+        Object objValue = levelNameList.get(fromIndex + 1);
+        if (!getLevelName(objValue)) {
+            formattedNameValue = String.valueOf(objValue);
+        }
+        return formattedNameValue;
+    }
+        
+    public static List<String> getFormattedDisplayName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndexValue) {
+        List<String> formattedNameList = new ArrayList();
+        try {
+            List<Object> relationshipListValues = relationshipDetails.get(hierarchyNumber);
+            if (displayFormatConditionCheck(relationshipListValues, displayFormatIndexValue)) {
+                List<Object> listOfLevelName = (List<Object>) relationshipListValues.get(NumericConstants.FIVE);
+                if (displayFormatIndexValue.length > 0 && !containsAllNull(listOfLevelName)) {
+                    for (int i = 0; i < displayFormatIndexValue.length; i++) {
+                        formattedNameList.add(setLevelNameValuesForDP(i, listOfLevelName, displayFormatIndexValue));
+                    }
+                    if (displayFormatIndexValue.length == 1 && formattedNameList.isEmpty()) {
+                        formattedNameList.add(String.valueOf(listOfLevelName.get(NumericConstants.ZERO)));
+                    }
+                } else {
+                    formattedNameList.add(String.valueOf(listOfLevelName.get(NumericConstants.ZERO)));
+                }
+            }
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+        return formattedNameList;
+    }
+    
 }

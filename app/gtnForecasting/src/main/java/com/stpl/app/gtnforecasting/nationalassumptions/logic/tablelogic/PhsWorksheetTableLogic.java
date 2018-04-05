@@ -10,6 +10,7 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.PhsResultsLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,12 +25,17 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
  * @author Nadhiya
  */
 public class PhsWorksheetTableLogic extends PageTreeTableLogic {
+    
     private int levelNo;
     private String hierarchyNo;
     private boolean firstGenerated = false;
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
     private SessionDTO sessionDTO;
+
+    public PhsWorksheetTableLogic() {
+        super();
+    }
 
     @Override
     public int getCount(){
@@ -108,18 +114,17 @@ public class PhsWorksheetTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
     @Override
     protected void expandCollapseStart(boolean isExpand){ 
          setExpandCollapseProgress(true);
-    }
-    @Override
+    }    @Override
     protected void expandCollapseEnd(boolean isExpand){
         setExpandCollapseProgress(false);
     } 

@@ -90,8 +90,8 @@ public class ComplianceDeductionUI extends UI implements VaadinPortletSession.Po
             helperListUtil.loadValuesWithListName("compliancededuction");
             VaadinSession.getCurrent().setAttribute(ConstantsUtils.USER_ID, userId);
             VaadinSession.getCurrent().setAttribute(ConstantsUtils.SESSION_ID, sessionDTO.getUiSessionId());
-            LOGGER.debug("USER_ID: "+userId);
-            LOGGER.debug("SESSION_ID: "+sessionDTO.getUiSessionId());
+            LOGGER.debug("USER_ID: {}",userId);
+            LOGGER.debug("SESSION_ID: {}",sessionDTO.getUiSessionId());
             navigator = new Navigator(this, this);
             navigator.addView(AbstractSearchView.NAME, new AbstractSearchView(ConstantUtil.COMPLIANCE_DEDUCTION_RULES, sessionDTO));
             navigator.addView(CDRView.NAME, new CDRView(sessionDTO));

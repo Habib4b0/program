@@ -8,6 +8,7 @@ IF EXISTS (SELECT 'X'
 
 GO
 
+
 CREATE  PROCEDURE [dbo].[PRC_CONTRACT_DETAILS_REBATE](@PROJECTION_MASTER_SID INT,
                                                     @USER_ID               INT,
                                                     @SESSION_ID            VARCHAR(50))
@@ -198,7 +199,6 @@ IF EXISTS (SELECT 1
 EXEC sp_executesql @SQL
 
 
-
 SET @SQL=CONCAT('
 IF EXISTS (SELECT 1
                FROM   INFORMATION_SCHEMA.TABLES
@@ -362,6 +362,11 @@ SELECT
 EXEC sp_executesql @SQL
 
 
+
+                
+                
+
+
           IF OBJECT_ID('TEMPDB..#TIER_INFO') IS NOT NULL
             DROP TABLE #TIER_INFO
           
@@ -400,18 +405,18 @@ EXEC sp_executesql @SQL
                  RS_MODEL_SID,
                  ITEM_MASTER_SID,
                  TIER_FROM,
-                 TIER_TO,CASE WHEN HT.DESCRIPTION =''SIMPLE'' THEN 
+                 TIER_TO,CASE WHEN (HT.DESCRIPTION =''SIMPLE'' OR HT.DESCRIPTION IS NULL) THEN 
                  ISNULL(CASE
                           WHEN RS.TIER_OPERATOR = ''%'' THEN RPT.TIER_VALUE
                         END, 0) ELSE NULL END AS DISCOUNT_RATE,
-                 CASE WHEN HT.DESCRIPTION =''SIMPLE'' THEN  ISNULL(CASE
+                 CASE WHEN (HT.DESCRIPTION =''SIMPLE'' OR HT.DESCRIPTION IS NULL) THEN  ISNULL(CASE
                           WHEN RS.TIER_OPERATOR = ''$'' THEN
                             CASE
                               WHEN RS.REBATE_STRUCTURE = ''TIER''
                                     OR RS.REBATE_STRUCTURE = ''LEVEL'' THEN RPT.TIER_VALUE
                             END
                         END, 0) ELSE NULL END AS REBATE_PER_UNIT,
-                 CASE WHEN HT.DESCRIPTION =''SIMPLE'' THEN  ISNULL(CASE
+                 CASE WHEN (HT.DESCRIPTION =''SIMPLE'' OR HT.DESCRIPTION IS NULL) THEN  ISNULL(CASE
                           WHEN RS.TIER_OPERATOR = ''$'' THEN
                             CASE
                               WHEN RS.REBATE_STRUCTURE = ''FLAT'' THEN RPT.TIER_VALUE
@@ -570,7 +575,7 @@ CREATE TABLE ', @NATIONAL_INFO, '
                      )
 
       
-          SELECT I.ITEM_MASTER_SID,
+          SELECT distinct  I.ITEM_MASTER_SID,
                  i.PERIOD_SID,
                  i.ITEM_PRICING_QUALIFIER_NAME,
                      --ITEM_PRICE=COALESCE(UDF.ITEM_PRICE,M.PROJECTION_PRICE,F.PROJECTION_PRICE,S.PROJECTION_PRICE)
@@ -588,7 +593,8 @@ CREATE TABLE ', @NATIONAL_INFO, '
                  JOIN #TIER_INFO TI
                    ON TI.ITEM_MASTER_SID = I.ITEM_MASTER_SID
                  CROSS JOIN #PERIOD P WHERE  P.PERIOD_SID BETWEEN @PROJECTION_START_PERIOD_SID AND @PROJ_END_PERIOD_SID
-                 AND TI.ITEM_PRICING_QUALIFIER_NAME IS NOT NULL)I
+                 AND TI.ITEM_PRICING_QUALIFIER_NAME IS NOT NULL and EXISTS(SELECT 1 FROM ITEM_PRICING_QUALIFIER A WHERE A.ITEM_PRICING_QUALIFIER_NAME=TI.ITEM_PRICING_QUALIFIER_NAME )
+				 )I
                  LEFT JOIN (SELECT MP.PROJECTION_PRICE AS PROJECTION_PRICE,
                                    P.PERIOD_QUARTER,
                                    P.PERIOD_YEAR,
@@ -690,11 +696,10 @@ CREATE TABLE ', @NATIONAL_INFO, '
                              AND i.PERIOD_SID=UDF.PERIOD_SID
                              AND i.ITEM_PRICING_QUALIFIER_NAME=UDF.PRICING_QUALIFIER
 
-							LEFT JOIN #GTS GTS ON GTS.ITEM_MASTER_SID=I.ITEM_MASTER_SID
+							LEFT JOIN (select * from #GTS) GTS ON GTS.ITEM_MASTER_SID=I.ITEM_MASTER_SID
 							AND GTS.PERIOD_SID=I.PERIOD_SID
         ')
 
-              
                            EXEC sp_executesql @SQL ,N'@ITEM_UDT UDT_ITEM READONLY,@PROJECTION_START_PERIOD_SID INT,@PROJ_END_PERIOD_SID INT,@ITEM_UOM VARCHAR(50),
                              @ACTUAL_START_PERIOD_SID INT,@QUALIFIER VARCHAR(MAX),@CURRENT_QUARTER INT',@ITEM_UDT=@ITEM_UDT,@PROJECTION_START_PERIOD_SID=@PROJECTION_START_PERIOD_SID,
                              @PROJ_END_PERIOD_SID=@PROJ_END_PERIOD_SID,@ITEM_UOM=@ITEM_UOM,@ACTUAL_START_PERIOD_SID=@ACTUAL_START_PERIOD_SID,@QUALIFIER=@QUALIFIER
@@ -758,8 +763,6 @@ CREATE TABLE ', @RETURNS_INFO, '
                        ITEM_PRICING_QUALIFIER_SID,
                        RETURN_RATE_SID
 )
-
-
 				SELECT DISTINCT CCP_DETAILS_SID,
                        RS_MODEL_SID,
                        ITEM_MASTER_SID,
@@ -774,7 +777,7 @@ CREATE TABLE ', @RETURNS_INFO, '
 '
   )              
   EXEC sp_executesql @SQL
-
+  
      SET @SQL=CONCAT('
             UPDATE A
             SET    FREQ_CAL_START_PERIOD_SID = EFFECTIVE_START_PERIOD_SID - ( ( EFFECTIVE_START_PERIOD_SID - 1 ) % 12 ),
@@ -783,6 +786,7 @@ CREATE TABLE ', @RETURNS_INFO, '
 
           EXEC sp_executesql @SQL
      
+
 
       END TRY
 

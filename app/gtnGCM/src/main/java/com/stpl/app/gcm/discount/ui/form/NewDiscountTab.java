@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.util.ErrorCodeUtil;
 import com.stpl.app.gcm.util.ErrorCodes;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.v7.data.Container;
@@ -99,6 +100,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class NewDiscountTab extends CustomComponent {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(NewDiscountTab.class);
+    
     private final NewDiscountTableLogic tableLogic = new NewDiscountTableLogic();
     private final NewDiscountSelectedTableLogic selectedTableLogic = new NewDiscountSelectedTableLogic();
     private final ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tableLogic);
@@ -395,11 +397,11 @@ public class NewDiscountTab extends CustomComponent {
         componentDetailsSearchTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         componentDetailsSearchTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
         componentDetailsSearchTable.setHeight(NumericConstants.EIGHTY, Sizeable.Unit.PERCENTAGE);
-        componentDetailsSearchTable.setEditable(Boolean.TRUE);
-        componentDetailsSearchTable.setFilterBarVisible(Boolean.FALSE);
+        componentDetailsSearchTable.setEditable(BooleanConstant.getTrueFlag());
+        componentDetailsSearchTable.setFilterBarVisible(BooleanConstant.getFalseFlag());
         componentDetailsSearchTable.setVisibleColumns(Constants.getInstance().itemSearchResultsColumns);
         componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().itemSearchResultsHeaders);
-        componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
+        componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
         componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
             @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
@@ -413,7 +415,7 @@ public class NewDiscountTab extends CustomComponent {
                             ContractsDetailsDto dto = (ContractsDetailsDto) itemId;
                             boolean isCheck = check.getValue();
                             dto.setCheckRecord(isCheck);
-                            dto.setCheckAll(false);
+                            dto.setCheckAll(BooleanConstant.getFalseFlag());
                             if (!isCheck) {
                                 componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK_RECORD, true, isCheck);
                             }
@@ -431,7 +433,7 @@ public class NewDiscountTab extends CustomComponent {
                 Collection itemList = componentDetailsSearchTable.getItemIds();
                 int size = itemList.size();
                 if (size > 0) {
-                    newDiscountTabDto.setCheckAll(true);
+                    newDiscountTabDto.setCheckAll(BooleanConstant.getTrueFlag());
                     newDiscountTabDto.setCheckRecord(event.isChecked());
                     DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, Constants.CHECK_RECORD, true);
 
@@ -444,10 +446,10 @@ public class NewDiscountTab extends CustomComponent {
         componentDetailsSelectedItem.setHeight(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
         componentDetailsSelectedItem.setVisibleColumns(Constants.getInstance().selectedResultsColumns);
         componentDetailsSelectedItem.setColumnHeaders(Constants.getInstance().selectedResultsHeaders);
-        componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
-        componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, Boolean.TRUE);
-        componentDetailsSelectedItem.setEditable(Boolean.TRUE);
-        componentDetailsSelectedItem.setFilterBarVisible(Boolean.TRUE);
+        componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
+        componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
+        componentDetailsSelectedItem.setEditable(BooleanConstant.getTrueFlag());
+        componentDetailsSelectedItem.setFilterBarVisible(BooleanConstant.getTrueFlag());
         componentDetailsSelectedItem.setTableFieldFactory(new TableFieldFactory() {
             @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
@@ -460,15 +462,15 @@ public class NewDiscountTab extends CustomComponent {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
                             dto.setCheckRecord(isCheck);
-                            dto.setCheckAll(false);
+                            dto.setCheckAll(BooleanConstant.getFalseFlag());
                             if (!isCheck) {
                                 componentDetailsSelectedItem.setColumnCheckBox(Constants.CHECK_RECORD, true, isCheck);
                                 contListafterRemove.add(dto);
                             } else if (contListafterRemove.contains(dto)) {
                                 contListafterRemove.remove(dto);
                             }
-                            dto.setCheckAll(false);
-                            dto.setBulkUpdate(false);
+                            dto.setCheckAll(BooleanConstant.getFalseFlag());
+                            dto.setBulkUpdate(BooleanConstant.getFalseFlag());
                             int compId = dto.getInternalId();
                             dto.setInternalId(dto.getSystemId());
                             dto.setSystemId(compId);
@@ -657,14 +659,14 @@ public class NewDiscountTab extends CustomComponent {
                 Collection itemList = componentDetailsSelectedItem.getItemIds();
                 int size = itemList.size();
                 if (size > 0) {
-                    newDiscountTabDto.setCheckAll(true);
+                    newDiscountTabDto.setCheckAll(BooleanConstant.getTrueFlag());
                     newDiscountTabDto.setCheckRecord(event.isChecked());
-                    newDiscountTabDto.setBulkUpdate(false);
+                    newDiscountTabDto.setBulkUpdate(BooleanConstant.getFalseFlag());
                     int compId = newDiscountTabDto.getInternalId();
                     newDiscountTabDto.setInternalId(newDiscountTabDto.getSystemId());
                     newDiscountTabDto.setSystemId(compId);
                     DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, Constants.CHECK_RECORD, true);
-                    newDiscountTabDto.setCheckAll(false);
+                    newDiscountTabDto.setCheckAll(BooleanConstant.getFalseFlag());
                     selectedTableLogic.loadSetData(newDiscountTabDto, session, false);
                 }
             }
@@ -975,7 +977,7 @@ public class NewDiscountTab extends CustomComponent {
         LOGGER.debug("Entered populate method");
         String massField = String.valueOf(fieldDdlb.getValue());
         String propertyId;
-        newDiscountTabDto.setBulkUpdate(true);
+        newDiscountTabDto.setBulkUpdate(BooleanConstant.getTrueFlag());
         if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,false) > 0) {
             if (massField != null && !massField.equals(Constants.NULL) && !massField.equals(StringUtils.EMPTY)) {
                 if (massField.equals(Constants.STATUS_FIELD)) {
@@ -1079,7 +1081,7 @@ public class NewDiscountTab extends CustomComponent {
             AbstractNotificationUtils.getErrorNotification("No Records Selected",
                     "There were no records Selected for mass populate.  Please Select Record.");
         }
-        newDiscountTabDto.setBulkUpdate(false);
+        newDiscountTabDto.setBulkUpdate(BooleanConstant.getFalseFlag());
         LOGGER.debug("Ending populate method");
     }
 
@@ -1111,11 +1113,11 @@ public class NewDiscountTab extends CustomComponent {
                 newDiscountTabDto.setCategory(newDiscountDto.getCategory());
                 DiscountLogic.insertToTempTable(newDiscountDto, session);
                 if (!selectedTableLogic.loadSetData(newDiscountDto, session, false)) {
-                    componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, Boolean.TRUE);
+                    componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
                     AbstractNotificationUtils.getErrorNotification("No Records Found",
                             "Please select other record.");
                 } else {
-                    componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, Boolean.FALSE);
+                    componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, BooleanConstant.getFalseFlag());
                 }
             } else {
                 AbstractNotificationUtils.getErrorNotification("Add", "Please check a record to Add.");
@@ -1129,11 +1131,11 @@ public class NewDiscountTab extends CustomComponent {
             if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true, true) > 0) {
                 new DiscountLogic().updateDataOperation(newDiscountTabDto.getCategory(), session, true);
                 if (!selectedTableLogic.loadSetData(newDiscountTabDto, session, false)) {
-                    componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, Boolean.TRUE);
+                    componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, BooleanConstant.getTrueFlag());
                     AbstractNotificationUtils.getErrorNotification("No Records Found",
                             "Please select other record.");
                 } else {
-                    componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, Boolean.FALSE);
+                    componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, BooleanConstant.getFalseFlag());
                 }
             } else {
                 AbstractNotificationUtils.getErrorNotification("Add", "Please check a record to Add.");
@@ -1818,7 +1820,7 @@ public class NewDiscountTab extends CustomComponent {
     @UiHandler("levelRemoveBtn")
     public void levelRemoveBtnLogic(Button.ClickEvent event) {
 
-        LOGGER.debug(" buttonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
+        LOGGER.debug(" buttonClick ( ClickEvent event ) name= {} " , event.getButton().getCaption());
         if (dashBoardTreeContainer.getItemIds().size() > Constants.ZERO) {
             if (dashboardTreeTable.getValue() == null) {
                 AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "Please highlight a component to Remove.");
@@ -2036,7 +2038,7 @@ public class NewDiscountTab extends CustomComponent {
 
     @UiHandler("removeBtn")
     public void removeBtnLogic(Button.ClickEvent event) {
-        LOGGER.debug(" buttonClick ( ClickEvent event ) name=" + event.getButton().getCaption());
+        LOGGER.debug(" buttonClick ( ClickEvent event ) name={} " , event.getButton().getCaption());
         if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,false) > 0) {
             if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
                 newDiscountTabDto.setCategory(Constants.IndicatorConstants.IFP.getConstant());

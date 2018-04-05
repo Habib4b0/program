@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SummaryDTO {
 
-    private Boolean checkRecord = false;
+    private boolean checkRecord = false;
     private String contractHolder = StringUtils.EMPTY;
     private String contractNo = StringUtils.EMPTY;
     private String contractName = StringUtils.EMPTY;
@@ -35,6 +35,10 @@ public class SummaryDTO {
     private Integer endIndex = 0;
     private String rarCategory = StringUtils.EMPTY;
     private String itemstartdate = StringUtils.EMPTY;
+
+    public SummaryDTO() {
+        super();
+    }
 
     public String getRarCategory() {
         return rarCategory;

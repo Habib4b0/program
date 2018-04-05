@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.constants;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -317,6 +318,10 @@ public final class GtnFrameworkReportStringConstants {
 	
 	public static final String REPORT_VIEW_SEARCH_CRITERIA_LAYOUT="reportViewSearchCriteriaLayout";
 	
+	public static final String REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP="reportCustomerHierarchyTypeOptionGroup";
+	
+	public static final String REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX="reportCustomerHierarchyNameTextBox";
+	
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections","Consolidated Financial Forecasts","No Source");
 
 	private static final Class<?>[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] {
@@ -342,6 +347,6 @@ public final class GtnFrameworkReportStringConstants {
 	}
 
 	public static List<String> getReportDataSourceLoadCombobox() {
-		return REPORT_DATA_SOURCE_LOAD_COMBOBOX;
+		return REPORT_DATA_SOURCE_LOAD_COMBOBOX==null?REPORT_DATA_SOURCE_LOAD_COMBOBOX:Collections.unmodifiableList(REPORT_DATA_SOURCE_LOAD_COMBOBOX);
 	}
 }

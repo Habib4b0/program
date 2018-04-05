@@ -64,6 +64,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 
 /**
  *
@@ -72,6 +73,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 public class Copycomponents extends CustomComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Copycomponents.class);
+    
     @UiField("componentitems")
     public OptionGroup componentitems;
     @UiField("contractDashBoardLayout")
@@ -284,7 +286,7 @@ public class Copycomponents extends CustomComponent {
             contractComponent.setEditable(true);
             contractComponent.setVisibleColumns(Constants.getInstance().contractComponentColumns);
             contractComponent.setColumnHeaders(Constants.getInstance().contractComponentHeaders);
-            contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+            contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
             contractComponent.setColumnAlignment("contractStartDate", ExtCustomTable.Align.CENTER);
             contractComponent.setColumnAlignment("contractEndDate", ExtCustomTable.Align.CENTER);
             contractComponent.setTableFieldFactory(new TableFieldFactory() {
@@ -519,11 +521,11 @@ public class Copycomponents extends CustomComponent {
     @UiHandler("populateBtn")
     public void populateBtnLogic(Button.ClickEvent event) {
         String compType = String.valueOf(ComponenttypeNC.getValue());
-        Boolean checkedFlag = false;
+        boolean checkedFlag = false;
         if (compType.equals(Constants.COMPANY_FAMILY_PLAN)) {
             String ids = Constants.EMPTY;
             Collection<?> returnList = contractComponent.getItemIds();
-            Boolean flag = false;
+            boolean flag = false;
             for (Object item : returnList) {
                 Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                 if (checked) {
@@ -543,7 +545,7 @@ public class Copycomponents extends CustomComponent {
                 String value = Constants.EMPTY;
                 List companyids = ccDao.searchList(companyQuery);
                 if (companyids != null && companyids.size() > 0) {
-                    Boolean f = false;
+                    boolean f = false;
                     for (Object item : companyids) {
                         if (!f) {
                             String company = String.valueOf(item);
@@ -566,7 +568,7 @@ public class Copycomponents extends CustomComponent {
         } else if (compType.equals(Constants.ITEM_FAMILY_PLAN)) {
             String ids = Constants.EMPTY;
             Collection<?> returnList = contractComponent.getItemIds();
-            Boolean flag = false;
+            boolean flag = false;
             for (Object item : returnList) {
                 Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                 if (checked) {
@@ -593,7 +595,7 @@ public class Copycomponents extends CustomComponent {
 
             String ids = Constants.EMPTY;
             Collection<?> returnList = contractComponent.getItemIds();
-            Boolean flag = false;
+            boolean flag = false;
             for (Object item : returnList) {
                 Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                 if (checked) {
@@ -619,7 +621,7 @@ public class Copycomponents extends CustomComponent {
         } else if (compType.equals(Constants.REBATE_SCHEDULE)) {
             String ids = Constants.EMPTY;
             Collection<?> returnList = contractComponent.getItemIds();
-            Boolean flag = false;
+            boolean flag = false;
             for (Object item : returnList) {
                 Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                 if (checked) {
@@ -670,7 +672,7 @@ public class Copycomponents extends CustomComponent {
                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please checkmark components to add to the Contract");
                 }
                 Collection<?> checkList = contractComponent.getItemIds();
-                Boolean flag = false;
+                boolean flag = false;
                 for (Object tmp : checkList) {
                     Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(tmp, Constants.CHECK).getValue();
                     if (checked) {
@@ -711,7 +713,6 @@ public class Copycomponents extends CustomComponent {
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(id);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.MODEL_ID).setValue(modelId);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("3");
-                                    contractDashBoardTable.addItem(rootId);
                                     contractDashBoardTable.setParent(rootId, root);
                                     contractDashBoardTable.setChildrenAllowed(rootId, true);
                                     contractDashBoardTable.setCollapsed(root, false);
@@ -752,7 +753,6 @@ public class Copycomponents extends CustomComponent {
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(id);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.MODEL_ID).setValue(modelId);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("3");
-                                    contractDashBoardTable.addItem(rootId);
                                     contractDashBoardTable.setParent(rootId, root);
                                     contractDashBoardTable.setChildrenAllowed(rootId, true);
                                     contractDashBoardTable.setCollapsed(root, false);
@@ -773,7 +773,7 @@ public class Copycomponents extends CustomComponent {
                                 setA.add(psId);
                             }
                         }
-                        Boolean psFlag = true;
+                        boolean psFlag = true;
                         List<String> tmp = new ArrayList<>();
                         for (Object psContId : setA) {
                             String id = String.valueOf(psContId);
@@ -797,7 +797,6 @@ public class Copycomponents extends CustomComponent {
                                         contractDashBoardTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(id);
                                         contractDashBoardTable.getContainerProperty(rootId, Constants.MODEL_ID).setValue(modelId);
                                         contractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("3");
-                                        contractDashBoardTable.addItem(rootId);
                                         contractDashBoardTable.setParent(rootId, root);
                                         contractDashBoardTable.setChildrenAllowed(rootId, true);
                                         contractDashBoardTable.setCollapsed(root, false);
@@ -841,7 +840,6 @@ public class Copycomponents extends CustomComponent {
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(id);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.MODEL_ID).setValue(modelId);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("3");
-                                    contractDashBoardTable.addItem(rootId);
                                     contractDashBoardTable.setParent(rootId, root);
                                     contractDashBoardTable.setChildrenAllowed(rootId, false);
                                     contractDashBoardTable.setCollapsed(root, false);
@@ -875,12 +873,12 @@ public class Copycomponents extends CustomComponent {
                 String value = Constants.EMPTY;
                 List companyids = ccDao.searchList(companyQuery);
                 if (companyids != null && companyids.size() > 0) {
-                    Boolean f = false;
+                    boolean flag = false;
                     for (Object item : companyids) {
-                        if (!f) {
+                        if (!flag) {
                             String company = String.valueOf(item);
                             value = company;
-                            f = true;
+                            flag = true;
                         } else {
                             String company = String.valueOf(item);
                             value = value + Constants.COMMA + company;
@@ -1057,7 +1055,7 @@ public class Copycomponents extends CustomComponent {
                 CAM.setStartDate(AliasSDATE);
                 CAM.setEndDate(AliasEDATE);
                 CAM.setModifiedDate(new Date());
-                CAM.setCreatedBy(1);
+                CAM.setCreatedBy(Integer.parseInt(userId));
                 CAM.setCreatedDate(new Date());
                 CAM.setSource("BPI");
                 CAM.setInboundStatus(Constants.A);
@@ -1221,7 +1219,7 @@ public class Copycomponents extends CustomComponent {
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newCompanyDetailsHeaders);
                     componentDetailsTable.setColumnAlignment("companyStartDate", ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment("companyEndDate", ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+                    contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
                 } else if (compType.equals(Constants.ITEM_FAMILY_PLAN)) {
                     cfpComponent.setVisible(false);
                     ifpComponent.setVisible(true);
@@ -1233,7 +1231,7 @@ public class Copycomponents extends CustomComponent {
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newIfpDetailsHeaders);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+                    contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
                 } else if (compType.equals(Constants.PRICE_SCHEDULE)) {
                     cfpComponent.setVisible(false);
                     ifpComponent.setVisible(false);
@@ -1245,7 +1243,7 @@ public class Copycomponents extends CustomComponent {
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newPsDetailsHeaders);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+                    contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
                 } else if (compType.equals(Constants.REBATE_SCHEDULE)) {
                     cfpComponent.setVisible(false);
                     ifpComponent.setVisible(false);
@@ -1257,7 +1255,7 @@ public class Copycomponents extends CustomComponent {
                     componentDetailsTable.setColumnHeaders(UiUtils.getInstance().newRsDetailsHeaders);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_START_DATE, ExtCustomTable.Align.CENTER);
                     componentDetailsTable.setColumnAlignment(Constants.IFP_END_DATE, ExtCustomTable.Align.CENTER);
-                    contractComponent.setColumnCheckBox(Constants.CHECK, Boolean.TRUE);
+                    contractComponent.setColumnCheckBox(Constants.CHECK, BooleanConstant.getTrueFlag());
                 }
                 contractComponent.removeAllItems();
                 loadContractComponentTable();

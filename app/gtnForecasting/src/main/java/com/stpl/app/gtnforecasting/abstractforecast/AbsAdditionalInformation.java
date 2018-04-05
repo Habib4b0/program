@@ -112,11 +112,11 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected File fileUpload;
     protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(CommonUtil.getFilePath("tst")));
     protected static String fileName;
-    protected final String NOTES_HISTORY = "Notes History";
+    protected static final String NOTES_HISTORY = "Notes History";
     protected File filePath;
     protected File wordFile;
     protected File pdfFile;
-    protected static String fileUploadPath;
+    protected String fileUploadPath;
     protected final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
     protected List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final NotesTabLogic logic = new NotesTabLogic();
@@ -138,7 +138,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected int projectionId = 0;
     protected static String moduleName = StringUtils.EMPTY;
     private String mode = StringUtils.EMPTY;
-    protected static String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    protected String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     protected static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
     protected static String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
 
@@ -513,12 +513,12 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             ExportWord exportWord = new ExportWord(filePath, wordFile);
             exportWord.export(internalNotes.getValue());
-            Resource wordResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT));
+            Resource wordResOnEdit = new GtnFileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT));
             wordDownloader.setFileDownloadResource(wordResOnEdit);
 
             ExportPdf exportPdf = new ExportPdf(NOTES_HISTORY, filePath, logo, pdfFile);
             exportPdf.export(internalNotes.getValue());
-            Resource pdfResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT));
+            Resource pdfResOnEdit = new GtnFileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT));
             pdfDownloader.setFileDownloadResource(pdfResOnEdit);
 
         } catch (Exception ex) {
@@ -534,11 +534,9 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
      */
     public void downloadFile(File uploadedFile) {
         try {
-            if (uploadedFile.exists()) {
-                Resource res = new FileResource(uploadedFile);
-                Page.getCurrent().open(res, "_blank", true);
+                Page.getCurrent().open(   new GtnFileResource(uploadedFile), "_blank", true);
 
-            }
+            
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -801,4 +799,5 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         }
         LOGGER.debug("Ends of AdditionalInformation setValues Method");
     }
+  
 }

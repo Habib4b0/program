@@ -82,12 +82,12 @@ public abstract class AbstractCustomTreeView extends Window {
     /**
      * The Constant CUST_ID_TRANSF_COLUMNS.
      */
-    protected final Object[] custIdTransfColumns = new Object[]{"level"};
+    protected static final Object[] custIdTransfColumns = new Object[]{"level"};
 
     /**
      * The Constant CUST_ID_TRANSF_HEADER.
      */
-    protected final String[] custIdTransfHeader = new String[]{"LEVEL"};
+    protected static final String[] custIdTransfHeader = new String[]{"LEVEL"};
     @UiField("addCustomer")
     private Button addCustomer;
     @UiField("removeCustomer")

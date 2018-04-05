@@ -60,6 +60,7 @@ import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.Page;
@@ -292,6 +293,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private ComboBox allCustomer;
     @UiField("removeProjectionDetails")
     private CheckBox removeProjectionDetails;
+    
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The excel export image
@@ -527,7 +529,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             allCustomer.addItem("Yes");
             allCustomer.addItem("No");
             allCustomer.select("No");
-            allCustomer.setReadOnly(Boolean.TRUE);
+            allCustomer.setReadOnly(BooleanConstant.getTrueFlag());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -827,7 +829,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     final CustomComboBox custComboStatus = new CustomComboBox();
                     custComboStatus.setImmediate(true);
                     try {
-                        CommmonLogic.loaDDLBForListLoading(custComboStatus, UiUtils.STATUS, false);
+                        CommmonLogic.loaDDLBForListLoading(custComboStatus, UiUtils.STATUS, BooleanConstant.getFalseFlag());
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
                     }
@@ -940,7 +942,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 changeComponents(componentSelectionValue);
                 loadComponentInformationFields(Arrays.asList(contractSelectionLogic.getComponentInformationData(componentSelectionValue, id, false, false, 0, 0, null).get(0)));
                 loadComponentInformationTable(componentSelectionValue);
-                tablelogic.loadSetData(componentSelectionValue, id, Boolean.TRUE);
+                tablelogic.loadSetData(componentSelectionValue, id, BooleanConstant.getTrueFlag());
             } else {
                 tablelogic.loadSetData(componentSelectionValue, id, false);
                 loadComponentInformationFields(new ArrayList<>());
@@ -1509,7 +1511,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
-        LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
+        LOGGER.debug("Entering createWorkSheetContent with start {} end {}" , start , end);
         try {
             CommmonLogic logic = new CommmonLogic();
             List searchList = new ArrayList();
@@ -1544,7 +1546,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 createWorkSheetInfo("Component_Information", componentInformationTable);
             }
         } catch (SystemException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            LOGGER.error(e + "at excel export");
+            LOGGER.error(" {} at excel export", e);
         }
     }
 

@@ -357,7 +357,7 @@ public class GtnFrameworkCGrpLandingScreenConfig {
 		parameters.add(GtnFrameworkCGrpClassContants.COMPANY_GRP_EDIT_ACTION);
 		parameters.add(GtnFrameworkCGrpStringContants.C_GRPSEARCH_RESULT_TABLE);
 		parameters.add(GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_SID);
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		doubleActionActionConfig.setActionParameterList(parameters);
 		searchTableActionConfigList.add(doubleActionActionConfig);
 		cGrpsearchResultsConfig.setGtnUIFrameWorkActionConfigList(searchTableActionConfigList);
@@ -487,7 +487,7 @@ public class GtnFrameworkCGrpLandingScreenConfig {
 		editBtnActionConfig.addActionParameter(GtnFrameworkCGrpClassContants.COMPANY_GRP_EDIT_ACTION);
 		editBtnActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.C_GRPSEARCH_RESULT_TABLE);
 		editBtnActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_SID);
-		editBtnActionConfig.addActionParameter(true);
+		editBtnActionConfig.addActionParameter(Boolean.TRUE);
 		editActionConfigList.add(editBtnActionConfig);
 		editButtonConfig.setGtnUIFrameWorkActionConfigList(editActionConfigList);
 	}
@@ -531,7 +531,7 @@ public class GtnFrameworkCGrpLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnFrameworkCGrpClassContants.COMPANY_GRP_EDIT_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.C_GRPSEARCH_RESULT_TABLE);
 		editActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_SID);
-		editActionConfig.addActionParameter(false);
+		editActionConfig.addActionParameter(Boolean.FALSE);
 		viewActionConfigList.add(editActionConfig);
 		viewButtonConfig.setGtnUIFrameWorkActionConfigList(viewActionConfigList);
 	}
@@ -576,7 +576,7 @@ public class GtnFrameworkCGrpLandingScreenConfig {
 		copyActionConfig.addActionParameter(GtnFrameworkCGrpClassContants.COMPANY_GRP_COPY_ACTION);
 		copyActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.C_GRPSEARCH_RESULT_TABLE);
 		copyActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_SID);
-		copyActionConfig.addActionParameter(true);
+		copyActionConfig.addActionParameter(Boolean.TRUE);
 		copyActionConfigList.add(copyActionConfig);
 		copyButtonConfig.setGtnUIFrameWorkActionConfigList(copyActionConfigList);
 	}

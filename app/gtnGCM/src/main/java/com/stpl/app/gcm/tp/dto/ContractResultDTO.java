@@ -58,7 +58,7 @@ public class ContractResultDTO {
     private String rsContSid = StringUtils.EMPTY;
     private String ifpContSid = StringUtils.EMPTY;
     private String psContSid = StringUtils.EMPTY;
-    private Boolean checkRecord = false;
+    private boolean checkRecord = false;
     private String contractMasterSid = StringUtils.EMPTY;
     private Integer userId = new Integer(1);
     private Integer sessionId = new Integer(1);
@@ -69,6 +69,10 @@ public class ContractResultDTO {
     private String tpstatus=StringUtils.EMPTY;
 
     private HelperDTO statusDescription = new HelperDTO(0, Constants.SELECT_ONE);
+
+    public ContractResultDTO() {
+        super();
+    }
 
     public Integer getUserId() {
         return userId;

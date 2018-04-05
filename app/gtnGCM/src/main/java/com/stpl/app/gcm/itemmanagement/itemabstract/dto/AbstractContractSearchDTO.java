@@ -65,7 +65,7 @@ public class AbstractContractSearchDTO {
     private Integer contractMasterSid = 0;
     private Integer endIndex = 0;
     private boolean isCount = false;
-    private Boolean checkRecord = false;
+    private boolean checkRecord = false;
     private Integer contractSid = 0;
     private Integer companySid = 0;
     private Integer cfpContractSid = 0;
@@ -105,6 +105,10 @@ public class AbstractContractSearchDTO {
     private String baseLineWacManual = StringUtils.EMPTY;
     private int baseLineWacPriceType;
     private Date baseLineWacDate;
+
+    public AbstractContractSearchDTO() {
+        super();
+    }
     
     public Integer getTempSid() {
         return tempSid;

@@ -1,5 +1,9 @@
 package com.stpl.gtn.gtn2o.ws.module.companyfamilyplan.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +15,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.companyfamilyplan.bean.GtnCFamilyPlan;
 import com.stpl.gtn.gtn2o.ws.companyfamilyplan.bean.GtnCFamilyPlanCommonUpdateBean;
 import com.stpl.gtn.gtn2o.ws.companyfamilyplan.bean.GtnCFamilyPlanInformation;
@@ -18,6 +23,7 @@ import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.companyfamilyplan.CfpModel;
+import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.companyfamilyplan.constants.GtnWsCfpQueryContants;
@@ -134,7 +140,7 @@ public class GtnWsCfpSaveService {
 							: Integer.valueOf(info.getParentCfpId()));
 			updateCfpModel.setParentCfpName(info.getParentCfpName());
 			updateCfpModel.setInternalNotes(info.getInternalNotes());
-			updateCfpModel.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
+			updateCfpModel.setModifiedBy(Integer.parseInt(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
 			updateCfpModel.setModifiedDate(new Date());
 			updateCfpModel.setSalesInclusion(info.getSalesInclusion());
 			session.saveOrUpdate(updateCfpModel);
@@ -217,9 +223,11 @@ public class GtnWsCfpSaveService {
 		return cfpUpdateColumnName;
 	}
 
-	public void saveNotesTabDetails(GtnCFamilyPlan ruleInfoBean) throws GtnFrameworkGeneralException {
+	public void saveNotesTabDetails(GtnCFamilyPlan ruleInfoBean) throws  GtnFrameworkGeneralException {
 		deleteNotesTab(ruleInfoBean.getCfpInfo().getCfpSid());
+		deleteNotesTabAttachment(ruleInfoBean.getCfpInfo().getCfpSid());
 		notesTabInsert(ruleInfoBean);
+		notesTabAttachmentCfp(ruleInfoBean);
 	}
 
 	private int deleteNotesTab(int systemId) throws GtnFrameworkGeneralException {
@@ -240,12 +248,12 @@ public class GtnWsCfpSaveService {
 					cmNotesTabQuery.append(" (").append(cfpBean.getCfpInfo().getCfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				} else {
 					cmNotesTabQuery.append(",(").append(cfpBean.getCfpInfo().getCfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				}
 				i++;
 			}
@@ -254,4 +262,49 @@ public class GtnWsCfpSaveService {
 		logger.info("Exit cfp notesTabInsert");
 		return 0;
 	}
+	
+	private void  notesTabAttachmentCfp(GtnCFamilyPlan cfpBean) throws  GtnFrameworkGeneralException {
+		logger.info("Enter Cfp notesTabInsert");
+		Session session = getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Attachment attachForCfp = new Attachment();
+			List<NotesTabBean> notesTabRequestList = cfpBean.getNotesTabList();
+			if (notesTabRequestList != null && !notesTabRequestList.isEmpty()) {
+				for (NotesTabBean notesTabRequest : notesTabRequestList) {
+					logger.info("*******" + cfpBean.getCfpInfo().getCfpSid());
+					byte[] fileBytes = readBytesFromFileCfp(notesTabRequest.getFilePath());
+					attachForCfp.setAttachmentTableSid(cfpBean.getCfpInfo().getCfpSid());
+					attachForCfp.setFileName(notesTabRequest.getFileName());
+					attachForCfp.setFileData(fileBytes);
+					attachForCfp.setMasterTableName(notesTabRequest.getMasterTableName());
+					attachForCfp.setCreatedBy(notesTabRequest.getCreatedBy());
+					attachForCfp.setCreatedDate(new Date());
+					session.saveOrUpdate(attachForCfp);
+					tx.commit();
+				}
+			}
+		} catch (Exception e) {
+			tx.rollback();
+			throw new GtnFrameworkGeneralException("Exception in save attachQuery ", e);
+		} finally {
+			session.close();
+		}
+	}
+	 private static byte[] readBytesFromFileCfp(String filePath) throws IOException {
+	        File inputFile = GtnFileNameUtils.getFile(filePath);
+	        FileInputStream inputStreamCfp= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+	        byte[] fileBytes = new byte[(int) inputFile.length()];
+	        int i=inputStreamCfp.read(fileBytes);
+	        if(i>0) 
+	        return fileBytes;
+			return  new byte[0];
+	    
+	    }
+	private int deleteNotesTabAttachment(int systemId) throws GtnFrameworkGeneralException {
+		String deleteQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_DELETE + systemId
+				+ " AND MASTER_TABLE_NAME='CFP_MODEL'";
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteQuery);
+	}
+	
 }

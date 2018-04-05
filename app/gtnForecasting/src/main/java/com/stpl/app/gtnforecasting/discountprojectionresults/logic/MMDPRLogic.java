@@ -72,183 +72,187 @@ public class MMDPRLogic {
     private final HashMap<String, String> map = new HashMap<>();
     private boolean viewFlag = false;
 
-    public List<DiscountProjectionResultsDTO> getConfiguredMMDicountResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
-         viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
+    public MMDPRLogic() {
+        super();
+    }
+
+    public List<DiscountProjectionResultsDTO> getConfiguredMMDicountResults(Object parentId, int start, int offset, ProjectionSelectionDTO projectionSelectionDTO) {
+         viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projectionSelectionDTO.getSessionDTO().getAction());
         List<DiscountProjectionResultsDTO> resultList;
-        projSelDTO.setYear(Constant.ALL);
-        projSelDTO.setIsProjectionTotal(false);
-        if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
-            projSelDTO.setActualsOrProjections("Actuals and Projections");
+        projectionSelectionDTO.setYear(Constant.ALL);
+        projectionSelectionDTO.setIsProjectionTotal(false);
+        if (projectionSelectionDTO.getActualsOrProjections().equals(Constant.BOTH)) {
+            projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }
-        if (ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(1);
-        } else if (Constant.SEMIANNUALLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.TWO);
-        } else if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.FOUR);
-        } else if (Constant.MONTHLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.TWELVE);
+        if (ANNUALLY.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(1);
+        } else if (Constant.SEMIANNUALLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.TWO);
+        } else if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.FOUR);
+        } else if (Constant.MONTHLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.TWELVE);
         }
         if (parentId instanceof DiscountProjectionResultsDTO) {
 
             DiscountProjectionResultsDTO parentDto = (DiscountProjectionResultsDTO) parentId;
             if (parentDto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                projSelDTO.setCustomerHierarchyNo(projSelDTO.getHierarchyNo());
-                projSelDTO.setProductHierarchyNo(parentDto.getProductHierarchyNo());
+                projectionSelectionDTO.setCustomerHierarchyNo(projectionSelectionDTO.getHierarchyNo());
+                projectionSelectionDTO.setProductHierarchyNo(parentDto.getProductHierarchyNo());
             } else if (parentDto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                projSelDTO.setProductHierarchyNo(projSelDTO.getHierarchyNo());
-                projSelDTO.setCustomerHierarchyNo(parentDto.getCustomerHierarchyNo());
+                projectionSelectionDTO.setProductHierarchyNo(projectionSelectionDTO.getHierarchyNo());
+                projectionSelectionDTO.setCustomerHierarchyNo(parentDto.getCustomerHierarchyNo());
             }
             if (parentDto.getLevelValue().equals(Constant.MANDATED_DISCOUNT)) {
                 if (parentDto.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
 
                 }
-                projSelDTO.setLevelNo(NumericConstants.FOUR);
-                projSelDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-                projSelDTO.setView(Constant.CUSTOMER_SMALL);
-                projSelDTO.setIsTotal(true);
-                projSelDTO.setIsFilter(true);
-                projSelDTO.setCheckFlag(false);
-                projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-                projSelDTO.setLevelValue(parentDto.getLevelValue());
-                projSelDTO.setParentNode(parentDto.getParentNode());
-                projSelDTO.setHierarchyNo(parentDto.getHierarchyNo());
-                projSelDTO.setGroup(parentDto.getGroup());
-                projSelDTO.setCurrentLevel(parentDto.getCurrentLevel());
-                projSelDTO.setDiscountLevel(parentDto.getDiscountLevel());
+                projectionSelectionDTO.setLevelNo(NumericConstants.FOUR);
+                projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
+                projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
+                projectionSelectionDTO.setIsTotal(true);
+                projectionSelectionDTO.setIsFilter(true);
+                projectionSelectionDTO.setCheckFlag(false);
+                projectionSelectionDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
+                projectionSelectionDTO.setLevelValue(parentDto.getLevelValue());
+                projectionSelectionDTO.setParentNode(parentDto.getParentNode());
+                projectionSelectionDTO.setHierarchyNo(parentDto.getHierarchyNo());
+                projectionSelectionDTO.setGroup(parentDto.getGroup());
+                projectionSelectionDTO.setCurrentLevel(parentDto.getCurrentLevel());
+                projectionSelectionDTO.setDiscountLevel(parentDto.getDiscountLevel());
 
             } else if (parentDto.getLevelValue().equals(Constant.NON_MANDATED_SUPPLEMENTAL)) {
-                projSelDTO.setNmSuppLevel(StringUtils.EMPTY);
+                projectionSelectionDTO.setNmSuppLevel(StringUtils.EMPTY);
                 if (parentDto.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
-                    projSelDTO.setIsFilter(true);
-                    projSelDTO.setIsTotal(true);
-                    projSelDTO.setGroup(parentDto.getGroup());
-                    projSelDTO.setDiscountLevel(parentDto.getDiscountLevel());
-                    projSelDTO.setNmSuppLevel(StringUtils.EMPTY);
+                    projectionSelectionDTO.setIsFilter(true);
+                    projectionSelectionDTO.setIsTotal(true);
+                    projectionSelectionDTO.setGroup(parentDto.getGroup());
+                    projectionSelectionDTO.setDiscountLevel(parentDto.getDiscountLevel());
+                    projectionSelectionDTO.setNmSuppLevel(StringUtils.EMPTY);
                 } else {
-                    projSelDTO.setGroup(parentDto.getGroup());
-                    projSelDTO.setLevelValue(parentDto.getLevelValue());
-                    projSelDTO.setHierarchyNo(parentDto.getHierarchyNo());
-                    projSelDTO.setProductHierarchyNo(parentDto.getProductHierarchyNo());
-                    projSelDTO.setCustomerHierarchyNo(parentDto.getCustomerHierarchyNo());
-                    projSelDTO.setLevelNo(0);
-                    projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-                    projSelDTO.setIsFilter(true);
-                    projSelDTO.setIsTotal(true);
-                    projSelDTO.setDiscountLevel(parentDto.getDiscountLevel());
+                    projectionSelectionDTO.setGroup(parentDto.getGroup());
+                    projectionSelectionDTO.setLevelValue(parentDto.getLevelValue());
+                    projectionSelectionDTO.setHierarchyNo(parentDto.getHierarchyNo());
+                    projectionSelectionDTO.setProductHierarchyNo(parentDto.getProductHierarchyNo());
+                    projectionSelectionDTO.setCustomerHierarchyNo(parentDto.getCustomerHierarchyNo());
+                    projectionSelectionDTO.setLevelNo(0);
+                    projectionSelectionDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
+                    projectionSelectionDTO.setIsFilter(true);
+                    projectionSelectionDTO.setIsTotal(true);
+                    projectionSelectionDTO.setDiscountLevel(parentDto.getDiscountLevel());
                 }
 
             } else if (parentDto.getLevelValue().equals(Constant.MANDATED_SUPPLEMENTAL)) {
-                projSelDTO.setLevelNo(NumericConstants.FOUR);
-                projSelDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-                projSelDTO.setView(Constant.CUSTOMER_SMALL);
-                projSelDTO.setIsTotal(true);
-                projSelDTO.setIsFilter(true);
-                projSelDTO.setCheckFlag(true);
-                projSelDTO.setSuppFlag(true);
-                projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-                projSelDTO.setLevelValue(parentDto.getLevelValue());
-                projSelDTO.setParentNode(parentDto.getParentNode());
-                projSelDTO.setHierarchyNo(parentDto.getHierarchyNo());
-                projSelDTO.setGroup(parentDto.getGroup());
-                projSelDTO.setCurrentLevel(parentDto.getCurrentLevel());
-                projSelDTO.setDiscountLevel(parentDto.getDiscountLevel());
+                projectionSelectionDTO.setLevelNo(NumericConstants.FOUR);
+                projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
+                projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
+                projectionSelectionDTO.setIsTotal(true);
+                projectionSelectionDTO.setIsFilter(true);
+                projectionSelectionDTO.setCheckFlag(true);
+                projectionSelectionDTO.setSuppFlag(true);
+                projectionSelectionDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
+                projectionSelectionDTO.setLevelValue(parentDto.getLevelValue());
+                projectionSelectionDTO.setParentNode(parentDto.getParentNode());
+                projectionSelectionDTO.setHierarchyNo(parentDto.getHierarchyNo());
+                projectionSelectionDTO.setGroup(parentDto.getGroup());
+                projectionSelectionDTO.setCurrentLevel(parentDto.getCurrentLevel());
+                projectionSelectionDTO.setDiscountLevel(parentDto.getDiscountLevel());
 
-            } else if (projSelDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
-                projSelDTO.setCurrentCustomer(parentDto.getCurrentCustomer());
-                projSelDTO.setCurrentContract(parentDto.getCurrentContract());
-                projSelDTO.setCurrentBrand(parentDto.getCurrentBrand());
-                projSelDTO.setCurrentLevel(parentDto.getCurrentLevel());
-                projSelDTO.setLevelNo(NumericConstants.FOUR);
-                projSelDTO.setManFlag(true);
-                projSelDTO.setIsTotal(true);
-                projSelDTO.setIsFilter(true);
-                projSelDTO.setGroup(parentDto.getGroup());
-                if (projSelDTO.isCountFlag()) {
+            } else if (projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
+                projectionSelectionDTO.setCurrentCustomer(parentDto.getCurrentCustomer());
+                projectionSelectionDTO.setCurrentContract(parentDto.getCurrentContract());
+                projectionSelectionDTO.setCurrentBrand(parentDto.getCurrentBrand());
+                projectionSelectionDTO.setCurrentLevel(parentDto.getCurrentLevel());
+                projectionSelectionDTO.setLevelNo(NumericConstants.FOUR);
+                projectionSelectionDTO.setManFlag(true);
+                projectionSelectionDTO.setIsTotal(true);
+                projectionSelectionDTO.setIsFilter(true);
+                projectionSelectionDTO.setGroup(parentDto.getGroup());
+                if (projectionSelectionDTO.isCountFlag()) {
 
-                    projSelDTO.setLevelNo(parentDto.getLevelNo() + 1);
-                    projSelDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-                    projSelDTO.setView(Constant.CUSTOMER_SMALL);
-                    projSelDTO.setCountFlag(false);
+                    projectionSelectionDTO.setLevelNo(parentDto.getLevelNo() + 1);
+                    projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
+                    projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
+                    projectionSelectionDTO.setCountFlag(false);
                 }
-                projSelDTO.setDiscountLevel(parentDto.getDiscountLevel());
-                projSelDTO.setSupplementalLevelName(parentDto.getSupplementalLevelName());
-                projSelDTO.setPivotValue(parentDto.getPivotValue());
-                projSelDTO.setNextFlag(parentDto.getNextFlag());
+                projectionSelectionDTO.setDiscountLevel(parentDto.getDiscountLevel());
+                projectionSelectionDTO.setSupplementalLevelName(parentDto.getSupplementalLevelName());
+                projectionSelectionDTO.setPivotValue(parentDto.getPivotValue());
+                projectionSelectionDTO.setNextFlag(parentDto.getNextFlag());
 
-                projSelDTO.setNmSuppLevel(parentDto.getNmSuppLevel());
+                projectionSelectionDTO.setNmSuppLevel(parentDto.getNmSuppLevel());
             } else {
-                projSelDTO.setCurrentLevel(parentDto.getCurrentLevel());
-                projSelDTO.setCurrentCustomer(parentDto.getCurrentCustomer());
-                projSelDTO.setCurrentContract(parentDto.getCurrentContract());
-                projSelDTO.setCurrentBrand(parentDto.getCurrentBrand());
-                projSelDTO.setDiscountLevel(parentDto.getDiscountLevel());
+                projectionSelectionDTO.setCurrentLevel(parentDto.getCurrentLevel());
+                projectionSelectionDTO.setCurrentCustomer(parentDto.getCurrentCustomer());
+                projectionSelectionDTO.setCurrentContract(parentDto.getCurrentContract());
+                projectionSelectionDTO.setCurrentBrand(parentDto.getCurrentBrand());
+                projectionSelectionDTO.setDiscountLevel(parentDto.getDiscountLevel());
 
-                projSelDTO.setGroup(parentDto.getGroup());
-                projSelDTO.setLevelNo(parentDto.getLevelNo() + 1);
-                projSelDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
-                projSelDTO.setView(Constant.CUSTOMER_SMALL);
-                projSelDTO.setIsTotal(true);
-                projSelDTO.setIsFilter(true);
-                if (projSelDTO.isCheckFlag()) {
-                    projSelDTO.setSuppFlag(true);
-                    projSelDTO.setCheckFlag(true);
+                projectionSelectionDTO.setGroup(parentDto.getGroup());
+                projectionSelectionDTO.setLevelNo(parentDto.getLevelNo() + 1);
+                projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
+                projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
+                projectionSelectionDTO.setIsTotal(true);
+                projectionSelectionDTO.setIsFilter(true);
+                if (projectionSelectionDTO.isCheckFlag()) {
+                    projectionSelectionDTO.setSuppFlag(true);
+                    projectionSelectionDTO.setCheckFlag(true);
                 }
             }
             if (parentDto.getLevelNo() == NumericConstants.FIVE) {
-                projSelDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-                projSelDTO.setView(Constant.PRODUCT_LABEL);
-                projSelDTO.setIsTotal(true);
-                projSelDTO.setIsFilter(true);
-                projSelDTO.setLevelNo(NumericConstants.THREE);
-                projSelDTO.setParent(0);
-                if (projSelDTO.isCheckFlag()) {
-                    projSelDTO.setSuppFlag(true);
-                    projSelDTO.setCheckFlag(false);
+                projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+                projectionSelectionDTO.setView(Constant.PRODUCT_LABEL);
+                projectionSelectionDTO.setIsTotal(true);
+                projectionSelectionDTO.setIsFilter(true);
+                projectionSelectionDTO.setLevelNo(NumericConstants.THREE);
+                projectionSelectionDTO.setParent(0);
+                if (projectionSelectionDTO.isCheckFlag()) {
+                    projectionSelectionDTO.setSuppFlag(true);
+                    projectionSelectionDTO.setCheckFlag(false);
                 }
             }
 
         } else {
-            projSelDTO.setIsProjectionTotal(true);
-            projSelDTO.setIsTotal(true);
+            projectionSelectionDTO.setIsProjectionTotal(true);
+            projectionSelectionDTO.setIsTotal(true);
 
-            if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
-                projSelDTO.setLevelNo(0);
-                projSelDTO.setView(Constant.CUSTOMER_SMALL);
-            } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
-                projSelDTO.setLevelNo(0);
+            if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projectionSelectionDTO.getHierarchyIndicator())) {
+                projectionSelectionDTO.setLevelNo(0);
+                projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
+            } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionSelectionDTO.getHierarchyIndicator())) {
+                projectionSelectionDTO.setLevelNo(0);
             } else {
 
             }
-            projSelDTO.setLevelNo(0);
-            projSelDTO.setTreeLevelNo(0);
-            String filterValue = !StringUtils.EMPTY.equalsIgnoreCase(projSelDTO.getFilterCustomerDDLB()) && !Constant.NULL.equalsIgnoreCase(projSelDTO.getFilterCustomerDDLB()) ? projSelDTO.getFilterCustomerDDLB() : StringUtils.EMPTY;
-            projSelDTO.setGroup(projSelDTO.isFilterDdlb() ? filterValue : StringUtils.EMPTY);
-            projSelDTO.setHierarchyNo(StringUtils.EMPTY);
-            projSelDTO.setProductHierarchyNo(StringUtils.EMPTY);
-            projSelDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
+            projectionSelectionDTO.setLevelNo(0);
+            projectionSelectionDTO.setTreeLevelNo(0);
+            String filterValue = !StringUtils.EMPTY.equalsIgnoreCase(projectionSelectionDTO.getFilterCustomerDDLB()) && !Constant.NULL.equalsIgnoreCase(projectionSelectionDTO.getFilterCustomerDDLB()) ? projectionSelectionDTO.getFilterCustomerDDLB() : StringUtils.EMPTY;
+            projectionSelectionDTO.setGroup(projectionSelectionDTO.isFilterDdlb() ? filterValue : StringUtils.EMPTY);
+            projectionSelectionDTO.setHierarchyNo(StringUtils.EMPTY);
+            projectionSelectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
+            projectionSelectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
 
-            if (projSelDTO.getPivotView().equalsIgnoreCase(Constant.DISCOUNT_SMALL)) {
-                projSelDTO.setLevelNo(NumericConstants.FOUR);
-                if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
-                    projSelDTO.setLevelNo(NumericConstants.FOUR);
-                    projSelDTO.setView(Constant.CUSTOMER_SMALL);
-                } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
-                    projSelDTO.setLevelNo(NumericConstants.FIVE);
+            if (projectionSelectionDTO.getPivotView().equalsIgnoreCase(Constant.DISCOUNT_SMALL)) {
+                projectionSelectionDTO.setLevelNo(NumericConstants.FOUR);
+                if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projectionSelectionDTO.getHierarchyIndicator())) {
+                    projectionSelectionDTO.setLevelNo(NumericConstants.FOUR);
+                    projectionSelectionDTO.setView(Constant.CUSTOMER_SMALL);
+                } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionSelectionDTO.getHierarchyIndicator())) {
+                    projectionSelectionDTO.setLevelNo(NumericConstants.FIVE);
                 }
 
             }
-            if (projSelDTO.isFilterDdlb()) {
-                projSelDTO.setSupplementalLevelName(StringUtils.EMPTY);
+            if (projectionSelectionDTO.isFilterDdlb()) {
+                projectionSelectionDTO.setSupplementalLevelName(StringUtils.EMPTY);
             }
         }
 
-        if ((projSelDTO.getPivotView().equalsIgnoreCase(Constant.DISCOUNT_SMALL)) && (projSelDTO.getGroup().equals(Constant.PROJECTION_TOTAL))) {
-                projSelDTO.setParent(0);
+        if ((projectionSelectionDTO.getPivotView().equalsIgnoreCase(Constant.DISCOUNT_SMALL)) && (projectionSelectionDTO.getGroup().equals(Constant.PROJECTION_TOTAL))) {
+                projectionSelectionDTO.setParent(0);
 
         }
 
-        resultList = getDiscountProjectionResults(start, offset, projSelDTO);
+        resultList = getDiscountProjectionResults(start, offset, projectionSelectionDTO);
         List<DiscountProjectionResultsDTO> finalList = new ArrayList<>();
         for (DiscountProjectionResultsDTO mMDiscountProjectionResultsDTO : resultList) {
             if (StringUtils.isNotBlank(mMDiscountProjectionResultsDTO.getGroup())) {
@@ -828,7 +832,7 @@ public class MMDPRLogic {
                             dto.setParent(1);
                             checkYear = commonColumn;
                         }
-                        if (i == list.size() - 1) {
+                        if (i == list.size() - 1 && dto != null) {
                             customizeManSupp(list, dto, projSelDTO, checkYear);
                             dto.setSupplementalLevelName(Constant.CUSTOMER_SMALL);
                             resultList.add(dto);
@@ -897,41 +901,41 @@ public class MMDPRLogic {
         return projDTOList;
     }
 
-    public int getConfiguredMMDiscountResultsCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
+    public int getConfiguredMMDiscountResultsCount(Object parentId, ProjectionSelectionDTO projectionSelectionDTO) {
         int count = 0;
-        projSelDTO.setYear(Constant.ALL);
+        projectionSelectionDTO.setYear(Constant.ALL);
 
-        if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
-            projSelDTO.setActualsOrProjections("Actuals and Projections");
+        if (projectionSelectionDTO.getActualsOrProjections().equals(Constant.BOTH)) {
+            projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }
-        if (ANNUALLY.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(1);
-        } else if (Constant.SEMIANNUALLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.TWO);
-        } else if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.FOUR);
-        } else if (Constant.MONTHLY_SMALL.equalsIgnoreCase(projSelDTO.getFrequency())) {
-            projSelDTO.setFrequencyDivision(NumericConstants.TWELVE);
+        if (ANNUALLY.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(1);
+        } else if (Constant.SEMIANNUALLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.TWO);
+        } else if (Constant.QUARTERLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.FOUR);
+        } else if (Constant.MONTHLY_SMALL.equalsIgnoreCase(projectionSelectionDTO.getFrequency())) {
+            projectionSelectionDTO.setFrequencyDivision(NumericConstants.TWELVE);
         }
 
         if (parentId instanceof DiscountProjectionResultsDTO) {
 
             DiscountProjectionResultsDTO parentDto = (DiscountProjectionResultsDTO) parentId;
-            if (projSelDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
+            if (projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
                 /*
                  * This code will be used for pivot view count
                  */
 
                 if (Constant.PROJECTION_TOTAL.equals(parentDto.getLevelValue()) || Constant.MANDATED_DISCOUNT.equals(parentDto.getLevelValue())
                         || Constant.NON_MANDATED_SUPPLEMENTAL.equals(parentDto.getLevelValue()) || Constant.MANDATED_SUPPLEMENTAL.equals(parentDto.getLevelValue())) {
-                    List<String> periods = getProjectionTotalCount(projSelDTO);
+                    List<String> periods = getProjectionTotalCount(projectionSelectionDTO);
                     count += periods.size();
                 } else if (Constant.NON_MANDATED_SUPPLEMENTAL.equals(parentDto.getSupplementalLevelName())) {
-                    count += dqLogic.getCount(parentDto, projSelDTO, false);
-                } else if (projSelDTO.isFilterDdlb() && projSelDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
+                    count += dqLogic.getCount(parentDto, projectionSelectionDTO, false);
+                } else if (projectionSelectionDTO.isFilterDdlb() && projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
                     count += 1;
                 } else {
-                    count += dqLogic.getCount(parentDto, projSelDTO, true);
+                    count += dqLogic.getCount(parentDto, projectionSelectionDTO, true);
                 }
 
             } else {
@@ -940,25 +944,25 @@ public class MMDPRLogic {
                 }
 
                 if (Constant.COMMERCIAL_SUPPLEMENTAL_DISCOUNT.equals(parentDto.getGroup())) {
-                    count += dqLogic.getCount(parentDto, projSelDTO, false);
+                    count += dqLogic.getCount(parentDto, projectionSelectionDTO, false);
                 } else {
 
-                    count += dqLogic.getCount(parentDto, projSelDTO, true);
+                    count += dqLogic.getCount(parentDto, projectionSelectionDTO, true);
                 }
 
             }
 
-        } else if (projSelDTO.isFilterDdlb() && projSelDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
-            count += projSelDTO.getPeriodList().size();
+        } else if (projectionSelectionDTO.isFilterDdlb() && projectionSelectionDTO.getPivotView().equals(Constant.DISCOUNT_SMALL)) {
+            count += projectionSelectionDTO.getPeriodList().size();
         } else {
-            if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(projSelDTO.getDiscountValue())) {
+            if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.THREE;
-            } else if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projSelDTO.getDiscountValue())) {
+            } else if (Constant.SUPPLEMENTAL.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.THREE;
-            } else if (Constant.BOTH.equalsIgnoreCase(projSelDTO.getDiscountValue())) {
+            } else if (Constant.BOTH.equalsIgnoreCase(projectionSelectionDTO.getDiscountValue())) {
                 count += NumericConstants.FOUR;
             }
-            if (projSelDTO.isFilterDdlb()) {
+            if (projectionSelectionDTO.isFilterDdlb()) {
                 count += 1;
             }
         }
@@ -2625,11 +2629,11 @@ public class MMDPRLogic {
             tempTableName[0] = "PROD_RELATIONSHIP_BUILDER_SID";
             tempTableName[1] = "PRODUCT_HIERARCHY_LEVEL";
         }
-        customSql.append("select Distinct cm." + str + ",cm.COMPANY_NAME  from CCP_DETAILS ccp,PROJECTION_DETAILS pd,COMPANY_MASTER cm \n"
-                + "where \n"
-                + "ccp.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
-                + "and cm.COMPANY_MASTER_SID=ccp.COMPANY_MASTER_SID\n"
-                + "and pd.PROJECTION_MASTER_SID= " + projSelDTO.getProjectionId());
+        customSql.append("select Distinct cm." ).append( str ).append( ",cm.COMPANY_NAME  from CCP_DETAILS ccp,PROJECTION_DETAILS pd,COMPANY_MASTER cm \n"
+                ).append( "where \n"
+                ).append( "ccp.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
+                ).append( "and cm.COMPANY_MASTER_SID=ccp.COMPANY_MASTER_SID\n"
+                ).append( "and pd.PROJECTION_MASTER_SID= " ).append( projSelDTO.getProjectionId());
         try {
             list = (List) dao.executeSelectQuery(customSql.toString());
 

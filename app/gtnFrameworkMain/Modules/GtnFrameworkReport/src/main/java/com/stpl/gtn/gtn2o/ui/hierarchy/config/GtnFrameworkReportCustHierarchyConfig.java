@@ -36,13 +36,13 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		custSelectionMainlayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		custSelectionMainlayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.CUST_SELECTION_MAINLAYOUT);
-		custSelectionMainlayout.setAddToParent(Boolean.TRUE);
+		custSelectionMainlayout.setAddToParent(true);
 		custSelectionMainlayout.setComponentWidth("125%");
 		custSelectionMainlayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		custSelectionMainlayout.setGtnLayoutConfig(customerSelectionParentVerticalLayout);
 		custSelectionMainlayout.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionPanel");
-		customerSelectionParentVerticalLayout.setSpacing(Boolean.TRUE);
+		customerSelectionParentVerticalLayout.setSpacing(true);
 		componentList.add(custSelectionMainlayout);
 
 		GtnUIFrameworkLayoutConfig customerSelectionHierarchyRelationshiplayout = new GtnUIFrameworkLayoutConfig();
@@ -51,7 +51,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		hierarchyRelationshipConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		hierarchyRelationshipConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.HIERARCHY_RELATIONSHIP_LAYOUT);
-		hierarchyRelationshipConfig.setAddToParent(Boolean.TRUE);
+		hierarchyRelationshipConfig.setAddToParent(true);
 		hierarchyRelationshipConfig.setGtnLayoutConfig(customerSelectionHierarchyRelationshiplayout);
 		hierarchyRelationshipConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.CUST_SELECTION_MAINLAYOUT);
@@ -63,8 +63,8 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionInnerPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.CUST_SELECTION_MAINLAYOUT);
 		customerSelectionInnerPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		customerSelectionInnerPanel.setAddToParent(Boolean.TRUE);
-		customerSelectionInnerPanel.setSpacing(Boolean.TRUE);
+		customerSelectionInnerPanel.setAddToParent(true);
+		customerSelectionInnerPanel.setSpacing(true);
 		componentList.add(customerSelectionInnerPanel);
 
 		GtnUIFrameworkLayoutConfig customerSelectionInnerlayout = new GtnUIFrameworkLayoutConfig();
@@ -74,7 +74,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		productSelectionInnerConfig.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		productSelectionInnerConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.CUSTOMER_SELECTION_INNERLAYOUT);
-		productSelectionInnerConfig.setAddToParent(Boolean.TRUE);
+		productSelectionInnerConfig.setAddToParent(true);
 		productSelectionInnerConfig.setGtnLayoutConfig(customerSelectionInnerlayout);
 		productSelectionInnerConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionInnerPanel");
@@ -86,7 +86,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionInnerCssLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		customerSelectionInnerCssLayoutConfig.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionInnerCsslayout");
-		customerSelectionInnerCssLayoutConfig.setAddToParent(Boolean.TRUE);
+		customerSelectionInnerCssLayoutConfig.setAddToParent(true);
 		customerSelectionInnerCssLayoutConfig.setGtnLayoutConfig(customerSelectionInnerCsslayout);
 		customerSelectionInnerCssLayoutConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionInnerlayout");
@@ -110,7 +110,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionHierarchyRelationshipConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		customerSelectionHierarchyRelationshipConfig.setComponentId("customerSelectionHierarchyRelationshipConfig");
 		customerSelectionHierarchyRelationshipConfig.setComponentName("customerSelectionHierarchyRelationshipConfig");
-		customerSelectionHierarchyRelationshipConfig.setAddToParent(Boolean.TRUE);
+		customerSelectionHierarchyRelationshipConfig.setAddToParent(true);
 		customerSelectionHierarchyRelationshipConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		customerSelectionHierarchyRelationshipConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyRelationshipLayout");
@@ -123,7 +123,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				true, customerSelectionHierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig customerSelectionHierarchy = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerHierarchy", true,
-				customerSelectionHierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+				customerSelectionHierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		customerSelectionHierarchy.setComponentName("Hierarchy: ");
 
 		GtnUIFrameWorkActionConfig customerSelectionHierarchypopupAction = new GtnUIFrameWorkActionConfig();
@@ -138,11 +138,11 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				.getHorizontalLayoutConfig("customerSelectionRelationshipLayout", true, customerSelectionHierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig customerSelectionRelationship = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerSelectionRelationship", true,
-				customerSelectionRelationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				customerSelectionRelationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerSelectionRelationship.setComponentName("Relationship: ");
 
 		GtnUIFrameworkComboBoxConfig customerSelectionRelationshipLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customerSelectionRelationship.setGtnComboboxConfig(customerSelectionRelationshipLoadConfig);
 
@@ -150,7 +150,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				customerSelectionHierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig customerSelectionLevel = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerSelectionLevel", true,
-				customerSelectionLevelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				customerSelectionLevelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerSelectionLevel.setComponentName("Level: ");
 
 		GtnUIFrameworkComboBoxConfig customerSelectionLevelLoadConfig = configProvider.getComboBoxConfig(
@@ -163,7 +163,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig customerSelectionForecastEligibilityDate = configProvider.getUIFrameworkComponentConfig(
 				namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerSelectionForecastEligibilityDate", true, customerSelectionForecastEligibilityDateLayout.getComponentId(),
-				GtnUIFrameworkComponentType.DATEFIELD);
+				GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
 		customerSelectionForecastEligibilityDate.setComponentName("Forecast Eligibility Date: ");
 
 		componentList.add(customerSelectionHierarchyLayout);
@@ -185,7 +185,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionDualListBoxComponent.setComponentName("Customer Selection");
 		customerSelectionDualListBoxComponent.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionInnerlayout");
-		customerSelectionDualListBoxComponent.setAddToParent(Boolean.TRUE);
+		customerSelectionDualListBoxComponent.setAddToParent(true);
 
 		componentList.add(customerSelectionDualListBoxComponent);
 		GtnUIFrameworkDualListBoxConfig customerSelectionDualListBoxConfig = new GtnUIFrameworkDualListBoxConfig();

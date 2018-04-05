@@ -88,7 +88,6 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 						updateValues(itemId, dto, newValue, propertyId, textField);
 					}
 				});
-
 				addWindow(propertyId, popUpWindow);
 			} catch (GtnFrameworkGeneralException e) {
 				gtnLogger.error(e.getMessage());
@@ -149,13 +148,8 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 	GtnUIFrameworkPopUpBean getPopupBeanType(String propertyId) {
 		GtnUIFrameworkPopUpBean popUpBean = new GtnUIFrameworkPopUpBean(
 				GtnFrameworkCommonConstants.DEDUCTION_CALENDAR_POP_UP_SEARCH_VIEW);
-		if (propertyId.equals("deductionNo")) {
-			setPopupBean(popUpBean, GtnFrameworkCommonConstants.DEDUCTION_CALENDAR_POP_UP_SEARCH_VIEW,
-					"dcPopUpSearchResultTable", GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD,
-					GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NAME, GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD,
-					"dcPopUpViewSelectButton");
-			popUpBean.setCaption("Deduction Calendar LookUp");
-		} else if (propertyId.equals("evaluationRuleName")) {
+
+		if (propertyId.equals("evaluationRuleName")) {
 			setPopupBeanForRuleNames(popUpBean);
 			popUpBean.setRuleTypeId(1705);
 			popUpBean.setCaption("Evaluation Rule  LookUp ");
@@ -177,12 +171,18 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, GtnFrameworkRSConstants.REBATE_PLAN_NO,
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, "rebatePlanPopUpViewSelectButton");
 			popUpBean.setCaption("Rebate Plan ID Lookup");
-		} else {
+		} else if (propertyId.equals(GtnFrameworkRSConstants.NET_SALES_FORMULA_NAME)) {
 			setPopupBean(popUpBean, "netSalesFormulaPopUpView", "netSalesSearchResultTable",
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, GtnFrameworkCommonConstants.FORMULA_NAME,
 					GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD, "netSalesFormulaPopUpViewAddButton");
 			popUpBean.setCaption("Net Sales Formula Lookup ");
 
+		} else {
+			setPopupBean(popUpBean, GtnFrameworkCommonConstants.DEDUCTION_CALENDAR_POP_UP_SEARCH_VIEW,
+					"dcPopUpSearchResultTable", GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD,
+					GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NAME, GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD,
+					"dcPopUpViewSelectButton");
+			popUpBean.setCaption("Deduction Calendar LookUp");
 		}
 		return popUpBean;
 
@@ -262,12 +262,6 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 				tempProperty = propertyId.replace("Name", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
-			} else if (propertyId.equals("deductionNo")) {
-				name = dto.getPropertyValue(GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NAME).toString();
-				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);
-				updateField(tempProperty, sysId, Integer
-						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
-
 			} else if (propertyId.equals(GtnFrameworkRSConstants.REBATE_PLAN_NO)) {
 				name = dto.getPropertyValue("secondaryRebatePlanNo").toString();
 				String rpname = dto.getPropertyValue("secondaryRebatePlanName").toString();
@@ -279,13 +273,22 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
 			} else if ("formulaNo".equals(propertyId)) {
+				CustomTextField txtField = (CustomTextField) GtnUIFrameworkGlobalUI
+						.getVaadinComponent(GtnFrameworkCommonConstants.FORMULA_NAME);
 				name = dto.getPropertyValue("formulaNo").toString();
+				String formulaName = dto.getPropertyValue(GtnFrameworkCommonConstants.FORMULA_NAME).toString();
 				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
-			} else {
+				txtField.setValue(formulaName);
+			} else if (propertyId.equals(GtnFrameworkCommonConstants.FORMULA_NAME)) {
 				name = dto.getPropertyValue(GtnFrameworkCommonConstants.FORMULA_NAME).toString();
 				tempProperty = propertyId.replace("Name", GtnFrameworkRSConstants.SYS_ID);
+				updateField(tempProperty, sysId, Integer
+						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
+			} else {
+				name = dto.getPropertyValue(GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO).toString();
+				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
 			}

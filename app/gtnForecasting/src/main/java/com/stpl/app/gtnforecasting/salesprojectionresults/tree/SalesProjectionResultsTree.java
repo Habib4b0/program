@@ -40,6 +40,10 @@ public class SalesProjectionResultsTree {
     protected SalesProjectionResultsTreeBuildCreteria creteria;
     private SPRStaticData[] staticdata;
 
+    public SalesProjectionResultsTree() {
+        super();
+    }
+
     public SalesPRBaseNode getApex() {
         return apex;
     }
@@ -412,7 +416,7 @@ public class SalesProjectionResultsTree {
             return staticDataLabel;
         }
 
-        public void setStaticData(SalesProjectionResultsDTO staticData) {
+        protected void setStaticData(SalesProjectionResultsDTO staticData) {
             this.staticData = staticData;
         }
 

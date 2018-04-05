@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.deductioncalendar.dto.SelectionDTO;
 import com.stpl.app.global.deductioncalendar.logic.SelectionLogic;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 
@@ -28,6 +29,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
     private final SessionDTO sessionDTO;
     private final SelectionLogic selectionLogic=new SelectionLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
+    
 
     @Override
     public int getCount() {
@@ -35,7 +37,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
             try {
                 count=selectionLogic.getSelectedTableCount(sessionDTO,this.getFilters());
             }  catch (Exception ex) {
-                LOGGER.error(ex + " in getCount");
+                LOGGER.error("{} in getCount" , ex);
             }
 
         return count;
@@ -47,7 +49,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
         try {
             resultList=selectionLogic.getSelectedTableResult(sessionDTO, start, start + offset, this.getSortByColumns(),this.getFilters());
         } catch (Exception ex) {
-            LOGGER.error(ex + " in loadData");
+            LOGGER.error("{} in loadData", ex);
         }
         return resultList;
     }
@@ -74,12 +76,12 @@ public class ItemSelectionTableLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
    

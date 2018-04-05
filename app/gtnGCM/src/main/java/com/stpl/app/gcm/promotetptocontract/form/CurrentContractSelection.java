@@ -58,6 +58,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
@@ -84,6 +85,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
      * View name for navigation.
      */
     public static final String NAME = StringUtils.EMPTY;
+    
+    
     /**
      * The Constant LOGGER.
      */
@@ -226,8 +229,8 @@ public class CurrentContractSelection extends CustomComponent implements View {
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     public static final String NUM = "Number :";
     private static List<CurrentContractDTO> selectedContract = new ArrayList<>();
-    private Boolean contractExcelFlag = false;
-    private Boolean infoExcelFlag = false;
+    private boolean contractExcelFlag = false;
+    private boolean infoExcelFlag = false;
     private List<Integer> contractid = new ArrayList<>();
     private final StplSecurity stplSecurity = new StplSecurity();
 
@@ -676,9 +679,9 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     MessageConstants.NO_SEARCH_CRITERIA_TP.getConstant());
             return;
         } else {
-            binderDto.setSearch(true);
+            binderDto.setSearch(BooleanConstant.getTrueFlag());
         }
-        binderDto.setReset(false);
+        binderDto.setReset(BooleanConstant.getFalseFlag());
         if (!tableLogic.loadSetData(binderDto, session)) {
             AbstractNotificationUtils.getErrorNotification("No Matching Records",
                     "There were no records matching the search criteria.  Please try again.");

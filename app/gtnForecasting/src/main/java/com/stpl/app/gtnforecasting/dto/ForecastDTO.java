@@ -21,6 +21,10 @@ public class ForecastDTO {
 	private Date projectionEndDate;
 	private Date historyStartDate;
 	private Date historyEndDate;
+
+    public ForecastDTO() {
+        super();
+    }
 	
 	public Date getForecastStartDate() {
 		return forecastStartDate == null ? null : (Date) forecastStartDate.clone();

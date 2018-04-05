@@ -7,29 +7,26 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyColumnSelect;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyEntityMaster;
-import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchySingleColumnRelation;
+import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyHelperSelect;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableMaster;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableRelation;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTypeTableRelation;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-@Service
 public class GtnFrameworkEntityMasterBean {
 
-	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	private final List<GtnFrameworkEntityBean> entityList = new ArrayList<>();
 	private final List<GtnFramworkTableRelationBean> entityRelationList = new ArrayList<>();
 	private final List<GtnFramworkTableBean> entityTableList = new ArrayList<>();
 	private final List<GtnFrameworkRouteBean> entityRouteList = new ArrayList<>();
-	private final List<GtnFrameworkSingleColumnRelationBean> singleColumnRelationList = new ArrayList<>();
+	private final List<GtnFrameworkSelectColumnRelationBean> singleColumnRelationList = new ArrayList<>();
 	private final List<GtnFrameworkEntityHierarchyRelationBean> entityHirarchyRelationList = new ArrayList<>();
 	private final List<GtnFrameworkHierarchyRestrictionBean> hierachyRestrcionList = new ArrayList<>();
 
@@ -80,7 +77,7 @@ public class GtnFrameworkEntityMasterBean {
 		entityRelationList.add(entityRelationItem);
 	}
 
-	public void addKeyRelationList(GtnFrameworkSingleColumnRelationBean keyRelationItem) {
+	public void addKeyRelationList(GtnFrameworkSelectColumnRelationBean keyRelationItem) {
 		singleColumnRelationList.add(keyRelationItem);
 	}
 
@@ -99,6 +96,7 @@ public class GtnFrameworkEntityMasterBean {
 	public void addRestrictionBeanList(GtnFrameworkHierarchyRestrictionBean entityRouteItem) {
 		hierachyRestrcionList.add(entityRouteItem);
 	}
+
 
 	public GtnFrameworkEntityBean getEntityBean(int sourceEntityId) {
 		for (GtnFrameworkEntityBean gtnFrameworkEntityBean : entityList) {
@@ -185,16 +183,21 @@ public class GtnFrameworkEntityMasterBean {
 		return outputList;
 	}
 
-	public GtnFrameworkSingleColumnRelationBean getKeyRelationBeanUsingTableIdAndColumnName(String tableName,
+	public GtnFrameworkSelectColumnRelationBean getKeyRelationBeanUsingTableIdAndColumnName(String tableName,
 			String columnName) {
-		for (GtnFrameworkSingleColumnRelationBean gtnFrameworkKeyListBean : singleColumnRelationList) {
+		for (GtnFrameworkSelectColumnRelationBean gtnFrameworkKeyListBean : singleColumnRelationList) {
 			String actualTableName = gtnFrameworkKeyListBean.getActualTtableName();
 			String actualColumnName = gtnFrameworkKeyListBean.getActualColumnName();
 			if (actualTableName.equals(tableName) && actualColumnName.equals(columnName)) {
 				return gtnFrameworkKeyListBean;
 			}
 		}
-		return null;
+		GtnFrameworkSelectColumnRelationBean gtnFrameworkKeyListBean = new GtnFrameworkSelectColumnRelationBean();
+		gtnFrameworkKeyListBean.setActualTtableName(tableName);
+		gtnFrameworkKeyListBean.setActualColumnName(columnName);
+		GtnFramworkTableBean tableBean = getEntityBeanByTableName(tableName);
+		gtnFrameworkKeyListBean.setPrimaryKeyColumnName(tableBean.getPrimaryKeyColumn());
+		return gtnFrameworkKeyListBean;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -248,6 +251,7 @@ public class GtnFrameworkEntityMasterBean {
 			tableMasterBean.setTablename(dbTableMasterBean.getTableName());
 			tableMasterBean.setInboundStatusColumn(dbTableMasterBean.getColumnName());
 			tableMasterBean.setInboundStatusValue(dbTableMasterBean.getValue());
+			tableMasterBean.setPrimaryKeyColumn(dbTableMasterBean.getPrimaryKeyColumn());
 			addEntityTableList(tableMasterBean);
 		}
 
@@ -255,21 +259,35 @@ public class GtnFrameworkEntityMasterBean {
 
 	private void insertToKeyRelationList() {
 		Session session = gtnSqlQueryEngine.getSessionFactory().openSession();
-		Criteria criteria = session.createCriteria(HierarchySingleColumnRelation.class);
+		Criteria criteria = session.createCriteria(HierarchyColumnSelect.class);
 		@SuppressWarnings("unchecked")
-		List<HierarchySingleColumnRelation> results = criteria.list();
-
-		for (HierarchySingleColumnRelation dbSingleColumnRelationBean : results) {
-			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = new GtnFrameworkSingleColumnRelationBean();
-			singleColumnRelationBean.setMastersid(dbSingleColumnRelationBean.getColumnRelationSid());
-			singleColumnRelationBean.setActualTtableName(dbSingleColumnRelationBean.getActualTableName());
-			singleColumnRelationBean.setActualColumnName(dbSingleColumnRelationBean.getActualColumnName());
-			singleColumnRelationBean.setReferenceTableName(dbSingleColumnRelationBean.getReferenceTableName());
-			singleColumnRelationBean.setMappingColumnName(dbSingleColumnRelationBean.getMappingColumnName());
-			singleColumnRelationBean.setDescColumnName(dbSingleColumnRelationBean.getDescColumnName());
-			singleColumnRelationBean.setPrimaryKeyColumnName(dbSingleColumnRelationBean.getPrimaryKeyColumnName());
+		List<HierarchyColumnSelect> results = criteria.list();
+		Criteria helperriteria = session.createCriteria(HierarchyHelperSelect.class);
+		@SuppressWarnings("unchecked")
+		List<HierarchyHelperSelect> helperResultsresults = helperriteria.list();
+		for (HierarchyColumnSelect hierarchyColumnSelect : results) {
+			GtnFrameworkSelectColumnRelationBean singleColumnRelationBean = new GtnFrameworkSelectColumnRelationBean();
+			HierarchyTableMaster tableMaster = session.load(HierarchyTableMaster.class,
+					hierarchyColumnSelect.getId().getMasterTableSid());
+			singleColumnRelationBean.setActualTtableName(tableMaster.getTableName());
+			singleColumnRelationBean.setActualColumnName(hierarchyColumnSelect.getId().getActualColumnName());
+			singleColumnRelationBean.setReferenceTableName(hierarchyColumnSelect.getId().getReferenceTableName());
+			singleColumnRelationBean.setMappingColumnName(hierarchyColumnSelect.getId().getMappingColumnName());
+			singleColumnRelationBean.setDescColumnName(hierarchyColumnSelect.getId().getDescColumnName());
+			singleColumnRelationBean.setPrimaryKeyColumnName(tableMaster.getPrimaryKeyColumn());
 			addKeyRelationList(singleColumnRelationBean);
-
+		}
+		for (HierarchyHelperSelect hierarchyHelperSelect : helperResultsresults) {
+			GtnFrameworkSelectColumnRelationBean singleColumnRelationBean = new GtnFrameworkSelectColumnRelationBean();
+			HierarchyTableMaster tableMaster = session.load(HierarchyTableMaster.class,
+					hierarchyHelperSelect.getId().getMasterTableSid());
+			singleColumnRelationBean.setActualTtableName(tableMaster.getTableName());
+			singleColumnRelationBean.setActualColumnName(hierarchyHelperSelect.getId().getActualColumnName());
+			singleColumnRelationBean.setReferenceTableName("HELPER_TABLE");
+			singleColumnRelationBean.setMappingColumnName("HELPER_TABLE_SID");
+			singleColumnRelationBean.setDescColumnName("DESCRIPTION");
+			singleColumnRelationBean.setPrimaryKeyColumnName(tableMaster.getPrimaryKeyColumn());
+			addKeyRelationList(singleColumnRelationBean);
 		}
 	}
 
@@ -299,28 +317,32 @@ public class GtnFrameworkEntityMasterBean {
 				GtnFrameworkHierarchyRestrictionBean tableRestrictionBean = new GtnFrameworkHierarchyRestrictionBean();
 				tableRestrictionBean.setHierarchyTableMasterSid(Integer.valueOf(dbTableMasterBean[0].toString()));
 				tableRestrictionBean
-						.setActualTableName(dbTableMasterBean[1] != null ? dbTableMasterBean[1].toString() : "");
+						.setActualTableName(getStringValue(dbTableMasterBean[1]));
 				tableRestrictionBean
-						.setActualColumnName(dbTableMasterBean[2] != null ? dbTableMasterBean[2].toString() : "");
+						.setActualColumnName(getStringValue(dbTableMasterBean[2]));
 				tableRestrictionBean
-						.setReferencTableName(dbTableMasterBean[3] != null ? dbTableMasterBean[3].toString() : "");
+						.setReferencTableName(getStringValue(dbTableMasterBean[3]));
 				tableRestrictionBean
-						.setReferenceColumnName(dbTableMasterBean[4] != null ? dbTableMasterBean[4].toString() : "");
+						.setReferenceColumnName(getStringValue(dbTableMasterBean[4]));
 				tableRestrictionBean
-						.setRestrictionColumnName(dbTableMasterBean[5] != null ? dbTableMasterBean[5].toString() : "");
+						.setRestrictionColumnName(getStringValue(dbTableMasterBean[5]));
 				tableRestrictionBean
-						.setRestrictionValue(dbTableMasterBean[6] != null ? dbTableMasterBean[6].toString() : "");
+						.setRestrictionValue(getStringValue(dbTableMasterBean[6]));
 				tableRestrictionBean
 						.setJoinSequence(dbTableMasterBean[7] != null ? Integer.valueOf(dbTableMasterBean[7].toString())
 								: Integer.MAX_VALUE);
 				tableRestrictionBean
-						.setOperatorType(dbTableMasterBean[8] != null ? dbTableMasterBean[8].toString() : "");
+						.setOperatorType(getStringValue(dbTableMasterBean[8]));
 				addRestrictionBeanList(tableRestrictionBean);
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
 
+	}
+
+	private String getStringValue(Object dbTableMasterBean) {
+		return dbTableMasterBean != null ? dbTableMasterBean.toString() : "";
 	}
 
 	public GtnFrameworkEntityHierarchyRelationBean getEntityHirarchyRelationBean(String tableName,

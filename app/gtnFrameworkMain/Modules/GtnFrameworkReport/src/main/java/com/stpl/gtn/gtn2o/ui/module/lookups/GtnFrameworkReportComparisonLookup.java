@@ -102,8 +102,8 @@ public class GtnFrameworkReportComparisonLookup {
 		projectionOptionMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		projectionOptionMainLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_OPTION_MAIN_LAYOUT);
-		projectionOptionMainLayoutConfig.setAddToParent(Boolean.TRUE);
-		projectionOptionMainLayoutConfig.setSpacing(Boolean.TRUE);
+		projectionOptionMainLayoutConfig.setAddToParent(true);
+		projectionOptionMainLayoutConfig.setSpacing(true);
 		projectionOptionMainLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "projectionOptions");
 		projectionOptionMainLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -116,8 +116,8 @@ public class GtnFrameworkReportComparisonLookup {
 		projectionOptionInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		projectionOptionInnerLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_OPTION_INNER_LAYOUT);
-		projectionOptionInnerLayoutConfig.setAddToParent(Boolean.TRUE);
-		projectionOptionInnerLayoutConfig.setSpacing(Boolean.TRUE);
+		projectionOptionInnerLayoutConfig.setAddToParent(true);
+		projectionOptionInnerLayoutConfig.setSpacing(true);
 		projectionOptionInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_8);
 		projectionOptionInnerLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_OPTION_MAIN_LAYOUT);
@@ -130,7 +130,7 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonLookupModeSelectionConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportComparisonLookupModeSelectionConfig.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupModeSelectionLayout");
-		reportComparisonLookupModeSelectionConfig.setAddToParent(Boolean.TRUE);
+		reportComparisonLookupModeSelectionConfig.setAddToParent(true);
 		reportComparisonLookupModeSelectionConfig.setGtnLayoutConfig(reportComparisonLookupModeSelectionLayout);
 		reportComparisonLookupModeSelectionConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -145,8 +145,8 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonLookupFromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportComparisonLookupFromToLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromToMainLayout");
-		reportComparisonLookupFromToLayoutConfig.setAddToParent(Boolean.TRUE);
-		reportComparisonLookupFromToLayoutConfig.setSpacing(Boolean.TRUE);
+		reportComparisonLookupFromToLayoutConfig.setAddToParent(true);
+		reportComparisonLookupFromToLayoutConfig.setSpacing(true);
 		reportComparisonLookupFromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		reportComparisonLookupFromToLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -160,7 +160,7 @@ public class GtnFrameworkReportComparisonLookup {
 		privateViewCompanyProjectionNameLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privateViewCompanyProjectionNameLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
-		privateViewCompanyProjectionNameLayout.setAddToParent(Boolean.TRUE);
+		privateViewCompanyProjectionNameLayout.setAddToParent(true);
 		privateViewCompanyProjectionNameLayout.setGtnLayoutConfig(privateViewCompanyProjectionNameLayoutConfig);
 		privateViewCompanyProjectionNameLayout
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -177,19 +177,19 @@ public class GtnFrameworkReportComparisonLookup {
 		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
-		publicViewsLayoutConfig.setAddToParent(Boolean.TRUE);
-		publicViewsLayoutConfig.setSpacing(Boolean.TRUE);
+		publicViewsLayoutConfig.setAddToParent(true);
+		publicViewsLayoutConfig.setSpacing(true);
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
 		publicViewsLayoutConfig.setGtnLayoutConfig(workflowStatusNameLayout);
 		componentList.add(publicViewsLayoutConfig);
 
 		GtnUIFrameworkComponentConfig workflowStatus = new GtnUIFrameworkComponentConfig();
-		workflowStatus.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		workflowStatus.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		workflowStatus.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PUBLIC_VIEWS);
 		workflowStatus.setComponentName("Workflow Status: ");
-		workflowStatus.setAddToParent(Boolean.TRUE);
+		workflowStatus.setAddToParent(true);
 		workflowStatus.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
 		GtnUIFrameworkComboBoxConfig workflowStatusConfig = new GtnUIFrameworkComboBoxConfig();
@@ -206,8 +206,8 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonLookupBusinessUnitLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
-		reportComparisonLookupBusinessUnitLayoutConfig.setAddToParent(Boolean.TRUE);
-		reportComparisonLookupBusinessUnitLayoutConfig.setSpacing(Boolean.TRUE);
+		reportComparisonLookupBusinessUnitLayoutConfig.setAddToParent(true);
+		reportComparisonLookupBusinessUnitLayoutConfig.setSpacing(true);
 		reportComparisonLookupBusinessUnitLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
@@ -215,11 +215,11 @@ public class GtnFrameworkReportComparisonLookup {
 		componentList.add(reportComparisonLookupBusinessUnitLayoutConfig);
 
 		GtnUIFrameworkComponentConfig reportComparisonLookupMarketType = new GtnUIFrameworkComponentConfig();
-		reportComparisonLookupMarketType.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		reportComparisonLookupMarketType.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		reportComparisonLookupMarketType.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupMarketType");
 		reportComparisonLookupMarketType.setComponentName("Market Type: ");
-		reportComparisonLookupMarketType.setAddToParent(Boolean.TRUE);
+		reportComparisonLookupMarketType.setAddToParent(true);
 		reportComparisonLookupMarketType.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
 		componentList.add(reportComparisonLookupMarketType);
@@ -228,8 +228,8 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonLookupBrandLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportComparisonLookupBrandLayoutConfig.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupBrandLayoutConfig");
-		reportComparisonLookupBrandLayoutConfig.setAddToParent(Boolean.TRUE);
-		reportComparisonLookupBrandLayoutConfig.setSpacing(Boolean.TRUE);
+		reportComparisonLookupBrandLayoutConfig.setAddToParent(true);
+		reportComparisonLookupBrandLayoutConfig.setSpacing(true);
 		reportComparisonLookupBrandLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
@@ -237,11 +237,11 @@ public class GtnFrameworkReportComparisonLookup {
 		componentList.add(reportComparisonLookupBrandLayoutConfig);
 
 		GtnUIFrameworkComponentConfig reportComparisonLookupBrand = new GtnUIFrameworkComponentConfig();
-		reportComparisonLookupBrand.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		reportComparisonLookupBrand.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		reportComparisonLookupBrand.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupBrand");
 		reportComparisonLookupBrand.setComponentName("Brand: ");
-		reportComparisonLookupBrand.setAddToParent(Boolean.TRUE);
+		reportComparisonLookupBrand.setAddToParent(true);
 		reportComparisonLookupBrand.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupBrandLayoutConfig");
 		componentList.add(reportComparisonLookupBrand);
@@ -254,19 +254,19 @@ public class GtnFrameworkReportComparisonLookup {
 		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
-		publicViewsLayoutConfig.setAddToParent(Boolean.TRUE);
-		publicViewsLayoutConfig.setSpacing(Boolean.TRUE);
+		publicViewsLayoutConfig.setAddToParent(true);
+		publicViewsLayoutConfig.setSpacing(true);
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
 		publicViewsLayoutConfig.setGtnLayoutConfig(projectionNameComponent);
 		componentList.add(publicViewsLayoutConfig);
 
 		GtnUIFrameworkComponentConfig projectionName = new GtnUIFrameworkComponentConfig();
-		projectionName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		projectionName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		projectionName.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PUBLIC_VIEWS);
 		projectionName.setComponentName("Projection Name: ");
-		projectionName.setAddToParent(Boolean.TRUE);
+		projectionName.setAddToParent(true);
 		projectionName.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
 
@@ -277,8 +277,8 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonLookupContractHolderConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportComparisonLookupContractHolderConfig.setComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupContractHolderConfig");
-		reportComparisonLookupContractHolderConfig.setAddToParent(Boolean.TRUE);
-		reportComparisonLookupContractHolderConfig.setSpacing(Boolean.TRUE);
+		reportComparisonLookupContractHolderConfig.setAddToParent(true);
+		reportComparisonLookupContractHolderConfig.setSpacing(true);
 		reportComparisonLookupContractHolderConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
@@ -286,11 +286,11 @@ public class GtnFrameworkReportComparisonLookup {
 		componentList.add(reportComparisonLookupContractHolderConfig);
 
 		GtnUIFrameworkComponentConfig reportComparisonLookupContractHolder = new GtnUIFrameworkComponentConfig();
-		reportComparisonLookupContractHolder.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		reportComparisonLookupContractHolder.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		reportComparisonLookupContractHolder.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupContractHolder");
 		reportComparisonLookupContractHolder.setComponentName("Contract Holder: ");
-		reportComparisonLookupContractHolder.setAddToParent(Boolean.TRUE);
+		reportComparisonLookupContractHolder.setAddToParent(true);
 		reportComparisonLookupContractHolder.setParentComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonLookupContractHolderConfig");
 		componentList.add(reportComparisonLookupContractHolder);
@@ -300,19 +300,19 @@ public class GtnFrameworkReportComparisonLookup {
 		ndcLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		ndcLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.NDC_LAYOUT);
-		ndcLayoutConfig.setAddToParent(Boolean.TRUE);
-		ndcLayoutConfig.setSpacing(Boolean.TRUE);
+		ndcLayoutConfig.setAddToParent(true);
+		ndcLayoutConfig.setSpacing(true);
 		ndcLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
 		ndcLayoutConfig.setGtnLayoutConfig(ndcLayout);
 		componentList.add(ndcLayoutConfig);
 
 		GtnUIFrameworkComponentConfig ndcConfig = new GtnUIFrameworkComponentConfig();
-		ndcConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		ndcConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		ndcConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.NDC_CONFIG);
 		ndcConfig.setComponentName("NDC: ");
-		ndcConfig.setAddToParent(Boolean.TRUE);
+		ndcConfig.setAddToParent(true);
 		ndcConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.NDC_LAYOUT);
 		componentList.add(ndcConfig);
@@ -325,19 +325,19 @@ public class GtnFrameworkReportComparisonLookup {
 		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
-		publicViewsLayoutConfig.setAddToParent(Boolean.TRUE);
-		publicViewsLayoutConfig.setSpacing(Boolean.TRUE);
+		publicViewsLayoutConfig.setAddToParent(true);
+		publicViewsLayoutConfig.setSpacing(true);
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
 		publicViewsLayoutConfig.setGtnLayoutConfig(descriptionLayout);
 		componentList.add(publicViewsLayoutConfig);
 
 		GtnUIFrameworkComponentConfig description = new GtnUIFrameworkComponentConfig();
-		description.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		description.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		description.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PUBLIC_VIEWS);
 		description.setComponentName("Description: ");
-		description.setAddToParent(Boolean.TRUE);
+		description.setAddToParent(true);
 		description.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
 
@@ -348,19 +348,19 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonContractConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportComparisonContractConfig.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonContractConfig");
-		reportComparisonContractConfig.setAddToParent(Boolean.TRUE);
-		reportComparisonContractConfig.setSpacing(Boolean.TRUE);
+		reportComparisonContractConfig.setAddToParent(true);
+		reportComparisonContractConfig.setSpacing(true);
 		reportComparisonContractConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
 		reportComparisonContractConfig.setGtnLayoutConfig(reportComparisonContractLayout);
 		componentList.add(reportComparisonContractConfig);
 
 		GtnUIFrameworkComponentConfig reportComparisonContract = new GtnUIFrameworkComponentConfig();
-		reportComparisonContract.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		reportComparisonContract.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		reportComparisonContract
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonContract");
 		reportComparisonContract.setComponentName("Contract: ");
-		reportComparisonContract.setAddToParent(Boolean.TRUE);
+		reportComparisonContract.setAddToParent(true);
 		reportComparisonContract.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonContractConfig");
 		componentList.add(reportComparisonContract);
@@ -370,19 +370,19 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonNdcNameConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportComparisonNdcNameConfig.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonNdcNameConfig");
-		reportComparisonNdcNameConfig.setAddToParent(Boolean.TRUE);
-		reportComparisonNdcNameConfig.setSpacing(Boolean.TRUE);
+		reportComparisonNdcNameConfig.setAddToParent(true);
+		reportComparisonNdcNameConfig.setSpacing(true);
 		reportComparisonNdcNameConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROJECTION_SELECTIONLAYOUT1);
 		reportComparisonNdcNameConfig.setGtnLayoutConfig(reportComparisonNdcNameLayout);
 		componentList.add(reportComparisonNdcNameConfig);
 
 		GtnUIFrameworkComponentConfig reportComparisonNdcName = new GtnUIFrameworkComponentConfig();
-		reportComparisonNdcName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		reportComparisonNdcName.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		reportComparisonNdcName
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonNdcName");
 		reportComparisonNdcName.setComponentName("NDC Name: ");
-		reportComparisonNdcName.setAddToParent(Boolean.TRUE);
+		reportComparisonNdcName.setAddToParent(true);
 		reportComparisonNdcName.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonNdcNameConfig");
 		componentList.add(reportComparisonNdcName);
@@ -396,7 +396,7 @@ public class GtnFrameworkReportComparisonLookup {
 		panel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "timePeriod");
 		panel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		panel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		panel.setAddToParent(Boolean.TRUE);
+		panel.setAddToParent(true);
 		panel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromToMainLayout");
 		panel.addComponentStyle(GtnFrameworkCssConstants.PANEL_TIME_PERIOD_RTN_FOR);
 		componentList.add(panel);
@@ -407,9 +407,9 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonFromAndToperiodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		comparisonFromAndToperiodLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
-		comparisonFromAndToperiodLayoutConfig.setSpacing(Boolean.TRUE);
+		comparisonFromAndToperiodLayoutConfig.setSpacing(true);
 		comparisonFromAndToperiodLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		comparisonFromAndToperiodLayoutConfig.setAddToParent(Boolean.TRUE);
+		comparisonFromAndToperiodLayoutConfig.setAddToParent(true);
 		comparisonFromAndToperiodLayoutConfig.setGtnLayoutConfig(comparisonLookuptimePeriodInnerLayout);
 		comparisonFromAndToperiodLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "timePeriod");
@@ -422,18 +422,18 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupFromPeriodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		comparisonLookupFromPeriodLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
-		comparisonLookupFromPeriodLayoutConfig.setAddToParent(Boolean.TRUE);
+		comparisonLookupFromPeriodLayoutConfig.setAddToParent(true);
 		comparisonLookupFromPeriodLayoutConfig.setGtnLayoutConfig(comparisonLookupFromPeriodLayout);
 		comparisonLookupFromPeriodLayoutConfig.setParentComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(comparisonLookupFromPeriodLayoutConfig);
 
 		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
-		fromPeriod.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
+		fromPeriod.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
 		fromPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
 		fromPeriod.setComponentName("From ");
-		fromPeriod.setAddToParent(Boolean.TRUE);
+		fromPeriod.setAddToParent(true);
 
 		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
 
@@ -445,18 +445,18 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupToPeriodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		comparisonLookupToPeriodLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
-		comparisonLookupToPeriodLayoutConfig.setAddToParent(Boolean.TRUE);
+		comparisonLookupToPeriodLayoutConfig.setAddToParent(true);
 		comparisonLookupToPeriodLayoutConfig.setGtnLayoutConfig(comparisonLookupToPeriodLayout);
 		comparisonLookupToPeriodLayoutConfig.setParentComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(comparisonLookupToPeriodLayoutConfig);
 
 		GtnUIFrameworkComponentConfig comparisonLookupToPeriod = new GtnUIFrameworkComponentConfig();
-		comparisonLookupToPeriod.setComponentType(GtnUIFrameworkComponentType.DATEFIELD);
+		comparisonLookupToPeriod.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
 		comparisonLookupToPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD);
 		comparisonLookupToPeriod.setComponentName("To ");
-		comparisonLookupToPeriod.setAddToParent(Boolean.TRUE);
+		comparisonLookupToPeriod.setAddToParent(true);
 		comparisonLookupToPeriod
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
 

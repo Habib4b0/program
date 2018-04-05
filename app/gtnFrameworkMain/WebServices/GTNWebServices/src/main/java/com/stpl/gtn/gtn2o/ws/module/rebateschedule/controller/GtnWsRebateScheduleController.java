@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
+import com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsModel;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.rebateschedule.service.GtnWsRebateScheduleCrudService;
@@ -32,9 +33,13 @@ import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsCheckAllUpdateRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.rebateschedule.GtnWsRebateScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -87,6 +92,7 @@ public class GtnWsRebateScheduleController {
 		logger.info("Entering rebateScheduleSaveService");
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse gtnGenWsesponse = new GtnWsGeneralResponse();
+                GtnWsRebateScheduleGeneralRequest gtnRequest = gtnWsRequest.getGtnWsRebateScheduleGeneralRequest();
 		try {
 
 			gtnGenWsesponse.setSucess(true);
@@ -94,9 +100,13 @@ public class GtnWsRebateScheduleController {
 			GtnWsGeneralRequest gtnWsGeneralRequest = gtnWsRequest.getGtnWsGeneralRequest();
 			GtnWsRebateScheduleInfoBean rsInfoBean = gtnWsRequest.getGtnWsRebateScheduleGeneralRequest()
 					.getRebateScheduleInfoBean();
-
-			rsWebservice.rebateScheduleSave(rsInfoBean, gtnWsGeneralRequest.getUserId(),
+                        boolean flag = checkRebateScheduleMaster(
+					gtnRequest.getRebateScheduleInfoBean().getRebateScheduleId(),gtnRequest.getRebateScheduleInfoBean().getSystemId());
+                        rsInfoBean.setRsIdAlreadyExist(flag);
+                        if(!flag){
+                            rsWebservice.rebateScheduleSave(rsInfoBean, gtnWsGeneralRequest.getUserId(),
 					gtnWsGeneralRequest.getSessionId());
+                        }
 			gtnResponse.setRebateScheduleInfoBean(rsInfoBean);
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnGenWsesponse.setSucess(false);
@@ -186,12 +196,12 @@ public class GtnWsRebateScheduleController {
 
 				for (String key : psUpdateBean.getPropertyValueMap().keySet()) {
 					if (isAdded) {
-						updateQuery.append(",").append(componetMap.get(key).getDbColumnName()).append("='")
-								.append(psUpdateBean.getPropertyValueMap().get(key)).append("'");
+						updateQuery.append(',').append(componetMap.get(key).getDbColumnName()).append("='")
+								.append(psUpdateBean.getPropertyValueMap().get(key)).append("' ");
 
 					} else {
 						updateQuery.append(componetMap.get(key).getDbColumnName()).append("='")
-								.append(psUpdateBean.getPropertyValueMap().get(key)).append("'");
+								.append(psUpdateBean.getPropertyValueMap().get(key)).append("' ");
 						isAdded = true;
 					}
 
@@ -200,14 +210,14 @@ public class GtnWsRebateScheduleController {
 			} else {
 
 				updateQuery.append("").append(componetMap.get(psUpdateBean.getPropertyId()).getDbColumnName())
-						.append("=");
+						.append('=');
 
-				updateQuery.append("'").append(psUpdateBean.getValue()).append("'");
+				updateQuery.append(" '").append(psUpdateBean.getValue()).append("' ");
 
 			}
 
 			updateQuery.append(" WHERE  USERS_SID='").append(generalWSRequest.getUserId()).append("' AND SESSION_ID='")
-					.append(generalWSRequest.getSessionId()).append("'");
+					.append(generalWSRequest.getSessionId()).append("' ");
 			if (!psUpdateBean.isCheckAll()) {
 				updateQuery.append(" AND CHECK_RECORD='1' ");
 			}
@@ -241,7 +251,7 @@ public class GtnWsRebateScheduleController {
 			logger.error("Error in loadPriceSchedule", ex);
 		}
 
-		logger.info("Exit loadRebateSchedule");
+		logger.info("Exit  loadRebateSchedule");
 		return gtnResponse;
 	}
 
@@ -326,10 +336,10 @@ public class GtnWsRebateScheduleController {
 			}
 
 			if (userId != null) {
-				sql.append("  users_Sid='").append(userId).append("'");
+				sql.append("  users_Sid='").append(userId).append("' ");
 			}
 			if (sessionId != null) {
-				sql.append(" and session_Id='").append(sessionId).append("'");
+				sql.append(" and session_Id='").append(sessionId).append("' ");
 			}
 
 			if (process.equalsIgnoreCase("tempCheckedCount") || process.equalsIgnoreCase("Status")
@@ -364,5 +374,24 @@ public class GtnWsRebateScheduleController {
 			logger.info("Exit deleteIfp and delete the ifp ");
 		}
 	}
+    @SuppressWarnings("unchecked")
+    public boolean checkRebateScheduleMaster(String rebateScheduleId,int rsModelSid) throws GtnFrameworkGeneralException {
+        List<RsModel> results = null;
+        Criteria criteria;
+		try (Session session = sessionFactory.openSession()) {
+                    if(rsModelSid==0){
+			 criteria = session.createCriteria(RsModel.class)
+					.add(Restrictions.eq("rsId", rebateScheduleId));
+                    }else{
+                         criteria = session.createCriteria(RsModel.class)
+					.add(Restrictions.eq("rsId", rebateScheduleId))
+					.add(Restrictions.ne("rsModelSid", rsModelSid));
+                    }
+			results = criteria.list();
+		} catch (Exception ex) {
+			throw new GtnFrameworkGeneralException(ex);
+		}
+		return results != null && !results.isEmpty(); 
+    }
 
 }

@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyCon
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkReportLandingScreenConfig {
@@ -49,10 +50,10 @@ public class GtnFrameworkReportLandingScreenConfig {
 		addProductSelectionLayout(componentList, namespace);
 
 		GtnFrameworkReportCustHierarchyConfig customerSelection = new GtnFrameworkReportCustHierarchyConfig();
-		componentList.addAll(customerSelection.getCustomerSelectionLayoutComponents(namespace+"cust"));
+		componentList.addAll(customerSelection.getCustomerSelectionLayoutComponents(namespace));
 
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
-		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace+"prod"));
+		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace));
 
 		addControlButtonLayout(componentList, namespace);
 	}
@@ -65,7 +66,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		dataSelectionMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		dataSelectionMainLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.DATA_SELECTION_MAIN_LAYOUT);
-		dataSelectionMainLayoutConfig.setAddToParent(Boolean.FALSE);
+		dataSelectionMainLayoutConfig.setAddToParent(false);
 		dataSelectionMainLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		dataSelectionMainLayoutConfig.setGtnLayoutConfig(dataSelectionMainLayout);
 		componentList.add(dataSelectionMainLayoutConfig);
@@ -81,7 +82,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportOptionsPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.DATA_SELECTION_MAIN_LAYOUT);
 		reportOptionsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		reportOptionsPanel.setAddToParent(Boolean.TRUE);
+		reportOptionsPanel.setAddToParent(true);
 		reportOptionsPanel.setSpacing(true);
 		componentList.add(reportOptionsPanel);
 
@@ -92,8 +93,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportOptionsMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportOptionsMainLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
-		reportOptionsMainLayoutConfig.setAddToParent(Boolean.TRUE);
-		reportOptionsMainLayoutConfig.setSpacing(Boolean.TRUE);
+		reportOptionsMainLayoutConfig.setAddToParent(true);
+		reportOptionsMainLayoutConfig.setSpacing(true);
 		reportOptionsMainLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptions");
 		reportOptionsMainLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -106,8 +107,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportOptionsInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportOptionsInnerLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
-		reportOptionsInnerLayoutConfig.setAddToParent(Boolean.TRUE);
-		reportOptionsInnerLayoutConfig.setSpacing(Boolean.TRUE);
+		reportOptionsInnerLayoutConfig.setAddToParent(true);
+		reportOptionsInnerLayoutConfig.setSpacing(true);
 		reportOptionsInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_8);
 		reportOptionsInnerLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
@@ -120,7 +121,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		modeLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		modeLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "modeSelectionLayout");
-		modeLayoutConfig.setAddToParent(Boolean.TRUE);
+		modeLayoutConfig.setAddToParent(true);
 		modeLayoutConfig.setGtnLayoutConfig(modeSelectionlayout);
 		modeLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
@@ -133,8 +134,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fromToLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromToMainLayout");
-		fromToLayoutConfig.setAddToParent(Boolean.TRUE);
-		fromToLayoutConfig.setSpacing(Boolean.TRUE);
+		fromToLayoutConfig.setAddToParent(true);
+		fromToLayoutConfig.setSpacing(true);
 		fromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		fromToLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
@@ -147,7 +148,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		privateViewCompanyReportNameLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privateViewCompanyReportNameLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
-		privateViewCompanyReportNameLayout.setAddToParent(Boolean.TRUE);
+		privateViewCompanyReportNameLayout.setAddToParent(true);
 		privateViewCompanyReportNameLayout.setGtnLayoutConfig(privateViewCompanyReportNameLayoutConfig);
 		privateViewCompanyReportNameLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
@@ -158,26 +159,15 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 	private void addPrivateViewCompanyName(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 
-		GtnUIFrameworkLayoutConfig privateViewsLayout = new GtnUIFrameworkLayoutConfig();
-		GtnUIFrameworkComponentConfig privateViewsLayoutConfig = new GtnUIFrameworkComponentConfig();
-		privateViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		privateViewsLayoutConfig
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewLayout");
-		privateViewsLayoutConfig.setAddToParent(Boolean.TRUE);
-		privateViewsLayoutConfig.setSpacing(Boolean.TRUE);
-		privateViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
-		privateViewsLayoutConfig.setGtnLayoutConfig(privateViewsLayout);
-		componentList.add(privateViewsLayoutConfig);
-
 		GtnUIFrameworkComponentConfig privateView = new GtnUIFrameworkComponentConfig();
-		privateView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+		privateView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		privateView.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PRIVATE_VIEWS);
 		privateView.setComponentName("Private Views");
-		privateView.setAddToParent(Boolean.TRUE);
+		privateView.setAddToParent(true);
 		privateView
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewLayout");
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
 		privateView.setComponentWsFieldId(GtnFrameworkCommonConstants.PRIVATE_VIEWS);
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 		Object privateViewLookup = "Private View";
@@ -193,19 +183,19 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComponentConfig companyLayoutConfig = new GtnUIFrameworkComponentConfig();
 		companyLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		companyLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyLayout");
-		companyLayoutConfig.setAddToParent(Boolean.TRUE);
-		companyLayoutConfig.setSpacing(Boolean.TRUE);
+		companyLayoutConfig.setAddToParent(true);
+		companyLayoutConfig.setSpacing(true);
 		companyLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
 		companyLayoutConfig.setGtnLayoutConfig(companyLayout);
 		componentList.add(companyLayoutConfig);
 
 		GtnUIFrameworkComponentConfig company = new GtnUIFrameworkComponentConfig();
-		company.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		company.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		company.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.COMPANY);
 		company.setComponentName("Company");
-		company.setAddToParent(Boolean.TRUE);
+		company.setAddToParent(true);
 		company.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyLayout");
 
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = new GtnUIFrameworkComboBoxConfig();
@@ -221,19 +211,19 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportDataSourceLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportDataSourceLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
-		reportDataSourceLayoutConfig.setAddToParent(Boolean.TRUE);
-		reportDataSourceLayoutConfig.setSpacing(Boolean.TRUE);
+		reportDataSourceLayoutConfig.setAddToParent(true);
+		reportDataSourceLayoutConfig.setSpacing(true);
 		reportDataSourceLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
 		reportDataSourceLayoutConfig.setGtnLayoutConfig(reportDataSourceLayout);
 		componentList.add(reportDataSourceLayoutConfig);
 
 		GtnUIFrameworkComponentConfig reportDataSource = new GtnUIFrameworkComponentConfig();
-		reportDataSource.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		reportDataSource.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		reportDataSource.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE);
 		reportDataSource.setComponentName("Report Data Source");
-		reportDataSource.setAddToParent(Boolean.TRUE);
+		reportDataSource.setAddToParent(true);
 		reportDataSource.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
 
@@ -246,25 +236,14 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 	private void addPublicViewBusinessUnit(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 
-		GtnUIFrameworkLayoutConfig publicViewsLayout = new GtnUIFrameworkLayoutConfig();
-		GtnUIFrameworkComponentConfig publicViewsLayoutConfig = new GtnUIFrameworkComponentConfig();
-		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		publicViewsLayoutConfig
-				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLayout");
-		publicViewsLayoutConfig.setAddToParent(Boolean.TRUE);
-		publicViewsLayoutConfig.setSpacing(Boolean.TRUE);
-		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
-		publicViewsLayoutConfig.setGtnLayoutConfig(publicViewsLayout);
-		componentList.add(publicViewsLayoutConfig);
-
 		GtnUIFrameworkComponentConfig publicView = new GtnUIFrameworkComponentConfig();
-		publicView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+		publicView.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		publicView.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PUBLIC_VIEWS);
 		publicView.setComponentName("Public Views");
-		publicView.setAddToParent(Boolean.TRUE);
-		publicView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLayout");
+		publicView.setAddToParent(true);
+		publicView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
 
 		List<GtnUIFrameWorkActionConfig> publicViewActionConfigList = new ArrayList<>();
 		Object publicViewLookup = "Public View";
@@ -288,19 +267,19 @@ public class GtnFrameworkReportLandingScreenConfig {
 		businessUnitLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		businessUnitLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnitLayout");
-		businessUnitLayoutConfig.setAddToParent(Boolean.TRUE);
-		businessUnitLayoutConfig.setSpacing(Boolean.TRUE);
+		businessUnitLayoutConfig.setAddToParent(true);
+		businessUnitLayoutConfig.setSpacing(true);
 		businessUnitLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
 		businessUnitLayoutConfig.setGtnLayoutConfig(businessUnitLayout);
 		componentList.add(businessUnitLayoutConfig);
 
 		GtnUIFrameworkComponentConfig businessUnit = new GtnUIFrameworkComponentConfig();
-		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		businessUnit.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.BUSINESS_UNIT);
 		businessUnit.setComponentName("Business Unit");
-		businessUnit.setAddToParent(Boolean.TRUE);
+		businessUnit.setAddToParent(true);
 		businessUnit
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnitLayout");
 		GtnUIFrameworkComboBoxConfig businessUnitConfig = new GtnUIFrameworkComboBoxConfig();
@@ -319,7 +298,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		panel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "timePeriod");
 		panel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		panel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		panel.setAddToParent(Boolean.TRUE);
+		panel.setAddToParent(true);
 		panel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromToMainLayout");
 		panel.addComponentStyle(GtnFrameworkCssConstants.PANEL_TIME_PERIOD_RTN_FOR);
 		componentList.add(panel);
@@ -330,9 +309,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromAndToperiodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fromAndToperiodLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
-		fromAndToperiodLayoutConfig.setSpacing(Boolean.TRUE);
+		fromAndToperiodLayoutConfig.setSpacing(true);
 		fromAndToperiodLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		fromAndToperiodLayoutConfig.setAddToParent(Boolean.TRUE);
+		fromAndToperiodLayoutConfig.setAddToParent(true);
 		fromAndToperiodLayoutConfig.setGtnLayoutConfig(timePeriodInnerLayout);
 		fromAndToperiodLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "timePeriod");
@@ -345,26 +324,25 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromPeriodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fromPeriodLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
-		fromPeriodLayoutConfig.setAddToParent(Boolean.TRUE);
+		fromPeriodLayoutConfig.setAddToParent(true);
 		fromPeriodLayoutConfig.setGtnLayoutConfig(fromPeriodLayout);
 		fromPeriodLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(fromPeriodLayoutConfig);
 
 		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
-		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		fromPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
 		fromPeriod.setComponentName("From ");
-		fromPeriod.setAddToParent(Boolean.TRUE);
+		fromPeriod.setAddToParent(true);
 
 		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 		fromPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		fromPeriodConfig.setComboBoxType(GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_FROM_DATE);
+		fromPeriodConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.TIME_PERIOD_FROM_DATE);
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
-		fromPeriodConfig.setHasDefaultValue(true);
 
 		GtnUIFrameworkValidationConfig valConfigForFromPeriod = new GtnUIFrameworkValidationConfig();
 		valConfigForFromPeriod.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
@@ -377,27 +355,26 @@ public class GtnFrameworkReportLandingScreenConfig {
 		toPeriodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		toPeriodLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
-		toPeriodLayoutConfig.setAddToParent(Boolean.TRUE);
+		toPeriodLayoutConfig.setAddToParent(true);
 		toPeriodLayoutConfig.setGtnLayoutConfig(toPeriodLayout);
 		toPeriodLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(toPeriodLayoutConfig);
 
 		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
-		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		toPeriod.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD);
 		toPeriod.setComponentName("To ");
-		toPeriod.setAddToParent(Boolean.TRUE);
-		toPeriod.setEnable(Boolean.FALSE);
+		toPeriod.setAddToParent(true);
+		toPeriod.setEnable(false);
 
 		toPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
 
 		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
 		toPeriodTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		toPeriodTypeConfig.setComboBoxType(GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_TO_DATE);
-		toPeriodTypeConfig.setHasDefaultValue(true);
+		toPeriodTypeConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE);
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
 		GtnUIFrameworkValidationConfig valConfigForToPeriod = new GtnUIFrameworkValidationConfig();
@@ -418,7 +395,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		productSelectionPanel.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		productSelectionPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		productSelectionPanel.setSpacing(true);
-		productSelectionPanel.setAddToParent(Boolean.TRUE);
+		productSelectionPanel.setAddToParent(true);
 		componentList.add(productSelectionPanel);
 
 	}
@@ -435,7 +412,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		customerSelectionPanel.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		customerSelectionPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		customerSelectionPanel.setSpacing(true);
-		customerSelectionPanel.setAddToParent(Boolean.TRUE);
+		customerSelectionPanel.setAddToParent(true);
 		componentList.add(customerSelectionPanel);
 
 	}
@@ -496,7 +473,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		conf.addActionParameter("dsSaveViewLookUp");
 		conf.addActionParameter("Save view");
 		list.add(conf);
-
+		saveViewBtn.setGtnUIFrameWorkActionConfigList(list);
 		componentList.add(saveViewBtn);
 
 		GtnUIFrameworkComponentConfig deleteViewButton = new GtnUIFrameworkComponentConfig();
@@ -504,8 +481,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		deleteViewButton.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsDeleteView");
 		deleteViewButton.setComponentName("DELETE VIEW");
 		deleteViewButton.setParentComponentId(controlLayouts.getComponentId());
-		deleteViewButton.setAddToParent(Boolean.TRUE);
-		deleteViewButton.setEnable(Boolean.FALSE);
+		deleteViewButton.setAddToParent(true);
+		deleteViewButton.setEnable(false);
 		componentList.add(deleteViewButton);
 	}
 }

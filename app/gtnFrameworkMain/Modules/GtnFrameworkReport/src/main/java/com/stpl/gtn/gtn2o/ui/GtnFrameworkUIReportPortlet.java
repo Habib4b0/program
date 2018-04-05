@@ -16,7 +16,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 @Theme("stpl")
-@Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
 @Component(service = UI.class, property = { "com.liferay.portlet.display-category=GTN-REPORT",
 		"javax.portlet.name=gtnFrameworkReport", "javax.portlet.display-name=Report",
 		"com.vaadin.osgi.liferay.portlet-ui=true" }, scope = ServiceScope.PROTOTYPE)

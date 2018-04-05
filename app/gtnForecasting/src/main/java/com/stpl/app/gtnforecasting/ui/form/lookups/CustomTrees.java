@@ -403,6 +403,10 @@ public class CustomTrees extends Window {
 		} else if (obj instanceof SalesProjectionDTO) {
 			targetItem = new BeanItem<>((SalesProjectionDTO) obj);
 		}
-		return (SalesProjectionDTO) targetItem.getBean();
+                if (targetItem != null) {
+                    return (SalesProjectionDTO) targetItem.getBean();
+                } else {
+                    return null;
+                }
 	}
 }

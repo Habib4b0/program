@@ -26,7 +26,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		GtnUIFrameworkViewConfig privateViewSearchLookupView = new GtnUIFrameworkViewConfig();
 		privateViewSearchLookupView.setViewName("Private View");
 		privateViewSearchLookupView.setViewId(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
-		privateViewSearchLookupView.setDefaultView(Boolean.FALSE);
+		privateViewSearchLookupView.setDefaultView(false);
 		addPrivateViewSearchLookupComponentList(privateViewSearchLookupView, namespace);
 		return privateViewSearchLookupView;
 	}
@@ -45,8 +45,8 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupRootLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privateViewSearchLookupRootLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupRootLayout");
 		privateViewSearchLookupRootLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		privateViewSearchLookupRootLayout.setAddToParent(Boolean.FALSE);
-		privateViewSearchLookupRootLayout.setSpacing(Boolean.TRUE);
+		privateViewSearchLookupRootLayout.setAddToParent(false);
+		privateViewSearchLookupRootLayout.setSpacing(true);
 		GtnUIFrameworkLayoutConfig privateViewSearchLookupRootConfig = new GtnUIFrameworkLayoutConfig();
 		privateViewSearchLookupRootConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		privateViewSearchLookupRootLayout.setGtnLayoutConfig(privateViewSearchLookupRootConfig);
@@ -60,13 +60,13 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupRootComponentConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		privateViewSearchLookupRootComponentForPopUp.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		privateViewSearchLookupRootComponentForPopUp.setGtnLayoutConfig(privateViewSearchLookupRootComponentConfig);
-		privateViewSearchLookupRootComponentForPopUp.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupRootComponentForPopUp.setAddToParent(true);
 		privateViewSearchLookupRootComponentForPopUp.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		privateViewSearchLookupRootComponentForPopUp.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		privateViewSearchLookupRootComponentForPopUp.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupRootLayout");
-		privateViewSearchLookupRootComponentForPopUp.setSpacing(Boolean.TRUE);
-		privateViewSearchLookupRootComponentForPopUp.setMargin(Boolean.TRUE);
+		privateViewSearchLookupRootComponentForPopUp.setSpacing(true);
+		privateViewSearchLookupRootComponentForPopUp.setMargin(true);
 		componentList.add(privateViewSearchLookupRootComponentForPopUp);
 		
 		privateViewSearchLookupSearchCriteriaPanel(componentList, namespace);
@@ -84,7 +84,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupSearchCriteriaPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		privateViewSearchLookupSearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		privateViewSearchLookupSearchCriteriaPanel.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupSearchCriteriaPanel.setAddToParent(true);
 		componentList.add(privateViewSearchLookupSearchCriteriaPanel);
 		privateViewSearchLookupSearchCriteriaLayout(componentList, namespace);
 	}
@@ -97,7 +97,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupSearchCriteriaConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupSearchCriteriaLayout");
 		privateViewSearchLookupSearchCriteriaConfig.setComponentName("Search Criteria");
-		privateViewSearchLookupSearchCriteriaConfig.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupSearchCriteriaConfig.setAddToParent(true);
 		privateViewSearchLookupSearchCriteriaConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		privateViewSearchLookupSearchCriteriaConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupSearchCriteriaPanel");
@@ -115,11 +115,11 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		componentList.add(horizontalViewNameLayout);
 
 		GtnUIFrameworkComponentConfig addHierarchyNameTextBox = new GtnUIFrameworkComponentConfig();
-		addHierarchyNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		addHierarchyNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		addHierarchyNameTextBox.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME);
 		addHierarchyNameTextBox.setComponentName("View Name");
-		addHierarchyNameTextBox.setAddToParent(Boolean.TRUE);
+		addHierarchyNameTextBox.setAddToParent(true);
 		addHierarchyNameTextBox.setParentComponentId(horizontalViewNameLayout.getComponentId());
 		addHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME);
 
@@ -134,12 +134,12 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 	private void privateViewSearchLookupSearchAndResetButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig privateViewSearchLookupSearchAndResetLayout = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupSearchAndResetLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		privateViewSearchLookupSearchAndResetLayout.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupSearchAndResetLayout.setAddToParent(true);
 		privateViewSearchLookupSearchAndResetLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		privateViewSearchLookupSearchAndResetLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT);
-		privateViewSearchLookupSearchAndResetLayout.setSpacing(Boolean.TRUE);
+		privateViewSearchLookupSearchAndResetLayout.setSpacing(true);
 		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
 		privateViewSearchLookupSearchAndResetLayout.setGtnLayoutConfig(conf);
 		componentList.add(privateViewSearchLookupSearchAndResetLayout);
@@ -151,7 +151,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupSearchButton.setComponentName("SEARCH");
 		privateViewSearchLookupSearchButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT);
-		privateViewSearchLookupSearchButton.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupSearchButton.setAddToParent(true);
 
 		componentList.add(privateViewSearchLookupSearchButton);
 
@@ -162,7 +162,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupResetButton.setComponentName("RESET");
 		privateViewSearchLookupResetButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT);
-		privateViewSearchLookupResetButton.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupResetButton.setAddToParent(true);
 		componentList.add(privateViewSearchLookupResetButton);
 	}
 
@@ -174,7 +174,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupResultsPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		privateViewSearchLookupResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		privateViewSearchLookupResultsPanel.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupResultsPanel.setAddToParent(true);
 		componentList.add(privateViewSearchLookupResultsPanel);
 		privateViewSearchLookupResultLayout(componentList, namespace);
 
@@ -191,7 +191,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupResultConfig.setGtnLayoutConfig(privateViewSearchLookupResultLayout);
 		privateViewSearchLookupResultConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupResultsPanel");
-		privateViewSearchLookupResultConfig.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupResultConfig.setAddToParent(true);
 		privateViewSearchLookupResultConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		privateViewSearchLookupResultConfig.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(privateViewSearchLookupResultConfig);
@@ -208,7 +208,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewPagedTableComponent.setComponentName("Results");
 		privateViewPagedTableComponent
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupResultConfig");
-		privateViewPagedTableComponent.setAddToParent(Boolean.TRUE);
+		privateViewPagedTableComponent.setAddToParent(true);
 		privateViewPagedTableComponent.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add(GtnFrameworkCssConstants.FILTERBAR);
@@ -219,9 +219,9 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 
 		componentList.add(privateViewPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig privateViewPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
-		privateViewPagedTableConfig.setEditable(Boolean.FALSE);
-		privateViewPagedTableConfig.setFilterBar(Boolean.TRUE);
-		privateViewPagedTableConfig.setSelectable(Boolean.TRUE);
+		privateViewPagedTableConfig.setEditable(false);
+		privateViewPagedTableConfig.setFilterBar(true);
+		privateViewPagedTableConfig.setSelectable(true);
 		privateViewPagedTableConfig.setPageLength(10);
 		privateViewPagedTableConfig.setItemPerPage(10);
 
@@ -250,12 +250,12 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		GtnUIFrameworkComponentConfig privateViewSearchLookupControlPopUpLayout = new GtnUIFrameworkComponentConfig();
 		GtnUIFrameworkLayoutConfig layoutConf = new GtnUIFrameworkLayoutConfig();
 		privateViewSearchLookupControlPopUpLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		privateViewSearchLookupControlPopUpLayout.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupControlPopUpLayout.setAddToParent(true);
 		privateViewSearchLookupControlPopUpLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		privateViewSearchLookupControlPopUpLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
-		privateViewSearchLookupControlPopUpLayout.setSpacing(Boolean.TRUE);
+		privateViewSearchLookupControlPopUpLayout.setSpacing(true);
 		privateViewSearchLookupControlPopUpLayout.setGtnLayoutConfig(layoutConf);
 		componentList.add(privateViewSearchLookupControlPopUpLayout);
 
@@ -266,7 +266,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupSelectButton.setComponentName("SELECT");
 		privateViewSearchLookupSelectButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
-		privateViewSearchLookupSelectButton.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupSelectButton.setAddToParent(true);
 
 		componentList.add(privateViewSearchLookupSelectButton);
 
@@ -276,7 +276,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewSearchLookupCloseButton.setComponentName("CLOSE");
 		privateViewSearchLookupCloseButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
-		privateViewSearchLookupCloseButton.setAddToParent(Boolean.TRUE);
+		privateViewSearchLookupCloseButton.setAddToParent(true);
 		componentList.add(privateViewSearchLookupCloseButton);
 
 	}

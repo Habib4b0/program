@@ -18,6 +18,7 @@ import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.LabelConstants.DESCENDING;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +41,7 @@ import org.slf4j.LoggerFactory;
 public class NMPVExcelLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(NMPVExcelLogic.class);
+    
     private ProjectionVarianceDTO exFacValue;
     private ProjectionVarianceDTO exFacVar;
     private ProjectionVarianceDTO exFacPer;
@@ -331,7 +333,7 @@ public class NMPVExcelLogic {
                 ProjectionVarianceDTO detail = new ProjectionVarianceDTO();
                 //Group Column projSelDTO
 
-                String groupName;
+                String groupName = null;
                 String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
                 String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
                 if (isCustomView) {
@@ -339,26 +341,19 @@ public class NMPVExcelLogic {
                     groupName = groupName == null ? "" : groupName;
                     detail.setHierarchyNo(obj[1].toString());
                     detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
-                } else {
-                      groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
-                      selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
-                      detail.setGroup(groupName);
-                }
-
-                 if (groupName.contains("-")) {
-                        String[] tempArr = groupName.split("-");
-                        detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
-                        detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
-                    } else if (selection.getDisplayFormat().length > 0) {
-                        int index = (int) selection.getDisplayFormat()[0];
-                        if (index == 0) {
-                            detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
-                        } else {
+                    detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
                             detail.addStringProperties(DF_LEVEL_NAME, groupName);
-                        }
+                } else {
+                     if (CommonUtil.isValueEligibleForLoading()) {
+                        getFormattedExcelColumns(detail, hierarchy, obj);
+
                     } else {
-                        detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                        groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
+                                selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                        detail.setGroup(groupName);
+
                     }
+                }
                 detail.setGroup(groupName);
                 pvList.add(detail);
             }
@@ -1932,6 +1927,8 @@ public class NMPVExcelLogic {
                     lastValue = String.valueOf(obj[NumericConstants.TWO]);
 
                     pvDTO.setGroup(lastValue);
+                    pvDTO.setDfLevelNumber(lastValue);
+                    pvDTO.setDfLevelName(lastValue);
                 } else {
                     if (!StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && obj[obj.length - 1] != null && !lastValue.equals(String.valueOf(obj[obj.length - 1]))) {
                         pvDTO.setGroup(lastGroupName);
@@ -1942,6 +1939,8 @@ public class NMPVExcelLogic {
                     lastValue = String.valueOf(obj[obj.length - 1]);
                     lastGroupName = String.valueOf(obj[NumericConstants.TWO]);
                     pvDTO.setGroup(lastGroupName);
+                    pvDTO.setDfLevelNumber(lastGroupName);
+                    pvDTO.setDfLevelName(lastGroupName);
                 }
                 String commonColumn = StringUtils.EMPTY;
                 switch (projSelDTO.getFrequencyDivision()) {
@@ -2204,10 +2203,10 @@ public class NMPVExcelLogic {
     public void discount_Customize() {
 
         boolean isDetail = selection.getLevel().equals(DETAIL);
-        commonCustomizationForTotalDiscount("D$", pivotDiscountList, selection, isDetail, NumericConstants.FIVE, Boolean.FALSE, Boolean.TRUE);
-        commonCustomizationForTotalDiscount("D%", pivotDiscountList, selection, isDetail, NumericConstants.EIGHT, Boolean.TRUE, Boolean.FALSE);
-        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, NumericConstants.ELEVEN, Boolean.FALSE, Boolean.FALSE);
-        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, NumericConstants.FOURTEEN, Boolean.TRUE, Boolean.FALSE);
+        commonCustomizationForTotalDiscount("D$", pivotDiscountList, selection, isDetail, NumericConstants.FIVE, BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag());
+        commonCustomizationForTotalDiscount("D%", pivotDiscountList, selection, isDetail, NumericConstants.EIGHT, BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag());
+        commonCustomizationForTotalDiscount("RPU-", pivotDiscountList, selection, isDetail, NumericConstants.ELEVEN, BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag());
+        commonCustomizationForTotalDiscount("Dis%Ex", pivotDiscountList, selection, isDetail, NumericConstants.FOURTEEN, BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag());
     }
 
     public void getTotalPivotVariance(PVSelectionDTO selection) {
@@ -2511,5 +2510,27 @@ public class NMPVExcelLogic {
         }
     }
 
-   
+    public void getFormattedExcelColumns(ProjectionVarianceDTO detail, String hierarchy, Object[] obj) {
+
+        List<String> groupName = CommonUtil.getFormattedDisplayName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
+                selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+        detail.setGroup(groupName.toString());
+
+        if (selection.getDisplayFormat().length == 1 && selection.getDisplayFormat().length > 0) {
+            int index = (int) selection.getDisplayFormat()[0];
+            if (index == 0) {
+                detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+            } else {
+                detail.addStringProperties(DF_LEVEL_NAME, groupName.get(0));
+            }
+        } else {
+            detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+            detail.addStringProperties(DF_LEVEL_NAME, groupName.get(0));
+            if (groupName.size() == 2) {
+                detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+                detail.addStringProperties(DF_LEVEL_NAME, groupName.get(1));
+            }
+        }
+
+    }
 }

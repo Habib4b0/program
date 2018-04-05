@@ -29,7 +29,7 @@ public class GtnUIFrameworkPopulateFieldValueChangeAction implements GtnUIFrameW
 			List<Object> mainParameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 			List<String> parameters = (List<String>) mainParameters.get(1);
 			String componentValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getStringFromField();
-			if (componentValue.isEmpty()) {
+			if (componentValue==null || componentValue.isEmpty() ) {
 				componentValue = componentId;
 			}
 			componentValue = componentValue.replace(" ", "");
@@ -51,7 +51,7 @@ public class GtnUIFrameworkPopulateFieldValueChangeAction implements GtnUIFrameW
 
 	private void resetComponenentVaule(GtnUIFrameworkBaseComponent component) {
 
-		try {
+		try {   
 
 			for (int i = 0; i < GtnFrameworkContractDashboardContants.getPpMassPopulateFields().length; i++) {
 				GtnUIFrameworkBaseComponent resetMassUpdate = GtnUIFrameworkGlobalUI
@@ -59,12 +59,20 @@ public class GtnUIFrameworkPopulateFieldValueChangeAction implements GtnUIFrameW
 
 				if (!GtnUIFrameworkComponentType.LAYOUT.equals(component.getComponentConfig().getComponentType())
 						&& resetMassUpdate != null) {
-					if (component.getComponentConfig().getComponentType()
-							.equals(GtnUIFrameworkComponentType.COMBOBOX)) {
-						resetMassUpdate.loadComboBoxComponentValue(null);
-					} else {
-						resetMassUpdate.setPropertyValue(null);
-					}
+                                    switch (component.getComponentConfig().getComponentType()) {
+                                        case COMBOBOX:
+                                            component.loadComboBoxComponentValue(null);
+                                            break;
+                                        case DATEFIELD:
+                                            component.loadDateValue(null);
+                                            break;
+                                        case POPUPTEXTFIELD:
+                                        case TEXTBOX:
+                                            component.loadFieldValue(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY);
+                                            break;
+                                        default:
+                                            break;
+                                    }
 				}
 			}
 		} catch (Exception e) {

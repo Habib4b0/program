@@ -324,7 +324,7 @@ public class AbstractLogic {
     public static Object getItemIdsAsString(List<ItemIndexDto> itemList) {
         StringBuilder result = new StringBuilder();
         for (ItemIndexDto dto : itemList) {
-            result.append(dto.getSystemId() + COMMA);
+            result.append(dto.getSystemId() ).append( ',');
         }
         result.deleteCharAt(result.length() - 1);
         return result.toString();

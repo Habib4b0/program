@@ -40,7 +40,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		reportDashboardSaveProfileRootLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportDashboardSaveProfileRootLayout.setComponentId(GtnFrameworkCommonConstants.SAVE_VIEW_LOOK_UP_ROOT_VERTICAL_LAYOUT);
 		reportDashboardSaveProfileRootLayout.setAddToParent(false);
-		reportDashboardSaveProfileRootLayout.setSpacing(Boolean.TRUE);
+		reportDashboardSaveProfileRootLayout.setSpacing(true);
 		reportDashboardSaveProfileRootLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		GtnUIFrameworkLayoutConfig reportDashboardSaveProfileRootConfig = new GtnUIFrameworkLayoutConfig();
 		reportDashboardSaveProfileRootConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
@@ -79,7 +79,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		reportDashboardSaveProfileTypeOptionGroup.setParentComponentId(parentId);
 		GtnUIFrameworkOptionGroupConfig comboConfig = new GtnUIFrameworkOptionGroupConfig();
 		comboConfig.setItemValues(Arrays.asList(GtnFrameworkCommonConstants.A_PRIVATE, "Public"));
-		comboConfig.setValuesFromService(Boolean.FALSE);
+		comboConfig.setValuesFromService(false);
 		reportDashboardSaveProfileTypeOptionGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
 		reportDashboardSaveProfileTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(comboConfig);
 		componentList.add(reportDashboardSaveProfileTypeOptionGroup);

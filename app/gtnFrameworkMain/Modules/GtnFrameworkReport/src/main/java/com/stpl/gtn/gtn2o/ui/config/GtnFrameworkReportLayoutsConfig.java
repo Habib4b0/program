@@ -13,7 +13,7 @@ public class GtnFrameworkReportLayoutsConfig {
 		profileOptionLayoutConf.setComponentId(compId + GtnFrameworkCssConstants.HORIZONTAL);
 		profileOptionLayoutConf.setComponentName(compId + GtnFrameworkCssConstants.HORIZONTAL);
 		profileOptionLayoutConf.setParentComponentId(parentLayout);
-		profileOptionLayoutConf.setAddToParent(Boolean.TRUE);
+		profileOptionLayoutConf.setAddToParent(true);
 		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
 		conf.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		profileOptionLayoutConf.setGtnLayoutConfig(conf);
@@ -26,7 +26,7 @@ public class GtnFrameworkReportLayoutsConfig {
 		searchCriteriaPanel.setComponentId(compId + "Panel");
 		searchCriteriaPanel.setParentComponentId(parentLayout);
 		searchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		searchCriteriaPanel.setAddToParent(Boolean.TRUE);
+		searchCriteriaPanel.setAddToParent(true);
 		return searchCriteriaPanel;
 	}
 
@@ -35,8 +35,8 @@ public class GtnFrameworkReportLayoutsConfig {
 		vLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		vLayout.setComponentId(compId + "VerticalLayout");
 		vLayout.setParentComponentId(parentId);
-		vLayout.setAddToParent(Boolean.TRUE);
-		vLayout.setSpacing(Boolean.TRUE);
+		vLayout.setAddToParent(true);
+		vLayout.setSpacing(true);
 		vLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
 		conf.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
@@ -50,8 +50,8 @@ public class GtnFrameworkReportLayoutsConfig {
 		GtnUIFrameworkComponentConfig selectionCriteriaMainLayoutConfig = new GtnUIFrameworkComponentConfig();
 		selectionCriteriaMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		selectionCriteriaMainLayoutConfig.setComponentId(compId + "CssLayout");
-		selectionCriteriaMainLayoutConfig.setAddToParent(Boolean.TRUE);
-		selectionCriteriaMainLayoutConfig.setSpacing(Boolean.TRUE);
+		selectionCriteriaMainLayoutConfig.setAddToParent(true);
+		selectionCriteriaMainLayoutConfig.setSpacing(true);
 		selectionCriteriaMainLayoutConfig.setParentComponentId(parentId);
 		selectionCriteriaMainLayoutConfig.setGtnLayoutConfig(selectionCriteriaMainLayout);
 		return selectionCriteriaMainLayoutConfig;
@@ -61,9 +61,9 @@ public class GtnFrameworkReportLayoutsConfig {
 		GtnUIFrameworkComponentConfig vLayout = new GtnUIFrameworkComponentConfig();
 		vLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		vLayout.setComponentId(compId);
-		vLayout.setAddToParent(Boolean.FALSE);
-		vLayout.setTabComponent(Boolean.TRUE);
-		vLayout.setSpacing(Boolean.TRUE);
+		vLayout.setAddToParent(false);
+		vLayout.setTabComponent(true);
+		vLayout.setSpacing(true);
 		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
 		conf.setLayoutType(layoutType);
 		vLayout.setGtnLayoutConfig(conf);

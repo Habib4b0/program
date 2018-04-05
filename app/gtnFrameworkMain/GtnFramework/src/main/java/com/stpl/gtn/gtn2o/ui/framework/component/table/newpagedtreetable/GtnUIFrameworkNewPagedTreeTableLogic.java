@@ -139,7 +139,7 @@ public class GtnUIFrameworkNewPagedTreeTableLogic extends PageTreeTableLogic {
 	protected void createCurrentPageStart() {
 		resetValues();
 		setCurrentPageProgress(true);
-		setRefresh(Boolean.FALSE);
+		setRefresh(false);
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class GtnUIFrameworkNewPagedTreeTableLogic extends PageTreeTableLogic {
 	@Override
 	protected void createCurrentPageEnd() {
 		setCurrentPageProgress(false);
-		setRefresh(Boolean.TRUE);
+		setRefresh(true);
 	}
 
 	private void detectChildrenAllowed(GtnWsRecordBean recordBean) {

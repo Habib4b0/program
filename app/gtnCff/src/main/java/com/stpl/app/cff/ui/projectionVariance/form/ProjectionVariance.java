@@ -50,6 +50,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
 import com.vaadin.navigator.ViewChangeListener;
@@ -86,6 +87,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ProjectionVariance extends AbstractProjectionVariance {
 
+    
     private boolean editFlag = false;
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
     private final PVQueryUtils queryUtils = new PVQueryUtils();
@@ -142,6 +144,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private List<String[]> deductionLevel = new ArrayList<>();
     public static final String SID = "SID";
     public static final String GROUP_PROPERTY = "group";
+    public static final String DF_LEVEL_NAME = "dfLevelName";
+    public static final String HEADER_LEVEL_NAME = "Level Name";
+    public static final String HEADER_LEVEL_NUMBER = "Level Number";
+    public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
 
     public static final CommonLogic commonLogic = new CommonLogic();
 
@@ -907,7 +913,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         sessionDTO.setCustomId(customId);
         CommonLogic.loadCustomHierarchyList(sessionDTO);
         if (CommonUtils.isValueEligibleForLoading()) {
-            sessionDTO.setDeductionLevelDetails(new CFFLogic().getRelationshipDetailsDeduction(sessionDTO, sessionDTO.getDedRelationshipBuilderSid()));
+            sessionDTO.setDeductionLevelDetails(new CFFLogic().getRelationshipDetailsDeduction(sessionDTO));
         }
         if (customId != 0) {
             callGenerateLogic();
@@ -987,10 +993,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     protected void excelBtnLogic() {
         try {
             ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
-            excelTable.setRefresh(Boolean.FALSE);
+            excelTable.setRefresh(BooleanConstant.getFalseFlag());
             levelFilterDdlbChangeOption(true);
             excelForCFFProjectionVariance();
-            excelTable.setRefresh(Boolean.TRUE);
+            excelTable.setRefresh(BooleanConstant.getTrueFlag());
             int leftcolumnsize = NumericConstants.ONE;
             int ColSize = 252;
             int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;
@@ -1448,22 +1454,37 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             dbDateTO = (Date) obj[1];
 
             Calendar startDbDate = Calendar.getInstance();
-            startDbDate.set(Calendar.YEAR, dbDateFrom.getYear());
-            startDbDate.set(Calendar.MONTH, dbDateFrom.getMonth());
-
             Calendar endDbDate = Calendar.getInstance();
-            endDbDate.set(Calendar.YEAR, dbDateTO.getYear());
-            endDbDate.set(Calendar.MONTH, dbDateTO.getMonth() - 1);
+            if (dbDateFrom != null) {
+                startDbDate.set(Calendar.YEAR, dbDateFrom.getYear());
+                startDbDate.set(Calendar.MONTH, dbDateFrom.getMonth());
+            } else {
+                startDbDate.set(Calendar.YEAR, (startDbDate.get(Calendar.YEAR) - 3));
+                startDbDate.set(Calendar.MONTH, 0);
+            }
+
+            if (dbDateTO != null) {
+                endDbDate.set(Calendar.YEAR, dbDateTO.getYear());
+                endDbDate.set(Calendar.MONTH, dbDateTO.getMonth() - 1);
+            } else {
+                endDbDate.set(Calendar.YEAR, (endDbDate.get(Calendar.YEAR) - 3));
+                endDbDate.set(Calendar.MONTH, 0);
+            }
 
             try {
+                if (dbDateFrom != null && dbDateTO != null) {
                 dbDateFrom = format.parse(format.format(dbDateFrom));
                 dbDateTO = format.parse(format.format(dbDateTO));
+                }
             } catch (ParseException pe) {
                 LOGGER.error(pe.getMessage());
             }
             dataSelectionDTO.setFromDate(dbDateFrom);
             dataSelectionDTO.setToDate(dbDateTO);
+            
         }
+        dataSelectionDTO.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDTO.getFromDate()));
+        dataSelectionDTO.setToDate(CommonLogic.toDateIsNull(dataSelectionDTO.getToDate()));
         ForecastDTO dto = new ForecastDTO();
         try {
             dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, sessionDTO);
@@ -1475,7 +1496,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void excelForCFFProjectionVariance() {
-        LOGGER.debug("==inside excelForCFFProjectionVariance================");
+        LOGGER.debug("==inside excelForCFFProjectionVariance==============");
         try {
             if (pvSelectionDTO.isIsCustomHierarchy()) {
                 pvSelectionDTO.setHierarchyIndicator("");
@@ -2224,7 +2245,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     private void excelColumnFormat() {
-        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get("group");
+        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get(GROUP_PROPERTY);
         List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
         listHeaders.remove(GROUP_PROPERTY);
 
@@ -2240,15 +2261,15 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 LOGGER.info("obj--------------= {}", i);
                 int index = (Integer) displayFormatIndex[i];
                 if (index == 0) {
-                    listHeaders.remove("dfLevelName");
+                    listHeaders.remove(DF_LEVEL_NAME);
                     fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
-                    fullHeader.getSingleColumns().remove("dfLevelName");
-                    fullHeader.getSingleHeaders().remove("Level Name");
+                    fullHeader.getSingleColumns().remove(DF_LEVEL_NAME);
+                    fullHeader.getSingleHeaders().remove(HEADER_LEVEL_NAME);
                 } else {
-                    listHeaders.remove("dfLevelNumber");
+                    listHeaders.remove(DF_LEVEL_NUMBER);
                     fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
-                    fullHeader.getSingleColumns().remove("dfLevelNumber");
-                    fullHeader.getSingleHeaders().remove("Level Number");
+                    fullHeader.getSingleColumns().remove(DF_LEVEL_NUMBER);
+                    fullHeader.getSingleHeaders().remove(HEADER_LEVEL_NUMBER);
                 }
 
             }

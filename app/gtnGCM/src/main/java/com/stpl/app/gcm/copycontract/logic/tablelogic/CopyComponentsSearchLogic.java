@@ -8,6 +8,7 @@ package com.stpl.app.gcm.copycontract.logic.tablelogic;
 import com.stpl.app.gcm.copycontract.dto.CopyComponentDTO;
 import com.stpl.app.gcm.copycontract.logic.CopyContractLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
@@ -28,6 +29,11 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
     private final CopyContractLogic logic = new CopyContractLogic();
     private int count;
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsSearchLogic.class);
+
+    public CopyComponentsSearchLogic() {
+        super();
+    }
+    
 
     @Override
     public int getCount() {
@@ -91,12 +97,12 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
 }

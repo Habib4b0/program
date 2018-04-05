@@ -24,6 +24,7 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.IndexedContainer;
@@ -57,6 +58,7 @@ public class DataSelectionUtil {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionUtil.class);
+        
 
 	private static Map<String, String> userMap = new HashMap<>();
 	private static Map<String, String> userIdMap = new HashMap<>();
@@ -175,7 +177,7 @@ public class DataSelectionUtil {
 				}
 				query.append(" cm.");
 				orFlag = true;
-				fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), true);
+				fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), BooleanConstant.getTrueFlag());
 				query.append(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn));
 				query.append(" in (");
 
@@ -229,7 +231,7 @@ public class DataSelectionUtil {
 				query.append(" or ");
 				query.append(" im.");
 				orFlag = true;
-				fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), true);
+				fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), BooleanConstant.getTrueFlag());
 				query.append(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn));
 				query.append("  in (");
 
@@ -281,8 +283,11 @@ public class DataSelectionUtil {
 		} else if (obj instanceof Leveldto) {
 			targetItem = new BeanItem<>((Leveldto) obj);
 		}
-
-		return (Leveldto) targetItem.getBean();
+                if (targetItem != null) {
+                    return (Leveldto) targetItem.getBean();
+                } else {
+                    return null;
+                }
 	}
 
 	public static String getCcpWithCC(List<Leveldto> ccList, final String tableIndicator) {
@@ -414,7 +419,7 @@ public class DataSelectionUtil {
 				if (fieldDuplicationCheck.get(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn)) == null
 						|| !fieldDuplicationCheck.get(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn))) {
 					query.append(" AND conm.");
-					fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), true);
+					fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), BooleanConstant.getTrueFlag());
 					query.append(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn));
 					query.append(" in  (");
 					query.append(" select distinct ht.helperTableSid from HelperTable ht where ht.listName = '");
@@ -463,7 +468,7 @@ public class DataSelectionUtil {
 					.get(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn)) == null
 					|| !fieldDuplicationCheck.get(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn)))) {
 				query.append(" AND cm.");
-				fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), true);
+				fieldDuplicationCheck.put(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn), BooleanConstant.getTrueFlag());
 				query.append(UiUtils.generateHqlField(ddo.getFieldName(), indicatorColumn));
 				query.append(" in (");
 
@@ -493,7 +498,7 @@ public class DataSelectionUtil {
 			selectedRelationshipLevelSids = new ArrayList<>();
 			for (Object item : itemIds) {
 				dto = DataSelectionUtil.getBeanFromId(item);
-				selectedRelationshipLevelSids.add(dto.getRelationshipLevelSid());
+				selectedRelationshipLevelSids.add(dto != null ? dto.getRelationshipLevelSid() : null);
 			}
 		}
 		return selectedRelationshipLevelSids;

@@ -60,6 +60,10 @@ public class NationalAssumptionsUI extends UI {
     protected SessionDTO sessionDto = null;
     protected SessionUtil sessionUtil = new SessionUtil();
 
+    public NationalAssumptionsUI() {
+        super();
+    }
+
     /* (non-Javadoc)
      * @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest)
      */

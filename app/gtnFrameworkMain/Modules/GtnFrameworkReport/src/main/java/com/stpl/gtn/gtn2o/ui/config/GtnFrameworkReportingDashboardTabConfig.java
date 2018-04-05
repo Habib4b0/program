@@ -1,23 +1,30 @@
 package com.stpl.gtn.gtn2o.ui.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.constants.GtnForecastReturnsClassConstants;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 
 public class GtnFrameworkReportingDashboardTabConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
@@ -142,40 +149,29 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	}
 
 	private void addReportProfileComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
-		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_REPORT_PROFILE_LAYOUT, true,
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
-		componentList.add(gtnLayout);
-
-		GtnUIFrameworkComponentConfig reportProfileConfig = configProvider.getUIFrameworkComponentConfig(
-				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"reportProfileConfig", true, gtnLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
-		reportProfileConfig.setAuthorizationIncluded(true);
+				
+		GtnUIFrameworkComponentConfig reportProfileConfig = new GtnUIFrameworkComponentConfig();
+		reportProfileConfig.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
+		reportProfileConfig.setComponentId(nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"reportProfileConfig");
 		reportProfileConfig.setComponentName("Report Profile: ");
+		reportProfileConfig.setAddToParent(true);
+		reportProfileConfig.setParentComponentId(GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
 
-		GtnUIFrameworkTextBoxConfig reportProfileTextBoxConfig = configProvider.getTextBoxConfig(true, true, true);
-		reportProfileConfig.setGtnTextBoxConfig(reportProfileTextBoxConfig);
+		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
+		Object reportProfileLookup = "Report Profile Lookup";
+		GtnUIFrameWorkActionConfig conf = new GtnUIFrameWorkActionConfig();
+		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		conf.setActionParameterList(Arrays.asList("reportProfileLookupView", reportProfileLookup, "795", "875"));
+		list.add(conf);
 
+		reportProfileConfig.setGtnUIFrameWorkActionConfigList(list);
 		componentList.add(reportProfileConfig);
-
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig popupActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
-		popupActionConfig.addActionParameter("reportProfileLookupView");
-		popupActionConfig.addActionParameter("Report Profile Lookup");
-		popupActionConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
-		popupActionConfig.addActionParameter(null);
-		actionConfigList.add(popupActionConfig);
-		reportProfileConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
 	}
 
 	private void addComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
-		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_COMPARISON_LAYOUT, true,
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
-		componentList.add(gtnLayout);
-
 		GtnUIFrameworkComponentConfig reportingDashboardComparisonConfig = configProvider.getUIFrameworkComponentConfig(
-				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"reportingDashboardComparisonConfig", true, gtnLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"reportingDashboardComparisonConfig", true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT, GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		reportingDashboardComparisonConfig.setAuthorizationIncluded(true);
 		reportingDashboardComparisonConfig.setComponentName("Comparison: ");
 
@@ -205,7 +201,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig variableConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
-				GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		variableConfig.setComponentName("Variable: ");
 		variableConfig.setAuthorizationIncluded(true);
 
@@ -228,7 +224,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig frequencyConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_FREQUENCY, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_FREQUENCY_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		frequencyConfig.setComponentName("Frequency: ");
 		frequencyConfig.setAuthorizationIncluded(true);
 
@@ -250,7 +246,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig periodRangeFromConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		periodRangeFromConfig.setComponentName("Period Range From: ");
 		periodRangeFromConfig.setAuthorizationIncluded(true);
 
@@ -295,7 +291,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig customViewComboboxConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customViewComboboxConfig.setComponentName("");
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 
@@ -317,7 +313,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig comparisonBasisConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_COMPARISON_BASIS, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_COMPARISON_BASIS_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		comparisonBasisConfig.setComponentName("Comparison Basis: ");
 		comparisonBasisConfig.setAuthorizationIncluded(true);
 
@@ -339,7 +335,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig variableCategoryConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_CATEGORY, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_CATEGORY_LAYOUT,
-				GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		variableCategoryConfig.setComponentName("Variable Category: ");
 		variableCategoryConfig.setAuthorizationIncluded(true);
 
@@ -363,7 +359,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig annualTotalsConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		annualTotalsConfig.setComponentName("Annual Totals: ");
 		annualTotalsConfig.setAuthorizationIncluded(true);
 
@@ -385,7 +381,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig periodRangeToConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		periodRangeToConfig.setComponentName("Period Range To: ");
 		periodRangeToConfig.setAuthorizationIncluded(true);
 
@@ -466,7 +462,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig deductionInclusionConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		deductionInclusionConfig.setComponentName("Deduction Inclusion: ");
 		deductionInclusionConfig.setAuthorizationIncluded(true);
 
@@ -487,7 +483,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig deductionFilterConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER_LAYOUT,
-				GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		deductionFilterConfig.addComponentStyle(GtnFrameworkCssConstants.V_HAS_WIDTH);
 		deductionFilterConfig.setComponentWidth(GtnFrameworkReportStringConstants.ONE_FIFTY_PIXEL);
 		deductionFilterConfig.setComponentName("Deduction Filter: ");
@@ -513,7 +509,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig productFilterConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER_LAYOUT,
-				GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		productFilterConfig.addComponentStyle(GtnFrameworkCssConstants.V_HAS_WIDTH);
 		productFilterConfig.setComponentWidth(GtnFrameworkReportStringConstants.ONE_FIFTY_PIXEL);
 		productFilterConfig.setComponentName("Product Filter: ");
@@ -539,7 +535,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig customerFilterConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER_LAYOUT,
-				GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		customerFilterConfig.addComponentStyle(GtnFrameworkCssConstants.V_HAS_WIDTH);
 		customerFilterConfig.setComponentWidth(GtnFrameworkReportStringConstants.ONE_FIFTY_PIXEL);
 		customerFilterConfig.setComponentName("Customer Filter: ");
@@ -565,7 +561,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig salesInclusionConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_SALES_INCLUSION, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_SALES_INCLUSION_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		salesInclusionConfig.setComponentName("Sales Inclusion: ");
 		salesInclusionConfig.setAuthorizationIncluded(true);
 
@@ -586,7 +582,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig deductionLevel = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		deductionLevel.setComponentName("Deduction Level: ");
 		deductionLevel.setAuthorizationIncluded(true);
 
@@ -607,7 +603,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig productLevelConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		productLevelConfig.setComponentName("Product Level: ");
 		productLevelConfig.setAuthorizationIncluded(true);
 
@@ -628,7 +624,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig companyStatus = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"companyInformationTabCompanyStatus", true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		companyStatus.setComponentName("Customer Level: ");
 		companyStatus.setAuthorizationIncluded(true);
 
@@ -709,7 +705,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				.getUIFrameworkComponentConfig(
 						nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_AND_VARIANCE_SEQUENCING, true,
 						GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_AND_VARIANCE_SEQUENCING_LAYOUT,
-						GtnUIFrameworkComponentType.COMBOBOX);
+						GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableAndVarianceSequencingConfig.setComponentName("Variable & Variance Sequencing: ");
 		variableAndVarianceSequencingConfig.setAuthorizationIncluded(true);
 
@@ -758,7 +754,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig viewOptionsConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VIEW_OPTIONS, true,
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VIEW_OPTIONS_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		viewOptionsConfig.setComponentName("View Options: ");
 		viewOptionsConfig.setAuthorizationIncluded(true);
 
@@ -779,7 +775,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig unitOfMeasureConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, true,
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		unitOfMeasureConfig.setComponentName("Unit Of Measure: ");
 		unitOfMeasureConfig.setAuthorizationIncluded(true);
 
@@ -800,7 +796,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig headerSequencingConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_HEADER_SEQUENCING, true,
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_HEADER_SEQUENCING_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		headerSequencingConfig.setComponentName("Header Sequencing: ");
 		headerSequencingConfig.setAuthorizationIncluded(true);
 
@@ -849,7 +845,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig displayFormatConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_DISPLAY_FORMAT, true,
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_DISPLAY_FORMAT_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		displayFormatConfig.setComponentName("Display Format: ");
 		displayFormatConfig.setAuthorizationIncluded(true);
 
@@ -870,7 +866,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig currencyDisplayConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CURRENCY_DISPLAY, true,
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CURRENCY_DISPLAY_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		currencyDisplayConfig.setComponentName("Currency Display: ");
 		currencyDisplayConfig.setAuthorizationIncluded(true);
 
@@ -890,7 +886,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		controlButtonLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		controlButtonLayoutConfig.setComponentId("controlButtonLayoutConfig");
 		controlButtonLayoutConfig.setComponentName("controlButtonLayoutConfig");
-		controlButtonLayoutConfig.setAddToParent(Boolean.TRUE);
+		controlButtonLayoutConfig.setAddToParent(true);
 		controlButtonLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		controlButtonLayoutConfig.setParentComponentId(parentId);
 		controlButtonLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
@@ -903,7 +899,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		generateButton.setComponentName("GENERATE");
 		generateButton.setComponentId(nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"generateButton");
 		generateButton.setParentComponentId(controlButtonLayoutConfig.getComponentId());
-		generateButton.setAddToParent(Boolean.TRUE);
+		generateButton.setAddToParent(true);
 		componentList.add(generateButton);
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
@@ -911,7 +907,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		resetButton.setComponentName("RESET");
 		resetButton.setComponentId(nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"resetButton");
 		resetButton.setParentComponentId(controlButtonLayoutConfig.getComponentId());
-		resetButton.setAddToParent(Boolean.TRUE);
+		resetButton.setAddToParent(true);
 		componentList.add(resetButton);
 
 		GtnUIFrameworkComponentConfig saveProfileButton = new GtnUIFrameworkComponentConfig();
@@ -919,7 +915,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		saveProfileButton.setComponentName("SAVE PROFILE");
 		saveProfileButton.setComponentId(nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"saveProfileButton");
 		saveProfileButton.setParentComponentId(controlButtonLayoutConfig.getComponentId());
-		saveProfileButton.setAddToParent(Boolean.TRUE);
+		saveProfileButton.setAddToParent(true);
 		componentList.add(saveProfileButton);
 
 		GtnUIFrameWorkActionConfig saveProfileActionConfig = new GtnUIFrameWorkActionConfig();
@@ -939,7 +935,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		GtnUIFrameworkComponentConfig levelConfig = configProvider.getUIFrameworkComponentConfig(
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, true,
-				"expandAndCollapseHorizontalConfig", GtnUIFrameworkComponentType.COMBOBOX);
+				"expandAndCollapseHorizontalConfig", GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		levelConfig.setComponentName("Level: ");
 
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(
@@ -952,14 +948,14 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		expandButton.setComponentName("EXPAND");
 		expandButton.setComponentId(nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"expandButton");
 		expandButton.setParentComponentId(parentId);
-		expandButton.setAddToParent(Boolean.TRUE);
+		expandButton.setAddToParent(true);
 
 		GtnUIFrameworkComponentConfig collapseButton = new GtnUIFrameworkComponentConfig();
 		collapseButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		collapseButton.setComponentName("COLLAPSE");
 		collapseButton.setComponentId(nameSpace+GtnFrameworkReportStringConstants.UNDERSCORE+"collapseButton");
 		collapseButton.setParentComponentId(parentId);
-		collapseButton.setAddToParent(Boolean.TRUE);
+		collapseButton.setAddToParent(true);
 
 		componentList.add(expandAndCollapseHorizontalConfig);
 		componentList.add(levelConfig);
@@ -982,124 +978,124 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	}
 
 	private void addResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
-		/*GtnUIFrameworkComponentConfig resultTableComponentConfig = new GtnUIFrameworkComponentConfig();
-		resultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTREETABLE);
-		resultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
-		resultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
-		resultTableComponentConfig.setAddToParent(Boolean.TRUE);
-		resultTableComponentConfig.setParentComponentId(parentId);
+		GtnUIFrameworkComponentConfig reportingDashboardResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
+		reportingDashboardResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTREETABLE);
+		reportingDashboardResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
+		reportingDashboardResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
+		reportingDashboardResultTableComponentConfig.setAddToParent(true);
+		reportingDashboardResultTableComponentConfig.setParentComponentId(parentId);
 
-		GtnUIFrameworkPagedTreeTableConfig gtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
+		GtnUIFrameworkPagedTreeTableConfig reportingDashboardGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
 
-		List<Object> actionConfigList = new ArrayList<>();
-		actionConfigList.add(parentId);
-		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkActionConfig.setActionParameterList(actionConfigList);
-		gtnPagedTreeTableConfig.setGtnUIFrameWorkActionConfig(gtnUIFrameWorkActionConfig);
+		List<Object> reportingDashboardActionConfigList = new ArrayList<>();
+		reportingDashboardActionConfigList.add(parentId);
+		GtnUIFrameWorkActionConfig reportingDashboardGtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+		reportingDashboardGtnUIFrameWorkActionConfig.setActionParameterList(reportingDashboardActionConfigList);
+		reportingDashboardGtnPagedTreeTableConfig.setGtnUIFrameWorkActionConfig(reportingDashboardGtnUIFrameWorkActionConfig);
 
-		gtnPagedTreeTableConfig.setLeftHeader(
+		reportingDashboardGtnPagedTreeTableConfig.setLeftHeader(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
-		gtnPagedTreeTableConfig.setRightHeader(
+		reportingDashboardGtnPagedTreeTableConfig.setRightHeader(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 
-		gtnPagedTreeTableConfig.setCountUrl("");
-		gtnPagedTreeTableConfig.setItemPerPage(10);
+		reportingDashboardGtnPagedTreeTableConfig.setCountUrl("");
+		reportingDashboardGtnPagedTreeTableConfig.setItemPerPage(10);
 
-		gtnPagedTreeTableConfig.setMaxSplitPosition(1000);
-		gtnPagedTreeTableConfig.setMinSplitPosition(300);
-		gtnPagedTreeTableConfig.setPageLength(15);
-		gtnPagedTreeTableConfig.setResultSetUrl("");
+		reportingDashboardGtnPagedTreeTableConfig.setMaxSplitPosition(1000);
+		reportingDashboardGtnPagedTreeTableConfig.setMinSplitPosition(300);
+		reportingDashboardGtnPagedTreeTableConfig.setPageLength(15);
+		reportingDashboardGtnPagedTreeTableConfig.setResultSetUrl("");
 
-		gtnPagedTreeTableConfig.setSplitPosition(493);
+		reportingDashboardGtnPagedTreeTableConfig.setSplitPosition(493);
 
-		gtnPagedTreeTableConfig.setTableHeight("650px");
-		gtnPagedTreeTableConfig.setDoubleHeaderVisible(Boolean.TRUE);
+		reportingDashboardGtnPagedTreeTableConfig.setTableHeight("650px");
+		reportingDashboardGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
 
-		gtnPagedTreeTableConfig.setLeftTableEditable(true);
-		gtnPagedTreeTableConfig.setRightTableEditable(true);
+		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditable(true);
+		reportingDashboardGtnPagedTreeTableConfig.setRightTableEditable(true);
 
-		List<String> fieldFactoryColum = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
-		List<GtnUIFrameworkComponentConfig> fieldFactoryComponent = new ArrayList<>();
-		gtnPagedTreeTableConfig.setLeftTableEditableColumnList(fieldFactoryColum);
+		List<String> reportingDashboardFieldFactoryColum = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
+		List<GtnUIFrameworkComponentConfig> reportingDashboardFieldFactoryComponent = new ArrayList<>();
+		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditableColumnList(reportingDashboardFieldFactoryColum);
 
-		GtnUIFrameworkComponentConfig checkBox = new GtnUIFrameworkComponentConfig();
-		checkBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
-		checkBox.setComponentType(GtnUIFrameworkComponentType.CHECKBOX);
-		GtnUIFrameworkCheckBoxComponentConfig checkBoxConfig = new GtnUIFrameworkCheckBoxComponentConfig();
-		checkBoxConfig.setImmediate(true);
+		GtnUIFrameworkComponentConfig reportingDashboardCheckBox = new GtnUIFrameworkComponentConfig();
+		reportingDashboardCheckBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
+		reportingDashboardCheckBox.setComponentType(GtnUIFrameworkComponentType.CHECKBOX);
+		GtnUIFrameworkCheckBoxComponentConfig reportingDashboardCheckBoxConfig = new GtnUIFrameworkCheckBoxComponentConfig();
+		reportingDashboardCheckBoxConfig.setImmediate(true);
 
-		checkBox.setGtnCheckBoxConfig(checkBoxConfig);
-		List<GtnUIFrameWorkActionConfig> checkBoxClickActionList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig gtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		gtnUIFrameWorkGenerateActionConfig
+		reportingDashboardCheckBox.setGtnCheckBoxConfig(reportingDashboardCheckBoxConfig);
+		List<GtnUIFrameWorkActionConfig> reportingDashboardCheckBoxClickActionList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig reportingDashboardGtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
+		reportingDashboardGtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reportingDashboardGtnUIFrameWorkGenerateActionConfig
 				.addActionParameter(GtnForecastReturnsClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
-		checkBoxClickActionList.add(gtnUIFrameWorkGenerateActionConfig);
-		gtnUIFrameWorkGenerateActionConfig
+		reportingDashboardCheckBoxClickActionList.add(reportingDashboardGtnUIFrameWorkGenerateActionConfig);
+		reportingDashboardGtnUIFrameWorkGenerateActionConfig
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
 						GtnFrameworkCommonConstants.RESULT_TABLE));
-		checkBox.setGtnUIFrameWorkItemClickActionConfigList(checkBoxClickActionList);
+		reportingDashboardCheckBox.setGtnUIFrameWorkItemClickActionConfigList(reportingDashboardCheckBoxClickActionList);
 
-		fieldFactoryComponent.add(checkBox);
-		gtnPagedTreeTableConfig.setLeftTableEditableComponentConfig(fieldFactoryComponent);
+		reportingDashboardFieldFactoryComponent.add(reportingDashboardCheckBox);
+		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditableComponentConfig(reportingDashboardFieldFactoryComponent);
 
-		List<GtnUIFrameWorkActionConfig> textFieldConfig = new ArrayList<>();
-		GtnUIFrameWorkActionConfig fieldFactoryCustomAction = new GtnUIFrameWorkActionConfig();
+		List<GtnUIFrameWorkActionConfig> reportingDashboardTextFieldConfig = new ArrayList<>();
+		GtnUIFrameWorkActionConfig reportingDashboardFieldFactoryCustomAction = new GtnUIFrameWorkActionConfig();
 
-		fieldFactoryCustomAction
+		reportingDashboardFieldFactoryCustomAction
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
 						GtnFrameworkCommonConstants.RESULT_TABLE));
 
-		fieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		fieldFactoryCustomAction
+		reportingDashboardFieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reportingDashboardFieldFactoryCustomAction
 				.addActionParameter(GtnForecastReturnsClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
-		textFieldConfig.add(fieldFactoryCustomAction);
-		gtnPagedTreeTableConfig.setComponentconfigActionlist(textFieldConfig);
+		reportingDashboardTextFieldConfig.add(reportingDashboardFieldFactoryCustomAction);
+		reportingDashboardGtnPagedTreeTableConfig.setComponentconfigActionlist(reportingDashboardTextFieldConfig);
 
-		gtnPagedTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
-		List<GtnUIFrameWorkActionConfig> checkAllConflist = new ArrayList<>();
-		GtnUIFrameWorkActionConfig checkAllActionConfig = new GtnUIFrameWorkActionConfig();
-		checkAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		checkAllActionConfig.addActionParameter(GtnForecastReturnsClassConstants.RETURNS_FORECAST_CHECK_ALL_ACTION);
-		checkAllConflist.add(checkAllActionConfig);
-		gtnPagedTreeTableConfig.setCheckBoxActionConfigList(checkAllConflist);
-		gtnPagedTreeTableConfig
+		reportingDashboardGtnPagedTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
+		List<GtnUIFrameWorkActionConfig> reportingDashboardCheckAllConflist = new ArrayList<>();
+		GtnUIFrameWorkActionConfig reportingDashboardCheckAllActionConfig = new GtnUIFrameWorkActionConfig();
+		reportingDashboardCheckAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reportingDashboardCheckAllActionConfig.addActionParameter(GtnForecastReturnsClassConstants.RETURNS_FORECAST_CHECK_ALL_ACTION);
+		reportingDashboardCheckAllConflist.add(reportingDashboardCheckAllActionConfig);
+		reportingDashboardGtnPagedTreeTableConfig.setCheckBoxActionConfigList(reportingDashboardCheckAllConflist);
+		reportingDashboardGtnPagedTreeTableConfig
 				.setCountUrl(GtnForecastReturnsClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_COUNT_ACTION);
-		gtnPagedTreeTableConfig
+		reportingDashboardGtnPagedTreeTableConfig
 				.setCountWsUrl(GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_COUNT_SERVICE);
 
-		gtnPagedTreeTableConfig.setBulkDataUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setBulkDataUrl(
 				GtnForecastReturnsClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_BULK_DATA_ACTION);
-		gtnPagedTreeTableConfig.setBulkDataWsUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setBulkDataWsUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_DATA_SERVICE);
 
-		gtnPagedTreeTableConfig.setFillCountUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setFillCountUrl(
 				GtnForecastReturnsClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_FILL_COUNT_DATA_ACTION);
-		gtnPagedTreeTableConfig.setFillCountWsUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setFillCountWsUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_COUNT_SERVICE);
 
-		gtnPagedTreeTableConfig.setLeftHeaderUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setLeftHeaderUrl(
 				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_COMP_LEFT_HEADER_FORM_HEADER_CONFIG_ACTION);
 
-		gtnPagedTreeTableConfig.setLeftWsHeaderUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 
-		gtnPagedTreeTableConfig.setRighttHeaderUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setRighttHeaderUrl(
 				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_COMP_RIGHT_HEADER_FORM_HEADER_CONFIG_ACTION);
 
-		gtnPagedTreeTableConfig.setRightWsHeaderUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 
-		gtnPagedTreeTableConfig.setLeftHeaderCustomClassLoadUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setLeftHeaderCustomClassLoadUrl(
 				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_LEFT_HEADER_CONFIG_ACTION);
 
-		gtnPagedTreeTableConfig.setRightHeaderCustomClassLoadUrl(
+		reportingDashboardGtnPagedTreeTableConfig.setRightHeaderCustomClassLoadUrl(
 				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
 
-		gtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
+		reportingDashboardGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
 
-		resultTableComponentConfig.setGtnPagedTreeTableConfig(gtnPagedTreeTableConfig);
-		componentList.add(resultTableComponentConfig);*/
+		reportingDashboardResultTableComponentConfig.setGtnPagedTreeTableConfig(reportingDashboardGtnPagedTreeTableConfig);
+		componentList.add(reportingDashboardResultTableComponentConfig);
 	}
 
 	private void addNavigationButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace,

@@ -24,7 +24,7 @@ import com.vaadin.server.Extension;
 import com.vaadin.ui.UI;
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import org.vaadin.alump.beforeunload.gwt.client.BeforeUnloadRpc;
+import org.vaadin.alump.beforeunload.client.BeforeUnloadRpc;
 
 /**
  * Simple extension that offers access to onBeforeUnload events and this way
@@ -34,128 +34,128 @@ import org.vaadin.alump.beforeunload.gwt.client.BeforeUnloadRpc;
  * BeforeUnload.unsetExitVerification() to disable it.
  */
 public class BeforeUnload extends AbstractExtension {
-    UI currentUI;
-    private final BeforeUnloadRpc rpc1 = () -> {
-        fireEvent(new UnloadEvent(BeforeUnload.this));
-    };
+	UI currentUI;
+	private final BeforeUnloadRpc rpc1 = () -> {
+		fireEvent(new UnloadEvent(BeforeUnload.this));
+	};
 
-    private void setUI(UI currentUI) {
-        this.currentUI=currentUI;
-    }
-    public static class UnloadEvent extends ConnectorEvent {
-        public static final Method UNLOAD_METHOD;
-        private static final long serialVersionUID = 1L;
- 
-        static {
-            try {
-                System.out.println("Enters the UNLOAD_METHOD variable part");
-                UNLOAD_METHOD = UnloadListener.class
-                        .getDeclaredMethod("unload",
-                                new Class[]{UnloadEvent.class});
-            } catch (final java.lang.NoSuchMethodException e) {
-                // This should never happen
-                throw new java.lang.RuntimeException(e);
-            }
-        }
-        /**
-         * Constructs a new event with the specified source component.
-         * 
-         * @param source
-         *            the source component of the event
-         */
-        public UnloadEvent(Extension source) {
-            super(source);
-            System.out.println("Enters tis poart");
-        }
+	private void setUI(UI currentUI) {
+		this.currentUI = currentUI;
+	}
 
-        /**
-         * Gets the component where the event occurred.
-         * 
-         * @return the source component of the event
-         */
-        public Extension getExtension() {
-            return (Extension) getSource();
-        }
+	public static class UnloadEvent extends ConnectorEvent {
+		public static final Method UNLOAD_METHOD;
+		private static final long serialVersionUID = 1L;
 
-    }
-   
+		static {
+			try {
+				System.out.println("Enters the UNLOAD_METHOD variable part");
+				UNLOAD_METHOD = UnloadListener.class.getDeclaredMethod("unload", new Class[] { UnloadEvent.class });
+			} catch (final java.lang.NoSuchMethodException e) {
+				// This should never happen
+				throw new java.lang.RuntimeException(e);
+			}
+		}
 
-    public interface UnloadListener extends Serializable {
+		/**
+		 * Constructs a new event with the specified source component.
+		 * 
+		 * @param source
+		 *            the source component of the event
+		 */
+		public UnloadEvent(Extension source) {
+			super(source);
+			System.out.println("Enters tis poart");
+		}
 
-        public void unload(UnloadEvent event);
-    }
+		/**
+		 * Gets the component where the event occurred.
+		 * 
+		 * @return the source component of the event
+		 */
+		public Extension getExtension() {
+			return (Extension) getSource();
+		}
 
-    /**
-     * Adds a click listener to the TextField.
-     *
-     * @param listener The listener to attach to the TextField
-     */
-    public void addUnloadListener(UnloadListener listener) {
-        addListener("unload",
-                UnloadEvent.class, listener,
-                UnloadEvent.UNLOAD_METHOD);
-    }
+	}
 
-    /**
-     * Removes a click listener from the TextField.
-     *
-     * @param listener The listener to remove
-     */
-    public void removeClickListener(UnloadListener listener) {
-        removeListener("unload",
-                UnloadEvent.class, listener);
-    }
+	public interface UnloadListener extends Serializable {
 
-    /**
-     * @deprecated As of 7.0, replaced by
-     * {@link #addClickListener(ClickListener)}
-     */
-    @Deprecated
-    public void addListener(UnloadListener listener) {
-        addUnloadListener(listener);
-    }
+		public void unload(UnloadEvent event);
+	}
 
-    /**
-     * @deprecated As of 7.0, replaced by
-     * {@link #removeClickListener(ClickListener)}
-     */
-    @Deprecated
-    public void removeListener(UnloadListener listener) {
-        removeClickListener(listener);
-    }
+	/**
+	 * Adds a click listener to the TextField.
+	 *
+	 * @param listener
+	 *            The listener to attach to the TextField
+	 */
+	public void addUnloadListener(UnloadListener listener) {
+		addListener("unload", UnloadEvent.class, listener, UnloadEvent.UNLOAD_METHOD);
+	}
 
-    public BeforeUnload() {
-        super();
-        registerRpc(rpc1);
-    }
+	/**
+	 * Removes a click listener from the TextField.
+	 *
+	 * @param listener
+	 *            The listener to remove
+	 */
+	public void removeClickListener(UnloadListener listener) {
+		removeListener("unload", UnloadEvent.class, listener);
+	}
 
-    /**
-     * Get current "singleton" instance of BeforeUnload
-     * @param currentUI UI used to resolve instance
-     * @return BeforeUnload instance
-     */
-    protected static BeforeUnload get(UI currentUI) {
-        for(Extension extension : currentUI.getExtensions()) {
-            if(extension instanceof BeforeUnload) {
-                return (BeforeUnload)extension;
-            }
-        }
-        BeforeUnload beforeUnload = new BeforeUnload();
-        beforeUnload.extend(currentUI);
-        return beforeUnload;
-    }
+	/**
+	 * @deprecated As of 7.0, replaced by {@link #addClickListener(ClickListener)}
+	 */
+	@Deprecated
+	public void addListener(UnloadListener listener) {
+		addUnloadListener(listener);
+	}
 
-    /**
-     * Get current "singleton instance of BeforeUnload
-     * @return BeforeUnload instance
-     */
-    protected static BeforeUnload get() {
-        return get(UI.getCurrent());
-    }
-    
-    public static BeforeUnload closeBeforeUnload(UI currentUI) {
-        BeforeUnload ob=get(currentUI);
-        ob.setUI(currentUI);
-        return ob;
-    }
+	/**
+	 * @deprecated As of 7.0, replaced by
+	 *             {@link #removeClickListener(ClickListener)}
+	 */
+	@Deprecated
+	public void removeListener(UnloadListener listener) {
+		removeClickListener(listener);
+	}
+
+	public BeforeUnload() {
+		super();
+		registerRpc(rpc1);
+	}
+
+	/**
+	 * Get current "singleton" instance of BeforeUnload
+	 * 
+	 * @param currentUI
+	 *            UI used to resolve instance
+	 * @return BeforeUnload instance
+	 */
+	protected static BeforeUnload get(UI currentUI) {
+		for (Extension extension : currentUI.getExtensions()) {
+			if (extension instanceof BeforeUnload) {
+				return (BeforeUnload) extension;
+			}
+		}
+		BeforeUnload beforeUnload = new BeforeUnload();
+		beforeUnload.extend(currentUI);
+		return beforeUnload;
+	}
+
+	/**
+	 * Get current "singleton instance of BeforeUnload
+	 * 
+	 * @return BeforeUnload instance
+	 */
+	protected static BeforeUnload get() {
+		return get(UI.getCurrent());
+	}
+
+	public static BeforeUnload closeBeforeUnload(UI currentUI) {
+		BeforeUnload ob = get(currentUI);
+		ob.setUI(currentUI);
+		return ob;
+	}
 }

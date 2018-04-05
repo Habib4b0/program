@@ -96,6 +96,7 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 		attributes.put("projectionCustVersionNo", getProjectionCustVersionNo());
 		attributes.put("projectionProdVersionNo", getProjectionProdVersionNo());
 		attributes.put("forecastEligibleDate", getForecastEligibleDate());
+		attributes.put("projectionDedVersionNo", getProjectionDedVersionNo());
 
 		return attributes;
 	}
@@ -314,6 +315,13 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 
 		if (forecastEligibleDate != null) {
 			setForecastEligibleDate(forecastEligibleDate);
+		}
+
+		Integer projectionDedVersionNo = (Integer)attributes.get(
+				"projectionDedVersionNo");
+
+		if (projectionDedVersionNo != null) {
+			setProjectionDedVersionNo(projectionDedVersionNo);
 		}
 	}
 
@@ -615,6 +623,16 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 	@Override
 	public int getProjectionCustVersionNo() {
 		return _projectionMaster.getProjectionCustVersionNo();
+	}
+
+	/**
+	* Returns the projection ded version no of this projection master.
+	*
+	* @return the projection ded version no of this projection master
+	*/
+	@Override
+	public int getProjectionDedVersionNo() {
+		return _projectionMaster.getProjectionDedVersionNo();
 	}
 
 	/**
@@ -1034,6 +1052,16 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 	@Override
 	public void setProjectionCustVersionNo(int projectionCustVersionNo) {
 		_projectionMaster.setProjectionCustVersionNo(projectionCustVersionNo);
+	}
+
+	/**
+	* Sets the projection ded version no of this projection master.
+	*
+	* @param projectionDedVersionNo the projection ded version no of this projection master
+	*/
+	@Override
+	public void setProjectionDedVersionNo(int projectionDedVersionNo) {
+		_projectionMaster.setProjectionDedVersionNo(projectionDedVersionNo);
 	}
 
 	/**

@@ -499,7 +499,7 @@ public class GtnFrameworkContractDashboardCompaniesTabConfig {
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameworkFieldEnableDisableAction.class.getName());
 		customAction.addActionParameter(componentConfig.getComponentId());
-		customAction.addActionParameter(true);
+		customAction.addActionParameter(Boolean.TRUE);
 		customAction.addActionParameter("child");
 		customAction.setFieldValues(
 				Arrays.asList(cdCompaniesTabPrefix + TEXT_PCFPID, cdCompaniesTabPrefix + TEXT_PCFP_NAME));
@@ -927,6 +927,7 @@ public class GtnFrameworkContractDashboardCompaniesTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.PAGEDTABLE);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		componentConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
 		cdCompaniesComponentList.add(componentConfig);
 
 		GtnUIFrameworkPagedTableConfig cdCompaniesResultsTable = new GtnUIFrameworkPagedTableConfig();

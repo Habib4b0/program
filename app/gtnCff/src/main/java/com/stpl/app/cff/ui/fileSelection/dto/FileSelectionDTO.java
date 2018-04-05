@@ -24,6 +24,11 @@ public class FileSelectionDTO {
     private Date activeToDate;
     private String fileManagementSid = StringUtils.EMPTY;
     private boolean fileChanged=false;
+    private String fileTypeValue = StringUtils.EMPTY;
+
+    public FileSelectionDTO() {
+        super();
+    }
 
     public String getFileName() {
         return fileName;
@@ -104,6 +109,12 @@ public class FileSelectionDTO {
     public void setFileChanged(boolean fileChanged) {
         this.fileChanged = fileChanged;
     }
-    
-    
+
+    public String getFileTypeValue() {
+        return fileTypeValue;
+    }
+
+    public void setFileTypeValue(String fileTypeValue) {
+        this.fileTypeValue = fileTypeValue;
+    }
 }

@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +14,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
+import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpModel;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanBean;
@@ -180,7 +185,9 @@ public class GtnWsIfpSaveService {
 
 	public void saveNotesTabDetails(GtnIFamilyPlanBean ruleInfoBean) throws GtnFrameworkGeneralException {
 		deleteNotesTab(ruleInfoBean.getIfpInfo().getIfpSid());
+		deleteNotesTabAttachment(ruleInfoBean.getIfpInfo().getIfpSid());
 		notesTabInsert(ruleInfoBean);
+		notesTabAttachmentForIfp(ruleInfoBean);
 	}
 
 	private int deleteNotesTab(int systemId) throws GtnFrameworkGeneralException {
@@ -201,12 +208,12 @@ public class GtnWsIfpSaveService {
 					cmNotesTabQuery.append(" (").append(ifpBean.getIfpInfo().getIfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				} else {
 					cmNotesTabQuery.append(",(").append(ifpBean.getIfpInfo().getIfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				}
 				i++;
 			}
@@ -214,5 +221,49 @@ public class GtnWsIfpSaveService {
 			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(cmNotesTabQuery.toString());
 		}
 		return 0;
+	}
+
+	private void notesTabAttachmentForIfp(GtnIFamilyPlanBean ifpBean) throws GtnFrameworkGeneralException {
+		logger.info("Enter ifp notesTabAttachment");
+		Session session = getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Attachment attachForIfp = new Attachment();
+			List<NotesTabBean> notesTabRequestList = ifpBean.getNotesTabList();
+			if (notesTabRequestList != null && !notesTabRequestList.isEmpty()) {
+				for (NotesTabBean notesTabRequest : notesTabRequestList) {
+					byte[] fileBytes = readBytesFromFileForIFP(notesTabRequest.getFilePath());
+					attachForIfp.setAttachmentTableSid(ifpBean.getIfpInfo().getIfpSid());
+					attachForIfp.setFileName(notesTabRequest.getFileName());
+					attachForIfp.setFileData(fileBytes);
+					attachForIfp.setMasterTableName(notesTabRequest.getMasterTableName());
+					attachForIfp.setCreatedBy(notesTabRequest.getCreatedBy());
+					attachForIfp.setCreatedDate(new Date());
+					session.saveOrUpdate(attachForIfp);
+					tx.commit();
+				}
+			}
+		} catch (Exception e) {
+			tx.rollback();
+			throw new GtnFrameworkGeneralException("Exception in save attachQuery ", e);
+		} finally {
+			session.close();
+		}
+	}
+
+	private static byte[] readBytesFromFileForIFP(String filePath) throws IOException {
+		File inputFile = GtnFileNameUtils.getFile(filePath);
+        FileInputStream inputStreamIfp= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+        byte[] fileBytes = new byte[(int) inputFile.length()];
+        int i=inputStreamIfp.read(fileBytes);
+        if(i>0) 
+        return fileBytes;
+		return  new byte[0];
+	}
+
+	private int deleteNotesTabAttachment(int systemId) throws GtnFrameworkGeneralException {
+		String deleteQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_DELETE + systemId
+				+ " AND MASTER_TABLE_NAME='IFP_MODEL'";
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteQuery);
 	}
 }

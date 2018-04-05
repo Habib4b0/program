@@ -16,6 +16,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -50,6 +51,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class IFPLookUp extends Window {
 private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
+
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentName")
@@ -168,7 +170,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox rsProgramType = new ComboBox();
-                    logic.LazyLoadDdlb(rsProgramType, "ifpStatus count", "ifpStatus", true);
+                    logic.LazyLoadDdlb(rsProgramType, "ifpStatus count", "ifpStatus", BooleanConstant.getTrueFlag());
                     return rsProgramType;
                 }
                 return null;
@@ -257,7 +259,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
     }
 
     private void loadComponentStatus() {
-        logic.LazyLoadDdlb(componentStatus_DTO, "ifpStatus count", "ifpStatus", false);
+        logic.LazyLoadDdlb(componentStatus_DTO, "ifpStatus count", "ifpStatus", BooleanConstant.getFalseFlag());
     }
 
   

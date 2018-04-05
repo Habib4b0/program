@@ -20,7 +20,7 @@ public class GtnFrameworkHierarchyRestrictionBean implements Comparable<GtnFrame
 	private Integer joinSequence;
 	private String operatorType;
 
-	private static final String restrictionJoin = "RESTRICTION_JOIN";
+	private static final String RESTRICTION_JOIN = "RESTRICTION_JOIN";
 
 	public GtnFrameworkHierarchyRestrictionBean() {
 		super();
@@ -95,7 +95,6 @@ public class GtnFrameworkHierarchyRestrictionBean implements Comparable<GtnFrame
 		this.hierarchyTableMasterSid = hierarchyTableMasterSid;
 	}
 
-
 	public void addrestrictionForTable(GtnFrameworkQueryGeneratorBean queryBean) {
 		if (referencTableName != null && !referencTableName.isEmpty()) {
 			addJoinAndRestriction(queryBean);
@@ -109,23 +108,22 @@ public class GtnFrameworkHierarchyRestrictionBean implements Comparable<GtnFrame
 	private void addJoinAndRestriction(GtnFrameworkQueryGeneratorBean queryBean) {
 
 		GtnFrameworkJoinClauseBean joinCondition = queryBean.addJoinClauseBean(referencTableName,
-				restrictionJoin + referencTableName, GtnFrameworkJoinType.INNER_JOIN);
+				RESTRICTION_JOIN + referencTableName, GtnFrameworkJoinType.INNER_JOIN);
 		joinCondition.addConditionBean(getRestrictionJoinAliasName() + "." + actualColumnName,
-				restrictionJoin + referencTableName + "." + referenceColumnName,
+				RESTRICTION_JOIN + referencTableName + "." + referenceColumnName,
 				GtnFrameworkOperatorType.getOperaterType(operatorType));
 		if (restrictionColumnName != null && !restrictionColumnName.isEmpty()) {
-			queryBean.addWhereClauseBean(restrictionJoin + referencTableName + "." + restrictionColumnName, null,
+			queryBean.addWhereClauseBean(RESTRICTION_JOIN + referencTableName + "." + restrictionColumnName, null,
 					GtnFrameworkOperatorType.getOperaterType(operatorType), GtnFrameworkDataType.STRING,
 					restrictionValue);
 		}
 
 	}
 
-
 	private String getRestrictionJoinAliasName() {
 		if (joinSequence == 1)
 			return actualTableName;
-		return restrictionJoin + actualTableName;
+		return RESTRICTION_JOIN + actualTableName;
 	}
 
 	public static void buildRestrictionQuery(List<GtnFrameworkHierarchyRestrictionBean> restrictionBeanList,
@@ -139,6 +137,27 @@ public class GtnFrameworkHierarchyRestrictionBean implements Comparable<GtnFrame
 	@Override
 	public int compareTo(GtnFrameworkHierarchyRestrictionBean object) {
 		return this.joinSequence - object.joinSequence;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((actualColumnName == null) ? 0 : actualColumnName.hashCode());
+		result = prime * result + ((actualTableName == null) ? 0 : actualTableName.hashCode());
+		result = prime * result + hierarchyTableMasterSid;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return false;
 	}
 
 }

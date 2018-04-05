@@ -58,6 +58,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.impl.IfpContractDetailsImpl;
 import com.stpl.app.gcm.impl.PsContractDetailsImpl;
 import com.stpl.app.gcm.impl.RsContractDetailsImpl;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -122,6 +123,9 @@ public class NewComponents extends CustomComponent implements View {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NewComponents.class);
+    
+    
+    
     /**
      * The Constant serialVersionUID.
      */
@@ -290,8 +294,8 @@ public class NewComponents extends CustomComponent implements View {
     private List<HelperDTO> itemStatusList = new ArrayList<>();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private PromoteTPLogic tpLogic = new PromoteTPLogic();
-    private Boolean contractExcelFlag = false;
-    private Boolean infoExcelFlag = false;
+    private boolean contractExcelFlag = false;
+    private boolean infoExcelFlag = false;
     private String ifpModelId = "1";
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     private Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
@@ -321,7 +325,7 @@ public class NewComponents extends CustomComponent implements View {
       private ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
-            LOGGER.debug("Column Check VAlue=" + compItemSearchTable.getColumnCheckBox(Constants.CHECK_RECORD));
+            LOGGER.debug("Column Check VAlue= {} " , compItemSearchTable.getColumnCheckBox(Constants.CHECK_RECORD));
             if (event.isChecked()) {
 
                 checkClearAll(event.isChecked());
@@ -649,7 +653,7 @@ public class NewComponents extends CustomComponent implements View {
         compItemSearchTable.setVisibleColumns(Constants.getInstance().compItemResultsColumns);
         compItemSearchTable.setColumnHeaders(Constants.getInstance().compItemResultsHeaders);
         compItemSearchTable.setSizeFull();
-        compItemSearchTable.setEditable(Boolean.TRUE);
+        compItemSearchTable.setEditable(BooleanConstant.getTrueFlag());
         compItemSearchTable.markAsDirty();
         compItemSearchTable.setSelectable(true);
         compItemSearchTable.setWidth("890px");
@@ -944,7 +948,7 @@ public class NewComponents extends CustomComponent implements View {
         Collection<?> returnList = compItemSearchTable.getItemIds();
         Set setA = new HashSet();
         Set ifpModelIDs = new HashSet();
-        Boolean flag = false;
+        boolean flag = false;
         String ids = Constants.EMPTY;
         String ifps = Constants.EMPTY;
 
@@ -1135,7 +1139,7 @@ public class NewComponents extends CustomComponent implements View {
      */
     private String getIdString(Set set) {
         String ids = Constants.EMPTY;
-        Boolean flag = false;
+        boolean flag = false;
         for (Object id : set) {
             String idvalue = String.valueOf(id);
             if (!flag) {
@@ -1271,7 +1275,7 @@ public class NewComponents extends CustomComponent implements View {
                 return;
             }
         }
-        Boolean flag = false;
+        boolean flag = false;
         /* This loop is used to check atleast one record is selected at component Details-selected Item table or not */
         List<ComponentInfoDTO> list = componentDetailResultsContainer.getItemIds();
         for (int i = 0; i < list.size(); i++) {
@@ -1409,7 +1413,7 @@ public class NewComponents extends CustomComponent implements View {
                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please Select Component");
                 }
                 Collection<?> checkList = componentDetailsTable.getItemIds();
-                Boolean flag = false;
+                boolean flag = false;
                 for (Object tmp : checkList) {
                     Boolean checked = (Boolean) componentDetailResultsContainer.getContainerProperty(tmp, Constants.CHECK_RECORD).getValue();
                     if (checked) {
@@ -1646,7 +1650,7 @@ public class NewComponents extends CustomComponent implements View {
                     CAM.setInboundStatus("A");
                     CAM.setContractMasterSid(contractMasterSid);
                     ContractAliasMaster CAM1 = ContractAliasMasterLocalServiceUtil.addContractAliasMaster(CAM);
-                    LOGGER.debug("CAM1" + CAM1.getContractAliasMasterSid());
+                    LOGGER.debug("CAM1 {} " , CAM1.getContractAliasMasterSid());
 
                 } else if (level.equals(Constants.ONE)) {
 

@@ -25,7 +25,7 @@
 			<id>pentaho-releases</id>
 			<url>http://nexus.pentaho.org/content/groups/omni</url>
 		</repository>
-		
+
 	</repositories>
 
 
@@ -311,11 +311,7 @@
 			<version>1.2.4</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>sqljdbc4</artifactId>
-			<version>3.0</version>
-		</dependency>
+
 
 
 		<!-- Spring -->
@@ -338,8 +334,16 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<!-- excel -->
-		<dependency>
+
+
+
+	<dependency>
+		<groupId>io.jsonwebtoken</groupId>
+		<artifactId>jjwt</artifactId>
+		<version>0.7.0</version>
+	</dependency>
+	<!-- excel -->
+	<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
 			<version>2.6.12</version>
@@ -386,6 +390,11 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>sqljdbc4</artifactId>
+			<version>3.0</version>
 		</dependency>
 
 		<!-- Logging -->
@@ -488,7 +497,11 @@
 			<version>1.0</version>
 			<type>jar</type>
 		</dependency>
-
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.7.0</version>
+		</dependency>
 
 
 	</dependencies>

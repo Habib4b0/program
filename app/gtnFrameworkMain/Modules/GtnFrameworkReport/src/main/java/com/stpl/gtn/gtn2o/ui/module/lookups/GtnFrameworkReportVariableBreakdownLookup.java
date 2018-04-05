@@ -8,10 +8,12 @@ import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
@@ -23,7 +25,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		GtnUIFrameworkViewConfig variableBreakdownView = new GtnUIFrameworkViewConfig();
 		variableBreakdownView.setViewName("Variable Breakdown");
 		variableBreakdownView.setViewId("variableBreakdown");
-		variableBreakdownView.setDefaultView(Boolean.FALSE);
+		variableBreakdownView.setDefaultView(false);
 		addComponentList(variableBreakdownView, namespace);
 		return variableBreakdownView;
 	}
@@ -42,8 +44,8 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "variableBreakdownLayout");
 		variableBreakdownLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		variableBreakdownLayout.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		variableBreakdownLayout.setAddToParent(Boolean.FALSE);
-		variableBreakdownLayout.setSpacing(Boolean.TRUE);
+		variableBreakdownLayout.setAddToParent(false);
+		variableBreakdownLayout.setSpacing(true);
 		GtnUIFrameworkLayoutConfig variableBreakdownConfig = new GtnUIFrameworkLayoutConfig();
 		variableBreakdownConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		variableBreakdownLayout.setGtnLayoutConfig(variableBreakdownConfig);
@@ -57,13 +59,13 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownPopupLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		variableBreakdownPopupConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		variableBreakdownPopupConfig.setGtnLayoutConfig(variableBreakdownPopupLayout);
-		variableBreakdownPopupConfig.setAddToParent(Boolean.TRUE);
+		variableBreakdownPopupConfig.setAddToParent(true);
 		variableBreakdownPopupConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		variableBreakdownPopupConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "variableBreakdownPopupConfig");
 		variableBreakdownPopupConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "variableBreakdownLayout");
-		variableBreakdownPopupConfig.setSpacing(Boolean.TRUE);
-		variableBreakdownPopupConfig.setMargin(Boolean.TRUE);
+		variableBreakdownPopupConfig.setSpacing(true);
+		variableBreakdownPopupConfig.setMargin(true);
 		componentList.add(variableBreakdownPopupConfig);
 		
 		addVariableBreakdownMassUpdateRootPanel(componentList, namespace);
@@ -83,7 +85,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownFrequencyAndHistoryResultLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		variableBreakdownFrequencyAndHistoryResultLayout.setComponentId("variableBreakdownFrequencyAndHistoryResultLayout");
 		variableBreakdownFrequencyAndHistoryResultLayout.setComponentName("variableBreakdownFrequencyAndHistoryResultLayout");
-		variableBreakdownFrequencyAndHistoryResultLayout.setAddToParent(Boolean.TRUE);
+		variableBreakdownFrequencyAndHistoryResultLayout.setAddToParent(true);
 		variableBreakdownFrequencyAndHistoryResultLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		variableBreakdownFrequencyAndHistoryResultLayout.setParentComponentId(variableBreakdownFrequencyAndHistoryConfig.getComponentId());
 		variableBreakdownFrequencyAndHistoryResultLayout.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
@@ -95,7 +97,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 				.getHorizontalLayoutConfig("variableBreakdownFrequencyLayoutConfig", variableBreakdownFrequencyAndHistoryResultLayout.getComponentId());
 
 		GtnUIFrameworkComponentConfig variableBreakdownFrequencyConfig = new GtnUIFrameworkComponentConfig();
-		variableBreakdownFrequencyConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		variableBreakdownFrequencyConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableBreakdownFrequencyConfig.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownFrequencyConfig");
 		variableBreakdownFrequencyConfig.setComponentName("Frequency: ");
 		variableBreakdownFrequencyConfig.setAddToParent(true);
@@ -111,7 +113,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 				.getHorizontalLayoutConfig("variableBreakdownHistoryLayoutConfig", variableBreakdownFrequencyAndHistoryResultLayout.getComponentId());
 
 		GtnUIFrameworkComponentConfig variableBreakdownHistoryConfig = new GtnUIFrameworkComponentConfig();
-		variableBreakdownHistoryConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		variableBreakdownHistoryConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableBreakdownHistoryConfig.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownHistoryConfig");
 		variableBreakdownHistoryConfig.setComponentName("History: ");
 		variableBreakdownHistoryConfig.setAddToParent(true);
@@ -139,7 +141,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownMassUpdateRootPanelConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "variableBreakdownPopupConfig");
 		variableBreakdownMassUpdateRootPanelConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		variableBreakdownMassUpdateRootPanelConfig.setAddToParent(Boolean.TRUE);
+		variableBreakdownMassUpdateRootPanelConfig.setAddToParent(true);
 		componentList.add(variableBreakdownMassUpdateRootPanelConfig);
 		addVariableBreakdownMassUpdateLayout(componentList, namespace);
 	}
@@ -152,7 +154,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownMassUpdateConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "variableBreakdownMassUpdateConfig");
 		variableBreakdownMassUpdateConfig.setComponentName("MassUpdateLayout");
-		variableBreakdownMassUpdateConfig.setAddToParent(Boolean.TRUE);
+		variableBreakdownMassUpdateConfig.setAddToParent(true);
 		variableBreakdownMassUpdateConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		variableBreakdownMassUpdateConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "variableBreakdownMassUpdateRootPanelConfig");
@@ -173,10 +175,10 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		componentList.add(variableBreakdownValueConfig);
 
 		GtnUIFrameworkComponentConfig variableBreakdownValue = new GtnUIFrameworkComponentConfig();
-		variableBreakdownValue.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		variableBreakdownValue.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableBreakdownValue.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownValue");
 		variableBreakdownValue.setComponentName("Value: ");
-		variableBreakdownValue.setAddToParent(Boolean.TRUE);
+		variableBreakdownValue.setAddToParent(true);
 		variableBreakdownValue.setParentComponentId(variableBreakdownValueConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig variableBreakdownValueLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		variableBreakdownValueLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -192,10 +194,10 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		componentList.add(variableBreakdownValueFileorProjectionConfig);
 
 		GtnUIFrameworkComponentConfig variableBreakdownValueFileorProjection = new GtnUIFrameworkComponentConfig();
-		variableBreakdownValueFileorProjection.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		variableBreakdownValueFileorProjection.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableBreakdownValueFileorProjection.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownValueFileorProjection");
 		variableBreakdownValueFileorProjection.setComponentName("File/Projection: ");
-		variableBreakdownValueFileorProjection.setAddToParent(Boolean.TRUE);
+		variableBreakdownValueFileorProjection.setAddToParent(true);
 		variableBreakdownValueFileorProjection.setParentComponentId(variableBreakdownValueFileorProjectionConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig variableBreakdownValueFileorProjectionLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		variableBreakdownValueFileorProjectionLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -211,10 +213,10 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		componentList.add(variableBreakdownStartPeriodConfig);
 
 		GtnUIFrameworkComponentConfig variableBreakdownStartPeriod = new GtnUIFrameworkComponentConfig();
-		variableBreakdownStartPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		variableBreakdownStartPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableBreakdownStartPeriod.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownStartPeriod");
 		variableBreakdownStartPeriod.setComponentName("Start Period: ");
-		variableBreakdownStartPeriod.setAddToParent(Boolean.TRUE);
+		variableBreakdownStartPeriod.setAddToParent(true);
 		variableBreakdownStartPeriod.setParentComponentId(variableBreakdownStartPeriodConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig variableBreakdownStartPeriodLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		variableBreakdownStartPeriodLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -230,10 +232,10 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		componentList.add(variableBreakdownEndPeriodConfig);
 
 		GtnUIFrameworkComponentConfig variableBreakdownEndPeriod = new GtnUIFrameworkComponentConfig();
-		variableBreakdownEndPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		variableBreakdownEndPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		variableBreakdownEndPeriod.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownEndPeriod");
 		variableBreakdownEndPeriod.setComponentName("End Period: ");
-		variableBreakdownEndPeriod.setAddToParent(Boolean.TRUE);
+		variableBreakdownEndPeriod.setAddToParent(true);
 		variableBreakdownEndPeriod.setParentComponentId(variableBreakdownEndPeriodConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig variableBreakdownEndPeriodLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		variableBreakdownEndPeriodLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -252,7 +254,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownPopulateButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		variableBreakdownPopulateButton.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownPopulateButton");
 		variableBreakdownPopulateButton.setComponentName("POPULATE");
-		variableBreakdownPopulateButton.setAddToParent(Boolean.TRUE);
+		variableBreakdownPopulateButton.setAddToParent(true);
 		variableBreakdownPopulateButton.setParentComponentId(variableBreakdownPopulateButtonConfig.getComponentId());
 
 		componentList.add(variableBreakdownPopulateButton);
@@ -267,21 +269,21 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownSubmitButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		variableBreakdownSubmitButton.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownSubmitButton");
 		variableBreakdownSubmitButton.setComponentName("SUBMIT");
-		variableBreakdownSubmitButton.setAddToParent(Boolean.TRUE);
+		variableBreakdownSubmitButton.setAddToParent(true);
 		variableBreakdownSubmitButton.setParentComponentId(variableBreakdownControlButtonConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig variableBreakdownResetButton = new GtnUIFrameworkComponentConfig();
 		variableBreakdownResetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		variableBreakdownResetButton.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownResetButton");
 		variableBreakdownResetButton.setComponentName("RESET");
-		variableBreakdownResetButton.setAddToParent(Boolean.TRUE);
+		variableBreakdownResetButton.setAddToParent(true);
 		variableBreakdownResetButton.setParentComponentId(variableBreakdownControlButtonConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig variableBreakdownCloseButton = new GtnUIFrameworkComponentConfig();
 		variableBreakdownCloseButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		variableBreakdownCloseButton.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"variableBreakdownCloseButton");
 		variableBreakdownCloseButton.setComponentName("CLOSE");
-		variableBreakdownCloseButton.setAddToParent(Boolean.TRUE);
+		variableBreakdownCloseButton.setAddToParent(true);
 		variableBreakdownCloseButton.setParentComponentId(variableBreakdownControlButtonConfig.getComponentId());
 
 		componentList.add(variableBreakdownSubmitButton);
@@ -295,128 +297,46 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownResultsPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_12.toString());
 		componentList.add(variableBreakdownResultsPanel);
 
-		addResultTable(componentList, variableBreakdownResultsPanel.getComponentId());
+		addPagedTableComponent(componentList, variableBreakdownResultsPanel.getComponentId());
 
 	}
+	
+	private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+		GtnUIFrameworkComponentConfig variableBreakdownLookupResultsPagedTableComponent = new GtnUIFrameworkComponentConfig();
+		variableBreakdownLookupResultsPagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
+		variableBreakdownLookupResultsPagedTableComponent.setComponentId("comparisonLookupResultsPagedTableComponent");
+		variableBreakdownLookupResultsPagedTableComponent.setComponentName("Results");
+		variableBreakdownLookupResultsPagedTableComponent.setParentComponentId(parentId);
+		variableBreakdownLookupResultsPagedTableComponent.setAddToParent(true);
 
-	private void addResultTable(List<GtnUIFrameworkComponentConfig> componentList, String componentId) {
-		/*GtnUIFrameworkComponentConfig resultTableComponentConfig = new GtnUIFrameworkComponentConfig();
-		resultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTREETABLE);
-		resultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
-		resultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
-		resultTableComponentConfig.setAddToParent(Boolean.TRUE);
-		resultTableComponentConfig.setParentComponentId(componentId);
+		List<String> variableBreakdownLookupTableStyle = new ArrayList<>();
+		variableBreakdownLookupTableStyle.add("filterbar");
+		variableBreakdownLookupTableStyle.add("v-has-width");
+		variableBreakdownLookupTableStyle.add("v-table-filterbar");
+		variableBreakdownLookupTableStyle.add("table-header-normal");
+		variableBreakdownLookupResultsPagedTableComponent.setComponentWidth("100%");
+		variableBreakdownLookupResultsPagedTableComponent.setComponentStyle(variableBreakdownLookupTableStyle);
 
-		GtnUIFrameworkPagedTreeTableConfig gtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
+		componentList.add(variableBreakdownLookupResultsPagedTableComponent);
 
-		List<Object> actionConfigList = new ArrayList<>();
-		actionConfigList.add("resultsLayoutPanel");
-		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkActionConfig.setActionParameterList(actionConfigList);
-		gtnPagedTreeTableConfig.setGtnUIFrameWorkActionConfig(gtnUIFrameWorkActionConfig);
+		GtnUIFrameworkPagedTableConfig variableBreakdownLookupResultsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
+		variableBreakdownLookupResultsPagedTableConfig.setEditable(false);
+		variableBreakdownLookupResultsPagedTableConfig.setFilterBar(true);
+		variableBreakdownLookupResultsPagedTableConfig.setPageLength(10);
+		variableBreakdownLookupResultsPagedTableConfig.setItemPerPage(10);
+		variableBreakdownLookupResultsPagedTableConfig.setSelectable(true);
+		variableBreakdownLookupResultsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
 
-		gtnPagedTreeTableConfig.setLeftHeader(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
-		gtnPagedTreeTableConfig.setRightHeader(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
+		variableBreakdownLookupResultsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
 
-		gtnPagedTreeTableConfig.setCountUrl("");
-		gtnPagedTreeTableConfig.setItemPerPage(10);
+		variableBreakdownLookupResultsPagedTableConfig.setTableVisibleHeader(new String[] { "Projection Name", "Description",
+				"Market Type", "Contract Holder", "Contract", "Brand" });
+		variableBreakdownLookupResultsPagedTableConfig.setTableColumnMappingId(
+				new Object[] { "projectionName", "description", "marketType", "contractHolder", "contract", "brand" });
 
-		gtnPagedTreeTableConfig.setMaxSplitPosition(1000);
-		gtnPagedTreeTableConfig.setMinSplitPosition(300);
-		gtnPagedTreeTableConfig.setPageLength(15);
-		gtnPagedTreeTableConfig.setResultSetUrl("");
-
-		gtnPagedTreeTableConfig.setSplitPosition(493);
-
-		gtnPagedTreeTableConfig.setTableHeight("650px");
-		gtnPagedTreeTableConfig.setDoubleHeaderVisible(Boolean.TRUE);
-
-		gtnPagedTreeTableConfig.setLeftTableEditable(true);
-		gtnPagedTreeTableConfig.setRightTableEditable(true);
-
-		List<String> fieldFactoryColum = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
-		List<GtnUIFrameworkComponentConfig> fieldFactoryComponent = new ArrayList<>();
-		gtnPagedTreeTableConfig.setLeftTableEditableColumnList(fieldFactoryColum);
-
-		GtnUIFrameworkComponentConfig checkBox = new GtnUIFrameworkComponentConfig();
-		checkBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
-		checkBox.setComponentType(GtnUIFrameworkComponentType.CHECKBOX);
-		GtnUIFrameworkCheckBoxComponentConfig checkBoxConfig = new GtnUIFrameworkCheckBoxComponentConfig();
-		checkBoxConfig.setImmediate(true);
-
-		checkBox.setGtnCheckBoxConfig(checkBoxConfig);
-		List<GtnUIFrameWorkActionConfig> checkBoxClickActionList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig gtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		gtnUIFrameWorkGenerateActionConfig
-				.addActionParameter(GtnForecastReturnsClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
-		checkBoxClickActionList.add(gtnUIFrameWorkGenerateActionConfig);
-		gtnUIFrameWorkGenerateActionConfig
-				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
-						GtnFrameworkCommonConstants.RESULT_TABLE));
-		checkBox.setGtnUIFrameWorkItemClickActionConfigList(checkBoxClickActionList);
-
-		fieldFactoryComponent.add(checkBox);
-		gtnPagedTreeTableConfig.setLeftTableEditableComponentConfig(fieldFactoryComponent);
-
-		List<GtnUIFrameWorkActionConfig> textFieldConfig = new ArrayList<>();
-		GtnUIFrameWorkActionConfig fieldFactoryCustomAction = new GtnUIFrameWorkActionConfig();
-
-		fieldFactoryCustomAction
-				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
-						GtnFrameworkCommonConstants.RESULT_TABLE));
-
-		fieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		fieldFactoryCustomAction
-				.addActionParameter(GtnForecastReturnsClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
-		textFieldConfig.add(fieldFactoryCustomAction);
-		gtnPagedTreeTableConfig.setComponentconfigActionlist(textFieldConfig);
-
-		gtnPagedTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
-		List<GtnUIFrameWorkActionConfig> checkAllConflist = new ArrayList<>();
-		GtnUIFrameWorkActionConfig checkAllActionConfig = new GtnUIFrameWorkActionConfig();
-		checkAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		checkAllActionConfig.addActionParameter(GtnForecastReturnsClassConstants.RETURNS_FORECAST_CHECK_ALL_ACTION);
-		checkAllConflist.add(checkAllActionConfig);
-		gtnPagedTreeTableConfig.setCheckBoxActionConfigList(checkAllConflist);
-		gtnPagedTreeTableConfig
-				.setCountUrl(GtnForecastReturnsClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_COUNT_ACTION);
-		gtnPagedTreeTableConfig
-				.setCountWsUrl(GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_COUNT_SERVICE);
-
-		gtnPagedTreeTableConfig.setBulkDataUrl(
-				GtnForecastReturnsClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_BULK_DATA_ACTION);
-		gtnPagedTreeTableConfig.setBulkDataWsUrl(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_DATA_SERVICE);
-
-		gtnPagedTreeTableConfig.setFillCountUrl(
-				GtnForecastReturnsClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_FILL_COUNT_DATA_ACTION);
-		gtnPagedTreeTableConfig.setFillCountWsUrl(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_COUNT_SERVICE);
-
-		gtnPagedTreeTableConfig.setLeftHeaderUrl(
-				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_COMP_LEFT_HEADER_FORM_HEADER_CONFIG_ACTION);
-
-		gtnPagedTreeTableConfig.setLeftWsHeaderUrl(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
-
-		gtnPagedTreeTableConfig.setRighttHeaderUrl(
-				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_COMP_RIGHT_HEADER_FORM_HEADER_CONFIG_ACTION);
-
-		gtnPagedTreeTableConfig.setRightWsHeaderUrl(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
-
-		gtnPagedTreeTableConfig.setLeftHeaderCustomClassLoadUrl(
-				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_LEFT_HEADER_CONFIG_ACTION);
-
-		gtnPagedTreeTableConfig.setRightHeaderCustomClassLoadUrl(
-				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
-
-		gtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
-
-		resultTableComponentConfig.setGtnPagedTreeTableConfig(gtnPagedTreeTableConfig);
-		componentList.add(resultTableComponentConfig);*/
+		variableBreakdownLookupResultsPagedTableComponent.setGtnPagedTableConfig(variableBreakdownLookupResultsPagedTableConfig);
 	}
 }

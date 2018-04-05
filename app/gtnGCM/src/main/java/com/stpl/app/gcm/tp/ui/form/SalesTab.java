@@ -30,6 +30,7 @@ import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
@@ -77,6 +78,7 @@ public class SalesTab extends VerticalLayout {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(SalesTab.class);
+    
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightDTO;
     private CustomTableHeaderDTO leftDTO;
@@ -242,7 +244,7 @@ public class SalesTab extends VerticalLayout {
         if (resultBean.size() > 0) {
             loadExcelResultTable();
         }
-        exportPeriodViewTable.setRefresh(Boolean.TRUE);
+        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         Map<String, String> formatter = new HashMap<>();
         formatter.put("currencyNoDecimal", "Sales");
         formatter.put("unitOneDecimal", "Units");

@@ -25,13 +25,9 @@ public class GtnUIFrameWorkRSSearchNoticationAction implements GtnUIFrameWorkAct
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		logger.debug("inside GtnUIFrameWorkRSSearchNoticationAction");
 		return;
 
-	}
-
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
 	}
 
 	@Override
@@ -41,10 +37,9 @@ public class GtnUIFrameWorkRSSearchNoticationAction implements GtnUIFrameWorkAct
 
 			String tableId = (String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
 
-			int  itemSize = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId, componentId)
-					.getTableSize();
+			int itemSize = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId, componentId).getTableSize();
 			String msg = "";
-			if (itemSize!=0) {
+			if (itemSize != 0) {
 				msg = "Search Completed";
 			} else {
 				msg = "No results found";
@@ -55,8 +50,12 @@ public class GtnUIFrameWorkRSSearchNoticationAction implements GtnUIFrameWorkAct
 			notif.show(Page.getCurrent());
 		} catch (Exception e) {
 			logger.error("Error in GtnUIFrameWorkRSSearchNoticationAction ");
-			new GtnFrameworkGeneralException(e);
 		}
+	}
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
 	}
 
 }

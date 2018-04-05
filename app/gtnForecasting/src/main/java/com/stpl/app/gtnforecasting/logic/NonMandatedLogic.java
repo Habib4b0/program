@@ -60,6 +60,7 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -95,7 +96,8 @@ import org.slf4j.LoggerFactory;
  */
 public class NonMandatedLogic {
 
-	/**
+	
+        /**
 	 * The SALES_SMALL projection dao.
 	 */
 	private final SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -126,6 +128,7 @@ public class NonMandatedLogic {
 	 * the SALES_SMALL dao.
 	 */
 	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
+        private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Searh view.
@@ -616,7 +619,9 @@ public class NonMandatedLogic {
 			throw new SystemException(ex);
 		} finally {
 			try {
+                            if (statement != null) {
 				statement.close();
+                            }
 			} catch (SQLException e) {
 				LOGGER.error(e.getMessage());
 			}
@@ -1486,13 +1491,15 @@ public class NonMandatedLogic {
 		projectionMaster.setProjectionProdVersionNo(dataSelectionDTO.getProductRelationShipVersionNo());
 		Object[] obj = null;
 		if (CommonUtil.isValueEligibleForLoading()) {
-			obj = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
-		}
-		projectionMaster
-				.setDedRelationshipBuilderSid(CommonUtil.isValueEligibleForLoading() ? obj[0].toString() : null);
-		projectionMaster.setDeductionHierarchySid(CommonUtil.isValueEligibleForLoading() ? obj[1].toString() : null);
-                projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
-		projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
+                    obj = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
+
+                    projectionMaster.setDedRelationshipBuilderSid(String.valueOf(obj[0]));
+                    projectionMaster.setDeductionHierarchySid(String.valueOf(obj[1]));
+                    projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
+                    List versionNoList = getDeductionVersionNoList(obj[0].toString());
+                    projectionMaster.setProjectionDedVersionNo(CommonUtil.isValueEligibleForLoading() ? (int) versionNoList.get(0) : null);
+                }
+                projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
 		return projectionMaster.getProjectionMasterSid();
 
 	}
@@ -1501,10 +1508,16 @@ public class NonMandatedLogic {
 		List<String> input = new ArrayList<>();
 		input.add(prdRelSid);
 		String sql = QueryUtils.getQuery(input, "DeductionRelationshipId");
-		List list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
+		List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
 		return list == null || list.isEmpty() ? null : (Object[]) list.get(0);
 	}
 
+        
+	 public List getDeductionVersionNoList(Object relationShipBuilderSid) {
+		List<Object> input = new ArrayList<>();
+		input.add(relationShipBuilderSid);
+		return QueryUtils.getAppData(input, "getDedRelationshipVersionNo", null);
+	}
 	/**
 	 * Search for projections.
 	 *
@@ -1768,7 +1781,7 @@ public class NonMandatedLogic {
 		parameters.put(Constant.PROJECTION_ID, projectionId);
 		List returnList = dataSelection.executeQuery(parameters);
 		if (returnList.isEmpty()) {
-			return true;
+			return BooleanConstant.getTrueFlag();
 		} else {
 			return (Integer) returnList.get(0) >= 1;
 		}
@@ -2550,12 +2563,6 @@ public class NonMandatedLogic {
 				String.valueOf(session.getProjectionId()));
 		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
 				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-		// SALES ACTUAL INSERT
-		query = SQlUtil.getQuery("Sales_Main_Temp_Actual_Insert").replace(Constant.AT_PROJECTION_MASTER_SID,
-				String.valueOf(session.getProjectionId()));
-		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-
 		for (Future futureObject : tempInsertFutureList) {
 			CommonUtil.getInstance().waitsForOtherThreadsToComplete(futureObject);
 		}
@@ -2579,16 +2586,7 @@ public class NonMandatedLogic {
 														SQlUtil.getQuery("Discount_Main_Temp_Proj_Insert").replace(
 																Constant.AT_PROJECTION_MASTER_SID,
 																String.valueOf(session.getProjectionId())),
-														session.getCurrentTableNames()))),
-						// DISCOUNT ACTUAL INSERT
-						service.submit(
-								CommonUtil.getInstance()
-										.createRunnable(
-												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
-														SQlUtil.getQuery("Discount_Main_Temp_Actual_Insert").replace(
-																Constant.AT_PROJECTION_MASTER_SID,
-																String.valueOf(session.getProjectionId())),
-														session.getCurrentTableNames()))) });
+														session.getCurrentTableNames())))});
 
 		session.addFutureMap(Constant.PPA_SMALL,
 				new Future[] {

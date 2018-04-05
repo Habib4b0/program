@@ -57,7 +57,7 @@ public class GtnUIFrameworkRsItemAdditionValidationAction implements GtnUIFrameW
 					.getVaadinBaseComponent(String.valueOf(valueFieldIdList.get(i))).getStringFromField();
 			boolean checkFieldIsVisible = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(String.valueOf(valueFieldIdList.get(i))).isVisible();
-			if ("".equals(valueFieldContent) && checkFieldIsVisible) {
+			if (checkFieldIsVisible && "".equals(valueFieldContent)) {
 				message = "Please Select or Enter the Value to search";
 				throw new GtnFrameworkValidationFailedException(message, componentId);
 			}

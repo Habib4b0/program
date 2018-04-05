@@ -40,7 +40,7 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		vLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		vLayout.setComponentId(GtnFrameworkCommonConstants.SAVE_VIEW_LOOK_UP_ROOT_VERTICAL_LAYOUT);
 		vLayout.setAddToParent(false);
-		vLayout.setSpacing(Boolean.TRUE);
+		vLayout.setSpacing(true);
 		vLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
 		conf.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
@@ -81,7 +81,7 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		viewNameTypeOptionGroup.setParentComponentId(parentId);
 		GtnUIFrameworkOptionGroupConfig comboConfig = new GtnUIFrameworkOptionGroupConfig();
 		comboConfig.setItemValues(Arrays.asList(GtnFrameworkCommonConstants.A_PRIVATE, "Public"));
-		comboConfig.setValuesFromService(Boolean.FALSE);
+		comboConfig.setValuesFromService(false);
 		viewNameTypeOptionGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
 		viewNameTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(comboConfig);
 		componentList.add(viewNameTypeOptionGroup);

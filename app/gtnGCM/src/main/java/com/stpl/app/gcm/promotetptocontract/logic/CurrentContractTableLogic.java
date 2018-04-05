@@ -7,6 +7,7 @@ package com.stpl.app.gcm.promotetptocontract.logic;
 
 import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;
@@ -22,10 +23,15 @@ import org.slf4j.LoggerFactory;
 public class CurrentContractTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
+    
     private CurrentContractDTO currConDTO = new CurrentContractDTO();
     private final PromoteTPLogic logic = new PromoteTPLogic();
     private boolean firstTime = true;
     private SessionDTO session;
+
+    public CurrentContractTableLogic() {
+        super();
+    }
 
     /**
      * Record count logic
@@ -35,7 +41,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         if (!firstTime) {
-            currConDTO.setIsCount(false);
+            currConDTO.setIsCount(BooleanConstant.getFalseFlag());
             return logic.getSelectedTPContractCount(currConDTO, session.getUserId(), session.getSessionId());
         }
         return 0;

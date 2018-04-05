@@ -5,11 +5,35 @@
  */
 package com.stpl.app.cff.ui.form;
 
+import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-
 import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFFilterGenerator;
@@ -34,12 +58,13 @@ import com.stpl.app.cff.util.SessionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.TableHeaderUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -59,33 +84,11 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.lang.reflect.InvocationTargetException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * CFF Landing page
@@ -98,6 +101,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	 * Logger implementation for ConsolidatedFinancialForecastForm
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsolidatedFinancialForecastForm.class);
+        
+        
+        
 	/**
 	 *
 	 * Financial ForecastId Label
@@ -466,7 +472,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
 				final User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
 				sessionDto.setAction("edit");
-				sessionDto.setIsGenerated(Boolean.TRUE);
+				sessionDto.setIsGenerated(BooleanConstant.getTrueFlag());
 				sessionDto.setProcessId(processId);
 				sessionDto.setWorkflowStatus(dto.getStatusDesc());
 				if (dto != null && dto.getStatusDesc() != null && !Constants.APPROVED.equals(dto.getStatusDesc())) {
@@ -520,6 +526,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDto.setProductHierarchyVersion(dataSelectionDto.getProductHierVersionNo());
 					sessionDto.setCustomerRelationVersion(dataSelectionDto.getCustomerRelationShipVersionNo());
 					sessionDto.setProductRelationVersion(dataSelectionDto.getProductRelationShipVersionNo());
+                                        sessionDto.setDeductionRelationVersion(dataSelectionDto.getDeductionRelationShipVersionNo());
 					sessionDto.setScreenName("CCP_HIERARCHY");
 					CFFQueryUtils.createTempTables(sessionDto);
 					dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
@@ -555,24 +562,16 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					final int customerSelectedLevel = Integer
 							.parseInt(dataSelectionDto.getCustomerHierarchyInnerLevel());
 					final int productSelectedLeve = Integer.parseInt(dataSelectionDto.getProductHierarchyInnerLevel());
-					final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
-							.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
-									dataSelectionDto.getCustomerHierVersionNo());
-					final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic
-							.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getProdHierSid()),
-									dataSelectionDto.getProductHierVersionNo());
 
 					final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
-							dataSelectionDto.getProjectionId(), Boolean.TRUE, customerSelectedLevel,
+							dataSelectionDto.getProjectionId(), BooleanConstant.getTrueFlag(), customerSelectedLevel,
 							tempCustomerDescriptionMap);
 					final List<Leveldto> productItemIds = relationLogic.getRelationShipValues(
-							dataSelectionDto.getProjectionId(), Boolean.FALSE, productSelectedLeve,
+							dataSelectionDto.getProjectionId(), BooleanConstant.getFalseFlag(), productSelectedLeve,
 							tempProductDescriptionMap);
 
 					relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds, productItemIds,
-							customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-							dataSelectionDto.getCustomerRelationShipVersionNo(),
-							dataSelectionDto.getProductRelationShipVersionNo(),projectionIdValue);
+							dataSelectionDto);
 
 					sessionDto.setCustomerLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getCustRelationshipBuilderSid(), true));
@@ -584,7 +583,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					resultsBean.addAll(cffLogic.loadCffDetails(dto.getCffMasterSid()));
 					if (CommonUtils.isValueEligibleForLoading()) {
 						cffLogic.callDeductionCCPHierarchyInsertion(sessionDto, sessionDto.getCurrentTableNames(),
-								Boolean.FALSE);
+								BooleanConstant.getFalseFlag());
 					}
 					approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 					approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
@@ -629,6 +628,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 		final int projectionId = dto.getCffMasterSid();
 		final Map<String, Object> parameters = new HashMap<>();
 		final DataSelectionLogic logic = new DataSelectionLogic();
+                SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                SimpleDateFormat format = new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY); 
 		if (projectionId != 0) {
 			try {
 				parameters.put(StringConstantsUtil.PROJECTION_ID, projectionId);
@@ -639,13 +640,13 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDTO.setProdRelationshipBuilderSid(String.valueOf(temp[1]));
 					sessionDTO.setCustRelationshipBuilderSid(String.valueOf(temp[NumericConstants.TWO]));
                   if(temp[NumericConstants.THREE]!=null){ 
-                                        sessionDTO.setCffEligibleDate(new SimpleDateFormat(StringConstantsUtil.MM_DD_YYYY).parse(String.valueOf(temp[NumericConstants.THREE])));
+                                        sessionDTO.setCffEligibleDate(format.parse(format.format(parse.parse(String.valueOf(temp[NumericConstants.THREE]))))); 
                   }
 				}
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));
 
 			} catch (final SystemException | ParseException ex) {
-				LOGGER.error(ex + " NonMandatedEditWindow - loadSessionDTO");
+				LOGGER.error("{} NonMandatedEditWindow - loadSessionDTO", ex);
 			}
 		}
 	}
@@ -721,6 +722,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				vSessionDTO.setProductHierarchyVersion(dataSelectionDto.getProductHierVersionNo());
 				vSessionDTO.setCustomerRelationVersion(dataSelectionDto.getCustomerRelationShipVersionNo());
 				vSessionDTO.setProductRelationVersion(dataSelectionDto.getProductRelationShipVersionNo());
+                                vSessionDTO.setDeductionRelationVersion(dataSelectionDto.getDeductionRelationShipVersionNo());
 				dataSelectionDto.setCustomerHierSid(String.valueOf(vSessionDTO.getCustomerHierarchyId()));
 				dataSelectionDto
 						.setCustRelationshipBuilderSid(String.valueOf(vSessionDTO.getCustRelationshipBuilderSid()));
@@ -741,31 +743,23 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						dataSelectionDto.getProductRelationShipVersionNo());
 				final int customerSelectedLevel = Integer.parseInt(dataSelectionDto.getCustomerHierarchyInnerLevel());
 				final int productSelectedLeve = Integer.parseInt(dataSelectionDto.getProductHierarchyInnerLevel());
-				final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
-						Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
-						dataSelectionDto.getCustomerHierVersionNo());
-				final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
-						Integer.parseInt(dataSelectionDto.getProdHierSid()),
-						dataSelectionDto.getProductHierVersionNo());
 
 				final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
-						dataSelectionDto.getProjectionId(), Boolean.TRUE, customerSelectedLevel,
+						dataSelectionDto.getProjectionId(), BooleanConstant.getTrueFlag(), customerSelectedLevel,
 						tempCustomerDescriptionMap);
 				final List<Leveldto> productItemIds = relationLogic.getRelationShipValues(
-						dataSelectionDto.getProjectionId(), Boolean.FALSE, productSelectedLeve,
+						dataSelectionDto.getProjectionId(), BooleanConstant.getFalseFlag(), productSelectedLeve,
 						tempProductDescriptionMap);
 
 				relationLogic.ccpHierarchyInsert(vSessionDTO.getCurrentTableNames(), customerItemIds, productItemIds,
-						customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-						dataSelectionDto.getCustomerRelationShipVersionNo(),
-						dataSelectionDto.getProductRelationShipVersionNo(),projectionIdValue);
+						dataSelectionDto);
 
 				cffLogic.ccpHierarchyInsert(vSessionDTO.getCurrentTableNames(), dataSelectionDto,
 						cffLogic.getCustandProdSelection(vSessionDTO.getProjectionId(),
 								"EDIT_MODE_PROJECTION_CUST_SELECTION"),
 						cffLogic.getCustandProdSelection(vSessionDTO.getProjectionId(),
 								"EDIT_MODE_PROJECTION_PROD_SELECTION"),
-						topLevelName, Boolean.FALSE);
+						topLevelName, BooleanConstant.getFalseFlag());
 
 				vSessionDTO.setCustomerLevelDetails(
 						logic.getLevelValueDetails(vSessionDTO, dataSelectionDto.getCustRelationshipBuilderSid(), true));
@@ -777,7 +771,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				resultsBean.addAll(cffLogic.loadCffDetails(dto.getCffMasterSid()));
 				if (CommonUtils.isValueEligibleForLoading()) {
 					cffLogic.callDeductionCCPHierarchyInsertion(vSessionDTO, vSessionDTO.getCurrentTableNames(),
-							Boolean.FALSE);
+							BooleanConstant.getFalseFlag());
 				}
 				approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 				approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
@@ -945,6 +939,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				? Integer.parseInt(resultList[NumericConstants.TWENTY_SEVEN].toString()) : 0);
 		dataSelectionDto.setProductRelationShipVersionNo(resultList[NumericConstants.TWENTY_EIGHT] != null
 				? Integer.parseInt(resultList[NumericConstants.TWENTY_EIGHT].toString()) : 0);
+		dataSelectionDto.setDeductionRelationShipVersionNo(resultList[NumericConstants.TWENTY_NINE] != null
+				? Integer.parseInt(resultList[NumericConstants.TWENTY_NINE].toString()) : 0);
 
 	}
 

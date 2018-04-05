@@ -28,6 +28,10 @@ public class CompanyCrtIdentifierDTO implements Serializable {
     private Date tradeStartDate;
     private Date tradeEndDate;
 
+    public CompanyCrtIdentifierDTO() {
+        super();
+    }
+
     /**
      * The Constant serialVersionUID.
      */
@@ -95,7 +99,7 @@ public class CompanyCrtIdentifierDTO implements Serializable {
     /**
      * The checkbox.
      */
-    private Boolean checkbox = false;
+    private boolean checkbox = false;
     /**
      * The view start date.
      */

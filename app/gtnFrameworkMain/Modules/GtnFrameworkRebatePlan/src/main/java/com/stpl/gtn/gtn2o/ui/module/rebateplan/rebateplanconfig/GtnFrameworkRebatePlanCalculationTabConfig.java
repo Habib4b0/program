@@ -830,6 +830,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig valueConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		valueConfig.setNewItemsAllowed(true);
 		value.setGtnComboboxConfig(valueConfig);
 	}
 
@@ -953,6 +954,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig valueConfigComplex = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		valueConfigComplex.setNewItemsAllowed(true);
 		valueComplex.setGtnComboboxConfig(valueConfigComplex);
 	}
 
@@ -1026,6 +1028,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig adjustmentValueConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		adjustmentValueConfig.setNewItemsAllowed(true);
 		adjustmentValue.setGtnComboboxConfig(adjustmentValueConfig);
 	}
 
@@ -1100,6 +1103,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig adjustmentValue2Config = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		adjustmentValue2Config.setNewItemsAllowed(true);
 		adjustmentValue2.setGtnComboboxConfig(adjustmentValue2Config);
 	}
 
@@ -1172,6 +1176,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		componentList.add(adjustmentValue3);
 
 		GtnUIFrameworkComboBoxConfig adjustmentValue3Config = new GtnUIFrameworkComboBoxConfig();
+		adjustmentValue3Config.setNewItemsAllowed(true);
 		adjustmentValue3Config.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		adjustmentValue3Config.setComboBoxType(GtnFrameworkCommonConstants.TIER_PERCENT_VALUE);
@@ -1250,6 +1255,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig adjustmentValue4Config = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		adjustmentValue4Config.setNewItemsAllowed(true);
 		adjustmentValue4.setGtnComboboxConfig(adjustmentValue4Config);
 	}
 
@@ -1326,6 +1332,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig adjustmentValue5Config = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		adjustmentValue5Config.setNewItemsAllowed(true);
 		adjustmentValue5.setGtnComboboxConfig(adjustmentValue5Config);
 	}
 

@@ -422,7 +422,9 @@ public class WorkFlowNotesLookup extends Window {
             } else if (tableBeanId instanceof NotesDTO) {
                 targetItem = new BeanItem<>((NotesDTO) tableBeanId);
             }
-            tableBean = (NotesDTO) targetItem.getBean();
+            if (targetItem != null) {
+                tableBean = (NotesDTO) targetItem.getBean();
+            }
             if (event.isDoubleClick()) {
                 File uploadedFile = CommonUtil.getFilePath(tableBean.getDocumentFullPath());
                 Resource res = new FileResource(uploadedFile);

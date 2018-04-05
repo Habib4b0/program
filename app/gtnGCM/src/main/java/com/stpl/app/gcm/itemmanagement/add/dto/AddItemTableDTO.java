@@ -51,7 +51,7 @@ public class AddItemTableDTO {
     private Integer startIndex = 0;
     private Integer endIndex = 0;
     private boolean isCount = false;
-    private Boolean checkRecord = false;
+    private boolean checkRecord = false;
     private List<ItemIndexDto> selectedItemList = new ArrayList<>();
     private Integer contractSid = 0;
     private Integer companySid = 0;
@@ -113,6 +113,10 @@ public class AddItemTableDTO {
     private String baseLineWacManual = StringUtils.EMPTY;
     private int baseLineWacPriceType;
     private Date baseLineWacDate;
+
+    public AddItemTableDTO() {
+        super();
+    }
 
     public String getColumnName() {
         return columnName;

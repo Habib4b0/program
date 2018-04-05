@@ -57,7 +57,7 @@ public class ComponentInfoDTO implements Serializable {
     private Integer count = 0;
     private Integer startIndex = 0;
     private Integer endIndex = 0;
-    private Boolean isCount = false;
+    private boolean isCount = false;
     private String rsSid = StringUtils.EMPTY;
     private String ifpSystemId = StringUtils.EMPTY;
     private String category = StringUtils.EMPTY;
@@ -132,6 +132,11 @@ public class ComponentInfoDTO implements Serializable {
     private List<ComponentInfoDTO> ifpList=new ArrayList<>();
     private List<ComponentInfoDTO> rsList=new ArrayList<>();
     private List<ComponentInfoDTO> psList=new ArrayList<>();
+
+    public ComponentInfoDTO() {
+        super();
+    }
+    
     public String getRsType() {
         return rsType;
     }

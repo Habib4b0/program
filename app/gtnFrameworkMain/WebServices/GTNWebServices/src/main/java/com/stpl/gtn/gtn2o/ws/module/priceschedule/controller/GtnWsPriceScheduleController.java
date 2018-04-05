@@ -339,13 +339,13 @@ public class GtnWsPriceScheduleController {
 
 				for (String key : psPricePopulateUpdateBean.getPropertyValueMap().keySet()) {
 					if (isAdded) {
-						psPricePopulateUpdateQuery.append(",").append(componetMap.get(key).getDbColumnName())
+						psPricePopulateUpdateQuery.append(',').append(componetMap.get(key).getDbColumnName())
 								.append("='").append(psPricePopulateUpdateBean.getPropertyValueMap().get(key))
-								.append("'");
+								.append("' ");
 
 					} else {
 						psPricePopulateUpdateQuery.append(componetMap.get(key).getDbColumnName()).append("='")
-								.append(psPricePopulateUpdateBean.getPropertyValueMap().get(key)).append("'");
+								.append(psPricePopulateUpdateBean.getPropertyValueMap().get(key)).append("' ");
 						isAdded = true;
 					}
 
@@ -354,15 +354,15 @@ public class GtnWsPriceScheduleController {
 			} else {
 				psPricePopulateUpdateQuery.append("")
 						.append(componetMap.get(psPricePopulateUpdateBean.getPropertyId()).getDbColumnName())
-						.append("=");
+						.append('=');
 
-				psPricePopulateUpdateQuery.append("'").append(psPricePopulateUpdateBean.getValue()).append("'");
+				psPricePopulateUpdateQuery.append(" '").append(psPricePopulateUpdateBean.getValue()).append("' ");
 
 			}
 
 			psPricePopulateUpdateQuery.append(" WHERE  USERS_SID='").append(generalWSRequest.getUserId())
 					.append(GtnFrameworkWebserviceConstant.AND_SESSION_ID).append(generalWSRequest.getSessionId())
-					.append("'");
+					.append("' ");
 			if (!psPricePopulateUpdateBean.isCheckAll()) {
 				psPricePopulateUpdateQuery.append(" AND CHECK_RECORD='1' ");
 			}
@@ -504,10 +504,10 @@ public class GtnWsPriceScheduleController {
 		}
 
 		if (userId != null) {
-			psValidateSql.append("  users_Sid='").append(userId).append("'");
+			psValidateSql.append("  users_Sid='").append(userId).append("' ");
 		}
 		if (sessionId != null) {
-			psValidateSql.append(" and session_Id='").append(sessionId).append("'");
+			psValidateSql.append(" and session_Id='").append(sessionId).append("' ");
 		}
 
 		if ("Price".equalsIgnoreCase(process) || PP_START_DATE_EQUAL.equalsIgnoreCase(process)
@@ -716,10 +716,10 @@ public class GtnWsPriceScheduleController {
 		
 
 		if (userId != null) {
-			ppValidateSql.append("  users_Sid='").append(userId).append("'");
+			ppValidateSql.append("  users_Sid='").append(userId).append("' ");
 		}
 		if (sessionId != null) {
-			ppValidateSql.append(" and session_Id='").append(sessionId).append("'");
+			ppValidateSql.append(" and session_Id='").append(sessionId).append("' ");
 		}
 
 		if ("Price".equalsIgnoreCase(process) ||  checkRecord ) {

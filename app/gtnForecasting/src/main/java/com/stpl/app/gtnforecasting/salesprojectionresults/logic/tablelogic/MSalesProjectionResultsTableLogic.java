@@ -11,6 +11,7 @@ import com.stpl.app.gtnforecasting.salesprojectionresults.logic.NMSalesProjectio
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjectionResultsTableLogic.class);
+    
 
     protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
@@ -105,13 +107,13 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     @Override
     protected void createCurrentPageStart() {
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo, String productHierarchyNo, String customerHierarchyNo) {

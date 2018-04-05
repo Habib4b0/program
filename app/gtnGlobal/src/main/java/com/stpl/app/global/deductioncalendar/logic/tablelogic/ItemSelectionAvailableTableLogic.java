@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.stpl.app.global.deductioncalendar.dto.SelectionDTO;
 import com.stpl.app.global.deductioncalendar.logic.SelectionLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 
@@ -34,6 +35,7 @@ public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
     private ErrorfulFieldGroup binder;
     private final SelectionLogic selectionLogic=new SelectionLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
+    
 
     @Override
     public int getCount() {
@@ -43,7 +45,7 @@ public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
                 //To Call Count Query
                 count=selectionLogic.getAvailableTableCount(binder,this.getSortByColumns(),this.getFilters());
             }  catch (Exception ex) {
-                LOGGER.error(ex + " in getCount");
+                LOGGER.error( "{} in getCount", ex);
             }
         }
         return count;
@@ -55,7 +57,7 @@ public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
         try {
             resultList=selectionLogic.getAvailableTableResult(binder, start, start + offset,this.getSortByColumns(),this.getFilters());
         } catch (Exception ex) {
-            LOGGER.error(ex + " in loadData");
+            LOGGER.error("{} in loadData", ex);
         }
         return resultList;
     }
@@ -86,12 +88,12 @@ public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 
    

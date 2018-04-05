@@ -14,6 +14,7 @@ import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import static com.stpl.app.utils.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
@@ -53,6 +54,8 @@ public abstract class ForecastPVComparisonLookup extends Window{
      * The Constant serialVersionUID.
      */
     protected static final long serialVersionUID = 1L;
+    
+    
     /**
      * The work flow status.
      */
@@ -174,11 +177,11 @@ public abstract class ForecastPVComparisonLookup extends Window{
     /**
      * Visible columns for the tables
      */
-    protected final Object[] comparisonResultsColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION, Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "createdDateFrom", "createdBy"};
+    protected static final Object[] comparisonResultsColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION, Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "createdDateFrom", "createdBy"};
     /**
      * The Constant COMPARISON_RESULTS_HEADER.
      */
-    protected final String[] comparisonResultsHeader = new String[]{"Projection Name", "Description", "Market Type", "Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By"};
+    protected static final String[] comparisonResultsHeader = new String[]{"Projection Name", "Description", "Market Type", "Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By"};
     /**
      * Logger
      */
@@ -260,7 +263,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
         HorizontalLayout layout = tableLogic.createControls();
         layout.setStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         availableVertical.addComponent(layout);
-        tableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
+        tableLogic.sinkItemPerPageWithPageLength(BooleanConstant.getFalseFlag());
         tableLogic.setContainerDataSource(resultsBean);
         resultsTable.setFilterBarVisible(true);
         resultsTable.markAsDirty();

@@ -6,7 +6,7 @@
 Name:SPEC_NAME
 Version:SPEC_VERSION
 Release:        1%{?dist}
-Summary:Raja1 test
+Summary:GTN APP Release
 BuildArchitectures: noarch
 License:  GPLv3+
 Source0:SPEC_SOURCE
@@ -34,12 +34,12 @@ mkdir -p $RPM_BUILD_ROOT%{prefix}
  
 if [ -d "$folderexist"ETL_Build ]
 then
-mkdir -p  $RPM_BUILD_ROOT%{prefix}/etl/staging
+mkdir -p  $RPM_BUILD_ROOT%{prefix}/etl/
 cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/ETL_Build/* $RPM_BUILD_ROOT%{prefix}/etl/
 fi
 if [ -d "$folderexist"Conf ]
 then
-mkdir -p  $RPM_BUILD_ROOT%{prefix}/conf
+mkdir -p  $RPM_BUILD_ROOT%{prefix}/conf/
 cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Conf/* $RPM_BUILD_ROOT%{prefix}/conf/
 fi
 
@@ -65,6 +65,13 @@ then
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/R2_ETL.jar
 fi
 
+if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnProperties.jar ]
+then
+mkdir -p $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties
+  cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnProperties.jar  $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties/gtnProperties.jar
+chmod -R 777 $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/applicationProperties/gtnProperties.jar
+fi
+
 if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/ETLProcedureInput.properties ]
 then
   cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/ETLProcedureInput.properties  $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/
@@ -82,6 +89,13 @@ then
 touch $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/replace_dir_stu.txt
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/dir_struct.sh
 fi
+if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties ]
+then
+mkdir -p $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/
+  cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties  $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/
+chmod -R 777 $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/interfaceUrlMapping.properties
+fi
+
 
 echo "file in process"
 count=`ls -1 $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.jar 2>/dev/null | wc -l`
@@ -143,7 +157,9 @@ sed -i 's=Server_Path='$install_path'=g' $install_path/etl/Interface_Job/Scripts
 
 if [ -e $install_path/etl/Interface_Job/replace_dir_stu.txt ];
 then
-sh $install_path/etl/dir_struct.sh $install_path/etl
+mkdir -p "$install_path"_data/etl/staging
+
+sh $install_path/etl/dir_struct.sh "$install_path"_data/etl
 rm -rf $install_path/etl/Interface_Job/replace_dir_stu.txt
 fi
 if [ -e $install_path/etl/Interface_Job/replace_etl_prop.txt ];
@@ -157,6 +173,7 @@ sed -i -e "/SERVER_USERNAME=/ s/=.*/=$SERVER_USERNAME/" -e  "/BPI_SYS_HOST=/ s/=
 sed -i -e "/BPI_SYS_PASSWORD=/ s/=.*/=$BPI_SYS_PASSWORD/" -e  "/STAGING_HOST=/ s/=.*/=$STAGING_HOST/" -e  "/STAGING_DB=/ s/=.*/=$STAGING_DB/" -e "/STAGING_USER=/ s/=.*/=$STAGING_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 sed -i -e "/STAGING_PASSWORD=/ s/=.*/=$STAGING_PASSWORD/" -e "/BPI_SOURCE_HOST=/ s/=.*/=$BPI_SOURCE_HOST/" -e "/BPI_SOURCE_DB=/ s/=.*/=$BPI_SOURCE_DB/" -e "/BPI_SOURCE_USER=/ s/=.*/=$BPI_SOURCE_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 sed -i -e "/BPI_SOURCE_PASSWORD=/ s/=.*/=$BPI_SOURCE_PASSWORD/" -e  "/ETL_PORT_NO=/ s/=.*/=$ETL_PORT_NO/" -e "/com_stpl_gtnframework_base_path=/ s/=.*/=$Gtn_Framework_Base_path/" $install_path/etl/Interface_Job/EtlConfiguration.properties
+sed -i -e "/ETL_LOG_PATH=/ s/=.*/=$ETL_LOG_PATH/"  -e "/BPI_PASSPHRASE=/ s/=.*/=$BPI_PASSPHRASE/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 fi
 # Deleting Service jar index files ends
 
@@ -164,10 +181,12 @@ fi
 
 if [ -e $install_path/tempdeploy/GtnFrameworkTransaction.jar ];
 then
-jar xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
-cp  -R /WEB-INF/classes/transaction_json $Gtn_Framework_Base_path
-rm -rf /WEB-INF /META-INF
+mkdir -p $Gtn_Framework_Base_path/transaction_json
+cd $Gtn_Framework_Base_path
+jar -xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
+rm -rf $Gtn_Framework_Base_path/WEB-INF $Gtn_Framework_Base_path/META-INF $Gtn_Framework_Base_path/OSGI-INF $Gtn_Framework_Base_path/com 
 chown -R $APP_User:$Chown $Gtn_Framework_Base_path
+cd -
 fi
 
 
@@ -245,9 +264,9 @@ for  filename in $x
 do
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 LOGDATE=`date +%Y-%m-%d`
-log_file="$install_path/logs/$DB_Schema_Name/$DB_Script_Name/Log_"$DB_Script_Name"_$LOGDATE.log"
-mkdir -p "$install_path/logs/$DB_Schema_Name/$DB_Script_Name"
-chmod 777 "$install_path/logs/$DB_Schema_Name/$DB_Script_Name"
+log_file="$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name/Log_"$DB_Script_Name"_$LOGDATE.log"
+mkdir -p "$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name"
+chmod 777 "$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name"
 #echo $DATE
 echo "$filename.."
 echo "INFO $DATE Executing file $filename...">>$log_file
@@ -282,14 +301,9 @@ fi
 
 chmod -R 750 $install_path
 chown -R $APP_User:$Chown $install_path
-chown $APP_User:etl $install_path
-chown $APP_User:etl $install_path/etl
-chown -R $APP_User:etl $install_path/etl/staging
-find $install_path/etl -d -name "Input" | xargs chmod 770  2>/dev/null
-find $install_path/etl -d -name "GALDERMA_FILES_UPLOAD" | xargs chmod 770 2>/dev/null
-chown -R $APP_User:etl $install_path/logs
-chown -R $APP_User:etl $install_path/DB_Script
-chown $APP_User:etl $install_path
+
+chown -R $APP_User:etl $GTN_APP_DATA_PATH
+chmod -R 750 $GTN_APP_DATA_PATH
 
 %files
 %{prefix}/

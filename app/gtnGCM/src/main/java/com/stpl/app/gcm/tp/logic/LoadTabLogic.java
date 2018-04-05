@@ -22,6 +22,7 @@ import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +41,8 @@ public class LoadTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadTabLogic.class);
-    private static int projectionId = 0;
+    
+    private int projectionId;
     private static String forecatingType = StringUtils.EMPTY;
     private static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
     public static final String VARIANCE = "Variance";
@@ -66,13 +68,17 @@ public class LoadTabLogic {
     private static final DecimalFormat PER2DECIMAL = new DecimalFormat("#,##0.00%");
     private final CommonDao DAO = CommonImpl.getInstance();
 
+    public LoadTabLogic() {
+        super();
+    }
+
     public int getLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, int projectionId, SessionDTO session) {
         LOGGER.debug("Inside getLevelCount");
         int count = 0;
         if (parentId instanceof SalesTabDTO) {
             SalesTabDTO pDto = (SalesTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
             if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
@@ -88,9 +94,9 @@ public class LoadTabLogic {
             tabSelectionDTO.setParentLevel("new");
             tabSelectionDTO.setContractMasterSid(session.getContMasteSid());
         }
-        LoadTabLogic.projectionId = projectionId;
+        this.projectionId = projectionId;
         setParentLevels(tabSelectionDTO);
-        setForecastingType(LoadTabLogic.projectionId);
+        setForecastingType(this.projectionId);
 
         List<Object> list = getCountQuery(tabSelectionDTO);
         if (list != null && !list.isEmpty()) {
@@ -126,7 +132,7 @@ public class LoadTabLogic {
         }
     }
 
-    public static List<Object> getLevelListQuery(TabSelectionDTO tabSelectionDTO) {
+    public List<Object> getLevelListQuery(TabSelectionDTO tabSelectionDTO) {
         LOGGER.debug("Entering getLevelListQuery");
         String query = new String();
         List input = new ArrayList();
@@ -221,7 +227,7 @@ public class LoadTabLogic {
         if (parentId instanceof SalesTabDTO) {
             SalesTabDTO pDto = (SalesTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
             if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
@@ -369,7 +375,7 @@ public class LoadTabLogic {
         return salesRowList;
     }
 
-    public static List<Object> getCountQuery(TabSelectionDTO tabSelectionDTO) {
+    public List<Object> getCountQuery(TabSelectionDTO tabSelectionDTO) {
         LOGGER.debug("getCountQuery");
         String query = new String();
         List input = new ArrayList();
@@ -397,7 +403,7 @@ public class LoadTabLogic {
         return ItemQueries.getItemData(input, query, null);
     }
 
-    public static List<Object> getRebateCountQuery(TabSelectionDTO tabSelectionDTO) {
+    public List<Object> getRebateCountQuery(TabSelectionDTO tabSelectionDTO) {
         String query = StringUtils.EMPTY;
         List input = new ArrayList();
         if (VARIANCE.equals(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
@@ -435,7 +441,7 @@ public class LoadTabLogic {
         if (parentId instanceof RebateTabDTO) {
             RebateTabDTO pDto = (RebateTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
             if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
@@ -455,9 +461,9 @@ public class LoadTabLogic {
             tabSelectionDTO.setContractMasterSid(session.getContMasteSid());
             tabSelectionDTO.setParentLevel("new");
         }
-        LoadTabLogic.projectionId = projectionId;
+        this.projectionId = projectionId;
         getRebateParentLevels(tabSelectionDTO);
-        setForecastingType(projectionId);
+        setForecastingType(this.projectionId);
         List<Object> list = getRebateCountQuery(tabSelectionDTO);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
@@ -491,7 +497,7 @@ public class LoadTabLogic {
         if (parentId instanceof RebateTabDTO) {
             RebateTabDTO pDto = (RebateTabDTO) parentId;
             tabSelectionDTO.setParentLevel(pDto.getParentLevel());
-            tabSelectionDTO.setIsProjectionTotal(Boolean.FALSE);
+            tabSelectionDTO.setIsProjectionTotal(BooleanConstant.getFalseFlag());
             if (CONTRACT.equals(tabSelectionDTO.getParentLevel())) {
                 tabSelectionDTO.setContractMasterSid(pDto.getContractMasterSid());
             } else if (COMPANY.equals(tabSelectionDTO.getParentLevel())) {
@@ -668,7 +674,7 @@ public class LoadTabLogic {
         return rebateRowList;
     }
 
-    public static List<Object> getLevelListQueryForRebate(TabSelectionDTO tabSelectionDTO) {
+    public List<Object> getLevelListQueryForRebate(TabSelectionDTO tabSelectionDTO) {
 
         String queryString = StringUtils.EMPTY;
         List input = new ArrayList();
@@ -758,7 +764,7 @@ public class LoadTabLogic {
     public void getProjectionList(SessionDTO session) {
         projectionId = session.getProjectionId();
         if (projectionId != 0) {
-            setForecastingType(LoadTabLogic.projectionId);
+            setForecastingType(this.projectionId);
             List<String> salesTableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), true);
             List<String> discountTableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), false);
 
@@ -900,9 +906,9 @@ public class LoadTabLogic {
     }
 
     public void updateSalesAndDiscount(SessionDTO session) {
-        LoadTabLogic.projectionId = session.getProjectionId();
+        this.projectionId = session.getProjectionId();
 
-        setForecastingType(LoadTabLogic.projectionId);
+        setForecastingType(this.projectionId);
         List<String> salesColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), true);
         List<String> discountColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), false);
 

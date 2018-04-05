@@ -38,7 +38,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLookUpRootLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportProfileLookUpRootLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileLookUpRootLayout");
 		reportProfileLookUpRootLayout.setAddToParent(false);
-		reportProfileLookUpRootLayout.setSpacing(Boolean.TRUE);
+		reportProfileLookUpRootLayout.setSpacing(true);
 		reportProfileLookUpRootLayout.setComponentWidth("100%");
 		GtnUIFrameworkLayoutConfig reportProfileLookUpRootConfig = new GtnUIFrameworkLayoutConfig();
 		reportProfileLookUpRootConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
@@ -59,8 +59,8 @@ public class GtnFrameworkReportProfileLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportProfileLookUpRootComponentForPopUp.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileLookUpRootLayout");
 		reportProfileLookUpRootComponentForPopUp.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		reportProfileLookUpRootComponentForPopUp.setSpacing(Boolean.TRUE);
-		reportProfileLookUpRootComponentForPopUp.setMargin(Boolean.TRUE);
+		reportProfileLookUpRootComponentForPopUp.setSpacing(true);
+		reportProfileLookUpRootComponentForPopUp.setMargin(true);
 		componentList.add(reportProfileLookUpRootComponentForPopUp);
 
 		addReportViewSearchCriteriaPanel(componentList, namespace);
@@ -77,7 +77,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportViewSearchCriteriaPanel.setComponentName("Report View Search");
 		reportViewSearchCriteriaPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
-		reportViewSearchCriteriaPanel.setMargin(Boolean.TRUE);
+		reportViewSearchCriteriaPanel.setMargin(true);
 		reportViewSearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportViewSearchCriteriaPanel.setAddToParent(true);
 		componentList.add(reportViewSearchCriteriaPanel);
@@ -106,7 +106,7 @@ public class GtnFrameworkReportProfileLookUp {
 
 	private void addViewTypeOptionGroup(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig viewTypeOptionGroupConfig = new GtnUIFrameworkComponentConfig();
-		viewTypeOptionGroupConfig.setComponentType(GtnUIFrameworkComponentType.OPTIONGROUP);
+		viewTypeOptionGroupConfig.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		viewTypeOptionGroupConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType");
 		viewTypeOptionGroupConfig.setComponentName("View Type");
 		viewTypeOptionGroupConfig.setAddToParent(true);
@@ -114,7 +114,7 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_VIEW_SEARCH_CRITERIA_LAYOUT);
 		GtnUIFrameworkOptionGroupConfig viewTypeOptionGroupLoadConfig = new GtnUIFrameworkOptionGroupConfig();
 		viewTypeOptionGroupLoadConfig.setItemValues(Arrays.asList("Public", "Private"));
-		viewTypeOptionGroupLoadConfig.setValuesFromService(Boolean.FALSE);
+		viewTypeOptionGroupLoadConfig.setValuesFromService(false);
 
 		viewTypeOptionGroupConfig.addComponentStyle(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE);
 		viewTypeOptionGroupConfig.setGtnUIFrameworkOptionGroupConfig(viewTypeOptionGroupLoadConfig);
@@ -123,7 +123,7 @@ public class GtnFrameworkReportProfileLookUp {
 
 	private void addViewNameTextBox(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig viewNameTextBoxConfig = new GtnUIFrameworkComponentConfig();
-		viewNameTextBoxConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		viewNameTextBoxConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		viewNameTextBoxConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName");
 		viewNameTextBoxConfig.setComponentName("View Name");
 		viewNameTextBoxConfig.setAddToParent(true);
@@ -141,7 +141,7 @@ public class GtnFrameworkReportProfileLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportProfileSearchAndResetButtonLayout.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_SEARCH_AND_RESET_BUTTON_LAYOUT);
-		reportProfileSearchAndResetButtonLayout.setSpacing(Boolean.TRUE);
+		reportProfileSearchAndResetButtonLayout.setSpacing(true);
 		reportProfileSearchAndResetButtonLayout.setGtnLayoutConfig(layoutConf);
 		componentList.add(reportProfileSearchAndResetButtonLayout);
 
@@ -248,7 +248,7 @@ public class GtnFrameworkReportProfileLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportProfileControlPopUpLayout.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT);
-		reportProfileControlPopUpLayout.setSpacing(Boolean.TRUE);
+		reportProfileControlPopUpLayout.setSpacing(true);
 		reportProfileControlPopUpLayout.setGtnLayoutConfig(layoutConf);
 		componentList.add(reportProfileControlPopUpLayout);
 

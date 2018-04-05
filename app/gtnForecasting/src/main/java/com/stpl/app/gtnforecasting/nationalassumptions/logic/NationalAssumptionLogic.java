@@ -49,6 +49,7 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.util.BeanItem;
 import java.sql.CallableStatement;
@@ -80,6 +81,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NationalAssumptionLogic {
 
+    
     /**
      * The current year.
      */
@@ -108,6 +110,10 @@ public class NationalAssumptionLogic {
      */
     private final DecimalFormat CUR_FOUR = new DecimalFormat("$#,##0.0000");
     private static final CommonResultsDAO commonDAO = new CommonResultsDAOImpl();
+
+    public NationalAssumptionLogic() {
+        super();
+    }
 
     /**
      * Gets the periods.
@@ -230,7 +236,11 @@ public class NationalAssumptionLogic {
             targetItem = new BeanItem<>(
                     (BaselinePeriodDTO) id);
         }
-        return (BaselinePeriodDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (BaselinePeriodDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public String removePriceType(PriceTypeDTO priceType, SessionDTO session) {
@@ -1344,7 +1354,7 @@ public class NationalAssumptionLogic {
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
-        return Boolean.FALSE;
+        return BooleanConstant.getFalseFlag();
     }
 
     public int getCount(List<Object[]> list) {

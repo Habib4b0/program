@@ -291,10 +291,10 @@ public class GtnWsIfpAddService {
 		switch (expersion) {
 		case "BETWEEN":
 			itemsWhereClauseSql.append(field).append(" < '").append(dbDate.format(value)).append("' AND ");
-			itemsWhereClauseSql.append(field).append(" > '").append(dbDate.format(field2)).append("'");
+			itemsWhereClauseSql.append(field).append(" > '").append(dbDate.format(field2)).append("' ");
 			break;
 		case "LIKE":
-			itemsWhereClauseSql.append(field).append(" ").append(expersion).append(" '%")
+			itemsWhereClauseSql.append(field).append(' ').append(expersion).append(" '%")
 					.append(value.replace('*', '%')).append("%' ");
 			break;
 		case "EQUAL":
@@ -311,7 +311,7 @@ public class GtnWsIfpAddService {
 			itemsWhereClauseSql.append(field).append(" < '").append(value).append("' ");
 			break;
 		default:
-			itemsWhereClauseSql.append(field).append(" ").append(expersion).append(" '").append(value).append("' ");
+			itemsWhereClauseSql.append(field).append(' ').append(expersion).append(" '").append(value).append("' ");
 			break;
 		}
 		return itemsWhereClauseSql.toString();
@@ -397,7 +397,7 @@ public class GtnWsIfpAddService {
 		StringBuilder itemsTabSortByQuery = new StringBuilder();
 		for (GtnWebServiceOrderByCriteria gtnWebServiceOrderByCriteria : itemsTabOrderByCriteriaList) {
 			String property = gtnWebServiceOrderByCriteria.getPropertyId();
-			itemsTabSortByQuery.append(separator).append(getItemsTabColumns(property)).append(" ")
+			itemsTabSortByQuery.append(separator).append(getItemsTabColumns(property)).append(' ')
 					.append(gtnWebServiceOrderByCriteria.getOrderByCriteria());
 			separator = comma;
 		}
@@ -623,6 +623,15 @@ public class GtnWsIfpAddService {
 		return GtnCommonUtil.getNotesTabBean(imNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
 
+	@SuppressWarnings("unchecked")
+	private List<NotesTabBean> getCfpNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
+		logger.info("Enter getifpNotesTabAttachDetails");
+		String ifpNotesTabAttachDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_SELECT + +systemId
+				+ " AND MASTER_TABLE_NAME='IFP_MODEL'";
+		List<Object[]> imNotesDetailsResultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(ifpNotesTabAttachDetailsSelectQuery);
+		return GtnCommonUtil.getNotesTabBean(imNotesDetailsResultList, gtnWebServiceAllListConfig);
+	}
+	
 	public int checkAllItems(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 
 		String query = gtnWsSqlService.getQuery("getIfpItemsCheckAllQuery");

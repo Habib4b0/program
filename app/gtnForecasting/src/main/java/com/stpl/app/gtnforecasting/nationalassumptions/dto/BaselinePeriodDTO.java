@@ -22,7 +22,7 @@ public class BaselinePeriodDTO implements Serializable {
     /**
      * The check.
      */
-    private Boolean check = false;
+    private boolean check = false;
 
     /**
      * The period.
@@ -60,6 +60,10 @@ public class BaselinePeriodDTO implements Serializable {
     
     /** The rolling end period. */
     private String rollingEndPeriod;
+
+    public BaselinePeriodDTO() {
+        super();
+    }
 
     /**
      * Gets the price type ddlb.

@@ -136,6 +136,10 @@ public class LookUpDTO implements Serializable {
         private Map<Integer,String> projectionMap;
         private String quarterValue;
         private String yearValue;
+
+    public LookUpDTO() {
+        super();
+    }
         
 	/**
 	 * Gets the hierarchy name.

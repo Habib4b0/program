@@ -23,6 +23,7 @@ import com.stpl.ifs.util.TableResultCustom;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -283,13 +284,14 @@ public class DiscountAddForm extends CustomComponent implements View {
     /**
      * The record selected flag.
      */
-    private Boolean recordSelectedFlag = false;
+    private boolean recordSelectedFlag = false;
     private Label contractLabel = new Label("Contract No:");
     private Label categoryTypeLabel = new Label("Category Type:");
     private Label tpLabel = new Label("Trading Partner:");
 
     private SessionDTO sessionDTO;
-
+    
+    
     /**
      * Gets the availableRebate.
      *
@@ -836,10 +838,10 @@ public class DiscountAddForm extends CustomComponent implements View {
             }
             List<DiscountSearchDTO> list = logic.getSearchResults(searchDTO);
             availableResultsBean.removeAllItems();
-            if (list.size() > 0) {
-                availableResultsBean.addAll(list);
-            } else {
+            if (list.isEmpty()) {
                 Notification.show("No Results found");
+            } else {
+                availableResultsBean.addAll(list);
             }
         } catch (SystemException ex) {
            LOGGER.error(ex.getMessage());
@@ -1270,50 +1272,51 @@ public class DiscountAddForm extends CustomComponent implements View {
     }
 
     private void setButtonSecurity(Map<String, AppPermission> functionDeductionHM) {
+        
         if (functionDeductionHM.get(ConstantsUtils.SEARCH_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.SEARCH_BUTTON)).isFunctionFlag()) {
-            searchBtn.setVisible(Boolean.TRUE);
+            searchBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            searchBtn.setVisible(Boolean.FALSE);
+            searchBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.RESET_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.RESET_BUTTON)).isFunctionFlag()) {
-            resetBtn.setVisible(Boolean.TRUE);
+            resetBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            resetBtn.setVisible(Boolean.FALSE);
+            resetBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.RESET_ALL_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.RESET_ALL_BUTTON)).isFunctionFlag()) {
-            resetButton.setVisible(Boolean.TRUE);
+            resetButton.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            resetButton.setVisible(Boolean.FALSE);
+            resetButton.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.BACK_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.BACK_BUTTON)).isFunctionFlag()) {
-            backBtn.setVisible(Boolean.TRUE);
+            backBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            backBtn.setVisible(Boolean.FALSE);
+            backBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.ADD_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.ADD_BUTTON)).isFunctionFlag()) {
-            addBtn.setVisible(Boolean.TRUE);
+            addBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            addBtn.setVisible(Boolean.FALSE);
+            addBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.ADD_ALL_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.ADD_ALL_BUTTON)).isFunctionFlag()) {
-            addallBtn.setVisible(Boolean.TRUE);
+            addallBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            addallBtn.setVisible(Boolean.FALSE);
+            addallBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.REMOVE_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.REMOVE_BUTTON)).isFunctionFlag()) {
-            removeBtn.setVisible(Boolean.TRUE);
+            removeBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            removeBtn.setVisible(Boolean.FALSE);
+            removeBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.REMOVE_ALL_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.REMOVE_ALL_BUTTON)).isFunctionFlag()) {
-            removeallBtn.setVisible(Boolean.TRUE);
+            removeallBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            removeallBtn.setVisible(Boolean.FALSE);
+            removeallBtn.setVisible(BooleanConstant.getFalseFlag());
         }
         if (functionDeductionHM.get(ConstantsUtils.SAVE_BUTTON) != null && ((AppPermission) functionDeductionHM.get(ConstantsUtils.SAVE_BUTTON)).isFunctionFlag()) {
-            saveBtn.setVisible(Boolean.TRUE);
+            saveBtn.setVisible(BooleanConstant.getTrueFlag());
         } else {
-            saveBtn.setVisible(Boolean.FALSE);
+            saveBtn.setVisible(BooleanConstant.getFalseFlag());
         }
     }
 }

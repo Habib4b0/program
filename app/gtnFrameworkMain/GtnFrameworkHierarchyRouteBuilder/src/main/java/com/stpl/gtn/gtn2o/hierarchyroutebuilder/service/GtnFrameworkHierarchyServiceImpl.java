@@ -15,12 +15,13 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityHierarchy
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyRestrictionBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkRouteBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSelectColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFramworkTableBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFramworkTableRelationBean;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchyService {
 
@@ -54,7 +55,9 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 		routeBean.setRouteFrom(sourceEntityId);
 		routeBean.setRouteTo(destinationEntityId);
 
-		getPath(destinationTableId, sourceTableId, 0, routeBean);
+		if (!getPath(destinationTableId, sourceTableId, 0, routeBean) && destinationEntityId != 0) {
+			routeBean.clearPathListBean();
+		}
 		return routeBean;
 	}
 
@@ -96,7 +99,6 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 		return false;
 	}
 
-	@Override
 	public void createQuery(GtnFrameworkRouteBean routeBean, GtnFrameworkQueryGeneratorBean queryBean) {
 		createQuery(routeBean, 0, queryBean);
 		addRestrictionQuery(routeBean, queryBean);
@@ -188,7 +190,6 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 		return query;
 	}
 
-	@Override
 	public GtnFrameworkRouteBean getPathByTableNameAndHierarchyType(String sourceTableName, String destinationTableName,
 			String hierarchyType) {
 
@@ -201,18 +202,21 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 
 	@Override
 	public void getQueryByTableNameAndHierarchyTypeForMultiLevel(List<String> tableNameList, String hierarchyType,
-			GtnFrameworkQueryGeneratorBean queryBean) {
+			GtnFrameworkQueryGeneratorBean queryBean) throws GtnFrameworkGeneralException {
 
 		final List<Integer> entityIdList = new ArrayList<>();
 		for (final String tableName : tableNameList) {
 			final GtnFrameworkEntityHierarchyRelationBean sourceHierarchyBean = entityMasterBean
 					.getEntityHirarchyRelationBean(tableName, hierarchyType);
+			if (sourceHierarchyBean == null) {
+				throw new GtnFrameworkGeneralException(
+						"Table name and hierarchy type is mismatched. Please enter the correct table list and hierarchy type");
+			}
 			entityIdList.add(sourceHierarchyBean.getEntityId());
 		}
 		creatQueryForMultiLevelHierarchy(entityIdList, queryBean);
 	}
 
-	@Override
 	public void creatQueryForMultiLevelHierarchy(List<Integer> entityIdList, GtnFrameworkQueryGeneratorBean queryBean) {
 		final Set<Integer> path = new HashSet<>();
 		if (entityIdList.size() > 1) {
@@ -246,7 +250,7 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 	}
 
 	@Override
-	public List<String> getMappingColumns(GtnFrameworkSingleColumnRelationBean keyBean) {
+	public List<String> getMappingColumns(GtnFrameworkSelectColumnRelationBean keyBean) {
 		List<String> columnMappingList = new ArrayList<>();
 		String mappingColumn = "";
 		String mainColumn = "";
@@ -266,7 +270,7 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 		return columnMappingList;
 	}
 
-	public void addTableJoin(GtnFrameworkSingleColumnRelationBean keyBean, GtnFrameworkQueryGeneratorBean queryBean) {
+	public void addTableJoin(GtnFrameworkSelectColumnRelationBean keyBean, GtnFrameworkQueryGeneratorBean queryBean) {
 		if (keyBean.getMappingColumnName() != null && !keyBean.getMappingColumnName().isEmpty()) {
 			GtnFrameworkJoinClauseBean joinBean = queryBean.addJoinClauseBean(keyBean.getReferenceTableName(),
 					"HELPER_JOIN", GtnFrameworkJoinType.JOIN);
@@ -277,7 +281,7 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 	}
 
 	@Override
-	public void getSelectColumnsForRelationShipBuilder(GtnFrameworkSingleColumnRelationBean keyBean,
+	public void getSelectColumnsForRelationShipBuilder(GtnFrameworkSelectColumnRelationBean keyBean,
 			GtnFrameworkQueryGeneratorBean queryBean) {
 		final List<String> mappingColumn = getMappingColumns(keyBean);
 		if (!mappingColumn.isEmpty()) {
@@ -287,15 +291,14 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 	}
 
 	@Override
-	public void getWhereQuery(List<GtnFrameworkSingleColumnRelationBean> keyListBeanList,
+	public void getWhereQuery(List<GtnFrameworkSelectColumnRelationBean> keyListBeanList,
 			GtnFrameworkQueryGeneratorBean queryBean) {
-		for (final GtnFrameworkSingleColumnRelationBean keyListBean : keyListBeanList) {
+		for (final GtnFrameworkSelectColumnRelationBean keyListBean : keyListBeanList) {
 			queryBean.addWhereClauseBean(keyListBean.getActualTtableName() + "." + keyListBean.getWhereClauseColumn(),
 					null, GtnFrameworkOperatorType.IN, GtnFrameworkDataType.NULL_ALLOWED, "?");
 		}
 	}
 
-	@Override
 	public void getInboundRestrictionQuery(Set<String> tableNameSet, GtnFrameworkQueryGeneratorBean queryBaen) {
 		for (String tableName : tableNameSet) {
 			GtnFramworkTableBean tableBean = entityMasterBean.getEntityBeanByTableName(tableName);

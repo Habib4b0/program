@@ -52,7 +52,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewDetailsPanel");
 		viewDetailsPanel.setComponentName("View Details");
 
-		viewDetailsPanel.setMargin(Boolean.TRUE);
+		viewDetailsPanel.setMargin(true);
 		viewDetailsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		viewDetailsPanel.setComponentHight("100px");
 		componentList.add(viewDetailsPanel);
@@ -82,7 +82,7 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addVariableTypeOptionGroup(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig variableTypeOptionGroup = new GtnUIFrameworkComponentConfig();
-		variableTypeOptionGroup.setComponentType(GtnUIFrameworkComponentType.OPTIONGROUP);
+		variableTypeOptionGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		variableTypeOptionGroup.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE);
 		variableTypeOptionGroup.setComponentName("Variable Type: ");
@@ -91,7 +91,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.VIEW_DETAILS_LAYOUT);
 		GtnUIFrameworkOptionGroupConfig comboConfig = new GtnUIFrameworkOptionGroupConfig();
 		comboConfig.setItemValues(Arrays.asList("Expandable", "Static"));
-		comboConfig.setValuesFromService(Boolean.FALSE);
+		comboConfig.setValuesFromService(false);
 		variableTypeOptionGroup.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_TYPE);
 		variableTypeOptionGroup.addComponentStyle(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE);
 		variableTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(comboConfig);
@@ -100,7 +100,7 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addVariablePositionOptionGroup(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig variablePositionOptionGroup = new GtnUIFrameworkComponentConfig();
-		variablePositionOptionGroup.setComponentType(GtnUIFrameworkComponentType.OPTIONGROUP);
+		variablePositionOptionGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		variablePositionOptionGroup.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE);
 		variablePositionOptionGroup.setComponentName("Variable Position: ");
@@ -109,7 +109,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.VIEW_DETAILS_LAYOUT);
 		GtnUIFrameworkOptionGroupConfig comboConfig = new GtnUIFrameworkOptionGroupConfig();
 		comboConfig.setItemValues(Arrays.asList("Rows", "Columns"));
-		comboConfig.setValuesFromService(Boolean.FALSE);
+		comboConfig.setValuesFromService(false);
 		variablePositionOptionGroup.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_TYPE);
 		variablePositionOptionGroup.addComponentStyle(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE);
 		variablePositionOptionGroup.setGtnUIFrameworkOptionGroupConfig(comboConfig);
@@ -118,7 +118,7 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addHierarchyNameTextBox(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig hierarchyNameTextBox = new GtnUIFrameworkComponentConfig();
-		hierarchyNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		hierarchyNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		hierarchyNameTextBox.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		hierarchyNameTextBox.setComponentName("Tree View Name: ");
@@ -136,7 +136,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		rootLayoutComponentConfig.setComponentId(tabName + "customViewLookupRootLayout");
 		rootLayoutComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		rootLayoutComponentConfig.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		rootLayoutComponentConfig.setSpacing(Boolean.TRUE);
+		rootLayoutComponentConfig.setSpacing(true);
 
 		componentList.add(rootLayoutComponentConfig);
 		searchCriteriaLayout(componentList, rootLayoutComponentConfig.getComponentId());
@@ -191,8 +191,8 @@ public class GtnFrameworkReportCustomViewLookup {
 		customerTreeTable.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
 		customerTreeTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		GtnUIFrameworkPagedTableConfig customerTreeTableConfig = new GtnUIFrameworkPagedTableConfig();
-		customerTreeTableConfig.setCaptionVisible(Boolean.TRUE);
-		customerTreeTableConfig.setSelectable(Boolean.TRUE);
+		customerTreeTableConfig.setCaptionVisible(true);
+		customerTreeTableConfig.setSelectable(true);
 		customerTreeTableConfig.setPageLength(10);
 		customerTreeTableConfig.setItemPerPage(10);
 
@@ -247,10 +247,10 @@ public class GtnFrameworkReportCustomViewLookup {
 		productTreeTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
 		GtnUIFrameworkPagedTableConfig productTreeTableConfig = new GtnUIFrameworkPagedTableConfig();
-		productTreeTableConfig.setCaptionVisible(Boolean.TRUE);
+		productTreeTableConfig.setCaptionVisible(true);
 		productTreeTableConfig.setPageLength(10);
 		productTreeTableConfig.setItemPerPage(10);
-		productTreeTableConfig.setSelectable(Boolean.TRUE);
+		productTreeTableConfig.setSelectable(true);
 
 		productTreeTableConfig.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING });
 		productTreeTableConfig.setTableVisibleHeader(new String[] { GtnFrameworkReportStringConstants.LEVEL });
@@ -302,10 +302,10 @@ public class GtnFrameworkReportCustomViewLookup {
 		deductionTreeTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
 		GtnUIFrameworkPagedTableConfig deductionTreeTableConfig = new GtnUIFrameworkPagedTableConfig();
-		deductionTreeTableConfig.setCaptionVisible(Boolean.TRUE);
+		deductionTreeTableConfig.setCaptionVisible(true);
 		deductionTreeTableConfig.setPageLength(10);
 		deductionTreeTableConfig.setItemPerPage(10);
-		deductionTreeTableConfig.setSelectable(Boolean.TRUE);
+		deductionTreeTableConfig.setSelectable(true);
 
 		deductionTreeTableConfig
 				.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING });
@@ -358,10 +358,10 @@ public class GtnFrameworkReportCustomViewLookup {
 		variablesTreeTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
 		GtnUIFrameworkPagedTableConfig variablesTreeTableConfig = new GtnUIFrameworkPagedTableConfig();
-		variablesTreeTableConfig.setCaptionVisible(Boolean.TRUE);
+		variablesTreeTableConfig.setCaptionVisible(true);
 		variablesTreeTableConfig.setPageLength(10);
 		variablesTreeTableConfig.setItemPerPage(10);
-		variablesTreeTableConfig.setSelectable(Boolean.TRUE);
+		variablesTreeTableConfig.setSelectable(true);
 
 		variablesTreeTableConfig
 				.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING });

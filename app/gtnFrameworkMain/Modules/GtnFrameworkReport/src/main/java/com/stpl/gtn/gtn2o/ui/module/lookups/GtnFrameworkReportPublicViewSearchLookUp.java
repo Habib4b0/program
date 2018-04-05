@@ -39,7 +39,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		publicViewLookUpLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpLayout");
 		publicViewLookUpLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		publicViewLookUpLayout.setAddToParent(false);
-		publicViewLookUpLayout.setSpacing(Boolean.TRUE);
+		publicViewLookUpLayout.setSpacing(true);
 		GtnUIFrameworkLayoutConfig publicViewLookUpConfig = new GtnUIFrameworkLayoutConfig();
 		publicViewLookUpConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		publicViewLookUpLayout.setGtnLayoutConfig(publicViewLookUpConfig);
@@ -58,8 +58,8 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		publicViewLookUpLayoutgtnLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		publicViewLookUpLayoutgtnLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpLayout");
-		publicViewLookUpLayoutgtnLayout.setSpacing(Boolean.TRUE);
-		publicViewLookUpLayoutgtnLayout.setMargin(Boolean.TRUE);
+		publicViewLookUpLayoutgtnLayout.setSpacing(true);
+		publicViewLookUpLayoutgtnLayout.setMargin(true);
 		componentList.add(publicViewLookUpLayoutgtnLayout);
 		
 		addPublicViewLookUpSearchCriteriaPanel(componentList, namespace);
@@ -108,7 +108,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		componentList.add(publicViewLookUpViewNameLayout);
 
 		GtnUIFrameworkComponentConfig publicViewLookUpViewNameTextBox = new GtnUIFrameworkComponentConfig();
-		publicViewLookUpViewNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		publicViewLookUpViewNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		publicViewLookUpViewNameTextBox.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpViewNameTextBox");
 		publicViewLookUpViewNameTextBox.setComponentName("View Name");
@@ -127,7 +127,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		publicViewLookUpSearchAndResetLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+GtnFrameworkReportStringConstants.PUBLIC_VIEW_LOOKUP_SEARCH_AND_RESET_LAYOUT);
-		publicViewLookUpSearchAndResetLayout.setSpacing(Boolean.TRUE);
+		publicViewLookUpSearchAndResetLayout.setSpacing(true);
 		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
 		publicViewLookUpSearchAndResetLayout.setGtnLayoutConfig(conf);
 		componentList.add(publicViewLookUpSearchAndResetLayout);
@@ -241,7 +241,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		publicViewLookupcontrolPopUpConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
-		publicViewLookupcontrolPopUpConfig.setSpacing(Boolean.TRUE);
+		publicViewLookupcontrolPopUpConfig.setSpacing(true);
 		publicViewLookupcontrolPopUpConfig.setGtnLayoutConfig(publicViewLookupControlLayout);
 		componentList.add(publicViewLookupcontrolPopUpConfig);
 

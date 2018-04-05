@@ -19,6 +19,7 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -68,6 +69,8 @@ public class CustomerSelection extends CustomComponent implements View {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSelection.class);
+    
+    
 
     private SessionDTO session;
     
@@ -102,8 +105,8 @@ public class CustomerSelection extends CustomComponent implements View {
     
     @UiField("selectedExport")
     private  Button selectedExport;
-    private Boolean contractExcelFlag = false;
-    private Boolean infoExcelFlag = false;
+    private boolean contractExcelFlag = false;
+    private boolean infoExcelFlag = false;
 
     private AlternateHistoryTableLogic availablecustomerTableLoic = new AlternateHistoryTableLogic();
     private ExtPagedTable availableCustomerTable = new ExtPagedTable(availablecustomerTableLoic);
@@ -167,7 +170,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 altHistoryDTO.setCustomerName(String.valueOf(customerName.getValue()));
                 altHistoryDTO.setScreenName(screen_Name);
                 availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
-                availablecustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO,  session, Boolean.TRUE);
+                availablecustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO,  session, BooleanConstant.getTrueFlag());
                 if (availableCustomerTable.size() == 0) {
                     AbstractNotificationUtils.getErrorNotification("Error",
                             "There are no records that match the search criteria. Please try again");
@@ -224,7 +227,7 @@ public class CustomerSelection extends CustomComponent implements View {
         if(logic.count_available_customerSelection(session)){
             logic.add_customerSelection(session);
             availablecustomerTableLoic.setFireData(altHistoryDTO, session);
-        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, Boolean.FALSE);
+        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
         availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
         } else {
             AbstractNotificationUtils.getErrorNotification("No Value Selected",
@@ -244,7 +247,7 @@ public class CustomerSelection extends CustomComponent implements View {
         LOGGER.debug("Entering inside Addall Button");
          if(logic.count_available_customerSelection(session)){
         logic.add_customerSelection(session);
-        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, Boolean.FALSE);
+        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
         availablecustomerTableLoic.setFireData(altHistoryDTO, session);
         availableCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
         
@@ -263,7 +266,7 @@ public class CustomerSelection extends CustomComponent implements View {
         LOGGER.debug("Entered inside remove btn method");
         if (logic.count_selected_customerSelection(session)) {
                 logic.remove_customerSelection(session);
-        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, Boolean.FALSE);
+        selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
        availablecustomerTableLoic.setFireData(altHistoryDTO, session);
       selectedCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
         } else {
@@ -284,7 +287,7 @@ public class CustomerSelection extends CustomComponent implements View {
 
         if (logic.count_selected_customerSelection(session)) {
             logic.remove_customerSelection(session);
-            selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, Boolean.FALSE);
+            selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
             availablecustomerTableLoic.setFireData(altHistoryDTO, session);
             selectedCustomerTable.setColumnCheckBox(Constant.CHECK, true, false);
         }
@@ -312,7 +315,7 @@ public class CustomerSelection extends CustomComponent implements View {
         hLayout1 = selectedcustomerTableLoic.createControls();
         selectedCustomerTableLayout.addComponent(hLayout1);
         
-        availablecustomerTableLoic.setIsAvailable(Boolean.TRUE);
+        availablecustomerTableLoic.setIsAvailable(BooleanConstant.getTrueFlag());
         availableCustomerTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         availableCustomerTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         availableCustomerTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -408,7 +411,7 @@ public class CustomerSelection extends CustomComponent implements View {
             }
         });
 
-        selectedcustomerTableLoic.setIsAvailable(Boolean.FALSE);
+        selectedcustomerTableLoic.setIsAvailable(BooleanConstant.getFalseFlag());
         selectedCustomerTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         selectedCustomerTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         selectedCustomerTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
@@ -432,7 +435,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 try{
                
                 logic.checkAll_selected_customerSelection(session,event.isChecked());
-                selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, Boolean.FALSE);
+                selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, BooleanConstant.getFalseFlag());
                 }catch(Exception e){
                     LOGGER.error(e.getMessage());
                 }
@@ -471,7 +474,7 @@ public class CustomerSelection extends CustomComponent implements View {
         boolean flag = false;
         String companyIds = StringUtils.EMPTY;
         String contractIds = StringUtils.EMPTY;
-        Boolean first = true;
+        boolean first = true;
         for (Object items : selectedCustomerContainer.getItemIds()) {
             Boolean checked = (Boolean) selectedCustomerTable.getContainerProperty(items, Constant.CHECK).getValue();
             if (checked) {

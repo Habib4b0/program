@@ -31,6 +31,7 @@ import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -82,6 +83,8 @@ public class NMPmpyCalculator extends Window {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NMPmpyCalculator.class);
+    
+    
 
     /**
      * The space.
@@ -270,7 +273,7 @@ public class NMPmpyCalculator extends Window {
     private final List<String> visiHeaders = new ArrayList<>();
     private final List<String> chtCheckBoxMap = new ArrayList<>();
     private final List<String> tptCheckBoxMap = new ArrayList<>();
-    private boolean valueChange = Boolean.TRUE;
+    private boolean valueChange = true;
 
     private String tradeName = StringUtils.EMPTY;
 
@@ -417,7 +420,7 @@ public class NMPmpyCalculator extends Window {
                 }
             });
 
-            effectivePeriod.setNullSelectionAllowed(Boolean.TRUE);
+            effectivePeriod.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
             effectivePeriod.setNullSelectionItemId(Constant.SELECT_ONE);
             effectivePeriod.addItem(Constant.SELECT_ONE);
             effectivePeriod.addItems(rightDto.getDoubleProjectedHeaders());
@@ -532,7 +535,7 @@ public class NMPmpyCalculator extends Window {
                         @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(Constant.YES)) {
-                                valueChange = Boolean.FALSE;
+                                valueChange = BooleanConstant.getFalseFlag();
                                 sales.setValue(StringUtils.EMPTY);
                                 marketShare.setValue(STRING_HUNDRED_PERCENT);
                                 analogLives.setValue(StringUtils.EMPTY);
@@ -541,7 +544,7 @@ public class NMPmpyCalculator extends Window {
                                 projectedLives.setValue(StringUtils.EMPTY);
                                 totalSales.setValue(StringUtils.EMPTY);
                                 projectionPeriodTotal.setValue(StringUtils.EMPTY);
-                                valueChange = Boolean.TRUE;
+                                valueChange = BooleanConstant.getTrueFlag();
                             }
                         }
                     }, ButtonId.YES, ButtonId.NO);
@@ -663,11 +666,11 @@ public class NMPmpyCalculator extends Window {
      */
     public boolean isTpHistorySelected() {
         LOGGER.debug("Entering isTpHistorySelected method");
-        if (tradingPartner.getValue() != null && !tradingPartner.getValue().toString().isEmpty()) {
-            return Boolean.TRUE;
+        if (tradingPartner.getValue() != null && !tradingPartner.getValue().isEmpty()) {
+            return BooleanConstant.getTrueFlag();
         }
         LOGGER.debug("End of isTpHistorySelected method");
-        return Boolean.FALSE;
+        return BooleanConstant.getFalseFlag();
     }
 
     /**
@@ -680,14 +683,14 @@ public class NMPmpyCalculator extends Window {
         LOGGER.debug("Entering isContractHistorySelected method");
         try {
             if (contract.getValue() != null && !contract.getValue().toString().isEmpty()) {
-                return Boolean.TRUE;
+                return BooleanConstant.getTrueFlag();
             }
         } catch (Exception e) {
 
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of isContractHistorySelected method");
-        return Boolean.FALSE;
+        return BooleanConstant.getFalseFlag();
     }
 
     /**
@@ -750,7 +753,7 @@ public class NMPmpyCalculator extends Window {
      */
     private void loadContractHolder() {
         LOGGER.debug("Entering loadContractHolder method");
-        contract.setNullSelectionAllowed(Boolean.TRUE);
+        contract.setNullSelectionAllowed(BooleanConstant.getTrueFlag());
         contract.setNullSelectionItemId(Constant.SELECT_ONE);
         contract.addItem(Constant.SELECT_ONE);
         contract.select(Constant.SELECT_ONE);
@@ -817,13 +820,13 @@ public class NMPmpyCalculator extends Window {
             return;
         } else {
             if (chValue) {
-                PMPYRowDto actualSalesDto = null;
-                PMPYRowDto actualUnitsDto = null;
+                PMPYRowDto actualSales = new PMPYRowDto();
+                PMPYRowDto actualUnits = new PMPYRowDto();
                 for (PMPYRowDto dto : chContainer.getBeans()) {
                     if (dto.getType().equals(Constant.SALES_SMALL)) {
-                        actualSalesDto = dto;
+                        actualSales = dto;
                     } else if (dto.getType().equals(Constant.UNITS_SMALL)) {
-                        actualUnitsDto = dto;
+                        actualUnits = dto;
                     }
                 }
 
@@ -831,27 +834,27 @@ public class NMPmpyCalculator extends Window {
                 Double unitsValue;
                 for (Object key : chtCheckBoxMap) {
 
-                    salesValue = Double.valueOf(String.valueOf(actualSalesDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
-                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    salesValue = Double.valueOf(String.valueOf(actualSales.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    unitsValue = Double.valueOf(String.valueOf(actualUnits.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
                     calculatedSalesValue += salesValue;
                     calculatedUnitsValue += unitsValue;
                 }
 
             } else if (tpValue) {
-                PMPYRowDto actualSalesDto = null;
-                PMPYRowDto actualUnitsDto = null;
+                PMPYRowDto actualSalesDTO = new PMPYRowDto();
+                PMPYRowDto actualUnitsDTO = new PMPYRowDto();
                 for (PMPYRowDto dto : tpContainer.getBeans()) {
                     if (dto.getType().equals(Constant.SALES_SMALL)) {
-                        actualSalesDto = dto;
+                        actualSalesDTO = dto;
                     } else if (dto.getType().equals(Constant.UNITS_SMALL)) {
-                        actualUnitsDto = dto;
+                        actualUnitsDTO = dto;
                     }
                 }
                 Double salesValue;
                 Double unitsValue;
                 for (Object key : tptCheckBoxMap) {
-                    salesValue = Double.valueOf(String.valueOf(actualSalesDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
-                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    salesValue = Double.valueOf(String.valueOf(actualSalesDTO.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDTO.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
                     calculatedSalesValue += salesValue;
                     calculatedUnitsValue += unitsValue;
                 }

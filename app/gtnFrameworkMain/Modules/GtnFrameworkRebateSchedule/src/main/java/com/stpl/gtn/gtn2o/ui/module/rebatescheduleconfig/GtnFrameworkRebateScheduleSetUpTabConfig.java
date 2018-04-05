@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSTableFieldFactoryFieldUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRebateSetupCheckAllAction;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSFieldFactoryPopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.validation.GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.util.GtnFrameworkRSConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
@@ -303,6 +304,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 		attachButtonConfig.setComponentName("Populate All");
 		componentList.add(attachButtonConfig);
 		// GtnFrameworkrebateSetupTabPopulateAction
+
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customAction = configProvider.getUIFrameworkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION, GtnFrameworkRSConstants.RS_POPULATE_ACTION, "populateAll");
@@ -355,17 +357,17 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 				"rebateScheduleRebateSetup", "rebateScheduleRebateSetup");
 		attachResultConfig.setGtnPagedTableConfig(attachResults);
 		attachResults.setEditable(true);
-		attachResults.setTableColumnDataType(
-				new Class[] { Boolean.class, String.class, String.class, Integer.class, Date.class, Date.class,String.class });
+		attachResults.setTableColumnDataType(new Class[] { Boolean.class, String.class, String.class, Integer.class,
+				Date.class, Date.class, String.class });
 		attachResults.setTableVisibleHeader(GtnFrameworkRSConstants.getRsSetupTabTableHeaders());
 		attachResults.setTableColumnMappingId(GtnFrameworkRSConstants.getRsSetupTabVisibleColumns());
-		attachResults.setExtraColumn(new Object[] { "systemId"  });
-		attachResults.setExtraColumnDataType(new Class[] { String.class});
+		attachResults.setExtraColumn(new Object[] { "systemId" });
+		attachResults.setExtraColumnDataType(new Class[] { String.class });
 		attachResults.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		attachResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.REBATE_SCHEDULE);
 		attachResults.setEditable(true);
 		attachResults.setEditableColumnList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID, "itemNo",
-				"itemName",GtnFrameworkRSConstants.RS_STATUS, "rsStartDate", "rsEndDate"));
+				"itemName", GtnFrameworkRSConstants.RS_STATUS, "rsStartDate", "rsEndDate"));
 		attachResults.setRecordTypeComponentId(GtnFrameworkRSConstants.REBATE_SETUP_TAB_RECORD_TYPE);
 		attachResults.setRecordTypeStartDate("rsStartDate");
 		attachResults.setRecordTypeEndDate("rsEndDate");
@@ -431,6 +433,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 			if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.POPUPTEXTFIELD)) {
 				fieldConfig.addComponentStyle("searchicon");
 				fieldConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+
 			} else {
 				fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(actionConfigList);
 			}
@@ -440,6 +443,15 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 						getComboBoxType(propertyId), GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 				fieldConfig.setGtnComboboxConfig(comboBoxConfig);
+			}
+
+			if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.POPUPTEXTFIELD)) {
+				GtnUIFrameWorkActionConfig selectPopUpAction = new GtnUIFrameWorkActionConfig(
+						GtnUIFrameworkActionType.CUSTOM_ACTION);
+				selectPopUpAction.addActionParameter(GtnFrameworkRSFieldFactoryPopupSelectAction.class.getName());
+				selectPopUpAction.addActionParameter(propertyId);
+				fieldConfig.addGtnUIFrameWorkActionConfig(selectPopUpAction);
+
 			}
 
 			editableFields.add(fieldConfig);

@@ -39,6 +39,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
@@ -89,6 +90,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResults.class);
+    
 
     private final List<Object> possibleKeyList = new ArrayList<>();
     private boolean sales;
@@ -680,7 +682,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                     (SalesProjectionResultsDTO) obj);
         }
         LOGGER.info("getBeanFromId method ends");
-        return (SalesProjectionResultsDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (SalesProjectionResultsDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void saveSPResults() {
@@ -826,7 +832,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     public void excelButtonLogic() {
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        exportPeriodViewTable.setRefresh(Boolean.TRUE);
+        exportPeriodViewTable.setRefresh(BooleanConstant.getTrueFlag());
         exportPeriodViewTable.setDoubleHeaderVisible(true);
         ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
@@ -1199,7 +1205,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         selection.put("historyNum", String.valueOf(Integer.valueOf(his[0])));
         exportPeriodViewTable = new ExtFilterTreeTable();
         layout.addComponent(exportPeriodViewTable);
-        exportPeriodViewTable.setRefresh(Boolean.FALSE);
+        exportPeriodViewTable.setRefresh(BooleanConstant.getFalseFlag());
         exportPeriodViewTable.setVisible(false);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exportPeriodViewTable.setContainerDataSource(excelResultBean);
@@ -1293,11 +1299,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), GlobalConstants.getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION_RESULTS);
 
             if (!(functionPsHM.get(CommonUtils.GENERATE_BUTTON) != null && ((AppPermission) functionPsHM.get(CommonUtils.GENERATE_BUTTON)).isFunctionFlag())) {
-                generateBtn.setVisible(Boolean.FALSE);
-                expandBtn.setVisible(Boolean.FALSE);
-                collapseBtn.setVisible(Boolean.FALSE);
-                newBtn.setVisible(Boolean.FALSE);
-                editBtn.setVisible(Boolean.FALSE);
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+                newBtn.setVisible(BooleanConstant.getFalseFlag());
+                editBtn.setVisible(BooleanConstant.getFalseFlag());
 
             }
 

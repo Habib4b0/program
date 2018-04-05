@@ -42,6 +42,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -174,6 +175,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private final TreeTable contractDashboardTable = new TreeTable();
     private final StplSecurity stplSecurity = new StplSecurity();
 
+    
     final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
     private BeanItemContainer<ContractResultDTO> selectedContractContainer = new BeanItemContainer<>(ContractResultDTO.class);
     private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
@@ -259,7 +261,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         componentInformationTable.setFilterBarVisible(true);
         componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsRs);
         componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersRs);
-        componentInformationTable.setFilterBarVisible(Boolean.TRUE);
+        componentInformationTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
         componentInformationTable.setFilterGenerator(new ExtFilterGenerator() {
 
@@ -344,7 +346,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         addTradingPartnerTable.setEditable(true);
         addTradingPartnerTable.setSelectable(true);
         addTradingPartnerTable.setSizeFull();
-        addTradingPartnerTable.setFilterBarVisible(Boolean.TRUE);
+        addTradingPartnerTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         addTradingPartnerTable.setFilterDecorator(new ExtDemoFilterDecorator());
         addTradingPartnerTable.setTableFieldFactory(new TableFieldFactory() {
             @Override
@@ -685,7 +687,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             componentInformationTable.setVisibleColumns(Constants.getInstance().tpComponentInformationColumnsIfp);
             componentInformationTable.setColumnHeaders(Constants.getInstance().tpComponentInformationHeadersIfp);
         }
-        componentInformationTable.setFilterBarVisible(Boolean.TRUE);
+        componentInformationTable.setFilterBarVisible(BooleanConstant.getTrueFlag());
         componentInformationTable.setFilterDecorator(new ExtDemoFilterDecorator());
 
     }
@@ -713,7 +715,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             changeOnListener(category);
             loadComponentInformationFields(Arrays.asList(logic.getComponentInformationData(category, id, false, false, 0, 0, null).get(0)));
             loadComponentInformationTable(category);
-            tablelogic.loadSetData(category, id, Boolean.TRUE);
+            tablelogic.loadSetData(category, id, BooleanConstant.getTrueFlag());
         }
     }
 
@@ -972,7 +974,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) throws  PortalException {
-        LOGGER.debug("Entering createWorkSheetContent with start " + start + " end " + end);
+        LOGGER.debug("Entering createWorkSheetContent with start {} end {} " , start , end);
         try {
             List tempVisibleColumns = new ArrayList(Arrays.asList(Constants.getInstance().excelContractSelectionColumns));
             tempVisibleColumns.remove(0);

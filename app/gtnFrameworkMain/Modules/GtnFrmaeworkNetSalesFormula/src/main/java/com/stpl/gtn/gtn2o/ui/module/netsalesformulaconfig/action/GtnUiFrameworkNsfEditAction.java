@@ -37,7 +37,7 @@ public class GtnUiFrameworkNsfEditAction implements GtnUIFrameWorkAction, GtnUIF
 		String viewId = (String) actionParemeterList.get(1);
 		String addViewId = (String) actionParemeterList.get(2);
 		boolean isEditMode = "edit".equalsIgnoreCase((String) actionParemeterList.get(3));
-		boolean isEnable = Boolean.FALSE;
+		boolean isEnable = false;
 		GtnWsRecordBean editRecordBean = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(viewId + "netSalesSearchResultTable").getValueFromPagedDataTable();
 
@@ -53,7 +53,7 @@ public class GtnUiFrameworkNsfEditAction implements GtnUIFrameWorkAction, GtnUIF
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(addViewId + GtnFrameworkCommonStringConstants.UNDERSCORE + "saveButton")
 					.setCaption("UPDATE");
-			isEnable = Boolean.TRUE;
+			isEnable = true;
 		}
 		GtnUIFrameWorkActionConfig enableDisableAction = new GtnUIFrameWorkActionConfig();
 		enableDisableAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

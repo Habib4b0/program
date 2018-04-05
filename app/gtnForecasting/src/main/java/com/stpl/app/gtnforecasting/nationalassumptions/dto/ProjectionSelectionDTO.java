@@ -114,6 +114,11 @@ public class ProjectionSelectionDTO {
      private String priceType = StringUtils.EMPTY;
      
       private String ndc9Value = StringUtils.EMPTY;
+
+    public ProjectionSelectionDTO() {
+        super();
+    }
+      
     public boolean isIsFilter() {
         return isFilter;
     }

@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.logic;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -33,6 +34,11 @@ public class GroupSearchLogic extends PageTableLogic {
     private final DataSelectionLogic logic = new DataSelectionLogic();
     private GroupDTO dto;
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupSearchLogic.class);
+
+    public GroupSearchLogic() {
+        super();
+    }
+    
 
     @Override
     public int getCount() {
@@ -85,11 +91,11 @@ public class GroupSearchLogic extends PageTableLogic {
         for (ExtPagedTable extPagedTable : tableList) {
             extPagedTable.setValue(null);
         }
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
-        setRefresh(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
     }
 }

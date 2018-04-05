@@ -55,4 +55,6 @@
     <inherits name="org.asi.ui.extcustomcheckbox.ExtCustomCheckBoxWidgetSet" />
 
     <inherits name="org.asi.ui.custommenubar.CustomMenuBarWidgetSet" />
+
+    
 </module>

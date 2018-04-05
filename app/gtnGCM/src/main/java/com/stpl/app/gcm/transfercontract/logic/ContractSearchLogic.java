@@ -18,6 +18,7 @@ import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.util.BeanItem;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 public class ContractSearchLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
+    
 
     public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset, List<SortByColumn> sortByColumns) {
         List input = getInputForContractSearch(binderDTO, start, offset, false, sortByColumns);
@@ -65,7 +67,7 @@ public class ContractSearchLogic {
             tempDTO.setIfpContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.THIRTEEN])));
             tempDTO.setPsContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.FOURTEEN])));
             tempDTO.setRsContractSid(CommonUtil.getPureValue(String.valueOf(obj[NumericConstants.FIFTEEN])));
-            tempDTO.setCheck(obj[NumericConstants.SIXTEEN] == null ? false : Boolean.TRUE);
+            tempDTO.setCheck(obj[NumericConstants.SIXTEEN] == null ? false : BooleanConstant.getTrueFlag());
             retList.add(tempDTO);
         }
         return retList;
@@ -73,7 +75,7 @@ public class ContractSearchLogic {
 
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("Helper Table listType=" + listType);
+        LOGGER.debug("Helper Table listType= {} " , listType);
         final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
         helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -86,7 +88,7 @@ public class ContractSearchLogic {
                         helperTable.getDescription()));
             }
         }
-        LOGGER.debug("Helper Table list size =" + helperList.size());
+        LOGGER.debug("Helper Table list size = {} " , helperList.size());
         return helperList;
     }
 

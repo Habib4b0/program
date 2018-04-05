@@ -72,7 +72,7 @@ public class GtnWsIfpAddCotroller {
 			String query = ifpWebservice.ifpLeftTableSearchQuery(ifpSearchRequest);
 			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query);
 			if (ifpSearchRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 			} else {
 				GtnUIFrameworkDataTable ifpSearchDataTable = new GtnUIFrameworkDataTable();
 				ifpSearchDataTable.addData((List<Object[]>) resultList);
@@ -210,7 +210,7 @@ public class GtnWsIfpAddCotroller {
 			String query = ifpWebservice.ifpRightTableSearchQuery(itemAdditionRightRequest);
 			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query);
 			if (itemAdditionRightRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 			} else {
 				GtnUIFrameworkDataTable itemAdditionRightDataTable = new GtnUIFrameworkDataTable();
 				itemAdditionRightDataTable.addData((List<Object[]>) resultList);
@@ -243,7 +243,7 @@ public class GtnWsIfpAddCotroller {
 			String query = ifpWebservice.itemsTabResultTable(ifpItemsTabRequest);
 			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query, params, types);
 			if (ifpItemsTabRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 			} else {
 				// set user name for user id
 				for (int i = 0; i < resultList.size(); i++) {

@@ -94,7 +94,7 @@ public class GtnWsContractDashboardCompanyLogic {
 				} else if (i != 0) {
 					String field = searchRequest.getGtnWebServiceSearchCriteriaList().get(i - 1).getFilterValue1()
 							.trim();
-					String value = searchCriteria.getFilterValue1().replace("*", "%");
+					String value = searchCriteria.getFilterValue1().replace('*', '%');
 
 					inputWhereConditions.append(getWhereClauseForCmAddition(field, value));
 				}
@@ -225,9 +225,9 @@ public class GtnWsContractDashboardCompanyLogic {
 				imtdCompany.setOperation("A");
 				imtdCompany.setSessionId(getRequest.getSessionId());
 				imtdCompany.setUsersSid(getRequest.getUserId());
-				imtdCompany.setCreatedBy(Integer.valueOf(getRequest.getUserId()));
+				imtdCompany.setCreatedBy(Integer.parseInt(getRequest.getUserId()));
 				imtdCompany.setCreatedDate(new Date());
-				imtdCompany.setModifiedBy(Integer.valueOf(getRequest.getUserId()));
+				imtdCompany.setModifiedBy(Integer.parseInt(getRequest.getUserId()));
 				imtdCompany.setModifiedDate(new Date());
 				imtdCompany.setImtdCreatedDate(new Date());
 				imtdCompany.setTradingPartnerContractNo(recordBean.getStringPropertyByIndex(13));
@@ -492,9 +492,9 @@ public class GtnWsContractDashboardCompanyLogic {
 				String value = searchCriteria.getFilterValue1();
 				if ("LIKE".equalsIgnoreCase(searchCriteria.getExpression())) {
 					StringBuilder valueBuilder = new StringBuilder();
-					valueBuilder.append("%");
+					valueBuilder.append('%');
 					valueBuilder.append(value);
-					valueBuilder.append("%");
+					valueBuilder.append('%');
 					value = valueBuilder.toString();
 				}
 				whereBuilder.append(AND);

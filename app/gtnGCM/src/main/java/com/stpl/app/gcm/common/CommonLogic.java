@@ -72,6 +72,7 @@ import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
 import com.stpl.app.service.PsContractLocalServiceUtil;
 import com.stpl.app.service.RsContractLocalServiceUtil;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.HorizontalLayout;
@@ -86,6 +87,7 @@ public class CommonLogic {
      * INSTANTIATE ContractDashboardLogicDAO Implementation logic.
      */
     private static final CommonDao DAO = CommonImpl.getInstance();
+    
     private final ContractDetailsDAO daoImpl = new ContractDetailsDaoImpl();
     private static final DiscountDAO DISCOUNT_DAO = new DiscountDaoImpl();
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
@@ -96,6 +98,10 @@ public class CommonLogic {
     public static final String AND_PROJECTION_NAME = "\n and Projection Name - ";
     public static final String PRC_MANDATED_SALES_INSERT = "Prc_mandated_sales_insert";
     public static final String PROJECTION_CREATED_WITH_FORECASTING = "'\n new Projection created with forecasting type -";
+
+    public CommonLogic() {
+        super();
+    }
 
     public int getProdRelationshipId() {
         return prodRelationshipId;
@@ -203,7 +209,7 @@ public class CommonLogic {
             contract = contractId.replace(IndicatorConstants.CHAR_ASTERISK.getConstant(),
                     IndicatorConstants.CHAR_PERCENT.getConstant());
         }
-        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", true));
+        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", BooleanConstant.getTrueFlag()));
         contractQuery.add(RestrictionsFactoryUtil.like(Constants.CONTRACT_NO, contract));
         contractQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like("inboundStatus", "D")));
         LOGGER.debug("End of getProcessedQuery method");
@@ -1124,7 +1130,7 @@ public class CommonLogic {
 
     public static List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
-        LOGGER.debug("Helper Table listType=" + listType);
+        LOGGER.debug("Helper Table listType= {} " , listType);
 		final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
         helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -1136,7 +1142,7 @@ public class CommonLogic {
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
             }
         }
-        LOGGER.debug("Helper Table list size =" + helperList.size());
+        LOGGER.debug("Helper Table list size = {} " , helperList.size());
         return helperList;
     }
 
@@ -1224,7 +1230,7 @@ public class CommonLogic {
             convertedValue = Integer.parseInt(value);
         } catch (Exception e) {
 			LOGGER.error("",e);
-            LOGGER.error("Unable To convert to Int " + value);
+            LOGGER.error("Unable To convert to Int {} " , value);
         }
         return convertedValue;
     }
@@ -1246,7 +1252,7 @@ public class CommonLogic {
                 list.add(helperTable);
             }
         }
-        LOGGER.debug("Ending getLazyPriceTypeResults  return list size :" + +list.size());
+        LOGGER.debug("Ending getLazyPriceTypeResults  return list size : {} " , +list.size());
         return list;
     }
 
@@ -1268,7 +1274,7 @@ public class CommonLogic {
 
             projectionId = Integer.parseInt(String.valueOf(list.get(0)));
         }
-        LOGGER.debug(" exiting getLastApprovedProjectionId. Projection id =  " + projectionId);
+        LOGGER.debug(" exiting getLastApprovedProjectionId. Projection id =  {} " , projectionId);
         return projectionId;
 
     }
@@ -1290,7 +1296,7 @@ public class CommonLogic {
         if (list != null && !list.isEmpty()) {
             projectionId = Integer.parseInt(String.valueOf(list.get(0)));
         }
-        LOGGER.debug(" exiting getProjectionIdForCheckedContract. Projection id =  " + projectionId);
+        LOGGER.debug(" exiting getProjectionIdForCheckedContract. Projection id = {} " , projectionId);
         return projectionId;
 
     }
@@ -1308,7 +1314,7 @@ public class CommonLogic {
         if (list != null && !list.isEmpty()) {
             contractMasterSid = list.get(0);
         }
-        LOGGER.debug(" exiting getCheckedContractSid. CONTRACT_MASTER_SID =  " + contractMasterSid);
+        LOGGER.debug(" exiting getCheckedContractSid. CONTRACT_MASTER_SID =  {} " , contractMasterSid);
         return contractMasterSid;
 
     }
@@ -1330,7 +1336,7 @@ public class CommonLogic {
         if (list != null && !list.isEmpty()) {
             contractMasterSid = list.get(0);
         }
-        LOGGER.debug(" exiting getSelectedContractSid. CONTRACT_MASTER_SID =  " + contractMasterSid);
+        LOGGER.debug(" exiting getSelectedContractSid. CONTRACT_MASTER_SID = {} " , contractMasterSid);
         return contractMasterSid;
 
     }
@@ -1351,7 +1357,7 @@ public class CommonLogic {
         if (list != null && !list.isEmpty()) {
             contractMasterName = list.get(0);
         }
-        LOGGER.debug(" exiting getSelectedContractSid. CONTRACT_MASTER_SID =  " + contractMasterName);
+        LOGGER.debug(" exiting getSelectedContractSid. CONTRACT_MASTER_SID =  {} " , contractMasterName);
         return contractMasterName;
 
     }
@@ -1363,7 +1369,7 @@ public class CommonLogic {
                 + CommonUtils.CollectionToString(companyMasterSids, true) + ")";
         List<String> companyNamesList = (List<String>) DAO.executeSelect(queryString);
         String companyNames = CommonUtils.CollectionToString(companyNamesList, false);
-        LOGGER.debug(" exiting getSelectedCompanyNames  =  " + companyNames);
+        LOGGER.debug(" exiting getSelectedCompanyNames  =  {} " , companyNames);
         return companyNames;
 
     }
@@ -1416,14 +1422,14 @@ public class CommonLogic {
             queryString += " AND OPERATION = '2'";
         }
 
-        LOGGER.debug(" get Date for submitted contract query - " + queryString);
+        LOGGER.debug(" get Date for submitted contract query - {} " , queryString);
         List<String> list = (List<String>) DAO.executeSelect(queryString);
         String newDate = StringUtils.EMPTY;
         if (list != null && !list.isEmpty()) {
             newDate = String.valueOf(list.get(0));
         }
 
-        LOGGER.debug(" exiting getDateForSubmittedContract =  " + newDate);
+        LOGGER.debug(" exiting getDateForSubmittedContract = {} " , newDate);
         return newDate;
 
     }
@@ -1456,14 +1462,14 @@ public class CommonLogic {
                 + "' and SCREEN_NAME='" + operation + "'";
         queryString += " AND CHECK_RECORD = '1'";
 
-        LOGGER.debug(" get Date for submitted contract query - " + queryString);
+        LOGGER.debug(" get Date for submitted contract query - {} " , queryString);
         List<String> list = (List<String>) DAO.executeSelect(queryString);
         String newDate = StringUtils.EMPTY;
         if (list != null && !list.isEmpty()) {
             newDate = String.valueOf(list.get(0));
         }
 
-        LOGGER.debug(" exiting getDateForCheckedContract =  " + newDate);
+        LOGGER.debug(" exiting getDateForCheckedContract = {} " , newDate);
         return newDate;
 
     }
@@ -1483,7 +1489,7 @@ public class CommonLogic {
     public List<String> generateNewProjection(String userId, String sessionId, int oldProjectionId,
             List<String> masterSids, boolean isCustomerModule, boolean isAddModule, SessionDTO session) {
 
-        LOGGER.debug("Entering generateNewProjection" + oldProjectionId);
+        LOGGER.debug("Entering generateNewProjection {} " , oldProjectionId);
         List<String> tempList = new ArrayList<>();
         try {
 
@@ -1493,15 +1499,15 @@ public class CommonLogic {
                         + oldProjectionId;
 				Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
 						.executeSelectQuery(relationShipBuilderSidQuery).get(0);
-                LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
-                LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
+                LOGGER.debug(" cust Rel Builder Sid   {} " , String.valueOf(projectionMasterRow[0]));
+                LOGGER.debug("  prod Rel Builder Sid {} " , String.valueOf(projectionMasterRow[1]));
 
                 List<String> relationshipBuilderSids = new ArrayList<>();
                 relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
                 relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
                 updateProdHirarechy(newProjectionId, getProdRelationshipId(), masterSids);
                 newProjectionId = cloneProjection(oldProjectionId, userId);
-                LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+                LOGGER.debug(" New Projection Id ===== {} " , newProjectionId);
                 insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
                 if (newProjectionId != 0) {
 
@@ -1554,8 +1560,7 @@ public class CommonLogic {
                             }
 
                             if (isAddModule) {
-                                LOGGER.debug(" Old Projection - " + oldProjectionId + " New projection - "
-                                        + newProjectionId + " Market Type" + marketType);
+                                LOGGER.debug(" Old Projection - {} New projection - {} Market Type {} " , oldProjectionId , newProjectionId , marketType);
                                 Object[] orderedArgs = {oldProjectionId, newProjectionId, marketType};
                                 AbstractLogic.callProcedure("PRC_FE_ADD_EVENT", orderedArgs);
 
@@ -1579,7 +1584,7 @@ public class CommonLogic {
                                     callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
                                     mandatedTempToMainSave(userId, sessionId, newProjectionId);
                                 } else {
-                                    LOGGER.error("New module Name found " + moduleName);
+                                    LOGGER.error("New module Name found {} " , moduleName);
                                 }
                             }
 
@@ -1654,14 +1659,14 @@ public class CommonLogic {
     }
 
     private List getRelationShipLevelSid(List<String> masterSidList, String relationshipBuilderSid) {
-        LOGGER.debug("Entering getRelationShipLevelSid " + masterSidList);
+        LOGGER.debug("Entering getRelationShipLevelSid {} " , masterSidList);
         String query = "select DISTINCT RELATIONSHIP_LEVEL_SID from RELATIONSHIP_LEVEL_DEFINITION RLD, (select HIERARCHY_NO from RELATIONSHIP_LEVEL_DEFINITION where \n";
         if (masterSidList != null && !masterSidList.isEmpty()) {
             query += " RELATIONSHIP_LEVEL_VALUES in (" + CommonUtils.CollectionToString(masterSidList, true) + ") and ";
         }
         query += " RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + ") A \n"
                 + " where RLD.HIERARCHY_NO like A.HIERARCHY_NO+'%'";
-        LOGGER.debug(" getRelationShipLevelSid query " + query);
+        LOGGER.debug(" getRelationShipLevelSid query {} " , query);
 		List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("Existing getRelationShipLevelSid");
 
@@ -1670,7 +1675,7 @@ public class CommonLogic {
 
     private void cloneCustomerAndProductHierarchy(int oldProjectionId, int newProjectionId, boolean custHierarchyClone,
             boolean prodHierarchyClone, SessionDTO sessionDTO) {
-        LOGGER.debug("Entering cloneCustomerAndProductHierarchy" + oldProjectionId);
+        LOGGER.debug("Entering cloneCustomerAndProductHierarchy {} " , oldProjectionId);
         if ("Item Management".equals(sessionDTO.getProcessName())) {
             if (sessionDTO.getFromProjectionId() == 0 && sessionDTO.getToProjectionId() == 0) {
                 if (custHierarchyClone) {
@@ -1756,7 +1761,7 @@ public class CommonLogic {
             tableName = "PROJECTION_PROD_HIERARCHY";
         }
 
-        LOGGER.debug("Entering updateCustomerOrProductHierarchy " + tableName);
+        LOGGER.debug("Entering updateCustomerOrProductHierarchy {} " , tableName);
 
         query = "IF NOT EXISTS(SELECT " + tableName + "_SID from " + tableName + " where PROJECTION_MASTER_SID = "
                 + projectionId + " and RELATIONSHIP_LEVEL_SID = " + relationshipLevelSid + ")" + " INSERT into "
@@ -1770,7 +1775,7 @@ public class CommonLogic {
 
     public boolean insertIntoProjectionDetails(int oldProjectionId, int newProjectionId, SessionDTO session) {
 
-        LOGGER.debug("Entering insertIntoProjectionDetails method oldProjectionId " + oldProjectionId
+        LOGGER.debug("Entering insertIntoProjectionDetails method oldProjectionId {} " , oldProjectionId
                 + " newProjectionId " + newProjectionId);
         boolean status = false;
 
@@ -1836,7 +1841,7 @@ public class CommonLogic {
     }
 
     public static void callPrcFeProjectionDetailsTransfer(final String sessionId) {
-        LOGGER.debug("Entering callPrcFeProjectionDetailsTransfer" + sessionId);
+        LOGGER.debug("Entering callPrcFeProjectionDetailsTransfer {} " , sessionId);
 
         Object[] paramArray = {sessionId};
         GtnSqlUtil.procedureCallService("{call PRC_FE_PROJ_DET_TRANSFER_SALES(?)}", paramArray);
@@ -1869,13 +1874,13 @@ public class CommonLogic {
     public String idString(List<String> list) {
         String value = Constants.EMPTY;
         if (list != null && list.size() > 0) {
-            Boolean f = false;
+            boolean flag = false;
             for (Object item : list) {
-                if (!f) {
+                if (!flag) {
                     String company = String.valueOf(item);
                     company = "'" + company + "'";
                     value = company;
-                    f = true;
+                    flag = true;
                 } else {
                     String company = String.valueOf(item);
                     company = "'" + company + "'";
@@ -1993,7 +1998,7 @@ public class CommonLogic {
             }
 
             if (connection != null) {
-                LOGGER.debug(" Executing " + procedureName + " procedure ");
+                LOGGER.debug(" Executing {} procedure ", procedureName);
                 StringBuilder statementBuilder = new StringBuilder("{call ");
                 statementBuilder.append(procedureName).append("(?,?,?,?)}");
                 statement = connection.prepareCall(statementBuilder.toString());
@@ -2005,7 +2010,7 @@ public class CommonLogic {
                 statement.execute();
             }
 
-            LOGGER.debug("Ending " + procedureName + " Procedure");
+            LOGGER.debug("Ending {} Procedure", procedureName);
 
         } catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
@@ -2086,14 +2091,14 @@ public class CommonLogic {
                     + oldProjectionId;
 			Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
 					.executeSelectQuery(relationShipBuilderSidQuery).get(0);
-            LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
-            LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
+            LOGGER.debug(" cust Rel Builder Sid  {} " , String.valueOf(projectionMasterRow[0]));
+            LOGGER.debug("  prod Rel Builder Sid {} " , String.valueOf(projectionMasterRow[1]));
             setProdRelationshipId(Integer.parseInt(String.valueOf(projectionMasterRow[1])));
             List<String> relationshipBuilderSids = new ArrayList<>();
             relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
             relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
             int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
-            LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+            LOGGER.debug(" New Projection Id ===== {} " , newProjectionId);
             insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
             if (newProjectionId != 0) {
                 setNewProjectionId(newProjectionId);
@@ -2191,8 +2196,8 @@ public class CommonLogic {
 		Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
 				.executeSelectQuery(relationShipBuilderSidQuery).get(0);
 
-        LOGGER.debug(" cust Rel Builder Sid " + String.valueOf(projectionMasterRow[0]));
-        LOGGER.debug(" prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
+        LOGGER.debug(" cust Rel Builder Sid {} " , String.valueOf(projectionMasterRow[0]));
+        LOGGER.debug(" prod Rel Builder Sid {} " , String.valueOf(projectionMasterRow[1]));
 
         List<String> relationshipBuilderSids = new ArrayList<>();
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
@@ -2200,11 +2205,11 @@ public class CommonLogic {
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
         insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
-        LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
+        LOGGER.debug(" New Projection Id =====>>>>> {} " , newProjectionId);
         if (newProjectionId != 0) {
             cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, sessionDTO);
-            LOGGER.debug("String.valueOf(projectionMasterRow[0])" + String.valueOf(projectionMasterRow[0]));
-            LOGGER.debug("relationshipBuilderSids.get(0)" + relationshipBuilderSids.get(0));
+            LOGGER.debug("String.valueOf(projectionMasterRow[0]) {} " , String.valueOf(projectionMasterRow[0]));
+            LOGGER.debug("relationshipBuilderSids.get(0) {}" , relationshipBuilderSids.get(0));
 
             if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, sessionDTO)) {
                 String marketType = StringUtils.EMPTY;
@@ -2337,7 +2342,7 @@ public class CommonLogic {
 
     public static List<String> getDiscriptionList(final String listType) {
         final List<String> helperList = new ArrayList<>();
-        LOGGER.debug("Helper Table listType=" + listType);
+        LOGGER.debug("Helper Table listType= {} " , listType);
 		final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
         helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -2349,7 +2354,7 @@ public class CommonLogic {
             }
         }
 
-        LOGGER.debug("Helper Table list size =" + helperList.size());
+        LOGGER.debug("Helper Table list size = {} " , helperList.size());
         return helperList;
     }
 
@@ -2414,7 +2419,7 @@ public class CommonLogic {
                 + "' and CHECK_RECORD=1 and \"OPERATION\" like 'Promote_TP_Submit' ";
 
 		List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        LOGGER.debug(" exiting Promote Tp Submit Projection id =  " + projectionId);
+        LOGGER.debug(" exiting Promote Tp Submit Projection id =  {} " , projectionId);
         return list;
 
     }
@@ -2427,7 +2432,7 @@ public class CommonLogic {
             List<Object[]> resultList = ItemQueries.getItemData(list, "getBuilderType", null);
             Object[] obj = resultList != null && !resultList.isEmpty() ? resultList.get(0) : new Object[1];
             relationType = obj[0] != null ? String.valueOf(obj[0]) : StringUtils.EMPTY;
-            LOGGER.debug("relationType ============================== " + relationType);
+            LOGGER.debug("relationType ============================== {} " , relationType);
         } catch (Exception e) {
 			LOGGER.error("",e);
         }
@@ -2461,8 +2466,8 @@ public class CommonLogic {
 		Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
 				.executeSelectQuery(relationShipBuilderSidQuery).get(0);
 
-        LOGGER.debug(" cust Rel Builder Sid " + String.valueOf(projectionMasterRow[0]));
-        LOGGER.debug(" prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
+        LOGGER.debug(" cust Rel Builder Sid {} " , String.valueOf(projectionMasterRow[0]));
+        LOGGER.debug(" prod Rel Builder Sid {} " , String.valueOf(projectionMasterRow[1]));
 
         List<String> relationshipBuilderSids = new ArrayList<>();
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
@@ -2471,11 +2476,11 @@ public class CommonLogic {
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
         insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
-        LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
+        LOGGER.debug(" New Projection Id =====>>>>> {} " , newProjectionId);
         if (newProjectionId != 0) {
             cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, sessionDTO);
-            LOGGER.debug("String.valueOf(projectionMasterRow[0])" + String.valueOf(projectionMasterRow[0]));
-            LOGGER.debug("relationshipBuilderSids.get(0)" + relationshipBuilderSids.get(0));
+            LOGGER.debug("String.valueOf(projectionMasterRow[0]) {} " , String.valueOf(projectionMasterRow[0]));
+            LOGGER.debug("relationshipBuilderSids.get(0) {}" , relationshipBuilderSids.get(0));
 
             if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, sessionDTO)) {
                 String marketType = StringUtils.EMPTY;
@@ -2548,8 +2553,8 @@ public class CommonLogic {
 
     public static Boolean isButtonVisibleAccess(String id, Map<String, AppPermission> functionHM) {
         if (functionHM.get(id) != null && !((AppPermission) functionHM.get(id)).isFunctionFlag()) {
-            return false;
+            return BooleanConstant.getFalseFlag();
         }
-        return true;
+        return BooleanConstant.getTrueFlag();
     }
 }

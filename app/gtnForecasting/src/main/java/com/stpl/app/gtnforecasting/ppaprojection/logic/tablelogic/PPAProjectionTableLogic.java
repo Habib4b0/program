@@ -15,7 +15,9 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.CommonConstants.SELECT_ONE;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     protected boolean isRefresh;
     protected boolean isGenerated = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
+    
 
     public boolean isIsRefresh() {
         return isRefresh;
@@ -114,7 +117,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     public Map<Integer, Object> loadData(int start, int offset) {
 
         Map<Integer, Object> finalMap = new HashMap<>();
-        List<PPAProjectionDTO> list = null;
+        List<PPAProjectionDTO> list = new ArrayList<>();
         Object lp = getLastParent();
         try {
             list = logic.getPPALogicData(selection, lp, start, offset, rightDto);
@@ -179,32 +182,32 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
     @Override
     protected void createCurrentPageStart() {
-        PPAProjection.setValueChangeAllowed(Boolean.FALSE);
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         setCurrentPageProgress(true);
-        setRefresh(Boolean.FALSE);
+        setRefresh(BooleanConstant.getFalseFlag());
     }
 
     @Override
     protected void createCurrentPageEnd() {
         setCurrentPageProgress(false);
-        setRefresh(Boolean.TRUE);
-        PPAProjection.setValueChangeAllowed(Boolean.TRUE);
+        setRefresh(BooleanConstant.getTrueFlag());
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     @Override
     protected void expandCollapseStart(boolean isExpand) {
-        PPAProjection.setValueChangeAllowed(Boolean.FALSE);
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         setExpandCollapseProgress(true);
     }
 
     @Override
     protected void expandCollapseEnd(boolean isExpand) {
         setExpandCollapseProgress(false);
-        PPAProjection.setValueChangeAllowed(Boolean.TRUE);
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo) {
-        PPAProjection.setValueChangeAllowed(Boolean.FALSE);
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
         int count = logic.getPPAProjectionResultsCount(selection, parentId, session);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
@@ -221,7 +224,7 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
             }
         }
-        PPAProjection.setValueChangeAllowed(Boolean.TRUE);
+        PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
     }
 
     public void loadExpandData(int levelNo) {
@@ -259,16 +262,16 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
         if ((prop != null && Constant.GROUP.equals(prop.toString())) && (!ppaProjection.isGroupChangeFlag())) {
 
-                PPAProjection.setValueChangeAllowed(Boolean.FALSE);
-                ppaProjection.setValueChangeForColumnCheckBox(Boolean.TRUE);
+                PPAProjection.setValueChangeAllowed(BooleanConstant.getFalseFlag());
+                ppaProjection.setValueChangeForColumnCheckBox(BooleanConstant.getTrueFlag());
                 String valu = Constant.NULL.equals(String.valueOf(value)) ? Constant.ALL_GROUP : String.valueOf(Constant.PPA + value);
                 selection.setGroupFilter(valu);
-                selection.setIsFilter(Boolean.FALSE);
+                selection.setIsFilter(BooleanConstant.getFalseFlag());
                 setProjectionResultsData(true);
                 clearAll();
                 ppaProjection.setLevelFilterValue(SELECT_ONE);
-                PPAProjection.setValueChangeAllowed(Boolean.TRUE);
-                ppaProjection.setValueChangeForColumnCheckBox(Boolean.FALSE);
+                PPAProjection.setValueChangeAllowed(BooleanConstant.getTrueFlag());
+                ppaProjection.setValueChangeForColumnCheckBox(BooleanConstant.getFalseFlag());
         }
 
     }

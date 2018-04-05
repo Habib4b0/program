@@ -195,7 +195,7 @@ public class OutboundLogic {
     private StringBuilder getHdFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         loadHdFilterMap();
         if (filterSet != null) {
-            stringBuilder.append(AbstractFilterLogic.getInstance().filterQueryGenerator(filterSet, hierarchyFilterMap).toString().replace("where", " AND"));
+            stringBuilder.append(AbstractFilterLogic.getAdminInstance().filterQueryGenerator(filterSet, hierarchyFilterMap).toString().replace("where", " AND"));
         }
         return stringBuilder;
     }
@@ -410,10 +410,10 @@ public class OutboundLogic {
                             hierarchyDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.HIERARCHY_NAME, filterString));
                             hierarchyDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
                             List hdResultList = dao.getHierachyDefinitionList(hierarchyDynamicQuery);
-                            if (hdResultList.size() > 0) {
-                                relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.HIERARCHY_DEFINATION_SID, hdResultList));
-                            } else {
+                            if (hdResultList.isEmpty()) {
                                 relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HIERARCHY_DEFINATION_SID, 0));
+                            } else {
+                                relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.HIERARCHY_DEFINATION_SID, hdResultList));
                             }
                         }
                     } else if (filter instanceof Compare) {

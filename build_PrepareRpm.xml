@@ -60,6 +60,7 @@
 		<copy file="etl/dir_struct.sh" tofile="${Application_Build}/dir_struct.sh" />
 		<copy file="etl/EtlConfiguration.properties" tofile="${Application_Build}/EtlConfiguration.properties" />
 		<copy file="etl/ETLProcedureInput.properties" tofile="${Application_Build}/ETLProcedureInput.properties" />
+		<copy file="etl/ETL-InterfaceUriConfig/interfaceUrlMapping.properties" tofile="${Application_Build}/interfaceUrlMapping.properties" />
 
 		<copy todir="${DefaultWar}/ETL_Build/Interface_Job/Scripts/">
 			<fileset dir="etl/Scripts" />

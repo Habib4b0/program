@@ -27,6 +27,7 @@
 			<list>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/HelperTable.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyIdentifier.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/Attachment.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyMaster.hbm.xml</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyParentDetails.hbm.xml
 				</value>
@@ -296,7 +297,7 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldItemUom.hbm.xml
 				</value>
-				
+
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagActualMaster.hbm.xml
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagAdjustedDemandActual.hbm.xml
@@ -376,7 +377,20 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyRestrictionMaster.hbm.xml
 				</value>
-
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTable.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTableDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyColumnSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyHelperSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationFilter.hbm.xml
+				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnModuleComponentMaster.hbm.xml
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnModuleComponentRoleDetails.hbm.xml
@@ -488,16 +502,19 @@
 		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl">
 		<property name="entityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
 	</bean>
-
-	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
-		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService">
-		<property name="sessionFactory" ref="sessionFactory"></property>
+	<bean id="queryGeneratorService"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.querygenerator.GtnWsAllHierarchyQueryGenerator">
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
-		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
-		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
 		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
 	</bean>
-
+	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
+		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService">
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="queryGeneratorService" ref="queryGeneratorService"></property>
+	</bean>
 	<bean id="gtnFrameworkQueryBeanGenerator"
 		class="com.stpl.gtn.gtn2o.ws.querybeangenerator.QueryBeanGeneratorService"
 		init-method="init">
@@ -506,7 +523,8 @@
 		<property name="gtnWsRelationshipBuilderHierarchyFileGenerator"
 			ref="gtnWsRelationshipBuilderHierarchyFileGenerator"></property>
 	</bean>
-	
+
+
 </beans>
 
 

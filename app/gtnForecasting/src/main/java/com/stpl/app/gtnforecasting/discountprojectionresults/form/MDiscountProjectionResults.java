@@ -48,6 +48,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
@@ -80,6 +81,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class MDiscountProjectionResults extends ForecastDiscountProjectionResults {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MDiscountProjectionResults.class);
+    
     private final SessionDTO sessionDTO;
     private String screenName = StringUtils.EMPTY;
     private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
@@ -361,9 +363,9 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
     private void initializeResultTable() {
         getResultsTable().markAsDirty();
         getResultsTable().setSelectable(false);
-        getResultsTable().setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        getResultsTable().setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        getResultsTable().setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+        getResultsTable().setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         getResultsTable().addStyleName("valo-theme-extfiltertable");
     }
 
@@ -381,16 +383,16 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
                 histFlag = true;
                 projectionDTO.setHistory(hist.toString());
-                if (freq.equals(QUARTERLY)) {
+                if (freq != null && freq.equals(QUARTERLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (freq != null && freq.equals(SEMI_ANNUALLY.getConstant())) {
                     historyNum = String.valueOf(hist).endsWith("Periods") ? Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim())
                             : Integer.parseInt(String.valueOf(hist).replace("Semi-Annual Period", StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(MONTHLY)) {
+                } else if (freq != null && freq.equals(MONTHLY)) {
                     historyNum = Integer.parseInt(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(ANNUALLY)) {
+                } else if (freq != null && freq.equals(ANNUALLY)) {
                     String histPeriod = String.valueOf(hist);
                     if (histPeriod.endsWith(Constant.YEAR) || histPeriod.endsWith("Years")) {
                         historyNum = histPeriod.endsWith(Constant.YEAR) ? Integer.parseInt(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim()) : Integer.parseInt(String.valueOf(hist).replace("Years", StringUtils.EMPTY).trim());
@@ -440,8 +442,8 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             if (Constant.CUSTOM_LABEL.equals(String.valueOf(viewOpg.getValue()))) {
                 projectionDTO.setHierarchyIndicator(StringUtils.EMPTY);
                 projectionDTO.setIsCustomHierarchy(true);
-                expandBtn.setEnabled(Boolean.TRUE);
-                collapseBtn.setEnabled(Boolean.TRUE);
+                expandBtn.setEnabled(BooleanConstant.getTrueFlag());
+                collapseBtn.setEnabled(BooleanConstant.getTrueFlag());
                 levelDdlb.setValue(SELECT_ONE);
                 levelDdlb.setEnabled(false);
                 levelFilterDdlb.setValue(SELECT_ONE);
@@ -910,11 +912,11 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getGovernmentConstant() + "," + UISecurityUtil.DISCOUNT_PROJECTION_RESULTS);
             if (functionPsHM.get(FunctionNameUtil.GENERATE) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag()) {
-                generateBtn.setVisible(Boolean.FALSE);
-                expandBtn.setVisible(Boolean.FALSE);
-                collapseBtn.setVisible(Boolean.FALSE);
-                newBtn.setVisible(Boolean.FALSE);
-                editBtn.setVisible(Boolean.FALSE);
+                generateBtn.setVisible(BooleanConstant.getFalseFlag());
+                expandBtn.setVisible(BooleanConstant.getFalseFlag());
+                collapseBtn.setVisible(BooleanConstant.getFalseFlag());
+                newBtn.setVisible(BooleanConstant.getFalseFlag());
+                editBtn.setVisible(BooleanConstant.getFalseFlag());
             }
         } catch (PortalException | SystemException ex) {
             LoggerFactory.getLogger(MDiscountProjectionResults.class.getName()).error("", ex);

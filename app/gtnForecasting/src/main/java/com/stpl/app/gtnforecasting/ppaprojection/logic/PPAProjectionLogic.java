@@ -21,6 +21,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,6 +40,7 @@ import org.slf4j.LoggerFactory;
 public class PPAProjectionLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
+    
     private static Thread procedureThread;
     private static RunnableJob runnableJob;
     private final CommonLogic commonLogic=new CommonLogic();
@@ -259,7 +261,7 @@ public class PPAProjectionLogic {
             }
             PPAQuerys.PPAUpdate(input, "PPA.saveCheckRecord");
         }
-        return true;
+        return BooleanConstant.getTrueFlag();
 
     }
 
@@ -419,7 +421,7 @@ public class PPAProjectionLogic {
 
         try {
             int levelNo;
-            selection.setIsCount(Boolean.FALSE);
+            selection.setIsCount(BooleanConstant.getFalseFlag());
             if (lastParent != null && (lastParent instanceof PPAProjectionDTO)) {
                 PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
                 levelNo = dto.getLevelNo();
@@ -450,7 +452,7 @@ public class PPAProjectionLogic {
                     count = configureLevelsCount(selection.getLevelNo(), selection);
                 } else {
                     PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
-                    selection.setLevelNo(dto.getLevelNo() + 1);
+                    selection.setLevelNo(dto == null ? null : dto.getLevelNo() + 1);
                     count = configureLevelsCount(selection.getLevelNo(), selection);
 
                 }
@@ -683,7 +685,7 @@ public class PPAProjectionLogic {
         if (Integer.valueOf(priceType) != null && !Integer.valueOf(priceType).equals(0)) {
 
             String sqlQuery = "SELECT * FROM HELPER_TABLE WHERE HELPER_TABLE_SID =" + priceType;
-            list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery.toString());
+            list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
             Object[] value = (Object[]) list.get(0);
             retval = value[1].toString();
         } else {

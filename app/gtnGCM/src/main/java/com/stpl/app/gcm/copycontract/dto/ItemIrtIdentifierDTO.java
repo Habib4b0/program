@@ -135,13 +135,17 @@ public class ItemIrtIdentifierDTO implements Serializable {
     /**
      * The checkbox.
      */
-    private Boolean checkbox = false;
+    private boolean checkbox = false;
 
     private boolean recordLockStatus;
 
     private String identifierStatusDdlb;
 
     private int createdByValue;
+
+    public ItemIrtIdentifierDTO() {
+        super();
+    }
 
     public int getCreatedByValue() {
         return createdByValue;

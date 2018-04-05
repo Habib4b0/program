@@ -77,10 +77,10 @@ public class ProjectionSelectionDTO {
     private List<List<String>> discountList = new ArrayList<>();
     private String view;
     private String frequency = StringUtils.EMPTY;
-    private boolean isFrequencyChanged = Boolean.TRUE;
+    private boolean isFrequencyChanged = true;
     private String projectionOrder;
     private String history = StringUtils.EMPTY;
-    private boolean isHistroryChanged = Boolean.TRUE;
+    private boolean isHistroryChanged = true;
     private String projection;
     private String pivotView;
     private String group;
@@ -284,6 +284,10 @@ public class ProjectionSelectionDTO {
     private GtnSmallHashMap multipleVariableCheckMap = new GtnSmallHashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Map<String,String> updateQueryMap = new HashMap<>();
+
+    public ProjectionSelectionDTO() {
+        super();
+    }
     
     public List<String> getDeductionLevelFilter() {
         return deductionLevelFilter == null ? deductionLevelFilter : new ArrayList<>(deductionLevelFilter);
@@ -901,9 +905,9 @@ public class ProjectionSelectionDTO {
 
     public void setIsFrequencyChanged(String selectedFrequency) {
         if (getFrequency().equals(selectedFrequency)) {
-            isFrequencyChanged = Boolean.FALSE;
+            isFrequencyChanged = false;
         } else {
-            isFrequencyChanged = Boolean.TRUE;
+            isFrequencyChanged = true;
         }
     }
 
@@ -929,9 +933,9 @@ public class ProjectionSelectionDTO {
 
     public void setIsHistroryChanged(String selectedHistory) {
         if (getHistory().equals(selectedHistory)) {
-            isHistroryChanged = Boolean.FALSE;
+            isHistroryChanged = false;
         } else {
-            isHistroryChanged = Boolean.TRUE;
+            isHistroryChanged = true;
         }
     }
     

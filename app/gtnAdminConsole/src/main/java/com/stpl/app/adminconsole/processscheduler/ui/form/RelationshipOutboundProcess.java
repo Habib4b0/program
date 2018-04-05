@@ -32,6 +32,7 @@ import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -97,6 +98,7 @@ public class RelationshipOutboundProcess extends Window {
     private ErrorfulFieldGroup binder;
     private Map<String, RelationshipOutboundDTO> checkedHierarchy = new HashMap<>();
     private OutboundLogic outboundLogic = new OutboundLogic();
+    
     private List<OutboundTableDTO> rbCsvList = null;
 
     public RelationshipOutboundProcess() {
@@ -186,6 +188,7 @@ public class RelationshipOutboundProcess extends Window {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
@@ -194,7 +197,7 @@ public class RelationshipOutboundProcess extends Window {
                     if (CHECK.equals(propertyId)) {
                         final CheckBox check = new CheckBox();
                         if (checkedHierarchy.get(tableDto.getRbSystemId()) != null) {
-                            check.setValue(true);
+                            check.setValue(BooleanConstant.getTrueFlag());
                             tableDto.setCheck(true);
                         }
                         check.setEnabled(true);
