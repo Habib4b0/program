@@ -55,7 +55,7 @@ public class GtnFrameworkIfpEditAction
 			String propertyId = (String) actionParamList.get(2);
 			boolean isEditable = (boolean) actionParamList.get(4);
 			String tableComponentId = (String) actionParamList.get(3);
-			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(false);
 			GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
 			GtnIFamilyPlanBean ifpBean = new GtnIFamilyPlanBean();
@@ -95,15 +95,15 @@ public class GtnFrameworkIfpEditAction
 
 			GtnUIFrameworkPagedTableLogic ifpCaTabRightTablelogic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(tableComponentId).getLogicFromPagedDataTable();
-			ifpCaTabRightTablelogic.startSearchProcess(null, Boolean.TRUE);
+			ifpCaTabRightTablelogic.startSearchProcess(null, true);
 			setTableHeaderAndVisibleColumn(isEditable);
 
 			GtnUIFrameworkPagedTableLogic ifpItemsTabTablelogic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
 					.getLogicFromPagedDataTable();
-			ifpItemsTabTablelogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+			ifpItemsTabTablelogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
-					.setFilterFieldVisible(GtnFrameworkCommonConstants.CHECK_RECORD_ID, Boolean.FALSE);
+					.setFilterFieldVisible(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
 			setCompaniesRecordType();
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);

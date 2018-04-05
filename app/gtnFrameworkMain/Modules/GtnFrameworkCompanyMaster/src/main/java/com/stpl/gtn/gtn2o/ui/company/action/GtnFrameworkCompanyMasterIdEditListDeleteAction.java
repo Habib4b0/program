@@ -70,7 +70,7 @@ public class GtnFrameworkCompanyMasterIdEditListDeleteAction
 				qualifierBean = new GtnWsCMasterQualifierBean();
 				qualifierBean.setCompanyQualifierSid((Integer) selectedId
 						.getPropertyValueByIndex(selectedId.getProperties().size() - compQualifierFromList));
-				qualifierBean.setUserId(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				qualifierBean.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				cmRequest.setGtnCMasterQualifierBean(qualifierBean);
 				request.setGtnCMasterRequest(cmRequest);
 				wsclient.callGtnWebServiceUrl(

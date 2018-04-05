@@ -70,7 +70,7 @@ public class GtnFrameworkCGrpAddAllAction
 
 				GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("cGrpSelectedResultTable").getLogicFromPagedDataTable();
-				logic.startSearchProcess(null, Boolean.TRUE);
+				logic.startSearchProcess(null, true);
 			} catch (Exception e) {
 				gtnLogger.error(e.getMessage(), e);
 				throw new GtnFrameworkGeneralException(e);

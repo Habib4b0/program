@@ -685,10 +685,11 @@ public class PhsResults extends CustomComponent implements View {
                 final TableDTO tableDto = getBeanFromId(itemId);
 
                 if (tableDto.getParent() == 1) {
-                    Button ndcLink = new Button(tableDto.getGroup());
-                    ndcLink.setStyleName(Reindeer.BUTTON_LINK);
-                    ndcLink.setData(tableDto.getGroup());
-                    ndcLink.addClickListener(new Button.ClickListener() {
+                    Button ndcLinkBtn = new Button(tableDto.getGroup());
+                    ndcLinkBtn.setStyleName(Reindeer.BUTTON_LINK);
+                    ndcLinkBtn.setHeight(CommonUtils.TWENTYNINEPX); 
+                    ndcLinkBtn.setData(tableDto.getGroup());
+                    ndcLinkBtn.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
@@ -730,7 +731,7 @@ public class PhsResults extends CustomComponent implements View {
                             });
                         }
                     });
-                    return ndcLink;
+                    return ndcLinkBtn;
                 } else {
                     return tableDto.getGroup();
                 }

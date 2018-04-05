@@ -127,7 +127,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 List<Leveldto> list = SPRCommonLogic.getAllHierarchyLevels(levelNo, pvSelectionDTO.getProjectionId(), indicator);
                 if (list != null && !list.isEmpty()) {
                     for (Leveldto dto : list) {
-                        if ((pvSelectionDTO.getLevelName().toString()).contains(dto.getLevel().replaceAll("'", StringUtils.EMPTY))) {
+                        if ((pvSelectionDTO.getLevelName()).contains(dto.getLevel().replaceAll("'", StringUtils.EMPTY))) {
                             contractType.addItem(dto.getHierarchyNo());
                             contractType.setItemCaption(dto.getHierarchyNo(), dto.getRelationshipLevelName());
                         }

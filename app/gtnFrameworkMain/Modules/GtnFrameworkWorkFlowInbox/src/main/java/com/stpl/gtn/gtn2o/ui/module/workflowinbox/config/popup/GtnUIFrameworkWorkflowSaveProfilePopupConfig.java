@@ -41,7 +41,7 @@ public class GtnUIFrameworkWorkflowSaveProfilePopupConfig {
 
 		GtnUIFrameworkComponentConfig vLayout = configProvider.getVerticalLayoutConfig(
 				GtnFrameworkWorkflowInboxClassConstants.SAVEVIEWROOTVERTICAL_LAYOUT, false, null);
-		vLayout.setSpacing(Boolean.TRUE);
+		vLayout.setSpacing(true);
 		vLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(vLayout);
 
@@ -85,7 +85,7 @@ public class GtnUIFrameworkWorkflowSaveProfilePopupConfig {
 		GtnUIFrameworkOptionGroupConfig comboConfig = new GtnUIFrameworkOptionGroupConfig();
 		comboConfig.setItemValues(Arrays.asList(GtnFrameworkWorkflowInboxClassConstants.PRIVATE,
 				GtnFrameworkWorkflowInboxClassConstants.PUBLIC));
-		comboConfig.setValuesFromService(Boolean.FALSE);
+		comboConfig.setValuesFromService(false);
 		addHierarchyTypeOptionGroup.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
 		addHierarchyTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(comboConfig);
 		componentList.add(addHierarchyTypeOptionGroup);

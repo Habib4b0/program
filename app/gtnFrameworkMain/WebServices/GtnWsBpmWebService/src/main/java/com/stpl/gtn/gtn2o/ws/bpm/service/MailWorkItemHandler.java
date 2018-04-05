@@ -55,12 +55,12 @@ public class MailWorkItemHandler implements WorkItemHandler {
 		
 		String path = "";
 		StringBuilder filePath = new StringBuilder();
-		filePath.append(GtnFrameworkCommonStringConstants.STR_SLASH).append(GtnFrameworkCommonStringConstants.PATH)
-				.append(GtnFrameworkCommonStringConstants.STR_SLASH).append(GtnFrameworkCommonStringConstants.PATH)
-				.append(GtnFrameworkCommonStringConstants.STR_SLASH).append(GtnFrameworkCommonStringConstants.PATH)
-				.append(GtnFrameworkCommonStringConstants.STR_SLASH);
+		filePath.append(GtnFrameworkCommonStringConstants.STR_SLASH_CHAR).append(GtnFrameworkCommonStringConstants.PATH)
+				.append(GtnFrameworkCommonStringConstants.STR_SLASH_CHAR).append(GtnFrameworkCommonStringConstants.PATH)
+				.append(GtnFrameworkCommonStringConstants.STR_SLASH_CHAR).append(GtnFrameworkCommonStringConstants.PATH)
+				.append(GtnFrameworkCommonStringConstants.STR_SLASH_CHAR);
 		filePath.append(GtnFrameworkCommonStringConstants.STR_MAIL_CONFIG)
-				.append(GtnFrameworkCommonStringConstants.STR_SLASH)
+				.append(GtnFrameworkCommonStringConstants.STR_SLASH_CHAR)
 				.append(GtnFrameworkCommonStringConstants.STR_MAIL_CONFIG_PROPERTY);
 		Properties props = new Properties();
 		InputStream is = null;
@@ -151,7 +151,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
 		bodyText.append(text);
 		bodyText.append("<br>");
 		bodyText.append("Regards,<br>");
-		bodyText.append(by).append(".");
+		bodyText.append(by).append('.');
 		if (emailId != null && !emailId.equals("")) {
 			sendMail(emailId, subject, bodyText);
 		}

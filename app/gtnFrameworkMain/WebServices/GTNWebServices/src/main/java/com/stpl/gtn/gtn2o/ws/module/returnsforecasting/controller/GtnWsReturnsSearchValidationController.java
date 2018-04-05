@@ -57,7 +57,7 @@ public class GtnWsReturnsSearchValidationController {
 			List<Object[]> result = gtnGeneralServiceController
 					.executeQuery(gtnWsSqlService.getQuery(getValidationInput(gtnWsRequest.getGtnWsSearchRequest()), queryName));
 
-			gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 
 			gtnResponse.setGtnSerachResponse(gtnSerachResponse);
 			generalResponse.setSucess(true);

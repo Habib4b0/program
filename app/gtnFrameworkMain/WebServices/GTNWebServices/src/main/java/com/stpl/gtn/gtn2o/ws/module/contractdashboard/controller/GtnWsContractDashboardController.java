@@ -299,7 +299,7 @@ public class GtnWsContractDashboardController {
 			GtnWsGeneralRequest inputs = gtnWsRequest.getGtnWsGeneralRequest();
 			GtnWsRecordBean bean = gtnWsRequest.getGtnWsContractDashboardRequest().getTableBean();
 			int systemId = bean.getProperties().get(11) == null ? 0
-					: Integer.valueOf(String.valueOf(bean.getProperties().get(11)));
+					: Integer.parseInt(String.valueOf(bean.getProperties().get(11)));
 			Object[] params = { inputs.getUserId(), inputs.getSessionId(), systemId };
 			GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.INTEGER };
@@ -1315,7 +1315,7 @@ public class GtnWsContractDashboardController {
 			Object[] params = { inputs.getUserId(), inputs.getSessionId() };
 			GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING };
 			List<Object[]> result = executeQuery(query, params, types);
-			cdResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+			cdResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			return selectedCompaniesResponse;
 		} catch (Exception ex) {
 			selectedCompaniesResponse.getGtnWsGeneralResponse().setSucess(false);
@@ -1342,7 +1342,7 @@ public class GtnWsContractDashboardController {
 			Object[] params = { inputs.getUserId(), inputs.getSessionId() };
 			GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING };
 			List<Object[]> result = executeQuery(query, params, types);
-			cdResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+			cdResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			return selectedItemsResponse;
 		} catch (Exception ex) {
 			selectedItemsResponse.getGtnWsGeneralResponse().setSucess(false);
@@ -1537,22 +1537,22 @@ public class GtnWsContractDashboardController {
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
 						.append(" as float)) as datetime) >= '").append(parseDate(value1)).append("' AND ");
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) <= '").append(parseDate(value2)).append("'");
+						.append(" as float)) as datetime) <= '").append(parseDate(value2)).append("' ");
 				break;
 			case "AND":
 				cdWhereClauseSql.append(field).append(" < '").append(value1).append("' AND ");
-				cdWhereClauseSql.append(field).append(" > '").append(value2).append("'");
+				cdWhereClauseSql.append(field).append(" > '").append(value2).append("' ");
 				break;
 			case "GREATER_OR_EQUAL":
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) >= '").append(parseDate(value1)).append("'");
+						.append(" as float)) as datetime) >= '").append(parseDate(value1)).append("' ");
 				break;
 			case "LESS_OR_EQUAL":
 				cdWhereClauseSql.append(GtnFrameworkWebserviceConstant.CASTFLOORCAST).append(field)
-						.append(" as float)) as datetime) <= '").append(parseDate(value1)).append("'");
+						.append(" as float)) as datetime) <= '").append(parseDate(value1)).append("' ");
 				break;
 			case "LIKE":
-				cdWhereClauseSql.append(field).append(" ").append(expersion).append(" '")
+				cdWhereClauseSql.append(field).append(' ').append(expersion).append(" '")
 						.append(value1.replace('*', '%').replaceAll("\\s+", "%")).append("' ");
 				break;
 			case "EQUAL":
@@ -1566,7 +1566,7 @@ public class GtnWsContractDashboardController {
 				cdWhereClauseSql.append(field).append(" < '").append(value1).append("' ");
 				break;
 			default:
-				cdWhereClauseSql.append(field).append(" ").append(expersion).append(" '").append(value1).append("' ");
+				cdWhereClauseSql.append(field).append(' ').append(expersion).append(" '").append(value1).append("' ");
 				break;
 			}
 			return cdWhereClauseSql.toString();

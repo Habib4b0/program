@@ -81,7 +81,7 @@ public class GtnFrameworkItemGrpRemoveAction implements GtnUIFrameWorkAction, Gt
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("itemGrpSelectedResultTable").getLogicFromPagedDataTable();
 
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);

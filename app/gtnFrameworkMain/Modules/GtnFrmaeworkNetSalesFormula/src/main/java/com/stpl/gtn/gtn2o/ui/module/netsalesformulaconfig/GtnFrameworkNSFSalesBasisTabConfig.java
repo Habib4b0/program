@@ -1009,7 +1009,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		GtnUIFrameWorkActionConfig populateValidationAction = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		Object customClassName = GtnUiFrameworkNsfSalesBasisPopulateValidationAction.class.getName();
-		populateValidationAction.setActionParameterList(Arrays.asList(customClassName, true));
+		populateValidationAction.setActionParameterList(Arrays.asList(customClassName, Boolean.TRUE));
 
 		actionConfigList.add(populateValidationAction);
 
@@ -1107,7 +1107,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		resetActionConfig.addActionParameter(viewId);
 		resetActionConfig
 				.addActionParameter("Are you sure you want to reset the values in the Selected Customers group box?");
-		resetActionConfig.addActionParameter(true);
+		resetActionConfig.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(resetActionConfig);
 		componentList.add(selectedCustomerTableResetButtonConfig);
 		selectedCustomerTableResetButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -1133,7 +1133,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		Object populateActionClass = GtnUiFrameworkNsfRemoveAction.class.getName();
 		removeActionConfig.addActionParameter(populateActionClass);
 		removeActionConfig.addActionParameter(viewId);
-		removeActionConfig.addActionParameter(true);
+		removeActionConfig.addActionParameter(Boolean.TRUE);
 
 		actionConfigList.add(removeActionConfig);
 		selectedCustomerTableRemoveButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

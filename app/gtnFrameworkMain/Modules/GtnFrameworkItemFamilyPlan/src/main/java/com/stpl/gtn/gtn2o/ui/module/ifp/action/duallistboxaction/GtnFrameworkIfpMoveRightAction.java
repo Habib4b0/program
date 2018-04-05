@@ -83,7 +83,7 @@ public class GtnFrameworkIfpMoveRightAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemsTabResultDataTable").getExtPagedTable()
 					.setData(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);
 		} finally {

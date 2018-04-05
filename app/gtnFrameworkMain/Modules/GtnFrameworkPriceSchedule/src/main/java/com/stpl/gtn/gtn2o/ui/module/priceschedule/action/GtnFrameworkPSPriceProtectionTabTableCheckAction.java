@@ -36,7 +36,7 @@ public class GtnFrameworkPSPriceProtectionTabTableCheckAction
 
 		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
 		GtnUIFrameworkPagedTableLogic logic = tableBaseComponent.getLogicFromPagedDataTable();
-		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(),true);
 		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);
 	}
 

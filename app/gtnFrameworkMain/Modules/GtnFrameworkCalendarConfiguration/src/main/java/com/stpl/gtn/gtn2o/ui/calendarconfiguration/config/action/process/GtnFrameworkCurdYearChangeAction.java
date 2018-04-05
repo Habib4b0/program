@@ -58,7 +58,7 @@ public class GtnFrameworkCurdYearChangeAction implements GtnUIFrameWorkAction, G
 			gtnUIFrameworkCalendarConfig.setRangeEndDate(rangeEndDate);
 			GtnUIFrameworkBaseComponent defaultHolidayBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(0));
-			defaultHolidayBaseComponent.setPropertyValue(false);
+			defaultHolidayBaseComponent.setPropertyValue(Boolean.FALSE);
 
 		} catch (Exception e) {
 			gtnLogger.error("Exception in GtnFrameworkCurdYearChangeAction", e);

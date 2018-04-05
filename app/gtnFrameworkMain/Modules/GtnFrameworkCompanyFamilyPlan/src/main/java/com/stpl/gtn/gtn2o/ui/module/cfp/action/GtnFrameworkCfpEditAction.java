@@ -53,7 +53,7 @@ public class GtnFrameworkCfpEditAction
 		boolean isEditable = (boolean) actionParamList.get(3);
 
 		GtnFrameworkCfpValueChangeManager.setValueChangeAllowed(false);
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		GtnWsRecordBean gtnWsRecordBean = getItemFormTable(gtnUIFrameWorkActionConfig, tableId);
 		if (gtnWsRecordBean == null) {
 			return;
@@ -84,14 +84,14 @@ public class GtnFrameworkCfpEditAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable").setTableReadOnly(!isEditable);
 			GtnUIFrameworkPagedTableLogic cfpCaTabRightTablelogic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("CFPrightResultTable").getLogicFromPagedDataTable();
-			cfpCaTabRightTablelogic.startSearchProcess(null, Boolean.TRUE);
+			cfpCaTabRightTablelogic.startSearchProcess(null, true);
 			GtnUIFrameworkPagedTableLogic cfpCaTabRightTablelogicOnView = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("cfprightResultTableOnView").getLogicFromPagedDataTable();
-			cfpCaTabRightTablelogicOnView.startSearchProcess(null, Boolean.TRUE);
+			cfpCaTabRightTablelogicOnView.startSearchProcess(null, true);
 			GtnUIFrameworkPagedTableLogic cfpCompaniesTabTablelogic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCfpStringContants.CFP_COMPANIES_TAB_RESULT_DATA_TABLE)
 					.getLogicFromPagedDataTable();
-			cfpCompaniesTabTablelogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+			cfpCompaniesTabTablelogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 			setCompaniesRecordType();
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);

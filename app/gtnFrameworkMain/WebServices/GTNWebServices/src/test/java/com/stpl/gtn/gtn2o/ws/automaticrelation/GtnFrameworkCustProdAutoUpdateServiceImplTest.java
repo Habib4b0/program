@@ -50,7 +50,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 	@Test
 	public void doAutomaticUpdate() throws GtnFrameworkGeneralException {
 		try {
-		System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
+			System.setProperty("gtn.app.data.path", "D:/SriThAr/Allergan/Server");
 			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(768);
 		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = service
 				.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());

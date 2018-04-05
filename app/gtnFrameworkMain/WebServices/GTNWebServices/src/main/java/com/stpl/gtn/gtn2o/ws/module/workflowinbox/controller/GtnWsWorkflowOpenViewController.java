@@ -69,7 +69,7 @@ public class GtnWsWorkflowOpenViewController {
 			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query);
 
 			if (resultList != null && (!resultList.isEmpty())) {
-				workflowresponse.setProcessInstanceId(Integer.valueOf(String.valueOf(resultList.get(0))));
+				workflowresponse.setProcessInstanceId(Integer.parseInt(String.valueOf(resultList.get(0))));
 			}
 
 			openViewSearchResponse.setGtnSerachResponse(gtnSerachResponse);

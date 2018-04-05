@@ -72,7 +72,7 @@ public class GtnWsCfpValidationService {
 				String value = String.valueOf(objects[1]);
 				switch (id) {
 				case "COMPANIES_COUNT":
-					validationBean.setCount(Integer.valueOf(value));
+					validationBean.setCount(Integer.parseInt(value));
 					break;
 				case "CFP_DETAILS_START_DATE":
 					validationBean.setStartDateNullCount(getInt(value));
@@ -87,11 +87,11 @@ public class GtnWsCfpValidationService {
 					validationBean.setStartDateGreaterThanEndCompanyId(getString(value));
 					break;
 				case "CHECKED_RECORD_COUNT":
-					validationBean.setCheckedCount(Integer.valueOf(value));
+					validationBean.setCheckedCount(Integer.parseInt(value));
 					break;
 				case "DUPLICATE":
 					validationBean.setDuplicateCompanyId(value);
-					validationBean.setDuplicateCompanyCount(Integer.valueOf(String.valueOf(objects[2])));
+					validationBean.setDuplicateCompanyCount(Integer.parseInt(String.valueOf(objects[2])));
 					break;
 				default:
 					break;
@@ -106,7 +106,7 @@ public class GtnWsCfpValidationService {
 
 	int getInt(String value) {
 		if (StringUtils.isNumeric(value)) {
-			return Integer.valueOf(value);
+			return Integer.parseInt(value);
 		}
 		return 1;
 	}

@@ -20,8 +20,8 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 
 	private String columnID = "";
 	private String columnName = "";
-	private Boolean isSearchCriteria = false;
-	private Boolean isResultView = false;
+	private Boolean isSearchCriteria = Boolean.FALSE;
+	private Boolean isResultView = Boolean.FALSE;
 	private String componentType;
 	private String listName = "";
 	private boolean loadDescription = false;
@@ -43,7 +43,7 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 	private String expressionType;
 	private String columnMappingId;
 	private String customClassName;
-	private Boolean isInvalidComponent = false;
+	private Boolean isInvalidComponent = Boolean.FALSE;
 	private boolean onlyValidComponent = false;
 	private boolean invalidLoadDescription = false;
 	private String defaultValue = "";
