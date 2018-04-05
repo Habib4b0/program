@@ -2250,9 +2250,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         resultExcelContainer.setChildrenAllowed(itemId, false);
                     }
                 }
-                resultExcelContainer.sort(new Object[]{Constant.GROUP}, new boolean[]{true});
-                resultExcelContainer.sort(new Object[]{Constant.DF_LEVEL_NUMBER}, new boolean[]{true});
-                resultExcelContainer.sort(new Object[]{Constant.DF_LEVEL_NAME}, new boolean[]{true});
             }
 
             excelParentRecords.clear();
