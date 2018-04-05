@@ -6,11 +6,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.querygenerator.serviceimpl.GtnFrameworkCustProdJoinServiceImpl;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
@@ -24,9 +22,6 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImplTest {
 
 	@Autowired
 	GtnFrameworkAutomaticRelationUpdateService service;
-	@Autowired
-	@Qualifier("CustProdJoin")
-	GtnFrameworkCustProdJoinServiceImpl automaticService;
 	private static final GtnWSLogger logger = GtnWSLogger
 			.getGTNLogger(GtnFrameworkAutomaticCustProdJoinServiceImplTest.class);
 
@@ -36,8 +31,6 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImplTest {
 			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(386);
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = service
 					.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
-				System.out.println(
-					automaticService.getHierarchyNo(hierarchyLevelDefinitionList, hierarchyLevelDefinitionList.get(3)));
 		} catch (GtnFrameworkGeneralException e) {
 			logger.error(e.getMessage());
 		}

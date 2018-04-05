@@ -32,7 +32,7 @@ public class GtnFrameworkCompanyMasterTradeClassParentTabValidation
 			throws GtnFrameworkGeneralException {
 		int position = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").getTabSheetSelectedTabIndex();
 		StringBuilder errorMessage = new StringBuilder(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-		String appender = " ";
+		char appender = ' ';
 		if (position == GtnWsNumericConstants.THREE) {
 			Integer tradeClass = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tradeTabtradeClass")
 					.getIntegerFromField();
@@ -42,7 +42,7 @@ public class GtnFrameworkCompanyMasterTradeClassParentTabValidation
 
 			if (tradeClass == 0) {
 				errorMessage.append(appender).append(" Trade Class ");
-				appender = ",";
+				appender = ',';
 			}
 			if (startDate == null) {
 				errorMessage.append(appender).append(" Trade Class Start Date ");
@@ -56,7 +56,7 @@ public class GtnFrameworkCompanyMasterTradeClassParentTabValidation
 
 			if (parentcompanyNo == null || parentcompanyNo.isEmpty()) {
 				errorMessage.append(appender).append(" Parent Company No ");
-				appender = ",";
+				appender = ',';
 			}
 			if (startDate == null) {
 				errorMessage.append(appender).append(" Parent Company Start Date ");

@@ -56,7 +56,7 @@ public class GtnUIFrameworkIdentifierEditListAction
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupActionConfig);
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTable)
 					.getLogicFromPagedDataTable();
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 
 		}
 	}

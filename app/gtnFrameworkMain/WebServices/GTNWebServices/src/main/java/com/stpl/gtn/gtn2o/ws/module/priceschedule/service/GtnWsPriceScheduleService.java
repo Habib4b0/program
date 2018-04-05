@@ -458,27 +458,27 @@ public class GtnWsPriceScheduleService {
 
 			for (String key : psPPUpdateBean.getPropertyValueMap().keySet()) {
 				if (isAdded) {
-					psPPUpdateQuery.append(psPPUpdateQuery).append(",").append(componetMap.get(key).getDbColumnName())
-							.append("='").append(psPPUpdateBean.getPropertyValueMap().get(key)).append("'");
+					psPPUpdateQuery.append(psPPUpdateQuery).append(',').append(componetMap.get(key).getDbColumnName())
+							.append("='").append(psPPUpdateBean.getPropertyValueMap().get(key)).append("' ");
 
 				} else {
 					psPPUpdateQuery.append(componetMap.get(key).getDbColumnName()).append("='")
-							.append(psPPUpdateBean.getPropertyValueMap().get(key)).append("'");
+							.append(psPPUpdateBean.getPropertyValueMap().get(key)).append("' ");
 					isAdded = true;
 				}
 
 			}
 
 		} else {
-			psPPUpdateQuery.append("").append(componetMap.get(propertyId).getDbColumnName()).append("=");
+			psPPUpdateQuery.append("").append(componetMap.get(propertyId).getDbColumnName()).append('=');
 
-			psPPUpdateQuery.append("'").append(value).append("'");
+			psPPUpdateQuery.append(" '").append(value).append("' ");
 
 		}
 
 		psPPUpdateQuery.append(" WHERE  USERS_SID='").append(generalWSRequest.getUserId())
 				.append(GtnFrameworkWebserviceConstant.AND_SESSION_ID).append(generalWSRequest.getSessionId())
-				.append("'");
+				.append("' ");
 		if (!psPPUpdateBean.isCheckAll()) {
 			psPPUpdateQuery.append(" AND CHECK_RECORD='1' ");
 		}

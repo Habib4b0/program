@@ -24,7 +24,7 @@ public class GtnFrameworkItemGrpAddAction implements GtnUIFrameWorkAction, GtnUI
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		
 		setValueToComponents(componentId);
 

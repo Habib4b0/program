@@ -208,7 +208,7 @@ public class GtnWsContractDashboardItemLogic {
 					imtdItem.setPrimaryUom(Integer.valueOf(primaryUom));
 				}
 				String itemStatus = recordBean.getStringPropertyByIndex(11);
-				imtdItem.setPsStatus(StringUtils.isBlank(itemStatus) ? 0 : Integer.valueOf(itemStatus));
+				imtdItem.setPsStatus(StringUtils.isBlank(itemStatus) ? 0 : Integer.parseInt(itemStatus));
 				imtdItem.setItemMasterSid(itemMasterSid);
 				imtdItem.setContractMasterSid(cdRequest.getContractId());
 				imtdItem.setCfpModelSid(cdRequest.getCfpContractId());
@@ -626,7 +626,7 @@ public class GtnWsContractDashboardItemLogic {
 			itemSearchInputlist.add(0, contractId);
 			List<Object[]> result = getController().executeQuery(controller.getQuery(itemSearchInputlist, queryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable cdPendingItemsDataTable = new GtnUIFrameworkDataTable();
 				cdPendingItemsDataTable.addData(result);
@@ -775,7 +775,7 @@ public class GtnWsContractDashboardItemLogic {
 			inputlist.add(0, contractId);
 			List<Object[]> result = getController().executeQuery(controller.getQuery(inputlist, queryName));
 			if (cdRebatePendingRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable cdPendingRebateDataTable = new GtnUIFrameworkDataTable();
 				cdPendingRebateDataTable.addData(result);
@@ -971,7 +971,7 @@ public class GtnWsContractDashboardItemLogic {
 
 			List<Object[]> result = getController().executeQuery(controller.getQuery(inputlist, queryName));
 			if (cdPricingPendingRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable pricingPendingDataTable = new GtnUIFrameworkDataTable();
 				pricingPendingDataTable.addData(result);
@@ -1024,7 +1024,7 @@ public class GtnWsContractDashboardItemLogic {
 			pendingPPInputlist.add(0, contractId);
 			List<Object[]> result = getController().executeQuery(controller.getQuery(pendingPPInputlist, queryName));
 			if (cdPPPendingRequest.getGtnWsSearchRequest().isCount()) {
-				pendingPPSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				pendingPPSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable cdPendingPPDataTable = new GtnUIFrameworkDataTable();
 				cdPendingPPDataTable.addData(result);
@@ -1231,7 +1231,7 @@ public class GtnWsContractDashboardItemLogic {
 			List<Object[]> cditemsresult = getController()
 					.executeQuery(controller.getQuery(cditemSearchInputlist, cditemsqueryName));
 			if (cditemsgtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				cditemsgtnSerachResponse.setCount(Integer.valueOf(String.valueOf(cditemsresult.get(0))));
+				cditemsgtnSerachResponse.setCount(Integer.parseInt(String.valueOf(cditemsresult.get(0))));
 			} else {
 				GtnUIFrameworkDataTable cdPendingItemsDataTable = new GtnUIFrameworkDataTable();
 				cdPendingItemsDataTable.addData(cditemsresult);
@@ -1285,7 +1285,7 @@ public class GtnWsContractDashboardItemLogic {
 			List<Object[]> rspendingviewresult = getController()
 					.executeQuery(controller.getQuery(cdrspendingviewinputlist, cdrspendingviewqueryName));
 			if (cdRebatePendingviewRequest.getGtnWsSearchRequest().isCount()) {
-				cdrspendingviewgtnSerachResponse.setCount(Integer.valueOf(String.valueOf(rspendingviewresult.get(0))));
+				cdrspendingviewgtnSerachResponse.setCount(Integer.parseInt(String.valueOf(rspendingviewresult.get(0))));
 			} else {
 				GtnUIFrameworkDataTable cdPendingviewRebateDataTable = new GtnUIFrameworkDataTable();
 				cdPendingviewRebateDataTable.addData(rspendingviewresult);
@@ -1340,7 +1340,7 @@ public class GtnWsContractDashboardItemLogic {
 			List<Object[]> pricingdetresult = getController()
 					.executeQuery(controller.getQuery(pricingdetinputlist, pricingdetqueryName));
 			if (cdPricingdetPendingRequest.getGtnWsSearchRequest().isCount()) {
-				pricingdetgtnSerachResponse.setCount(Integer.valueOf(String.valueOf(pricingdetresult.get(0))));
+				pricingdetgtnSerachResponse.setCount(Integer.parseInt(String.valueOf(pricingdetresult.get(0))));
 			} else {
 				GtnUIFrameworkDataTable pricingdetDataTable = new GtnUIFrameworkDataTable();
 				pricingdetDataTable.addData(pricingdetresult);
@@ -1390,7 +1390,7 @@ public class GtnWsContractDashboardItemLogic {
 			ppInputlist.add(0, ppcontractId);
 			List<Object[]> ppresult = getController().executeQuery(controller.getQuery(ppInputlist, ppqueryName));
 			if (ppPendingRequest.getGtnWsSearchRequest().isCount()) {
-				ppSerachResponse.setCount(Integer.valueOf(String.valueOf(ppresult.get(0))));
+				ppSerachResponse.setCount(Integer.parseInt(String.valueOf(ppresult.get(0))));
 			} else {
 				GtnUIFrameworkDataTable ppDataTable = new GtnUIFrameworkDataTable();
 				ppDataTable.addData(ppresult);

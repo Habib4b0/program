@@ -46,7 +46,7 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			if (propertyId.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12])) {
 				propertyId = getFieldId(propertyId, actionParam.getItemId(), actionParam.getCurrentValue());
 			}
-			updateField(propertyId, actionParam.getCurrentValue(), Boolean.FALSE,
+			updateField(propertyId, actionParam.getCurrentValue(), false,
 					actionParam.getItemId().getPropertyValue("systemId").toString(), componentId,
 					actionParam.getTableComponentId(), actionParam.getItemId());
 		}

@@ -341,7 +341,7 @@ public class GtnUIFrameworkPagedTableComponent implements GtnUIFrameworkComponen
 			GtnUIFrameworkPagedTableLogic tableLogic = baseComponent.getComponentData().getCurrentPageTableLogic();
 			tableLogic.setExtraParameter(null);
 			tableLogic.resetValues();
-			tableLogic.startSearchProcess(null, null, Boolean.FALSE);
+			tableLogic.startSearchProcess(null, null, false);
 			if (componentConfig.getGtnPagedTableConfig().getInvisibleFilterPropertyIds() != null) {
 				for (Object propertyId : componentConfig.getGtnPagedTableConfig().getInvisibleFilterPropertyIds()) {
 					baseComponent.setFilterFieldVisible(propertyId, false);

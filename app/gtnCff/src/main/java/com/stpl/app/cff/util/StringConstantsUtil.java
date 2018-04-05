@@ -439,6 +439,7 @@ public class StringConstantsUtil {
     public static final String FILTER_PRODUCT_GROUP_DESCRIPTION = "filter~productgroupDescription";
     public static final String IN_SELECT_HELPER_TABLE_SID_FROM_HELPER_TA = " IN(Select HELPER_TABLE_SID from HELPER_TABLE where  ";
     public static final String IN_SELECT_HELPER_TABLE_SID_FROM_HELPER = " IN(Select HELPER_TABLE_SID from HELPER_TABLE where \n";
+	public static final String WHERE_CAPS = "WHERE";
     
     
     

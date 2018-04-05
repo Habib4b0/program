@@ -554,7 +554,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(new ArrayList<>(visibleParameters));
 		resultTableActionConfigList.add(visibleAction);
@@ -571,7 +571,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 		parameters.add(GtnUIFrameWorkResetYesButtonAction.class.getName());
 		parameters.add(GtnFrameworkStringConstants.REBATE_PLAN_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(14);
 		editActionConfig.setActionParameterList(parameters);
 		resultTableActionConfigList.add(editActionConfig);
@@ -684,7 +684,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
@@ -708,7 +708,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 		List<String> visibleList = new ArrayList<>();
 		visibleList.add(GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON);
 
-		visbleAction.addActionParameter(false);
+		visbleAction.addActionParameter(Boolean.FALSE);
 		visbleAction.addActionParameter(visibleList);
 		actionConfigList.add(visbleAction);
 
@@ -811,7 +811,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(visibleParameters);
 		editBtnActionConfigList.add(visibleAction);
@@ -828,7 +828,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 		parameters.add(GtnUIFrameWorkResetYesButtonAction.class.getName());
 		parameters.add(GtnFrameworkStringConstants.REBATE_PLAN_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(14);
 
 		editActionConfig.setActionParameterList(parameters);
@@ -897,7 +897,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 		parameters.add(GtnUIFrameWorkResetYesButtonAction.class.getName());
 		parameters.add(GtnFrameworkStringConstants.REBATE_PLAN_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(14);
 
 		viewActionConfig.setActionParameterList(parameters);
@@ -956,7 +956,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(false);
+		visibleParameters.add(Boolean.FALSE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(visibleParameters);
 		viewActionConfigList.add(visibleAction);
@@ -1060,7 +1060,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(visibleParameters);
 		copyActionConfigList.add(visibleAction);
@@ -1077,7 +1077,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 		parameters.add(GtnUIFrameWorkResetYesButtonAction.class.getName());
 		parameters.add(GtnFrameworkStringConstants.REBATE_PLAN_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(14);
 
 		editActionConfig.setActionParameterList(parameters);

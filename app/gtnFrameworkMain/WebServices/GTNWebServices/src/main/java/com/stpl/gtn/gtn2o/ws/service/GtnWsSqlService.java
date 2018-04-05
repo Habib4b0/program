@@ -211,16 +211,16 @@ public class GtnWsSqlService {
 		procedureToCall.append(procedureName);
 		for (int i = 0; i < noOfArgs; i++) {
 			if (i == 0) {
-				procedureToCall.append("(");
+				procedureToCall.append('(');
 			}
 			procedureToCall.append("?,");
 			if (i == noOfArgs - 1) {
-				procedureToCall.append(")");
+				procedureToCall.append(')');
 			}
 		}
 		procedureToCall.replace(procedureToCall.lastIndexOf(","), procedureToCall.lastIndexOf(",") + 1,
 				StringUtils.EMPTY);
-		procedureToCall.append("}");
+		procedureToCall.append('}');
 		return procedureToCall.toString();
 	}
 }

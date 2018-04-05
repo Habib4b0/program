@@ -1507,11 +1507,11 @@ public class AltSummeryDiscount extends CustomComponent {
                 String tempSubYear = StringUtils.EMPTY;
                 for (int i = 0; i < overall.size(); i++) {
                     if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
-                        tempYear = overall.get(i).toString().trim().substring(NumericConstants.TWO);
-                        tempSubYear = (overall.get(i).toString().trim()).replace(tempYear, StringUtils.EMPTY).trim();
+                        tempYear = overall.get(i).trim().substring(NumericConstants.TWO);
+                        tempSubYear = (overall.get(i).trim()).replace(tempYear, StringUtils.EMPTY).trim();
                     } else if (defval == NumericConstants.TWELVE) {
-                        tempYear = overall.get(i).toString().trim().substring(NumericConstants.THREE);
-                        String tmpSubYear = overall.get(i).toString().trim().replace(tempYear, StringUtils.EMPTY).trim();
+                        tempYear = overall.get(i).trim().substring(NumericConstants.THREE);
+                        String tmpSubYear = overall.get(i).trim().replace(tempYear, StringUtils.EMPTY).trim();
                         tempSubYear = monthMap.get(tmpSubYear);
                     }
                     String subYear1 = StringUtils.EMPTY;
@@ -1524,7 +1524,7 @@ public class AltSummeryDiscount extends CustomComponent {
                         String fullYear = tempYear + subYear1;
                         year[i] = Integer.parseInt(fullYear.trim());
                     } else {
-                        year[i] = Integer.parseInt(overall.get(i).toString().trim());
+                        year[i] = Integer.parseInt(overall.get(i).trim());
                     }
 
                 }
@@ -1534,20 +1534,20 @@ public class AltSummeryDiscount extends CustomComponent {
                 String endTempYear = StringUtils.EMPTY;
                 String endTempSubYear = StringUtils.EMPTY;
                 if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
-                    startTempYear = startPeriod.toString().trim().substring(NumericConstants.TWO);
+                    startTempYear = startPeriod.trim().substring(NumericConstants.TWO);
                     startTempSubYear = startPeriod.replace(startTempYear, StringUtils.EMPTY).trim();
-                    endTempYear = endPeriod.toString().trim().substring(NumericConstants.TWO);
+                    endTempYear = endPeriod.trim().substring(NumericConstants.TWO);
                     endTempSubYear = endPeriod.replace(endTempYear, StringUtils.EMPTY).trim();
                 } else if (defval == NumericConstants.TWELVE) {
-                    startTempYear = startPeriod.toString().toString().trim().substring(NumericConstants.THREE);
+                    startTempYear = startPeriod.trim().substring(NumericConstants.THREE);
                     String startTmpSubYear = startPeriod.replace(startTempYear, StringUtils.EMPTY).trim();
                     startTempSubYear = monthMap.get(startTmpSubYear);
-                    endTempYear = endPeriod.toString().trim().substring(NumericConstants.THREE);
-                    String endTmpSubYear = endPeriod.toString().replace(endTempYear, StringUtils.EMPTY).trim();
+                    endTempYear = endPeriod.trim().substring(NumericConstants.THREE);
+                    String endTmpSubYear = endPeriod.replace(endTempYear, StringUtils.EMPTY).trim();
                     endTempSubYear = monthMap.get(endTmpSubYear);
                 } else if (defval == 1) {
                     startTempYear = startPeriod.trim();
-                    endTempYear = endPeriod.toString().trim();
+                    endTempYear = endPeriod.trim();
                 }
                 String subYear2 = StringUtils.EMPTY, subYear3 = StringUtils.EMPTY;
                 if (defval == NumericConstants.TWO) {

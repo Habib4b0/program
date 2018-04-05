@@ -6,6 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Srithar.Raju
+ *
+ */
 public class GtnForecastHierarchyInputBean implements Serializable {
 
 	/**
@@ -26,6 +30,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private Date forecastEligibleDate;
 	private List<String> groupFilterCompenies;
 	private int levelNo;
+	private int lowestLevelNo;
 	private int projectionId;
 	private boolean isNdc;
 	private int selectedCustomerRelationShipBuilderSid;
@@ -44,6 +49,8 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList;
 
 	private GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto;
+
+	private boolean isCff;
 
 	public GtnForecastHierarchyInputBean() {
 		super();
@@ -119,6 +126,14 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	public String getFieldName() {
 		return fieldName;
+	}
+
+	public boolean isCff() {
+		return isCff;
+	}
+
+	public void setCff(boolean isCff) {
+		this.isCff = isCff;
 	}
 
 	public void setFieldName(String fieldName) {
@@ -296,6 +311,14 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	public void setHierarchyIndicator(String hierarchyIndicator) {
 		this.hierarchyIndicator = hierarchyIndicator;
+	}
+
+	public int getLowestLevelNo() {
+		return lowestLevelNo;
+	}
+
+	public void setLowestLevelNo(int lowestLevelNo) {
+		this.lowestLevelNo = lowestLevelNo;
 	}
 
 }

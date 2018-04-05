@@ -67,27 +67,27 @@ public class GtnUIFrameworkItemMasterIdentifierEditListConfig {
 		componentList.add(panel);
 
 		GtnUIFrameworkComponentConfig mainLayout = componentConfig.getCssLayoutConfig(
-				GtnFrameworkCommonConstants.EDIL_LIST_FIELD_MAIN_LAYOUT, Boolean.TRUE, panel.getComponentId());
+				GtnFrameworkCommonConstants.EDIL_LIST_FIELD_MAIN_LAYOUT, true, panel.getComponentId());
 		mainLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
-		mainLayout.setSpacing(Boolean.TRUE);
+		mainLayout.setSpacing(true);
 		mainLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(mainLayout);
 
 		GtnUIFrameworkComponentConfig edilListFieldInnerLayout = componentConfig.getCssLayoutConfig(
-				"edilListFieldInnerLayout", Boolean.TRUE, GtnFrameworkCommonConstants.EDIL_LIST_FIELD_MAIN_LAYOUT);
-		edilListFieldInnerLayout.setSpacing(Boolean.TRUE);
+				"edilListFieldInnerLayout", true, GtnFrameworkCommonConstants.EDIL_LIST_FIELD_MAIN_LAYOUT);
+		edilListFieldInnerLayout.setSpacing(true);
 		edilListFieldInnerLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_8);
 		componentList.add(edilListFieldInnerLayout);
 
 		GtnUIFrameworkComponentConfig edilListFieldLayout = componentConfig.getGtnCssLayoutConfig(
-				GtnFrameworkCommonConstants.EDIL_LIST_FIELD_LAYOUT, Boolean.TRUE, "edilListFieldInnerLayout",
+				GtnFrameworkCommonConstants.EDIL_LIST_FIELD_LAYOUT, true, "edilListFieldInnerLayout",
 				GtnUIFrameworkLayoutType.COL2_LAYOUT);
 		componentList.add(edilListFieldLayout);
 
 		GtnUIFrameworkComponentConfig notesMainLayout = componentConfig.getCssLayoutConfig("notesMainLayout",
-				Boolean.TRUE, GtnFrameworkCommonConstants.EDIL_LIST_FIELD_MAIN_LAYOUT);
+				true, GtnFrameworkCommonConstants.EDIL_LIST_FIELD_MAIN_LAYOUT);
 		notesMainLayout.setMargin(true);
-		notesMainLayout.setSpacing(Boolean.TRUE);
+		notesMainLayout.setSpacing(true);
 		notesMainLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		componentList.add(notesMainLayout);
 

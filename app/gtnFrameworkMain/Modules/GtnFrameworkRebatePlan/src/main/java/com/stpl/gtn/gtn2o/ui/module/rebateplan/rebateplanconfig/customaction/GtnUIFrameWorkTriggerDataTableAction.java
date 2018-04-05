@@ -29,7 +29,7 @@ public class GtnUIFrameWorkTriggerDataTableAction implements GtnUIFrameWorkActio
 				.getVaadinComponentData("cDRRulePopUpruleDetailsattachResultTable");
 
 		GtnUIFrameworkPagedTableLogic priceTabTableLogic = componentData.getCurrentPageTableLogic();
-		boolean isActiveFlag = Boolean.TRUE;
+		boolean isActiveFlag = true;
 		List<GtnWebServiceSearchCriteria> criteriList = new ArrayList<>();
 		GtnWebServiceSearchCriteria criteria = new GtnWebServiceSearchCriteria("systemId", sysId, "EQUALS");
 		criteriList.add(criteria);

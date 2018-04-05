@@ -68,7 +68,7 @@ public class GtnFrameworkCGrpDeleteAction
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cGrpsearchResultTable")
 					.getLogicFromPagedDataTable();
 
-			logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+			logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);

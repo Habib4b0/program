@@ -46,7 +46,7 @@ public class GtnFrameworkItemGrpNameValidationAction implements GtnUIFrameWorkAc
 		Integer company = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemGrpInformationItemGrpCompany")
 				.getIntegerFromField();
 
-		String appender = " ";
+		String appender = "  ";
 
 		StringBuilder feildMsg = new StringBuilder();
 

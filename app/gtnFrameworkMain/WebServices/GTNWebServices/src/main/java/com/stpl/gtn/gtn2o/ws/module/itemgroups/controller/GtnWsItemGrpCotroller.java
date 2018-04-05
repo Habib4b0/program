@@ -255,7 +255,7 @@ public class GtnWsItemGrpCotroller {
 			List<Object[]> itemGroupResultList = itemGrpService.getSelectedTableData(gtnWsRequest,
 					gtnWebServiceSearchQueryConfig);
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				itemGroupSerachResponse.setCount(Integer.valueOf(String.valueOf(itemGroupResultList.get(0))));
+				itemGroupSerachResponse.setCount(Integer.parseInt(String.valueOf(itemGroupResultList.get(0))));
 			} else {
 				itemGrpService.getCustomizedSearchFormFromObject(itemGroupResultList, gtnWebServiceSearchQueryConfig,
 						gtnWsRequest.getGtnWsSearchRequest().getSearchColumnNameList());

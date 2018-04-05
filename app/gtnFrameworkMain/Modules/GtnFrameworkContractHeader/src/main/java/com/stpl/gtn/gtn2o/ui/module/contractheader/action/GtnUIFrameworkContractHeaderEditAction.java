@@ -60,7 +60,7 @@ public class GtnUIFrameworkContractHeaderEditAction
 		if (gtnWsRecordBean == null) {
 			return;
 		}
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsContractMasterBean infoBean = new GtnWsContractMasterBean();
 

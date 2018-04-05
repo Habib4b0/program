@@ -691,7 +691,7 @@ public class PMPYCalculator extends Window {
      */
     public boolean isTpHistorySelected() {
         LOGGER.debug("Entering isTpHistorySelected method");
-        if (tradingPartner.getValue() != null && !tradingPartner.getValue().toString().isEmpty()) {
+        if (tradingPartner.getValue() != null && !tradingPartner.getValue().isEmpty()) {
             return BooleanConstant.getTrueFlag();
         }
         LOGGER.debug("End of isTpHistorySelected method");
