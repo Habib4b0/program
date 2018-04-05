@@ -77,7 +77,7 @@ public class GtnFrameworkCfpMoveRightAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpCompaniesTabResultDataTable").getExtPagedTable()
 					.setData(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);
 		} finally {

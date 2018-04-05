@@ -955,7 +955,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
 
     public void checkMultiVariables(final String period, final String refreshName) {
-        if (multipleVariableCheckMap.get(period.trim()) == null) {
+        if (multipleVariableCheckMap.get(period.trim()) == null || multipleVariableCheckMap.get(period.trim()).equals(refreshName)) {
             multipleVariableCheckMap.put(period.trim(), refreshName);
         } else {
             isMultipleVariablesUpdated = true;
@@ -4698,7 +4698,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     endTempYear = endPeriod.trim().substring(NumericConstants.TWO);
                     endTempSubYear = endPeriod.replace(endTempYear, StringUtils.EMPTY).trim();
                 } else if (defval == NumericConstants.TWELVE) {
-                    startTempYear = startPeriod.toString().trim().substring(NumericConstants.THREE);
+                    startTempYear = startPeriod.trim().substring(NumericConstants.THREE);
                     String startTmpSubYear = startPeriod.replace(startTempYear, StringUtils.EMPTY).trim();
                     startTempSubYear = monthMap.get(startTmpSubYear).toString();
                     endTempYear = endPeriod.trim().substring(NumericConstants.THREE);

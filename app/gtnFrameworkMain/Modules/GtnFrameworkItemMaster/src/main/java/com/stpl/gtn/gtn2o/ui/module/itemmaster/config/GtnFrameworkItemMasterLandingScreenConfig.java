@@ -722,7 +722,7 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_EDIT_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID);
-		editActionConfig.addActionParameter(true);
+		editActionConfig.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(editActionConfig);
 		searchResults.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
@@ -828,7 +828,7 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_EDIT_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID);
-		editActionConfig.addActionParameter(true);
+		editActionConfig.addActionParameter(Boolean.TRUE);
 		onSucessActionConfigList.add(editActionConfig);
 
 		GtnUIFrameWorkActionConfig tabAction = new GtnUIFrameWorkActionConfig();
@@ -881,7 +881,7 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_EDIT_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID);
-		editActionConfig.addActionParameter(false);
+		editActionConfig.addActionParameter(Boolean.FALSE);
 		viewActionConfigList.add(editActionConfig);
 		GtnUIFrameWorkActionConfig tabAction = new GtnUIFrameWorkActionConfig();
 		tabAction.setActionType(GtnUIFrameworkActionType.CHANGE_TAB_ACTION);

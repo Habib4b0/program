@@ -119,7 +119,7 @@ public class GtnWsRelationshipBuilderController {
 			List<String> inputlist = getSearchInput(gtnWsRequest);
 			List<Object[]> result = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist, queryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				relationshipBuilderSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				relationshipBuilderSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(result);
@@ -184,7 +184,7 @@ public class GtnWsRelationshipBuilderController {
 					inputWhereConditions.append(where).append(and)
 							.append(searchCriteriaMap().get(searchCriteria.getFieldId()))
 							.append(GtnFrameworkWebserviceConstant.GREATER_VAR).append(searchCriteria.getFilterValue1())
-							.append("'");
+							.append("' ");
 					and = GtnFrameworkWebserviceConstant.AND_COLUMN;
 					where = "";
 				} else if (searchCriteria.getFieldId().contains("DateTo")) {
@@ -192,14 +192,14 @@ public class GtnWsRelationshipBuilderController {
 					inputWhereConditions.append(where).append(and)
 							.append(searchCriteriaMap().get(searchCriteria.getFieldId()))
 							.append(GtnFrameworkWebserviceConstant.LESSER).append(searchCriteria.getFilterValue1())
-							.append("'");
+							.append("' ");
 					and = GtnFrameworkWebserviceConstant.AND_COLUMN;
 					where = "";
 				} else {
 					inputWhereConditions.append(where).append(and)
-							.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(" ")
+							.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(' ')
 							.append(searchCriteria.getExpression().replace("EQUALS", "=")).append(" '")
-							.append(searchCriteria.getFilterValue1().replace("*", "%")).append("'");
+							.append(searchCriteria.getFilterValue1().replace("*", "%")).append("' ");
 					and = GtnFrameworkWebserviceConstant.AND_COLUMN;
 					where = "";
 				}

@@ -70,7 +70,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 	private void configureRootLayouts(List<GtnUIFrameworkComponentConfig> componentList) {
 
 		GtnUIFrameworkComponentConfig workFlowRootComponentConfig = configProvider.getVerticalLayoutConfig(
-				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWROOTLAYOUT, Boolean.FALSE, null);
+				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWROOTLAYOUT, false, null);
 		workFlowRootComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(workFlowRootComponentConfig);
 
@@ -86,7 +86,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 
 	private void configureMainLayouts(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
 		GtnUIFrameworkComponentConfig workFlowMainComponentConfig = configProvider.getCssLayoutConfig(
-				GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_MAINLAYOUT, Boolean.TRUE, parentComponentId);
+				GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_MAINLAYOUT, true, parentComponentId);
 		workFlowMainComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(workFlowMainComponentConfig);
 
@@ -133,7 +133,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameworkComponentConfig summarySearchInnerComponentConfig = configProvider.getUIFrameworkComponentConfig(
 				GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_PANEL_INNERLAYOUT, true,
 				workFlowMainInnerComponentConfig.getComponentId(), GtnUIFrameworkComponentType.LAYOUT);
-		summarySearchInnerComponentConfig.setSpacing(Boolean.TRUE);
+		summarySearchInnerComponentConfig.setSpacing(true);
 		summarySearchInnerComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		summarySearchInnerComponentConfig.setGtnLayoutConfig(summarySearchInnerLayoutConfig);
 		componentList.add(summarySearchInnerComponentConfig);
@@ -149,7 +149,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 				.getUIFrameworkComponentConfig(
 						GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_ARM_PANEL_INNERLAYOUT, true,
 						workFlowMainInnerComponentConfig.getComponentId(), GtnUIFrameworkComponentType.LAYOUT);
-		summarySearchARMInnerComponentConfig.setSpacing(Boolean.TRUE);
+		summarySearchARMInnerComponentConfig.setSpacing(true);
 		summarySearchARMInnerComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		summarySearchARMInnerComponentConfig.setGtnLayoutConfig(summarySearchARMInnerLayoutConfig);
 		componentList.add(summarySearchARMInnerComponentConfig);
@@ -166,8 +166,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		summarySearchcompanybusinessInnerComponentConfig.setComponentId(
 				GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_COMPANY_BUSINESS_PANEL_INNERLAYOUT);
 		summarySearchcompanybusinessInnerComponentConfig.setVisible(false);
-		summarySearchcompanybusinessInnerComponentConfig.setAddToParent(Boolean.TRUE);
-		summarySearchcompanybusinessInnerComponentConfig.setSpacing(Boolean.TRUE);
+		summarySearchcompanybusinessInnerComponentConfig.setAddToParent(true);
+		summarySearchcompanybusinessInnerComponentConfig.setSpacing(true);
 		summarySearchcompanybusinessInnerComponentConfig
 				.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		summarySearchcompanybusinessInnerComponentConfig
@@ -210,7 +210,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 				businessProcessComponentConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		businessProcessComponent.setAuthorizationIncluded(true);
 		businessProcessComponent.setComponentName(GtnFrameworkWorkflowInboxClassConstants.BUSINESSPROCESS_NAME);
-		businessProcessComponent.setAddToParent(Boolean.TRUE);
+		businessProcessComponent.setAddToParent(true);
 		businessProcessComponent.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 
 		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
@@ -503,7 +503,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		workflowSidComponent.setComponentId(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID);
 		workflowSidComponent.setComponentName(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID_NAME);
 		workflowSidComponent.setVisible(false);
-		workflowSidComponent.setAddToParent(Boolean.TRUE);
+		workflowSidComponent.setAddToParent(true);
 		workflowSidComponent.setParentComponentId(workflowSidComponentConfig.getComponentId());
 		componentList.add(workflowSidComponent);
 	}
@@ -516,7 +516,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		gtnLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		gtnLayout.setComponentId(GtnFrameworkWorkflowInboxClassConstants.BUTTONMAIN_LAYOUT);
 		gtnLayout.setParentComponentId(parentComponentId);
-		gtnLayout.setAddToParent(Boolean.TRUE);
+		gtnLayout.setAddToParent(true);
 		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		gtnLayout.setGtnLayoutConfig(layout);
 		componentList.add(gtnLayout);
@@ -532,7 +532,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		searchButtonComponentConfig.setComponentId(GtnFrameworkWorkflowInboxClassConstants.SEARCH_BTN);
 		searchButtonComponentConfig.setComponentName(GtnFrameworkWorkflowInboxClassConstants.SEARCH_NAME);
 		searchButtonComponentConfig.setParentComponentId(GtnFrameworkWorkflowInboxClassConstants.BUTTONMAIN_LAYOUT);
-		searchButtonComponentConfig.setAddToParent(Boolean.TRUE);
+		searchButtonComponentConfig.setAddToParent(true);
 		componentList.add(searchButtonComponentConfig);
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
@@ -668,7 +668,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 				GtnFrameworkWorkflowInboxClassConstants.RETURNDETAILSEARCHPANEL,
 				GtnFrameworkWorkflowInboxClassConstants.ARMDETAILSEARCHPANEL };
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(false);
+		visibleParameters.add(Boolean.FALSE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(visibleParameters);
 
@@ -727,7 +727,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameworkComponentConfig resultMainComponentConfig = new GtnUIFrameworkComponentConfig();
 		resultMainComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		resultMainComponentConfig.setComponentId(GtnFrameworkWorkflowInboxClassConstants.RESULTMAIN_LAYOUT);
-		resultMainComponentConfig.setAddToParent(Boolean.TRUE);
+		resultMainComponentConfig.setAddToParent(true);
 		resultMainComponentConfig.setParentComponentId(parentComponentId);
 		resultMainComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		resultMainComponentConfig.setGtnLayoutConfig(resultMainLayoutConfig);
@@ -740,7 +740,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		resultMainPanelConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		resultMainPanelConfig.setParentComponentId(resultMainComponentConfig.getComponentId());
 		resultMainPanelConfig.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		resultMainPanelConfig.setAddToParent(Boolean.TRUE);
+		resultMainPanelConfig.setAddToParent(true);
 		resultMainPanelConfig.setSpacing(true);
 		componentList.add(resultMainPanelConfig);
 
@@ -750,8 +750,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		resultMainPanelInnerComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		resultMainPanelInnerComponentConfig
 				.setComponentId(GtnFrameworkWorkflowInboxClassConstants.RESULTMAINPANEL_INNERLAYOUT);
-		resultMainPanelInnerComponentConfig.setAddToParent(Boolean.TRUE);
-		resultMainPanelInnerComponentConfig.setSpacing(Boolean.TRUE);
+		resultMainPanelInnerComponentConfig.setAddToParent(true);
+		resultMainPanelInnerComponentConfig.setSpacing(true);
 		resultMainPanelInnerComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		resultMainPanelInnerComponentConfig.setParentComponentId(resultMainPanelConfig.getComponentId());
 		resultMainPanelInnerComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -781,13 +781,13 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		searchResultConfig.setComponentStyle(tableStyle);
 
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
-		searchResults.setEditable(Boolean.FALSE);
-		searchResults.setFilterBar(Boolean.TRUE);
-		searchResults.setSelectable(Boolean.FALSE);
-		searchResults.setSinkItemPerPageWithPageLength(Boolean.FALSE);
+		searchResults.setEditable(false);
+		searchResults.setFilterBar(true);
+		searchResults.setSelectable(false);
+		searchResults.setSinkItemPerPageWithPageLength(true);
 		searchResults.setPageLength(10);
 		searchResults.setItemPerPage(10);
-		searchResults.setSelectable(Boolean.TRUE);
+		searchResults.setSelectable(true);
 
 		String pageParameters = null;
 		String projectionMasterSid = null;
@@ -846,7 +846,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		fetchActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		fetchActionConfig.addActionParameter(GtnFrameworkConfigureOpenButtonAction.class.getName());
 		fetchActionConfig.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE);
-		fetchActionConfig.addActionParameter(true);
+		fetchActionConfig.addActionParameter(Boolean.TRUE);
 		if (projectionMasterSid != null) {
 			fetchActionConfig.addActionParameter(projectionMasterSid);
 		}
@@ -873,7 +873,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		gtnLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		gtnLayout.setComponentId(GtnFrameworkWorkflowInboxClassConstants.BOTTOMBUTTONMAINLAYOUT);
 		gtnLayout.setParentComponentId(parentComponentId);
-		gtnLayout.setAddToParent(Boolean.TRUE);
+		gtnLayout.setAddToParent(true);
 		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		gtnLayout.setGtnLayoutConfig(layout);
 		componentList.add(gtnLayout);
@@ -891,7 +891,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		historyButtonComponentConfig.setComponentName(GtnFrameworkWorkflowInboxClassConstants.HISTORY);
 		historyButtonComponentConfig
 				.setParentComponentId(GtnFrameworkWorkflowInboxClassConstants.BOTTOMBUTTONMAINLAYOUT);
-		historyButtonComponentConfig.setAddToParent(Boolean.TRUE);
+		historyButtonComponentConfig.setAddToParent(true);
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
@@ -943,8 +943,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameworkComponentConfig openComponentConfig = new GtnUIFrameworkComponentConfig();
 		openComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		openComponentConfig.setComponentId(GtnFrameworkWorkflowInboxClassConstants.OPEN_LAYOUT);
-		openComponentConfig.setAddToParent(Boolean.TRUE);
-		openComponentConfig.setSpacing(Boolean.TRUE);
+		openComponentConfig.setAddToParent(true);
+		openComponentConfig.setSpacing(true);
 		openComponentConfig.setParentComponentId(GtnFrameworkWorkflowInboxClassConstants.BOTTOMBUTTONMAINLAYOUT);
 		openComponentConfig.setGtnLayoutConfig(openLayoutConfig);
 		componentList.add(openComponentConfig);
@@ -955,7 +955,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		openComponent.setComponentId(GtnFrameworkWorkflowInboxClassConstants.OPENBTN);
 		openComponent.setComponentName(GtnFrameworkWorkflowInboxClassConstants.OPEN);
 		openComponent.setEnable(false);
-		openComponent.setAddToParent(Boolean.TRUE);
+		openComponent.setAddToParent(true);
 		openComponent.setParentComponentId(openComponentConfig.getComponentId());
 		componentList.add(openComponent);
 
@@ -967,8 +967,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameworkComponentConfig viewComponentConfig = new GtnUIFrameworkComponentConfig();
 		viewComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		viewComponentConfig.setComponentId(GtnFrameworkWorkflowInboxClassConstants.VIEW_LAYOUT);
-		viewComponentConfig.setAddToParent(Boolean.TRUE);
-		viewComponentConfig.setSpacing(Boolean.TRUE);
+		viewComponentConfig.setAddToParent(true);
+		viewComponentConfig.setSpacing(true);
 		viewComponentConfig.setParentComponentId(GtnFrameworkWorkflowInboxClassConstants.BOTTOMBUTTONMAINLAYOUT);
 		viewComponentConfig.setGtnLayoutConfig(viewLayoutConfig);
 		componentList.add(viewComponentConfig);
@@ -979,7 +979,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		viewComponent.setComponentId(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN);
 		viewComponent.setComponentName(GtnFrameworkWorkflowInboxClassConstants.VIEW);
 		viewComponent.setEnable(false);
-		viewComponent.setAddToParent(Boolean.TRUE);
+		viewComponent.setAddToParent(true);
 		viewComponent.setParentComponentId(viewComponentConfig.getComponentId());
 		componentList.add(viewComponent);
 
@@ -1017,7 +1017,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		forecastingdetailSearchPanelComponentConfig.setParentComponentId(parentComponentId);
 		forecastingdetailSearchPanelComponentConfig.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		forecastingdetailSearchPanelComponentConfig.setAuthorizationIncluded(true);
-		forecastingdetailSearchPanelComponentConfig.setAddToParent(Boolean.TRUE);
+		forecastingdetailSearchPanelComponentConfig.setAddToParent(true);
 		forecastingdetailSearchPanelComponentConfig.setSpacing(true);
 		forecastingdetailSearchPanelComponentConfig.setVisible(false);
 		componentList.add(forecastingdetailSearchPanelComponentConfig);
@@ -1028,8 +1028,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		forecastingDetailSearchInnerComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		forecastingDetailSearchInnerComponentConfig
 				.setComponentId(GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL_INNERLAYOUT);
-		forecastingDetailSearchInnerComponentConfig.setAddToParent(Boolean.TRUE);
-		forecastingDetailSearchInnerComponentConfig.setSpacing(Boolean.TRUE);
+		forecastingDetailSearchInnerComponentConfig.setAddToParent(true);
+		forecastingDetailSearchInnerComponentConfig.setSpacing(true );
 		forecastingDetailSearchInnerComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		forecastingDetailSearchInnerComponentConfig
 				.setParentComponentId(forecastingdetailSearchPanelComponentConfig.getComponentId());
@@ -1331,7 +1331,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		returnsdetailSearchPanelComponentConfig.setParentComponentId(parentComponentId);
 		returnsdetailSearchPanelComponentConfig.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		returnsdetailSearchPanelComponentConfig.setAuthorizationIncluded(true);
-		returnsdetailSearchPanelComponentConfig.setAddToParent(Boolean.TRUE);
+		returnsdetailSearchPanelComponentConfig.setAddToParent(true);
 		returnsdetailSearchPanelComponentConfig.setSpacing(true);
 		returnsdetailSearchPanelComponentConfig.setVisible(false);
 		componentList.add(returnsdetailSearchPanelComponentConfig);
@@ -1342,8 +1342,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		returnsDetailSearchInnerComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		returnsDetailSearchInnerComponentConfig
 				.setComponentId(GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL_INNERLAYOUT);
-		returnsDetailSearchInnerComponentConfig.setAddToParent(Boolean.TRUE);
-		returnsDetailSearchInnerComponentConfig.setSpacing(Boolean.TRUE);
+		returnsDetailSearchInnerComponentConfig.setAddToParent(true);
+		returnsDetailSearchInnerComponentConfig.setSpacing(true);
 		returnsDetailSearchInnerComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		returnsDetailSearchInnerComponentConfig
 				.setParentComponentId(returnsdetailSearchPanelComponentConfig.getComponentId());
@@ -1465,7 +1465,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		armdetailSearchPanelComponentConfig.setParentComponentId(parentComponentId);
 		armdetailSearchPanelComponentConfig.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		armdetailSearchPanelComponentConfig.setAuthorizationIncluded(true);
-		armdetailSearchPanelComponentConfig.setAddToParent(Boolean.TRUE);
+		armdetailSearchPanelComponentConfig.setAddToParent(true);
 		armdetailSearchPanelComponentConfig.setSpacing(true);
 		armdetailSearchPanelComponentConfig.setVisible(false);
 		componentList.add(armdetailSearchPanelComponentConfig);
@@ -1476,8 +1476,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		armDetailSearchInnerComponentConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		armDetailSearchInnerComponentConfig
 				.setComponentId(GtnFrameworkWorkflowInboxClassConstants.ARMDETAILSEARCHPANEL_INNERLAYOUT);
-		armDetailSearchInnerComponentConfig.setAddToParent(Boolean.TRUE);
-		armDetailSearchInnerComponentConfig.setSpacing(Boolean.TRUE);
+		armDetailSearchInnerComponentConfig.setAddToParent(true);
+		armDetailSearchInnerComponentConfig.setSpacing(true);
 		armDetailSearchInnerComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		armDetailSearchInnerComponentConfig.setParentComponentId(armdetailSearchPanelComponentConfig.getComponentId());
 		armDetailSearchInnerComponentConfig.setGtnLayoutConfig(armDetailSearchInnerLayoutConfig);

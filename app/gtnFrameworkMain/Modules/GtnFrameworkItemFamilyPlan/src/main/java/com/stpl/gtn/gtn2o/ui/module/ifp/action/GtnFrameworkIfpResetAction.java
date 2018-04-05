@@ -136,7 +136,7 @@ public class GtnFrameworkIfpResetAction
 					GtnUIFrameworkPagedTableLogic ifpCaTabRightTablelogic = GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE)
 							.getLogicFromPagedDataTable();
-					ifpCaTabRightTablelogic.startSearchProcess(null, Boolean.TRUE);
+					ifpCaTabRightTablelogic.startSearchProcess(null, true);
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemAdditionSearchField", componentId)
 							.loadComboBoxComponentValue(null);
 
@@ -151,7 +151,7 @@ public class GtnFrameworkIfpResetAction
 					GtnUIFrameworkPagedTableLogic ifpItemsTabTablelogic = GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
 							.getLogicFromPagedDataTable();
-					ifpItemsTabTablelogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+					ifpItemsTabTablelogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpMassCheck")
 							.setPropertyValue(GtnFrameworkCommonStringConstants.DISABLE);
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemsTabMassDateFeild", componentId)

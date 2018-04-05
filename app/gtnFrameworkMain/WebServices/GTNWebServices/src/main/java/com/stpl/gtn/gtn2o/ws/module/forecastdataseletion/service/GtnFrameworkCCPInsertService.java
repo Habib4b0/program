@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.forecasting.querygenerator.service.GtnFrameworkCCPInsertQueryGenerator;
+import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
@@ -32,11 +30,9 @@ public class GtnFrameworkCCPInsertService {
 	private GtnWsSqlService gtnWsSqlService;
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-	@Autowired
-	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
 	@Autowired
-	private ApplicationContext applicationContext;
+	private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsForecastConfigurationController.class);
 
@@ -104,24 +100,21 @@ public class GtnFrameworkCCPInsertService {
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			List<GtnFrameworkRelationshipLevelDefintionBean> selectedRelationLevelList, boolean isProduct) {
 
-
 		int relationSid = selectedRelationLevelList.get(0).getRelationshipBuilderSid();
 		int relationVersionNo = selectedRelationLevelList.get(0).getRelationshipVersionNo();
 		List<Object> input = new ArrayList<>();
-		StringBuilder finalQuery = getParentHierarchyNo(hierarchyLevelDefinitionList,
-				hierarchyLevelDefinitionList.get(hierarchyLevelDefinitionList.size() - 1));
 
 		HierarchyLevelDefinitionBean lastLevelDto = HierarchyLevelDefinitionBean
 				.getLastLinkedLevel(hierarchyLevelDefinitionList);
-		input.add(finalQuery);
 		input.add(relationVersionNo);
 		input.add(lastLevelDto.getLevelNo());
 		input.add(relationSid);
-		String beanName = isProduct ? "ProductQueryGenerator" : "CustomerQueryGenerator";
-		GtnFrameworkCCPInsertQueryGenerator queryGeneratorService = (GtnFrameworkCCPInsertQueryGenerator) applicationContext
-				.getBean(beanName);
-		StringBuilder query = queryGeneratorService.getCCPInsertQuery(selectedRelationLevelList,
-				hierarchyLevelDefinitionList, relationVersionNo);
+
+		String beanName = isProduct ? "CCP_INSERT_PRODUCT" : "CCP_INSERT_CUSTOMER";
+		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
+				beanName, hierarchyLevelDefinitionList);
+		queryGeneratorService.getWhereQueryForCustomerAndContract(selectedRelationLevelList, queryBean);
+		StringBuilder query = new StringBuilder(queryBean.generateQuery());
 		if (!isProduct) {
 			List<Object> input1 = new ArrayList<>();
 			input1.add(inputBean.getProjectionId());
@@ -131,6 +124,7 @@ public class GtnFrameworkCCPInsertService {
 		return gtnWsSqlService.getReplacedQuery(input, query.toString());
 	}
 
+
 	public static String replaceTableNames(String query, final Map<String, String> tableNameMap) {
 		String tempQuery = query;
 		for (Map.Entry<String, String> key : tableNameMap.entrySet()) {
@@ -139,28 +133,6 @@ public class GtnFrameworkCCPInsertService {
 		return tempQuery;
 	}
 
-	public StringBuilder getParentHierarchyNo(List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList,
-			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
-		StringBuilder query = new StringBuilder();
-		StringBuilder finalQuery = new StringBuilder();
-		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
-			HierarchyLevelDefinitionBean leveldto = customerHierarchyLevelDefinitionList.get(i);
-			if (leveldto.getTableName().isEmpty()) {
-				query.append(",'%'");
-				query.append(",'.'");
-				continue;
-			}
-			query.append(',');
-			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName()).append('.')
-					.append(singleColumnRelationBean.getWhereClauseColumn());
-			query.append(",'.'");
-		}
-		finalQuery.append("concat( RELATIONSHIP_BUILDER_SID,'-'");
-		finalQuery.append(query);
-		finalQuery.append(')');
-		return finalQuery;
-	}
+
 
 }

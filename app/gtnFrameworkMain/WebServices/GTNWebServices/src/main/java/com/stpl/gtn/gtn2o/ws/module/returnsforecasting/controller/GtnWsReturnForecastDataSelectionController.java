@@ -88,7 +88,7 @@ public class GtnWsReturnForecastDataSelectionController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnWsSqlService.getQuery(getPublicLookUpInput(returnsPublicViewRequest), queryName));
 
 			if (returnsPublicViewRequest.getGtnWsSearchRequest().isCount()) {
-				returnsPublicViewSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				returnsPublicViewSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable returnsPublicViewDataTable = new GtnUIFrameworkDataTable();
 				returnsPublicViewDataTable.addData(result);
@@ -160,7 +160,7 @@ public class GtnWsReturnForecastDataSelectionController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnWsSqlService.getQuery(getPrivateLookUpInput(privateViewSearchRequest), queryName));
 
 			if (privateViewSearchRequest.getGtnWsSearchRequest().isCount()) {
-				privateViewSearchResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				privateViewSearchResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable privateViewSearchDataTable = new GtnUIFrameworkDataTable();
 				privateViewSearchDataTable.addData(result);
@@ -205,7 +205,7 @@ public class GtnWsReturnForecastDataSelectionController {
 					: "getDataProductHierarchy";
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnWsSqlService.getQuery(getLookUpInput(productHierarchyRequest), queryName));
 			if (productHierarchyRequest.getGtnWsSearchRequest().isCount()) {
-				productHierarchySerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				productHierarchySerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable productHierarchyDataTable = new GtnUIFrameworkDataTable();
 				productHierarchyDataTable.addData(result);
@@ -243,10 +243,10 @@ public class GtnWsReturnForecastDataSelectionController {
 
 				switch (searchCriteria.getFieldId()) {
 				case "hierarchyType":
-					hierarchyLookupType = searchCriteria.getFilterValue1().replace("*", "%");
+					hierarchyLookupType = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "hierarchyName":
-					hierarchyLookupName = searchCriteria.getFilterValue1().replace("*", "%");
+					hierarchyLookupName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "hierName":
 					hierarchyLookupNameListVie = "AND c.HIERARCHY_NAME like '%" + searchCriteria.getFilterValue1()
@@ -340,7 +340,7 @@ public class GtnWsReturnForecastDataSelectionController {
 					.executeQuery(gtnWsSqlService.getQuery(getProductGroupLookUpInput(returnProductGroupRequest), queryName));
 			if (returnProductGroupRequest.getGtnWsSearchRequest().isCount()) {
 				returnProductGroupSerachResponse
-						.setCount(Integer.valueOf(String.valueOf(returnProductGroupResult.get(0))));
+						.setCount(Integer.parseInt(String.valueOf(returnProductGroupResult.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(returnProductGroupResult);
@@ -372,10 +372,10 @@ public class GtnWsReturnForecastDataSelectionController {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "productGroupName":
-					returnsProductGroupName = searchCriteria.getFilterValue1().replace("*", "%");
+					returnsProductGroupName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "productGroupNo":
-					returnsProductGroupNo = searchCriteria.getFilterValue1().replace("*", "%");
+					returnsProductGroupNo = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "productGroupNameFilterView":
 					returnsProductGroupNameFilterView = "AND (IG.ITEM_GROUP_NAME LIKE '%"
@@ -526,7 +526,7 @@ public class GtnWsReturnForecastDataSelectionController {
 				returnPublicPrivateForecastViewBean.setProductGroup(String.valueOf(obj[9]));
 				returnPublicPrivateForecastViewBean.setProductInnerLevel((short) obj[10]);
 				returnPublicPrivateForecastViewBean.setViewName(String.valueOf(obj[11]));
-				returnPublicPrivateForecastViewBean.setViewCreatedBy(Integer.valueOf(String.valueOf(obj[12])));
+				returnPublicPrivateForecastViewBean.setViewCreatedBy(Integer.parseInt(String.valueOf(obj[12])));
 				returnPublicPrivateForecastViewBean.setProjectionMasterSid(String.valueOf(obj[13]));
 			}
 		}
@@ -618,9 +618,9 @@ public class GtnWsReturnForecastDataSelectionController {
 				: expressionString;
 		switch (searchCriteria.getFieldId()) {
 		case "privateViewName":
-			return searchCriteria.getFilterValue1().replace("*", "%");
+			return searchCriteria.getFilterValue1().replace('*', '%');
 		case "viewName":
-			return searchCriteria.getFilterValue1().replace("*", "%").trim();
+			return searchCriteria.getFilterValue1().replace('*', '%').trim();
 		case GtnFrameworkWebserviceConstant.VIEW_NAME_FILTER:
 			return "AND FVM.VIEW_NAME like '%" + searchCriteria.getFilterValue1() + "%'";
 		case GtnFrameworkWebserviceConstant.VIEW_DESCRIPTION_FILTER:

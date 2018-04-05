@@ -148,6 +148,7 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String RETURNS = "Returns";
 
 	public static final String STR_SLASH = "/";
+	public static final char STR_SLASH_CHAR = '/';
 	public static final String SERIALISED_FILE_PATH = STR_SLASH + "gtndata" + STR_SLASH;
 	public static final String ARM = "ARM";
 	public static final String PATH = "..";

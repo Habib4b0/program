@@ -40,7 +40,7 @@ public class ForecastingViewMasterImpl {
                     && StringUtils.isNotBlank(forecastType)) {
                 customSql += " AND PM.forecasting_Type = '" + forecastType + "' ";
             }
-            if (viewType.equalsIgnoreCase("private")) {
+            if (("private").equalsIgnoreCase(viewType)) {
                 if (StringUtils.isNotEmpty(userId)
                         && StringUtils.isNotBlank(userId)) {
                     customSql += "AND FVM.created_By = " + userId;

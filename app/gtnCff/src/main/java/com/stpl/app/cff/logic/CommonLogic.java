@@ -673,7 +673,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 LOGGER.error(e.getMessage());
             }
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -719,9 +721,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
                 statement.executeUpdate();
-
-                
-
             }
         } catch (SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());
@@ -734,7 +733,9 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 LOGGER.error(e.getMessage());
             }
             try {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 LOGGER.error(e.getMessage());
             }
@@ -893,14 +894,14 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
     public static String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-        String user = StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " \n";
-        return user;
+		return StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table
+				+ ".SESSION_ID=" + sessionId + " \n";
     }
 
-    public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String CCP) {
-        String ccpWhereCond = StringConstantsUtil.SMALL_AND + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP + ".RELATIONSHIP_LEVEL_SID \n"
-                + StringConstantsUtil.SMALL_AND + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
-        return ccpWhereCond;
+    public static String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
+		return StringConstantsUtil.SMALL_AND + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
+				+ ".RELATIONSHIP_LEVEL_SID \n"
+                + StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID \n";
     }
 
     public static String getPeriodRestrictionQuery(ProjectionSelectionDTO projSelDTO) {
@@ -1321,7 +1322,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
 
     public static int getIndicatorCount(int viewName) {
-        List<CustomViewDetails> list = null;
+        List<CustomViewDetails> list = new ArrayList<>();
         DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, viewName));
         try {
@@ -2716,6 +2717,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         
     }
      
+	@SuppressWarnings("unchecked")
 	public static List<Object[]> getCustomerLevelValues(int projectionId, String levelNo, PVSelectionDTO projDto) {
         List<Object[]> stockList = new ArrayList<>();
         List tableFieldNameList = new ArrayList<>();
@@ -2739,18 +2741,31 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             query = projDto.getProductLevelFilter().isEmpty() ? query : 
                     (SQlUtil.getQuery("product-dynamic-filter").replace(StringConstantsUtil.LEVELVALUES, projDto.getProductLevelFilter().toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
                             .replace(StringConstantsUtil.RELATION_VER, String.valueOf(projDto.getSessionDTO().getProductRelationVersion()))
-                            .replace(StringConstantsUtil.RELBUILDSID, projDto.getSessionDTO().getProdRelationshipBuilderSid()) + query + " JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
+								.replace(StringConstantsUtil.RELBUILDSID,
+										projDto.getSessionDTO().getProdRelationshipBuilderSid())
+								+ query);
             
             query = projDto.getDeductionLevelFilter().isEmpty() ? query : 
                     (SQlUtil.getQuery(StringConstantsUtil.DEDUCTION_FILTER_QUERY).replace(StringConstantsUtil.DEDLEVELVALUES, projDto.getDeductionLevelFilter().toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
                             .replace(StringConstantsUtil.RELATION_VER, String.valueOf(projDto.getSessionDTO().getDeductionRelationVersion()))
-                            .replace(StringConstantsUtil.DEDRELBUILDSID, projDto.getSessionDTO().getDedRelationshipBuilderSid()) + query +" JOIN ST_CCP_DEDUCTION_HIERARCHY SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID "
-                    +" JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
-          
+								.replace(StringConstantsUtil.DEDRELBUILDSID,
+										projDto.getSessionDTO().getDedRelationshipBuilderSid())
+								+ query);
+				StringBuilder sb = new StringBuilder(query);
+				String whereString = StringConstantsUtil.WHERE_CAPS;
+				if (!projDto.getProductLevelFilter().isEmpty()) {
+					sb.insert(query.lastIndexOf(whereString),
+							" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
+				}
+
+				if (!projDto.getDeductionLevelFilter().isEmpty()) {
+					sb.insert(query.lastIndexOf(whereString),
+							" JOIN ST_CCP_DEDUCTION_HIERARCHY SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
+				}
             
-            stockList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query,projDto.getSessionDTO().getCurrentTableNames()));
+				stockList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(
+						QueryUtil.replaceTableNames(sb.toString(), projDto.getSessionDTO().getCurrentTableNames()));
             }
-            return stockList;
 
 
         } catch (SystemException | PortalException ex) {
@@ -2787,11 +2802,13 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
 			String hieIndicator) {
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setLevelNo(Integer.parseInt(levelNo));
-		inputBean.setProjectionId(projDto.getProjectionId());
+		inputBean.setProjectionId(projDto.getSessionDTO().getProjectionId());
 		inputBean.setHierarchyIndicator(hieIndicator);
+		inputBean.setCff(true);
 		return inputBean;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<Object[]> getProductLevelValues(int projectionId, String type, PVSelectionDTO projectionDto) {
         List stockList = new ArrayList<>();
         try {
@@ -2807,16 +2824,30 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             query = projectionDto.getCustomerLevelFilter().isEmpty() ? query : 
                     (SQlUtil.getQuery("customer-dynamic-filter").replace(StringConstantsUtil.LEVELVALUES, projectionDto.getCustomerLevelFilter().toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
                             .replace(StringConstantsUtil.RELATION_VER, String.valueOf(projectionDto.getSessionDTO().getCustomerRelationVersion()))
-                            .replace(StringConstantsUtil.RELBUILDSID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid()) + query +" JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
+							.replace(StringConstantsUtil.RELBUILDSID,
+									projectionDto.getSessionDTO().getCustRelationshipBuilderSid())
+							+ query);
            
             query = projectionDto.getDeductionLevelFilter().isEmpty() ? query : 
                     (SQlUtil.getQuery(StringConstantsUtil.DEDUCTION_FILTER_QUERY).replace(StringConstantsUtil.DEDLEVELVALUES, projectionDto.getDeductionLevelFilter().toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
                             .replace(StringConstantsUtil.RELATION_VER, String.valueOf(projectionDto.getSessionDTO().getDeductionRelationVersion()))
-                            .replace(StringConstantsUtil.DEDRELBUILDSID, projectionDto.getSessionDTO().getDedRelationshipBuilderSid()) + query +" JOIN ST_CCP_DEDUCTION_HIERARCHY SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID "
-                    +" JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
+							.replace(StringConstantsUtil.DEDRELBUILDSID,
+									projectionDto.getSessionDTO().getDedRelationshipBuilderSid())
+							+ query);
             
-            stockList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query,projectionDto.getSessionDTO().getCurrentTableNames()));
-            return stockList;
+			StringBuilder sb = new StringBuilder(query);
+			if (!projectionDto.getCustomerLevelFilter().isEmpty()) {
+				sb.insert(query.lastIndexOf(StringConstantsUtil.WHERE_CAPS),
+						" JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
+			}
+
+			if (!projectionDto.getDeductionLevelFilter().isEmpty()) {
+				sb.insert(query.lastIndexOf(StringConstantsUtil.WHERE_CAPS),
+						" JOIN ST_CCP_DEDUCTION_HIERARCHY SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
+			}
+
+			stockList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(
+					QueryUtil.replaceTableNames(sb.toString(), projectionDto.getSessionDTO().getCurrentTableNames()));
 
         } catch (SystemException | PortalException ex) {
             LOGGER.error(ex.getMessage());
@@ -2824,10 +2855,11 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return stockList;
     }
     
-    public static List<Object[]> getDeductionLevelValues(String type, PVSelectionDTO projectionDto) {
+	@SuppressWarnings({ "unchecked" })
+	public static List<Object[]> getDeductionLevelValues(String type, PVSelectionDTO projectionDto) {
         List deductionValuesList = new ArrayList<>();
         StringBuilder query=new StringBuilder();
-        String selectClause=" HT.DESCRIPTION,HT.HELPER_TABLE_SID ";
+		String selectClause = "  HT.DESCRIPTION,HT.HELPER_TABLE_SID";
         String joinClause=StringUtils.EMPTY;
         String udcJoinClause=" JOIN UDCS  UDC ON UDC.MASTER_SID=RS.RS_CONTRACT_SID AND UDC.MASTER_TYPE='RS_CONTRACT' ";
         try {
@@ -2881,6 +2913,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 String oldCustomerQuery=query.toString();
                 query=new StringBuilder();
                 oldCustomerQuery = SQlUtil.getQuery("product-dynamic-filter") + oldCustomerQuery + " JOIN #HIER_PRODUCT HP ON CCP.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ";
+                oldCustomerQuery = oldCustomerQuery.replace(StringConstantsUtil.RELATION_VER,
+						String.valueOf(projectionDto.getSessionDTO().getProductRelationVersion()));
                 oldCustomerQuery= oldCustomerQuery.replace(StringConstantsUtil.LEVELVALUES,projectionDto.getProductLevelFilter().toString().replace("[", "").replace("]", "")).replace(StringConstantsUtil.RELBUILDSID, projectionDto.getSessionDTO().getProdRelationshipBuilderSid());
                 query.append(oldCustomerQuery);
             }
@@ -2888,9 +2922,12 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 String oldProductQuery=query.toString();
                 query=new StringBuilder();
                 oldProductQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProductQuery+" JOIN #HIER_CUST HC ON CCP.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
+				oldProductQuery = oldProductQuery.replace(StringConstantsUtil.RELATION_VER,
+						String.valueOf(projectionDto.getSessionDTO().getCustomerRelationVersion()));
                 oldProductQuery= oldProductQuery.replace(StringConstantsUtil.LEVELVALUES,projectionDto.getCustomerLevelFilter().toString().replace("[", "").replace("]", "")).replace(StringConstantsUtil.RELBUILDSID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid());
                 query.append(oldProductQuery);
             }
+
             query.append(" GROUP BY ").append(selectClause);
             
             deductionValuesList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));

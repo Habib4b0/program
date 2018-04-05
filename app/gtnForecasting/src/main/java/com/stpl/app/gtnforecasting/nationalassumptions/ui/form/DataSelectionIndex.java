@@ -1087,23 +1087,25 @@ public class DataSelectionIndex extends CustomComponent implements View {
     /**
      * After click on item, results will display
      *
-     * @param id
+     * @param obj
      */
-    protected void resultsItemClick(Object id) {
-        if (id != null) {
+    protected void resultsItemClick(Object obj) {
+        if (obj != null) {
             deleteBtn.setEnabled(true);
             BeanItem<?> targetItem = null;
-            if (id instanceof BeanItem<?>) {
-                targetItem = (BeanItem<?>) id;
-            } else if (id instanceof DataSelectionDTO) {
+            if (obj instanceof BeanItem<?>) {
+                targetItem = (BeanItem<?>) obj;
+            } else if (obj instanceof DataSelectionDTO) {
                 targetItem = new BeanItem<>(
-                        (DataSelectionDTO) id);
+                        (DataSelectionDTO) obj);
             }
-            int projectionSysId = ((DataSelectionDTO) targetItem.getBean()).getProjectionId();
-             String projectionName = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
-            modifiedDate = ((DataSelectionDTO) targetItem.getBean()).getModifiedDate();
-            projectionId.setValue(String.valueOf(projectionSysId));
-            sessionDTO.setProjectionName(projectionName);
+            if (targetItem != null) {
+                int projectionSysId = ((DataSelectionDTO) targetItem.getBean()).getProjectionId();
+                String projectionName = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
+                modifiedDate = ((DataSelectionDTO) targetItem.getBean()).getModifiedDate();
+                projectionId.setValue(String.valueOf(projectionSysId));
+                sessionDTO.setProjectionName(projectionName);
+            }
         } else {
             projectionId.setValue(null);
             sessionDTO.setProjectionName(StringUtils.EMPTY);
@@ -1131,7 +1133,11 @@ public class DataSelectionIndex extends CustomComponent implements View {
             targetItem = new BeanItem<>(
                     (DataSelectionDTO) id);
         }
-        return (DataSelectionDTO) targetItem.getBean();
+        if (targetItem != null){
+            return (DataSelectionDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void moveToSelected(Object item) {

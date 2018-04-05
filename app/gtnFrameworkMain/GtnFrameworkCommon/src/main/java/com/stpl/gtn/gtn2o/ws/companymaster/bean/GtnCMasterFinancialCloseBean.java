@@ -37,7 +37,7 @@ public class GtnCMasterFinancialCloseBean implements Serializable, Comparator<Gt
 	private String minuteValue = "";
 	private Integer userId = 0;
 	private Integer sessionId = 0;
-	private boolean automatic = Boolean.FALSE;
+	private boolean automatic = false;
 	private Date createdDate;
 	private Date dateTime;
 	private Integer calenderDdlb;

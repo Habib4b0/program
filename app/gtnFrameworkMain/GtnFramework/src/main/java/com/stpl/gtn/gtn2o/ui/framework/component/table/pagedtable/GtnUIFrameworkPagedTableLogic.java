@@ -425,12 +425,12 @@ public class GtnUIFrameworkPagedTableLogic extends PageTableLogic {
 	@Override
 	protected void createCurrentPageStart() {
 		resetValues();
-		setRefresh(Boolean.FALSE);
+		setRefresh(false);
 	}
 
 	@Override
 	protected void createCurrentPageEnd() {
-		setRefresh(Boolean.TRUE);
+		setRefresh(true);
 	}
 
 	public String loadDataForExcel(int start, int offset, List<String> headers, List<String> tableColumnFormatList) {

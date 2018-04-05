@@ -70,7 +70,7 @@ public class ProjNameConfigLogic {
          final int userId = Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
          
             final String[] names=finalTemplateName.split("~",NumericConstants.TWO);          
-            ProjectionNameConfig config = null;
+            ProjectionNameConfig config = ProjectionNameConfigLocalServiceUtil.createProjectionNameConfig(0);
             config.setBusinessProcessType(names[0]);
             config.setSelectedAttributes(names[1]);
             config.setVersionNo(1);

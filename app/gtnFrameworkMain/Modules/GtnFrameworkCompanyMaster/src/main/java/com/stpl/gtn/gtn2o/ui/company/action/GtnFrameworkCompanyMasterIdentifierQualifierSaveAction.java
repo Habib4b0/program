@@ -68,7 +68,7 @@ public class GtnFrameworkCompanyMasterIdentifierQualifierSaveAction
 		qualifierBean.setCompanyQualifierName(qualifierName);
 		qualifierBean.setEffectiveDates(editListEffectiveDates);
 		qualifierBean.setNotes(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTextArea").getStringFromField());
-		qualifierBean.setUserId(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
+		qualifierBean.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnCMasterRequest cmRequest = new GtnCMasterRequest();
 		cmRequest.setGtnCMasterQualifierBean(qualifierBean);
