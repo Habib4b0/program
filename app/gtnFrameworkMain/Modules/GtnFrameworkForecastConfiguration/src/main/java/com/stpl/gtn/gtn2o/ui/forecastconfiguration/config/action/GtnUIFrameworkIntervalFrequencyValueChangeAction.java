@@ -17,7 +17,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecastconfiguration.GtnWsForecastConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-public class GtnUIFrameworkIntervalFrequencyValueChangeAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnUIFrameworkIntervalFrequencyValueChangeAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger
 			.getGTNLogger(GtnUIFrameworkIntervalFrequencyValueChangeAction.class);
@@ -50,6 +51,8 @@ public class GtnUIFrameworkIntervalFrequencyValueChangeAction implements GtnUIFr
 						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
 								+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE,
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				String year = response.getGtnWsForecastConfigurationResponse().getForecastPeriod();
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString()).setPropertyValue(year);
 				if (response.getGtnWsForecastConfigurationResponse().isErrorMessage()) {
 					GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.INFO_ACTION,
 							GtnFrameworkCommonStringConstants.ERROR,
