@@ -217,26 +217,28 @@ public class GtnWsForecastConfigurationUtil {
 
 	private static List<Integer> getCalculatedForecastPeriod(int futtempFreq, int frequencyDivision, int futureFreq,
 			int futureYear) {
+            int newFutureYear = futureYear;
+            int newfutureFreq = futureFreq;
 		if ((futtempFreq > frequencyDivision) && frequencyDivision != 2) {// monthly
-			futureYear = futureYear + (futtempFreq / frequencyDivision);
-			futureFreq = 1;
+			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision);
+			newfutureFreq = 1;
 			if (futtempFreq % frequencyDivision > 0) {
-				futureFreq = (futtempFreq % frequencyDivision) - 1;
+				newfutureFreq = (futtempFreq % frequencyDivision) - 1;
 			} else if ((futtempFreq % frequencyDivision == 0) && frequencyDivision == 4) {// quarter
-				futureFreq = 3;
-				futureYear = futureYear - 1;
+				newfutureFreq = 3;
+				newFutureYear = newFutureYear - 1;
 			}
 		} else if (futtempFreq > frequencyDivision) {// semi-annual
-			futureYear = futureYear + (futtempFreq / frequencyDivision) - 1;
-			futureFreq = 1;
+			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision) - 1;
+			newfutureFreq = 1;
 			if (futtempFreq % frequencyDivision > 0) {
-				futureFreq = (futtempFreq % frequencyDivision) + 1;
+				newfutureFreq = (futtempFreq % frequencyDivision) + 1;
 			}
 		}
 		List<Integer> list = new ArrayList<>();
 		list.add(frequencyDivision);
-		list.add(futureFreq);
-		list.add(futureYear);
+		list.add(newfutureFreq);
+		list.add(newFutureYear);
 		return list;
 	}
 

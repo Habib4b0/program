@@ -255,7 +255,6 @@ public class GtnWsForecastConfigurationController {
 					Integer valueToCheck = frequencyIntervalMap.get(table.getDescription());
 					LOGGER.info("interval===============>>" + interval);
 					LOGGER.info("valueToCheck===============>>>" + valueToCheck);
-					// if (interval <= valueToCheck) {
 					if (table.getDescription().equals(GtnWsForecastConfigurationConstants.MONTHLY)) {
 						final Calendar monthlyDate = Calendar.getInstance();
 						monthlyDate.setTime(new Date());
@@ -466,9 +465,6 @@ public class GtnWsForecastConfigurationController {
 		gtsCal.set(Calendar.SECOND, gtsCal.getActualMaximum(Calendar.SECOND));
 		gtsCal.set(Calendar.MINUTE, gtsCal.getActualMaximum(Calendar.MINUTE));
 		gtsCal.set(Calendar.HOUR, gtsCal.getActualMaximum(Calendar.HOUR));
-		LOGGER.info("\n gtsCal===MONTH==>" + gtsCal.MONTH);
-		LOGGER.info("\nYEAR=========>" + gtsCal.YEAR);
-		LOGGER.info("\n gtscal====>" + gtsCal);
 		return gtsCal;
 	}
 
@@ -812,15 +808,15 @@ public class GtnWsForecastConfigurationController {
 	}
 
 	public static String getQuarterForMonth(int num) {
-		num = num + 1;
+		int newNum = num + 1;
 		int quarter = 1;
-		if (num <= 3) {
+		if (newNum <= 3) {
 			quarter = 1;
-		} else if (num > 3 && num <= 6) {
+		} else if (newNum > 3 && newNum <= 6) {
 			quarter = 2;
-		} else if (num > 6 && num <= 9) {
+		} else if (newNum > 6 && newNum <= 9) {
 			quarter = 3;
-		} else if (num > 9 && num <= 12) {
+		} else if (newNum > 9 && newNum <= 12) {
 			quarter = 4;
 		}
 		return String.valueOf(quarter);
@@ -828,11 +824,11 @@ public class GtnWsForecastConfigurationController {
 	}
 
 	public static String getSemmiAnnualForMonth(int num) {
-		num = num + 1;
+		int newNum = num + 1;
 		int semmiAnnual = 1;
-		if (num <= 6) {
+		if (newNum <= 6) {
 			semmiAnnual = 1;
-		} else if (num > 6 && num <= 12) {
+		} else if (newNum > 6 && newNum <= 12) {
 			semmiAnnual = 2;
 		}
 		return String.valueOf(semmiAnnual);
@@ -842,12 +838,12 @@ public class GtnWsForecastConfigurationController {
 	private static String compareLowestPeriod(String s1, String s2) {
 		String[] arrays1 = s1.split(" ");
 		String[] arrays2 = s2.split(" ");
-		if (Integer.valueOf(arrays1[1]) < Integer.valueOf(arrays2[1])) {
+		if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {
 			return s1;
 		}
 		String[] splittedArrayS1 = arrays1[0].split("");
 		String[] splittedArrayS2 = arrays2[0].split("");
-		if (Integer.valueOf(splittedArrayS1[2]) < Integer.valueOf(splittedArrayS2[2])) {
+		if (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2])) {
 			return s1;
 		}
 		return s2;
@@ -860,7 +856,7 @@ public class GtnWsForecastConfigurationController {
 		for (int i = 0; i < arrays1.length; i++) {
 			LOGGER.info("arrays1===========================" + arrays1[i]);
 		}
-		if ((frequencyDivision == 1) && (Integer.valueOf(arrays1[0]) < Integer.valueOf(arrays2[0]))) {
+		if ((frequencyDivision == 1) && (Integer.parseInt(arrays1[0]) < Integer.parseInt(arrays2[0]))) {
 			return s1;
 		}
 		return s2;
@@ -872,7 +868,7 @@ public class GtnWsForecastConfigurationController {
 			String[] arrays1 = s1.split(" ");
 			String[] arrays2 = s2.split(" ");
 			LOGGER.info("frequencyDivision===========================" + frequencyDivision);
-			if ((frequencyDivision == 12) && (Integer.valueOf(arrays1[1]) < Integer.valueOf(arrays2[1]))) {
+			if ((frequencyDivision == 12) && (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1]))) {
 				LOGGER.info("***********arrays1[1])***************" + Integer.valueOf(arrays1[1]));
 				return s1;
 			}
@@ -884,7 +880,7 @@ public class GtnWsForecastConfigurationController {
 			Calendar cal2 = Calendar.getInstance();
 			cal2.setTime(date2);
 			LOGGER.info("cal.get(Calendar.MONTH)=====2nd======" + cal2.get(Calendar.MONTH));
-			if ((Integer.valueOf(arrays1[1]) == Integer.valueOf(arrays2[1]))
+			if (arrays1[1].equals(arrays2[1])
 					&& (cal1.get(Calendar.MONTH) < cal2.get(Calendar.MONTH))) {
 				return s1;
 			}
