@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.asi.calendarfield.client.CalendarFieldState;
 import org.asi.calendarfield.client.CalenderFieldUtil;
 import org.asi.calendarfield.client.CalenderFieldUtil.CalendarDate;
 
@@ -48,8 +49,7 @@ import com.vaadin.ui.LegacyComponent;
 public class CalendarField extends AbstractField<List>
 		implements FieldEvents.BlurNotifier, FieldEvents.FocusNotifier, LegacyComponent {
 
-	private Date rangeStart;
-	private Date rangeEnd;
+	
 
 	public CalendarField() {
 		setValue(new ArrayList());
@@ -379,20 +379,20 @@ public class CalendarField extends AbstractField<List>
 
 	}
 
-	// @Override
-	// protected boolean shouldHideErrors() {
-	// return super.shouldHideErrors();
-	// }
-	//
-	// @Override
-	// protected CalendarFieldState getState() {
-	// return (CalendarFieldState) super.getState();
-	// }
-	//
-	// @Override
-	// protected CalendarFieldState getState(boolean markAsDirty) {
-	// return (CalendarFieldState) super.getState(markAsDirty);
-	// }
+//	 @Override
+//	 protected boolean shouldHideErrors() {
+//	 return super.shouldHideErrors();
+//	 }
+//	
+	 @Override
+	 protected CalendarFieldState getState() {
+	 return (CalendarFieldState) super.getState();
+	 }
+	
+	 @Override
+	 protected CalendarFieldState getState(boolean markAsDirty) {
+	 return (CalendarFieldState) super.getState(markAsDirty);
+	 }
 
 	/**
 	 * Sets the start range for this component. If the value is set before this
@@ -403,12 +403,14 @@ public class CalendarField extends AbstractField<List>
 	 * @param startDate
 	 *            - the allowed range's start date
 	 */
-	public void setRangeStart(Date startDate) {
-		if (startDate != null && getRangeStart() != null && startDate.after(getRangeEnd())) {
-			throw new IllegalStateException("startDate cannot be later than endDate");
+	 public void setRangeStart(Date startDate) {
+			if (startDate != null && getState().rangeEnd != null
+					&& startDate.after(getState().rangeEnd)) {
+				throw new IllegalStateException(
+						"startDate cannot be later than endDate");
+			}
+			getState().rangeStart = startDate;
 		}
-		rangeStart = startDate;
-	}
 
 	/**
 	 * Sets the end range for this component. If the value is set after this
@@ -420,13 +422,14 @@ public class CalendarField extends AbstractField<List>
 	 *            - the allowed range's end date (inclusive, based on the
 	 *            current resolution)
 	 */
-	public void setRangeEnd(Date endDate) {
-		if (endDate != null && getRangeEnd() != null && getRangeStart().after(endDate)) {
-			throw new IllegalStateException("endDate cannot be earlier than startDate");
+	 public void setRangeEnd(Date endDate) {
+			if (endDate != null && getState().rangeStart != null
+					&& getState().rangeStart.after(endDate)) {
+				throw new IllegalStateException(
+						"endDate cannot be earlier than startDate");
+			}
+			getState().rangeEnd = endDate;
 		}
-		// rangeEnd = endDate;
-		rangeEnd = endDate;
-	}
 
 	/**
 	 * Returns the precise rangeStart used.
@@ -435,52 +438,52 @@ public class CalendarField extends AbstractField<List>
 	 *
 	 */
 
-	public Date getRangeStart() {
-		return this.rangeStart;
-	}
+	 public Date getRangeStart() {
+			return getState(false).rangeStart;
+		}
 
 	/**
 	 * Returns the precise rangeEnd used.
 	 *
 	 * @param startDate
 	 */
-	public Date getRangeEnd() {
-		return this.rangeEnd;
-	}
+	 public Date getRangeEnd() {
+			return getState(false).rangeEnd;
+		}
 
 	/*
 	 * Invoked when a variable of the component changes. Don't add a JavaDoc
 	 * comment here, we use the default documentation from implemented
 	 * interface.
 	 */
-	@Override
-	public void changeVariables(Object source, Map<String, Object> variables) {
+	 @Override
+		public void changeVariables(Object source, Map<String, Object> variables) {
 
-		if (!isReadOnly() && (variables.containsKey("values"))) {
+			if (!isReadOnly()
+					&& (variables.containsKey("values"))) {
 
-			focusYear = (String) variables.get("focusYear");
-			focusMonth = (String) variables.get("focusMonth");
-			focusDate = (String) variables.get("focusDate");
-			String[] valuesFromVariable = (String[]) variables.get("values");
-			List<Date> dates = new ArrayList<Date>();
-			values.clear();
-			for (String value : valuesFromVariable) {
-				CalendarDate dt = CalenderFieldUtil.getDateFromString(value);
-				values.add(value);
-				dates.add(dt);
+				focusYear = (String) variables.get("focusYear");
+				focusMonth = (String) variables.get("focusMonth");
+				focusDate = (String) variables.get("focusDate");
+				String[] valuesFromVariable = (String[]) variables.get("values");
+				List<Date> dates = new ArrayList<Date>();
+				values.clear();
+				for (String value : valuesFromVariable) {
+					CalendarDate dt = CalenderFieldUtil.getDateFromString(value);
+					values.add(value);
+					dates.add(dt);
+				}
+				setValue(dates, true);
 			}
-			setValue(dates, true);
-		}
 
-		if (variables.containsKey(FocusEvent.EVENT_ID)) {
-			fireEvent(new FocusEvent(this));
-		}
+			if (variables.containsKey(FocusEvent.EVENT_ID)) {
+				fireEvent(new FocusEvent(this));
+			}
 
-		if (variables.containsKey(BlurEvent.EVENT_ID)) {
-			fireEvent(new BlurEvent(this));
+			if (variables.containsKey(BlurEvent.EVENT_ID)) {
+				fireEvent(new BlurEvent(this));
+			}
 		}
-	}
-
 	/*
 	 * only fires the event if preventValueChangeEvent flag is false
 	 */

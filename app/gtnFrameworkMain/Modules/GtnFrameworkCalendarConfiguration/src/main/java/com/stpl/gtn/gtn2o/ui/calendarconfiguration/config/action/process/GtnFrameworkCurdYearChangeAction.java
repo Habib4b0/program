@@ -34,30 +34,48 @@ public class GtnFrameworkCurdYearChangeAction implements GtnUIFrameWorkAction, G
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+
+		gtnLogger.error("Inside GtnFrameworkCurdYearChangeAction");
 		List<String> parameters = gtnUIFrameWorkActionConfig.getFieldValues();
+
 		try {
 			GtnUIFrameworkBaseComponent yearBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
+
 			int year = yearBaseComponent.getIntegerFromField();
+
 			if (year == 0) {
 				return;
 			}
+
 			GtnUIFrameworkBaseComponent calendarBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(1));
+
 			calendarBaseComponent.clearAllCalendarValue();
+
 			Calendar rangeStartDate = Calendar.getInstance();
+
 			Calendar rangeEndDate = Calendar.getInstance();
+
 			rangeStartDate.set(year, 0, 1, 0, 0, 0);
 			rangeEndDate.set(year, 11, 31, 0, 0, 0);
+
 			calendarBaseComponent.setCalendarFieldRangeStart(null);
 			calendarBaseComponent.setCalendarFieldRangeEnd(null);
+
 			calendarBaseComponent.setCalendarFieldRangeStart(rangeStartDate.getTime());
+
 			calendarBaseComponent.setCalendarFieldRangeEnd(rangeEndDate.getTime());
+
 			GtnUIFrameworkCalendarConfig gtnUIFrameworkCalendarConfig = calendarBaseComponent.getComponentConfig()
 					.getCalendarConfig();
+
 			gtnUIFrameworkCalendarConfig.setRangeStartDate(rangeStartDate);
+
 			gtnUIFrameworkCalendarConfig.setRangeEndDate(rangeEndDate);
+
 			GtnUIFrameworkBaseComponent defaultHolidayBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(0));
+
 			defaultHolidayBaseComponent.setPropertyValue(false);
 
 		} catch (Exception e) {

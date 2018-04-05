@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
@@ -51,14 +52,23 @@ public class GtnFrameworkCurdResetAction implements GtnUIFrameWorkAction, GtnUIF
 			GtnUIFrameworkBaseComponent viewBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(1).toString());
 			List<Object> customDataList = viewBaseComponent.getComponentData().getCustomDataList();
+			
+			gtnLogger.info("CustomDataList = " + customDataList);
+			
 			String calendarName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			String calendarDesc = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			Object calendarYear = null;
 			Boolean defaultHolidays = Boolean.FALSE;
 			Object country = null;
-			List<Date> holidayList = new ArrayList<>();
+			List<Date> holidayList = new ArrayList<>();	
+			
 			if (customDataList != null && !customDataList.isEmpty()) {
+				
+				gtnLogger.info("CustomDataList = " + customDataList);
 				GtnWsRecordBean tableBean = (GtnWsRecordBean) customDataList.get(0);
+				
+				gtnLogger.info("Data = " + tableBean);
+				
 				calendarName = tableBean.getStringPropertyByIndex(0);
 				calendarDesc = tableBean.getStringPropertyByIndex(1);
 				calendarYear = tableBean.getStringPropertyByIndex(2);
