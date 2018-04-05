@@ -110,7 +110,7 @@ public class GtnWsSearchServiceController {
 			GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
 			if (isCount) {
 
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
@@ -193,7 +193,7 @@ public class GtnWsSearchServiceController {
 		Map<Integer, String> helperMap = gtnWebServiceAllListConfig.getIdDescMap();
 
 		if (object != null && StringUtils.isNotBlank(object.toString())
-				&& (Integer.valueOf(String.valueOf(object)) != 0)) {
+				&& (Integer.parseInt(String.valueOf(object)) != 0)) {
 			defaultValue = helperMap.get(Integer.valueOf(String.valueOf(object)));
 		}
 		return defaultValue;

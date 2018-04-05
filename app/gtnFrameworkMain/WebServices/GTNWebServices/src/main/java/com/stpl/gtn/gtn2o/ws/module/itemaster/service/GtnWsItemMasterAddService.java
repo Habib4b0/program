@@ -202,7 +202,7 @@ public class GtnWsItemMasterAddService {
 				infoBean.setManufacturerId(
 						(itemMaster.getManufacturerId() == null || itemMaster.getManufacturerId().isEmpty()
 								|| GtnFrameworkCommonStringConstants.STRING_NULL.equals(itemMaster.getManufacturerId()))
-										? 0 : Integer.valueOf(itemMaster.getManufacturerId()));
+										? 0 : Integer.parseInt(itemMaster.getManufacturerId()));
 				Udcs udcs = getUdcs(infoBean, session);
 				if (udcs != null) {
 					infoBean.setUdc1(getHelpervalue(udcs.getHelperTableByUdc1()));
@@ -483,7 +483,7 @@ public class GtnWsItemMasterAddService {
 								gtnWsRequest.getGtnWsGeneralRequest().getSessionId())));
 
 		if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-			gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 		} else {
 			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 			gtnUIFrameworkDataTable.addData(result);

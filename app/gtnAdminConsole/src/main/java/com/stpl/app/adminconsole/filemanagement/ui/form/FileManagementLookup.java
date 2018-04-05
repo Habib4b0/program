@@ -961,7 +961,7 @@ public class FileManagementLookup extends Window {
 									if (detailsFilterTable.getContainerProperty(beanItem, ConstantsUtils.INTERFACE_FLAG)
 											.getValue().equals("Y")) {
 										detailsFilterTable.getContainerProperty(beanItem, ConstantsUtils.YEAR)
-												.setValue(value.getValue().toString());
+												.setValue(value.getValue());
 									}
 								} else if (fieldName.getValue().equals(ConstantsUtils.CAPS_MONTH)) {
 									int forecastMonth = Integer.parseInt(value.getValue());
@@ -980,7 +980,7 @@ public class FileManagementLookup extends Window {
 										detailsFilterTable.getContainerProperty(beanItem, ConstantsUtils.ITEM_NO)
 												.setValue(itemNoSearch.getValue());
 										detailsFilterTable.getContainerProperty(beanItem, ConstantsUtils.ITEM_NAME)
-												.setValue(lookupItemName.getValue().toString());
+												.setValue(lookupItemName.getValue());
 									}
 								} else if (fieldName.getValue().equals(ConstantsUtils.CAPS_STARTDATE)
 										&& detailsFilterTable
@@ -991,11 +991,11 @@ public class FileManagementLookup extends Window {
 								}
 								if (fieldName.getValue().equals(ConstantsUtils.CAPS_PRICE)) {
 									detailsFilterTable.getContainerProperty(beanItem, ConstantsUtils.PRICE)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(ConstantsUtils.CAPS_UNITS)) {
 									detailsFilterTable.getContainerProperty(beanItem, ConstantsUtils.UNITS)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 							}
 						}
@@ -1010,32 +1010,32 @@ public class FileManagementLookup extends Window {
 								if (fieldName.getValue().equals(StringConstantUtils.MARKET_SHARE_RATIO_LABEL)) {
 									detailsFilterTable
 											.getContainerProperty(beanItem, StringConstantUtils.MARKET_SHARE_RATIO)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.MARKET_SIZE_UNITS_LABEL)) {
 									detailsFilterTable
 											.getContainerProperty(beanItem, StringConstantUtils.MARKET_SIZE_UNITS1)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.MARKET_SHARE_UNITS_LABEL)) {
 									detailsFilterTable
 											.getContainerProperty(beanItem, StringConstantUtils.MARKET_SHARE_UNITS)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.UNCAPTURED_UNITS_LABEL)) {
 									detailsFilterTable
 											.getContainerProperty(beanItem, StringConstantUtils.UNCAPTURED_UNITS)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.TOTAL_DEMAND_UNITS_LABEL)) {
 									detailsFilterTable
 											.getContainerProperty(beanItem, StringConstantUtils.TOTAL_DEMAND_UNITS)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.TOTAL_DEMAND_AMOUNT_LABEL)) {
 									detailsFilterTable
 											.getContainerProperty(beanItem, StringConstantUtils.TOTAL_DEMAND_AMOUNT1)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 							}
 						}
@@ -1047,12 +1047,12 @@ public class FileManagementLookup extends Window {
 							if (beanItem.getCheck()
 									&& fieldName.getValue().equals(StringConstantUtils.UNITS_WITHDRAWN_LABEL)) {
 								detailsFilterTable.getContainerProperty(beanItem, StringConstantUtils.UNITS_WITHDRAWN)
-										.setValue(value.getValue().toString());
+										.setValue(value.getValue());
 							}
 							if (beanItem.getCheck()
 									&& fieldName.getValue().equals(StringConstantUtils.AMOUNT_WITHDRAWN_LABEL)) {
 								detailsFilterTable.getContainerProperty(beanItem, StringConstantUtils.AMOUNT_WITHDRAWN)
-										.setValue(value.getValue().toString());
+										.setValue(value.getValue());
 							}
 						}
 					} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
@@ -1063,12 +1063,12 @@ public class FileManagementLookup extends Window {
 							if (beanItem.getCheck()
 									&& fieldName.getValue().equals(StringConstantUtils.UNITS_WITHDRAWN_LABEL)) {
 								detailsFilterTable.getContainerProperty(beanItem, StringConstantUtils.UNITS_WITHDRAWN)
-										.setValue(value.getValue().toString());
+										.setValue(value.getValue());
 							}
 							if (beanItem.getCheck()
 									&& fieldName.getValue().equals(StringConstantUtils.AMOUNT_WITHDRAWN_LABEL)) {
 								detailsFilterTable.getContainerProperty(beanItem, StringConstantUtils.AMOUNT_WITHDRAWN)
-										.setValue(value.getValue().toString());
+										.setValue(value.getValue());
 							}
 						}
 					} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
@@ -1079,24 +1079,24 @@ public class FileManagementLookup extends Window {
 							if (beanItem.getCheck()) {
 								if (fieldName.getValue().equals(StringConstantUtils.DEDUCTION_RATE)) {
 									detailsFilterTable.getContainerProperty(beanItem, "deductionRate")
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.DEDUCTION_AMOUNT_LABEL)) {
 									detailsFilterTable.getContainerProperty(beanItem, "deductionAmount")
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.PRICE_LABEL)) {
 									detailsFilterTable
 											.getContainerProperty(beanItem, StringConstantUtils.PRICE_PROPERTY)
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.SALES_AMOUNT_LABEL)) {
 									detailsFilterTable.getContainerProperty(beanItem, "salesAmount")
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 								if (fieldName.getValue().equals(StringConstantUtils.UNITS_LABEL)) {
 									detailsFilterTable.getContainerProperty(beanItem, "units")
-											.setValue(value.getValue().toString());
+											.setValue(value.getValue());
 								}
 							}
 						}
@@ -1583,7 +1583,7 @@ public class FileManagementLookup extends Window {
 			etlVersion = selectedVersion;
 			finalVersion = selectedVersion;
 		}
-		String latestVersion = fmLogic.getLatestVersion(country.getValue().toString(), fileNameList.getValue(),
+		String latestVersion = fmLogic.getLatestVersion(country.getValue(), fileNameList.getValue(),
 				CommonUtil.getSelectedFileType(fmFileType), etlVersion, selectedFile);
 		addLine.setEnabled(true);
 		remove.setEnabled(true);
@@ -2108,69 +2108,69 @@ public class FileManagementLookup extends Window {
 				final FileMananagementResultDTO beanItem = itemIds.get(i);
 				if (!beanItem.isRecordLockStatus()) {
 
-					if (((beanItem.getYear().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getMonth().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getPrice().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getDollars().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getItemNo().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getItemName().toString().equals(ConstantsUtils.EMPTY)))
+					if (((beanItem.getYear().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getMonth().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getPrice().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getDollars().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getItemNo().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getItemName().equals(ConstantsUtils.EMPTY)))
 							&& CommonUtil.getSelectedFileType(fmFileType).toString()
 									.equals(ConstantsUtils.EX_FACTORY_SALES)) {
 						AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 								StringConstantUtils.PLEASE_ENTER_THE_VALUE_ALL_FIELDS);
 						return;
 					}
-					if (((beanItem.getYear().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getMonth().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getItemId().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getUnitsWithdrawn().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getAmountWithdrawn().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getPrice().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getBatchId().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getOrganizationKey().toString().equals(ConstantsUtils.EMPTY)))
+					if (((beanItem.getYear().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getMonth().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getItemId().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getUnitsWithdrawn().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getAmountWithdrawn().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getPrice().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getBatchId().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getOrganizationKey().equals(ConstantsUtils.EMPTY)))
 							&& CommonUtil.getSelectedFileType(fmFileType).toString()
 									.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 						AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 								StringConstantUtils.PLEASE_ENTER_THE_VALUE_ALL_FIELDS);
 						return;
 					}
-					if (((beanItem.getMarketSizeUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getMarketShareUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getUncapturedUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getUncapturedUnitsRatio().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getTotalDemandUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getTotalDemandAmount().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getGrossUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getGrossPrice().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getGrossAmount().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getNetSalesPrice().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getNetSalesAmount().toString().equals(ConstantsUtils.EMPTY)))
+					if (((beanItem.getMarketSizeUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getMarketShareUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getUncapturedUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getUncapturedUnitsRatio().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getTotalDemandUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getTotalDemandAmount().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getGrossUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getGrossPrice().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getGrossAmount().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getNetSalesPrice().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getNetSalesAmount().equals(ConstantsUtils.EMPTY)))
 							&& CommonUtil.getSelectedFileType(fmFileType).toString()
 									.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 						AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 								StringConstantUtils.PLEASE_ENTER_THE_VALUE_ALL_FIELDS);
 						return;
 					}
-					if (((beanItem.getForecastType().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getForcastYear().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getForecastMonth().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getItemId().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getBrandId().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getMarketSizeUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getMarketShareRatio().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getUncapturedUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getUncapturedUnitsRatio().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getTotalDemandUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getTotalDemandAmount().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getInventoryUnitChange().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getGrossUnits().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getGrossPrice().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getGrossAmount().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getNetSalesPrice().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getNetSalesAmount().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getBatchId().toString().equals(ConstantsUtils.EMPTY))
-							|| (beanItem.getOrganizationKey().toString().equals(ConstantsUtils.EMPTY)))
+					if (((beanItem.getForecastType().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getForcastYear().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getForecastMonth().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getItemId().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getBrandId().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getMarketSizeUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getMarketShareRatio().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getUncapturedUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getUncapturedUnitsRatio().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getTotalDemandUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getTotalDemandAmount().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getInventoryUnitChange().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getGrossUnits().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getGrossPrice().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getGrossAmount().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getNetSalesPrice().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getNetSalesAmount().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getBatchId().equals(ConstantsUtils.EMPTY))
+							|| (beanItem.getOrganizationKey().equals(ConstantsUtils.EMPTY)))
 							&& CommonUtil.getSelectedFileType(fmFileType).toString().equals(ConstantsUtils.DEMAND)) {
 						AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 								StringConstantUtils.PLEASE_ENTER_THE_VALUE_ALL_FIELDS);
@@ -2204,9 +2204,9 @@ public class FileManagementLookup extends Window {
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery
 						.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_YEAR, String.valueOf(selectedYear)));
-				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
+				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
 						fileNameList.getValue()));
 				List<ForecastingMaster> listToRemove = ForecastingMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -2219,9 +2219,9 @@ public class FileManagementLookup extends Window {
 				dynamicQuery = DemandForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 
-				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
+				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
 						fileNameList.getValue()));
 				List<DemandForecast> listToRemove = DemandForecastLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -3262,7 +3262,7 @@ public class FileManagementLookup extends Window {
 									public void windowClose(final Window.CloseEvent e) {
 										if (lookUp.isSelected()) {
 											detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
-													.setValue(lookupItemName.getValue().toString());
+													.setValue(lookupItemName.getValue());
 										} else {
 											detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
 													.setValue(StringUtils.EMPTY);
@@ -3834,7 +3834,7 @@ public class FileManagementLookup extends Window {
 									@Override
 									public void windowClose(final Window.CloseEvent e) {
 										detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
-												.setValue(lookupItemName.getValue().toString());
+												.setValue(lookupItemName.getValue());
 										detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID)
 												.setValue(lookUp.getItemId());
 										((FileMananagementResultDTO) itemId).setItemMasterSid(lookUp.getMasterSid());

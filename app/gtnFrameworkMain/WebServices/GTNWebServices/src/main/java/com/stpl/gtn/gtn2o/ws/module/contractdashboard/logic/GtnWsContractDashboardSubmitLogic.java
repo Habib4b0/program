@@ -74,7 +74,7 @@ public class GtnWsContractDashboardSubmitLogic {
 					.add(Restrictions.ne(GtnFrameworkWebserviceConstant.OPERATION, "D"))
 					.setProjection(Projections.countDistinct(GtnFrameworkWebserviceConstant.IMTD_CFP_DETAILS_SID));
 			List<?> results = cr.list();
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in checkCfpAdded ", e);
 		}
@@ -93,7 +93,7 @@ public class GtnWsContractDashboardSubmitLogic {
 					.add(Restrictions.ne(GtnFrameworkWebserviceConstant.OPERATION, "D")).add(Restrictions.isNull(field))
 					.setProjection(Projections.countDistinct(GtnFrameworkWebserviceConstant.IMTD_CFP_DETAILS_SID));
 			List<?> results = cr.list();
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in checkCfpTableNullValue ", e);
 		}
@@ -111,7 +111,7 @@ public class GtnWsContractDashboardSubmitLogic {
 					.add(Restrictions.ne(GtnFrameworkWebserviceConstant.OPERATION, "D")).add(Restrictions.isNull(field))
 					.setProjection(Projections.countDistinct(GtnFrameworkWebserviceConstant.IMTD_CFP_DETAILS_SID));
 			List<?> results = cr.list();
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in checkCfpTableDateNullValue ", e);
 		}
@@ -130,7 +130,7 @@ public class GtnWsContractDashboardSubmitLogic {
 					.add(Restrictions.leProperty("cfpDetailsEndDate", "cfpDetailsStartDate"))
 					.setProjection(Projections.countDistinct(GtnFrameworkWebserviceConstant.IMTD_CFP_DETAILS_SID));
 			List<?> results = cr.list();
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in checkCfpTableEndDate ", e);
 		}
@@ -148,7 +148,7 @@ public class GtnWsContractDashboardSubmitLogic {
 					.add(Restrictions.ne(GtnFrameworkWebserviceConstant.OPERATION, "D")).setProjection(
 							Projections.countDistinct(GtnFrameworkWebserviceConstant.IMTD_ITEM_PRICE_REBATE_SID));
 			List<?> results = cr.list();
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in checkIfpAdded ", e);
 		}
@@ -168,7 +168,7 @@ public class GtnWsContractDashboardSubmitLogic {
 					.setProjection(
 							Projections.countDistinct(GtnFrameworkWebserviceConstant.IMTD_ITEM_PRICE_REBATE_SID));
 			List<?> results = cr.list();
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException(
 					GtnFrameworkWebserviceConstant.EXCEPTION_IN_CHECK_IFP_TABLE_NULL_VALUE, e);
@@ -189,7 +189,7 @@ public class GtnWsContractDashboardSubmitLogic {
 					.setProjection(
 							Projections.countDistinct(GtnFrameworkWebserviceConstant.IMTD_ITEM_PRICE_REBATE_SID));
 			List<?> results = cr.list();
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in checkIfpTableDateNullValue ", e);
 		}
@@ -210,7 +210,7 @@ public class GtnWsContractDashboardSubmitLogic {
 					.add(Restrictions.leProperty(endDateField, startDateField)).setProjection(
 							Projections.countDistinct(GtnFrameworkWebserviceConstant.IMTD_ITEM_PRICE_REBATE_SID));
 			List<?> results = cr.list();
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in checkIfpTableEndDate ", e);
 		}
@@ -344,7 +344,7 @@ public class GtnWsContractDashboardSubmitLogic {
 			contractMaster
 					.setHelperTableByPaymentTerms(session.load(HelperTable.class, bean.getIntegerPropertyByIndex(48)));
 			contractMaster.setInternalNotes(bean.getStringPropertyByIndex(49));
-			contractMaster.setModifiedBy(Integer.valueOf(cdRequest.getUserId()));
+			contractMaster.setModifiedBy(Integer.parseInt(cdRequest.getUserId()));
 			contractMaster.setModifiedDate(new Date());
 			contractMaster.setSource("GTN");
 			session.saveOrUpdate(contractMaster);
@@ -871,7 +871,7 @@ public class GtnWsContractDashboardSubmitLogic {
 			List<?> results = getSqlQueryEngine().executeSelectQuery(verifyPriceQuery, verifyPriceQueryParams,
 					verifyPriceQueryTypes);
 
-			count = Integer.valueOf(results.get(0).toString());
+			count = Integer.parseInt(results.get(0).toString());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException(
 					GtnFrameworkWebserviceConstant.EXCEPTION_IN_CHECK_IFP_TABLE_NULL_VALUE, e);

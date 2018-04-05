@@ -450,7 +450,7 @@ public class GtnWsContractHeaderService {
 			ContractAliasMaster aliasMaster = null;
 			if (idenBean.getContractAliasMasterSid() == 0) {
 				aliasMaster = new ContractAliasMaster();
-				aliasMaster.setCreatedBy(Integer.valueOf(imRquest.getUserId()));
+				aliasMaster.setCreatedBy(Integer.parseInt(imRquest.getUserId()));
 				aliasMaster.setCreatedDate(new Date());
 				aliasMaster.setInboundStatus('A');
 				aliasMaster.setSource("GTN");
@@ -461,7 +461,7 @@ public class GtnWsContractHeaderService {
 				aliasMaster.setStartDate(idenBean.getStartDate());
 				aliasMaster.setEndDate(idenBean.getEndDate());
 				aliasMaster.setTpCompanyMasterSid(idenBean.getTpCompanyMasterSid());
-				aliasMaster.setModifiedBy(Integer.valueOf(imRquest.getUserId()));
+				aliasMaster.setModifiedBy(Integer.parseInt(imRquest.getUserId()));
 				aliasMaster.setModifiedDate(new Date());
 				Integer aliasMasterSid = (Integer) session.save(aliasMaster);
 				idenBean.setContractAliasMasterSid(aliasMasterSid);
@@ -476,7 +476,7 @@ public class GtnWsContractHeaderService {
 				aliasMaster.setTpCompanyMasterSid(idenBean.getTpCompanyMasterSid());
 
 				aliasMaster.setInboundStatus('C');
-				aliasMaster.setModifiedBy(Integer.valueOf(imRquest.getUserId()));
+				aliasMaster.setModifiedBy(Integer.parseInt(imRquest.getUserId()));
 				aliasMaster.setModifiedDate(new Date());
 
 				session.saveOrUpdate(aliasMaster);

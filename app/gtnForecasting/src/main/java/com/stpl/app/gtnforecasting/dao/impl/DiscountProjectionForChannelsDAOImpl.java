@@ -685,7 +685,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 LOGGER.debug("Key= {} " , key);
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
-           HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());
+           HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         } finally {

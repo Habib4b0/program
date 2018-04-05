@@ -299,7 +299,7 @@ public class GtnWsContractDashboardController {
 			GtnWsGeneralRequest inputs = gtnWsRequest.getGtnWsGeneralRequest();
 			GtnWsRecordBean bean = gtnWsRequest.getGtnWsContractDashboardRequest().getTableBean();
 			int systemId = bean.getProperties().get(11) == null ? 0
-					: Integer.valueOf(String.valueOf(bean.getProperties().get(11)));
+					: Integer.parseInt(String.valueOf(bean.getProperties().get(11)));
 			Object[] params = { inputs.getUserId(), inputs.getSessionId(), systemId };
 			GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.INTEGER };
@@ -1315,7 +1315,7 @@ public class GtnWsContractDashboardController {
 			Object[] params = { inputs.getUserId(), inputs.getSessionId() };
 			GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING };
 			List<Object[]> result = executeQuery(query, params, types);
-			cdResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+			cdResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			return selectedCompaniesResponse;
 		} catch (Exception ex) {
 			selectedCompaniesResponse.getGtnWsGeneralResponse().setSucess(false);
@@ -1342,7 +1342,7 @@ public class GtnWsContractDashboardController {
 			Object[] params = { inputs.getUserId(), inputs.getSessionId() };
 			GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING };
 			List<Object[]> result = executeQuery(query, params, types);
-			cdResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+			cdResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			return selectedItemsResponse;
 		} catch (Exception ex) {
 			selectedItemsResponse.getGtnWsGeneralResponse().setSucess(false);
