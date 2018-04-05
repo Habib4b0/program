@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stpl.addons</groupId>
 	<artifactId>PagedGrid</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<version>2.0</version>
 	<name>Paged Grid</name>
 

@@ -1,15 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.duallistbox;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.bean.GtnFrameworkDualListBoxBean;
@@ -27,9 +17,13 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
-import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.v7.ui.TreeTable;
-import com.vaadin.v7.ui.VerticalLayout;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.TreeGrid;
+import com.vaadin.ui.VerticalLayout;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GtnUIFrameworkDualListBoxComponent implements GtnUIFrameworkComponent {
 
@@ -75,8 +69,8 @@ public class GtnUIFrameworkDualListBoxComponent implements GtnUIFrameworkCompone
 				.getData();
 		GtnFrameworkDualListBoxBean dualListBoxBean = (GtnFrameworkDualListBoxBean) dualListBoxcomponentData
 				.getCustomData();
-		dualListBoxBean.getLeftTable().removeAllItems();
-		dualListBoxBean.getRightTable().removeAllItems();
+		dualListBoxBean.clearLeftTableData();
+		dualListBoxBean.clearRightTableData();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -88,44 +82,55 @@ public class GtnUIFrameworkDualListBoxComponent implements GtnUIFrameworkCompone
 
 	private void resetDualListBoxHeadersAndColumns(List<Object> visibleColumns, List<String> listViewHeaders,
 			GtnFrameworkDualListBoxBean dualListBoxBean) {
-		@SuppressWarnings("unchecked")
-		ExtContainer<GtnWsRecordBean> extContainer = (ExtContainer<GtnWsRecordBean>) dualListBoxBean.getLeftTable()
-				.getContainerDataSource();
-		extContainer.setRecordHeader(visibleColumns);
-		extContainer.setColumnProperties(getProperties(visibleColumns.toArray()));
-		dualListBoxBean.getLeftTable().setVisibleColumns(visibleColumns.toArray());
-		dualListBoxBean.getLeftTable().setColumnHeaders(listViewHeaders.toArray(new String[listViewHeaders.size()]));
-		dualListBoxBean.getLeftTable().setFilterBarVisible(true);
-		dualListBoxBean.getLeftTable().setFilterDecorator(new ExtDemoFilterDecorator());
+//		@SuppressWarnings("unchecked")
+//		ExtContainer<GtnWsRecordBean> extContainer = (ExtContainer<GtnWsRecordBean>) dualListBoxBean.getLeftTable()
+//				.getContainerDataSource();
+//		extContainer.setRecordHeader(visibleColumns);
+//		extContainer.setColumnProperties(getProperties(visibleColumns.toArray()));
+                dualListBoxBean.getLeftTable().removeAllColumns();
+                for (int i = 0; i <  visibleColumns.size(); i++) {
+                String column = visibleColumns.get(i).toString();
+			dualListBoxBean.getLeftTable().addColumn(row -> row.getValue(column)).setCaption(listViewHeaders.get(i));
+		}
+//		dualListBoxBean.getLeftTable().setVisibleColumns(visibleColumns.toArray());
+//		dualListBoxBean.getLeftTable().setColumnHeaders(listViewHeaders.toArray(new String[listViewHeaders.size()]));
+//		dualListBoxBean.getLeftTable().setFilterBarVisible(true);
+//		dualListBoxBean.getLeftTable().setFilterDecorator(new ExtDemoFilterDecorator());
 	}
 
 	private GtnFrameworkDualListBoxBean createComponents(GtnUIFrameworkDualListBoxConfig dualListBoxConfig) {
 		LOGGER.info("Entering into the createComponents() of VaadinDualListBox");
 
-		ExtFilterTable leftTable;
-		TreeTable rightTable;
+		Grid<GtnWsRecordBean> leftTable;
+		TreeGrid<GtnWsRecordBean> rightTable;
 		Button moveLeft;
 		Button moveRight;
 		Button moveAllRight;
 
-		leftTable = new ExtFilterTable();
-		ExtContainer<GtnWsRecordBean> extContainer = new ExtContainer<>(GtnWsRecordBean.class);
-		extContainer.setRecordHeader(Arrays.asList(dualListBoxConfig.getLeftVisibleColumns()));
-		extContainer.setColumnProperties(getProperties(dualListBoxConfig.getLeftVisibleColumns()));
-		extContainer.setDataStructureMode(ExtContainer.DataStructureMode.LIST);
-		leftTable.setContainerDataSource(extContainer);
-		leftTable.setVisibleColumns(dualListBoxConfig.getLeftVisibleColumns());
-		leftTable.setColumnHeaders(dualListBoxConfig.getLeftVisibleHeaders());
-		rightTable = new TreeTable();
-
-		ExtTreeContainer<GtnWsRecordBean> extTreeContainer = new ExtTreeContainer<>(GtnWsRecordBean.class);
-		extTreeContainer.setRecordHeader(Arrays.asList(dualListBoxConfig.getRightVisibleColumns()));
-		extTreeContainer.setColumnProperties(getProperties(dualListBoxConfig.getRightVisibleColumns()));
-		extTreeContainer.setDataStructureMode(ExtContainer.DataStructureMode.LIST);
-		rightTable.setContainerDataSource(extTreeContainer);
-
-		rightTable.setVisibleColumns(dualListBoxConfig.getRightVisibleColumns());
-		rightTable.setColumnHeaders(dualListBoxConfig.getRightVisibleHeaders());
+		leftTable = new Grid<>();
+                leftTable.setSelectionMode(Grid.SelectionMode.SINGLE);
+//		ExtContainer<GtnWsRecordBean> extContainer = new ExtContainer<>(GtnWsRecordBean.class);
+//		extContainer.setRecordHeader(Arrays.asList(dualListBoxConfig.getLeftVisibleColumns()));
+//		extContainer.setColumnProperties(getProperties(dualListBoxConfig.getLeftVisibleColumns()));
+//		extContainer.setDataStructureMode(ExtContainer.DataStructureMode.LIST);
+//		leftTable.setContainerDataSource(extContainer);
+//		leftTable.setVisibleColumns(dualListBoxConfig.getLeftVisibleColumns());
+//		leftTable.setColumnHeaders(dualListBoxConfig.getLeftVisibleHeaders());
+                  for (int i = 0; i <  dualListBoxConfig.getLeftVisibleColumns().length; i++) {
+                String column = dualListBoxConfig.getRightVisibleColumns()[i].toString();
+			leftTable.addColumn(row -> row.getPropertyValue(column)).setCaption(dualListBoxConfig.getLeftVisibleHeaders()[i]);
+		}
+		rightTable = new TreeGrid<>();
+                rightTable.setSelectionMode(Grid.SelectionMode.SINGLE);
+//		ExtTreeContainer<GtnWsRecordBean> extTreeContainer = new ExtTre;reMode.LIST);
+//		rightTable.setContainerDataSource(extTreeContainer);
+//
+//		rightTable.setVisibleColumns(dualListBoxConfig.getRightVisibleColumns());
+//		rightTable.setColumnHeaders(dualListBoxConfig.getRightVisibleHeaders());
+                for (int i = 0; i <  dualListBoxConfig.getRightVisibleColumns().length; i++) {
+                String column = dualListBoxConfig.getRightVisibleColumns()[i].toString();
+			rightTable.addColumn(row -> row.getPropertyValue(column)).setCaption(dualListBoxConfig.getRightVisibleHeaders()[i]);
+		}
 		moveLeft = new Button(" < ");
 		moveRight = new Button(" > ");
 		moveAllRight = new Button("ALL");
@@ -133,10 +138,10 @@ public class GtnUIFrameworkDualListBoxComponent implements GtnUIFrameworkCompone
 		rightTable.setHeight(GtnFrameworkCssConstants.PIXEL_250);
 		leftTable.setWidth(GtnFrameworkCssConstants.PIXEL_300);
 		rightTable.setWidth(GtnFrameworkCssConstants.PIXEL_300);
-		leftTable.setSelectable(true);
-		rightTable.setSelectable(true);
-		leftTable.setFilterBarVisible(true);
-		leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
+//		leftTable.setSelectable(true);
+////		rightTable.setSelectable(true);
+//		leftTable.setFilterBarVisible(true);
+//		leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
 
 		moveLeft.setId("dualListBoxMoveLeftButton");
 		moveRight.setId("dualListBoxMoveRightButton");

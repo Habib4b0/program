@@ -5,11 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
@@ -21,13 +16,19 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+//import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastAlertMsgConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.TreeGrid;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 /**
  *
@@ -59,11 +60,11 @@ public class GtnUIFrameWorkDualListBoxLoadRightTableAction implements GtnUIFrame
 
 	public void loadRightTable(GtnFrameworkDualListBoxBean dualListBoxBean, boolean isMoveAll, String componentId)
 			throws GtnFrameworkGeneralException {
-		ExtFilterTable leftTable = dualListBoxBean.getLeftTable();
+		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
 		GtnUIFrameworkDualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
 		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
-		TreeTable rightTable = dualListBoxBean.getRightTable();
-		if (!isMoveAll && leftTable.getValue() == null) {
+		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+		if (!isMoveAll && leftTable.getSelectedItems()== null) {
 			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
 			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			List<Object> alertMsgList = new ArrayList<>(2);
@@ -81,7 +82,7 @@ public class GtnUIFrameWorkDualListBoxLoadRightTableAction implements GtnUIFrame
 				hierarchyNoList.add("");
 			} else {
 				hierarchyNoList
-						.add(((GtnWsRecordBean) leftTable.getValue()).getAdditionalProperties().get(1).toString());
+						.add(( leftTable.getSelectedItems().iterator().next()).getAdditionalProperties().get(1).toString());
 			}
 			inputPutList.add(hierarchyNoList);
 

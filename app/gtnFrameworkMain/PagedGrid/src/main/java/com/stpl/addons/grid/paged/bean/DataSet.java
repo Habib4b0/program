@@ -1,7 +1,9 @@
 package com.stpl.addons.grid.paged.bean;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DataSet {
 	private Set<String> columns;
@@ -11,6 +13,11 @@ public class DataSet {
 		this.columns = columns;
 		this.rows = rows;
 	}
+        public DataSet(Object[] columns, List<Row> rows) {
+		this.columns = Arrays.asList(columns).stream().map(e -> (String) e).collect(Collectors.toSet()); ;
+		this.rows = rows;
+	}
+
 
 	public Set<String> getColumns() {
 		return columns;

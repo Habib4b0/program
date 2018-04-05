@@ -1,8 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.stpl.addons.grid.paged.bean.Row;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
@@ -17,7 +15,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.ui.TreeGrid;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GtnUIFrameWorkDualListBoxLoadRightTableBulkAction implements GtnUIFrameWorkAction {
 
@@ -48,7 +48,7 @@ public class GtnUIFrameWorkDualListBoxLoadRightTableBulkAction implements GtnUIF
 	public void loadRightTableBulk(List<String> inputList, GtnFrameworkDualListBoxBean dualListBoxBean) {
 		GtnUIFrameworkDualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
 		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
-		TreeTable rightTable = dualListBoxBean.getRightTable();
+		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 		List<Object> parameterList = new ArrayList<>(3);
 		parameterList.add("loadbulkdata");
 		parameterList.add(inputList);
