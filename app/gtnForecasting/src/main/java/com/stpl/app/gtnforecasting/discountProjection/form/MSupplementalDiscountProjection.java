@@ -918,7 +918,11 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             targetItem = new BeanItem<>(
                     (DiscountProjectionDTO) obj);
         }
-        return (DiscountProjectionDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (DiscountProjectionDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void saveFromTableField(Object itemId, Object propertyId, String value, boolean flag) {
@@ -1370,7 +1374,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 }
 
             } else {
-                String growthString = String.valueOf(value.getValue().toString());
+                String growthString = String.valueOf(value.getValue());
                 if (StringUtils.isNotBlank(growthString)) {
                     growthString = growthString.replace(Constant.PERCENT, StringUtils.EMPTY).replace("$", StringUtils.EMPTY).replaceAll(",", StringUtils.EMPTY);
                 }

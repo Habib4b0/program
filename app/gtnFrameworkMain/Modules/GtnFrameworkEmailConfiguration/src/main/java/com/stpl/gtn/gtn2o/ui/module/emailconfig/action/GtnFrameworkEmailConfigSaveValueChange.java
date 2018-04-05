@@ -93,7 +93,7 @@ public class GtnFrameworkEmailConfigSaveValueChange
 	public String replaceComma(Object emailIds) {
 		String replaceComma;
 		replaceComma = (emailIds == null || emailIds.equals("") || emailIds.equals("null")) ? ""
-				: emailIds.toString().replace(" ", ",");
+				: emailIds.toString().replace(' ', ',');
 		return replaceComma;
 	}
 

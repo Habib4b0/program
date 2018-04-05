@@ -130,9 +130,9 @@ public class GtnWsRebateScheduleCrudService {
 		rsModel.setCdrModelByEvaluationRuleOrAssociation(
 				getCdrModel(rsInfoBean.getEvaluationRuleAssociationSid(), session));
 		rsModel.setHelperTableByDeductionInclusion(getHelperTable(rsInfoBean.getRsDeductionInclusion(), session));
-		rsModel.setCreatedBy(Integer.valueOf(userId));
+		rsModel.setCreatedBy(Integer.parseInt(userId));
 		rsModel.setCreatedDate(new Date());
-		rsModel.setModifiedBy(Integer.valueOf(userId));
+		rsModel.setModifiedBy(Integer.parseInt(userId));
 		rsModel.setModifiedDate(new Date());
 		return rsModel;
 	}

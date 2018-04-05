@@ -73,7 +73,7 @@ public class GtnFrameworkCfpMoveAllRightAction
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPrightResultTable")
 					.getLogicFromPagedDataTable();
 			logic.clearFilters();
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);
 		} finally {

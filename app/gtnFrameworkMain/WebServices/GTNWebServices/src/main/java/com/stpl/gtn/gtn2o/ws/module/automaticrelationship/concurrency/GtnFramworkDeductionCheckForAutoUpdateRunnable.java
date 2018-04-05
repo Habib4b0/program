@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.automaticrelationship.concurrency.GtnFramworkDeductionCheckForAutoUpdateQuery;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
@@ -26,8 +26,9 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Callable<
 	private GtnWsSqlService gtnWsSqlService;
 	@Autowired
 	private GtnFrameworkHierarchyService gtnHierarchyServiceBuilder;
+
 	@Autowired
-	private GtnFramworkDeductionCheckForAutoUpdateQuery queryGeneratorService;
+	private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
 	private int index;
 	private static final GtnWSLogger LOGGER = GtnWSLogger
@@ -94,11 +95,13 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Callable<
 		try {
 			HierarchyLevelDefinitionBean currnetHierarchyLevelBean = hierarchyLevelDefinitionList.get(index);
 			List<Object> input = new ArrayList<>();
+			input.add(currnetHierarchyLevelBean.getLevelNo());
+			input.add(relationBean.getVersionNo());
+			input.add(relationBean.getRelationshipBuilderSid());
 			input.add(getListToString(itemMastersidList));
 			List<Object> finalInputForQuery = null;
-			GtnFrameworkQueryGeneratorBean hierarchyQuery = queryGeneratorService
-					.getCheckForUpdateQuery(currnetHierarchyLevelBean,
-							relationBean.getRelationshipBuilderSid(), hierarchyLevelDefinitionList);
+			GtnFrameworkQueryGeneratorBean hierarchyQuery = queryGeneratorService.getQuerybySituationNameAndLevel(
+					currnetHierarchyLevelBean, "CHECK_AUTO_UPDATE_DEDUCTION", hierarchyLevelDefinitionList);
 			String query = gtnWsSqlService.getReplacedQuery(input, hierarchyQuery.generateQuery());
 			finalInputForQuery = new ArrayList<>();
 			finalInputForQuery.add(relationBean.getRelationshipBuilderSid());
@@ -109,6 +112,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Callable<
 		} catch (Exception e) {
 			LOGGER.error(" Error " + e.getMessage());
 		}
+
 		return "";
 	}
 

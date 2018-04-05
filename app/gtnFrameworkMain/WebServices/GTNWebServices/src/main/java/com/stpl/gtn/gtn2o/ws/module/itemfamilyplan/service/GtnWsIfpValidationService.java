@@ -68,7 +68,7 @@ public class GtnWsIfpValidationService {
 				String value = String.valueOf(objects[1]);
 				switch (id) {
 				case "ITEMS_COUNT":
-					ifpValidationBean.setCount(Integer.valueOf(value));
+					ifpValidationBean.setCount(Integer.parseInt(value));
 					break;
 				case "IFP_DETAILS_START_DATE":
 					ifpValidationBean.setStartDateNullCount(getInt(value));
@@ -83,7 +83,7 @@ public class GtnWsIfpValidationService {
 					ifpValidationBean.setStartDateGreaterThanEndItemId(getString(value));
 					break;
 				case "CHECKED_RECORD_COUNT":
-					ifpValidationBean.setCheckedCount(Integer.valueOf(value));
+					ifpValidationBean.setCheckedCount(Integer.parseInt(value));
 					break;
 				case "START_DATE_EQUALS_END_DATE":
 					ifpValidationBean.setStartDateEqualCount(getInt(value));
@@ -102,7 +102,7 @@ public class GtnWsIfpValidationService {
 
 	int getInt(String value) {
 		if (StringUtils.isNumeric(value)) {
-			return Integer.valueOf(value);
+			return Integer.parseInt(value);
 		}
 		return 1;
 	}

@@ -42,7 +42,7 @@ public class GtnFrameworkCfpAddAction
 		gtnLogger.info("Entering GtnFrameworkCfpAddAction doAction ");
 		try {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable").setTableReadOnly(false);
-			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			GtnFrameworkCfpValueChangeManager.setValueChangeAllowed(false);
 			String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
 			GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();

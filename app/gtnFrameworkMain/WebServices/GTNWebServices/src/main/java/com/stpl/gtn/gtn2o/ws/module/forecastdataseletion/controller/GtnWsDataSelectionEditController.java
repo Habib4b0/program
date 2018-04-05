@@ -86,9 +86,7 @@ public class GtnWsDataSelectionEditController {
 		try {
 		GtnWsForecastRequest forecastRequet = gtnWsRequest.getGtnWsForecastRequest();
 		GtnForecastHierarchyInputBean inputBean = forecastRequet.getInputBean();
-		String finalQuery = productSelectedLoadService.getChildLevelQueryForProduct(
-				inputBean.getSelectedHierarchyLevelDto().getHierarchyLevelBean(),
-					inputBean.getBusinessUnitValue());
+			String finalQuery = productSelectedLoadService.getChildLevelQueryForProduct(inputBean);
 		inputBean.setHieraryQuery(finalQuery);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
