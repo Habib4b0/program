@@ -21,7 +21,7 @@ public class GtnFrameWorkCGrpLoadDataTableAction implements GtnUIFrameWorkAction
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) GtnUIFrameworkGlobalUI
 				.getVaadinComponent("cGrpsearchResultTable").getData();
 		GtnUIFrameworkPagedTableLogic tableLogic = componentData.getCurrentPageTableLogic();
-		boolean isActiveFlag = Boolean.TRUE;
+		boolean isActiveFlag = true;
 		String queryName;
 		if ("gtnAudictSearch01".equals(componentId)) {
 			queryName = "cGrpAuditSearchQuery";

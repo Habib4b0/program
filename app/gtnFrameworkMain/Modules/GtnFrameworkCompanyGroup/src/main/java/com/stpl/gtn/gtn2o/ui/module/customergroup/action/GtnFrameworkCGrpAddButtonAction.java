@@ -77,7 +77,7 @@ public class GtnFrameworkCGrpAddButtonAction
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("cGrpSelectedResultTable").getLogicFromPagedDataTable();
 
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);

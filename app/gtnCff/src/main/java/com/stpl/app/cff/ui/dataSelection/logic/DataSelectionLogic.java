@@ -1962,7 +1962,7 @@ public class DataSelectionLogic {
         public Date getDefaultEligibleDateFromForecastConfiguration() {
             String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Consolidated Financial Forecast')";
             List cffEligibleDatelist = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            return cffEligibleDatelist != null ? (Date) cffEligibleDatelist.get(0) : null;
+            return cffEligibleDatelist != null && !cffEligibleDatelist.isEmpty() ? (Date) cffEligibleDatelist.get(0) : null;
             
         }
             public String getremovedcontractbasedonCFFEligibleDate(final SessionDTO session) {

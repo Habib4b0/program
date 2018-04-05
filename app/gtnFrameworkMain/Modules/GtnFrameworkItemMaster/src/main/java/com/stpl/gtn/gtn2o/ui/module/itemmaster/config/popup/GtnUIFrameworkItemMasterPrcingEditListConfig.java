@@ -62,30 +62,30 @@ public class GtnUIFrameworkItemMasterPrcingEditListConfig {
 		componentList.add(mainFieldPanel);
 
 		GtnUIFrameworkComponentConfig mainFieldLayout = componentConfig.getCssLayoutConfig(
-				GtnFrameworkCommonConstants.EDIL_LIST_PRICING_FIELD_MAIN_LAYOUT, Boolean.TRUE,
+				GtnFrameworkCommonConstants.EDIL_LIST_PRICING_FIELD_MAIN_LAYOUT, true,
 				"imPricingFeildEditListPanel");
-		mainFieldLayout.setSpacing(Boolean.TRUE);
+		mainFieldLayout.setSpacing(true);
 		mainFieldLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		mainFieldLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(mainFieldLayout);
 
 		GtnUIFrameworkComponentConfig innerLayoutConfig = componentConfig.getCssLayoutConfig(
-				"edilListPricingFieldInnerLayout", Boolean.TRUE,
+				"edilListPricingFieldInnerLayout", true,
 				GtnFrameworkCommonConstants.EDIL_LIST_PRICING_FIELD_MAIN_LAYOUT);
-		innerLayoutConfig.setSpacing(Boolean.TRUE);
+		innerLayoutConfig.setSpacing(true);
 		innerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_8);
 		componentList.add(innerLayoutConfig);
 
 		GtnUIFrameworkComponentConfig edilListPricingFieldLayout = componentConfig.getGtnCssLayoutConfig(
-				GtnFrameworkCommonConstants.EDIL_LIST_PRICING_FIELD_LAYOUT, Boolean.TRUE,
+				GtnFrameworkCommonConstants.EDIL_LIST_PRICING_FIELD_LAYOUT, true,
 				"edilListPricingFieldInnerLayout", GtnUIFrameworkLayoutType.COL2_LAYOUT);
 		componentList.add(edilListPricingFieldLayout);
 
 		GtnUIFrameworkComponentConfig notesPricingMainLayout = componentConfig.getCssLayoutConfig(
-				"notesPricingMainLayout", Boolean.TRUE,
+				"notesPricingMainLayout", true,
 				GtnFrameworkCommonConstants.EDIL_LIST_PRICING_FIELD_MAIN_LAYOUT);
 		notesPricingMainLayout.setMargin(true);
-		notesPricingMainLayout.setSpacing(Boolean.TRUE);
+		notesPricingMainLayout.setSpacing(true);
 		notesPricingMainLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		componentList.add(notesPricingMainLayout);
 

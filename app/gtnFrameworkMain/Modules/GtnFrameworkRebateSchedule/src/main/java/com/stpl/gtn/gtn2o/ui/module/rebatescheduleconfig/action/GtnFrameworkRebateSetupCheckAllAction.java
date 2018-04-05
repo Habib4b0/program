@@ -37,10 +37,10 @@ public class GtnFrameworkRebateSetupCheckAllAction implements GtnUIFrameWorkActi
 		rsInfoBean.setValue(value);
 		updateField();
 
-		GtnFrameworkRSValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
+		GtnFrameworkRSValueChangeManager.setValueChangeAllowed(false);
 		GtnUIFrameworkPagedTableLogic logic = tableBaseComponent.getLogicFromPagedDataTable();
-		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
-		GtnFrameworkRSValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+		logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
+		GtnFrameworkRSValueChangeManager.setValueChangeAllowed(true);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class GtnFrameworkRebateSetupCheckAllAction implements GtnUIFrameWorkActi
 		updateRequest.setGtnWsGeneralRequest(generalWSRequest);
 
 		GtnWsRebateScheduleInfoBean rsBean = new GtnWsRebateScheduleInfoBean();
-		rsBean.setCheckAll(Boolean.TRUE);
+		rsBean.setCheckAll(true);
 		rsBean.setColumnId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		rsBean.setValue(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psRebateSetupTabResultDataTable")
 				.getTableColumnCheckboxValue(GtnFrameworkCommonConstants.CHECK_RECORD_ID));

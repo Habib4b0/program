@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -83,7 +84,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
-import java.util.Locale;
 /**
  *
  * @author Abhiram
@@ -4663,18 +4663,10 @@ public class CommonLogic {
 					formedQuery = getQueryForLoadingDiscount(inputBean);
                     query = formedQuery;
                 }
-               
-                query = (productList.isEmpty() || isuserDefined) ? query
-                        : (SQlUtil.getQuery("product-dynamic-filter").replace(Constant.LEVEL_VALUES, productList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
-                                .replace(Constant.RELBUILD_SID, projDto.getSessionDTO().getProdRelationshipBuilderSid()) + query + " JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
-
-                query = (deductionList.isEmpty() || isuserDefined) ? query
-                        : (SQlUtil.getQuery("deduction-dynamic-filter").replace(Constant.DEDLEVEL_VALUES, deductionList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
-                                .replace("@DEDRELBUILDSID", projDto.getSessionDTO().getDedRelationshipBuilderSid()) + query + " JOIN ST_NM_DISCOUNT_PROJ_MASTER SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID "
-                        + " JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
-
-                stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query, projDto.getSessionDTO().getCurrentTableNames()));
-                return stockList;
+                query = getReplacedQuery(projDto, productList, deductionList, query, isuserDefined);
+				StringBuilder sb = getJoinReplaced(productList, deductionList, query, isuserDefined);
+				stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(
+						QueryUtil.replaceTableNames(sb.toString(), projDto.getSessionDTO().getCurrentTableNames()));
 
             }
         } catch (SystemException | PortalException ex) {
@@ -4682,6 +4674,35 @@ public class CommonLogic {
         }
         return stockList;
     }
+
+	private StringBuilder getJoinReplaced(List<Object> productList, List<Object> deductionList, String query,
+			boolean isuserDefined) {
+		StringBuilder sb = new StringBuilder(query);
+
+		if (!productList.isEmpty() && !isuserDefined) {
+			sb.insert(query.lastIndexOf(Constant.WHERE_CAPS),
+					" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%'  ");
+		}
+		if (!deductionList.isEmpty() && !isuserDefined) {
+			sb.insert(query.lastIndexOf(Constant.WHERE_CAPS),
+					" JOIN ST_NM_DISCOUNT_PROJ_MASTER SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
+		}
+		return sb;
+	}
+
+	private String getReplacedQuery(ProjectionSelectionDTO projDto, List<Object> productList,
+			List<Object> deductionList, String query, boolean isuserDefined) {
+		query = (productList.isEmpty() || isuserDefined) ? query
+		        : (SQlUtil.getQuery("product-dynamic-filter").replace(Constant.LEVEL_VALUES, productList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
+						.replace(Constant.RELBUILD_SID, projDto.getSessionDTO().getProdRelationshipBuilderSid())
+						+ query);
+
+		query = (deductionList.isEmpty() || isuserDefined) ? query
+		        : (SQlUtil.getQuery("deduction-dynamic-filter").replace(Constant.DEDLEVEL_VALUES, deductionList.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
+						.replace("@DEDRELBUILDSID", projDto.getSessionDTO().getDedRelationshipBuilderSid())
+						+ query);
+		return query;
+	}
 
 
     public List<Object[]> getProductLevelValues(int projectionId, String type, ProjectionSelectionDTO projectionDto,List<Object> customerFilter,List<Object> deductionFilter,String versionNo) {
@@ -4699,18 +4720,33 @@ public class CommonLogic {
                         ? SQlUtil.getQuery("user-defined-level-values").replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                                 .replace(Constant.LEVEL_CAPS, type).replace("@VER", versionNo)
 						: getQueryForLoadingDiscount(inputBean);
-
+				boolean isuserDefined = Constant.USER_DEFINED.equals(userDefined);
                 query = customerFilter.isEmpty() ? query
                         : (SQlUtil.getQuery("customer-dynamic-filter").replace(Constant.LEVEL_VALUES, customerFilter.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
-                                .replace(Constant.RELBUILD_SID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid()) + query + (Constant.USER_DEFINED.equals(userDefined)? StringUtils.EMPTY:" JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' "));
+								.replace(Constant.RELBUILD_SID,
+										projectionDto.getSessionDTO().getCustRelationshipBuilderSid())
+								+ query);
 
                 query = deductionFilter.isEmpty() ? query
                         : (SQlUtil.getQuery("deduction-dynamic-filter").replace(Constant.DEDLEVEL_VALUES, deductionFilter.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
-                                .replace("@DEDRELBUILDSID", projectionDto.getSessionDTO().getDedRelationshipBuilderSid()) + query + " JOIN ST_NM_DISCOUNT_PROJ_MASTER SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID "
-                        + " JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
+								.replace("@DEDRELBUILDSID",
+										projectionDto.getSessionDTO().getDedRelationshipBuilderSid())
+								+ query
+						);
+				StringBuilder sb = new StringBuilder(query);
 
-                stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionDto.getSessionDTO().getCurrentTableNames()));
-                return stockList;
+				if (!customerFilter.isEmpty() && !isuserDefined) {
+					sb.insert(query.lastIndexOf(Constant.WHERE_CAPS),
+							" JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ");
+				}
+				if (!deductionFilter.isEmpty() && !isuserDefined) {
+					sb.insert(query.lastIndexOf(Constant.WHERE_CAPS),
+							" JOIN ST_NM_DISCOUNT_PROJ_MASTER SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID  JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
+				}
+
+
+				stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil
+						.replaceTableNames(sb.toString(), projectionDto.getSessionDTO().getCurrentTableNames()));
             }
         } catch (SystemException | PortalException ex) {
             LOGGER.error(ex.getMessage());

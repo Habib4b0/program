@@ -71,7 +71,7 @@ public class GtnFrameworkIfpItemsTabTableCheckAction implements GtnUIFrameWorkAc
 					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
 					.getLogicFromPagedDataTable();
-			logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+			logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);

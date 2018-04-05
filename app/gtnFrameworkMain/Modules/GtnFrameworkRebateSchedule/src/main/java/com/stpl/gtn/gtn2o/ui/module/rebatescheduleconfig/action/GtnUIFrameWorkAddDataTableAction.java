@@ -52,8 +52,8 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction, G
 					.addDataTableLoadAction(ifpId,
 							"/" + GtnWsCDRContants.RS_SERVICE + "/" + GtnWsCDRContants.RS_ITEM_ADDITION_SERVICE);
 			priceTabTableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
-			priceTabTableLogic.startSearchProcess(new ArrayList<String>(), Boolean.TRUE);
-			GtnUIFrameworkGlobalUI.addSessionProperty("ValueChangeAllowed", true);
+			priceTabTableLogic.startSearchProcess(new ArrayList<String>(), true);
+			GtnUIFrameworkGlobalUI.addSessionProperty("ValueChangeAllowed", Boolean.TRUE);
 			GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 		}
 

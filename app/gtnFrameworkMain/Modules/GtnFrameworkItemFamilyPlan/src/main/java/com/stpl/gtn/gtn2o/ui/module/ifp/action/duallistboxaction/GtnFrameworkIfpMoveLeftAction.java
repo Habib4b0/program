@@ -75,7 +75,7 @@ public class GtnFrameworkIfpMoveLeftAction
 				GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("ifprightResultTable").getLogicFromPagedDataTable();
 
-				logic.startSearchProcess(null, Boolean.TRUE);
+				logic.startSearchProcess(null, true);
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);
 		} finally {

@@ -172,8 +172,10 @@ public class RelationShipFilterLogic {
 		inputList.add(String.valueOf(relationshipSid));
 		inputList.add(String.valueOf(LastHierarchyLevelDto.getLevelNo()));
 		inputList.add(String.valueOf(relationVersionNo));
+		inputList.add(String.valueOf("'" + selectedHierarchyLevelDto.getHierarchyNo() + "%'"));
 		inputList.add(String.valueOf(relationVersionNo));
-		inputList.add(String.valueOf(lastLevelNo));
+		inputList.add(String.valueOf(lastLevelNo + 1));
+		inputList.add(String.valueOf("'" + selectedHierarchyLevelDto.getHierarchyNo() + "'"));
 		if (forecastEligibleDate != null) {
 			inputList.add(dateFormat.format(forecastEligibleDate));
 			inputList.add(dateFormat.format(forecastEligibleDate));

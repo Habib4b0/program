@@ -75,7 +75,7 @@ public class GtnUiFrameworkNsfDeductionsTabAddAction implements GtnUIFrameWorkAc
 		if (formulaType != null && formulaType.equals(GtnFrameworkNSFConstants.getFormulaTypeContract())) {
 			for (GtnWsRecordBean GtnWsRecordBean : availableDeductionBean) {
 				GtnUIFrameworkNsfSelectedDeductionsBean selectedContractBean = new GtnUIFrameworkNsfSelectedDeductionsBean();
-				selectedContractBean.setContract(false);
+				selectedContractBean.setContract(Boolean.FALSE);
 				selectedContractBean
 						.setDeductionType(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(17))));
 				selectedContractBean
@@ -93,7 +93,7 @@ public class GtnUiFrameworkNsfDeductionsTabAddAction implements GtnUIFrameWorkAc
 
 			for (GtnWsRecordBean GtnWsRecordBean : availableDeductionBean) {
 				GtnUIFrameworkNsfSelectedDeductionsBean selectedCustomerBean = new GtnUIFrameworkNsfSelectedDeductionsBean();
-				selectedCustomerBean.setContract(false);
+				selectedCustomerBean.setContract(Boolean.FALSE);
 				selectedCustomerBean
 						.setDeductionType(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(3))));
 				selectedCustomerBean
