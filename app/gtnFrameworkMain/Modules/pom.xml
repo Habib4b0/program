@@ -38,6 +38,7 @@
 		<module>GtnFrameworkPeriodConfiguration</module>
 		<module>GtnFrameworkBusinessRoleModuleMaster</module>
 		<module>GtnFrameworkUDCConfiguration</module>
+		<module>GtnUIFrameworkCommercialForecasting</module>
 	</modules>
 
 	<dependencies>
