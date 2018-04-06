@@ -129,6 +129,34 @@ public class GtnWsForecastConfigurationController {
 				+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
 		return gtnResponse;
 	}
+        @RequestMapping(value = GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse periodModeValue(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		LOGGER.info(GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
+		GtnUIFrameworkWebserviceResponse gtnWsResponse = new GtnUIFrameworkWebserviceResponse();
+
+		GtnWsGeneralResponse gtnGeneralWsResponse = new GtnWsGeneralResponse();
+		gtnGeneralWsResponse.setSucess(true);
+
+		gtnWsResponse.setGtnWsGeneralResponse(gtnGeneralWsResponse);
+		try {
+                        Calendar gtsCalculation = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+			String string = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCalculation.get(Calendar.MONTH)) + " "
+					+ gtsCalculation.get(Calendar.YEAR);
+			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
+                        LOGGER.info("str******************"+string);
+                        forecastResponse.setForecastPeriod(string);
+			forecastResponse.setSuccess(forecastResponse.isSuccess());
+			gtnWsResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
+		} catch (Exception ex) {
+			gtnGeneralWsResponse.setSucess(false);
+			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
+					+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE, ex);
+		}
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT
+				+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
+		return gtnWsResponse;
+	}
 
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse historyIntervalValueChange(
@@ -341,12 +369,7 @@ public class GtnWsForecastConfigurationController {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
-			Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
-			if (gtnWsRequest.getForecastConfigurationRequest().getToDate().after(gtsCal.getTime())) {
-				forecastResponse.setErrorMessage(true);
-				forecastResponse.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
-			}
 		} catch (Exception ex) {
 			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE, ex);
