@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.registry.config.lookups;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.registry.config.GtnFrameworkDataAssumptionsTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
@@ -77,7 +78,7 @@ public class ForecastingGeneratePopupAction {
 		dataAssumptions.setTabCaption("Data Assumptions");
 		List<GtnUIFrameworkComponentConfig> dataAssumptionsTabConfigList = new ArrayList<>();
 		dataAssumptions.setTabLayoutComponentConfigList(dataAssumptionsTabConfigList);
-		// new GtnFrameworkDataAssumptionsTabConfig().addDataAssumptionsLayout(dataAssumptionsTabConfigList,"dataAssumptionsTab");
+		new GtnFrameworkDataAssumptionsTabConfig().addDataAssumptionsLayout(dataAssumptionsTabConfigList,"dataAssumptionsTab");
 
 		List<GtnUIFrameworkTabConfig> tabList = new ArrayList<>();
 		tabList.add(dataAssumptions);
