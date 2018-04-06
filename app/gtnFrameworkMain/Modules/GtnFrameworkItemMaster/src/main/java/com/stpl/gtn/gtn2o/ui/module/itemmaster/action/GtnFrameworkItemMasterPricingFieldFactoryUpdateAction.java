@@ -53,7 +53,7 @@ public class GtnFrameworkItemMasterPricingFieldFactoryUpdateAction
 							+ GtnWsItemMasterContants.GTN_WS_PRICING_UPDATE_SERVICE,
 					gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-			actionParameter.getItemId().addBooleanProperties("isFocused", false);
+			actionParameter.getItemId().addBooleanProperties("isFocused", Boolean.FALSE);
 
 		}
 

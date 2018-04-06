@@ -1199,7 +1199,7 @@ public class DiscountProjectionLogic {
                     } else {
                         val = (((Object[]) list.get(i))[0]).toString();
                     }
-                    rebateList.add(val.toString());
+                    rebateList.add(val);
                 }
             }
         } catch (Exception e) {

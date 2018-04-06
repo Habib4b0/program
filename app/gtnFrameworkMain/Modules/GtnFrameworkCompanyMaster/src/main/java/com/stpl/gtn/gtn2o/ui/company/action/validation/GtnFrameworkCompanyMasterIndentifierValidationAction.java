@@ -105,18 +105,18 @@ public class GtnFrameworkCompanyMasterIndentifierValidationAction implements Gtn
 
     public void validationForMandatory(Integer qualifierId, StringBuilder failedMsg, String identifer, Integer status, Date startDate, String componentId) throws GtnFrameworkValidationFailedException {
         String msg;
-        String appender = " ";
+        char appender = ' ';
         if (qualifierId == null || qualifierId == 0) {
             failedMsg.append(appender).append("Company Qualifier Name");
-            appender = " , ";
+            appender =  ',';
         }
         if (identifer.isEmpty()) {
             failedMsg.append(appender).append("Company Identifier");
-            appender = " , ";
+            appender =  ',';
         }
         if (status == null || status == 0) {
             failedMsg.append(appender).append("Identifier Status");
-            appender = " , ";
+            appender =  ',';
         }
         if (startDate == null) {
             failedMsg.append(appender).append("Start Date");

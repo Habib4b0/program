@@ -82,13 +82,13 @@ public class GtnFrameworkIfpSaveAction
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("ifpItemsTabResultDataTable").getLogicFromPagedDataTable();
 
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 
 			GtnUIFrameworkPagedTableLogic logic2 = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE)
 					.getLogicFromPagedDataTable();
 
-			logic2.startSearchProcess(null, Boolean.TRUE);
+			logic2.startSearchProcess(null, true);
 			TabSheet sheet = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifptabSheet").getAsTabSheet();
 			sheet.setSelectedTab(sheet.getTab(0));
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInfoifpId", componentId).loadFieldValue(

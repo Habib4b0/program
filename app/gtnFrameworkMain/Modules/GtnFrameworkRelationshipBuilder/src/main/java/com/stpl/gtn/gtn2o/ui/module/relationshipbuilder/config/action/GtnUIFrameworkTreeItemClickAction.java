@@ -213,7 +213,7 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 										GtnWsRelationshipBuilderKeyConstant.HIDDEN_ID.ordinal()))
 						&& currentChildLevelNo == originalEndLeveNo && gtnWsRecordBean.getChildList() != null
 						&& !gtnWsRecordBean.getChildList().isEmpty()) {
-					GtnWsRecordBean.addProperties(GtnWsRelationshipBuilderKeyConstant.IS_NODE_VISITED.ordinal(), true,
+					GtnWsRecordBean.addProperties(GtnWsRelationshipBuilderKeyConstant.IS_NODE_VISITED.ordinal(), Boolean.TRUE,
 							gtnWsRecordBean.getProperties());
 					returnList.addAll(gtnWsRecordBean.getChildList());
 				} else if (currentChildLevelNo != originalEndLeveNo && gtnWsRecordBean.getChildList() != null

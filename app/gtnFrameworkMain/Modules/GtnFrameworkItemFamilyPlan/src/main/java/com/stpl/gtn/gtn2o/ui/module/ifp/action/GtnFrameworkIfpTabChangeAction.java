@@ -35,7 +35,7 @@ public class GtnFrameworkIfpTabChangeAction
 					GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(false);
 					GtnUIFrameworkPagedTableLogic logic = (GtnUIFrameworkPagedTableLogic) ifpItemsTabResultDataTable
 							.getContainerLogic();
-					logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+					logic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 					ifpItemsTabResultDataTable.setData(null);
 				}
 

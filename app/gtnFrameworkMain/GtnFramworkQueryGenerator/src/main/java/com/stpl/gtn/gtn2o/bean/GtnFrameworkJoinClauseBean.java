@@ -77,4 +77,10 @@ public class GtnFrameworkJoinClauseBean implements Serializable {
 		this.joinType = joinType;
 	}
 
+	public void replaceConditionBeanColumn(String replaceString, String replacedString) {
+		for (GtnFrameworkJoinConditionBean gtnFrameworkJoinConditionBean : conditionList) {
+			gtnFrameworkJoinConditionBean.replaceColumnValue(replaceString, replacedString);
+		}
+	}
+
 }

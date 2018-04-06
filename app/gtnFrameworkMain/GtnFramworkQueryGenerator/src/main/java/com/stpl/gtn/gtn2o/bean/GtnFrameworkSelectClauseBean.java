@@ -45,4 +45,10 @@ public class GtnFrameworkSelectClauseBean implements Serializable {
 		}
 	}
 
+	public void replaceSelectClause(String replaceString, String replacedString) {
+		if (selectClauseValue == null)
+			return;
+		selectClauseValue = selectClauseValue.replace(replaceString, replacedString);
+	}
+
 }

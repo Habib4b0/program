@@ -122,11 +122,11 @@ public class GtnFrameworkIfpItemsTabPopulateAction
 					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("ifpItemsTabResultDataTable").getLogicFromPagedDataTable();
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 		} catch (GtnFrameworkValidationFailedException e) {
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("ifpItemsTabResultDataTable").getLogicFromPagedDataTable();
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 			gtnLogger.error(e.getMessage(), e);
 			throw new GtnFrameworkSkipActionException(e.getMessage(), e);
 

@@ -67,7 +67,7 @@ public class GtnFrameworkCGrpResetAction
 
 				GtnUIFrameworkPagedTableLogic cfpCaTabRightTablelogic = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("cGrpSelectedResultTable").getLogicFromPagedDataTable();
-				cfpCaTabRightTablelogic.startSearchProcess(null, Boolean.TRUE);
+				cfpCaTabRightTablelogic.startSearchProcess(null, true);
 
 			} catch (GtnFrameworkValidationFailedException e) {
 				gtnLogger.error(e.getMessage(), e);

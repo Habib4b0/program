@@ -915,7 +915,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             input.put("Inventory Withdrawal - Forecast Detail", inventoryNames);
             input.put("Inventory Withdrawal - Forecast Summary", inventoryNames);
             query = SQlUtil.getQuery("get-file-type-query");
-            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
+            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             outputSet.addAll(defaultNames);
             for (String string : returnList) {
                 if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {

@@ -499,7 +499,7 @@ public class GtnFrameworkContractDashboardCompaniesTabConfig {
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameworkFieldEnableDisableAction.class.getName());
 		customAction.addActionParameter(componentConfig.getComponentId());
-		customAction.addActionParameter(true);
+		customAction.addActionParameter(Boolean.TRUE);
 		customAction.addActionParameter("child");
 		customAction.setFieldValues(
 				Arrays.asList(cdCompaniesTabPrefix + TEXT_PCFPID, cdCompaniesTabPrefix + TEXT_PCFP_NAME));
