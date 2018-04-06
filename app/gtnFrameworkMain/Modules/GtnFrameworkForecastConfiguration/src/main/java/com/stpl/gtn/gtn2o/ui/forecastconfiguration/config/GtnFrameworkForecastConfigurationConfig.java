@@ -526,10 +526,16 @@ public class GtnFrameworkForecastConfigurationConfig {
 		forecastPeriodConfig.setAuthorizationIncluded(true);
 		forecastPeriodConfig.setComponentName("Forecast Period");
 		forecastPeriodConfig.setEnable(false);
+                forecastPeriodConfig.setResetToDefaultAllowed(false);
+		GtnUIFrameworkTextBoxConfig textBoxConfig = commonConfig.getTextBoxConfig(false, false, true);
+		textBoxConfig.setValueLoadFromService(true);
+		textBoxConfig.setLoadingUrl(GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+				+ GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD);
 
 		GtnUIFrameworkValidationConfig historicalDataPeriodValidationConfig = new GtnUIFrameworkValidationConfig();
 		historicalDataPeriodValidationConfig.setMaxLength(5);
 		forecastPeriodConfig.setGtnUIFrameworkValidationConfig(historicalDataPeriodValidationConfig);
+                forecastPeriodConfig.setGtnTextBoxConfig(textBoxConfig);
 		componentList.add(forecastPeriodConfig);
 	}
 
