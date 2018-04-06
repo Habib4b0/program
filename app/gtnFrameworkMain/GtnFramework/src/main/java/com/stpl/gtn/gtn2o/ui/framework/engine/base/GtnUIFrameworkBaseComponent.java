@@ -16,7 +16,6 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -37,6 +36,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
@@ -55,6 +55,8 @@ import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
 
 public class GtnUIFrameworkBaseComponent {
+	
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkBaseComponent.class);
 
 	private final AbstractComponent component;
 
@@ -846,9 +848,10 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void setSelectedWeekDays(int... days) {
+		gtnLogger.info("inside setSelectedWeekDays(days)");
 		if (getComponent() instanceof CalendarField) {
-			((GtnUIFrameworkCalendarComponent) (getComponentConfig().getComponentType().getGtnComponent()))
-					.setSelectedWeekDays((CalendarField) getComponent(), days);
+			gtnLogger.info("inside if in setselectedDays(days)");
+			((GtnUIFrameworkCalendarComponent) (getComponentConfig().getComponentType().getGtnComponent())).setSelectedWeekDays((CalendarField) getComponent(), days);
 		}
 	}
 

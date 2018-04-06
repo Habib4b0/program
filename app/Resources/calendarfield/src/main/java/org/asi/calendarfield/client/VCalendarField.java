@@ -25,11 +25,15 @@ import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author Abhiram
  */
 public class VCalendarField extends FlowPanel implements Field, HasEnabled{ 
+	
+	private static final Logger logger = org.apache.log4j.LogManager.getLogger(VCalendarField.class);
     public static final String CLASSNAME = "v-inline-datefield";
     public static final String NEW_CLASSNAME = "calendarfield";
 
@@ -225,7 +229,9 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
         int ix = 0;
         Iterator<String> it = headerCalendarPanel.getValues().iterator();
         while(it.hasNext()) {
-            newValues[ix++]=it.next();
+        	String var = it.next();
+        	logger.info("varr"+var);
+            newValues[ix++]=var;
         }
         getClient().updateVariable(getId(), "focusYear", ""+headerCalendarPanel.getFocusedDate().getYear(),
                     false);

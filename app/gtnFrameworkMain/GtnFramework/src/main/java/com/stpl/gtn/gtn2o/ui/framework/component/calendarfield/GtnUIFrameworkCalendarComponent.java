@@ -66,10 +66,22 @@ public class GtnUIFrameworkCalendarComponent implements GtnUIFrameworkComponent 
 	}
 
 	public void setSelectedWeekDays(CalendarField calendarField, int[] days) {
+		
+		
+		
 		if (days != null && days.length > 0) {
+			
+			
+			gtnLogger.info("days.length= "+ days.length);
+			
 			WeekDay[] tempWeakDays = new WeekDay[days.length];
+			
 			for (int i = 0; i < days.length; i++) {
+				
+				
+				gtnLogger.info("i= "+ days[i]);
 				tempWeakDays[i] = WeekDay.getWeekDay(days[i]);
+				gtnLogger.info("tempWeakDays[i] = "+ WeekDay.getWeekDay(days[i]));
 			}
 			calendarField.setSelectedWeekDays(tempWeakDays);
 		} else {

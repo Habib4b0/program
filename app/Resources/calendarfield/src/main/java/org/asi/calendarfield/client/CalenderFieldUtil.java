@@ -17,11 +17,16 @@ package org.asi.calendarfield.client;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+import org.asi.calendarfield.CalendarField;
+
 /**
  *
  * @author Mina
  */
 public class CalenderFieldUtil {
+	
+	private static final Logger logger = org.apache.log4j.LogManager.getLogger(CalenderFieldUtil.class);
     public static final String DATE_SEPARATOR="_";
     /**
      * Helper class to inform the screen reader that the user changed the
@@ -44,12 +49,24 @@ public class CalenderFieldUtil {
         }      
     }
     public static CalendarDate getDateFromString(String str){
+    	
+    	logger.info("inside util and str = "+ str);
+    	
         if(str!=null){
             String[] val=str.split(DATE_SEPARATOR);
+            
+            logger.info("val.length= "+ val.length);
+            
+            
             if(val.length==3){
                 int year=Integer.parseInt(val[0]);
                 int month=Integer.parseInt(val[1]);
                 int date=Integer.parseInt(val[2]);
+                
+                logger.info("year= "+ year);
+                logger.info("month= "+ month);
+                logger.info("date= "+ date);
+                
                 return new CalendarDate(year, month, date);
             }            
         }

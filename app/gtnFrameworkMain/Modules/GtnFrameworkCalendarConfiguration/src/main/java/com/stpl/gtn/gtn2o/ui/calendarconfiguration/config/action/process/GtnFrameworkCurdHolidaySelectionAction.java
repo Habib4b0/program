@@ -32,15 +32,24 @@ public class GtnFrameworkCurdHolidaySelectionAction implements GtnUIFrameWorkAct
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		
+		gtnLogger.info("Inside holidays selection action");
+		
 		List<String> parameters = gtnUIFrameWorkActionConfig.getFieldValues();
 		try {
 			GtnUIFrameworkBaseComponent defaultHolidayBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(componentId);
 			String holiday = defaultHolidayBaseComponent.getStringFromField();
-			GtnUIFrameworkBaseComponent calendarBaseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(parameters.get(0));
+			
+			gtnLogger.info("1= "+ holiday);
+			
+			GtnUIFrameworkBaseComponent calendarBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(0));
+			
+			
+			
 			if (Boolean.valueOf(holiday)) {
 				calendarBaseComponent.setSelectedWeekDays(0, 6);
+				gtnLogger.info("if");
 				return;
 			}
 			calendarBaseComponent.setSelectedWeekDays();
