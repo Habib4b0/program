@@ -76,38 +76,38 @@ public class AlternateHistoryLogic {
         Map<String, Object> parameters = new HashMap<>();
         LOGGER.debug("--customer No-----= {}" , altHistoryDTO.getCustomerNo());
         if (isValidCriteria(altHistoryDTO.getContractHolder())) {
-            String contractHolder = altHistoryDTO.getContractHolder();
-            contractHolder = contractHolder.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put(Constant.CONTRACT_HOLDER, contractHolder);
+            String contHolder = altHistoryDTO.getContractHolder();
+            contHolder = contHolder.replace(CommonUtils.CHAR_ASTERISK, '%');
+            parameters.put(Constant.CONTRACT_HOLDER, contHolder);
         }
 
         if (isValidCriteria(altHistoryDTO.getContractNo())) {
-            String contractNo = altHistoryDTO.getContractNo();
-            contractNo = contractNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put(Constant.CONTRACT_NO1, contractNo);
+            String contNo = altHistoryDTO.getContractNo();
+            contNo = contNo.replace(CommonUtils.CHAR_ASTERISK, '%');
+            parameters.put(Constant.CONTRACT_NO1, contNo);
         }
 
         if (isValidCriteria(altHistoryDTO.getCustomerNo())) {
-            String customerNo = altHistoryDTO.getCustomerNo();
-            customerNo = customerNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put(Constant.CUSTOMER_NO, customerNo);
+            String custNo = altHistoryDTO.getCustomerNo();
+            custNo = custNo.replace(CommonUtils.CHAR_ASTERISK, '%');
+            parameters.put(Constant.CUSTOMER_NO, custNo);
         }
         if (isValidCriteria(altHistoryDTO.getMarketType())) {
-            String marketType = altHistoryDTO.getMarketType();
-            marketType = marketType.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put(Constant.MARKET_TYPE, marketType);
+            String markType = altHistoryDTO.getMarketType();
+            markType = markType.replace(CommonUtils.CHAR_ASTERISK, '%');
+            parameters.put(Constant.MARKET_TYPE, markType);
         }
 
         if (isValidCriteria(altHistoryDTO.getContractName())) {
-            String contractName = altHistoryDTO.getContractName();
-            contractName = contractName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put(Constant.CONTRACT_NAME, contractName);
+            String contName = altHistoryDTO.getContractName();
+            contName = contName.replace(CommonUtils.CHAR_ASTERISK, '%');
+            parameters.put(Constant.CONTRACT_NAME, contName);
         }
 
         if (isValidCriteria(altHistoryDTO.getCustomerName())) {
-            String customerName = altHistoryDTO.getCustomerName();
-            customerName = customerName.replace(CommonUtils.CHAR_ASTERISK, '%');
-            parameters.put(Constant.CUSTOMER_NAME, customerName);
+            String custName = altHistoryDTO.getCustomerName();
+            custName = custName.replace(CommonUtils.CHAR_ASTERISK, '%');
+            parameters.put(Constant.CUSTOMER_NAME, custName);
         }
         if (filters != null) {
             for (Container.Filter filter : filters) {
@@ -128,39 +128,39 @@ public class AlternateHistoryLogic {
         List list = Collections.EMPTY_LIST;
         try {
             if (isValidCriteria(altHistoryDTO.getContractHolder())) {
-                String contractHolder = altHistoryDTO.getContractHolder();
-                contractHolder = contractHolder.replace(CommonUtils.CHAR_ASTERISK, '%');
+                String contractHolderParam = altHistoryDTO.getContractHolder();
+                contractHolderParam = contractHolderParam.replace(CommonUtils.CHAR_ASTERISK, '%');
 
-                parameters.put(Constant.CONTRACT_HOLDER, contractHolder);
+                parameters.put(Constant.CONTRACT_HOLDER, contractHolderParam);
             }
 
             if (isValidCriteria(altHistoryDTO.getContractNo())) {
-                String contractNo = altHistoryDTO.getContractNo();
-                contractNo = contractNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.CONTRACT_NO1, contractNo);
+                String contractNoParam = altHistoryDTO.getContractNo();
+                contractNoParam = contractNoParam.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.CONTRACT_NO1, contractNoParam);
             }
 
             if (isValidCriteria(altHistoryDTO.getCustomerNo())) {
-                String customerNo = altHistoryDTO.getCustomerNo();
-                customerNo = customerNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.CUSTOMER_NO, customerNo);
+                String customerNoParam = altHistoryDTO.getCustomerNo();
+                customerNoParam = customerNoParam.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.CUSTOMER_NO, customerNoParam);
             }
             if (isValidCriteria(altHistoryDTO.getMarketType())) {
-                String marketType = altHistoryDTO.getMarketType();
-                marketType = marketType.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.MARKET_TYPE, marketType);
+                String marketTypeParam = altHistoryDTO.getMarketType();
+                marketTypeParam = marketTypeParam.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.MARKET_TYPE, marketTypeParam);
             }
 
             if (isValidCriteria(altHistoryDTO.getContractName())) {
-                String contractName = altHistoryDTO.getContractName();
-                contractName = contractName.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.CONTRACT_NAME, contractName);
+                String contractNameParam = altHistoryDTO.getContractName();
+                contractNameParam = contractNameParam.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.CONTRACT_NAME, contractNameParam);
             }
 
             if (isValidCriteria(altHistoryDTO.getCustomerName())) {
-                String customerName = altHistoryDTO.getCustomerName();
-                customerName = customerName.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.CUSTOMER_NAME, customerName);
+                String customerNameParam = altHistoryDTO.getCustomerName();
+                customerNameParam = customerNameParam.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.CUSTOMER_NAME, customerNameParam);
 
             }
 
@@ -1388,39 +1388,39 @@ public class AlternateHistoryLogic {
             Map<String, Object> parameters = new HashMap();
 
             if (isValidCriteria(altHistoryDTO.getContractHolder())) {
-                String contractHolder = altHistoryDTO.getContractHolder();
-                contractHolder = contractHolder.replace(CommonUtils.CHAR_ASTERISK, '%');
+                String contractHolderParameter = altHistoryDTO.getContractHolder();
+                contractHolderParameter = contractHolderParameter.replace(CommonUtils.CHAR_ASTERISK, '%');
 
-                parameters.put(Constant.CONTRACT_HOLDER, contractHolder);
+                parameters.put(Constant.CONTRACT_HOLDER, contractHolderParameter);
             }
 
             if (isValidCriteria(altHistoryDTO.getContractNo())) {
-                String contractNo = altHistoryDTO.getContractNo();
-                contractNo = contractNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.CONTRACT_NO1, contractNo);
+                String contractNoParameter = altHistoryDTO.getContractNo();
+                contractNoParameter = contractNoParameter.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.CONTRACT_NO1, contractNoParameter);
             }
 
             if (isValidCriteria(altHistoryDTO.getCustomerNo())) {
-                String customerNo = altHistoryDTO.getCustomerNo();
-                customerNo = customerNo.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.CUSTOMER_NO, customerNo);
+                String customerNoParameter = altHistoryDTO.getCustomerNo();
+                customerNoParameter = customerNoParameter.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.CUSTOMER_NO, customerNoParameter);
             }
             if (isValidCriteria(altHistoryDTO.getMarketType())) {
-                String marketType = altHistoryDTO.getMarketType();
-                marketType = marketType.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.MARKET_TYPE, marketType);
+                String marketTypeParameter = altHistoryDTO.getMarketType();
+                marketTypeParameter = marketTypeParameter.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.MARKET_TYPE, marketTypeParameter);
             }
 
             if (isValidCriteria(altHistoryDTO.getContractName())) {
-                String contractName = altHistoryDTO.getContractName();
-                contractName = contractName.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.CONTRACT_NAME, contractName);
+                String contractNameParameter = altHistoryDTO.getContractName();
+                contractNameParameter = contractNameParameter.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.CONTRACT_NAME, contractNameParameter);
             }
 
             if (isValidCriteria(altHistoryDTO.getCustomerName())) {
-                String customerName = altHistoryDTO.getCustomerName();
-                customerName = customerName.replace(CommonUtils.CHAR_ASTERISK, '%');
-                parameters.put(Constant.CUSTOMER_NAME, customerName);
+                String customerNameParameter = altHistoryDTO.getCustomerName();
+                customerNameParameter = customerNameParameter.replace(CommonUtils.CHAR_ASTERISK, '%');
+                parameters.put(Constant.CUSTOMER_NAME, customerNameParameter);
 
             }
 
