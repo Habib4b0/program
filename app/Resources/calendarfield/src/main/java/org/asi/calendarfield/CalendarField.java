@@ -50,6 +50,10 @@ import com.vaadin.ui.LegacyComponent;
 public class CalendarField extends AbstractField<List>
 		implements FieldEvents.BlurNotifier, FieldEvents.FocusNotifier, LegacyComponent {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final Logger logger = org.apache.log4j.LogManager.getLogger(CalendarField.class);
 
 	public CalendarField() {
@@ -128,10 +132,12 @@ public class CalendarField extends AbstractField<List>
 	}
 
 	public List<Date> getDisabledDates() {
+		logger.info("Inside getDisabledDates= " + disableDates);
 		return disableDates;
 	}
 
 	public void setDisableDates(Date... dates) {
+		logger.info("Inside setDisabledDates");
 		this.disableDates = Arrays.asList(dates);
 		markAsDirty();
 	}
@@ -191,6 +197,25 @@ public class CalendarField extends AbstractField<List>
 		}
 	}
 
+	public void clearSelectedHoliDays(WeekDay... days) {
+
+		List<WeekDay> removedWeekDays = new ArrayList<WeekDay>(this.selectedWeekDays);
+		this.selectedWeekDays = new ArrayList<WeekDay>(Arrays.asList(days));
+		
+		if(disableDates != null)
+		{
+			disableDates.clear();
+		}
+
+		if (isUpdateDateValue()) {
+			boolean update = updateSelectedDays(removedWeekDays, new ArrayList<Integer>());
+			if (update) {
+				logger.info("update " + update);
+				updateValue();
+			}
+		}
+	}
+
 	public void clearAllValue() {
 		if (selectedWeekDays != null) {
 			selectedWeekDays.clear();
@@ -198,6 +223,7 @@ public class CalendarField extends AbstractField<List>
 		if (selectedMonthlyDays != null) {
 			selectedMonthlyDays.clear();
 		}
+		
 		if (values != null) {
 			values.clear();
 		}
@@ -209,8 +235,6 @@ public class CalendarField extends AbstractField<List>
 		logger.info("inside updateValue()");
 
 		List<Date> dates = new ArrayList<Date>();
-
-		logger.info(values);
 
 		for (String string : values) {
 
@@ -260,7 +284,8 @@ public class CalendarField extends AbstractField<List>
 	public boolean updateSelectedDays(List<WeekDay> removeWeekDays, List<Integer> removeMonthlyDays) {
 		boolean ret = false;
 		if ((!selectedWeekDays.isEmpty() || !selectedMonthlyDays.isEmpty() || !removeWeekDays.isEmpty()
-				|| !removeMonthlyDays.isEmpty()) && getState(false).rangeStart != null && getState(false).rangeEnd != null) {
+				|| !removeMonthlyDays.isEmpty()) && getState(false).rangeStart != null
+				&& getState(false).rangeEnd != null) {
 			CalendarDate startDate = CalenderFieldUtil.getCalendarDate(getState(false).rangeStart);
 			CalendarDate endDate = CalenderFieldUtil.getCalendarDate(getState(false).rangeEnd);
 			CalendarDate dt = (CalendarDate) startDate.clone();
@@ -622,10 +647,10 @@ public class CalendarField extends AbstractField<List>
 	 *             {@link #removeBlurListener(BlurListener)}
 	 *
 	 */
-//	 @Deprecated
-//	 public void removeListener(BlurListener listener) {
-//	 removeBlurListener(listener);
-//	 }
+	// @Deprecated
+	// public void removeListener(BlurListener listener) {
+	// removeBlurListener(listener);
+	// }
 
 	/**
 	 * Checks whether ISO 8601 week numbers are shown in the date selector.
@@ -699,7 +724,8 @@ public class CalendarField extends AbstractField<List>
 	@Override
 	public List getValue() {
 		// TODO Auto-generated method stub
-		return null;
+		logger.info("Inseide getValue()");
+		return (List) this.getDisabledDates();
 	}
 
 	@Override
@@ -710,18 +736,15 @@ public class CalendarField extends AbstractField<List>
 
 	@Override
 	public Registration addBlurListener(BlurListener listener) {
-		addListener(BlurEvent.EVENT_ID, BlurEvent.class, listener, BlurListener.blurMethod);
-		return null;
+		return addListener(BlurEvent.EVENT_ID, BlurEvent.class, listener, BlurListener.blurMethod);
+
 	}
 
 	@Override
 	protected void doSetValue(List value) {
 		// TODO Auto-generated method stub
 		logger.info("enter doSetValue() which is empty");
-		logger.info("value:"+value);
-		logger.info("getState()= " + getState());
-		getState(true);
-		
-	}
+		this.disableDates.addAll(value);
 
+	}
 }

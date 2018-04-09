@@ -46,10 +46,8 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
             return;
         }
 
-        // Save details
         getWidget().client = client;
         getWidget().paintableId = uidl.getId();
-        //getWidget().immediate = getState().immediate;
         getWidget().headerCalendarPanel.setIsYear(uidl.getBooleanAttribute("isYear"));
         getWidget().headerCalendarPanel.setTotalCol(uidl.getIntAttribute("totalCol"));
         getWidget().headerCalendarPanel.setTotalRow(uidl.getIntAttribute("totalRow"));
