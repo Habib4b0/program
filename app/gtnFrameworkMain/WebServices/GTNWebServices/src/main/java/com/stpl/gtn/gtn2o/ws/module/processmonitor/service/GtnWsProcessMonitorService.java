@@ -91,10 +91,10 @@ public class GtnWsProcessMonitorService {
 			workflowprofile.setProcessDisplayName(monitorBean.getProcessDisplayName());
 			workflowprofile.setFrequency(monitorBean.getFrequency());
 			workflowprofile.setSchemaName(monitorBean.getSchemaName());
-			workflowprofile.setUserSid(Integer.valueOf(generalRequest.getUserId()));
-			workflowprofile.setCreatedBy(Integer.valueOf(generalRequest.getUserId()));
+			workflowprofile.setUserSid(Integer.parseInt(generalRequest.getUserId()));
+			workflowprofile.setCreatedBy(Integer.parseInt(generalRequest.getUserId()));
 			workflowprofile.setCreatedDate(monitorBean.getCreatedDate());
-			workflowprofile.setModifiedBy(Integer.valueOf(generalRequest.getUserId()));
+			workflowprofile.setModifiedBy(Integer.parseInt(generalRequest.getUserId()));
 			workflowprofile.setModifiedDate(monitorBean.getModifiedDate());
 			workflowprofile
 					.setHelperTable(session.load(HelperTable.class, Integer.valueOf(monitorBean.getProcessType())));

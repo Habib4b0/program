@@ -44,7 +44,7 @@ public class GtnFrameworkRebatePlanEditValidationAction
 
 		}
 		gtnLogger.info("selectedRecord ---------------------"
-				+ selectedRecord.getPropertyValue("recordLockStatus").equals(true));
+				+ selectedRecord.getPropertyValue("recordLockStatus").equals(Boolean.TRUE));
 
 		if (String.valueOf(selectedRecord.getPropertyValue("recordLockStatus")).equals("true")) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();

@@ -127,7 +127,7 @@ public class GtnWsCompanyGrpController {
 			GtnSerachResponse companyGroupSerachResponse = new GtnSerachResponse();
 			List<Object[]> resultList = companyGrpWebservice.getSelectedTableData(companyGroupRequest);
 			if (companyGroupRequest.getGtnWsSearchRequest().isCount()) {
-				companyGroupSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+				companyGroupSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 			} else {
 				GtnUIFrameworkDataTable companyGroupDataTable = new GtnUIFrameworkDataTable();
 				companyGroupDataTable.addData(resultList);

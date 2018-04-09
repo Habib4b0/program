@@ -95,14 +95,13 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = getHierarchyBuilder(
 					relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			if (automaticService.checkAutomaticRelation(relationshipBuilderSid)
-					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)
-			) {
+					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
 				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
-				return Boolean.TRUE;
+				return true;
 			}
 			LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
 		}
-		return Boolean.FALSE;
+		return false;
 	}
 
 	public GtnFrameworkAutoupdateService getAutomaticserviceObject(String hierarchyCat) {
@@ -170,7 +169,8 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		relationBean.setRelationshipBuilderSid(relationshipBuilder.getRelationshipBuilderSid());
 		relationBean.setRelationshipName(relationshipBuilder.getRelationshipName());
 		relationBean.setRelationshipDescription(relationshipBuilder.getRelationshipDescription());
-		relationBean.setHierarchyDefinitionSid(relationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
+		relationBean
+				.setHierarchyDefinitionSid(relationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
 		relationBean.setStartDate(relationshipBuilder.getStartDate());
 		relationBean.setBuildType(relationshipBuilder.getBuildType());
 		relationBean.setVersionNo(relationshipBuilder.getVersionNo());
@@ -183,11 +183,9 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		HelperTable hierarchyCat = session.load(HelperTable.class,
 				relationshipBuilder.getHierarchyDefinition().getHierarchyCategory());
 		relationBean.setHierarchycategory(hierarchyCat.getDescription());
-
 		return relationBean;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<HierarchyLevelDefinitionBean> getHierarchyBuilder(Integer hierarchyBuilderSid, int hierarchyVersionNo)
 			throws GtnFrameworkGeneralException {
 		List<Object> input = new ArrayList<>();
@@ -199,6 +197,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 
 	private List<HierarchyLevelDefinitionBean> executeAndGetCustomizedResult(String finalQuery)
 			throws GtnFrameworkGeneralException {
+		@SuppressWarnings("unchecked")
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = new ArrayList<>();
 		for (Object[] objects : resultList) {
@@ -238,23 +237,23 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		}
 		return queryList;
 	}
-        
+
 	public boolean checkManualRelation(int relationshipBuilderSid)
 			throws GtnFrameworkGeneralException, InterruptedException {
-            String query = gtnWsSqlService.getQuery("manualRelationCheck");
+		String query = gtnWsSqlService.getQuery("manualRelationCheck");
 		@SuppressWarnings("unchecked")
 		List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
-                    new Object[]{relationshipBuilderSid}, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
-            GtnWsRelationshipBuilderBean relationBeanManual = getRelationtionshipBuilder(relationshipBuilderSid);
+				new Object[] { relationshipBuilderSid }, new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
+		GtnWsRelationshipBuilderBean relationBeanManual = getRelationtionshipBuilder(relationshipBuilderSid);
 		if (relationBeanManual != null) {
-                if ((int) resultData.get(0) == 1) {
+			if ((int) resultData.get(0) == 1) {
 				deductionRelationService.saveRelationship(relationBeanManual);
-                }
-                return Boolean.TRUE;
-            }
-            LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
-            return Boolean.FALSE;
-        }
+			}
+			return true;
+		}
+		LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
+		return false;
+	}
 
 	public void deleteUnwantedUserDefinedLevels(int relationshipBuilderSid, int customertUpdatedVersionNo)
 			throws GtnFrameworkGeneralException {
@@ -269,14 +268,22 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 	}
 
 	public List<HierarchyLevelDefinitionBean> getHierarchyBuilderBasedOnProjectionId(int projectionId,
-			String hierarchyIndicator) throws GtnFrameworkGeneralException {
+			String hierarchyIndicator, boolean isCff) throws GtnFrameworkGeneralException {
 		List<Object> input = new ArrayList<>();
 		input.add(projectionId);
 		String queryName;
-		if (hierarchyIndicator.equalsIgnoreCase("C")) {
-			queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId Customer";
+		if (isCff) {
+			if (hierarchyIndicator.equalsIgnoreCase("C")) {
+				queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId Customer CFF";
+			} else {
+				queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId PRoduct CFF";
+			}
 		} else {
-			queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId PRoduct";
+			if (hierarchyIndicator.equalsIgnoreCase("C")) {
+				queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId Customer";
+			} else {
+				queryName = "hierarchyByidandVersionNoBy ProjectionMasterSId PRoduct";
+			}
 		}
 		String finalQuery = gtnWsSqlService.getQuery(input, queryName);
 		return executeAndGetCustomizedResult(finalQuery);

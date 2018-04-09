@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Mar 26, 2018 8:42:24 PM by Hibernate Tools 5.2.8.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class  dynamic-insert="false" dynamic-update="false" mutable="true" name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchySitutationTableDetails" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="HIERARCHY_SITUTATION_TABLE_DETAILS">
+        <id name="hierarchySitutationTableDetailsSid" type="java.lang.Integer">
+            <column name="HIERARCHY_SITUTATION_TABLE_DETAILS_SID"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="hierarchySitutationDetailsSid" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="HIERARCHY_SITUTATION_DETAILS_SID"/>
+        </property>
+        <property generated="never" lazy="false" name="leftColumnName" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="LEFT_COLUMN_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="rightColumnName" optimistic-lock="true" type="string" unique="false">
+            <column length="500" name="RIGHT_COLUMN_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="conditionType" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="CONDITION_TYPE"/>
+        </property>
+        <property generated="never" lazy="false" name="expressionColumnOrder" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="EXPRESSION_COLUMN_ORDER"/>
+        </property>
+        <property generated="never" lazy="false" name="joinCondtionOrderSid" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="JOIN_CONDTION_ORDER_SID"/>
+        </property>
+        <property generated="never" lazy="false" name="joinConditionReferenceSid" optimistic-lock="true" type="java.lang.Integer" unique="false">
+            <column name="JOIN_CONDITION_REFERENCE_SID"/>
+        </property>
+    </class>
+</hibernate-mapping>

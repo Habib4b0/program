@@ -133,11 +133,11 @@ public class GtnWsSearchQueryGenerationLogic {
 		List<GtnWebServiceOrderByCriteria> orderByClause = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceOrderByCriteriaList();
 		for (int i = 0; i < orderByClause.size() - 1; i++) {
-			finalQuery.append(getTableColumnForWhereClause(orderByClause.get(i).getPropertyId())).append(" ")
-					.append(orderByClause.get(i).getOrderByCriteria()).append(",");
+			finalQuery.append(getTableColumnForWhereClause(orderByClause.get(i).getPropertyId())).append(' ')
+					.append(orderByClause.get(i).getOrderByCriteria()).append(',');
 		}
 		finalQuery.append(getTableColumnForWhereClause(orderByClause.get(orderByClause.size() - 1).getPropertyId()))
-				.append(" ").append(orderByClause.get(orderByClause.size() - 1).getOrderByCriteria());
+				.append(' ').append(orderByClause.get(orderByClause.size() - 1).getOrderByCriteria());
 	}
 
 	private String getTableColumnForField(String fieldName) {
@@ -173,14 +173,14 @@ public class GtnWsSearchQueryGenerationLogic {
 			StringBuilder whereSqlBuilder = new StringBuilder();
 			for (int i = 0; i < gtnWebServiceSearchCriteriaList.size() - 1; i++) {
 				if (!isWhereCondition) {
-					whereSqlBuilder.append(WHERE_OPERATOR).append(" ");
+					whereSqlBuilder.append(WHERE_OPERATOR).append(' ');
 					isWhereCondition = true;
 				} else {
-					whereSqlBuilder.append(AND_OPERATOR).append(" ");
+					whereSqlBuilder.append(AND_OPERATOR).append(' ');
 				}
 				appendForFilter(gtnWebServiceSearchCriteriaList.get(i), fieldToColumnDetailsMap, whereSqlBuilder);
 			}
-			whereSqlBuilder.append(isWhereCondition ? AND_OPERATOR : WHERE_OPERATOR).append(" ");
+			whereSqlBuilder.append(isWhereCondition ? AND_OPERATOR : WHERE_OPERATOR).append(' ');
 			appendForFilter(gtnWebServiceSearchCriteriaList.get(gtnWebServiceSearchCriteriaList.size() - 1),
 					fieldToColumnDetailsMap, whereSqlBuilder);
 
@@ -237,7 +237,7 @@ public class GtnWsSearchQueryGenerationLogic {
 			whereSqlBuilder.append(dbName).append(" < '")
 					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue2())))
-					.append("'");
+					.append("' ");
 			break;
 		case "LIKE": 
 			getWhereSqlBuilderQuery(gtnWebServiceSearchCriteria, whereSqlBuilder, dbName);
@@ -267,7 +267,7 @@ public class GtnWsSearchQueryGenerationLogic {
 			whereSqlBuilder.append(dbName).append(" = '")
 					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
-					.append("'");
+					.append("' ");
 			break;
 
 		case "LESS_OR_EQUAL":
@@ -278,11 +278,11 @@ public class GtnWsSearchQueryGenerationLogic {
 			whereSqlBuilder.append(dbName).append(" = '")
 					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
-					.append("'");
+					.append("' ");
 			break;
 
 		default:
-			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression()).append(" '")
+			whereSqlBuilder.append(dbName).append(' ').append(gtnWebServiceSearchCriteria.getExpression()).append(" '")
 					.append(gtnWebServiceSearchCriteria.getFilterValue1()).append("' ");
 			break;
 		}
@@ -291,12 +291,12 @@ public class GtnWsSearchQueryGenerationLogic {
 	private void getWhereSqlBuilderQuery(GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria,
 			StringBuilder whereSqlBuilder, String dbName) {
 		if (gtnWebServiceSearchCriteria.getFilterValue1().contains("*")) {
-			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression())
+			whereSqlBuilder.append(dbName).append(' ').append(gtnWebServiceSearchCriteria.getExpression())
 					.append(" '")
 					.append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%').replace("_", "[_]"))
 					.append("' ");
 		} else {
-			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression())
+			whereSqlBuilder.append(dbName).append(' ').append(gtnWebServiceSearchCriteria.getExpression())
 					.append(" '%").append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%').replace("_", "[_]"))
 					.append("%' ");
 		}
@@ -326,10 +326,10 @@ public class GtnWsSearchQueryGenerationLogic {
 	public void appendOrderBy(StringBuilder finalQuery, List<GtnWebServiceOrderByCriteria> orderByClause) {
 		finalQuery.append(" ORDER BY ");
 		for (int i = 0; i < orderByClause.size() - 1; i++) {
-			finalQuery.append(orderByClause.get(i).getPropertyId()).append(" ")
-					.append(orderByClause.get(i).getOrderByCriteria()).append(",");
+			finalQuery.append(orderByClause.get(i).getPropertyId()).append(' ')
+					.append(orderByClause.get(i).getOrderByCriteria()).append(',');
 		}
-		finalQuery.append(orderByClause.get(orderByClause.size() - 1).getPropertyId()).append(" ")
+		finalQuery.append(orderByClause.get(orderByClause.size() - 1).getPropertyId()).append(' ')
 				.append(orderByClause.get(orderByClause.size() - 1).getOrderByCriteria());
 
 	}
@@ -405,13 +405,13 @@ public class GtnWsSearchQueryGenerationLogic {
 				.getGtnWebServiceOrderByCriteriaList();
 		if (orderByClause != null && !orderByClause.isEmpty()) {
 			for (int i = 0; i < orderByClause.size() - 1; i++) {
-				finalQuery.append(",");
-				finalQuery.append(getTableColumnForWhereClause(orderByClause.get(i).getPropertyId())).append(" ")
+				finalQuery.append(',');
+				finalQuery.append(getTableColumnForWhereClause(orderByClause.get(i).getPropertyId())).append(' ')
 						.append(orderByClause.get(i).getOrderByCriteria());
 			}
-			finalQuery.append(",");
+			finalQuery.append(',');
 			finalQuery.append(getTableColumnForWhereClause(orderByClause.get(orderByClause.size() - 1).getPropertyId()))
-					.append(" ");
+					.append(' ');
 
 		}
 

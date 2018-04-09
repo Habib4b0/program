@@ -380,7 +380,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		actionParameters.add(GtnFrameworkItemGrpClassContants.ITEM_GRP_EDIT_ACTION);
 		actionParameters.add(GtnFrameworkCommonConstants.ITEM_GRPSEARCH_RESULT_TABLE);
 		actionParameters.add(GtnFrameworkCommonConstants.ITEM_GROUP_SID);
-		actionParameters.add(true);
+		actionParameters.add(Boolean.TRUE);
 		doubleClickActionConfig.setActionParameterList(actionParameters);
 		actionConfigList.add(doubleClickActionConfig);
 		searchResultsTableConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -504,7 +504,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnFrameworkItemGrpClassContants.ITEM_GRP_EDIT_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_GRPSEARCH_RESULT_TABLE);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_GROUP_SID);
-		editActionConfig.addActionParameter(true);
+		editActionConfig.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(editActionConfig);
 		editButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
@@ -545,7 +545,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		viewActionConfig.addActionParameter(GtnFrameworkItemGrpClassContants.ITEM_GRP_EDIT_ACTION);
 		viewActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_GRPSEARCH_RESULT_TABLE);
 		viewActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_GROUP_SID);
-		viewActionConfig.addActionParameter(false);
+		viewActionConfig.addActionParameter(Boolean.FALSE);
 		actionConfigList.add(viewActionConfig);
 		viewButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
@@ -586,7 +586,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		copyActionConfig.addActionParameter(GtnFrameworkItemGrpClassContants.ITEM_GRP_COPY_ACTION);
 		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_GRPSEARCH_RESULT_TABLE);
 		copyActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_GROUP_SID);
-		copyActionConfig.addActionParameter(true);
+		copyActionConfig.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(copyActionConfig);
 		copyButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}

@@ -54,7 +54,7 @@ public class GtnFrameworkFetchHistorytoAttachmentAction
 
 			fetchhistoryTabTableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
 
-			boolean isActiveFlag = Boolean.TRUE;
+			boolean isActiveFlag = true;
 			fetchhistoryTabTableLogic.startSearchProcess(new ArrayList<String>(), isActiveFlag);
 
 		} catch (Exception ex) {

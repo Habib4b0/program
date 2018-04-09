@@ -414,7 +414,7 @@ public class GtnFrameworkContractDashboardItemsTabConfig {
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameworkFieldEnableDisableAction.class.getName());
 		customAction.addActionParameter(componentConfig.getComponentId());
-		customAction.addActionParameter(true);
+		customAction.addActionParameter(Boolean.TRUE);
 		customAction.addActionParameter("child");
 		customAction.setFieldValues(Arrays.asList(cdItemsTabPrefix + TEXT_PIFPID, cdItemsTabPrefix + TEXT_PIFP_NAME));
 		componentConfig.addGtnUIFrameWorkActionConfig(customAction);

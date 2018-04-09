@@ -275,7 +275,7 @@ public class GtnWsFileManagementService {
 
 	String addWhereCondition(String input, String condition, String column) {
 		if (!"".equals(input)) {
-			String inputValue = input.replace("*", "%");
+			String inputValue = input.replace('*', '%');
 			return condition + " AND " + column + " like '" + inputValue + "'";
 		}
 		return condition;

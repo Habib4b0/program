@@ -407,7 +407,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnFrameworkCfpClassContants.GTNFRAMEWORK_CFP_EDIT_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_SYSTEM_ID);
-		editActionConfig.addActionParameter(true);
+		editActionConfig.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(editActionConfig);
 
 		searchResults.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -449,7 +449,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction.addActionParameter(true);
+		visibleAction.addActionParameter(Boolean.TRUE);
 		visibleAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.CFP_ADD_RESET_BUTTON,
 				GtnFrameworkCommonConstants.CFP_ADD_SAVE_BUTTON,
 				GtnFrameworkCommonConstants.CFP_COMPANIES_MASS_UPDATE_PANEL_LAYOUT,
@@ -459,7 +459,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction1 = new GtnUIFrameWorkActionConfig();
 		visibleAction1.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction1.addActionParameter(false);
+		visibleAction1.addActionParameter(Boolean.FALSE);
 		visibleAction1.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.CFP_ADD_DELETE_BUTTON,
 				GtnFrameworkCommonConstants.CFP_COMPANY_ADDITION_DUAL_LIST_BOX_LAYOUT_ON_VIEW));
 		addBtnActionConfigList.add(visibleAction1);
@@ -542,7 +542,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnFrameworkCfpClassContants.GTNFRAMEWORK_CFP_EDIT_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_SYSTEM_ID);
-		editActionConfig.addActionParameter(true);
+		editActionConfig.addActionParameter(Boolean.TRUE);
 		editActionConfigList.add(editActionConfig);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
@@ -557,7 +557,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction1 = new GtnUIFrameWorkActionConfig();
 		visibleAction1.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction1.addActionParameter(false);
+		visibleAction1.addActionParameter(Boolean.FALSE);
 		visibleAction1.addActionParameter(
 				Arrays.asList(GtnFrameworkCommonConstants.CFP_COMPANY_ADDITION_DUAL_LIST_BOX_LAYOUT_ON_VIEW));
 		editActionConfigList.add(visibleAction1);
@@ -635,7 +635,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 		editActionConfig.addActionParameter(GtnFrameworkCfpClassContants.GTNFRAMEWORK_CFP_EDIT_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
 		editActionConfig.addActionParameter(GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_SYSTEM_ID);
-		editActionConfig.addActionParameter(false);
+		editActionConfig.addActionParameter(Boolean.FALSE);
 		viewBtnActionConfigList.add(editActionConfig);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
@@ -668,7 +668,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction.addActionParameter(false);
+		visibleAction.addActionParameter(Boolean.FALSE);
 		visibleAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.CFP_ADD_RESET_BUTTON,
 				GtnFrameworkCommonConstants.CFP_ADD_SAVE_BUTTON, GtnFrameworkCommonConstants.CFP_ADD_DELETE_BUTTON,
 				GtnFrameworkCommonConstants.CFP_COMPANIES_MASS_UPDATE_PANEL_LAYOUT,
@@ -678,7 +678,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction1 = new GtnUIFrameWorkActionConfig();
 		visibleAction1.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		visibleAction1.addActionParameter(true);
+		visibleAction1.addActionParameter(Boolean.TRUE);
 		visibleAction1.addActionParameter(
 				Arrays.asList(GtnFrameworkCommonConstants.CFP_COMPANY_ADDITION_DUAL_LIST_BOX_LAYOUT_ON_VIEW));
 		viewBtnActionConfigList.add(visibleAction1);

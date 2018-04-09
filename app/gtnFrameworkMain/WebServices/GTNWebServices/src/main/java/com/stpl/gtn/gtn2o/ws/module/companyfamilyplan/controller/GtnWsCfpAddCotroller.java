@@ -79,7 +79,7 @@ public class GtnWsCfpAddCotroller {
 			String query = cFPWebservice.leftTableSearchQuery(cfpSearchRequest);
 			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query);
 			if (cfpSearchRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 			} else {
 				GtnUIFrameworkDataTable cfpSearchDataTable = new GtnUIFrameworkDataTable();
 				cfpSearchDataTable.addData((List<Object[]>) resultList);
@@ -214,7 +214,7 @@ public class GtnWsCfpAddCotroller {
 			String query = cFPWebservice.rightTableSearchQuery(gtnWsRequest);
 			List<?> resultList = gtnSqlQueryEngine.executeSelectQuery(query);
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData((List<Object[]>) resultList);
@@ -247,7 +247,7 @@ public class GtnWsCfpAddCotroller {
 			String query = cFPWebservice.companiesTabResultTable(cfpCompaniesResultRequest);
 			List<?> cfpCompaniesResultList = gtnSqlQueryEngine.executeSelectQuery(query, params, types);
 			if (cfpCompaniesResultRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(cfpCompaniesResultList.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(cfpCompaniesResultList.get(0))));
 			} else {
 				// set user name for user id
 				for (int i = 0; i < cfpCompaniesResultList.size(); i++) {

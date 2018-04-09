@@ -27,7 +27,7 @@ public class GtnFrameworkCGrpAddAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			setValueToComponents(componentId);
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);

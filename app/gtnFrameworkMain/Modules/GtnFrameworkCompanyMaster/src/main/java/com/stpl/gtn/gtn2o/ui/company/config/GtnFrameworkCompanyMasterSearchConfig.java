@@ -484,7 +484,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				GtnFrameworkCompanyStringContants.PARENT_COMPANY_REMOVE_BTN_LAYOUT };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
@@ -594,7 +594,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				GtnFrameworkCompanyStringContants.PARENT_COMPANY_REMOVE_BTN_LAYOUT };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(visibleParameters);
 		companyMasterSearchEditActionConfigList.add(visibleAction);
@@ -702,7 +702,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				GtnFrameworkCompanyStringContants.PARENT_COMPANY_REMOVE_BTN_LAYOUT };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(false);
+		visibleParameters.add(Boolean.FALSE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);

@@ -52,7 +52,7 @@ public class GtnFrameworkCfpMoveAllLeftAction
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE)
 					.getLogicFromPagedDataTable();
 			logic.clearFilters();
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);

@@ -425,7 +425,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 		operationValue = operationValue.replace("%)", ",");
 		operationValue = operationValue.replace("),", ",");
 		operationValue = operationValue.replace(",,", ",");
-		operationValue = operationValue.replace(")", ",");
+		operationValue = operationValue.replace(')', ',');
 		for (int i = 0; i <= 4; i++) {
 			if (operationValue.charAt(0) == '(') {
 				operationValue = operationValue.substring(i + 1, operationValue.length());
@@ -436,7 +436,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 			operationValue = operationValue.substring(1, operationValue.length());
 		}
 		operationValue = operationValue.replace(",$", ",");
-		operationValue = operationValue.replace("$", ",");
+		operationValue = operationValue.replace('$', ',');
 		operationValue = operationValue.replace("%", "");
 		return operationValue;
 	}

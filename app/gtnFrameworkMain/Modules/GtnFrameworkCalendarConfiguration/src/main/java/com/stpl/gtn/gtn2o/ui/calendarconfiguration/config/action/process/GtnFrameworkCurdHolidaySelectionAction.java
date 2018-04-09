@@ -39,7 +39,7 @@ public class GtnFrameworkCurdHolidaySelectionAction implements GtnUIFrameWorkAct
 			String holiday = defaultHolidayBaseComponent.getStringFromField();
 			GtnUIFrameworkBaseComponent calendarBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(0));
-			if (Boolean.valueOf(holiday)) {
+			if (Boolean.parseBoolean(holiday)) {
 				calendarBaseComponent.setSelectedWeekDays(0, 6);
 				return;
 			}

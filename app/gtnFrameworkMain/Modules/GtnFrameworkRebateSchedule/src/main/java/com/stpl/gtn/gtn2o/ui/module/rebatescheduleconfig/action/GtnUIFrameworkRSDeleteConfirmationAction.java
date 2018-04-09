@@ -36,7 +36,7 @@ public class GtnUIFrameworkRSDeleteConfirmationAction implements GtnUIFrameWorkA
 		parameters.add("/" + GtnWsCDRContants.RS_SERVICE + "/" + GtnWsCDRContants.RS_DELECTE_SERVICE);
 		parameters.add("rsSearchResultTable");
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(30);
 
 		editActionConfig.setActionParameterList(parameters);

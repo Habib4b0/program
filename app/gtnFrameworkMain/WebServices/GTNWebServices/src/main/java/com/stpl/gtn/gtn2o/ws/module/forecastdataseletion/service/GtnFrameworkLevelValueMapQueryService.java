@@ -11,7 +11,7 @@ import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSelectColumnRelationBean;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -58,7 +58,7 @@ public class GtnFrameworkLevelValueMapQueryService {
 				continue;
 			}
 			GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-			GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
+			GtnFrameworkSelectColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
 			queryBean.addSelectClauseBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, Boolean.TRUE, null);
 			queryBean.addSelectClauseBean(keyBean.getJoinColumnTable() + "." + keyBean.getDescriptionClauseColumn(),

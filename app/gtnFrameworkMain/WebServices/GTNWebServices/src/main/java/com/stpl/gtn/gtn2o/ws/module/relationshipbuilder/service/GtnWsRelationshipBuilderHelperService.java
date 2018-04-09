@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSelectColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -81,7 +81,7 @@ public class GtnWsRelationshipBuilderHelperService {
 		final String hierarchyCategory = hierListValues.get(1).toString();
 		final int levelNo = Integer.parseInt(hierListValues.get(2).toString());
 		String rule = String.valueOf(hierListValues.get(3));
-		final GtnFrameworkSingleColumnRelationBean dto = gtnFrameworkEntityMasterBean
+		final GtnFrameworkSelectColumnRelationBean dto = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
 
 		String sqlString = "";
@@ -122,7 +122,7 @@ public class GtnWsRelationshipBuilderHelperService {
 
 	}
 
-	public String addTableJoin(GtnFrameworkSingleColumnRelationBean keyBean) {
+	public String addTableJoin(GtnFrameworkSelectColumnRelationBean keyBean) {
 		if (keyBean.getMappingColumnName() != null && !keyBean.getMappingColumnName().isEmpty()) {
 			StringBuilder tempQuery = new StringBuilder();
 			tempQuery.append(" JOIN ");
@@ -131,7 +131,7 @@ public class GtnWsRelationshipBuilderHelperService {
 			tempQuery.append(keyBean.getMappingColumnName());
 			tempQuery.append(" = ");
 			tempQuery.append(keyBean.getActualTtableName());
-			tempQuery.append(".");
+			tempQuery.append('.');
 			tempQuery.append(keyBean.getActualColumnName());
 			return tempQuery.toString();
 		}
@@ -153,15 +153,15 @@ public class GtnWsRelationshipBuilderHelperService {
 				final String value = colArray[3];
 				otherColumn = otherColumn.replace(REPLACE_STRING, "");
 				gtnFrameworkEntityMasterBean.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
-				final GtnFrameworkSingleColumnRelationBean dto = gtnFrameworkEntityMasterBean
+				final GtnFrameworkSelectColumnRelationBean dto = gtnFrameworkEntityMasterBean
 						.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
 				if (dto != null) {
 					final StringBuilder subQuery = new StringBuilder();
 					subQuery.append(" (").append(mainTableAlias).append(otherColumn).append(" IN (SELECT ")
 							.append(dto.getMappingColumnName()).append(GtnFrameworkWebserviceConstant.FROM)
 							.append(dto.getReferenceTableName()).append(GtnFrameworkWebserviceConstant.WHERE)
-							.append(dto.getWhereClauseColumn()).append(" ").append(conditionMethod).append(" ")
-							.append(value).append(" ");
+							.append(dto.getWhereClauseColumn()).append(' ').append(conditionMethod).append(' ')
+							.append(value).append(' ');
 					subQuery.append(" ))");
 					rules = rules.replace(condition, subQuery);
 				} else {
@@ -178,7 +178,7 @@ public class GtnWsRelationshipBuilderHelperService {
 		final StringBuilder rule = new StringBuilder();
 		for (int i = 0; i < ruleName.size(); i++) {
 
-			rule.append("'").append(ruleName.get(i)).append("',");
+			rule.append(" '").append(ruleName.get(i)).append("',");
 		}
 		rule.append(rule.substring(0, rule.length() - 1));
 		return rule.toString();
@@ -362,13 +362,13 @@ public class GtnWsRelationshipBuilderHelperService {
 				}
 				final String subQuery = buildQuery(dto, ruleType);
 				if ("".equals(query.toString()) && !"".equals(subQuery)) {
-					query.append("(");
+					query.append('(');
 				}
 				query.append(subQuery);
 				i++;
 			}
 			if (StringUtils.isNotBlank(query.toString())) {
-				query.append(")");
+				query.append(')');
 			}
 		} catch (final Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in buildQuery", e);

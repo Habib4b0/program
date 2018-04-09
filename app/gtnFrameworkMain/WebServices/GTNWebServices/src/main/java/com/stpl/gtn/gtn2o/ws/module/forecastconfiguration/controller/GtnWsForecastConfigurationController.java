@@ -70,7 +70,7 @@ public class GtnWsForecastConfigurationController {
 
 	private Map<String, String> filterAndSortingCriteriaMap = new HashMap<>();
 
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsForecastConfigurationController.class);
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsForecastConfigurationController.class);
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
@@ -87,7 +87,7 @@ public class GtnWsForecastConfigurationController {
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadForecastPeriod(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info(GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD);
+		LOGGER.info(GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnUIFrameworkWebserviceTextBoxResponse textBoxResponse = new GtnUIFrameworkWebserviceTextBoxResponse();
@@ -97,18 +97,18 @@ public class GtnWsForecastConfigurationController {
 			textBoxResponse.setDefaultValue(str);
 			gtnResponse.setGtnUIFrameworkWebserviceTextBoxResponse(textBoxResponse);
 		} catch (Exception ex) {
-			logger.error(
+			LOGGER.error(
 					GtnFrameworkWebserviceConstant.ERROR_IN + GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD,
 					ex);
 		}
-		logger.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD);
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD);
 		return gtnResponse;
 	}
 
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse futureFrequencyValueChange(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info(GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
+		LOGGER.info(GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 
 		GtnWsGeneralResponse gtnGenWsResponse = new GtnWsGeneralResponse();
@@ -116,24 +116,52 @@ public class GtnWsForecastConfigurationController {
 
 		gtnResponse.setGtnWsGeneralResponse(gtnGenWsResponse);
 		try {
-			GtnWsForecastConfigurationResponse forecastResponse = futureIntervalValueChangeLogic(
+			GtnWsForecastConfigurationResponse forecastResponse = futureIntervalDynamicValueChangeLogic(
 					gtnWsRequest.getForecastConfigurationRequest());
 			forecastResponse.setSuccess(forecastResponse.isSuccess());
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
 		} catch (Exception ex) {
 			gtnGenWsResponse.setSucess(false);
-			logger.error(GtnFrameworkWebserviceConstant.ERROR_IN
+			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE, ex);
 		}
-		logger.info(GtnFrameworkWebserviceConstant.EXIT
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT
 				+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
 		return gtnResponse;
+	}
+        @RequestMapping(value = GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse periodModeValue(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		LOGGER.info(GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
+		GtnUIFrameworkWebserviceResponse gtnWsResponse = new GtnUIFrameworkWebserviceResponse();
+
+		GtnWsGeneralResponse gtnGeneralWsResponse = new GtnWsGeneralResponse();
+		gtnGeneralWsResponse.setSucess(true);
+
+		gtnWsResponse.setGtnWsGeneralResponse(gtnGeneralWsResponse);
+		try {
+                        Calendar gtsCalculation = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+			String string = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCalculation.get(Calendar.MONTH)) + " "
+					+ gtsCalculation.get(Calendar.YEAR);
+			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
+                        LOGGER.info("str******************"+string);
+                        forecastResponse.setForecastPeriod(string);
+			forecastResponse.setSuccess(forecastResponse.isSuccess());
+			gtnWsResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
+		} catch (Exception ex) {
+			gtnGeneralWsResponse.setSucess(false);
+			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
+					+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE, ex);
+		}
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT
+				+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
+		return gtnWsResponse;
 	}
 
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse historyIntervalValueChange(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info(GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE);
+		LOGGER.info(GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 
 		GtnWsGeneralResponse gtnGenWsResponse = new GtnWsGeneralResponse();
@@ -147,10 +175,10 @@ public class GtnWsForecastConfigurationController {
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
 		} catch (Exception ex) {
 			gtnGenWsResponse.setSucess(false);
-			logger.error(GtnFrameworkWebserviceConstant.ERROR_IN
+			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE, ex);
 		}
-		logger.info(GtnFrameworkWebserviceConstant.EXIT
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT
 				+ GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE);
 		return gtnResponse;
 	}
@@ -158,41 +186,41 @@ public class GtnWsForecastConfigurationController {
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.CHECK_SAVE_FORECAST_CONF, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse checkSaveForecastConfiguration(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info(GtnWsForecastConfigurationConstants.CHECK_SAVE_FORECAST_CONF);
+		LOGGER.info(GtnWsForecastConfigurationConstants.CHECK_SAVE_FORECAST_CONF);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
 			validateSaveForecastConfiguration(gtnWsRequest.getForecastConfigurationRequest(), forecastResponse);
 		} catch (Exception ex) {
-			logger.error(GtnFrameworkWebserviceConstant.ERROR_IN
+			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.CHECK_SAVE_FORECAST_CONF, ex);
 		}
-		logger.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.CHECK_SAVE_FORECAST_CONF);
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.CHECK_SAVE_FORECAST_CONF);
 		return gtnResponse;
 	}
 
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse saveForecastConfiguration(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info(GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF);
+		LOGGER.info(GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
 			saveForecastConfiguration(gtnWsRequest.getForecastConfigurationRequest(), forecastResponse);
 		} catch (Exception ex) {
-			logger.error(
+			LOGGER.error(
 					GtnFrameworkWebserviceConstant.ERROR_IN + GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF,
 					ex);
 		}
-		logger.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF);
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF);
 		return gtnResponse;
 	}
 
 	public GtnWsForecastConfigurationResponse historyIntervalValueChangeLogic(
 			GtnWsForecastConfigurationRequest request) {
-		logger.info("Enter historyIntervalValueChangeLogic");
+		LOGGER.info("Enter historyIntervalValueChangeLogic");
 		GtnWsForecastConfigurationResponse response = new GtnWsForecastConfigurationResponse();
 		response.setHistoryPeriod(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		response.setSuccess(true);
@@ -228,18 +256,57 @@ public class GtnWsForecastConfigurationController {
 			}
 		} catch (Exception ex) {
 			response.setSuccess(false);
-			logger.error("Error in historyIntervalValueChangeLogic", ex);
+			LOGGER.error("Error in historyIntervalValueChangeLogic", ex);
 		}
-		logger.info("Exit historyIntervalValueChangeLogic");
+		LOGGER.info("Exit historyIntervalValueChangeLogic");
 		return response;
 	}
 
-	public GtnWsForecastConfigurationResponse futureIntervalValueChangeLogic(
+	public GtnWsForecastConfigurationResponse futureIntervalDynamicValueChangeLogic(
 			GtnWsForecastConfigurationRequest request) {
-		logger.info("Enter futureIntervalValueChangeLogic");
+		LOGGER.info("Enter historyIntervalValueChangeLogic");
 		GtnWsForecastConfigurationResponse response = new GtnWsForecastConfigurationResponse();
 		response.setHistoryPeriod(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		response.setSuccess(true);
+		try (Session session = sessionFactory.openSession()) {
+			if (!request.getFutureInterval().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
+				Integer interval = Integer.valueOf(request.getFutureInterval());
+				Map<String, Integer> frequencyIntervalMap = new HashMap<>();
+				frequencyIntervalMap.put(GtnWsForecastConfigurationConstants.ANNUAL, GtnWsNumericConstants.THREE);
+				frequencyIntervalMap.put(GtnWsForecastConfigurationConstants.SEMI_ANNUAL, GtnWsNumericConstants.SIX);
+				frequencyIntervalMap.put(GtnWsForecastConfigurationConstants.QUARTER, GtnWsNumericConstants.TWELVE);
+				frequencyIntervalMap.put(GtnWsForecastConfigurationConstants.MONTHLY, GtnWsNumericConstants.THIRTY_SIX);
+				Date date = new Date();
+				LOGGER.info("request.getFutureFrequency()===============" + request.getFutureFrequency());
+				if (request.getFutureFrequency() != 0) {
+					HelperTable table = session.load(HelperTable.class, request.getFutureFrequency());
+					Integer valueToCheck = frequencyIntervalMap.get(table.getDescription());
+					LOGGER.info("interval===============>>" + interval);
+					LOGGER.info("valueToCheck===============>>>" + valueToCheck);
+					if (table.getDescription().equals(GtnWsForecastConfigurationConstants.MONTHLY)) {
+						final Calendar monthlyDate = Calendar.getInstance();
+						monthlyDate.setTime(new Date());
+						monthlyDate.add(Calendar.MONTH, -1);
+						date = monthlyDate.getTime();
+					}
+					String forecastPertiod = GtnWsForecastConfigurationUtil.getFutureDetail(interval,
+							table.getDescription(), date);
+					LOGGER.info("futureIntervalYear=====================" + forecastPertiod);
+					futureIntervalValueChangeLogic(request, forecastPertiod, response);
+				}
+
+			}
+		} catch (Exception ex) {
+			response.setSuccess(false);
+			LOGGER.error("Error in historyIntervalValueChangeLogic", ex);
+		}
+		LOGGER.info("Exit historyIntervalValueChangeLogic");
+		return response;
+	}
+
+	public void futureIntervalValueChangeLogic(GtnWsForecastConfigurationRequest request, String foreCastPeriod,
+			GtnWsForecastConfigurationResponse response) {
+		LOGGER.info("Enter futureIntervalValueChangeLogic");
 
 		try (Session session = sessionFactory.openSession()) {
 			if (request.getFutureInterval() != null
@@ -250,25 +317,26 @@ public class GtnWsForecastConfigurationController {
 					HelperTable table = session.load(HelperTable.class, freq);
 					Calendar futureDate = GtnWsForecastConfigurationUtil.convertPeriod(1, table.getDescription(),
 							interval);
-					if (futureDate.getTime().after(
-							getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES).getTime())) {
-						response.setErrorMessage(true);
-						response.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
-					}
+					LOGGER.info("\n futureDate===========>>>" + futureDate.getTime());
+					Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+					LOGGER.info("\n getTime===========>>>" + gtsCal);
+					LOGGER.info("\n foreCastPeriod===========>>>" + foreCastPeriod);
+					String leastYear = getFrequencyDivision(table.getDescription(), gtsCal, foreCastPeriod);
+					LOGGER.info("leastYear===============>" + leastYear);
+					response.setForecastPeriod(leastYear);
 				}
 			}
 		} catch (Exception ex) {
-			response.setSuccess(false);
-			logger.error("Error in futureIntervalValueChangeLogic", ex);
+			LOGGER.error("Error in futureIntervalValueChangeLogic", ex);
 		}
-		logger.info("Exit futureIntervalValueChangeLogic");
-		return response;
+		LOGGER.info("Exit futureIntervalValueChangeLogic");
+
 	}
 
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.FROM_PERIOD_VALUE_CHANGE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse fromPeriodValueChange(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info(GtnWsForecastConfigurationConstants.FROM_PERIOD_VALUE_CHANGE);
+		LOGGER.info(GtnWsForecastConfigurationConstants.FROM_PERIOD_VALUE_CHANGE);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
@@ -287,31 +355,26 @@ public class GtnWsForecastConfigurationController {
 				forecastResponse.setMessage("History year should be less than current year.");
 			}
 		} catch (Exception ex) {
-			logger.error(GtnFrameworkWebserviceConstant.ERROR_IN
+			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.FROM_PERIOD_VALUE_CHANGE, ex);
 		}
-		logger.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.FROM_PERIOD_VALUE_CHANGE);
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.FROM_PERIOD_VALUE_CHANGE);
 		return gtnResponse;
 	}
 
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse toPeriodValueChange(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info(GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE);
+		LOGGER.info(GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
-			Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
-			if (gtnWsRequest.getForecastConfigurationRequest().getToDate().after(gtsCal.getTime())) {
-				forecastResponse.setErrorMessage(true);
-				forecastResponse.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
-			}
 		} catch (Exception ex) {
-			logger.error(GtnFrameworkWebserviceConstant.ERROR_IN
+			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE, ex);
 		}
-		logger.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE);
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT + GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE);
 		return gtnResponse;
 	}
 
@@ -328,7 +391,7 @@ public class GtnWsForecastConfigurationController {
 			@SuppressWarnings("unchecked")
 			List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, forecastConfigurationQueryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				forecastConfigurationSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				forecastConfigurationSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable forecastConfigurationDataTable = new GtnUIFrameworkDataTable();
 				forecastConfigurationDataTable.addData(result);
@@ -362,11 +425,10 @@ public class GtnWsForecastConfigurationController {
 						value.append("%" + value + "%");
 					}
 					inputWhereConditions.append(where).append(and)
-							.append(GtnCommonUtil
-									.getWhereClauseForAColumn(forecastConfigurationSearchCriteria.getExpression(),
-											filterAndSortingCriteriaMap()
-													.get(forecastConfigurationSearchCriteria.getFieldId()),
-											value.toString(), forecastConfigurationSearchCriteria.getFilterValue2()));
+							.append(GtnCommonUtil.getWhereClauseForAColumn(
+									forecastConfigurationSearchCriteria.getExpression(),
+									filterAndSortingCriteriaMap().get(forecastConfigurationSearchCriteria.getFieldId()),
+									value.toString(), forecastConfigurationSearchCriteria.getFilterValue2()));
 					and = " AND ";
 					where = "";
 				}
@@ -381,7 +443,7 @@ public class GtnWsForecastConfigurationController {
 				forecastConfigurationInputList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset());
 			}
 		} catch (Exception ex) {
-			logger.error("Exception in executig query-", ex);
+			LOGGER.error("Exception in executig query-", ex);
 			throw new GtnFrameworkGeneralException("Error in executing query : ", ex);
 
 		}
@@ -443,8 +505,8 @@ public class GtnWsForecastConfigurationController {
 				finalVersion = selectedVersion;
 			}
 			Object[] forecastYear = getForecastYear(finalVersion, forecastName);
-			int year = forecastYear[0] != null ? Integer.valueOf(forecastYear[0].toString()) : 0;
-			int month = forecastYear[1] != null ? Integer.valueOf(forecastYear[1].toString()) : 0;
+			int year = forecastYear[0] != null ? Integer.parseInt(forecastYear[0].toString()) : 0;
+			int month = forecastYear[1] != null ? Integer.parseInt(forecastYear[1].toString()) : 0;
 			cal = new GregorianCalendar(year, month - 1, 1);
 			int day = cal.getActualMaximum(Calendar.DATE);
 			cal.set(Calendar.DATE, day);
@@ -742,5 +804,113 @@ public class GtnWsForecastConfigurationController {
 			throw new GtnFrameworkGeneralException("Exception in getSysSchemaCatalog", ex);
 		}
 		return catalog;
+	}
+
+	private String getFrequencyDivision(String description, Calendar gtsCal, String foreCastPeriod)
+			throws GtnFrameworkGeneralException {
+		String gtsPeriod = "";
+		int frequencyDivision = 1;
+		String leastYear = "";
+		if (description.equals(GtnWsForecastConfigurationConstants.QUARTER)) {
+			gtsPeriod = "Q" + getQuarterForMonth(gtsCal.get(Calendar.MONTH)) + " " + gtsCal.get(Calendar.YEAR);
+			leastYear = compareLowestPeriod(foreCastPeriod, gtsPeriod);
+		} else if (description.equals(GtnWsForecastConfigurationConstants.SEMI_ANNUAL)) {
+			gtsPeriod = "S" + getSemmiAnnualForMonth(gtsCal.get(Calendar.MONTH)) + " " + gtsCal.get(Calendar.YEAR);
+			leastYear = compareLowestPeriod(foreCastPeriod, gtsPeriod);
+		} else if (description.equals(GtnWsForecastConfigurationConstants.MONTHLY)) {
+			frequencyDivision = 12;
+			gtsPeriod = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCal.get(Calendar.MONTH)) + " "
+					+ gtsCal.get(Calendar.YEAR);
+			leastYear = compareLowestPeriodAnnualMonthly(foreCastPeriod, gtsPeriod, frequencyDivision);
+		} else if (description.equals(GtnWsForecastConfigurationConstants.ANNUAL)) {
+			gtsPeriod = String.valueOf(gtsCal.get(Calendar.YEAR));
+			leastYear = compareLowestPeriodAnnual(foreCastPeriod, gtsPeriod, frequencyDivision);
+		}
+		LOGGER.info("ret==================" + gtsPeriod);
+		return leastYear;
+	}
+
+	public static String getQuarterForMonth(int num) {
+		int newNum = num + 1;
+		int quarter = 1;
+		if (newNum <= 3) {
+			quarter = 1;
+		} else if (newNum > 3 && newNum <= 6) {
+			quarter = 2;
+		} else if (newNum > 6 && newNum <= 9) {
+			quarter = 3;
+		} else if (newNum > 9 && newNum <= 12) {
+			quarter = 4;
+		}
+		return String.valueOf(quarter);
+
+	}
+
+	public static String getSemmiAnnualForMonth(int num) {
+		int newNum = num + 1;
+		int semmiAnnual = 1;
+		if (newNum <= 6) {
+			semmiAnnual = 1;
+		} else if (newNum > 6 && newNum <= 12) {
+			semmiAnnual = 2;
+		}
+		return String.valueOf(semmiAnnual);
+
+	}
+
+	private static String compareLowestPeriod(String s1, String s2) {
+		String[] arrays1 = s1.split(" ");
+		String[] arrays2 = s2.split(" ");
+		if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {
+			return s1;
+		}
+		String[] splittedArrayS1 = arrays1[0].split("");
+		String[] splittedArrayS2 = arrays2[0].split("");
+		if (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2])) {
+			return s1;
+		}
+		return s2;
+	}
+
+	private static String compareLowestPeriodAnnual(String s1, String s2, int frequencyDivision) {
+		String[] arrays1 = s1.split(" ");
+		String[] arrays2 = s2.split(" ");
+		LOGGER.info("frequencyDivision===========================" + frequencyDivision);
+		for (int i = 0; i < arrays1.length; i++) {
+			LOGGER.info("arrays1===========================" + arrays1[i]);
+		}
+		if ((frequencyDivision == 1) && (Integer.parseInt(arrays1[0]) < Integer.parseInt(arrays2[0]))) {
+			return s1;
+		}
+		return s2;
+	}
+
+	private static String compareLowestPeriodAnnualMonthly(String s1, String s2, int frequencyDivision)
+			throws GtnFrameworkGeneralException {
+		try {
+			String[] arrays1 = s1.split(" ");
+			String[] arrays2 = s2.split(" ");
+			LOGGER.info("frequencyDivision===========================" + frequencyDivision);
+			if ((frequencyDivision == 12) && (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1]))) {
+				LOGGER.info("***********arrays1[1])***************" + Integer.valueOf(arrays1[1]));
+				return s1;
+			}
+			Date date1 = new SimpleDateFormat("MMM").parse(arrays1[0]);
+			Calendar cal1 = Calendar.getInstance();
+			cal1.setTime(date1);
+			LOGGER.info("cal.get(Calendar.MONTH)===========" + cal1.get(Calendar.MONTH));
+			Date date2 = new SimpleDateFormat("MMM").parse(arrays2[0]);
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(date2);
+			LOGGER.info("cal.get(Calendar.MONTH)=====2nd======" + cal2.get(Calendar.MONTH));
+			if (arrays1[1].equals(arrays2[1])
+					&& (cal1.get(Calendar.MONTH) < cal2.get(Calendar.MONTH))) {
+				return s1;
+			}
+			LOGGER.info("return s2================" + s2);
+			return s2;
+		} catch (Exception e) {
+			throw new GtnFrameworkGeneralException("Exception in getModifiedProcessModeValue ", e);
+		}
 	}
 }
