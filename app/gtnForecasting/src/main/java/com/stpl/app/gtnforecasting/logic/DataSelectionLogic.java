@@ -48,9 +48,11 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
+import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractFilterLogic;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.Converters;
@@ -75,6 +77,7 @@ import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import com.stpl.app.service.ProjectionProdHierarchyLocalServiceUtil;
 import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants.IndicatorConstants;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
@@ -89,6 +92,8 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.TreeTable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /**
  * The Class DataSelectionLogic.
@@ -2445,38 +2450,73 @@ public class DataSelectionLogic {
 		int maxLevelNo = 0;
 		for (Map.Entry<String, List> entry : hierarchyDetailsMap.entrySet()) {
 			int levelNo = Integer.parseInt(entry.getValue().get(NumericConstants.TWO).toString());
-			if (maxLevelNo < levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR))) {
-				maxLevelNo = levelNo;
-			}
-		}
-		return maxLevelNo;
+            if (maxLevelNo < levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR))) {
+                maxLevelNo = levelNo;
+            }
+        }
+        return maxLevelNo;
+    }
+
+    public void callInsertProcedureForNm(int projectionId, SessionDTO session, String procedureName,
+            String screenName) {
+
+        StringBuilder query = new StringBuilder("EXEC ");
+        try {
+            query.append(procedureName);
+            query.append(' ');
+            query.append(projectionId);
+            query.append(',');
+            query.append(session.getUserId());
+            query.append(",'");
+            query.append(session.getSessionId());
+            if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
+
+                query.append("','");
+                query.append(screenName);
+            }
+            query.append('\'');
+            HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+    }
+
+    public void nmDiscountInsertProcedure(SessionDTO session) {
+        ExecutorService service = ThreadPool.getInstance().getService();
+        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+            session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
+				new Future[] {
+						service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+				SalesUtils.PRC_NM_MASTER_INSERT, session.getProjectionId(), session.getUserId(),
+				session.getSessionId(), Constant.DISCOUNT3,session)) });
+            CommonUtil.getInstance()
+                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
+				new Future[] { service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
+						service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
+            }
 	}
-
-	public void callInsertProcedureForNm(int projectionId, String userId, String sessionId, String procedureName,
-			String screenName) {
-
-		StringBuilder query = new StringBuilder("EXEC ");
-		try {
-			query.append(procedureName);
-			query.append(' ');
-			query.append(projectionId);
-			query.append(',');
-			query.append(userId);
-			query.append(",'");
-			query.append(sessionId);
-			if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
-
-				query.append("','");
-				query.append(screenName);
-			}
-			query.append('\'');
-			HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
-
+    
+    public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
+        ExecutorService service = ThreadPool.getInstance().getService();
+        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+            CommonUtil.getInstance()
+                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
+				new Future[] { service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
+						service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
+            }
 	}
-
+        
 	/**
 	 * To insert the Accural_proj_details table in edit and add mode
 	 *
