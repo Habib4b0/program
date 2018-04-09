@@ -792,7 +792,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
             input.put("Inventory Withdrawal - Forecast Summary", InventoryNames);
             input.put("Adjusted Demand", AdjDemandNames);
             query = SQlUtil.getQuery("get-file-type-query");
-            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
+            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             outputSet.addAll(defaultNames);
             for (String string : returnList) {
                 if (!"Customer Sales".equals(string)) {

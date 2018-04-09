@@ -1631,9 +1631,9 @@ public class FileManagementLookup extends Window {
 						.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_YEAR, String.valueOf(selectedYear)));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<ForecastingMaster> listToRemove = ForecastingMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<ForecastingMaster> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final ForecastingMaster itemDetail = iterator.next();
@@ -1645,9 +1645,9 @@ public class FileManagementLookup extends Window {
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<DemandForecast> listToRemove = DemandForecastLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<DemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final DemandForecast itemDetail = iterator.next();
@@ -1659,9 +1659,9 @@ public class FileManagementLookup extends Window {
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<AdjustedDemandForecast> listToRemove = AdjustedDemandForecastLocalServiceUtil
 						.dynamicQuery(dynamicQuery);
 				for (final Iterator<AdjustedDemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
@@ -1673,8 +1673,8 @@ public class FileManagementLookup extends Window {
 				List<String> query = new ArrayList<>();
 				query.add(selectedFile);
 				query.add(country.getValue().toString());
-				query.add(versionList.getValue().toString());
-				query.add(fileNameList.getValue().toString());
+				query.add(versionList.getValue());
+				query.add(fileNameList.getValue());
 				List<FileMananagementResultDTO> list = FileManagementLogic.getInventoryDemandValidationQuery(query);
 				for (final Iterator<FileMananagementResultDTO> iterator = list.iterator(); iterator.hasNext();) {
 					final FileMananagementResultDTO itemDetail = iterator.next();
@@ -1687,9 +1687,9 @@ public class FileManagementLookup extends Window {
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<CustomerGtsForecast> listToRemove = CustomerGtsForecastLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<CustomerGtsForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final CustomerGtsForecast itemDetail = iterator.next();
@@ -1772,7 +1772,7 @@ public class FileManagementLookup extends Window {
 										String s1 = String.valueOf(minorVersion);
 										finalVersion = array[0] + "." + s1;
 									} else {
-										finalVersion = versionList.getValue().toString();
+										finalVersion = versionList.getValue();
 										finalVersion = finalVersion + "." + "1";
 									}
 									FileManagementLogic logic = new FileManagementLogic();
@@ -2104,7 +2104,7 @@ public class FileManagementLookup extends Window {
 
 				detailsFilterTable.setConverter("startDate", new DateToStringConverter());
 
-			} else if (fileType.toString().equals(ConstantsUtils.DEMAND)) {
+			} else if (fileType.equals(ConstantsUtils.DEMAND)) {
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_TYPE, ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment("forecastYear", ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_MONTH, ExtCustomTable.Align.LEFT);
@@ -2599,7 +2599,7 @@ public class FileManagementLookup extends Window {
                                                 @Override
 									public void windowClose(final Window.CloseEvent e) {
 										detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
-												.setValue(lookupItemName.getValue().toString());
+												.setValue(lookupItemName.getValue());
 									}
 								});
 							}

@@ -129,6 +129,34 @@ public class GtnWsForecastConfigurationController {
 				+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
 		return gtnResponse;
 	}
+        @RequestMapping(value = GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse periodModeValue(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		LOGGER.info(GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
+		GtnUIFrameworkWebserviceResponse gtnWsResponse = new GtnUIFrameworkWebserviceResponse();
+
+		GtnWsGeneralResponse gtnGeneralWsResponse = new GtnWsGeneralResponse();
+		gtnGeneralWsResponse.setSucess(true);
+
+		gtnWsResponse.setGtnWsGeneralResponse(gtnGeneralWsResponse);
+		try {
+                        Calendar gtsCalculation = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+			String string = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCalculation.get(Calendar.MONTH)) + " "
+					+ gtsCalculation.get(Calendar.YEAR);
+			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
+                        LOGGER.info("str******************"+string);
+                        forecastResponse.setForecastPeriod(string);
+			forecastResponse.setSuccess(forecastResponse.isSuccess());
+			gtnWsResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
+		} catch (Exception ex) {
+			gtnGeneralWsResponse.setSucess(false);
+			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
+					+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE, ex);
+		}
+		LOGGER.info(GtnFrameworkWebserviceConstant.EXIT
+				+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
+		return gtnWsResponse;
+	}
 
 	@RequestMapping(value = GtnWsForecastConfigurationConstants.HISTORY_INTERVAL_VALUE_CHANGE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse historyIntervalValueChange(
@@ -255,7 +283,6 @@ public class GtnWsForecastConfigurationController {
 					Integer valueToCheck = frequencyIntervalMap.get(table.getDescription());
 					LOGGER.info("interval===============>>" + interval);
 					LOGGER.info("valueToCheck===============>>>" + valueToCheck);
-					// if (interval <= valueToCheck) {
 					if (table.getDescription().equals(GtnWsForecastConfigurationConstants.MONTHLY)) {
 						final Calendar monthlyDate = Calendar.getInstance();
 						monthlyDate.setTime(new Date());
@@ -283,22 +310,27 @@ public class GtnWsForecastConfigurationController {
 
 		try (Session session = sessionFactory.openSession()) {
 			if (request.getFutureInterval() != null
-					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
+					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY) && !request.getFutureInterval().equals(0)) {
 				Integer interval = Integer.valueOf(request.getFutureInterval().trim());
 				int freq = request.getFutureFrequency();
 				if (freq != 0) {
 					HelperTable table = session.load(HelperTable.class, freq);
-					Calendar futureDate = GtnWsForecastConfigurationUtil.convertPeriod(1, table.getDescription(),
-							interval);
-					LOGGER.info("\n futureDate===========>>>" + futureDate.getTime());
 					Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
-					LOGGER.info("\n getTime===========>>>" + gtsCal);
-					LOGGER.info("\n foreCastPeriod===========>>>" + foreCastPeriod);
 					String leastYear = getFrequencyDivision(table.getDescription(), gtsCal, foreCastPeriod);
 					LOGGER.info("leastYear===============>" + leastYear);
 					response.setForecastPeriod(leastYear);
 				}
 			}
+                        else{
+                            LOGGER.info("----in else======================");
+                            Calendar gtsCalculation = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+			String string = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCalculation.get(Calendar.MONTH)) + " "
+					+ gtsCalculation.get(Calendar.YEAR);
+			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
+                        LOGGER.info("str******************"+string);
+                        response.setForecastPeriod(string);
+			response.setSuccess(forecastResponse.isSuccess());
+                        }
 		} catch (Exception ex) {
 			LOGGER.error("Error in futureIntervalValueChangeLogic", ex);
 		}
@@ -342,12 +374,7 @@ public class GtnWsForecastConfigurationController {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
-			Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
-			if (gtnWsRequest.getForecastConfigurationRequest().getToDate().after(gtsCal.getTime())) {
-				forecastResponse.setErrorMessage(true);
-				forecastResponse.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
-			}
 		} catch (Exception ex) {
 			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE, ex);
@@ -369,7 +396,7 @@ public class GtnWsForecastConfigurationController {
 			@SuppressWarnings("unchecked")
 			List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, forecastConfigurationQueryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				forecastConfigurationSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				forecastConfigurationSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable forecastConfigurationDataTable = new GtnUIFrameworkDataTable();
 				forecastConfigurationDataTable.addData(result);
@@ -466,9 +493,6 @@ public class GtnWsForecastConfigurationController {
 		gtsCal.set(Calendar.SECOND, gtsCal.getActualMaximum(Calendar.SECOND));
 		gtsCal.set(Calendar.MINUTE, gtsCal.getActualMaximum(Calendar.MINUTE));
 		gtsCal.set(Calendar.HOUR, gtsCal.getActualMaximum(Calendar.HOUR));
-		LOGGER.info("\n gtsCal===MONTH==>" + gtsCal.MONTH);
-		LOGGER.info("\nYEAR=========>" + gtsCal.YEAR);
-		LOGGER.info("\n gtscal====>" + gtsCal);
 		return gtsCal;
 	}
 
@@ -486,8 +510,8 @@ public class GtnWsForecastConfigurationController {
 				finalVersion = selectedVersion;
 			}
 			Object[] forecastYear = getForecastYear(finalVersion, forecastName);
-			int year = forecastYear[0] != null ? Integer.valueOf(forecastYear[0].toString()) : 0;
-			int month = forecastYear[1] != null ? Integer.valueOf(forecastYear[1].toString()) : 0;
+			int year = forecastYear[0] != null ? Integer.parseInt(forecastYear[0].toString()) : 0;
+			int month = forecastYear[1] != null ? Integer.parseInt(forecastYear[1].toString()) : 0;
 			cal = new GregorianCalendar(year, month - 1, 1);
 			int day = cal.getActualMaximum(Calendar.DATE);
 			cal.set(Calendar.DATE, day);
@@ -812,15 +836,15 @@ public class GtnWsForecastConfigurationController {
 	}
 
 	public static String getQuarterForMonth(int num) {
-		num = num + 1;
+		int newNum = num + 1;
 		int quarter = 1;
-		if (num <= 3) {
+		if (newNum <= 3) {
 			quarter = 1;
-		} else if (num > 3 && num <= 6) {
+		} else if (newNum > 3 && newNum <= 6) {
 			quarter = 2;
-		} else if (num > 6 && num <= 9) {
+		} else if (newNum > 6 && newNum <= 9) {
 			quarter = 3;
-		} else if (num > 9 && num <= 12) {
+		} else if (newNum > 9 && newNum <= 12) {
 			quarter = 4;
 		}
 		return String.valueOf(quarter);
@@ -828,11 +852,11 @@ public class GtnWsForecastConfigurationController {
 	}
 
 	public static String getSemmiAnnualForMonth(int num) {
-		num = num + 1;
+		int newNum = num + 1;
 		int semmiAnnual = 1;
-		if (num <= 6) {
+		if (newNum <= 6) {
 			semmiAnnual = 1;
-		} else if (num > 6 && num <= 12) {
+		} else if (newNum > 6 && newNum <= 12) {
 			semmiAnnual = 2;
 		}
 		return String.valueOf(semmiAnnual);
@@ -842,12 +866,12 @@ public class GtnWsForecastConfigurationController {
 	private static String compareLowestPeriod(String s1, String s2) {
 		String[] arrays1 = s1.split(" ");
 		String[] arrays2 = s2.split(" ");
-		if (Integer.valueOf(arrays1[1]) < Integer.valueOf(arrays2[1])) {
+		if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {
 			return s1;
 		}
 		String[] splittedArrayS1 = arrays1[0].split("");
 		String[] splittedArrayS2 = arrays2[0].split("");
-		if (Integer.valueOf(splittedArrayS1[2]) < Integer.valueOf(splittedArrayS2[2])) {
+		if (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2])) {
 			return s1;
 		}
 		return s2;
@@ -860,7 +884,7 @@ public class GtnWsForecastConfigurationController {
 		for (int i = 0; i < arrays1.length; i++) {
 			LOGGER.info("arrays1===========================" + arrays1[i]);
 		}
-		if ((frequencyDivision == 1) && (Integer.valueOf(arrays1[0]) < Integer.valueOf(arrays2[0]))) {
+		if ((frequencyDivision == 1) && (Integer.parseInt(arrays1[0]) < Integer.parseInt(arrays2[0]))) {
 			return s1;
 		}
 		return s2;
@@ -872,7 +896,7 @@ public class GtnWsForecastConfigurationController {
 			String[] arrays1 = s1.split(" ");
 			String[] arrays2 = s2.split(" ");
 			LOGGER.info("frequencyDivision===========================" + frequencyDivision);
-			if ((frequencyDivision == 12) && (Integer.valueOf(arrays1[1]) < Integer.valueOf(arrays2[1]))) {
+			if ((frequencyDivision == 12) && (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1]))) {
 				LOGGER.info("***********arrays1[1])***************" + Integer.valueOf(arrays1[1]));
 				return s1;
 			}
@@ -884,7 +908,7 @@ public class GtnWsForecastConfigurationController {
 			Calendar cal2 = Calendar.getInstance();
 			cal2.setTime(date2);
 			LOGGER.info("cal.get(Calendar.MONTH)=====2nd======" + cal2.get(Calendar.MONTH));
-			if ((Integer.valueOf(arrays1[1]) == Integer.valueOf(arrays2[1]))
+			if (arrays1[1].equals(arrays2[1])
 					&& (cal1.get(Calendar.MONTH) < cal2.get(Calendar.MONTH))) {
 				return s1;
 			}
