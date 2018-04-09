@@ -279,7 +279,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
             } else if (non_creatoralert != 0) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update public view", "You cannot update Public View (" + viewDTO.getViewName() + ") because it was created by another user.You can choose to save a new profile under a different profile name");
 
-            } else if (!viewName.getValue().toString().equals(viewDTO.getViewName())) {
+            } else if (!viewName.getValue().equals(viewDTO.getViewName())) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update view name", "View  name can't be Changed");
             } else {
                 if (isDuplicateView(viewName.getValue())) {
