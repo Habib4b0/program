@@ -6,16 +6,18 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
-import com.stpl.gtn.gtn2o.registry.config.lookups.ForecastingGeneratePopupAction;
+import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
@@ -46,9 +48,14 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 		GtnFrameworkForecastCustomerHierarchyConfig customerSelectionConfig = new GtnFrameworkForecastCustomerHierarchyConfig();
 		componentList.addAll(customerSelectionConfig.getCustomerSelectionLayoutCompoents(nameSpace));
-		// addProductSelectionPanel(componentList, nameSpace, componentConfig);
+		addProductSelectionPanel(componentList, nameSpace);
+
+		GtnFrameworkForecastProdHierarchyConfig productSelectionConfig = new GtnFrameworkForecastProdHierarchyConfig();
+		componentList.addAll(productSelectionConfig.getProductSelectionLayoutCompoents(nameSpace));
+
 		addActionButtonLayout(componentList, nameSpace);
-		// addProjectionResultsPanel(componentList, nameSpace, componentConfig);
+		addProjectionResultsPanel(componentList, nameSpace);
+		addControlButtonLayout(componentList, nameSpace);
 	}
 
 	private void addProjectionOptionsPanel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -371,12 +378,34 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		componentList.add(customerSelectionPanel);
 	}
 
+	private void addProductSelectionPanel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig productSelectionPanel = new GtnUIFrameworkComponentConfig();
+		productSelectionPanel.setComponentName("Product Selection");
+		productSelectionPanel.setComponentId(nameSpace + "_" + "productSelectionPanel");
+		productSelectionPanel.setAddToParent(Boolean.TRUE);
+		productSelectionPanel.setParentComponentId(nameSpace + "_" + "dataSelectionMainLayout");
+		productSelectionPanel.setSpacing(Boolean.TRUE);
+		productSelectionPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
+		productSelectionPanel.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		productSelectionPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		componentList.add(productSelectionPanel);
+	}
+
 	private void addActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig actionButtonLayout = configProvider.getHorizontalLayoutConfig(
 				nameSpace + "_" + "actionButtonLayout", true, nameSpace + "_" + "dataSelectionMainLayout");
 		actionButtonLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_6);
 		componentList.add(actionButtonLayout);
 
+		addGenerateBtn(componentList, nameSpace);
+		addSearchBtn(componentList, nameSpace);
+		addResetBtn(componentList, nameSpace);
+		addSaveViewBtn(componentList, nameSpace);
+		addDeleteViewBtn(componentList, nameSpace);
+
+	}
+
+	private void addGenerateBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig generateBtn = new GtnUIFrameworkComponentConfig();
 		generateBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		generateBtn.setComponentId(nameSpace + "_" + "dsGenerate");
@@ -385,16 +414,172 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		generateBtn.setAddToParent(true);
 
 		componentList.add(generateBtn);
-		
+
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		gtnUIFrameWorkGeneratePopupAction
-				.addActionParameter(ForecastingGeneratePopupAction.class.getName());
+		gtnUIFrameWorkGeneratePopupAction.addActionParameter("forecastGenerateLookupView");
 		gtnUIFrameWorkGeneratePopupAction.addActionParameter("Forecast Generate Lookup View");
 		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
+	}
 
+	private void addSearchBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+
+		GtnUIFrameworkComponentConfig searchBtn = new GtnUIFrameworkComponentConfig();
+		searchBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		searchBtn.setComponentId(nameSpace + "_" + "searchBtn");
+		searchBtn.setComponentName("SEARCH");
+		searchBtn.setParentComponentId(nameSpace + "_" + "actionButtonLayout");
+		searchBtn.setAddToParent(true);
+
+		componentList.add(searchBtn);
+
+	}
+
+	private void addResetBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig resetBtn = new GtnUIFrameworkComponentConfig();
+		resetBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		resetBtn.setComponentId(nameSpace + "_" + "resetBtn");
+		resetBtn.setComponentName("RESET");
+		resetBtn.setParentComponentId(nameSpace + "_" + "actionButtonLayout");
+		resetBtn.setAddToParent(true);
+		componentList.add(resetBtn);
+	}
+
+	private void addSaveViewBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig saveViewBtn = new GtnUIFrameworkComponentConfig();
+		saveViewBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		saveViewBtn.setComponentId(nameSpace + "_" + "saveViewBtn");
+		saveViewBtn.setComponentName("SAVE VIEW");
+		saveViewBtn.setParentComponentId(nameSpace + "_" + "actionButtonLayout");
+		saveViewBtn.setAddToParent(true);
+		componentList.add(saveViewBtn);
+	}
+
+	private void addDeleteViewBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig deleteViewBtn = new GtnUIFrameworkComponentConfig();
+		deleteViewBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		deleteViewBtn.setComponentId(nameSpace + "_" + "deleteViewBtn");
+		deleteViewBtn.setComponentName("DELETE VIEW");
+		deleteViewBtn.setParentComponentId(nameSpace + "_" + "actionButtonLayout");
+		deleteViewBtn.setAddToParent(true);
+		componentList.add(deleteViewBtn);
+	}
+
+	private void addProjectionResultsPanel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig projectionResultsPanel = new GtnUIFrameworkComponentConfig();
+		projectionResultsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
+		projectionResultsPanel.setComponentId(nameSpace + "_" + "projectionResultsPanel");
+		projectionResultsPanel.setComponentName("Projection Results");
+		projectionResultsPanel.setParentComponentId(nameSpace + "_" + "dataSelectionMainLayout");
+		projectionResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		projectionResultsPanel.setAddToParent(true);
+		projectionResultsPanel.setSpacing(true);
+		componentList.add(projectionResultsPanel);
+		addResultLayout(componentList, nameSpace);
+	}
+
+	private void addResultLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkLayoutConfig resultLayoutConfig = new GtnUIFrameworkLayoutConfig();
+		resultLayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+
+		GtnUIFrameworkComponentConfig resultLayout = new GtnUIFrameworkComponentConfig();
+		resultLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		resultLayout.setComponentId(nameSpace + "_" + "projectionResultsLayout");
+		resultLayout.setParentComponentId(nameSpace + "_" + "projectionResultsPanel");
+		resultLayout.setAddToParent(true);
+		resultLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		resultLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		resultLayout.setSpacing(true);
+		resultLayout.setGtnLayoutConfig(resultLayoutConfig);
+		componentList.add(resultLayout);
+		addPagedTableComponent(componentList, nameSpace);
+	}
+
+	private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig projectionResultsTable = new GtnUIFrameworkComponentConfig();
+		projectionResultsTable.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
+		projectionResultsTable.setComponentId(nameSpace + "_" + "projectionResultsTable");
+		projectionResultsTable.setAddToParent(true);
+		projectionResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		projectionResultsTable.setParentComponentId(nameSpace + "_" + "projectionResultsLayout");
+
+		GtnUIFrameworkPagedTableConfig projectionResultsTableConfig = new GtnUIFrameworkPagedTableConfig();
+		projectionResultsTableConfig.setEditable(false);
+		projectionResultsTableConfig.setFilterBar(true);
+		projectionResultsTableConfig.setSelectable(true);
+		projectionResultsTableConfig.setItemPerPage(10);
+		projectionResultsTableConfig.setSinkItemPerPageWithPageLength(false);
+		projectionResultsTableConfig
+				.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+						GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+						GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+						GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+						GtnFrameworkCommonConstants.JAVAUTIL_DATE, GtnFrameworkCommonConstants.JAVAUTIL_DATE,
+						GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
+		projectionResultsTableConfig.setTableVisibleHeader(new String[] { "Projection Name", "Description",
+				"Customer Hierarchy", "Customer Level", "Product Hierarchy", "Product Level", "Created By",
+				"Created Date", "Modified Date", "Company", "Business Unit" });
+		projectionResultsTableConfig.setTableColumnMappingId(new String[] { "projactionName", "description",
+				"customerHierarchy", "customerLevel", "productHierarchy", "productLevel", "createdBy", "createdDate",
+				"modifiedDate", "company", "businessUnit" });
+		projectionResultsTable.setGtnPagedTableConfig(projectionResultsTableConfig);
+		componentList.add(projectionResultsTable);
+
+	}
+
+	private void addControlButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig controlButtonLayout = configProvider.getHorizontalLayoutConfig(
+				nameSpace + "_" + "controlButtonLayout", true, nameSpace + "_" + "dataSelectionMainLayout");
+		controlButtonLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
+		componentList.add(controlButtonLayout);
+
+		addResetCtrlBtn(componentList, nameSpace);
+		addEditBtn(componentList, nameSpace);
+		addViewBtn(componentList, nameSpace);
+		addDeleteBtn(componentList, nameSpace);
+
+	}
+	
+	private void addResetCtrlBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace){
+		GtnUIFrameworkComponentConfig resetCtrlBtn = new GtnUIFrameworkComponentConfig();
+		resetCtrlBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		resetCtrlBtn.setComponentId(nameSpace + "_" + "resetCtrlBtn");
+		resetCtrlBtn.setComponentName("RESET");
+		resetCtrlBtn.setParentComponentId(nameSpace + "_" + "controlButtonLayout");
+		resetCtrlBtn.setAddToParent(true);
+		componentList.add(resetCtrlBtn);
+	}
+	
+	private void addEditBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace){
+		GtnUIFrameworkComponentConfig editBtn = new GtnUIFrameworkComponentConfig();
+		editBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		editBtn.setComponentId(nameSpace + "_" + "editBtn");
+		editBtn.setComponentName("EDIT");
+		editBtn.setParentComponentId(nameSpace + "_" + "controlButtonLayout");
+		editBtn.setAddToParent(true);
+		componentList.add(editBtn);
+	}
+	
+	private void addViewBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace){
+		GtnUIFrameworkComponentConfig viewBtn = new GtnUIFrameworkComponentConfig();
+		viewBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		viewBtn.setComponentId(nameSpace + "_" + "viewBtn");
+		viewBtn.setComponentName("VIEW");
+		viewBtn.setParentComponentId(nameSpace + "_" + "controlButtonLayout");
+		viewBtn.setAddToParent(true);
+		componentList.add(viewBtn);
+	}
+	
+	private void addDeleteBtn(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace){
+		GtnUIFrameworkComponentConfig deleteBtn = new GtnUIFrameworkComponentConfig();
+		deleteBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		deleteBtn.setComponentId(nameSpace + "_" + "deleteBtn");
+		deleteBtn.setComponentName("DELETE");
+		deleteBtn.setParentComponentId(nameSpace + "_" + "controlButtonLayout");
+		deleteBtn.setAddToParent(true);
+		componentList.add(deleteBtn);
 	}
 
 }

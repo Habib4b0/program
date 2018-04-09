@@ -25,7 +25,6 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 	private void addCustomerSelectionLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customerSelectionLayout = configProvider.getVerticalLayoutConfig(
 				nameSpace + "_" + "customerSelectionLayout", true, nameSpace + "_" + "customerSelectionPanel");
-		customerSelectionLayout.setComponentWidth("125%");
 		customerSelectionLayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		customerSelectionLayout.setSpacing(true);
 		componentList.add(customerSelectionLayout);
@@ -44,8 +43,9 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		GtnUIFrameworkComponentConfig customerSelectionCssLayout = configProvider.getCssLayoutConfig(
 				nameSpace + "_" + "customerSelectionCssLayout", true,
 				nameSpace + "_" + "customerSelectionHorizontalLayout");
-		customerSelectionCssLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+		customerSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		customerSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
+		customerSelectionCssLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(customerSelectionCssLayout);
 
 		addHierarchy(componentList, nameSpace);

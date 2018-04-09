@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.module.forecasting.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.registry.config.lookups.ForecastingGenerateLookup;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 
@@ -12,6 +13,7 @@ public class GtnFrameworkCommercialForecastingConfig {
 		GtnUIFrameworkRootConfig rootConfig = new GtnUIFrameworkRootConfig();
 		List<GtnUIFrameworkViewConfig> viewList = new ArrayList<>();
 		viewList.add(new GtnFrameworkForecastingLandingScreenConfig().getSearchView());
+		viewList.add(new ForecastingGenerateLookup().getGtnForecastGenerateLookUpView("Commercial_Forecasting"));
 		rootConfig.setGtnViewConfigList(viewList);
 		return rootConfig;
 	}
