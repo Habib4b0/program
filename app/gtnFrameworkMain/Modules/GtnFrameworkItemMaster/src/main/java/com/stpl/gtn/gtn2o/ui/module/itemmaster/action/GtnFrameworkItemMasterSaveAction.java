@@ -77,7 +77,7 @@ public class GtnFrameworkItemMasterSaveAction
 				.getItemMasterSid();
 		int systemId = GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.ITEM_MASTER_SID) == null
 				? 0
-				: Integer.parseInt(GtnUIFrameworkGlobalUI
+				: Integer.valueOf(GtnUIFrameworkGlobalUI
 						.getSessionProperty(GtnFrameworkCommonConstants.ITEM_MASTER_SID).toString());
 		if (systemId == 0) {
 			cpDetailsInsert(itemMasterSid);
@@ -214,7 +214,7 @@ public class GtnFrameworkItemMasterSaveAction
 				String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabAcquiredAMP")
 						.getObjectFromField()))
 								? null
-								: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+								: Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
 										.getVaadinBaseComponent("additionalInformationTabAcquiredAMP")
 										.getObjectFromField()));
 		if (acquiredAmp != null) {
@@ -224,7 +224,7 @@ public class GtnFrameworkItemMasterSaveAction
 				String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP")
 						.getObjectFromField()))
 								? null
-								: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+								: Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
 										.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP")
 										.getObjectFromField()));
 		if (acquiredBamp != null) {
@@ -233,7 +233,7 @@ public class GtnFrameworkItemMasterSaveAction
 		Integer dra = isEmpty(String.valueOf(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()))
 						? null
-						: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+						: Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
 								.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()));
 		if (dra != null) {
 			infoBean.setDra(dra);
@@ -241,7 +241,7 @@ public class GtnFrameworkItemMasterSaveAction
 		Integer obraBamp = isEmpty(String.valueOf(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()))
 						? null
-						: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+						: Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI
 								.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()));
 		if (obraBamp != null) {
 			infoBean.setObraBamp(obraBamp);
@@ -262,7 +262,7 @@ public class GtnFrameworkItemMasterSaveAction
 				imNotesBean.setMasterTableSystemId(note.getDocDetailsId());
 				imNotesBean.setFileName(note.getDocumentName());
 				imNotesBean.setFilePath(note.getDocumentFullPath());
-				imNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				imNotesBean.setCreatedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				imNotesBean.setCreatedDate(new Date());
 				noteBeanList.add(imNotesBean);
 			}
@@ -288,7 +288,7 @@ public class GtnFrameworkItemMasterSaveAction
 				idenBean.setStartDate((Date) dto.getPropertyValue(GtnFrameworkCommonConstants.START_DATE));
 				idenBean.setEndDate((Date) dto.getPropertyValue(GtnFrameworkCommonConstants.END_DATE));
 				idenBean.setEntityCode((String) dto.getPropertyValue(GtnFrameworkCommonConstants.ENTITY_CODE));
-				idenBean.setModifiedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				idenBean.setModifiedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				idenBean.setModifiedDate(new Date());
 				identifierSaveList.add(idenBean);
 			}

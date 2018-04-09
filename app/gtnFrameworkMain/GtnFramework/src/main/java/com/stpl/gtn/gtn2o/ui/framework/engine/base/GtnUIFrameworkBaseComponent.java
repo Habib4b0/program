@@ -39,7 +39,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.TabSheet;
@@ -144,12 +143,6 @@ public class GtnUIFrameworkBaseComponent {
 		Field<?> field = (Field<?>) this.component;
 		return getString(field.getValue()).trim();
 	}
-        public Object getFieldValue() {
-		AbstractField<?>  field =  (AbstractField) this.component;
-                
-		return field.getValue();
-	}
-
 
 	public Object getObjectFromField() throws GtnFrameworkValidationFailedException {
 		try {
@@ -1020,11 +1013,11 @@ public class GtnUIFrameworkBaseComponent {
 		if (itemCodeList != null) {
 			List<Integer> integerList = new ArrayList<>();
 			for (String str : itemCodeList) {
-				integerList.add(Integer.parseInt(str));
+				integerList.add(Integer.valueOf(str));
 			}
 			massUpdateComboBox.addItems(integerList);
 			for (int valueIndex = 0; valueIndex < itemCodeList.size(); valueIndex++) {
-				massUpdateComboBox.setItemCaption(Integer.parseInt(itemCodeList.get(valueIndex)),
+				massUpdateComboBox.setItemCaption(Integer.valueOf(itemCodeList.get(valueIndex)),
 						itemValueList.get(valueIndex));
 			}
 
