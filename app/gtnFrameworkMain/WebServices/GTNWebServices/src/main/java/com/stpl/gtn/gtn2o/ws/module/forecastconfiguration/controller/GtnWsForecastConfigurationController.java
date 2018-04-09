@@ -391,7 +391,7 @@ public class GtnWsForecastConfigurationController {
 			@SuppressWarnings("unchecked")
 			List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, forecastConfigurationQueryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				forecastConfigurationSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				forecastConfigurationSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable forecastConfigurationDataTable = new GtnUIFrameworkDataTable();
 				forecastConfigurationDataTable.addData(result);
@@ -505,8 +505,8 @@ public class GtnWsForecastConfigurationController {
 				finalVersion = selectedVersion;
 			}
 			Object[] forecastYear = getForecastYear(finalVersion, forecastName);
-			int year = forecastYear[0] != null ? Integer.valueOf(forecastYear[0].toString()) : 0;
-			int month = forecastYear[1] != null ? Integer.valueOf(forecastYear[1].toString()) : 0;
+			int year = forecastYear[0] != null ? Integer.parseInt(forecastYear[0].toString()) : 0;
+			int month = forecastYear[1] != null ? Integer.parseInt(forecastYear[1].toString()) : 0;
 			cal = new GregorianCalendar(year, month - 1, 1);
 			int day = cal.getActualMaximum(Calendar.DATE);
 			cal.set(Calendar.DATE, day);
