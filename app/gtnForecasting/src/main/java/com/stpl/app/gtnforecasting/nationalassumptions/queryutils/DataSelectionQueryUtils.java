@@ -998,6 +998,7 @@ public class DataSelectionQueryUtils {
                     customSql = customSql + " WHERE  IM.ORGANIZATION_KEY like '" + String.valueOf(businessUnit) + "' ";
                 }
             }
+            customSql = customSql + " AND HT.DESCRIPTION ='NDC-11'";
             return (List) DAO.executeSelectQuery(customSql);
         } catch (PortalException | SystemException e) {
             LOGGER.error(e.getMessage());
