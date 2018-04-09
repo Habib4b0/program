@@ -310,8 +310,7 @@ public class GtnWsForecastConfigurationController {
 
 		try (Session session = sessionFactory.openSession()) {
 			if (request.getFutureInterval() != null
-					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY) && !request.getFutureInterval().equals(0)) {
-				Integer interval = Integer.valueOf(request.getFutureInterval().trim());
+					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
 				int freq = request.getFutureFrequency();
 				if (freq != 0) {
 					HelperTable table = session.load(HelperTable.class, freq);
@@ -321,16 +320,6 @@ public class GtnWsForecastConfigurationController {
 					response.setForecastPeriod(leastYear);
 				}
 			}
-                        else{
-                            LOGGER.info("----in else======================");
-                            Calendar gtsCalculation = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
-			String string = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCalculation.get(Calendar.MONTH)) + " "
-					+ gtsCalculation.get(Calendar.YEAR);
-			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
-                        LOGGER.info("str******************"+string);
-                        response.setForecastPeriod(string);
-			response.setSuccess(forecastResponse.isSuccess());
-                        }
 		} catch (Exception ex) {
 			LOGGER.error("Error in futureIntervalValueChangeLogic", ex);
 		}

@@ -581,7 +581,6 @@ public class GtnFrameworkForecastConfigurationConfig {
 		componentList.add(resetButtonConfig);
 
 		List<String> resetFieldList = new ArrayList<>();
-                List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
                 GtnUIFrameWorkActionConfig customActionDefaultForecastPeriod = new GtnUIFrameWorkActionConfig();
 		customActionDefaultForecastPeriod.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customActionDefaultForecastPeriod.addActionParameter(GtnUIFrameWorkDefaultResetValueAction.class.getName());
