@@ -313,7 +313,7 @@ public final class HierarchyOutboundLookUp extends Window {
         try {
             if (resultTable.size() != 0) {
                  Long startTime = System.currentTimeMillis();
-            StringBuilder ids = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder ids = new StringBuilder();
 
             String checkedIds=StringUtils.EMPTY;
             boolean checkedAll=false;

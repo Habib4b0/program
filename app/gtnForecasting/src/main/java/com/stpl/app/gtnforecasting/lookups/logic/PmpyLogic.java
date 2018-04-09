@@ -581,7 +581,7 @@ public class PmpyLogic {
     public List getNmProjectionDetId(Object[] inputs) {
         List list = null;
         try {
-            StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder queryBuilder = new StringBuilder();
             String projectionId = String.valueOf(inputs[0]);
             String hierarchyNos = (String) inputs[1];
 

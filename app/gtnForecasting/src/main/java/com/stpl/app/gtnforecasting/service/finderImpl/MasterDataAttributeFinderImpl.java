@@ -21,7 +21,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(MasterDataAttribute
     public List getTotalLives(Object[] inputs) {
         List list = new ArrayList();
         String coundition = (String) inputs[1];
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         try {
             if (coundition.equals("TotalLives")) {
                 queryBuilder.append("  SELECT COLUMN_3 as col3  ");
