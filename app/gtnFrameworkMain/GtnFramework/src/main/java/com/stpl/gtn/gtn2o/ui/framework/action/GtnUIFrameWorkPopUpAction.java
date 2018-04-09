@@ -52,7 +52,7 @@ public class GtnUIFrameWorkPopUpAction implements GtnUIFrameWorkAction {
 				configureModalWindow(popUpWindow);
 			}
 			setSharedPopupData(view, configList);
-			buildPopupScreenView(sourceComponentId, view);
+			view.buildScreen(sourceComponentId);
 
 			popUpWindow.setContent(view.getRootLayout());
 			if (configList.size() > 4 && configList.get(4) != null) {
@@ -72,14 +72,6 @@ public class GtnUIFrameWorkPopUpAction implements GtnUIFrameWorkAction {
 			UI.getCurrent().addWindow(popUpWindow);
 
 		} catch (GtnFrameworkGeneralException | IllegalArgumentException | NullPointerException ex) {
-			logger.error("Popup window Error", ex);
-		}
-	}
-
-	private void buildPopupScreenView(String sourceComponentId, GtnUIFrameworkView view) {
-		try {
-			view.buildScreen(sourceComponentId);
-		} catch (Exception ex) {
 			logger.error("Popup window Error", ex);
 		}
 	}

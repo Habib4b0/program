@@ -16,6 +16,8 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	
 	private int relationShipBuilderSid;
 	private int hierarchyDefinitionSid;
 	private int hierarchyLevelDefinitionSid;

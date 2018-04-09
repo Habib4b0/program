@@ -476,7 +476,17 @@ public class GtnFrameworkForecastConfigurationConfig {
 		customAction.addActionParameter(GtnUIFrameworkIntervalFrequencyValueChangeAction.class.getName());
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.INTERVAL_FREQUENCY);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FUTURE_INTERVAL);
+		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD);
 		actionConfigList.add(customAction);
+
+		GtnUIFrameWorkActionConfig customActionValueChange = new GtnUIFrameWorkActionConfig();
+		customActionValueChange.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customActionValueChange.addActionParameter(GtnUIFrameworkDataFrequencyValueChangeAction.class.getName());
+		customActionValueChange
+				.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FUTURE_INTERVAL);
+		customActionValueChange
+				.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD);
+		actionConfigList.add(customActionValueChange);
 		intervalFrequencyComponentConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 
@@ -499,6 +509,7 @@ public class GtnFrameworkForecastConfigurationConfig {
 		customAction.addActionParameter(GtnUIFrameworkIntervalFrequencyValueChangeAction.class.getName());
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.INTERVAL_FREQUENCY);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FUTURE_INTERVAL);
+		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD);
 		textBoxConfig.addValueChangeActionConfig(customAction);
 		setIntervalTextboxConfig(companyIdConfig, textBoxConfig, componentList, "Please Enter Future Interval");
 	}
@@ -510,17 +521,15 @@ public class GtnFrameworkForecastConfigurationConfig {
 		componentList.add(gtnLayoutConfig);
 
 		GtnUIFrameworkComponentConfig forecastPeriodConfig = commonConfig.getUIFrameworkComponentConfig(
-				namspacePrefix + "forecastPeriod", true, namspacePrefix + "forecastPeriodLayout",
-				GtnUIFrameworkComponentType.TEXTBOX);
+				namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD, true,
+				namspacePrefix + "forecastPeriodLayout", GtnUIFrameworkComponentType.TEXTBOX);
 		forecastPeriodConfig.setAuthorizationIncluded(true);
 		forecastPeriodConfig.setComponentName("Forecast Period");
 		forecastPeriodConfig.setEnable(false);
-		forecastPeriodConfig.setResetToDefaultAllowed(false);
-		GtnUIFrameworkTextBoxConfig textBoxConfig = commonConfig.getTextBoxConfig(false, false, true);
-		textBoxConfig.setValueLoadFromService(true);
-		textBoxConfig.setLoadingUrl(GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-				+ GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD);
-		forecastPeriodConfig.setGtnTextBoxConfig(textBoxConfig);
+
+		GtnUIFrameworkValidationConfig historicalDataPeriodValidationConfig = new GtnUIFrameworkValidationConfig();
+		historicalDataPeriodValidationConfig.setMaxLength(5);
+		forecastPeriodConfig.setGtnUIFrameworkValidationConfig(historicalDataPeriodValidationConfig);
 		componentList.add(forecastPeriodConfig);
 	}
 
