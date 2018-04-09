@@ -1153,7 +1153,7 @@ public class AlternateHistoryLogic {
 
         if (list != null && list.isEmpty()) {
             LOGGER.debug("--list size---->>>>= {}" , list.size());
-            StringBuilder ccps = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder ccps = new StringBuilder();
 
             flag = false;
             for (int ccpid : list) {

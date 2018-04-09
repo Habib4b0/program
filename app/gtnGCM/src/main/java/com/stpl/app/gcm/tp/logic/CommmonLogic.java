@@ -164,7 +164,7 @@ public class CommmonLogic {
             }
         }
 
-        StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder query = new StringBuilder();
 
         String symbol = " in ";
         if (conSelDTO.isSearchInverse()) {
@@ -2177,7 +2177,7 @@ public class CommmonLogic {
     }
 
     public void updateIfpDetailsForCfp(SessionDTO session) {
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
 
         String oldContractMasterSid = String.valueOf(CommonLogic.getSelectedContractSid(session.getSessionId(), false));
         String newContractMasterSid = String.valueOf(CommonLogic.getSelectedContractSid(session.getSessionId(), true));

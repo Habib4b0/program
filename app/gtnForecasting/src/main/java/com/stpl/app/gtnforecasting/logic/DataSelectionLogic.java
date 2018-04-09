@@ -1576,7 +1576,7 @@ public class DataSelectionLogic {
 	public List<Object> getGenerateMarketValueResult(int rbID) {
 		try {
 			List<Object> list;
-			StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+			StringBuilder queryString = new StringBuilder();
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
 					+ "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and  LEVEL_NAME='Market Type'");
 			CommonDAO spDAO = new CommonDAOImpl();
@@ -1769,7 +1769,7 @@ public class DataSelectionLogic {
 	public List<Object> getMarketType(int projectionId) {
 		try {
 			List list;
-			StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+			StringBuilder queryString = new StringBuilder();
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES,LEVEL_NO from RELATIONSHIP_LEVEL_DEFINITION \n"
 					).append( "where RELATIONSHIP_LEVEL_SID in ( select RELATIONSHIP_LEVEL_SID\n"
 					).append( "from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID= ");
@@ -2344,7 +2344,7 @@ public class DataSelectionLogic {
 	}
 
 	String prepareRelationShipQuery(final Map<String, Object> parameters, boolean isSelectOnly) {
-		StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder queryString = new StringBuilder();
 		String query2 = SQlUtil.getQuery(getClass(),"get-lower-levels-based-on-hierarchy-no-with-projId-Select");
 		if (PROJECTION_PROD_HIERARCHY.equals(parameters.get(Constant.TABLE_NAME))) {
 			List<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
@@ -2421,7 +2421,7 @@ public class DataSelectionLogic {
 	}
 
 	public static String stringListToString(List<String> stringList) {
-		StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder builder = new StringBuilder();
 		if (stringList != null && !stringList.isEmpty()) {
 			for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
 				builder.append('\'');
