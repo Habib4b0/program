@@ -723,7 +723,6 @@ public class CalendarField extends AbstractField<List>
 
 	@Override
 	public List getValue() {
-		// TODO Auto-generated method stub
 		logger.info("Inseide getValue()");
 		return (List) this.getDisabledDates();
 	}
@@ -742,7 +741,6 @@ public class CalendarField extends AbstractField<List>
 
 	@Override
 	protected void doSetValue(List value) {
-		// TODO Auto-generated method stub
 		logger.info("enter doSetValue() which is empty");
 		this.disableDates.addAll(value);
 
