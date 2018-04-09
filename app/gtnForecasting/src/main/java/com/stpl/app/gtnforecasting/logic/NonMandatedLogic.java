@@ -1496,8 +1496,8 @@ public class NonMandatedLogic {
                     projectionMaster.setDedRelationshipBuilderSid(String.valueOf(obj[0]));
                     projectionMaster.setDeductionHierarchySid(String.valueOf(obj[1]));
                     projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
-                    List versionNoList = getDeductionVersionNoList(obj[0].toString());
-                    projectionMaster.setProjectionDedVersionNo(CommonUtil.isValueEligibleForLoading() ? (int) versionNoList.get(0) : null);
+                    List<Integer> versionNoList = getDeductionVersionNoList(obj[0].toString());
+                    projectionMaster.setProjectionDedVersionNo(versionNoList.get(0));
                 }
                 projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
 		return projectionMaster.getProjectionMasterSid();
@@ -1513,7 +1513,7 @@ public class NonMandatedLogic {
 	}
 
         
-	 public List getDeductionVersionNoList(Object relationShipBuilderSid) {
+	 public List<Integer> getDeductionVersionNoList(Object relationShipBuilderSid) {
 		List<Object> input = new ArrayList<>();
 		input.add(relationShipBuilderSid);
 		return QueryUtils.getAppData(input, "getDedRelationshipVersionNo", null);

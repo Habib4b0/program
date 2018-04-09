@@ -406,10 +406,6 @@ public class CommonUtil {
                         Thread.currentThread().setName(inputs[1].toString());
                         new DataSelectionLogic().callInsertProcedureForNm(Integer.parseInt(inputs[NumericConstants.TWO].toString()),(SessionDTO)inputs[NumericConstants.SIX], inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
                         break;
-                    case Constant.DP_PROCEDURE_CALL:
-                        Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callInsertProcedureForNm(Integer.parseInt(inputs[NumericConstants.TWO].toString()),(SessionDTO)inputs[NumericConstants.SIX] , inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
-                        break;
                     case Constant.INSERTORUPDATE:
                             //For Discount Projection insert alone will wait for list view get saved.(Used in temp to main insert)
                             if (inputs.length == NumericConstants.THREE) {

@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.GroupFilter;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.lookups.NMPmpyCalculator;

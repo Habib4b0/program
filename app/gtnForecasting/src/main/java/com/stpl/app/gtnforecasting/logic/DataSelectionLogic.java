@@ -119,6 +119,7 @@ public class DataSelectionLogic {
 	public static final String SELECTION_AT = "@SELECTION";
 	private List companiesList = new ArrayList<>();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
+	private static final CommonUtil commonUtil = CommonUtil.getInstance();
 
 	/**
 	 * Gets the hierarchy group.
@@ -2487,16 +2488,16 @@ public class DataSelectionLogic {
         if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
 				new Future[] {
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 				SalesUtils.PRC_NM_MASTER_INSERT, session.getProjectionId(), session.getUserId(),
 				session.getSessionId(), Constant.DISCOUNT3,session)) });
-            CommonUtil.getInstance()
+            commonUtil
                     .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
             session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
-				new Future[] { service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
             }
@@ -2505,13 +2506,13 @@ public class DataSelectionLogic {
     public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
         ExecutorService service = ThreadPool.getInstance().getService();
         if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            CommonUtil.getInstance()
+            commonUtil
                     .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
             session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
-				new Future[] { service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
             }

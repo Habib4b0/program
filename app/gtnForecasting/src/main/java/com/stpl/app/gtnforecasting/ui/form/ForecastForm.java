@@ -340,13 +340,14 @@ public class ForecastForm extends AbstractForm {
         
          public void commercialDiscountConfiguration() {
         if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            CommonUtil.getInstance()
+            CommonUtil commonUtil = CommonUtil.getInstance();
+            commonUtil
                     .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
             session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
-				new Future[] { service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
             }
@@ -2504,23 +2505,38 @@ public class ForecastForm extends AbstractForm {
 	}
 
 	private void nmSalesInsertDiscMasterProcedure() {
+            CommonUtil salesCommonUtil = CommonUtil.getInstance();
 		session.addFutureMap(Constant.SALES_PROCEDURE_CALL,
 				new Future[] {
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
+						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.SALES1,session)),
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
+						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.SALES1,session)),
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
+						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.SALES1,session)) });
                 session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
 				new Future[] {
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.DP_PROCEDURE_CALL,
+						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
 				SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(),
 				session.getSessionId(), Constant.DISCOUNT3,session)) });
                
+	}
+        
+        private void nmSalesInsertProcedure() {
+		session.addFutureMap(Constant.SALES_PROCEDURE_CALL,
+				new Future[] {
+						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.SALES1)),
+						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.SALES1)),
+						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.SALES1)) });
 	}
 
 	private void nmPPAInitProcedure() {
