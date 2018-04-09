@@ -33,8 +33,6 @@ public class GtnUIFrameWorkDefaultResetValueAction implements GtnUIFrameWorkActi
             List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
 		String resetMessageHeader = (String) params.get(1);
 		String resetMessageBody = (String) params.get(2);
-                List<Object> valueid = (List<Object>) params.get(3);
-//                gtnLogger.info("valueid----------------------"+valueid.get(10));
 
 		configureParams(gtnUIFrameWorkActionConfig);
 		GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig();
@@ -49,10 +47,6 @@ public class GtnUIFrameWorkDefaultResetValueAction implements GtnUIFrameWorkActi
 			resetActionConfig.addActionParameter(params.get(4));
 		}
                 
-//                if("FCView_forecastPeriod".equals(valueid.get(10))){
-                    
-//                                throw new GtnFrameworkValidationFailedException("IsRecordSelected  validation Failed");
-//                }
             GtnUIFrameWorkActionConfig resetForecastPeriodActionConfig = new GtnUIFrameWorkActionConfig();
                 resetForecastPeriodActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
                 resetForecastPeriodActionConfig.addActionParameter(GtnUIFrameWorkDefaultForecastResetValueAction.class.getName());
