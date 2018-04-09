@@ -39,7 +39,7 @@ public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction
 					.getIntegerFromField();
 			GtnUIFrameworkBaseComponent baseComponentInterval = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("FCView_futureInterval");
-                        if(("Interval".equals(value)) && baseComponentInterval.isValidFieldValue()){                        
+                        if(("Interval".equals(value)) && baseComponentInterval.isValidFieldValue() && futureeFrequency!=0){                        
 			if (baseComponentInterval.isValidFieldValue()) {
                             gtnLogger.info("frequency---------------"+futureeFrequency);                            
 				String futureInterval = baseComponentInterval.getStringFromField();

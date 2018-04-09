@@ -310,22 +310,27 @@ public class GtnWsForecastConfigurationController {
 
 		try (Session session = sessionFactory.openSession()) {
 			if (request.getFutureInterval() != null
-					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
+					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY) && !request.getFutureInterval().equals(0)) {
 				Integer interval = Integer.valueOf(request.getFutureInterval().trim());
 				int freq = request.getFutureFrequency();
 				if (freq != 0) {
 					HelperTable table = session.load(HelperTable.class, freq);
-					Calendar futureDate = GtnWsForecastConfigurationUtil.convertPeriod(1, table.getDescription(),
-							interval);
-					LOGGER.info("\n futureDate===========>>>" + futureDate.getTime());
 					Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
-					LOGGER.info("\n getTime===========>>>" + gtsCal);
-					LOGGER.info("\n foreCastPeriod===========>>>" + foreCastPeriod);
 					String leastYear = getFrequencyDivision(table.getDescription(), gtsCal, foreCastPeriod);
 					LOGGER.info("leastYear===============>" + leastYear);
 					response.setForecastPeriod(leastYear);
 				}
 			}
+                        else{
+                            LOGGER.info("----in else======================");
+                            Calendar gtsCalculation = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+			String string = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCalculation.get(Calendar.MONTH)) + " "
+					+ gtsCalculation.get(Calendar.YEAR);
+			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
+                        LOGGER.info("str******************"+string);
+                        response.setForecastPeriod(string);
+			response.setSuccess(forecastResponse.isSuccess());
+                        }
 		} catch (Exception ex) {
 			LOGGER.error("Error in futureIntervalValueChangeLogic", ex);
 		}
