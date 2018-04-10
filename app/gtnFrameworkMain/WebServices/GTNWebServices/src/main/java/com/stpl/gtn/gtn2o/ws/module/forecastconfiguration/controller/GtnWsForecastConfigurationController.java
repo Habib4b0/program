@@ -808,19 +808,25 @@ public class GtnWsForecastConfigurationController {
 		if (description.equals(GtnWsForecastConfigurationConstants.QUARTER)) {
 			gtsPeriod = "Q" + getQuarterForMonth(gtsCal.get(Calendar.MONTH)) + " " + gtsCal.get(Calendar.YEAR);
 			leastYear = compareLowestPeriod(foreCastPeriod, gtsPeriod);
-		} else if (description.equals(GtnWsForecastConfigurationConstants.SEMI_ANNUAL)) {
+                        return leastYear;
+		}
+                if (description.equals(GtnWsForecastConfigurationConstants.SEMI_ANNUAL)) {
 			gtsPeriod = "S" + getSemmiAnnualForMonth(gtsCal.get(Calendar.MONTH)) + " " + gtsCal.get(Calendar.YEAR);
 			leastYear = compareLowestPeriod(foreCastPeriod, gtsPeriod);
-		} else if (description.equals(GtnWsForecastConfigurationConstants.MONTHLY)) {
+                        return leastYear;
+		} 
+                if (description.equals(GtnWsForecastConfigurationConstants.MONTHLY)) {
 			frequencyDivision = 12;
 			gtsPeriod = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCal.get(Calendar.MONTH)) + " "
 					+ gtsCal.get(Calendar.YEAR);
 			leastYear = compareLowestPeriodAnnualMonthly(foreCastPeriod, gtsPeriod, frequencyDivision);
-		} else if (description.equals(GtnWsForecastConfigurationConstants.ANNUAL)) {
+                        return leastYear;
+		} 
+                if (description.equals(GtnWsForecastConfigurationConstants.ANNUAL)) {
 			gtsPeriod = String.valueOf(gtsCal.get(Calendar.YEAR));
 			leastYear = compareLowestPeriodAnnual(foreCastPeriod, gtsPeriod, frequencyDivision);
+                        return leastYear;
 		}
-		LOGGER.info("ret==================" + gtsPeriod);
 		return leastYear;
 	}
 
@@ -855,15 +861,23 @@ public class GtnWsForecastConfigurationController {
 	private static String compareLowestPeriod(String s1, String s2) {
 		String[] arrays1 = s1.split(" ");
 		String[] arrays2 = s2.split(" ");
-		if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {
-			return s1;
-		}
+                String leastYear = "";
+		               
 		String[] splittedArrayS1 = arrays1[0].split("");
 		String[] splittedArrayS2 = arrays2[0].split("");
-		if (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2])) {
+                if ((Integer.parseInt(arrays1[1]) == Integer.parseInt(arrays2[1])) && (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2]))) {
+                    leastYear = s1;
 			return s1;
 		}
-		return s2;
+                if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {
+                    leastYear = s1;
+			return s1;
+		}
+                else {
+                    leastYear = s2;
+			return s2;
+		}	
+		
 	}
 
 	private static String compareLowestPeriodAnnual(String s1, String s2, int frequencyDivision) {
