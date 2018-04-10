@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.ws.entity.transaction;
 // Generated Oct 31, 2017 7:22:13 PM by Hibernate Tools 4.3.1
 
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
