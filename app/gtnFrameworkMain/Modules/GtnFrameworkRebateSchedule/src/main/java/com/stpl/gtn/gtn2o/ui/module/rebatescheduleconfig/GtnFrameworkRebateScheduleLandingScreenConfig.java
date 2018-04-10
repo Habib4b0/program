@@ -1265,7 +1265,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		copyActionConfigList.add(navigationCopyActionConfig);
 		GtnUIFrameWorkActionConfig setCopyDefaultActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
-
+                
 		setCopyDefaultActionConfig.setActionParameterList(getDefaultFieldValueList());
 		copyActionConfigList.add(setCopyDefaultActionConfig);
 
@@ -1288,7 +1288,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig disableCopyAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new Object[] { GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID };
+		Object[] disableField = new Object[] { GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID , GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON};
 
 		disableCopyAction.setActionParameterList(Arrays.asList(disableField));
 		copyActionConfigList.add(disableCopyAction);
