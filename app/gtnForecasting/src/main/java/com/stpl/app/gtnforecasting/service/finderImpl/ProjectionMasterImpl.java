@@ -32,7 +32,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         String accProjJoin = "@ACCRUALPROJJOIN";
         String accFieldValue = "@ACCFIELDVALUE";
         String filterValue = "@WHEREFILTERVALUE";
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             LOGGER.debug("Entering searchDsProjection method");
             if ("Returns".equals(parameters.get(Constant.MODULE_NAME))) {
@@ -480,7 +480,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
     public List getCustomerProductGroup(final Map<String, Object> parameters) {
 
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             LOGGER.debug("Entering getCustomerProductGroup method");
             if (parameters.get(Constant.INDICATOR) != null && "CustomerGroup".equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
@@ -501,7 +501,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 }
                 if (parameters.get("companySids") != null) {
                     List<String> companySids = (ArrayList<String>) (parameters.get("companySids"));
-                    StringBuilder companiesList = new StringBuilder(StringUtils.EMPTY);
+                    StringBuilder companiesList = new StringBuilder();
                     if (companySids != null && !companySids.isEmpty()) {
                         for (int loop = 0, limit = companySids.size(); loop < limit; loop++) {
                             companiesList.append('\'');
@@ -537,7 +537,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 if (parameters.get("itemSids") != null) {
                     List<String> itemSids = (ArrayList<String>) (parameters.get("itemSids"));
                     if (itemSids != null) {
-                        StringBuilder itemsList = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder itemsList = new StringBuilder();
                         if (itemSids != null && !itemSids.isEmpty()) {
                             for (int loop = 0, limit = itemSids.size(); loop < limit; loop++) {
                                 itemsList.append('\'');
@@ -567,7 +567,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
     public List getProjection(final int projectionId) {
 
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             LOGGER.debug("Entering getProjection method");
             queryString.append(SQlUtil.getQuery(getClass(),"getProjectionJoin"));
@@ -583,7 +583,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
     public List getRelationShipValues(final Map<String, Object> parameters) {
 
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             LOGGER.debug("Entering getRelationShipValues method");
             if ("forecastDate".equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
@@ -682,7 +682,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
     }
 
     public List getParentLevels(final int levelNo, final int relationshipLevelSid, final Map<String, Object> parameters) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
 
         try {
             if (parameters.get(Constant.INDICATOR) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.INDICATOR)))
@@ -711,7 +711,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
     public List executeQuery(final Map<String, Object> parameters) {
         LOGGER.debug("----inside executeQuery in finder Impl-----------");
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         if (parameters.get(Constant.INDICATOR) != null && Constant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(getClass(), Constant.HAS_TRADING_PARTNER));
             queryString.append('\'');
@@ -859,7 +859,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
     public List getItemsFromBrand(Map<String, Object> parameters) {
 
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append(SQlUtil.getQuery(getClass(),"getItemsFromBrand"));
         try {
             List<Integer> itemMasterSids = (ArrayList<Integer>) parameters.get("itemMasterSids");
@@ -885,7 +885,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
     }
 
     public List getInnerLevel(Map<String, Object> parameters) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
 
         try {
             if ((parameters.get(Constant.IS_NDC) != null && "true".equals(String.valueOf(parameters.get(Constant.IS_NDC))))
@@ -1019,7 +1019,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
 
     public List getCcpMap(final Map<String, Object> parameters) {
 
-        StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder customSql = new StringBuilder();
         try {
             LOGGER.debug("Entering getCcpMap method ");
             if (parameters.get(Constant.INDICATOR) != null && "getRbId".equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
@@ -1067,7 +1067,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             LOGGER.debug("Entering saveCcp method ");
 
             if (parameters.get(Constant.INDICATOR) != null && Constant.INDICATOR.equalsIgnoreCase(String.valueOf(parameters.get(Constant.SAVE_CCP)))) {
-                StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+                StringBuilder customSql = new StringBuilder();
 
                 customSql.append(SQlUtil.getQuery(getClass(), Constant.SAVE_CCP));
 
@@ -1367,7 +1367,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
     }
 
     public List getChildLevels(final Map<String, Object> parameters) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
 
         try {
             String finalQuery;
@@ -1394,7 +1394,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
     }
 
     public List executeQueryforchannel(final Map<String, Object> parameters) {
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         if (parameters.get(Constant.INDICATOR) != null && Constant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(getClass(), Constant.HAS_TRADING_PARTNER));
             queryString.append('\'');
@@ -1511,7 +1511,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 if (parameters.get(Constant.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ACTION)))
                         && !Constant.COUNT.equals(String.valueOf(parameters.get(Constant.ACTION)))) {
                     if (String.valueOf(parameters.get(Constant.IS_FILTERED)).equals("true")) {
-                        StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder filterAppender = new StringBuilder();
                         if ((parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_FROM)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_FROM))))
                                 && (parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_TO)))
@@ -1608,7 +1608,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     if ((parameters.get(Constant.IS_ORDERED) == null || Constant.FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_ORDERED))))) {
                         query = query.replace(Constant.ORDER_BY, " ORDER BY C.CREATED_DATE ");
                     } else if (parameters.get(Constant.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_ORDERED)))) {
-                        StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder orderByAppender = new StringBuilder();
                         if (parameters.get(Constant.ORDER_BY_HIERARCHY_NAME) != null
                                 && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BY_HIERARCHY_NAME)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BY_HIERARCHY_NAME)))) {
@@ -1711,7 +1711,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             String no = null;
             String desc = null;
             String sids = null;
-            StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder queryString = new StringBuilder();
             if (parameters.get(Constant.GROUP_IDENTIFIER) != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(Constant.GROUP_IDENTIFIER)))) {
                 queryString.append(SQlUtil.getQuery(getClass(),"getCustomerGroupPaged"));
                 name = " CG.COMPANY_GROUP_NAME ";
@@ -1764,7 +1764,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         query = query.replace(Constant.SELECTION, " DISTINCT IG.ITEM_GROUP_SID, IG.ITEM_GROUP_NO, IG.ITEM_GROUP_NAME, CM.COMPANY_NAME, IG.VERSION_NO, IG.ITEM_GROUP_DESCRIPTION ");
                     }
                     if (String.valueOf(parameters.get(Constant.IS_FILTERED)).equals("true")) {
-                        StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder filterAppender = new StringBuilder();
                         if (parameters.get(Constant.FILTER_CUSTOMER_GROUP_NAME) != null
                                 && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTER_CUSTOMER_GROUP_NAME)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTER_CUSTOMER_GROUP_NAME)))) {
@@ -1837,7 +1837,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                             query = query.replace(Constant.ORDER_BY, " ORDER BY IG.ITEM_GROUP_SID ");
                         }
                     } else if (parameters.get(Constant.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_ORDERED)))) {
-                        StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder orderByAppender = new StringBuilder();
                         if (parameters.get(Constant.ORDER_BY_CUSTOMER_GROUP_NAME) != null
                                 && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BY_CUSTOMER_GROUP_NAME)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BY_CUSTOMER_GROUP_NAME)))) {
@@ -1952,7 +1952,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         && !Constant.COUNT.equals(String.valueOf(parameters.get(Constant.ACTION)))) {
                     query = query.replace(Constant.SELECTION, SQlUtil.getQuery(getClass(),"searchViewFindSelection"));
                     if (String.valueOf(parameters.get(Constant.IS_FILTERED)).equals("true")) {
-                        StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder filterAppender = new StringBuilder();
                         if ((parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_FROM)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_FROM))))
                                 && (parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.FILTER_CREATED_DATE_SEARCH_TO)))
@@ -2109,7 +2109,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     if ((parameters.get(Constant.IS_ORDERED) == null || Constant.FALSE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_ORDERED))))) {
                         query = query.replace(Constant.ORDER_BY, Constant.ORDER_BY_PM_CREATED_DATE);
                     } else if (parameters.get(Constant.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(Constant.IS_ORDERED)))) {
-                        StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder orderByAppender = new StringBuilder();
                         if (parameters.get(Constant.ORDER_BY_VIEW_NAME) != null
                                 && !Constants.NULL.equals(String.valueOf(parameters.get(Constant.ORDER_BY_VIEW_NAME)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(Constant.ORDER_BY_VIEW_NAME)))) {

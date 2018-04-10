@@ -2620,7 +2620,7 @@ public class MMDPRLogic {
     public List loadCustomerDdlb(ProjectionSelectionDTO projSelDTO, String str) {
         List list;
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
-        StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder customSql = new StringBuilder();
         String[] tempTableName = new String[NumericConstants.TWO];
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
             tempTableName[0] = "CUST_RELATIONSHIP_BUILDER_SID";

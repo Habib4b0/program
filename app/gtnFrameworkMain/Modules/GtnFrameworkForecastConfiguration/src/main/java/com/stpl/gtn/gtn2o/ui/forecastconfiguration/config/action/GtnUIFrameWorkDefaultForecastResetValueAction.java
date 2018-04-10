@@ -11,7 +11,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastconfiguration.constants.GtnWsForecastConfigurationConstants;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecastconfiguration.GtnWsForecastConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -22,7 +21,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
  * @author mekalai.madhappa
  */
 public class GtnUIFrameWorkDefaultForecastResetValueAction implements GtnUIFrameWorkAction,GtnUIFrameworkDynamicClass {
-    private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkDefaultForecastResetValueAction.class);
     @Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -41,7 +39,6 @@ public class GtnUIFrameWorkDefaultForecastResetValueAction implements GtnUIFrame
 				+ GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE,
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
                                 String forecastYear = response.getGtnWsForecastConfigurationResponse().getForecastPeriod();
-                                gtnLogger.info("default year------&&&&&&----------->>>>"+forecastYear);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod").setPropertyValue(forecastYear);
                                 
 	}

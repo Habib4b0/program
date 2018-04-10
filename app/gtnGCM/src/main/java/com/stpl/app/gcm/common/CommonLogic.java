@@ -1915,9 +1915,9 @@ public class CommonLogic {
 
     public void updateMainTable(List<String> companyMasterSids, int newProjectionId, String contractMasterSid,
             String forecastingType, String moduleName) {
-        StringBuilder salesQuery = new StringBuilder(StringUtils.EMPTY);
-        StringBuilder discountQuery = new StringBuilder(StringUtils.EMPTY);
-        StringBuilder rebateQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder salesQuery = new StringBuilder();
+        StringBuilder discountQuery = new StringBuilder();
+        StringBuilder rebateQuery = new StringBuilder();
         if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
 			salesQuery.append(SQlUtil.getQuery("nm.salesTableUpdate"));
 			discountQuery.append(SQlUtil.getQuery("nm.discountTableUpdate"));
@@ -2273,9 +2273,9 @@ public class CommonLogic {
 
     public void updateMainTableRemove(List<String> companyMasterSids, int newProjectionId, List<String> contractList,
             String forecastingType, List<String> rsList) {
-        StringBuilder salesQuery = new StringBuilder(StringUtils.EMPTY);
-        StringBuilder discountQuery = new StringBuilder(StringUtils.EMPTY);
-        StringBuilder rebateQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder salesQuery = new StringBuilder();
+        StringBuilder discountQuery = new StringBuilder();
+        StringBuilder rebateQuery = new StringBuilder();
         List queryList = new ArrayList();
         try {
             if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {

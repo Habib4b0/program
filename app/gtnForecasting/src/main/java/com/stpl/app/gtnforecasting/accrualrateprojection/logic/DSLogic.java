@@ -43,7 +43,7 @@ public class DSLogic {
 
     public void updateRebateValue(AccrualDataSelectionDTO dtoValue) {
         try {
-            StringBuilder updateQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder updateQuery = new StringBuilder();
             if (Constant.UPDATE_SMALL.equalsIgnoreCase(dtoValue.getActionFlag())) {
                 updateQuery.append("Update ACCRUAL_PROJ_SELECTION\n"
                         ).append( "SET  SCREEN_NAME='" ).append( dtoValue.getScreenName() ).append( "',FIELD_NAME='" ).append( dtoValue.getDeductionType() ).append( "',FIELD_VALUES='" ).append( dtoValue.getDeductionValue() ).append( "'\n"
@@ -155,7 +155,7 @@ public class DSLogic {
         try {
             LOGGER.debug("Entering getCcpMap method ");
 
-            StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder customSql = new StringBuilder();
             if (parameters.get(Constant.INDICATOR) != null && "saveCcp".equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))) {
                 customSql.append(" MERGE PROJECTION_DETAILS AS TARGET\n"
                         + "                   USING (SELECT distinct ? PROJECTION_MASTER_SID, CCP1.CCP_DETAILS_SID FROM \n"
@@ -236,7 +236,7 @@ public class DSLogic {
     public void loadDDLBValue(ComboBox deductionLevel, ComboBox deductionValue, String projectionId) {
         try {
             List<Object> list;
-            StringBuilder insertQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder insertQuery = new StringBuilder();
             insertQuery.append("select FIELD_NAME,FIELD_VALUES from ACCRUAL_PROJ_SELECTION \n"
                     ).append( "where PROJECTION_MASTER_SID=" ).append( projectionId ).append( '\n'
                     ).append( "AND SCREEN_NAME='View'");

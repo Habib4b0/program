@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +37,7 @@ public class ResponsiveUtils {
     private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
    
     public static Label makeLabel(String value, boolean isMandatory) {
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(ConstantsUtils.SPAN_STYLE);
@@ -47,7 +46,7 @@ public class ResponsiveUtils {
     }
     
     public static Label makeLabel(Label label, boolean isMandatory) {
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(label.getValue());
         if (isMandatory) {
             sb.append(ConstantsUtils.SPAN_STYLE);
@@ -60,7 +59,7 @@ public class ResponsiveUtils {
     
      public static Label makeLabel(String value, boolean isMandatory, String width) {
         LOGGER.debug("Width of LABEL {}",width);
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(" <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>");
