@@ -55,6 +55,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
      * @param customId
      */
     public CustomTreeBuild(SessionDTO session, int customId) {
+        super(session);
         this.session = session;
         this.customId = customId;
         if (customId != 0) {
