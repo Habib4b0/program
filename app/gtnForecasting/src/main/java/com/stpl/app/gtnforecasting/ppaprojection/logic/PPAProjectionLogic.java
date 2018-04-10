@@ -452,7 +452,7 @@ public class PPAProjectionLogic {
                     count = configureLevelsCount(selection.getLevelNo(), selection);
                 } else {
                     PPAProjectionDTO dto = (PPAProjectionDTO) lastParent;
-                    selection.setLevelNo(dto.getLevelNo() + 1);
+                    selection.setLevelNo(dto == null ? null : dto.getLevelNo() + 1);
                     count = configureLevelsCount(selection.getLevelNo(), selection);
 
                 }
@@ -685,7 +685,7 @@ public class PPAProjectionLogic {
         if (Integer.valueOf(priceType) != null && !Integer.valueOf(priceType).equals(0)) {
 
             String sqlQuery = "SELECT * FROM HELPER_TABLE WHERE HELPER_TABLE_SID =" + priceType;
-            list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery.toString());
+            list = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
             Object[] value = (Object[]) list.get(0);
             retval = value[1].toString();
         } else {

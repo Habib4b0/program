@@ -81,8 +81,9 @@ public class NMDiscountExcelLogic {
     }
 
     private void setActualsProjectionValues(DiscountProjectionDTO discountProjectionDTO, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelection, Map<String, List> hierarchyLevelDetails, List doubleProjectedAndHistoryCombinedUniqueList) {
-          String discountId=projectionSelection.isIsCustomHierarchy()?StringUtils.EMPTY:obj[5].toString();
-        String header = commonLogic.getHeaderForExcel(freq, obj,discountId,StringUtils.EMPTY);
+            String discountId=projectionSelection.isIsCustomHierarchy()?StringUtils.EMPTY:obj[5].toString();
+            String header = commonLogic.getHeaderForExcel(freq, obj,discountId,StringUtils.EMPTY);
+            String column = commonLogic.getHeaderForExcelDiscount(freq, obj,discountId,StringUtils.EMPTY);
             boolean isActuals = "0".equals(String.valueOf(obj[NumericConstants.THREE]));
             String hierarchyNo = String.valueOf(obj[NumericConstants.ZERO]).trim();
             hierarchyNo = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0].trim() : hierarchyNo;
@@ -108,14 +109,14 @@ public class NMDiscountExcelLogic {
                 discountProjectionDTO.setDeductionInclusion(obj[NumericConstants.FOURTEEN] != null ? String.valueOf(obj[NumericConstants.FOURTEEN]) : StringUtils.EMPTY);
             }
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(header) && !Constant.NULL.equals(discountProjectionDTO.getDeductionInclusion())) {
-            setActualsProj(discountProjectionDTO, isActuals, header, projectionSelection, obj);
+            setActualsProj(discountProjectionDTO, isActuals, header, projectionSelection, obj,column);
         }else{
             setActualsProjForDeductionInclusion(discountProjectionDTO, isActuals, header, projectionSelection, obj);
         }
            
     }
 
-    private void setActualsProj(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection, Object[] obj) {
+    private void setActualsProj(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection, Object[] obj,String column) {
        String value;
        
         if (isActuals) {
@@ -124,21 +125,21 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.addStringProperties(header + ACTUAL_AMOUNT,Constant.NULL.equals(value)?DASH:value);
             discountProjectionDTO.addStringProperties(header + Constant.ACTUALRPU,Constant.NULL.equals(String.valueOf(obj[NumericConstants.EIGHT])) ? DASH : String.valueOf(obj[NumericConstants.EIGHT]));
         } else {
-          getProjectionData(projectionSelection,obj,discountProjectionDTO,header);
+          getProjectionData(projectionSelection,obj,discountProjectionDTO,header,column);
         }
     }
     
-     private void getProjectionData(ProjectionSelectionDTO projectionSelection, Object[] obj, DiscountProjectionDTO discountProjectionDTO, String header) {
+     private void getProjectionData(ProjectionSelectionDTO projectionSelection, Object[] obj, DiscountProjectionDTO discountProjectionDTO, String header,String column) {
     	  String value=CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.NINE], false);
-          String projectedValue=commonLogic.getFormattedValue(PERCENTAGE_FORMAT, Constant.NULL.equals(String.valueOf(obj[NumericConstants.TEN])) ? DASH : String.valueOf(obj[NumericConstants.TEN]));
+          String projectedValue=commonLogic.getFormattedValue(PERCENTAGE_FORMAT, Constant.NULL.equals(String.valueOf(obj[NumericConstants.SEVEN])) ? DASH : String.valueOf(obj[NumericConstants.SEVEN]));
           discountProjectionDTO.addStringProperties(header + PROJECTED_RATE,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
-                      header, projectedValue) );
+                      column, projectedValue) );
           projectedValue=Constant.NULL.equals(value)?DASH:value;
           discountProjectionDTO.addStringProperties(header + PROJECTED_AMOUNT,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
-                      header, projectedValue) );
+                      column, projectedValue) );
           projectedValue= Constant.NULL.equals(String.valueOf(obj[NumericConstants.ELEVEN])) ? DASH : String.valueOf(obj[NumericConstants.ELEVEN]);
           discountProjectionDTO.addStringProperties(header + Constant.PROJECTEDRPU,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
-                      header, projectedValue) );
+                      column, projectedValue) );
           discountProjectionDTO.addStringProperties(header + Constant.GROWTH, Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]));
 		
 	}
@@ -160,8 +161,6 @@ public class NMDiscountExcelLogic {
 
         List<String> levelName = CommonUtil.getFormattedDisplayName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
         discountProjectionDTO.setLevelName(levelName.toString());
-        LOGGER.info("Size=============" + levelName.size());
-        LOGGER.info("List=============" + levelName);
         if (projectionSelection.getDisplayFormat().length == 1 && projectionSelection.getDisplayFormat().length > 0) {
             int index = (int) projectionSelection.getDisplayFormat()[0];
             if (index == 0) {

@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public enum GtnFrameworkDataType implements Serializable {
 	STRING("String"), DATE("Date"), INTEGER("Integer"), LIST("List"), NULL_ALLOWED("Null_allowed"), DOUBLE(
-			"Double"), IN_LIST("In_Lists"), BIG_DECIMAL("Big_Decimal");
+			"Double"), IN_LIST("In_Lists"), BIG_DECIMAL("Big_Decimal"),BYTE ("byte[]");
 
 	private String constant;
 

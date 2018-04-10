@@ -440,10 +440,10 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             hierarchy = CommonLogic.getCustomTree(customId);
         } else if ("C".equals(projectionSelectionDTO.getHierarchyIndicator())) {
              LOGGER.debug("Customer C Hierarchy Selection");
-            hierarchy = CommonLogic.getCustomerHierarchy(projectionId, projectionSelectionDTO.getCustomerLevelNo());
+            hierarchy = CommonLogic.getCustomerHierarchy(projectionId, projectionSelectionDTO.getCustomerLevelNo(),sessionDTO.getCustomerRelationVersion());
         } else if ("P".equals(projectionSelectionDTO.getHierarchyIndicator())) {
              LOGGER.debug("Customer P Hierarchy Selection");
-            hierarchy = CommonLogic.getProductHierarchy(projectionId, projectionSelectionDTO.getProductLevelNo());
+            hierarchy = CommonLogic.getProductHierarchy(projectionId, projectionSelectionDTO.getProductLevelNo(),sessionDTO.getProductRelationVersion());
         }
         if (hierarchy != null) {
              LOGGER.debug("Hierarchy Not null");

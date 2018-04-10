@@ -507,7 +507,9 @@ public class CommonUtils {
             LOGGER.error(ex.getMessage());
         } finally {
             try {
-                xml.close();
+                if (xml != null) {
+                    xml.close();
+                }
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -1368,7 +1370,7 @@ public class CommonUtils {
         StringBuilder result = new StringBuilder();
         if (resultList != null && !resultList.isEmpty()) {
             for (Object value : resultList) {
-                result.append(value + ",");
+                result.append(value ).append( ',');
             }
             result.deleteCharAt(result.length() - 1);
             return result.toString();

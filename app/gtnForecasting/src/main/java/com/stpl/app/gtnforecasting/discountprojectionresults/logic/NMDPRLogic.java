@@ -117,7 +117,7 @@ public class NMDPRLogic {
         MultiKey key = new MultiKey(projectionId, PERCENTAGE, Constant.STRING_ONE);
         if (CUSTOMER.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_CUST_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionId)).replaceAll(Constant.HIERNO, PERCENTAGE).replaceAll(Constant.LEVELNO_QUESTION, Constant.STRING_ONE);
@@ -129,7 +129,7 @@ public class NMDPRLogic {
         }
         if (PRODUCT.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_PROD_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || productccpId == null || !productccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !productccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionId)).replaceAll(Constant.HIERNO, PERCENTAGE).replaceAll(Constant.LEVELNO_QUESTION, Constant.STRING_ONE);
@@ -140,7 +140,7 @@ public class NMDPRLogic {
             }
         }
         if (CUSTOM.getConstant().equals(selectedView) && projSelDTO.getCustomId() != 0) {
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = CommonLogic.getCustomCCPQueryDPR(projSelDTO);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 ccpId = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -255,7 +255,7 @@ public class NMDPRLogic {
         String query = "";
         if (CUSTOMER.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_CUST_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionId)).replaceAll(Constant.HIERNO, PERCENTAGE).replaceAll(Constant.LEVELNO_QUESTION, Constant.STRING_ONE);
@@ -267,7 +267,7 @@ public class NMDPRLogic {
         }
         if (PRODUCT.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_PROD_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || productccpId == null || !productccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !productccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionId)).replaceAll(Constant.HIERNO, PERCENTAGE).replaceAll(Constant.LEVELNO_QUESTION, Constant.STRING_ONE);
@@ -278,7 +278,7 @@ public class NMDPRLogic {
             }
         }
         if (CUSTOM.getConstant().equals(selectedView) && projSelDTO.getCustomId() != 0) {
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = CommonLogic.getCustomCCPQueryDPR(projSelDTO);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 ccpId = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -327,7 +327,7 @@ public class NMDPRLogic {
         String ccpTableName = StringUtils.EMPTY;
         if (CUSTOMER.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_CUST_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionId)).replaceAll(Constant.HIERNO, PERCENTAGE).replaceAll(Constant.LEVELNO_QUESTION, Constant.STRING_ONE);
@@ -339,7 +339,7 @@ public class NMDPRLogic {
         }
         if (PRODUCT.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_PROD_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || productccpId == null || !productccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !productccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionId)).replaceAll(Constant.HIERNO, PERCENTAGE).replaceAll(Constant.LEVELNO_QUESTION, Constant.STRING_ONE);
@@ -350,7 +350,7 @@ public class NMDPRLogic {
             }
         }
         if (CUSTOM.getConstant().equals(selectedView) && projSelDTO.getCustomId() != 0) {
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = CommonLogic.getCustomCCPQueryDPR(projSelDTO);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 ccpId = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -407,7 +407,7 @@ public class NMDPRLogic {
         MultiKey key = new MultiKey(projectionId, PERCENTAGE, Constant.STRING_ONE);
         if (CUSTOMER.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_CUST_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionId)).replaceAll(Constant.HIERNO, PERCENTAGE).replaceAll(Constant.LEVELNO_QUESTION, Constant.STRING_ONE);
@@ -420,7 +420,7 @@ public class NMDPRLogic {
 
         if (PRODUCT.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_PROD_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || productccpId == null || !productccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !productccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionId)).replaceAll(Constant.HIERNO, PERCENTAGE).replaceAll(Constant.LEVELNO_QUESTION, Constant.STRING_ONE);
@@ -431,7 +431,7 @@ public class NMDPRLogic {
             }
         }
         if (CUSTOM.getConstant().equals(selectedView) && projSelDTO.getCustomId() != 0) {
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = CommonLogic.getCustomCCPQueryDPR(projSelDTO);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 ccpId = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -479,7 +479,7 @@ public class NMDPRLogic {
         MultiKey key = new MultiKey(projectionMasterId, hierarchyNo, level);
         if (CUSTOMER.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_CUST_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierarchyNo).replaceAll(Constant.LEVELNO_QUESTION, level);
@@ -491,7 +491,7 @@ public class NMDPRLogic {
         }
         if (PRODUCT.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_PROD_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || productccpId == null || !productccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !productccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierarchyNo).replaceAll(Constant.LEVELNO_QUESTION, level);
@@ -503,7 +503,7 @@ public class NMDPRLogic {
         }
 
         if (CUSTOM.getConstant().equals(selectedView) && projSelDTO.getCustomId() != 0) {
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = CommonLogic.getCustomCCPQueryDPR(projSelDTO);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 ccpId = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -1150,7 +1150,7 @@ public class NMDPRLogic {
         MultiKey key = new MultiKey(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
         if (CUSTOMER.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_CUST_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierachyNumber).replaceAll(Constant.LEVELNO_QUESTION, String.valueOf(dto.getTreeLevelNo()));
@@ -1162,7 +1162,7 @@ public class NMDPRLogic {
         }
         if (PRODUCT.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_PROD_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || productccpId == null || !productccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !productccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierachyNumber).replaceAll(Constant.LEVELNO_QUESTION, String.valueOf(dto.getTreeLevelNo()));
@@ -1253,7 +1253,7 @@ public class NMDPRLogic {
         MultiKey key = new MultiKey(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
         if (CUSTOMER.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_CUST_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || customerccpId == null || !customerccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !customerccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierachyNumber).replaceAll(Constant.LEVELNO_QUESTION, String.valueOf(dto.getTreeLevelNo()));
@@ -1265,7 +1265,7 @@ public class NMDPRLogic {
         }
         if (PRODUCT.getConstant().equals(selectedView)) {
             ccpTableName = PROJECTION_PROD_HIERARCHY;
-            if (projSelDTO.isIsGenerate() || productccpId == null || !productccpId.containsKey(key)) {
+            if (projSelDTO.isIsGenerate() || !productccpId.containsKey(key)) {
                 query = SQlUtil.getQuery(Constant.NM_PROJ_DETAILS_SID_QUERY);
                 query += Constant.SELECT_FROM_PROJECTION_DETAILS;
                 query = query.replaceAll(Constant.TABLENAME_QUESTION, ccpTableName).replaceAll(Constant.PROJSID, String.valueOf(projectionMasterId)).replaceAll(Constant.HIERNO, hierachyNumber).replaceAll(Constant.LEVELNO_QUESTION, String.valueOf(dto.getTreeLevelNo()));

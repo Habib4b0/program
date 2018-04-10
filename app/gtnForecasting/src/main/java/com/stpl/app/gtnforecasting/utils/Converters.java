@@ -233,6 +233,7 @@ public class Converters {
                 dataSelectionDTO.setDeductionValue(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_EIGHT])));
             }
             dataSelectionDTO.setForecastEligibleDate(parsetDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.THIRTY_ONE]))));
+            dataSelectionDTO.setDeductionRelationShipVersionNo(Integer.parseInt(objects[NumericConstants.THIRTY_TWO] == null ? DASH : objects[NumericConstants.THIRTY_TWO].toString()));
 
             dataSelectionDTOs.add(dataSelectionDTO);
         }

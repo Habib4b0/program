@@ -688,10 +688,11 @@ public class MedicaidURA extends CustomComponent implements View {
                 final TableDTO tableDto = getBeanFromId(itemId);
 
                 if (tableDto.getParent() == 1) {
-                    Button ndcLink = new Button(tableDto.getGroup());
-                    ndcLink.setStyleName(Reindeer.BUTTON_LINK);
-                    ndcLink.setData(tableDto.getGroup());
-                    ndcLink.addClickListener(new Button.ClickListener() {
+                    Button ndcLinkMedicaid = new Button(tableDto.getGroup());
+                    ndcLinkMedicaid.setStyleName(Reindeer.BUTTON_LINK);
+                    ndcLinkMedicaid.setHeight(CommonUtils.TWENTYNINEPX); 
+                    ndcLinkMedicaid.setData(tableDto.getGroup());
+                    ndcLinkMedicaid.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
@@ -720,6 +721,7 @@ public class MedicaidURA extends CustomComponent implements View {
                                 }
                                 worksheetProjDto.setBrandSeclected(true);
                             }
+                            final List<String> uraColumns = new ArrayList<>(projectionDTO.getColumns());
                             final MedicaidUraWorkSheet lookUp = new MedicaidUraWorkSheet(worksheetProjDto,sessionDTO);
                             UI.getCurrent().addWindow(lookUp);
 
@@ -730,6 +732,7 @@ public class MedicaidURA extends CustomComponent implements View {
                                     projectionDTO.setBrandSeclected(false);
                                     projectionDTO.setBrandWSdto(brandWorksheetDto);
                                     lookUp.closeLogic();
+                                    projectionDTO.setColumns(uraColumns);
                                     lookUp.removeBaseYear();
                                     lookUp.getBaseYear().clear();
                                     if (lookUp.isSubmit()) {
@@ -740,7 +743,7 @@ public class MedicaidURA extends CustomComponent implements View {
 
                         }
                     });
-                    return ndcLink;
+                    return ndcLinkMedicaid;
                 } else {
                     return tableDto.getGroup();
                 }
@@ -787,7 +790,11 @@ public class MedicaidURA extends CustomComponent implements View {
             targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
-        return (TableDTO) targetItem.getBean();
+        if(targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void callProcedure() {

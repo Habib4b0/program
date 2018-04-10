@@ -171,5 +171,22 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 		whereClauseConfigList = whereClauseConfigList.subList(0, linkedLevelValueCount);
 
 	}
+        
+        public void removeAllSelectClause() {
+		selectClauseConfigList.clear();
+	}
+
+	public void replaceWhereCluaseColumn(String replaceString, String replacedString) {
+		for (GtnFrameworkJoinClauseBean gtnFrameworkJoinClauseBean : joinClauseConfigList) {
+			gtnFrameworkJoinClauseBean.replaceConditionBeanColumn(replaceString, replacedString);
+		}
+	}
+
+	public void replaceSelectCluaseColumn(String replaceString, String replacedString) {
+		for (GtnFrameworkSelectClauseBean gtnFrameworkJoinClauseBean : selectClauseConfigList) {
+			gtnFrameworkJoinClauseBean.replaceSelectClause(replaceString, replacedString);
+		}
+
+	}
 
 }

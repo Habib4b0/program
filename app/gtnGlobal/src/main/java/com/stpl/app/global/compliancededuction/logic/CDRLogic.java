@@ -103,11 +103,11 @@ public class CDRLogic {
     public List<SearchResultsDTO> loadCDRResults(
             final ErrorfulFieldGroup searchFields, final int start, final int end, final List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
         List<SearchResultsDTO> searchList;
-        LOGGER.debug("Entering searchRebatePlan with start of=" + start + "and endIndex of= " + end + "  Column Size +" + ((columns == null) ? columns : columns.size()));
+        LOGGER.debug("Entering searchRebatePlan with start of={} and endIndex of= {}  Column Size + {}" , start , end ,  ((columns == null) ? columns : columns.size()));
         StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchFields, false);
         queryBuilder = getFilterQuery(filterSet, queryBuilder);
-        if (columns.isEmpty()) {
+        if (columns == null || columns.isEmpty()) {
             queryBuilder.append("ORDER BY RULE_NO ASC");
         } else {
             for (Iterator<SortByColumn> iterator = columns.iterator(); iterator.hasNext();) {
@@ -144,7 +144,9 @@ public class CDRLogic {
                 }
             }
         }
-        queryBuilder.append(false ? StringUtils.EMPTY : (" OFFSET " + start + " ROWS FETCH NEXT " + (end) + " ROWS ONLY"));
+        StringBuffer appendQuery =new StringBuffer();
+        appendQuery.append(" OFFSET " ).append( start ).append( " ROWS FETCH NEXT " ).append( end ).append( " ROWS ONLY");
+        queryBuilder.append(false ? StringUtils.EMPTY : appendQuery);
         final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
 
         searchList = getCustomizedSearchFormToDTO(list);
@@ -164,7 +166,7 @@ public class CDRLogic {
         String query = isCount ? "COUNT(*)" : " CDR_MODEL_SID,RULE_TYPE,RULE_NO,\n"
                 + "RULE_NAME,RULE_CATEGORY,CREATED_DATE,\n"
                 + "CREATED_BY,MODIFIED_DATE,MODIFIED_BY ";
-        queryBuilder.append(" SELECT " + query + " FROM CDR_MODEL  WHERE");
+        queryBuilder.append(" SELECT " ).append( query ).append( " FROM CDR_MODEL  WHERE");
         if (CRITERIA.isEmpty()) {
             loadCriteriaInMap();
         }
@@ -319,7 +321,7 @@ public class CDRLogic {
         if (!ruleDetailsIds.isEmpty()) {
             StringBuilder idsBuilder = new StringBuilder();
             for (Object id : ruleDetailsIds) {
-                idsBuilder.append(ConstantsUtils.COMMA + String.valueOf(id));
+                idsBuilder.append(',' ).append( String.valueOf(id));
             }
             String ids = idsBuilder.toString().replaceFirst(ConstantsUtils.COMMA, StringUtils.EMPTY);
             String masterQuery = "delete FROM CDR_DETAILS where " + columnSid + "  in (" + ids + ") ";
@@ -383,7 +385,7 @@ public class CDRLogic {
     public void saveOrUpdateNotesTab(List<NotesDTO> uploadedData, List<NotesDTO> removeDetailsList, int cdrModelSid) {
         NotesTabLogic notesLogic = new NotesTabLogic();
         try {
-            LOGGER.debug("removeDetailsList.size()" + removeDetailsList.size());
+            LOGGER.debug("removeDetailsList.size() {}" , removeDetailsList.size());
             if (removeDetailsList.size() != 0) {
                 for (int i = 0; i < removeDetailsList.size(); i++) {
                     NotesDTO dtoValue = removeDetailsList.get(i);

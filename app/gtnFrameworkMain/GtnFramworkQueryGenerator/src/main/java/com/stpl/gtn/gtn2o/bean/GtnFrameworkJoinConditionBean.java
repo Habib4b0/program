@@ -42,5 +42,11 @@ public class GtnFrameworkJoinConditionBean implements Serializable {
 
 	}
 
+	public void replaceColumnValue(String replaceString, String replacedString) {
+		if (joinRightTableColumnBean == null)
+			return;
+		joinRightTableColumnBean = joinRightTableColumnBean.replace(replaceString, replacedString);
+
+	}
 
 }

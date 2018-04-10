@@ -147,7 +147,7 @@ public class CommonUtils {
         StringBuilder result = new StringBuilder();
         if (hirarechyNos != null && !hirarechyNos.isEmpty()) {
             for (Object hirarechyNo : hirarechyNos) {
-                result.append("'" + hirarechyNo + "' ,");
+                result.append('\'' ).append( hirarechyNo ).append( "' ,");
             }
             result.deleteCharAt(result.length() - 1);
             return result.toString();

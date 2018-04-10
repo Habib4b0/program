@@ -82,13 +82,13 @@ public class GtnFrameworkIfpSaveAction
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("ifpItemsTabResultDataTable").getLogicFromPagedDataTable();
 
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 
 			GtnUIFrameworkPagedTableLogic logic2 = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE)
 					.getLogicFromPagedDataTable();
 
-			logic2.startSearchProcess(null, Boolean.TRUE);
+			logic2.startSearchProcess(null, true);
 			TabSheet sheet = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifptabSheet").getAsTabSheet();
 			sheet.setSelectedTab(sheet.getTab(0));
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInfoifpId", componentId).loadFieldValue(
@@ -153,14 +153,16 @@ public class GtnFrameworkIfpSaveAction
 	private void loadNotesTab(List<NotesTabBean> noteBeanList, List<NotesDTO> notesDTOs)
 			throws GtnFrameworkGeneralException {
 		try {
-			NotesTabBean cfpNotesBean;
+			NotesTabBean ifpNotesBean;
 			for (NotesDTO note : notesDTOs) {
-				cfpNotesBean = new NotesTabBean();
-				cfpNotesBean.setMasterTableName("IFP_MODEL");
-				cfpNotesBean.setFilePath(note.getDocumentFullPath());
-				cfpNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
-				cfpNotesBean.setCreatedDate(new Date());
-				noteBeanList.add(cfpNotesBean);
+				ifpNotesBean = new NotesTabBean();
+				ifpNotesBean.setMasterTableName("IFP_MODEL");
+				ifpNotesBean.setMasterTableSystemId(note.getDocDetailsId());
+				ifpNotesBean.setFilePath(note.getDocumentFullPath());
+				ifpNotesBean.setFileName(note.getDocumentName());
+				ifpNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				ifpNotesBean.setCreatedDate(new Date());
+				noteBeanList.add(ifpNotesBean);
 			}
 		} catch (Exception systemExcption) {
 			throw new GtnFrameworkSkipActionException("Save Error", systemExcption);

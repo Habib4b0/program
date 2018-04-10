@@ -39,6 +39,10 @@ public class PSComponentDetailsDTO {
     private String resetFrequency = StringUtils.EMPTY;
     private Date attachedDate;
 
+    public PSComponentDetailsDTO() {
+        super();
+    }
+
     public String getItemNo() {
         return itemNo;
     }

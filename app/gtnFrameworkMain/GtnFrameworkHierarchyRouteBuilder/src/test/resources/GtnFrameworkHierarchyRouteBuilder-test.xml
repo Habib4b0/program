@@ -4,6 +4,8 @@
 	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
+<context:component-scan
+		base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder,com.stpl.gtn.gtn2o.hierarchyroutebuilder,com.stpl.gtn.gtn2o.ws.module.forecastdataseletion" />
 
 	<bean id="sqlQueryEngine"
 		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
@@ -55,6 +57,20 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyRestrictionMaster.hbm.xml
 				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyColumnSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyHelperSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTable.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTableDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationFilter.hbm.xml
+				</value>
 			</list>
 		</property>
 	</bean>
@@ -62,8 +78,8 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
 		<property name="url"
-			value="jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_TST" />
-		<property name="username" value="bpigtn_agn_tst" />
-		<property name="password" value="vedM\4C~WKZ5s6U*" />
+			value="jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA" />
+		<property name="username" value="bpigtn_db" />
+		<property name="password" value="^D$b2K5!" />
 	</bean>
 </beans>

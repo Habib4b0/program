@@ -646,7 +646,7 @@ public class CompanyMasterImpl {
 
             }
 
-            LOGGER.debug("Final sql statement----------->" + sql);
+            LOGGER.debug("Final sql statement-----------> {} " , sql);
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
 
@@ -864,7 +864,7 @@ public class CompanyMasterImpl {
                     queryString.append(ROWS_ONLY);
                 }
             }
-            LOGGER.debug("queryString-------------->" + queryString);
+            LOGGER.debug("queryString-------------->{}" , queryString);
             
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
@@ -878,7 +878,7 @@ public class CompanyMasterImpl {
     public static List getColumnNames(String tablename) {
         List resultList = null;
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-        queryString.append("select Column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='" + tablename + "'");
+        queryString.append("select Column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='" ).append( tablename ).append( '\'');
         try {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         } catch (Exception e) {
@@ -904,7 +904,7 @@ public class CompanyMasterImpl {
             } else {
                 queryString.append(SQlUtil.getQuery("getCompanyTypeCountForPromoteTpToCh"));
             }
-             LOGGER.debug(" Company search getCompanyTypeCount Query -- "+queryString.toString());
+             LOGGER.debug(" Company search getCompanyTypeCount Query -- {} ", queryString.toString());
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
         } catch (Exception ex) {
@@ -937,10 +937,10 @@ public class CompanyMasterImpl {
             }
 
             if (parameters.get(COMPANY_MASTER_SID) != null && !String.valueOf(parameters.get(COMPANY_MASTER_SID)).isEmpty()) {
-                queryString.append(" AND cm.COMPANY_MASTER_SID in(" + String.valueOf(parameters.get(COMPANY_MASTER_SID)) + ")");
+                queryString.append(" AND cm.COMPANY_MASTER_SID in(" ).append( String.valueOf(parameters.get(COMPANY_MASTER_SID)) ).append( ')');
             }
             if (parameters.get(PDT_COMP_RESTRICTION_SESS_ID) != null && !String.valueOf(parameters.get(PDT_COMP_RESTRICTION_SESS_ID)).isEmpty()) {
-                queryString.append(" AND cm.COMPANY_MASTER_SID not in( Select COMPANY_MASTER_SID from GCM_COMPANY_LINK WHERE SESSION_ID = '" + String.valueOf(parameters.get(PDT_COMP_RESTRICTION_SESS_ID)) + "' AND LINK_ID <> 'R')");
+                queryString.append(" AND cm.COMPANY_MASTER_SID not in( Select COMPANY_MASTER_SID from GCM_COMPANY_LINK WHERE SESSION_ID = '" ).append( String.valueOf(parameters.get(PDT_COMP_RESTRICTION_SESS_ID)) ).append( "' AND LINK_ID <> 'R')");
             }
 
             if (parameters.get(COMP_NAME) != null) {
@@ -1117,7 +1117,7 @@ public class CompanyMasterImpl {
                 queryString.append(" ) A ");
                  
             }
-            LOGGER.debug(" Company search Query -- \n"+queryString.toString());
+            LOGGER.debug(" Company search Query -- \n {} ",queryString.toString());
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
         } catch (Exception e) {
@@ -1399,7 +1399,7 @@ public class CompanyMasterImpl {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("In saveCcp ->"+e.getMessage());
+            LOGGER.error("In saveCcp -> {} ",e.getMessage());
             LOGGER.error(hierarchyQuery);
             LOGGER.error(levelQuery);
             LOGGER.error(ccpQueryList.toString());

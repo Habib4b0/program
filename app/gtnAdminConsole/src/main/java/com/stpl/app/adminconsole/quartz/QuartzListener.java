@@ -141,7 +141,7 @@ public class QuartzListener implements ServletContextListener {
 			generateCronStringTime(profile, cronStringList);
 			generateCronStringInterval(profile, cronStringList);
 
-			if (cronStringList.size() == 0) {
+			if (cronStringList.isEmpty()) {
 				System.out.println("No triggers set for job " + profile.getProcessDisplayName());
 			}
 
@@ -322,9 +322,9 @@ public class QuartzListener implements ServletContextListener {
 
 					for (Trigger trigger : triggers) {
 						Date nextFireTime = trigger.getNextFireTime();
-						printStr.append("[jobName] : " + jobName + " [groupName] : " + jobGroup + " - " + nextFireTime
-								+ " - First Fire time -" + trigger.getStartTime() + " -Final Fire Time- "
-								+ trigger.getEndTime());
+						printStr.append("[jobName] : " ).append( jobName ).append( " [groupName] : " )
+                                                        .append( jobGroup ).append( " - " ).append( nextFireTime ).append( " - First Fire time -" )
+                                                        .append( trigger.getStartTime() ).append( " -Final Fire Time- ").append( trigger.getEndTime());
 						printStr.append('\n');
 					}
 

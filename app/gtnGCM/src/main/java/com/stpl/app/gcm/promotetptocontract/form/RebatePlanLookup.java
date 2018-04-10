@@ -214,7 +214,7 @@ public class RebatePlanLookup extends Window {
                     resultList = logic.getRebatePlanDetails(rebatePlanId.getValue(), rebatePlanNo.getValue(), rebatePlanName.getValue(),
                             String.valueOf(rebatePlanType.getValue()), String.valueOf(rebatePlanType.getValue()));
 
-                    LOGGER.debug("Rebate Plan Result List Value=" + resultList.size());
+                    LOGGER.debug("Rebate Plan Result List Value= {} " , resultList.size());
                 }
                 if (!resultList.isEmpty()) {
                     resultContainer.removeAllItems();

@@ -33,7 +33,7 @@ public class QueryUtils {
         LOGGER.debug("Inside item get data");
         List list = new ArrayList();
         StringBuilder sql;
-        LOGGER.debug("queryName - - >> " + queryName);
+        LOGGER.debug("queryName - - >> {}" , queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(SQLUtil.getQuery(queryName));
@@ -41,11 +41,11 @@ public class QueryUtils {
                     sql.append(' ');
                     sql.append(SQLUtil.getQuery(quaryName2));
                 }
-                LOGGER.debug("Input -- >> " + input.size() + " Are --- >> " + input);
+                LOGGER.debug("Input -- >> {} Are --- >> {}" , input.size() , input);
                 for (Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
-                LOGGER.debug("sql-->>" + sql);
+                LOGGER.debug("sql-->> {}" , sql);
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
@@ -60,13 +60,13 @@ public class QueryUtils {
         LOGGER.debug("Inside Item Update");
         StringBuilder sql = new StringBuilder();
         try {
-            LOGGER.debug("queryName - - >>" + queryName);
+            LOGGER.debug("queryName - - >> {}" , queryName);
             sql = new StringBuilder(SQLUtil.getQuery(queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
 
-            LOGGER.debug("sql-->>" + sql);
+            LOGGER.debug("sql-->> {}" , sql);
             Integer count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
             if (count > 0) {
                 return Boolean.TRUE;
@@ -83,7 +83,7 @@ public class QueryUtils {
 
     public static String getQuery(List input, String queryName) {
         StringBuilder sql = new StringBuilder();
-        LOGGER.debug("QueryName "+queryName);
+        LOGGER.debug("QueryName {}",queryName);
         try {
             sql = new StringBuilder(SQLUtil.getQuery(queryName));
          if(input!=null){
@@ -92,7 +92,7 @@ public class QueryUtils {
             }
       }
         } catch (Exception ex) {
-            LOGGER.debug("Iniside Exception Query "+sql);
+            LOGGER.debug("Iniside Exception Query {}",sql);
             LOGGER.error(ex.getMessage());
         }
         return sql.toString();
@@ -114,7 +114,7 @@ public class QueryUtils {
     public static Boolean queryBulkUpdate(String queryName) {
         LOGGER.debug("Inside Item Bulk Update");
         try {
-            LOGGER.debug("query - - >>" + queryName);
+            LOGGER.debug("query - - >> {}" , queryName);
             Integer count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryName.toString());
             if (count > 0) {
                 return Boolean.TRUE;
@@ -159,7 +159,7 @@ public class QueryUtils {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("Error :" + ex + "  Becoz of the query :" + sql.toString());
+            LOGGER.error("Error : {}  Becoz of the query : {}" , ex , sql.toString());
         }
         return Boolean.FALSE;
     }

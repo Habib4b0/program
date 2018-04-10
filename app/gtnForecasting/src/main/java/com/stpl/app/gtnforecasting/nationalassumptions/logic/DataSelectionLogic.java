@@ -407,32 +407,49 @@ public class DataSelectionLogic {
      public List getAvailableProducts(Object companyValue, Object therapeuticClassValue, Object businessUnit) {
         StringBuilder sql = null;
           try{
-            if (!String.valueOf(companyValue).equals("0") || (!String.valueOf(therapeuticClassValue).equals("") && 
-                    !therapeuticClassValue.toString().equals("0") )|| !String.valueOf(businessUnit).equals("0")) {
+            if (availableProductCheck(companyValue, therapeuticClassValue, businessUnit)) {
                 sql = new StringBuilder(SQlUtil.getQuery(getClass(),"loadAvailableProducts"));
-                if (String.valueOf(businessUnit).equals("0") || String.valueOf(businessUnit).equals("null") || String.valueOf(businessUnit).isEmpty()) {
+                if (isBusinessUnit(businessUnit)) {
                     sql = sql.append(" WHERE  IM.ORGANIZATION_KEY like '%' ");
                 } else {
                     sql = sql.append(" WHERE  IM.ORGANIZATION_KEY like '").append(String.valueOf(businessUnit)).append("' ");
                 }
-                if (!String.valueOf(companyValue).equals("0") && !String.valueOf(companyValue).equals("null")&& !String.valueOf(companyValue).isEmpty()) {
+                if (isCompanyValue(companyValue)) {
                     sql = sql.append(" AND  CM.COMPANY_MASTER_SID='").append(String.valueOf(companyValue)).append("' ");
                 }
-                if (!String.valueOf(therapeuticClassValue).equals("null") && !String.valueOf(therapeuticClassValue).equals("0")&& !String.valueOf(therapeuticClassValue).isEmpty()) {
+                if (isTherapeuticClass(therapeuticClassValue)) {
                     sql = sql.append("AND  IM.THERAPEUTIC_CLASS = '").append(String.valueOf(therapeuticClassValue)).append('\'');
                 }
+                sql = sql.append(" AND HT.DESCRIPTION ='NDC-11'");
             }
-
+              
             
               List list=HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             return list;
         } catch (Exception e) {            
             LOGGER.error(e.getMessage());
-            LOGGER.error(sql.toString());
+            LOGGER.error(sql == null ? "" : sql.toString());
             return Collections.emptyList();
         } finally {
 }
     }   
+
+    private static boolean isTherapeuticClass(Object therapeuticClassValue) {
+        return !String.valueOf(therapeuticClassValue).equals("null") && !String.valueOf(therapeuticClassValue).equals("0")&& !String.valueOf(therapeuticClassValue).isEmpty();
+    }
+
+    private static boolean isCompanyValue(Object companyValue) {
+        return !String.valueOf(companyValue).equals("0") && !String.valueOf(companyValue).equals("null")&& !String.valueOf(companyValue).isEmpty();
+    }
+
+    private static boolean isBusinessUnit(Object businessUnit) {
+        return String.valueOf(businessUnit).equals("0") || String.valueOf(businessUnit).equals("null") || String.valueOf(businessUnit).isEmpty();
+    }
+
+    private static boolean availableProductCheck(Object companyValue, Object therapeuticClassValue, Object businessUnit) {
+        return !String.valueOf(companyValue).equals("0") || (!String.valueOf(therapeuticClassValue).equals("") && 
+                !therapeuticClassValue.toString().equals("0") )|| !String.valueOf(businessUnit).equals("0");
+    }
     /**
      * Method return a selected company name
      *

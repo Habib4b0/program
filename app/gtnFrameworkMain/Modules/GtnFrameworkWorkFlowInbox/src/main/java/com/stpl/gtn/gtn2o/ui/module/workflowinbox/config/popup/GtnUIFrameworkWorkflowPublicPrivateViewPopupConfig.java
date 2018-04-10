@@ -201,7 +201,7 @@ public class GtnUIFrameworkWorkflowPublicPrivateViewPopupConfig {
 		tableStyleList.add(GtnFrameworkCssConstants.FILTERBAR);
 		tableStyleList.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
 		tableStyleList.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
-		tableStyleList.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
+		tableStyleList.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);                
 		wfViewPopupResultConfig.setComponentStyle(tableStyleList);
 
 		GtnUIFrameWorkActionConfig itemClickActionConfig = new GtnUIFrameWorkActionConfig();
@@ -465,9 +465,9 @@ public class GtnUIFrameworkWorkflowPublicPrivateViewPopupConfig {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
 		String[] propertyIds = { GtnFrameworkWorkflowInboxClassConstants.CREATEDBYPRIVATE,
 				GtnFrameworkWorkflowInboxClassConstants.APPROVEDBYPRIVATE };
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>(propertyIds.length-1);
 		String[] listNameArray = { GtnFrameworkWorkflowInboxClassConstants.USERS,
 				GtnFrameworkWorkflowInboxClassConstants.USERS };
 		for (int i = 0; i < propertyIds.length; i++) {

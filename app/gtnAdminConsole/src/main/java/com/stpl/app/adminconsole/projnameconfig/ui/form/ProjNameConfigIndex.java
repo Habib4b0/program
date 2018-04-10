@@ -428,7 +428,11 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
             targetItem = NULL_OBJECT;
         }
         LOGGER.debug("End of getBeanFromId method");
-        return (ProjectionNameDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (ProjectionNameDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
 	public CustomFieldGroup getNameBinder() {

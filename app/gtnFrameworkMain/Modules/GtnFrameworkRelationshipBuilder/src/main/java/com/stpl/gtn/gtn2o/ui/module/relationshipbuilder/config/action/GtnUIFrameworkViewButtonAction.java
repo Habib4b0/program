@@ -111,17 +111,17 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 			Date startDate = (Date) relationshipBean.getProperties().get(5);
 
 			if (mode.equals(String.valueOf(GtnUIFrameworkModeType.COPY))) {
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13))
 						.loadDateValue(null);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14))
 						.loadDateValue(null);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15))
 						.loadDateValue(null);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13))
 						.setComponentEnable(true);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14))
 						.setComponentEnable(true);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15))
 						.setComponentEnable(true);
 			} else {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())

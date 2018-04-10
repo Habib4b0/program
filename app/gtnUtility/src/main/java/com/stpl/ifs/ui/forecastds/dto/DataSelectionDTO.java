@@ -213,6 +213,7 @@ public class DataSelectionDTO implements Serializable {
 
 	private int customerRelationShipVersionNo;
 	private int productRelationShipVersionNo;
+	private int deductionRelationShipVersionNo;
         private Date forecastEligibleDate;
 
 	public Integer getFileEndMonth() {
@@ -1074,4 +1075,11 @@ public class DataSelectionDTO implements Serializable {
             this.selectedCustomerLevelNo = selectedCustomerLevelNo;
         }
 
+       public int getDeductionRelationShipVersionNo() {
+        return deductionRelationShipVersionNo;
+       }
+
+       public void setDeductionRelationShipVersionNo(int deductionRelationShipVersionNo) {
+        this.deductionRelationShipVersionNo = deductionRelationShipVersionNo;
+       }
 }

@@ -1641,3 +1641,6 @@ opacity : 100;
 background : white
 }
 
+.portlet-title-text{
+	overflow:inherit;
+}

@@ -70,7 +70,7 @@ public class GtnUIFrameworkRSSaveConfirmationAction implements GtnUIFrameWorkAct
 		String[] visibleFields = new String[] { "priceScheduleAddViewAAddDeleteButton" };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 
 		visibleAction.setActionParameterList(visibleParameters);

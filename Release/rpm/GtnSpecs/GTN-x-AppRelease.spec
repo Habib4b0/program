@@ -39,7 +39,7 @@ cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/ETL_Build/* $RPM_BUI
 fi
 if [ -d "$folderexist"Conf ]
 then
-mkdir -p  $RPM_BUILD_ROOT%{prefix}/conf
+mkdir -p  $RPM_BUILD_ROOT%{prefix}/conf/
 cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Conf/* $RPM_BUILD_ROOT%{prefix}/conf/
 fi
 
@@ -89,6 +89,13 @@ then
 touch $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/replace_dir_stu.txt
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/dir_struct.sh
 fi
+if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties ]
+then
+mkdir -p $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/
+  cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/interfaceUrlMapping.properties  $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/
+chmod -R 777 $RPM_BUILD_ROOT%{prefix}/conf/ETL-InterfaceUriConfig/interfaceUrlMapping.properties
+fi
+
 
 echo "file in process"
 count=`ls -1 $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.jar 2>/dev/null | wc -l`
@@ -175,10 +182,11 @@ fi
 if [ -e $install_path/tempdeploy/GtnFrameworkTransaction.jar ];
 then
 mkdir -p $Gtn_Framework_Base_path/transaction_json
-jar xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
-cp  -R /WEB-INF/classes/transaction_json $Gtn_Framework_Base_path
-rm -rf /WEB-INF /META-INF
+cd $Gtn_Framework_Base_path
+jar -xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
+rm -rf $Gtn_Framework_Base_path/WEB-INF $Gtn_Framework_Base_path/META-INF $Gtn_Framework_Base_path/OSGI-INF $Gtn_Framework_Base_path/com 
 chown -R $APP_User:$Chown $Gtn_Framework_Base_path
+cd -
 fi
 
 
@@ -256,9 +264,9 @@ for  filename in $x
 do
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 LOGDATE=`date +%Y-%m-%d`
-log_file="$install_path/logs/$DB_Schema_Name/$DB_Script_Name/Log_"$DB_Script_Name"_$LOGDATE.log"
-mkdir -p "$install_path/logs/$DB_Schema_Name/$DB_Script_Name"
-chmod 777 "$install_path/logs/$DB_Schema_Name/$DB_Script_Name"
+log_file="$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name/Log_"$DB_Script_Name"_$LOGDATE.log"
+mkdir -p "$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name"
+chmod 777 "$GTN_APP_DATA_PATH/logs/DB/$DB_Schema_Name/$DB_Script_Name"
 #echo $DATE
 echo "$filename.."
 echo "INFO $DATE Executing file $filename...">>$log_file
@@ -293,14 +301,9 @@ fi
 
 chmod -R 750 $install_path
 chown -R $APP_User:$Chown $install_path
-chown $APP_User:etl $install_path
-chown $APP_User:etl $install_path/etl
-chown -R $APP_User:etl $install_path/etl/staging
-find $install_path/etl -d -name "Input" | xargs chmod 770  2>/dev/null
-find $install_path/etl -d -name "GALDERMA_FILES_UPLOAD" | xargs chmod 770 2>/dev/null
-chown -R $APP_User:etl $install_path/logs
-chown -R $APP_User:etl $install_path/DB_Script
-chown $APP_User:etl $install_path
+
+chown -R $APP_User:etl $GTN_APP_DATA_PATH
+chmod -R 750 $GTN_APP_DATA_PATH
 
 %files
 %{prefix}/

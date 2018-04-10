@@ -68,7 +68,7 @@ public class GtnWsCalendarConfigurationLogic {
 			List<Object[]> result = getController()
 					.executeQuery(controller.getGtnWsSqlService().getQuery(inputlist, queryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(result);

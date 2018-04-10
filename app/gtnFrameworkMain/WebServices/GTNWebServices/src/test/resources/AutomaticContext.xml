@@ -7,7 +7,7 @@
 
 	<mvc:annotation-driven />
 	<context:component-scan
-		base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder" />
+		base-package="com.stpl.gtn.gtn2o.ws.module.automaticrelationship,com.stpl.gtn.gtn2o.ws.module.relationshipbuilder,com.stpl.gtn.gtn2o.hierarchyroutebuilder,com.stpl.gtn.gtn2o.ws.module.forecastdataseletion" />
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -379,6 +379,21 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/ModuleSubmoduleMaster.hbm.xml
 				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTable.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationTableDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyColumnSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyHelperSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationSelect.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySitutationFilter.hbm.xml
+				</value>
+				
 			</list>
 		</property>
 	</bean>
@@ -402,9 +417,9 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:jtds:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_TST" />
-		<property name="username" value="bpigtn_agn_tst" />
-		<property name="password" value="vedM\4C~WKZ5s6U*" />
+			value="jdbc:jtds:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA" />
+		<property name="username" value="bpigtn_db" />
+		<property name="password" value="^D$b2K5!" />
 	</bean>
 	<bean id="sysDataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -449,13 +464,18 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 		<property name="sysSessionFactory" ref="sysSessionFactory"></property>
 	</bean>
+	<bean id="queryGeneratorService"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyQueryGenerator">
+		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
+		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+	</bean>
 
 	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
 		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService">
 		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
 		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
-		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
 		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="queryGeneratorService" ref="queryGeneratorService"></property>
 	</bean>
 </beans>

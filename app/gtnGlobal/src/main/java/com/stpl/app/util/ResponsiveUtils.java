@@ -59,7 +59,7 @@ public class ResponsiveUtils {
 
     
      public static Label makeLabel(String value, boolean isMandatory, String width) {
-        LOGGER.debug("Width of LABEL"+width);
+        LOGGER.debug("Width of LABEL {}",width);
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
         sb.append(value);
         if (isMandatory) {
@@ -1036,7 +1036,7 @@ public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout
 	}
 
     public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout,boolean flag){
-                        LOGGER.debug("Flag of Layout"+flag);
+                        LOGGER.debug("Flag of Layout {}",flag);
                         HorizontalLayout controlBar = new HorizontalLayout();
                         controlBar.setStyleName(ConstantsUtils.RESPONSIVE_PAGED_TABLE);
                         HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);

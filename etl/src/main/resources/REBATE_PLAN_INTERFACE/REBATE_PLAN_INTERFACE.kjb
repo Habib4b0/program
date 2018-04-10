@@ -4,22 +4,22 @@
     <description/>
     <extended_description/>
     <job_version/>
-  <directory>&#47;</directory>
+  <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;05 01:08:07.152</created_date>
+  <created_date>2013&#x2f;07&#x2f;05 01&#x3a;08&#x3a;07.152</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;05 01:08:07.152</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;05 01&#x3a;08&#x3a;07.152</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -36,13 +36,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -65,7 +65,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -85,7 +85,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;RP_VALIDATIONS.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RP_VALIDATIONS.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -93,7 +93,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -104,6 +104,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -153,7 +154,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;RP_DATAFETCH.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RP_DATAFETCH.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -172,6 +173,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -214,26 +216,7 @@
       <name>HELPER TABLE</name>
       <description/>
       <type>SQL</type>
-      <sql>INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_PLAN_STATUS,&apos;STATUS&apos;,-1 FROM STAG_REBATE_PLAN 
-WHERE (upper(REBATE_PLAN_STATUS)!=&apos;NULL&apos; or REBATE_PLAN_STATUS IS NOT NULL ) AND REBATE_PLAN_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_PLAN_TYPE,&apos;REBATE_PLAN_TYPE&apos;,-1 FROM STAG_REBATE_PLAN 
-WHERE (upper(REBATE_PLAN_TYPE)!=&apos;NULL&apos; or REBATE_PLAN_TYPE IS NOT NULL ) AND REBATE_PLAN_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_PLAN_TYPE&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_BASED_ON,&apos;REBATE_BASED_ON&apos;,-1 FROM STAG_REBATE_PLAN 
-WHERE (upper(REBATE_BASED_ON)!=&apos;NULL&apos; or REBATE_BASED_ON IS NOT NULL ) AND REBATE_BASED_ON NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_BASED_ON&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_STRUCTURE,&apos;REBATE_STRUCTURE&apos;,-1 FROM STAG_REBATE_PLAN 
-WHERE (upper(REBATE_STRUCTURE)!=&apos;NULL&apos; or REBATE_STRUCTURE IS NOT NULL ) AND REBATE_STRUCTURE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_STRUCTURE&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_RANGE_BASED_ON,&apos;REBATE_RANGE_BASED_ON&apos;,-1 FROM STAG_REBATE_PLAN 
-WHERE (upper(REBATE_RANGE_BASED_ON)!=&apos;NULL&apos; or REBATE_RANGE_BASED_ON IS NOT NULL ) AND REBATE_RANGE_BASED_ON NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_RANGE_BASED_ON&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT TIER_OPERATOR,&apos;TIER_OPERATOR&apos;,-1 FROM STAG_REBATE_PLAN 
-WHERE (upper(TIER_OPERATOR)!=&apos;NULL&apos; or TIER_OPERATOR IS NOT NULL ) AND TIER_OPERATOR NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;TIER_OPERATOR&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT FORMULA_TYPE,&apos;FORMULA_TYPE&apos;,-1 FROM STAG_REBATE_PLAN 
-WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND FORMULA_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;FORMULA_TYPE&apos;)</sql>
+      <sql>INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_PLAN_STATUS,&#x27;STATUS&#x27;,-1 FROM STAG_REBATE_PLAN &#xa;WHERE &#x28;upper&#x28;REBATE_PLAN_STATUS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_PLAN_STATUS IS NOT NULL &#x29; AND REBATE_PLAN_STATUS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;STATUS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_PLAN_TYPE,&#x27;REBATE_PLAN_TYPE&#x27;,-1 FROM STAG_REBATE_PLAN &#xa;WHERE &#x28;upper&#x28;REBATE_PLAN_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_PLAN_TYPE IS NOT NULL &#x29; AND REBATE_PLAN_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_PLAN_TYPE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_BASED_ON,&#x27;REBATE_BASED_ON&#x27;,-1 FROM STAG_REBATE_PLAN &#xa;WHERE &#x28;upper&#x28;REBATE_BASED_ON&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_BASED_ON IS NOT NULL &#x29; AND REBATE_BASED_ON NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_BASED_ON&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_STRUCTURE,&#x27;REBATE_STRUCTURE&#x27;,-1 FROM STAG_REBATE_PLAN &#xa;WHERE &#x28;upper&#x28;REBATE_STRUCTURE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_STRUCTURE IS NOT NULL &#x29; AND REBATE_STRUCTURE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_STRUCTURE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_RANGE_BASED_ON,&#x27;REBATE_RANGE_BASED_ON&#x27;,-1 FROM STAG_REBATE_PLAN &#xa;WHERE &#x28;upper&#x28;REBATE_RANGE_BASED_ON&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_RANGE_BASED_ON IS NOT NULL &#x29; AND REBATE_RANGE_BASED_ON NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_RANGE_BASED_ON&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT TIER_OPERATOR,&#x27;TIER_OPERATOR&#x27;,-1 FROM STAG_REBATE_PLAN &#xa;WHERE &#x28;upper&#x28;TIER_OPERATOR&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or TIER_OPERATOR IS NOT NULL &#x29; AND TIER_OPERATOR NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;TIER_OPERATOR&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT FORMULA_TYPE,&#x27;FORMULA_TYPE&#x27;,-1 FROM STAG_REBATE_PLAN &#xa;WHERE &#x28;upper&#x28;FORMULA_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or FORMULA_TYPE IS NOT NULL &#x29; AND FORMULA_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;FORMULA_TYPE&#x27;&#x29;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -251,7 +234,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -265,8 +248,10 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -281,7 +266,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -295,8 +280,10 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -309,7 +296,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <name>Duplicate Record</name>
       <description/>
       <type>SQL</type>
-      <sql>UPDATE IVLD_REBATE_PLAN SET ERROR_CODE=&apos;E04&apos; WHERE REASON_FOR_FAILURE =&apos;Duplicate Record&apos;</sql>
+      <sql>UPDATE IVLD_REBATE_PLAN SET ERROR_CODE&#x3d;&#x27;E04&#x27; WHERE REASON_FOR_FAILURE &#x3d;&#x27;Duplicate Record&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -327,7 +314,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -346,6 +333,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -359,7 +347,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -378,6 +366,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -391,7 +380,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -410,6 +399,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -423,7 +413,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -442,6 +432,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -453,11 +444,7 @@ WHERE (upper(FORMULA_TYPE)!=&apos;NULL&apos; or FORMULA_TYPE IS NOT NULL ) AND F
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_PLAN_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;REBATE_PLAN_INTERFACE&apos;
-</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;Y&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -470,13 +457,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;RE
       <yloc>85</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (3)</name>
+      <name>STOP PROCESS AUDIT &#x28;3&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_PLAN_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_PLAN_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -489,14 +473,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <yloc>1697</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2)</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_PLAN_INTERFACE&apos;
-
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_PLAN_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -514,7 +494,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;HANDLING_NEW_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HANDLING_NEW_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -533,6 +513,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -544,112 +525,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <name>STAG</name>
       <description/>
       <type>SQL</type>
-      <sql>
-TRUNCATE TABLE STAG_REBATE_PLAN
-
-
-INSERT INTO STAG_REBATE_PLAN(
-REBATE_PLAN_ID
-,REBATE_PLAN_NO
-,REBATE_PLAN_NAME
-,REBATE_PLAN_STATUS
-,REBATE_PLAN_TYPE
-,INTERNAL_NOTES
-,FORMULA_TYPE
-,BOGO_ELIGIBLE
-,SELF_GROWTH_INDICATOR
-,SELF_GROWTH_REFERENCE
-,SELF_GROWTH_FROM
-,SELF_GROWTH_TO
-,MARKET_SHARE_INDICATOR
-,MARKET_SHARE_REFERENCE
-,MARKET_SHARE_TO
-,TIER_FORMULA_ID
-,TIER_FORMULA_NO
-,TIER_FORMULA_NAME
-,REBATE_STRUCTURE
-,REBATE_RANGE_BASED_ON
-,REBATE_BASED_ON
-,REBATE_RULE
-,REBATE_PLAN_TIER_ID
-,TIER_FROM
-,TIER_TO
-,TIER_LEVEL
-,TIER_OPERATOR
-,TIER_VALUE
-,FREE_AMOUNT
-,TIER_TOLERANCE
-,SECONDARY_REBATE_PLAN_ID
-,SECONDARY_REBATE_PLAN_NO
-,SECONDARY_REBATE_PLAN_NAME
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,REBATE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,REBATE_PLAN_INTFID
-,MARKET_SHAR_EFROM
-,CFP_ID
-,MFP_ID
-,IFP_ID
-
-) 
-SELECT 
-REBATE_PLAN_ID
-,REBATE_PLAN_NO
-,REBATE_PLAN_NAME
-,REBATE_PLAN_STATUS
-,REBATE_PLAN_TYPE
-,INTERNAL_NOTES
-,FORMULA_TYPE
-,BOGO_ELIGIBLE
-,SELF_GROWTH_INDICATOR
-,SELF_GROWTH_REFERENCE
-,SELF_GROWTH_FROM
-,SELF_GROWTH_TO
-,MARKET_SHARE_INDICATOR
-,MARKET_SHARE_REFERENCE
-,MARKET_SHARE_TO
-,TIER_FORMULA_ID
-,TIER_FORMULA_NO
-,TIER_FORMULA_NAME
-,REBATE_STRUCTURE
-,REBATE_RANGE_BASED_ON
-,REBATE_BASED_ON
-,REBATE_RULE
-,REBATE_PLAN_TIER_ID
-,TIER_FROM
-,TIER_TO
-,TIER_LEVEL
-,TIER_OPERATOR
-,TIER_VALUE
-,FREE_AMOUNT
-,TIER_TOLERANCE
-,SECONDARY_REBATE_PLAN_ID
-,SECONDARY_REBATE_PLAN_NO
-,SECONDARY_REBATE_PLAN_NAME
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,REBATE_SCHEDULE_ID
-,CREATED_BY
-,isnull(CREATED_DATE,getdate())
-,MODIFIED_BY
-,isnull(MODIFIED_DATE,getdate())
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,REBATE_PLAN_INTERFACE_ID
-,MARKET_SHARE_FROM
-,COMPANY_FAMILY_PLAN_ID
-,MEMBER_FAMILY_PLAN_ID
-,ITEM_FAMILY_PLAN_ID
-
- FROM ${STAGING_DB}..REBATE_PLAN_INTERFACE</sql>
+      <sql>&#xa;TRUNCATE TABLE STAG_REBATE_PLAN&#xa;&#xa;&#xa;INSERT INTO STAG_REBATE_PLAN&#x28;&#xa;REBATE_PLAN_ID&#xa;,REBATE_PLAN_NO&#xa;,REBATE_PLAN_NAME&#xa;,REBATE_PLAN_STATUS&#xa;,REBATE_PLAN_TYPE&#xa;,INTERNAL_NOTES&#xa;,FORMULA_TYPE&#xa;,BOGO_ELIGIBLE&#xa;,SELF_GROWTH_INDICATOR&#xa;,SELF_GROWTH_REFERENCE&#xa;,SELF_GROWTH_FROM&#xa;,SELF_GROWTH_TO&#xa;,MARKET_SHARE_INDICATOR&#xa;,MARKET_SHARE_REFERENCE&#xa;,MARKET_SHARE_TO&#xa;,TIER_FORMULA_ID&#xa;,TIER_FORMULA_NO&#xa;,TIER_FORMULA_NAME&#xa;,REBATE_STRUCTURE&#xa;,REBATE_RANGE_BASED_ON&#xa;,REBATE_BASED_ON&#xa;,REBATE_RULE&#xa;,REBATE_PLAN_TIER_ID&#xa;,TIER_FROM&#xa;,TIER_TO&#xa;,TIER_LEVEL&#xa;,TIER_OPERATOR&#xa;,TIER_VALUE&#xa;,FREE_AMOUNT&#xa;,TIER_TOLERANCE&#xa;,SECONDARY_REBATE_PLAN_ID&#xa;,SECONDARY_REBATE_PLAN_NO&#xa;,SECONDARY_REBATE_PLAN_NAME&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REBATE_PLAN_INTFID&#xa;,MARKET_SHAR_EFROM&#xa;,CFP_ID&#xa;,MFP_ID&#xa;,IFP_ID&#xa;&#xa;&#x29; &#xa;SELECT &#xa;REBATE_PLAN_ID&#xa;,REBATE_PLAN_NO&#xa;,REBATE_PLAN_NAME&#xa;,REBATE_PLAN_STATUS&#xa;,REBATE_PLAN_TYPE&#xa;,INTERNAL_NOTES&#xa;,FORMULA_TYPE&#xa;,BOGO_ELIGIBLE&#xa;,SELF_GROWTH_INDICATOR&#xa;,SELF_GROWTH_REFERENCE&#xa;,SELF_GROWTH_FROM&#xa;,SELF_GROWTH_TO&#xa;,MARKET_SHARE_INDICATOR&#xa;,MARKET_SHARE_REFERENCE&#xa;,MARKET_SHARE_TO&#xa;,TIER_FORMULA_ID&#xa;,TIER_FORMULA_NO&#xa;,TIER_FORMULA_NAME&#xa;,REBATE_STRUCTURE&#xa;,REBATE_RANGE_BASED_ON&#xa;,REBATE_BASED_ON&#xa;,REBATE_RULE&#xa;,REBATE_PLAN_TIER_ID&#xa;,TIER_FROM&#xa;,TIER_TO&#xa;,TIER_LEVEL&#xa;,TIER_OPERATOR&#xa;,TIER_VALUE&#xa;,FREE_AMOUNT&#xa;,TIER_TOLERANCE&#xa;,SECONDARY_REBATE_PLAN_ID&#xa;,SECONDARY_REBATE_PLAN_NO&#xa;,SECONDARY_REBATE_PLAN_NAME&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,isnull&#x28;CREATED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,MODIFIED_BY&#xa;,isnull&#x28;MODIFIED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REBATE_PLAN_INTERFACE_ID&#xa;,MARKET_SHARE_FROM&#xa;,COMPANY_FAMILY_PLAN_ID&#xa;,MEMBER_FAMILY_PLAN_ID&#xa;,ITEM_FAMILY_PLAN_ID&#xa;&#xa; FROM &#x24;&#x7b;STAGING_DB&#x7d;..REBATE_PLAN_INTERFACE</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -665,248 +541,7 @@ REBATE_PLAN_ID
       <name>REBATE PLAN INSERT</name>
       <description/>
       <type>SQL</type>
-      <sql>
-;WITH cte AS ( 
-
-
-SELECT
-
- A.BATCH_ID
-,A.BOGO_ELIGIBLE
-,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE
---,NEW_RP_FORMULA_TYPE
-,&apos;A&apos; AS INBOUND_STATUS
-,A.INTERNAL_NOTES
-,A.MARKET_SHAR_EFROM
-,A.MARKET_SHARE_INDICATOR
-,A.MARKET_SHARE_REFERENCE
-,A.MARKET_SHARE_TO
-,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON
---,NEW_RP_BASED_ON
-,A.REBATE_PLAN_ID
-,A.REBATE_PLAN_NAME
-,A.REBATE_PLAN_NO
-,J.HELPER_TABLE_SID AS NEW_RP_STATUS
-,E.HELPER_TABLE_SID AS NEW_RP_TYPE
-,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON
---,NEW_RP_STATUS
---,NEW_RP_TYPE
---,NEW_RP_RANGE_BASED_ON
-,A.REBATE_RULE
-,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE
---,NEW_RP_STRUCTURE
-,A.SECONDARY_REBATE_PLAN_ID
-,A.SECONDARY_REBATE_PLAN_NAME
-,A.SECONDARY_REBATE_PLAN_NO
-,A.SELF_GROWTH_FROM
-,A.SELF_GROWTH_INDICATOR
-,A.SELF_GROWTH_REFERENCE
-,A.SELF_GROWTH_TO
-,A.SOURCE
-,A.CREATED_BY
-
- 
-,ROW_NUMBER() OVER(PARTITION BY REBATE_PLAN_ID ORDER BY REBATE_PLAN_ID)&apos;RowRank&apos;
-        FROM     STAG_REBATE_PLAN A 
-		 left join HELPER_TABLE E 
-	          ON E.DESCRIPTION=A.REBATE_PLAN_TYPE
-	   	      AND E.LIST_NAME=&apos;REBATE_PLAN_TYPE&apos;
-   left join HELPER_TABLE F
-	          ON F.DESCRIPTION=A.REBATE_RANGE_BASED_ON
-	   	      AND F.LIST_NAME=&apos;REBATE_RANGE_BASED_ON&apos;
-  left join HELPER_TABLE G
-	          ON G.DESCRIPTION=A.REBATE_STRUCTURE
-	   	      AND G.LIST_NAME=&apos;REBATE_STRUCTURE&apos;
-  left join HELPER_TABLE H
-	          ON H.DESCRIPTION=A.REBATE_BASED_ON
-	   	      AND H.LIST_NAME=&apos;REBATE_BASED_ON&apos;
-  left join HELPER_TABLE I
-	          ON I.DESCRIPTION=A.TIER_OPERATOR
-	   	      AND I.LIST_NAME=&apos;TIER_OPERATOR&apos;
-  left join HELPER_TABLE J
-	          ON J.DESCRIPTION=A.REBATE_PLAN_STATUS
-	   	      AND J.LIST_NAME=&apos;STATUS&apos;
-  left join HELPER_TABLE K
-	          ON K.DESCRIPTION=A.FORMULA_TYPE
-	   	      AND K.LIST_NAME=&apos;FORMULA_TPYE&apos;
-			  WHERE NOT EXISTS ( SELECT 1 FROM REBATE_PLAN_MASTER RP WHERE RP.REBATE_PLAN_ID=A.REBATE_PLAN_ID )
-
-AND a.ADD_CHG_DEL_INDICATOR =&apos;A&apos;
-			    )
-
-INSERT INTO REBATE_PLAN_MASTER(
-
-BATCH_ID
-,BOGO_ELIGIBLE
-,FORMULA_TYPE
-,INBOUND_STATUS
-,INTERNAL_NOTES
-,MARKET_SHARE_FROM
-,MARKET_SHARE_INDICATOR
-,MARKET_SHARE_REFERENCE
-,MARKET_SHARE_TO
-,REBATE_BASED_ON
-,REBATE_PLAN_ID
-,REBATE_PLAN_NAME
-,REBATE_PLAN_NO
-,REBATE_PLAN_STATUS
-,REBATE_PLAN_TYPE
-,REBATE_RANGE_BASED_ON
-,REBATE_RULE
-,REBATE_STRUCTURE
-,SECONDARY_REBATE_PLAN_ID
-,SECONDARY_REBATE_PLAN_NAME
-,SECONDARY_REBATE_PLAN_NO
-,SELF_GROWTH_FROM
-,SELF_GROWTH_INDICATOR
-,SELF_GROWTH_REFERENCE
-,SELF_GROWTH_TO
-,SOURCE
-,CREATED_BY
-)
-
-
-SELECT
-BATCH_ID
-,BOGO_ELIGIBLE
-,NEW_RP_FORMULA_TYPE
-,INBOUND_STATUS
-,INTERNAL_NOTES
-,MARKET_SHAR_EFROM
-,MARKET_SHARE_INDICATOR
-,MARKET_SHARE_REFERENCE
-,MARKET_SHARE_TO
-,NEW_RP_BASED_ON
-,REBATE_PLAN_ID
-,REBATE_PLAN_NAME
-,REBATE_PLAN_NO
-,NEW_RP_STATUS
-,NEW_RP_TYPE
-,NEW_RP_RANGE_BASED_ON
-,REBATE_RULE
-,NEW_RP_STRUCTURE
-,SECONDARY_REBATE_PLAN_ID
-,SECONDARY_REBATE_PLAN_NAME
-,SECONDARY_REBATE_PLAN_NO
-,SELF_GROWTH_FROM
-,SELF_GROWTH_INDICATOR
-,SELF_GROWTH_REFERENCE
-,SELF_GROWTH_TO
-,SOURCE
-,CREATED_BY
-
---  A.REBATE_PLAN_INTFID
---, A.REBATE_PLAN_ID
---, A.REBATE_PLAN_NO
---, A.REBATE_PLAN_NAME
---, A.REBATE_PLAN_STATUS
---, A.REBATE_PLAN_TYPE
---, A.INTERNAL_NOTES
---, A.FORMULA_TYPE
---, A.BOGO_ELIGIBLE
---, A.SELF_GROWTH_INDICATOR
---, A.SELF_GROWTH_REFERENCE
---, A.SELF_GROWTH_FROM
---, A.SELF_GROWTH_TO
---, A.MARKET_SHARE_INDICATOR
---, A.MARKET_SHARE_REFERENCE
---, A.MARKET_SHAR_EFROM
---, A.MARKET_SHARE_TO
---, A.TIER_FORMULA_ID
---, A.TIER_FORMULA_NO
---, A.TIER_FORMULA_NAME
---, A.REBATE_STRUCTURE
---, A.REBATE_RANGE_BASED_ON
---, A.REBATE_BASED_ON
---, A.REBATE_RULE
---, A.REBATE_PLAN_TIER_ID
---, A.TIER_FROM
---, A.TIER_TO
---, A.TIER_LEVEL
---, A.TIER_OPERATOR
---, A.TIER_VALUE
---, A.FREE_AMOUNT
---, A.TIER_TOLERANCE
---, A.SECONDARY_REBATE_PLAN_ID
---, A.SECONDARY_REBATE_PLAN_NO
---, A.SECONDARY_REBATE_PLAN_NAME
---, A.CONTRACT_ID
---, A.CFP_ID
---, A.MFP_ID
---, A.IFP_ID
---, A.PRICE_SCHEDULE_ID
---, A.REBATE_SCHEDULE_ID
---, A.CREATED_BY
---, A.CREATED_DATE
---, A.MODIFIED_BY
---, A.MODIFIED_DATE
---, A.BATCH_ID
---, A.SOURCE
---, A.ADD_CHG_DEL_INDICATOR
---,E.HELPER_TABLE_SID AS NEW_RP_TYPE
---,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON
---,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE
---,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON
---,I.HELPER_TABLE_SID AS NEW_RP_OPERATOR
---,J.HELPER_TABLE_SID AS NEW_RP_STATUS
---,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE
---FROM STAG_REBATE_PLAN A
---    left join HELPER_TABLE E 
---	          ON E.DESCRIPTION=A.REBATE_PLAN_TYPE
---	   	      AND E.LIST_NAME=&apos;REBATE_PLAN_TYPE&apos;
---   left join HELPER_TABLE F
---	          ON F.DESCRIPTION=A.REBATE_RANGE_BASED_ON
---	   	      AND F.LIST_NAME=&apos;REBATE_RANGE_BASED_ON&apos;
---  left join HELPER_TABLE G
---	          ON G.DESCRIPTION=A.REBATE_STRUCTURE
---	   	      AND G.LIST_NAME=&apos;REBATE_STRUCTURE&apos;
---  left join HELPER_TABLE H
---	          ON H.DESCRIPTION=A.REBATE_BASED_ON
---	   	      AND H.LIST_NAME=&apos;REBATE_BASED_ON&apos;
---  left join HELPER_TABLE I
---	          ON I.DESCRIPTION=A.TIER_OPERATOR
---	   	      AND I.LIST_NAME=&apos;TIER_OPERATOR&apos;
---  left join HELPER_TABLE J
---	          ON J.DESCRIPTION=A.REBATE_PLAN_STATUS
---	   	      AND J.LIST_NAME=&apos;STATUS&apos;
---  left join HELPER_TABLE K
---	          ON K.DESCRIPTION=A.FORMULA_TYPE
---	   	      AND K.LIST_NAME=&apos;FORMULA_TPYE&apos;
---			  WHERE NOT EXISTS ( SELECT 1 FROM REBATE_PLAN_MASTER RP WHERE RP.REBATE_PLAN_ID=A.REBATE_PLAN_ID )
-			  --AND A.ADD_CHG_DEL_INDICATOR=&apos;A&apos;
-
-
-
-  FROM cte 
-WHERE RowRank =1 
---------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</sql>
+      <sql>&#xa;&#x3b;WITH cte AS &#x28; &#xa;&#xa;&#xa;SELECT&#xa;&#xa; A.BATCH_ID&#xa;,A.BOGO_ELIGIBLE&#xa;,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE&#xa;--,NEW_RP_FORMULA_TYPE&#xa;,&#x27;A&#x27; AS INBOUND_STATUS&#xa;,A.INTERNAL_NOTES&#xa;,A.MARKET_SHAR_EFROM&#xa;,A.MARKET_SHARE_INDICATOR&#xa;,A.MARKET_SHARE_REFERENCE&#xa;,A.MARKET_SHARE_TO&#xa;,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON&#xa;--,NEW_RP_BASED_ON&#xa;,A.REBATE_PLAN_ID&#xa;,A.REBATE_PLAN_NAME&#xa;,A.REBATE_PLAN_NO&#xa;,J.HELPER_TABLE_SID AS NEW_RP_STATUS&#xa;,E.HELPER_TABLE_SID AS NEW_RP_TYPE&#xa;,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON&#xa;--,NEW_RP_STATUS&#xa;--,NEW_RP_TYPE&#xa;--,NEW_RP_RANGE_BASED_ON&#xa;,A.REBATE_RULE&#xa;,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE&#xa;--,NEW_RP_STRUCTURE&#xa;,A.SECONDARY_REBATE_PLAN_ID&#xa;,A.SECONDARY_REBATE_PLAN_NAME&#xa;,A.SECONDARY_REBATE_PLAN_NO&#xa;,A.SELF_GROWTH_FROM&#xa;,A.SELF_GROWTH_INDICATOR&#xa;,A.SELF_GROWTH_REFERENCE&#xa;,A.SELF_GROWTH_TO&#xa;,A.SOURCE&#xa;,A.CREATED_BY&#xa;&#xa; &#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY REBATE_PLAN_ID ORDER BY REBATE_PLAN_ID&#x29;&#x27;RowRank&#x27;&#xa;        FROM     STAG_REBATE_PLAN A &#xa;		 left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.REBATE_PLAN_TYPE&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;REBATE_PLAN_TYPE&#x27;&#xa;   left join HELPER_TABLE F&#xa;	          ON F.DESCRIPTION&#x3d;A.REBATE_RANGE_BASED_ON&#xa;	   	      AND F.LIST_NAME&#x3d;&#x27;REBATE_RANGE_BASED_ON&#x27;&#xa;  left join HELPER_TABLE G&#xa;	          ON G.DESCRIPTION&#x3d;A.REBATE_STRUCTURE&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;REBATE_STRUCTURE&#x27;&#xa;  left join HELPER_TABLE H&#xa;	          ON H.DESCRIPTION&#x3d;A.REBATE_BASED_ON&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;REBATE_BASED_ON&#x27;&#xa;  left join HELPER_TABLE I&#xa;	          ON I.DESCRIPTION&#x3d;A.TIER_OPERATOR&#xa;	   	      AND I.LIST_NAME&#x3d;&#x27;TIER_OPERATOR&#x27;&#xa;  left join HELPER_TABLE J&#xa;	          ON J.DESCRIPTION&#x3d;A.REBATE_PLAN_STATUS&#xa;	   	      AND J.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xa;  left join HELPER_TABLE K&#xa;	          ON K.DESCRIPTION&#x3d;A.FORMULA_TYPE&#xa;	   	      AND K.LIST_NAME&#x3d;&#x27;FORMULA_TYPE&#x27;&#xa;			  WHERE NOT EXISTS &#x28; SELECT 1 FROM REBATE_PLAN_MASTER RP WHERE RP.REBATE_PLAN_ID&#x3d;A.REBATE_PLAN_ID &#x29;&#xa;&#xa;AND a.ADD_CHG_DEL_INDICATOR &#x3d;&#x27;A&#x27;&#xa;			    &#x29;&#xa;&#xa;INSERT INTO REBATE_PLAN_MASTER&#x28;&#xa;&#xa;BATCH_ID&#xa;,BOGO_ELIGIBLE&#xa;,FORMULA_TYPE&#xa;,INBOUND_STATUS&#xa;,INTERNAL_NOTES&#xa;,MARKET_SHARE_FROM&#xa;,MARKET_SHARE_INDICATOR&#xa;,MARKET_SHARE_REFERENCE&#xa;,MARKET_SHARE_TO&#xa;,REBATE_BASED_ON&#xa;,REBATE_PLAN_ID&#xa;,REBATE_PLAN_NAME&#xa;,REBATE_PLAN_NO&#xa;,REBATE_PLAN_STATUS&#xa;,REBATE_PLAN_TYPE&#xa;,REBATE_RANGE_BASED_ON&#xa;,REBATE_RULE&#xa;,REBATE_STRUCTURE&#xa;,SECONDARY_REBATE_PLAN_ID&#xa;,SECONDARY_REBATE_PLAN_NAME&#xa;,SECONDARY_REBATE_PLAN_NO&#xa;,SELF_GROWTH_FROM&#xa;,SELF_GROWTH_INDICATOR&#xa;,SELF_GROWTH_REFERENCE&#xa;,SELF_GROWTH_TO&#xa;,SOURCE&#xa;,CREATED_BY&#xa;&#x29;&#xa;&#xa;&#xa;SELECT&#xa;BATCH_ID&#xa;,BOGO_ELIGIBLE&#xa;,NEW_RP_FORMULA_TYPE&#xa;,INBOUND_STATUS&#xa;,INTERNAL_NOTES&#xa;,MARKET_SHAR_EFROM&#xa;,MARKET_SHARE_INDICATOR&#xa;,MARKET_SHARE_REFERENCE&#xa;,MARKET_SHARE_TO&#xa;,NEW_RP_BASED_ON&#xa;,REBATE_PLAN_ID&#xa;,REBATE_PLAN_NAME&#xa;,REBATE_PLAN_NO&#xa;,NEW_RP_STATUS&#xa;,NEW_RP_TYPE&#xa;,NEW_RP_RANGE_BASED_ON&#xa;,REBATE_RULE&#xa;,NEW_RP_STRUCTURE&#xa;,SECONDARY_REBATE_PLAN_ID&#xa;,SECONDARY_REBATE_PLAN_NAME&#xa;,SECONDARY_REBATE_PLAN_NO&#xa;,SELF_GROWTH_FROM&#xa;,SELF_GROWTH_INDICATOR&#xa;,SELF_GROWTH_REFERENCE&#xa;,SELF_GROWTH_TO&#xa;,SOURCE&#xa;,CREATED_BY&#xa;&#xa;--  A.REBATE_PLAN_INTFID&#xa;--, A.REBATE_PLAN_ID&#xa;--, A.REBATE_PLAN_NO&#xa;--, A.REBATE_PLAN_NAME&#xa;--, A.REBATE_PLAN_STATUS&#xa;--, A.REBATE_PLAN_TYPE&#xa;--, A.INTERNAL_NOTES&#xa;--, A.FORMULA_TYPE&#xa;--, A.BOGO_ELIGIBLE&#xa;--, A.SELF_GROWTH_INDICATOR&#xa;--, A.SELF_GROWTH_REFERENCE&#xa;--, A.SELF_GROWTH_FROM&#xa;--, A.SELF_GROWTH_TO&#xa;--, A.MARKET_SHARE_INDICATOR&#xa;--, A.MARKET_SHARE_REFERENCE&#xa;--, A.MARKET_SHAR_EFROM&#xa;--, A.MARKET_SHARE_TO&#xa;--, A.TIER_FORMULA_ID&#xa;--, A.TIER_FORMULA_NO&#xa;--, A.TIER_FORMULA_NAME&#xa;--, A.REBATE_STRUCTURE&#xa;--, A.REBATE_RANGE_BASED_ON&#xa;--, A.REBATE_BASED_ON&#xa;--, A.REBATE_RULE&#xa;--, A.REBATE_PLAN_TIER_ID&#xa;--, A.TIER_FROM&#xa;--, A.TIER_TO&#xa;--, A.TIER_LEVEL&#xa;--, A.TIER_OPERATOR&#xa;--, A.TIER_VALUE&#xa;--, A.FREE_AMOUNT&#xa;--, A.TIER_TOLERANCE&#xa;--, A.SECONDARY_REBATE_PLAN_ID&#xa;--, A.SECONDARY_REBATE_PLAN_NO&#xa;--, A.SECONDARY_REBATE_PLAN_NAME&#xa;--, A.CONTRACT_ID&#xa;--, A.CFP_ID&#xa;--, A.MFP_ID&#xa;--, A.IFP_ID&#xa;--, A.PRICE_SCHEDULE_ID&#xa;--, A.REBATE_SCHEDULE_ID&#xa;--, A.CREATED_BY&#xa;--, A.CREATED_DATE&#xa;--, A.MODIFIED_BY&#xa;--, A.MODIFIED_DATE&#xa;--, A.BATCH_ID&#xa;--, A.SOURCE&#xa;--, A.ADD_CHG_DEL_INDICATOR&#xa;--,E.HELPER_TABLE_SID AS NEW_RP_TYPE&#xa;--,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON&#xa;--,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE&#xa;--,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON&#xa;--,I.HELPER_TABLE_SID AS NEW_RP_OPERATOR&#xa;--,J.HELPER_TABLE_SID AS NEW_RP_STATUS&#xa;--,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE&#xa;--FROM STAG_REBATE_PLAN A&#xa;--    left join HELPER_TABLE E &#xa;--	          ON E.DESCRIPTION&#x3d;A.REBATE_PLAN_TYPE&#xa;--	   	      AND E.LIST_NAME&#x3d;&#x27;REBATE_PLAN_TYPE&#x27;&#xa;--   left join HELPER_TABLE F&#xa;--	          ON F.DESCRIPTION&#x3d;A.REBATE_RANGE_BASED_ON&#xa;--	   	      AND F.LIST_NAME&#x3d;&#x27;REBATE_RANGE_BASED_ON&#x27;&#xa;--  left join HELPER_TABLE G&#xa;--	          ON G.DESCRIPTION&#x3d;A.REBATE_STRUCTURE&#xa;--	   	      AND G.LIST_NAME&#x3d;&#x27;REBATE_STRUCTURE&#x27;&#xa;--  left join HELPER_TABLE H&#xa;--	          ON H.DESCRIPTION&#x3d;A.REBATE_BASED_ON&#xa;--	   	      AND H.LIST_NAME&#x3d;&#x27;REBATE_BASED_ON&#x27;&#xa;--  left join HELPER_TABLE I&#xa;--	          ON I.DESCRIPTION&#x3d;A.TIER_OPERATOR&#xa;--	   	      AND I.LIST_NAME&#x3d;&#x27;TIER_OPERATOR&#x27;&#xa;--  left join HELPER_TABLE J&#xa;--	          ON J.DESCRIPTION&#x3d;A.REBATE_PLAN_STATUS&#xa;--	   	      AND J.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xa;--  left join HELPER_TABLE K&#xa;--	          ON K.DESCRIPTION&#x3d;A.FORMULA_TYPE&#xa;--	   	      AND K.LIST_NAME&#x3d;&#x27;FORMULA_TPYE&#x27;&#xa;--			  WHERE NOT EXISTS &#x28; SELECT 1 FROM REBATE_PLAN_MASTER RP WHERE RP.REBATE_PLAN_ID&#x3d;A.REBATE_PLAN_ID &#x29;&#xa;			  --AND A.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27;&#xa;&#xa;&#xa;&#xa;  FROM cte &#xa;WHERE RowRank &#x3d;1 &#xa;--------------------------------------------------------&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -922,176 +557,7 @@ WHERE RowRank =1
       <name>REBATE PLAN UPDATE </name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
-
-
-
-
-
-
-
-
-update rpm
-set 
- rpm.BATCH_ID						 =J.BATCH_ID
-,rpm.BOGO_ELIGIBLE				 	 =J.BOGO_ELIGIBLE
-,rpm.FORMULA_TYPE				 	 =J.NEW_RP_FORMULA_TYPE
-,rpm.INBOUND_STATUS				 	 =J.Inbound_Status
-,rpm.INTERNAL_NOTES				 	 =J.INTERNAL_NOTES
-,rpm.MARKET_SHARE_FROM			 	 =J.MARKET_SHAR_EFROM
-,rpm.MARKET_SHARE_INDICATOR		 	 =J.MARKET_SHARE_INDICATOR
-,rpm.MARKET_SHARE_REFERENCE		 	 =J.MARKET_SHARE_REFERENCE
-,rpm.MARKET_SHARE_TO			 	 =J.MARKET_SHARE_TO
-,rpm.REBATE_BASED_ON			 	 =J.NEW_RP_BASED_ON
-,rpm.REBATE_PLAN_ID				 	 =J.REBATE_PLAN_ID
-,rpm.REBATE_PLAN_NAME			 	 =J.REBATE_PLAN_NAME
-,rpm.REBATE_PLAN_NO				 	 =J.REBATE_PLAN_NO
-,rpm.REBATE_PLAN_STATUS			 	 =J.NEW_RP_STATUS
-,rpm.REBATE_PLAN_TYPE			 	 =J.NEW_RP_TYPE
-,rpm.REBATE_RANGE_BASED_ON		 	 =J.NEW_RP_RANGE_BASED_ON
-,rpm.REBATE_RULE				 	 =J.REBATE_RULE
-,rpm.REBATE_STRUCTURE			 	 =J.NEW_RP_STRUCTURE
-,rpm.SECONDARY_REBATE_PLAN_ID	 	 =J.SECONDARY_REBATE_PLAN_ID
-,rpm.SECONDARY_REBATE_PLAN_NAME	 	 =J.SECONDARY_REBATE_PLAN_NAME
-,rpm.SECONDARY_REBATE_PLAN_NO	 	 =J.SECONDARY_REBATE_PLAN_NO
-,rpm.SELF_GROWTH_FROM			 	 =J.SELF_GROWTH_FROM
-,rpm.SELF_GROWTH_INDICATOR		 	 =J.SELF_GROWTH_INDICATOR
-,rpm.SELF_GROWTH_REFERENCE		 	 =J.SELF_GROWTH_REFERENCE
-,rpm.SELF_GROWTH_TO				 	 =J.SELF_GROWTH_TO
-,rpm.SOURCE						 	 =J.SOURCE
-,rpm.MODIFIED_BY				     =J.CREATED_BY 
-
-from REBATE_PLAN_MASTER rpm      
-
-JOIN (
-
-SELECT
- a.BATCH_ID
-,a.BOGO_ELIGIBLE
-,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE
---,a.NEW_RP_FORMULA_TYPE
-,&apos;A&apos; AS Inbound_Status
-,a.INTERNAL_NOTES
-,a.MARKET_SHAR_EFROM
-,a.MARKET_SHARE_INDICATOR
-,a.MARKET_SHARE_REFERENCE
-,a.MARKET_SHARE_TO
-,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON
---,a.NEW_RP_BASED_ON
-,a.REBATE_PLAN_ID
-,a.REBATE_PLAN_NAME
-,a.REBATE_PLAN_NO
-,J.HELPER_TABLE_SID AS NEW_RP_STATUS
-,E.HELPER_TABLE_SID AS NEW_RP_TYPE
-,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON
---,a.NEW_RP_STATUS
---,a.NEW_RP_TYPE
---,a.NEW_RP_RANGE_BASED_ON
-,a.REBATE_RULE
-,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE
---,a.NEW_RP_STRUCTURE
-,a.SECONDARY_REBATE_PLAN_ID
-,a.SECONDARY_REBATE_PLAN_NAME
-,a.SECONDARY_REBATE_PLAN_NO
-,a.SELF_GROWTH_FROM
-,a.SELF_GROWTH_INDICATOR
-,a.SELF_GROWTH_REFERENCE
-,a.SELF_GROWTH_TO
-,a.SOURCE
-,a.CREATED_BY
-
-
---  A.REBATE_PLAN_INTFID
---, A.REBATE_PLAN_ID
---, A.REBATE_PLAN_NO
---, A.REBATE_PLAN_NAME
---, A.REBATE_PLAN_STATUS
---, A.REBATE_PLAN_TYPE
---, A.INTERNAL_NOTES
---, A.FORMULA_TYPE
---, A.BOGO_ELIGIBLE
---, A.SELF_GROWTH_INDICATOR
---, A.SELF_GROWTH_REFERENCE
---, A.SELF_GROWTH_FROM
---, A.SELF_GROWTH_TO
---, A.MARKET_SHARE_INDICATOR
---, A.MARKET_SHARE_REFERENCE
---, A.MARKET_SHAR_EFROM
---, A.MARKET_SHARE_TO
---, A.TIER_FORMULA_ID
---, A.TIER_FORMULA_NO
---, A.TIER_FORMULA_NAME
---, A.REBATE_STRUCTURE
---, A.REBATE_RANGE_BASED_ON
---, A.REBATE_BASED_ON
---, A.REBATE_RULE
---, A.REBATE_PLAN_TIER_ID
---, A.TIER_FROM
---, A.TIER_TO
---, A.TIER_LEVEL
---, A.TIER_OPERATOR
---, A.TIER_VALUE
---, A.FREE_AMOUNT
---, A.TIER_TOLERANCE
---, A.SECONDARY_REBATE_PLAN_ID
---, A.SECONDARY_REBATE_PLAN_NO
---, A.SECONDARY_REBATE_PLAN_NAME
---, A.CONTRACT_ID
---, A.CFP_ID
---, A.MFP_ID
---, A.IFP_ID
---, A.PRICE_SCHEDULE_ID
---, A.REBATE_SCHEDULE_ID
---, A.CREATED_BY
---, A.CREATED_DATE
---, A.MODIFIED_BY
---, A.MODIFIED_DATE
---, A.BATCH_ID
---, A.SOURCE
---, A.ADD_CHG_DEL_INDICATOR
---,E.HELPER_TABLE_SID AS NEW_RP_TYPE
---,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON
---,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE
---,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON
---,I.HELPER_TABLE_SID AS NEW_RP_OPERATOR
---,J.HELPER_TABLE_SID AS NEW_RP_STATUS
---,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE
-FROM STAG_REBATE_PLAN A
-    left join HELPER_TABLE E 
-	          ON E.DESCRIPTION=A.REBATE_PLAN_TYPE
-	   	      AND E.LIST_NAME=&apos;REBATE_PLAN_TYPE&apos;
-   left join HELPER_TABLE F
-	          ON F.DESCRIPTION=A.REBATE_RANGE_BASED_ON
-	   	      AND F.LIST_NAME=&apos;REBATE_RANGE_BASED_ON&apos;
-  left join HELPER_TABLE G
-	          ON G.DESCRIPTION=A.REBATE_STRUCTURE
-	   	      AND G.LIST_NAME=&apos;REBATE_STRUCTURE&apos;
-  left join HELPER_TABLE H
-	          ON H.DESCRIPTION=A.REBATE_BASED_ON
-	   	      AND H.LIST_NAME=&apos;REBATE_BASED_ON&apos;
-  left join HELPER_TABLE I
-	          ON I.DESCRIPTION=A.TIER_OPERATOR
-	   	      AND I.LIST_NAME=&apos;TIER_OPERATOR&apos;
-  left join HELPER_TABLE J
-	          ON J.DESCRIPTION=A.REBATE_PLAN_STATUS
-	   	      AND J.LIST_NAME=&apos;STATUS&apos;
-  left join HELPER_TABLE K
-	          ON K.DESCRIPTION=A.FORMULA_TYPE
-	   	      AND K.LIST_NAME=&apos;FORMULA_TPYE&apos;
-			  WHERE  EXISTS ( SELECT 1 FROM REBATE_PLAN_MASTER RP WHERE RP.REBATE_PLAN_ID=A.REBATE_PLAN_ID )
-			  AND A.ADD_CHG_DEL_INDICATOR=&apos;A&apos;)j
-on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
-
-
-
-
-
-
-
-
-</sql>
+      <sql>&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;update rpm&#xa;set &#xa; rpm.BATCH_ID						 &#x3d;J.BATCH_ID&#xa;,rpm.BOGO_ELIGIBLE				 	 &#x3d;J.BOGO_ELIGIBLE&#xa;,rpm.FORMULA_TYPE				 	 &#x3d;J.NEW_RP_FORMULA_TYPE&#xa;,rpm.INBOUND_STATUS				 	 &#x3d;J.Inbound_Status&#xa;,rpm.INTERNAL_NOTES				 	 &#x3d;J.INTERNAL_NOTES&#xa;,rpm.MARKET_SHARE_FROM			 	 &#x3d;J.MARKET_SHAR_EFROM&#xa;,rpm.MARKET_SHARE_INDICATOR		 	 &#x3d;J.MARKET_SHARE_INDICATOR&#xa;,rpm.MARKET_SHARE_REFERENCE		 	 &#x3d;J.MARKET_SHARE_REFERENCE&#xa;,rpm.MARKET_SHARE_TO			 	 &#x3d;J.MARKET_SHARE_TO&#xa;,rpm.REBATE_BASED_ON			 	 &#x3d;J.NEW_RP_BASED_ON&#xa;,rpm.REBATE_PLAN_ID				 	 &#x3d;J.REBATE_PLAN_ID&#xa;,rpm.REBATE_PLAN_NAME			 	 &#x3d;J.REBATE_PLAN_NAME&#xa;,rpm.REBATE_PLAN_NO				 	 &#x3d;J.REBATE_PLAN_NO&#xa;,rpm.REBATE_PLAN_STATUS			 	 &#x3d;J.NEW_RP_STATUS&#xa;,rpm.REBATE_PLAN_TYPE			 	 &#x3d;J.NEW_RP_TYPE&#xa;,rpm.REBATE_RANGE_BASED_ON		 	 &#x3d;J.NEW_RP_RANGE_BASED_ON&#xa;,rpm.REBATE_RULE				 	 &#x3d;J.REBATE_RULE&#xa;,rpm.REBATE_STRUCTURE			 	 &#x3d;J.NEW_RP_STRUCTURE&#xa;,rpm.SECONDARY_REBATE_PLAN_ID	 	 &#x3d;J.SECONDARY_REBATE_PLAN_ID&#xa;,rpm.SECONDARY_REBATE_PLAN_NAME	 	 &#x3d;J.SECONDARY_REBATE_PLAN_NAME&#xa;,rpm.SECONDARY_REBATE_PLAN_NO	 	 &#x3d;J.SECONDARY_REBATE_PLAN_NO&#xa;,rpm.SELF_GROWTH_FROM			 	 &#x3d;J.SELF_GROWTH_FROM&#xa;,rpm.SELF_GROWTH_INDICATOR		 	 &#x3d;J.SELF_GROWTH_INDICATOR&#xa;,rpm.SELF_GROWTH_REFERENCE		 	 &#x3d;J.SELF_GROWTH_REFERENCE&#xa;,rpm.SELF_GROWTH_TO				 	 &#x3d;J.SELF_GROWTH_TO&#xa;,rpm.SOURCE						 	 &#x3d;J.SOURCE&#xa;,rpm.MODIFIED_BY				     &#x3d;J.CREATED_BY &#xa;&#xa;from REBATE_PLAN_MASTER rpm      &#xa;&#xa;JOIN &#x28;&#xa;&#xa;SELECT&#xa; a.BATCH_ID&#xa;,a.BOGO_ELIGIBLE&#xa;,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE&#xa;--,a.NEW_RP_FORMULA_TYPE&#xa;,&#x27;A&#x27; AS Inbound_Status&#xa;,a.INTERNAL_NOTES&#xa;,a.MARKET_SHAR_EFROM&#xa;,a.MARKET_SHARE_INDICATOR&#xa;,a.MARKET_SHARE_REFERENCE&#xa;,a.MARKET_SHARE_TO&#xa;,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON&#xa;--,a.NEW_RP_BASED_ON&#xa;,a.REBATE_PLAN_ID&#xa;,a.REBATE_PLAN_NAME&#xa;,a.REBATE_PLAN_NO&#xa;,J.HELPER_TABLE_SID AS NEW_RP_STATUS&#xa;,E.HELPER_TABLE_SID AS NEW_RP_TYPE&#xa;,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON&#xa;--,a.NEW_RP_STATUS&#xa;--,a.NEW_RP_TYPE&#xa;--,a.NEW_RP_RANGE_BASED_ON&#xa;,a.REBATE_RULE&#xa;,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE&#xa;--,a.NEW_RP_STRUCTURE&#xa;,a.SECONDARY_REBATE_PLAN_ID&#xa;,a.SECONDARY_REBATE_PLAN_NAME&#xa;,a.SECONDARY_REBATE_PLAN_NO&#xa;,a.SELF_GROWTH_FROM&#xa;,a.SELF_GROWTH_INDICATOR&#xa;,a.SELF_GROWTH_REFERENCE&#xa;,a.SELF_GROWTH_TO&#xa;,a.SOURCE&#xa;,a.CREATED_BY&#xa;&#xa;&#xa;--  A.REBATE_PLAN_INTFID&#xa;--, A.REBATE_PLAN_ID&#xa;--, A.REBATE_PLAN_NO&#xa;--, A.REBATE_PLAN_NAME&#xa;--, A.REBATE_PLAN_STATUS&#xa;--, A.REBATE_PLAN_TYPE&#xa;--, A.INTERNAL_NOTES&#xa;--, A.FORMULA_TYPE&#xa;--, A.BOGO_ELIGIBLE&#xa;--, A.SELF_GROWTH_INDICATOR&#xa;--, A.SELF_GROWTH_REFERENCE&#xa;--, A.SELF_GROWTH_FROM&#xa;--, A.SELF_GROWTH_TO&#xa;--, A.MARKET_SHARE_INDICATOR&#xa;--, A.MARKET_SHARE_REFERENCE&#xa;--, A.MARKET_SHAR_EFROM&#xa;--, A.MARKET_SHARE_TO&#xa;--, A.TIER_FORMULA_ID&#xa;--, A.TIER_FORMULA_NO&#xa;--, A.TIER_FORMULA_NAME&#xa;--, A.REBATE_STRUCTURE&#xa;--, A.REBATE_RANGE_BASED_ON&#xa;--, A.REBATE_BASED_ON&#xa;--, A.REBATE_RULE&#xa;--, A.REBATE_PLAN_TIER_ID&#xa;--, A.TIER_FROM&#xa;--, A.TIER_TO&#xa;--, A.TIER_LEVEL&#xa;--, A.TIER_OPERATOR&#xa;--, A.TIER_VALUE&#xa;--, A.FREE_AMOUNT&#xa;--, A.TIER_TOLERANCE&#xa;--, A.SECONDARY_REBATE_PLAN_ID&#xa;--, A.SECONDARY_REBATE_PLAN_NO&#xa;--, A.SECONDARY_REBATE_PLAN_NAME&#xa;--, A.CONTRACT_ID&#xa;--, A.CFP_ID&#xa;--, A.MFP_ID&#xa;--, A.IFP_ID&#xa;--, A.PRICE_SCHEDULE_ID&#xa;--, A.REBATE_SCHEDULE_ID&#xa;--, A.CREATED_BY&#xa;--, A.CREATED_DATE&#xa;--, A.MODIFIED_BY&#xa;--, A.MODIFIED_DATE&#xa;--, A.BATCH_ID&#xa;--, A.SOURCE&#xa;--, A.ADD_CHG_DEL_INDICATOR&#xa;--,E.HELPER_TABLE_SID AS NEW_RP_TYPE&#xa;--,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON&#xa;--,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE&#xa;--,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON&#xa;--,I.HELPER_TABLE_SID AS NEW_RP_OPERATOR&#xa;--,J.HELPER_TABLE_SID AS NEW_RP_STATUS&#xa;--,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE&#xa;FROM STAG_REBATE_PLAN A&#xa;    left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.REBATE_PLAN_TYPE&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;REBATE_PLAN_TYPE&#x27;&#xa;   left join HELPER_TABLE F&#xa;	          ON F.DESCRIPTION&#x3d;A.REBATE_RANGE_BASED_ON&#xa;	   	      AND F.LIST_NAME&#x3d;&#x27;REBATE_RANGE_BASED_ON&#x27;&#xa;  left join HELPER_TABLE G&#xa;	          ON G.DESCRIPTION&#x3d;A.REBATE_STRUCTURE&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;REBATE_STRUCTURE&#x27;&#xa;  left join HELPER_TABLE H&#xa;	          ON H.DESCRIPTION&#x3d;A.REBATE_BASED_ON&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;REBATE_BASED_ON&#x27;&#xa;  left join HELPER_TABLE I&#xa;	          ON I.DESCRIPTION&#x3d;A.TIER_OPERATOR&#xa;	   	      AND I.LIST_NAME&#x3d;&#x27;TIER_OPERATOR&#x27;&#xa;  left join HELPER_TABLE J&#xa;	          ON J.DESCRIPTION&#x3d;A.REBATE_PLAN_STATUS&#xa;	   	      AND J.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xa;  left join HELPER_TABLE K&#xa;	          ON K.DESCRIPTION&#x3d;A.FORMULA_TYPE&#xa;	   	      AND K.LIST_NAME&#x3d;&#x27;FORMULA_TYPE&#x27;&#xa;			  WHERE  EXISTS &#x28; SELECT 1 FROM REBATE_PLAN_MASTER RP WHERE RP.REBATE_PLAN_ID&#x3d;A.REBATE_PLAN_ID &#x29;&#xa;			  AND A.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27;&#x29;j&#xa;on rpm.REBATE_PLAN_ID&#x3d;j.REBATE_PLAN_ID&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1109,7 +575,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SNAP_INSERT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SNAP_INSERT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1128,6 +594,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1141,7 +608,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1155,8 +622,10 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -1171,7 +640,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1190,6 +659,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1201,7 +671,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <name>Check if a folder is empty</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;REBATE_PLAN_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_PLAN_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -1217,7 +687,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;RP_VALIDATIONS_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RP_VALIDATIONS_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1225,7 +695,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -1236,6 +706,7 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1244,13 +715,10 @@ on rpm.REBATE_PLAN_ID=j.REBATE_PLAN_ID
       <yloc>1206</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 2</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_PLAN_INTERFACE&apos;</sql>
+      <sql>&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1266,29 +734,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <name>SNAP TABLE PURGE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @SQL        VARCHAR(MAX),
-        @TABLE_NAME VARCHAR(100)=&apos;SNAP_REBATE_PLAN&apos;,
-        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
-		,@var1 varchar(2)=&apos;&lt;&apos;
-
-
-SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
-          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
-
-SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
-
-
-exec( @SQL)
-
-SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
-          FOR XML PATH(&apos;&apos;))
-
-exec( @SQL) 
-</sql>
+      <sql>DECLARE &#x40;SQL        VARCHAR&#x28;MAX&#x29;,&#xa;        &#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#x3d;&#x27;SNAP_REBATE_PLAN&#x27;,&#xa;        &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;		,&#x40;var1 varchar&#x28;2&#x29;&#x3d;&#x27;&#x3c;&#x27;&#xa;&#xa;&#xa;SET &#x40;SQL&#x3d;replace&#x28;&#x28;SELECT Concat&#x28;&#x27;DELETE FROM &#x27;, NAME, &#x27; WHERE CONVERT&#x28;DATE,INTF_INSERTED_DATE&#x29;&#x27;,&#x40;var1,&#x27;CONVERT&#x28;DATE,GETDATE&#x28;&#x29;-&#x27;, &#x40;NO_OF_DAYS, &#x27;&#x29;&#x27;, &#x27;&#x27;&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;,&#x27;&#x3b;&#x27;,&#x27;&#x27;&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d; Replace&#x28;&#x40;SQL, &#x27;&#x26;LT&#x27;, &#x27;&#x3c;&#x27;&#x29;&#xa;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d;&#x28;SELECT Concat&#x28;&#x27; IF NOT EXISTS &#x28;SELECT 1 FROM &#x27;, NAME, &#x27;&#x29; DROP TABLE &#x27;, NAME&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29; &#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1306,7 +752,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1325,6 +771,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1336,7 +783,7 @@ exec( @SQL)
       <name>Check if a folder is empty 2</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;REBATE_PLAN_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_PLAN_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -1352,7 +799,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_PRECISION.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1371,6 +818,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1384,7 +832,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1406,7 +854,7 @@ exec( @SQL)
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_SOURCE_DATABASE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1420,8 +868,10 @@ exec( @SQL)
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -1436,7 +886,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_TABLE_AVAILABLE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1471,12 +921,12 @@ exec( @SQL)
       <yloc>193</yloc>
       </entry>
     <entry>
-      <name>MAIL (2) 2</name>
+      <name>MAIL &#x28;2&#x29; 2</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1495,6 +945,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1508,7 +959,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1530,7 +981,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1547,14 +998,10 @@ exec( @SQL)
       <yloc>789</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_PLAN_INTERFACE&apos;
-
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_PLAN_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1567,14 +1014,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <yloc>1074</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_PLAN_INTERFACE&apos;
-
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_PLAN_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_PLAN_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1592,7 +1035,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;UNLOCK.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;UNLOCK.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1600,7 +1043,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -1611,6 +1054,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1624,7 +1068,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;REPROCESSING_INVALID_DATA.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1643,6 +1087,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1656,7 +1101,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SET_STAG_COUNT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1675,6 +1120,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1686,14 +1132,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <name>REBATE PLAN INSERT 2</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM REBATE_PLAN_TIER WHERE REBATE_PLAN_MASTER_SID IN (
-SELECT REBATE_PLAN_MASTER_SID FROM REBATE_PLAN_MASTER WHERE REBATE_PLAN_ID IN(
-select REBATE_PLAN_ID from STAG_REBATE_PLAN
-)
-)
-
-UPDATE STATISTICS REBATE_PLAN_TIER
-</sql>
+      <sql>DELETE FROM REBATE_PLAN_TIER WHERE REBATE_PLAN_MASTER_SID IN &#x28;&#xa;SELECT REBATE_PLAN_MASTER_SID FROM REBATE_PLAN_MASTER WHERE REBATE_PLAN_ID IN&#x28;&#xa;select REBATE_PLAN_ID from STAG_REBATE_PLAN&#xa;&#x29;&#xa;&#x29;&#xa;&#xa;UPDATE STATISTICS REBATE_PLAN_TIER&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1810,7 +1249,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1819,7 +1258,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1828,7 +1267,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1837,7 +1276,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1953,7 +1392,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (3)</from>
+      <from>STOP PROCESS AUDIT &#x28;3&#x29;</from>
       <to>RETENTION_LOGIC</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1972,7 +1411,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>Check if a folder is empty</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2017,7 +1456,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>FILE CHECKING</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2026,7 +1465,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2143,7 +1582,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>DATABASE FETCH</from>
-      <to>MAIL (2) 2</to>
+      <to>MAIL &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2151,8 +1590,8 @@ UPDATE STATISTICS REBATE_PLAN_TIER
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2170,7 +1609,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2187,7 +1626,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 2</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2196,7 +1635,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2)</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29;</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2205,8 +1644,8 @@ UPDATE STATISTICS REBATE_PLAN_TIER
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2215,7 +1654,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2224,7 +1663,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2233,7 +1672,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2242,7 +1681,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2250,7 +1689,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2260,7 +1699,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3 2</from>
-      <to>STOP PROCESS AUDIT (2) 3 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2268,7 +1707,7 @@ UPDATE STATISTICS REBATE_PLAN_TIER
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</from>
       <to>STOP PROCESS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2378,4 +1817,5 @@ UPDATE STATISTICS REBATE_PLAN_TIER
   </hops>
   <notepads>
   </notepads>
+
 </job>

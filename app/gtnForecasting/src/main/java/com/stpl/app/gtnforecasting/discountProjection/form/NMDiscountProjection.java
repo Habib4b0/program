@@ -276,7 +276,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private boolean isRateUpdatedManually = false;
     private boolean isRPUUpdatedManually = false;
     private boolean isAmountUpdatedManually = false;
-    private boolean isGrowthUpdatedManually = false;
     private BeanItemContainer<String> tableGroupDdlbBean = new BeanItemContainer<>(String.class);
     private String actualCCPs = StringUtils.EMPTY;
     private int rsModelSid = 0;
@@ -812,7 +811,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             .replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
                     String refreshName = StringUtils.EMPTY;
                     String property = String.valueOf(obj[1]);
-                    int frequencyDiv = getFrequencyDivision(projectionSelection.getFrequency());
                     if (property.contains(Constant.PROJECTED_RATE)) {
                         refreshName = Constant.RATE;
                         isRateUpdatedManually = true;
@@ -825,8 +823,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         double doubleVal = Double.parseDouble(blurValue);
                         doubleVal = CommonUtil.getConversionFormattedMultipleValue(projectionSelection, doubleVal);
                         ccpsCount = dto.getCcpCount();
-                        int discountLevelccpCount = dto.getCcpCountForDiscount().get(discountName) != null
-                                ? dto.getCcpCountForDiscount().getInt(discountName) : ccpsCount;
                         double finalValue = doubleVal;
                         blurValue = String.valueOf(finalValue);
                         if (blurValue.contains("E")) {
@@ -834,7 +830,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         }
                     } else if (property.contains(Constant.GROWTH)) {
                         refreshName = "GROWTH";
-                        isGrowthUpdatedManually = true;
                     }
                     saveDto.setPeriodNo(isInteger(periodToUpdate) ? Integer.parseInt(periodToUpdate) : 0);
                     saveDto.setYear(Integer.parseInt(yearToUpdate));
@@ -960,7 +955,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
 
     public void checkMultiVariables(final String period, final String refreshName) {
-        if (multipleVariableCheckMap.get(period.trim()) == null) {
+        if (multipleVariableCheckMap.get(period.trim()) == null || multipleVariableCheckMap.get(period.trim()).equals(refreshName)) {
             multipleVariableCheckMap.put(period.trim(), refreshName);
         } else {
             isMultipleVariablesUpdated = true;
@@ -1119,10 +1114,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     if (!isMultipleVariablesUpdated) {
-                        if (isGrowthUpdatedManually || isRateUpdatedManually || isRPUUpdatedManually
+                        if (isRateUpdatedManually || isRPUUpdatedManually
                                 || isAmountUpdatedManually) {
                             LOGGER.debug("inside if refreshBtn--------------------------------- ");
-                            isGrowthUpdatedManually = false;
                             isRateUpdatedManually = false;
                             isRPUUpdatedManually = false;
                             isAmountUpdatedManually = false;
@@ -2264,6 +2258,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 && !AVERAGE.getConstant().equals(methodologyDdlb.getValue())
                                 && !ROLLING_ANNUAL_TREND.getConstant().equals(methodologyDdlb.getValue())
                                 && !Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equals(methodologyDdlb.getValue())
+                                && !Constant.SINGLE_PERIOD.equals(methodologyDdlb.getValue())
                                 && (checkBoxMap.size() == 0 || checkedDiscountsPropertyIds.size() != checkBoxMap.size()) && !PER_EX_FACTORY_SALES.getConstant().equals(methodologyDdlb.getValue())) {
                             NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED, PLEASE_SELECT_A_HISTORIC_ALERT);
                         } else if (baseLineCalc(startPeriodForecastTab.getValue().toString(),
@@ -2289,8 +2284,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 + " a complete calendar year of periods to use as a baseline."
                                                 + "  Please select a complete calendar year of periods "
                                                 + "for each selected discount and try again.");
-                                    } else if (!CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())
-                                            && checkedDiscountsPropertyIds.size() == 0) {
+                                    } else if (checkedDiscountsPropertyIds.isEmpty()) {
                                         NotificationUtils.getErrorNotification("No Discount selected",
                                                 "Please select atleast one discount.");
                                     } else if (methodologyDdlb.getValue().equals(AVERAGE.getConstant())
@@ -3450,7 +3444,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void generateBtnClickLogic(Boolean isGenerate) {
-        isGrowthUpdatedManually = false;
         isRateUpdatedManually = false;
         isRPUUpdatedManually = false;
         isAmountUpdatedManually = false;
@@ -4705,7 +4698,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     endTempYear = endPeriod.trim().substring(NumericConstants.TWO);
                     endTempSubYear = endPeriod.replace(endTempYear, StringUtils.EMPTY).trim();
                 } else if (defval == NumericConstants.TWELVE) {
-                    startTempYear = startPeriod.toString().trim().substring(NumericConstants.THREE);
+                    startTempYear = startPeriod.trim().substring(NumericConstants.THREE);
                     String startTmpSubYear = startPeriod.replace(startTempYear, StringUtils.EMPTY).trim();
                     startTempSubYear = monthMap.get(startTmpSubYear).toString();
                     endTempYear = endPeriod.trim().substring(NumericConstants.THREE);
@@ -5621,6 +5614,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             excelContainer.sort(new Object[]{LEVEL_NAME_PROPERTY}, new boolean[]{true});
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+            LOGGER.info(e.getMessage(),e);
         }
     }
 

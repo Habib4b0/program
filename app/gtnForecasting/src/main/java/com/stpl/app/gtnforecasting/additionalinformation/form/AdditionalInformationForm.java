@@ -62,7 +62,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     private final NotesTabLogic logic = new NotesTabLogic();
     private NotesDTO tableBean = new NotesDTO();
 
-    protected final String mode = StringUtils.EMPTY;
+    protected static final String MODE = StringUtils.EMPTY;
     protected final boolean isAddMode;
     protected final boolean isEditMode;
     protected final boolean isViewMode;
@@ -272,7 +272,9 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             } else if (tableBeanId instanceof NotesDTO) {
                 targetItem = new BeanItem<>((NotesDTO) tableBeanId);
             }
-            tableBean = (NotesDTO) targetItem.getBean();
+            if (targetItem != null) {
+                tableBean = (NotesDTO) targetItem.getBean();
+            }
             if (event.isDoubleClick()) {
                 File uploadedFile = CommonUtil.getFilePath(tableBean.getDocumentFullPath());
                 Resource res = new FileResource(uploadedFile);
@@ -298,7 +300,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
             List<String> addNotesList = getNotesList();
             for (String addNotes : addNotesList) {
-                logic.saveNotes(Integer.valueOf(projectionId), userId, addNotes, moduleName);
+                logic.saveNotes(projectionId, userId, addNotes, moduleName);
             }
             notesList.clear();
             for (NotesDTO attached : getUploadedData()) {

@@ -165,11 +165,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POSITION = 1000;
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 300;
+    private static final float MIN_SPLIT_POSITION = 300;
     /**
      * The split position.
      */
@@ -582,7 +582,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public static final String SALES_TAB = "Sales";
     protected List<String> generateCustomerToBeLoaded = new ArrayList<>();
     protected static final String ADJUSTMENT_PERIODS_TEXT = " adjustment for the following periods ";
-    protected boolean refreshFlag = true;
+    protected boolean refreshFlag = false;
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -1201,12 +1201,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         resultsTable.setSelectable(false);
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             resultsTable.setSplitPosition(NumericConstants.EIGHT_HUNDRED, Sizeable.Unit.PIXELS);
-            resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-            resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+            resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+            resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         } else {
             resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
-            resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-            resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+            resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+            resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         }
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultsTable.addStyleName(Constant.CENTER_CHECK);
@@ -1351,7 +1351,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             targetItem = new BeanItem<>(
                     (SalesRowDto) obj);
         }
-        return (SalesRowDto) targetItem.getBean();
+        if (targetItem != null) {
+            return (SalesRowDto) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -1369,21 +1373,21 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setGroup(StringUtils.EMPTY);
             if ((PRODUCT.getConstant()).equals(view.getValue())) {
                 resultsTable.setSplitPosition(NumericConstants.SEVEN_HUNDRED, Sizeable.Unit.PIXELS);
-                resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-                resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+                resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+                resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
             } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
                 resultsTable.setSplitPosition(NumericConstants.EIGHT_HUNDRED, Sizeable.Unit.PIXELS);
-                resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-                resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+                resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+                resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
             }
         } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
             resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
-            resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-            resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+            resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+            resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         } else if ((Constant.CUSTOM_LABEL).equals(view.getValue()) || (Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             resultsTable.setSplitPosition(NumericConstants.SIX_HUNDRED, Sizeable.Unit.PIXELS);
-            resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-            resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+            resultsTable.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
+            resultsTable.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         }
         if ((PRODUCT.getConstant()).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
@@ -2973,7 +2977,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     tempSalesvalue = true;
                 }
 
-                if (value.contains(Constant.ACTUALUNITS)) {
+                if (value != null && value.contains(Constant.ACTUALUNITS)) {
                     tempUnitValue = true;
                 }
             }

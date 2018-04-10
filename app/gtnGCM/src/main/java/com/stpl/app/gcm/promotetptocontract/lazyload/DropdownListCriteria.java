@@ -17,6 +17,10 @@ public class DropdownListCriteria implements SearchCriteria {
     @SuppressWarnings("unused")
 	private boolean dirty;
 
+    public DropdownListCriteria() {
+        super();
+    }
+
     @Override
     public int getLastCount() {
         return lastCount;

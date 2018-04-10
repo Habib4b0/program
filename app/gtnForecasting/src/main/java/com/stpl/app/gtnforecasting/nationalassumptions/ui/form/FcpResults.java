@@ -642,6 +642,7 @@ public class FcpResults extends CustomComponent implements View {
                 if (tableDto.getParent() == 1) {
                     Button ndcLink = new Button(tableDto.getGroup());
                     ndcLink.setStyleName(Reindeer.BUTTON_LINK);
+                    ndcLink.setHeight(CommonUtils.TWENTYNINEPX); 
                     ndcLink.setData(tableDto.getGroup());
                     ndcLink.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -856,7 +857,11 @@ public class FcpResults extends CustomComponent implements View {
             targetItem = new BeanItem<>(
                     (TableDTO) id);
         }
-        return (TableDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (TableDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public void callFcpProcedure() throws NamingException, SQLException  {

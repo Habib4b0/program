@@ -20,22 +20,21 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
+
 /**
  *
  * @author Mahesh.James
  */
 @Theme("stpl")
 @Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
-@Component(service = UI.class, property = {
-        "com.liferay.portlet.display-category=GtnFrameworkRebateSchedule",
-        "javax.portlet.name=RebateSchedule",
-        "javax.portlet.display-name=Rebate Schedule",
-        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
+@Component(service = UI.class, property = { "com.liferay.portlet.display-category=GtnFrameworkRebateSchedule",
+		"javax.portlet.name=RebateSchedule", "javax.portlet.display-name=Rebate Schedule",
+		"com.vaadin.osgi.liferay.portlet-ui=true" }, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkRebateSchedulePortlet extends UI {
 
 	private static final long serialVersionUID = 1L;
 
-	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkRebateSchedulePortlet.class);
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkRebateSchedulePortlet.class);
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -53,7 +52,7 @@ public class GtnFrameworkRebateSchedulePortlet extends UI {
 			@Override
 			public void error(com.vaadin.server.ErrorEvent event) {
 
-				gtnLogger.info("The Exception occured because of: " + event.getThrowable().getCause().getMessage());
+				LOGGER.info("The Exception occured because of: " + event.getThrowable().getCause().getMessage());
 			}
 		});
 	}

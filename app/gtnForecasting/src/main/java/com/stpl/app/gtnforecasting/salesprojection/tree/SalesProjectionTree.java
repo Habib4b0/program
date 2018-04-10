@@ -11,6 +11,7 @@ import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesBaseNode;
 import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesProjectionNodeCP;
 import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesProjectionNodeCustom;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.UiUtils;
@@ -30,8 +31,8 @@ import org.slf4j.LoggerFactory;
  * @author Abishek.Ram
  */
 public class SalesProjectionTree {
-    
-     /**
+
+    /**
      * The Constant LOGGER.
      */
     public static final Logger logger = LoggerFactory.getLogger(SalesProjectionTree.class);
@@ -71,7 +72,7 @@ public class SalesProjectionTree {
         } else {
             customApex = generateCPTree(customViewList);
         }
-    	sortTree(customApex.getAllChildHierarchies(), projSelDTO);
+        sortTree(customApex.getAllChildHierarchies(), projSelDTO);
         setCurrentApex(customApex);
     }
 
@@ -83,10 +84,10 @@ public class SalesProjectionTree {
             String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO);
             if (projSelDTO.isLevelFilter()) {
             sql += SQlUtil.getQuery("custom-view-sales-condition-query");
-            sql = sql.replace("@RELJOIN", " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO = A.HIERARCHY_NO ");
             }else{
              sql += " Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO";
             }
+            sql = sql.replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO()));
             return (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames()));
         }
     }
@@ -96,6 +97,8 @@ public class SalesProjectionTree {
         query = query.replace("[?CUST_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getCustRelationshipBuilderSid());
         query = query.replace("[?PROD_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getProdRelationshipBuilderSid());
         query = query.replace("[?Custom_View_Master_SID]", String.valueOf(projSelDTO.getCustomId()));
+        query = query.replace("[?Custom_Relation_Version]", String.valueOf(projSelDTO.getSessionDTO().getCustomerRelationVersion()));
+        query = query.replace("[?Product_Relation_Version]", String.valueOf(projSelDTO.getSessionDTO().getProductRelationVersion()));
         query = query.replace("[?UserGroup]","");
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
             query = query.replace("[?FILTERCCP]"," AND PPA.FILTER_CCP=1");
@@ -125,7 +128,7 @@ public class SalesProjectionTree {
                 parent.addChild(salesNode);
                 salesNode.setHierarchyIndicator(String .valueOf(object[3]));
                 salesNode.setLevel(Integer.parseInt(String.valueOf(object[2])));
-                buildMap.put(parentHierarchy+"~ "+hiearachy, salesNode);
+                buildMap.put(parentHierarchy+"~"+hiearachy, salesNode);
             }
         }
         return apexNode;
@@ -170,41 +173,43 @@ public class SalesProjectionTree {
         return apex;
     }
 
-	private void sortTree(List<TreeNode> treeNodeList, final ProjectionSelectionDTO session) {
-		if (treeNodeList != null) {
-			Collections.sort(treeNodeList, new Comparator<TreeNode>() {
+    private void sortTree(List<TreeNode> treeNodeList, final ProjectionSelectionDTO session) {
+        if (treeNodeList != null) {
+            Collections.sort(treeNodeList, new Comparator<TreeNode>() {
 
-                                @Override
-				public int compare(TreeNode o1, TreeNode o2) {
+                @Override
+                public int compare(TreeNode o1, TreeNode o2) {
                     String hierarchyNo = o1.getHierachyNo().contains(",") ? o1.getHierachyNo().split(",")[0] : o1.getHierachyNo();
                     String hierarchyNo1 = o2.getHierachyNo().contains(",") ? o2.getHierachyNo().split(",")[0] : o2.getHierachyNo();
-					return String
+                    return String
                             .valueOf(session.getSessionDTO().getHierarchyLevelDetails().get(hierarchyNo.trim()).get(0))
-							.compareToIgnoreCase((String) session.getSessionDTO().getHierarchyLevelDetails()
+                            .compareToIgnoreCase((String) session.getSessionDTO().getHierarchyLevelDetails()
                                     .get(hierarchyNo1.trim()).get(0));
-				}
-			});
-			for (TreeNode treeNode : treeNodeList) {
-				treeNode.generateHierarchy();
-				treeNode.getHierachyNo();
-				sortTree(treeNode.getAllChildHierarchies(), session);
-			}
-		}
-	}
+                }
+            });
+            for (TreeNode treeNode : treeNodeList) {
+                treeNode.generateHierarchy();
+                treeNode.getHierachyNo();
+                sortTree(treeNode.getAllChildHierarchies(), session);
+            }
+        }
+    }
     private SalesBaseNode generateCPForLevelFilter(int levelFiltered, List<Object[]> availableHierarachies) {
         SalesProjectionNodeCP apex = new SalesProjectionNodeCP("");
         if (!availableHierarachies.isEmpty()) {
             apex.setApex(true);
-            List<String> child = new ArrayList<>();
+            Map<String, String> childMap = new HashMap<>();
             for (Object availableHierarachy : availableHierarachies) {
                 String hierarchy = String.valueOf(availableHierarachy);
                 String hierarchyNo = hierarchy.contains(",") ? hierarchy.split(",")[0] : hierarchy;
+                String lastIndexRemoved = hierarchyNo.substring(0, hierarchyNo.length() - 1);
+                String masterId = lastIndexRemoved.lastIndexOf('.') == -1 ? StringUtils.EMPTY : lastIndexRemoved.substring(lastIndexRemoved.lastIndexOf('.'), lastIndexRemoved.length());
                 int level = StringUtils.countMatches(hierarchyNo.trim(), ".");
-                if (levelFiltered == level) {
-                    child.add(hierarchy);
+                if (levelFiltered == level && !childMap.containsKey(masterId)) {
+                    childMap.put(masterId, hierarchy);
                 }
             }
-            addChildrenToParent(apex, child, levelFiltered, new HashMap());
+            addChildrenToParent(apex, new ArrayList<>(childMap.values()), levelFiltered, new HashMap());
         }
         return apex;
     }

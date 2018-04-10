@@ -694,7 +694,7 @@ public class SelectionLogic {
                 + ConstantsUtils.LEFT_JOIN_BRAND_MASTER_ON_BM_SID;
             
         }
-        queryBuilder.append(" SELECT " + query + " WHERE ");
+        queryBuilder.append(" SELECT " ).append( query ).append( " WHERE ");
         queryBuilder.append("  USER_ID='").append(sessionDTO.getUserId()).
                 append(ConstantsUtils.QUOTE_SESSION_ID).append(sessionDTO.getUiSessionId()).append("' ");
         
@@ -973,7 +973,7 @@ public class SelectionLogic {
                                 "LEFT join UDCS UDCS ON UDCS.MASTER_SID=IM.ITEM_MASTER_SID AND UDCS.MASTER_TYPE='ITEM_MASTER'  \n" +
                                 "LEFT join dbo.BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IM.BRAND_MASTER_SID " : SQLUtil.getQuery("DeductionCalendarItemSelectionSearch");
         }
-        queryBuilder.append(" SELECT " + query + " WHERE IM.INBOUND_STATUS <> 'D' ");
+        queryBuilder.append(" SELECT " ).append( query ).append( " WHERE IM.INBOUND_STATUS <> 'D' ");
         if (criteria.isEmpty()) {
             loadCriteriaInMap();
         }
@@ -1297,7 +1297,7 @@ public class SelectionLogic {
         if (isCount) {
             queryBuilder.append(filterQuery);
         } else {
-            queryBuilder.append(filterQuery + order);
+            queryBuilder.append(filterQuery ).append( order);
         }
 
         queryBuilder = new StringBuilder(queryBuilder.toString().replace("WHERE AND", " WHERE "));
@@ -1313,7 +1313,11 @@ public class SelectionLogic {
             targetItem = new BeanItem<>(
                     (SelectionDTO) obj);
         }
-        return (SelectionDTO) targetItem.getBean();
+        if (targetItem != null) {
+            return (SelectionDTO) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     private void loadCriteriaInMap() {
@@ -1337,7 +1341,7 @@ public class SelectionLogic {
     public List<SelectionDTO> getCustomizedSearchFormFromObject(
             final List list) {
 
-        LOGGER.debug("Entering getCustomizedSearchFormFromObject p1: " + ((list == null) ? list : list.size()) + " p2: ");
+        LOGGER.debug("Entering getCustomizedSearchFormFromObject p1: {} p2: " , ((list == null) ? list : list.size()));
         final List<SelectionDTO> searchItemList = new ArrayList<>();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -1467,7 +1471,7 @@ public class SelectionLogic {
             }
         }
 
-        LOGGER.debug("returns searchItemList size " + searchItemList.size());
+        LOGGER.debug("returns searchItemList size {}" , searchItemList.size());
         return searchItemList;
     }
 

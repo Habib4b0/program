@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.copycontract.dto;
 
+import com.stpl.ifs.util.HelperDTO;
 import java.io.Serializable;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
@@ -91,7 +92,21 @@ public class NewComponentDTO implements Serializable {
     private String bundleNo = StringUtils.EMPTY;
     private int start;
     private int offset;
+    private HelperDTO salesInclusion;
+    private HelperDTO paymentFrequency;
+    private HelperDTO paymentMethod;
+    private HelperDTO rsRarType;
+    private HelperDTO calculationType;
+    private HelperDTO calculationLevel;
+    private HelperDTO deductionInclusion;
+    private HelperDTO rebateFrequency;
+    private HelperDTO rebatePlanLevel;
+    private HelperDTO rebateScheduleCategory;
 
+    public NewComponentDTO() {
+        super();
+    }
+    
     public String getFormulaType() {
         return formulaType;
     }
@@ -701,6 +716,86 @@ public class NewComponentDTO implements Serializable {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public HelperDTO getSalesInclusion() {
+        return salesInclusion;
+    }
+
+    public void setSalesInclusion(HelperDTO salesInclusion) {
+        this.salesInclusion = salesInclusion;
+    }
+
+    public HelperDTO getPaymentFrequency() {
+        return paymentFrequency;
+    }
+
+    public void setPaymentFrequency(HelperDTO paymentFrequency) {
+        this.paymentFrequency = paymentFrequency;
+    }
+
+    public HelperDTO getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(HelperDTO paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public HelperDTO getRsRarType() {
+        return rsRarType;
+    }
+
+    public void setRsRarType(HelperDTO rsRarType) {
+        this.rsRarType = rsRarType;
+    }
+
+    public HelperDTO getCalculationType() {
+        return calculationType;
+    }
+
+    public void setCalculationType(HelperDTO calculationType) {
+        this.calculationType = calculationType;
+    }
+
+    public HelperDTO getCalculationLevel() {
+        return calculationLevel;
+    }
+
+    public void setCalculationLevel(HelperDTO calculationLevel) {
+        this.calculationLevel = calculationLevel;
+    }
+
+    public HelperDTO getDeductionInclusion() {
+        return deductionInclusion;
+    }
+
+    public void setDeductionInclusion(HelperDTO deductionInclusion) {
+        this.deductionInclusion = deductionInclusion;
+    }
+
+    public HelperDTO getRebateFrequency() {
+        return rebateFrequency;
+    }
+
+    public void setRebateFrequency(HelperDTO rebateFrequency) {
+        this.rebateFrequency = rebateFrequency;
+    }
+
+    public HelperDTO getRebatePlanLevel() {
+        return rebatePlanLevel;
+    }
+
+    public void setRebatePlanLevel(HelperDTO rebatePlanLevel) {
+        this.rebatePlanLevel = rebatePlanLevel;
+    }
+
+    public HelperDTO getRebateScheduleCategory() {
+        return rebateScheduleCategory;
+    }
+
+    public void setRebateScheduleCategory(HelperDTO rebateScheduleCategory) {
+        this.rebateScheduleCategory = rebateScheduleCategory;
     }
 
 }

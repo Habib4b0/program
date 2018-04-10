@@ -666,7 +666,7 @@ public class NMPmpyCalculator extends Window {
      */
     public boolean isTpHistorySelected() {
         LOGGER.debug("Entering isTpHistorySelected method");
-        if (tradingPartner.getValue() != null && !tradingPartner.getValue().toString().isEmpty()) {
+        if (tradingPartner.getValue() != null && !tradingPartner.getValue().isEmpty()) {
             return BooleanConstant.getTrueFlag();
         }
         LOGGER.debug("End of isTpHistorySelected method");
@@ -820,13 +820,13 @@ public class NMPmpyCalculator extends Window {
             return;
         } else {
             if (chValue) {
-                PMPYRowDto actualSalesDto = null;
-                PMPYRowDto actualUnitsDto = null;
+                PMPYRowDto actualSales = new PMPYRowDto();
+                PMPYRowDto actualUnits = new PMPYRowDto();
                 for (PMPYRowDto dto : chContainer.getBeans()) {
                     if (dto.getType().equals(Constant.SALES_SMALL)) {
-                        actualSalesDto = dto;
+                        actualSales = dto;
                     } else if (dto.getType().equals(Constant.UNITS_SMALL)) {
-                        actualUnitsDto = dto;
+                        actualUnits = dto;
                     }
                 }
 
@@ -834,27 +834,27 @@ public class NMPmpyCalculator extends Window {
                 Double unitsValue;
                 for (Object key : chtCheckBoxMap) {
 
-                    salesValue = Double.valueOf(String.valueOf(actualSalesDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
-                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    salesValue = Double.valueOf(String.valueOf(actualSales.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    unitsValue = Double.valueOf(String.valueOf(actualUnits.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
                     calculatedSalesValue += salesValue;
                     calculatedUnitsValue += unitsValue;
                 }
 
             } else if (tpValue) {
-                PMPYRowDto actualSalesDto = null;
-                PMPYRowDto actualUnitsDto = null;
+                PMPYRowDto actualSalesDTO = new PMPYRowDto();
+                PMPYRowDto actualUnitsDTO = new PMPYRowDto();
                 for (PMPYRowDto dto : tpContainer.getBeans()) {
                     if (dto.getType().equals(Constant.SALES_SMALL)) {
-                        actualSalesDto = dto;
+                        actualSalesDTO = dto;
                     } else if (dto.getType().equals(Constant.UNITS_SMALL)) {
-                        actualUnitsDto = dto;
+                        actualUnitsDTO = dto;
                     }
                 }
                 Double salesValue;
                 Double unitsValue;
                 for (Object key : tptCheckBoxMap) {
-                    salesValue = Double.valueOf(String.valueOf(actualSalesDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
-                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDto.getProperties().get(key)).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    salesValue = Double.valueOf(String.valueOf(actualSalesDTO.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
+                    unitsValue = Double.valueOf(String.valueOf(actualUnitsDTO.getProperties().get(String.valueOf(key))).replace(",", StringUtils.EMPTY).replace(Constant.CURRENCY, StringUtils.EMPTY));
                     calculatedSalesValue += salesValue;
                     calculatedUnitsValue += unitsValue;
                 }

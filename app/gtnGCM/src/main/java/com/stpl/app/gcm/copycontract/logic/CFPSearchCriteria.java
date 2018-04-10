@@ -20,6 +20,10 @@ public class CFPSearchCriteria implements BeanSearchCriteria {
     @SuppressWarnings("unused")
 	private boolean dirty;
 
+    public CFPSearchCriteria() {
+        super();
+    }
+
     @Override
     public int getLastCount() {
         return lastCount;

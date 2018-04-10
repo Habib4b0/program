@@ -256,7 +256,9 @@ public class NotesTabForm extends AbstractNotesTab {
 		} else if (tableBeanId instanceof NotesDTO) {
 			targetItem = new BeanItem<>((NotesDTO) tableBeanId);
 		}
-		tableBean = (NotesDTO) targetItem.getBean();
+                if (targetItem != null) {
+                    tableBean = (NotesDTO) targetItem.getBean();
+                }
 		if (event.isDoubleClick()) {
 			File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
 			Resource res = new FileResource(uploadedFile);

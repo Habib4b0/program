@@ -132,7 +132,7 @@ public class GtnUIFrameworkContractHeaderCompanyNamerPoupupConfig {
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME_SEARCHCOMPANY, true,
 				"contractHeaderTabCompanyNameSearchcompanyNolayout", GtnUIFrameworkComponentType.TEXTBOX);
 		companyNoConfig.setAuthorizationIncluded(true);
-		companyNoConfig.setComponentName("Company NO");
+		companyNoConfig.setComponentName(GtnUIFrameworkContractHeaderStringContants.COMPANY_NO);
 
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
 		gtnUIFrameworkValidationConfig.setMaxLength(5);
@@ -262,6 +262,12 @@ public class GtnUIFrameworkContractHeaderCompanyNamerPoupupConfig {
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME_SEARCHCOMPANY }));
 
 		actionConfigList.add(loadDataTableActionConfig);
+		GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
+		notificationActionConfig.setActionType(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+		notificationActionConfig.addActionParameter(
+				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAMESEARCH_RESULT_T);
+		notificationActionConfig.addActionParameter(0);
+		actionConfigList.add(notificationActionConfig);
 		cdAliasCompanyPopupSearchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 	}
@@ -292,11 +298,12 @@ public class GtnUIFrameworkContractHeaderCompanyNamerPoupupConfig {
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME_SEARCHCOMPANY,
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME_SEARCHCOMPANY1,
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME_SEARCHCOMPANY3,
-				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME_SEARCHCOMPANY }));
+				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME_SEARCHCOMPANY,
+				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAMESEARCH_RESULT_T }));
 
 		paramsList.add(Arrays.asList(new Object[] { GtnFrameworkCommonStringConstants.STRING_EMPTY,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
-				null }));
+				null, null }));
 		resetActionConfig.setActionParameterList(paramsList);
 		cdAliasCompanyPopupResetActionConfigList.add(resetActionConfig);
 		cdAliasCompanyPopupResetButtonConfig

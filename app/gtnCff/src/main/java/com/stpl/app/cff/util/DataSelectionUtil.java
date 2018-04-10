@@ -179,8 +179,6 @@ public class DataSelectionUtil {
                     Leveldto beanItem = getBeanFromId(child);
                     tempBean.addBean(beanItem);
                     removeItemsRecursively(child, selectedTable, availableTable, selectedContainer, availableContainer, currentLevel);
-                    if ("NDC".equalsIgnoreCase(getBeanFromId(child).getLevel())) {
-                    }
                     selectedTable.removeItem(child);
                     selectedContainer.removeItemRecursively(child);
                 }
@@ -202,8 +200,11 @@ public class DataSelectionUtil {
         } else if (obj instanceof Leveldto) {
             targetItem = new BeanItem<>((Leveldto) obj);
         }
-
-        return (Leveldto) targetItem.getBean();
+        if (targetItem != null) {
+            return (Leveldto) targetItem.getBean();
+        } else {
+            return null;
+        }
     }
 
     public static List<Integer> getSelectedRelationshipLevelSids(List<Leveldto> itemIds) {
@@ -213,7 +214,9 @@ public class DataSelectionUtil {
             selectedRelationshipLevelSids = new ArrayList<>();
             for (Object item : itemIds) {
                 dto = DataSelectionUtil.getBeanFromId(item);
-                selectedRelationshipLevelSids.add(dto.getRelationshipLevelSid());
+                if (dto != null) {
+                    selectedRelationshipLevelSids.add(dto.getRelationshipLevelSid());
+                }
             }
         }
         return selectedRelationshipLevelSids;

@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.module.rebateschedule.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsCheckAllUpdateBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
@@ -126,9 +130,9 @@ public class GtnWsRebateScheduleCrudService {
 		rsModel.setCdrModelByEvaluationRuleOrAssociation(
 				getCdrModel(rsInfoBean.getEvaluationRuleAssociationSid(), session));
 		rsModel.setHelperTableByDeductionInclusion(getHelperTable(rsInfoBean.getRsDeductionInclusion(), session));
-		rsModel.setCreatedBy(Integer.valueOf(userId));
+		rsModel.setCreatedBy(Integer.parseInt(userId));
 		rsModel.setCreatedDate(new Date());
-		rsModel.setModifiedBy(Integer.valueOf(userId));
+		rsModel.setModifiedBy(Integer.parseInt(userId));
 		rsModel.setModifiedDate(new Date());
 		return rsModel;
 	}
@@ -163,8 +167,10 @@ public class GtnWsRebateScheduleCrudService {
 			if (rsInfoBean.getSystemId() != 0) {
 				getRsDetailsDeleteQuery(rsInfoBean.getSystemId(), session);
 				notesTabDelete(rsInfoBean.getSystemId(), session);
+				notesTabAttachDelete(rsInfoBean.getSystemId(), session);
 				if (rsInfoBean.getNoteBeanList() != null && !rsInfoBean.getNoteBeanList().isEmpty()) {
 					rsNotesTabInsert(rsInfoBean, session);
+					rsNotesTabAttachInsert(rsInfoBean, session);
 				}
 				rsUpdate(userId, rsInfoBean, session);
 				rebateScheduleDetailsSaveInsert(rsInfoBean.getSystemId(), userId, sessionId, session);
@@ -187,6 +193,7 @@ public class GtnWsRebateScheduleCrudService {
 
 				if (rsInfoBean.getNoteBeanList() != null && !rsInfoBean.getNoteBeanList().isEmpty()) {
 					rsNotesTabInsert(rsInfoBean, session);
+					rsNotesTabAttachInsert(rsInfoBean, session);
 				}
 			}
 			saveOrUpdateUdcs(rsInfoBean, session);
@@ -279,6 +286,14 @@ public class GtnWsRebateScheduleCrudService {
 		GtnFrameworkDataType[] notesTabDeleteQueryTypes = { GtnFrameworkDataType.INTEGER };
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(notesTabDeleteQuery, notesTabDeleteQueryParams,
 				notesTabDeleteQueryTypes, session);
+	}
+	
+	private void notesTabAttachDelete(int systemId, Session session) throws GtnFrameworkGeneralException {
+		String notesTabAttachDeleteQuery = gtnWsSqlService.getQuery("getNotesTabAttachDeleteQuery");
+		Object[] notesTabDeleteQueryParams = { systemId };
+		GtnFrameworkDataType[] notesTabAttachDeleteQueryTypes = { GtnFrameworkDataType.INTEGER };
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(notesTabAttachDeleteQuery, notesTabDeleteQueryParams,
+				notesTabAttachDeleteQueryTypes, session);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -398,6 +413,7 @@ public class GtnWsRebateScheduleCrudService {
 			rsInfoBean = setRsInfoBean(rsInfoList.get(0));
 			getUdcsValue(rsInfoBean, systemId);
 			rsInfoBean.setNoteBeanList(getRsNotesTabDetails(systemId));
+			rsInfoBean.setNoteBeanList(getRsNotesTabAttachDetails(systemId));
 		}
 		return rsInfoBean;
 
@@ -458,6 +474,18 @@ public class GtnWsRebateScheduleCrudService {
 		List<Object[]> rsNotesDetailsList = (List) gtnSqlQueryEngine.executeSelectQuery(rsNoteDetailsQuery,
 				rsNoteDetailsQueryParams, rsNoteDetailsQueryTypes);
 		return GtnCommonUtil.getNotesTabBean(rsNotesDetailsList, gtnWebServiceAllListConfig);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private List<NotesTabBean> getRsNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
+
+		String rsNoteAttachDetailsQuery = gtnWsSqlService.getQuery("rsNotesTabAttachDetailsQuery");
+		Object[] rsNoteAttachDetailsQueryParams = { systemId };
+		GtnFrameworkDataType[] rsNoteAttachDetailsQueryTypes = { GtnFrameworkDataType.INTEGER };
+
+		List<Object[]> rsNotesAttachDetailsList = (List) gtnSqlQueryEngine.executeSelectQuery(rsNoteAttachDetailsQuery,
+				rsNoteAttachDetailsQueryParams, rsNoteAttachDetailsQueryTypes);
+		return GtnCommonUtil.getNotesTabBean(rsNotesAttachDetailsList, gtnWebServiceAllListConfig);
 	}
 
 	private int getIntValue(Object obj) {
@@ -603,5 +631,52 @@ public class GtnWsRebateScheduleCrudService {
 
 		}
 	}
+	
+	private Integer rsNotesTabAttachInsert(GtnWsRebateScheduleInfoBean rsInfoBean, Session session)
+			throws GtnFrameworkGeneralException {
+		List<NotesTabBean> rsNotesTabRequestList = rsInfoBean.getNoteBeanList();
+		StringBuilder rsNoteTabAttachFinalQuery = new StringBuilder();
+		List<GtnFrameworkDataType> rsNotesQueryDataTypeList = new ArrayList<>();
+		List<Object> rsNotesQueryParamList = new ArrayList<>();
+		for (NotesTabBean notesTabRequest : rsNotesTabRequestList) {
+			rsNoteTabAttachFinalQuery.append(GtnWsQueryConstants.NOTES_ATTACH_INSERT);
+
+			rsNotesQueryDataTypeList.add(GtnFrameworkDataType.INTEGER);
+			rsNotesQueryParamList.add(rsInfoBean.getSystemId());
+
+			rsNotesQueryDataTypeList.add(GtnFrameworkDataType.STRING);
+			rsNotesQueryParamList.add(notesTabRequest.getFileName());
+
+			rsNotesQueryDataTypeList.add(GtnFrameworkDataType.BYTE);
+			try {
+				rsNotesQueryParamList.add(readBytesFromFile(notesTabRequest.getFilePath()));
+			} catch (IOException e) {
+				throw new GtnFrameworkGeneralException("Error in rsNotesTabAttachInsert query : ", e);	
+			}
+
+			rsNotesQueryDataTypeList.add(GtnFrameworkDataType.STRING);
+			rsNotesQueryParamList.add(notesTabRequest.getMasterTableName());
+			
+			rsNotesQueryDataTypeList.add(GtnFrameworkDataType.INTEGER);
+			rsNotesQueryParamList.add(notesTabRequest.getCreatedBy());
+
+		}
+		if (rsNoteTabAttachFinalQuery.length() > 0) {
+			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(rsNoteTabAttachFinalQuery.toString(),
+					rsNotesQueryParamList.toArray(),
+					rsNotesQueryDataTypeList.toArray(new GtnFrameworkDataType[rsNotesQueryDataTypeList.size()]),
+					session);
+		}
+		return 0;
+	}
+	 private static byte[] readBytesFromFile(String filePath) throws IOException {
+		 File inputFile = GtnFileNameUtils.getFile(filePath);
+	        FileInputStream inputStreamRs= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+	        byte[] fileBytes = new byte[(int) inputFile.length()];
+	        int i=inputStreamRs.read(fileBytes);
+	        if(i>0) 
+	        return fileBytes;
+			return  new byte[0];
+	    }
 
 }

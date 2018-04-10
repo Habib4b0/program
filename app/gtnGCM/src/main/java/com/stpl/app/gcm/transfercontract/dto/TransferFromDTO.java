@@ -24,6 +24,10 @@ public class TransferFromDTO {
     private String rsContractSid = StringUtils.EMPTY;
     private Integer level;
 
+    public TransferFromDTO() {
+        super();
+    }
+
     public Integer getLevel() {
         return level;
     }

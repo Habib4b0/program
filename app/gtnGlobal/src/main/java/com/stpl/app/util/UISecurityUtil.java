@@ -209,7 +209,7 @@ public final class UISecurityUtil {
         String[] headerArray = new String[headerList2.size()];
         headerArray = headerList2.toArray(headerArray);
         for (int i = 0; i < headerList2.size(); i++) {
-            LOGGER.debug("headerArray-----------" + headerArray[i]);
+            LOGGER.debug("headerArray----------- {}" , headerArray[i]);
         }
         tableResultCustom = modifyTableResultSecurity(columnList1.toArray(), headerArray, fieldIfpHM, mode);
         return tableResultCustom;

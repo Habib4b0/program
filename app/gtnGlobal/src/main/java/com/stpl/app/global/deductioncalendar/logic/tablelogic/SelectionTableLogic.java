@@ -53,7 +53,7 @@ public class SelectionTableLogic extends PageTableLogic {
                     count = 1;
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex + " in getCount");
+                LOGGER.error("{} in getCount", ex);
             }
         }
         return count;
@@ -70,7 +70,7 @@ public class SelectionTableLogic extends PageTableLogic {
                     
                 }
         } catch (Exception ex) {
-            LOGGER.error(ex + " in loadData");
+            LOGGER.error("{} in loadData", ex);
         }
         return resultList;
     }

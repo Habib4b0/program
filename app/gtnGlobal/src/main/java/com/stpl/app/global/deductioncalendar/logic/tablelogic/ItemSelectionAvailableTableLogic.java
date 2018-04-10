@@ -45,7 +45,7 @@ public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
                 //To Call Count Query
                 count=selectionLogic.getAvailableTableCount(binder,this.getSortByColumns(),this.getFilters());
             }  catch (Exception ex) {
-                LOGGER.error(ex + " in getCount");
+                LOGGER.error( "{} in getCount", ex);
             }
         }
         return count;
@@ -57,7 +57,7 @@ public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
         try {
             resultList=selectionLogic.getAvailableTableResult(binder, start, start + offset,this.getSortByColumns(),this.getFilters());
         } catch (Exception ex) {
-            LOGGER.error(ex + " in loadData");
+            LOGGER.error("{} in loadData", ex);
         }
         return resultList;
     }

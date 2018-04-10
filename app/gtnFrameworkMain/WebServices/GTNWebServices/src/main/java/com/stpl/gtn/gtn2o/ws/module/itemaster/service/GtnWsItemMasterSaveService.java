@@ -5,6 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.itemaster.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +26,10 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
+import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs;
 import com.stpl.gtn.gtn2o.ws.entity.itemmaster.BrandMaster;
@@ -98,7 +103,7 @@ public class GtnWsItemMasterSaveService {
 				masterData.setInboundStatus('A');
 				masterData.setRecordLockStatus(false);
 				masterData.setSource("GTN");
-				masterData.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+				masterData.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 				masterData.setCreatedDate(new Date());
 				masterData.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 				masterData.setModifiedDate(new Date());
@@ -129,7 +134,7 @@ public class GtnWsItemMasterSaveService {
 		masterDataEdit.setInboundStatus('A');
 		masterDataEdit.setRecordLockStatus(false);
 		masterDataEdit.setSource("GTN");
-		masterDataEdit.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+		masterDataEdit.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		masterDataEdit.setCreatedDate(new Date());
 		masterDataEdit.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		masterDataEdit.setModifiedDate(new Date());
@@ -156,7 +161,7 @@ public class GtnWsItemMasterSaveService {
 				ipemPricingQualifier.setRecordLockStatus(false);
 				ipemPricingQualifier.setSource("GTN");
 				ipemPricingQualifier
-						.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+						.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 				ipemPricingQualifier.setCreatedDate(new Date());
 				ipemPricingQualifier
 						.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
@@ -191,16 +196,18 @@ public class GtnWsItemMasterSaveService {
 		ipemPricingQualifierEdit.setRecordLockStatus(false);
 		ipemPricingQualifierEdit.setSource("GTN");
 		ipemPricingQualifierEdit
-				.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+				.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		ipemPricingQualifierEdit.setCreatedDate(new Date());
 		ipemPricingQualifierEdit
-				.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+				.setModifiedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		ipemPricingQualifierEdit.setModifiedDate(new Date());
 	}
 
 	public void saveNotesTabDetails(GtnWsItemMasterBean ruleInfoBean) throws GtnFrameworkGeneralException {
 		deleteNotesTab(ruleInfoBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
+		deleteNotesTabAttachment(ruleInfoBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
 		notesTabInsert(ruleInfoBean);
+		notesTabAttachment(ruleInfoBean);
 	}
 
 	private int deleteNotesTab(int systemId) throws GtnFrameworkGeneralException {
@@ -221,12 +228,12 @@ public class GtnWsItemMasterSaveService {
 					cmNotesTabQuery.append(" (").append(ifpBean.getGtnWsItemMasterInfoBean().getItemMasterSid())
 							.append(",'").append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				} else {
 					cmNotesTabQuery.append(",(").append(ifpBean.getGtnWsItemMasterInfoBean().getItemMasterSid())
 							.append(",'").append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				}
 				i++;
 			}
@@ -344,9 +351,9 @@ public class GtnWsItemMasterSaveService {
 		itemMasterData.setInboundStatus('A');
 		itemMasterData.setRecordLockStatus(false);
 		itemMasterData.setSource("GTN");
-		itemMasterData.setCreatedBy(Integer.valueOf(userId));
+		itemMasterData.setCreatedBy(Integer.parseInt(userId));
 		itemMasterData.setCreatedDate(new Date());
-		itemMasterData.setModifiedBy(Integer.valueOf(userId));
+		itemMasterData.setModifiedBy(Integer.parseInt(userId));
 		itemMasterData.setModifiedDate(new Date());
 
 	}
@@ -506,7 +513,7 @@ public class GtnWsItemMasterSaveService {
 			LOGGER.info("Identifier SId:" + idenBean.getItemIdentifierSid());
 			if (idenBean.getItemIdentifierSid() == 0) {
 				identifier = new ItemIdentifier();
-				identifier.setCreatedBy(Integer.valueOf(imRquest.getUserId()));
+				identifier.setCreatedBy(Integer.parseInt(imRquest.getUserId()));
 				identifier.setCreatedDate(new Date());
 				identifier.setInboundStatus('A');
 				identifier.setSource("GTN");
@@ -548,7 +555,7 @@ public class GtnWsItemMasterSaveService {
 		identifier.setStartDate(idenBean.getStartDate());
 		identifier.setEndDate(idenBean.getEndDate());
 		identifier.setEntityCode(idenBean.getEntityCode());
-		identifier.setModifiedBy(Integer.valueOf(imRquest.getUserId()));
+		identifier.setModifiedBy(Integer.parseInt(imRquest.getUserId()));
 		identifier.setModifiedDate(new Date());
 	}
 
@@ -597,4 +604,49 @@ public class GtnWsItemMasterSaveService {
 		}
 
 	}
+	
+	private void  notesTabAttachment(GtnWsItemMasterBean itemMasterBean) throws  GtnFrameworkGeneralException {
+		LOGGER.info("Enter Cfp notesTabInsert");
+		Session session = getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Attachment attach = new Attachment();
+			List<NotesTabBean> notesTabRequestList = itemMasterBean.getNoteBeanList();
+
+			if (notesTabRequestList != null && !notesTabRequestList.isEmpty()) {
+
+				for (NotesTabBean notesTabRequest : notesTabRequestList) {
+					byte[] fileBytes = readBytesFromFile(notesTabRequest.getFilePath());
+					attach.setAttachmentTableSid(itemMasterBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
+					attach.setFileName(notesTabRequest.getFileName());
+					attach.setFileData(fileBytes);
+					attach.setMasterTableName(notesTabRequest.getMasterTableName());
+					attach.setCreatedBy(notesTabRequest.getCreatedBy());
+					attach.setCreatedDate(new Date());
+					session.saveOrUpdate(attach);
+					tx.commit();
+				}
+			}
+		} catch (Exception e) {
+			tx.rollback();
+			throw new GtnFrameworkGeneralException("Exception in save attachQuery ", e);
+		} finally {
+			session.close();
+		}
+	}
+	 private static byte[] readBytesFromFile(String filePath) throws IOException {
+		    File inputFile = GtnFileNameUtils.getFile(filePath);
+	        FileInputStream inputStreamIm= GtnFileNameUtils.getFileInputStreamFile(inputFile);
+	        byte[] fileBytes = new byte[(int) inputFile.length()];
+	        int i=inputStreamIm.read(fileBytes);
+	        if(i>0) 
+	        return fileBytes;
+			return  new byte[0];
+	    }
+	private int deleteNotesTabAttachment(int systemId) throws GtnFrameworkGeneralException {
+		String deleteQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_DELETE + systemId
+				+ " AND MASTER_TABLE_NAME='ITEM_MASTER'";
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteQuery);
+	}
+	
 }

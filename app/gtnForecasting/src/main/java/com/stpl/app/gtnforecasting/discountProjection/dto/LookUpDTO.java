@@ -177,6 +177,10 @@ public class LookUpDTO implements Serializable {
     private String yearValue;
     private int ccpDetailsSid;
 
+    public LookUpDTO() {
+        super();
+    }
+
     /**
      * Gets the hierarchy name.
      *

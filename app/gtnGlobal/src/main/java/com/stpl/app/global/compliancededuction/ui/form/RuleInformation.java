@@ -216,7 +216,7 @@ public class RuleInformation extends CustomComponent {
             public void buttonClick(Button.ClickEvent event) {
                 try {
                     binder.commit();
-                    LOGGER.debug("errorMsg " + errorMsg);
+                    LOGGER.debug("errorMsg {}" , errorMsg);
                     if (requiredFieldCheck() && !isSameRuleAvailable()) {
                         int operatorint = 1;
                         List<CDRDto> cdrList = resultsContainer.getItemIds();

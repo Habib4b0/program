@@ -88,7 +88,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			notificationActionConfig.addActionParameter(
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabContractId").getStringFromField()
-							+ " has been successfully saved");
+							+ ","+GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabContractName").getStringFromField()+" has been successfully saved");
 			notificationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationActionConfig);
 
@@ -127,7 +127,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 		if (idComponentData != null && idComponentData.getCustomData() != null) {
 			GtnWsRecordBean tpDto = (GtnWsRecordBean) idComponentData.getCustomData();
 			if (tpDto.getPropertyValueByIndex(5) != null)
-				companyMaterId = Integer.parseInt(String.valueOf(tpDto.getPropertyValueByIndex(5)));
+				companyMaterId = Integer.valueOf(String.valueOf(tpDto.getPropertyValueByIndex(5)));
 		}
 		contractMasterBean.setCompanyMasterByBunitCompanyMasterSid(companyMaterId);
 
@@ -138,7 +138,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 		if (tpComponentData != null && tpComponentData.getCustomData() != null) {
 			GtnWsRecordBean tpDto = (GtnWsRecordBean) tpComponentData.getCustomData();
 			if (tpDto.getPropertyValueByIndex(5) != null)
-				tpSid = Integer.parseInt(String.valueOf(tpDto.getPropertyValueByIndex(5)));
+				tpSid = Integer.valueOf(String.valueOf(tpDto.getPropertyValueByIndex(5)));
 		}
 		contractMasterBean.setCompanyMasterByContHoldCompanyMasterSid(tpSid);
 
@@ -173,7 +173,9 @@ public class GtnUIFrameworkContractHeaderSaveAction
 				notesBean = new NotesTabBean();
 				notesBean.setMasterTableName("CONTRACT_MASTER");
 				notesBean.setFilePath(note.getDocumentFullPath());
-				notesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				notesBean.setFileName(note.getDocumentName());
+				notesBean.setMasterTableSystemId(note.getDocDetailsId());
+				notesBean.setCreatedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				notesBean.setCreatedDate(new Date());
 				noteBeanList.add(notesBean);
 			}

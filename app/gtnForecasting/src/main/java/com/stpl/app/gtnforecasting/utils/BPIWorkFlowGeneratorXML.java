@@ -110,7 +110,7 @@ public class BPIWorkFlowGeneratorXML {
                                 .getChildNodes();
                       
                         String moduleName = ((Node) fstAllocation.item(0))
-                                .getNodeValue().toString();
+                                .getNodeValue();
                         
                         if (moduleName.equals(modName)) {
                             NodeList fstNmElmntLst = fstElmnt
@@ -120,7 +120,7 @@ public class BPIWorkFlowGeneratorXML {
                             NodeList fstNm = fstNmElmnt.getChildNodes();
                            
                             counterValue = ((Node) fstNm.item(0))
-                                    .getNodeValue().toString();
+                                    .getNodeValue();
                             
                             NodeList lstNmElmntLst = fstElmnt
                                     .getElementsByTagName("counterUpdatedDate");
@@ -128,8 +128,7 @@ public class BPIWorkFlowGeneratorXML {
                                     .item(0);
                             NodeList lstNm = lstNmElmnt.getChildNodes();
                           
-                            updateDate = ((Node) lstNm.item(0)).getNodeValue()
-                                    .toString();
+                            updateDate = ((Node) lstNm.item(0)).getNodeValue();
                         }
                         
                         hm.put(Constant.COUNTER_VALUE, counterValue);
@@ -246,7 +245,7 @@ public class BPIWorkFlowGeneratorXML {
                         NodeList fstAllocation = fstAllocationElmnt
                                 .getChildNodes();
                         String moduleName = ((Node) fstAllocation.item(0))
-                                .getNodeValue().toString();
+                                .getNodeValue();
                         
                         if (moduleName.equals(modName)) {
                             NodeList fstNmElmntLst = fstElmnt

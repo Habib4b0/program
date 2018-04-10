@@ -744,7 +744,7 @@ public class PMPYTradingPartnerLookup extends Window {
      */
     private void searchLogic() throws CommitException, SystemException {
         LOGGER.debug("Entering searchLogic method");
-        if (StringUtils.isEmpty(tradingPartnerNo.getValue()) && StringUtils.isEmpty(tradingPartnerName.getValue().toString())) {
+        if (StringUtils.isEmpty(tradingPartnerNo.getValue()) && StringUtils.isEmpty(tradingPartnerName.getValue())) {
             AbstractNotificationUtils.getErrorNotification("No Search Criteria", "Please enter a value to search for.");
         } else {
             String tpNo = tradingPartnerNo.getValue();

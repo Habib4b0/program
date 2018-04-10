@@ -333,7 +333,7 @@ public class NMPVExcelLogic {
                 ProjectionVarianceDTO detail = new ProjectionVarianceDTO();
                 //Group Column projSelDTO
 
-                String groupName;
+                String groupName = null;
                 String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
                 String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
                 if (isCustomView) {
@@ -341,27 +341,17 @@ public class NMPVExcelLogic {
                     groupName = groupName == null ? "" : groupName;
                     detail.setHierarchyNo(obj[1].toString());
                     detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
-                } else {
-                      groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
-                      selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
-                      detail.setGroup(groupName);
-                    if (CommonUtil.isValueEligibleForLoading()) {
-
-                        if (groupName.contains("-")) {
-                            String[] tempArr = groupName.split("-");
-                            detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
-                            detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
-                        } else if (selection.getDisplayFormat().length == 1 && selection.getDisplayFormat().length > 0) {
-                            int index = (int) selection.getDisplayFormat()[0];
-                            if (index == 0) {
-                                detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
-                            } else {
-                                detail.addStringProperties(DF_LEVEL_NAME, groupName);
-                            }
-                        } else {
-                            detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                    detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
                             detail.addStringProperties(DF_LEVEL_NAME, groupName);
-                        }
+                } else {
+                     if (CommonUtil.isValueEligibleForLoading()) {
+                        getFormattedExcelColumns(detail, hierarchy, obj);
+
+                    } else {
+                        groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
+                                selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                        detail.setGroup(groupName);
+
                     }
                 }
                 detail.setGroup(groupName);
@@ -2520,5 +2510,27 @@ public class NMPVExcelLogic {
         }
     }
 
-   
+    public void getFormattedExcelColumns(ProjectionVarianceDTO detail, String hierarchy, Object[] obj) {
+
+        List<String> groupName = CommonUtil.getFormattedDisplayName(hierarchy.trim(), obj[BASECOLUMN_HIERARCHYINDICATOR_INDEX].toString(),
+                selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+        detail.setGroup(groupName.toString());
+
+        if (selection.getDisplayFormat().length == 1 && selection.getDisplayFormat().length > 0) {
+            int index = (int) selection.getDisplayFormat()[0];
+            if (index == 0) {
+                detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+            } else {
+                detail.addStringProperties(DF_LEVEL_NAME, groupName.get(0));
+            }
+        } else {
+            detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+            detail.addStringProperties(DF_LEVEL_NAME, groupName.get(0));
+            if (groupName.size() == 2) {
+                detail.addStringProperties(DF_LEVEL_NUMBER, groupName.get(0));
+                detail.addStringProperties(DF_LEVEL_NAME, groupName.get(1));
+            }
+        }
+
+    }
 }

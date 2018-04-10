@@ -376,7 +376,7 @@ public class QueryUtils {
     }
 
     public String getSummaryCountQuery(RemoveDiscountDto dto) {
-        LOGGER.debug("Entering getSummaryCountQuery" + dto.getFromDate() + dto.getToDate());
+        LOGGER.debug("Entering getSummaryCountQuery {} {} " , dto.getFromDate() , dto.getToDate());
         String select = StringUtils.EMPTY;
         String where = StringUtils.EMPTY;
         if (dto.getLevelNo() == 1) {
@@ -1258,7 +1258,7 @@ public class QueryUtils {
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
 
-        LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
+        LOGGER.debug("entering getDropDownList method with paramater listType= {} " , listType);
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         dynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
@@ -1275,7 +1275,7 @@ public class QueryUtils {
             }
         }
 
-        LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
+        LOGGER.debug(" getDropDownList method ends with return value strList size = {} " , helperList.size());
 
         return helperList;
     }
@@ -2144,7 +2144,7 @@ public class QueryUtils {
     }
 
     public String getTempTableValue(String temptableSId) {
-        String query = " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
+        String query = " select ITEM_ID,ITEM_NO,ITEM_NAME,ITEM_STATUS_SID,START_DATE,FORMULA_NAME from GCM_GLOBAL_DETAILS where GCM_GLOBAL_DETAILS_SID='" + temptableSId + "'";
         return query;
     }
 
@@ -2510,11 +2510,11 @@ public class QueryUtils {
         String query = "INSERT INTO RS_CONTRACT (RS_MODEL_SID,RS_ID,RS_NO,RS_NAME,RS_TYPE,REBATE_PROGRAM_TYPE,RS_CATEGORY,RS_STATUS,RS_DESIGNATION,RS_START_DATE,RS_END_DATE,RS_TRADE_CLASS,PARENT_RS_ID,PARENT_RS_NAME,CONTRACT_MASTER_SID,CFP_CONTRACT_SID,"
                 + " IFP_CONTRACT_SID,PS_CONTRACT_SID,RS_CONTRACT_ATTACHED_STATUS,RS_CONTRACT_ATTACHED_DATE,RS_TRANS_REF_ID,RS_TRANS_REF_NO,RS_TRANS_REF_NAME,REBATE_RULE_TYPE,REBATE_RULE_ASSOCIATION,REBATE_PLAN_LEVEL,"
                 + " INTEREST_BEARING_INDICATOR,INTEREST_BEARING_BASIS,REBATE_PROCESSING_TYPE,REBATE_FREQUENCY,PAYMENT_METHOD,PAYMENT_FREQUENCY,PAYMENT_TERMS,PAYMENT_GRACE_PERIOD,RS_CALENDAR,RS_VALIDATION_PROFILE,MAKE_PAYABLE_TO,"
-                + " ADDRESS_1,ADDRESS_2,CITY,STATE,ZIP_CODE,RS_ALIAS,FORMULA_METHOD_ID,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID, SOURCE,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE)"
+                + " ADDRESS_1,ADDRESS_2,CITY,STATE,ZIP_CODE,RS_ALIAS,FORMULA_METHOD_ID,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID, SOURCE,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE,CALCULATION_TYPE,DEDUCTION_INCLUSION,CALCULATION_LEVEL)"
                 + " SELECT RS_MODEL_SID,RS_ID,RS_NO,RS_NAME,RS_TYPE,REBATE_PROGRAM_TYPE,RS_CATEGORY,RS_STATUS,RS_DESIGNATION,RS_START_DATE,RS_END_DATE,RS_TRADE_CLASS,PARENT_RS_ID,PARENT_RS_NAME," + contractSid + "," + parentCFPId + "," + parentIFPId + "," + parentPSId + ",RS_CONTRACT_ATTACHED_STATUS,"
                 + " RS_CONTRACT_ATTACHED_DATE,RS_TRANS_REF_ID,RS_TRANS_REF_NO,RS_TRANS_REF_NAME,REBATE_RULE_TYPE,REBATE_RULE_ASSOCIATION,REBATE_PLAN_LEVEL,INTEREST_BEARING_INDICATOR,"
                 + " INTEREST_BEARING_BASIS,REBATE_PROCESSING_TYPE,REBATE_FREQUENCY,PAYMENT_METHOD,PAYMENT_FREQUENCY,PAYMENT_TERMS,PAYMENT_GRACE_PERIOD,RS_CALENDAR,RS_VALIDATION_PROFILE,MAKE_PAYABLE_TO,ADDRESS_1,"
-                + " ADDRESS_2,CITY,STATE,ZIP_CODE,RS_ALIAS,FORMULA_METHOD_ID,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID,'" + bpi + "',1," + createdDate + ",1,1 FROM   RS_CONTRACT WHERE  RS_CONTRACT_SID =" + rsContractSId;
+                + " ADDRESS_2,CITY,STATE,ZIP_CODE,RS_ALIAS,FORMULA_METHOD_ID,INBOUND_STATUS,RECORD_LOCK_STATUS,BATCH_ID,'" + bpi + "',1," + createdDate + ",1,1,CALCULATION_TYPE,DEDUCTION_INCLUSION,CALCULATION_LEVEL FROM   RS_CONTRACT WHERE  RS_CONTRACT_SID =" + rsContractSId;
         return query;
 
     }

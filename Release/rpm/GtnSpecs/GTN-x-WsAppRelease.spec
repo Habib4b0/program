@@ -50,8 +50,8 @@ cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_Configuration/
 # Create Log directories
 
 mkdir $RPM_BUILD_ROOT%{prefix}/logs/
-mkdir $RPM_BUILD_ROOT%{prefix}/logs/boot_temp
-mkdir  $RPM_BUILD_ROOT%{prefix}/logs/jboss-as2
+mkdir -p $RPM_BUILD_ROOT%{prefix}/logs/web_service/boot_temp
+mkdir -p $RPM_BUILD_ROOT%{prefix}/logs/web_service/jboss-as2
 chmod -R 755 $RPM_BUILD_ROOT%{prefix}/*
 
 touch $RPM_BUILD_ROOT%{prefix}/conf/jboss-as2/jboss-as-standalone.pid
@@ -91,17 +91,35 @@ base_path=$(echo $INPUT| cut -d'/' -f 2)
 FILES="$install_path/tempdeploy/*"
 for f in $FILES
 do
-	echo "Processing $f"
+	echo "Moving  $f"
  currentfile=$(basename $f)
-      echo "current file $currentfile"
+      
 if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];
 then
 mv  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
 rm -rf $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
 rm -rf $install_path/jboss-7.1.1/standalone/deployments/$currentfile*
 fi
+
+while :
+do
+cp  $f  $install_path/jboss-7.1.1/standalone/deployments/
+chown -R $APP_User:$Chown $install_path
+   echo "deploying ...................." $currentfile
+   sleep 1
+   if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];
+    
+   then
+echo "deployed ***********************"$currentfile
+	break
+elif [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.failed ];
+then
+echo "failed "$currentfile
+break       	   
+   fi
 done
-cp  $install_path/tempdeploy/* $install_path/jboss-7.1.1/standalone/deployments/
+done
+
  
 standalone_xml_path=$install_path/jboss-7.1.1/standalone/configuration/standalone.xml
 if grep -q GTN_FRAMEWORK_BASE_PATH "$install_path/jboss-7.1.1/standalone/configuration/standalone.xml"; then
@@ -135,11 +153,6 @@ fi
 rm -rf $install_path/jboss-7.1.1/standalone/deployments/ROOT.war*
 chmod -R 750 $install_path
 chown -R $APP_User:$Chown $install_path
-chown -R $Web_Server_name:etl $install_path/logs
-chown $Web_Server_name:etl $install_path/jboss-7.1.1/
-chown $Web_Server_name:etl $install_path/jboss-7.1.1/standalone/
-chown -R $Web_Server_name:etl $install_path/jboss-7.1.1/standalone/log
-chown $APP_User:etl $install_path
 
 %files
 

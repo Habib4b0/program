@@ -202,7 +202,7 @@ public class GtnWsItemMasterAddService {
 				infoBean.setManufacturerId(
 						(itemMaster.getManufacturerId() == null || itemMaster.getManufacturerId().isEmpty()
 								|| GtnFrameworkCommonStringConstants.STRING_NULL.equals(itemMaster.getManufacturerId()))
-										? 0 : Integer.valueOf(itemMaster.getManufacturerId()));
+										? 0 : Integer.parseInt(itemMaster.getManufacturerId()));
 				Udcs udcs = getUdcs(infoBean, session);
 				if (udcs != null) {
 					infoBean.setUdc1(getHelpervalue(udcs.getHelperTableByUdc1()));
@@ -261,7 +261,8 @@ public class GtnWsItemMasterAddService {
 					getItemIdentifier(session, bean.getGtnWsItemMasterInfoBean().getItemMasterSid()));
 			createTembTable(gtnWsRequest);
 			bean.setNoteBeanList(getNotesTabDetails(bean.getGtnWsItemMasterInfoBean().getItemMasterSid()));
-
+			bean.setNoteBeanList(getCfpNotesTabAttachDetails(bean.getGtnWsItemMasterInfoBean().getItemMasterSid()));
+			
 			GtnWsItemMasterResponse reponse = new GtnWsItemMasterResponse();
 			reponse.setGtnWsItemMasterBean(bean);
 			gtnResponse.setGtnWsItemMasterResponse(reponse);
@@ -405,6 +406,17 @@ public class GtnWsItemMasterAddService {
 				.executeSelectQuery(cmNotesTabDetailsSelectQuery);
 		return GtnCommonUtil.getNotesTabBean(cmNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
+	
+
+	@SuppressWarnings("unchecked")
+	private List<NotesTabBean> getCfpNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
+		LOGGER.info("Enter getitemMasterNotesTabAttachDetails");
+		String cmNotesTabDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_SELECT + +systemId
+				+ " AND MASTER_TABLE_NAME='ITEM_MASTER'";
+		List<Object[]> cmNotesDetailsResultList = (List<Object[]>) gtnSqlQueryEngine
+				.executeSelectQuery(cmNotesTabDetailsSelectQuery);
+		return GtnCommonUtil.getNotesTabBean(cmNotesDetailsResultList, gtnWebServiceAllListConfig);
+	}
 
 	public void deleteItemQualifier(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 		int itemQualifierSid = gtnWsRequest.getGtnWsItemMasterRequest().getGtnWsItemQualifierBean()
@@ -471,7 +483,7 @@ public class GtnWsItemMasterAddService {
 								gtnWsRequest.getGtnWsGeneralRequest().getSessionId())));
 
 		if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-			gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 		} else {
 			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 			gtnUIFrameworkDataTable.addData(result);
@@ -548,11 +560,11 @@ public class GtnWsItemMasterAddService {
 			for (Iterator<GtnWebServiceOrderByCriteria> iterator = gtnWebServiceOrderByCriteriaList.iterator(); iterator
 					.hasNext();) {
 				GtnWebServiceOrderByCriteria gtnWebServiceOrderByCriteria = iterator.next();
-				orderByBuilder.append(" ").append(columnPropertyMap.get(gtnWebServiceOrderByCriteria.getPropertyId()))
-						.append(" ").append(gtnWebServiceOrderByCriteria.getOrderByCriteria());
+				orderByBuilder.append(' ').append(columnPropertyMap.get(gtnWebServiceOrderByCriteria.getPropertyId()))
+						.append(' ').append(gtnWebServiceOrderByCriteria.getOrderByCriteria());
 			}
 		} else {
-			orderByBuilder.append(" ").append(defaultOrderColumn).append(" ").append(defalutOrder);
+			orderByBuilder.append(' ').append(defaultOrderColumn).append(' ').append(defalutOrder);
 		}
 		return orderByBuilder.toString();
 	}
