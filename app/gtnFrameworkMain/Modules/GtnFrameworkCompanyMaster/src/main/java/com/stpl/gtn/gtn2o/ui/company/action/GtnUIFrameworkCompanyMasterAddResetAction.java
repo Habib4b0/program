@@ -151,7 +151,7 @@ public class GtnUIFrameworkCompanyMasterAddResetAction implements GtnUIFrameWork
 				companyInformation.getCompanyNo(), companyInformation.getCompanyName(), companyInformation.getSource(),
 				companyInformation.getFinancialSystem(), companyInformation.getCompanyMasterSystemId(),
 				companyInformation.getCreatedBy(), companyInformation.getModifiedBy() };
-		loadFieldValue(GtnFrameworkCompanyStringContants.TEXT_FIELD_COMPONENT_IDS, textFieldValues, componentId);
+		loadFieldValue(GtnFrameworkCompanyStringContants.getTextFieldComponentIds(), textFieldValues, componentId);
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCompanyStringContants.COMPANY_INFO_CREATED_DATE, componentId)
 				.loadDateValue(companyInformation.getCreatedDate());

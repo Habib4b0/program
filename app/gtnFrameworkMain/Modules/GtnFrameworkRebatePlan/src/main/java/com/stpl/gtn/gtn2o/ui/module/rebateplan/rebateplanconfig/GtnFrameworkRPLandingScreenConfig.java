@@ -509,19 +509,19 @@ public class GtnFrameworkRPLandingScreenConfig {
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
 		
-		enableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkStringConstants.ADD_COPY_ENABLE_FIELD)));
+		enableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkStringConstants.getAddCopyEnableFields())));
 		resultTableActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		disableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkStringConstants.PAGED_TABLE_DISABLE_FIELD)));
+		disableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkStringConstants.getPagedTableDisableFields())));
 		resultTableActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.getVisibleFields()));
 		visibleAction.setActionParameterList(new ArrayList<>(visibleParameters));
 		resultTableActionConfigList.add(visibleAction);
 
@@ -604,19 +604,19 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_COPY_ENABLE_FIELD));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.getAddCopyEnableFields()));
 		actionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.PAGED_TABLE_DISABLE_FIELD));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.getPagedTableDisableFields()));
 		actionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.getVisibleFields()));
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
 
@@ -693,19 +693,19 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_EDIT_ENABLE_FIELD));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.getAddEditEnableFields()));
 		editBtnActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.PAGED_TABLE_DISABLE_FIELD));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.getPagedTableDisableFields()));
 		editBtnActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.getVisibleFields()));
 		visibleAction.setActionParameterList(visibleParameters);
 		editBtnActionConfigList.add(visibleAction);
 
@@ -809,14 +809,14 @@ public class GtnFrameworkRPLandingScreenConfig {
 		viewActionConfigList.add(viewActionConfig);
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_VIEW_DISABLE_FIELD));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.getAddViewDisableFields()));
                 viewActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.getVisibleFields()));
 		visibleAction.setActionParameterList(visibleParameters);
 		viewActionConfigList.add(visibleAction);
 
@@ -872,19 +872,19 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_COPY_ENABLE_FIELD));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.getAddCopyEnableFields()));
 		copyActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_COPY_DISABLE_FIELD));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.getAddCopyDisableFields()));
 		copyActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.getVisibleFields()));
 		visibleAction.setActionParameterList(visibleParameters);
 		copyActionConfigList.add(visibleAction);
 
