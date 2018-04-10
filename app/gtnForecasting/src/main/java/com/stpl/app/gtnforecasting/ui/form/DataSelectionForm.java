@@ -3551,7 +3551,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	public String getProductHierarchyEndLevelsHierNo(final ExtTreeContainer<Leveldto> selectedProductContainer) {
 
-		StringBuilder returnString = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder returnString = new StringBuilder();
 
 		List<String> productHierarchyEndLevelsHierNo = new ArrayList<>();
 		for (Object item : selectedProductContainer.getItemIds()) {

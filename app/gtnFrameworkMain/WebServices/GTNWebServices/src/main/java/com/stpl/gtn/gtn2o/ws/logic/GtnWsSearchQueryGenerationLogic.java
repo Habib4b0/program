@@ -85,7 +85,7 @@ public class GtnWsSearchQueryGenerationLogic {
 			}
 			appendSelectColumn(visibleColumnList.get(visibleColumnList.size() - 1).toString(), finalQuery);
 			finalQuery.append(" as ");
-			finalQuery.append(visibleColumnList.get(visibleColumnList.size() - 1).toString());
+			finalQuery.append(String.valueOf(visibleColumnList.get(visibleColumnList.size() - 1)));
 			finalQuery.append("  ");
 			appendSelectColumnForSorting(finalQuery);
 		}

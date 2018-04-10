@@ -40,7 +40,6 @@ public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction
 			GtnUIFrameworkBaseComponent baseComponentInterval = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("FCView_futureInterval");
                         if(("Interval".equals(value)) && baseComponentInterval.isValidFieldValue()){                        
-			if (baseComponentInterval.isValidFieldValue()) {
                             gtnLogger.info("frequency---------------"+futureeFrequency);                            
 				String futureInterval = baseComponentInterval.getStringFromField();
                                 gtnLogger.info("interval-------------------"+futureInterval);
@@ -58,7 +57,6 @@ public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction
                                 String futureYear = responseFutureInterval.getGtnWsForecastConfigurationResponse().getForecastPeriod();
                                 gtnLogger.info("futureYear----------------->>>>"+futureYear);
                         	GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod").setPropertyValue(futureYear);
-                        }
                         }
 			for (int pameterindex = 3; pameterindex < parameters.size() - 3; pameterindex++) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(pameterindex).toString())

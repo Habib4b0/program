@@ -88,7 +88,7 @@ public class GtnWsUserRoleService {
 			for (int i = 0; i < roleListSize; i++) {
 				Role role = new Role();
 				final Object[] obj = results.get(i);
-				role.setRoleId(obj[0] == null ? 0 : Long.valueOf(String.valueOf(obj[0])));
+				role.setRoleId(obj[0] == null ? 0 : Long.parseLong(String.valueOf(obj[0])));
 				role.setName(String.valueOf(obj[1]));
 				roles.add(role);
 			}

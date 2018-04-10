@@ -101,7 +101,7 @@ public class GtnFrameworkSaveButtonAction
 							.equalsIgnoreCase(component.getCaption())) {
 				if (GtnUIFrameworkGlobalUI
 						.getSessionProperty(GtnFrameworkProcessMonitorStringContants.PROCESS_MONITOR_ID) != null) {
-					monitorBean.setProcessMonitorSid(Integer.valueOf(GtnUIFrameworkGlobalUI
+					monitorBean.setProcessMonitorSid(Integer.parseInt(GtnUIFrameworkGlobalUI
 							.getSessionProperty(GtnFrameworkProcessMonitorStringContants.PROCESS_MONITOR_ID)
 							.toString()));
 				}
@@ -112,7 +112,7 @@ public class GtnFrameworkSaveButtonAction
 			} else {
 				if (GtnUIFrameworkGlobalUI
 						.getSessionProperty(GtnFrameworkProcessMonitorStringContants.PROCESS_MONITOR_ID) != null) {
-					monitorBean.setProcessMonitorSid(Integer.valueOf(GtnUIFrameworkGlobalUI
+					monitorBean.setProcessMonitorSid(Integer.parseInt(GtnUIFrameworkGlobalUI
 							.getSessionProperty(GtnFrameworkProcessMonitorStringContants.PROCESS_MONITOR_ID)
 							.toString()));
 				}

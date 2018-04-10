@@ -311,16 +311,10 @@ public class GtnWsForecastConfigurationController {
 		try (Session session = sessionFactory.openSession()) {
 			if (request.getFutureInterval() != null
 					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
-				Integer interval = Integer.valueOf(request.getFutureInterval().trim());
 				int freq = request.getFutureFrequency();
 				if (freq != 0) {
 					HelperTable table = session.load(HelperTable.class, freq);
-					Calendar futureDate = GtnWsForecastConfigurationUtil.convertPeriod(1, table.getDescription(),
-							interval);
-					LOGGER.info("\n futureDate===========>>>" + futureDate.getTime());
 					Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
-					LOGGER.info("\n getTime===========>>>" + gtsCal);
-					LOGGER.info("\n foreCastPeriod===========>>>" + foreCastPeriod);
 					String leastYear = getFrequencyDivision(table.getDescription(), gtsCal, foreCastPeriod);
 					LOGGER.info("leastYear===============>" + leastYear);
 					response.setForecastPeriod(leastYear);

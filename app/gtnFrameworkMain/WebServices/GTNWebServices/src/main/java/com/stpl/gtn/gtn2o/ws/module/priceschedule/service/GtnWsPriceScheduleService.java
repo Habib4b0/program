@@ -251,7 +251,7 @@ public class GtnWsPriceScheduleService {
 				psInfoBean.getPsStartDate() == null ? null : formatter.format(psInfoBean.getPsStartDate()),
 				psInfoBean.getPsEndDate() == null ? null : formatter.format(psInfoBean.getPsEndDate()),
 				psInfoBean.getParentPsId(), psInfoBean.getParentpSNo(), psInfoBean.getPsTradeClass(),
-				psInfoBean.getInternalNotes(), Integer.parseInt(userId) });
+				psInfoBean.getInternalNotes(), Integer.valueOf(userId) });
 	}
 
 	private Integer psNotesTabInsert(GtnUIFrameWorkPSInfoBean psInfoBean, Session session)

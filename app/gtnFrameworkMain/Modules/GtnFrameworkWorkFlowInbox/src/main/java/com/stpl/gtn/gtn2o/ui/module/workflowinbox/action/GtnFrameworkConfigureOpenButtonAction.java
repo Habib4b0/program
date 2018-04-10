@@ -118,7 +118,7 @@ public class GtnFrameworkConfigureOpenButtonAction
 						gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID));
 				configurationType = String.valueOf(gtnWsRecordBean.getPropertyValue("configurationType"));
 
-				projMasterBean.setProjectionMasterSid(Integer.valueOf(projectionMasterSid));
+				projMasterBean.setProjectionMasterSid(Integer.parseInt(projectionMasterSid));
 
 			} else {
 				createdById = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(19));

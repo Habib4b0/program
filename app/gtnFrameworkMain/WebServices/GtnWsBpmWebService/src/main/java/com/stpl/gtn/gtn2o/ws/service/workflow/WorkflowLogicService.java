@@ -253,47 +253,47 @@ public class WorkflowLogicService {
                 Object[] obj = returnList.get(i);
                 if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_RETURNS)) {
                     ForecastingRulesDTO retRate = new ForecastingRulesDTO("Projected_Return_Percent");
-                    retRate.setAmountLowest(Double.valueOf(String.valueOf(obj[0])));
-                    retRate.setAmountGreatest(Double.valueOf(String.valueOf(obj[1])));
-                    retRate.setPercentLowest(Double.valueOf(String.valueOf(obj[2])));
-                    retRate.setPercentGreatest(Double.valueOf(String.valueOf(obj[3])));
+                    retRate.setAmountLowest(Double.parseDouble(String.valueOf(obj[0])));
+                    retRate.setAmountGreatest(Double.parseDouble(String.valueOf(obj[1])));
+                    retRate.setPercentLowest(Double.parseDouble(String.valueOf(obj[2])));
+                    retRate.setPercentGreatest(Double.parseDouble(String.valueOf(obj[3])));
                     list.add(retRate);
                 }else if(screenName.equals(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL)){
                  ForecastingRulesDTO sales = new ForecastingRulesDTO("Projected_Contract_Sales_Dollars");
-                    sales.setAmountLowest(Double.valueOf(String.valueOf(obj[0])));
-                    sales.setAmountGreatest(Double.valueOf(String.valueOf(obj[1])));
-                    sales.setPercentLowest(Double.valueOf(String.valueOf(obj[12])));
-                    sales.setPercentGreatest(Double.valueOf(String.valueOf(obj[13])));
+                    sales.setAmountLowest(Double.parseDouble(String.valueOf(obj[0])));
+                    sales.setAmountGreatest(Double.parseDouble(String.valueOf(obj[1])));
+                    sales.setPercentLowest(Double.parseDouble(String.valueOf(obj[12])));
+                    sales.setPercentGreatest(Double.parseDouble(String.valueOf(obj[13])));
 
                     ForecastingRulesDTO units = new ForecastingRulesDTO("Projected_Contract_Sales_Units");
-                    units.setAmountLowest(Double.valueOf(String.valueOf(obj[2])));
-                    units.setAmountGreatest(Double.valueOf(String.valueOf(obj[3])));
-                    units.setPercentLowest(Double.valueOf(String.valueOf(obj[14])));
-                    units.setPercentGreatest(Double.valueOf(String.valueOf(obj[15])));
+                    units.setAmountLowest(Double.parseDouble(String.valueOf(obj[2])));
+                    units.setAmountGreatest(Double.parseDouble(String.valueOf(obj[3])));
+                    units.setPercentLowest(Double.parseDouble(String.valueOf(obj[14])));
+                    units.setPercentGreatest(Double.parseDouble(String.valueOf(obj[15])));
 
                     ForecastingRulesDTO discount = new ForecastingRulesDTO("Projected_Discount_Dollars");
-                    discount.setAmountLowest(Double.valueOf(String.valueOf(obj[4])));
-                    discount.setAmountGreatest(Double.valueOf(String.valueOf(obj[5])));
-                    discount.setPercentLowest(Double.valueOf(String.valueOf(obj[16])));
-                    discount.setPercentGreatest(Double.valueOf(String.valueOf(obj[17])));
+                    discount.setAmountLowest(Double.parseDouble(String.valueOf(obj[4])));
+                    discount.setAmountGreatest(Double.parseDouble(String.valueOf(obj[5])));
+                    discount.setPercentLowest(Double.parseDouble(String.valueOf(obj[16])));
+                    discount.setPercentGreatest(Double.parseDouble(String.valueOf(obj[17])));
 
                     ForecastingRulesDTO rate = new ForecastingRulesDTO("Projected_Discount_Rate");
-                    rate.setAmountLowest(Double.valueOf(String.valueOf(obj[6])));
-                    rate.setAmountGreatest(Double.valueOf(String.valueOf(obj[7])));
-                    rate.setPercentLowest(Double.valueOf(String.valueOf(obj[18])));
-                    rate.setPercentGreatest(Double.valueOf(String.valueOf(obj[19])));
+                    rate.setAmountLowest(Double.parseDouble(String.valueOf(obj[6])));
+                    rate.setAmountGreatest(Double.parseDouble(String.valueOf(obj[7])));
+                    rate.setPercentLowest(Double.parseDouble(String.valueOf(obj[18])));
+                    rate.setPercentGreatest(Double.parseDouble(String.valueOf(obj[19])));
 
                     ForecastingRulesDTO netSales = new ForecastingRulesDTO("Net_Sales");
-                    netSales.setAmountLowest(Double.valueOf(String.valueOf(obj[8])));
-                    netSales.setAmountGreatest(Double.valueOf(String.valueOf(obj[9])));
-                    netSales.setPercentLowest(Double.valueOf(String.valueOf(obj[20])));
-                    netSales.setPercentGreatest(Double.valueOf(String.valueOf(obj[21])));
+                    netSales.setAmountLowest(Double.parseDouble(String.valueOf(obj[8])));
+                    netSales.setAmountGreatest(Double.parseDouble(String.valueOf(obj[9])));
+                    netSales.setPercentLowest(Double.parseDouble(String.valueOf(obj[20])));
+                    netSales.setPercentGreatest(Double.parseDouble(String.valueOf(obj[21])));
 
                     ForecastingRulesDTO netProfit = new ForecastingRulesDTO("Net_Profit");
-                    netProfit.setAmountLowest(Double.valueOf(String.valueOf(obj[10])));
-                    netProfit.setAmountGreatest(Double.valueOf(String.valueOf(obj[11])));
-                    netProfit.setPercentLowest(Double.valueOf(String.valueOf(obj[22])));
-                    netProfit.setPercentGreatest(Double.valueOf(String.valueOf(obj[23])));
+                    netProfit.setAmountLowest(Double.parseDouble(String.valueOf(obj[10])));
+                    netProfit.setAmountGreatest(Double.parseDouble(String.valueOf(obj[11])));
+                    netProfit.setPercentLowest(Double.parseDouble(String.valueOf(obj[22])));
+                    netProfit.setPercentGreatest(Double.parseDouble(String.valueOf(obj[23])));
                     list.add(sales);
                     list.add(units);
                     list.add(discount);
@@ -732,7 +732,7 @@ public class WorkflowLogicService {
                         GtnWsBpmCommonConstants.WORKFLOW_STATUS, session).getHelperTableSid());
         workflowMaster.setNotes(workflowMasterBean.getNotes());
         workflowMaster.setModifiedDate(new Date());
-        workflowMaster.setModifiedBy(Integer.parseInt(gtnWsGeneralRequest.getUserId()));
+        workflowMaster.setModifiedBy(Integer.valueOf(gtnWsGeneralRequest.getUserId()));
         session.saveOrUpdate(workflowMaster);
         return workflowMaster.getWorkflowId();
 

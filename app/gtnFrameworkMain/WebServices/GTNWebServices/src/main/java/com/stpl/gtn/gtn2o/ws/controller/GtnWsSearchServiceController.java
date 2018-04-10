@@ -151,7 +151,7 @@ public class GtnWsSearchServiceController {
 						obj[index] = getHelperValue(obj[index]);
 						break;
 					case "Boolean":
-						obj[index] = Boolean.parseBoolean(getString(obj[index]));
+						obj[index] = Boolean.valueOf(getString(obj[index]));
 						break;
 					case "Date":
 						Date startDate = (Date) obj[index];

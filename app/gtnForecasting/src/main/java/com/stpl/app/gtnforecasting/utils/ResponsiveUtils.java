@@ -38,7 +38,7 @@ public class ResponsiveUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
     public static final String SPAN_STYLECOLOR = " <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>";
     public static Label makeLabel(String value, boolean isMandatory) {
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(SPAN_STYLECOLOR);
@@ -49,7 +49,7 @@ public class ResponsiveUtils {
    
 
     public static Label makeLabel(Label label, boolean isMandatory) {
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(label.getValue());
         if (isMandatory) {
             sb.append(SPAN_STYLECOLOR);
@@ -61,7 +61,7 @@ public class ResponsiveUtils {
 
     public static Label makeLabel(String value, String styleName, boolean isMandatory) {
         LOGGER.debug("styleName= {}",styleName);
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(SPAN_STYLECOLOR);
@@ -73,7 +73,7 @@ public class ResponsiveUtils {
 
     public static Label makeLabel(String value, boolean isMandatory, String width) {
         LOGGER.debug("width= {}",width);
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(SPAN_STYLECOLOR);

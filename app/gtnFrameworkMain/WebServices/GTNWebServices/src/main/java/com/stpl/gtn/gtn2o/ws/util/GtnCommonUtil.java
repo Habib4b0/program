@@ -51,7 +51,7 @@ public class GtnCommonUtil {
 	public static Integer getInteger(final Object obj) {
 		Integer integerOut = 0;
 		try {
-			integerOut = Integer.parseInt(String.valueOf(obj));
+			integerOut = Integer.valueOf(String.valueOf(obj));
 
 		} catch (Exception e) {
 			logger.error("Error in getInteger", e);

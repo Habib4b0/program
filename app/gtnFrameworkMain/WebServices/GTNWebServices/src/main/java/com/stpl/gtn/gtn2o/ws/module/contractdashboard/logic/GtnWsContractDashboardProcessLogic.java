@@ -613,7 +613,7 @@ public class GtnWsContractDashboardProcessLogic {
 			}
 			List<Object[]> result = getController()
 					.executeQuery(getQuery(getSearchInput(searchRequest, comp, false), "getCDR1Count"));
-			count = Integer.valueOf(String.valueOf(result.get(0)));
+			count = Integer.parseInt(String.valueOf(result.get(0)));
 		} else {
 			count = searchRequest.getParentBean().getIntegerPropertyByIndex(11);
 		}
