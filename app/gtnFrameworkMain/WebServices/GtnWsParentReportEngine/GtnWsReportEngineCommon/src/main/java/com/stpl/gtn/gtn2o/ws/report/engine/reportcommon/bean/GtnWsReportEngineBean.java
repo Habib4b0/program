@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GtnWsReportEngineBean {
 
-	private List<String> collection = new ArrayList();
+	private List<String> comparisonTableName = new ArrayList<>();
 
 	private int selectedProjectionId;
 
@@ -13,12 +13,18 @@ public class GtnWsReportEngineBean {
 
 	private GtnWsReportEngineTreeNode input;
 
-	public List<String> getCollection() {
-		return collection;
+	private String frequency;
+
+	private int salesInclusion;
+
+	private int deductionInclusion;
+
+	public List<String> getComparisonTableName() {
+		return comparisonTableName;
 	}
 
-	public void addCollection(String collection) {
-		this.collection.add(collection);
+	public void addComparisonTableName(String collection) {
+		this.comparisonTableName.add(collection);
 	}
 
 	public int getSelectedProjectionId() {
@@ -43,6 +49,30 @@ public class GtnWsReportEngineBean {
 
 	public void setInput(GtnWsReportEngineTreeNode input) {
 		this.input = input;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	public int getSalesInclusion() {
+		return salesInclusion;
+	}
+
+	public void setSalesInclusion(int salesInclusion) {
+		this.salesInclusion = salesInclusion;
+	}
+
+	public int getDeductionInclusion() {
+		return deductionInclusion;
+	}
+
+	public void setDeductionInclusion(int deductionInclusion) {
+		this.deductionInclusion = deductionInclusion;
 	}
 
 }

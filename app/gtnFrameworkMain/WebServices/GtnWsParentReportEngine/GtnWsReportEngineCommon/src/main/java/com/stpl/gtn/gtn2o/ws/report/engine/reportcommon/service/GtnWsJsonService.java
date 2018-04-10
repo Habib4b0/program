@@ -18,12 +18,12 @@ public class GtnWsJsonService {
 
 	public static GtnWsJsonService getInstance() {
 		if (JSON_SERVICE == null) {
-			JSON_SERVICE = new GtnWsJsonService();
+			JSON_SERVICE = new GtnWsJsonService();	
 		}
 		return JSON_SERVICE;
 	}
 
-	public List convertJsonToList(String filePath, Class className) {
+	public List<Object> convertJsonToList(String filePath, Class className) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);

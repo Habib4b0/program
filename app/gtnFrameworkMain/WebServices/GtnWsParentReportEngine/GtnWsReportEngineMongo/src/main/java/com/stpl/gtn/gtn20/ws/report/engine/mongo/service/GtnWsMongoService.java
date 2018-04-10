@@ -12,6 +12,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCommonCalculationService;
@@ -48,7 +49,16 @@ public class GtnWsMongoService {
 		return MONGODB_INSTANCE.getCollection(collectionName);
 	}
 
-	public synchronized static void dropCollections(List<String> collectionList) {
+	public MongoCollection<GtnWsProjectionBean> getCollectionForCustomClass(String collectionName) {
+		return MONGODB_INSTANCE.getCollection(collectionName, GtnWsProjectionBean.class);
+	}
+
+	public void insertManyRecordsToMongoDbUsingCustomClass(String collectionName, Class<GtnWsProjectionBean> clazz, List<GtnWsProjectionBean> dataList) {
+		MongoCollection<GtnWsProjectionBean> collection = getCollectionForCustomClass(collectionName);
+		collection.insertMany(dataList);
+	}
+
+	public void dropCollections(List<String> collectionList) {
 		for (String collectionName : collectionList) {
 			MONGODB_INSTANCE.getCollection(collectionName).drop();
 		}
@@ -56,7 +66,7 @@ public class GtnWsMongoService {
 
 	public void updateFinalResultsToMongo(String collectionName, GtnWsReportEngineTreeNode output) {
 		try {
-			MongoCollection collection = getCollection(collectionName);
+			MongoCollection<Document> collection = getCollection(collectionName);
 			insertIntoMongoCollection(collection, output);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -64,7 +74,7 @@ public class GtnWsMongoService {
 		}
 	}
 
-	private void insertIntoMongoCollection(MongoCollection collection, GtnWsReportEngineTreeNode output) {
+	private void insertIntoMongoCollection(MongoCollection<Document> collection, GtnWsReportEngineTreeNode output) {
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : output.getChildren()) {
 			GtnWsTreeNodeAttributeBean nodeData = (GtnWsTreeNodeAttributeBean) gtnWsTreeNode.getNodeData();
 			if (nodeData != null && !nodeData.getAttributeBeanList().isEmpty()) {
@@ -195,7 +205,7 @@ public class GtnWsMongoService {
 		Document group = new Document("$group", groupFields);
 		Document project = new Document("$project", selectClause);
 		Document sort = new Document("$sort", new Document("_id.year", 1).append("_id.semiAnnual", 1));
-
+	
 		List<Document> conditions = new ArrayList<>();
 		conditions.add(match);
 		conditions.add(new Document("$unwind", "$projectionDetailsValues"));
@@ -282,7 +292,7 @@ public class GtnWsMongoService {
 	}
 
 	public Document dividedResult(Object numerator, Object denominator) {
-		List<Object> condition = new ArrayList();
+		List<Object> condition = new ArrayList<>();
 		condition.add(new Document("$gt", Arrays.asList(denominator, 0)));
 		condition.add(new Document("$multiply",
 				Arrays.asList(new Document("$divide", Arrays.asList(numerator, denominator)), 100)));

@@ -23,7 +23,7 @@ public class GtnWsMongoCalculation {
 	}
 
 	public void nodeData() {
-		List<String> collection = engineBean.getCollection();
+		List<String> collection = engineBean.getComparisonTableName();
 		GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
 		for (String collectionName : collection) {
 			nodeDataRecursion(reportEngineTreeNode, collectionName, null);
