@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class CalendarField extends AbstractField<List>
 	private static final Logger logger = org.apache.log4j.LogManager.getLogger(CalendarField.class);
 
 	public CalendarField() {
-		setValue(new ArrayList());
+		setValue(new ArrayList());//check now, ok, but if you dont pass false here , then it will take false 
 	}
 
 	public CalendarField(String caption) {
@@ -123,6 +124,7 @@ public class CalendarField extends AbstractField<List>
 
 	public void setDisableWeekDays(WeekDay... days) {
 		this.disableWeekDays = Arrays.asList(days);
+		logger.info("disableWeekDays"+disableWeekDays.size());
 		markAsDirty();
 	}
 
@@ -138,7 +140,9 @@ public class CalendarField extends AbstractField<List>
 
 	public void setDisableDates(Date... dates) {
 		logger.info("Inside setDisabledDates");
-		this.disableDates = Arrays.asList(dates);
+		//this.disableDates = Arrays.asList(dates);
+		List<Date> disableDatesList = new LinkedList<Date>(Arrays.asList(dates));
+		this.disableDates = disableDatesList;
 		markAsDirty();
 	}
 
@@ -186,9 +190,11 @@ public class CalendarField extends AbstractField<List>
 	public void setSelectedWeekDays(WeekDay... days) {
 
 		List<WeekDay> removedWeekDays = new ArrayList<WeekDay>(this.selectedWeekDays);
+		logger.info("removedWeekDays"+removedWeekDays);
 		this.selectedWeekDays = new ArrayList<WeekDay>(Arrays.asList(days));
-
-		if (isUpdateDateValue()) {
+		logger.info("selectedWeekDays"+selectedWeekDays);
+		updateDateValue = true;
+		if (isUpdateDateValue() || updateDateValue) {
 			boolean update = updateSelectedDays(removedWeekDays, new ArrayList<Integer>());
 			if (update) {
 				logger.info("update " + update);
@@ -196,23 +202,9 @@ public class CalendarField extends AbstractField<List>
 			}
 		}
 	}
-
-	public void clearSelectedHoliDays(WeekDay... days) {
-
-		List<WeekDay> removedWeekDays = new ArrayList<WeekDay>(this.selectedWeekDays);
-		this.selectedWeekDays = new ArrayList<WeekDay>(Arrays.asList(days));
-		
-		if(disableDates != null)
-		{
-			disableDates.clear();
-		}
-
-		if (isUpdateDateValue()) {
-			boolean update = updateSelectedDays(removedWeekDays, new ArrayList<Integer>());
-			if (update) {
-				logger.info("update " + update);
-				updateValue();
-			}
+	public void clearSelectedWeekDays(){
+		if (selectedWeekDays != null) {
+			selectedWeekDays.clear(); // those values are stored in disableDates rit?yep
 		}
 	}
 
@@ -552,6 +544,8 @@ public class CalendarField extends AbstractField<List>
 		 * user). No value changes should happen, but we need to do some
 		 * internal housekeeping.
 		 */
+		logger.info("repaintIsNotNeeded"+repaintIsNotNeeded);
+		logger.info("valueFromDate"+valueFromDate);
 		if (newValue == null) {
 			newValue = new ArrayList();
 		}
@@ -741,8 +735,7 @@ public class CalendarField extends AbstractField<List>
 
 	@Override
 	protected void doSetValue(List value) {
-		logger.info("enter doSetValue() which is empty");
+		logger.info("enter doSetValue() which is empty" + value);
 		this.disableDates.addAll(value);
-
 	}
 }

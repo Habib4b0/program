@@ -75,13 +75,14 @@ public class GtnUIFrameworkCalendarComponent implements GtnUIFrameworkComponent 
 			for (int i = 0; i < days.length; i++) {
 				gtnLogger.info("i= "+ days[i]);
 				tempWeakDays[i] = WeekDay.getWeekDay(days[i]);
-				gtnLogger.info("tempWeakDays[i] = "+ WeekDay.getWeekDay(days[i]));
+				
 			}
 			calendarField.setSelectedWeekDays(tempWeakDays);
 			
 		} else {
-			gtnLogger.info("Else in same method");
-			calendarField.clearSelectedHoliDays();
+			gtnLogger.info("Else in method setSelectedWeekDays");
+			calendarField.setDisableDates();
+			calendarField.setSelectedWeekDays();
 		}
 	}
 }

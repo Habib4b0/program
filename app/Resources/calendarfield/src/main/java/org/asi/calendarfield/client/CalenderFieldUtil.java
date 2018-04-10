@@ -17,8 +17,6 @@ package org.asi.calendarfield.client;
 
 import java.util.Date;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -26,7 +24,7 @@ import org.apache.log4j.Logger;
  */
 public class CalenderFieldUtil {
 
-	private static final Logger logger = LogManager.getLogger(CalenderFieldUtil.class);
+	
 	public static final String DATE_SEPARATOR = "_";
 
 	/**

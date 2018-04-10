@@ -848,9 +848,7 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void setSelectedWeekDays(int... days) {
-		gtnLogger.info("inside setSelectedWeekDays(days)");
 		if (getComponent() instanceof CalendarField) {
-			gtnLogger.info("inside if in setselectedDays(days)");
 			((GtnUIFrameworkCalendarComponent) (getComponentConfig().getComponentType().getGtnComponent())).setSelectedWeekDays((CalendarField) getComponent(), days);
 		}
 	}

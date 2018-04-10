@@ -14,7 +14,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.server.Page;
 
 /**
  *
@@ -45,7 +44,6 @@ public class GtnFrameworkCurdHolidaySelectionAction implements GtnUIFrameWorkAct
 			GtnUIFrameworkBaseComponent calendarBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(0));
 			
 			if (Boolean.valueOf(holiday)) {
-				gtnLogger.info("if");
 				calendarBaseComponent.setSelectedWeekDays(0, 6);
 				return;
 			}
