@@ -18,7 +18,7 @@ public class GtnFrameworkValueChangeManager {
 	}
 
 	public static Boolean isValueChangeAllowed() {
-		return (boolean) GtnUIFrameworkGlobalUI.getSessionProperty("hierarchyNameValueChange");
+		return (Boolean) GtnUIFrameworkGlobalUI.getSessionProperty("hierarchyNameValueChange");
 	}
 
 	public static void setValueChangeAllowed(boolean value) {

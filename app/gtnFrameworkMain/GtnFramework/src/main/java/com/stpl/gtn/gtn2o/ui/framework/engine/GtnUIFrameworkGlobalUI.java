@@ -434,9 +434,9 @@ public class GtnUIFrameworkGlobalUI {
 			GtnUIFrameworkBaseComponent field = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentIds[i]);
 			GtnUIFrameworkComponentType type = field.getComponentConfig().getComponentType();
 			Object value;
-			if (type.equals(GtnUIFrameworkComponentType.COMBOBOX)) {
+			if (GtnUIFrameworkComponentType.COMBOBOX == type) {
 				value = field.getIntegerFromField();
-			} else if (type.equals(GtnUIFrameworkComponentType.DATEFIELD)) {
+			} else if (GtnUIFrameworkComponentType.DATEFIELD == type) {
 				value = field.getDateFromDateField();
 			} else {
 				value = field.getStringFromField();
