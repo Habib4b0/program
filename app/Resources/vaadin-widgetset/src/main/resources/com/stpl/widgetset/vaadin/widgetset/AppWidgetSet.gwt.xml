@@ -57,6 +57,4 @@
     <inherits name="org.asi.ui.custommenubar.CustomMenuBarWidgetSet" />
 
     
-
-    <inherits name="org.vaadin.addons.WidgetSet" />
 </module>
