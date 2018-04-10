@@ -87,7 +87,7 @@ public class GtnWsModuleAuthorizationService {
 			GtnWsModuleAuthorizationBean gtnSecurityBean, GtnWsGeneralRequest gtnSecurityGeneralRequest,
 			Session session) {
 		GtnModuleComponentRoleDetails moduleCompRoleDetailsModel = new GtnModuleComponentRoleDetails();
-		Integer userId = Integer.parseInt(gtnSecurityGeneralRequest.getUserId());
+		Integer userId = Integer.valueOf(gtnSecurityGeneralRequest.getUserId());
 		Integer moduleCompRoleDetailsSid = gtnSecurityBean.getGtnModuleComponentRoleDetailsSid();
 		if (moduleCompRoleDetailsSid != null && moduleCompRoleDetailsSid > 0) {
 			moduleCompRoleDetailsModel = session.load(GtnModuleComponentRoleDetails.class, moduleCompRoleDetailsSid);
@@ -142,7 +142,7 @@ public class GtnWsModuleAuthorizationService {
 		String getModuleWiseComponentQuery = gtnWsSqlService.getQuery("getModuleWiseComponentDetailsQuery");
 		GtnFrameworkDataType[] moduleWiseQueryDataType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING };
-		Object[] moduleWiseQueryDataParams = { Integer.parseInt(gtnWsRequest.getGtnWsGeneralRequest().getUserId()),
+		Object[] moduleWiseQueryDataParams = { Integer.valueOf(gtnWsRequest.getGtnWsGeneralRequest().getUserId()),
 				catelog, moduleName.trim() };
 		List<Object[]> moduleWiseComponentResultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(getModuleWiseComponentQuery, moduleWiseQueryDataParams, moduleWiseQueryDataType);
@@ -250,7 +250,7 @@ public class GtnWsModuleAuthorizationService {
 		ModuleSubmoduleMaster moduleSubmoduleMaster = (ModuleSubmoduleMaster) GtnCommonUtil
 				.getAnyModelUsingCriteria(propertyIds, values, ModuleSubmoduleMaster.class, session);
 		GtnModuleComponentMaster moduleCompMasterModel = new GtnModuleComponentMaster();
-		Integer userId = Integer.parseInt(gtnSecurityGeneralRequest.getUserId());
+		Integer userId = Integer.valueOf(gtnSecurityGeneralRequest.getUserId());
 		moduleCompMasterModel.setModuleSubmoduleMaster(moduleSubmoduleMaster);
 		moduleCompMasterModel.setComponentId(gtnModuleComponentBean.getComponentId());
 		moduleCompMasterModel
@@ -287,7 +287,7 @@ public class GtnWsModuleAuthorizationService {
 			GtnWsGeneralRequest gtnSecurityGeneralRequest, ModuleSubmoduleMaster moduleSubmoduleMaster) {
 
 		GtnUitableComponentDetails uiTableComponentDetails = new GtnUitableComponentDetails();
-		Integer userId = Integer.parseInt(gtnSecurityGeneralRequest.getUserId());
+		Integer userId = Integer.valueOf(gtnSecurityGeneralRequest.getUserId());
 		uiTableComponentDetails.setModuleSubmoduleMaster(moduleSubmoduleMaster);
 		uiTableComponentDetails.setSingleHeaderVisibleColumns(gtnTablePropertyBean.getSingleHeaderVisibleColumns());
 		uiTableComponentDetails.setSingleHeaderVisibleHeaders(gtnTablePropertyBean.getSingleHeaderVisibleHeaders());

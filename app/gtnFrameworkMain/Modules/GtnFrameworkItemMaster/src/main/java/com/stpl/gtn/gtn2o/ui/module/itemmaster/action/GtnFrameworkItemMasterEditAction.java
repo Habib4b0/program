@@ -140,7 +140,7 @@ public class GtnFrameworkItemMasterEditAction
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
 				GtnFrameworkCommonStringConstants.STRING_NULL.equals(String.valueOf(imEditBean.getNdc9())) ? null
-						: Integer.parseInt(imEditBean.getNdc9()) });
+						: Integer.valueOf(imEditBean.getNdc9()) });
 
 		GtnUIFrameWorkActionConfig imEditDefaultValueActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SET_DEFAULT_ACTION);

@@ -51,7 +51,7 @@ public class GtnFrameworkAliasConfirmAddAction implements GtnUIFrameWorkAction ,
 				Integer tpId = 0;
 
 				if (tradingBaseComponent.getComponentData().getCustomDataList() != null) {
-					tpId = Integer.parseInt(
+					tpId = Integer.valueOf(
 							String.valueOf(tradingBaseComponent.getComponentData().getCustomDataList().get(0)));
 				}
 				GtnWsRecordBean.addProperties(7, tpId, bean.getProperties());

@@ -616,7 +616,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             }
         return newLevelList;
     }
-
+    
     /**
      * Procedure Call
      *
@@ -3176,6 +3176,6 @@ public static Date fromDateIsNull(Date fromDate) {
         }
         return toDate;
     }
-}
-
+		}
+    
 

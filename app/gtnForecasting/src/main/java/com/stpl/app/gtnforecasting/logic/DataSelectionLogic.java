@@ -1341,10 +1341,10 @@ public class DataSelectionLogic {
 				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
 			} else {
 				List<Object> inputs = new ArrayList<>();
-				resultList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
+				List<Leveldto> levelList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
 						hierarchyVersion);
 				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
-						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, resultList,
+						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, levelList,
 						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
 				inputs.add(StringUtils.join(relationHierarchy, ","));
 				inputs.add(lowestLevelNo);

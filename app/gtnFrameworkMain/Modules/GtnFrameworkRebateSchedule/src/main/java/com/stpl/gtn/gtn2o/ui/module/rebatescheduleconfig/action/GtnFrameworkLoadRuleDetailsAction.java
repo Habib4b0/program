@@ -36,7 +36,7 @@ public class GtnFrameworkLoadRuleDetailsAction
 		GtnUIFrameworkBaseComponent sourceTableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(parameters.get(1).toString(), componentId);
 		GtnWsRecordBean bean = (GtnWsRecordBean) sourceTableBaseComponent.getValueFromComponent();
-		Object extraParam = bean.getPropertyValueByIndex(Integer.valueOf(String.valueOf(parameters.get(2))));
+		Object extraParam = bean.getPropertyValueByIndex(Integer.parseInt(String.valueOf(parameters.get(2))));
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 		loadDataTableActionConfig.addActionParameter(parameters.get(3).toString());

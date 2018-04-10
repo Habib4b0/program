@@ -199,7 +199,7 @@ public class GtnWsItemMasterSaveService {
 				.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		ipemPricingQualifierEdit.setCreatedDate(new Date());
 		ipemPricingQualifierEdit
-				.setModifiedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+				.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		ipemPricingQualifierEdit.setModifiedDate(new Date());
 	}
 

@@ -186,7 +186,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 			if (comboboxConfig.isIntegerItemCode()) {
 				List<Integer> integerList = new ArrayList<>();
 				for (String str : response.getItemCodeList()) {
-					integerList.add(Integer.parseInt(str));
+					integerList.add(Integer.valueOf(str));
 				}
 				fillDataAndCaption(vaadinComboBox, integerList, response.getItemValueList());
 			} else {
@@ -377,7 +377,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 				 */
 
 				try {
-					Double value = Double.parseDouble(newItem);
+					Double value = Double.valueOf(newItem);
 					gtnLogger.debug("Value entered---" + value);
 					int newItemId = -(vaadinComboBox.getItemIds().size() + 2);
 					vaadinComboBox.addItem(newItemId);

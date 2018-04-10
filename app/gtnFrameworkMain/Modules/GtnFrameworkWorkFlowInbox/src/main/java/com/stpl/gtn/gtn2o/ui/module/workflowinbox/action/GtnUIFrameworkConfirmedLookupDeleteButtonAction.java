@@ -31,7 +31,7 @@ public class GtnUIFrameworkConfirmedLookupDeleteButtonAction
 
 		workflowinboxSid = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(11));
 
-		projMasterBean.setWorkflowinboxSid(Integer.valueOf(workflowinboxSid));
+		projMasterBean.setWorkflowinboxSid(Integer.parseInt(workflowinboxSid));
 
 	}
 

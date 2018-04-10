@@ -508,54 +508,20 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableField = new String[] { GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STRUCTURE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_RANGE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP, GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_ID,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NAME,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NO,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_FORMULA_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_FORMULA,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_RULE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_OPERATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_VALUE,
-				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX,
-				GtnFrameworkStringConstants.NOTES_TAB };
-
-		enableAction.setActionParameterList(new ArrayList<>(Arrays.asList(enableField)));
+		
+		enableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkStringConstants.ADD_COPY_ENABLE_FIELD)));
 		resultTableActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP };
-		disableAction.setActionParameterList(new ArrayList<>(Arrays.asList(disableField)));
+		disableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkStringConstants.PAGED_TABLE_DISABLE_FIELD)));
 		resultTableActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_RESET_BUTTON, GtnFrameworkStringConstants.GTN_RP_ADD_BTN,
-				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
-
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
 		visibleAction.setActionParameterList(new ArrayList<>(visibleParameters));
 		resultTableActionConfigList.add(visibleAction);
 
@@ -638,54 +604,19 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableField = new String[] { GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STRUCTURE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_RANGE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP, GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_ID,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NAME,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NO,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_FORMULA_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_FORMULA,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_RULE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_OPERATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_VALUE,
-				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX,
-				GtnFrameworkStringConstants.NOTES_TAB };
-
-		enableAction.setActionParameterList(Arrays.asList(enableField));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_COPY_ENABLE_FIELD));
 		actionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP };
-		disableAction.setActionParameterList(Arrays.asList(disableField));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.PAGED_TABLE_DISABLE_FIELD));
 		actionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_RESET_BUTTON, GtnFrameworkStringConstants.GTN_RP_ADD_BTN,
-				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
-
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
 
@@ -762,57 +693,19 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableField = new String[] { GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STRUCTURE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_RANGE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP, GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_ID,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NAME,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NO,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_FORMULA_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_FORMULA,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_RULE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_OPERATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_VALUE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TIER_TOLERANCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TIER_FORMULA,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SECONDARY_REBATE_PLAN,
-				GtnFrameworkStringConstants.NOTES_TAB,
-				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX };
-
-		enableAction.setActionParameterList(Arrays.asList(enableField));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_EDIT_ENABLE_FIELD));
 		editBtnActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP };
-		disableAction.setActionParameterList(Arrays.asList(disableField));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.PAGED_TABLE_DISABLE_FIELD));
 		editBtnActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_RESET_BUTTON, GtnFrameworkStringConstants.GTN_RP_ADD_BTN,
-				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
-
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
 		visibleAction.setActionParameterList(visibleParameters);
 		editBtnActionConfigList.add(visibleAction);
 
@@ -916,48 +809,14 @@ public class GtnFrameworkRPLandingScreenConfig {
 		viewActionConfigList.add(viewActionConfig);
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new Object[] { GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STRUCTURE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_RANGE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP, GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_ID,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NAME,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NO,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_FORMULA_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_FORMULA,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_RULE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_OPERATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_VALUE,
-				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX,
-				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX,
-				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX };
-
-		disableAction.setActionParameterList(Arrays.asList(disableField));
-		viewActionConfigList.add(disableAction);
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_VIEW_DISABLE_FIELD));
+                viewActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_RESET_BUTTON, GtnFrameworkStringConstants.GTN_RP_ADD_BTN,
-				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
-
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
 		visibleAction.setActionParameterList(visibleParameters);
 		viewActionConfigList.add(visibleAction);
 
@@ -1013,55 +872,19 @@ public class GtnFrameworkRPLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableField = new Object[] { GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STRUCTURE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_RANGE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_BASED_ON,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP, GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_ID,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NAME,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_RP_NO,
-				GtnFrameworkStringConstants.REBATE_PLAN_INFO_FORMULA_TYPE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_FORMULA,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_NET_SALES_RULE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_SELF_GROWTH_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_INDICATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_REFERENCE,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_FROM,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TO,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_OPERATOR,
-				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_VALUE,
-				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX,
-				GtnFrameworkStringConstants.NOTES_TAB };
-
-		enableAction.setActionParameterList(Arrays.asList(enableField));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_COPY_ENABLE_FIELD));
 		copyActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,
-				GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON };
-		disableAction.setActionParameterList(Arrays.asList(disableField));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkStringConstants.ADD_COPY_DISABLE_FIELD));
 		copyActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON,
-				GtnFrameworkStringConstants.REBATE_ADD_VIEW_RESET_BUTTON, GtnFrameworkStringConstants.GTN_RP_ADD_BTN,
-				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
-
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkStringConstants.VISIBLE_FIELDS));
 		visibleAction.setActionParameterList(visibleParameters);
 		copyActionConfigList.add(visibleAction);
 

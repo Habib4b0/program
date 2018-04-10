@@ -117,10 +117,10 @@ public class GtnWsWorkflowSaveService {
 			String createdBy = getKeyFromValue(map, masterbean.getCreatedByPrivate());
 			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
 			if (createdBy != null) {
-				workflowModel.setWfCreatedBy(Integer.parseInt(createdBy));
+				workflowModel.setWfCreatedBy(Integer.valueOf(createdBy));
 			}
 			if (approvedBy != null) {
-				workflowModel.setApprovedBy(Integer.parseInt(approvedBy));
+				workflowModel.setApprovedBy(Integer.valueOf(approvedBy));
 			}
 			workflowModel.setCreatedDate(new Date());
 			workflowModel.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
@@ -149,7 +149,7 @@ public class GtnWsWorkflowSaveService {
 		workflowModel.setCompanyId(masterbean.getCompanyID());
 		workflowModel.setCompanyName(masterbean.getCompanyName());
 		workflowModel.setCompanyNo(masterbean.getCompanyNo());
-		workflowModel.setContractType(Integer.parseInt(String.valueOf(masterbean.getContractType())));
+		workflowModel.setContractType(Integer.valueOf(String.valueOf(masterbean.getContractType())));
 		workflowModel.setCreationFromDate(masterbean.getCreatedFrom());
 		workflowModel.setCreationToDate(masterbean.getCreatedTo());
 		workflowModel.setDeductionName(masterbean.getDeductionNameArm());
@@ -203,10 +203,10 @@ public class GtnWsWorkflowSaveService {
 				|| getHelperTable(Integer.valueOf(masterbean.getBusinessProcess()), session).getDescription()
 						.equals(GtnWsFileManagementConstants.ACCRUAL_RATE_PROJECTION)) {
 			workflowModel.setDeductionLevel(String.valueOf(masterbean.getForecastdeductionLevel()));
-			workflowModel.setDeductionValue(Integer.parseInt(String.valueOf(masterbean.getForecastdeductionValue())));
+			workflowModel.setDeductionValue(Integer.valueOf(String.valueOf(masterbean.getForecastdeductionValue())));
 		} else {
 			workflowModel.setDeductionLevel(String.valueOf(masterbean.getDeductionLevelArm()));
-			workflowModel.setDeductionValue(Integer.parseInt(String.valueOf(masterbean.getDeductionValueArm())));
+			workflowModel.setDeductionValue(Integer.valueOf(String.valueOf(masterbean.getDeductionValueArm())));
 		}
 	}
 
