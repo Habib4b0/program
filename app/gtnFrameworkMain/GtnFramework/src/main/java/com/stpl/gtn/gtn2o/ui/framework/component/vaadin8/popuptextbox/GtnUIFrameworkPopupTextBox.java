@@ -29,7 +29,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
-	HorizontalLayout popupTextBoxHorizontalComponent;
+	private HorizontalLayout popupTextBoxHorizontalComponent;
 
 	@Override
 	public AbstractComponent buildVaadinComponent(final GtnUIFrameworkComponentConfig componentConfig) {
