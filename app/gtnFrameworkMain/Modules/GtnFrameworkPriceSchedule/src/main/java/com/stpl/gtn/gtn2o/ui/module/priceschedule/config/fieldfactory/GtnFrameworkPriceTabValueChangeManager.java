@@ -19,7 +19,7 @@ public class GtnFrameworkPriceTabValueChangeManager {
 	}
 
 	public static Boolean isValueChangeAllowed() {
-		return (boolean) GtnUIFrameworkGlobalUI.getSessionProperty("PriceTabValueChangeAllowed");
+		return (Boolean) GtnUIFrameworkGlobalUI.getSessionProperty("PriceTabValueChangeAllowed");
 	}
 
 	public static void setValueChangeAllowed(boolean value) {

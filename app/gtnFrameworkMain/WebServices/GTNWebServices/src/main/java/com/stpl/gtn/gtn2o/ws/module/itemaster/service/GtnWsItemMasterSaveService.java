@@ -199,7 +199,7 @@ public class GtnWsItemMasterSaveService {
 				.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		ipemPricingQualifierEdit.setCreatedDate(new Date());
 		ipemPricingQualifierEdit
-				.setModifiedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+				.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		ipemPricingQualifierEdit.setModifiedDate(new Date());
 	}
 
@@ -398,7 +398,7 @@ public class GtnWsItemMasterSaveService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? 0 : systemId);
+		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	public void updateItemMaster(GtnUIFrameworkWebserviceRequest gtnWsRequest,

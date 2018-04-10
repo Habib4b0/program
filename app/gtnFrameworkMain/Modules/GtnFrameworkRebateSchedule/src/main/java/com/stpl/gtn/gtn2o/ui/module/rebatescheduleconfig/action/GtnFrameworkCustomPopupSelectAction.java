@@ -48,7 +48,7 @@ public class GtnFrameworkCustomPopupSelectAction implements GtnUIFrameWorkAction
 				GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
 						.getVaadinComponentData(sharedPopupDataList.get(0).toString());
 
-				Object idValue = dto.getPropertyValueByIndex(Integer.valueOf(String.valueOf(parameters.get(3))));
+				Object idValue = dto.getPropertyValueByIndex(Integer.parseInt(String.valueOf(parameters.get(3))));
 				idComponentData.setCustomDataList(Arrays.asList(idValue, dto, parameters.get(3)));
 				idComponentData.setCustomData(dto);
 				List<String> inputColumIds = (List<String>) sharedPopupDataList.get(1);

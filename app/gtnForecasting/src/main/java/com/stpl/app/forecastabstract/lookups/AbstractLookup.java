@@ -108,11 +108,11 @@ public abstract class AbstractLookup extends Window {
 	protected HorizontalLayout addSearchCriteriaButtons(final Component... components) {
 		setSearchBtn(getSearchButton());
 		setResetBtn(getResetCriteriaButton(components));
-		HorizontalLayout buttonLayout = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
-		buttonLayout.addComponent(searchBtn);
-		buttonLayout.addComponent(resetBtn);
-		buttonLayout.setMargin(false);
-		return buttonLayout;
+		HorizontalLayout abstractLookupButtonLayout = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
+		abstractLookupButtonLayout.addComponent(searchBtn);
+		abstractLookupButtonLayout.addComponent(resetBtn);
+		abstractLookupButtonLayout.setMargin(false);
+		return abstractLookupButtonLayout;
 	}
 
 	/**
@@ -127,12 +127,12 @@ public abstract class AbstractLookup extends Window {
 		setSelectBtn(getSelectButton());
 		setResetResultBtn(getResetResultsButton(results));
 		setCancelBtn(getCancelButton());
-		HorizontalLayout footerButtons = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
-		footerButtons.addComponent(selectBtn);
-		footerButtons.addComponent(cancelBtn);
-		footerButtons.addComponent(resetResultBtn);
-		footerButtons.setMargin(false);
-		return footerButtons;
+		HorizontalLayout abstractLookupFooterButtons = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
+		abstractLookupFooterButtons.addComponent(selectBtn);
+		abstractLookupFooterButtons.addComponent(cancelBtn);
+		abstractLookupFooterButtons.addComponent(resetResultBtn);
+		abstractLookupFooterButtons.setMargin(false);
+		return abstractLookupFooterButtons;
 	}
 
 	/**
@@ -178,14 +178,14 @@ public abstract class AbstractLookup extends Window {
 	 * @return Search button with its listener
 	 */
 	protected Button getSearchButton() {
-		Button search = new Button(BTN_SEARCH.getConstant());
-		search.addClickListener(new Button.ClickListener() {
+		Button searchButton = new Button(BTN_SEARCH.getConstant());
+		searchButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnLookupSearchLogic();
 			}
 		});
-		return search;
+		return searchButton;
 	}
 
 	/**
@@ -194,8 +194,8 @@ public abstract class AbstractLookup extends Window {
 	 * @return Select button with its listener
 	 */
 	protected Button getSelectButton() {
-		Button select = new Button(BTN_SELECT.getConstant());
-		select.addClickListener(new Button.ClickListener() {
+		Button selectButton = new Button(BTN_SELECT.getConstant());
+		selectButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				try {
@@ -211,7 +211,7 @@ public abstract class AbstractLookup extends Window {
 				}
 			}
 		});
-		return select;
+		return selectButton;
 	}
 
 	/**
@@ -241,8 +241,8 @@ public abstract class AbstractLookup extends Window {
 	 * @return The reset button
 	 */
 	protected Button getResetResultsButton(final ExtFilterTable results) {
-		Button reset = new Button(BTN_RESET.getConstant());
-		reset.addClickListener(new Button.ClickListener() {
+		Button resultReset = new Button(BTN_RESET.getConstant());
+		resultReset.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				NotificationUtils notificationUtils = new NotificationUtils() {
@@ -261,7 +261,7 @@ public abstract class AbstractLookup extends Window {
 
 			}
 		});
-		return reset;
+		return resultReset;
 	}
 
 	/**
@@ -270,14 +270,14 @@ public abstract class AbstractLookup extends Window {
 	 * @return The cancel button
 	 */
 	protected Button getCancelButton() {
-		Button cancel = new Button(BTN_CANCEL.getConstant());
-		cancel.addClickListener(new Button.ClickListener() {
+		Button cancelBtn = new Button(BTN_CANCEL.getConstant());
+		cancelBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				close();
 			}
 		});
-		return cancel;
+		return cancelBtn;
 	}
 
 	/**
@@ -286,8 +286,8 @@ public abstract class AbstractLookup extends Window {
 	 * @return The close button
 	 */
 	protected Button getCloseButton() {
-		Button close = new Button(BTN_CLOSE.getConstant());
-		close.addClickListener(new Button.ClickListener() {
+		Button closeBtn = new Button(BTN_CLOSE.getConstant());
+		closeBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnCloseLogic();
@@ -295,7 +295,7 @@ public abstract class AbstractLookup extends Window {
 			}
 
 		});
-		return close;
+		return closeBtn;
 	}
 
 	/**
@@ -304,8 +304,8 @@ public abstract class AbstractLookup extends Window {
 	 * @return The import button
 	 */
 	protected Button getUpdateButton() {
-		Button addButton = new Button(BTN_UPDATE.getConstant());
-		addButton.addClickListener(new Button.ClickListener() {
+		Button updateButton = new Button(BTN_UPDATE.getConstant());
+		updateButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				try {
@@ -321,7 +321,7 @@ public abstract class AbstractLookup extends Window {
 				}
 			}
 		});
-		return addButton;
+		return updateButton;
 	}
 
 	/**
@@ -356,8 +356,8 @@ public abstract class AbstractLookup extends Window {
 	 * @return The import button
 	 */
 	protected Button getImportButton() {
-		Button importButton = new Button(BTN_IMPORT.getConstant());
-		importButton.addClickListener(new Button.ClickListener() {
+		Button lookupImportButton = new Button(BTN_IMPORT.getConstant());
+		lookupImportButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				try {
@@ -373,7 +373,7 @@ public abstract class AbstractLookup extends Window {
 				}
 			}
 		});
-		return importButton;
+		return lookupImportButton;
 	}
 
 	/**
@@ -382,14 +382,14 @@ public abstract class AbstractLookup extends Window {
 	 * @return Submit button
 	 */
 	public Button getSubmitBtn() {
-		Button btnSubmit = new Button(BTN_SUBMIT.getConstant());
-		btnSubmit.addClickListener(new Button.ClickListener() {
+		Button submitBtn = new Button(BTN_SUBMIT.getConstant());
+		submitBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnSubmitLogic();
 			}
 		});
-		return btnSubmit;
+		return submitBtn;
 	}
 
 	/**
@@ -403,14 +403,14 @@ public abstract class AbstractLookup extends Window {
 	 * @return Submit button
 	 */
 	public Button getRemoveBtn() {
-		Button btnRemove = new Button(BTN_REMOVE.getConstant());
-		btnRemove.addClickListener(new Button.ClickListener() {
+		Button removeBtn = new Button(BTN_REMOVE.getConstant());
+		removeBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnRemoveLogic();
 			}
 		});
-		return btnRemove;
+		return removeBtn;
 	}
 
 	/**
@@ -462,15 +462,15 @@ public abstract class AbstractLookup extends Window {
 	 * To reset the search criteria. Override this method to implement custom
 	 * logic
 	 *
-	 * @param groupName
-	 * @param groupNo
+	 * @param grpName
+	 * @param grpNo
 	 */
-	public void btnLookupResetLogic(final TextField groupName, final TextField groupNo) {
-		if (groupName != null) {
-			groupName.setValue(StringUtils.EMPTY);
+	public void btnLookupResetLogic(final TextField grpName, final TextField grpNo) {
+		if (grpName != null) {
+			grpName.setValue(StringUtils.EMPTY);
 		}
-		if (groupNo != null) {
-			groupNo.setValue(StringUtils.EMPTY);
+		if (grpNo != null) {
+			grpNo.setValue(StringUtils.EMPTY);
 		}
 	}
 

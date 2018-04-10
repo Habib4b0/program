@@ -29,7 +29,7 @@ public class GtnUIFrameworkButtonComponent implements GtnUIFrameworkComponent, G
 		vaadinButton.setVisible(componentConfig.isVisible());
 		vaadinButton.addStyleName("buttonCustomStyle");
 		if (gtnUIFrameworkButtonConfig != null
-				&& gtnUIFrameworkButtonConfig.getButtonType().equals(GtnUiFrameworkButtonType.LINK_BUTTON)) {
+				&& GtnUiFrameworkButtonType.LINK_BUTTON == gtnUIFrameworkButtonConfig.getButtonType()){
 			vaadinButton.setStyleName(ValoTheme.BUTTON_LINK);
 		}
 		loadStyles(vaadinButton, componentConfig.getComponentStyle());

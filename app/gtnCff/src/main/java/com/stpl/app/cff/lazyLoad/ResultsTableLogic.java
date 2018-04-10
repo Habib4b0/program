@@ -165,10 +165,10 @@ public class ResultsTableLogic extends PageTreeTableLogic {
                     detailsList= relationshipLevelDetailsMap.get(hierarchy);
                     String customTreeLevel = treeLevel + (index + j) + ".";
                     ProjectionResultsDTO dto = new ProjectionResultsDTO();
-                    dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO).toString()));
+                    dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO)));
                      dto.setTreeLevelNo(levelNo);
-                    dto.setGroup(detailsList.get(0).toString());
-                    dto.setLevelValue(detailsList.get(NumericConstants.THREE).toString());
+                    dto.setGroup(detailsList.get(0));
+                    dto.setLevelValue(detailsList.get(NumericConstants.THREE));
                     dto.setHierarchyNo(hierarchy);
                     dto.setHierarchyIndicator(hierarchyIndicator);
                     if (dto.getHierarchyIndicator().equals("C")) {

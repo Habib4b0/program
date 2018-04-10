@@ -193,7 +193,7 @@ public class RelationshipLevelValuesMasterBean {
 	}
 
 	private String generateDefaultSelect(int alreadySelected) {
-		StringBuilder defaultStr = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder defaultStr = new StringBuilder();
 		int count = defaultCount - alreadySelected;
 		for (int i = 0; i < count; i++) {
 			defaultStr.append(" ,NULL AS COLUMN_").append(i);

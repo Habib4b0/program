@@ -501,7 +501,7 @@ public class PmpyTradingPartnerLookup extends Window {
      */
     private void searchLogic() throws CommitException  {
         LOGGER.debug("Entering searchLogic method");
-        if (StringUtils.isEmpty(tradingPartnerNo.getValue().toString()) && StringUtils.isEmpty(tradingPartnerName.getValue())) {
+        if (StringUtils.isEmpty(tradingPartnerNo.getValue()) && StringUtils.isEmpty(tradingPartnerName.getValue())) {
             AbstractNotificationUtils.getErrorNotification("No Search Criteria", "Please enter a value to search for.");
         } else {
             String tpNo = tradingPartnerNo.getValue();

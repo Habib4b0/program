@@ -115,7 +115,7 @@ public class QueryUtils {
         LOGGER.debug("Inside Item Bulk Update");
         try {
             LOGGER.debug("query - - >> {}" , queryName);
-            Integer count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryName.toString());
+            Integer count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryName);
             if (count > 0) {
                 return Boolean.TRUE;
             } else {

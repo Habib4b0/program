@@ -155,7 +155,7 @@ public class GtnWsWorkFlowSubmissionController {
 							.getWorkflowMasterByProjectionId(forecastProjectionSubmitBean.getProjectionId());
 					GtnWsWorkflowMasterBean wfMasterBean = workflowLogicService.setWorkflowMasterBean(
 							forecastProjectionSubmitBean.getProjectionId(), wm.getWorkflowMasterSid(),
-							Integer.valueOf(gtnWsGeneralRequest.getUserId()), GtnWsBpmCommonConstants.APPROVED_STATUS,
+							Integer.parseInt(gtnWsGeneralRequest.getUserId()), GtnWsBpmCommonConstants.APPROVED_STATUS,
 							"", 2);
 					workflowId = workflowLogicService.updateWorkflow(wfMasterBean);
 					approvedFlag = GtnWsBpmCommonConstants.SUBMITTED_AND_APPROVED;

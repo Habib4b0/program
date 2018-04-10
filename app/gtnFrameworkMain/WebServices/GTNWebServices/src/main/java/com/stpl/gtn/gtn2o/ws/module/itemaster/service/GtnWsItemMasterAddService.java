@@ -596,7 +596,7 @@ public class GtnWsItemMasterAddService {
 				return;
 			}
 			dataType = new GtnFrameworkDataType[] { GtnFrameworkDataType.DATE, GtnFrameworkDataType.INTEGER };
-			params = new Object[] { updateDate, Integer.parseInt(gtnWsRequest.getGtnWsItemMasterRequest()
+			params = new Object[] { updateDate, Integer.valueOf(gtnWsRequest.getGtnWsItemMasterRequest()
 					.getGtnWsItemMasterBean().getGtnWsItemMasterInfoBean().getPopulateIdentityId()) };
 		} else if (gtnWsRequest.getGtnWsItemMasterRequest().getGtnWsItemMasterBean().getGtnWsItemMasterInfoBean()
 				.getPopulateField().equalsIgnoreCase("itemPrice")) {
@@ -605,9 +605,9 @@ public class GtnWsItemMasterAddService {
 			String itemPriceValue = gtnWsRequest.getGtnWsItemMasterRequest().getGtnWsItemMasterBean()
 					.getGtnWsItemMasterInfoBean().getPopulateValue();
 			if (itemPriceValue != null && !itemPriceValue.isEmpty()) {
-				itemPrice = Double.parseDouble(itemPriceValue);
+				itemPrice = Double.valueOf(itemPriceValue);
 			}
-			params = new Object[] { itemPrice, Integer.parseInt(gtnWsRequest.getGtnWsItemMasterRequest()
+			params = new Object[] { itemPrice, Integer.valueOf(gtnWsRequest.getGtnWsItemMasterRequest()
 					.getGtnWsItemMasterBean().getGtnWsItemMasterInfoBean().getPopulateIdentityId()) };
 		} else {
 			String helperIdString = gtnWsRequest.getGtnWsItemMasterRequest().getGtnWsItemMasterBean()
@@ -618,7 +618,7 @@ public class GtnWsItemMasterAddService {
 			}
 
 			dataType = new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
-			params = new Object[] { helperTableId, Integer.parseInt(gtnWsRequest.getGtnWsItemMasterRequest()
+			params = new Object[] { helperTableId, Integer.valueOf(gtnWsRequest.getGtnWsItemMasterRequest()
 					.getGtnWsItemMasterBean().getGtnWsItemMasterInfoBean().getPopulateIdentityId()) };
 
 		}
