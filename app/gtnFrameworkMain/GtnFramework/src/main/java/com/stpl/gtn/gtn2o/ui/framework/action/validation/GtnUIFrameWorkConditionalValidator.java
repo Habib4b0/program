@@ -37,10 +37,10 @@ public class GtnUIFrameWorkConditionalValidator implements GtnUIFrameworkValidat
 			for (GtnUIFrameworkConditionalValidationType condition : gtnUIFrameworkValidationConfig
 					.getConditionList()) {
 
-				if (GtnUIFrameworkConditionalValidationType.NOT_NULL.equals(condition)) {
+				if (GtnUIFrameworkConditionalValidationType.NOT_NULL == condition) {
 					isNotNull(currentValue);
 
-				} else if (GtnUIFrameworkConditionalValidationType.NOT_EMPTY.equals(condition)) {
+				} else if (GtnUIFrameworkConditionalValidationType.NOT_EMPTY == condition) {
 
 					isNotEmpty(currentValue);
 				}

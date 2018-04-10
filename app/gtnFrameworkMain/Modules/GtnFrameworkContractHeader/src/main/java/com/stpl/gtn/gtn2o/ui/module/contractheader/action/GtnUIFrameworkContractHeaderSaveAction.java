@@ -194,7 +194,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 			for (GtnWsRecordBean dto : identifierList) {
 				aliasBean = new GtnwsContractAliasMasterBean();
 				Object tpSid = dto.getPropertyValueByIndex(6);
-				aliasBean.setTpCompanyMasterSid(tpSid == null ? 0 : (int) tpSid);
+				aliasBean.setTpCompanyMasterSid(tpSid == null ? 0 : (Integer) tpSid);
 				Object aliasMasterSid = dto.getPropertyValueByIndex(7);
 				aliasBean.setContractAliasMasterSid(aliasMasterSid == null ? 0 : (int) aliasMasterSid);
 				aliasBean.setContractAliasNo((String) dto.getPropertyValue("contractAliasNo"));

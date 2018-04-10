@@ -203,7 +203,7 @@ public class GtnFrameworkCMCommonValidationAction implements GtnUIFrameWorkActio
 			GtnWsRecordBean tradeClassBean = tradeClassList.get(i);
 			Object tradeClassSid = tradeClassBean
 					.getPropertyValueByIndex(tradeClassBean.getProperties().size() - 1);
-			Boolean tradeClassSidCheck = tradeClassSidset.add((int) tradeClassSid);
+			Boolean tradeClassSidCheck = tradeClassSidset.add((Integer) tradeClassSid);
 			if (!tradeClassSidCheck) {
 				tradeClassDuplicateAlertMsg.append(GtnFrameworkCompanyStringContants.TRADE_CLASS_SID_DISTINCT);
 				break;
