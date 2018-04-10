@@ -42,7 +42,7 @@ public class ResponsiveUtils {
     public static final String STYLECOLOR = " <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>";
 
     public static Label makeLabel(String value, boolean isMandatory) {
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(STYLECOLOR);
@@ -54,7 +54,7 @@ public class ResponsiveUtils {
 
     public static Label makeLabel(String value, String styleName, boolean isMandatory) {
         LOGGER.debug("StyleName {} ",styleName);
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(STYLECOLOR);
@@ -66,7 +66,7 @@ public class ResponsiveUtils {
 
     public static Label makeLabel(String value, boolean isMandatory, String width) {
         LOGGER.debug("Width {} ",width);
-        StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder sb = new StringBuilder();
         sb.append(value);
         if (isMandatory) {
             sb.append(STYLECOLOR);

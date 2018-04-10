@@ -451,7 +451,7 @@ public class UiUtils {
 	}
 
 	public static String stringListToString(List<String> stringList) {
-		StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder builder = new StringBuilder();
 		if (stringList != null && !stringList.isEmpty()) {
 			for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
 				builder.append('\'');

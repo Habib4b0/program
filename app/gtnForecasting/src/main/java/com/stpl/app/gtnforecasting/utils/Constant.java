@@ -5,8 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.app.gtnforecasting.dao.CommonDAO;
-import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,8 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+
+import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  * The Class Constant.
@@ -701,6 +702,7 @@ public class Constant {
     public static final String LEVEL_NDC_10 = "NDC 10";
     public static final String LEVEL_NDC_11 = "NDC 11";
     public static final String PROCEDURE_CALL = "Procedure Call";
+    public static final String DP_PROCEDURE_CALL = "DP Procedure Call";
     public static final String PRICE_PROTECTION_STATUS = "Price Protection Status";
     public static final String PRICE_PROTECTION_STATUS1 = "Price Protection Status";
     public static final String PRICE_PROTECTION_START_DATE = "Price Protection Start Date";
@@ -936,6 +938,7 @@ public class Constant {
     public static final String DATA_SELECTION_TAB_LOAD = "DATA_SELECTION_TAB_LOAD";
     public static final String SALES_PROCEDURE_CALL = "SALES_PROCEDURE_CALL";
     public static final String DISCOUNT_PROCEDURE_CALL = "DISCOUNT_PROCEDURE_CALL";
+    public static final String DISCOUNT_MASTER_PROCEDURE_CALL = "DISCOUNT_MASTER_PROCEDURE_CALL";
     public static final String PPA_PROCEDURE_CALL = "PPA_PROCEDURE_CALL";
     public static final String SUPPLEMENT_PROCEDURE_CALL = "SUPPLEMENT_PROCEDURE_CALL";
     public static final String M_DISCOUNT_PROCEDURE_CALL = "M_DISCOUNT_PROCEDURE_CALL";
@@ -2054,6 +2057,7 @@ public class Constant {
     public static final String JOIN_ST_NM_DISCOUNT_PROJECTION_NMDP = " JOIN ST_NM_DISCOUNT_PROJECTION NMDP  ON NMDP.PROJECTION_DETAILS_SID = NMDPM.PROJECTION_DETAILS_SID\n";
     public static final String AND_CAST_PRYEAR_AS_VARCHAR_RIGHT_CAST = " AND  cast(PR.YEAR as varchar(4))+RIGHT('0'+CAST(PR.MONTH AS VARCHAR),2) <=";
     public static final String CLOSE_BRACKET_NEW_LINE = ")  \n";
+	public static final String WHERE_CAPS = "WHERE";
     public static final int COLUMN_COUNT_TOTAL = 75;
     /**
      * The Constant AMOUNT.

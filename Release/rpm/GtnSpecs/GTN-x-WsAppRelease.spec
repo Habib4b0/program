@@ -50,8 +50,8 @@ cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_Configuration/
 # Create Log directories
 
 mkdir $RPM_BUILD_ROOT%{prefix}/logs/
-mkdir $RPM_BUILD_ROOT%{prefix}/logs/boot_temp
-mkdir  $RPM_BUILD_ROOT%{prefix}/logs/jboss-as2
+mkdir -p $RPM_BUILD_ROOT%{prefix}/logs/web_service/boot_temp
+mkdir -p $RPM_BUILD_ROOT%{prefix}/logs/web_service/jboss-as2
 chmod -R 755 $RPM_BUILD_ROOT%{prefix}/*
 
 touch $RPM_BUILD_ROOT%{prefix}/conf/jboss-as2/jboss-as-standalone.pid
@@ -153,11 +153,6 @@ fi
 rm -rf $install_path/jboss-7.1.1/standalone/deployments/ROOT.war*
 chmod -R 750 $install_path
 chown -R $APP_User:$Chown $install_path
-chown -R $Web_Server_name:etl $install_path/logs
-chown $Web_Server_name:etl $install_path/jboss-7.1.1/
-chown $Web_Server_name:etl $install_path/jboss-7.1.1/standalone/
-chown -R $Web_Server_name:etl $install_path/jboss-7.1.1/standalone/log
-chown $APP_User:etl $install_path
 
 %files
 

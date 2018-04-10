@@ -113,7 +113,7 @@ public class DataSelectionUtil {
     }
 
     public static String getItemSidForGroup(List<Leveldto> innerProdLevels, List<String> items) {
-        StringBuilder itemList = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder itemList = new StringBuilder();
         if (items != null && !items.isEmpty()) {
             items = new ArrayList<>(new LinkedHashSet<String>(items));
             for (int loop = 0, limit = items.size(); loop < limit; loop++) {
@@ -529,7 +529,7 @@ public class DataSelectionUtil {
     }
 
     public static String getCcpWithCC(final List<Leveldto> ccList) {
-        StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder query = new StringBuilder();
         query.append("SELECT DISTINCT CCP.itemMasterSid FROM CcpDetails CCP ");
         List<String> companyMasterValues = new ArrayList<>();
         List<String> contractMasterValues = new ArrayList<>();

@@ -43,6 +43,7 @@ public class GtnFrameworkForecastConfigurationContants {
 	public static final String ACTION_BUTTON_CSSLAYOUT = "actionButtonCsslayout";
 	public static final String HISTORICAL_DATA_TIME_PERIOD_FROM = "historicalDataTimePeriodFrom";
 	public static final String FUTURE_INTERVAL = "futureInterval";
+	public static final String FORECAST_PERIOD = "forecastPeriod";
 	public static final String INTERVAL_FREQUENCY_LAYOUT = "intervalFrequencyLayout";
 	public static final String FUTURE_INTERVAL_LAYOUT = "futureIntervalLayout";
 

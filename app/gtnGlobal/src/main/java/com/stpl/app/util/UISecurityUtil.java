@@ -196,7 +196,7 @@ public final class UISecurityUtil {
             Object[] objResult = (Object[]) resultList.get(i);
             String value = objResult[1].toString();
             if (strList.contains(value)) {
-                columnList.add(value.toString());
+                columnList.add(value);
                 headerList.add(objResult[0].toString());
             }
         }

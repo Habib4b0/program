@@ -577,7 +577,7 @@ public class OutboundLogic {
             loadHierarchyTypeMap();
         }
       
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append(hierarchyTypeMap.get(hierType));
        
         if (hierarchySearchCriteria.isEmpty()) {
@@ -757,7 +757,7 @@ public class OutboundLogic {
     }
 
     public String getFormattedIds(String query) {
-        StringBuilder allIds = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder allIds = new StringBuilder();
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -831,7 +831,7 @@ public class OutboundLogic {
     public List<OutboundTableDTO> getRelationShipOutboundCheckAllResults(ErrorfulFieldGroup searchFields) {
         List<OutboundTableDTO> rbOutboundList = new ArrayList<>();
         try {
-            StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder queryBuilder = new StringBuilder();
             if (hierarchyTypeMap.isEmpty()) {
                 loadHierarchyTypeMap();
             }

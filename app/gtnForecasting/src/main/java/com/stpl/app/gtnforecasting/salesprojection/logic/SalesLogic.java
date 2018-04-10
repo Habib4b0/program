@@ -1304,7 +1304,7 @@ public class SalesLogic {
         parameters.put(Constant.INPUT, input);
         parameters.put(INDICATOR.getConstant(), "getSelectedBaseLine");
         List resultList = salesAllocationDAO.executeQuery(parameters);
-        StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder builder = new StringBuilder();
         if (resultList != null && !resultList.isEmpty()) {
             for (int loop = 0, limit = resultList.size(); loop < limit; loop++) {
                 Object object = resultList.get(loop);
@@ -1550,7 +1550,7 @@ public class SalesLogic {
                 updateCheckedRecords(projectionSelectionDTO, null, value, true);
             } else {
 
-                StringBuilder queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
+                StringBuilder queryBuilder1 = new StringBuilder();
                 String tableName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? Constant.ST_M_SALES_PROJECTION_MASTER : Constant.ST_NM_SALES_PROJECTION_MASTER;
                 queryBuilder1.append(" UPDATE ").append(tableName).append(" SET CHECK_RECORD=").append(val).append(" \n"
                         + "WHERE PROJECTION_DETAILS_SID in \n"
@@ -1576,7 +1576,7 @@ public class SalesLogic {
      */
     public void resetChkboxForReturns(final ProjectionSelectionDTO projectionSelectionDTO, boolean value) {
         try {
-            StringBuilder queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder queryBuilder1 = new StringBuilder();
             queryBuilder1.append(" UPDATE ST_RETURNS_PROJ_MASTER ").append(" SET CHECK_RECORD=").append(value ? 1 : 0).append(" \n"
                     ).append( "WHERE RETURNS_DETAILS_SID in \n"
                     ).append( '(' ).append( projectionSelectionDTO.getSessionDTO().getDetailsSID() ).append( " )");
@@ -1905,8 +1905,8 @@ public class SalesLogic {
 
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
-            StringBuilder saveQuery = new StringBuilder(StringUtils.EMPTY);
-            StringBuilder updateQuery = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder saveQuery = new StringBuilder();
+            StringBuilder updateQuery = new StringBuilder();
             editedValue = editedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
             editedValue = editedValue.replace("$", StringUtils.EMPTY);
             editedValue = editedValue.replace(",", StringUtils.EMPTY);
@@ -2048,7 +2048,7 @@ public class SalesLogic {
         String key;
         if (StringUtils.isNotBlank(editedValue) && !Constant.NULL.equals(editedValue)) {
 
-            StringBuilder updateLine = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder updateLine = new StringBuilder();
 
             editedValue = editedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
             editedValue = editedValue.replace("$", StringUtils.EMPTY);
@@ -2953,7 +2953,7 @@ public class SalesLogic {
     public List getTotalLives(int projectionId, boolean chartflag) throws PortalException, SystemException {
 
         List list;
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
 
         if (!chartflag) {
             queryBuilder.append(" select MDA.COLUMN_3 ");
@@ -2983,7 +2983,7 @@ public class SalesLogic {
         saveQuery = saveQuery.replace("[?USER_GROUP]", userGroupValue);
         saveQuery = saveQuery.replace("[?HIERARCHY_NO]", hierarchyNo);
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+        salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }
 
     /**
@@ -2994,7 +2994,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public List loadSalesGroup(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
-        StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder query = new StringBuilder();
         query.append("SELECT USER_GROUP FROM ST_NM_SALES_PROJECTION_MASTER ");
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         LOGGER.debug("Sales Group ---------------------------------= {} " , query.toString());

@@ -32,7 +32,8 @@ public class GtnFrameworkLoadDiscountService {
 			throws GtnFrameworkGeneralException {
 
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = relationUpdateService
-				.getHierarchyBuilderBasedOnProjectionId(inputBean.getProjectionId(), inputBean.getHierarchyIndicator());
+				.getHierarchyBuilderBasedOnProjectionId(inputBean.getProjectionId(), inputBean.getHierarchyIndicator(),
+						inputBean.isCff());
 		HierarchyLevelDefinitionBean selectedHierarchyLevelDto = HierarchyLevelDefinitionBean
 				.getBeanByLevelNo(inputBean.getLevelNo(), hierarchyDefinitionList);
 		return getQueryForLoadingDiscount(inputBean, selectedHierarchyLevelDto, hierarchyDefinitionList);

@@ -48,9 +48,11 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
+import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractFilterLogic;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.Converters;
@@ -75,6 +77,7 @@ import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import com.stpl.app.service.ProjectionProdHierarchyLocalServiceUtil;
 import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants.IndicatorConstants;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
@@ -89,6 +92,8 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.TreeTable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /**
  * The Class DataSelectionLogic.
@@ -114,6 +119,7 @@ public class DataSelectionLogic {
 	public static final String SELECTION_AT = "@SELECTION";
 	private List companiesList = new ArrayList<>();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
+	private static final CommonUtil commonUtil = CommonUtil.getInstance();
 
 	/**
 	 * Gets the hierarchy group.
@@ -1576,7 +1582,7 @@ public class DataSelectionLogic {
 	public List<Object> getGenerateMarketValueResult(int rbID) {
 		try {
 			List<Object> list;
-			StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+			StringBuilder queryString = new StringBuilder();
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
 					+ "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and  LEVEL_NAME='Market Type'");
 			CommonDAO spDAO = new CommonDAOImpl();
@@ -1769,7 +1775,7 @@ public class DataSelectionLogic {
 	public List<Object> getMarketType(int projectionId) {
 		try {
 			List list;
-			StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+			StringBuilder queryString = new StringBuilder();
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES,LEVEL_NO from RELATIONSHIP_LEVEL_DEFINITION \n"
 					).append( "where RELATIONSHIP_LEVEL_SID in ( select RELATIONSHIP_LEVEL_SID\n"
 					).append( "from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID= ");
@@ -2344,7 +2350,7 @@ public class DataSelectionLogic {
 	}
 
 	String prepareRelationShipQuery(final Map<String, Object> parameters, boolean isSelectOnly) {
-		StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder queryString = new StringBuilder();
 		String query2 = SQlUtil.getQuery(getClass(),"get-lower-levels-based-on-hierarchy-no-with-projId-Select");
 		if (PROJECTION_PROD_HIERARCHY.equals(parameters.get(Constant.TABLE_NAME))) {
 			List<String> rlSids = (ArrayList<String>) parameters.get(RL_SIDS);
@@ -2421,7 +2427,7 @@ public class DataSelectionLogic {
 	}
 
 	public static String stringListToString(List<String> stringList) {
-		StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder builder = new StringBuilder();
 		if (stringList != null && !stringList.isEmpty()) {
 			for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
 				builder.append('\'');
@@ -2445,38 +2451,73 @@ public class DataSelectionLogic {
 		int maxLevelNo = 0;
 		for (Map.Entry<String, List> entry : hierarchyDetailsMap.entrySet()) {
 			int levelNo = Integer.parseInt(entry.getValue().get(NumericConstants.TWO).toString());
-			if (maxLevelNo < levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR))) {
-				maxLevelNo = levelNo;
-			}
-		}
-		return maxLevelNo;
+            if (maxLevelNo < levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR))) {
+                maxLevelNo = levelNo;
+            }
+        }
+        return maxLevelNo;
+    }
+
+    public void callInsertProcedureForNm(int projectionId, SessionDTO session, String procedureName,
+            String screenName) {
+
+        StringBuilder query = new StringBuilder("EXEC ");
+        try {
+            query.append(procedureName);
+            query.append(' ');
+            query.append(projectionId);
+            query.append(',');
+            query.append(session.getUserId());
+            query.append(",'");
+            query.append(session.getSessionId());
+            if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
+
+                query.append("','");
+                query.append(screenName);
+            }
+            query.append('\'');
+            HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+    }
+
+    public void nmDiscountInsertProcedure(SessionDTO session) {
+        ExecutorService service = ThreadPool.getInstance().getService();
+        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+            session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
+				new Future[] {
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+				SalesUtils.PRC_NM_MASTER_INSERT, session.getProjectionId(), session.getUserId(),
+				session.getSessionId(), Constant.DISCOUNT3,session)) });
+            commonUtil
+                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
+				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
+            }
 	}
-
-	public void callInsertProcedureForNm(int projectionId, String userId, String sessionId, String procedureName,
-			String screenName) {
-
-		StringBuilder query = new StringBuilder("EXEC ");
-		try {
-			query.append(procedureName);
-			query.append(' ');
-			query.append(projectionId);
-			query.append(',');
-			query.append(userId);
-			query.append(",'");
-			query.append(sessionId);
-			if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
-
-				query.append("','");
-				query.append(screenName);
-			}
-			query.append('\'');
-			HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
-
+    
+    public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
+        ExecutorService service = ThreadPool.getInstance().getService();
+        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+            commonUtil
+                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
+				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
+            }
 	}
-
+        
 	/**
 	 * To insert the Accural_proj_details table in edit and add mode
 	 *

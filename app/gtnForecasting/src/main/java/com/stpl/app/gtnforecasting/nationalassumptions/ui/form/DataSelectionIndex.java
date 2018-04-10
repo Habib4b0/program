@@ -702,7 +702,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
      */
     private String getSelectedProducts() {
         List<DataSelectionDTO> selectedIds = selectedProductBean.getItemIds();
-        StringBuilder ids = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder ids = new StringBuilder();
         int i = 0;
         for (DataSelectionDTO dto : selectedIds) {
             if (i++ == 0) {

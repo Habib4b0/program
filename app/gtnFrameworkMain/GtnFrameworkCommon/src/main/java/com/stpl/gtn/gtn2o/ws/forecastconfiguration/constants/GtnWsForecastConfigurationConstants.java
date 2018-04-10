@@ -18,6 +18,7 @@ public class GtnWsForecastConfigurationConstants {
 	public static final String GTN_FORECAST_CONFIGURATION_SERVICE = "/GtnForecastConfigurationService";
 	public static final String HISTORY_INTERVAL_VALUE_CHANGE = "/historyIntervalValueChange";
 	public static final String FUTURE_FREQUENCY_VALUE_CHANGE = "/futureFrequencyValueChange";
+        public static final String PERIOD_FREQUENCY_VALUE_CHANGE = "/periodFrequencyValueChange";
 	public static final String LOAD_FORECAST_PERIOD = "/loadForecastPeriod";
 	public static final String GET_FORECAST_CONF_TABLE_DATA = "/getForecastConfTableData";
 	public static final String FROM_PERIOD_VALUE_CHANGE = "/fromPeriodValueChange";
