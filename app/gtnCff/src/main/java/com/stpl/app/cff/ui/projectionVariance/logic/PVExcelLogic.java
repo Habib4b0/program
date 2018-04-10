@@ -180,13 +180,7 @@ public class PVExcelLogic {
         for (Iterator<Object> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = (Object[]) it.next();
             String key = obj[NumericConstants.TWO].toString();
-            if (isCustomView) {
-                key = !key.contains("-") ? key.concat(".") : key;
-                key = key + appendedParentKey;
-                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
-            } else {
-                key = obj[NumericConstants.TWO].toString();
-            }
+            key = getHierarchyKey(key, appendedParentKey, obj);
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
             if (pvList == null) {
                 //To check condition total or details values
@@ -201,6 +195,17 @@ public class PVExcelLogic {
                 updateCustPeriodVarianceDetails(pvList, selection, obj);
             }
         }
+    }
+
+    public String getHierarchyKey(String key, String appendedParentKey, Object[] obj) {
+        if (isCustomView) {
+            key = !key.contains("-") ? key.concat(".") : key;
+            key = key + appendedParentKey;
+            appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+        } else {
+            key = obj[NumericConstants.TWO].toString();
+        }
+        return key;
     }
 
 	private void hierarchyAndTPkeys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
