@@ -133,6 +133,7 @@ public class NMPVExcelLogic {
     public static final String QUARTERLY1 = "QUARTERLY";
     public static final String PIVOT1 = "PIVOT";
     private static final String DASH = "-";
+    public static final String STRING_NULL = "null";
     protected List<Object> pivotDiscountList = new ArrayList<>();
     protected List<ProjectionVarianceDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
@@ -1199,7 +1200,7 @@ public class NMPVExcelLogic {
             Object[] obj = it.next();
 
             List<String> common = null;
-            if (!"null".equalsIgnoreCase(String.valueOf(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX])) && !"null".equalsIgnoreCase(String.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX]))) {
+            if (!STRING_NULL.equalsIgnoreCase(String.valueOf(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX])) && !STRING_NULL.equalsIgnoreCase(String.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX]))) {
                 common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.parseInt(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.parseInt(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
                 String groupId = common.get(0);
 
@@ -1576,7 +1577,7 @@ public class NMPVExcelLogic {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key;
-            if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
+            if (STRING_NULL.equals(String.valueOf(obj[obj.length - 1]))) {
                 key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
             } else {
                 key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
@@ -1918,7 +1919,7 @@ public class NMPVExcelLogic {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
                 if (PROGRAM_CAT.equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
-                    if (!"".equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
+                    if (!"".equals(lastValue) && !STRING_NULL.equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                         pvDTO.setGroup(lastValue);
                         resultDto.add(pvDTO);
 
@@ -2309,9 +2310,9 @@ public class NMPVExcelLogic {
         for (int i = 0; i < count; i++) {
             Object[] obj = (Object[]) procRawList_detail_discount.get(i);
             if (i == 0) {
-                oldHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));
+                oldHierarchyNo = String.valueOf(obj[1]) + (STRING_NULL.equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));
             }
-            String newHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));
+            String newHierarchyNo = String.valueOf(obj[1]) + (STRING_NULL.equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));
             newyear = String.valueOf(obj[NumericConstants.THREE]);
             newPeriod = String.valueOf(obj[NumericConstants.TWO]);
             /* Below If condition used to check next hierarchy No is same with old hierarchy No*/
@@ -2465,9 +2466,9 @@ public class NMPVExcelLogic {
     private void calculateAndCustomize_periodForCustomView(List<Object[]> rawList, List<Object[]> rawListDisc) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            String key;
-            if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
-                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
+            String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
+            if (STRING_NULL.equals(String.valueOf(obj[obj.length - 1]))) {
+                key = "D".equals(selection.getSession().getHierarchyLevelDetails().get(key).get(4)) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString().concat(".") : obj[BASECOLUMN_HIERARCHY_INDEX].toString();
             } else {
                 key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
             }
@@ -2488,9 +2489,9 @@ public class NMPVExcelLogic {
             int listIndex = 0;
             for (ListIterator<Object[]> it = rawListDisc.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
-                String key;
-                if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
-                    key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
+                String key=obj[BASECOLUMN_HIERARCHY_INDEX].toString();
+                if (STRING_NULL.equals(String.valueOf(obj[obj.length - 1]))) {
+                    key = "D".equals(selection.getSession().getHierarchyLevelDetails().get(key).get(4)) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString().concat(".") : obj[BASECOLUMN_HIERARCHY_INDEX].toString();
                 } else {
                     key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
                 }
