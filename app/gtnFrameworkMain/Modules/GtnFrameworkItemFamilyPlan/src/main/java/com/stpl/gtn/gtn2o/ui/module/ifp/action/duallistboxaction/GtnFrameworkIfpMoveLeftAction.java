@@ -53,7 +53,7 @@ public class GtnFrameworkIfpMoveLeftAction
 					GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
 					updateBean
 							.setItemMasterSid(companyMasterSid.equals(GtnFrameworkCommonStringConstants.STRING_NULL) ? 0
-									: Integer.valueOf(companyMasterSid));
+									: Integer.parseInt(companyMasterSid));
 					GtnIFamilyPlanBean ifp = new GtnIFamilyPlanBean();
 					ifp.setUpdateBean(updateBean);
 					GtnWsIfpRequest ifpRequest = new GtnWsIfpRequest();

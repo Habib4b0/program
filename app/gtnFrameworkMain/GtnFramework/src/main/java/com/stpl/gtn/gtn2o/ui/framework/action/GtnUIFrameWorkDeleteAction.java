@@ -52,7 +52,7 @@ public class GtnUIFrameWorkDeleteAction implements GtnUIFrameWorkAction {
 		if (!isAdditionalProperty) {
 			sysId = (Integer) gtnWsRecordBean.getPropertyValue(propertyId);
 		} else {
-			sysId = Integer.valueOf(String.valueOf(gtnWsRecordBean.getProperties().get(index)));
+			sysId = Integer.parseInt(String.valueOf(gtnWsRecordBean.getProperties().get(index)));
 
 		}
 

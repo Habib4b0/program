@@ -43,7 +43,7 @@ public class GtnUIFrameworkVerticalSplitPanelComponent implements GtnUIFramework
 	}
 
 	private float getPosition(String position) {
-		return Float.valueOf(position.replace("%", "").trim());
+		return Float.parseFloat(position.replace("%", "").trim());
 	}
 
 	private Unit getUnit(String position) {

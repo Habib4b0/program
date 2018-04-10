@@ -160,7 +160,7 @@ public class GtnFrameworkIfpSaveAction
 				ifpNotesBean.setMasterTableSystemId(note.getDocDetailsId());
 				ifpNotesBean.setFilePath(note.getDocumentFullPath());
 				ifpNotesBean.setFileName(note.getDocumentName());
-				ifpNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				ifpNotesBean.setCreatedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				ifpNotesBean.setCreatedDate(new Date());
 				noteBeanList.add(ifpNotesBean);
 			}

@@ -72,7 +72,7 @@ public class GtnUIFrameworkRPValidationActionAddMandatoryCheck
 		} else if (!tierFrom.matches(GtnFrameworkRegexStringConstants.NUMERIC_DECIAL_DOUBLE_PRECISION_FORMAT)) {
 			subMessage = "Please enter only numbers with two decimals places in From";
 			return subMessage;
-		} else if (!checkConditions(tierTo) && Double.valueOf(tierTo) <= Double.valueOf(tierFrom)) {
+		} else if (!checkConditions(tierTo) && Double.parseDouble(tierTo) <= Double.parseDouble(tierFrom)) {
 			subMessage = "To value should not be lesser than From value";
 			return subMessage;
 		} else if (checkCondition(tierOperator)) {

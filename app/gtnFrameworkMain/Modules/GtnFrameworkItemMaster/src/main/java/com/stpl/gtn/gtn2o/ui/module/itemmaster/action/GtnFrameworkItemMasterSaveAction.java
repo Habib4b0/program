@@ -288,7 +288,7 @@ public class GtnFrameworkItemMasterSaveAction
 				idenBean.setStartDate((Date) dto.getPropertyValue(GtnFrameworkCommonConstants.START_DATE));
 				idenBean.setEndDate((Date) dto.getPropertyValue(GtnFrameworkCommonConstants.END_DATE));
 				idenBean.setEntityCode((String) dto.getPropertyValue(GtnFrameworkCommonConstants.ENTITY_CODE));
-				idenBean.setModifiedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				idenBean.setModifiedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				idenBean.setModifiedDate(new Date());
 				identifierSaveList.add(idenBean);
 			}

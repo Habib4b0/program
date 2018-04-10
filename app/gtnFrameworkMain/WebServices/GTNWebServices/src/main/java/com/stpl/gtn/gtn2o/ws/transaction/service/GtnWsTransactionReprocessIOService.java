@@ -197,44 +197,40 @@ public class GtnWsTransactionReprocessIOService {
 				switch (columns.getExpression()) {
 				case "BETWEEN":
 					if (isDate) {
-						whereClause.append(columns.getFieldId() + " > '"
-								+ formattedDate.format(dateformate.parse(columns.getFilterValue1()) + "' and "
-										+ columns.getFieldId() + " < '"
-										+ formattedDate.format(dateformate.parse(columns.getFilterValue2())) + "'"));
+						whereClause.append(columns.getFieldId()).append(" > '").append(formattedDate.format(dateformate.parse(columns.getFilterValue1()) + "' and "
+                                                    + columns.getFieldId() + " < '"
+                                                    + formattedDate.format(dateformate.parse(columns.getFilterValue2())) + "'"));
 					} else {
-						whereClause.append(columns.getFieldId() + " >'" + columns.getFilterValue1() + "' and "
-								+ columns.getFieldId() + " < '" + columns.getFilterValue2() + "'");
+						whereClause.append(columns.getFieldId()).append(" >'").append(columns.getFilterValue1()).append("' and ").append(columns.getFieldId()).append(" < '").append(columns.getFilterValue2()).append("'");
 					}
 					break;
 				case "LIKE":
-					whereClause.append(columns.getFieldId() + " like '" + value.replaceAll("\\*", "%") + "'");
+					whereClause.append(columns.getFieldId()).append(" like '").append(value.replaceAll("\\*", "%")).append("'");
 					break;
 				case "EQUAL":
-					whereClause.append(
-							columns.getFieldId() + " = '" + getValueBasedOnType(type, value, filterValue1) + "'");
+					whereClause.append(columns.getFieldId()).append(" = '").append(getValueBasedOnType(type, value, filterValue1)).append("'");
 					break;
 
 				case "EQUALS":
-					whereClause.append(
-							columns.getFieldId() + " = '" + getValueBasedOnType(type, value, filterValue1) + "'");
+					whereClause.append(columns.getFieldId()).append(" = '").append(getValueBasedOnType(type, value, filterValue1)).append("'");
 					break;
 				case "GREATER":
-					whereClause.append(columns.getFieldId() + " > " + getValueBasedOnType(type, value, filterValue1));
+					whereClause.append(columns.getFieldId()).append(" > ").append(getValueBasedOnType(type, value, filterValue1));
 					break;
 				case "LESS":
-					whereClause.append(columns.getFieldId() + " < " + getValueBasedOnType(type, value, filterValue1));
+					whereClause.append(columns.getFieldId()).append(" < ").append(getValueBasedOnType(type, value, filterValue1));
 					break;
 				case "GREATER_OR_EQUAL":
-					whereClause.append(columns.getFieldId() + " >= " + getValueBasedOnType(type, value, filterValue1));
+					whereClause.append(columns.getFieldId()).append(" >= ").append(getValueBasedOnType(type, value, filterValue1));
 					break;
 
 				case "LESS_OR_EQUAL":
-					whereClause.append(columns.getFieldId() + " <= " + getValueBasedOnType(type, value, filterValue1));
+					whereClause.append(columns.getFieldId()).append(" <= ").append(getValueBasedOnType(type, value, filterValue1));
 					break;
 				case "AND":
-					whereClause.append(columns.getFieldId() + " < " + Double.valueOf(columns.getFilterValue2()));
-					whereClause
-							.append(" AND " + columns.getFieldId() + " > " + Double.valueOf(columns.getFilterValue1()));
+					whereClause.append(columns.getFieldId()).append(" < ").append(Double.valueOf(columns.getFilterValue2()));
+					whereClause.append(" AND ").append(columns.getFieldId()).append(" > ")
+							.append(Double.valueOf(columns.getFilterValue1()));
 					break;
 
 				case "DATE_BETWEEN":
@@ -242,11 +238,11 @@ public class GtnWsTransactionReprocessIOService {
 					Date date1 = new SimpleDateFormat(GtnFrameworkCommonConstants.E_MMM_DD_HH_MM_SS_Z_YYYY)
 							.parse(columns.getFilterValue1());
 					value = formatter.format(date1);
-					whereClause.append(columns.getFieldId() + " like '%" + value + "%'");
+					whereClause.append(columns.getFieldId()).append(" like '%").append(value).append("%'");
 					break;
 
 				default:
-					whereClause.append(columns.getFieldId() + " like '" + value.replaceAll("\\*", "%") + "'");
+					whereClause.append(columns.getFieldId()).append(" like '").append(value.replaceAll("\\*", "%")).append("'");
 					break;
 				}
 			}

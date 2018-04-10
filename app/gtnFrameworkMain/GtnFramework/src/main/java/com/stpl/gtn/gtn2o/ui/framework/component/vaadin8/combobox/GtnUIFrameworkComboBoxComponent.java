@@ -39,52 +39,55 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 		try {
 
 			final GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
-			ComboBox vaadinComboBox = fillComboBox(comboboxConfig, null, componentConfig.getSourceViewId(),new ComboBox());
+			ComboBox vaadinComboBox = fillComboBox(comboboxConfig, null, componentConfig.getSourceViewId(),
+					new ComboBox());
 
-			if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty() && vaadinComboBox!= null) {
+			if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty()
+					&& vaadinComboBox != null) {
 				vaadinComboBox.setCaption(componentConfig.getComponentName());
 			}
 
 			loadStyles(vaadinComboBox, componentConfig.getComponentStyle());
-			if (vaadinComboBox!= null) {
-			vaadinComboBox.setEnabled(componentConfig.isEnable());
-			
-			vaadinComboBox.setVisible(componentConfig.isVisible());
-			vaadinComboBox.setReadOnly(comboboxConfig.isReadOnly());
-			vaadinComboBox.setRequiredIndicatorVisible(comboboxConfig.isRequired());
-			vaadinComboBox.setEmptySelectionAllowed(false);
+			if (vaadinComboBox != null) {
+				vaadinComboBox.setEnabled(componentConfig.isEnable());
 
-			if (comboboxConfig.getValueChangeListenerClassName() != null) {
-				GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-				vaadinComboBox.addValueChangeListener((ValueChangeListener) (classLoader
-						.loadDynamicClass(comboboxConfig.getValueChangeListenerClassName())));
-			}
+				vaadinComboBox.setVisible(componentConfig.isVisible());
+				vaadinComboBox.setReadOnly(comboboxConfig.isReadOnly());
+				vaadinComboBox.setRequiredIndicatorVisible(comboboxConfig.isRequired());
+				vaadinComboBox.setEmptySelectionAllowed(false);
 
-			if (componentConfig.getGtnUIFrameWorkActionConfigList() != null
-					&& !componentConfig.getGtnUIFrameWorkActionConfigList().isEmpty()) {
-				vaadinComboBox.addValueChangeListener(new ValueChangeListener() {
-					@Override
-					public void valueChange(HasValue.ValueChangeEvent event) {
-						try {
-							GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
-									comboboxConfig.getSourceComboboxId(), componentConfig.getSourceViewId());
-							AbstractComponent sourceComponent = baseComponent.getComponent();
-							GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) sourceComponent
-									.getData();
-							GtnUIFrameworkComponentConfig sourceComponentConfig = componentData
-									.getCurrentComponentConfig();
-							GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
-									sourceComponentConfig.getGtnUIFrameWorkActionConfigList());
+				if (comboboxConfig.getValueChangeListenerClassName() != null) {
+					GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
+					vaadinComboBox.addValueChangeListener((ValueChangeListener) (classLoader
+							.loadDynamicClass(comboboxConfig.getValueChangeListenerClassName())));
+				}
 
-						} catch (GtnFrameworkGeneralException e) {
-							gtnLogger.error(e.getMessage(), e);
+				if (componentConfig.getGtnUIFrameWorkActionConfigList() != null
+						&& !componentConfig.getGtnUIFrameWorkActionConfigList().isEmpty()) {
+					vaadinComboBox.addValueChangeListener(new ValueChangeListener() {
+						@Override
+						public void valueChange(HasValue.ValueChangeEvent event) {
+							try {
+								GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
+										.getVaadinBaseComponent(comboboxConfig.getSourceComboboxId(),
+												componentConfig.getSourceViewId());
+								AbstractComponent sourceComponent = baseComponent.getComponent();
+								GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) sourceComponent
+										.getData();
+								GtnUIFrameworkComponentConfig sourceComponentConfig = componentData
+										.getCurrentComponentConfig();
+								GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
+										sourceComponentConfig.getGtnUIFrameWorkActionConfigList());
+
+							} catch (GtnFrameworkGeneralException e) {
+								gtnLogger.error(e.getMessage(), e);
+							}
 						}
-					}
-				});
-			}
+					});
+				}
 
-			setDefaultFocus(vaadinComboBox, componentConfig);
-			return vaadinComboBox;
+				setDefaultFocus(vaadinComboBox, componentConfig);
+				return vaadinComboBox;
 			}
 		} catch (GtnFrameworkGeneralException ex) {
 
@@ -153,33 +156,33 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 				componentId);
 		vaadinComboBoxComponent.setItems(new ArrayList<>());
 
-		vaadinComboBoxComponent = fillComboBox(comboboxComponentConfig, comboBoxRequestInputList, sourceViewId,vaadinComboBoxComponent);
+		vaadinComboBoxComponent = fillComboBox(comboboxComponentConfig, comboBoxRequestInputList, sourceViewId,
+				vaadinComboBoxComponent);
 		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
-		
+
 	}
 
 	private ComboBox fillComboBox(GtnUIFrameworkComboBoxConfig comboboxConfig,
 			List<Object> comboBoxWhereClauseParamList, String sourceViewId, ComboBox vaadinCombobox) {
-		ComboBox vaadinComboBox=vaadinCombobox;
+		ComboBox vaadinComboBox = vaadinCombobox;
 		GtnUIFrameworkWebserviceComboBoxResponse response = getResponseFromSource(comboboxConfig,
 				comboBoxWhereClauseParamList, sourceViewId);
-		try{
-		if (comboboxConfig.getItemValues() != null ) {
-			vaadinComboBox.setItems(comboboxConfig.getItemValues());
-			if (comboboxConfig.getItemCaptionValues() != null) {
+		try {
+			if (comboboxConfig.getItemValues() != null) {
+				vaadinComboBox.setItems(comboboxConfig.getItemValues());
+				if (comboboxConfig.getItemCaptionValues() != null) {
 
-				vaadinComboBox = fillDataAndCaption(comboboxConfig, comboboxConfig.getItemValues(),
-						comboboxConfig.getItemCaptionValues(),vaadinComboBox);
-			} else {
-				vaadinComboBox = fillDataAndCaption(comboboxConfig, comboboxConfig.getItemValues(),
-						comboboxConfig.getItemValues(),vaadinComboBox);
+					vaadinComboBox = fillDataAndCaption(comboboxConfig, comboboxConfig.getItemValues(),
+							comboboxConfig.getItemCaptionValues(), vaadinComboBox);
+				} else {
+					vaadinComboBox = fillDataAndCaption(comboboxConfig, comboboxConfig.getItemValues(),
+							comboboxConfig.getItemValues(), vaadinComboBox);
+				}
+				return vaadinComboBox;
 			}
-			return vaadinComboBox;
-		}
-		
-		vaadinComboBox = fillComboboxFromResponse(response, comboboxConfig,vaadinComboBox);
-		}
-		catch(Exception e){
+
+			vaadinComboBox = fillComboboxFromResponse(response, comboboxConfig, vaadinComboBox);
+		} catch (Exception e) {
 			gtnLogger.error("Error message", e);
 		}
 		return vaadinComboBox;
@@ -187,17 +190,18 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 
 	private ComboBox fillComboboxFromResponse(GtnUIFrameworkWebserviceComboBoxResponse response,
 			GtnUIFrameworkComboBoxConfig comboboxConfig, ComboBox vaadinCombobox) {
-		ComboBox vaadinComboBox=vaadinCombobox;
+		ComboBox vaadinComboBox = vaadinCombobox;
 		if (response != null && response.getItemCodeList() != null && !response.getItemCodeList().isEmpty()) {
 			if (comboboxConfig.isIntegerItemCode()) {
 				List<Integer> integerList = new ArrayList<>();
 				for (String str : response.getItemCodeList()) {
 					integerList.add(Integer.valueOf(str));
 				}
-				vaadinComboBox = fillDataAndCaption(comboboxConfig, integerList, response.getItemValueList(),vaadinComboBox);
+				vaadinComboBox = fillDataAndCaption(comboboxConfig, integerList, response.getItemValueList(),
+						vaadinComboBox);
 			} else {
 				vaadinComboBox = fillDataAndCaption(comboboxConfig, response.getItemCodeList(),
-						response.getItemValueList(),vaadinComboBox);
+						response.getItemValueList(), vaadinComboBox);
 			}
 			return vaadinComboBox;
 		}
@@ -205,31 +209,38 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 	}
 
 	private ComboBox fillDataAndCaption(GtnUIFrameworkComboBoxConfig comboboxConfig, List itemCodeList,
-			List<String> itemValueList, ComboBox vaadin8ComboBox) {
-		
-		List valueList = new ArrayList<>(itemCodeList);
-		List<String> captionList = new ArrayList<>(itemValueList);
-		SessioBeanForCombobox sessioBeanForVaadin8 = SessioBeanForCombobox.getInstance();
-		sessioBeanForVaadin8.setCaptionList(captionList);
-		sessioBeanForVaadin8.setValueList(valueList);
-		if (!comboboxConfig.isHasDefaultValue()) {
-			String defaultValue = comboboxConfig.getDefaultValue() != null
-					? String.valueOf(comboboxConfig.getDefaultValue()) : GtnFrameworkCommonStringConstants.SELECT_ONE;
-			valueList.add(0, 0);
-			captionList.add(0, defaultValue);
-		} 
-		vaadin8ComboBox = new ComboBox("", valueList);
-		vaadin8ComboBox.setItemCaptionGenerator(item -> captionList.get(valueList.indexOf(item)));
+			List<String> itemValueList, ComboBox vaadinComboBox) {
 
-		if(comboboxConfig.isHasDefaultValue()) {
-			for (int i = 0; i < captionList.size(); i++) {
-				if (comboboxConfig.getDefaultDesc().equals(captionList.get(i))) {
-					vaadin8ComboBox.setSelectedItem(valueList.get(i));
-					break;
+		try {
+			List valueList = new ArrayList<>(itemCodeList);
+			List<String> captionList = new ArrayList<>(itemValueList);
+			SessioBeanForCombobox sessioBeanForVaadin8 = SessioBeanForCombobox.getInstance();
+			sessioBeanForVaadin8.setCaptionList(captionList);
+			sessioBeanForVaadin8.setValueList(valueList);
+			if (!comboboxConfig.isHasDefaultValue()) {
+				String defaultValue = comboboxConfig.getDefaultValue() != null
+						? String.valueOf(comboboxConfig.getDefaultValue())
+						: GtnFrameworkCommonStringConstants.SELECT_ONE;
+				valueList.add(0, 0);
+				captionList.add(0, defaultValue);
+			}
+			ComboBox vaadin8ComboBox = new ComboBox("", valueList);
+			vaadin8ComboBox.setItemCaptionGenerator(item -> captionList.get(valueList.indexOf(item)));
+
+			if (comboboxConfig.isHasDefaultValue()) {
+				for (int i = 0; i < captionList.size(); i++) {
+					if (comboboxConfig.getDefaultDesc().equals(captionList.get(i))) {
+						vaadin8ComboBox.setSelectedItem(valueList.get(i));
+						break;
+					}
 				}
 			}
+			gtnLogger.info("Fill Data And Caption to the Component" + vaadinComboBox);
+			return vaadin8ComboBox;
+		} catch (Exception e) {
+			gtnLogger.error("Error message", e);
 		}
-		return vaadin8ComboBox;
+		return null;
 	}
 
 	private void loadStyles(final Component component, final List<String> comboboxStyles) {
@@ -245,7 +256,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 
 		GtnUIFrameworkWebserviceComboBoxResponse comboboxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
 
-		if ((GtnUiFrameworkComboBoxSourceType.VALUES_FROM_SERVICE)==(comboboxConfig.getSourceType())) {
+		if ((GtnUiFrameworkComboBoxSourceType.VALUES_FROM_SERVICE) == (comboboxConfig.getSourceType())) {
 			return getResponseFromService(comboboxConfig, comboBoxWhereClauseParamList);
 		}
 

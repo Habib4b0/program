@@ -276,7 +276,7 @@ public class GtnWsCMasterService {
 						obj[index] = getHelperTypeValue(obj[index]);
 						break;
 					case "Boolean":
-						obj[index] = Boolean.parseBoolean(getStringFromObject(obj[index]));
+						obj[index] = Boolean.valueOf(getStringFromObject(obj[index]));
 						break;
 					case "User":
 						obj[index] = gtnWebServiceAllListConfig.getUserIdNameMap().get(obj[index]);

@@ -179,9 +179,9 @@ public class PVExcelLogic {
         String appendedParentKey = "";
         for (Iterator<Object> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = (Object[]) it.next();
-            String key = "";
+            String key = obj[NumericConstants.TWO].toString();
             if (isCustomView) {
-                key = obj[NumericConstants.TWO].toString();
+                key = !key.contains("-") ? key.concat(".") : key;
                 key = key + appendedParentKey;
                 appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
             } else {
@@ -3280,6 +3280,7 @@ public class PVExcelLogic {
                 key = TOTAL1;
             } else if (isCustomView) {
                 key = obj[NumericConstants.TWO].toString();
+                key = !key.contains("-") ? key.concat(".") : key;
                 key = key + appendedParentKey;
             } else {
                 key = obj[NumericConstants.TWO].toString();

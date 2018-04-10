@@ -55,9 +55,7 @@ public class GtnWsWorkflowCreatedByARMController {
 			session = gtnWebServiceAllListConfig.getSysSessionFactory().openSession();
 			connection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions()
 					.getServiceRegistry().getService(ConnectionProvider.class).getConnection();
-			armQuery.append(
-					"select firstName+' '+middleName+' '+lastName as userName,firstName,lastName,CONCAT(lastName, ' ', firstName) as fullName from "
-							+ connection.getCatalog() + ".dbo.User_");
+			armQuery.append("select firstName+' '+middleName+' '+lastName as userName,firstName,lastName,CONCAT(lastName, ' ', firstName) as fullName from ").append(connection.getCatalog()).append(".dbo.User_");
 			List<Object[]> resultList = null;
 
 			resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(armQuery.toString());
