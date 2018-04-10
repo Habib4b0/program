@@ -2135,7 +2135,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                 if (!pvSelectionDTO.isIsCustomHierarchy()) {
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 } else {
-                                    parentKey = getParentKeyforCustom(itemId, key, parentKey,pvSelectionDTO);
+                                    parentKey = getParentKeyforCustom(itemId, key, parentKey);
                                 }
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2201,7 +2201,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                 if (!pvSelectionDTO.isIsCustomHierarchy()) {
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
                                 } else {
-                                    parentKey = getParentKeyforCustom(itemId, key, parentKey,pvSelectionDTO);
+                                    parentKey = getParentKeyforCustom(itemId, key, parentKey);
                                 }
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
@@ -2309,7 +2309,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         return matched;
     }
 
-    private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey,PVSelectionDTO pvSelectionDTO) {
+    private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
         if (itemId.getParentHierarchyNo() == null) {
             parentKey = !key.contains("-") ? key : key.substring(0, key.lastIndexOf('.'));
         } else {
