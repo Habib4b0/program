@@ -111,7 +111,7 @@ public class CalendarField extends AbstractField<List>
 	 */
 	private boolean showISOWeekNumbers = false;
 	private TimeZone timeZone = null;
-	Set<String> values = new HashSet<String>();
+	private Set<String> values = new HashSet<String>();
 	/**
 	 * Determines whether the ValueChangeEvent should be fired. Used to prevent
 	 * firing the event when UI has invalid string until uiHasValidDateString

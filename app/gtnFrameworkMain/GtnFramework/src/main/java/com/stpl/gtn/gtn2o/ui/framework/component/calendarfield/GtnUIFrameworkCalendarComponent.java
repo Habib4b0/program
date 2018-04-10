@@ -35,7 +35,6 @@ public class GtnUIFrameworkCalendarComponent implements GtnUIFrameworkComponent 
 		calendarField.setEnabled(componentConfig.isEnable());
 		calendarField.setRangeStart(calendarConfig.getRangeStartDate().getTime());
 		calendarField.setRangeEnd(calendarConfig.getRangeEndDate().getTime());
-		
 		calendarField.setYearResolution(calendarConfig.isYearResolution());
 		calendarField.setMatrix(calendarConfig.getDisplayMatrix());
 		gtnLogger.info("End into the buildVaadinComponent() of GtnUIFrameworkCalendarComponent");

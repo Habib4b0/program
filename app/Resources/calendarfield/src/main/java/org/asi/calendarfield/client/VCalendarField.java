@@ -89,7 +89,7 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
     private Date date = null;
 
     /** For internal use only. May be removed or replaced in the future. */
-    public DateTimeService dts;
+    public DateTimeService dateTimeService;
 
     protected boolean showISOWeekNumbers = false;
     
@@ -103,7 +103,7 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
     public VCalendarField() {
         setStyleName(CLASSNAME);
         addStyleName(NEW_CLASSNAME);
-        dts = new DateTimeService();
+        dateTimeService = new DateTimeService();
         headerCalendarPanel = new VCalendarFieldrPanel();
         headerCalendarPanel.setParentField(this);
         add(headerCalendarPanel);
@@ -182,7 +182,7 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
     }
 
     public DateTimeService getDateTimeService() {
-        return dts;
+        return dateTimeService;
     }
 
     public String getId() {

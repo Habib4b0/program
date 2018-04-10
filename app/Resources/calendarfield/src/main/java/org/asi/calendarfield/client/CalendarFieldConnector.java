@@ -57,10 +57,10 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
         if (uidl.hasAttribute("locale")) {
             final String locale = uidl.getStringAttribute("locale");
             try {
-                getWidget().dts.setLocale(locale);
+                getWidget().dateTimeService.setLocale(locale);
                 getWidget().setCurrentLocale(locale);
             } catch (final LocaleNotLoadedException e) {
-                getWidget().setCurrentLocale(getWidget().dts.getLocale());
+                getWidget().setCurrentLocale(getWidget().dateTimeService.getLocale());
                 VConsole.error("Tried to use an unloaded locale \"" + locale
                         + "\". Using default locale ("
                         + getWidget().getCurrentLocale() + ").");
@@ -72,7 +72,7 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
          //specifies
         getWidget().setShowISOWeekNumbers(
                 uidl.getBooleanAttribute(DateFieldConstants.ATTR_WEEK_NUMBERS)
-                        && getWidget().dts.getFirstDayOfWeek() == 1);
+                        && getWidget().dateTimeService.getFirstDayOfWeek() == 1);
 
         
 

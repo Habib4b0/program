@@ -56,5 +56,14 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
+
 	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.sonarsource.sonarqube</groupId>
+			<artifactId>sonar-plugin-api</artifactId>
+			<version>6.4</version>
+		</dependency>
+
+	</dependencies>
 </project>
