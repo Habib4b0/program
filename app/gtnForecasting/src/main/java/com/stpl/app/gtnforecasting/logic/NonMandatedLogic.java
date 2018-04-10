@@ -2552,6 +2552,7 @@ public class NonMandatedLogic {
 	 * @param futureList
 	 */
 	public void mainToTempTableInsert(SessionDTO session, ExecutorService service) {
+            CommonUtil commonUtil = CommonUtil.getInstance();
 		List<Future> tempInsertFutureList = new ArrayList<>();
 		// SALES MASTER TABLE INSERT
 		String query = SQlUtil.getQuery("Sales_Main_Temp_Master_Insert").replace(Constant.AT_PROJECTION_MASTER_SID,
@@ -2571,14 +2572,14 @@ public class NonMandatedLogic {
 				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
                 }
 		for (Future futureObject : tempInsertFutureList) {
-			CommonUtil.getInstance().waitsForOtherThreadsToComplete(futureObject);
+			commonUtil.waitsForOtherThreadsToComplete(futureObject);
 		}
 
 		session.addFutureMap(Constant.DISCOUNT_LOWER_CASE,
 				new Future[] {
 						// DISCOUNT MASTER INSERT
 						service.submit(
-								CommonUtil.getInstance()
+								commonUtil
 										.createRunnable(
 												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
 														SQlUtil.getQuery("Discount_Main_Temp_Master_Insert").replace(
@@ -2587,7 +2588,7 @@ public class NonMandatedLogic {
 														session.getCurrentTableNames()))),
 						// DISCOUNT PROJ INSERT
 						service.submit(
-								CommonUtil.getInstance()
+								commonUtil
 										.createRunnable(
 												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
 														SQlUtil.getQuery("Discount_Main_Temp_Proj_Insert").replace(
@@ -2597,7 +2598,7 @@ public class NonMandatedLogic {
                 if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
                 session.addFutureMap(Constant.DISCOUNT_LOWER_CASE,
 				new Future[] {service.submit(
-								CommonUtil.getInstance()
+								commonUtil
 										.createRunnable(
 												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
 														SQlUtil.getQuery("Discount_Main_Temp_Actual_Insert").replace(
@@ -2610,7 +2611,7 @@ public class NonMandatedLogic {
 				new Future[] {
 						// PPA MASTER INSERT
 						service.submit(
-								CommonUtil.getInstance()
+								commonUtil
 										.createRunnable(Constant.INSERTORUPDATE,
 												QueryUtil
 														.replaceTableNames(
@@ -2620,7 +2621,7 @@ public class NonMandatedLogic {
 																session.getCurrentTableNames()))),
 						// PPA PROJ INSERT
 						service.submit(
-								CommonUtil.getInstance()
+								commonUtil
 										.createRunnable(
 												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
 														SQlUtil.getQuery("PPA_Main_Temp_Proj_Insert").replace(
@@ -2629,7 +2630,7 @@ public class NonMandatedLogic {
 														session.getCurrentTableNames()))),
 						// PPA ACTUAL INSERT
 						service.submit(
-								CommonUtil.getInstance()
+								commonUtil
 										.createRunnable(
 												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
 														SQlUtil.getQuery("PPA_Main_Temp_Actual_Insert").replace(
