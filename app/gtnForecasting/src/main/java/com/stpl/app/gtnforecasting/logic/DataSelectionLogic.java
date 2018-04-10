@@ -148,24 +148,24 @@ public class DataSelectionLogic {
 			tempHierarchyType = tempHierarchyType.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 		}
 
-		List result = dataSelectionDao.getHierarchyGroup(tempHierarchyName, tempHierarchyType, customerOrProduct,
+		List resList = dataSelectionDao.getHierarchyGroup(tempHierarchyName, tempHierarchyType, customerOrProduct,
 				action);
 
-		HierarchyLookupDTO hdto;
-		for (int i = 0; i < result.size(); i++) {
-			hdto = new HierarchyLookupDTO();
-			final Object[] obj = (Object[]) result.get(i);
-			hdto.setHierarchyId(Integer.parseInt(obj[0].toString()));
-			hdto.setHierarchyName(String.valueOf(obj[1].toString()));
-			hdto.setHighestLevel(String.valueOf(obj[NumericConstants.THREE].toString()));
-			hdto.setLowestLevel(String.valueOf(obj[NumericConstants.FOUR].toString()));
-			hdto.setCreatedDate(String.valueOf(obj[NumericConstants.FIVE].toString()));
-			hdto.setCreatedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.FIVE].toString())));
+		HierarchyLookupDTO hierDto;
+		for (int i = 0; i < resList.size(); i++) {
+			hierDto = new HierarchyLookupDTO();
+			final Object[] obj = (Object[]) resList.get(i);
+			hierDto.setHierarchyId(Integer.parseInt(obj[0].toString()));
+			hierDto.setHierarchyName(String.valueOf(obj[1].toString()));
+			hierDto.setHighestLevel(String.valueOf(obj[NumericConstants.THREE].toString()));
+			hierDto.setLowestLevel(String.valueOf(obj[NumericConstants.FOUR].toString()));
+			hierDto.setCreatedDate(String.valueOf(obj[NumericConstants.FIVE].toString()));
+			hierDto.setCreatedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.FIVE].toString())));
 			if (obj[NumericConstants.SIX] != null) {
-				hdto.setModifiedDate(String.valueOf(obj[NumericConstants.SIX].toString()));
-				hdto.setModifiedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.SIX].toString())));
+				hierDto.setModifiedDate(String.valueOf(obj[NumericConstants.SIX].toString()));
+				hierDto.setModifiedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.SIX].toString())));
 			}
-			resultList.add(hdto);
+			resultList.add(hierDto);
 
 		}
 
