@@ -49,9 +49,11 @@ public class NMDiscountExcelLogic {
         for (Iterator<Object[]> it = discountExcelList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = obj[NumericConstants.ZERO].toString();
+            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(key.trim()).get(4));
             if (projectionSelection.isIsCustomHierarchy()) {
                 String parentId = obj[NumericConstants.FOUR] != null ? obj[NumericConstants.FOUR].toString() : StringUtils.EMPTY;
-                key = obj[NumericConstants.ZERO].toString() + "$" + parentId;
+                key = "D".equals(hierarchyIndicator)? obj[NumericConstants.ZERO].toString().concat(".") + "$" + parentId
+                        : obj[NumericConstants.ZERO].toString() + "$" + parentId;
             } else {
                 key = key.substring(key.indexOf('-') + 1);
             }
