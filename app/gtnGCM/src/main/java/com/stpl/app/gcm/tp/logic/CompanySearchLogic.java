@@ -342,7 +342,7 @@ public class CompanySearchLogic {
     }
 
     public List<TradingPartnerDTO> loadAllCustomers(List<String> companyMasterSids) throws ParseException {
-        StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder query = new StringBuilder();
         List resultList;
         List<TradingPartnerDTO> returnList;
         query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
@@ -353,7 +353,7 @@ public class CompanySearchLogic {
     }
     
     public void insertIntoTempTable(String searchSessionId, String updateType) {
-        StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder query = new StringBuilder();
         query.append("With TEMP as (");
         query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
         query.append(") INSERT into GCM_COMPANY_DETAILS(CHECK_RECORD, COMPANY_MASTER_SID,COMPANY_NO,COMPANY_NAME,SESSION_ID,SUB_MODULE_NAME,Created_Date)");
@@ -366,7 +366,7 @@ public class CompanySearchLogic {
     
     
     public void insertIntoTempTablecustomer(String searchSessionId, String updateType) {
-        StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder query = new StringBuilder();
         query.append("With TEMP as (");
         query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
         query.append(") INSERT into GCM_COMPANY_DETAILS(CHECK_RECORD, COMPANY_MASTER_SID,COMPANY_NO,COMPANY_NAME,SESSION_ID,SUB_MODULE_NAME,Created_Date)");

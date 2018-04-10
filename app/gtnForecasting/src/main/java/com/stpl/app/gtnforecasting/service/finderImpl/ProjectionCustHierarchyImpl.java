@@ -37,7 +37,7 @@ public class ProjectionCustHierarchyImpl {
         String fromVal;
         String toVal;
         boolean isProjectionStatus = false;
-        StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder customSql = new StringBuilder();
         try {
 
             if (workflowStatus.equals("Saved")) {

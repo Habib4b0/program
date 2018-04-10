@@ -95,7 +95,7 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
 
     @Override
     public List searchLinkedCompanies(Map<String, Object> parameters) {
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         if (parameters.get(StringConstantsUtil.QUERY_TYPE) != null) {
             if ("count".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.QUERY_TYPE)))) {
                 queryString.append("SELECT COUNT(*) FROM (");
@@ -183,7 +183,7 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
 
     @Override
     public List<String> getCustomersHavingCommonItems(int sourceProjectionId, int destProjectionId, int sourceContractId, int destContractId, String customerMappings) {
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         queryString.append(SQlUtil.getQuery("tp.getCustomersHavingCommonItems"));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(sourceProjectionId));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(destProjectionId));

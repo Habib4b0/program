@@ -67,7 +67,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 			rbRequestAction.addActionParameter(rbRequest);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbRequestAction);
 		}
-		rbRequest.setUserId(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
+		rbRequest.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 		String relationshipName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
 				.getStringFromField();
 		String relationshipDesc = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString())

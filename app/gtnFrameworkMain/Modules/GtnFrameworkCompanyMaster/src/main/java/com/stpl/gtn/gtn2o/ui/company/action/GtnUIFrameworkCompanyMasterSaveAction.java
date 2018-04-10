@@ -91,19 +91,19 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 				for (GtnCMasterIdentifierInfoBean gtnCMasterIdentifierInfoBean : companyMasterBean
 						.getGtnCMasterIdentifierInfoBeanList()) {
 					gtnCMasterIdentifierInfoBean
-							.setModifiedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+							.setModifiedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 					gtnCMasterIdentifierInfoBean.setModifiedDate(new Date());
 				}
 				for (GtnCMasterCompanyTradeClassBean gtnCMasterCompanyTradeClassBean : companyMasterBean
 						.getGtnCMasterCompanyTradeClassBeanList()) {
 					gtnCMasterCompanyTradeClassBean
-							.setModifiedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+							.setModifiedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 					gtnCMasterCompanyTradeClassBean.setModifiedDate(new Date());
 				}
 				for (GtnCMasterCompanyParentBean gtnCMasterCompanyParentBean : companyMasterBean
 						.getGtnCMasterCompanyParentBeanList()) {
 					gtnCMasterCompanyParentBean
-							.setModifiedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+							.setModifiedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 					gtnCMasterCompanyParentBean.setModifiedDate(new Date());
 
 				}
@@ -163,7 +163,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 			GtnCMasterFinancialCloseBean financialcloseCompany = new GtnCMasterFinancialCloseBean();
 			financialcloseCompany.setCompanyMasterSid((Integer) GtnUIFrameworkGlobalUI
 					.getSessionProperty(GtnFrameworkCompanyStringContants.COMPANY_MASTER_SID));
-			financialcloseCompany.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+			financialcloseCompany.setUserId(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 			financialcloseCompany.setSessionId(
 					Integer.valueOf(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId"))));
 			financialCloseBeanList.add(financialcloseCompany);
@@ -231,11 +231,11 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 				.getVaadinBaseComponent("parentCompanyattachResultTable").getItemsFromDataTable();
 		for (GtnWsRecordBean parentCompany1 : parentCompanyList) {
 			GtnCMasterCompanyParentBean parentCompany = new GtnCMasterCompanyParentBean();
-			parentCompany.setParentCompanyMasterSystemId(Integer.parseInt(
+			parentCompany.setParentCompanyMasterSystemId(Integer.valueOf(
 					String.valueOf(parentCompany1.getPropertyValueByIndex(parentCompany1.getProperties().size() - 1))));
 			parentCompany.setCompanyParentStartDate(parentCompany1.getDateProperty("parentCompanyStartDate"));
 			parentCompany.setCompanyParentEndDate(parentCompany1.getDateProperty("parentCompanyEndDate"));
-			parentCompany.setCreatedBy(Integer.parseInt(String.valueOf(parentCompany1
+			parentCompany.setCreatedBy(Integer.valueOf(String.valueOf(parentCompany1
 					.getPropertyValueByIndex(parentCompany1.getProperties().size() - GtnWsNumericConstants.TWO))));
 			parentCompany.setCreatedDate(parentCompany1.getDateProperty("createdDate"));
 			parentCompany.setModifiedBy(0);
@@ -256,7 +256,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 			tradeClass.setCompanyTradeClassValue(tradeClass1.getStringProperty("tradeClass"));
 			tradeClass.setCompanyTradeClassStartDate(tradeClass1.getDateProperty("tradeClassStartDate"));
 			tradeClass.setCompanyTradeClassEndDate(tradeClass1.getDateProperty("tradeClassEndDate"));
-			tradeClass.setCreatedBy(Integer.parseInt(String.valueOf(tradeClass1
+			tradeClass.setCreatedBy(Integer.valueOf(String.valueOf(tradeClass1
 					.getPropertyValueByIndex(tradeClass1.getProperties().size() - GtnWsNumericConstants.TWO))));
 			tradeClass.setCreatedDate(tradeClass1.getDateProperty("createdDate"));
 			tradeClass.setModifiedBy(0);

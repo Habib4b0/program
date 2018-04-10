@@ -26,7 +26,7 @@ public class HierarchyDefinitionImpl {
     public List getHierarchyGroup(final String HIERARCHY_NAME, final String hierarchyType, final String customerOrProduct, final String action) {
         List list = new ArrayList();
 
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         try {
 
             queryBuilder.append("SELECT distinct c.HIERARCHY_DEFINITION_SID,c.HIERARCHY_NAME,a.LEVEL_NAME, a.LEVEL_NO , ");

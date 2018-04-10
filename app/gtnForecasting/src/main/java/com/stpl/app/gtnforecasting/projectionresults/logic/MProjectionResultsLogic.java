@@ -3973,7 +3973,7 @@ public class MProjectionResultsLogic {
 
             productLevelNo = StringUtils.EMPTY + projSelDTO.getTreeLevelNo();
         }
-        StringBuffer customQuery = new StringBuffer(StringUtils.EMPTY);
+        StringBuffer customQuery = new StringBuffer();
         customQuery.append("INSERT INTO @CCP (RELATIONSHIP_LEVEL_SID\n"
                 ).append( ", PROJECTION_DETAILS_SID\n"
                 ).append( ", CCP_DETAILS_SID\n"

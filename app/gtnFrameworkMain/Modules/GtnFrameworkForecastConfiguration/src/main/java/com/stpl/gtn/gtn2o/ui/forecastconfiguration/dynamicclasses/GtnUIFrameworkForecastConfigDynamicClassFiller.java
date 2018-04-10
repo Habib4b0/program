@@ -2,6 +2,8 @@ package com.stpl.gtn.gtn2o.ui.forecastconfiguration.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnFrameworkSaveAction;
+import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameWorkDefaultForecastResetValueAction;
+import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameWorkDefaultResetValueAction;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameworkDataFrequencyValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameworkForecastConfigurationSaveAction;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameworkFromPeriodValueChangeAction;
@@ -38,6 +40,10 @@ public class GtnUIFrameworkForecastConfigDynamicClassFiller implements GtnUIDyna
 				new GtnUIFrameworkProcessTypeValueChangeAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkToPeriodValueChangeAction.class.getName(),
 				new GtnUIFrameworkToPeriodValueChangeAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameWorkDefaultResetValueAction.class.getName(),
+				new GtnUIFrameWorkDefaultResetValueAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameWorkDefaultForecastResetValueAction.class.getName(),
+				new GtnUIFrameWorkDefaultForecastResetValueAction());
 
 	}
 
