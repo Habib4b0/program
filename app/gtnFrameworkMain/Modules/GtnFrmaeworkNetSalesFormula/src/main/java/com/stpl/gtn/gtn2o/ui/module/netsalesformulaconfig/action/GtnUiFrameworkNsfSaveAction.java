@@ -65,7 +65,7 @@ public class GtnUiFrameworkNsfSaveAction implements GtnUIFrameWorkAction, GtnUIF
 			if (netSalesRuleBean != null
 					&& netSalesRuleBean.getPropertyValue(GtnFrameworkNSFConstants.getSystemid()) != null) {
 				Object netSalesSid = netSalesRuleBean.getPropertyValue(GtnFrameworkNSFConstants.getSystemid());
-				nsfInfoBean.setNetSalesSid(Integer.parseInt(String.valueOf(netSalesSid)));
+				nsfInfoBean.setNetSalesSid(Integer.valueOf(String.valueOf(netSalesSid)));
 			}
 		}
 		Object systemId = GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkNSFConstants.getSystemid());

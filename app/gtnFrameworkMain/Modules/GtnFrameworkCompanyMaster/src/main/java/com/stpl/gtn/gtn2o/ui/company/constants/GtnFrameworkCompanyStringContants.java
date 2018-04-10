@@ -321,6 +321,11 @@ public class GtnFrameworkCompanyStringContants {
 	private static final String[] IDENTIFIER_TAB_TABLE_VIEW_HEADER_LIST = new String[] { "Company Qualifier Name",
 			"Company Identifier", "Identifier Status", "Start Date", "End Date", "Created By", "Created Date",
 			"Modified By", "Modified Date" };
+    public static String[] TEXT_FIELD_COMPONENT_IDS = new String[]{"companyInformationcompanyId", "companyInformationcompanyNo",
+        "companyInformationTabCompanyId", "companyInformationTabCompanyNo", "companyInformationTabCompanyName",
+        "companyInformationTabSource", "companyInformationTabFinancialSystem",
+        COMPANY_INFO_SYSTEM_ID, COMPANY_INFO_CREATED_BY, "companyInformationTabModifiedBy"};
+				
 
 	public static List<String> getCmIdentifierTextfieldPropertiesList() {
 		return CM_IDENTIFIER_TEXTFIELD_PROPERTIES_LIST;

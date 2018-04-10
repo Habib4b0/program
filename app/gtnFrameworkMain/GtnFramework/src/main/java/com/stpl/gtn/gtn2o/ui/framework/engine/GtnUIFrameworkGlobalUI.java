@@ -442,7 +442,7 @@ public class GtnUIFrameworkGlobalUI {
 				value = field.getStringFromField();
 			}
 			if (value == null || value instanceof String && String.valueOf(value).isEmpty()
-					|| value instanceof Integer && Integer.valueOf(String.valueOf(value)) == 0) {
+					|| value instanceof Integer && Integer.parseInt(String.valueOf(value)) == 0) {
 				errorMessageBuilder.append(appender).append(field.getCaption());
 				appender = " , ";
 
