@@ -2563,6 +2563,13 @@ public class NonMandatedLogic {
 				String.valueOf(session.getProjectionId()));
 		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
 				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
+                if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+                // SALES ACTUAL INSERT
+		query = SQlUtil.getQuery("Sales_Main_Temp_Actual_Insert").replace(Constant.AT_PROJECTION_MASTER_SID,
+				String.valueOf(session.getProjectionId()));
+		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
+				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
+                }
 		for (Future futureObject : tempInsertFutureList) {
 			CommonUtil.getInstance().waitsForOtherThreadsToComplete(futureObject);
 		}
@@ -2587,6 +2594,17 @@ public class NonMandatedLogic {
 																Constant.AT_PROJECTION_MASTER_SID,
 																String.valueOf(session.getProjectionId())),
 														session.getCurrentTableNames())))});
+                if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+                session.addFutureMap(Constant.DISCOUNT_LOWER_CASE,
+				new Future[] {service.submit(
+								CommonUtil.getInstance()
+										.createRunnable(
+												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
+														SQlUtil.getQuery("Discount_Main_Temp_Actual_Insert").replace(
+																Constant.AT_PROJECTION_MASTER_SID,
+																String.valueOf(session.getProjectionId())),
+														session.getCurrentTableNames())))});
+                }
 
 		session.addFutureMap(Constant.PPA_SMALL,
 				new Future[] {
