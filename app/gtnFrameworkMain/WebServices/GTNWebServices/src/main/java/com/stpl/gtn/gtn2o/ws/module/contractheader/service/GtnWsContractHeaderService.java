@@ -525,9 +525,9 @@ public class GtnWsContractHeaderService {
 							.append(notesTabRequest.getCreatedBy()).append(')');
 				} else {
 					cmNotesTabQuery.append(",(").append(masterSid).append(",'")
-							.append(notesTabRequest.getMasterTableName()).append("','")
-							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy() + ")");
+                                            .append(notesTabRequest.getMasterTableName()).append("','")
+                                            .append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),").append(notesTabRequest.getCreatedBy())
+							.append(")");
 				}
 				i++;
 			}

@@ -114,7 +114,26 @@ public class GtnFrameworkStringConstants {
 	public static final String REBATE_PLAN_CALCULATIONS_REBATE_STRUCTURE_LAYOUT = "rebatePlanCalculationsRebateStructureLayout";
 	public static final String WIDTH_AUTO="width-auto";
         
-        public static final Object[] ADD_COPY_ENABLE_FIELD = new Object[] { GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE,
+        public static Object[] getAddCopyEnableFields() {
+		return ADD_COPY_ENABLE_FIELD.clone();
+	}
+        public static Object[] getAddEditEnableFields() {
+		return ADD_EDIT_ENABLE_FIELD.clone();
+	}
+        public static Object[] getAddViewDisableFields() {
+		return ADD_VIEW_DISABLE_FIELD.clone();
+	}
+        public static Object[] getAddCopyDisableFields() {
+		return ADD_COPY_DISABLE_FIELD.clone();
+	}
+        public static Object[] getPagedTableDisableFields() {
+		return PAGED_TABLE_DISABLE_FIELD.clone();
+	}
+         public static String[] getVisibleFields() {
+		return VISIBLE_FIELDS.clone();
+	}
+
+        private static final Object[] ADD_COPY_ENABLE_FIELD = new Object[] { GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE,
 				GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STRUCTURE,
@@ -142,7 +161,7 @@ public class GtnFrameworkStringConstants {
 				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX,
 				GtnFrameworkStringConstants.NOTES_TAB };
         
-        public static final Object[] ADD_EDIT_ENABLE_FIELD = new String[] { GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE,
+        private static final Object[] ADD_EDIT_ENABLE_FIELD = new String[] { GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE,
 				GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STRUCTURE,
@@ -173,7 +192,7 @@ public class GtnFrameworkStringConstants {
 				GtnFrameworkStringConstants.NOTES_TAB,
 				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX };
         
-        public static final Object[] ADD_VIEW_DISABLE_FIELD = new Object[] { GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
+        private static final Object[] ADD_VIEW_DISABLE_FIELD = new Object[] { GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STRUCTURE,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_RANGE_BASED_ON,
@@ -202,14 +221,14 @@ public class GtnFrameworkStringConstants {
 				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX,
 				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX };
         
-        public static final Object[] ADD_COPY_DISABLE_FIELD = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,
+        private static final Object[] ADD_COPY_DISABLE_FIELD = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,
 				GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP,
 				GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON };
         
-        public static final Object[] PAGED_TABLE_DISABLE_FIELD = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,
+        private static final Object[] PAGED_TABLE_DISABLE_FIELD = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,
 				GtnFrameworkStringConstants.REBATE_PLAN_NAME_TOP, GtnFrameworkStringConstants.REBATE_PLAN_NO_TOP };
         
-        public static final String[] VISIBLE_FIELDS = new String[] { GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON,
+        private static final String[] VISIBLE_FIELDS = new String[] { GtnFrameworkStringConstants.REBATE_ADD_VIEW_SAVE_BUTTON,
 				GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON,
 				GtnFrameworkStringConstants.REBATE_ADD_VIEW_RESET_BUTTON, GtnFrameworkStringConstants.GTN_RP_ADD_BTN,
 				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
