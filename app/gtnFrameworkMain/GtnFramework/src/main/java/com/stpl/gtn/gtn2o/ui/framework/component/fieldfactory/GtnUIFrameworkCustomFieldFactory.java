@@ -175,7 +175,7 @@ public class GtnUIFrameworkCustomFieldFactory extends DefaultFieldFactory {
 	private AbstractField<?> generateField(final Object propertyId, GtnUIFrameworkComponentConfig vaadinComponentConfig)
 			throws GtnFrameworkGeneralException {
 		AbstractField<?> field;
-		if (vaadinComponentConfig.getComponentType().equals(GtnUIFrameworkComponentType.COMBOBOX)) {
+		if (GtnUIFrameworkComponentType.COMBOBOX == vaadinComponentConfig.getComponentType()) {
 			GtnUIFrameworkComboBoxConfig comboBoxConfigForListLoad = propertyIdComboBoxMap
 					.get(String.valueOf(propertyId));
 			if (comboBoxConfigForListLoad != null) {

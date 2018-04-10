@@ -46,7 +46,7 @@ public class GtnFrameworkIfpDeleteAction implements GtnUIFrameWorkAction, GtnUIF
 		GtnIFamilyPlanBean bean = new GtnIFamilyPlanBean();
 		GtnIFamilyPlanInformationBean info = new GtnIFamilyPlanInformationBean();
 		bean.setIfpInfo(info);
-		info.setIfpSid((int) GtnUIFrameworkGlobalUI.getSessionProperty("ifpModelSid"));
+		info.setIfpSid((Integer) GtnUIFrameworkGlobalUI.getSessionProperty("ifpModelSid"));
 		ifpRequst.setGtnIFamilyPlan(bean);
 		gtnRequest.setGtnWsIfpRequest(ifpRequst);
 
