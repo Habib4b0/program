@@ -42,7 +42,7 @@ public class GtnUIFrameworkHorizontalSplitPanelComponent implements GtnUIFramewo
 	}
 
 	private float getPosition(String position) {
-		return Float.valueOf(position.replace("%", "").trim());
+		return Float.parseFloat(position.replace("%", "").trim());
 	}
 
 	private Sizeable.Unit getUnit(String position) {

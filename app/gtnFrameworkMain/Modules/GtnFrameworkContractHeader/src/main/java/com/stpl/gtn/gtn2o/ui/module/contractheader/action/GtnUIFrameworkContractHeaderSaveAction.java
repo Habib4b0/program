@@ -127,7 +127,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 		if (idComponentData != null && idComponentData.getCustomData() != null) {
 			GtnWsRecordBean tpDto = (GtnWsRecordBean) idComponentData.getCustomData();
 			if (tpDto.getPropertyValueByIndex(5) != null)
-				companyMaterId = Integer.parseInt(String.valueOf(tpDto.getPropertyValueByIndex(5)));
+				companyMaterId = Integer.valueOf(String.valueOf(tpDto.getPropertyValueByIndex(5)));
 		}
 		contractMasterBean.setCompanyMasterByBunitCompanyMasterSid(companyMaterId);
 
@@ -138,7 +138,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 		if (tpComponentData != null && tpComponentData.getCustomData() != null) {
 			GtnWsRecordBean tpDto = (GtnWsRecordBean) tpComponentData.getCustomData();
 			if (tpDto.getPropertyValueByIndex(5) != null)
-				tpSid = Integer.parseInt(String.valueOf(tpDto.getPropertyValueByIndex(5)));
+				tpSid = Integer.valueOf(String.valueOf(tpDto.getPropertyValueByIndex(5)));
 		}
 		contractMasterBean.setCompanyMasterByContHoldCompanyMasterSid(tpSid);
 
@@ -175,7 +175,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 				notesBean.setFilePath(note.getDocumentFullPath());
 				notesBean.setFileName(note.getDocumentName());
 				notesBean.setMasterTableSystemId(note.getDocDetailsId());
-				notesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				notesBean.setCreatedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				notesBean.setCreatedDate(new Date());
 				noteBeanList.add(notesBean);
 			}

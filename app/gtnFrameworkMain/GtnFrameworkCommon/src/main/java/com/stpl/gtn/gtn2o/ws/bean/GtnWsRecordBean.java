@@ -153,7 +153,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return 0.0;
 		}
-		return Double.valueOf(value);
+		return Double.parseDouble(value);
 	}
 
 	public boolean getBooleanProperty(String propertyId) {
@@ -161,7 +161,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return false;
 		}
-		return Boolean.valueOf(getStringProperty(propertyId));
+		return Boolean.parseBoolean(getStringProperty(propertyId));
 	}
 
 	public int getIntegerProperty(String propertyId) {
@@ -169,7 +169,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return 0;
 		}
-		return Integer.valueOf(getStringProperty(propertyId));
+		return Integer.parseInt(getStringProperty(propertyId));
 	}
 
 	public long getLongProperty(String propertyId) {
@@ -177,7 +177,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return 0L;
 		}
-		return Long.valueOf(getStringProperty(propertyId));
+		return Long.parseLong(getStringProperty(propertyId));
 	}
 
 	public Date getDateProperty(String propertyId) {
@@ -188,7 +188,7 @@ public class GtnWsRecordBean implements Serializable {
 		int ind = propertyId.lastIndexOf('.');
 		if (ind > -1) {
 			try {
-				ind = Integer.valueOf(propertyId.substring(ind + 1));
+				ind = Integer.parseInt(propertyId.substring(ind + 1));
 			} catch (Exception e) {
 				logger.debug(e.getMessage());
 			}
@@ -236,7 +236,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return 0.0;
 		}
-		return Double.valueOf(value);
+		return Double.parseDouble(value);
 	}
 
 	public boolean getBooleanPropertyByIndex(int index) {
@@ -244,7 +244,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return false;
 		}
-		return Boolean.valueOf(value);
+		return Boolean.parseBoolean(value);
 	}
 
 	public int getIntegerPropertyByIndex(int index) {
@@ -260,7 +260,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return 0l;
 		}
-		return Long.valueOf(value);
+		return Long.parseLong(value);
 	}
 
 	public Date getDatePropertyByIndex(int index) {
@@ -276,7 +276,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return 0.0;
 		}
-		return Double.valueOf(value);
+		return Double.parseDouble(value);
 	}
 
 	public boolean getAdditionalBooleanPropertyByIndex(int index) {
@@ -284,7 +284,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return false;
 		}
-		return Boolean.valueOf(value);
+		return Boolean.parseBoolean(value);
 	}
 
 	public int getAdditionalIntegerPropertyByIndex(int index) {
@@ -292,7 +292,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return 0;
 		}
-		return Integer.valueOf(value);
+		return Integer.parseInt(value);
 	}
 
 	public long getAdditionalLongPropertyByIndex(int index) {
@@ -300,7 +300,7 @@ public class GtnWsRecordBean implements Serializable {
 		if (isEmpty(value)) {
 			return 0L;
 		}
-		return Long.valueOf(value);
+		return Long.parseLong(value);
 	}
 
 	public Date getAdditionalDatePropertyByIndex(int index) {

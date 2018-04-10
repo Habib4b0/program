@@ -37,7 +37,7 @@ public class GtnUIFrameWorkFromToTierValueAction
 		List<String> components = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(3);
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(components.get(0))
-				.loadFieldValue((!"".equals(data) ? Double.parseDouble(data) : ""));
+				.loadFieldValue((!"".equals(data) ? Double.valueOf(data) : ""));
 
 		if (size == 1) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(components.get(0)).setEnable(true);

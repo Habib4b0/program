@@ -1013,11 +1013,11 @@ public class GtnUIFrameworkBaseComponent {
 		if (itemCodeList != null) {
 			List<Integer> integerList = new ArrayList<>();
 			for (String str : itemCodeList) {
-				integerList.add(Integer.parseInt(str));
+				integerList.add(Integer.valueOf(str));
 			}
 			massUpdateComboBox.addItems(integerList);
 			for (int valueIndex = 0; valueIndex < itemCodeList.size(); valueIndex++) {
-				massUpdateComboBox.setItemCaption(Integer.parseInt(itemCodeList.get(valueIndex)),
+				massUpdateComboBox.setItemCaption(Integer.valueOf(itemCodeList.get(valueIndex)),
 						itemValueList.get(valueIndex));
 			}
 

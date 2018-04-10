@@ -38,22 +38,22 @@ public class GtnFrameworkResetAction implements GtnUIFrameWorkAction, GtnUIFrame
 		if (value == null) {
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
 			String namespaceprefix = parameters.get(7).toString();
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(3).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(3)))
 					.loadDefaultCombobox(0, 0);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(10)))
 					.setPropertyValue(null);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(11)))
 					.setPropertyValue("Primary");
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(12).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(12)))
 					.setPropertyValue("Manual");
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(13)))
 					.setPropertyValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(14)))
 					.setPropertyValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(15)))
 					.setPropertyValue(null);
 			List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
-			GtnUIFrameworkGlobalUI.addChildComponent(namespaceprefix + parameters.get(8).toString(), componentList);
+			GtnUIFrameworkGlobalUI.addChildComponent(namespaceprefix + String.valueOf(parameters.get(8)), componentList);
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(true);
 			return;
 		}
