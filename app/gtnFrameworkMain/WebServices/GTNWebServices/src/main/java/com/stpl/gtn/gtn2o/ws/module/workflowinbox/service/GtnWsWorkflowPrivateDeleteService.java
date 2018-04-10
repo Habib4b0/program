@@ -24,7 +24,7 @@ public class GtnWsWorkflowPrivateDeleteService {
 		StringBuilder sql = new StringBuilder();
 		Integer workflowinboxSid = projMasterBean.getWorkflowinboxSid();
 		sql.append(gtnWsSqlService.getQuery("getprivateDeleteQuery"));
-		sql.append("WHERE WORKFLOW_INBOX_SID = " + workflowinboxSid);
+		sql.append("WHERE WORKFLOW_INBOX_SID = ").append(workflowinboxSid);
 		return sql.toString();
 	}
 }

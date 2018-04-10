@@ -416,7 +416,7 @@ public class GtnWsForecastConfigurationController {
 
 					StringBuilder value = new StringBuilder(forecastConfigurationSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(forecastConfigurationSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(GtnCommonUtil.getWhereClauseForAColumn(

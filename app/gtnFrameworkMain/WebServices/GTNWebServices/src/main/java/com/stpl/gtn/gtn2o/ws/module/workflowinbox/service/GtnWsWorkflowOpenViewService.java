@@ -53,13 +53,12 @@ public class GtnWsWorkflowOpenViewService {
 		sql.append(gtnWsSqlService.getQuery("getOpenViewQuery"));
 
 		if (workflowId != null && (workflowId.startsWith("BR") || workflowId.startsWith("FD"))) {
-			sql.append("WHERE WPI.ACC_CLOSURE_MASTER_SID = " + projectionmasterSid);
+			sql.append("WHERE WPI.ACC_CLOSURE_MASTER_SID = ").append(projectionmasterSid);
 		} else if (workflowId != null && workflowId.startsWith("CF")) {
-			sql.append("WHERE WPI.CONTRACT_MASTER_SID = " + projectionmasterSid + " AND WPI.CONTRACT_STRUCTURE = "
-					+ projectionmasterSid);
+			sql.append("WHERE WPI.CONTRACT_MASTER_SID = ").append(projectionmasterSid).append(" AND WPI.CONTRACT_STRUCTURE = ").append(projectionmasterSid);
 
 		} else {
-			sql.append("WHERE WPI.PROJECTION_MASTER_SID = " + projectionmasterSid);
+			sql.append("WHERE WPI.PROJECTION_MASTER_SID = ").append(projectionmasterSid);
 		}
 
 		return sql.toString();

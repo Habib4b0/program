@@ -627,7 +627,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
-		enableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkRSConstants.PAGED_TABLE_ENABLE_FIELDS)));
+		enableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkRSConstants.getPagedTableEnableField())));
 		actionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = configProvider
@@ -642,7 +642,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(new ArrayList<Object>(Arrays.asList(GtnFrameworkRSConstants.PAGED_TABLE_VISIBLE_FIELDS)));
+		visibleParameters.add(new ArrayList<Object>(Arrays.asList(GtnFrameworkRSConstants.getPagedTableVisibleFields())));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
@@ -701,7 +701,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
 		
 
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.ADD_ENABLE_FIELDS));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.getAddEnableField()));
 		actionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = configProvider
@@ -816,7 +816,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		GtnUIFrameWorkActionConfig enableAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
 
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.ADD_EDIT_ENABLE_FIELDS));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.getAddEditEnableField()));
 		editActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = configProvider
@@ -831,7 +831,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkRSConstants.ADD_VIEW_VISIBLE_FIELDS));
+		visibleParameters.add(Arrays.asList(GtnFrameworkRSConstants.getAddViewVisibleFields()));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		editActionConfigList.add(visibleAction);
@@ -923,7 +923,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
 		
 
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.ADD_VIEW_DISABLE_FIELD));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.getAddViewDisableField()));
 		actionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = configProvider
@@ -931,7 +931,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkRSConstants.ADD_VIEW_VISIBLE_FIELDS));
+		visibleParameters.add(Arrays.asList(GtnFrameworkRSConstants.getAddViewVisibleFields()));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
@@ -942,15 +942,17 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		for (int i = 0; i < GtnFrameworkRSConstants.PROPERTY_IDS.length; i++) {
+                String[] propertyIds=GtnFrameworkRSConstants.getPropertyIds();
+                String[] listnameArray=GtnFrameworkRSConstants.getListNameArray();
+		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig rsLandingScreenCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			rsLandingScreenCustomFilterConfig.setPropertId(GtnFrameworkRSConstants.PROPERTY_IDS[i]);
+			rsLandingScreenCustomFilterConfig.setPropertId(propertyIds[i]);
 			rsLandingScreenCustomFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
 			GtnUIFrameworkComponentConfig rsLandingScreenCustomFilterComponentConfig = new GtnUIFrameworkComponentConfig();
 			rsLandingScreenCustomFilterComponentConfig.setComponentId("customFilterComboBox");
 			rsLandingScreenCustomFilterComponentConfig.setComponentName("customFilterComboBox");
 			rsLandingScreenCustomFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-			rsLandingScreenCustomFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(GtnFrameworkRSConstants.LIST_NAME_ARRAY[i]);
+			rsLandingScreenCustomFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(listnameArray[i]);
 			rsLandingScreenCustomFilterComponentConfig.getGtnComboboxConfig()
 					.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);
 			rsLandingScreenCustomFilterComponentConfig.getGtnComboboxConfig()
