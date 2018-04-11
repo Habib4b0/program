@@ -861,20 +861,16 @@ public class GtnWsForecastConfigurationController {
 	private static String compareLowestPeriod(String s1, String s2) {
 		String[] arrays1 = s1.split(" ");
 		String[] arrays2 = s2.split(" ");
-                String leastYear = "";
 		               
 		String[] splittedArrayS1 = arrays1[0].split("");
 		String[] splittedArrayS2 = arrays2[0].split("");
                 if ((Integer.parseInt(arrays1[1]) == Integer.parseInt(arrays2[1])) && (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2]))) {
-                    leastYear = s1;
 			return s1;
 		}
                 if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {
-                    leastYear = s1;
 			return s1;
 		}
                 else {
-                    leastYear = s2;
 			return s2;
 		}	
 		
