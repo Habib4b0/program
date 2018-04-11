@@ -368,6 +368,20 @@ public final class Constants {
 	 */
 	public static final String PSTG_SALES_FORECAST_INTERFACE = "PSTG_SALES_FORECAST_INTERFACE";
 
+	/**
+	 * variable for the ETLInterface.
+	 */
+	public static final String CONTRACT_CFP_MBR_INTERFACE = "CONTRACT_CFP_MBR_INTERFACE";
+
+	/**
+	 * variable for the ETLInterface.
+	 */
+	public static final String PSTG_FORECAST_SALES_WAC_INTERFACE = "PSTG_FORECAST_SALES_WAC_INTERFACE";
+	/**
+	 * variable for the ETLInterface.
+	 */
+	public static final String PSTG_GCC_PROD_HIERARCHY_INTERFACE = "PSTG_GCC_PROD_HIERARCHY_INTERFACE";
+
 	private Constants() {
 	}
 }
