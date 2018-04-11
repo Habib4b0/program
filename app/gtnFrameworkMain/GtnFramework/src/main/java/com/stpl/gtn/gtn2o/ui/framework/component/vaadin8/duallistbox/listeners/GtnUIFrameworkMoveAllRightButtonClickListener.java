@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.listeners;
+package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.listeners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,28 +20,28 @@ import com.vaadin.ui.Button;
  *
  * @author STPL
  */
-public class GtnUIFrameworkMoveRightButtonClickListener implements Button.ClickListener {
+public class GtnUIFrameworkMoveAllRightButtonClickListener implements Button.ClickListener {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5332814666307472151L;
+	private static final long serialVersionUID = 1629786330821313525L;
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger
-			.getGTNLogger(GtnUIFrameworkMoveRightButtonClickListener.class);
+			.getGTNLogger(GtnUIFrameworkMoveAllRightButtonClickListener.class);
 
-	private static volatile GtnUIFrameworkMoveRightButtonClickListener moveRightButtonClickListener = null;
+	private static volatile GtnUIFrameworkMoveAllRightButtonClickListener moveAllRightButtonClickListener = null;
 
-	private GtnUIFrameworkMoveRightButtonClickListener() {
+	private GtnUIFrameworkMoveAllRightButtonClickListener() {
 	}
 
-	public static GtnUIFrameworkMoveRightButtonClickListener getInstance() {
-		GtnUIFrameworkMoveRightButtonClickListener buttonClickListener = GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener;
+	public static GtnUIFrameworkMoveAllRightButtonClickListener getInstance() {
+		GtnUIFrameworkMoveAllRightButtonClickListener buttonClickListener = GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener;
 		if (buttonClickListener == null) {
-			synchronized (GtnUIFrameworkMoveRightButtonClickListener.class) {
-				buttonClickListener = GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener;
+			synchronized (GtnUIFrameworkMoveAllRightButtonClickListener.class) {
+				buttonClickListener = GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener;
 				if (buttonClickListener == null) {
-					GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener = buttonClickListener = new GtnUIFrameworkMoveRightButtonClickListener();
+					GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener = buttonClickListener = new GtnUIFrameworkMoveAllRightButtonClickListener();
 				}
 			}
 		}
@@ -50,13 +50,13 @@ public class GtnUIFrameworkMoveRightButtonClickListener implements Button.ClickL
 
 	@Override
 	public void buttonClick(Button.ClickEvent event) {
-		LOGGER.info("Inside MoveRightButtonClickListener:");
+		LOGGER.info("Inside MoveAllRightButtonClickListener:");
 		GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) event.getButton().getData();
 		GtnUIFrameWorkActionConfig loadRightTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadRightTableActionConfig.setActionType(GtnUIFrameworkActionType.DUAL_LISTBOX_RIGHT_TABLE_LOADACTION);
 		List<Object> actionParametersList = new ArrayList<>(2);
 		actionParametersList.add(dualListBoxData);
-		actionParametersList.add(Boolean.FALSE);
+		actionParametersList.add(Boolean.TRUE);
 		loadRightTableActionConfig.setActionParameterList(actionParametersList);
 		try {
 			GtnUIFrameworkActionExecutor.executeSingleAction(event.getButton().getId(), loadRightTableActionConfig);
@@ -64,5 +64,4 @@ public class GtnUIFrameworkMoveRightButtonClickListener implements Button.ClickL
 			LOGGER.error("Exception in MoveRightButtonClickListener", e);
 		}
 	}
-
 }

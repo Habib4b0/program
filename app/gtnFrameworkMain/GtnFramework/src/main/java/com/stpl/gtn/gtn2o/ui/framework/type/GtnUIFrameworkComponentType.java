@@ -100,7 +100,8 @@ public enum GtnUIFrameworkComponentType {
 	RADIOBUTTON_VAADIN8(new GtnUIFrameworkRadioButtonGroupComponent()),
 	
 	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox()),
-        PAGED_GRID(new  GtnUIFrameworkPagedGridComponent());
+        PAGED_GRID(new  GtnUIFrameworkPagedGridComponent()),
+        V8_DUALLISTBOX(new GtnUIFrameworkDualListBoxComponent());
 	
 	private GtnUIFrameworkComponent gtnComponent;
 

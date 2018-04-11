@@ -1,13 +1,10 @@
-package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
-import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.bean.GtnFrameworkDualListBoxBean;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkV8DualListBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkDualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -17,7 +14,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.ui.TreeGrid;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GtnUIFrameWorkDualListBoxLoadRightTableBulkAction implements GtnUIFrameWorkAction {
 
@@ -46,9 +45,9 @@ public class GtnUIFrameWorkDualListBoxLoadRightTableBulkAction implements GtnUIF
 	}
 
 	public void loadRightTableBulk(List<String> inputList, GtnFrameworkDualListBoxBean dualListBoxBean) {
-		GtnUIFrameworkDualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
+		GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
 		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
-		TreeTable rightTable = dualListBoxBean.getRightTable();
+		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 		List<Object> parameterList = new ArrayList<>(3);
 		parameterList.add("loadbulkdata");
 		parameterList.add(inputList);
@@ -64,10 +63,10 @@ public class GtnUIFrameWorkDualListBoxLoadRightTableBulkAction implements GtnUIF
 	}
 
 	private GtnWsSearchRequest createSearchRequest(final List<Object> queryParameters,
-			GtnUIFrameworkDualListBoxConfig dualListBoxConfig) {
+			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
 		GtnWsSearchRequest searchRequest = new GtnWsSearchRequest();
 		searchRequest.setQueryInputList(queryParameters);
-		searchRequest.setSearchColumnNameList(new ArrayList<Object>(dualListBoxConfig.getRecordHeader()));
+		searchRequest.setSearchColumnNameList(new ArrayList<>(dualListBoxConfig.getRecordHeader()));
 		queryParameters.add(GtnUIFrameworkGlobalUI.getCurrentUser());
 		return searchRequest;
 	}
@@ -79,7 +78,7 @@ public class GtnUIFrameWorkDualListBoxLoadRightTableBulkAction implements GtnUIF
 	}
 
 	private GtnUIFrameworkWebserviceRequest createRightTableRequest(final List<Object> queryParameters,
-			GtnUIFrameworkDualListBoxConfig dualListBoxConfig) {
+			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsSearchRequest(createSearchRequest(queryParameters, dualListBoxConfig));
 		request.setGtnWsGeneralRequest(createGeneralRequest());
@@ -87,7 +86,7 @@ public class GtnUIFrameWorkDualListBoxLoadRightTableBulkAction implements GtnUIF
 	}
 
 	private GtnUIFrameworkWebserviceResponse callWebService(final String webServiceUrl,
-			final GtnUIFrameworkWebserviceRequest request, GtnUIFrameworkDualListBoxConfig dualListBoxConfig) {
+			final GtnUIFrameworkWebserviceRequest request, GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		return client.callGtnWebServiceUrl(webServiceUrl, dualListBoxConfig.getModuleType(), request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());

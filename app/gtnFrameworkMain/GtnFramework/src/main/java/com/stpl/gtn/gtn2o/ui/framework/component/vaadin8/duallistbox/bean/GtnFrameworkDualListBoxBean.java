@@ -1,33 +1,31 @@
-package com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.bean;
+package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean;
 
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkV8DualListBoxComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkV8DualListBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.TreeGrid;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-
-import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxComponent;
-import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.vaadin.ui.Button;
-import com.vaadin.v7.ui.TreeTable;
-
 public class GtnFrameworkDualListBoxBean {
-	private ExtFilterTable leftTable;
-	private TreeTable rightTable;
+	private Grid<GtnWsRecordBean> leftTable;
+	private TreeGrid<GtnWsRecordBean> rightTable;
 	private Button moveLeft;
 	private Button moveRight;
 	private Button moveAllRight;
-	private GtnUIFrameworkDualListBoxComponent gtnUIFrameworkDualListBoxComponent;
+	private GtnUIFrameworkV8DualListBoxComponent gtnUIFrameworkDualListBoxComponent;
 	private List<Object> gtnDualListBoxqueryParameters;
-	private GtnUIFrameworkDualListBoxConfig dualListBoxConfig;
+	private GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig;
 	private final GtnUIFrameworkHierarchyTreeBuilder treeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
 
-	public GtnFrameworkDualListBoxBean(ExtFilterTable leftTable, TreeTable rightTable, Button moveLeft,
+	public GtnFrameworkDualListBoxBean(Grid<GtnWsRecordBean> leftTable, TreeGrid<GtnWsRecordBean> rightTable, Button moveLeft,
 			Button moveRight, Button moveAllRight,
-			GtnUIFrameworkDualListBoxComponent gtnUIFrameworkDualListBoxComponent,
-			GtnUIFrameworkDualListBoxConfig dualListBoxConfig) {
+			GtnUIFrameworkV8DualListBoxComponent gtnUIFrameworkDualListBoxComponent,
+			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
 		super();
 		this.leftTable = leftTable;
 		this.rightTable = rightTable;
@@ -38,19 +36,19 @@ public class GtnFrameworkDualListBoxBean {
 		this.dualListBoxConfig = dualListBoxConfig;
 	}
 
-	public ExtFilterTable getLeftTable() {
+	public Grid<GtnWsRecordBean> getLeftTable() {
 		return leftTable;
 	}
 
-	public void setLeftTable(ExtFilterTable leftTable) {
+	public void setLeftTable(Grid<GtnWsRecordBean> leftTable) {
 		this.leftTable = leftTable;
 	}
 
-	public TreeTable getRightTable() {
+	public TreeGrid<GtnWsRecordBean> getRightTable() {
 		return rightTable;
 	}
 
-	public void setRightTable(TreeTable rightTable) {
+	public void setRightTable(TreeGrid<GtnWsRecordBean> rightTable) {
 		this.rightTable = rightTable;
 	}
 
@@ -78,12 +76,12 @@ public class GtnFrameworkDualListBoxBean {
 		this.moveAllRight = moveAllRight;
 	}
 
-	public GtnUIFrameworkDualListBoxComponent getGtnUIFrameworkDualListBoxComponent() {
+	public GtnUIFrameworkV8DualListBoxComponent getGtnUIFrameworkDualListBoxComponent() {
 		return gtnUIFrameworkDualListBoxComponent;
 	}
 
 	public void setGtnUIFrameworkDualListBoxComponent(
-			GtnUIFrameworkDualListBoxComponent gtnUIFrameworkDualListBoxComponent) {
+			GtnUIFrameworkV8DualListBoxComponent gtnUIFrameworkDualListBoxComponent) {
 		this.gtnUIFrameworkDualListBoxComponent = gtnUIFrameworkDualListBoxComponent;
 	}
 
@@ -96,11 +94,11 @@ public class GtnFrameworkDualListBoxBean {
 		this.gtnDualListBoxqueryParameters = new ArrayList<>(gtnDualListBoxqueryParameters);
 	}
 
-	public GtnUIFrameworkDualListBoxConfig getDualListBoxConfig() {
+	public GtnUIFrameworkV8DualListBoxConfig getDualListBoxConfig() {
 		return dualListBoxConfig;
 	}
 
-	public void setDualListBoxConfig(GtnUIFrameworkDualListBoxConfig dualListBoxConfig) {
+	public void setDualListBoxConfig(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
 		this.dualListBoxConfig = dualListBoxConfig;
 	}
 
@@ -108,12 +106,13 @@ public class GtnFrameworkDualListBoxBean {
 		return treeBuilder;
 	}
 
+        @SuppressWarnings("unchecked")
 	public void clearLeftTableData() {
-		leftTable.getContainerDataSource().removeAllItems();
+		leftTable.setItems(new ArrayList<>());
 	}
 
 	public void clearRightTableData() {
-		rightTable.getContainerDataSource().removeAllItems();
+		rightTable.getTreeData().clear();
 		treeBuilder.clearRootNode();
 	}
 

@@ -1,12 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.engine.data;
 
 import com.stpl.addons.grid.paged.component.PagedGrid;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.asi.ui.customwindow.CustomWindow;
-
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActionParameter;
@@ -20,6 +14,10 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkSupportedValidationType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.asi.ui.customwindow.CustomWindow;
 
 public class GtnUIFrameworkComponentData {
 
@@ -304,5 +302,5 @@ public class GtnUIFrameworkComponentData {
     public void setTableConfig(GtnUIFrameworkPagedTableConfig tableConfig) {
         this.tableConfig = tableConfig;
     }
-        
+   
 }

@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.gtn.gtn2o.ui.framework.component.duallistbox;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.asi.container.ExtTreeContainer;
+package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWSTreeNode;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.ui.TreeGrid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -148,33 +145,30 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void loadRightTreeTable(TreeTable treeTable, int loadingLevel) {
-		ExtTreeContainer<GtnWsRecordBean> container = (ExtTreeContainer<GtnWsRecordBean>) treeTable
-				.getContainerDataSource();
-		container.removeAllItems();
-		recursiveLoad(rootTreeNode, container, loadingLevel);
+	public void loadRightTreeTable(TreeGrid<GtnWsRecordBean> treeTable, int loadingLevel) {
+//		ExtTreeContainer<GtnWsRecordBean> container = (ExtTreeContainer<GtnWsRecordBean>) treeTable
+//				.getDataProvider();
+		treeTable.getTreeData().clear();
+		recursiveLoad(rootTreeNode, treeTable, loadingLevel);
 	}
 
-	private void recursiveLoad(GtnWSTreeNode node, ExtTreeContainer<GtnWsRecordBean> container, int loadingLevel) {
+	private void recursiveLoad(GtnWSTreeNode node,TreeGrid<GtnWsRecordBean> treeTable, int loadingLevel) {
 		if (node == null) {
 			return;
 		}
 		List<GtnWSTreeNode> childeren = node.getChildren();
 		if (childeren == null) {
-			container.setChildrenAllowed(node.getNodeData(), false);
+//			container.setChildrenAllowed(node.getNodeData(), false);
 			return;
 		}
 		if (node.getLevel() > loadingLevel - 1) {
-			container.setChildrenAllowed(node.getNodeData(), false);
+//			container.setChildrenAllowed(node.getNodeData(), false);
 			return;
 		}
-		container.setChildrenAllowed(node.getNodeData(), true);
+//		container.setChildrenAllowed(node.getNodeData(), true);
 		for (GtnWSTreeNode childNode : childeren) {
-			container.addBean(childNode.getNodeData());
-			if (node.getNodeData() != null) {
-				container.setParent(childNode.getNodeData(), node.getNodeData());
-			}
-			recursiveLoad(childNode, container, loadingLevel);
+                    treeTable.getTreeData().addItem(node.getNodeData(), childNode.getNodeData());
+		    recursiveLoad(childNode, treeTable, loadingLevel);
 		}
 	}
 
