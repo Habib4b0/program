@@ -72,7 +72,7 @@ public class GtnFrameworkPricingTabFieldFactoryAction
 			tempValue = (Boolean) tempValue ? 1 : 0;
 		}
 		psUpdateBean.setValue(tempValue);
-		psUpdateBean.setMasterSid(Integer.valueOf(systemId));
+		psUpdateBean.setMasterSid(Integer.parseInt(systemId));
 		psUpdateBean.setCheckAll(checkAll);
 
 		GtnWsCheckAllUpdateRequest gtnWsPSUpdateRequest = new GtnWsCheckAllUpdateRequest();

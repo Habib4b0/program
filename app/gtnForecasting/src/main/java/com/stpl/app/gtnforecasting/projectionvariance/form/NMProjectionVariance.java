@@ -2311,7 +2311,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
         if (itemId.getParentHierarchyNo() == null) {
-            parentKey = key.substring(0, key.lastIndexOf('.'));
+            parentKey = !key.contains("-") ? key : key.substring(0, key.lastIndexOf('.'));
         } else {
             parentKey = itemId.getParentHierarchyNo();
             if (pvSelectionDTO.isIsCustomHierarchy()) {

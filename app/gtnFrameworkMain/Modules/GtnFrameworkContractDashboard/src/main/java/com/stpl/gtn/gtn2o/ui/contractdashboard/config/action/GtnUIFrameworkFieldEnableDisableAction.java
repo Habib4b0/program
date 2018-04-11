@@ -31,7 +31,7 @@ public class GtnUIFrameworkFieldEnableDisableAction implements GtnUIFrameWorkAct
 		GtnUIFrameworkBaseComponent fieldBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(parameters.get(1).toString());
 		String value = fieldBaseComponent.getStringFromField();
-		if (Boolean.valueOf(String.valueOf(parameters.get(2)))) {
+		if (Boolean.parseBoolean(String.valueOf(parameters.get(2)))) {
 			value = fieldBaseComponent.getCaptionFromComboBox();
 		}
 		boolean isEnable = String.valueOf(parameters.get(3)).equalsIgnoreCase(value);

@@ -398,7 +398,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         tableLogic.sinkItemPerPageWithPageLength(false);
         if (flag) {
             configure();
-        }
+    }
         flag = true;
 
         if (CommonUtil.isValueEligibleForLoading()) {

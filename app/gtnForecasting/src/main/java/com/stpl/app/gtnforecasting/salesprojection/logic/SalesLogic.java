@@ -2145,7 +2145,7 @@ public class SalesLogic {
             }
 
             CommonLogic commonLogic = new CommonLogic();
-            String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-custom-view") : SQlUtil.getQuery("selected-hierarchy-no-update");
+            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT, salesDTO.getSecHierarchyNo());
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_PRODUCTPARENT, salesDTO.getHierarchyNo());

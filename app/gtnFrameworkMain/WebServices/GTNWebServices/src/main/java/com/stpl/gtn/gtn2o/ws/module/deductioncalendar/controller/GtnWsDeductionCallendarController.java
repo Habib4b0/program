@@ -242,8 +242,8 @@ public class GtnWsDeductionCallendarController {
 				isAdded = true;
 			}
 
-			query.append("( ").append("' ").append(id).append("','").append(userId + "',")
-					.append("' " + sessionId + "')");
+			query.append("( ").append("' ").append(id).append("','").append(userId).append("',").append("' ").append(sessionId)
+					.append("')");
 
 		}
 

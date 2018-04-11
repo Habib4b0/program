@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -108,6 +109,16 @@ public abstract class AbstractCustomTreeView extends Window {
     @UiField("deductionLayout")
     private HorizontalLayout deductionLayout;
     private boolean saveFlag = false;
+    protected SessionDTO sessionDto;
+    
+    
+      public AbstractCustomTreeView(SessionDTO sessionDto) {
+ 
+        super("Custom Tree look Up");
+        this.sessionDto = sessionDto;
+        
+    }
+
 
     /**
      * Inits the.

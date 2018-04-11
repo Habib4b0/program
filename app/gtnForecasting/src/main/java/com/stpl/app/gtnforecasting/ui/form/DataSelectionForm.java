@@ -3264,7 +3264,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					UI.getCurrent().addWindow(forecastWindow);
 
 				} else if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)) {
-                                        long startTime = System.currentTimeMillis();
 					ForecastEditWindow editWindow = new ForecastEditWindow(dto.getProjectionName(), tempSession,
 							resultTable, scrName, this);
 					UI.getCurrent().addWindow(editWindow);

@@ -404,11 +404,7 @@ public class CommonUtil {
                         break;
                     case Constant.PROCEDURE_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        if (inputs.length == NumericConstants.SEVEN) {
-                            //It will wait until the main to temp get complete in discount tables//                            
-                        waitsForOtherThreadsToComplete((Future)inputs[NumericConstants.SIX]);
-                            }
-                        new DataSelectionLogic().callInsertProcedureForNm(Integer.parseInt(inputs[NumericConstants.TWO].toString()), inputs[NumericConstants.THREE].toString(), inputs[NumericConstants.FOUR].toString(), inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
+                        new DataSelectionLogic().callInsertProcedureForNm(Integer.parseInt(inputs[NumericConstants.TWO].toString()),(SessionDTO)inputs[NumericConstants.SIX], inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
                         break;
                     case Constant.INSERTORUPDATE:
                             //For Discount Projection insert alone will wait for list view get saved.(Used in temp to main insert)
@@ -496,7 +492,7 @@ public class CommonUtil {
                     //It will wait until the ppa insert procedure complete                         
                     waitsForOtherThreadsToComplete(future);
                 }
-                new DataSelectionLogic().callInsertProcedureForNm(projectionId, session.getUserId(), session.getSessionId(), procedureName, Constant.PPA_SMALL);
+                new DataSelectionLogic().callInsertProcedureForNm(projectionId, session, procedureName, Constant.PPA_SMALL);
             }
         };
         return runnable;
