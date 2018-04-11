@@ -258,10 +258,10 @@ public class NMPVExcelLogic {
     }
 
     private boolean isRefreshNeeded(String levelFilterValue, String groupFilterValue, String viewValue, int freDiv) {
-        boolean val = this.levelFilterValue.equals(levelFilterValue)
+        boolean val = this.frequencyDivision == freDiv
+                && this.levelFilterValue.equals(levelFilterValue)
                 && this.groupFilterValue.equals(groupFilterValue)
-                && this.viewValue.equals(viewValue)
-                && this.frequencyDivision == freDiv;
+                && this.viewValue.equals(viewValue);
         this.levelFilterValue = levelFilterValue;
         this.groupFilterValue = groupFilterValue;
         this.viewValue = viewValue;
@@ -1918,7 +1918,7 @@ public class NMPVExcelLogic {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
                 if (PROGRAM_CAT.equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
-                    if (!"".equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
+                    if (obj[NumericConstants.TWO] != null && !"".equals(lastValue) && !"null".equals(lastValue) && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                         pvDTO.setGroup(lastValue);
                         resultDto.add(pvDTO);
 
@@ -1930,7 +1930,7 @@ public class NMPVExcelLogic {
                     pvDTO.setDfLevelNumber(lastValue);
                     pvDTO.setDfLevelName(lastValue);
                 } else {
-                    if (!StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && obj[obj.length - 1] != null && !lastValue.equals(String.valueOf(obj[obj.length - 1]))) {
+                    if (obj[obj.length - 1] != null && !StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && !lastValue.equals(String.valueOf(obj[obj.length - 1]))) {
                         pvDTO.setGroup(lastGroupName);
                         resultDto.add(pvDTO);
                         pvDTO = new ProjectionVarianceDTO();

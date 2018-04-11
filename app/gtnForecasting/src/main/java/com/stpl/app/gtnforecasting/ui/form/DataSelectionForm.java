@@ -3836,8 +3836,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 		try {
 
-			if ((productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))
-					&& (innerProdLevels != null)) {
+			if ((innerProdLevels != null) && (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
 
 				String relationshipSid = String.valueOf(productRelation.getValue());
 				DataSelectionLogic logic = new DataSelectionLogic();

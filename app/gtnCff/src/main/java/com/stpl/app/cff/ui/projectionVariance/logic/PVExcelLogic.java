@@ -164,10 +164,10 @@ public class PVExcelLogic {
     }
 
     private boolean isRefreshNeeded(String levelFilterValue, String groupFilterValue, String viewValue, int freDiv) {
-        boolean val = this.levelFilterValue.equals(levelFilterValue)
+        boolean val = this.frequencyDivision == freDiv
+                && this.levelFilterValue.equals(levelFilterValue)
                 && this.groupFilterValue.equals(groupFilterValue)
-                && this.viewValue.equals(viewValue)
-                && this.frequencyDivision == freDiv;
+                && this.viewValue.equals(viewValue);
         this.levelFilterValue = levelFilterValue;
         this.groupFilterValue = groupFilterValue;
         this.viewValue = viewValue;
@@ -1400,7 +1400,7 @@ public class PVExcelLogic {
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
-                if (!StringUtils.EMPTY.equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
+                if (obj[NumericConstants.TWO] != null && !StringUtils.EMPTY.equals(lastValue) && !"null".equals(lastValue) && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                     pvDTO.setGroup(lastValue);
                     pvDTO.setDfLevelNumber(lastValue);
                     pvDTO.setDfLevelName(lastValue);

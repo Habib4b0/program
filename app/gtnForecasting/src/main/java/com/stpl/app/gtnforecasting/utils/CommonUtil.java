@@ -659,14 +659,14 @@ public class CommonUtil {
         if (stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
-            if (nullCheck(value) && needZeroForNull) {
+            if (needZeroForNull && nullCheck(value)) {
                 return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
             } else if (nullCheck(value)) {
                 return String.valueOf(value);
             }
             return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
         }
-        if (nullCheck(value) && needZeroForNull) {
+        if (needZeroForNull && nullCheck(value)) {
             return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));
         } else if (nullCheck(value)) {
             return String.valueOf(value);
@@ -677,10 +677,9 @@ public class CommonUtil {
     }
 
     public static double getConversionFormattedMultipleValue(ProjectionSelectionDTO selection, double value) {
-        if (stringNullCheck(selection.getConversionFactor())
+        if (0.0 == value || 0 == value || stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
-                || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))
-                || 0.0 == value || 0 == value) {
+                || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
             return value;
         }
         double doubleValue = Double.parseDouble(selection.getConversionFactor().toString());
