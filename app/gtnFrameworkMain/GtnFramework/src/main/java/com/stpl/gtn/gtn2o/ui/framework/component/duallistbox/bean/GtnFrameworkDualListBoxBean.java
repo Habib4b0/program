@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.bean;
 
-import com.stpl.addons.grid.paged.bean.Row;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;

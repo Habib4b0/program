@@ -7,7 +7,7 @@ import com.stpl.addons.grid.paged.bean.QueryBean;
 
 public class PagedTableConfig {
 
-	private Set<String> visibleColumns;
+	private List<String> visibleColumns;
 	private List<String> columnHeaders;
 	private QueryBean queryBean;
 
@@ -19,11 +19,11 @@ public class PagedTableConfig {
 		this.queryBean = queryBean;
 	}
 
-	public Set<String> getVisibleColumns() {
+	public List<String> getVisibleColumns() {
 		return visibleColumns;
 	}
 
-	public void setVisibleColumns(Set<String> visibleColumns) {
+	public void setVisibleColumns(List<String> visibleColumns) {
 		this.visibleColumns = visibleColumns;
 	}
 

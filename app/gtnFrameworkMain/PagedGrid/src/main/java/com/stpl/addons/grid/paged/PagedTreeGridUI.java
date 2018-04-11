@@ -22,8 +22,8 @@ public class PagedTreeGridUI extends VerticalLayout {
 
 		PagedTreeTableConfig pagedTableConfig = new PagedTreeTableConfig();
 		pagedTableConfig
-				.setVisibleColumns(new HashSet<>(Arrays.asList("actualReturnPercent", "actualRpu", "actualReturnAmount",
-						"projectedReturnPercent", "projectedRpu", "projectedReturnAmount", "growthRate")));
+				.setVisibleColumns(Arrays.asList("actualReturnPercent", "actualRpu", "actualReturnAmount",
+						"projectedReturnPercent", "projectedRpu", "projectedReturnAmount", "growthRate"));
 		pagedTableConfig.setLeftVisibleColumns(new HashSet<>(Arrays.asList("hierarchyNo", "levelName")));
 
 		pagedTableConfig.setLevelNo(1);

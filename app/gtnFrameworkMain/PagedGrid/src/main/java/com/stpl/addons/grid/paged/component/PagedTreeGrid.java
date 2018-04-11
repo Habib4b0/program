@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PagedTreeGrid {
 
@@ -178,7 +179,7 @@ public class PagedTreeGrid {
             List<Row> result = FetchData.fetchResultAsRow(countQuery, tableConfig.getQueryBean().getCountQueryInputs());
             System.out.println("total count " + result.size());
 
-            leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns(), result);
+            leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
             return result.size();
         }
         return 0;
@@ -195,7 +196,7 @@ public class PagedTreeGrid {
             List<Row> result = FetchData.fetchResultAsRow(countQuery, tableConfig.getQueryBean().getCountQueryInputs());
             System.out.println("child count" + result.size());
             if (!result.isEmpty()) {
-                leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns(), result);
+                leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
             }
             return result.size();
         }
@@ -211,7 +212,7 @@ public class PagedTreeGrid {
             List<Row> result = FetchData.fetchResultAsRow(countQuery, list.toArray());
             System.out.println("child count" + result.size());
             if (!result.isEmpty()) {
-                leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns(), result);
+                leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
             }
             return result.size();
         }
@@ -227,10 +228,10 @@ public class PagedTreeGrid {
         List<Object> list = addRangeInInput(input, offset, limit);
         List<Row> rows = FetchData.fetchResultAsRow(dataQuery, list.toArray());
         List<Row> updatedrows = mergeLeftAndRightData(rows, limit, offset, parentRowIndex);
-        return new DataSet(tableColumns, updatedrows);
+        return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
     }
 
-    public List<Object> addRangeInInput(Object[] input, int offset, int limit) {
+    public static List<Object> addRangeInInput(Object[] input, int offset, int limit) {
         List<Object> list = new ArrayList<>();
         if (input != null) {
             list = new LinkedList<>(Arrays.asList(input));
@@ -253,7 +254,7 @@ public class PagedTreeGrid {
         List<Row> rows = FetchData.fetchResultAsRow(dataQuery, list.toArray());
         List<Row> updatedrows = mergeLeftAndRightData(rows, limit, offset, pageNumber * pageLength);
 
-        return new DataSet(tableColumns, updatedrows);
+        return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
     }
 
     private List<Row> mergeLeftAndRightData(List<Row> rows, int limit, int offset, int parentRowIndex) {
@@ -494,10 +495,10 @@ public class PagedTreeGrid {
             setPageNoFieldValue(0);
             controlLayout.addComponent(new Label("Page No:"));
             controlLayout.addComponent(pageNoField);
-            controlLayout.addComponent(new Button("First", e -> this.setPageNumber(0)));
-            controlLayout.addComponent(new Button("Previous", e -> this.previousPage()));
-            controlLayout.addComponent(new Button("Next", e -> this.nextPage()));
-            controlLayout.addComponent(new Button("Last",
+            controlLayout.addComponent(new Button("<<", e -> this.setPageNumber(0)));
+            controlLayout.addComponent(new Button("<", e -> this.previousPage()));
+            controlLayout.addComponent(new Button(">", e -> this.nextPage()));
+            controlLayout.addComponent(new Button(">>",
                     e -> this.setPageNumber(this.getPageCount() - 1)));
             pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) -1));
         }

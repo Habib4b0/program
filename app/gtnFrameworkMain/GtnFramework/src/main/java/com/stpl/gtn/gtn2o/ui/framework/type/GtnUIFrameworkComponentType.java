@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroup
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedgrid.GtnUIFrameworkPagedGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.error.GtnUIFrameworkErrorBannerComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutComponent;
@@ -98,7 +99,8 @@ public enum GtnUIFrameworkComponentType {
 	
 	RADIOBUTTON_VAADIN8(new GtnUIFrameworkRadioButtonGroupComponent()),
 	
-	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox());
+	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox()),
+        PAGED_GRID(new  GtnUIFrameworkPagedGridComponent());
 	
 	private GtnUIFrameworkComponent gtnComponent;
 

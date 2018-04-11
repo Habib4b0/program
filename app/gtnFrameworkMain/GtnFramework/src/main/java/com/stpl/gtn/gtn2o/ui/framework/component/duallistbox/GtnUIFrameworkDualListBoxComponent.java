@@ -90,7 +90,7 @@ public class GtnUIFrameworkDualListBoxComponent implements GtnUIFrameworkCompone
                 dualListBoxBean.getLeftTable().removeAllColumns();
                 for (int i = 0; i <  visibleColumns.size(); i++) {
                 String column = visibleColumns.get(i).toString();
-			dualListBoxBean.getLeftTable().addColumn(row -> row.getValue(column)).setCaption(listViewHeaders.get(i));
+			dualListBoxBean.getLeftTable().addColumn(row -> row.getPropertyValue(column)).setCaption(listViewHeaders.get(i));
 		}
 //		dualListBoxBean.getLeftTable().setVisibleColumns(visibleColumns.toArray());
 //		dualListBoxBean.getLeftTable().setColumnHeaders(listViewHeaders.toArray(new String[listViewHeaders.size()]));

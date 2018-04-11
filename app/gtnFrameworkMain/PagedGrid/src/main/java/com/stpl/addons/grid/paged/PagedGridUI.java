@@ -25,8 +25,8 @@ public class PagedGridUI extends VerticalLayout {
 	public PagedGridUI() {
 
 		PagedTableConfig pagedTableConfig = new PagedTableConfig();
-		pagedTableConfig.setVisibleColumns(new HashSet<>(Arrays.asList("forecastingFormulaId", "formulaNo",
-				"formulaName", "formula", "formulaType", "isActive", "createdDate", "modifiedDate")));
+		pagedTableConfig.setVisibleColumns(Arrays.asList("forecastingFormulaId", "formulaNo",
+				"formulaName", "formula", "formulaType", "isActive", "createdDate", "modifiedDate"));
 		QueryBean queryBean = new QueryBean(countQuery, dataQuery, null, null);
 		pagedTableConfig.setQueryBean(queryBean);
 

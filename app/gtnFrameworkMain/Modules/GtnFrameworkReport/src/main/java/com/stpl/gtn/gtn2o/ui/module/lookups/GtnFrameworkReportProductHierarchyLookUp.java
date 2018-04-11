@@ -1,19 +1,20 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GtnFrameworkReportProductHierarchyLookUp {
 
@@ -154,6 +155,20 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
 		productHierarchySearchButton.setAddToParent(true);
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+
+		List<Object> actionParams = new ArrayList<>();
+		actionParams.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
+
+		loadDataTableActionConfig.setActionParameterList(actionParams);
+
+		actionConfigList.add(loadDataTableActionConfig);
+                productHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+                
 		componentList.add(productHierarchySearchButton);
 
 		GtnUIFrameworkComponentConfig productHierarchyResetButton = new GtnUIFrameworkComponentConfig();
@@ -202,7 +217,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 	private void addProductHierarchyPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig searchResultConfig = new GtnUIFrameworkComponentConfig();
-		searchResultConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
+		searchResultConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
 		searchResultConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
 		searchResultConfig.setComponentName("Results");
@@ -219,20 +234,28 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 
 		componentList.add(searchResultConfig);
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
-		searchResults.setEditable(false);
-		searchResults.setFilterBar(true);
-		searchResults.setSelectable(false);
-		searchResults.setPageLength(10);
-		searchResults.setItemPerPage(10);
-		searchResults.setSelectable(true);
-		searchResults.setSinkItemPerPageWithPageLength(false);
-		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
-				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
-				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
+//		searchResults.setEditable(false);
+//		searchResults.setFilterBar(true);
+//		searchResults.setSelectable(false);
+//		searchResults.setPageLength(10);
+//		searchResults.setItemPerPage(10);
+//		searchResults.setSelectable(true);
+//		searchResults.setSinkItemPerPageWithPageLength(false);
+//		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+//				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
+//				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
 		searchResults.setTableVisibleHeader(new String[] { "HierarchyName", "Highest Level", "Lowest Level",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER });
 		searchResults.setTableColumnMappingId(
 				new Object[] { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate" });
+                searchResults.setCountQuery(Query.getCountProductHierarchy);
+                searchResults.setDataQuery(Query.getDataProductHierarchy);
+                searchResults.setCountQueryInputs(new String[]{namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.HIERARCHY_NAME});
+                searchResults.setDataQueryInputs(new String[]{namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkCommonConstants.HIERARCHY_NAME});
 
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
 	}

@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox;
 
-import com.stpl.addons.grid.paged.bean.Row;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
@@ -67,7 +66,7 @@ public class GtnUIFrameWorkDualListBoxLoadRightTableBulkAction implements GtnUIF
 			GtnUIFrameworkDualListBoxConfig dualListBoxConfig) {
 		GtnWsSearchRequest searchRequest = new GtnWsSearchRequest();
 		searchRequest.setQueryInputList(queryParameters);
-		searchRequest.setSearchColumnNameList(new ArrayList<Object>(dualListBoxConfig.getRecordHeader()));
+		searchRequest.setSearchColumnNameList(new ArrayList<>(dualListBoxConfig.getRecordHeader()));
 		queryParameters.add(GtnUIFrameworkGlobalUI.getCurrentUser());
 		return searchRequest;
 	}

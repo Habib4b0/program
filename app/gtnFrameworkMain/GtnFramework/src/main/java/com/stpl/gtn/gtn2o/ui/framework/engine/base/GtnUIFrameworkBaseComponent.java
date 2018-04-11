@@ -1,22 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.engine.base;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.asi.calendarfield.CalendarField;
-import org.asi.container.ExtContainer;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-
+import com.stpl.addons.grid.paged.bean.QueryBean;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -26,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.bean.GtnFrameworkDu
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.newpagedtreetable.GtnUIFrameworkNewPagedTreeTableComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponent;
@@ -37,8 +22,10 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.vaadin.data.HasValue;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.TabSheet;
@@ -53,6 +40,21 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.asi.calendarfield.CalendarField;
+import org.asi.container.ExtContainer;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 public class GtnUIFrameworkBaseComponent {
 
@@ -1054,5 +1056,13 @@ public class GtnUIFrameworkBaseComponent {
 	public Set<GtnWsRecordBean> getSelectedValues() {
 			return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
 		}
+        public Object getFieldValue() {
+            
+		HasValue<?>  field =  (HasValue) this.component;
+                
+		return field.getValue();
+	}
+        
+  
 	}
 	

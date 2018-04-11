@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkEditAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkExcelExportAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkInfoAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadCustomAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataGridAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataTreeTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkManageTableRecordTypeAction;
@@ -166,7 +167,7 @@ public enum GtnUIFrameworkActionType {
 	LOAD_NOTES_TAB(new GtnUIFrameworkLoadNotesTabAction()),
 
 	LOAD_TABLE_ACTION(new GtnUIFrameworkLoadTableAction()),
-
+        LOAD_DATA_GRID_ACTION(new GtnUIFrameWorkLoadDataGridAction()),
 	DATA_TABLE_CHECKALL_ACTION(new GtnUIFrameworkDataTableCheckAllAction());
 
 	private final GtnUIFrameWorkAction gtnUIFrameWorkAction;

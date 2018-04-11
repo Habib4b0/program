@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.engine;
 
+import com.stpl.addons.grid.paged.bean.QueryBean;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkConfigMap;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -567,4 +569,21 @@ public class GtnUIFrameworkGlobalUI {
 			}
 		}
 	}
+        
+     public static QueryBean setQueryBean(GtnUIFrameworkPagedTableConfig tableConfig) {
+        Object[] countQueryInputs = new Object[tableConfig.getCountQueryInputs().length];
+        Object[] dataQueryInputs = new Object[tableConfig.getDataQueryInputs().length];
+        fetchInput(tableConfig.getCountQueryInputs(), countQueryInputs);
+        fetchInput(tableConfig.getDataQueryInputs(), dataQueryInputs);
+        return  new QueryBean(tableConfig.getCountQuery(), tableConfig.getDataQuery(), countQueryInputs, dataQueryInputs);
+       
+    }
+
+    public static void fetchInput(String[] queryInputIds, Object[] values) {
+        int i = 0;
+        for (String object : queryInputIds) {
+            GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(object);
+            values[i++] = baseComponent == null ? object : baseComponent.getFieldValue() == null || baseComponent.getFieldValue().toString().isEmpty() ? '%' : baseComponent.getFieldValue();
+        }
+    }
 }
