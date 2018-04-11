@@ -80,7 +80,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
         }
 
 
-        if (StringConstantsUtil.RELATIONSHIP_LEVEL_NAME.equals(propertyId) && pvFlag) {
+        if (pvFlag && StringConstantsUtil.RELATIONSHIP_LEVEL_NAME.equals(propertyId)) {
 
             if (PRODUCT.equals(pvSelectionDTO.getView())) {
                 setIndicator("P");

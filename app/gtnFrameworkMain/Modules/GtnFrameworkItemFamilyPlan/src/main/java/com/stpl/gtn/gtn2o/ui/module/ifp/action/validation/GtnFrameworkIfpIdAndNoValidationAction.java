@@ -97,7 +97,7 @@ public class GtnFrameworkIfpIdAndNoValidationAction
 		String appender = " ";
 		for (int i = 0; i < values.length; i++) {
 			if (values[i] == null || values[i] instanceof String && String.valueOf(values[i]).isEmpty()
-					|| values[i] instanceof Integer && Integer.valueOf(String.valueOf(values[i])) == 0) {
+					|| values[i] instanceof Integer && Integer.parseInt(String.valueOf(values[i])) == 0) {
 				errorMessage.append(appender).append(fields[i]);
 				appender = " , ";
 			}

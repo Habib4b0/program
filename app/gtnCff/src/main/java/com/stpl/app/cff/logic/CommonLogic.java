@@ -616,7 +616,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             }
         return newLevelList;
     }
-
+    
     /**
      * Procedure Call
      *
@@ -2303,7 +2303,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                      */
                     for (CffCustomViewDetails ob : customDetailsList) {
                         for (Object[] obj : list) {
-                            if (String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim()) && obj.length > 1) {
+                            if (obj.length > 1 && String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim())) {
                                     Leveldto dto = new Leveldto();
                                     dto.setHierarchyId(ob.getHierarchyId());
                                     dto.setLevelNo(Integer.valueOf(String.valueOf((obj[1].toString()).trim())));
@@ -3037,7 +3037,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
         int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable)) {
+            if ((isHierarchyNoNotAvailable) && (Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()))) {
 
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
@@ -3176,6 +3176,6 @@ public static Date fromDateIsNull(Date fromDate) {
         }
         return toDate;
     }
-}
-
+		}
+    
 

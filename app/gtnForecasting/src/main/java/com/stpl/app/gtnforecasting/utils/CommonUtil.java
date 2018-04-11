@@ -404,11 +404,7 @@ public class CommonUtil {
                         break;
                     case Constant.PROCEDURE_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        if (inputs.length == NumericConstants.SEVEN) {
-                            //It will wait until the main to temp get complete in discount tables//                            
-                        waitsForOtherThreadsToComplete((Future)inputs[NumericConstants.SIX]);
-                            }
-                        new DataSelectionLogic().callInsertProcedureForNm(Integer.parseInt(inputs[NumericConstants.TWO].toString()), inputs[NumericConstants.THREE].toString(), inputs[NumericConstants.FOUR].toString(), inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
+                        new DataSelectionLogic().callInsertProcedureForNm(Integer.parseInt(inputs[NumericConstants.TWO].toString()),(SessionDTO)inputs[NumericConstants.SIX], inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
                         break;
                     case Constant.INSERTORUPDATE:
                             //For Discount Projection insert alone will wait for list view get saved.(Used in temp to main insert)
@@ -496,7 +492,7 @@ public class CommonUtil {
                     //It will wait until the ppa insert procedure complete                         
                     waitsForOtherThreadsToComplete(future);
                 }
-                new DataSelectionLogic().callInsertProcedureForNm(projectionId, session.getUserId(), session.getSessionId(), procedureName, Constant.PPA_SMALL);
+                new DataSelectionLogic().callInsertProcedureForNm(projectionId, session, procedureName, Constant.PPA_SMALL);
             }
         };
         return runnable;
@@ -659,14 +655,14 @@ public class CommonUtil {
         if (stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
-            if (nullCheck(value) && needZeroForNull) {
+            if (needZeroForNull && nullCheck(value)) {
                 return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
             } else if (nullCheck(value)) {
                 return String.valueOf(value);
             }
             return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
         }
-        if (nullCheck(value) && needZeroForNull) {
+        if (needZeroForNull && nullCheck(value)) {
             return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));
         } else if (nullCheck(value)) {
             return String.valueOf(value);
@@ -677,10 +673,9 @@ public class CommonUtil {
     }
 
     public static double getConversionFormattedMultipleValue(ProjectionSelectionDTO selection, double value) {
-        if (stringNullCheck(selection.getConversionFactor())
+        if (0.0 == value || 0 == value || stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
-                || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))
-                || 0.0 == value || 0 == value) {
+                || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
             return value;
         }
         double doubleValue = Double.parseDouble(selection.getConversionFactor().toString());

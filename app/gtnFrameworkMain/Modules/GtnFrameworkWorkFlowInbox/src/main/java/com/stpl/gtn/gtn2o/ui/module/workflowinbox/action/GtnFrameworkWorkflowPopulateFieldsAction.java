@@ -317,7 +317,7 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 
 	private Integer getIntValue(String value) {
 		if (value != null && !value.isEmpty()) {
-			return Integer.parseInt(value);
+			return Integer.valueOf(value);
 		}
 		return 0;
 	}

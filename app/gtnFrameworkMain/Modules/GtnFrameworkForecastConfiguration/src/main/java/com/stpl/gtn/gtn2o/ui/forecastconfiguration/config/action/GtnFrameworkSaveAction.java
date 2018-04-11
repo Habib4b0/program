@@ -47,7 +47,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction ,GtnUIFramew
 
 	public GtnWsForecastConfigurationRequest getModifiedRequest(GtnWsForecastConfigurationRequest fcRequest,
 			final List<Object> parameters) throws GtnFrameworkValidationFailedException {
-		fcRequest.setUserId(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
+		fcRequest.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 		int futureFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString())
 				.getIntegerFromField();
 		String futureInterval = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())

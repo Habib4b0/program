@@ -386,7 +386,7 @@ public class GtnWsCMasterFinancialClose {
 			@SuppressWarnings("unchecked")
 			List<Integer> statusValues = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(statusQuery);
 			Integer periodId = periodValues.isEmpty() ? 0 : Integer.parseInt(String.valueOf(periodValues.get(0)));
-			Integer statusId = statusValues.isEmpty() ? 0 : statusValues.get(0);
+			Integer statusId = statusValues.isEmpty() ? new Integer(0) : statusValues.get(0);
 
 			String stringQuery = gtnWsSqlService.getQuery("insertTempTable");
 			GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,

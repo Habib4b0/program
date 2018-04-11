@@ -48,9 +48,11 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
+import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractFilterLogic;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.Converters;
@@ -75,6 +77,7 @@ import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import com.stpl.app.service.ProjectionProdHierarchyLocalServiceUtil;
 import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants.IndicatorConstants;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
@@ -89,6 +92,8 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.TreeTable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /**
  * The Class DataSelectionLogic.
@@ -114,6 +119,7 @@ public class DataSelectionLogic {
 	public static final String SELECTION_AT = "@SELECTION";
 	private List companiesList = new ArrayList<>();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
+	private static final CommonUtil commonUtil = CommonUtil.getInstance();
 
 	/**
 	 * Gets the hierarchy group.
@@ -142,24 +148,24 @@ public class DataSelectionLogic {
 			tempHierarchyType = tempHierarchyType.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 		}
 
-		List result = dataSelectionDao.getHierarchyGroup(tempHierarchyName, tempHierarchyType, customerOrProduct,
+		List resList = dataSelectionDao.getHierarchyGroup(tempHierarchyName, tempHierarchyType, customerOrProduct,
 				action);
 
-		HierarchyLookupDTO hdto;
-		for (int i = 0; i < result.size(); i++) {
-			hdto = new HierarchyLookupDTO();
-			final Object[] obj = (Object[]) result.get(i);
-			hdto.setHierarchyId(Integer.parseInt(obj[0].toString()));
-			hdto.setHierarchyName(String.valueOf(obj[1].toString()));
-			hdto.setHighestLevel(String.valueOf(obj[NumericConstants.THREE].toString()));
-			hdto.setLowestLevel(String.valueOf(obj[NumericConstants.FOUR].toString()));
-			hdto.setCreatedDate(String.valueOf(obj[NumericConstants.FIVE].toString()));
-			hdto.setCreatedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.FIVE].toString())));
+		HierarchyLookupDTO hierDto;
+		for (int i = 0; i < resList.size(); i++) {
+			hierDto = new HierarchyLookupDTO();
+			final Object[] obj = (Object[]) resList.get(i);
+			hierDto.setHierarchyId(Integer.parseInt(obj[0].toString()));
+			hierDto.setHierarchyName(String.valueOf(obj[1].toString()));
+			hierDto.setHighestLevel(String.valueOf(obj[NumericConstants.THREE].toString()));
+			hierDto.setLowestLevel(String.valueOf(obj[NumericConstants.FOUR].toString()));
+			hierDto.setCreatedDate(String.valueOf(obj[NumericConstants.FIVE].toString()));
+			hierDto.setCreatedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.FIVE].toString())));
 			if (obj[NumericConstants.SIX] != null) {
-				hdto.setModifiedDate(String.valueOf(obj[NumericConstants.SIX].toString()));
-				hdto.setModifiedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.SIX].toString())));
+				hierDto.setModifiedDate(String.valueOf(obj[NumericConstants.SIX].toString()));
+				hierDto.setModifiedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.SIX].toString())));
 			}
-			resultList.add(hdto);
+			resultList.add(hierDto);
 
 		}
 
@@ -1335,10 +1341,10 @@ public class DataSelectionLogic {
 				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
 			} else {
 				List<Object> inputs = new ArrayList<>();
-				resultList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
+				List<Leveldto> levelList = relationLogic.getHierarchyLevelDefinition(selectedLevelDto.getHierarchyId(),
 						hierarchyVersion);
 				List<String> relationHierarchy = relationLogic.getSelectedCustomerLevel(selectedLevelDto,
-						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, resultList,
+						Integer.parseInt(selectedLevelDto.getRelationShipBuilderId()), companiesList, levelList,
 						StringUtils.EMPTY, StringUtils.EMPTY, relationShipVersion, forecastEligibleDate, lowestLevelNo);
 				inputs.add(StringUtils.join(relationHierarchy, ","));
 				inputs.add(lowestLevelNo);
@@ -2445,38 +2451,73 @@ public class DataSelectionLogic {
 		int maxLevelNo = 0;
 		for (Map.Entry<String, List> entry : hierarchyDetailsMap.entrySet()) {
 			int levelNo = Integer.parseInt(entry.getValue().get(NumericConstants.TWO).toString());
-			if (maxLevelNo < levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR))) {
-				maxLevelNo = levelNo;
-			}
-		}
-		return maxLevelNo;
+            if (maxLevelNo < levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR))) {
+                maxLevelNo = levelNo;
+            }
+        }
+        return maxLevelNo;
+    }
+
+    public void callInsertProcedureForNm(int projectionId, SessionDTO session, String procedureName,
+            String screenName) {
+
+        StringBuilder query = new StringBuilder("EXEC ");
+        try {
+            query.append(procedureName);
+            query.append(' ');
+            query.append(projectionId);
+            query.append(',');
+            query.append(session.getUserId());
+            query.append(",'");
+            query.append(session.getSessionId());
+            if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
+
+                query.append("','");
+                query.append(screenName);
+            }
+            query.append('\'');
+            HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+    }
+
+    public void nmDiscountInsertProcedure(SessionDTO session) {
+        ExecutorService service = ThreadPool.getInstance().getService();
+        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+            session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
+				new Future[] {
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+				SalesUtils.PRC_NM_MASTER_INSERT, session.getProjectionId(), session.getUserId(),
+				session.getSessionId(), Constant.DISCOUNT3,session)) });
+            commonUtil
+                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
+				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
+            }
 	}
-
-	public void callInsertProcedureForNm(int projectionId, String userId, String sessionId, String procedureName,
-			String screenName) {
-
-		StringBuilder query = new StringBuilder("EXEC ");
-		try {
-			query.append(procedureName);
-			query.append(' ');
-			query.append(projectionId);
-			query.append(',');
-			query.append(userId);
-			query.append(",'");
-			query.append(sessionId);
-			if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
-
-				query.append("','");
-				query.append(screenName);
-			}
-			query.append('\'');
-			HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
-		}
-
+    
+    public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
+        ExecutorService service = ThreadPool.getInstance().getService();
+        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+            commonUtil
+                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
+				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
+            }
 	}
-
+        
 	/**
 	 * To insert the Accural_proj_details table in edit and add mode
 	 *
