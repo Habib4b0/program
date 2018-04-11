@@ -12,6 +12,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -33,7 +34,7 @@ public class PagedGrid {
                 grid.removeAllColumns();
                 int i = 0;
                 for (String column : tableConfig.getVisibleColumns()) {
-			grid.addColumn(row -> row.getValue(column)).setCaption(tableConfig.getColumnHeaders().get(i++));
+			grid.addColumn(row -> row.getPropertyValue(column)).setCaption(tableConfig.getColumnHeaders().get(i++));
 		}
 	}
 
@@ -43,7 +44,7 @@ public class PagedGrid {
 		int i = 0;
 		grid.removeAllColumns();
                 for (String column :tableConfig.getVisibleColumns()) {
-			grid.addColumn(row -> row.getValue(column)).setCaption(tableConfig.getColumnHeaders().get(i++));
+			grid.addColumn(row -> row.getPropertyValue(column)).setCaption(tableConfig.getColumnHeaders().get(i++));
 		}
                 if(dataSet.getRows()!=null)
 		grid.setItems(dataSet.getRows());
@@ -61,7 +62,7 @@ public class PagedGrid {
 
 	private DataSet loadData(int offset, int limit) {
                List<Object> input= PagedTreeGrid.addRangeInInput(tableConfig.getQueryBean().getDataQueryInputs(), offset, limit);
-	       List<Row> rows = FetchData.fetchResultAsRow(tableConfig.getQueryBean().getDataQuery(),input.toArray());
+	       List<Row> rows = FetchData.fetchResultAsRow(tableConfig,tableConfig.getQueryBean().getDataQuery(),input.toArray());
 	       return new DataSet(tableConfig.getVisibleColumns().stream().collect(Collectors.toList()), rows);
 	}
 
@@ -192,5 +193,7 @@ public class PagedGrid {
     public void setTableConfig(PagedTableConfig tableConfig) {
         this.tableConfig = tableConfig;
     }
-   
+    public Set<Row> getValue(){
+       return grid.getSelectedItems();
+    }
 }

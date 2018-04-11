@@ -71,10 +71,10 @@ public class PagedTreeGrid {
         Set<String> headers = tableColumns;
 
         leftTableDataSet.getColumns().stream().forEach((leftColumn) -> {
-            grid.addColumn(leftRow -> leftRow.getValue(leftColumn)).setCaption(leftColumn);
+            grid.addColumn(leftRow -> leftRow.getPropertyValue(leftColumn)).setCaption(leftColumn);
         });
         dataSet.getColumns().stream().forEach((column) -> {
-            grid.addColumn(row -> row.getValue(column)).setCaption(column);
+            grid.addColumn(row -> row.getPropertyValue(column)).setCaption(column);
         });
         TreeData<Row> data = new TreeData<>();
         data.addItems(null, dataSet.getRows());
@@ -103,10 +103,10 @@ public class PagedTreeGrid {
     }
 
     public void expandRow(Row parent, int childCount, TreeData<Row> treeData,boolean moveToNextPage) {
-        if (parent != null && parent.getValue(LEVEL_NO) != null
+        if (parent != null && parent.getPropertyValue(LEVEL_NO) != null
                 && (childCount = getChildCountForRow(parent)) > 0) {
             Row firstChild = treeData.getChildren(parent).get(0);
-            if (firstChild.getValue(LEVEL_NO) != null) {
+            if (firstChild.getPropertyValue(LEVEL_NO) != null) {
                 return;
             }
             treeData.removeItem(firstChild);
@@ -154,7 +154,7 @@ public class PagedTreeGrid {
     private void addExpandIcon(TreeData<Row> data, List<Row> rows) {
         System.out.println("addExpandIcon");
         rows.stream().map((parent) -> {
-            if (parent != null && parent.getValue(LEVEL_NO) != null && getChildCountForRow(parent) > 0) {
+            if (parent != null && parent.getPropertyValue(LEVEL_NO) != null && getChildCountForRow(parent) > 0) {
                 data.addItem(parent, new Row());
             }
             return parent;
@@ -176,7 +176,7 @@ public class PagedTreeGrid {
 
             String countQuery = replaceQueryInput(tableConfig.getLevelNo(), "%",
                     tableConfig.getQueryBean().getCountQuery());
-            List<Row> result = FetchData.fetchResultAsRow(countQuery, tableConfig.getQueryBean().getCountQueryInputs());
+            List<Row> result = FetchData.fetchResultAsRow(tableConfig,countQuery, tableConfig.getQueryBean().getCountQueryInputs());
             System.out.println("total count " + result.size());
 
             leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
@@ -189,11 +189,11 @@ public class PagedTreeGrid {
     private int getChildCount(Row parent) {
 
         if (tableConfig.getQueryBean().getCountQuery() != null) {
-            System.out.println("parent.getValue(\"levelNo\")" + parent.getValue(LEVEL_NO));
-            int levelNo = Integer.valueOf(parent.getValue(LEVEL_NO).toString()) + 1;
-            String hierarchyNo = String.valueOf(parent.getValue(HIERARCHY_NO)) + "%";
+            System.out.println("parent.getPropertyValue(\"levelNo\")" + parent.getPropertyValue(LEVEL_NO));
+            int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
+            String hierarchyNo = String.valueOf(parent.getPropertyValue(HIERARCHY_NO)) + "%";
             String countQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getQueryBean().getCountQuery());
-            List<Row> result = FetchData.fetchResultAsRow(countQuery, tableConfig.getQueryBean().getCountQueryInputs());
+            List<Row> result = FetchData.fetchResultAsRow(tableConfig,countQuery, tableConfig.getQueryBean().getCountQueryInputs());
             System.out.println("child count" + result.size());
             if (!result.isEmpty()) {
                 leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
@@ -209,7 +209,7 @@ public class PagedTreeGrid {
         if (tableConfig.getQueryBean().getCountQuery() != null) {
             String countQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getQueryBean().getLeftDataQuery());
             List<Object> list = addRangeInInput(tableConfig.getQueryBean().getLeftDataQueryInputs(), offset, limit);
-            List<Row> result = FetchData.fetchResultAsRow(countQuery, list.toArray());
+            List<Row> result = FetchData.fetchResultAsRow(tableConfig,countQuery, list.toArray());
             System.out.println("child count" + result.size());
             if (!result.isEmpty()) {
                 leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
@@ -221,12 +221,12 @@ public class PagedTreeGrid {
     }
 
     public DataSet fetchChildren(int offset, int limit, Row parent, int parentRowIndex) {
-        String hierarchyNo = String.valueOf(parent.getValue(HIERARCHY_NO)) + "%";
-        int levelNo = Integer.valueOf(parent.getValue(LEVEL_NO).toString()) + 1;
+        String hierarchyNo = String.valueOf(parent.getPropertyValue(HIERARCHY_NO)) + "%";
+        int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
         String dataQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getQueryBean().getDataQuery());
         Object[] input = tableConfig.getQueryBean().getDataQueryInputs();
         List<Object> list = addRangeInInput(input, offset, limit);
-        List<Row> rows = FetchData.fetchResultAsRow(dataQuery, list.toArray());
+        List<Row> rows = FetchData.fetchResultAsRow(tableConfig,dataQuery, list.toArray());
         List<Row> updatedrows = mergeLeftAndRightData(rows, limit, offset, parentRowIndex);
         return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
     }
@@ -251,7 +251,7 @@ public class PagedTreeGrid {
         String dataQuery = replaceQueryInput(tableConfig.getLevelNo(), "%", tableConfig.getQueryBean().getDataQuery());
         Object[] input = tableConfig.getQueryBean().getDataQueryInputs();
         List<Object> list = addRangeInInput(input, offset * tableConfig.getRowsPerLevelItem(), limit * tableConfig.getRowsPerLevelItem());
-        List<Row> rows = FetchData.fetchResultAsRow(dataQuery, list.toArray());
+        List<Row> rows = FetchData.fetchResultAsRow(tableConfig,dataQuery, list.toArray());
         List<Row> updatedrows = mergeLeftAndRightData(rows, limit, offset, pageNumber * pageLength);
 
         return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
@@ -263,20 +263,20 @@ public class PagedTreeGrid {
         List<Row> leftRows = leftTableDataSet.getRows();
         for (Row newRow : leftRows) {
             int childCount = getChildCount(newRow);
-            newRow.setValue(CHILD_COUNT, childCount);
-            newRow.setValue(ROW_NUMBER, parentRowIndex + 1);
-            rows.stream().filter((row) -> !(!String.valueOf(row.getValue(HIERARCHY_NO)).equals(String.valueOf(newRow.getValue(HIERARCHY_NO))))).forEach((row) -> {
-                String period = String.valueOf(row.getValue("frequency"));
-                String year = String.valueOf(row.getValue("year"));
+            newRow.addProperties(CHILD_COUNT, childCount);
+            newRow.addProperties(ROW_NUMBER, parentRowIndex + 1);
+            rows.stream().filter((row) -> !(!String.valueOf(row.getPropertyValue(HIERARCHY_NO)).equals(String.valueOf(newRow.getPropertyValue(HIERARCHY_NO))))).forEach((row) -> {
+                String period = String.valueOf(row.getPropertyValue("frequency"));
+                String year = String.valueOf(row.getPropertyValue("year"));
 
-                newRow.setValue(HIERARCHY_NO, row.getValue(HIERARCHY_NO));
-                newRow.setValue(LEVEL_NO, row.getValue(LEVEL_NO));
+                newRow.addProperties(HIERARCHY_NO, row.getPropertyValue(HIERARCHY_NO));
+                newRow.addProperties(LEVEL_NO, row.getPropertyValue(LEVEL_NO));
 
                 tableConfig.getVisibleColumns().stream().map((column) -> {
                     tableColumns.add(period + year + column);
                     return column;
                 }).forEach((column) -> {
-                    newRow.setValue(period + year + column, row.getValue(column));
+                    newRow.addProperties(period + year + column, row.getPropertyValue(column));
                 });
             });
             rowsList.add(newRow);
@@ -410,7 +410,7 @@ public class PagedTreeGrid {
     }
 
     public boolean hasChildren(Row item) {
-        if (item != null && item.getValue(CHILD_COUNT) != null) {
+        if (item != null && item.getPropertyValue(CHILD_COUNT) != null) {
             return getChildCountForRow(item) > 0;
         }
         return false;
@@ -473,19 +473,19 @@ public class PagedTreeGrid {
     }
 
     public static int getChildCountForRow(Row row) {
-        return (int) row.getValue(CHILD_COUNT);
+        return (int) row.getPropertyValue(CHILD_COUNT);
     }
 
     public static int getRowNo(Row row) {
-        return (int) row.getValue(ROW_NUMBER);
+        return (int) row.getPropertyValue(ROW_NUMBER);
     }
 
     public static int getLevelNo(Row row) {
-        return Integer.parseInt(row.getValue(LEVEL_NO).toString());
+        return Integer.parseInt(row.getPropertyValue(LEVEL_NO).toString());
     }
 
     public String getHierarchyNo(Row row) {
-        return String.valueOf(row.getValue(HIERARCHY_NO));
+        return String.valueOf(row.getPropertyValue(HIERARCHY_NO));
     }
 
     public HorizontalLayout getControlLayout() {
