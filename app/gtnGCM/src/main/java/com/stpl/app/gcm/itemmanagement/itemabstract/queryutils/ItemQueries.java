@@ -634,7 +634,7 @@ public class ItemQueries {
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
                     String filterValue = String.valueOf(stringFilter.getValue());
-                    if (STATUS_DESCRIPTION.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(Constants.NULL)) {
+                    if (filterValue != null && STATUS_DESCRIPTION.equals(stringFilter.getPropertyId()) && !filterValue.equals(Constants.NULL)) {
                         try {
                             int helperId = getHelperCode("STATUS", filterValue);
                             parameters.put(Constants.STATUS_S, helperId);
@@ -642,7 +642,7 @@ public class ItemQueries {
                             LOGGER.error("",ex);
                         }
                     }
-                    if (CONTRACT_TYPE.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(Constants.NULL)) {
+                    if (filterValue != null && CONTRACT_TYPE.equals(stringFilter.getPropertyId()) && !filterValue.equals(Constants.NULL)) {
                         try {
                             int helperId = getHelperCode("CONTRACT_TYPE", filterValue);
                             parameters.put(CONTRACT_TYPE, helperId);

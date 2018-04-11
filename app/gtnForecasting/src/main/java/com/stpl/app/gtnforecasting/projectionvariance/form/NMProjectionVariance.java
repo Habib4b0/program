@@ -905,7 +905,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     protected void getGenerateCall(boolean excelFlag) {
         try {
             Object[] displayValidation = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
-            if (!CommonUtil.nullCheck(displayValidation) && displayValidation.length == 0) {
+            if (displayValidation.length == 0 && !CommonUtil.nullCheck(displayValidation)) {
                 AbstractNotificationUtils.getErrorNotification("No Display Format Selected", "Please select value(s) from the Display Format field");
             } else {
                 pvSelectionDTO.setCustomerLevelFilter((List) (generateCustomerToBeLoaded != null ? generateCustomerToBeLoaded : new ArrayList<>()));
@@ -1486,7 +1486,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         NMDiscountProjection dp = nonMandatedForm.getDiscountProjection();
         if (dp != null) {
             String discountType = nonMandatedForm.getDiscountProjection().getDiscountType();
-            if (dp.getResultBeanContainer().size() > 0 && discountType != null && session.isDiscountRSlistUpdated()) {
+            if (discountType != null && session.isDiscountRSlistUpdated() && dp.getResultBeanContainer().size() > 0 ) {
                 discountlist = new ArrayList<>();
                 if (PROGRAM_CATEGORY.getConstant().equals(discountType)) {
                     List<String> priceGroupType = nonMandatedForm.getDiscountProjection().getDiscountNamesList();

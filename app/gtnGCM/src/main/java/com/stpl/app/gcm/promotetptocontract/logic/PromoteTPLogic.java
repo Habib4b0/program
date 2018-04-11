@@ -1532,7 +1532,7 @@ public class PromoteTPLogic {
 
     public boolean getNull(String value) {
         boolean check = false;
-        if (!StringUtils.EMPTY.equals(value) && !Constants.NULL.equals(value) && value != null) {
+        if (value != null && !StringUtils.EMPTY.equals(value) && !Constants.NULL.equals(value)) {
             check = true;
         }
         return check;

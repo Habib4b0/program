@@ -580,10 +580,8 @@ public class ForecastForm extends AbstractForm {
 		if (tabPosition <= i) {
 			btnPrevInForm.setEnabled(true);
 		}
-		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-			if (tabPosition == NumericConstants.NINE) {
-				btnRefresh.setVisible(false);
-			}
+		if (tabPosition == NumericConstants.NINE && screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                        btnRefresh.setVisible(false);
 		}
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
 			if (tabPosition == 0 || tabPosition == 1) {
@@ -2496,9 +2494,9 @@ public class ForecastForm extends AbstractForm {
 
 	private Boolean checkLastPositionTab(int tabPosition) {
 		boolean salesFlag = false;
-		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) && tabPosition == 2) {
+		if (tabPosition == 2 && screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			salesFlag = true;
-		} else if ((!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) && tabPosition == 1) {
+		} else if (tabPosition == 1 && (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED))) {
 			salesFlag = true;
 		}
 		return salesFlag;
