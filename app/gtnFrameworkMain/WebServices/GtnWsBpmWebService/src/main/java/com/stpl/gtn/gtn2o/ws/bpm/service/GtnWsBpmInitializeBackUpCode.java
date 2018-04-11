@@ -5,7 +5,7 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 
 import org.drools.compiler.kproject.ReleaseIdImpl;
-import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
+import org.kie.api.runtime.manager.RuntimeEnvironmentBuilder;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.manager.RuntimeEnvironment;
 import org.kie.api.runtime.manager.RuntimeManager;
