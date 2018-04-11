@@ -58,9 +58,7 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
 
     /** For internal use only. May be removed or replaced in the future. */
     public static String resolutionToString(DateTimeResolution res) {
-//        if (res.getCalendarField() > Resolution.DAY.getCalendarField()) {
-//            return "full";
-//        }
+
         if (res == DateTimeResolution.DAY) {
             return "day";
         }
@@ -91,12 +89,7 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
     public DateTimeService dateTimeService;
 
     protected boolean showISOWeekNumbers = false;
-    
-//    private FlexTable table=new FlexTable();
-    
-//    public final List<VExtCalendarPanel> calendarPanels=new ArrayList<VExtCalendarPanel>();
-    
-    
+
 /** For internal use only. May be removed or replaced in the future. */
     public final VCalendarFieldrPanel headerCalendarPanel;
     public VCalendarField() {
@@ -122,7 +115,6 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
         headerCalendarPanel.setFocusOutListener(new VCalendarFieldrPanel.FocusOutListener() {
             @Override
             public boolean onFocusOut(DomEvent<?> event) {
-//                updateValueFromPanel();
                 return false;
             }
         });

@@ -152,17 +152,14 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
     private VEventButton prevMonth;
     private VEventButton nextMonth;
     FlexTable bodyDays = new FlexTable();
-    private FlexTable days = new FlexTable();
     private DateTimeResolution resolution = DateTimeResolution.YEAR;
     private Timer mouseTimer;
     private Set<String> values = new HashSet<String>();
-    private Date value;
     private DateTimeService dateTimeService;
     private boolean showISOWeekNumbers;
     private CalendarDate displayedMonth;
     private CalendarDate focusedDate;
     private Set<Day> selectedDays = new HashSet<Day>();
-    private Day selectedDay;
     private Day focusedDay;
     private FocusOutListener focusOutListener;
     private SubmitListener submitListener;
@@ -175,7 +172,6 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
     private boolean prevMonthEnabled = true;
     private boolean nextMonthEnabled = true;
     private boolean yearVisible = true;
-    private boolean itHeader = false;
     int totalRow = 1;
     int totalCol = 1;
     boolean isYear = false;
@@ -267,11 +263,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
      *
      */
     private void selectDate(Date date,boolean select) {
-//        if (selectedDay != null) {
-//            selectedDay.removeStyleDependentName(CN_SELECTED);
-//            Roles.getGridcellRole().removeAriaSelectedState(
-//                    selectedDay.getElement());
-//        }
+
         if (bodyDays.getRowCount() > 0) {
             int colCount = bodyDays.getCellCount(0);
             if (colCount > 0) {
@@ -313,15 +305,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
             }
         }
     }    
-//    private Date getValue(Date date){
-//        for (Date dt : values) {
-//            if(date.getYear()==dt.getYear()&&date.getMonth()==dt.getMonth()&&date.getDate()==dt.getDate()){
-//                return dt;
-//            }
-//        }
-//        return null;
-//    }
-    
+
     public Set<String> getValues(){        
         return values;
     }
@@ -330,11 +314,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
      */
     private void selectFocused() {
         if (focusedDate != null && isDateInsideRange(focusedDate, resolution)&&isEnabledDate(focusedDate)) {
-//            if (value == null) {
-//                // No previously selected value (set to null on server side).
-//                // Create a new date using current date and time
-//                value = new Date();
-//            }
+
             /*
              * #5594 set Date (day) to 1 in order to prevent any kind of
              * wrapping of months when later setting the month. (e.g. 31 ->
@@ -806,13 +786,9 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
                     if (day > 6) {
                         day = 0;
                     }
-//                    if (getResolution().getCalendarField() > Resolution.MONTH
-//                            .getCalendarField()) {
+
                         days.setHTML(headerRow, firstWeekdayColumn + i, "<strong>"
                                 + getDateTimeService().getShortDay(day) + "</strong>");
-//                    } else {
-//                        days.setHTML(headerRow, firstWeekdayColumn + i, "");
-//                    }
 
                     Roles.getColumnheaderRole().set(
                             days.getCellFormatter().getElement(headerRow,
@@ -1538,21 +1514,6 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         }
         return date;
     }
-//    /**
-//     * Adjusts a date to fit inside the range, only if outside
-//     *
-//     * @param date
-//     */
-//    private Date adjustDateToFitEnabledDate(Date date) {
-//        Date date1 = (Date) date.clone();
-//        date1.setDate(date1.getDate()+1);
-//        if (rangeStart != null && rangeStart.after(date)) {
-//            date = (Date) rangeStart.clone();
-//        } else if (rangeEnd != null && rangeEnd.before(date)) {
-//            date = (Date) rangeEnd.clone();
-//        }
-//        return date;
-//    }
 
     public void manageFocusRange(Date currentDate){
         boolean currentDateWasAdjusted=false;
@@ -1560,11 +1521,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
             currentDate = adjustDateToFitInsideRange(currentDate);
             currentDateWasAdjusted = true;
         }
-//        if (currentDate != null && !isEnabledDate(currentDate)) {
-//            currentDate = adjustDateToFitEnabledDate(currentDate);
-//            currentDateWasAdjusted = true;
-//        }
-        
+
         if (currentDate == null || currentDateWasAdjusted) {
             // If ranges enabled, we may need to focus on a different view to
             // potentially not get stuck
@@ -1834,28 +1791,6 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
             mouseTimer.cancel();
         }
     }
-//
-//    /**
-//     * Helper class to inform the screen reader that the user changed the
-//     * selected date. It sets the value of a field that is outside the view, and
-//     * is defined as a live area. That way the screen reader recognizes the
-//     * change and reads it to the user.
-//     */
-//    public class FocusedDate extends Date {
-//        
-//        public FocusedDate() {
-//            super();
-//        }
-//        public FocusedDate(int year, int month, int date) {
-//            super(year, month, date);
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return this.getYear()+DATE_SEPARATOR+this.getMonth()+DATE_SEPARATOR+this.getDate();
-//        }
-//        
-//    }
 
     /**
      * Sets the start range for this component. The start range is inclusive,
