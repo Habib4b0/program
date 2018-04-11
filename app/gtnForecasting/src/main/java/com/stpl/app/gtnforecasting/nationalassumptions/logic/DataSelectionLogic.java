@@ -420,8 +420,9 @@ public class DataSelectionLogic {
                 if (isTherapeuticClass(therapeuticClassValue)) {
                     sql = sql.append("AND  IM.THERAPEUTIC_CLASS = '").append(String.valueOf(therapeuticClassValue)).append('\'');
                 }
+                sql = sql.append(" AND HT.DESCRIPTION ='NDC-11'");
             }
-
+              
             
               List list=HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             return list;

@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnFrameworkSaveAction;
+import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameWorkDefaultResetValueAction;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameworkDataFrequencyValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameworkFromPeriodValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.forecastconfiguration.config.action.GtnUIFrameworkHistoryIntervalValueChangeAction;
@@ -476,7 +477,17 @@ public class GtnFrameworkForecastConfigurationConfig {
 		customAction.addActionParameter(GtnUIFrameworkIntervalFrequencyValueChangeAction.class.getName());
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.INTERVAL_FREQUENCY);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FUTURE_INTERVAL);
+		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD);
 		actionConfigList.add(customAction);
+
+		GtnUIFrameWorkActionConfig customActionValueChange = new GtnUIFrameWorkActionConfig();
+		customActionValueChange.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customActionValueChange.addActionParameter(GtnUIFrameworkDataFrequencyValueChangeAction.class.getName());
+		customActionValueChange
+				.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FUTURE_INTERVAL);
+		customActionValueChange
+				.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD);
+		actionConfigList.add(customActionValueChange);
 		intervalFrequencyComponentConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 
@@ -499,6 +510,7 @@ public class GtnFrameworkForecastConfigurationConfig {
 		customAction.addActionParameter(GtnUIFrameworkIntervalFrequencyValueChangeAction.class.getName());
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.INTERVAL_FREQUENCY);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FUTURE_INTERVAL);
+		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD);
 		textBoxConfig.addValueChangeActionConfig(customAction);
 		setIntervalTextboxConfig(companyIdConfig, textBoxConfig, componentList, "Please Enter Future Interval");
 	}
@@ -510,17 +522,21 @@ public class GtnFrameworkForecastConfigurationConfig {
 		componentList.add(gtnLayoutConfig);
 
 		GtnUIFrameworkComponentConfig forecastPeriodConfig = commonConfig.getUIFrameworkComponentConfig(
-				namspacePrefix + "forecastPeriod", true, namspacePrefix + "forecastPeriodLayout",
-				GtnUIFrameworkComponentType.TEXTBOX);
+				namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD, true,
+				namspacePrefix + "forecastPeriodLayout", GtnUIFrameworkComponentType.TEXTBOX);
 		forecastPeriodConfig.setAuthorizationIncluded(true);
 		forecastPeriodConfig.setComponentName("Forecast Period");
 		forecastPeriodConfig.setEnable(false);
-		forecastPeriodConfig.setResetToDefaultAllowed(false);
+                forecastPeriodConfig.setResetToDefaultAllowed(false);
 		GtnUIFrameworkTextBoxConfig textBoxConfig = commonConfig.getTextBoxConfig(false, false, true);
 		textBoxConfig.setValueLoadFromService(true);
 		textBoxConfig.setLoadingUrl(GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
 				+ GtnWsForecastConfigurationConstants.LOAD_FORECAST_PERIOD);
-		forecastPeriodConfig.setGtnTextBoxConfig(textBoxConfig);
+
+		GtnUIFrameworkValidationConfig historicalDataPeriodValidationConfig = new GtnUIFrameworkValidationConfig();
+		historicalDataPeriodValidationConfig.setMaxLength(5);
+		forecastPeriodConfig.setGtnUIFrameworkValidationConfig(historicalDataPeriodValidationConfig);
+                forecastPeriodConfig.setGtnTextBoxConfig(textBoxConfig);
 		componentList.add(forecastPeriodConfig);
 	}
 
@@ -565,6 +581,10 @@ public class GtnFrameworkForecastConfigurationConfig {
 		componentList.add(resetButtonConfig);
 
 		List<String> resetFieldList = new ArrayList<>();
+                GtnUIFrameWorkActionConfig customActionDefaultForecastPeriod = new GtnUIFrameWorkActionConfig();
+		customActionDefaultForecastPeriod.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customActionDefaultForecastPeriod.addActionParameter(GtnUIFrameWorkDefaultResetValueAction.class.getName());
+                customActionDefaultForecastPeriod.addActionParameter(resetButtonConfig);
 
 		resetFieldList.add(namspacePrefix + GtnFrameworkForecastConfigurationContants.BUSINESS_PROCESS);
 		resetFieldList.add(namspacePrefix + GtnFrameworkForecastConfigurationContants.PROCESS_TYPE);
@@ -586,9 +606,10 @@ public class GtnFrameworkForecastConfigurationConfig {
 		resetValueList.add(null);
 		resetValueList.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		resetValueList.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-		resetValueList.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		resetValueList.add(GtnFrameworkCommonStringConstants.STRING_EMPTY); 
 		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
-		resetActionConfig.setActionType(GtnUIFrameworkActionType.RESET_ACTION);
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+                resetActionConfig.addActionParameter(GtnUIFrameWorkDefaultResetValueAction.class.getName());
 		resetActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
 		resetActionConfig.addActionParameter("Are you sure you want to reset the page to default/previous values ?");
 		resetActionConfig.addActionParameter(resetFieldList);

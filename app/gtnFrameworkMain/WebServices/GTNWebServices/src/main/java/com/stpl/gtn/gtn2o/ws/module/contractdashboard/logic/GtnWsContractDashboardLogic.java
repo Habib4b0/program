@@ -187,7 +187,7 @@ public class GtnWsContractDashboardLogic {
 				if (searchCriteria.isFilter()) {
 					StringBuilder value = new StringBuilder(searchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(searchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(getWhereClauseForAColumn(searchCriteria.getExpression(),
@@ -235,7 +235,7 @@ public class GtnWsContractDashboardLogic {
 		StringBuilder value = new StringBuilder(" '" + searchCriteria.getFilterValue1().replace('*', '%') + "' ");
 		String expression = " " + searchCriteria.getExpression().replace("EQUALS", "=");
 		if (searchQuery.contains("in (")) {
-			value.append(value + ")");
+			value.append(value).append(")");
 		}
 		inputWhereConditions.append(where).append(and).append(searchQuery).append(expression).append(value);
 	}
@@ -488,7 +488,7 @@ public class GtnWsContractDashboardLogic {
 		StringBuilder ids = new StringBuilder();
 		String comma = "";
 		for (Object value : cdResponse.getValues()) {
-			ids.append(comma + String.valueOf(value));
+			ids.append(comma).append(String.valueOf(value));
 			comma = ",";
 		}
 		if (!cdResponse.getValues().isEmpty()) {
@@ -667,7 +667,7 @@ public class GtnWsContractDashboardLogic {
 		StringBuilder contractName = new StringBuilder();
 		String comma = "";
 		for (GtnWsRecordBean bean : cdRequest.getRecordBeanList()) {
-			contractName.append(comma + bean.getStringPropertyByIndex(2));
+			contractName.append(comma).append(bean.getStringPropertyByIndex(2));
 			comma = ",";
 		}
 		try {

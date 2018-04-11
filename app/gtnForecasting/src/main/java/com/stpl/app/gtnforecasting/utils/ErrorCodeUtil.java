@@ -58,7 +58,7 @@ public class ErrorCodeUtil {
      * @return message
      */
     public static String getErrorMessage(final Exception exception) {
-        final StringBuffer message = new StringBuffer(StringUtils.EMPTY);
+        final StringBuffer message = new StringBuffer();
         if (exception.getCause() instanceof IOException) {
             message.append(getEC(ErrorCodes.IO_ERROR_CODE) ).append( HYPHEN);
         } else if (exception.getCause() instanceof ORMException) {

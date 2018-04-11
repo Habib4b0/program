@@ -2250,9 +2250,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         resultExcelContainer.setChildrenAllowed(itemId, false);
                     }
                 }
-                resultExcelContainer.sort(new Object[]{Constant.GROUP}, new boolean[]{true});
-                resultExcelContainer.sort(new Object[]{Constant.DF_LEVEL_NUMBER}, new boolean[]{true});
-                resultExcelContainer.sort(new Object[]{Constant.DF_LEVEL_NAME}, new boolean[]{true});
             }
 
             excelParentRecords.clear();
@@ -2314,7 +2311,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
         if (itemId.getParentHierarchyNo() == null) {
-            parentKey = key.substring(0, key.lastIndexOf('.'));
+            parentKey = !key.contains("-") ? key : key.substring(0, key.lastIndexOf('.'));
         } else {
             parentKey = itemId.getParentHierarchyNo();
             if (pvSelectionDTO.isIsCustomHierarchy()) {

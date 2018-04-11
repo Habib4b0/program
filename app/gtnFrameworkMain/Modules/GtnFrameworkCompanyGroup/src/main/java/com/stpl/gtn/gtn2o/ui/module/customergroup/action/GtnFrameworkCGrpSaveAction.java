@@ -58,7 +58,7 @@ public class GtnFrameworkCGrpSaveAction
 			Integer systemId = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty("companyGrpSid");
 			Integer versionId = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty("versionId");
 			String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
-			infoBean.setModifiedBy(Integer.valueOf(userId));
+			infoBean.setModifiedBy(Integer.parseInt(userId));
 			if (systemId != null && systemId > 0) {
 				infoBean.setCompanyGrpSid(systemId);
 			}

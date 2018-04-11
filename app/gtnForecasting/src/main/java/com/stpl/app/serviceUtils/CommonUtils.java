@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -393,7 +392,7 @@ public class CommonUtils {
     }
     
        public static String stringListToString(List<String> stringList) {
-        StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder builder = new StringBuilder();
         if (stringList != null && !stringList.isEmpty()) {
             for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
                 builder.append('\'');

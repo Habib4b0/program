@@ -35,7 +35,7 @@ public class DataQueryLogic {
         try {
             LOGGER.debug("Entering getContractHolders method");
 
-            StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder queryString = new StringBuilder();
             if (parameters.get(StringConstantsUtil.INDICATOR) != null && "ContractHolder".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
 
                 queryString.append("select distinct CON.CONT_HOLD_COMPANY_MASTER_SID, CM.COMPANY_NO, CM.COMPANY_NAME, compStatus.DESCRIPTION as companyStatus,\n"
@@ -101,7 +101,7 @@ public class DataQueryLogic {
         try {
             LOGGER.debug("Entering getRebatePlanInfo method");
 
-            StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder queryString = new StringBuilder();
             if (parameters.get(StringConstantsUtil.INDICATOR) != null && "RebatePlan".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
 
                 queryString.append("SELECT \n"

@@ -363,7 +363,7 @@ public class GtnWsRelationshipBuilderService {
 			final String tableName = hierarchyLevelDefinitionBean.getTableName();
 			final String columnName = hierarchyLevelDefinitionBean.getFieldName();
 			final String rule = inclustionExculstionRules.get(hierarchyLevelDefinitionBean.getLevelNo());
-			hierarchyInputList.add(2, Integer.parseInt(String.valueOf(hierarchyLevelDefinitionBean.getLevelNo())));
+			hierarchyInputList.add(2, Integer.valueOf(String.valueOf(hierarchyLevelDefinitionBean.getLevelNo())));
 			hierarchyInputList.add(3, rule);
 			String sqlString = helperLogic.finderImplInLogic(tableName, columnName, hierarchyInputList, isFirst);
 			String primaryKeyColumn = gtnFrameworkEntityMasterBean
@@ -571,7 +571,7 @@ public class GtnWsRelationshipBuilderService {
 
 	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder, String append) {
 		if (queryBuilder.toString().contains(HELPER_JOIN_DESCRIPTION)) {
-			queryBuilder.append(" " + append + " HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
+			queryBuilder.append(" ").append(append).append(" HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
 		}
 	}
 

@@ -42,7 +42,7 @@ public class GtnUIFrameWorkEditAction implements GtnUIFrameWorkAction {
 		if (!isAdditionalProperty) {
 			sysId = (Integer) gtnWsRecordBean.getPropertyValue(propertyId);
 		} else {
-			sysId = Integer.valueOf(String.valueOf(gtnWsRecordBean.getProperties().get(index)));
+			sysId = Integer.parseInt(String.valueOf(gtnWsRecordBean.getProperties().get(index)));
 		}
 		GtnUIFrameworkGlobalUI.addSessionProperty("systemId", sysId);
 		if (GtnUIFrameworkGlobalUI.getSessionProperty("sessionId") == null) {
