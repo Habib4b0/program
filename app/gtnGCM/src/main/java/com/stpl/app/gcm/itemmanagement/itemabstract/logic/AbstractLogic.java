@@ -448,7 +448,7 @@ public class AbstractLogic {
                 dto.setAttachedDate(str[NumericConstants.THIRTY] == null ? null : (Date) (str[NumericConstants.THIRTY]));
                 String basePriceType = dto.getBasePriceType();
                 if (!Constants.SELECT_ONE.equals(basePriceType) && !Constants.NULL.equals(basePriceType) && !Constants.ZEROSTRING.equals(basePriceType) && !StringUtils.EMPTY.equals(basePriceType)) {
-                    if (basePriceType != null+) {
+                    if (basePriceType != null) {
                         switch (basePriceType) {
                         case Constants.MANUAL_LABLE_NAME:
                             dto.setBaselineWAC(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
