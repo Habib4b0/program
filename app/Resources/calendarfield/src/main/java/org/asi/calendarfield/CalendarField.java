@@ -26,8 +26,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
-
-import org.apache.log4j.Logger;
 import org.asi.calendarfield.client.CalendarFieldState;
 import org.asi.calendarfield.client.CalenderFieldUtil;
 import org.asi.calendarfield.client.CalenderFieldUtil.CalendarDate;
@@ -55,7 +53,6 @@ public class CalendarField extends AbstractField<List>
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = org.apache.log4j.LogManager.getLogger(CalendarField.class);
 
 	public CalendarField() {
 		setValue(new ArrayList());//check now, ok, but if you dont pass false here , then it will take false 
@@ -111,20 +108,19 @@ public class CalendarField extends AbstractField<List>
 	 */
 	private boolean showISOWeekNumbers = false;
 	private TimeZone timeZone = null;
-	private Set<String> values = new HashSet<String>();
+	private Set<String> values = new HashSet<>();
 	/**
 	 * Determines whether the ValueChangeEvent should be fired. Used to prevent
 	 * firing the event when UI has invalid string until uiHasValidDateString
 	 * flag is set
 	 */
 	private boolean preventValueChangeEvent = false;
-	private List<WeekDay> disableWeekDays = new ArrayList<WeekDay>();
-	private List<Integer> disableMonthlyDays = new ArrayList<Integer>();
-	private List<Date> disableDates = new ArrayList<Date>();
+	private List<WeekDay> disableWeekDays = new ArrayList<>();
+	private List<Integer> disableMonthlyDays = new ArrayList<>();
+	private List<Date> disableDates = new ArrayList<>();
 
 	public void setDisableWeekDays(WeekDay... days) {
 		this.disableWeekDays = Arrays.asList(days);
-		logger.info("disableWeekDays"+disableWeekDays.size());
 		markAsDirty();
 	}
 
@@ -134,14 +130,13 @@ public class CalendarField extends AbstractField<List>
 	}
 
 	public List<Date> getDisabledDates() {
-		logger.info("Inside getDisabledDates= " + disableDates);
+		
 		return disableDates;
 	}
 
 	public void setDisableDates(Date... dates) {
-		logger.info("Inside setDisabledDates");
-		//this.disableDates = Arrays.asList(dates);
-		List<Date> disableDatesList = new LinkedList<Date>(Arrays.asList(dates));
+		
+		List<Date> disableDatesList = new LinkedList<>(Arrays.asList(dates));
 		this.disableDates = disableDatesList;
 		markAsDirty();
 	}
@@ -182,22 +177,22 @@ public class CalendarField extends AbstractField<List>
 		return disableMonthlyDays;
 	}
 
-	private List<WeekDay> selectedWeekDays = new ArrayList<WeekDay>();
-	private List<Integer> selectedMonthlyDays = new ArrayList<Integer>();
+	private List<WeekDay> selectedWeekDays = new ArrayList<>();
+	private List<Integer> selectedMonthlyDays = new ArrayList<>();
 	private boolean valueFromDate = true;
 	private boolean updateDateValue = true;
 
 	public void setSelectedWeekDays(WeekDay... days) {
 
-		List<WeekDay> removedWeekDays = new ArrayList<WeekDay>(this.selectedWeekDays);
-		logger.info("removedWeekDays"+removedWeekDays);
-		this.selectedWeekDays = new ArrayList<WeekDay>(Arrays.asList(days));
-		logger.info("selectedWeekDays"+selectedWeekDays);
+		List<WeekDay> removedWeekDays = new ArrayList<>(this.selectedWeekDays);
+		
+		this.selectedWeekDays = new ArrayList<>(Arrays.asList(days));
+		
 		updateDateValue = true;
 		if (isUpdateDateValue() || updateDateValue) {
 			boolean update = updateSelectedDays(removedWeekDays, new ArrayList<Integer>());
 			if (update) {
-				logger.info("update " + update);
+		
 				updateValue();
 			}
 		}
@@ -215,18 +210,22 @@ public class CalendarField extends AbstractField<List>
 		if (selectedMonthlyDays != null) {
 			selectedMonthlyDays.clear();
 		}
-		
 		if (values != null) {
 			values.clear();
 		}
 		super.setValue(new ArrayList(), false);
 	}
+	public void clearSelectedValue() {
+		if (disableDates != null) {
+			disableDates.clear();
+		}
+		
+		super.setValue(new ArrayList(), false);
+	}
 
 	private void updateValue() {
 
-		logger.info("inside updateValue()");
-
-		List<Date> dates = new ArrayList<Date>();
+		List<Date> dates = new ArrayList<>();
 
 		for (String string : values) {
 
@@ -247,8 +246,8 @@ public class CalendarField extends AbstractField<List>
 	}
 
 	public void setSelectedMonthlyDays(Integer... days) {
-		List<Integer> removedMonthlyDays = new ArrayList<Integer>(this.selectedMonthlyDays);
-		this.selectedMonthlyDays = new ArrayList<Integer>(Arrays.asList(days));
+		List<Integer> removedMonthlyDays = new ArrayList<>(this.selectedMonthlyDays);
+		this.selectedMonthlyDays = new ArrayList<>(Arrays.asList(days));
 		if (isUpdateDateValue()) {
 			boolean update = updateSelectedDays(new ArrayList<WeekDay>(), removedMonthlyDays);
 			if (update) {
@@ -355,7 +354,7 @@ public class CalendarField extends AbstractField<List>
 			target.addAttribute("strict", true);
 		}
 
-		target.addAttribute(DateFieldConstants.ATTR_WEEK_NUMBERS, isShowISOWeekNumbers() && false);
+		target.addAttribute(DateFieldConstants.ATTR_WEEK_NUMBERS, isShowISOWeekNumbers());
 		if (focusYear != null) {
 			target.addAttribute("focusYear", focusYear);
 		}
@@ -408,11 +407,6 @@ public class CalendarField extends AbstractField<List>
 
 	}
 
-	// @Override
-	// protected boolean shouldHideErrors() {
-	// return super.shouldHideErrors();
-	// }
-	//
 	@Override
 	protected CalendarFieldState getState() {
 		return (CalendarFieldState) super.getState();
@@ -490,7 +484,7 @@ public class CalendarField extends AbstractField<List>
 			focusMonth = (String) variables.get("focusMonth");
 			focusDate = (String) variables.get("focusDate");
 			String[] valuesFromVariable = (String[]) variables.get("values");
-			List<Date> dates = new ArrayList<Date>();
+			List<Date> dates = new ArrayList<>();
 			values.clear();
 			for (String value : valuesFromVariable) {
 				CalendarDate dt = CalenderFieldUtil.getDateFromString(value);
@@ -508,26 +502,6 @@ public class CalendarField extends AbstractField<List>
 			fireEvent(new BlurEvent(this));
 		}
 	}
-	/*
-	 * only fires the event if preventValueChangeEvent flag is false
-	 */
-	// @Override
-	// protected void fireValueChange(boolean repaintIsNotNeeded) {
-	// if (!preventValueChangeEvent) {
-	// super.fireValueChange(repaintIsNotNeeded);
-	// }
-	// }
-
-	/* Property features */
-
-	/*
-	 * Gets the edited property's type. Don't add a JavaDoc comment here, we use
-	 * the default documentation from implemented interface.
-	 */
-	// @Override
-	// public Class<List> getType() {
-	// return List.class;
-	// }
 
 	/*
 	 * (non-Javadoc)
@@ -543,9 +517,10 @@ public class CalendarField extends AbstractField<List>
 		 * string but value is null (e.g. unparsable date string typed in by the
 		 * user). No value changes should happen, but we need to do some
 		 * internal housekeeping.
+		 * 
+		 * 
 		 */
-		logger.info("repaintIsNotNeeded"+repaintIsNotNeeded);
-		logger.info("valueFromDate"+valueFromDate);
+		
 		if (newValue == null) {
 			newValue = new ArrayList();
 		}
@@ -583,12 +558,6 @@ public class CalendarField extends AbstractField<List>
 		return lenient;
 	}
 
-	// @Override
-	// public void addFocusListener(FocusListener listener) {
-	// addListener(FocusEvent.EVENT_ID, FocusEvent.class, listener,
-	// FocusListener.focusMethod);
-	// }
-
 	/**
 	 * @deprecated As of 7.0, replaced by
 	 *             {@link #addFocusListener(FocusListener)}
@@ -600,28 +569,6 @@ public class CalendarField extends AbstractField<List>
 		addFocusListener(listener);
 	}
 
-	// @Override
-	// public void removeFocusListener(FocusListener listener) {
-	// removeListener(FocusEvent.EVENT_ID, FocusEvent.class, listener);
-	// }
-
-	/**
-	 * @deprecated As of 7.0, replaced by
-	 *             {@link #removeFocusListener(FocusListener)}
-	 *
-	 */
-
-	// @Deprecated
-	// public void removeListener(FocusListener listener) {
-	// removeFocusListener(listener);
-	// }
-
-	// @Override
-	// public void addBlurListener(BlurListener listener) {
-	// addListener(BlurEvent.EVENT_ID,BlurEvent.class, listener,
-	// BlurListener.blurMethod);
-	// }
-
 	/**
 	 * @deprecated As of 7.0, replaced by {@link #addBlurListener(BlurListener)}
 	 *
@@ -630,21 +577,6 @@ public class CalendarField extends AbstractField<List>
 	public void addListener(BlurListener listener) {
 		addBlurListener(listener);
 	}
-
-	// @Override
-	// public void removeBlurListener(BlurListener listener) {
-	// removeListener(BlurEvent.EVENT_ID,BlurEvent.class, listener);
-	// }
-
-	/**
-	 * @deprecated As of 7.0, replaced by
-	 *             {@link #removeBlurListener(BlurListener)}
-	 *
-	 */
-	// @Deprecated
-	// public void removeListener(BlurListener listener) {
-	// removeBlurListener(listener);
-	// }
 
 	/**
 	 * Checks whether ISO 8601 week numbers are shown in the date selector.
@@ -699,14 +631,6 @@ public class CalendarField extends AbstractField<List>
 		return timeZone;
 	}
 
-	// public static class UnparsableDateString extends
-	// Validator.InvalidValueException {
-	//
-	// public UnparsableDateString(String message) {
-	// super(message);
-	// }
-	// }
-
 	public boolean isYearResolution() {
 		return yearResolution;
 	}
@@ -717,8 +641,7 @@ public class CalendarField extends AbstractField<List>
 
 	@Override
 	public List getValue() {
-		logger.info("Inseide getValue()");
-		return (List) this.getDisabledDates();
+		return this.getDisabledDates();
 	}
 
 	@Override
@@ -735,7 +658,6 @@ public class CalendarField extends AbstractField<List>
 
 	@Override
 	protected void doSetValue(List value) {
-		logger.info("enter doSetValue() which is empty" + value);
 		this.disableDates.addAll(value);
 	}
 }

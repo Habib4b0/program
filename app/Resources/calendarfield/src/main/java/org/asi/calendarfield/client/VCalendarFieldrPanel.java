@@ -111,6 +111,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
     private static final String CN_OFFMONTH = "offmonth";
     private static final String CN_OUTSIDE_RANGE = "outside-range";
     private static final String CN_DISABLED = "disabled";
+    private static final String INVISIBLE= "invisible";
     /**
      * Represents a click handler for when a user selects a value by using the
      * mouse
@@ -454,9 +455,9 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
             prevMonth.setHTML("&lsaquo;");
             prevMonth.setStyleName("v-button-prevmonth");
             if (isPrevMonthEnabled()) {
-                prevMonth.removeStyleName("invisible");
+                prevMonth.removeStyleName(INVISIBLE);
             } else {
-                prevMonth.addStyleName("invisible");
+                prevMonth.addStyleName(INVISIBLE);
             }
             prevMonth.setTabIndex(-1);
 
@@ -464,9 +465,9 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
             nextMonth.setHTML("&rsaquo;");
             nextMonth.setStyleName("v-button-nextmonth");
             if (isNextMonthEnabled()) {
-                nextMonth.removeStyleName("invisible");
+                nextMonth.removeStyleName(INVISIBLE);
             } else {
-                nextMonth.addStyleName("invisible");
+                nextMonth.addStyleName(INVISIBLE);
             }
             nextMonth.setTabIndex(-1);
 
@@ -486,18 +487,18 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
             prevYear.setHTML("&laquo;");
             prevYear.setStyleName("v-button-prevyear");
             if (isPrevYearEnabled()) {
-                prevYear.removeStyleName("invisible");
+                prevYear.removeStyleName(INVISIBLE);
             } else {
-                prevYear.addStyleName("invisible");
+                prevYear.addStyleName(INVISIBLE);
             }
             prevYear.setTabIndex(-1);
             nextYear = new VEventButton();
             nextYear.setHTML("&raquo;");
             nextYear.setStyleName("v-button-nextyear");
             if (isNextYearEnabled()) {
-                nextYear.removeStyleName("invisible");
+                nextYear.removeStyleName(INVISIBLE);
             } else {
-                nextYear.addStyleName("invisible");
+                nextYear.addStyleName(INVISIBLE);
             }
             nextYear.setTabIndex(-1);
             setWidget(0, 0, prevYear);
@@ -736,7 +737,7 @@ public class VCalendarFieldrPanel extends FocusableFlexTable implements
         getFlexCellFormatter().setColSpan(1, 0, 5);
         getFlexCellFormatter().setStyleName(1, 0,
                 parent.getStylePrimaryName() + "-calendarpanel-body");
-        List<Date> selectedDates = new ArrayList<Date>();
+        List<Date> selectedDates = new ArrayList<>();
         for (String value : values) {
             Date selectedDate = CalenderFieldUtil.getDateFromString(value);
             selectedDates.add(selectedDate);

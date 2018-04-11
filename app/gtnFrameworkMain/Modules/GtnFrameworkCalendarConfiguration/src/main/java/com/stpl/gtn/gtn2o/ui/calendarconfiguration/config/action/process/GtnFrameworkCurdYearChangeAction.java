@@ -59,9 +59,10 @@ public class GtnFrameworkCurdYearChangeAction implements GtnUIFrameWorkAction, G
 			rangeStartDate.set(year, 0, 1, 0, 0, 0);
 			rangeEndDate.set(year, 11, 31, 0, 0, 0);
 
+			calendarBaseComponent.clearSelectedCalendarValue();
 			calendarBaseComponent.setCalendarFieldRangeStart(null);
 			calendarBaseComponent.setCalendarFieldRangeEnd(null);
-
+			
 			calendarBaseComponent.setCalendarFieldRangeStart(rangeStartDate.getTime());
 
 			calendarBaseComponent.setCalendarFieldRangeEnd(rangeEndDate.getTime());

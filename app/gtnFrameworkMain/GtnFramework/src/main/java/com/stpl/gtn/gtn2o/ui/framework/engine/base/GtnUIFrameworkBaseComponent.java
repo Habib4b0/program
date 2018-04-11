@@ -846,6 +846,10 @@ public class GtnUIFrameworkBaseComponent {
 	public void clearAllCalendarValue() {
 		((CalendarField) getComponent()).clearAllValue();
 	}
+	
+	public void clearSelectedCalendarValue() {
+		((CalendarField) getComponent()).clearSelectedValue();
+	}
 
 	public void setSelectedWeekDays(int... days) {
 		if (getComponent() instanceof CalendarField) {

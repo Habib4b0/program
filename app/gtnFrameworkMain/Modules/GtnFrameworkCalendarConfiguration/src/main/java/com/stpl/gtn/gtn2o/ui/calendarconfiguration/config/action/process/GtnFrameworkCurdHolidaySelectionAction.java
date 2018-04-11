@@ -33,12 +33,9 @@ public class GtnFrameworkCurdHolidaySelectionAction implements GtnUIFrameWorkAct
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		
-		gtnLogger.info("Inside holidays selection action");
-		
 		List<String> parameters = gtnUIFrameWorkActionConfig.getFieldValues();
 		try {
-			GtnUIFrameworkBaseComponent defaultHolidayBaseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(componentId);
+			GtnUIFrameworkBaseComponent defaultHolidayBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
 			String holiday = defaultHolidayBaseComponent.getStringFromField();
 			
 			GtnUIFrameworkBaseComponent calendarBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(0));
