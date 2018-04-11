@@ -111,7 +111,7 @@ public class MedicaidQueryUtils {
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
-                queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
+                queryBuilder1 = new StringBuilder();
 
                 String formatedValue = editedValues.get(values);
 
@@ -177,7 +177,7 @@ public class MedicaidQueryUtils {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
 
-        queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
+        queryBuilder1 = new StringBuilder();
 
         String qValue = propertyId.substring(1, NumericConstants.TWO);
         String yearValue = propertyId.substring(NumericConstants.TWO, NumericConstants.SIX);
@@ -226,7 +226,7 @@ public class MedicaidQueryUtils {
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
-                queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
+                queryBuilder1 = new StringBuilder();
 
                 String formatedValue = editedValues.get(values);
 
@@ -396,7 +396,7 @@ public class MedicaidQueryUtils {
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
-                queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
+                queryBuilder1 = new StringBuilder();
                 String formatedValue = editedValues.get(values);
                 String tempValue[] = values.split("~");
                 String rowId = tempValue[1];

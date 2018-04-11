@@ -46,7 +46,7 @@ public class GtnUIFrameworkContractHeaderAttachAction
 
 			if (idComponentData != null && idComponentData.getCustomData() != null) {
 				GtnWsRecordBean tpDto = (GtnWsRecordBean) idComponentData.getCustomData();
-				tpId = Integer.parseInt(String.valueOf(tpDto.getPropertyValueByIndex(5)));
+				tpId = Integer.valueOf(String.valueOf(tpDto.getPropertyValueByIndex(5)));
 			}
 			if (idComponentData != null) {
 				idComponentData.setCustomData(null);

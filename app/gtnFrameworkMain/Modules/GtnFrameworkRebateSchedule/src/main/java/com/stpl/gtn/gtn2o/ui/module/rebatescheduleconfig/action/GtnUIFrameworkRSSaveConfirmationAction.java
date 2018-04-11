@@ -59,6 +59,10 @@ public class GtnUIFrameworkRSSaveConfirmationAction implements GtnUIFrameWorkAct
 
 		changeCaptionActionConfig.setActionParameterList(actionParameterList);
 		onSucessActionConfig.add(changeCaptionActionConfig);
+                GtnUIFrameWorkActionConfig customDeleteDisableAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customDeleteDisableAction.addActionParameter(GtnFrameworkRSDisableDeleteAction.class.getName());
+                onSucessActionConfig.add(customDeleteDisableAction);
 
 		GtnUIFrameWorkActionConfig setModeActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.MODE_CHANGE);
@@ -70,7 +74,7 @@ public class GtnUIFrameworkRSSaveConfirmationAction implements GtnUIFrameWorkAct
 		String[] visibleFields = new String[] { "priceScheduleAddViewAAddDeleteButton" };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
+		visibleParameters.add(Boolean.TRUE);
 		visibleParameters.add(Arrays.asList(visibleFields));
 
 		visibleAction.setActionParameterList(visibleParameters);

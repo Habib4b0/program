@@ -51,7 +51,7 @@ public class GtnCommonUtil {
 	public static Integer getInteger(final Object obj) {
 		Integer integerOut = 0;
 		try {
-			integerOut = Integer.parseInt(String.valueOf(obj));
+			integerOut = Integer.valueOf(String.valueOf(obj));
 
 		} catch (Exception e) {
 			logger.error("Error in getInteger", e);
@@ -65,20 +65,20 @@ public class GtnCommonUtil {
 		switch (expersion) {
 		case "BETWEEN":
 			sql.append(field).append(" >= '").append(getDate(value1)).append("' AND ");
-			sql.append(field).append(" <= '").append(getDate(value2)).append("'");
+			sql.append(field).append(" <= '").append(getDate(value2)).append("' ");
 			break;
 		case "AND":
 			sql.append(field).append(" < '").append(value1).append("' AND ");
-			sql.append(field).append(" > '").append(value2).append("'");
+			sql.append(field).append(" > '").append(value2).append("' ");
 			break;
 		case "GREATER_OR_EQUAL":
-			sql.append(field).append(" >= '").append(getDate(value1)).append("'");
+			sql.append(field).append(" >= '").append(getDate(value1)).append("' ");
 			break;
 		case "LESS_OR_EQUAL":
-			sql.append(field).append(" <= '").append(getDate(value1)).append("'");
+			sql.append(field).append(" <= '").append(getDate(value1)).append("' ");
 			break;
 		case "LIKE":
-			sql.append(field).append(" ").append(expersion).append(" '").append(value1.replace('*', '%')).append("' ");
+			sql.append(field).append(' ').append(expersion).append(" '").append(value1.replace('*', '%')).append("' ");
 			break;
 		case "EQUAL":
 			sql.append(field).append(" = '").append(value1).append("' ");
@@ -93,7 +93,7 @@ public class GtnCommonUtil {
 			sql.append(field).append(" < '").append(value1).append("' ");
 			break;
 		default:
-			sql.append(field).append(" ").append(expersion).append(" '").append(value1).append("' ");
+			sql.append(field).append(' ').append(expersion).append(" '").append(value1).append("' ");
 			break;
 		}
 		return sql.toString();
@@ -205,7 +205,7 @@ public class GtnCommonUtil {
 	public static String getFormatedDate(GtnWsCheckAllUpdateBean rsUpdateBean) throws GtnFrameworkGeneralException {
 		String formattedDate = StringUtils.EMPTY;
 		try {
-			Date date = new Date(Long.valueOf(String.valueOf(rsUpdateBean.getValue())));
+			Date date = new Date(Long.parseLong(String.valueOf(rsUpdateBean.getValue())));
 			SimpleDateFormat formatter = new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_M_MDD_H_HMMSS);
 			formattedDate = formatter.format(date);
 		} catch (Exception ex) {

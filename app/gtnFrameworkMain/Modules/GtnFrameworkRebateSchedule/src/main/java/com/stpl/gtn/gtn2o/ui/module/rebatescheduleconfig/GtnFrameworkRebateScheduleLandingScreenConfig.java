@@ -627,32 +627,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableField = new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
-				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
-				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
-				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
-				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
-				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
-				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
-				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
-				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
-				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
-				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
-				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
-				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
-				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
-				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
-				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
-				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE, "RSleftResultTable",
-				"RSrightResultTable" };
-
-		enableAction.setActionParameterList(new ArrayList<>(Arrays.asList(enableField)));
+		enableAction.setActionParameterList(new ArrayList<>(Arrays.asList(GtnFrameworkRSConstants.getPagedTableEnableField())));
 		actionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = configProvider
@@ -664,13 +639,10 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_ADD_VIEW_A_ADD_RESET_BUTTON,
-				GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON };
-
+		
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(true);
-		visibleParameters.add(new ArrayList<Object>(Arrays.asList(visibleFields)));
+		visibleParameters.add(Boolean.TRUE);
+		visibleParameters.add(new ArrayList<Object>(Arrays.asList(GtnFrameworkRSConstants.getPagedTableVisibleFields())));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
@@ -681,7 +653,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		parameters.add(GtnUIFrameWorkRSLoadAction.class.getName());
 		parameters.add(GtnFrameworkRSConstants.RS_SEARCH_RESULT_TABLE);
 		parameters.add("");
-		parameters.add(true);
+		parameters.add(Boolean.TRUE);
 		parameters.add(30);
 		editActionConfig.setActionParameterList(parameters);
 		actionConfigList.add(editActionConfig);
@@ -727,34 +699,9 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableField = new String[] { GtnFrameworkCommonConstants.NOTES_TAB,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
-				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
-				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
-				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
-				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
-				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
-				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
-				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
-				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
-				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
-				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
-				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
-				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
-				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
-				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
-				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
-				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVERIGHT_BUTTONS,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVE_LEFT_BUTTONS,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_REBATE_PROCESSING_TYPE };
+		
 
-		enableAction.setActionParameterList(Arrays.asList(enableField));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.getAddEnableField()));
 		actionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = configProvider
@@ -781,7 +728,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
 
 		List<Object> visibleActionParameters = new ArrayList<>();
-		visibleActionParameters.add(true);
+		visibleActionParameters.add(Boolean.TRUE);
 		visibleActionParameters.add(Arrays.asList(layoutVisibleArray));
 
 		layoutVisibleAction.setActionParameterList(visibleActionParameters);
@@ -868,34 +815,8 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableField = new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
-				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
-				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
-				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
-				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
-				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
-				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
-				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
-				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
-				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
-				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
-				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
-				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
-				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
-				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
-				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
-				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVERIGHT_BUTTONS,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVE_LEFT_BUTTONS,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_REBATE_PROCESSING_TYPE };
 
-		enableAction.setActionParameterList(Arrays.asList(enableField));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.getAddEditEnableField()));
 		editActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = configProvider
@@ -907,15 +828,10 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_ADD_VIEW_A_ADD_RESET_BUTTON,
-				GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITION_INFORMATION_LAYOUT,
-				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkRSConstants.getAddViewVisibleFields()));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		editActionConfigList.add(visibleAction);
@@ -1005,53 +921,17 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig disableAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkCommonConstants.NOTES_TAB,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
-				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
-				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
-				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
-				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
-				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
-				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
-				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
-				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
-				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
-				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
-				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
-				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
-				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
-				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
-				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVERIGHT_BUTTONS,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVE_LEFT_BUTTONS,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_REBATE_PROCESSING_TYPE,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_VALIDATION_PROFILE,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_INTEREST_BEARING_INDICATOR,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_INTEREST_BEARING_BASIS,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_RIGHT_BUTTON_INDICATOR,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_LEFT_BUTTON_INDICATOR,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_RIGHT_INDICATOR,
-				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_LEFT_INDICATOR };
+		
 
-		disableAction.setActionParameterList(Arrays.asList(disableField));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkRSConstants.getAddViewDisableField()));
 		actionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_ADD_VIEW_A_ADD_RESET_BUTTON,
-				GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON,
-				GtnFrameworkRSConstants.RS_ITEM_ADDITION_INFORMATION_LAYOUT,
-				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
 
 		List<Object> visibleParameters = new ArrayList<>();
-		visibleParameters.add(false);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Boolean.FALSE);
+		visibleParameters.add(Arrays.asList(GtnFrameworkRSConstants.getAddViewVisibleFields()));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
@@ -1062,22 +942,8 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS, "rebateScheduleProgramType",
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY, GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_FREQUENCY, "rebateCalendar",
-				GtnFrameworkRSConstants.REBATE_CALCULATION_TYPE, "rebateCalculationLevel",
-				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.PAYMENT_TERMS,
-				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.PAYMENT_FREQUENCY,
-				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
-				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
-				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
-				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6 };
-		String[] listNameArray = { "RS_TYPE", "STATUS", "REBATE_PROGRAM_TYPE", "RS_CATEGORY", "RS_TRADE_CLASS",
-				"REBATE_FREQUENCY", "RS_CALENDAR", "CALCULATION_TYPE", "RULE_LEVEL", "REBATE_RULE_TYPE",
-				"PAYMENT_TERMS", "PAYMENT_METHOD", "PAYMENT_FREQUENCY", "INTEREST_BEARING_INDICATOR",
-				"INTEREST_BEARING_BASIS", "RS_DESIGNATION", "RS_UDC1", "RS_UDC2", "RS_UDC3", "RS_UDC4", "RS_UDC5",
-				"RS_UDC6" };
+                String[] propertyIds=GtnFrameworkRSConstants.getPropertyIds();
+                String[] listnameArray=GtnFrameworkRSConstants.getListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig rsLandingScreenCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			rsLandingScreenCustomFilterConfig.setPropertId(propertyIds[i]);
@@ -1086,7 +952,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 			rsLandingScreenCustomFilterComponentConfig.setComponentId("customFilterComboBox");
 			rsLandingScreenCustomFilterComponentConfig.setComponentName("customFilterComboBox");
 			rsLandingScreenCustomFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-			rsLandingScreenCustomFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(listNameArray[i]);
+			rsLandingScreenCustomFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(listnameArray[i]);
 			rsLandingScreenCustomFilterComponentConfig.getGtnComboboxConfig()
 					.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);
 			rsLandingScreenCustomFilterComponentConfig.getGtnComboboxConfig()
@@ -1265,7 +1131,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 		copyActionConfigList.add(navigationCopyActionConfig);
 		GtnUIFrameWorkActionConfig setCopyDefaultActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
-
+                
 		setCopyDefaultActionConfig.setActionParameterList(getDefaultFieldValueList());
 		copyActionConfigList.add(setCopyDefaultActionConfig);
 
@@ -1288,7 +1154,7 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig disableCopyAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new Object[] { GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID };
+		Object[] disableField = new Object[] { GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID , GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON};
 
 		disableCopyAction.setActionParameterList(Arrays.asList(disableField));
 		copyActionConfigList.add(disableCopyAction);

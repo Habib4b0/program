@@ -421,7 +421,7 @@ public class GtnUIFrameworkContractHeaderLandingScreenConfig {
 		chTableClickEditActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		chTableClickEditActionConfig.addActionParameter(GtnUIFrameworkContractHeaderEditAction.class.getName());
 		chTableClickEditActionConfig.addActionParameter(GtnUIFrameworkContractHeaderStringContants.SEARCH_RESULT_TABLE);
-		chTableClickEditActionConfig.addActionParameter(true);
+		chTableClickEditActionConfig.addActionParameter(Boolean.TRUE);
 		actionConfigList.add(chTableClickEditActionConfig);
 		chLandingScreenResultsTable.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		searchResultConfig.setGtnPagedTableConfig(chLandingScreenResultsTable);
@@ -510,7 +510,7 @@ public class GtnUIFrameworkContractHeaderLandingScreenConfig {
 		chEditActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		chEditActionConfig.addActionParameter(GtnUIFrameworkContractHeaderEditAction.class.getName());
 		chEditActionConfig.addActionParameter(GtnUIFrameworkContractHeaderStringContants.SEARCH_RESULT_TABLE);
-		chEditActionConfig.addActionParameter(true);
+		chEditActionConfig.addActionParameter(Boolean.TRUE);
 		chEditActionConfigList.add(chEditActionConfig);
 
 		GtnUIFrameWorkActionConfig tabAction = new GtnUIFrameWorkActionConfig();
@@ -559,7 +559,7 @@ public class GtnUIFrameworkContractHeaderLandingScreenConfig {
 		chViewActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		chViewActionConfig.addActionParameter(GtnUIFrameworkContractHeaderEditAction.class.getName());
 		chViewActionConfig.addActionParameter(GtnUIFrameworkContractHeaderStringContants.SEARCH_RESULT_TABLE);
-		chViewActionConfig.addActionParameter(false);
+		chViewActionConfig.addActionParameter(Boolean.FALSE);
 		chViewActionConfigList.add(chViewActionConfig);
 
 		GtnUIFrameWorkActionConfig tabAction = new GtnUIFrameWorkActionConfig();

@@ -61,7 +61,7 @@ public class GtnFrameworkItemGrpResetAction implements GtnUIFrameWorkAction, Gtn
 
 				GtnUIFrameworkPagedTableLogic cfpCaTabRightTablelogic = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("itemGrpSelectedResultTable").getLogicFromPagedDataTable();
-				cfpCaTabRightTablelogic.startSearchProcess(null, Boolean.TRUE);
+				cfpCaTabRightTablelogic.startSearchProcess(null, true);
 			}
 
 		} catch (Exception e) {

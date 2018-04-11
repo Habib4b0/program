@@ -19,7 +19,7 @@ public class GtnFrameWorkItemGrpLoadDataTableAction implements GtnUIFrameWorkAct
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkPagedTableLogic tableLogic = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("itemGrpsearchResultTable").getLogicFromPagedDataTable();
-		boolean isActiveFlag = Boolean.TRUE;
+		boolean isActiveFlag = true;
 		String queryName;
 		if ("gtnAudictSearch01".equals(componentId)) {
 			queryName = "itemGrpAuditSearchQuery";

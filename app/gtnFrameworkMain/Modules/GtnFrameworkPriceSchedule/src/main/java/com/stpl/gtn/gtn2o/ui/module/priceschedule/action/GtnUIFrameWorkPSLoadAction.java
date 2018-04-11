@@ -111,7 +111,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		loadIfpSelectedTable(priceScheduleInfoBean,
 				(Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID));
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPricingTabResultDataTable")
-				.setFilterFieldVisible(GtnFrameworkCommonConstants.CHECK_RECORD_ID, Boolean.FALSE);
+				.setFilterFieldVisible(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
 		}
 		catch(Exception e)
 		{
@@ -195,8 +195,8 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	@SuppressWarnings("rawtypes")
 	private void loadIfpSelectedTable(GtnUIFrameWorkPSInfoBean priceScheduleInfoBean, int sysid)
 			throws GtnFrameworkGeneralException {
-		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
-		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
+		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
+		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(false);
 		List<Object> dataList = priceScheduleInfoBean.getIfpDataList();
 		GtnWsRecordBean dto = new GtnWsRecordBean();
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
@@ -215,14 +215,14 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
 		if (mode != null && mode == GtnUIFrameworkModeType.VIEW) {
-			loadPriceTabsForView(sysid, Boolean.FALSE);
+			loadPriceTabsForView(sysid, false);
 		} else {
-			loadPriceTabsForView(sysid, Boolean.TRUE);
+			loadPriceTabsForView(sysid, true);
 		}
                 
                 
-		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
-		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);
+		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(true);
 
 	}
 

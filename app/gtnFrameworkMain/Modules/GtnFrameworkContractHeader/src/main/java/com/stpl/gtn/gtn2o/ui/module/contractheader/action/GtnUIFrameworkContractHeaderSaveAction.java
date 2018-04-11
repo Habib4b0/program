@@ -127,7 +127,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 		if (idComponentData != null && idComponentData.getCustomData() != null) {
 			GtnWsRecordBean tpDto = (GtnWsRecordBean) idComponentData.getCustomData();
 			if (tpDto.getPropertyValueByIndex(5) != null)
-				companyMaterId = Integer.parseInt(String.valueOf(tpDto.getPropertyValueByIndex(5)));
+				companyMaterId = Integer.valueOf(String.valueOf(tpDto.getPropertyValueByIndex(5)));
 		}
 		contractMasterBean.setCompanyMasterByBunitCompanyMasterSid(companyMaterId);
 
@@ -138,7 +138,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 		if (tpComponentData != null && tpComponentData.getCustomData() != null) {
 			GtnWsRecordBean tpDto = (GtnWsRecordBean) tpComponentData.getCustomData();
 			if (tpDto.getPropertyValueByIndex(5) != null)
-				tpSid = Integer.parseInt(String.valueOf(tpDto.getPropertyValueByIndex(5)));
+				tpSid = Integer.valueOf(String.valueOf(tpDto.getPropertyValueByIndex(5)));
 		}
 		contractMasterBean.setCompanyMasterByContHoldCompanyMasterSid(tpSid);
 
@@ -175,7 +175,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 				notesBean.setFilePath(note.getDocumentFullPath());
 				notesBean.setFileName(note.getDocumentName());
 				notesBean.setMasterTableSystemId(note.getDocDetailsId());
-				notesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				notesBean.setCreatedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				notesBean.setCreatedDate(new Date());
 				noteBeanList.add(notesBean);
 			}
@@ -194,7 +194,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 			for (GtnWsRecordBean dto : identifierList) {
 				aliasBean = new GtnwsContractAliasMasterBean();
 				Object tpSid = dto.getPropertyValueByIndex(6);
-				aliasBean.setTpCompanyMasterSid(tpSid == null ? 0 : (int) tpSid);
+				aliasBean.setTpCompanyMasterSid(tpSid == null ? 0 : (Integer) tpSid);
 				Object aliasMasterSid = dto.getPropertyValueByIndex(7);
 				aliasBean.setContractAliasMasterSid(aliasMasterSid == null ? 0 : (int) aliasMasterSid);
 				aliasBean.setContractAliasNo((String) dto.getPropertyValue("contractAliasNo"));

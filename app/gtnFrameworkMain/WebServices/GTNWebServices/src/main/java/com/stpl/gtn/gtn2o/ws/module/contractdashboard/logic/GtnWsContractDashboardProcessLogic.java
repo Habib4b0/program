@@ -412,7 +412,7 @@ public class GtnWsContractDashboardProcessLogic {
 	void updateCFPforContract(ContractMaster contractMaster, Session session) {
 		Criteria cfpCriteria = session.createCriteria(CfpContract.class)
 				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CONTRACT_MASTER, contractMaster))
-				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, false));
+				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, Boolean.FALSE));
 
 		List<CfpContract> cfpList = cfpCriteria.list();
 		if (cfpList != null) {
@@ -421,7 +421,7 @@ public class GtnWsContractDashboardProcessLogic {
 				session.update(cfpContract);
 				Criteria cfpDetailsCriteria = session.createCriteria(CfpContractDetails.class)
 						.add(Restrictions.eq("cfpContract", cfpContract))
-						.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, false));
+						.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, Boolean.FALSE));
 				List<CfpContractDetails> cfpDetailsList = cfpDetailsCriteria.list();
 				if (cfpDetailsList != null) {
 					for (CfpContractDetails cfpContractDetails : cfpDetailsList) {
@@ -438,7 +438,7 @@ public class GtnWsContractDashboardProcessLogic {
 	void updateIFPforContract(ContractMaster contractMaster, Session session) {
 		Criteria ifpCriteria = session.createCriteria(IfpContract.class)
 				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CONTRACT_MASTER, contractMaster))
-				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, false));
+				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, Boolean.FALSE));
 		List<IfpContract> ifpList = ifpCriteria.list();
 		if (ifpList != null) {
 			for (IfpContract childContract : ifpList) {
@@ -446,7 +446,7 @@ public class GtnWsContractDashboardProcessLogic {
 				session.update(childContract);
 				Criteria detailsCriteria = session.createCriteria(IfpContractDetails.class)
 						.add(Restrictions.eq("ifpContract", childContract))
-						.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, false));
+						.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, Boolean.FALSE));
 				List<IfpContractDetails> detailsList = detailsCriteria.list();
 				if (detailsList != null) {
 					for (IfpContractDetails childContractDetails : detailsList) {
@@ -463,7 +463,7 @@ public class GtnWsContractDashboardProcessLogic {
 
 		Criteria psCriteria = session.createCriteria(PsContract.class)
 				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CONTRACT_MASTER, contractMaster))
-				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, false));
+				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, Boolean.FALSE));
 		List<PsContract> psList = psCriteria.list();
 		if (psList != null) {
 			for (PsContract childContract : psList) {
@@ -471,7 +471,7 @@ public class GtnWsContractDashboardProcessLogic {
 				session.update(childContract);
 				Criteria detailsCriteria = session.createCriteria(PsContractDetails.class)
 						.add(Restrictions.eq("psContract", childContract))
-						.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, false));
+						.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, Boolean.FALSE));
 				List<PsContractDetails> detailsList = detailsCriteria.list();
 				if (detailsList != null) {
 					for (PsContractDetails childContractDetails : detailsList) {
@@ -488,7 +488,7 @@ public class GtnWsContractDashboardProcessLogic {
 
 		Criteria rsCriteria = session.createCriteria(RsContract.class)
 				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.CONTRACT_MASTER, contractMaster))
-				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, false));
+				.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, Boolean.FALSE));
 		List<RsContract> rsList = rsCriteria.list();
 		if (rsList != null) {
 			for (RsContract childContract : rsList) {
@@ -496,7 +496,7 @@ public class GtnWsContractDashboardProcessLogic {
 				session.update(childContract);
 				Criteria detailsCriteria = session.createCriteria(RsContractDetails.class)
 						.add(Restrictions.eq("rsContract", childContract))
-						.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, false));
+						.add(Restrictions.eq(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS, Boolean.FALSE));
 				List<RsContractDetails> detailsList = detailsCriteria.list();
 				if (detailsList != null) {
 					for (RsContractDetails childContractDetails : detailsList) {
@@ -613,7 +613,7 @@ public class GtnWsContractDashboardProcessLogic {
 			}
 			List<Object[]> result = getController()
 					.executeQuery(getQuery(getSearchInput(searchRequest, comp, false), "getCDR1Count"));
-			count = Integer.valueOf(String.valueOf(result.get(0)));
+			count = Integer.parseInt(String.valueOf(result.get(0)));
 		} else {
 			count = searchRequest.getParentBean().getIntegerPropertyByIndex(11);
 		}

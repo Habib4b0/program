@@ -31,7 +31,7 @@ public class NmSalesProjectionImpl {
     public List getSalesResult(Object[] inputs) {
         List list = new ArrayList();
         
-        StringBuilder queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder1 = new StringBuilder();
         try {
 
             String method = (String) inputs[8];

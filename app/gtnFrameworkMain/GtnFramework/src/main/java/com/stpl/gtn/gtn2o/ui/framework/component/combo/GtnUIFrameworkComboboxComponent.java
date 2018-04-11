@@ -154,7 +154,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		if (!comboboxConfig.isHasDefaultValue()) {
 			String defaultValue = comboboxConfig.getDefaultValue() != null
 					? String.valueOf(comboboxConfig.getDefaultValue()) : GtnFrameworkCommonStringConstants.SELECT_ONE;
-			vaadinComboBox.setNullSelectionAllowed(Boolean.TRUE);
+			vaadinComboBox.setNullSelectionAllowed(true);
 			vaadinComboBox.setNullSelectionItemId(0);
 			vaadinComboBox.addItem(0);
 			vaadinComboBox.setItemCaption(0, defaultValue);
@@ -174,7 +174,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		}
 
 		if (comboboxConfig.isHasDefaultValue() && !vaadinComboBox.getItemIds().isEmpty() ) {
-			vaadinComboBox.setNullSelectionAllowed(Boolean.FALSE);
+			vaadinComboBox.setNullSelectionAllowed(false);
 			vaadinComboBox.setValue(vaadinComboBox.getItemIds().iterator().next());
 		}
 
@@ -186,7 +186,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 			if (comboboxConfig.isIntegerItemCode()) {
 				List<Integer> integerList = new ArrayList<>();
 				for (String str : response.getItemCodeList()) {
-					integerList.add(Integer.parseInt(str));
+					integerList.add(Integer.valueOf(str));
 				}
 				fillDataAndCaption(vaadinComboBox, integerList, response.getItemValueList());
 			} else {
@@ -221,7 +221,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 
 		GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebserviceComboBoxResponse();
 
-		if (comboboxConfig.getSourceType().equals(GtnUiFrameworkComboBoxSourceType.VALUES_FROM_SERVICE)) {
+		if (GtnUiFrameworkComboBoxSourceType.VALUES_FROM_SERVICE == comboboxConfig.getSourceType()){
 			return getResponseFromService(comboboxConfig, comboBoxWhereClauseParamList);
 		}
 
@@ -235,13 +235,13 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) sourceComponent.getData();
 		GtnUIFrameworkComponentConfig sourceComponentConfig = componentData.getCurrentComponentConfig();
 
-		if (comboboxConfig.getSourceType().equals(GtnUiFrameworkComboBoxSourceType.VALUES_FROM_COMBOBOX)) {
+		if (GtnUiFrameworkComboBoxSourceType.VALUES_FROM_COMBOBOX == comboboxConfig.getSourceType()) {
 
 			return getResponseFromSourceCombobox(comboboxConfig, sourceComponentConfig.getGtnComboboxConfig(),
 					sourceViewId);
 		}
 
-		if (comboboxConfig.getSourceType().equals(GtnUiFrameworkComboBoxSourceType.VALUES_FROM_SUBSET_OF_COMBOBOX)) {
+		if (GtnUiFrameworkComboBoxSourceType.VALUES_FROM_SUBSET_OF_COMBOBOX == comboboxConfig.getSourceType()) {
 			return getResponseFromSubsetOfSourceCombobox(comboboxConfig, sourceComponentConfig.getGtnComboboxConfig(),
 					sourceViewId);
 
@@ -300,7 +300,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		if (currentValue != null) {
 			int startIndex = 0;
 			int endIndex = 0;
-			if (comboboxConfig.getSubsetType().equals(GtnUIFrameworkComboboxSourceSubsetType.BEFORE_SELECTED)) {
+			if (GtnUIFrameworkComboboxSourceSubsetType.BEFORE_SELECTED == comboboxConfig.getSubsetType()) {
 				if (sourceComponentConfig.isHasDefaultValue()) {
 					startIndex = 0;
 				} else {
@@ -311,7 +311,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 					endIndex--;
 				}
 			}
-			if (comboboxConfig.getSubsetType().equals(GtnUIFrameworkComboboxSourceSubsetType.AFTER_SELECTED)) {
+			if (GtnUIFrameworkComboboxSourceSubsetType.AFTER_SELECTED == comboboxConfig.getSubsetType()) {
 				startIndex = itemIdList.indexOf(sourceCombobox.getValue());
 				endIndex = itemIdList.size() - 1;
 				endIndex = getLastIndexForSubsetOfSourceCombobox(comboboxConfig, endIndex);
@@ -377,7 +377,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 				 */
 
 				try {
-					Double value = Double.parseDouble(newItem);
+					Double value = Double.valueOf(newItem);
 					gtnLogger.debug("Value entered---" + value);
 					int newItemId = -(vaadinComboBox.getItemIds().size() + 2);
 					vaadinComboBox.addItem(newItemId);

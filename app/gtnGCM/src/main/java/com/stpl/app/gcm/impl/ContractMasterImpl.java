@@ -228,7 +228,7 @@ public class ContractMasterImpl {
 
     public static List searchContractsForPromoteTp(Map<String, Object> parameters) {
         List resultList = null;
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             LOGGER.debug("Entering searchContractsForPromoteTp method");
             if (parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS) != null && StringConstantsUtil.LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.LAZY_LOAD_RESULTS)))) {

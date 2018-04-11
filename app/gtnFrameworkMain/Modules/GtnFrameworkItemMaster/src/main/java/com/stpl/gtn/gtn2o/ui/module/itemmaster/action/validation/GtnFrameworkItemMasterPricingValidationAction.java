@@ -42,7 +42,7 @@ public class GtnFrameworkItemMasterPricingValidationAction implements GtnUIFrame
 				.getIntegerFromField();
 		Integer uom = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemPricingItemUOM").getIntegerFromField();
 		Date startDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemPricingStartDate").getDateFromDateField();
-		String appender = " ";
+		String appender = "  ";
 		if (qualifierId == null || qualifierId == 0) {
 			feildMsg.append(appender).append("Pricing Qualifier Name");
 			appender = " , ";
@@ -106,7 +106,7 @@ public class GtnFrameworkItemMasterPricingValidationAction implements GtnUIFrame
 
 	boolean isDouble(String str) {
 		try {
-			Double doubleValue = Double.parseDouble(str);
+			Double doubleValue = Double.valueOf(str);
 			gtnLogger.debug("doubleValue is " + doubleValue);
 			return true;
 		} catch (NumberFormatException e) {

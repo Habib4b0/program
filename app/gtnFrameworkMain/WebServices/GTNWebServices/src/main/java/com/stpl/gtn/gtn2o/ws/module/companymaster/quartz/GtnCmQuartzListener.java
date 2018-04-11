@@ -113,11 +113,11 @@ public class GtnCmQuartzListener {
 		for (Object[] obj : list) {
 			try {
 				GtnCMasterFinancialCloseBean dto = new GtnCMasterFinancialCloseBean();
-				dto.setCompanyMasterSid(obj[0] != null ? Integer.valueOf(String.valueOf(obj[0])) : 0);
+				dto.setCompanyMasterSid(obj[0] != null ? Integer.parseInt(String.valueOf(obj[0])) : 0);
 				dto.setBusinessDayDdlb(obj[1] != null ? String.valueOf(obj[1]) : StringUtils.EMPTY);
 				dto.setHourDdlb(obj[2] != null ? String.valueOf(obj[2]) : StringUtils.EMPTY);
 				dto.setMinuteValue(obj[3] != null ? String.valueOf(obj[3]) : StringUtils.EMPTY);
-				dto.setCalenderDdlb(obj[4] != null ? Integer.valueOf(String.valueOf(obj[4])) : 0);
+				dto.setCalenderDdlb(obj[4] != null ? Integer.parseInt(String.valueOf(obj[4])) : 0);
 				dto.setCreatedBy(obj[5] != null ? String.valueOf(obj[5]) : StringUtils.EMPTY);
 				finalList.add(dto);
 			} catch (Exception ex) {
@@ -181,12 +181,12 @@ public class GtnCmQuartzListener {
 
 		Calendar date;
 		if (workingday >= calendar.get(Calendar.DATE)) {
-			date = findScheduleDate(Integer.valueOf(dto.getBusinessDayDdlb()), currMonthHolidays, 5);
+			date = findScheduleDate(Integer.parseInt(dto.getBusinessDayDdlb()), currMonthHolidays, 5);
 		} else {
-			date = findScheduleDate(Integer.valueOf(dto.getBusinessDayDdlb()),
+			date = findScheduleDate(Integer.parseInt(dto.getBusinessDayDdlb()),
 					getHolidaysForCurrentMonth(dto.getCalenderDdlb(), month + 1), 5);
 		}
-		date.set(Calendar.HOUR_OF_DAY, Integer.valueOf(dto.getHourDdlb())); // Changed
+		date.set(Calendar.HOUR_OF_DAY, Integer.parseInt(dto.getHourDdlb())); // Changed
 		// to
 		// work
 		// in
@@ -194,7 +194,7 @@ public class GtnCmQuartzListener {
 		// hour,
 		// hour
 		// selection
-		date.set(Calendar.MINUTE, Integer.valueOf(dto.getMinuteValue()));
+		date.set(Calendar.MINUTE, Integer.parseInt(dto.getMinuteValue()));
 		LOGGER.info("date.getTime() : " + date.getTime());
 		return date;
 	}

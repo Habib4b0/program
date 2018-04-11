@@ -47,7 +47,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("----------Inside doAction ---------------");
 
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		boolean isInvalid = (Boolean) actionParamList.get(8);
 		String tableName = (String) actionParamList.get(2);
@@ -141,7 +141,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			gtnWsTransactionRequest.setInventoryLevelColumnValue(
 					demandTypeColumnValue.isEmpty() ? 0 : Integer.parseInt(demandTypeColumnValue));
 			gtnWsTransactionRequest.setInventoryTypeColumnName(inventoryType.get(0));
-			gtnWsTransactionRequest.setInventoryTypeColumnValue(Integer.parseInt(inventoryType.get(1)));
+			gtnWsTransactionRequest.setInventoryTypeColumnValue(Integer.valueOf(inventoryType.get(1)));
 		} else if ("Demand".equalsIgnoreCase(tableName)) {
 			gtnWsTransactionRequest.setDemandTypeColumnName(demandTypeColumnName);
 			gtnWsTransactionRequest.setDemandTypeColumnValue(
@@ -349,7 +349,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
                         if (isDate) {
 				value = sdf1.parse(sdf1.format(parseDate(String.valueOf(componentValue))));
 			} else if (String.valueOf(componentId).equals("baselineAmp") && String.valueOf(componentId) != null) {
-				value = "$" + new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+				value = "$" + new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN);
 			}
                         else if (String.valueOf(componentId).equals("baseCpi") && String.valueOf(componentId) != null) {
 				value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
@@ -390,7 +390,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
                 }
                 else{
                 	
-                	value = Double.parseDouble(String.valueOf(componentValue));
+                	value = Double.valueOf(String.valueOf(componentValue));
                 	
                 }
                 

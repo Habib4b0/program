@@ -42,7 +42,7 @@ public class GtnFrameworkCompanyConfirmPopulateAction implements GtnUIFrameWorkA
 			GtnUIFrameworkBaseComponent fieldBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(0));
 			String propertyId = fieldBaseComponent.getStringFromField();
-			if (parameters.size() > 3 && Boolean.valueOf(parameters.get(3))) {
+			if (parameters.size() > 3 && Boolean.parseBoolean(parameters.get(3))) {
 				propertyId = fieldBaseComponent.getCaptionFromComboBox();
 				propertyId += "1";
 			}

@@ -103,7 +103,7 @@ public class GtnWsItemMasterSaveService {
 				masterData.setInboundStatus('A');
 				masterData.setRecordLockStatus(false);
 				masterData.setSource("GTN");
-				masterData.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+				masterData.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 				masterData.setCreatedDate(new Date());
 				masterData.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 				masterData.setModifiedDate(new Date());
@@ -134,7 +134,7 @@ public class GtnWsItemMasterSaveService {
 		masterDataEdit.setInboundStatus('A');
 		masterDataEdit.setRecordLockStatus(false);
 		masterDataEdit.setSource("GTN");
-		masterDataEdit.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+		masterDataEdit.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		masterDataEdit.setCreatedDate(new Date());
 		masterDataEdit.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		masterDataEdit.setModifiedDate(new Date());
@@ -161,7 +161,7 @@ public class GtnWsItemMasterSaveService {
 				ipemPricingQualifier.setRecordLockStatus(false);
 				ipemPricingQualifier.setSource("GTN");
 				ipemPricingQualifier
-						.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+						.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 				ipemPricingQualifier.setCreatedDate(new Date());
 				ipemPricingQualifier
 						.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
@@ -196,7 +196,7 @@ public class GtnWsItemMasterSaveService {
 		ipemPricingQualifierEdit.setRecordLockStatus(false);
 		ipemPricingQualifierEdit.setSource("GTN");
 		ipemPricingQualifierEdit
-				.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
+				.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
 		ipemPricingQualifierEdit.setCreatedDate(new Date());
 		ipemPricingQualifierEdit
 				.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsItemMasterRequest().getUserId()));
@@ -228,12 +228,12 @@ public class GtnWsItemMasterSaveService {
 					cmNotesTabQuery.append(" (").append(ifpBean.getGtnWsItemMasterInfoBean().getItemMasterSid())
 							.append(",'").append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				} else {
 					cmNotesTabQuery.append(",(").append(ifpBean.getGtnWsItemMasterInfoBean().getItemMasterSid())
 							.append(",'").append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				}
 				i++;
 			}
@@ -351,9 +351,9 @@ public class GtnWsItemMasterSaveService {
 		itemMasterData.setInboundStatus('A');
 		itemMasterData.setRecordLockStatus(false);
 		itemMasterData.setSource("GTN");
-		itemMasterData.setCreatedBy(Integer.valueOf(userId));
+		itemMasterData.setCreatedBy(Integer.parseInt(userId));
 		itemMasterData.setCreatedDate(new Date());
-		itemMasterData.setModifiedBy(Integer.valueOf(userId));
+		itemMasterData.setModifiedBy(Integer.parseInt(userId));
 		itemMasterData.setModifiedDate(new Date());
 
 	}
@@ -398,7 +398,7 @@ public class GtnWsItemMasterSaveService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? 0 : systemId);
+		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	public void updateItemMaster(GtnUIFrameworkWebserviceRequest gtnWsRequest,
@@ -513,7 +513,7 @@ public class GtnWsItemMasterSaveService {
 			LOGGER.info("Identifier SId:" + idenBean.getItemIdentifierSid());
 			if (idenBean.getItemIdentifierSid() == 0) {
 				identifier = new ItemIdentifier();
-				identifier.setCreatedBy(Integer.valueOf(imRquest.getUserId()));
+				identifier.setCreatedBy(Integer.parseInt(imRquest.getUserId()));
 				identifier.setCreatedDate(new Date());
 				identifier.setInboundStatus('A');
 				identifier.setSource("GTN");
@@ -555,7 +555,7 @@ public class GtnWsItemMasterSaveService {
 		identifier.setStartDate(idenBean.getStartDate());
 		identifier.setEndDate(idenBean.getEndDate());
 		identifier.setEntityCode(idenBean.getEntityCode());
-		identifier.setModifiedBy(Integer.valueOf(imRquest.getUserId()));
+		identifier.setModifiedBy(Integer.parseInt(imRquest.getUserId()));
 		identifier.setModifiedDate(new Date());
 	}
 

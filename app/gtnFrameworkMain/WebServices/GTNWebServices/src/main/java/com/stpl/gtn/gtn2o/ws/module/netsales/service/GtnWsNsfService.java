@@ -271,8 +271,8 @@ public class GtnWsNsfService {
 		nsf.setHelperTableByNetSalesFormulaCategory(getHelperTable(nsfInfoBean.getFormulaCategory(), session));
 		nsf.setHelperTableByNetSalesFormulaType(getHelperTable(nsfInfoBean.getFormulaType(), session));
 		nsf.setContractSelection(nsfInfoBean.getContractSelection());
-		nsf.setCreatedBy(Integer.valueOf(generalRequest.getUserId()));
-		nsf.setModifiedBy(Integer.valueOf(generalRequest.getUserId()));
+		nsf.setCreatedBy(Integer.parseInt(generalRequest.getUserId()));
+		nsf.setModifiedBy(Integer.parseInt(generalRequest.getUserId()));
 		nsf.setInboundStatus('A');
 		nsf.setModifiedDate(new Date());
 		nsf.setCreatedDate(new Date());
@@ -286,7 +286,7 @@ public class GtnWsNsfService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? 0 : systemId);
+		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	private CdrModel getCdrModel(Integer systemId, Session session) {

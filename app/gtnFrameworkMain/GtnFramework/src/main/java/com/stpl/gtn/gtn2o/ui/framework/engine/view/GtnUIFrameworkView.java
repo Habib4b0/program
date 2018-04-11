@@ -192,7 +192,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 			component.setData(componentData);
 
 			// Code for Authorization
-//			GtnUIFrameworkAuthorization.setAuthorizationToComponent(componentConfig, component);
+			GtnUIFrameworkAuthorization.setAuthorizationToComponent(componentConfig, component);
 
 			String componentId = GtnUIFrameworkGlobalUI.addVaadinComponent(componentConfig.getComponentId(), component);
 
@@ -258,7 +258,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 		 */
 		gtnLogger.info("restrictReloadFlag :" + restrictReloadFlag);
 		if (restrictReloadFlag != null && restrictReloadFlag) {
-			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", false);
+			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.FALSE);
 			return;
 		}
 		try {

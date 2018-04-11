@@ -99,7 +99,7 @@ public class GtnWsIfpSaveService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? 0 : systemId);
+		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	public void updateCfpQuery(GtnIFamilyPlanBean bean) throws GtnFrameworkGeneralException {
@@ -208,12 +208,12 @@ public class GtnWsIfpSaveService {
 					cmNotesTabQuery.append(" (").append(ifpBean.getIfpInfo().getIfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				} else {
 					cmNotesTabQuery.append(",(").append(ifpBean.getIfpInfo().getIfpSid()).append(",'")
 							.append(notesTabRequest.getMasterTableName()).append("','")
 							.append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),")
-							.append(notesTabRequest.getCreatedBy()).append(")");
+							.append(notesTabRequest.getCreatedBy()).append(')');
 				}
 				i++;
 			}

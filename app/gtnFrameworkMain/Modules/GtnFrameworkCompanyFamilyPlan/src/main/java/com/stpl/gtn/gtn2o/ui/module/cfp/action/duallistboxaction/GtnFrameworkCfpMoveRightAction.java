@@ -55,7 +55,7 @@ public class GtnFrameworkCfpMoveRightAction
 		try {
 			for (GtnWsRecordBean gtnWsRecordBean : cfpLeftResultTableDtoList) {
 				int companyMasterSid = gtnWsRecordBean.getProperties().get(8) == null ? 0
-						: Integer.valueOf(String.valueOf(gtnWsRecordBean.getProperties().get(8)));
+						: Integer.parseInt(String.valueOf(gtnWsRecordBean.getProperties().get(8)));
 				GtnCFamilyPlanCommonUpdateBean cfpUpdateBean = new GtnCFamilyPlanCommonUpdateBean();
 				GtnCFamilyPlan cfpMoveRightBean = new GtnCFamilyPlan();
 				cfpMoveRightBean.setUpdateBean(cfpUpdateBean);
@@ -77,7 +77,7 @@ public class GtnFrameworkCfpMoveRightAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpCompaniesTabResultDataTable").getExtPagedTable()
 					.setData(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 		} catch (Exception e) {
 			gtnLogger.error(e.getMessage(), e);
 		} finally {

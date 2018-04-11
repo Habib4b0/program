@@ -76,7 +76,7 @@ public class GtnWsCommercialDSController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
 					.getGtnWsSqlService().getQuery(getProductHierarchyLookUpInput(productHierarchyRequest), queryName));
 			if (productHierarchyRequest.getGtnWsSearchRequest().isCount()) {
-				productHierarchySerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				productHierarchySerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(result);
@@ -110,10 +110,10 @@ public class GtnWsCommercialDSController {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "prodHierarchyLookupHierarchyType":
-					hierarchyType = searchCriteria.getFilterValue1().replace("*", "%");
+					hierarchyType = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "prodHierarchyLookupHierarchyName":
-					hierarchyName = searchCriteria.getFilterValue1().replace("*", "%");
+					hierarchyName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "prodHierarchyLookupHierName":
 					hierarchyNameListVie = "AND c.HIERARCHY_NAME like '%" + searchCriteria.getFilterValue1() + "%'";
@@ -224,7 +224,7 @@ public class GtnWsCommercialDSController {
 					.executeQuery(gtnGeneralServiceController.getGtnWsSqlService()
 							.getQuery(getCustomerHierarchyLookUpInput(customerHierarchyWsRequest), queryName));
 			if (customerHierarchyWsRequest.getGtnWsSearchRequest().isCount()) {
-				customerHierarchySerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				customerHierarchySerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable customerHierarchyDataTable = new GtnUIFrameworkDataTable();
 				customerHierarchyDataTable.addData(result);
@@ -264,10 +264,10 @@ public class GtnWsCommercialDSController {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "custHierarchyLookupHierarchyType":
-					hierarchyType = searchCriteria.getFilterValue1().replace("*", "%");
+					hierarchyType = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "custHierarchyLookupHierarchyName":
-					hierarchyName = searchCriteria.getFilterValue1().replace("*", "%");
+					hierarchyName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "custHierarchyLookupHierName":
 					hierarchyNameListVie = "AND c.HIERARCHY_NAME like '%" + searchCriteria.getFilterValue1() + "%'";
@@ -344,7 +344,7 @@ public class GtnWsCommercialDSController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
 					.getGtnWsSqlService().getQuery(getProductGroupLookUpInput(productGroupRequest), queryName));
 			if (productGroupRequest.getGtnWsSearchRequest().isCount()) {
-				productGroupSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				productGroupSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable productGroupDataTable = new GtnUIFrameworkDataTable();
 				productGroupDataTable.addData(result);
@@ -376,10 +376,10 @@ public class GtnWsCommercialDSController {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "prodGroupLookupProductGroupName":
-					productGroupName = searchCriteria.getFilterValue1().replace("*", "%");
+					productGroupName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "prodGroupLookupProductGroupNo":
-					productGroupNo = searchCriteria.getFilterValue1().replace("*", "%");
+					productGroupNo = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "prodGroupLookupProductGroupNameFilterView":
 
@@ -463,7 +463,7 @@ public class GtnWsCommercialDSController {
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
 					.getGtnWsSqlService().getQuery(getCustomerGroupLookUpInput(customerGroupRequest), queryName));
 			if (customerGroupRequest.getGtnWsSearchRequest().isCount()) {
-				customerGroupSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
+				customerGroupSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable customerGroupDataTable = new GtnUIFrameworkDataTable();
 				customerGroupDataTable.addData(result);
@@ -494,10 +494,10 @@ public class GtnWsCommercialDSController {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "customerGroupLookupName":
-					customerGroupName = searchCriteria.getFilterValue1().replace("*", "%");
+					customerGroupName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "customerGroupLookupNo":
-					customerGroupNo = searchCriteria.getFilterValue1().replace("*", "%");
+					customerGroupNo = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "custGroupLookupCustomerGroupNameFilterView":
 					customerGroupNameFilterView = "AND (IG.COMPANY_GROUP_NAME LIKE '%"

@@ -52,8 +52,8 @@ public class GtnWsBcpFileUploader {
 		newTableName = tableName + userId + "_" + sessionId + "_" + currentDate;
 		String[] commandArray = null;
 		if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")) {
-			finalFile = finalFile.replace("/", "\\");
-			logPath = logPath.replace("/", "\\");
+			finalFile = finalFile.replace('/', '\\');
+			logPath = logPath.replace('/', '\\');
 			StringBuilder command = new StringBuilder();
 			commandArray = new String[3];
 			commandArray[0] = "cmd.exe";
@@ -117,7 +117,7 @@ public class GtnWsBcpFileUploader {
 			String userName, String password, String logPath) {
 		StringBuilder strb = new StringBuilder();
 		strb.append(System.getProperty("bcp.location"));
-		strb.append(" ");
+		strb.append(' ');
 		strb.append(query);
 		strb.append(finalFile);
 		strb.append(" -c ");
@@ -130,8 +130,8 @@ public class GtnWsBcpFileUploader {
 		strb.append(" -U ");
 		strb.append(userName);
 		strb.append(" -P ");
-		strb.append("'").append(password).append("'");
-		strb.append(">");
+		strb.append(" '").append(password).append("' ");
+		strb.append('>');
 		strb.append(logPath);
 		return strb;
 

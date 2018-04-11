@@ -109,6 +109,8 @@ public class CommonUtils {
        
     private static SessionDTO sessionDto=new SessionDTO();
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
+    public static final String TWENTYNINEPX = "29px";
+
     
     /**
      * Creates the clara.
@@ -541,7 +543,7 @@ public class CommonUtils {
         return userIds;
     }
              public static String stringListToString(List<String> stringList) {
-        StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder builder = new StringBuilder();
         if (stringList != null && !stringList.isEmpty()) {
             for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
                 builder.append('\'');

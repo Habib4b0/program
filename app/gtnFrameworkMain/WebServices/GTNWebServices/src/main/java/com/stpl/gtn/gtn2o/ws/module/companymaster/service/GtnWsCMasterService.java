@@ -68,7 +68,7 @@ public class GtnWsCMasterService {
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(generatedQuery);
 
 		if (isCount) {
-			gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(resultList.get(0))));
+			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 
 		} else {
 			getCustomisedResult(resultList, cmSearchQueryConfig,
@@ -238,7 +238,7 @@ public class GtnWsCMasterService {
 		Object defaultValue = "";
 		Map<Integer, String> helperMap = gtnWebServiceAllListConfig.getIdDescMap();
 		String helperValue = String.valueOf(object);
-		if (StringUtils.isNotBlank(helperValue) && (Integer.valueOf(helperValue) != 0)) {
+		if (StringUtils.isNotBlank(helperValue) && (Integer.parseInt(helperValue) != 0)) {
 			defaultValue = helperMap.get(Integer.valueOf(helperValue));
 		}
 		return defaultValue;
@@ -276,7 +276,7 @@ public class GtnWsCMasterService {
 						obj[index] = getHelperTypeValue(obj[index]);
 						break;
 					case "Boolean":
-						obj[index] = Boolean.parseBoolean(getStringFromObject(obj[index]));
+						obj[index] = Boolean.valueOf(getStringFromObject(obj[index]));
 						break;
 					case "User":
 						obj[index] = gtnWebServiceAllListConfig.getUserIdNameMap().get(obj[index]);

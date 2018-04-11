@@ -70,7 +70,7 @@ public class GtnFrameworkItemGrpRemoveAllAction
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_GRP_SELECTED_RESULT_TABLE)
 					.getLogicFromPagedDataTable();
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException(e);
 		}

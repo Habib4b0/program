@@ -236,14 +236,14 @@ public class GtnWsDeductionCallendarController {
 		for (Integer id : idList) {
 
 			if (isAdded) {
-				query.append(",");
+				query.append(',');
 			} else {
 
 				isAdded = true;
 			}
 
-			query.append("( ").append("'").append(id).append("','").append(userId + "',")
-					.append("'" + sessionId + "')");
+			query.append("( ").append("' ").append(id).append("','").append(userId).append("',").append("' ").append(sessionId)
+					.append("')");
 
 		}
 
@@ -260,7 +260,7 @@ public class GtnWsDeductionCallendarController {
 		for (Integer id : idList) {
 
 			if (isAdded) {
-				query.append(",");
+				query.append(',');
 			} else {
 
 				isAdded = true;

@@ -363,7 +363,7 @@ public class GtnWsRelationshipBuilderService {
 			final String tableName = hierarchyLevelDefinitionBean.getTableName();
 			final String columnName = hierarchyLevelDefinitionBean.getFieldName();
 			final String rule = inclustionExculstionRules.get(hierarchyLevelDefinitionBean.getLevelNo());
-			hierarchyInputList.add(2, Integer.parseInt(String.valueOf(hierarchyLevelDefinitionBean.getLevelNo())));
+			hierarchyInputList.add(2, Integer.valueOf(String.valueOf(hierarchyLevelDefinitionBean.getLevelNo())));
 			hierarchyInputList.add(3, rule);
 			String sqlString = helperLogic.finderImplInLogic(tableName, columnName, hierarchyInputList, isFirst);
 			String primaryKeyColumn = gtnFrameworkEntityMasterBean
@@ -473,7 +473,7 @@ public class GtnWsRelationshipBuilderService {
 		for (GtnWebServiceSearchCriteria searchFilterCriteria : gtnWsRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList()) {
 			if (searchFilterCriteria.isFilter()) {
-				queryBuilder.append("%").append(searchFilterCriteria.getFilterValue1()).append("%");
+				queryBuilder.append('%').append(searchFilterCriteria.getFilterValue1()).append('%');
 				finalQueryBean.addWhereClauseBean(selectPrimaryColumn, null, GtnFrameworkOperatorType.LIKE,
 						GtnFrameworkDataType.STRING, queryBuilder.toString());
 			}
@@ -571,7 +571,7 @@ public class GtnWsRelationshipBuilderService {
 
 	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder, String append) {
 		if (queryBuilder.toString().contains(HELPER_JOIN_DESCRIPTION)) {
-			queryBuilder.append(" " + append + " HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
+			queryBuilder.append(" ").append(append).append(" HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
 		}
 	}
 
@@ -693,7 +693,7 @@ public class GtnWsRelationshipBuilderService {
 		StringBuilder hierarchyNo = new StringBuilder();
 		for (String masterSid : tempMasterSid) {
 			hierarchyNo.append(masterSid);
-			hierarchyNo.append(".");
+			hierarchyNo.append('.');
 		}
 		hierarchyNo.replace(hierarchyNo.lastIndexOf("."), hierarchyNo.lastIndexOf(".") + 1, ".");
 		return hierarchyNo.toString();
@@ -1383,7 +1383,7 @@ public class GtnWsRelationshipBuilderService {
 		List<Object> properties = Arrays.<Object>asList(levelBean.getLevelValue(), levelBean.getLevelNo(),
 				levelBean.getLevelName(), levelBean.getParentNode(), levelBean.getPrimaryKeyColumn(),
 				levelBean.getHierarchyLevelSystemId(), levelBean.getRelationshipLevelSystemId(),
-				levelBean.getHiddenId(), levelBean.getHierarchyNo(), levelBean.getLevelValueReference(), false);
+				levelBean.getHiddenId(), levelBean.getHierarchyNo(), levelBean.getLevelValueReference(), Boolean.FALSE);
 		dto.setProperties(properties);
 		dto.addAdditionalProperty(levelBean.getLevelNo());
 		return dto;

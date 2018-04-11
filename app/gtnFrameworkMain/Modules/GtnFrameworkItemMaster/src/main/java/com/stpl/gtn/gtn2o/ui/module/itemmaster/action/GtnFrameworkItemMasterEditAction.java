@@ -91,7 +91,7 @@ public class GtnFrameworkItemMasterEditAction
 		boolean isEditable = (boolean) actionParamList.get(3);
 
 		GtnWsRecordBean selectedItem = getValueFromTable(gtnUIFrameWorkActionConfig);
-		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
+		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		GtnUIFrameworkWebserviceResponse response = loadItemMasterData(selectedItem, propertyId);
 
 		if (!response.getGtnWsGeneralResponse().isSucess()) {
@@ -140,7 +140,7 @@ public class GtnFrameworkItemMasterEditAction
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
 				GtnFrameworkCommonStringConstants.STRING_NULL.equals(String.valueOf(imEditBean.getNdc9())) ? null
-						: Integer.parseInt(imEditBean.getNdc9()) });
+						: Integer.valueOf(imEditBean.getNdc9()) });
 
 		GtnUIFrameWorkActionConfig imEditDefaultValueActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SET_DEFAULT_ACTION);

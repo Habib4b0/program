@@ -22,9 +22,9 @@ public class GtnFrameworkNsfValueChangeManager {
 
 	public static Boolean isValueChangeAllowed() {
 		if (GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkNSFConstants.VALUE_CHANGE_ALLOWED) == null) {
-			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkNSFConstants.VALUE_CHANGE_ALLOWED, true);
+			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkNSFConstants.VALUE_CHANGE_ALLOWED, Boolean.TRUE);
 		}
-		return (boolean) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkNSFConstants.VALUE_CHANGE_ALLOWED);
+		return (Boolean) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkNSFConstants.VALUE_CHANGE_ALLOWED);
 	}
 
 	public static void setValueChangeAllowed(boolean value) {

@@ -46,7 +46,7 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			if (propertyId.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12])) {
 				propertyId = getFieldId(propertyId, actionParam.getItemId(), actionParam.getCurrentValue());
 			}
-			updateField(propertyId, actionParam.getCurrentValue(), Boolean.FALSE,
+			updateField(propertyId, actionParam.getCurrentValue(), false,
 					actionParam.getItemId().getPropertyValue("systemId").toString(), componentId,
 					actionParam.getTableComponentId(), actionParam.getItemId());
 		}
@@ -94,7 +94,7 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			localVarable = 0;
 		}
 		psUpdateBean.setValue(localVarable);
-		psUpdateBean.setMasterSid(Integer.valueOf(systemId));
+		psUpdateBean.setMasterSid(Integer.parseInt(systemId));
 		psUpdateBean.setCheckAll(checkAll);
 
 		GtnWsCheckAllUpdateRequest gtnWsPSUpdateRequest = new GtnWsCheckAllUpdateRequest();

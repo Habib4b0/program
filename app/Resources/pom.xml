@@ -1,72 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.stpl.addons</groupId>
-	<artifactId>customcomp-parent</artifactId>
-	<version>2.0</version>
-	<packaging>pom</packaging>
-	<name>customcomp</name>
-	<description>customcomp</description>
-	<parent>
-		<groupId>com.stpl.app</groupId>
-		<artifactId>global-parent</artifactId>
-		<version>1.0</version>
-		<relativePath>../../pom.xml</relativePath>
-	</parent>
-	<properties>
-		<maven.version>2.5</maven.version>
-		<encoding>UTF-8</encoding>
-		<maven.source>1.8</maven.source>
-		<maven.target>1.8</maven.target>
-		<vaadin.version>8.1.6</vaadin.version>
-		<com.stpl.portal.version>6.2.1</com.stpl.portal.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
-	<modules>
-		<module>ext-container</module>
-		<module>custommenubar</module>
-		<module>customtextfield</module>
-		<module>CustomTreeContainer</module>
-		<module>customwindow</module>
-		<module>tableexport</module>
-		<module>customcombobox</module>
-		<module>extcustomcheckbox</module>
-		<module>customoptiongroup</module>
-		<module>extfilteringtable</module>
-		<module>beforeunload-addon</module>
-		<module>lazy-container</module>
-		<module>clara</module>
-		<module>customdatefield</module>
-		<module>MessageBox</module>
-		<module>calendarfield</module>
-		<module>window-header-extension</module>
-		<module>vaadin-widgetset</module>
-		<module>ErrorLabel</module>
-
-	</modules>
-	<repositories>
-		<repository>
-			<id>vaadin-addons</id>
-			<url>http://maven.vaadin.com/vaadin-addons</url>
-		</repository>
-	</repositories>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-bom</artifactId>
-				<version>${vaadin.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
-		</dependencies>
-	</dependencyManagement>
-
-
+	     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">    
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.stpl.addons</groupId>
+    <artifactId>customcomp-parent</artifactId>
+    <version>2.0</version>
+    <packaging>pom</packaging>
+    <name>customcomp</name>
+    <description>customcomp</description>
+    <parent>
+        <groupId>com.stpl.app</groupId>
+        <artifactId>global-parent</artifactId>
+        <version>1.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <properties>
+        <maven.version>2.5</maven.version>
+        <encoding>UTF-8</encoding>
+        <maven.source>1.8</maven.source>
+        <maven.target>1.8</maven.target>   
+        <vaadin.version>8.1.6</vaadin.version>    
+        <com.stpl.portal.version>6.2.1</com.stpl.portal.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    <modules>
+         <module>ext-container</module>
+        <module>custommenubar</module>
+        <module>customtextfield</module>
+        <module>CustomTreeContainer</module>
+        <module>customwindow</module> 
+        <module>tableexport</module>
+        <module>customcombobox</module>
+        <module>extcustomcheckbox</module>
+        <module>customoptiongroup</module>
+        <module>extfilteringtable</module>
+        <module>beforeunload-addon</module>
+           <module>lazy-container</module>
+        <module>clara</module>
+        <module>customdatefield</module>
+        <module>MessageBox</module>
+        <module>calendarfield</module>
+      <module>window-header-extension</module> 
+        <module>vaadin-widgetset</module>
+        <module>ErrorLabel</module>
+     	 <module>vaadin-combobox-multiselect-addon</module>
+    </modules>
+    <repositories>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+    </repositories>
+                
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement> 
+ 
 	<dependencies>
 		<dependency>
 			<groupId>com.vaadin</groupId>
@@ -83,16 +81,8 @@
 			<artifactId>vaadin-compatibility-client</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-
 	</dependencies>
-	<build>
-		<plugins>
+    <build><plugins>
 			<plugin>
 				<groupId>biz.aQute.bnd</groupId>
 				<artifactId>bnd-maven-plugin</artifactId>
@@ -116,17 +106,34 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<!-- <plugin> <groupId>com.vaadin</groupId> <artifactId>vaadin-maven-plugin</artifactId> 
-				<version>${vaadin.version}</version> <configuration> <extraJvmArgs>-Xmx1G 
-				</extraJvmArgs> <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory> 
+            <!-- <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <configuration>
+                    <extraJvmArgs>-Xmx1G </extraJvmArgs>
+                    <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
 				<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp> 
-				<noServer>true</noServer> <persistentunitcachedir>${basedir}/target/tmp/gwt-unitCache</persistentunitcachedir> 
-				<compileReport>true</compileReport> <style>PRETTY</style> <strict>true</strict> 
-				</configuration> <executions> You are free to mark this as permanently ignored 
-				in Eclipse <execution> <configuration> if you don't specify any modules, 
-				the plugin will find them </configuration> <goals> <goal>resources</goal> 
-				<goal>update-widgetset</goal> <goal>compile</goal> </goals> </execution> 
-				</executions> </plugin> -->
-		</plugins>
-	</build>
+                    <noServer>true</noServer>
+                    <persistentunitcachedir>${basedir}/target/tmp/gwt-unitCache</persistentunitcachedir>
+                    <compileReport>true</compileReport>
+                    <style>PRETTY</style>
+                    <strict>true</strict>
+                </configuration>
+                <executions>
+                     You are free to mark this as permanently ignored in Eclipse 
+                    <execution>
+                        <configuration>
+                             if you don't specify any modules, the plugin will find them 
+                        </configuration>
+                        <goals>
+                            <goal>resources</goal>
+                            <goal>update-widgetset</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>   -->     
+    </plugins>
+    </build>
 </project>

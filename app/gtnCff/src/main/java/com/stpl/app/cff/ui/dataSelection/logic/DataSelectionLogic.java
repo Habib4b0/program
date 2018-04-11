@@ -1525,7 +1525,7 @@ public class DataSelectionLogic {
 	public List<Object> getGenerateMarketValueResult(int rbID) {
 		try {
 			List<Object> list;
-			final StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+			final StringBuilder queryString = new StringBuilder();
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n")
 					.append( "RELATIONSHIP_BUILDER_SID='" ).append( rbID ).append( "'\n" ).append( "and LEVEL_NAME='Market Type'");
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
@@ -1688,7 +1688,7 @@ public class DataSelectionLogic {
 	public List<Object> getMarketType(int projectionId) {
 		try {
 			List list;
-			final StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+			final StringBuilder queryString = new StringBuilder();
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES,LEVEL_NO from RELATIONSHIP_LEVEL_DEFINITION \n"
 					+ "where RELATIONSHIP_LEVEL_SID in ( select RELATIONSHIP_LEVEL_SID\n"
 					+ "from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID= ");
@@ -1962,7 +1962,7 @@ public class DataSelectionLogic {
         public Date getDefaultEligibleDateFromForecastConfiguration() {
             String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Consolidated Financial Forecast')";
             List cffEligibleDatelist = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            return cffEligibleDatelist != null ? (Date) cffEligibleDatelist.get(0) : null;
+            return cffEligibleDatelist != null && !cffEligibleDatelist.isEmpty() ? (Date) cffEligibleDatelist.get(0) : null;
             
         }
             public String getremovedcontractbasedonCFFEligibleDate(final SessionDTO session) {

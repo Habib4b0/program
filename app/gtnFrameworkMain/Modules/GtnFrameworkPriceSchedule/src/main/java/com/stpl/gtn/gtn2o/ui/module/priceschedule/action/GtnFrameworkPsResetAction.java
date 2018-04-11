@@ -70,7 +70,7 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
 			parameters.add(GtnUIFrameWorkPSLoadAction.class.getName());
 			parameters.add("psSearchResultTable");
 			parameters.add("");
-			parameters.add(true);
+			parameters.add(Boolean.TRUE);
 			parameters.add(0);
 			editActionConfig.setActionParameterList(parameters);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, editActionConfig);

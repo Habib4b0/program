@@ -130,19 +130,19 @@ public class GtnWsRebateScheduleCrudService {
 		rsModel.setCdrModelByEvaluationRuleOrAssociation(
 				getCdrModel(rsInfoBean.getEvaluationRuleAssociationSid(), session));
 		rsModel.setHelperTableByDeductionInclusion(getHelperTable(rsInfoBean.getRsDeductionInclusion(), session));
-		rsModel.setCreatedBy(Integer.valueOf(userId));
+		rsModel.setCreatedBy(Integer.parseInt(userId));
 		rsModel.setCreatedDate(new Date());
-		rsModel.setModifiedBy(Integer.valueOf(userId));
+		rsModel.setModifiedBy(Integer.parseInt(userId));
 		rsModel.setModifiedDate(new Date());
 		return rsModel;
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? 0 : systemId);
+		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	private CdrModel getCdrModel(Integer systemId, Session session) {
-		return session.load(CdrModel.class, systemId == null ? 0 : systemId);
+		return session.load(CdrModel.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	public int checkAllItems(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {

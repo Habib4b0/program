@@ -1051,7 +1051,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameWorkActionConfig populateValidationAction = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		Object customClassName = GtnUiFrameworkNsfPopulateValidationAction.class.getName();
-		populateValidationAction.setActionParameterList(Arrays.asList(customClassName, false));
+		populateValidationAction.setActionParameterList(Arrays.asList(customClassName, Boolean.FALSE));
 
 		actionConfigList.add(populateValidationAction);
 
@@ -1164,7 +1164,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		resetActionConfig.addActionParameter(viewId);
 		resetActionConfig
 				.addActionParameter("Are you sure you want to reset the values in the Selected Deductions group box?");
-		resetActionConfig.addActionParameter(false);
+		resetActionConfig.addActionParameter(Boolean.FALSE);
 		actionConfigList.add(resetActionConfig);
 		componentList.add(selectedDeductionsTableResetButtonConfig);
 		selectedDeductionsTableResetButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -1189,7 +1189,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		Object populateActionClass = GtnUiFrameworkNsfRemoveAction.class.getName();
 		removeActionConfig.addActionParameter(populateActionClass);
 		removeActionConfig.addActionParameter(viewId);
-		removeActionConfig.addActionParameter(false);
+		removeActionConfig.addActionParameter(Boolean.FALSE);
 		actionConfigList.add(removeActionConfig);
 		selectedDeductionsTableRemoveButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}

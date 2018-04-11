@@ -467,6 +467,36 @@ public class GtnFrameworkRSConstants {
 	public static Object[] getRsSetUpTabCalculationTypeDeductionCalendarVisibleColumnsforView() {
 		return RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS_VIEW.clone();
 	}
+        
+        public static final Object[] getAddViewDisableField() {
+		return ADD_VIEW_DISABLE_FIELD.clone();
+	}
+        public static final Object[] getAddEditEnableField() {
+		return ADD_EDIT_ENABLE_FIELDS.clone();
+	}
+        public static final Object[] getPagedTableEnableField() {
+		return PAGED_TABLE_ENABLE_FIELDS.clone();
+	}
+        public static final Object[] getAddEnableField() {
+		return ADD_ENABLE_FIELDS.clone();
+	}
+        
+        public static final String[] getPagedTableVisibleFields() {
+		return PAGED_TABLE_VISIBLE_FIELDS.clone();
+	}
+        public static final String[] getPropertyIds() {
+		return PROPERTY_IDS.clone();
+	}
+        public static final String[] getListNameArray() {
+		return LIST_NAME_ARRAY.clone();
+	}
+        public static final String[] getAddViewVisibleFields() {
+		return ADD_VIEW_VISIBLE_FIELDS.clone();
+	}
+        
+       
+       
+        
 
 	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_TABLEHEADERS_VIEW = { ITEM_NO,
 			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE, BUNDLE_NO,
@@ -495,5 +525,148 @@ public class GtnFrameworkRSConstants {
 			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, DESCRIPTION, RS_START_DATE,
 			RS_END_DATE1, DEDUCTION_NO, DEDUCTION_NAME, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
 			CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
+        private static final Object[] PAGED_TABLE_ENABLE_FIELDS = new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
+				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
+				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
+				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
+				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
+				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
+				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
+				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
+				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
+				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
+				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
+				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
+				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
+				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE, "RSleftResultTable",
+				"RSrightResultTable" };
 
+        
+        private static final Object[] ADD_ENABLE_FIELDS = new String[] { GtnFrameworkCommonConstants.NOTES_TAB,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
+				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
+				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
+				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
+				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
+				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
+				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
+				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
+				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
+				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
+				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
+				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
+				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
+				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVERIGHT_BUTTONS,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVE_LEFT_BUTTONS,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_REBATE_PROCESSING_TYPE };
+        
+        private static final Object[] ADD_EDIT_ENABLE_FIELDS = new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
+				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
+				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
+				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
+				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
+				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
+				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
+				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
+				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
+				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
+				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
+				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
+				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
+				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVERIGHT_BUTTONS,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVE_LEFT_BUTTONS,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_REBATE_PROCESSING_TYPE };
+        
+         private static final String[] ADD_VIEW_VISIBLE_FIELDS = new String[] { GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_ADD_VIEW_A_ADD_RESET_BUTTON,
+				GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITION_INFORMATION_LAYOUT,
+				GtnFrameworkRSConstants.REBATE_SETUPMASS_UPDATE_PANEL_LAYOUT };
+         
+         private static final String[] PAGED_TABLE_VISIBLE_FIELDS = new String[] { GtnFrameworkRSConstants.RS_ADD_SAVE_BUTTON,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_ADD_VIEW_A_ADD_RESET_BUTTON,
+				GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON };
+         
+         private static final String[] PROPERTY_IDS = { GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS, "rebateScheduleProgramType",
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY, GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_FREQUENCY, "rebateCalendar",
+				GtnFrameworkRSConstants.REBATE_CALCULATION_TYPE, "rebateCalculationLevel",
+				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.PAYMENT_TERMS,
+				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.PAYMENT_FREQUENCY,
+				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
+				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
+				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6 };
+         
+         private static final String[] LIST_NAME_ARRAY = { "RS_TYPE", "STATUS", "REBATE_PROGRAM_TYPE", "RS_CATEGORY", "RS_TRADE_CLASS",
+				"REBATE_FREQUENCY", "RS_CALENDAR", "CALCULATION_TYPE", "RULE_LEVEL", "REBATE_RULE_TYPE",
+				"PAYMENT_TERMS", "PAYMENT_METHOD", "PAYMENT_FREQUENCY", "INTEREST_BEARING_INDICATOR",
+				"INTEREST_BEARING_BASIS", "RS_DESIGNATION", "RS_UDC1", "RS_UDC2", "RS_UDC3", "RS_UDC4", "RS_UDC5",
+				"RS_UDC6" };
+         
+         private static final Object[] ADD_VIEW_DISABLE_FIELD = new String[] { GtnFrameworkCommonConstants.NOTES_TAB,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_ID1, GtnFrameworkRSConstants.REBATE_SCHEDULE_NO1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_NAME1, GtnFrameworkRSConstants.REBATE_SCHEDULE_ALIAS_ID1,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_NAME, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PAYMENT_GRACE_PERIOD, GtnFrameworkRSConstants.RS_TRANSACTION_REF_NAME,
+				GtnFrameworkRSConstants.PARENT_REBATE_SCHEDULE_ID, GtnFrameworkRSConstants.RS_TRANSACTION_REF_ID,
+				GtnFrameworkRSConstants.EVALUATION_RULE_ASSOCIATION, GtnFrameworkRSConstants.CALCULATION_RULE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_STATUS1, GtnFrameworkRSConstants.REBATE_SCHEDULE_TYPE1,
+				GtnFrameworkRSConstants.REBATE_PROGRAM_TYPE1, GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY1,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
+				GtnFrameworkRSConstants.RS_UDC2, GtnFrameworkRSConstants.RS_UDC3, GtnFrameworkRSConstants.RS_UDC4,
+				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6,
+				GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSION, GtnFrameworkRSConstants.RS_CALENDAR,
+				GtnFrameworkRSConstants.REBATE_FREQUENCY1, GtnFrameworkRSConstants.PAYMENT_LEVEL,
+				GtnFrameworkRSConstants.PAYMENT_FREQUENCY, GtnFrameworkRSConstants.PAYMENT_TERMS,
+				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
+				GtnFrameworkRSConstants.EVALUATION_RULE_LEVEL, GtnFrameworkRSConstants.EVALUATION_RULE_TYPE,
+				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.CALCULATION_RULE_LEVEL,
+				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
+				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
+				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVERIGHT_BUTTONS,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVE_LEFT_BUTTONS,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_REBATE_PROCESSING_TYPE,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_VALIDATION_PROFILE,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_INTEREST_BEARING_INDICATOR,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_INTEREST_BEARING_BASIS,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_RIGHT_BUTTON_INDICATOR,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_LEFT_BUTTON_INDICATOR,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_RIGHT_INDICATOR,
+				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_LEFT_INDICATOR };
+        
+        
+        
+        
 }

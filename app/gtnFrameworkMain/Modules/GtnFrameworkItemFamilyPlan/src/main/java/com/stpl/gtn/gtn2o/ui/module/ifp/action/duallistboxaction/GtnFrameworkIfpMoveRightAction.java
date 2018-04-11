@@ -60,7 +60,7 @@ public class GtnFrameworkIfpMoveRightAction
 				String companyMasterSid = String.valueOf(gtnWsRecordBean.getProperties().get(8));
 				GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
 				updateBean.setItemMasterSid(companyMasterSid.equals(GtnFrameworkCommonStringConstants.STRING_NULL) ? 0
-						: Integer.valueOf(companyMasterSid));
+						: Integer.parseInt(companyMasterSid));
 				GtnIFamilyPlanBean ifpMoveRightBean = new GtnIFamilyPlanBean();
 				ifpMoveRightBean.setUpdateBean(updateBean);
 				GtnWsIfpRequest ifpMoveRight = new GtnWsIfpRequest();
@@ -83,7 +83,7 @@ public class GtnFrameworkIfpMoveRightAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemsTabResultDataTable").getExtPagedTable()
 					.setData(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);
 		} finally {

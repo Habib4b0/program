@@ -143,7 +143,7 @@ public class DataSelectionUtil {
 
 	public static String getCompanySidForGroup(List<Leveldto> innerCustLevels, List<String> companies) {
 
-		StringBuilder companiesList = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder companiesList = new StringBuilder();
 		if (companies != null && !companies.isEmpty()) {
 			companies = new ArrayList<>(new LinkedHashSet<>(companies));
 			for (int loop = 0, limit = companies.size(); loop < limit; loop++) {
@@ -194,7 +194,7 @@ public class DataSelectionUtil {
 
 	public static String getItemSidForGroup(List<Leveldto> innerProdLevels, List<String> items) {
 
-		StringBuilder itemList = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder itemList = new StringBuilder();
 		if (items != null && !items.isEmpty()) {
 			items = new ArrayList<>(new LinkedHashSet<>(items));
 			for (int loop = 0, limit = items.size(); loop < limit; loop++) {
@@ -299,7 +299,7 @@ public class DataSelectionUtil {
 		i = 0;
 		j = 0;
 		k = 0;
-		StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder query = new StringBuilder();
 		if ("item".equalsIgnoreCase(tableIndicator)) {
 			query.append(" SELECT  distinct ccpd.");
 			query.append(UiUtils.generateHqlField(Constant.ITEM_MASTER_SID1, indicatorColumn));
@@ -897,7 +897,7 @@ public class DataSelectionUtil {
 	}
 
 	public static String getCcpWithCC(final List<Leveldto> ccList) {
-		StringBuilder query = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder query = new StringBuilder();
 		query.append("SELECT DISTINCT CCP.itemMasterSid FROM CcpDetails CCP ");
 		List<String> companyMasterValues = new ArrayList<>();
 		List<String> contractMasterValues = new ArrayList<>();

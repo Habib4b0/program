@@ -523,7 +523,7 @@ public class GtnUIFrameworkBaseComponent {
 		ComboBox vaadinComboBox = (ComboBox) getComponent();
 		vaadinComboBox.removeAllItems();
 		vaadinComboBox.addItem(itemIdToAdd);
-		vaadinComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		vaadinComboBox.setNullSelectionAllowed(true);
 		vaadinComboBox.setNullSelectionItemId(0);
 		vaadinComboBox.select(itemIdToSelect);
 	}
@@ -908,7 +908,7 @@ public class GtnUIFrameworkBaseComponent {
 		ComboBox vaadinComboBox = (ComboBox) getComponent();
 		vaadinComboBox.removeAllItems();
 		vaadinComboBox.addItems(itemIdToAdd);
-		vaadinComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		vaadinComboBox.setNullSelectionAllowed(true);
 		vaadinComboBox.setNullSelectionItemId(0);
 		vaadinComboBox.select(itemIdToSelect);
 	}
@@ -936,7 +936,7 @@ public class GtnUIFrameworkBaseComponent {
 	public void resetMassupdateCombobox(List<?> itemIdToAdd) {
 		ComboBox vaadinComboBox = (ComboBox) getComponent();
 		vaadinComboBox.removeAllItems();
-		vaadinComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		vaadinComboBox.setNullSelectionAllowed(true);
 		vaadinComboBox.setNullSelectionItemId(GtnFrameworkCommonStringConstants.SELECT_ONE);
 		vaadinComboBox.addItem(GtnFrameworkCommonStringConstants.SELECT_ONE);
 		vaadinComboBox.addItems(itemIdToAdd);
@@ -1010,7 +1010,7 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadMassUpdateComboBox(List<String> itemCodeList, List<String> itemValueList) {
 		ComboBox massUpdateComboBox = ((ComboBox) this.component);
 		massUpdateComboBox.removeAllItems();
-		massUpdateComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		massUpdateComboBox.setNullSelectionAllowed(true);
 		massUpdateComboBox.setNullSelectionItemId(0);
 		massUpdateComboBox.addItem(0);
 		massUpdateComboBox.setItemCaption(0, GtnFrameworkCommonStringConstants.SELECT_ONE);
@@ -1019,11 +1019,11 @@ public class GtnUIFrameworkBaseComponent {
 		if (itemCodeList != null) {
 			List<Integer> integerList = new ArrayList<>();
 			for (String str : itemCodeList) {
-				integerList.add(Integer.parseInt(str));
+				integerList.add(Integer.valueOf(str));
 			}
 			massUpdateComboBox.addItems(integerList);
 			for (int valueIndex = 0; valueIndex < itemCodeList.size(); valueIndex++) {
-				massUpdateComboBox.setItemCaption(Integer.parseInt(itemCodeList.get(valueIndex)),
+				massUpdateComboBox.setItemCaption(Integer.valueOf(itemCodeList.get(valueIndex)),
 						itemValueList.get(valueIndex));
 			}
 

@@ -84,11 +84,11 @@ public class GtnFrameworkCfpCompaniesTabPopulateAction
 					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("cfpCompaniesTabResultDataTable").getLogicFromPagedDataTable();
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 		} catch (Exception e) {
 			GtnUIFrameworkPagedTableLogic logic = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("cfpCompaniesTabResultDataTable").getLogicFromPagedDataTable();
-			logic.startSearchProcess(null, Boolean.TRUE);
+			logic.startSearchProcess(null, true);
 			GTN_LOGGER.error(e.getMessage(), e);
 			throw new GtnFrameworkGeneralException(e.getMessage(), e);
 		} finally {

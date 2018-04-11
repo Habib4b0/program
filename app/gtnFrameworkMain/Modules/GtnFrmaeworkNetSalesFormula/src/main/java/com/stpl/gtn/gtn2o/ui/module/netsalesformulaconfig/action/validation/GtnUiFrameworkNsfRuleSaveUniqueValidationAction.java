@@ -61,7 +61,7 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationAction
 
 	private void notBackButtonAction(String componentId, boolean isEditMode,
 			GtnUIFrameworkWebserviceResponse gtnWsresponse)
-			throws GtnFrameworkGeneralException, GtnFrameworkValidationFailedException {
+			throws GtnFrameworkGeneralException {
 		if(!gtnWsresponse.getGtnWsGeneralResponse().isSucess() && !isEditMode)
 		{
 		String msg = "Entered Net Sales Formula Rule already exists.";

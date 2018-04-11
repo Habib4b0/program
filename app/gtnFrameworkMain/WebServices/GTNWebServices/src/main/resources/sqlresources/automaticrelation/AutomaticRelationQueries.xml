@@ -339,6 +339,46 @@ order by
          ]]>
 		</query>
 	</entity>
+	<entity id="hierarchyByidandVersionNoBy ProjectionMasterSId Customer CFF">
+		<query> 
+        <![CDATA[            
+     select
+	*
+from
+	(
+		SELECT
+			HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+			HIERARCHY_DEFINITION_SID,
+			LEVEL_NAME,
+			LEVEL_VALUE_REFERENCE,
+			LEVEL_NO,
+			TABLE_NAME,
+			FIELD_NAME,
+			HLD.VERSION_NO,
+			CASE
+				WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN HLV.HIERARCHY_LEVEL_VALUES_SID
+				ELSE 0
+			END as LEVELVALUEs,
+			ROW_NUMBER() over(
+				PARTITION by HLD.LEVEL_NAME
+			ORDER by
+				HLD.LEVEL_NO ASC
+			) as rowNo
+		from CFF_MASTER pm JOIN 
+			HIERARCHY_LEVEL_DEFINITION HLD on pm.CUSTOMER_HIERARCHY_SID=HLD.HIerarchy_definition_sid
+			and pm.CUSTOMER_HIER_VERSION_NO=hld.version_no
+		LEFT JOIN HIERARCHY_LEVEL_VALUES HLV on
+			HLD.HIERARCHY_LEVEL_DEFINITION_SID = HLV.HIERARCHY_LEVEL_DEFINITION_SID
+		where
+			 CFF_MASTER_SID=?
+	) a
+where
+	rowNo = 1
+order by
+	LEVEL_NO;
+         ]]>
+		</query>
+	</entity>
 	<entity id="hierarchyByidandVersionNoBy ProjectionMasterSId PRoduct">
 		<query> 
         <![CDATA[            
@@ -371,6 +411,46 @@ from
 			HLD.HIERARCHY_LEVEL_DEFINITION_SID = HLV.HIERARCHY_LEVEL_DEFINITION_SID
 		where
 			 projection_master_sid=?
+	) a
+where
+	rowNo = 1
+order by
+	LEVEL_NO;
+         ]]>
+		</query>
+	</entity>
+	<entity id="hierarchyByidandVersionNoBy ProjectionMasterSId PRoduct CFF">
+		<query> 
+        <![CDATA[            
+     select
+	*
+from
+	(
+		SELECT
+			HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+			HIERARCHY_DEFINITION_SID,
+			LEVEL_NAME,
+			LEVEL_VALUE_REFERENCE,
+			LEVEL_NO,
+			TABLE_NAME,
+			FIELD_NAME,
+			HLD.VERSION_NO,
+			CASE
+				WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN HLV.HIERARCHY_LEVEL_VALUES_SID
+				ELSE 0
+			END as LEVELVALUEs,
+			ROW_NUMBER() over(
+				PARTITION by HLD.LEVEL_NAME
+			ORDER by
+				HLD.LEVEL_NO ASC
+			) as rowNo
+		from CFF_MASTER pm JOIN 
+			HIERARCHY_LEVEL_DEFINITION HLD on pm.PRODUCT_HIERARCHY_SID=HLD.HIerarchy_definition_sid
+			and pm.PRODUCT_HIER_VERSION_NO=hld.version_no
+		LEFT JOIN dbo.HIERARCHY_LEVEL_VALUES HLV on
+			HLD.HIERARCHY_LEVEL_DEFINITION_SID = HLV.HIERARCHY_LEVEL_DEFINITION_SID
+		where
+			 CFF_MASTER_SID=?
 	) a
 where
 	rowNo = 1

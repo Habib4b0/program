@@ -172,7 +172,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnFrameworkPSPriceProtecTabMassFieldValueChangeAction.class.getName());
-		customAction.addActionParameter(false);
+		customAction.addActionParameter(Boolean.FALSE);
 		actionConfigList.add(customAction);
 		psPriceProtectionTabMassField.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -590,7 +590,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnFrameworkPSPriceProtecTabMassFieldValueChangeAction.class.getName());
-		customAction.addActionParameter(true);
+		customAction.addActionParameter(Boolean.TRUE);
 		psBaseTypeActionConfigList.add(customAction);
 		psPriceProtectionTabPsBasePriceDdlb.setGtnUIFrameWorkActionConfigList(psBaseTypeActionConfigList);
 

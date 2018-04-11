@@ -86,7 +86,7 @@ public class GtnWsWorkflowSaveService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? 0 : systemId);
+		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	public static String getKeyFromValue(Map<Integer, String> hm, String value) {
@@ -112,7 +112,7 @@ public class GtnWsWorkflowSaveService {
 
 			workflowModel.setBrandId(masterbean.getBrandIdArm());
 			workflowModel.setAdjustmentType(String.valueOf(masterbean.getAdjustmentType()));
-			workflowModel.setCreatedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
+			workflowModel.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
 			Map<Integer, String> map = gtnWebServiceAllListConfig.getUserIdNameMap();
 			String createdBy = getKeyFromValue(map, masterbean.getCreatedByPrivate());
 			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
@@ -149,7 +149,7 @@ public class GtnWsWorkflowSaveService {
 		workflowModel.setCompanyId(masterbean.getCompanyID());
 		workflowModel.setCompanyName(masterbean.getCompanyName());
 		workflowModel.setCompanyNo(masterbean.getCompanyNo());
-		workflowModel.setContractType(Integer.parseInt(String.valueOf(masterbean.getContractType())));
+		workflowModel.setContractType(Integer.valueOf(String.valueOf(masterbean.getContractType())));
 		workflowModel.setCreationFromDate(masterbean.getCreatedFrom());
 		workflowModel.setCreationToDate(masterbean.getCreatedTo());
 		workflowModel.setDeductionName(masterbean.getDeductionNameArm());
@@ -203,10 +203,10 @@ public class GtnWsWorkflowSaveService {
 				|| getHelperTable(Integer.valueOf(masterbean.getBusinessProcess()), session).getDescription()
 						.equals(GtnWsFileManagementConstants.ACCRUAL_RATE_PROJECTION)) {
 			workflowModel.setDeductionLevel(String.valueOf(masterbean.getForecastdeductionLevel()));
-			workflowModel.setDeductionValue(Integer.parseInt(String.valueOf(masterbean.getForecastdeductionValue())));
+			workflowModel.setDeductionValue(Integer.valueOf(String.valueOf(masterbean.getForecastdeductionValue())));
 		} else {
 			workflowModel.setDeductionLevel(String.valueOf(masterbean.getDeductionLevelArm()));
-			workflowModel.setDeductionValue(Integer.parseInt(String.valueOf(masterbean.getDeductionValueArm())));
+			workflowModel.setDeductionValue(Integer.valueOf(String.valueOf(masterbean.getDeductionValueArm())));
 		}
 	}
 

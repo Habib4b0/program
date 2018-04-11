@@ -13,9 +13,9 @@ public class GtnFrameworkRSValueChangeManager {
 
 	public static Boolean isValueChangeAllowed() {
 		if (GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkRSConstants.VALUE_CHANGE_ALLOWED) == null) {
-			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkRSConstants.VALUE_CHANGE_ALLOWED, true);
+			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkRSConstants.VALUE_CHANGE_ALLOWED, Boolean.TRUE);
 		}
-		return (boolean) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkRSConstants.VALUE_CHANGE_ALLOWED);
+		return (Boolean) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkRSConstants.VALUE_CHANGE_ALLOWED);
 	}
 
 	public static void setValueChangeAllowed(boolean value) {

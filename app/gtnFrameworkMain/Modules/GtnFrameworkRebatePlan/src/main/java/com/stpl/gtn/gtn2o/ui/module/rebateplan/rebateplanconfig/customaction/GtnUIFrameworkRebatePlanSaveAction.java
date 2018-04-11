@@ -80,7 +80,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
         
 		GtnWsRebatePlanInfoBean rebatePlanInfoBean = new GtnWsRebatePlanInfoBean();
 		rebatePlanInfoBean.setSystemId(sysId);
-		rebatePlanInfoBean.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+		rebatePlanInfoBean.setUserId(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 		List<GtnWsRebatePlanRuleDetailBean> ruleDetailBeanList = new ArrayList<>();
 		List<NotesTabBean> noteBeanList = new ArrayList<>();
 
@@ -162,12 +162,12 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 					.getVaadinBaseComponent("rebatePlanCalculationsNetSalesFormula").getIdFromField());
 
 			rebatePlanInfoBean.setNetSalesFormula(("".equals(netSalesFormula) || "null".equals(netSalesFormula)) ? null
-					: Integer.parseInt(netSalesFormula));
+					: Integer.valueOf(netSalesFormula));
 
 			String netSaleRule = String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("rebatePlanCalculationsNetSalesRule").getIdFromField());
 			rebatePlanInfoBean.setNetSalesRule(
-					("".equals(netSaleRule) || "null".equals(netSaleRule)) ? null : Integer.parseInt(netSaleRule));
+					("".equals(netSaleRule) || "null".equals(netSaleRule)) ? null : Integer.valueOf(netSaleRule));
 
 			String rebatePlanCalculationSelfGrowthIndicator = String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("rebatePlanCalculationSelfGrowthIndicator").getStringFromField()).trim();
@@ -315,7 +315,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 				rpNotesBean.setFilePath(note.getDocumentFullPath());
 				rpNotesBean.setFileName(note.getDocumentName());
 				rpNotesBean.setMasterTableSystemId(note.getDocDetailsId());
-				rpNotesBean.setCreatedBy(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
+				rpNotesBean.setCreatedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				rpNotesBean.setCreatedDate(new Date());
 				noteBeanList.add(rpNotesBean);
 			}
@@ -336,14 +336,14 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		}
 		return (ruleDetail.getAdditionalProperties().get(index) != null
 				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
-						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
+						? Integer.valueOf(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
 	}
 
 	private int getValue(int index, GtnWsRecordBean ruleDetail) {
 
 		return (ruleDetail.getAdditionalProperties().get(index) != null
 				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
-						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
+						? Integer.valueOf(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
 	}
 
 	private Double getDoubleValue(int index, GtnWsRecordBean ruleDetail) {
@@ -379,15 +379,15 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			finalFormula.insert(0, "(");
 			for (int j = 0; j < str.length; j++) {
 				if (j == 1 && j != str.length - 1) {
-					finalFormula.append("(");
+					finalFormula.append('(');
 				}
 				finalFormula.append(str[j]);
 				if (j == str.length - 1) {
-					finalFormula.append(")");
+					finalFormula.append(')');
 				}
 			}
 			if (i != 0) {
-				finalFormula.append(")");
+				finalFormula.append(')');
 			}
 		}
 		return finalFormula.toString();
@@ -401,7 +401,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			finalFormula.insert(0, "(");
                         firstLastString=formulaFormation(str, finalFormula, firstLastString, i);
 			if (i != 0) {
-				finalFormula.append(")");
+				finalFormula.append(')');
                                 firstLastString=finalFormula.toString();
 			}
 		}
@@ -412,7 +412,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
         String newFormula=firstLastString;
         for (int j = 0; j < str.length; j++) {
             if (j == 1 && j != str.length - 1) {
-                finalFormula.append("(");
+                finalFormula.append('(');
             }
             String percentString = j == 1 ? str[j] : ("*".concat(firstLastString.concat("/100")));
             String formulaName = str[j].equals("%") ? percentString : str[j];
@@ -420,7 +420,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
             formulaName = operatorCheck(formulaName) ? "[".concat(formulaName).concat("]") : formulaName;
             finalFormula.append(formulaName);
             if (j == str.length - 1) {
-                finalFormula.append(")");
+                finalFormula.append(')');
                 newFormula=finalFormula.toString();
             }
         }

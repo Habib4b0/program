@@ -403,7 +403,7 @@ public class GtnFrameworkRelationShipBuilderAddConfig {
 		resetActionConfig.addActionParameter("Edit Error");
 		resetActionConfig.addActionParameter("Please select a record to edit");
 		resetActionConfig.addActionParameter(GtnFrameworkRelationshipBuilderConstants.RELATIONSHIP_BUILDER_SCREEN_CRUD);
-		resetActionConfig.addActionParameter(false);
+		resetActionConfig.addActionParameter(Boolean.FALSE);
 		resetActionConfig.addActionParameter("getSaveButton");
 		resetActionConfig.addActionParameter("getResetButton");
 		resetActionConfig.addActionParameter("removeFromTreeBtn");

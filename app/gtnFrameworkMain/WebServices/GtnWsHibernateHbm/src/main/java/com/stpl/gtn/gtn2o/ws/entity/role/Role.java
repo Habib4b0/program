@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.entity.role;
 // Generated Feb 22, 2017 8:36:04 PM by Hibernate Tools 4.3.1
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
