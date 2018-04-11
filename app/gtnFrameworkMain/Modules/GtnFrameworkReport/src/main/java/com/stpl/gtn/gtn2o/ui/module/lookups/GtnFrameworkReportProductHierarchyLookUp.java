@@ -250,12 +250,12 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				new Object[] { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate" });
                 searchResults.setCountQuery(Query.getCountProductHierarchy);
                 searchResults.setDataQuery(Query.getDataProductHierarchy);
-                searchResults.setCountQueryInputs(new String[]{namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE,
+                searchResults.setCountQueryInputs(new String[]{
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkCommonConstants.HIERARCHY_NAME});
-                searchResults.setDataQueryInputs(new String[]{namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE,
+						+ GtnFrameworkCommonConstants.HIERARCHY_NAME,namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE});
+                searchResults.setDataQueryInputs(new String[]{
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkCommonConstants.HIERARCHY_NAME});
+						+ GtnFrameworkCommonConstants.HIERARCHY_NAME,namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_TYPE});
 
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
 	}
@@ -281,7 +281,20 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		selectButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		selectButton.setAddToParent(true);
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
+		selectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
+		List<Object> actionParameter = new ArrayList<>();
+		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
+		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy");
+		actionParameter.add(Arrays.asList("hierName"));
+		actionParameter
+				.add(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy"));
 
+		selectAction.setActionParameterList(actionParameter);
+		actionConfigList.add(selectAction);
+		selectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(selectButton);
 
 		GtnUIFrameworkComponentConfig cancelButton = new GtnUIFrameworkComponentConfig();
