@@ -180,33 +180,33 @@ public class PVExcelLogic {
         for (Iterator<Object> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = (Object[]) it.next();
             String key = obj[NumericConstants.TWO].toString();
-            key = getHierarchyKey(key, appendedParentKey, obj);
-            List<ProjectionVarianceDTO> pvList = resultMap.get(key);
-            if (pvList == null) {
-                //To check condition total or details values
-                pvList = new ArrayList();
-                getCustPeriodVariancDetails(pvList, selection, obj);
-                if (isCustomView) {
-                    customHierarchyAndTPKeys(obj, key, pvList);
-                } else {
-					hierarchyAndTPkeys(obj, key, pvList);
-                }
+            if (isCustomView) {
+                key = !key.contains("-") ? key.concat(".") : key;
+                key = key + appendedParentKey;
+                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
             } else {
-                updateCustPeriodVarianceDetails(pvList, selection, obj);
+                key = obj[NumericConstants.TWO].toString();
             }
+            detailCustomization(key, obj);
         }
     }
 
-    public String getHierarchyKey(String key, String appendedParentKey, Object[] obj) {
-        if (isCustomView) {
-            key = !key.contains("-") ? key.concat(".") : key;
-            key = key + appendedParentKey;
-            appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+    public void detailCustomization(String key, Object[] obj) {
+        List<ProjectionVarianceDTO> pvList = resultMap.get(key);
+        if (pvList == null) {
+            //To check condition total or details values
+            pvList = new ArrayList();
+            getCustPeriodVariancDetails(pvList, selection, obj);
+            if (isCustomView) {
+                customHierarchyAndTPKeys(obj, key, pvList);
+            } else {
+                hierarchyAndTPkeys(obj, key, pvList);
+            }
         } else {
-            key = obj[NumericConstants.TWO].toString();
+            updateCustPeriodVarianceDetails(pvList, selection, obj);
         }
-        return key;
     }
+
 
 	private void hierarchyAndTPkeys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
 
