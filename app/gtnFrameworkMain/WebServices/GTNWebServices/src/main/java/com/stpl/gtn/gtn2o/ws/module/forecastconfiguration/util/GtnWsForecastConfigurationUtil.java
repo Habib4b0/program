@@ -234,7 +234,6 @@ public class GtnWsForecastConfigurationUtil {
 		int newfutureFreq = futureFreq;
 		if ((futtempFreq > frequencyDivision)) {// monthly
 			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision);
-			newfutureFreq = 1;
 			if (futtempFreq % frequencyDivision > 0) {
 				newfutureFreq = (futtempFreq % frequencyDivision) - 1;
 			} else {
@@ -253,26 +252,25 @@ public class GtnWsForecastConfigurationUtil {
 	private static List<Integer> getCalForecastPeriodQuartSemmiAnnually(int futtempFreq, int frequencyDivision,
 			int futureFreq, int futureYear) {
 		int newFutureYear = futureYear;
-		int newfutureFreq = futureFreq;
 		if ((futtempFreq > frequencyDivision) && frequencyDivision != 2) {
 			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision);
-			newfutureFreq = 1;
+			futureFreq = 1;
 			if (futtempFreq % frequencyDivision > 0) {
-				newfutureFreq = (futtempFreq % frequencyDivision) - 1;
+				futureFreq = (futtempFreq % frequencyDivision) - 1;
 			} else if ((futtempFreq % frequencyDivision == 0)) {// quarter
-				newfutureFreq = 3;
+				futureFreq = 3;
 				newFutureYear = newFutureYear - 1;
 			}
 		} else {// semi-annual
 			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision) - 1;
-			newfutureFreq = 1;
+			futureFreq = 1;
 			if (futtempFreq % frequencyDivision > 0) {
-				newfutureFreq = (futtempFreq % frequencyDivision) + 1;
+				futureFreq = (futtempFreq % frequencyDivision) + 1;
 			}
 		}
 		List<Integer> list = new ArrayList<>();
 		list.add(frequencyDivision);
-		list.add(newfutureFreq);
+		list.add(futureFreq);
 		list.add(newFutureYear);
 		return list;
 	}
