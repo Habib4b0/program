@@ -110,6 +110,10 @@ public class FileNameUtil {
 			map.put(Constants.ACCRUALS_INTERFACE, Constants.ACCRUALS_INTERFACE);
 			map.put(Constants.PSTG_SALES_FORECAST_INTERFACE, Constants.PSTG_SALES_FORECAST_INTERFACE);
 
+			map.put(Constants.CONTRACT_CFP_MBR_INTERFACE, Constants.CONTRACT_CFP_MBR_INTERFACE);
+			map.put(Constants.PSTG_FORECAST_SALES_WAC_INTERFACE, Constants.PSTG_FORECAST_SALES_WAC_INTERFACE);
+			map.put(Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE, Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE);
+
 		}
 		return map;
 	}
@@ -251,6 +255,11 @@ public class FileNameUtil {
 			interfaceNameMap.put(Constants.UNIT_OF_MEASURE_INTERFACE, Constants.UNIT_OF_MEASURE_INTERFACE);
 			interfaceNameMap.put(Constants.ACCRUALS_INTERFACE, Constants.ACCRUALS_INTERFACE);
 			interfaceNameMap.put(Constants.PSTG_SALES_FORECAST_INTERFACE, Constants.PSTG_SALES_FORECAST_INTERFACE);
+			interfaceNameMap.put(Constants.CONTRACT_CFP_MBR_INTERFACE, Constants.CONTRACT_CFP_MBR_INTERFACE);
+			interfaceNameMap.put(Constants.PSTG_FORECAST_SALES_WAC_INTERFACE,
+					Constants.PSTG_FORECAST_SALES_WAC_INTERFACE);
+			interfaceNameMap.put(Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE,
+					Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE);
 		}
 		return interfaceNameMap;
 	}

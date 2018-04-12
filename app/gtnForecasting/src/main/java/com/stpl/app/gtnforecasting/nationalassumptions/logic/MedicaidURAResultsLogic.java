@@ -549,12 +549,12 @@ public class MedicaidURAResultsLogic {
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
 
-        if ((projSelDTO.getPivotView().contains(PERIOD.getConstant())) && neededRecord > 0) {
+        if (neededRecord > 0 && (projSelDTO.getPivotView().contains(PERIOD.getConstant()))) {
             List<TableDTO> resultList = getMedicaidChild(projSelDTO, parentSid, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
             }
-        } else if ((projSelDTO.getPivotView().contains(PRICE_TYPE.getConstant())) && neededRecord > 0) {
+        } else if (neededRecord > 0 && (projSelDTO.getPivotView().contains(PRICE_TYPE.getConstant())) ) {
             List<TableDTO> resultList = getPriceTypeChild(projSelDTO, parentSid, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
