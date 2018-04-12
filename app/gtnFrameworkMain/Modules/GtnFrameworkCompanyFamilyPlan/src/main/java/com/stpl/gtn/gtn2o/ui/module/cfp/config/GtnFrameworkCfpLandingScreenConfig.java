@@ -723,10 +723,8 @@ public class GtnFrameworkCfpLandingScreenConfig {
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig(
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { "companyFamilyPlanCategory", GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_TYPE,
-				GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_STATUS, "companyFamilyPlanDesignation", GtnFrameworkCfpStringContants.CFP_MODIFIED_BY,
-				GtnFrameworkCfpStringContants.CFP_CREATED_BY };
-		String[] listNameArray = { "CFP_CATEGORY", "CFP_TYPE", "STATUS", "CFP_DESIGNATION", "USERS", "USERS" };
+		String[] propertyIds = GtnFrameworkCfpStringContants.getLandingScreenpropertyIds();
+		String[] listNameArray = GtnFrameworkCfpStringContants.getLandingScreenListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig cfpCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			cfpCustomFilterConfig.setPropertId(propertyIds[i]);

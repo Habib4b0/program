@@ -665,7 +665,33 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_LEFT_BUTTON_INDICATOR,
 				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_RIGHT_INDICATOR,
 				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_LEFT_INDICATOR };
-        
+         
+        private static final String[] RP_LIST_NAME_ARRAY = {"RULE_TYPE", "RULE_CATEGORY", "userIdName", "userIdName"};
+
+    private static final String[] RP_POPUP_PROPERTY_IDS = {"ruleType", "ruleCategory", "createdBy", "modifiedBy"};
+
+    private static final String[] NS_FILTER_PROPERTY_IDS = {GtnFrameworkCommonConstants.FORMULA_TYPE, "createdBy", "modifiedBy"};
+
+    public static String[] getNsFilterPropertyIds() {
+        return NS_FILTER_PROPERTY_IDS.clone();
+    }
+    private static final String[] NS_LIST_NAME_ARRAY = {"NS_FORMULA_TYPE", "userIdName", "userIdName"};
+
+    public static String[] getNsListNameArray() {
+        return NS_LIST_NAME_ARRAY.clone();
+    }
+
+    public static final String[] getRpPopupPropertyIds() {
+        return RP_POPUP_PROPERTY_IDS.clone();
+    }
+
+    public static final String[] getRpListNameArray() {
+        return RP_LIST_NAME_ARRAY.clone();
+    }
+    
+     
+     
+         
         
         
         

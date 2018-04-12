@@ -547,8 +547,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 
 			}
-			if ((productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))
-					&& (innerProdLevels != null)) {
+			if ((innerProdLevels != null) && (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
 				String relationshipSid = String.valueOf(productRelation.getValue());
 				Leveldto companyLevel = null;
 				for (Leveldto dto : innerProdLevels) {
@@ -1470,8 +1469,7 @@ public class DataSelection extends ForecastDataSelection {
 				innerProdLevels = logic.loadCustomerForecastLevel(hierarchyId, StringUtils.EMPTY,
 						selectionDTO.getCustomerHierVersionNo());
 			}
-			if ((productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))
-					&& (innerProdLevels != null)) {
+			if ((innerProdLevels != null) && (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
 
 				String relationshipSid = String.valueOf(productRelation.getValue());
 				Leveldto ndcLevel = null;
@@ -2015,8 +2013,7 @@ public class DataSelection extends ForecastDataSelection {
 				innerCustLevels = logic.loadCustomerForecastLevel(hierarchyId, StringUtils.EMPTY,
 						selectionDTO.getCustomerHierVersionNo());
 			}
-			if ((customerRelationComboBox.getValue() != null && !SELECT_ONE.equals(customerRelationComboBox.getValue()))
-					&& (innerCustLevels != null)) {
+			if ((innerCustLevels != null) && (customerRelationComboBox.getValue() != null && !SELECT_ONE.equals(customerRelationComboBox.getValue()))) {
 
 				String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
 				Leveldto customerLevelDto = null;
@@ -4318,7 +4315,7 @@ public class DataSelection extends ForecastDataSelection {
 	private void updateDataSelectionChanges() throws ClassNotFoundException, IOException {
 		dsLogic.deleteFromTempCCPTable(session);
 		relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
-				selectedProductContainer.getItemIds(), dataSelectionDTO);
+				selectedProductContainer.getItemIds(), selectionDTO);
 		session.addFutureMap(Constant.FILE_INSERT, new Future[] { service
 				.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
 		// PROJECTION_CUST_HIERARCHY INSERT CALL

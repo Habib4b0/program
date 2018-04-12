@@ -283,20 +283,20 @@ public class NMProjectionResultsLogic {
                     value = StringUtils.EMPTY + obj[col];
                     value = getFormattedValue(PER_TWO, value);
                     value1 = getFormattedValue(PER_TWO, "0.00");
-                    totalDiscountPerDto.addStringProperties(column,!"null".equals(obj[col]) && obj[col]!=null? value :value1);
+                    totalDiscountPerDto.addStringProperties(column,obj[col]!=null && !"null".equals(obj[col]) ? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    totalDiscountAmtDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.THREE]) && obj[col + NumericConstants.THREE]!=null? value :value1);
+                    totalDiscountAmtDto.addStringProperties(column, obj[col + NumericConstants.THREE]!=null && !"null".equals(obj[col + NumericConstants.THREE]) ? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.SIX];
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    totalRPUDto.addStringProperties(column,!"null".equals(obj[col + NumericConstants.SIX]) && obj[col + NumericConstants.SIX]!=null? value :value1);
+                    totalRPUDto.addStringProperties(column,obj[col + NumericConstants.SIX]!=null && !"null".equals(obj[col + NumericConstants.SIX]) ? value :value1);
                    
                     value = StringUtils.EMPTY + obj[col + NumericConstants.NINE];
                     value = getFormattedValue(PER_TWO, value);
                     value1 = getFormattedValue(PER_TWO, "0.00");
-                    totaldisPerExfacDto.addStringProperties(column,!"null".equals(obj[col + NumericConstants.NINE]) && obj[col + NumericConstants.NINE]!=null? value :value1);
+                    totaldisPerExfacDto.addStringProperties(column,obj[col + NumericConstants.NINE]!=null && !"null".equals(obj[col + NumericConstants.NINE]) ? value :value1);
                     
                     columnList.remove(column);
                 }
@@ -307,23 +307,23 @@ public class NMProjectionResultsLogic {
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormattedValue(PER_TWO, value);
                     value1 = getFormattedValue(PER_TWO, "0.00");
-                    totalDiscountPerDto.addStringProperties(column, !"null".equals(obj[col + 1]) && obj[col + 1]!=null? value :value1);
+                    totalDiscountPerDto.addStringProperties(column, obj[col + 1]!=null && !"null".equals(obj[col + 1]) ? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.FOUR];
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    totalDiscountAmtDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.FOUR]) && obj[col + NumericConstants.FOUR]!=null? value :value1);
+                    totalDiscountAmtDto.addStringProperties(column, obj[col + NumericConstants.FOUR]!=null && !"null".equals(obj[col + NumericConstants.FOUR]) ? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.SEVEN];
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    totalRPUDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.SEVEN]) && obj[col + NumericConstants.SEVEN]!=null? value :value1);
+                    totalRPUDto.addStringProperties(column, obj[col + NumericConstants.SEVEN]!=null && !"null".equals(obj[col + NumericConstants.SEVEN]) ? value :value1);
                     
                     value = StringUtils.EMPTY + obj[col + NumericConstants.TEN];
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormattedValue(PER_TWO, value);
                     value1 = getFormattedValue(PER_TWO, "0.00");
-                    totaldisPerExfacDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.TEN]) && obj[col + NumericConstants.TEN]!=null? value :value1);
+                    totaldisPerExfacDto.addStringProperties(column, obj[col + NumericConstants.TEN]!=null && !"null".equals(obj[col + NumericConstants.TEN]) ? value :value1);
                     
                     columnList.remove(column);
                 }
@@ -467,7 +467,7 @@ public class NMProjectionResultsLogic {
                                 value1 = getFormattedValue(PER_TWO, "0.00");
                             }
                           
-                            projDTO.addStringProperties(column, !"null".equals(discountRow[valueIndex]) && discountRow[valueIndex]!=null? value : value1);
+                            projDTO.addStringProperties(column, discountRow[valueIndex]!=null &&  !"null".equals(discountRow[valueIndex])? value : value1);
                             columnList.remove(column);
                         }
                         column = commonColumn + PROJECTIONS.getConstant();
@@ -491,7 +491,7 @@ public class NMProjectionResultsLogic {
                                 value1 = getFormattedValue(PER_TWO, "0.00");
                             }
 
-                            projDTO.addStringProperties(column, !"null".equals(discountRow[valueIndex]) && discountRow[valueIndex]!=null ? value : value1);
+                            projDTO.addStringProperties(column, discountRow[valueIndex]!=null && !"null".equals(discountRow[valueIndex]) ? value : value1);
                             columnList.remove(column);
                         }
                     }
@@ -565,11 +565,11 @@ public class NMProjectionResultsLogic {
                     String value1;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    projSalesDTO.addStringProperties(column, !"null".equals(obj[col]) && obj[col]!=null? value :value1);
+                    projSalesDTO.addStringProperties(column, obj[col]!=null && !"null".equals(obj[col]) ? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.TWO];
                     value = getFormattedValue(NUM_ZERO, value);
                     value1 = getFormattedValue(NUM_ZERO, "0.00");
-                    projUnitDTO.addStringProperties(column, !"null".equals(obj[col + NumericConstants.TWO]) && obj[col + NumericConstants.TWO]!=null? value :value1);
+                    projUnitDTO.addStringProperties(column, obj[col + NumericConstants.TWO]!=null && !"null".equals(obj[col + NumericConstants.TWO]) ? value :value1);
                     columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
@@ -579,12 +579,12 @@ public class NMProjectionResultsLogic {
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
-                    projSalesDTO.addStringProperties(column, !"null".equals(obj[col + 1]) && obj[col + 1]!=null? value :value1);
+                    projSalesDTO.addStringProperties(column, obj[col + 1]!=null && !"null".equals(obj[col + 1]) ? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
                      value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormattedValue(NUM_ZERO, value);
                     value1 = getFormattedValue(NUM_ZERO, "0.00");
-                    projUnitDTO.addStringProperties(column, !"null".equals(obj[col + NumericConstants.THREE]) && obj[col + NumericConstants.THREE]!=null? value :value1);
+                    projUnitDTO.addStringProperties(column, obj[col + NumericConstants.THREE]!=null && !"null".equals(obj[col + NumericConstants.THREE]) ? value :value1);
                     columnList.remove(column);
                 }
             }
@@ -2019,11 +2019,11 @@ public class NMProjectionResultsLogic {
                     value = StringUtils.EMPTY + obj[col];
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    cogsDto.addStringProperties(column, !"null".equals(obj[col]) && obj[col]!=null? value :value1);
+                    cogsDto.addStringProperties(column, obj[col]!=null && !"null".equals(obj[col]) ? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.TWO];
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    netprofitDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.TWO]) && obj[col + NumericConstants.TWO]!=null? value :value1);
+                    netprofitDto.addStringProperties(column, obj[col + NumericConstants.TWO]!=null && !"null".equals(obj[col + NumericConstants.TWO]) ? value :value1);
                     columnList.remove(column);
                 }
                 column = commonColumn + PROJECTIONS.getConstant();
@@ -2034,12 +2034,12 @@ public class NMProjectionResultsLogic {
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    cogsDto.addStringProperties(column, !"null".equals(obj[col + 1]) &&obj[col + 1]!=null? value :value1);
+                    cogsDto.addStringProperties(column, obj[col + 1]!=null && !"null".equals(obj[col + 1]) ? value :value1);
                     value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    netprofitDto.addStringProperties(column, !"null".equals(obj[col + NumericConstants.THREE]) && obj[col + NumericConstants.THREE]!=null? value :value1);
+                    netprofitDto.addStringProperties(column, obj[col + NumericConstants.THREE]!=null && !"null".equals(obj[col + NumericConstants.THREE]) ? value :value1);
                     columnList.remove(column);
                 }
             }

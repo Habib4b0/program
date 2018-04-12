@@ -111,6 +111,58 @@ public class GtnFrameworkCfpStringContants {
 	public static final List<Object> DISABLED_CFP_FIELDS = Collections
 			.unmodifiableList(Arrays.asList(new Object[] { "cfpInformationTabCreatedBy", "cfpInformationCreatedDate",
 					"cfpInformationTabModifiedBy", "cfpInformationModifiedDate" }));
+        
+        private static final String[] CFP_VALIDATE_FIELDS = new String[] { "cfpInformationTabCFPId", "cfpInformationTabCFPNo",
+				"cfpInformationTabCFPStatus", "cfpInformationCFPStartDate", "cfpInformationTabCFPName",
+				"cfpInformationTabCFPSalesInclusion" };
+        private static final String[] CUSTOM_FILTER_PROPERTY_IDS = { GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_STATUS_VALUE, "companyStatusValue",
+				"companyTypeValue", "tradeClass", "companyCategory", "modifiedBy", "createdBy" };
+        private static final String[] LIST_NAME_LIST = { GtnFrameworkCommonConstants.STATUS, GtnFrameworkCommonConstants.STATUS,
+				"COMPANY_TYPE", "COMPANY_TRADE_CLASS", "COMPANY_CATEGORY", "USERS", "USERS" };
+        private static final String[] PROPERTY_IDS = { GtnFrameworkCommonConstants.PROPERTY_COMPANY_STATUS,
+				GtnFrameworkCommonConstants.PROPERTY_COMPANY_TYPE, GtnFrameworkCommonConstants.TRADE_CLASS,
+				GtnFrameworkCommonConstants.PROPERTY_COMPANY_CATEGORY,
+				GtnFrameworkCommonConstants.PROPERTY_COMPANY_GROUP };
+        private static final String[] CUSTOM_LIST_NAME_LIST = { "STATUS", "COMPANY_TYPE", "COMPANY_TRADE_CLASS", "COMPANY_CATEGORY",
+				"COMPANY_GROUP" };
+        private static final  String[] LANDING_SCREEN_PROPERTYIDS = { "companyFamilyPlanCategory", GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_TYPE,
+				GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_STATUS, "companyFamilyPlanDesignation", GtnFrameworkCfpStringContants.CFP_MODIFIED_BY,
+				GtnFrameworkCfpStringContants.CFP_CREATED_BY };
+        private static final  String[] LANDING_SCREEN_LIST_NAME_ARRAY = { "CFP_CATEGORY", "CFP_TYPE", "STATUS", "CFP_DESIGNATION", "USERS", "USERS" };
+
+    public static String[] getLandingScreenListNameArray() {
+        return LANDING_SCREEN_LIST_NAME_ARRAY.clone();
+    }
+        
+
+    public static String[] getLandingScreenpropertyIds() {
+        return LANDING_SCREEN_PROPERTYIDS;
+    }
+        
+
+    public static String[] getCustomListNameList() {
+        return CUSTOM_LIST_NAME_LIST.clone();
+    }
+        
+
+    public static String[] getPropertyIds() {
+        return PROPERTY_IDS.clone();
+    }
+
+        
+    public static String[] getListNameList() {
+        return LIST_NAME_LIST.clone();
+    }
+        
+
+    public static String[] getCfpValidateFields() {
+        return CFP_VALIDATE_FIELDS.clone();
+    }
+
+    public static String[] getCustomFilterPropertyIds() {
+        return CUSTOM_FILTER_PROPERTY_IDS.clone();
+    }
+    
 	public static final String CFP_CREATED_BY = "cfpcreatedBy";
 	public static final String CFP_MODIFIED_BY = "cfpmodifiedBy";
 
