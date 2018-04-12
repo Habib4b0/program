@@ -199,7 +199,7 @@ public class CalendarField extends AbstractField<List>
 	}
 	public void clearSelectedWeekDays(){
 		if (selectedWeekDays != null) {
-			selectedWeekDays.clear(); // those values are stored in disableDates rit?yep
+			selectedWeekDays.clear(); 
 		}
 	}
 
