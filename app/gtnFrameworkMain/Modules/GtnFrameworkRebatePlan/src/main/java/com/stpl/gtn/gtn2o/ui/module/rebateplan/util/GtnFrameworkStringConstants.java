@@ -236,7 +236,7 @@ public class GtnFrameworkStringConstants {
         private static final String[] DO_ACTION_FIELDS = new String[] { "Rebate Plan Name", "Rebate Plan Type", "Rebate Plan ID", "Formula Type",
 				"Rebate Plan No", "Rebate Status", "Rebate Structure", "Range Based On", "Rebate Based On" };
 
-    public static String[] getDO_ACTION_FIELDS() {
+    public static String[] getDoActionFields() {
         return DO_ACTION_FIELDS.clone();
     }
         

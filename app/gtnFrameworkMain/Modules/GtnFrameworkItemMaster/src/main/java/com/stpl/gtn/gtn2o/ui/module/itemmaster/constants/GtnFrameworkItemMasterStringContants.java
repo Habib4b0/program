@@ -329,27 +329,27 @@ public class GtnFrameworkItemMasterStringContants {
         GtnFrameworkItemMasterStringContants.NF_POPUP + GtnFrameworkCommonConstants.STRENGTH};
     private static final String[] CONFIG_LIST_NAME_ARRAY = {"ITEM_TYPE", "STATUS", "FORM", "STRENGTH"};
 
-    public static String[] getCONFIG_LIST_NAME_ARRAY() {
+    public static String[] getConfigListNameArray() {
         return CONFIG_LIST_NAME_ARRAY.clone();
     }
 
-    public static String[] getCONFIG_PROPERTY_IDS() {
+    public static String[] getConfigPropertyIds() {
         return CONFIG_PROPERTY_IDS.clone();
     }
 
-    public static String[] getCUSTOM_FILTER_LIST_NAME_ARRAY() {
+    public static String[] getCustomFilterListNameArray() {
         return CUSTOM_FILTER_LIST_NAME_ARRAY.clone();
     }
 
-    public static String[] getCUSTOM_FILTER_PROPERTY_IDS() {
+    public static String[] getCustomFilterPropertyIds() {
         return CUSTOM_FILTER_PROPERTY_IDS.clone();
     }
 
-    public static String[] getEDIT_VISIBLE_FIELDS() {
+    public static String[] getEditVisibleFields() {
         return EDIT_VISIBLE_FIELDS.clone();
     }
 
-    public static String[] getEDIT_VIEW_VISIBLE_FIELDS() {
+    public static String[] getEditViewVisibleFields() {
         return EDIT_VIEW_VISIBLE_FIELDS.clone();
     }
 

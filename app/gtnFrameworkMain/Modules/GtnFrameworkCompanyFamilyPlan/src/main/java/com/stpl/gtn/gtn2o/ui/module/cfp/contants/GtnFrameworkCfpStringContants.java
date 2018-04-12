@@ -130,37 +130,37 @@ public class GtnFrameworkCfpStringContants {
 				GtnFrameworkCfpStringContants.CFP_CREATED_BY };
         private static final  String[] LANDING_SCREEN_LIST_NAME_ARRAY = { "CFP_CATEGORY", "CFP_TYPE", "STATUS", "CFP_DESIGNATION", "USERS", "USERS" };
 
-    public static String[] getLANDING_SCREEN_LIST_NAME_ARRAY() {
-        return LANDING_SCREEN_LIST_NAME_ARRAY;
+    public static String[] getLandingScreenListNameArray() {
+        return LANDING_SCREEN_LIST_NAME_ARRAY.clone();
     }
         
 
-    public static String[] getLANDING_SCREEN_PROPERTYIDS() {
+    public static String[] getLandingScreenpropertyIds() {
         return LANDING_SCREEN_PROPERTYIDS;
     }
         
 
-    public static String[] getCUSTOM_LIST_NAME_LIST() {
-        return CUSTOM_LIST_NAME_LIST;
+    public static String[] getCustomListNameList() {
+        return CUSTOM_LIST_NAME_LIST.clone();
     }
         
 
-    public static String[] getPROPERTY_IDS() {
-        return PROPERTY_IDS;
+    public static String[] getPropertyIds() {
+        return PROPERTY_IDS.clone();
     }
 
         
-    public static String[] getLIST_NAME_LIST() {
-        return LIST_NAME_LIST;
+    public static String[] getListNameList() {
+        return LIST_NAME_LIST.clone();
     }
         
 
-    public static String[] getCFP_VALIDATE_FIELDS() {
-        return CFP_VALIDATE_FIELDS;
+    public static String[] getCfpValidateFields() {
+        return CFP_VALIDATE_FIELDS.clone();
     }
 
-    public static String[] getCUSTOM_FILTER_PROPERTY_IDS() {
-        return CUSTOM_FILTER_PROPERTY_IDS;
+    public static String[] getCustomFilterPropertyIds() {
+        return CUSTOM_FILTER_PROPERTY_IDS.clone();
     }
     
 	public static final String CFP_CREATED_BY = "cfpcreatedBy";

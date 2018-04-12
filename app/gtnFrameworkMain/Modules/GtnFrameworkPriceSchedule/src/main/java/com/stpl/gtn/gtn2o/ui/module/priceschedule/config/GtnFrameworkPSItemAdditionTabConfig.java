@@ -329,8 +329,8 @@ public class GtnFrameworkPSItemAdditionTabConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterMap() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> psCustomFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkPSConstants.getCUSTOM_FILTER_PROPERTY_IDS();
-		String[] customfilterListNameArray = GtnFrameworkPSConstants.getCUSTOM_FILER_LIST_NAME();
+		String[] propertyIds = GtnFrameworkPSConstants.getCustomFilterPropertyIds();
+		String[] customfilterListNameArray = GtnFrameworkPSConstants.getCustomFilterListName();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);

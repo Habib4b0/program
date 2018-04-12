@@ -409,8 +409,8 @@ public class GtnFrameworkRPPopUpSearchConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getRPPopupCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkRSConstants.getRP_POPUP_PROPERTY_IDS();
-		String[] listNameArray = GtnFrameworkRSConstants.getRP_LIST_NAME_ARRAY();
+		String[] propertyIds = GtnFrameworkRSConstants.getRpPopupPropertyIds();
+		String[] listNameArray = GtnFrameworkRSConstants.getRpListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig rPPopupCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			rPPopupCustomFilterConfig.setPropertId(propertyIds[i]);

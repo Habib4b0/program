@@ -80,43 +80,43 @@ public class GtnFrameworkNSFConstants {
         Integer.class, Integer.class};
     private static final Class<?>[] TABLE_COLUMN_DATA_TYPES = new Class<?>[]{String.class, String.class, String.class};
 
-    public static Class<?>[] getTABLE_COLUMN_DATA_TYPES() {
+    public static Class<?>[] getTableColumnDataTypes() {
         return TABLE_COLUMN_DATA_TYPES.clone();
     }
 
-    public static Class<?>[] getAVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES() {
+    public static Class<?>[] getAvailableDeductionExtraColumnsDataTypes() {
         return AVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES.clone();
     }
 
-    public static Class<?>[] getSELECTED_DEDUCTION_TABLE_COL_DATA_TYPES() {
+    public static Class<?>[] getSelectedDeductionTableColDataTypes() {
         return SELECTED_DEDUCTION_TABLE_COL_DATA_TYPES.clone();
     }
 
-    public static Class<?>[] getSELECTED_DEDUCTION_TABLE_COLUMN_DATA_TYPES() {
+    public static Class<?>[] getSelectedDeductionTableColumnDataTypes() {
         return SELECTED_DEDUCTION_TABLE_COLUMN_DATA_TYPES.clone();
     }
 
-    public static Class<?>[] getAVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES_PA() {
+    public static Class<?>[] getAvailableDeductionExtraColumnsDataTypesPa() {
         return AVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES_PA.clone();
     }
 
-    public static Class<?>[] getPERFORM_ACTION_TABLE_COLUMN_DATA_TYPES() {
+    public static Class<?>[] getPerformActionTableColumnDataTypes() {
         return PERFORM_ACTION_TABLE_COLUMN_DATA_TYPES.clone();
     }
 
-    public static String[] getLANDING_SCREEN_LIST_NAME() {
+    public static String[] getLandingScreenListName() {
         return LANDING_SCREEN_LIST_NAME.clone();
     }
 
-    public static String[] getLANDING_SCREEN_PRP_IDS() {
+    public static String[] getLandingScreenPrpIds() {
         return LANDING_SCREEN_PRP_IDS.clone();
     }
 
-    public static String[] getDEDUCTION_TAB_LIST_NAMES() {
+    public static String[] getDeductionTabListNames() {
         return DEDUCTION_TAB_LIST_NAMES.clone();
     }
 
-    public static String[] getDEDUCTION_TAB_PROPERTY_IDS() {
+    public static String[] getDeductionTabPropertyIds() {
         return DEDUCTION_TAB_PROPERTY_IDS.clone();
     }
 

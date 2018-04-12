@@ -158,23 +158,23 @@ public class GtnUIFrameworkContractHeaderStringContants {
         private static final String[] CUSTOM_PROPERTY_FIELDS = { "contractStatus", "contractType", "tradeClass" };
 private static final String[] CUSTOM_LIST_NAME_ARRAY = { "STATUS", "CONTRACT_TYPE", "CONTRACT_TRADE_CLASS" };
 
-    public static String[] getCUSTOM_LIST_NAME_ARRAY() {
+    public static String[] getCustomListNameArray() {
         return CUSTOM_LIST_NAME_ARRAY.clone();
     }
 
-    public static String[] getCUSTOM_PROPERTY_FIELDS() {
+    public static String[] getCustomPropertyFields() {
         return CUSTOM_PROPERTY_FIELDS.clone();
     }
         
-    public static String[] getDO_ACTION_FIELDS() {
+    public static String[] getDoActionFields() {
         return DO_ACTION_FIELDS.clone();
     }
         
-    public static String[] getDO_ACTION_MESAAGES() {
+    public static String[] getDoActionMesaages() {
         return DO_ACTION_MESAAGES.clone();
     }
 
-    public static String[] getEDIT_VIEW_BUTTONS() {
+    public static String[] getEditViewButtons() {
         return EDIT_VIEW_BUTTONS.clone();
     }
         

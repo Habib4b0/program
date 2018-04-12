@@ -666,7 +666,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkWorkflowInboxClassConstants.getADDRESS_VISIBLE_FIELDS()));
+		visibleParameters.add(Arrays.asList(GtnFrameworkWorkflowInboxClassConstants.getAddressVisibleFields()));
 		visibleAction.setActionParameterList(visibleParameters);
 
 		resetActionConfigList.add(resetActionConfig);
@@ -1827,8 +1827,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkWorkflowInboxClassConstants.getCUSTOM_PROPERTY_IDS();
-		String[] listNameArray = GtnFrameworkWorkflowInboxClassConstants.getCUSTOM_LIST_NAME_ARRAY();
+		String[] propertyIds = GtnFrameworkWorkflowInboxClassConstants.getCustomPropertyIds();
+		String[] listNameArray = GtnFrameworkWorkflowInboxClassConstants.getCustomListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig wfMainCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			wfMainCustomFilterConfig.setPropertId(propertyIds[i]);
