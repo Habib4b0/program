@@ -1996,26 +1996,20 @@ public class NMPVExcelLogic {
                 projSelDTO.setConversionNeeded(isConversionNeeded);
                 projSelDTO.setVarIndicator(Constant.VALUE);
                 parentGroup = group + "value";
-                if (!selection.getDiscountNameList().isEmpty()) {
                     getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, indexValue, isPer, parentGroup);
-                }
             }
             if (projSelDTO.isColVariance()) {
                 projSelDTO.setConversionNeeded(isConversionNeeded);
                 projSelDTO.setVarIndicator(Constant.VARIANCE);
                 parentGroup = group + "variance";
-                if (!selection.getDiscountNameList().isEmpty()) {
                     getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, indexValue, isPer, parentGroup);
-                }
             }
             if (projSelDTO.isColPercentage()) {
 
                 projSelDTO.setConversionNeeded(false);
                 parentGroup = group + "change";
                 projSelDTO.setVarIndicator(Constant.CHANGE);
-                if (!selection.getDiscountNameList().isEmpty()) {
                     getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, indexValue, isPer, parentGroup);
-                }
             }
 
         }
@@ -2507,7 +2501,7 @@ public class NMPVExcelLogic {
                 } else {
                     updateList_detail_discount(key, obj, newListIndex);
                 }
-            }
+           }
         }
     }
 
