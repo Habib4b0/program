@@ -169,7 +169,7 @@ public class GtnFrameworkCMCommonValidationAction implements GtnUIFrameWorkActio
 		if (tradeClassList.isEmpty()) {
 			msg = msg + GtnFrameworkCompanyStringContants.GTN_COMPANY_MASTER_VALIDATION_MSG_TRADECLASS_REMOVE;
 		} else {
-			msg = gtnCMTradeClassTabDuplicateBeanCheck(tradeClassList);
+			msg = msg + gtnCMTradeClassTabDuplicateBeanCheck(tradeClassList);
 		}
 		if (!msg.isEmpty()) {
 			throw new GtnFrameworkValidationFailedException(msg, componentId);
