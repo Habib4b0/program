@@ -189,6 +189,7 @@ public class GtnWsContractDashboardContants {
 	public static final String RULE_LEVEL = "RULE_LEVEL";
 	public static final String CALCULATION_TYPE = "CALCULATION_TYPE";
 	public static final String CALCULATION_LEVEL = "CALCULATION_LEVEL";
+	public static final String REBATE_PLAN_LEVEL = "REBATE_PLAN_LEVEL";
 	public static final String EVALUATION_RULE_TYPE = "EVALUATION_RULE_TYPE";
 	public static final String RULE_TYPE = "RULE_TYPE";
 	public static final String FORMULA_TYPE = "FORMULA_TYPE";

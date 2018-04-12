@@ -331,7 +331,7 @@ public class DataSelectionUtil {
 					i = 1;
 				}
 
-			} else if ((ddo.getTableName().equalsIgnoreCase(Constant.COMPANY_MASTER)) && (j == 0)) {
+			} else if ((j == 0) && (ddo.getTableName().equalsIgnoreCase(Constant.COMPANY_MASTER))) {
 				query.append(", ");
 				query.append(UiUtils.generateHqlField(Constant.COMPANY_MASTER, indicatorTable));
 				query.append(" cm ");

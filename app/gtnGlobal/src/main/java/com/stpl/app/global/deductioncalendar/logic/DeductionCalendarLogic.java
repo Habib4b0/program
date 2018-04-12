@@ -703,7 +703,7 @@ public class DeductionCalendarLogic {
                 dto = new com.stpl.app.util.HelperDTO(ConstantsUtils.EDITLIST);
                 list.add(dto);
             }
-            if (StringUtils.EMPTY.equals(filterText) && itemQualifierNameCount != 0 && itemQualifierNameCount == end - NumericConstants.TWO) {
+            if (itemQualifierNameCount != 0 && itemQualifierNameCount == end - NumericConstants.TWO && StringUtils.EMPTY.equals(filterText)) {
                 dto = new com.stpl.app.util.HelperDTO(ConstantsUtils.EDITLIST);
                 list.add(dto);
             }
