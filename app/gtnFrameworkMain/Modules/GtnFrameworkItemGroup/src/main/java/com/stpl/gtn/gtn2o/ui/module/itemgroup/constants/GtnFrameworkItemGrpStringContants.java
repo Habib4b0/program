@@ -59,22 +59,22 @@ public class GtnFrameworkItemGrpStringContants {
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
 				null };
 
-    public static Object[] getRESET_VALUE_ARRAY() {
+    public static Object[] getResetValueArray() {
         return RESET_VALUE_ARRAY.clone();
     }
         
 
-    public static Object[] getAUDIT_SEARCH_DISABLE_FIELD() {
+    public static Object[] getAuditSearchDisableField() {
         return AUDIT_SEARCH_DISABLE_FIELD.clone();
     }
         
 
-    public static Object[] getADD_SEARCH_DISABLE_FIELD() {
+    public static Object[] getAddSearchDisableField() {
         return ADD_SEARCH_DISABLE_FIELD.clone();
     }
         
 
-    public static String[] getRESET_ID_ARRAY() {
+    public static String[] getResetIdArray() {
         return RESET_ID_ARRAY.clone();
     }
         

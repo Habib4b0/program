@@ -96,11 +96,11 @@ public class GtnFrameworkIfpStringContants {
         return IFP_VISIBLE_COLUMN_FOR_VIEW.clone();
     }
 
-    public static String[] getIFP_LIST_NAME_ARRAY() {
+    public static String[] getIfpListNameArray() {
         return IFP_LIST_NAME_ARRAY.clone();
     }
 
-    public static String[] getIFP_CUSTOM_PROPERTY_IDS() {
+    public static String[] getIfpCustomPropertyIds() {
         return IFP_CUSTOM_PROPERTY_IDS.clone();
     }
         

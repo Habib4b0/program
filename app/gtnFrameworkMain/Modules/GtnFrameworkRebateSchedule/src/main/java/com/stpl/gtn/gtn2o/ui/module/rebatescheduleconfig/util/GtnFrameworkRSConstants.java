@@ -672,20 +672,20 @@ public class GtnFrameworkRSConstants {
 
     private static final String[] NS_FILTER_PROPERTY_IDS = {GtnFrameworkCommonConstants.FORMULA_TYPE, "createdBy", "modifiedBy"};
 
-    public static String[] getNS_FILTER_PROPERTY_IDS() {
+    public static String[] getNsFilterPropertyIds() {
         return NS_FILTER_PROPERTY_IDS.clone();
     }
     private static final String[] NS_LIST_NAME_ARRAY = {"NS_FORMULA_TYPE", "userIdName", "userIdName"};
 
-    public static String[] getNS_LIST_NAME_ARRAY() {
+    public static String[] getNsListNameArray() {
         return NS_LIST_NAME_ARRAY.clone();
     }
 
-    public static final String[] getRP_POPUP_PROPERTY_IDS() {
+    public static final String[] getRpPopupPropertyIds() {
         return RP_POPUP_PROPERTY_IDS.clone();
     }
 
-    public static final String[] getRP_LIST_NAME_ARRAY() {
+    public static final String[] getRpListNameArray() {
         return RP_LIST_NAME_ARRAY.clone();
     }
     

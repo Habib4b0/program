@@ -90,7 +90,7 @@ public class GtnUIFrameworkContractHeaderAddAction
 		for (String field : GtnUIFrameworkContractHeaderStringContants.GTN_CONTACT_HEADER_INFORMATION_TAB_FIELD_LIST) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(field).setComponentEnable(value);
 		}
-		String[] buttons = GtnUIFrameworkContractHeaderStringContants.getEDIT_VIEW_BUTTONS();
+		String[] buttons = GtnUIFrameworkContractHeaderStringContants.getEditViewButtons();
 		for (String string : buttons) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(string).setComponentVisible(value);
 		}

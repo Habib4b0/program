@@ -515,16 +515,16 @@ private static final String[] CUSTOM_LIST_NAME_ARRAY = { GtnFrameworkWorkflowInb
 				GtnFrameworkWorkflowInboxClassConstants.ARM_ADJUSTMENT_TYPE,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUS };
 
-    public static String[] getCUSTOM_LIST_NAME_ARRAY() {
+    public static String[] getCustomListNameArray() {
         return CUSTOM_LIST_NAME_ARRAY.clone();
     }
 
 
-    public static String[] getCUSTOM_PROPERTY_IDS() {
+    public static String[] getCustomPropertyIds() {
         return CUSTOM_PROPERTY_IDS.clone();
     }
 
-    public static String[] getADDRESS_VISIBLE_FIELDS() {
+    public static String[] getAddressVisibleFields() {
         return ADDRESS_VISIBLE_FIELDS.clone();
     }
 

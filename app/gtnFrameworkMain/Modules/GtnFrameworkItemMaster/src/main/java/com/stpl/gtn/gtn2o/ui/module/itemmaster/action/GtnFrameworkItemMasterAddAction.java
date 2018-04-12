@@ -205,7 +205,7 @@ public class GtnFrameworkItemMasterAddAction
 					sourceComponentId).setComponentEnable(value);
 		}
 
-		String[] visibleFields = GtnFrameworkItemMasterStringContants.getEDIT_VIEW_VISIBLE_FIELDS();
+		String[] visibleFields = GtnFrameworkItemMasterStringContants.getEditViewVisibleFields();
 
 		for (int i = 0; i < visibleFields.length; i++) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(visibleFields[i], sourceComponentId)

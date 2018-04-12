@@ -30,7 +30,7 @@ public class GtnUIFrameWorkSaveMandatoryAlert implements GtnUIFrameWorkAction, G
 				getString("rebatePlanInformationTabformulaType"), getString("rebatePlanInformationTabRebatePlanNo"),
 				getInt("rebatePlanInformationTabRebateStatus"), getInt("rebatePlanCalculationsRebateStructure"),
 				getInt("rebatePlanCalculationsRangeBasedOn"), getInt("rebatePlanCalculationsRebateBasedOn") };
-		String[] fields = GtnFrameworkStringConstants.getDO_ACTION_FIELDS();
+		String[] fields = GtnFrameworkStringConstants.getDoActionFields();
 
 		String resultValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanInformationTabformulaType")
 				.getCaptionFromComboBox();

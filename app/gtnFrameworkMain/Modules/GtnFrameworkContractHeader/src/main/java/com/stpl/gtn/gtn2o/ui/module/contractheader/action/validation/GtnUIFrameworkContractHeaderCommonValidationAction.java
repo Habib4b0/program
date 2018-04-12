@@ -30,7 +30,7 @@ public class GtnUIFrameworkContractHeaderCommonValidationAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		StringBuilder chErrorMsg = new StringBuilder();
-		String[] fields = GtnUIFrameworkContractHeaderStringContants.getDO_ACTION_FIELDS();
+		String[] fields = GtnUIFrameworkContractHeaderStringContants.getDoActionFields();
 		GtnUIFrameworkGlobalUI.validateFields(fields, chErrorMsg);
 
 		if (chErrorMsg.length() > 0) {

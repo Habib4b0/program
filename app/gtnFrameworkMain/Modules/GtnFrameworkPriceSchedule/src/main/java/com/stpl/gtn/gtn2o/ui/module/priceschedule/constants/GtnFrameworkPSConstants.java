@@ -154,43 +154,43 @@ private static final String[] ADD_EDIT_VISIBLE_FIELD = new String[] { GtnFramewo
 				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_ADD_RESET_BUTTON,
 				GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON };
 
-    public static String[] getADD_EDIT_VISIBLE_FIELD() {
+    public static String[] getAddEditVisibleField() {
         return ADD_EDIT_VISIBLE_FIELD.clone();
     }
 
-    public static Object[] getADD_EDIT_DISABLE_FIELD() {
+    public static Object[] getAddEditDisableField() {
         return ADD_EDIT_DISABLE_FIELD.clone();
     }
 
 
 
-    public static Object[] getADD_EDIT_ENABLE_FIELD() {
+    public static Object[] getAddEditEnableField() {
         return ADD_EDIT_ENABLE_FIELD.clone();
     }
 
 
-    public static Object[] getADD_VIEW_VISIBLE_FIELD() {
+    public static Object[] getAddViewVisibleField() {
         return ADD_VIEW_VISIBLE_FIELD.clone();
     }
 
-    public static Object[] getADD_VIEW_DISABLE_FIELD() {
+    public static Object[] getAddViewDisableField() {
         return ADD_VIEW_DISABLE_FIELD.clone();
     }
 
-    public static Object[] getADD_DISABLE_FIELD() {
+    public static Object[] getAddDisableField() {
         return ADD_DISABLE_FIELD.clone();
     }
         
        
-    public static String[] getCUSTOM_FILTER_PROPERTY_IDS() {
+    public static String[] getCustomFilterPropertyIds() {
         return CUSTOM_FILTER_PROPERTY_IDS.clone();
     }
 
-    public static String[] getCUSTOM_FILER_LIST_NAME() {
+    public static String[] getCustomFilterListName() {
         return CUSTOM_FILER_LIST_NAME.clone();
     }
 
-    public static Object[] getADD_ENABLE_FIELD() {
+    public static Object[] getAddEnableField() {
         return ADD_ENABLE_FIELD.clone();
     }
 
