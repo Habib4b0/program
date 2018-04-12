@@ -186,7 +186,7 @@ public class GtnUIFrameworkAuthorization {
 					componentBean.setComponentDesc(gtnUIFrameworkComponentConfig.getComponentName());
 					componentBean.setComponentType(GtnUIFrameworkComponentName
 							.valueOf(gtnUIFrameworkComponentConfig.getComponentType().name()).getComponentName());
-					if (GtnUIFrameworkComponentType.TABSHEET.equals(gtnUIFrameworkComponentConfig.getComponentType())) {
+					if (GtnUIFrameworkComponentType.TABSHEET == gtnUIFrameworkComponentConfig.getComponentType()) {
 						updateTabAuthorization(componentList, gtnUIFrameworkComponentConfig.getGtnTabSheetConfigList(),
 								subModuleName, gtnUIFrameworkViewConfig.getViewName());
 					}
@@ -236,7 +236,7 @@ public class GtnUIFrameworkAuthorization {
 					tabComponentBean.setComponentDesc(tabComponentConfig.getComponentName());
 					tabComponentBean.setComponentType(GtnUIFrameworkComponentName
 							.valueOf(tabComponentConfig.getComponentType().name()).getComponentName());
-					if (GtnUIFrameworkComponentType.TABSHEET.equals(tabComponentConfig.getComponentType())) {
+					if (GtnUIFrameworkComponentType.TABSHEET == tabComponentConfig.getComponentType()) {
 						updateTabAuthorization(componentList, tabComponentConfig.getGtnTabSheetConfigList(),
 								subModuleName, gtnUIFrameworkTabConfig.getTabCaption());
 					}

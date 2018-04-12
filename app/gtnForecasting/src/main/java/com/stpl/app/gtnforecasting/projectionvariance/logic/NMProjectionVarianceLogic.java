@@ -2466,7 +2466,7 @@ public class NMProjectionVarianceLogic {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
                 if (Constant.PROGRAM_CATEGORY_LABEL.equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
-                    if (!StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
+                    if (obj[NumericConstants.TWO] != null && !StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                         pvDTO.setGroup(lastGroupName);
                         resultDto.add(pvDTO);
                         pvDTO = new ProjectionVarianceDTO();
@@ -2475,7 +2475,7 @@ public class NMProjectionVarianceLogic {
                     lastGroupName = String.valueOf(obj[NumericConstants.TWO]);
                     pvDTO.setGroup(String.valueOf(obj[NumericConstants.TWO]));
                 } else {
-                    if (!StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && obj[obj.length - 1] != null && !lastValue.equals(String.valueOf(obj[obj.length - 1]))) {
+                    if (obj[obj.length - 1] != null && !StringUtils.EMPTY.equals(lastValue) && !Constant.NULL.equals(lastValue) && !lastValue.equals(String.valueOf(obj[obj.length - 1]))) {
                         pvDTO.setGroup(lastGroupName);
                         resultDto.add(pvDTO);
                         pvDTO = new ProjectionVarianceDTO();

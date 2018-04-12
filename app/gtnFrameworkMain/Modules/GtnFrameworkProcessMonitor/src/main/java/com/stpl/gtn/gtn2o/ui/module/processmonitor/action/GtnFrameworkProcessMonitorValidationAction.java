@@ -138,7 +138,7 @@ public class GtnFrameworkProcessMonitorValidationAction
 			if (GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_UPDATE
 					.equalsIgnoreCase(component.getCaption())) {
 				monitorBean.setProcessMonitorSid(
-						Integer.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("processMonitorId").toString()));
+						Integer.parseInt(GtnUIFrameworkGlobalUI.getSessionProperty("processMonitorId").toString()));
 			}
 			monitorBean.setComponent(component.getCaption());
 			cfpRequest.setProcessMonitorBean(monitorBean);

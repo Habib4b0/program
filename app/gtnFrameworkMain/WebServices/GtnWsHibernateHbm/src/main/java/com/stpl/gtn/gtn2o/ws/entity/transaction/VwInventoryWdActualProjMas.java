@@ -7,7 +7,6 @@ package com.stpl.gtn.gtn2o.ws.entity.transaction;
 
 import java.util.Date;
 
-import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 
 /**
  *

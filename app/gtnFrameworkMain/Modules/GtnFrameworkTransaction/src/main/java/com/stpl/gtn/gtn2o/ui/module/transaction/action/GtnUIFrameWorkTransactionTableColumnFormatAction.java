@@ -81,11 +81,11 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 					return;
 				}
 				if ("AMP".equals(recordPropertyValueAMP) || "BP".equals(recordPropertyValueAMP)) {
-					value = "$" + new BigDecimal(String.valueOf(value)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+					value = "$" + new BigDecimal(String.valueOf(value)).setScale(6, BigDecimal.ROUND_DOWN);
 				} else if ("CPIURA".equals(recordPropertyValueAMP) || "CPI (Alt) URA".equals(recordPropertyValueAMP)) {
-					value = "$" + new BigDecimal(String.valueOf(value)).setScale(3, BigDecimal.ROUND_DOWN).toString();
+					value = "$" + new BigDecimal(String.valueOf(value)).setScale(3, BigDecimal.ROUND_DOWN);
 				} else if ("URA".equals(recordPropertyValueAMP)) {
-					value = "$" + new BigDecimal(String.valueOf(value)).setScale(4, BigDecimal.ROUND_DOWN).toString();
+					value = "$" + new BigDecimal(String.valueOf(value)).setScale(4, BigDecimal.ROUND_DOWN);
 				} else {
 					value = "$" + Double.parseDouble(String.valueOf(value));
 				}

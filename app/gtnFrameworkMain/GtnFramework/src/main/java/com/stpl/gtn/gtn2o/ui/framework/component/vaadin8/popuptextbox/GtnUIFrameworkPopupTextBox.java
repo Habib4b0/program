@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.popuptextbox;
 
+
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -28,7 +29,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
-	HorizontalLayout popupTextBoxHorizontalComponent;
+	private HorizontalLayout popupTextBoxHorizontalComponent;
 
 	@Override
 	public AbstractComponent buildVaadinComponent(final GtnUIFrameworkComponentConfig componentConfig) {

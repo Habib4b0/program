@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(MasterDataAttribute
     public List getTotalLives(Object[] inputs) {
         List list = new ArrayList();
         String coundition = (String) inputs[1];
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         try {
             if (coundition.equals("TotalLives")) {
                 queryBuilder.append("  SELECT COLUMN_3 as col3  ");

@@ -219,9 +219,9 @@ public class GtnWsContractDashboardItemLogic {
 				imtdItem.setSessionId(getRequest.getSessionId());
 				imtdItem.setOperation("A");
 				imtdItem.setImtdCreatedDate(new Date());
-				imtdItem.setCreatedBy(Integer.valueOf(getRequest.getUserId()));
+				imtdItem.setCreatedBy(Integer.parseInt(getRequest.getUserId()));
 				imtdItem.setCreatedDate(new Date());
-				imtdItem.setModifiedBy(Integer.valueOf(getRequest.getUserId()));
+				imtdItem.setModifiedBy(Integer.parseInt(getRequest.getUserId()));
 				imtdItem.setModifiedDate(new Date());
 				imtdItem.setSource(recordBean.getStringPropertyByIndex(15));
 				imtdItem.setBrandMasterSid(recordBean.getIntegerPropertyByIndex(12));
@@ -651,12 +651,11 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdItemPendingSearchCriteria.isFilter() && !skipCriteria(cdItemPendingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdItemPendingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdItemPendingSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
-					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN
-							+ getWhereClauseForAColumn(cdItemPendingSearchCriteria.getExpression(),
-									getItemAdditionTabColumns(cdItemPendingSearchCriteria.getFieldId()),
-									value.toString(), cdItemPendingSearchCriteria.getFilterValue2()));
+					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdItemPendingSearchCriteria.getExpression(),
+                                                getItemAdditionTabColumns(cdItemPendingSearchCriteria.getFieldId()),
+                                                value.toString(), cdItemPendingSearchCriteria.getFilterValue2()));
 				}
 			}
 			if (!cdItemPendingSearchRequest.isCount()) {
@@ -701,12 +700,11 @@ public class GtnWsContractDashboardItemLogic {
 				if (itemRebateSearchCriteria.isFilter() && !skipCriteria(itemRebateSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(itemRebateSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(itemRebateSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
-					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN
-							+ getWhereClauseForAColumn(itemRebateSearchCriteria.getExpression(),
-									getItemAdditionTabColumns(itemRebateSearchCriteria.getFieldId()), value.toString(),
-									itemRebateSearchCriteria.getFilterValue2()));
+					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(itemRebateSearchCriteria.getExpression(),
+                                                getItemAdditionTabColumns(itemRebateSearchCriteria.getFieldId()), value.toString(),
+                                                itemRebateSearchCriteria.getFilterValue2()));
 				}
 			}
 
@@ -800,12 +798,11 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdItemRebateSearchCriteria.isFilter() && !skipCriteria(cdItemRebateSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdItemRebateSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdItemRebateSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
-					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN
-							+ getWhereClauseForAColumn(cdItemRebateSearchCriteria.getExpression(),
-									getItemAdditionTabColumns(cdItemRebateSearchCriteria.getFieldId()),
-									value.toString(), cdItemRebateSearchCriteria.getFilterValue2()));
+					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdItemRebateSearchCriteria.getExpression(),
+                                                getItemAdditionTabColumns(cdItemRebateSearchCriteria.getFieldId()),
+                                                value.toString(), cdItemRebateSearchCriteria.getFilterValue2()));
 				}
 			}
 			if (!cdItemRebateSearchRequest.isCount()) {
@@ -834,12 +831,11 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdItemPricingSearchCriteria.isFilter() && !skipCriteria(cdItemPricingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdItemPricingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdItemPricingSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
-					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN
-							+ getWhereClauseForAColumn(cdItemPricingSearchCriteria.getExpression(),
-									getItemAdditionTabColumns(cdItemPricingSearchCriteria.getFieldId()),
-									value.toString(), cdItemPricingSearchCriteria.getFilterValue2()));
+					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdItemPricingSearchCriteria.getExpression(),
+                                                getItemAdditionTabColumns(cdItemPricingSearchCriteria.getFieldId()),
+                                                value.toString(), cdItemPricingSearchCriteria.getFilterValue2()));
 				}
 			}
 
@@ -892,12 +888,11 @@ public class GtnWsContractDashboardItemLogic {
 						&& !skipCriteria(itemPriceProtectionSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(itemPriceProtectionSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(itemPriceProtectionSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
-					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN
-							+ getWhereClauseForAColumn(itemPriceProtectionSearchCriteria.getExpression(),
-									getItemAdditionTabColumns(itemPriceProtectionSearchCriteria.getFieldId()),
-									value.toString(), itemPriceProtectionSearchCriteria.getFilterValue2()));
+					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(itemPriceProtectionSearchCriteria.getExpression(),
+                                                getItemAdditionTabColumns(itemPriceProtectionSearchCriteria.getFieldId()),
+                                                value.toString(), itemPriceProtectionSearchCriteria.getFilterValue2()));
 				}
 			}
 
@@ -1050,12 +1045,11 @@ public class GtnWsContractDashboardItemLogic {
 						&& !skipCriteria(cdPricingPendingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdPricingPendingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdPricingPendingSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
-					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN
-							+ getWhereClauseForAColumn(cdPricingPendingSearchCriteria.getExpression(),
-									getItemAdditionTabColumns(cdPricingPendingSearchCriteria.getFieldId()),
-									value.toString(), cdPricingPendingSearchCriteria.getFilterValue2()));
+					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdPricingPendingSearchCriteria.getExpression(),
+                                                getItemAdditionTabColumns(cdPricingPendingSearchCriteria.getFieldId()),
+                                                value.toString(), cdPricingPendingSearchCriteria.getFilterValue2()));
 				}
 			}
 			if (!cdPricingPendingearchRequest.isCount()) {
@@ -1084,12 +1078,11 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdPPPendingSearchCriteria.isFilter() && !skipCriteria(cdPPPendingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdPPPendingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdPPPendingSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
-					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN
-							+ getWhereClauseForAColumn(cdPPPendingSearchCriteria.getExpression(),
-									getItemAdditionTabColumns(cdPPPendingSearchCriteria.getFieldId()), value.toString(),
-									cdPPPendingSearchCriteria.getFilterValue2()));
+					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdPPPendingSearchCriteria.getExpression(),
+                                                getItemAdditionTabColumns(cdPPPendingSearchCriteria.getFieldId()), value.toString(),
+                                                cdPPPendingSearchCriteria.getFilterValue2()));
 				}
 			}
 			if (!cdPPPendingSearchRequest.isCount()) {
@@ -1157,12 +1150,11 @@ public class GtnWsContractDashboardItemLogic {
 				if (itemSearchCriteria.isFilter() && !skipCriteria(itemSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(itemSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(itemSearchCriteria.getExpression())) {
-						value.append("%" + value + "%");
+						value.append("%").append(value).append("%");
 					}
-					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN
-							+ getWhereClauseForAColumn(itemSearchCriteria.getExpression(),
-									getItemAdditionTabColumns(itemSearchCriteria.getFieldId()), value.toString(),
-									itemSearchCriteria.getFilterValue2()));
+					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(itemSearchCriteria.getExpression(),
+                                                getItemAdditionTabColumns(itemSearchCriteria.getFieldId()), value.toString(),
+                                                itemSearchCriteria.getFilterValue2()));
 				}
 			}
 

@@ -415,7 +415,7 @@ public class CommonLogic {
 
                 for (CustomViewDetails ob : customDetailsList) {
                     for (Object[] obj : list) {
-                        if ((String.valueOf(obj[2]).trim().equals(String.valueOf(ob.getHierarchyId()).trim())) && (obj.length > 1)) {
+                        if ((obj.length > 1) && (String.valueOf(obj[2]).trim().equals(String.valueOf(ob.getHierarchyId()).trim()))) {
                             Leveldto dto = new Leveldto();
                             dto.setHierarchyId(ob.getHierarchyId());
                             dto.setLevelNo(Integer.valueOf(String.valueOf((obj[1].toString()).trim())));
@@ -4578,7 +4578,7 @@ public class CommonLogic {
             }
            
         }else{
-            if (Constant.DEDUCTION.equals(indicator) && isVariance) {
+            if (isVariance && Constant.DEDUCTION.equals(indicator)) {
                 uomQuery = " UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET PV_FILTERS=1 ";
             } else if (SALES.equals(indicator)) {
                 uomQuery = "UPDATE ST_NM_SALES_PROJECTION_MASTER SET FILTER_CCP=1 ";
@@ -4950,7 +4950,7 @@ public class CommonLogic {
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable)) {
+            if ((isHierarchyNoNotAvailable) && (Integer.parseInt(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()))) {
 
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
@@ -5271,10 +5271,7 @@ public class CommonLogic {
             String firstIndex = obj[0].toString();
             String secondIndex = obj[1].toString();
             newLevel = firstIndex + " - " + secondIndex;
-            if (oldLevel.equals(newLevel)) {
-                listOfSids += "," + obj[1].toString();
-                oldLevel = newLevel;
-            } else {
+          
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
                     listOfSids = "";
@@ -5285,7 +5282,7 @@ public class CommonLogic {
                 }
                 listOfSids += obj[2].toString();
                 oldLevel = newLevel;
-            }
+           
             if (i == listOfLevelFilter.size() - 1) {
                 dto = new MenuItemDTO(listOfSids, newLevel);
                 customerlevelCustomItem[i] = filterValues.addItem(dto, null);

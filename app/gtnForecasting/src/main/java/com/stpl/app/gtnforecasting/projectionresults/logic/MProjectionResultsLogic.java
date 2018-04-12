@@ -1846,7 +1846,7 @@ public class MProjectionResultsLogic {
                         neededRecord--;
                 }
                 String salesUnits = projSelDTO.getSalesOrUnit();
-                if ((neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(SALES.getConstant()))) && (start < NumericConstants.FOUR)) {
+                if ((start < NumericConstants.FOUR) && (neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(SALES.getConstant())))) {
                         projDTOList.add(contractSalesDto);
                         neededRecord--;
                 }
@@ -3973,7 +3973,7 @@ public class MProjectionResultsLogic {
 
             productLevelNo = StringUtils.EMPTY + projSelDTO.getTreeLevelNo();
         }
-        StringBuffer customQuery = new StringBuffer(StringUtils.EMPTY);
+        StringBuffer customQuery = new StringBuffer();
         customQuery.append("INSERT INTO @CCP (RELATIONSHIP_LEVEL_SID\n"
                 ).append( ", PROJECTION_DETAILS_SID\n"
                 ).append( ", CCP_DETAILS_SID\n"

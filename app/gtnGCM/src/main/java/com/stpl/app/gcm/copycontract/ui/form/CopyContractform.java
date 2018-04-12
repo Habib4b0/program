@@ -258,7 +258,7 @@ public class CopyContractform extends CustomComponent implements View {
         Date AliasSDATE = aliasStartDate.getValue();
         String AliasNumber = aliasNumber.getValue();
         Date AliasEDATE = aliasEndDate.getValue();
-        if (StringUtils.EMPTY.equals(cId) || StringUtils.EMPTY.equals(cName) || StringUtils.EMPTY.equals(cNo) || SDATE == null || mType.equals(Constants.NULL) || Constants.NULL.equals(contHolder1)) {
+        if (SDATE == null || StringUtils.EMPTY.equals(cId) || StringUtils.EMPTY.equals(cName) || StringUtils.EMPTY.equals(cNo) || mType.equals(Constants.NULL) || Constants.NULL.equals(contHolder1)) {
             AbstractNotificationUtils.getErrorNotification("Populate", "Please complete all mandatory Contract Header Details.");
         } else if (cId.length() > NumericConstants.THIRTY_EIGHT) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract ID length should be less than 38 characters.");

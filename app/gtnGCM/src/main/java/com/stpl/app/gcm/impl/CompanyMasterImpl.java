@@ -723,7 +723,7 @@ public class CompanyMasterImpl {
      */
     public static List searchTPCompanies(Map<String, Object> parameters) {
         List resultList = null;
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             LOGGER.debug("Entering searchTPCompanies method");
             if (parameters.get(LAZY_LOAD_RESULTS) != null && LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(LAZY_LOAD_RESULTS)))) {
@@ -877,7 +877,7 @@ public class CompanyMasterImpl {
 
     public static List getColumnNames(String tablename) {
         List resultList = null;
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         queryString.append("select Column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='" ).append( tablename ).append( '\'');
         try {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
@@ -896,7 +896,7 @@ public class CompanyMasterImpl {
      */
     public static List getCompanyTypeCount(Map<String, Object> parameters) {
         List resultList = null;
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
             if (parameters.get(LAZY_LOAD_RESULTS) != null && LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(LAZY_LOAD_RESULTS)))) {
 
@@ -917,7 +917,7 @@ public class CompanyMasterImpl {
    
     public static List searchCompanies(Map<String, Object> parameters) {
         List resultList = null;
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         try {
 
             if (parameters.get(LAZY_LOAD_RESULTS) != null && LAZY_LOAD_RESULTS.equalsIgnoreCase(String.valueOf(parameters.get(LAZY_LOAD_RESULTS)))) {
@@ -1162,7 +1162,7 @@ public class CompanyMasterImpl {
 
 
             if (parameters.get("indicator") != null && "indicator".equalsIgnoreCase(String.valueOf(parameters.get("saveCcp")))) {
-                StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+                StringBuilder customSql = new StringBuilder();
                 customSql.append(SQlUtil.getQuery("saveCcp"));
 
                 if (parameters.get(PROJ_ID) != null) {

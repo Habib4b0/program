@@ -196,7 +196,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         projectionDTO.setTabName(Constant.SALES_PROJECTION_RESULTS);
         if (flag) {
             configure();
-        }
+    }
         flag = true;
         LOGGER.info("SalesProjectionResults Constructor ends ");
     }

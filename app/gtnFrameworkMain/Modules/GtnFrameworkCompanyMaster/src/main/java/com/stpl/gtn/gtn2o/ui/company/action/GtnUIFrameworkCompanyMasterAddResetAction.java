@@ -146,18 +146,12 @@ public class GtnUIFrameworkCompanyMasterAddResetAction implements GtnUIFrameWork
 	public void loadCMInfoFieldValues(GtnCMasterInformationBean companyInformation, String componentId) {
 
 		GtnCMasterCompanyUdcInfoBean udcInfo = new GtnCMasterCompanyUdcInfoBean();
-
-		String[] textFieldComponenentIds = new String[] { "companyInformationcompanyId", "companyInformationcompanyNo",
-				"companyInformationTabCompanyId", "companyInformationTabCompanyNo", "companyInformationTabCompanyName",
-				"companyInformationTabSource", "companyInformationTabFinancialSystem",
-				GtnFrameworkCompanyStringContants.COMPANY_INFO_SYSTEM_ID,
-				GtnFrameworkCompanyStringContants.COMPANY_INFO_CREATED_BY, "companyInformationTabModifiedBy" };
 		Object[] textFieldValues = new Object[] { companyInformation.getCompanyId(), companyInformation.getCompanyNo(),
 				companyInformation.getCompanyName(), companyInformation.getCompanyId(),
 				companyInformation.getCompanyNo(), companyInformation.getCompanyName(), companyInformation.getSource(),
 				companyInformation.getFinancialSystem(), companyInformation.getCompanyMasterSystemId(),
 				companyInformation.getCreatedBy(), companyInformation.getModifiedBy() };
-		loadFieldValue(textFieldComponenentIds, textFieldValues, componentId);
+		loadFieldValue(GtnFrameworkCompanyStringContants.getTextFieldComponentIds(), textFieldValues, componentId);
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCompanyStringContants.COMPANY_INFO_CREATED_DATE, componentId)
 				.loadDateValue(companyInformation.getCreatedDate());

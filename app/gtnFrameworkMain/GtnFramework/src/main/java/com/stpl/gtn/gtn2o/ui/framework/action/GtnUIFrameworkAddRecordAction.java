@@ -66,17 +66,17 @@ public class GtnUIFrameworkAddRecordAction implements GtnUIFrameWorkAction {
 	private void setDtoAccordingToType(GtnUIFrameworkIdDescDataType currentDescDataType, AbstractField<?> vaadinField,
 			GtnWsRecordBean dto, int recordIndex, Class<?> dataType) {
 
-		if (currentDescDataType.equals(GtnUIFrameworkIdDescDataType.ID)) {
+		if (currentDescDataType == GtnUIFrameworkIdDescDataType.ID) {
 			dto.addProperties(dto.getRecordHeader().get(recordIndex).toString(), getValue(dataType, vaadinField));
 			dto.addAdditionalProperty(vaadinField.getValue());
 			return;
 		}
-		if (currentDescDataType.equals(GtnUIFrameworkIdDescDataType.DESC)) {
-			dto.addProperties(dto.getRecordHeader().get(recordIndex).toString(),
-					((ComboBox) vaadinField).getItemCaption(vaadinField.getValue()));
-			dto.addAdditionalProperty(vaadinField.getValue());
-			return;
-		}
+		if (GtnUIFrameworkIdDescDataType.DESC == currentDescDataType) {
+                    dto.addProperties(dto.getRecordHeader().get(recordIndex).toString(),
+                            ((ComboBox) vaadinField).getItemCaption(vaadinField.getValue()));
+                    dto.addAdditionalProperty(vaadinField.getValue());
+                    return;
+            }
 		if (vaadinField.getData() instanceof GtnWsRecordBean) {
 
 			GtnWsRecordBean data = (GtnWsRecordBean) vaadinField.getData();

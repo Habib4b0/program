@@ -116,7 +116,7 @@ public class NMDiscountProjectionLogic {
     }
     
     public String getCCPList(String query, Set<Integer> totalccp,SessionDTO session) {
-        StringBuilder ccpList = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder ccpList = new StringBuilder();
        
           List<Integer> tempList = (List<Integer>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()), null, null);
         for (int ccpid : tempList) {
@@ -183,7 +183,7 @@ public class NMDiscountProjectionLogic {
      
      }
     public String getZeroActualCCPList(String query,Set<Integer> totalccp,SessionDTO session) {
-      StringBuilder ccpList=new StringBuilder(StringUtils.EMPTY);
+      StringBuilder ccpList=new StringBuilder();
        
           List<Object> tempList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()), null, null);
         for (Object list : tempList) {
