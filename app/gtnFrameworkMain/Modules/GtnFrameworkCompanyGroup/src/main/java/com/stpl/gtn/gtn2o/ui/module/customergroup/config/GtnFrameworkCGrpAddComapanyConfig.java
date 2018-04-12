@@ -483,14 +483,7 @@ public class GtnFrameworkCGrpAddComapanyConfig {
 		resetActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.CUSTOMER_GRP_CONFIRMATION_MSG_RESET);
 
 		List<String> resetComponentIdList = new ArrayList<>();
-		String[] componentIdArray = { GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CUSTOMER_NO,
-				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_TRADE_CLASS,
-				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CUSTOMER_STATUS,
-				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_STATE,
-				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CUSTOMER_NAME,
-				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CUSTOMER_TYPE,
-				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CITY,
-				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_ZIPCODE };
+		String[] componentIdArray = GtnFrameworkCGrpStringContants.getCOMPONENT_ID_ARRAY();
 		resetComponentIdList.addAll(Arrays.asList(componentIdArray));
 
 		List<Object> resetComponentValueList = new ArrayList<>();

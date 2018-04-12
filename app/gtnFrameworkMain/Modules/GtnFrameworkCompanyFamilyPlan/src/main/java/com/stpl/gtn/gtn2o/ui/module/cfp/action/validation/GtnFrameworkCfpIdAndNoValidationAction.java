@@ -77,10 +77,7 @@ public class GtnFrameworkCfpIdAndNoValidationAction
 	private void validateCfp(String componentId) throws GtnFrameworkGeneralException {
 
 		StringBuilder cfpFieldMsg = new StringBuilder();
-		String[] cfpFields = new String[] { "cfpInformationTabCFPId", "cfpInformationTabCFPNo",
-				"cfpInformationTabCFPStatus", "cfpInformationCFPStartDate", "cfpInformationTabCFPName",
-				"cfpInformationTabCFPSalesInclusion" };
-		GtnUIFrameworkGlobalUI.validateFields(cfpFields, cfpFieldMsg);
+		GtnUIFrameworkGlobalUI.validateFields(GtnFrameworkCfpStringContants.getCFP_VALIDATE_FIELDS(), cfpFieldMsg);
 
 		if (cfpFieldMsg.length() > 0) {
 			String msg = "Information for the following Mandatory fields need to be provided: "

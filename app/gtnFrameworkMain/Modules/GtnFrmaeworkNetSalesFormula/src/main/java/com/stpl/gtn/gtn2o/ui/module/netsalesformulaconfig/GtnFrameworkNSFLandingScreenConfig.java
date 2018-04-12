@@ -596,8 +596,8 @@ public class GtnFrameworkNSFLandingScreenConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getLandingScreenCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> landingScreenCustomFilterConfigMap = new HashMap<>();
-		String[] landingScreenPropertyIds = { GtnFrameworkCommonConstants.FORMULA_TYPE, "createdBy", "modifiedBy" };
-		String[] landingScreenListNameArray = { "NS_FORMULA_TYPE", "USERS", "USERS" };
+		String[] landingScreenPropertyIds = GtnFrameworkNSFConstants.getLANDING_SCREEN_PRP_IDS();
+		String[] landingScreenListNameArray = GtnFrameworkNSFConstants.getLANDING_SCREEN_LIST_NAME();
 		for (int i = 0; i < landingScreenPropertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig landingScreenCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			landingScreenCustomFilterConfig.setPropertId(landingScreenPropertyIds[i]);
