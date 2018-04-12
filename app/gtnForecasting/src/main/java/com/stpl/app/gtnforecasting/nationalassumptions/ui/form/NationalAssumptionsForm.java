@@ -310,7 +310,7 @@ public class NationalAssumptionsForm extends CustomComponent {
         try {
             Tab tab = event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
             tabPosition = event.getTabSheet().getTabPosition(tab);
-            if ((lastPosition == 0 && !"View".equalsIgnoreCase(getmode)) && (dataSelection.isChanged() && dsFlag)) {
+            if ((lastPosition == 0 && dsFlag && !"View".equalsIgnoreCase(getmode)) && (dataSelection.isChanged())) {
                     dsFlag = false;
                     tempTabPosition = tabPosition;
                     tabSheet.setSelectedTab(0);

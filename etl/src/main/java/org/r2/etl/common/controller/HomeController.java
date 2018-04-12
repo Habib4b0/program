@@ -483,6 +483,10 @@ public class HomeController {
 	 */
 	private static final String PSTG_SALES_FORECAST_INTERFACE = "PstgSalesForecastInterface";
 
+	private static final String CONTRACT_CFP_MBR_INTERFACE = "ContractCfpMbrInterface";
+	private static final String PSTG_FORECAST_SALES_WAC_INTERFACE = "PstgForecastSalesWacInterface";
+	private static final String PSTG_GCC_PROD_HIERARCHY_INTERFACE = "PstgGccProdHierarchyInterface";
+
 	protected static Map<String, String[]> loaddata = new HashMap<>();
 
 	String[] loaddat(String keyValue) {
@@ -711,14 +715,20 @@ public class HomeController {
 			loaddata.put(PSTG_SALES_FORECAST_INTERFACE, new String[] { Constants.PSTG_SALES_FORECAST_INTERFACE,
 					FilePathUtil.PSTG_SALES_FORECAST_INTERFACE });
 
+			loaddata.put(CONTRACT_CFP_MBR_INTERFACE,
+					new String[] { Constants.CONTRACT_CFP_MBR_INTERFACE, FilePathUtil.CONTRACT_CFP_MBR_INTERFACE });
+			loaddata.put(PSTG_FORECAST_SALES_WAC_INTERFACE, new String[] { Constants.PSTG_FORECAST_SALES_WAC_INTERFACE,
+					FilePathUtil.PSTG_FORECAST_SALES_WAC_INTERFACE });
+			loaddata.put(PSTG_GCC_PROD_HIERARCHY_INTERFACE, new String[] { Constants.PSTG_GCC_PROD_HIERARCHY_INTERFACE,
+					FilePathUtil.PSTG_GCC_PROD_HIERARCHY_INTERFACE });
+
 		}
 		return loaddata.get(keyValue);
 	}
 
 	@RequestMapping(value = "/{apikey}/{path}", method = RequestMethod.GET, produces = "application/json")
 	/**
-	 * The method used to call each interface based on the api key and method
-	 * name.
+	 * The method used to call each interface based on the api key and method name.
 	 *
 	 * @param apikey
 	 * @param interfaceName
@@ -738,7 +748,8 @@ public class HomeController {
 			List<String> contract = Arrays.asList(CONTRACT_HEADER, CONTRACT_HIS, CFP, CFP_HISTORY, IFP, IFP_HISTORY,
 					PRICE_SCHEDULE, PRICE_SCHEDULE_HISTORY, REBATE_SCHEDULE, REBATE_SCHEDULE_HISTORY, REBATE_PLAN,
 					REBATE_PLAN_HISTORY, CONTRACT_CONT_INTERFACE, CONTRACT_CPGRP_INTERFACE, CONTRACT_CPPPO_INTERFACE,
-					CONTRACT_CPPT_INTERFACE, CONTRACT_CPGRP_PGMMKT_INTERFACE, CONTRACT_PRGMMKT_INTERFACE);
+					CONTRACT_CPPT_INTERFACE, CONTRACT_CPGRP_PGMMKT_INTERFACE, CONTRACT_PRGMMKT_INTERFACE,
+					CONTRACT_CFP_MBR_INTERFACE);
 
 			List<String> transaction = Arrays.asList(ACTUALS, ACTUALS_HISTORY, ITEM_HIERARCHY, ITEM_HIERARCHY_HIS,
 					ITEM_HIER_DEF, ITEM_HIER_DEF_HIS, SALES_MASTER, SALES_MASTER_HISTORY, FORECAST, FORECAST_HIS,
@@ -755,7 +766,8 @@ public class HomeController {
 					ACTUALS_MEDICAID_INTERFACE, ACTUALS_REBATE_INTERFACE, PSTG_SALES_MASTER_INTERFACE,
 					PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE, PSTG_CUSTOMER_GTS_FORECAST_INTERFACE, PSTG_RETURNS_INTERFACE,
 					CONSUMER_PRICE_INDEX_INTERFACE, PSTG_GL_COST_CENTER_INTERFACE, UNIT_OF_MEASURE_INTERFACE,
-					ACCRUALS_INTERFACE, PSTG_SALES_FORECAST_INTERFACE
+					ACCRUALS_INTERFACE, PSTG_SALES_FORECAST_INTERFACE, PSTG_FORECAST_SALES_WAC_INTERFACE,
+					PSTG_GCC_PROD_HIERARCHY_INTERFACE
 
 			);
 
@@ -799,8 +811,7 @@ public class HomeController {
 	}
 
 	/**
-	 * This method is used to invoke all the interface in the mentioned
-	 * sequence.
+	 * This method is used to invoke all the interface in the mentioned sequence.
 	 *
 	 * @return SUCCESS
 	 */

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>FOR_EACH_FILE_ITERRATE</name>
+  <name>ADROIT_ACTUAL_MASTER_INTERFACE</name>
     <description/>
     <extended_description/>
     <job_version/>
     <job_status>0</job_status>
   <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2010&#x2f;03&#x2f;19 11&#x3a;25&#x3a;36.797</created_date>
+  <created_date>2010&#x2f;03&#x2f;19 11&#x3a;09&#x3a;42.765</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2010&#x2f;03&#x2f;19 11&#x3a;25&#x3a;36.797</modified_date>
+  <modified_date>2010&#x2f;03&#x2f;19 11&#x3a;09&#x3a;42.765</modified_date>
     <parameters>
     </parameters>
     <slaveservers>
@@ -51,16 +51,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>45</xloc>
-      <yloc>69</yloc>
+      <xloc>14</xloc>
+      <yloc>83</yloc>
       </entry>
     <entry>
-      <name>set-var</name>
+      <name>READ_FILE_NAMES</name>
       <description>Transformation</description>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x5c;SET_FILENAME.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x5c;READ_FILE_NAMES.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -84,52 +84,20 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>250</xloc>
-      <yloc>58</yloc>
+      <xloc>426</xloc>
+      <yloc>77</yloc>
       </entry>
     <entry>
-      <name>set-var-fail</name>
-      <description>Abort job</description>
-      <type>ABORT</type>
-      <message>Failed to set variable</message>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>61</xloc>
-      <yloc>165</yloc>
-      </entry>
-    <entry>
-      <name>Success 1</name>
-      <description>Success</description>
-      <type>SUCCESS</type>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>672</xloc>
-      <yloc>55</yloc>
-      </entry>
-    <entry>
-      <name>set dynamic column fail</name>
-      <description>Abort job</description>
-      <type>ABORT</type>
-      <message>Failed to do stuff &#x3a;&#x28;</message>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>627</xloc>
-      <yloc>155</yloc>
-      </entry>
-    <entry>
-      <name>file-check &#x28;2&#x29;</name>
-      <description/>
+      <name>foreach</name>
+      <description>Job</description>
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;CHECK_FILE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x5c;FOR_EACH_FILE_ITERRATE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
+      <exec_per_row>Y</exec_per_row>
       <set_logfile>N</set_logfile>
       <logfile/>
       <logext/>
@@ -148,16 +116,68 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>483</xloc>
-      <yloc>49</yloc>
+      <xloc>548</xloc>
+      <yloc>79</yloc>
       </entry>
     <entry>
-      <name>ShortFileName</name>
+      <name>Fail1</name>
+      <description>Abort job</description>
+      <type>ABORT</type>
+      <message>Fail 1</message>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>475</xloc>
+      <yloc>183</yloc>
+      </entry>
+    <entry>
+      <name>Fail2</name>
+      <description>Abort job</description>
+      <type>ABORT</type>
+      <message>Fail 2</message>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>599</xloc>
+      <yloc>183</yloc>
+      </entry>
+    <entry>
+      <name>SET_DIRECTORY_PATH</name>
+      <description>Set variables</description>
+      <type>SET_VARIABLES</type>
+      <replacevars>N</replacevars>
+      <filename/>
+      <file_variable_type>JVM</file_variable_type>
+      <fields>
+        <field>
+          <variable_name>dir.path</variable_name>
+          <variable_value>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;</variable_value>
+          <variable_type>JVM</variable_type>
+        </field>
+        <field>
+          <variable_name>filename</variable_name>
+          <variable_value>invalid</variable_value>
+          <variable_type>JVM</variable_type>
+        </field>
+        <field>
+          <variable_name>dir.wildcard</variable_name>
+          <variable_value>.&#x2a;&#x5c;.csv</variable_value>
+          <variable_type>JVM</variable_type>
+        </field>
+      </fields>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>284</xloc>
+      <yloc>78</yloc>
+      </entry>
+    <entry>
+      <name>SET_ENVIROINMENT_VARIABLE</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;GET_SHORT_FILENAME.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SET_ENVIROINMENT_VARIABLE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -181,16 +201,16 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>458</xloc>
-      <yloc>387</yloc>
+      <xloc>125</xloc>
+      <yloc>77</yloc>
       </entry>
     <entry>
-      <name>Decrypt_File</name>
+      <name>DECRYPTION_FILE</name>
       <description/>
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;DECRYPTION_LOGIC.kjb</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;DECRYPTION_LOGIC.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -213,11 +233,44 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>249</xloc>
-      <yloc>254</yloc>
+      <xloc>180</xloc>
+      <yloc>237</yloc>
       </entry>
     <entry>
-      <name>MOVE_TO_PROCESS</name>
+      <name>CALL_TO_PROCEDURE</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;CALL_DB_PROCEDURE.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>675</xloc>
+      <yloc>79</yloc>
+      </entry>
+    <entry>
+      <name>Move_Processed</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -226,13 +279,13 @@
       <add_result_filesname>N</add_result_filesname>
       <destination_is_a_file>Y</destination_is_a_file>
       <create_destination_folder>N</create_destination_folder>
-      <add_date>Y</add_date>
-      <add_time>N</add_time>
+      <add_date>N</add_date>
+      <add_time>Y</add_time>
       <SpecifyFormat>N</SpecifyFormat>
       <date_time_format/>
       <nr_errors_less_than>10</nr_errors_less_than>
       <success_condition>success_if_no_errors</success_condition>
-      <AddDateBeforeExtension>Y</AddDateBeforeExtension>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
       <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
       <iffileexists>unique_name</iffileexists>
       <destinationFolder/>
@@ -246,7 +299,7 @@
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;</source_filefolder>
+          <source_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;_DECRYPT.csv</source_filefolder>
           <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Processed&#x2f;</destination_filefolder>
           <wildcard/>
         </field>
@@ -254,8 +307,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>316</xloc>
-      <yloc>396</yloc>
+      <xloc>793</xloc>
+      <yloc>81</yloc>
       </entry>
     <entry>
       <name>MOVE_TO_ERROR</name>
@@ -267,13 +320,13 @@
       <add_result_filesname>N</add_result_filesname>
       <destination_is_a_file>Y</destination_is_a_file>
       <create_destination_folder>N</create_destination_folder>
-      <add_date>Y</add_date>
-      <add_time>N</add_time>
+      <add_date>N</add_date>
+      <add_time>Y</add_time>
       <SpecifyFormat>N</SpecifyFormat>
       <date_time_format/>
       <nr_errors_less_than>10</nr_errors_less_than>
       <success_condition>success_if_no_errors</success_condition>
-      <AddDateBeforeExtension>Y</AddDateBeforeExtension>
+      <AddDateBeforeExtension>N</AddDateBeforeExtension>
       <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
       <iffileexists>unique_name</iffileexists>
       <destinationFolder/>
@@ -287,7 +340,7 @@
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;</source_filefolder>
+          <source_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;Encrypted_File_Name&#x7d;_DECRYPT.csv</source_filefolder>
           <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Error&#x2f;</destination_filefolder>
           <wildcard/>
         </field>
@@ -295,47 +348,50 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>166</xloc>
-      <yloc>386</yloc>
-      </entry>
-    <entry>
-      <name>CHECK_FOR_STAG_TABLE_NAME</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;CHECK_FOR_STAG_TABLE_NAME.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>599</xloc>
-      <yloc>277</yloc>
+      <xloc>727</xloc>
+      <yloc>183</yloc>
       </entry>
   </entries>
   <hops>
     <hop>
+      <from>READ_FILE_NAMES</from>
+      <to>foreach</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>READ_FILE_NAMES</from>
+      <to>Fail1</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>foreach</from>
+      <to>Fail2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SET_DIRECTORY_PATH</from>
+      <to>READ_FILE_NAMES</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
       <from>START</from>
-      <to>set-var</to>
+      <to>SET_ENVIROINMENT_VARIABLE</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -343,17 +399,26 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>set-var</from>
-      <to>set-var-fail</to>
+      <from>SET_ENVIROINMENT_VARIABLE</from>
+      <to>DECRYPTION_FILE</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>file-check &#x28;2&#x29;</from>
-      <to>Success 1</to>
+      <from>DECRYPTION_FILE</from>
+      <to>SET_DIRECTORY_PATH</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SET_ENVIROINMENT_VARIABLE</from>
+      <to>SET_DIRECTORY_PATH</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -361,17 +426,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>file-check &#x28;2&#x29;</from>
-      <to>set dynamic column fail</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Decrypt_File</from>
-      <to>MOVE_TO_PROCESS</to>
+      <from>foreach</from>
+      <to>CALL_TO_PROCEDURE</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -379,57 +435,21 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Decrypt_File</from>
+      <from>CALL_TO_PROCEDURE</from>
+      <to>Move_Processed</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CALL_TO_PROCEDURE</from>
       <to>MOVE_TO_ERROR</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>MOVE_TO_PROCESS</from>
-      <to>ShortFileName</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>CHECK_FOR_STAG_TABLE_NAME</from>
-      <to>file-check &#x28;2&#x29;</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>N</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>ShortFileName</from>
-      <to>CHECK_FOR_STAG_TABLE_NAME</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>N</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>ShortFileName</from>
-      <to>file-check &#x28;2&#x29;</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>set-var</from>
-      <to>Decrypt_File</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

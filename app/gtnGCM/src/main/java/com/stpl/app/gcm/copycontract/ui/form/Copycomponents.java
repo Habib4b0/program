@@ -478,7 +478,7 @@ public class Copycomponents extends CustomComponent {
                     }
                 }
             }
-        } else if (compType.equals(Constants.REBATE_SCHEDULE) && dto != null) {
+        } else if (dto != null && compType.equals(Constants.REBATE_SCHEDULE)) {
             int rsIdValue = dto.getRSId();
             String query = queryUtils.rsValue(rsIdValue);
             List rsList = ccDao.searchList(query);

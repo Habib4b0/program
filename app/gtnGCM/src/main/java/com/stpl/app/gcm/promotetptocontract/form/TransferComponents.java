@@ -445,7 +445,7 @@ public class TransferComponents extends CustomComponent implements View {
             setIFPValues(dto);            
         } else if (compType.equals(Constants.PRICE_SCHEDULE)) {
             setPSValues(dto);              
-        } else if (compType.equals(Constants.REBATE_SCHEDULE) && dto != null) {
+        } else if (dto != null && compType.equals(Constants.REBATE_SCHEDULE)) {
             setRSValues(dto);
         }
     }
