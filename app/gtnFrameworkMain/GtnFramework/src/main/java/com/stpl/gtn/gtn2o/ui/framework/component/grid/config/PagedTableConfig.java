@@ -1,16 +1,17 @@
-package com.stpl.addons.grid.paged.config;
+package com.stpl.gtn.gtn2o.ui.framework.component.grid.config;
 
 import java.util.HashMap;
 import java.util.List;
 
-import com.stpl.addons.grid.paged.bean.QueryBean;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
+
 
 public class PagedTableConfig {
 
 	private List<String> visibleColumns;
 	private List<String> columnHeaders;
 	private QueryBean queryBean;
-	private HashMap<String, Object> filterValueMap;
+	private HashMap<String, Object> filterValueMap=new HashMap<>();
 	
 	public QueryBean getQueryBean() {
 		return queryBean;
@@ -43,5 +44,4 @@ public class PagedTableConfig {
 	public void setFilterValueMap(HashMap<String, Object> filterValueMap) {
 		this.filterValueMap = filterValueMap;
 	}
-
 }

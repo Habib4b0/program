@@ -6,9 +6,9 @@
 
 package com.stpl.gtn.gtn2o.ui.framework.action;
 
-import com.stpl.addons.grid.paged.bean.QueryBean;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
