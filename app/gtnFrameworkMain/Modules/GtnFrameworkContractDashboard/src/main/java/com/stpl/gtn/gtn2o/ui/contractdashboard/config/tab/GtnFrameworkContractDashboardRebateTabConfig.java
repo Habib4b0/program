@@ -1290,7 +1290,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
 		comboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.CALCULATION_LEVEL);
+		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.REBATE_PLAN_LEVEL);
 		calculationComponentConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentIdList.add(calculationComponentConfig.getComponentId());
 		GtnUIFrameworkValidationConfig validationCalcConfig = new GtnUIFrameworkValidationConfig();
