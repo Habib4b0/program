@@ -140,8 +140,8 @@ public class PVQueryUtils {
             } else {
                 customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( quotes ).append( workflowStatus ).append( quotes);
             }
-            if (from != null && !Constant.NULL.equals(from) && !StringUtils.isEmpty(from)
-                    && to != null && !Constant.NULL.equals(to) && !StringUtils.isEmpty(to)) {
+            if (from != null && to != null && !StringUtils.isEmpty(from) && !StringUtils.isEmpty(to)
+                    && !Constant.NULL.equals(to) && !Constant.NULL.equals(from) ) {
                 SimpleDateFormat format2 = new SimpleDateFormat(DATE_FORMAT.getConstant());
                 customSql.append(" AND  PM.CREATED_DATE BETWEEN '");
                 customSql.append(format2.format(format2.parse(from)));

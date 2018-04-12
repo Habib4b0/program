@@ -164,10 +164,10 @@ public class PVExcelLogic {
     }
 
     private boolean isRefreshNeeded(String levelFilterValue, String groupFilterValue, String viewValue, int freDiv) {
-        boolean val = this.levelFilterValue.equals(levelFilterValue)
+        boolean val = this.frequencyDivision == freDiv
+                && this.levelFilterValue.equals(levelFilterValue)
                 && this.groupFilterValue.equals(groupFilterValue)
-                && this.viewValue.equals(viewValue)
-                && this.frequencyDivision == freDiv;
+                && this.viewValue.equals(viewValue);
         this.levelFilterValue = levelFilterValue;
         this.groupFilterValue = groupFilterValue;
         this.viewValue = viewValue;
@@ -180,33 +180,33 @@ public class PVExcelLogic {
         for (Iterator<Object> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = (Object[]) it.next();
             String key = obj[NumericConstants.TWO].toString();
-            key = getHierarchyKey(key, appendedParentKey, obj);
-            List<ProjectionVarianceDTO> pvList = resultMap.get(key);
-            if (pvList == null) {
-                //To check condition total or details values
-                pvList = new ArrayList();
-                getCustPeriodVariancDetails(pvList, selection, obj);
-                if (isCustomView) {
-                    customHierarchyAndTPKeys(obj, key, pvList);
-                } else {
-					hierarchyAndTPkeys(obj, key, pvList);
-                }
+            if (isCustomView) {
+                key = !key.contains("-") ? key.concat(".") : key;
+                key = key + appendedParentKey;
+                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
             } else {
-                updateCustPeriodVarianceDetails(pvList, selection, obj);
+                key = obj[NumericConstants.TWO].toString();
             }
+            detailCustomization(key, obj);
         }
     }
 
-    public String getHierarchyKey(String key, String appendedParentKey, Object[] obj) {
-        if (isCustomView) {
-            key = !key.contains("-") ? key.concat(".") : key;
-            key = key + appendedParentKey;
-            appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+    public void detailCustomization(String key, Object[] obj) {
+        List<ProjectionVarianceDTO> pvList = resultMap.get(key);
+        if (pvList == null) {
+            //To check condition total or details values
+            pvList = new ArrayList();
+            getCustPeriodVariancDetails(pvList, selection, obj);
+            if (isCustomView) {
+                customHierarchyAndTPKeys(obj, key, pvList);
+            } else {
+                hierarchyAndTPkeys(obj, key, pvList);
+            }
         } else {
-            key = obj[NumericConstants.TWO].toString();
+            updateCustPeriodVarianceDetails(pvList, selection, obj);
         }
-        return key;
     }
+
 
 	private void hierarchyAndTPkeys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
 
@@ -1405,7 +1405,7 @@ public class PVExcelLogic {
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
-                if (!StringUtils.EMPTY.equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
+                if (obj[NumericConstants.TWO] != null && !StringUtils.EMPTY.equals(lastValue) && !"null".equals(lastValue) && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                     pvDTO.setGroup(lastValue);
                     pvDTO.setDfLevelNumber(lastValue);
                     pvDTO.setDfLevelName(lastValue);

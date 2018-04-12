@@ -1728,11 +1728,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         textField.setConverter(getConverter(Constant.UNITS_SMALL));
                     } else if (String.valueOf(propertyId).contains(Constant.GROWTH)) {
                         textField.setConverter(growthFormat);
-                    } else if (String.valueOf(propertyId).contains("Return%") && returnsFlag) {
+                    } else if (returnsFlag && String.valueOf(propertyId).contains("Return%")) {
                         textField.setConverter(growthFormat);
-                    } else if (String.valueOf(propertyId).contains("RPU") && returnsFlag) {
+                    } else if (returnsFlag && String.valueOf(propertyId).contains("RPU")) {
                         textField.setConverter(rpuFormat);
-                    } else if (String.valueOf(propertyId).contains("ReturnAmount") && returnsFlag) {
+                    } else if (returnsFlag && String.valueOf(propertyId).contains("ReturnAmount")) {
                         textField.setConverter(salesFormat);
                     }
                     textField.addFocusListener(new FieldEvents.FocusListener() {
@@ -2933,7 +2933,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         throwErrorMessage(calcMethodology);
                         return;
                     }
-                } else if ((MONTHLY.equalsIgnoreCase(projectionDTO.getFrequency())) && (historySelected.length != NumericConstants.TWELVE)) {
+                } else if ((historySelected.length != NumericConstants.TWELVE) && (MONTHLY.equalsIgnoreCase(projectionDTO.getFrequency()))) {
                     throwErrorMessage(calcMethodology);
                     return;
                 }
@@ -3091,7 +3091,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             AbstractNotificationUtils.getErrorNotification("No Variable Selected", "Please select any one Variable");
         }
         Object[] displayValidation = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
-        if (!CommonUtil.nullCheck(displayValidation) && displayValidation.length == 0) {
+        if (displayValidation.length == 0 && !CommonUtil.nullCheck(displayValidation)) {
             AbstractNotificationUtils.getErrorNotification("No Display Format Selected", "Please select value(s) from the Display Format field");
             checkSelection = false;
         }

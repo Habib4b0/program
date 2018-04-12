@@ -110,8 +110,8 @@ public class ProjectionCustHierarchyImpl {
             } else {
                 customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( QUOTES ).append( workflowStatus ).append( QUOTES);
             }
-            if (from != null && !"null".equals(from) && !StringUtils.isEmpty(from)
-                    && to != null && !"null".equals(to) && !StringUtils.isEmpty(to)) {
+            if (from != null && to != null && !StringUtils.isEmpty(to) && !StringUtils.isEmpty(from) && !"null".equals(from) 
+                     && !"null".equals(to) ) {
                 SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
                 customSql.append(" AND PM.CREATED_DATE BETWEEN '");
                 customSql.append(format2.format(format2.parse(from)));

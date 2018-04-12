@@ -800,7 +800,7 @@ public class MProjectionVarianceLogic {
                 if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (isExpand)) {
                     whereCond = " and HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
                 }
-                if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (!isFilter)) {
+                if ((!isFilter) && (!hierarchyNo.equals(StringUtils.EMPTY))) {
                     hierarchyNo1 = hierarchyNo;
                 }
         }
@@ -2013,7 +2013,7 @@ public class MProjectionVarianceLogic {
         int count = 0;
 
         List<Object> list = discountProgramMap.get(projectionVarianceDTO.getHierarchyNo());
-        if (StringUtils.isNotBlank(levelNo) && list == null) {
+        if (list == null && StringUtils.isNotBlank(levelNo)) {
             list = getpcNames(projSelDTO, projectionVarianceDTO, levelNo, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, false, true);
             discountProgramMap.put(projectionVarianceDTO.getHierarchyNo(), list);
         }

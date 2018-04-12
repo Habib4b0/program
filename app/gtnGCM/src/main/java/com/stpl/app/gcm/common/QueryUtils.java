@@ -294,7 +294,7 @@ public class QueryUtils {
 
     public boolean getNull(String value) {
         boolean check = false;
-        if (!StringUtils.EMPTY.equals(value) && !Constants.NULL.equals(value) && value != null) {
+        if (value != null && !StringUtils.EMPTY.equals(value) && !Constants.NULL.equals(value)) {
             check = true;
         }
         return check;
@@ -703,7 +703,7 @@ public class QueryUtils {
             query += "ORDER BY RS.RS_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT  " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";
         }
 
-        if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.PS_VALUE.toString()) && !isCount) {          
+        if (!isCount && newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.PS_VALUE.toString())) {          
                 query += "ORDER BY PS.PS_NAME OFFSET " + newDiscountTabDto.getStartIndex() + "  ROWS FETCH NEXT  " + newDiscountTabDto.getEndIndex() + " ROWS ONLY";        
         }
         return query;
