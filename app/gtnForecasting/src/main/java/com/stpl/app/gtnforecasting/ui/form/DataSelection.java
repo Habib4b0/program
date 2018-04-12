@@ -4315,7 +4315,7 @@ public class DataSelection extends ForecastDataSelection {
 	private void updateDataSelectionChanges() throws ClassNotFoundException, IOException {
 		dsLogic.deleteFromTempCCPTable(session);
 		relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
-				selectedProductContainer.getItemIds(), dataSelectionDTO);
+				selectedProductContainer.getItemIds(), selectionDTO);
 		session.addFutureMap(Constant.FILE_INSERT, new Future[] { service
 				.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
 		// PROJECTION_CUST_HIERARCHY INSERT CALL
