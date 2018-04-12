@@ -252,11 +252,9 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		// To Enable buttons (Edit, Delete, Copy) while Audit search is clicked
 		GtnUIFrameWorkActionConfig searchDisableAction = new GtnUIFrameWorkActionConfig();
 		searchDisableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkCommonConstants.ITEM_GRPGTN_EDIT_BUTTON,
-				GtnFrameworkCommonConstants.ITEM_GRP_GTN_COPY_BUTTON,
-				GtnFrameworkCommonConstants.ITEM_GRP_GTN_DELETE_BUTTON };
+		
 
-		searchDisableAction.setActionParameterList(Arrays.asList(disableField));
+		searchDisableAction.setActionParameterList(Arrays.asList(GtnFrameworkItemGrpStringContants.getADD_SEARCH_DISABLE_FIELD()));
 		actionConfigList.add(searchDisableAction);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -312,11 +310,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		// To Disable buttons (Edit, Delete, Copy) while Audit search is clicked
 		GtnUIFrameWorkActionConfig auditSearchDisableAction = new GtnUIFrameWorkActionConfig();
 		auditSearchDisableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkCommonConstants.ITEM_GRPGTN_EDIT_BUTTON,
-				GtnFrameworkCommonConstants.ITEM_GRP_GTN_COPY_BUTTON,
-				GtnFrameworkCommonConstants.ITEM_GRP_GTN_DELETE_BUTTON };
-
-		auditSearchDisableAction.setActionParameterList(Arrays.asList(disableField));
+		auditSearchDisableAction.setActionParameterList(Arrays.asList(GtnFrameworkItemGrpStringContants.getAUDIT_SEARCH_DISABLE_FIELD()));
 		actionConfigList.add(auditSearchDisableAction);
 		auditSearchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -643,10 +637,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 				GtnFrameworkCommonConstants.ITEM_GRPSEARCH_RESULT_TABLE };
 		List<String> resetIdList = Arrays.asList(resetIdArray);
 
-		Object[] resetValueArray = { GtnFrameworkCommonStringConstants.STRING_EMPTY,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
-				null };
-		List<Object> resetValueList = Arrays.asList(resetValueArray);
+		List<Object> resetValueList = Arrays.asList(GtnFrameworkItemGrpStringContants.getRESET_VALUE_ARRAY());
 
 		resetActionConfig.addActionParameter(resetIdList);
 		resetActionConfig.addActionParameter(resetValueList);

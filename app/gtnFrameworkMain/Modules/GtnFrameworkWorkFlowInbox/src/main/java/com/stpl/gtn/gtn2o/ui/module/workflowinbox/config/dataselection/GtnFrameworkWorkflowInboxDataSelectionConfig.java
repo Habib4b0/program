@@ -664,12 +664,9 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		resetActionConfig.setActionParameterList(params);
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL,
-				GtnFrameworkWorkflowInboxClassConstants.RETURNDETAILSEARCHPANEL,
-				GtnFrameworkWorkflowInboxClassConstants.ARMDETAILSEARCHPANEL };
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkWorkflowInboxClassConstants.getADDRESS_VISIBLE_FIELDS()));
 		visibleAction.setActionParameterList(visibleParameters);
 
 		resetActionConfigList.add(resetActionConfig);
@@ -1830,14 +1827,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkWorkflowInboxClassConstants.STATUS,
-				GtnFrameworkWorkflowInboxClassConstants.CREATEDBY, GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY,
-				GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE,
-				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSARM };
-		String[] listNameArray = { GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUS,
-				GtnFrameworkWorkflowInboxClassConstants.USERS, GtnFrameworkWorkflowInboxClassConstants.USERS,
-				GtnFrameworkWorkflowInboxClassConstants.ARM_ADJUSTMENT_TYPE,
-				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUS };
+		String[] propertyIds = GtnFrameworkWorkflowInboxClassConstants.getCUSTOM_PROPERTY_IDS();
+		String[] listNameArray = GtnFrameworkWorkflowInboxClassConstants.getCUSTOM_LIST_NAME_ARRAY();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig wfMainCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			wfMainCustomFilterConfig.setPropertId(propertyIds[i]);

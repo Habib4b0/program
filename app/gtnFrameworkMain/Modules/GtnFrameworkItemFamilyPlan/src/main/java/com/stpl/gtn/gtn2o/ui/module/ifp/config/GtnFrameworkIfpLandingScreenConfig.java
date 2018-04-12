@@ -739,9 +739,8 @@ public class GtnFrameworkIfpLandingScreenConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getIfpCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> ifpCustomFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { "ifpCategory", GtnFrameworkCommonConstants.IFP_TYPE,
-				GtnFrameworkCommonConstants.IFP_STATUS, "ifpDesignation", "ifpcreatedBy" };
-		String[] listNameArray = { "IFP_CATEGORY", "IFP_TYPE", "STATUS", "IFP_DESIGNATION", "USERS" };
+		String[] propertyIds = GtnFrameworkIfpStringContants.getIFP_CUSTOM_PROPERTY_IDS();
+		String[] listNameArray = GtnFrameworkIfpStringContants.getIFP_LIST_NAME_ARRAY();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig ifpCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			ifpCustomFilterConfig.setPropertId(propertyIds[i]);

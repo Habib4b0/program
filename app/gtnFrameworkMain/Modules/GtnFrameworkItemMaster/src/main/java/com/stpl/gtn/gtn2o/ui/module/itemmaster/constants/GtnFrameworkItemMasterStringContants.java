@@ -313,6 +313,47 @@ public class GtnFrameworkItemMasterStringContants {
 			ADDITIONAL_INFORMATION_TAB_ACQUIRED_AMP, ADDITIONAL_INFORMATION_TAB_ACQUIRED_BAMP,
 			ADDITIONAL_INFORMATION_TAB_DRA, ADDITIONAL_INFORMATION_TAB_OBRABAMP, "ifpItemInformationTabValueDropDown"));
 
+    private static final String[] EDIT_VIEW_VISIBLE_FIELDS = new String[]{"itemMasterIdentifierInformationPanel", "identifierAttachButton",
+        "identifierRemoveButton", "itemMasterPricingPanel", "pricingAttachButton", "pricingRemoveButton"};
+
+    private static final String[] EDIT_VISIBLE_FIELDS = new String[]{"itemMasterIdentifierInformationPanel", "identifierAttachButton",
+        "identifierRemoveButton", "itemMasterPricingPanel", "pricingAttachButton", "pricingRemoveButton"};
+
+    private static final String[] CUSTOM_FILTER_PROPERTY_IDS = {GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE,
+        GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS, "form", GtnFrameworkCommonConstants.STRENGTH};
+    private static final String[] CUSTOM_FILTER_LIST_NAME_ARRAY = {"ITEM_TYPE", "STATUS", "FORM", "STRENGTH"};
+    private static final String[] CONFIG_PROPERTY_IDS = {
+        GtnFrameworkItemMasterStringContants.NF_POPUP + GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE,
+        GtnFrameworkItemMasterStringContants.NF_POPUP + GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS,
+        GtnFrameworkItemMasterStringContants.NF_POPUP + "form",
+        GtnFrameworkItemMasterStringContants.NF_POPUP + GtnFrameworkCommonConstants.STRENGTH};
+    private static final String[] CONFIG_LIST_NAME_ARRAY = {"ITEM_TYPE", "STATUS", "FORM", "STRENGTH"};
+
+    public static String[] getCONFIG_LIST_NAME_ARRAY() {
+        return CONFIG_LIST_NAME_ARRAY.clone();
+    }
+
+    public static String[] getCONFIG_PROPERTY_IDS() {
+        return CONFIG_PROPERTY_IDS.clone();
+    }
+
+    public static String[] getCUSTOM_FILTER_LIST_NAME_ARRAY() {
+        return CUSTOM_FILTER_LIST_NAME_ARRAY.clone();
+    }
+
+    public static String[] getCUSTOM_FILTER_PROPERTY_IDS() {
+        return CUSTOM_FILTER_PROPERTY_IDS.clone();
+    }
+
+    public static String[] getEDIT_VISIBLE_FIELDS() {
+        return EDIT_VISIBLE_FIELDS.clone();
+    }
+
+    public static String[] getEDIT_VIEW_VISIBLE_FIELDS() {
+        return EDIT_VIEW_VISIBLE_FIELDS.clone();
+    }
+
+
 	public static String[] getIdentifierVisibleHeader() {
 		return IDENTIFIER_VISIBLE_HEADER.clone();
 	}

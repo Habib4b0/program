@@ -59,6 +59,10 @@ public class GtnFrameworkIfpStringContants {
 			GtnFrameworkCommonConstants.ITEM_FAMILY_PLAN_END_DATE, "itemStatusValue", "from", "strength",
 			"therapeuticClass", "brand", "ifpAttachedDate", "modifiedDate", "modifiedBy", "createdDate", "createdBy" };
 
+        private static final String[] IFP_CUSTOM_PROPERTY_IDS = { "ifpCategory", GtnFrameworkCommonConstants.IFP_TYPE,
+				GtnFrameworkCommonConstants.IFP_STATUS, "ifpDesignation", "ifpcreatedBy" };
+        
+        private static final String[] IFP_LIST_NAME_ARRAY = { "IFP_CATEGORY", "IFP_TYPE", "STATUS", "IFP_DESIGNATION", "USERS" };
 	public static final List<String> IFP_VISIBLE_HEADER = Collections.unmodifiableList(Arrays.asList(
 			GtnFrameworkCommonStringConstants.STRING_EMPTY, "Item No", "Item Name", "Item Desc", "IFP Status",
 			"IFP Start Date", "IFP End Date", "Item Status", "Form", "Strength", "Therapeutic Class", "Brand",
@@ -88,7 +92,16 @@ public class GtnFrameworkIfpStringContants {
 		return IFP_VISIBLE_HEADER_FOR_VIEW.clone();
 	}
 
-	public static Object[] geIfpVisibleColumnForView() {
-		return IFP_VISIBLE_COLUMN_FOR_VIEW.clone();
-	}
-}
+	   public static Object[] geIfpVisibleColumnForView() {
+        return IFP_VISIBLE_COLUMN_FOR_VIEW.clone();
+    }
+
+    public static String[] getIFP_LIST_NAME_ARRAY() {
+        return IFP_LIST_NAME_ARRAY.clone();
+    }
+
+    public static String[] getIFP_CUSTOM_PROPERTY_IDS() {
+        return IFP_CUSTOM_PROPERTY_IDS.clone();
+    }
+        
+    }
