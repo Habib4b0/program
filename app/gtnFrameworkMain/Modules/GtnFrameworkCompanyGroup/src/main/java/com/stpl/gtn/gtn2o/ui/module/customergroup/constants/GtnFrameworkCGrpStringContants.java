@@ -76,6 +76,44 @@ public class GtnFrameworkCGrpStringContants {
 	public static final String C_GRP_GTN_COPY_BUTTON = "cGrpGtnCopyButton";
 	public static final String CUSTOMER_GROUP_SID = "customerGroupSid";
 	public static final String C_GRPSEARCH_CRITERIA_PANEL = "cGrpsearchCriteriaPanel";
+        
+        private static final String[] COMPONENT_ID_ARRAY = { GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CUSTOMER_NO,
+				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_TRADE_CLASS,
+				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CUSTOMER_STATUS,
+				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_STATE,
+				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CUSTOMER_NAME,
+				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CUSTOMER_TYPE,
+				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_CITY,
+				GtnFrameworkCGrpStringContants.C_GRP_INFORMATION_TAB_ZIPCODE };
+       private static final Object[] ADD_SEARCH_DISABLE_FIELD = new String[] { GtnFrameworkCGrpStringContants.C_GRPGTN_EDIT_BUTTON,
+				GtnFrameworkCGrpStringContants.C_GRP_GTN_COPY_BUTTON,
+				GtnFrameworkCGrpStringContants.C_GRP_GTN_DELETE_BUTTON };
+       private static final Object[] AUDIT_SEARCH_DISABLE_FIELD = new String[] { GtnFrameworkCGrpStringContants.C_GRPGTN_EDIT_BUTTON,
+				GtnFrameworkCGrpStringContants.C_GRP_GTN_COPY_BUTTON,
+				GtnFrameworkCGrpStringContants.C_GRP_GTN_DELETE_BUTTON };
+       private static final String[] RESET_COMPONENT_ID_ARRAY = { GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NAME,
+				GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NO, GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_DESC,
+				GtnFrameworkCGrpStringContants.C_GRPSEARCH_RESULT_TABLE };
+
+    public static String[] getRESET_COMPONENT_ID_ARRAY() {
+        return RESET_COMPONENT_ID_ARRAY.clone();
+    }
+       
+
+    public static Object[] getAUDIT_SEARCH_DISABLE_FIELD() {
+        return AUDIT_SEARCH_DISABLE_FIELD.clone();
+    }
+       
+
+    public static Object[] getADD_SEARCH_DISABLE_FIELD() {
+        return ADD_SEARCH_DISABLE_FIELD.clone();
+    }
+       
+
+    public static String[] getCOMPONENT_ID_ARRAY() {
+        return COMPONENT_ID_ARRAY.clone();
+    }
+        
 
 	private GtnFrameworkCGrpStringContants() {
 	}

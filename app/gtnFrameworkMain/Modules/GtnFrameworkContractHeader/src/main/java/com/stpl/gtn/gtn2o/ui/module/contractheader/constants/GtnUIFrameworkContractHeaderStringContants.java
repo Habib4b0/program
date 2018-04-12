@@ -141,6 +141,43 @@ public class GtnUIFrameworkContractHeaderStringContants {
 					"contractInformationTabCurrency", "contractInformationTabMinimumOrder",
 					"contractHeaderTabCompanyName", "contractHeaderTabTerm", "contractInformationTabPaymentTerms",
 					"contractInformationTabAdvanceNoticeDays"));
+        private static final String[] EDIT_VIEW_BUTTONS = new String[] { "contractAliasInformationPanel", "identifierAttachButton",
+				"identifierRemoveButton", "contractHeaderAddResetButton" };
+        private static final String[] DO_ACTION_MESAAGES = new String[] {
+				GtnUIFrameworkContractHeaderStringContants.GTN_CUSTOMER_GRP_VALIDATION_MSG_ALIAS_NO_MANDATORY,
+				GtnUIFrameworkContractHeaderStringContants.GTN_CUSTOMER_GRP_VALIDATION_MSG_ALIAS_NAME_MANDATORY,
+				GtnUIFrameworkContractHeaderStringContants.GTN_CUSTOMER_GRP_VALIDATION_MSG_ALIAS_START_MANDATORY };
+
+        
+        private static final String[] DO_ACTION_FIELDS = new String[] { GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_CONTRACT_ID,
+				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_CONTRACT_NO,
+				"contractHeaderTabContractName", "contractHeaderTabContractStatus", "contractHeaderTabContractType",
+				"contractHeaderContractStartDate",
+				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER };
+
+        private static final String[] CUSTOM_PROPERTY_FIELDS = { "contractStatus", "contractType", "tradeClass" };
+private static final String[] CUSTOM_LIST_NAME_ARRAY = { "STATUS", "CONTRACT_TYPE", "CONTRACT_TRADE_CLASS" };
+
+    public static String[] getCUSTOM_LIST_NAME_ARRAY() {
+        return CUSTOM_LIST_NAME_ARRAY.clone();
+    }
+
+    public static String[] getCUSTOM_PROPERTY_FIELDS() {
+        return CUSTOM_PROPERTY_FIELDS.clone();
+    }
+        
+    public static String[] getDO_ACTION_FIELDS() {
+        return DO_ACTION_FIELDS.clone();
+    }
+        
+    public static String[] getDO_ACTION_MESAAGES() {
+        return DO_ACTION_MESAAGES.clone();
+    }
+
+    public static String[] getEDIT_VIEW_BUTTONS() {
+        return EDIT_VIEW_BUTTONS.clone();
+    }
+        
 
 	private GtnUIFrameworkContractHeaderStringContants() {
 	}
