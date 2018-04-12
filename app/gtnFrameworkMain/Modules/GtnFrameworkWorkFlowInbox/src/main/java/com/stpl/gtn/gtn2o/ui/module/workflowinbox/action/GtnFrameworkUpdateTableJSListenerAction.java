@@ -119,7 +119,7 @@ public class GtnFrameworkUpdateTableJSListenerAction implements GtnUIFrameWorkAc
 			GtnWsCommonWorkflowRequest forecastRequest = new GtnWsCommonWorkflowRequest();
 			GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
 			GtnWsWorkflowInboxBean projMasterBean = new GtnWsWorkflowInboxBean();
-			projMasterBean.setProjectionMasterSid(Integer.valueOf(projectionMasterSid));
+			projMasterBean.setProjectionMasterSid(Integer.parseInt(projectionMasterSid));
 			request.setGtnWsGeneralRequest(generalRequest);
 			request.setGtnWSCommonWorkflowRequest(forecastRequest);
 			request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);

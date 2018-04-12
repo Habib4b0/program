@@ -17,6 +17,8 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
+import java.util.Arrays;
 
 public class GtnFrameworkReportProdHierarchyConfig {
 
@@ -184,6 +186,19 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				new String[] { GtnFrameworkReportStringConstants.PRODUCT_HIERARCHY_GROUP_BUILDER });
 		productSelectionDualListBoxConfig.setRightVisibleColumns(new Object[] { GtnFrameworkReportStringConstants.LEVEL_VALUE });
 
+		productSelectionDualListBoxConfig.setModuleName("returns");
+		productSelectionDualListBoxConfig.setModuleType("forecast");
+
+		productSelectionDualListBoxConfig.setLeftTableURL(
+				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FROECAST_DUAL_LIST_BOX_LEFT_TABLE_LOAD_SERVICE);
+		productSelectionDualListBoxConfig.setMoveRightURL(
+				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FROECAST_DUAL_LIST_BOX_RIGHT_TABLE_LOAD_SERVICE);
+
+		List<String> recordHeader = Arrays
+				.asList(new String[] {
+			"relationshipLevelSid", GtnFrameworkCommonConstants.LEVEL_VALUE, "levelNo", "hierarchyNo", "levelName",
+			"form", "strength" });
+		productSelectionDualListBoxConfig.setRecordHeader(recordHeader);
 		productSelectionDualListBoxComponent.setGtnUIFrameworkDualListBoxConfig(productSelectionDualListBoxConfig);
 	}
 }

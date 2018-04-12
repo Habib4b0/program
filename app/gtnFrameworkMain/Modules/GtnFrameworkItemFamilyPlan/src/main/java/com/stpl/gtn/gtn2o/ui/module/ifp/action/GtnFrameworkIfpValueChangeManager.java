@@ -8,7 +8,7 @@ public class GtnFrameworkIfpValueChangeManager {
 	}
 
 	public static Boolean isValueChangeAllowed() {
-		return (boolean) GtnUIFrameworkGlobalUI.getSessionProperty("ValueChangeAllowed");
+		return (Boolean) GtnUIFrameworkGlobalUI.getSessionProperty("ValueChangeAllowed");
 	}
 
 	public static void setValueChangeAllowed(boolean value) {

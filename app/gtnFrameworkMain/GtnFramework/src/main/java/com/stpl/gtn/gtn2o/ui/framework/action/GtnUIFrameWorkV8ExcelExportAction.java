@@ -7,25 +7,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.action;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.util.CellRangeAddress;
-
+import com.stpl.addons.grid.paged.component.PagedGrid;
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableLogic;
@@ -41,12 +23,26 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnwsExcelRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsExcelResponse;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.server.Page;
-import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.UI;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  *
@@ -60,7 +56,6 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		return;
 	}
 
 	@Override
@@ -73,14 +68,14 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 		List<Object> propertyIds = new ArrayList<>();
 		List<String> headers = new ArrayList<>();
 		List<GtnWsRecordBean> exportList = new ArrayList<>();
-		ExtCustomTable resultTable = null;
+		PagedGrid resultTable = null;
 		GtnWsExcelHeaderBean headerBean = null;
 		if (isExportFromTable) {
 			GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) (GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(inputBean.getExportTableId())).getComponent().getData();
-			resultTable = (ExtCustomTable) customData.getCustomData();
-			propertyIds = new LinkedList<>(Arrays.asList(resultTable.getVisibleColumns()));
-			headers = new LinkedList<>(Arrays.asList(resultTable.getColumnHeaders()));
+			resultTable =  customData.getPagedGrid();
+			propertyIds = new LinkedList<>(resultTable.getTableConfig().getVisibleColumns());
+			headers = new LinkedList<>(resultTable.getTableConfig().getColumnHeaders());
 			if (inputBean.isIsNewTreeTable()) {
 				exportList = inputBean.getExportList();
 			} else {
@@ -91,9 +86,9 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 			if (inputBean.getExportTableId() != null && !inputBean.getExportTableId().isEmpty()) {
 				GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) (GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(inputBean.getExportTableId())).getComponent().getData();
-				resultTable = (ExtCustomTable) customData.getCustomData();
-				propertyIds = new LinkedList<>(Arrays.asList(resultTable.getVisibleColumns()));
-				headers = new LinkedList<>(Arrays.asList(resultTable.getColumnHeaders()));
+			resultTable =  customData.getPagedGrid();
+			propertyIds = new LinkedList<>(resultTable.getTableConfig().getVisibleColumns());
+			headers = new LinkedList<>(resultTable.getTableConfig().getColumnHeaders());
 				resultTable = null;
 			} else {
 				headerBean = getExcelHeaders(componentId, gtnUIFrameWorkActionConfig);
@@ -151,7 +146,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 	}
 
 	private HSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean, List<GtnWsRecordBean> resultList,
-			List<Object> visibleColumns, List<String> headers, ExtCustomTable resultTable) {
+			List<Object> visibleColumns, List<String> headers, PagedGrid resultTable) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
 
@@ -193,7 +188,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 
 	private HSSFWorkbook writeSplitWorksheetExcel(GtnUIFrameworkExcelButtonConfig inputBean,
 			List<GtnWsRecordBean> resultList, List<Object> visibleColumns, List<String> headers,
-			ExtCustomTable resultTable, GtnWsExcelHeaderBean headerBean) {
+			PagedGrid resultTable, GtnWsExcelHeaderBean headerBean) {
 		CellStyle defaultHeadersCellStyle = null;
 		CellStyle defaultTitleCellStyle = null;
 
@@ -384,36 +379,35 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 	}
 
 	private int createDataRows(HSSFSheet sheet, List<GtnWsRecordBean> resultList, List<Object> propertyIds,
-			int rowCount, HSSFWorkbook workBook, ExtCustomTable resultTable,
+			int rowCount, HSSFWorkbook workBook, PagedGrid resultTable,
 			GtnUIFrameworkExcelButtonConfig inputBean) {
 		int count = rowCount;
 		List<String> componentMappedPropertyIdList = inputBean.getHelperTableMapedPropertyIdList();
 		CellStyle defaultDataCellStyle = defaultDataCellStyle(workBook);
-		for (int i = 0; i < resultList.size(); i++) {
-			GtnWsRecordBean resultDTO = resultList.get(i);
-			Row row = sheet.createRow(count++);
-			for (int j = 0; j < propertyIds.size(); j++) {
-				String propertyId = String.valueOf(propertyIds.get(j));
-				Object value = resultDTO.getPropertyValue(propertyId);
-				if ((componentMappedPropertyIdList != null) && (componentMappedPropertyIdList.contains(propertyId))
-						&& value != null) {
-					String componentId = inputBean.getExportTableId() + 0 + propertyId;
-					ComboBox component = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
-							.getComponent();
-					String componenetIdCaption = component.getItemCaption(value);
-					value = componenetIdCaption.equalsIgnoreCase(GtnFrameworkCommonStringConstants.SELECT_ONE)
-							? GtnFrameworkCommonStringConstants.STRING_EMPTY : componenetIdCaption;
-				}
-				putValueInCell(row, getFormattedValue(value, propertyId, resultTable), j, defaultDataCellStyle);
-			}
-			row.setHeight((short) 400);
-		}
+            for (GtnWsRecordBean resultDTO : resultList) {
+                Row row = sheet.createRow(count++);
+                for (int j = 0; j < propertyIds.size(); j++) {
+                    String propertyId = String.valueOf(propertyIds.get(j));
+                    Object value = resultDTO.getPropertyValue(propertyId);
+                    if ((componentMappedPropertyIdList != null) && (componentMappedPropertyIdList.contains(propertyId))
+                            && value != null) {
+                        String componentId = inputBean.getExportTableId() + 0 + propertyId;
+                        ComboBox component = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
+                                .getComponent();
+                        String componenetIdCaption = component.getValue().toString();
+                        value = componenetIdCaption.equalsIgnoreCase(GtnFrameworkCommonStringConstants.SELECT_ONE)
+                                ? GtnFrameworkCommonStringConstants.STRING_EMPTY : componenetIdCaption;
+                    }
+                    putValueInCell(row, getFormattedValue(value, propertyId, resultTable), j, defaultDataCellStyle);
+                }
+                row.setHeight((short) 400);
+            }
 		return count;
 	}
 
 	@SuppressWarnings("unchecked")
 	private int createSplitDataRows(HSSFSheet sheet, List<Object> inputList, int rowCount, HSSFWorkbook workBook,
-			ExtCustomTable resultTable, GtnUIFrameworkExcelButtonConfig inputBean, GtnWsExcelHeaderBean headerBean) {
+			PagedGrid resultTable, GtnUIFrameworkExcelButtonConfig inputBean, GtnWsExcelHeaderBean headerBean) {
 		int count = rowCount;
 		List<GtnWsRecordBean> resultList = (List<GtnWsRecordBean>) inputList.get(0);
 		List<Object> propertyIds = (List<Object>) inputList.get(1);
@@ -434,7 +428,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 					String componentId = inputBean.getExportTableId() + 0 + propertyId;
 					ComboBox component = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
 							.getComponent();
-					String componenetIdCaption = component.getItemCaption(value);
+					String componenetIdCaption = component.getValue().toString();
 					value = getComboBoxValue(componenetIdCaption);
 				}
 				putValueInCell(row, getFormattedValue(value, propertyId, resultTable), j, defaultDataCellStyle);
@@ -447,7 +441,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 					String componentId = inputBean.getExportTableId() + 0 + propertyId;
 					ComboBox component = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
 							.getComponent();
-					String componenetIdCaption = component.getItemCaption(value);
+					String componenetIdCaption = component.getValue().toString();
 					value = getComboBoxValue(componenetIdCaption);
 				}
 				putValueInCell(row, getFormattedValue(value, propertyId, resultTable), cellStart++,
@@ -459,13 +453,13 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 		return count;
 	}
 
-	public Object getFormattedValue(Object value, String propertyId, ExtCustomTable resultTable) {
-		if (resultTable != null) {
-			Converter<String, Object> converter = resultTable.getConverter(propertyId);
-			if (converter != null) {
-				return converter.convertToPresentation(value, String.class, resultTable.getLocale());
-			}
-		}
+	public Object getFormattedValue(Object value, String propertyId, PagedGrid resultTable) {
+//		if (resultTable != null) {
+//			Converter<String, Object> converter = resultTable.getGrid().getConverter(propertyId);
+//			if (converter != null) {
+//				return converter.convertToPresentation(value, String.class, resultTable.getLocale());
+//			}
+//		}
 
 		return value;
 
@@ -532,13 +526,13 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 	private List<GtnWsRecordBean> setFilters(List<GtnWsRecordBean> exportList, GtnUIFrameworkComponentData customData) {
 		List<GtnWsRecordBean> localExportList = new ArrayList<>(exportList);
 		GtnUIFrameworkPagedTableLogic tableLogic = customData.getCurrentPageTableLogic();
-		Set<Container.Filter> filters = tableLogic.getFilters();
+//		Set<Container.Filter> filters = tableLogic.getFilters();
 		tableLogic.clearFilters();
 		int count = tableLogic.getCount();
 		if (count > 0) {
 			localExportList = tableLogic.loadData(0, count);
 		}
-		tableLogic.setFilters(filters);
+//		tableLogic.setFilters(filters);
 		return localExportList;
 	}
 

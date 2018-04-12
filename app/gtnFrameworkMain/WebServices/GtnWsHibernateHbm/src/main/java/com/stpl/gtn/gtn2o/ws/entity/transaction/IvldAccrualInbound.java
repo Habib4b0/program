@@ -37,9 +37,9 @@ public class IvldAccrualInbound implements java.io.Serializable {
 	private String batchId;
 	private String source;
 	private String createdBy;
-	private Date createdDate;
+	private String createdDate;
 	private String modifiedBy;
-	private Date modifiedDate;
+	private String modifiedDate;
 	private String addChgDelIndicator;
 	private String reasonForFailure;
 	private Date intfInsertedDate;
@@ -89,7 +89,7 @@ public class IvldAccrualInbound implements java.io.Serializable {
 			String contractId, String brandId, String categoryId, String provisionId, String accrualType,
 			String accrualPeriodStartDate, String accrualPeriodEndDate, String deductionAmount, String subLedger,
 			String subLedgerType, String documentType, String postingDate, String glDate, String recordCreatedDate,
-			String batchId, String source, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate,
+			String batchId, String source, String createdBy, String createdDate, String modifiedBy, String modifiedDate,
 			String addChgDelIndicator, String reasonForFailure, Date intfInsertedDate, String errorCode,
 			String errorField, String reprocessedFlag, boolean checkRecord, Integer glCompanyMasterSid,
 			String glCompanyName, String programType, String programNo, String itemName, String postingIndicator,
@@ -433,11 +433,11 @@ public class IvldAccrualInbound implements java.io.Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public Date getCreatedDate() {
+	public String getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -449,11 +449,11 @@ public class IvldAccrualInbound implements java.io.Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Date getModifiedDate() {
+	public String getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
+	public void setModifiedDate(String modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 

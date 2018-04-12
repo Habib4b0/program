@@ -175,7 +175,7 @@ public class CommonServiceImpl {
     }
 
     public List executeQuery(final Map<String, Object> parameters) {
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(StringConstantsUtil.HAS_TRADING_PARTNER));
             queryString.append('\'');
@@ -311,7 +311,7 @@ public class CommonServiceImpl {
     }
 
     public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         try {
             queryBuilder.append("SELECT distinct c.hierarchy_Definition_Sid,c.hierarchy_Name,a.level_Name, a.level_No , ");
             queryBuilder.append("b.level_No , c.created_Date, c.modified_Date, c.version_No ");
@@ -347,7 +347,7 @@ public class CommonServiceImpl {
     }
 
     public List getParentLevels(final int levelNo, final int relationshipLevelSid, final Map<String, Object> parameters) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
 
         try {
             if (parameters.get(StringConstantsUtil.INDICATOR) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))
@@ -376,7 +376,7 @@ public class CommonServiceImpl {
     }
 
     public List getInnerLevel(Map<String, Object> parameters) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryBuilder = new StringBuilder();
         try {
             if ((parameters.get(StringConstantsUtil.IS_NDC) != null && "true".equals(String.valueOf(parameters.get(StringConstantsUtil.IS_NDC))))
                     || (!CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS.equals(parameters.get("screenName"))
@@ -539,7 +539,7 @@ public class CommonServiceImpl {
     }
 
     public List getCcpMap(final Map<String, Object> parameters) {
-        StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder customSql = new StringBuilder();
         try {
             LOGGER.debug("Entering getCcpMap method ");
             if (parameters.get(StringConstantsUtil.INDICATOR) != null && "getRbId".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
@@ -663,7 +663,7 @@ public class CommonServiceImpl {
     }
 
     public List executeQueryforchannel(final Map<String, Object> parameters) {
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         if (parameters.get(StringConstantsUtil.INDICATOR) != null && StringConstantsUtil.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))) {
             queryString.append(SQlUtil.getQuery(StringConstantsUtil.HAS_TRADING_PARTNER));
             queryString.append('\'');
@@ -777,7 +777,7 @@ public class CommonServiceImpl {
                 if (parameters.get(StringConstantsUtil.ACTION) != null && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))
                         && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
                     if (String.valueOf(parameters.get(StringConstantsUtil.IS_FILTERED)).equals("true")) {
-                        StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder filterAppender = new StringBuilder();
                         if ((parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))))
                                 && (parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO)))
@@ -873,7 +873,7 @@ public class CommonServiceImpl {
                     if ((parameters.get(StringConstantsUtil.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED))))) {
                         query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY C.CREATED_DATE ");
                     } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) {
-                        StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder orderByAppender = new StringBuilder();
                         if (parameters.get(StringConstantsUtil.ORDER_BY_HIERARCHY_NAME) != null
                                 && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_HIERARCHY_NAME)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_HIERARCHY_NAME)))) {
@@ -999,7 +999,7 @@ public class CommonServiceImpl {
                         && !StringConstantsUtil.COUNT.equals(String.valueOf(parameters.get(StringConstantsUtil.ACTION)))) {
                     query = query.replace(StringConstantsUtil.SELECTION, SQlUtil.getQuery("searchViewFindSelection"));
                     if (String.valueOf(parameters.get(StringConstantsUtil.IS_FILTERED)).equals("true")) {
-                        StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder filterAppender = new StringBuilder();
                         if ((parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_FROM))))
                                 && (parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO) != null && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CREATED_DATE_SEARCH_TO)))
@@ -1156,7 +1156,7 @@ public class CommonServiceImpl {
                     if ((parameters.get(StringConstantsUtil.IS_ORDERED) == null || StringConstantsUtil.STRING_FALSE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED))))) {
                         query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY PM.CREATED_DATE ");
                     } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) {
-                        StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder orderByAppender = new StringBuilder();
                         if (parameters.get(StringConstantsUtil.ORDER_BY_VIEW_NAME) != null
                                 && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_VIEW_NAME)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_VIEW_NAME)))) {
@@ -1290,7 +1290,7 @@ public class CommonServiceImpl {
             String no = null;
             String desc = null;
             String sids = null;
-            StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder queryString = new StringBuilder();
             if (parameters.get(StringConstantsUtil.GROUP_IDENTIFIER) != null && Constants.CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.GROUP_IDENTIFIER)))) {
                 queryString.append(SQlUtil.getQuery("getCustomerGroupPaged"));
                 name = " CG.COMPANY_GROUP_NAME ";
@@ -1343,7 +1343,7 @@ public class CommonServiceImpl {
                         query = query.replace(StringConstantsUtil.SELECTION, " DISTINCT IG.ITEM_GROUP_SID, IG.ITEM_GROUP_NO, IG.ITEM_GROUP_NAME, CM.COMPANY_NAME, IG.VERSION_NO, IG.ITEM_GROUP_DESCRIPTION ");
                     }
                     if (String.valueOf(parameters.get(StringConstantsUtil.IS_FILTERED)).equals("true")) {
-                        StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder filterAppender = new StringBuilder();
                         if (parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NAME) != null
                                 && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NAME)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.FILTER_CUSTOMER_GROUP_NAME)))) {
@@ -1416,7 +1416,7 @@ public class CommonServiceImpl {
                             query = query.replace(StringConstantsUtil.ORDER_BY, " ORDER BY IG.ITEM_GROUP_SID ");
                         }
                     } else if (parameters.get(StringConstantsUtil.IS_ORDERED) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.IS_ORDERED)))) {
-                        StringBuilder orderByAppender = new StringBuilder(StringUtils.EMPTY);
+                        StringBuilder orderByAppender = new StringBuilder();
                         if (parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NAME) != null
                                 && !Constants.NULL.equals(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NAME)))
                                 && !StringUtils.isBlank(String.valueOf(parameters.get(StringConstantsUtil.ORDER_BY_CUSTOMER_GROUP_NAME)))) {

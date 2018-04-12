@@ -9,7 +9,7 @@ public class GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager {
 	}
 
 	public static Boolean isValueChangeAllowed() {
-		return (boolean) (GtnUIFrameworkGlobalUI.getSessionProperty("PriceToleranceValueChangeAllowed"));
+		return (Boolean) (GtnUIFrameworkGlobalUI.getSessionProperty("PriceToleranceValueChangeAllowed"));
 	}
 
 	public static void setValueChangeAllowed(boolean value) {

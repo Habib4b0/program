@@ -77,12 +77,12 @@ public class VarianceTableLogic extends PageTreeTableLogic{
      */
     @Override
     public int getCount() {
-        int count = 0;
+        int varCount = 0;
         if (firstGenerated) {
-            count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, true);
+            varCount = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, true);
         }
-        LOGGER.debug("Count - - - -= {}", count);
-        return count;
+        LOGGER.debug("Count - - - -= {}", varCount);
+        return varCount;
     }
 
     /**
@@ -94,14 +94,14 @@ public class VarianceTableLogic extends PageTreeTableLogic{
      */
     @Override
     public Object configureContainer(Object object, Container datasource) {
-        ProjectionVarianceDTO dto = (ProjectionVarianceDTO) object;
-        ((ExtTreeContainer<ProjectionVarianceDTO>) datasource).addBean(dto);
-        if (dto.getParent() == 1) {
-            ((ExtTreeContainer<ProjectionVarianceDTO>) datasource).setChildrenAllowed(dto, true);
+        ProjectionVarianceDTO projVarDto = (ProjectionVarianceDTO) object;
+        ((ExtTreeContainer<ProjectionVarianceDTO>) datasource).addBean(projVarDto);
+        if (projVarDto.getParent() == 1) {
+            ((ExtTreeContainer<ProjectionVarianceDTO>) datasource).setChildrenAllowed(projVarDto, true);
         } else {
-            ((ExtTreeContainer<ProjectionVarianceDTO>) datasource).setChildrenAllowed(dto, false);
+            ((ExtTreeContainer<ProjectionVarianceDTO>) datasource).setChildrenAllowed(projVarDto, false);
         }
-        return dto;
+        return projVarDto;
     }
 
     @Override
@@ -121,10 +121,10 @@ public class VarianceTableLogic extends PageTreeTableLogic{
      * @param projSelDTO
      * @param hierarchyNo
      */
-    public void setProjectionResultsData(PVSelectionDTO projSelDTO, String hierarchyNo) {
+    public void setProjectionResultsData(PVSelectionDTO projSelectionDTO, String hierNo) {
         LOGGER.debug("setProjectionResultsData Starts");
-        this.projSelDTO = projSelDTO;
-        this.hierarchyNo = hierarchyNo;
+        this.projSelDTO = projSelectionDTO;
+        this.hierarchyNo = hierNo;
         clearAll();
         firstGenerated = true;
         setCurrentPage(1);
@@ -145,9 +145,9 @@ public class VarianceTableLogic extends PageTreeTableLogic{
     public LevelMap getLevelMap(int levelValue, int count, int levelIndex) {
         int page = getPageForItem(count + levelIndex + levelValue);
         int index = getItemIndex(count + levelIndex + levelValue);
-        int start = getStartIndex(count + levelIndex, index);
-        int end = getPageLength();
-        LevelMap levelMap = new LevelMap(start, end, page, getPageLength(), index, getColumnIdToFilterMap());
+        int levelStart = getStartIndex(count + levelIndex, index);
+        int levelEnd = getPageLength();
+        LevelMap levelMap = new LevelMap(levelStart, levelEnd, page, getPageLength(), index, getColumnIdToFilterMap());
         return levelMap;
     }
 

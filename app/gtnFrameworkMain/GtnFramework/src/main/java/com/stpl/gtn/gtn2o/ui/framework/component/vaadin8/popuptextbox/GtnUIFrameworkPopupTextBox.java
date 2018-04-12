@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.popuptextbox;
 
+
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -28,7 +29,6 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
-	HorizontalLayout popupTextBoxHorizontalComponent;
 
 	@Override
 	public AbstractComponent buildVaadinComponent(final GtnUIFrameworkComponentConfig componentConfig) {
@@ -36,7 +36,9 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 		Binder<ComponentBinderValidatorBean> textBoxBinder = new Binder<>();
 		TextField popupTextField = new TextField();
 		popupTextField.setId(componentConfig.getComponentId());
-		popupTextBoxHorizontalComponent = new HorizontalLayout();
+		HorizontalLayout popupTextBoxHorizontalComponent = new HorizontalLayout();
+                GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
+          
 		if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty()) {
 			popupTextField.setCaption(componentConfig.getComponentName());
 		}
@@ -62,6 +64,9 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 		popupTextField.addStyleName(GtnFrameworkCssConstants.SEARCHICON);
 		loadStyles(popupTextField, componentConfig.getComponentStyle());
 		popupTextBoxHorizontalComponent.addComponent(popupTextField);
+                
+                popupTextBoxHorizontalComponent.setData(componentData);
+                popupTextField.setData(componentData);
 		gtnLogger.info("End into the buildVaadinComponent () of GtnUIFrameworkPopupTextField ");
 		return popupTextBoxHorizontalComponent;
 	}
@@ -74,7 +79,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 		popupTextField.setVisible(componentConfig.isVisible());
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
 		final String componentId = componentData.getComponentIdInMap();
-		popupTextBoxHorizontalComponent.addLayoutClickListener(new LayoutClickListener() {
+		postCreateHorizontalLayout.addLayoutClickListener(new LayoutClickListener() {
 
 			@Override
 			public void layoutClick(LayoutClickEvent event) {
@@ -136,3 +141,4 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 	}
 
 }
+

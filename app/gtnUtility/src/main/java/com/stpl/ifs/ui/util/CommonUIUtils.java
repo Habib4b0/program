@@ -150,7 +150,7 @@ public class CommonUIUtils {
         public static void getMessageNotification(String message) {
         Notification notif = new Notification(message,
         Notification.Type.HUMANIZED_MESSAGE);
-        notif.setPosition(Position.MIDDLE_CENTER);
+        notif.setPosition(Position.TOP_CENTER);
         notif.setDelayMsec(NumericConstants.THREE_THOUSAND);
         notif.show(Page.getCurrent());
 

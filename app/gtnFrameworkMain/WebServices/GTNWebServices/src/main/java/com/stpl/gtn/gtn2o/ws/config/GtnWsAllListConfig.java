@@ -287,10 +287,6 @@ public class GtnWsAllListConfig {
 				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE,
 				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
-		comboBoxQueryMap.put("ReportTimePeriodIntervalForFromDate",
-				 GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
-		comboBoxQueryMap.put("ReportTimePeriodIntervalForToDate",
-				 GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
 		comboBoxQueryMap.put("ItemPricingQualifier",
 				"SELECT ITEM_PRICING_QUALIFIER_SID,ITEM_PRICING_QUALIFIER_NAME FROM ITEM_PRICING_QUALIFIER WHERE ITEM_PRICING_QUALIFIER_NAME IS NOT NULL AND ITEM_PRICING_QUALIFIER_NAME <> ''");
 		comboBoxQueryMap.put("Brands",
@@ -435,8 +431,9 @@ public class GtnWsAllListConfig {
 
 			connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 					.getService(ConnectionProvider.class).getConnection();
-			sqlQuery.append("select userId,ISNULL(firstName, '') +' '+ISNULL(middleName, '')+' '+ISNULL(lastName, '') from "
-					+ connection.getCatalog() + ".dbo.User_");
+			sqlQuery.append("select userId,ISNULL(firstName, '') +' '+ISNULL(middleName, '')+' '+ISNULL(lastName, '') from ");
+					sqlQuery.append(connection.getCatalog()); 
+                                        sqlQuery.append(".dbo.User_");
 			List<Object[]> resultList = null;
 
 			resultList = gtnSqlQueryEngine.executeSelectQuery(sqlQuery.toString(), session);

@@ -17,12 +17,15 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.HorizontalLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -58,15 +61,22 @@ import java.util.Set;
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
                  Set<Row> rows= componentData.getPagedGrid().getValue();
                  Row selectedRow=rows.isEmpty()?null:rows.iterator().next();
-//		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
-//				.getVaadinBaseComponentFromParent(idComponent, componentId).getComponentData();
-//		idComponentData.setCustomData(selectedRow);
+		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponentFromParent(idComponent, componentId).getComponentData();
+		idComponentData.setCustomData(selectedRow);
 
 //		GtnWsRecordBean dto = (GtnWsRecordBean) resultTable.getValue();
 
 		for (int i = 0; i < inputColumIds.size(); i++) {
-			HasValue<Object> vaadinField = (HasValue<Object>) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId).getComponent();
+                   GtnUIFrameworkBaseComponent baseComponent= GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId);
+                   HasValue<Object> vaadinField;
+                   if(baseComponent.getComponentConfig().getComponentType().equals(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8)){
+                       HorizontalLayout layout= (HorizontalLayout)baseComponent.getComponent();
+                       vaadinField=(HasValue<Object>) layout.getComponent(0);
+                   }else{
+			 vaadinField= (HasValue<Object>) baseComponent.getComponent();
+                   }
 			Object newValue = null;
 			if (selectedRow != null && selectedRow.getPropertyValue(inputColumIds.get(i)) != null) {
 				newValue = selectedRow.getPropertyValue(inputColumIds.get(i));

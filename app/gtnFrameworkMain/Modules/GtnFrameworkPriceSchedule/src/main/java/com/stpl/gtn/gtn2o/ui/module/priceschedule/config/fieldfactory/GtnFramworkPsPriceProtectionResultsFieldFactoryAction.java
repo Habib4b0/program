@@ -94,7 +94,7 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			localVarable = 0;
 		}
 		psUpdateBean.setValue(localVarable);
-		psUpdateBean.setMasterSid(Integer.valueOf(systemId));
+		psUpdateBean.setMasterSid(Integer.parseInt(systemId));
 		psUpdateBean.setCheckAll(checkAll);
 
 		GtnWsCheckAllUpdateRequest gtnWsPSUpdateRequest = new GtnWsCheckAllUpdateRequest();

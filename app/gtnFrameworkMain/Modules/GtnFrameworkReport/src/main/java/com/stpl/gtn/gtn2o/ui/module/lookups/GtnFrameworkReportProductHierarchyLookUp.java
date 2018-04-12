@@ -287,10 +287,10 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
-		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy");
+		actionParameter.add(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy");
 		actionParameter.add(Arrays.asList("hierName"));
 		actionParameter
-				.add(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy"));
+				.add(Arrays.asList(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy"));
 
 		selectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(selectAction);
