@@ -1,10 +1,18 @@
 package com.stpl.gtn.gtn2o.ui.framework.engine;
 
-import com.stpl.addons.grid.paged.bean.QueryBean;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkConfigMap;
@@ -32,23 +40,16 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsCheckAllUpdateRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.UI;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.util.filter.Between;
-import com.vaadin.v7.data.util.filter.Compare;
-import com.vaadin.v7.data.util.filter.SimpleStringFilter;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class GtnUIFrameworkGlobalUI {
 	private GtnUIFrameworkGlobalUI() {
@@ -435,15 +436,15 @@ public class GtnUIFrameworkGlobalUI {
 			GtnUIFrameworkBaseComponent field = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentIds[i]);
 			GtnUIFrameworkComponentType type = field.getComponentConfig().getComponentType();
 			Object value;
-			if (GtnUIFrameworkComponentType.COMBOBOX == type) {
+			if (type.equals(GtnUIFrameworkComponentType.COMBOBOX)) {
 				value = field.getIntegerFromField();
-			} else if (GtnUIFrameworkComponentType.DATEFIELD == type) {
+			} else if (type.equals(GtnUIFrameworkComponentType.DATEFIELD)) {
 				value = field.getDateFromDateField();
 			} else {
 				value = field.getStringFromField();
 			}
 			if (value == null || value instanceof String && String.valueOf(value).isEmpty()
-					|| value instanceof Integer && Integer.parseInt(String.valueOf(value)) == 0) {
+					|| value instanceof Integer && Integer.valueOf(String.valueOf(value)) == 0) {
 				errorMessageBuilder.append(appender).append(field.getCaption());
 				appender = " , ";
 
@@ -569,7 +570,7 @@ public class GtnUIFrameworkGlobalUI {
 		}
 	}
         
-         public static QueryBean setQueryBean(GtnUIFrameworkPagedTableConfig tableConfig) {
+     public static QueryBean setQueryBean(GtnUIFrameworkPagedTableConfig tableConfig) {
         Object[] countQueryInputs = new Object[tableConfig.getCountQueryInputs().length];
         Object[] dataQueryInputs = new Object[tableConfig.getDataQueryInputs().length];
         fetchInput(tableConfig.getCountQueryInputs(), countQueryInputs);
@@ -583,6 +584,6 @@ public class GtnUIFrameworkGlobalUI {
         for (String object : queryInputIds) {
             GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(object);
             values[i++] = baseComponent == null ? object : baseComponent.getFieldValue() == null || baseComponent.getFieldValue().toString().isEmpty() ? '%' : baseComponent.getFieldValue();
-}
+        }
     }
 }

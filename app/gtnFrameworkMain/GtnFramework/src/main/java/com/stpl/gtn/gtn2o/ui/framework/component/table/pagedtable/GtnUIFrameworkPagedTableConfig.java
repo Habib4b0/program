@@ -73,8 +73,8 @@ public class GtnUIFrameworkPagedTableConfig {
     private List<String> checkAllColumnList;
     private String countQuery;
     private String dataQuery;
-
-    public String getModuleName() {
+   
+	public String getModuleName() {
         return moduleName;
     }
 

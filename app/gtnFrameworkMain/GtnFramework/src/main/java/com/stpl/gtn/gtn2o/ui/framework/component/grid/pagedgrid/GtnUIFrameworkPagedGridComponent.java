@@ -5,25 +5,21 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedgrid;
 
-import com.stpl.addons.grid.paged.bean.QueryBean;
-import com.stpl.addons.grid.paged.component.PagedGrid;
-import com.stpl.addons.grid.paged.config.PagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -45,7 +41,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         QueryBean queryBean = GtnUIFrameworkGlobalUI.setQueryBean(tableConfig);
         pagedTableConfig.setQueryBean(queryBean);
 
-        PagedGrid pagedGrid = new PagedGrid(pagedTableConfig);
+        PagedGrid pagedGrid = new PagedGrid(pagedTableConfig,tableConfig);
         pagedGrid.getGrid().setId(componentConfig.getComponentId());
         resultLayout.setSizeFull();
         resultLayout.addComponent(pagedGrid.getGrid());

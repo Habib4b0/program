@@ -58,7 +58,7 @@ public class Query {
 //"                    ? ? ? ? ? ";
     
     
-  public static final  String  getDataProductHierarchy="SELECT\n" +
+  public static final  String  getDataProductHierarchy="SELECT * FROM (SELECT\n" +
 "                	distinct\n" +
 "                    c.HIERARCHY_NAME as hierName,\n" +
 "                    a.LEVEL_NO as highestLevel,\n" +
@@ -107,9 +107,9 @@ public class Query {
 "                            dbo.HELPER_TABLE ht\n" +
 "                        WHERE\n" +
 "                            ht.DESCRIPTION LIKE '?'\n" +
-"                    )\n" +
+"                    )) as A @filter\n" +
 //"                    ?\n" +
 //"                    ?\n" +
 //"                    ? ? ?\n" +
-"                    ORDER BY HIERARCHY_NAME OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+"                    ORDER BY hierName OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 }
