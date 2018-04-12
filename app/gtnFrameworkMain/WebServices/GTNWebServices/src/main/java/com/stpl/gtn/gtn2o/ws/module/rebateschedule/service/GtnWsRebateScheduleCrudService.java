@@ -138,11 +138,11 @@ public class GtnWsRebateScheduleCrudService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? 0 : systemId);
+		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	private CdrModel getCdrModel(Integer systemId, Session session) {
-		return session.load(CdrModel.class, systemId == null ? 0 : systemId);
+		return session.load(CdrModel.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	public int checkAllItems(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {

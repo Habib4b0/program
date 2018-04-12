@@ -4,17 +4,10 @@
  */
 package com.stpl.app.cff.util;
 
-import com.stpl.app.cff.dto.PVSelectionDTO;
-import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
-import com.stpl.ifs.ui.util.NumericConstants;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 
 /**
  *
