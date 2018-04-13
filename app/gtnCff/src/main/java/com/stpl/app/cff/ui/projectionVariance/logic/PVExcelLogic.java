@@ -164,10 +164,10 @@ public class PVExcelLogic {
     }
 
     private boolean isRefreshNeeded(String levelFilterValue, String groupFilterValue, String viewValue, int freDiv) {
-        boolean val = this.levelFilterValue.equals(levelFilterValue)
+        boolean val = this.frequencyDivision == freDiv
+                && this.levelFilterValue.equals(levelFilterValue)
                 && this.groupFilterValue.equals(groupFilterValue)
-                && this.viewValue.equals(viewValue)
-                && this.frequencyDivision == freDiv;
+                && this.viewValue.equals(viewValue);
         this.levelFilterValue = levelFilterValue;
         this.groupFilterValue = groupFilterValue;
         this.viewValue = viewValue;
@@ -179,29 +179,34 @@ public class PVExcelLogic {
         String appendedParentKey = "";
         for (Iterator<Object> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = (Object[]) it.next();
-            String key = "";
+            String key = obj[NumericConstants.TWO].toString();
             if (isCustomView) {
-                key = obj[NumericConstants.TWO].toString();
+                key = !key.contains("-") ? key.concat(".") : key;
                 key = key + appendedParentKey;
                 appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
             } else {
                 key = obj[NumericConstants.TWO].toString();
             }
-            List<ProjectionVarianceDTO> pvList = resultMap.get(key);
-            if (pvList == null) {
-                //To check condition total or details values
-                pvList = new ArrayList();
-                getCustPeriodVariancDetails(pvList, selection, obj);
-                if (isCustomView) {
-                    customHierarchyAndTPKeys(obj, key, pvList);
-                } else {
-					hierarchyAndTPkeys(obj, key, pvList);
-                }
-            } else {
-                updateCustPeriodVarianceDetails(pvList, selection, obj);
-            }
+            detailCustomization(key, obj);
         }
     }
+
+    public void detailCustomization(String key, Object[] obj) {
+        List<ProjectionVarianceDTO> pvList = resultMap.get(key);
+        if (pvList == null) {
+            //To check condition total or details values
+            pvList = new ArrayList();
+            getCustPeriodVariancDetails(pvList, selection, obj);
+            if (isCustomView) {
+                customHierarchyAndTPKeys(obj, key, pvList);
+            } else {
+                hierarchyAndTPkeys(obj, key, pvList);
+            }
+        } else {
+            updateCustPeriodVarianceDetails(pvList, selection, obj);
+        }
+    }
+
 
 	private void hierarchyAndTPkeys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
 
@@ -1400,7 +1405,7 @@ public class PVExcelLogic {
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
-                if (!StringUtils.EMPTY.equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
+                if (obj[NumericConstants.TWO] != null && !StringUtils.EMPTY.equals(lastValue) && !"null".equals(lastValue) && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                     pvDTO.setGroup(lastValue);
                     pvDTO.setDfLevelNumber(lastValue);
                     pvDTO.setDfLevelName(lastValue);
@@ -3280,6 +3285,7 @@ public class PVExcelLogic {
                 key = TOTAL1;
             } else if (isCustomView) {
                 key = obj[NumericConstants.TWO].toString();
+                key = !key.contains("-") ? key.concat(".") : key;
                 key = key + appendedParentKey;
             } else {
                 key = obj[NumericConstants.TWO].toString();

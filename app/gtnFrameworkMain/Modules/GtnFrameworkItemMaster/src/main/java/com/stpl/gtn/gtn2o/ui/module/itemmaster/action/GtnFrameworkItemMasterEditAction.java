@@ -226,8 +226,7 @@ public class GtnFrameworkItemMasterEditAction
 					sourceComponentId).setComponentEnable(value);
 		}
 
-		String[] editVisibleFields = new String[] { "itemMasterIdentifierInformationPanel", "identifierAttachButton",
-				"identifierRemoveButton", "itemMasterPricingPanel", "pricingAttachButton", "pricingRemoveButton" };
+		String[] editVisibleFields = GtnFrameworkItemMasterStringContants.getEditVisibleFields();
 
 		for (int i = 0; i < editVisibleFields.length; i++) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(editVisibleFields[i], sourceComponentId)

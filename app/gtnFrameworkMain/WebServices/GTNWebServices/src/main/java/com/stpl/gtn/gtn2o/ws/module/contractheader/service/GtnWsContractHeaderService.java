@@ -202,7 +202,7 @@ public class GtnWsContractHeaderService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? 0 : systemId);
+		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
 	}
 
 	public void getCompanyGrpDeleteQuery(GtnUIFrameworkWebserviceRequest gtnWsRequest)

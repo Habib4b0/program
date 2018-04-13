@@ -1846,7 +1846,7 @@ public class MProjectionResultsLogic {
                         neededRecord--;
                 }
                 String salesUnits = projSelDTO.getSalesOrUnit();
-                if ((neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(SALES.getConstant()))) && (start < NumericConstants.FOUR)) {
+                if ((start < NumericConstants.FOUR) && (neededRecord > NumericConstants.ZERO && (salesUnits.equals(BOTH.getConstant()) || salesUnits.equals(SALES.getConstant())))) {
                         projDTOList.add(contractSalesDto);
                         neededRecord--;
                 }

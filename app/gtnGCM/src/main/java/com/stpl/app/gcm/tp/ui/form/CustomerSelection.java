@@ -103,27 +103,27 @@ public class CustomerSelection extends VerticalLayout {
     private Button removeBtn;
 
     @UiField("companyId")
-    private TextField companyId;
+    private TextField compId;
     @UiField("companyName")
-    private TextField companyName;
+    private TextField compName;
     @UiField("companyCategory")
-    private ComboBox companyCategory;
+    private ComboBox companyCategoryDdlb;
     @UiField("identifierType")
-    private ComboBox identifierType;
+    private ComboBox compIdentifierType;
     @UiField("parentNo")
-    private CustomTextField parentNo;
+    private CustomTextField compParentNo;
     @UiField("companyType")
-    private ComboBox companyType;
+    private ComboBox companyTypeDdlb;
     @UiField("companyNo")
-    private TextField companyNo;
+    private TextField compNo;
     @UiField("tradeClass")
-    private ComboBox tradeClass;
+    private ComboBox compTradeClass;
     @UiField("identifier")
-    private TextField identifier;
+    private TextField companyIdentifier;
     @UiField("parentName")
-    private CustomTextField parentName;
+    private CustomTextField compParentName;
 
-    private ParentCompanyLookup parentCompanyLookup = null;
+    private ParentCompanyLookup parentCompLookup = null;
     private int parentCompanySid;
     /**
      * The Constant LOGGER.
@@ -185,14 +185,14 @@ public class CustomerSelection extends VerticalLayout {
             selectedCustomersTableLayout.addComponent(selectedCustomersTable);
             companySearchResultsLayout.addComponent(companySearchResultsTable);
             transferCustomerTableLayout.addComponent(transferCustomerTable);
-            commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, false);
-            commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, false);
-            commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, false);
+            commonUtil.loadComboBox(compTradeClass, UiUtils.COMPANY_TRADE_CLASS, false);
+            commonUtil.loadComboBox(companyCategoryDdlb, UiUtils.COMPANY_CATEGORY, false);
+            commonUtil.loadComboBox(companyTypeDdlb, UiUtils.COMPANY_TYPE, false);
 
             resultList = logic.loadIdentifierTypeDdlb();
-            logic.setIdDescription(resultList, identifierType);
-            identifierType.setNullSelectionAllowed(true);
-            identifierType.select(Constants.SELECT_ONE);
+            logic.setIdDescription(resultList, compIdentifierType);
+            compIdentifierType.setNullSelectionAllowed(true);
+            compIdentifierType.select(Constants.SELECT_ONE);
             resultList.clear();
 
             selectedCustomersTable.setContainerDataSource(selectedCustomersContainer);
@@ -213,10 +213,10 @@ public class CustomerSelection extends VerticalLayout {
                 }
 
                 @Override
-                public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
-                    if (originatingField instanceof ComboBox) {
-                        if (originatingField.getValue() != null) {
-                            HelperDTO dto = (HelperDTO) originatingField.getValue();
+                public Container.Filter generateFilter(Object propertyId, Field<?> customerOriginatingField) {
+                    if (customerOriginatingField instanceof ComboBox) {
+                        if (customerOriginatingField.getValue() != null) {
+                            HelperDTO dto = (HelperDTO) customerOriginatingField.getValue();
 
                             return new SimpleStringFilter(propertyId, String.valueOf(dto.getId()), false, false);
                         } else {
@@ -321,32 +321,32 @@ public class CustomerSelection extends VerticalLayout {
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try {
                         if (propertyId.equals("companyType")) {
-                            ComboBox companyType = new ComboBox();
-                            companyType.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
-                            companyType.setHeight("39px");
-                            commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
-                            return companyType;
+                            ComboBox compType = new ComboBox();
+                            compType.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
+                            compType.setHeight("39px");
+                            commonUtil.loadComboBox(compType, UiUtils.COMPANY_TYPE, true);
+                            return compType;
                         }
                         if (propertyId.equals("companyCategory")) {
-                            ComboBox companyCategory = new ComboBox();
-                            companyCategory.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
-                            companyCategory.setHeight("39px");
-                            commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
-                            return companyCategory;
+                            ComboBox compCategory = new ComboBox();
+                            compCategory.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
+                            compCategory.setHeight("39px");
+                            commonUtil.loadComboBox(compCategory, UiUtils.COMPANY_CATEGORY, true);
+                            return compCategory;
                         }
                         if (propertyId.equals("tradeClass")) {
-                            ComboBox tradeClass = new ComboBox();
-                            tradeClass.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
-                            tradeClass.setHeight("39px");
-                            commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
-                            return tradeClass;
+                            ComboBox custSelTradeClass = new ComboBox();
+                            custSelTradeClass.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
+                            custSelTradeClass.setHeight("39px");
+                            commonUtil.loadComboBox(custSelTradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
+                            return custSelTradeClass;
                         }
                         if (propertyId.equals("state")) {
-                            ComboBox state = new ComboBox();
-                            state.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
-                            state.setHeight("39px");
-                            commonUtil.loadComboBox(state, UiUtils.STATE, true);
-                            return state;
+                            ComboBox custSelState = new ComboBox();
+                            custSelState.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
+                            custSelState.setHeight("39px");
+                            commonUtil.loadComboBox(custSelState, UiUtils.STATE, true);
+                            return custSelState;
                         }
                     } catch (Exception ex) {
                         LOGGER.error("",ex);
@@ -472,21 +472,21 @@ public class CustomerSelection extends VerticalLayout {
             selectedTpDto.setCompanyRestrictionSessionId(linkedCustomersSessionId);
             selectedCustomersLogic.loadSetData(selectedTpDto, StringUtils.EMPTY, StringUtils.EMPTY, Constants.ZEROSTRING, session.getSearchSessionId());
             selectedCustomersLogic.setCurrentPage(1);
-            parentNo.addClickListener(new CustomTextField.ClickListener() {
+            compParentNo.addClickListener(new CustomTextField.ClickListener() {
 
                 @Override
                 public void click(CustomTextField.ClickEvent event) {
-                    parentCompanyLookup = new ParentCompanyLookup(parentNo, parentName, parentCompanySid);
-                    UI.getCurrent().addWindow(parentCompanyLookup);
+                    parentCompLookup = new ParentCompanyLookup(compParentNo, compParentName, parentCompanySid);
+                    UI.getCurrent().addWindow(parentCompLookup);
                 }
             });
 
-            parentName.addClickListener(new CustomTextField.ClickListener() {
+            compParentName.addClickListener(new CustomTextField.ClickListener() {
 
                 @Override
                 public void click(CustomTextField.ClickEvent event) {
-                    parentCompanyLookup = new ParentCompanyLookup(parentNo, parentName, parentCompanySid);
-                    UI.getCurrent().addWindow(parentCompanyLookup);
+                    parentCompLookup = new ParentCompanyLookup(compParentNo, compParentName, parentCompanySid);
+                    UI.getCurrent().addWindow(parentCompLookup);
                 }
             });
             LOGGER.debug("Exiting configureFields");
@@ -562,17 +562,17 @@ public class CustomerSelection extends VerticalLayout {
         String recordLockStatus = "1";
         String userid= "";
 
-        if (StringUtils.isBlank(companyId.getValue()) && StringUtils.isBlank(companyName.getValue()) && StringUtils.isBlank(companyNo.getValue())
-                && StringUtils.isBlank(identifier.getValue()) && StringUtils.isBlank(parentNo.getValue()) && StringUtils.isBlank(parentName.getValue())
-                && Constants.NULL.equalsIgnoreCase(String.valueOf(companyType.getValue())) && Constants.NULL.equalsIgnoreCase(String.valueOf(companyCategory.getValue()))
-                && Constants.NULL.equalsIgnoreCase(String.valueOf(tradeClass.getValue())) && Constants.NULL.equalsIgnoreCase(String.valueOf(identifierType.getValue()))) {
+        if (StringUtils.isBlank(compId.getValue()) && StringUtils.isBlank(compName.getValue()) && StringUtils.isBlank(compNo.getValue())
+                && StringUtils.isBlank(companyIdentifier.getValue()) && StringUtils.isBlank(compParentNo.getValue()) && StringUtils.isBlank(compParentName.getValue())
+                && Constants.NULL.equalsIgnoreCase(String.valueOf(companyTypeDdlb.getValue())) && Constants.NULL.equalsIgnoreCase(String.valueOf(companyCategoryDdlb.getValue()))
+                && Constants.NULL.equalsIgnoreCase(String.valueOf(compTradeClass.getValue())) && Constants.NULL.equalsIgnoreCase(String.valueOf(compIdentifierType.getValue()))) {
             AbstractNotificationUtils.getAlertNotification(MessageConstants.NO_SEARCH_CRITERIA_TITLE.getConstant(),
                     MessageConstants.NO_SEARCH_CRITERIA_BODY.getConstant());
         } else {
             try {
                 dataSelectionBinder.commit();
-                String parentCompanyNo = parentNo.getValue() != null ? parentNo.getValue() : StringUtils.EMPTY;
-                String parentCompanyName = parentName.getValue() != null ? parentName.getValue() : StringUtils.EMPTY;
+                String parentCompanyNo = compParentNo.getValue() != null ? compParentNo.getValue() : StringUtils.EMPTY;
+                String parentCompanyName = compParentName.getValue() != null ? compParentName.getValue() : StringUtils.EMPTY;
                 logic.clearTempTable(customerSearchSessionId);
                 customerSearchSessionId = createSearchSessionId();
                 users = getUserName();
@@ -619,17 +619,17 @@ public class CustomerSelection extends VerticalLayout {
      
      
     public void companySearchReset() {
-        companyType.setValue(Constants.SELECT_ONE);
-        companyCategory.setValue(Constants.SELECT_ONE);
-        tradeClass.setValue(Constants.SELECT_ONE);
-        identifierType.setValue(Constants.SELECT_ONE);
-        companyId.setValue(StringUtils.EMPTY);
-        companyName.setValue(StringUtils.EMPTY);
-        companyNo.setValue(StringUtils.EMPTY);
-        identifier.setValue(StringUtils.EMPTY);
-        parentNo.setValue(StringUtils.EMPTY);
-        parentName.setValue(StringUtils.EMPTY);
-        parentCompanyLookup = null;
+        companyTypeDdlb.setValue(Constants.SELECT_ONE);
+        companyCategoryDdlb.setValue(Constants.SELECT_ONE);
+        compTradeClass.setValue(Constants.SELECT_ONE);
+        compIdentifierType.setValue(Constants.SELECT_ONE);
+        compId.setValue(StringUtils.EMPTY);
+        compName.setValue(StringUtils.EMPTY);
+        compNo.setValue(StringUtils.EMPTY);
+        companyIdentifier.setValue(StringUtils.EMPTY);
+        compParentNo.setValue(StringUtils.EMPTY);
+        compParentName.setValue(StringUtils.EMPTY);
+        parentCompLookup = null;
     }
 
     @UiHandler("resetBtn")

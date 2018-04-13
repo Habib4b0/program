@@ -390,3 +390,15 @@ mkdir -p $base_path/staging/Inbound/PSTG_SALES_FORECAST_INTERFACE
 mkdir -p $base_path/staging/Inbound/PSTG_SALES_FORECAST_INTERFACE/Error
 mkdir -p $base_path/staging/Inbound/PSTG_SALES_FORECAST_INTERFACE/Processed
 mkdir -p $base_path/staging/Inbound/PSTG_SALES_FORECAST_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/CONTRACT_CFP_MBR_INTERFACE
+mkdir -p $base_path/staging/Inbound/CONTRACT_CFP_MBR_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/CONTRACT_CFP_MBR_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/CONTRACT_CFP_MBR_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/PSTG_GCC_PROD_HIERARCHY_INTERFACE
+mkdir -p $base_path/staging/Inbound/PSTG_GCC_PROD_HIERARCHY_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/PSTG_GCC_PROD_HIERARCHY_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/PSTG_GCC_PROD_HIERARCHY_INTERFACE/Input
+mkdir -p $base_path/staging/Inbound/PSTG_FORECAST_SALES_WAC_INTERFACE
+mkdir -p $base_path/staging/Inbound/PSTG_FORECAST_SALES_WAC_INTERFACE/Error
+mkdir -p $base_path/staging/Inbound/PSTG_FORECAST_SALES_WAC_INTERFACE/Processed
+mkdir -p $base_path/staging/Inbound/PSTG_FORECAST_SALES_WAC_INTERFACE/Input

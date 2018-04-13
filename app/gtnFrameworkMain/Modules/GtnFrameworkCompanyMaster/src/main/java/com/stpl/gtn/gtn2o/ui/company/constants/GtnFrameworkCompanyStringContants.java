@@ -325,7 +325,165 @@ public class GtnFrameworkCompanyStringContants {
         "companyInformationTabCompanyId", "companyInformationTabCompanyNo", "companyInformationTabCompanyName",
         "companyInformationTabSource", "companyInformationTabFinancialSystem",
         COMPANY_INFO_SYSTEM_ID, COMPANY_INFO_CREATED_BY, "companyInformationTabModifiedBy"};
-				
+        
+	private static final Object[] ADD_ADD_ENABLE_FIELD = new String[] { GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_ID,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_NO,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_NAME,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_STATUS,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_START_DATE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_END_DATE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_CATEGORY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_GROUP,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_TYPE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_ORG_KEY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_SOURCE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_FINANCE_SYSTEM,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_SYSTEM_ID,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_CREATED_BY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_CREATED_DATE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_MODIFIED_BY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_MODIFIED_DATE,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ADDRESS_1,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_CITY,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ZIP_CODE,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_COUNTRY,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ADDRESS_2,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_STATE,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_REGION_CODE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC1,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC2,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC3,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC4,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC5,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC6 };	
+        
+        private static final String[] ADD_ADD_VISIBLE_FIELDS = new String[] { GtnFrameworkCompanyStringContants.COMPANY_ADD_SAVE_BUTTON,
+				GtnFrameworkCompanyStringContants.COMPANY_MASTER_RESET_BTN,
+				GtnFrameworkCompanyStringContants.COMPANY_MASTER_DELETE_BTN,
+				GtnFrameworkCompanyStringContants.IDENTIFIER_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.IDENTIFIER_REMOVE_BTN_LAYOUT,
+				GtnFrameworkCompanyStringContants.TRADE_CLASS_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.TRADE_CLASS_REMOVE_BTN_LAYOUT,
+				GtnFrameworkCompanyStringContants.PARENT_COMPANY_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.PARENT_COMPANY_REMOVE_BTN_LAYOUT };
+        
+        private static final Object[] ADD_EDIT_DISABLE_FIELD = new Object[] { GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_ID,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_NO,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_NAME,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_STATUS,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_START_DATE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_END_DATE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_CATEGORY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_GROUP,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_TYPE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_ORG_KEY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_FINANCE_SYSTEM,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ADDRESS_1,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_CITY,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ZIP_CODE,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_COUNTRY,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ADDRESS_2,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_STATE,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_REGION_CODE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC1,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC2,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC3,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC4,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC5,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC6,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_MODE,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_YEAR,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_RESET_BTN,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_OPEN_BTN,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_CLOSE_BTN };
+        private static final String[] ADD_EDIT_VISIBLE_FIELD = new String[] { GtnFrameworkCompanyStringContants.COMPANY_ADD_SAVE_BUTTON,
+				GtnFrameworkCompanyStringContants.COMPANY_MASTER_RESET_BTN,
+				GtnFrameworkCompanyStringContants.COMPANY_MASTER_DELETE_BTN,
+				GtnFrameworkCompanyStringContants.IDENTIFIER_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.IDENTIFIER_REMOVE_BTN_LAYOUT,
+				GtnFrameworkCompanyStringContants.TRADE_CLASS_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.TRADE_CLASS_REMOVE_BTN_LAYOUT,
+				GtnFrameworkCompanyStringContants.PARENT_COMPANY_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.PARENT_COMPANY_REMOVE_BTN_LAYOUT };
+        
+        private static final Object[] ADD_VIEW_DISABLE_FIELD = new String[] { GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_ID,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_NO,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_NAME,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_STATUS,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_START_DATE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_END_DATE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_CATEGORY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_GROUP,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_TYPE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_ORG_KEY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_SOURCE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_COMPANY_FINANCE_SYSTEM,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_SYSTEM_ID,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_CREATED_BY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_CREATED_DATE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_MODIFIED_BY,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_MODIFIED_DATE,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ADDRESS_1,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_CITY,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ZIP_CODE,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_COUNTRY,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_ADDRESS_2,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_STATE,
+				GtnFrameworkCompanyStringContants.ADDRESS_INFO_REGION_CODE,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC1,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC2,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC3,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC4,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC5,
+				GtnFrameworkCompanyStringContants.COMPANY_INFO_UDC6,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_MODE,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_YEAR,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_RESET_BTN,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_OPEN_BTN,
+				GtnFrameworkCompanyStringContants.FINANCIAL_CLOSE_CLOSE_BTN };
+        
+        private static final String[] PROPERTY_IDS = { GtnFrameworkCompanyStringContants.COMPANY_TYPE,
+				GtnFrameworkCompanyStringContants.COMPANY_STATUS, "companyTradeClass",
+				GtnFrameworkCompanyStringContants.COMPANY_GROUP, GtnFrameworkCompanyStringContants.COMPANY_CATEGORY,
+				"organizationKey", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "state", "country" };
+        private static final String[] LIST_NAME_ARRAY = { "COMPANY_TYPE", "STATUS", "COMPANY_TRADE_CLASS", "COMPANY_GROUP", "COMPANY_CATEGORY",
+				"ORGANIZATION_KEY", "COMP_UDC1", "COMP_UDC2", "COMP_UDC3", "COMP_UDC4", "COMP_UDC5", "COMP_UDC6",
+				"STATE", "COUNTRY" };
+
+    public static String[] getListNameArray() {
+        return LIST_NAME_ARRAY.clone();
+    }
+        
+
+    public static String[] getPropertyIds() {
+        return PROPERTY_IDS.clone();
+    }
+        
+
+     public static Object[] getAddViewDisableField() {
+        return ADD_VIEW_DISABLE_FIELD.clone();
+    }
+        
+        
+
+    public static String[] getAddEditVisibleField() {
+        return ADD_EDIT_VISIBLE_FIELD.clone();
+    }
+        
+
+    public static Object[] getAddEditDisableField() {
+        return ADD_EDIT_DISABLE_FIELD.clone();
+    }
+        
+
+    public static String[] getAddVisibleFields() {
+        return ADD_ADD_VISIBLE_FIELDS.clone();
+    }
+        
+
+    public static Object[] getAddEnableField() {
+        return ADD_ADD_ENABLE_FIELD.clone();
+    }
 
 	public static List<String> getCmIdentifierTextfieldPropertiesList() {
 		return CM_IDENTIFIER_TEXTFIELD_PROPERTIES_LIST;

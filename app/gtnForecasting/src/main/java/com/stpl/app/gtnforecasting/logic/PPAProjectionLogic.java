@@ -207,7 +207,7 @@ public class PPAProjectionLogic {
                                 dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, Constant.DASH_NO_DATA);
                             }
                         }
-                        if ((isColumn(visibleColumn, quater, year, Constant.RESET_SMALL)) && (flag)) {
+                        if ((flag) && (isColumn(visibleColumn, quater, year, Constant.RESET_SMALL))) {
                             int value = Integer.valueOf((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
                             dto.addBooleanProperties(Constant.Q_SMALL + quater + year + Constant.RESET_SMALL, value >= dto.getCCPCount());
 

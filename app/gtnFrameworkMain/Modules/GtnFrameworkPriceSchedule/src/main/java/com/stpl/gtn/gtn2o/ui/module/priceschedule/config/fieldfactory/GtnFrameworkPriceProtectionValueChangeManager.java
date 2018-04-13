@@ -10,7 +10,7 @@ public class GtnFrameworkPriceProtectionValueChangeManager {
 	}
 
 	public static Boolean isValueChangeAllowed() {
-		return (boolean) (GtnUIFrameworkGlobalUI.getSessionProperty("PriceProtectionTabValueChangeAllowed"));
+		return (Boolean) (GtnUIFrameworkGlobalUI.getSessionProperty("PriceProtectionTabValueChangeAllowed"));
 	}
 
 	public static void setValueChangeAllowed(boolean value) {

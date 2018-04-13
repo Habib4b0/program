@@ -32,7 +32,7 @@ public class GtnFrameworkItemMasterIdEditListDeleteValidationAction
 		List<Object> actionParameter = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnWsRecordBean selectedId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameter.get(1).toString())
 				.getValueFromDataTable();
-		Boolean recordLockStatus = (selectedId.getPropertyValue(actionParameter.get(2).toString()) == null) ? false
+		Boolean recordLockStatus = (selectedId.getPropertyValue(actionParameter.get(2).toString()) == null) ? Boolean.FALSE
 				: ((Boolean) selectedId.getPropertyValue(actionParameter.get(2).toString()));
 		getMsgAlertForDelete(recordLockStatus, componentId, actionParameter.get(1),
 				gtnUIFrameWorkActionConfig.getFieldValues(), actionParameter.get(3).toString(),"Identifier".equals(actionParameter.get(4).toString()));

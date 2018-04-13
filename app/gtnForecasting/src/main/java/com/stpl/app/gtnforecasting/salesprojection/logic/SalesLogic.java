@@ -1217,7 +1217,7 @@ public class SalesLogic {
             if (QUARTERLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) {
                 key = Constant.Q_SMALL + String.valueOf(object[NumericConstants.FIVE]) + String.valueOf(object[NumericConstants.SIX]);
             }
-            if ((MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())) && (monthMap != null)) {
+            if ((monthMap != null) && (MONTHLY.getConstant().equalsIgnoreCase(projSelDTO.getFrequency()))) {
                 key = monthMap.get(String.valueOf(object[NumericConstants.FIVE])) + String.valueOf(object[NumericConstants.SIX]);
             }
             if (ANNUAL.getConstant().equalsIgnoreCase(projSelDTO.getFrequency())
@@ -2145,7 +2145,7 @@ public class SalesLogic {
             }
 
             CommonLogic commonLogic = new CommonLogic();
-            String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-custom-view") : SQlUtil.getQuery("selected-hierarchy-no-update");
+            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT, salesDTO.getSecHierarchyNo());
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_PRODUCTPARENT, salesDTO.getHierarchyNo());
@@ -3438,7 +3438,7 @@ public class SalesLogic {
         salesRowDto.setHierarchyNo(StringUtils.EMPTY);
         for (int i = 0; i < resulList.size(); i++) {
             Object obj[] = (Object[]) resulList.get(i);
-            if (StringUtils.isNotBlank(salesRowDto.getHierarchyNo()) && obj[NumericConstants.TWO] != null && !obj[NumericConstants.TWO].equals(salesRowDto.getHierarchyNo())) {
+            if (obj[NumericConstants.TWO] != null && StringUtils.isNotBlank(salesRowDto.getHierarchyNo()) && !obj[NumericConstants.TWO].equals(salesRowDto.getHierarchyNo())) {
                 salesRowList.add(salesRowDto);
                 salesRowDto = new SalesRowDto();
             }
@@ -3912,8 +3912,8 @@ public class SalesLogic {
         int mayBeAdded = 0;
 
         List<SalesRowDto> projDTOList = new ArrayList<>();
-        if ((!projSelDTO.getLevelValue().startsWith(Constant.ALL)
-                && !projSelDTO.getLevelValue().contains(Constant.SALES)) && (neededRecord > 0)) {
+        if ((neededRecord > 0) && (!projSelDTO.getLevelValue().startsWith(Constant.ALL)
+                && !projSelDTO.getLevelValue().contains(Constant.SALES))) {
             int mayBeAddedRecord = started - mayBeAdded;
             if (mayBeAddedRecord < 0) {
                 mayBeAddedRecord = 0;
@@ -4208,7 +4208,7 @@ public class SalesLogic {
             if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (isExpand)) {
                 whereCond = " and HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
             }
-            if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (!isFilter)) {
+            if ((!isFilter) && (!hierarchyNo.equals(StringUtils.EMPTY))) {
                 hierarchyNo1 = hierarchyNo;
             }
         }
