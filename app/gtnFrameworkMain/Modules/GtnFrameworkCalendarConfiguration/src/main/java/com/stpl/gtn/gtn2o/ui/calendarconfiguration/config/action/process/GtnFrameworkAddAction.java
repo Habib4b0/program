@@ -7,7 +7,6 @@ package com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process;
 
 import java.util.List;
 
-import com.stpl.gtn.gtn2o.ui.calendarconfiguration.constants.GtnFrameworkCalendarConfigurationContants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
