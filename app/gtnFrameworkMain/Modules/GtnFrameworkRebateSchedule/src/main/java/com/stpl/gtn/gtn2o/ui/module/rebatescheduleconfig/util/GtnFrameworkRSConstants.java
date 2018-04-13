@@ -547,8 +547,8 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
 				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
-				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE, "RSleftResultTable",
-				"RSrightResultTable" };
+				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE, GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE,
+				GtnFrameworkRSConstants.R_SRIGHT_RESULT_TABLE };
 
         
         private static final Object[] ADD_ENABLE_FIELDS = new String[] { GtnFrameworkCommonConstants.NOTES_TAB,
@@ -628,7 +628,7 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6 };
          
          private static final String[] LIST_NAME_ARRAY = { "RS_TYPE", "STATUS", "REBATE_PROGRAM_TYPE", "RS_CATEGORY", "RS_TRADE_CLASS",
-				"REBATE_FREQUENCY", "RS_CALENDAR", "CALCULATION_TYPE", "RULE_LEVEL", "REBATE_RULE_TYPE",
+				"REBATE_FREQUENCY", "RS_CALENDAR", "CALCULATION_TYPE", GtnFrameworkRSConstants.RULE_LEVEL, "REBATE_RULE_TYPE",
 				"PAYMENT_TERMS", "PAYMENT_METHOD", "PAYMENT_FREQUENCY", "INTEREST_BEARING_INDICATOR",
 				"INTEREST_BEARING_BASIS", "RS_DESIGNATION", "RS_UDC1", "RS_UDC2", "RS_UDC3", "RS_UDC4", "RS_UDC5",
 				"RS_UDC6" };
