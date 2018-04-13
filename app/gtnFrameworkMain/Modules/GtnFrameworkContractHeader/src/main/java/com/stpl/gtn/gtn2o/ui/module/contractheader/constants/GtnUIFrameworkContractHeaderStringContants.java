@@ -94,9 +94,10 @@ public class GtnUIFrameworkContractHeaderStringContants {
 	public static final String CONTRACT_HEADER_TAB_TP_SELECT_BUTTON = "contractHeaderTabTpSelectButton";
 	public static final String LANDING_SCREEN_TP_SELECT_BUTTON = "landingScreenTpSelectButton";
 	public static final String COMPANY_NO = "Company No";
+	public static final String CONTRACT_HEADER_TAB_CONTRACT_STATUS = "contractHeaderTabContractStatus";
 	public static final List<String> CH_FIELDS = Collections.unmodifiableList(Arrays.asList("contractId", "contractNo",
 			"contractName", CONTRACT_HEADER_TAB_CONTRACT_ID, CONTRACT_HEADER_TAB_CONTRACT_NO,
-			CONTRACT_HEADER_TAB_CONTRACT_NAME, "contractHeaderTabContractType", "contractHeaderTabContractStatus",
+			CONTRACT_HEADER_TAB_CONTRACT_NAME, "contractHeaderTabContractType", CONTRACT_HEADER_TAB_CONTRACT_STATUS,
 			"contractHeaderTabDocumentType", "contractHeaderContractStartDate", "contractHeaderContractEndDate",
 			"contractHeaderTabDocumentClass", "contractHeaderTabTradeClass", "contractHeaderTabReNegotiationStartDate",
 			"contractHeaderTabReNegotiationEndDate", "contractHeaderTabPriceProtectionStartDate",
@@ -120,7 +121,7 @@ public class GtnUIFrameworkContractHeaderStringContants {
 			"contractInformationTabAdvanceNoticeDays","contractHeaderTabForecastEligibleDate"));
 	public static final List<String> GTN_CONTACT_HEADER_INFORMATION_TAB_FIELD_LIST = Collections.unmodifiableList(Arrays
 			.asList(CONTRACT_HEADER_TAB_CONTRACT_ID, CONTRACT_HEADER_TAB_CONTRACT_NO, CONTRACT_HEADER_TAB_CONTRACT_NAME,
-					"contractHeaderTabContractType", "contractHeaderTabContractStatus", "contractHeaderTabDocumentType",
+					"contractHeaderTabContractType", CONTRACT_HEADER_TAB_CONTRACT_STATUS, "contractHeaderTabDocumentType",
 					"contractHeaderContractStartDate", "contractHeaderContractEndDate",
 					"contractHeaderTabDocumentClass", "contractHeaderTabTradeClass", "contractHeaderTabTradingPartner",
 					"contractHeaderTabReNegotiationStartDate", "contractHeaderTabReNegotiationEndDate",
@@ -151,7 +152,7 @@ public class GtnUIFrameworkContractHeaderStringContants {
         
         private static final String[] DO_ACTION_FIELDS = new String[] { GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_CONTRACT_ID,
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_CONTRACT_NO,
-				"contractHeaderTabContractName", "contractHeaderTabContractStatus", "contractHeaderTabContractType",
+				"contractHeaderTabContractName", CONTRACT_HEADER_TAB_CONTRACT_STATUS, "contractHeaderTabContractType",
 				"contractHeaderContractStartDate",
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER };
 

@@ -67,6 +67,7 @@ public class GtnFrameworkRSConstants {
 	public static final String RS_STATUS = "rsStatus";
 	public static final String START_DATE = "Start Date";
 	public static final String END_DATE = "End Date";
+	public static final String USER_ID_NAME = "userIdName";
 	private static final String[] RS_LOOKUP_COLUMN = { "systemId", "rsId", "rsNo", "rsName", "rsType", RS_STATUS,
 			"rsCategory", GtnFrameworkCommonConstants.START_DATE, GtnFrameworkCommonConstants.END_DATE, "rsDesignation",
 			"parentRsId", "parentRsName" };
@@ -666,7 +667,7 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_RIGHT_INDICATOR,
 				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_LEFT_INDICATOR };
          
-        private static final String[] RP_LIST_NAME_ARRAY = {"RULE_TYPE", "RULE_CATEGORY", "userIdName", "userIdName"};
+        private static final String[] RP_LIST_NAME_ARRAY = {"RULE_TYPE", "RULE_CATEGORY", USER_ID_NAME, USER_ID_NAME};
 
     private static final String[] RP_POPUP_PROPERTY_IDS = {"ruleType", "ruleCategory", "createdBy", "modifiedBy"};
 
@@ -675,7 +676,7 @@ public class GtnFrameworkRSConstants {
     public static String[] getNsFilterPropertyIds() {
         return NS_FILTER_PROPERTY_IDS.clone();
     }
-    private static final String[] NS_LIST_NAME_ARRAY = {"NS_FORMULA_TYPE", "userIdName", "userIdName"};
+    private static final String[] NS_LIST_NAME_ARRAY = {"NS_FORMULA_TYPE", USER_ID_NAME, USER_ID_NAME};
 
     public static String[] getNsListNameArray() {
         return NS_LIST_NAME_ARRAY.clone();
