@@ -32,7 +32,7 @@ public class GtnFrameworkCustomPopupSelectAction implements GtnUIFrameWorkAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		List<Object> parameters = (List<Object>) gtnUIFrameWorkActionConfig.getActionParameterList();
+		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(parameters.get(1).toString());
 		Object value = tableBaseComponent.getValueFromComponent();
