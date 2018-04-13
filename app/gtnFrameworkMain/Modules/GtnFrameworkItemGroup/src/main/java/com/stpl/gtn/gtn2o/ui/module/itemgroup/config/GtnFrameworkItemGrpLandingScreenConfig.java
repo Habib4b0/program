@@ -254,7 +254,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		searchDisableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
 		
 
-		searchDisableAction.setActionParameterList(Arrays.asList(GtnFrameworkItemGrpStringContants.getADD_SEARCH_DISABLE_FIELD()));
+		searchDisableAction.setActionParameterList(Arrays.asList(GtnFrameworkItemGrpStringContants.getAddSearchDisableField()));
 		actionConfigList.add(searchDisableAction);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -310,7 +310,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		// To Disable buttons (Edit, Delete, Copy) while Audit search is clicked
 		GtnUIFrameWorkActionConfig auditSearchDisableAction = new GtnUIFrameWorkActionConfig();
 		auditSearchDisableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		auditSearchDisableAction.setActionParameterList(Arrays.asList(GtnFrameworkItemGrpStringContants.getAUDIT_SEARCH_DISABLE_FIELD()));
+		auditSearchDisableAction.setActionParameterList(Arrays.asList(GtnFrameworkItemGrpStringContants.getAuditSearchDisableField()));
 		actionConfigList.add(auditSearchDisableAction);
 		auditSearchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -637,7 +637,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 				GtnFrameworkCommonConstants.ITEM_GRPSEARCH_RESULT_TABLE };
 		List<String> resetIdList = Arrays.asList(resetIdArray);
 
-		List<Object> resetValueList = Arrays.asList(GtnFrameworkItemGrpStringContants.getRESET_VALUE_ARRAY());
+		List<Object> resetValueList = Arrays.asList(GtnFrameworkItemGrpStringContants.getResetValueArray());
 
 		resetActionConfig.addActionParameter(resetIdList);
 		resetActionConfig.addActionParameter(resetValueList);

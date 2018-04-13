@@ -450,38 +450,38 @@ public class GtnFrameworkCompanyStringContants {
 				"ORGANIZATION_KEY", "COMP_UDC1", "COMP_UDC2", "COMP_UDC3", "COMP_UDC4", "COMP_UDC5", "COMP_UDC6",
 				"STATE", "COUNTRY" };
 
-    public static String[] getLIST_NAME_ARRAY() {
+    public static String[] getListNameArray() {
         return LIST_NAME_ARRAY.clone();
     }
         
 
-    public static String[] getPROPERTY_IDS() {
+    public static String[] getPropertyIds() {
         return PROPERTY_IDS.clone();
     }
         
 
-     public static Object[] getADD_VIEW_DISABLE_FIELD() {
+     public static Object[] getAddViewDisableField() {
         return ADD_VIEW_DISABLE_FIELD.clone();
     }
         
         
 
-    public static String[] getADD_EDIT_VISIBLE_FIELD() {
+    public static String[] getAddEditVisibleField() {
         return ADD_EDIT_VISIBLE_FIELD.clone();
     }
         
 
-    public static Object[] getADD_EDIT_DISABLE_FIELD() {
+    public static Object[] getAddEditDisableField() {
         return ADD_EDIT_DISABLE_FIELD.clone();
     }
         
 
-    public static String[] getADD_ADD_VISIBLE_FIELDS() {
+    public static String[] getAddVisibleFields() {
         return ADD_ADD_VISIBLE_FIELDS.clone();
     }
         
 
-    public static Object[] getADD_ADD_ENABLE_FIELD() {
+    public static Object[] getAddEnableField() {
         return ADD_ADD_ENABLE_FIELD.clone();
     }
 

@@ -117,7 +117,7 @@ EXEC( @SQL )
             ]]>
         </query>
     </entity>
-    
+
     <entity id="PARENT-VALIDATE">
         <query>
             <![CDATA[

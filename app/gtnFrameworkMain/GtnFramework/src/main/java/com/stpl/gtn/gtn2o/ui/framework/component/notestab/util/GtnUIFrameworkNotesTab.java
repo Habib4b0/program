@@ -126,8 +126,8 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 
 	private List<String> validFormats = Arrays.asList("doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpg",
 			"jpeg", "pptx");
-        private final Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
-        private final String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
+        private static final Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
+        private static final String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
 
 	/**
 	 * constructor for additional information

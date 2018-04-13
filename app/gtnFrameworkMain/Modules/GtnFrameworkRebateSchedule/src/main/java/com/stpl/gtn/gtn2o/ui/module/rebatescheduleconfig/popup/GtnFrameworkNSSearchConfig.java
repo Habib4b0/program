@@ -394,8 +394,8 @@ public class GtnFrameworkNSSearchConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getNsPopupCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> sPopupCustomFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkRSConstants.getNS_FILTER_PROPERTY_IDS();
-		String[] listNameArray = GtnFrameworkRSConstants.getNS_LIST_NAME_ARRAY();
+		String[] propertyIds = GtnFrameworkRSConstants.getNsFilterPropertyIds();
+		String[] listNameArray = GtnFrameworkRSConstants.getNsListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);

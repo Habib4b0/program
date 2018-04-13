@@ -483,7 +483,7 @@ public class GtnFrameworkCGrpAddComapanyConfig {
 		resetActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.CUSTOMER_GRP_CONFIRMATION_MSG_RESET);
 
 		List<String> resetComponentIdList = new ArrayList<>();
-		String[] componentIdArray = GtnFrameworkCGrpStringContants.getCOMPONENT_ID_ARRAY();
+		String[] componentIdArray = GtnFrameworkCGrpStringContants.getComponentidArray();
 		resetComponentIdList.addAll(Arrays.asList(componentIdArray));
 
 		List<Object> resetComponentValueList = new ArrayList<>();

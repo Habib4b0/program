@@ -434,8 +434,8 @@ public class GtnFrameworkCfpCompanyAdditionTabConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkCfpStringContants.getPROPERTY_IDS();
-		String[] listNameList =  GtnFrameworkCfpStringContants.getCUSTOM_LIST_NAME_LIST();
+		String[] propertyIds = GtnFrameworkCfpStringContants.getPropertyIds();
+		String[] listNameList =  GtnFrameworkCfpStringContants.getCustomListNameList();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);

@@ -723,8 +723,8 @@ public class GtnFrameworkCfpLandingScreenConfig {
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig(
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkCfpStringContants.getLANDING_SCREEN_PROPERTYIDS();
-		String[] listNameArray = GtnFrameworkCfpStringContants.getLANDING_SCREEN_LIST_NAME_ARRAY();
+		String[] propertyIds = GtnFrameworkCfpStringContants.getLandingScreenpropertyIds();
+		String[] listNameArray = GtnFrameworkCfpStringContants.getLandingScreenListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig cfpCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			cfpCustomFilterConfig.setPropertId(propertyIds[i]);
