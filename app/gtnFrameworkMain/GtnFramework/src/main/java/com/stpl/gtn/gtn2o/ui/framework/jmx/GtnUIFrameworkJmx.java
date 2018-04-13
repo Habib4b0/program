@@ -64,7 +64,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof TextField) {
+					if (value instanceof TextField) {
 						textFieldCount++;
 					}
 				}
@@ -81,7 +81,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof ComboBox) {
+					if (value instanceof ComboBox) {
 						comBoBoxCount++;
 					}
 				}
@@ -98,7 +98,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof CustomTextField) {
+					if (value instanceof CustomTextField) {
 						custumTextFieldCount++;
 					}
 				}
@@ -115,7 +115,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof PopupDateField) {
+					if (value instanceof PopupDateField) {
 						popUpDateFieldCount++;
 					}
 				}
@@ -132,7 +132,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof ExtPagedTable) {
+					if (value instanceof ExtPagedTable) {
 						extFilterTableCount++;
 					}
 				}
@@ -151,7 +151,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof Button) {
+					if (value instanceof Button) {
 						buttonCount++;
 					}
 				}
@@ -170,7 +170,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof CustomMenuBar) {
+					if (value instanceof CustomMenuBar) {
 						customMenuBarCount++;
 					}
 				}
@@ -188,7 +188,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof ExtFilterTable) {
+					if (value instanceof ExtFilterTable) {
 						extFilterTableCount++;
 					}
 
@@ -206,7 +206,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof TextArea) {
+					if (value instanceof TextArea) {
 						textAreaCount++;
 					}
 				}
@@ -223,7 +223,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof OptionGroup) {
+					if (value instanceof OptionGroup) {
 						optionGroupCount++;
 					}
 				}
@@ -240,7 +240,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getVaadinComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof FreezePagedTreeTable) {
+					if (value instanceof FreezePagedTreeTable) {
 						freezePagedTreeTableCount++;
 					}
 
@@ -289,7 +289,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getFieldFactoryComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof TextField) {
+					if (value instanceof TextField) {
 						fieldFactoryTextFieldCount++;
 					}
 
@@ -313,7 +313,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getFieldFactoryComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof ComboBox) {
+					if (value instanceof ComboBox) {
 						fieldFactoryComboBoxCount++;
 					}
 
@@ -333,7 +333,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getFieldFactoryComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof CustomTextField) {
+					if (value instanceof CustomTextField) {
 						fieldFactoryCustomTextFieldCount++;
 					}
 
@@ -354,7 +354,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getFieldFactoryComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof PopupDateField) {
+					if (value instanceof PopupDateField) {
 						fieldFactoryPopupDateFieldCount++;
 					}
 
@@ -375,7 +375,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getFieldFactoryComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof Button) {
+					if (value instanceof Button) {
 						fieldFactoryButtonCount++;
 					}
 
@@ -396,7 +396,7 @@ public class GtnUIFrameworkJmx implements GtnUIFrameworkJmxMBean {
 				for (Map.Entry<String, WeakReference<AbstractComponent>> entry : gtnObject.get().getFrameworkConfigMap()
 						.getFieldFactoryComponentMap().entrySet()) {
 					AbstractComponent value = entry.getValue().get();
-					if (value != null && value instanceof TextArea) {
+					if (value instanceof TextArea) {
 						fieldFactoryTextAreaCount++;
 					}
 

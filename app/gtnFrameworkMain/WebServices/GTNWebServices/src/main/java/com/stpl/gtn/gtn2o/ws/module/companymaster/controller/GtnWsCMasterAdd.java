@@ -979,7 +979,7 @@ public class GtnWsCMasterAdd {
 		StringBuilder sql = new StringBuilder();
 		sql.append(gtnWsSqlService.getQuery("getFetchCurrentMonthQuery"));
 		sql.append("WHERE DESCRIPTION = '").append(gtnWsRequest.getGtnWsGeneralRequest().getExtraParameter())
-				.append("'");
+				.append("' ");
 
 		return sql.toString();
 
