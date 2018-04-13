@@ -33,9 +33,9 @@ public class GtnFrameworkPopupSelectAction implements GtnUIFrameWorkAction, GtnU
 		List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnUIFrameworkBaseComponent baseComp = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(parameterList.get(1).toString());
-		Object ObjectValue = baseComp.getValueFromComponent();
-		if (ObjectValue != null) {
-			GtnWsRecordBean recordBeanDto = (GtnWsRecordBean) ObjectValue;
+		Object objectVal = baseComp.getValueFromComponent();
+		if (objectVal != null) {
+			GtnWsRecordBean recordBeanDto = (GtnWsRecordBean) objectVal;
 
 			GtnUIFrameworkComponentData viewDataComponent = GtnUIFrameworkGlobalUI
 					.getVaadinComponentData(parameterList.get(2).toString());
