@@ -1445,7 +1445,6 @@ public class GtnWsRelationshipBuilderService {
 			}
 		}
 		return dataTable;
-
 	}
 
 	public List<String> getRelationQueries(int relationshipSid,
