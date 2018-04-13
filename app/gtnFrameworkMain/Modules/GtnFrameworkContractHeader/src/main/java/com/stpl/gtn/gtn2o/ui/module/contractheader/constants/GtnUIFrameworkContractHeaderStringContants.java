@@ -95,44 +95,74 @@ public class GtnUIFrameworkContractHeaderStringContants {
 	public static final String LANDING_SCREEN_TP_SELECT_BUTTON = "landingScreenTpSelectButton";
 	public static final String COMPANY_NO = "Company No";
 	public static final String CONTRACT_HEADER_TAB_CONTRACT_STATUS = "contractHeaderTabContractStatus";
-	public static final List<String> CH_FIELDS = Collections.unmodifiableList(Arrays.asList("contractId", "contractNo",
-			"contractName", CONTRACT_HEADER_TAB_CONTRACT_ID, CONTRACT_HEADER_TAB_CONTRACT_NO,
-			CONTRACT_HEADER_TAB_CONTRACT_NAME, "contractHeaderTabContractType", CONTRACT_HEADER_TAB_CONTRACT_STATUS,
-			"contractHeaderTabDocumentType", "contractHeaderContractStartDate", "contractHeaderContractEndDate",
-			"contractHeaderTabDocumentClass", "contractHeaderTabTradeClass", "contractHeaderTabReNegotiationStartDate",
-			"contractHeaderTabReNegotiationEndDate", "contractHeaderTabPriceProtectionStartDate",
-			"contractHeaderTabPriceProtectionEndDate", "contractHeaderTaManufacturerNo",
-			"contractInformationTabInsideOwner", "contractInformationTabInsidePhone",
-			"contractInformationTabInsideAuthor", "contractInformationTabInsideAdditional",
-			"contractInformationTabInsideAdditionalName", "contractInformationTabInsideAdditionalPhone",
-			"contractInformationTabOutsideOwner", "contractInformationTabOutsidePhone",
-			"contractInformationTabOutsideAuthor", "contractInformationTabOutsideAdditional",
-			"contractInformationTabOutsideAdditionalName", "contractInformationTabOutsideAdditionalPhone",
-			"contractInformationTabAffiliatedContractInfo", "contractInformationTabShippingTerms",
-			"contractInformationTabProposalStartDate", "contractInformationTabProposalEndDate",
-			"contractInformationTabOriginalStartDate", "contractInformationTabOriginalEndDate",
-			"contractInformationTabAwardStatus", "contractInformationTabLastUpdatedDate",
-			"contractInformationTabPriceEscalationClause", "contractInformationTabExemptFromLowPrice",
-			"contractInformationTabPriceResetIndicator", "contractInformationTabCancellationClause",
-			"contractInformationTabMostFavoredNation", "contractInformationTabCategory",
-			"contractInformationTabCurrency", "contractInformationTabMinimumOrder", "contractAliasStartDate",
-			"contractAliasEndDate", "contractAliasContractAliasType", "contractAliasContractAliasNo",
-			"contractAliasContractAliasName", "contractHeaderTabTerm", "contractInformationTabPaymentTerms",
-			"contractInformationTabAdvanceNoticeDays","contractHeaderTabForecastEligibleDate"));
-	public static final List<String> GTN_CONTACT_HEADER_INFORMATION_TAB_FIELD_LIST = Collections.unmodifiableList(Arrays
-			.asList(CONTRACT_HEADER_TAB_CONTRACT_ID, CONTRACT_HEADER_TAB_CONTRACT_NO, CONTRACT_HEADER_TAB_CONTRACT_NAME,
-					"contractHeaderTabContractType", CONTRACT_HEADER_TAB_CONTRACT_STATUS, "contractHeaderTabDocumentType",
-					"contractHeaderContractStartDate", "contractHeaderContractEndDate",
-					"contractHeaderTabDocumentClass", "contractHeaderTabTradeClass", "contractHeaderTabTradingPartner",
-					"contractHeaderTabReNegotiationStartDate", "contractHeaderTabReNegotiationEndDate",
-					"contractHeaderTabPriceProtectionStartDate", "contractHeaderTabPriceProtectionEndDate",
-					"contractHeaderTaManufacturerNo", "contractInformationTabInsideOwner",
-					"contractInformationTabInsidePhone", "contractInformationTabInsideAuthor",
-					"contractInformationTabInsideAdditional", "contractInformationTabInsideAdditionalName",
-					"contractInformationTabInsideAdditionalPhone", "contractInformationTabOutsideOwner",
-					"contractInformationTabOutsidePhone", "contractInformationTabOutsideAuthor",
-					"contractInformationTabOutsideAdditional", "contractInformationTabOutsideAdditionalName",
-					"contractInformationTabAffiliatedContractInfo", "contractInformationTabShippingTerms",
+    public static final String CONTRACT_HEADER_TAB_CONTRACT_TYPE = "contractHeaderTabContractType";
+    public static final String CONTRACT_HEADER_TAB_DOCUMENT_TYPE = "contractHeaderTabDocumentType";
+    public static final String CONTRACT_HEADER_CONTRACT_START_DATE = "contractHeaderContractStartDate";
+    public static final String CONTRACT_HEADER_CONTRACT_END_DATE = "contractHeaderContractEndDate";
+    public static final String CONTRACT_HEADER_TAB_DOCUMENT_CLASS = "contractHeaderTabDocumentClass";
+    public static final String CONTRACT_HEADER_TAB_TRADE_CLASS = "contractHeaderTabTradeClass";
+    public static final String CONTRACT_HEADER_TAB_RE_NEGOTIATION_START_DATE = "contractHeaderTabReNegotiationStartDate";
+    public static final String CONTRACT_HEADER_TAB_RE_NEGOTIATION_END_DATE = "contractHeaderTabReNegotiationEndDate";
+    public static final String CONTRACT_HEADER_TAB_PRICE_PROTECTION_END_DATE = "contractHeaderTabPriceProtectionEndDate";
+    public static final String CONTRACT_HEADER_TAB_PRICE_PROTECTION_START_DATE = "contractHeaderTabPriceProtectionStartDate";
+    public static final String CONTRACT_INFORMATION_TAB_INSIDE_OWNER = "contractInformationTabInsideOwner";
+    public static final String CONTRACT_HEADER_TA_MANUFACTURER_NO = "contractHeaderTaManufacturerNo";
+    public static final String CONTRACT_INFORMATION_TAB_INSIDE_PHONE = "contractInformationTabInsidePhone";
+    public static final String CONTRACT_INFORMATION_TAB_INSIDE_AUTHOR = "contractInformationTabInsideAuthor";
+    public static final String CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL_NAM = "contractInformationTabInsideAdditionalName";
+    public static final String CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL = "contractInformationTabInsideAdditional";
+    public static final String CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL_PHO = "contractInformationTabInsideAdditionalPhone";
+    public static final String CONTRACT_INFORMATION_TAB_OUTSIDE_OWNER = "contractInformationTabOutsideOwner";
+    public static final String CONTRACT_INFORMATION_TAB_OUTSIDE_PHONE = "contractInformationTabOutsidePhone";
+    public static final String CONTRACT_INFORMATION_TAB_OUTSIDE_AUTHOR = "contractInformationTabOutsideAuthor";
+    public static final String CONTRACT_INFORMATION_TAB_OUTSIDE_ADDITIONAL_NA = "contractInformationTabOutsideAdditionalName";
+    public static final String CONTRACT_INFORMATION_TAB_OUTSIDE_ADDITIONAL = "contractInformationTabOutsideAdditional";
+    public static final String CONTRACT_INFORMATION_TAB_AFFILIATED_CONTRACT_I = "contractInformationTabAffiliatedContractInfo";
+    public static final String CONTRACT_INFORMATION_TAB_OUTSIDE_ADDITIONAL_PH = "contractInformationTabOutsideAdditionalPhone";
+    public static final String CONTRACT_INFORMATION_TAB_SHIPPING_TERMS = "contractInformationTabShippingTerms";
+    public static final String CONTRACT_INFORMATION_TAB_PROPOSAL_START_DATE = "contractInformationTabProposalStartDate";
+    public static final String CONTRACT_INFORMATION_TAB_ORIGINAL_START_DATE = "contractInformationTabOriginalStartDate";
+    public static final String CONTRACT_INFORMATION_TAB_PROPOSAL_END_DATE = "contractInformationTabProposalEndDate";
+    public static final String CONTRACT_INFORMATION_TAB_AWARD_STATUS = "contractInformationTabAwardStatus";
+    public static final String CONTRACT_INFORMATION_TAB_ORIGINAL_END_DATE = "contractInformationTabOriginalEndDate";
+    public static final String CONTRACT_INFORMATION_TAB_LAST_UPDATED_DATE = "contractInformationTabLastUpdatedDate";
+    public static final String CONTRACT_INFORMATION_TAB_PRICE_ESCALATION_CLAU = "contractInformationTabPriceEscalationClause";
+    public static final String CONTRACT_INFORMATION_TAB_PRICE_RESET_INDICATOR = "contractInformationTabPriceResetIndicator";
+    public static final String CONTRACT_INFORMATION_TAB_EXEMPT_FROM_LOW_PRICE = "contractInformationTabExemptFromLowPrice";
+    public static final String CONTRACT_INFORMATION_TAB_CANCELLATION_CLAUSE = "contractInformationTabCancellationClause";
+    public static final String CONTRACT_INFORMATION_TAB_MOST_FAVORED_NATION = "contractInformationTabMostFavoredNation";
+    public static final String CONTRACT_INFORMATION_TAB_CURRENCY = "contractInformationTabCurrency";
+    public static final String CONTRACT_INFORMATION_TAB_CATEGORY = "contractInformationTabCategory";
+    public static final String CONTRACT_ALIAS_END_DATE = "contractAliasEndDate";
+    public static final String CONTRACT_INFORMATION_TAB_MINIMUM_ORDER = "contractInformationTabMinimumOrder";
+    public static final String CONTRACT_ALIAS_START_DATE = "contractAliasStartDate";
+    public static final String CONTRACT_ALIAS_CONTRACT_ALIAS_NAME = "contractAliasContractAliasName";
+    public static final String CONTRACT_ALIAS_CONTRACT_ALIAS_TYPE = "contractAliasContractAliasType";
+    public static final String CONTRACT_ALIAS_CONTRACT_ALIAS_NO = "contractAliasContractAliasNo";
+    public static final String CONTRACT_HEADER_TAB_TERM = "contractHeaderTabTerm";
+    public static final String CONTRACT_INFORMATION_TAB_PAYMENT_TERMS = "contractInformationTabPaymentTerms";
+    public static final String CONTRACT_INFORMATION_TAB_ADVANCE_NOTICE_DAYS = "contractInformationTabAdvanceNoticeDays";
+    public static final String CONTRACT_HEADER_TAB_FORECAST_ELIGIBLE_DATE = "contractHeaderTabForecastEligibleDate";
+	   public static final List<String> CH_FIELDS = Collections.unmodifiableList(Arrays.asList("contractId", "contractNo",
+            "contractName", CONTRACT_HEADER_TAB_CONTRACT_ID, CONTRACT_HEADER_TAB_CONTRACT_NO,
+            CONTRACT_HEADER_TAB_CONTRACT_NAME, CONTRACT_HEADER_TAB_CONTRACT_TYPE,
+            CONTRACT_HEADER_TAB_CONTRACT_STATUS, CONTRACT_HEADER_TAB_DOCUMENT_TYPE, CONTRACT_HEADER_CONTRACT_START_DATE,
+            CONTRACT_HEADER_CONTRACT_END_DATE, CONTRACT_HEADER_TAB_DOCUMENT_CLASS, CONTRACT_HEADER_TAB_TRADE_CLASS,
+            CONTRACT_HEADER_TAB_RE_NEGOTIATION_START_DATE, CONTRACT_HEADER_TAB_RE_NEGOTIATION_END_DATE,
+            CONTRACT_HEADER_TAB_PRICE_PROTECTION_START_DATE, CONTRACT_HEADER_TAB_PRICE_PROTECTION_END_DATE,
+            CONTRACT_HEADER_TA_MANUFACTURER_NO, CONTRACT_INFORMATION_TAB_INSIDE_OWNER, CONTRACT_INFORMATION_TAB_INSIDE_PHONE,
+            CONTRACT_INFORMATION_TAB_INSIDE_AUTHOR, CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL,
+            CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL_NAM, CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL_PHO,
+            CONTRACT_INFORMATION_TAB_OUTSIDE_OWNER, CONTRACT_INFORMATION_TAB_OUTSIDE_PHONE, CONTRACT_INFORMATION_TAB_OUTSIDE_AUTHOR,
+            CONTRACT_INFORMATION_TAB_OUTSIDE_ADDITIONAL, CONTRACT_INFORMATION_TAB_OUTSIDE_ADDITIONAL_NA,
+            CONTRACT_INFORMATION_TAB_OUTSIDE_ADDITIONAL_PH, CONTRACT_INFORMATION_TAB_AFFILIATED_CONTRACT_I,
+            CONTRACT_INFORMATION_TAB_SHIPPING_TERMS, CONTRACT_INFORMATION_TAB_PROPOSAL_START_DATE, CONTRACT_INFORMATION_TAB_PROPOSAL_END_DATE, 
+            CONTRACT_INFORMATION_TAB_ORIGINAL_START_DATE, CONTRACT_INFORMATION_TAB_ORIGINAL_END_DATE, CONTRACT_INFORMATION_TAB_AWARD_STATUS, CONTRACT_INFORMATION_TAB_LAST_UPDATED_DATE,
+            CONTRACT_INFORMATION_TAB_PRICE_ESCALATION_CLAU, CONTRACT_INFORMATION_TAB_EXEMPT_FROM_LOW_PRICE, CONTRACT_INFORMATION_TAB_PRICE_RESET_INDICATOR, CONTRACT_INFORMATION_TAB_CANCELLATION_CLAUSE,
+            CONTRACT_INFORMATION_TAB_MOST_FAVORED_NATION, CONTRACT_INFORMATION_TAB_CATEGORY, CONTRACT_INFORMATION_TAB_CURRENCY, CONTRACT_INFORMATION_TAB_MINIMUM_ORDER, CONTRACT_ALIAS_START_DATE, CONTRACT_ALIAS_END_DATE,
+            CONTRACT_ALIAS_CONTRACT_ALIAS_TYPE, CONTRACT_ALIAS_CONTRACT_ALIAS_NO, CONTRACT_ALIAS_CONTRACT_ALIAS_NAME, CONTRACT_HEADER_TAB_TERM, CONTRACT_INFORMATION_TAB_PAYMENT_TERMS, CONTRACT_INFORMATION_TAB_ADVANCE_NOTICE_DAYS, CONTRACT_HEADER_TAB_FORECAST_ELIGIBLE_DATE));
+    public static final List<String> GTN_CONTACT_HEADER_INFORMATION_TAB_FIELD_LIST = Collections.unmodifiableList(Arrays
+            .asList(CONTRACT_HEADER_TAB_CONTRACT_ID, CONTRACT_HEADER_TAB_CONTRACT_NO, CONTRACT_HEADER_TAB_CONTRACT_NAME, CONTRACT_HEADER_TAB_CONTRACT_TYPE, CONTRACT_HEADER_TAB_CONTRACT_STATUS, CONTRACT_HEADER_TAB_DOCUMENT_TYPE, CONTRACT_HEADER_CONTRACT_START_DATE, CONTRACT_HEADER_CONTRACT_END_DATE, CONTRACT_HEADER_TAB_DOCUMENT_CLASS, CONTRACT_HEADER_TAB_TRADE_CLASS, "contractHeaderTabTradingPartner", CONTRACT_HEADER_TAB_RE_NEGOTIATION_START_DATE, CONTRACT_HEADER_TAB_RE_NEGOTIATION_END_DATE, CONTRACT_HEADER_TAB_PRICE_PROTECTION_START_DATE, CONTRACT_HEADER_TAB_PRICE_PROTECTION_END_DATE, CONTRACT_HEADER_TA_MANUFACTURER_NO, CONTRACT_INFORMATION_TAB_INSIDE_OWNER, CONTRACT_INFORMATION_TAB_INSIDE_PHONE, CONTRACT_INFORMATION_TAB_INSIDE_AUTHOR, CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL, CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL_NAM, CONTRACT_INFORMATION_TAB_INSIDE_ADDITIONAL_PHO, CONTRACT_INFORMATION_TAB_OUTSIDE_OWNER, CONTRACT_INFORMATION_TAB_OUTSIDE_PHONE, CONTRACT_INFORMATION_TAB_OUTSIDE_AUTHOR, CONTRACT_INFORMATION_TAB_OUTSIDE_ADDITIONAL, CONTRACT_INFORMATION_TAB_OUTSIDE_ADDITIONAL_NA, CONTRACT_INFORMATION_TAB_AFFILIATED_CONTRACT_I, "contractInformationTabShippingTerms",
 					"contractInformationTabProposalStartDate", "contractInformationTabProposalEndDate",
 					"contractInformationTabOriginalStartDate", "contractInformationTabOriginalEndDate",
 					"contractInformationTabAwardStatus", "contractInformationTabLastUpdatedDate",
@@ -152,8 +182,7 @@ public class GtnUIFrameworkContractHeaderStringContants {
         
         private static final String[] DO_ACTION_FIELDS = new String[] { GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_CONTRACT_ID,
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_CONTRACT_NO,
-				"contractHeaderTabContractName", CONTRACT_HEADER_TAB_CONTRACT_STATUS, "contractHeaderTabContractType",
-				"contractHeaderContractStartDate",
+				"contractHeaderTabContractName", CONTRACT_HEADER_TAB_CONTRACT_STATUS, CONTRACT_HEADER_TAB_CONTRACT_TYPE, CONTRACT_HEADER_CONTRACT_START_DATE,
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER };
 
         private static final String[] CUSTOM_PROPERTY_FIELDS = { "contractStatus", "contractType", "tradeClass" };
