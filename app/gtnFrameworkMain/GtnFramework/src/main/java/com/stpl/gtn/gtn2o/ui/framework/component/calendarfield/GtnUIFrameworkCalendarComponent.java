@@ -35,7 +35,6 @@ public class GtnUIFrameworkCalendarComponent implements GtnUIFrameworkComponent 
 		calendarField.setEnabled(componentConfig.isEnable());
 		calendarField.setRangeStart(calendarConfig.getRangeStartDate().getTime());
 		calendarField.setRangeEnd(calendarConfig.getRangeEndDate().getTime());
-		calendarField.setImmediate(calendarConfig.isImmediate());
 		calendarField.setYearResolution(calendarConfig.isYearResolution());
 		calendarField.setMatrix(calendarConfig.getDisplayMatrix());
 		gtnLogger.info("End into the buildVaadinComponent() of GtnUIFrameworkCalendarComponent");
@@ -59,20 +58,29 @@ public class GtnUIFrameworkCalendarComponent implements GtnUIFrameworkComponent 
 		calendarField.setRangeEnd(null);
 		calendarField.setRangeStart(calendarConfig.getRangeStartDate().getTime());
 		calendarField.setRangeEnd(calendarConfig.getRangeEndDate().getTime());
-		calendarField.setImmediate(calendarConfig.isImmediate());
+		
 		calendarField.setYearResolution(calendarConfig.isYearResolution());
 		calendarField.setMatrix(calendarConfig.getDisplayMatrix());
 		calendarField.clearAllValue();
 	}
 
 	public void setSelectedWeekDays(CalendarField calendarField, int[] days) {
+		
+		
+		
 		if (days != null && days.length > 0) {
+			
 			WeekDay[] tempWeakDays = new WeekDay[days.length];
 			for (int i = 0; i < days.length; i++) {
+				gtnLogger.info("i= "+ days[i]);
 				tempWeakDays[i] = WeekDay.getWeekDay(days[i]);
+				
 			}
 			calendarField.setSelectedWeekDays(tempWeakDays);
+			
 		} else {
+			gtnLogger.info("Else in method setSelectedWeekDays");
+			calendarField.setDisableDates();
 			calendarField.setSelectedWeekDays();
 		}
 	}

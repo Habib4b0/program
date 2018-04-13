@@ -233,9 +233,14 @@ public class GtnFrameworkStringConstants {
 				GtnFrameworkStringConstants.REBATE_ADD_VIEW_RESET_BUTTON, GtnFrameworkStringConstants.GTN_RP_ADD_BTN,
 				GtnFrameworkStringConstants.GTN_RP_REMOVE_BTN, GtnFrameworkStringConstants.GTN_RP_RESET_BTN };
         
+        private static final String[] DO_ACTION_FIELDS = new String[] { "Rebate Plan Name", "Rebate Plan Type", "Rebate Plan ID", "Formula Type",
+				"Rebate Plan No", "Rebate Status", "Rebate Structure", "Range Based On", "Rebate Based On" };
+
+    public static String[] getDoActionFields() {
+        return DO_ACTION_FIELDS.clone();
+    }
         
         
-	
 	private GtnFrameworkStringConstants() {
 	}
 }
