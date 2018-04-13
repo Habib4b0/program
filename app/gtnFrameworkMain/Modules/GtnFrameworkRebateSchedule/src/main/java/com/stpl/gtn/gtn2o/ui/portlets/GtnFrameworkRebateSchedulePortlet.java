@@ -38,7 +38,6 @@ public class GtnFrameworkRebateSchedulePortlet extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-            try{
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP);
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP_BB);
 		Navigator navigator = new Navigator(this, this);
@@ -47,17 +46,14 @@ public class GtnFrameworkRebateSchedulePortlet extends UI {
 		GtnUIFrameworkEngine frameworkEngine = new GtnUIFrameworkEngine();
 		frameworkEngine.buildVaadinScreen(rootConfig, navigator, request, this, "Rebate Schedule",
 				new GtnUIFrameworkRSDynamicClassFiller());
-//		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
-//			private static final long serialVersionUID = 1L;
-//
-//			@Override
-//			public void error(com.vaadin.server.ErrorEvent event) {
-//
-//				LOGGER.info("The Exception occured because of: " + event.getThrowable().getCause().getMessage());
-//			}
-//		});
-	} catch(Exception e){
-        LOGGER.info("-------------"+e);
+		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void error(com.vaadin.server.ErrorEvent event) {
+
+				LOGGER.info("The Exception occured because of: " + event.getThrowable().getCause().getMessage());
+			}
+		});
         }
-}
 }
