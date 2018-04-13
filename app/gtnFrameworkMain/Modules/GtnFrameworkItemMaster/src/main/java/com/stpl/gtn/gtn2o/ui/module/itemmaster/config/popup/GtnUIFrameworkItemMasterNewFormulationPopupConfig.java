@@ -844,12 +844,8 @@ public class GtnUIFrameworkItemMasterNewFormulationPopupConfig {
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig(
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customNfPopupFilterConfigMap = new HashMap<>();
-		String[] propertyIds = {
-				GtnFrameworkItemMasterStringContants.NF_POPUP + GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE,
-				GtnFrameworkItemMasterStringContants.NF_POPUP + GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS,
-				GtnFrameworkItemMasterStringContants.NF_POPUP + "form",
-				GtnFrameworkItemMasterStringContants.NF_POPUP + GtnFrameworkCommonConstants.STRENGTH };
-		String[] listNameArray = { "ITEM_TYPE", "STATUS", "FORM", "STRENGTH" };
+		String[] propertyIds = GtnFrameworkItemMasterStringContants.getConfigPropertyIds();
+		String[] listNameArray = GtnFrameworkItemMasterStringContants.getConfigListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customNfPopupFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			GtnUIFrameworkComponentConfig customNfPopupFilterComponentConfig = new GtnUIFrameworkComponentConfig();

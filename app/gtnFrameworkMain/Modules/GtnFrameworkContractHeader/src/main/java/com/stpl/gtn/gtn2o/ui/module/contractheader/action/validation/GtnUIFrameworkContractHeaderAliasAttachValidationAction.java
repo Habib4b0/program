@@ -45,10 +45,7 @@ public class GtnUIFrameworkContractHeaderAliasAttachValidationAction
 				.getIntegerFromField();
 
 		final Object[] values = new Object[] { aliasNo, aliasType, startDate };
-		final String[] mesaages = new String[] {
-				GtnUIFrameworkContractHeaderStringContants.GTN_CUSTOMER_GRP_VALIDATION_MSG_ALIAS_NO_MANDATORY,
-				GtnUIFrameworkContractHeaderStringContants.GTN_CUSTOMER_GRP_VALIDATION_MSG_ALIAS_NAME_MANDATORY,
-				GtnUIFrameworkContractHeaderStringContants.GTN_CUSTOMER_GRP_VALIDATION_MSG_ALIAS_START_MANDATORY };
+		final String[] mesaages = GtnUIFrameworkContractHeaderStringContants.getDoActionMesaages();
 		validateFields(mesaages, values, componentId);
 
 		if (endDate != null) {

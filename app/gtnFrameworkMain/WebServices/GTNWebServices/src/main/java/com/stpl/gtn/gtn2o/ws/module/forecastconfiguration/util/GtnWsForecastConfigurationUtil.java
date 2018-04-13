@@ -104,15 +104,8 @@ public class GtnWsForecastConfigurationUtil {
 
 		int futtempFreq = futureNum + futurePeriod + 1;
 		futureFreq = futureFreq + futureNum - 1;
-		List<Integer> calculateForecastPeriod = new ArrayList<>();
-		if (frequencyDivision == 12) {
-			calculateForecastPeriod = getCalForecastPeriodMonthly(futtempFreq, frequencyDivision, futureFreq,
+		List<Integer> calculateForecastPeriod = getCalculatedForecastPeriod(futtempFreq, frequencyDivision, futureFreq,
 					futureYear);
-		}
-		if (frequencyDivision == 2 || frequencyDivision == 4) {
-			calculateForecastPeriod = getCalForecastPeriodQuartSemmiAnnually(futtempFreq, frequencyDivision, futureFreq,
-					futureYear);
-		}
 
 		frequencyDivision = calculateForecastPeriod.get(0);
 		futureFreq = calculateForecastPeriod.get(1);
@@ -228,42 +221,24 @@ public class GtnWsForecastConfigurationUtil {
 		return cal.getTime();
 	}
 
-	private static List<Integer> getCalForecastPeriodMonthly(int futtempFreq, int frequencyDivision, int futureFreq,
+        private static List<Integer> getCalculatedForecastPeriod(int futtempFreq, int frequencyDivision, int futureFreq,
 			int futureYear) {
-		int newFutureYear = futureYear;
-		int newfutureFreq = futureFreq;
-		if ((futtempFreq > frequencyDivision)) {// monthly
+            int newFutureYear = futureYear;
+            int newfutureFreq = futureFreq;
+		if ((futtempFreq > frequencyDivision) && frequencyDivision != 2) {// monthly
 			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision);
-			newfutureFreq = 1;
 			if (futtempFreq % frequencyDivision > 0) {
 				newfutureFreq = (futtempFreq % frequencyDivision) - 1;
-			} else {
-				newfutureFreq = 11;
-				newFutureYear = newFutureYear - 1;
 			}
-
-		}
-		List<Integer> list = new ArrayList<>();
-		list.add(frequencyDivision);
-		list.add(newfutureFreq);
-		list.add(newFutureYear);
-		return list;
-	}
-
-	private static List<Integer> getCalForecastPeriodQuartSemmiAnnually(int futtempFreq, int frequencyDivision,
-			int futureFreq, int futureYear) {
-		int newFutureYear = futureYear;
-		int newfutureFreq = futureFreq;
-		if ((futtempFreq > frequencyDivision) && frequencyDivision != 2) {
-			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision);
-			newfutureFreq = 1;
-			if (futtempFreq % frequencyDivision > 0) {
-				newfutureFreq = (futtempFreq % frequencyDivision) - 1;
-			} else if ((futtempFreq % frequencyDivision == 0)) {// quarter
+                        else {
+                newfutureFreq = 11;
+                newFutureYear = newFutureYear -1;
+            }
+                        if ((futtempFreq % frequencyDivision == 0) && frequencyDivision == 4) {// quarter
 				newfutureFreq = 3;
 				newFutureYear = newFutureYear - 1;
 			}
-		} else {// semi-annual
+		} else if (futtempFreq > frequencyDivision) {// semi-annual
 			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision) - 1;
 			newfutureFreq = 1;
 			if (futtempFreq % frequencyDivision > 0) {

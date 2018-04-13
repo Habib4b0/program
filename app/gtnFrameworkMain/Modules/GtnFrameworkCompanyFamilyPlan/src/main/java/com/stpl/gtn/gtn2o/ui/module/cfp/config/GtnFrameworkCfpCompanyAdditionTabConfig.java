@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationT
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.cfp.contants.GtnFrameworkCfpClassContants;
+import com.stpl.gtn.gtn2o.ui.module.cfp.contants.GtnFrameworkCfpStringContants;
 import com.stpl.gtn.gtn2o.ws.companyfamilyplan.constants.GtnWsCFamilyPlanContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -433,12 +434,8 @@ public class GtnFrameworkCfpCompanyAdditionTabConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkCommonConstants.PROPERTY_COMPANY_STATUS,
-				GtnFrameworkCommonConstants.PROPERTY_COMPANY_TYPE, GtnFrameworkCommonConstants.TRADE_CLASS,
-				GtnFrameworkCommonConstants.PROPERTY_COMPANY_CATEGORY,
-				GtnFrameworkCommonConstants.PROPERTY_COMPANY_GROUP };
-		String[] listNameList = { "STATUS", "COMPANY_TYPE", "COMPANY_TRADE_CLASS", "COMPANY_CATEGORY",
-				"COMPANY_GROUP" };
+		String[] propertyIds = GtnFrameworkCfpStringContants.getPropertyIds();
+		String[] listNameList =  GtnFrameworkCfpStringContants.getCustomListNameList();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);
