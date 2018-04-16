@@ -1219,11 +1219,8 @@ public class GtnFrameworkNSFDeductionTabConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getDeductionTabCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> deductionTabCustomFilterConfigMap = new HashMap<>();
-		String[] deductionTabPropertyIds = { "deductionType", "deductionSubType", "deductionCategory",
-				GtnFrameworkCommonConstants.MARKET_TYPE };
-		String[] deductionTabListNameArray = { GtnFrameworkNSFComboBoxTypeConstants.RS_TYPE,
-				GtnFrameworkNSFComboBoxTypeConstants.REBATE_PROGRAM_TYPE,
-				GtnFrameworkNSFComboBoxTypeConstants.RS_CATEGORY, GtnFrameworkNSFComboBoxTypeConstants.CONTRACT_TYPE };
+		String[] deductionTabPropertyIds = GtnFrameworkNSFConstants.getDeductionTabPropertyIds();
+		String[] deductionTabListNameArray = GtnFrameworkNSFConstants.getDeductionTabListNames();
 		for (int i = 0; i < deductionTabPropertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig deductionTabCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			deductionTabCustomFilterConfig.setPropertId(deductionTabPropertyIds[i]);

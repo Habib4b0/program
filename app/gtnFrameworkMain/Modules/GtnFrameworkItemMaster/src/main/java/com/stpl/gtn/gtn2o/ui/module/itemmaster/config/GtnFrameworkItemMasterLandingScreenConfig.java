@@ -924,9 +924,8 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig(
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE,
-				GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS, "form", GtnFrameworkCommonConstants.STRENGTH };
-		String[] listNameArray = { "ITEM_TYPE", "STATUS", "FORM", "STRENGTH" };
+		String[] propertyIds = GtnFrameworkItemMasterStringContants.getCustomFilterPropertyIds();
+		String[] listNameArray = GtnFrameworkItemMasterStringContants.getCustomFilterListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			GtnUIFrameworkComponentConfig customFilterComponentConfig = new GtnUIFrameworkComponentConfig();

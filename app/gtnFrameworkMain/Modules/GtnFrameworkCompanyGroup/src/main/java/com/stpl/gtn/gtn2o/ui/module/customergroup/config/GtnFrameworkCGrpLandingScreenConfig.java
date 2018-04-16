@@ -231,11 +231,7 @@ public class GtnFrameworkCGrpLandingScreenConfig {
 		// To Enable buttons (Edit, Delete, Copy) while search is clicked
 		GtnUIFrameWorkActionConfig componentDisableAction = new GtnUIFrameWorkActionConfig();
 		componentDisableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkCGrpStringContants.C_GRPGTN_EDIT_BUTTON,
-				GtnFrameworkCGrpStringContants.C_GRP_GTN_COPY_BUTTON,
-				GtnFrameworkCGrpStringContants.C_GRP_GTN_DELETE_BUTTON };
-
-		componentDisableAction.setActionParameterList(Arrays.asList(disableField));
+		componentDisableAction.setActionParameterList(Arrays.asList(GtnFrameworkCGrpStringContants.getAddSearchDisableField()));
 		searchActionConfigList.add(componentDisableAction);
 		cGrpSearchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 
@@ -289,11 +285,7 @@ public class GtnFrameworkCGrpLandingScreenConfig {
 		// To Disable buttons (Edit, Delete, Copy) while Audit search is clicked
 		GtnUIFrameWorkActionConfig auditBtnDisableAction = new GtnUIFrameWorkActionConfig();
 		auditBtnDisableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { GtnFrameworkCGrpStringContants.C_GRPGTN_EDIT_BUTTON,
-				GtnFrameworkCGrpStringContants.C_GRP_GTN_COPY_BUTTON,
-				GtnFrameworkCGrpStringContants.C_GRP_GTN_DELETE_BUTTON };
-
-		auditBtnDisableAction.setActionParameterList(Arrays.asList(disableField));
+		auditBtnDisableAction.setActionParameterList(Arrays.asList(GtnFrameworkCGrpStringContants.getAuditSearchDisableField()));
 		auditActionConfigList.add(auditBtnDisableAction);
 		cGrpAuditSearchButtonConfig.setGtnUIFrameWorkActionConfigList(auditActionConfigList);
 
@@ -626,10 +618,8 @@ public class GtnFrameworkCGrpLandingScreenConfig {
 		resetActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.CUSTOMER_GRP_VALIDATION_MSG_RESET_HEADER);
 		resetActionConfig.addActionParameter(GtnFrameworkCGrpStringContants.CUSTOMER_GRP_VALIDATION_MSG_RESET_ERROR);
 		List<String> resetComponentIdList = new ArrayList<>();
-		String[] componentIdArray = { GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NAME,
-				GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NO, GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_DESC,
-				GtnFrameworkCGrpStringContants.C_GRPSEARCH_RESULT_TABLE };
-		resetComponentIdList.addAll(Arrays.asList(componentIdArray));
+		
+		resetComponentIdList.addAll(Arrays.asList(GtnFrameworkCGrpStringContants.getResetComponentidArray()));
 
 		List<Object> resetComponentValueList = new ArrayList<>();
 

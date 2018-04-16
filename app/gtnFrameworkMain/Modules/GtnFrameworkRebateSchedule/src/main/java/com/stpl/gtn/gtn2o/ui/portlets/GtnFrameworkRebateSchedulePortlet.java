@@ -55,5 +55,5 @@ public class GtnFrameworkRebateSchedulePortlet extends UI {
 				LOGGER.info("The Exception occured because of: " + event.getThrowable().getCause().getMessage());
 			}
 		});
-	}
+        }
 }

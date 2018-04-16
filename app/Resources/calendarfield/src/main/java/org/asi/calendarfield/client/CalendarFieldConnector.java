@@ -21,11 +21,12 @@ import com.vaadin.client.Paintable;
 import com.vaadin.client.UIDL;
 import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.StateChangeEvent;
+import com.vaadin.client.ui.AbstractFieldConnector;
 import static com.vaadin.client.ui.AbstractComponentConnector.isRealUpdate;
-import com.vaadin.v7.client.ui.AbstractFieldConnector;
 import com.vaadin.shared.ui.Connect;
-import com.vaadin.v7.shared.ui.datefield.DateFieldConstants;
-import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.shared.ui.datefield.DateFieldConstants;
+import com.vaadin.shared.ui.datefield.DateTimeResolution;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -45,10 +46,8 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
             return;
         }
 
-        // Save details
         getWidget().client = client;
         getWidget().paintableId = uidl.getId();
-        getWidget().immediate = getState().immediate;
         getWidget().headerCalendarPanel.setIsYear(uidl.getBooleanAttribute("isYear"));
         getWidget().headerCalendarPanel.setTotalCol(uidl.getIntAttribute("totalCol"));
         getWidget().headerCalendarPanel.setTotalRow(uidl.getIntAttribute("totalRow"));
@@ -58,10 +57,10 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
         if (uidl.hasAttribute("locale")) {
             final String locale = uidl.getStringAttribute("locale");
             try {
-                getWidget().dts.setLocale(locale);
+                getWidget().dateTimeService.setLocale(locale);
                 getWidget().setCurrentLocale(locale);
             } catch (final LocaleNotLoadedException e) {
-                getWidget().setCurrentLocale(getWidget().dts.getLocale());
+                getWidget().setCurrentLocale(getWidget().dateTimeService.getLocale());
                 VConsole.error("Tried to use an unloaded locale \"" + locale
                         + "\". Using default locale ("
                         + getWidget().getCurrentLocale() + ").");
@@ -70,14 +69,14 @@ public class CalendarFieldConnector extends AbstractFieldConnector implements Pa
         }
 
         // We show week numbers only if the week starts with Monday, as ISO 8601
-        // specifies
+         //specifies
         getWidget().setShowISOWeekNumbers(
                 uidl.getBooleanAttribute(DateFieldConstants.ATTR_WEEK_NUMBERS)
-                        && getWidget().dts.getFirstDayOfWeek() == 1);
+                        && getWidget().dateTimeService.getFirstDayOfWeek() == 1);
 
         
 
-        getWidget().setCurrentResolution(Resolution.DAY);
+        getWidget().setCurrentResolution(DateTimeResolution.DAY);
 
         // Add stylename that indicates current resolution
         setWidgetStyleName(
