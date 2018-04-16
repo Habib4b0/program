@@ -22,7 +22,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
-import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkLoadRuleDetailsAction;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkFormulaLoadRuleDetailsAction;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -126,7 +126,7 @@ public class GtnFrameworkFormulaPopUpConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider
 				.getCssLayoutConfig(GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT, true, "searchCriteriaPanel");
 		List<String> styleList = new ArrayList<>();
-		styleList.add(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
+		styleList.add(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
 		gtnLayout.setComponentStyle(styleList);
 		componentList.add(gtnLayout);
 		addFormulaPopupFieldComponent(componentList);
@@ -187,7 +187,7 @@ public class GtnFrameworkFormulaPopUpConfig {
 				GtnFrameworkCommonConstants.FORMULA_NO, true, GtnFrameworkCommonConstants.FORMULA_NO_LAYOUT,
 				GtnUIFrameworkComponentType.TEXTBOX);
 		formulaNoConfig.setAuthorizationIncluded(true);
-		formulaNoConfig.setComponentName("Formula NO");
+		formulaNoConfig.setComponentName("Formula No");
 
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
@@ -524,7 +524,7 @@ public class GtnFrameworkFormulaPopUpConfig {
 
 		GtnUIFrameWorkActionConfig tableLoadActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		tableLoadActionConfig.addActionParameter(GtnFrameworkLoadRuleDetailsAction.class.getName());
+		tableLoadActionConfig.addActionParameter(GtnFrameworkFormulaLoadRuleDetailsAction.class.getName());
 		tableLoadActionConfig.addActionParameter(GtnFrameworkCommonConstants.FORMULA_POPUP_SEARCH_RESULT_TABLE);
 		tableLoadActionConfig.addActionParameter(4);
 		tableLoadActionConfig.addActionParameter("FormulaPopUpformulaDetailsattachResultTable");
