@@ -6,6 +6,7 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.registry.config.GtnUIFrameworkDataSelectionScreenConfig;
 import com.stpl.gtn.gtn2o.registry.config.dataassumptions.GtnFrameworkDataAssumptionsTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.discountprojection.GtnFrameworkDiscountProjectionTabConfig;
+import com.stpl.gtn.gtn2o.registry.config.projectionvariance.ProjectionVariance;
 import com.stpl.gtn.gtn2o.registry.config.salesprojection.GtnFrameworkSalesProjectionTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
@@ -106,11 +107,20 @@ public class ForecastGenerateLookup {
 		discountProjection.setTabLayoutComponentConfigList(discountProjectionTabConfigList);
 		new GtnFrameworkDiscountProjectionTabConfig().addDiscountProjectionComponents(discountProjectionTabConfigList, "discountProjectionTab");
 
+		GtnUIFrameworkTabConfig projectionVariance = new GtnUIFrameworkTabConfig();
+		projectionVariance.setComponentId(namespace + "_" + "projectionVarianceTab");
+		projectionVariance.setTabCaption("Projection Variance");
+		List<GtnUIFrameworkComponentConfig> projectionVarianceTabConfigList = new ArrayList<>();
+		projectionVariance.setTabLayoutComponentConfigList(projectionVarianceTabConfigList);
+		new ProjectionVariance().addProjectionVarianceTabComponents(projectionVarianceTabConfigList, "projectionVarianceTab");
+		
+
 		List<GtnUIFrameworkTabConfig> tabList = new ArrayList<>();
 		tabList.add(dataSelection);
-		tabList.add(dataAssumptions);
-		tabList.add(salesProjection);
-		tabList.add(discountProjection);
+		//tabList.add(dataAssumptions);
+		//tabList.add(salesProjection);
+		//tabList.add(discountProjection);
+		tabList.add(projectionVariance);
 
 		tabSheetConfig.setGtnTabSheetConfigList(tabList);
 
