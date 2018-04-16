@@ -35,6 +35,7 @@ public class GtnFrameworkProcessAction implements GtnUIFrameWorkAction  ,GtnUIFr
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
+		
 		try {
 			GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(1).toString());
