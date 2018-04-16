@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameWorkAddDataTableAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnFramworkItemAdditionSelectValidateAction;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.constants.GtnFrameworkPSConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -328,9 +329,8 @@ public class GtnFrameworkPSItemAdditionTabConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterMap() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> psCustomFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkCommonConstants.IFP_STATUS, GtnFrameworkCommonConstants.PROPERTY_IFP_TYPE,
-				GtnFrameworkCommonConstants.PROPERTY_IFP_CATEGORY };
-		String[] customfilterListNameArray = { "STATUS", "IFP_TYPE", "IFP_CATEGORY" };
+		String[] propertyIds = GtnFrameworkPSConstants.getCustomFilterPropertyIds();
+		String[] customfilterListNameArray = GtnFrameworkPSConstants.getCustomFilterListName();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);
