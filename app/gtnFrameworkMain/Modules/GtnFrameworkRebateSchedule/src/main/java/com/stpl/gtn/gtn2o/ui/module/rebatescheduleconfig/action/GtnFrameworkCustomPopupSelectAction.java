@@ -32,42 +32,42 @@ public class GtnFrameworkCustomPopupSelectAction implements GtnUIFrameWorkAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		List<Object> parameters = (List<Object>) gtnUIFrameWorkActionConfig.getActionParameterList();
-		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(parameters.get(1).toString());
-		Object value = tableBaseComponent.getValueFromComponent();
-		if (value != null) {
-			GtnWsRecordBean dto = (GtnWsRecordBean) value;
+		List<Object> paramaterListObj = gtnUIFrameWorkActionConfig.getActionParameterList();
+		GtnUIFrameworkBaseComponent baseTableComponent = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(paramaterListObj.get(1).toString());
+		Object objValue = baseTableComponent.getValueFromComponent();
+		if (objValue != null) {
+			GtnWsRecordBean recordDto = (GtnWsRecordBean) objValue;
 
-			GtnUIFrameworkComponentData viewComponentData = GtnUIFrameworkGlobalUI
-					.getVaadinComponentData(parameters.get(2).toString());
-			Object sharedPopupData = viewComponentData.getSharedPopupData();
-			if (sharedPopupData != null) {
-				List<Object> sharedPopupDataList = (List<Object>) sharedPopupData;
+			GtnUIFrameworkComponentData componentViewData = GtnUIFrameworkGlobalUI
+					.getVaadinComponentData(paramaterListObj.get(2).toString());
+			Object popupData = componentViewData.getSharedPopupData();
+			if (popupData != null) {
+				List<Object> popupDataList = (List<Object>) popupData;
 
-				GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
-						.getVaadinComponentData(sharedPopupDataList.get(0).toString());
+				GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+						.getVaadinComponentData(popupDataList.get(0).toString());
 
-				Object idValue = dto.getPropertyValueByIndex(Integer.parseInt(String.valueOf(parameters.get(3))));
-				idComponentData.setCustomDataList(Arrays.asList(idValue, dto, parameters.get(3)));
-				idComponentData.setCustomData(dto);
-				List<String> inputColumIds = (List<String>) sharedPopupDataList.get(1);
-				List<String> outputFieldIds = (List<String>) sharedPopupDataList.get(2);
-				GtnUIFrameworkSetter setter = new GtnUIFrameworkSetter();
-				for (int i = 0; i < inputColumIds.size(); i++) {
-					Object newValue = dto.getPropertyValue(inputColumIds.get(i));
-					if (newValue == null) {
-						newValue = dto.getPropertyValueByIndex(Integer.parseInt(inputColumIds.get(i)));
+				Object propIdValue = recordDto.getPropertyValueByIndex(Integer.parseInt(String.valueOf(paramaterListObj.get(3))));
+				componentData.setCustomDataList(Arrays.asList(propIdValue, recordDto, paramaterListObj.get(3)));
+				componentData.setCustomData(recordDto);
+				List<String> inputIdColumns = (List<String>) popupDataList.get(1);
+				List<String> outputIdFields = (List<String>) popupDataList.get(2);
+				GtnUIFrameworkSetter setterObj = new GtnUIFrameworkSetter();
+				for (int i = 0; i < inputIdColumns.size(); i++) {
+					Object newObjValue = recordDto.getPropertyValue(inputIdColumns.get(i));
+					if (newObjValue == null) {
+						newObjValue = recordDto.getPropertyValueByIndex(Integer.parseInt(inputIdColumns.get(i)));
 					}
-					setter.setPropertyValue(outputFieldIds.get(i), newValue);
+					setterObj.setPropertyValue(outputIdFields.get(i), newObjValue);
 				}
-				if (sharedPopupDataList.size() > 3 && sharedPopupDataList.get(3) != null) {
-					List<Object> actionConfigs = (List<Object>) sharedPopupDataList.get(3);
-					GtnUIFrameWorkActionConfig actionConfig = (GtnUIFrameWorkActionConfig) actionConfigs.get(0);
-					Object newValue = dto
-							.getPropertyValueByIndex(Integer.parseInt(String.valueOf(actionConfigs.get(1))));
-					actionConfig.addActionParameter(newValue);
-					GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+				if (popupDataList.size() > 3 && popupDataList.get(3) != null) {
+					List<Object> configActions = (List<Object>) popupDataList.get(3);
+					GtnUIFrameWorkActionConfig actionConfigVal = (GtnUIFrameWorkActionConfig) configActions.get(0);
+					Object newObjValue = recordDto
+							.getPropertyValueByIndex(Integer.parseInt(String.valueOf(configActions.get(1))));
+					actionConfigVal.addActionParameter(newObjValue);
+					GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfigVal);
 				}
 			}
 		}
