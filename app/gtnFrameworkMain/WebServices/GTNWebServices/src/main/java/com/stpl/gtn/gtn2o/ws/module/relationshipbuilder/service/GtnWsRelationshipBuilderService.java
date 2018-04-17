@@ -571,7 +571,7 @@ public class GtnWsRelationshipBuilderService {
 
 	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder, String append) {
 		if (queryBuilder.toString().contains(HELPER_JOIN_DESCRIPTION)) {
-			queryBuilder.append(" ").append(append).append(" HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
+			queryBuilder.append(' ').append(append).append(" HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
 		}
 	}
 
@@ -1445,7 +1445,6 @@ public class GtnWsRelationshipBuilderService {
 			}
 		}
 		return dataTable;
-
 	}
 
 	public List<String> getRelationQueries(int relationshipSid,

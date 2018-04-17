@@ -129,9 +129,9 @@ public class GtnWsForecastConfigurationController {
 				+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
 		return gtnResponse;
 	}
-
-	@RequestMapping(value = GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse periodModeValue(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        @RequestMapping(value = GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse periodModeValue(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		LOGGER.info(GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE);
 		GtnUIFrameworkWebserviceResponse gtnWsResponse = new GtnUIFrameworkWebserviceResponse();
 
@@ -140,12 +140,12 @@ public class GtnWsForecastConfigurationController {
 
 		gtnWsResponse.setGtnWsGeneralResponse(gtnGeneralWsResponse);
 		try {
-			Calendar gtsCalculation = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+                        Calendar gtsCalculation = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
 			String string = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCalculation.get(Calendar.MONTH)) + " "
 					+ gtsCalculation.get(Calendar.YEAR);
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
-			LOGGER.info("str******************" + string);
-			forecastResponse.setForecastPeriod(string);
+                        LOGGER.info("str******************"+string);
+                        forecastResponse.setForecastPeriod(string);
 			forecastResponse.setSuccess(forecastResponse.isSuccess());
 			gtnWsResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
 		} catch (Exception ex) {
@@ -316,6 +316,7 @@ public class GtnWsForecastConfigurationController {
 					HelperTable table = session.load(HelperTable.class, freq);
 					Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
 					String leastYear = getFrequencyDivision(table.getDescription(), gtsCal, foreCastPeriod);
+					LOGGER.info("leastYear===============>" + leastYear);
 					response.setForecastPeriod(leastYear);
 					String interval = request.getFutureInterval().trim();
 					LOGGER.info("interval===============>" + interval);
@@ -328,8 +329,8 @@ public class GtnWsForecastConfigurationController {
 										.getTime())) {
 							response.setErrorMessage(true);
 							response.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
-						}
-					}
+				}
+			}
 				}
 			}
 		} catch (Exception ex) {
@@ -392,8 +393,7 @@ public class GtnWsForecastConfigurationController {
 		try {
 			GtnSerachResponse forecastConfigurationSerachResponse = new GtnSerachResponse();
 			String forecastConfigurationQueryName = gtnWsRequest.getGtnWsSearchRequest().isCount()
-					? "getForecastConfigurationCount"
-					: "getForecastConfigurationResults";
+					? "getForecastConfigurationCount" : "getForecastConfigurationResults";
 			List<Object> inputlist = getSearchInput(gtnWsRequest);
 			@SuppressWarnings("unchecked")
 			List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, forecastConfigurationQueryName));
@@ -429,7 +429,7 @@ public class GtnWsForecastConfigurationController {
 
 					StringBuilder value = new StringBuilder(forecastConfigurationSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(forecastConfigurationSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(GtnCommonUtil.getWhereClauseForAColumn(
@@ -821,24 +821,24 @@ public class GtnWsForecastConfigurationController {
 		if (description.equals(GtnWsForecastConfigurationConstants.QUARTER)) {
 			gtsPeriod = "Q" + getQuarterForMonth(gtsCal.get(Calendar.MONTH)) + " " + gtsCal.get(Calendar.YEAR);
 			leastYear = compareLowestPeriod(foreCastPeriod, gtsPeriod);
-			return leastYear;
+                        return leastYear;
 		}
-		if (description.equals(GtnWsForecastConfigurationConstants.SEMI_ANNUAL)) {
+                if (description.equals(GtnWsForecastConfigurationConstants.SEMI_ANNUAL)) {
 			gtsPeriod = "S" + getSemmiAnnualForMonth(gtsCal.get(Calendar.MONTH)) + " " + gtsCal.get(Calendar.YEAR);
 			leastYear = compareLowestPeriod(foreCastPeriod, gtsPeriod);
-			return leastYear;
-		}
-		if (description.equals(GtnWsForecastConfigurationConstants.MONTHLY)) {
+                        return leastYear;
+		} 
+                if (description.equals(GtnWsForecastConfigurationConstants.MONTHLY)) {
 			frequencyDivision = 12;
 			gtsPeriod = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCal.get(Calendar.MONTH)) + " "
 					+ gtsCal.get(Calendar.YEAR);
 			leastYear = compareLowestPeriodAnnualMonthly(foreCastPeriod, gtsPeriod, frequencyDivision);
-			return leastYear;
-		}
-		if (description.equals(GtnWsForecastConfigurationConstants.ANNUAL)) {
+                        return leastYear;
+		} 
+                if (description.equals(GtnWsForecastConfigurationConstants.ANNUAL)) {
 			gtsPeriod = String.valueOf(gtsCal.get(Calendar.YEAR));
 			leastYear = compareLowestPeriodAnnual(foreCastPeriod, gtsPeriod, frequencyDivision);
-			return leastYear;
+                        return leastYear;
 		}
 		return leastYear;
 	}
@@ -874,19 +874,19 @@ public class GtnWsForecastConfigurationController {
 	private static String compareLowestPeriod(String s1, String s2) {
 		String[] arrays1 = s1.split(" ");
 		String[] arrays2 = s2.split(" ");
-
+		               
 		String[] splittedArrayS1 = arrays1[0].split("");
 		String[] splittedArrayS2 = arrays2[0].split("");
-		if ((Integer.parseInt(arrays1[1]) == Integer.parseInt(arrays2[1]))
-				&& (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2]))) {
+                if ((Integer.parseInt(arrays1[1]) == Integer.parseInt(arrays2[1])) && (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2]))) {
 			return s1;
 		}
-		if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {
+                if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {
 			return s1;
-		} else {
+		}
+                else {
 			return s2;
-		}
-
+		}	
+		
 	}
 
 	private static String compareLowestPeriodAnnual(String s1, String s2, int frequencyDivision) {
@@ -920,7 +920,8 @@ public class GtnWsForecastConfigurationController {
 			Calendar cal2 = Calendar.getInstance();
 			cal2.setTime(date2);
 			LOGGER.info("cal.get(Calendar.MONTH)=====2nd======" + cal2.get(Calendar.MONTH));
-			if (arrays1[1].equals(arrays2[1]) && (cal1.get(Calendar.MONTH) < cal2.get(Calendar.MONTH))) {
+			if (arrays1[1].equals(arrays2[1])
+					&& (cal1.get(Calendar.MONTH) < cal2.get(Calendar.MONTH))) {
 				return s1;
 			}
 			LOGGER.info("return s2================" + s2);

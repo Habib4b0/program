@@ -60,7 +60,7 @@ public class GtnUIFrameWorkPSSaveMandatoryAlertAction implements GtnUIFrameWorkA
 			infoBean.setPsId(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1").getStringFromField());
 			infoBean.setPsNo(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNo1").getStringFromField());
 			Integer systemId = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty("systemId");
-			infoBean.setSystemId(systemId == null ? new Integer(0): systemId);
+			infoBean.setSystemId(systemId == null ? Integer.valueOf(0): systemId);
 
 			imRequest.setPsInfoBean(infoBean);
 

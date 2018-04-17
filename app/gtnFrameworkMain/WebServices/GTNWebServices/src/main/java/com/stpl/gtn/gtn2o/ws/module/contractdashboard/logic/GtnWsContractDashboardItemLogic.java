@@ -651,7 +651,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdItemPendingSearchCriteria.isFilter() && !skipCriteria(cdItemPendingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdItemPendingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdItemPendingSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdItemPendingSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(cdItemPendingSearchCriteria.getFieldId()),
@@ -700,7 +700,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (itemRebateSearchCriteria.isFilter() && !skipCriteria(itemRebateSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(itemRebateSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(itemRebateSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(itemRebateSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(itemRebateSearchCriteria.getFieldId()), value.toString(),
@@ -798,7 +798,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdItemRebateSearchCriteria.isFilter() && !skipCriteria(cdItemRebateSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdItemRebateSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdItemRebateSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdItemRebateSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(cdItemRebateSearchCriteria.getFieldId()),
@@ -831,7 +831,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdItemPricingSearchCriteria.isFilter() && !skipCriteria(cdItemPricingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdItemPricingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdItemPricingSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdItemPricingSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(cdItemPricingSearchCriteria.getFieldId()),
@@ -888,7 +888,7 @@ public class GtnWsContractDashboardItemLogic {
 						&& !skipCriteria(itemPriceProtectionSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(itemPriceProtectionSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(itemPriceProtectionSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(itemPriceProtectionSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(itemPriceProtectionSearchCriteria.getFieldId()),
@@ -1045,7 +1045,7 @@ public class GtnWsContractDashboardItemLogic {
 						&& !skipCriteria(cdPricingPendingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdPricingPendingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdPricingPendingSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdPricingPendingSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(cdPricingPendingSearchCriteria.getFieldId()),
@@ -1078,7 +1078,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdPPPendingSearchCriteria.isFilter() && !skipCriteria(cdPPPendingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdPPPendingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdPPPendingSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdPPPendingSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(cdPPPendingSearchCriteria.getFieldId()), value.toString(),
@@ -1150,7 +1150,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (itemSearchCriteria.isFilter() && !skipCriteria(itemSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(itemSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(itemSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(itemSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(itemSearchCriteria.getFieldId()), value.toString(),
