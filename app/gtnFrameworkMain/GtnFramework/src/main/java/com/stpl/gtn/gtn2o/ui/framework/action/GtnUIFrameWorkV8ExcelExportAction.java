@@ -7,9 +7,9 @@
 package com.stpl.gtn.gtn2o.ui.framework.action;
 
 
-import com.stpl.addons.grid.paged.component.PagedGrid;
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
@@ -74,7 +74,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 			GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) (GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(inputBean.getExportTableId())).getComponent().getData();
 			resultTable =  customData.getPagedGrid();
-			propertyIds = new LinkedList<>(resultTable.getTableConfig().getVisibleColumns());
+			propertyIds = new LinkedList<>(Arrays.asList(resultTable.getTableConfig().getTableColumnMappingId()));
 			headers = new LinkedList<>(resultTable.getTableConfig().getColumnHeaders());
 			if (inputBean.isIsNewTreeTable()) {
 				exportList = inputBean.getExportList();
@@ -87,7 +87,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 				GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) (GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(inputBean.getExportTableId())).getComponent().getData();
 			resultTable =  customData.getPagedGrid();
-			propertyIds = new LinkedList<>(resultTable.getTableConfig().getVisibleColumns());
+			propertyIds = new LinkedList<>(Arrays.asList(resultTable.getTableConfig().getTableColumnMappingId()));
 			headers = new LinkedList<>(resultTable.getTableConfig().getColumnHeaders());
 				resultTable = null;
 			} else {

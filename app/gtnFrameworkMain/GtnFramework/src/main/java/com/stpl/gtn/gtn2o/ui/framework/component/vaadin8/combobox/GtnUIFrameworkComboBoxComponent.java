@@ -211,23 +211,25 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 			List<String> itemValueList, ComboBox vaadinComboBox) {
 
 		try {
+			List valueList = new ArrayList<>(itemCodeList);
+			List<String> captionList = new ArrayList<>(itemValueList);
 			SessioBeanForCombobox sessioBeanForVaadin8 = SessioBeanForCombobox.getInstance();
-			sessioBeanForVaadin8.setCaptionList(itemValueList);
-			sessioBeanForVaadin8.setValueList(itemCodeList);
+			sessioBeanForVaadin8.setCaptionList(captionList);
+			sessioBeanForVaadin8.setValueList(valueList);
 			if (!comboboxConfig.isHasDefaultValue()) {
 				String defaultValue = comboboxConfig.getDefaultValue() != null
 						? String.valueOf(comboboxConfig.getDefaultValue())
 						: GtnFrameworkCommonStringConstants.SELECT_ONE;
-				itemCodeList.add(0, 0);
-				itemValueList.add(0, defaultValue);
+				valueList.add(0, 0);
+				captionList.add(0, defaultValue);
 			}
-			ComboBox vaadin8ComboBox = new ComboBox("", itemCodeList);
-			vaadin8ComboBox.setItemCaptionGenerator(item -> itemValueList.get(itemCodeList.indexOf(item)));
+			ComboBox vaadin8ComboBox = new ComboBox("", valueList);
+			vaadin8ComboBox.setItemCaptionGenerator(item -> captionList.get(valueList.indexOf(item)));
 
 			if (comboboxConfig.isHasDefaultValue()) {
-				for (int i = 0; i < itemValueList.size(); i++) {
-					if (comboboxConfig.getDefaultDesc().equals(itemValueList.get(i))) {
-						vaadin8ComboBox.setSelectedItem(itemValueList.get(i));
+				for (int i = 0; i < captionList.size(); i++) {
+					if (comboboxConfig.getDefaultDesc().equals(captionList.get(i))) {
+						vaadin8ComboBox.setSelectedItem(valueList.get(i));
 						break;
 					}
 				}

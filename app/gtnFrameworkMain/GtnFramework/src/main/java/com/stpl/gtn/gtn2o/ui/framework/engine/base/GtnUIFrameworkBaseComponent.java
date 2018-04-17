@@ -25,6 +25,7 @@ import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
@@ -143,7 +144,10 @@ public class GtnUIFrameworkBaseComponent {
         Field<?> field = (Field<?>) this.component;
         return getString(field.getValue()).trim();
     }
-
+  public String getV8StringFromField() {
+        HasValue<?> field = (HasValue<?>) this.component;
+        return getString(field.getValue()).trim();
+    }
     public Object getObjectFromField() throws GtnFrameworkValidationFailedException {
         try {
             Field<?> field = (Field<?>) this.component;
@@ -218,6 +222,9 @@ public class GtnUIFrameworkBaseComponent {
             throw new GtnFrameworkValidationFailedException(componentId, typeException);
         }
 
+    }
+     public Grid getGrid() {
+            return (Grid) component;
     }
 
     public ExtFilterTable getExtFilterTable() throws GtnFrameworkValidationFailedException {

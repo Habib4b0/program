@@ -2,9 +2,10 @@ package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
 
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.Row;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.event.ExpandEvent;
@@ -28,23 +29,23 @@ public class PagedTreeGrid {
     private static final String CHILD_COUNT = "childCount";
     private static final String HIERARCHY_NO = "hierarchyNo";
     private static final String LEVEL_NO = "levelNo";
-    PagedTreeTableConfig tableConfig;
+    GtnUIFrameworkPagedTreeTableConfig tableConfig;
     int count;
     private int pageLength = 3;
     private int pageNumber = 0;
     private DataSet dataSet;
-    TreeGrid<Row> grid;
+    TreeGrid<GtnWsRecordBean> grid;
     Set<String> tableColumns = new HashSet<>();
-    Row lastRow;
+    GtnWsRecordBean lastRow;
     private DataSet leftTableDataSet;
-    TreeDataProvider<Row> treeDataProvider;
-    private final List<Row> expandedItemIds = new ArrayList<>();
+    TreeDataProvider<GtnWsRecordBean> treeDataProvider;
+    private final List<GtnWsRecordBean> expandedItemIds = new ArrayList<>();;
     private final List<Integer> expandedRowIds = new ArrayList<>();
-    Row lastExpandedItem;
+    GtnWsRecordBean lastExpandedItem;
     HorizontalLayout controlLayout;
     private TextField pageNoField;
 
-    public PagedTreeGrid(PagedTreeTableConfig tableConfig) {
+    public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig) {
         this.tableConfig = tableConfig;
         count = getTotalCount();
         System.out.println("count>>>" + count);
@@ -57,7 +58,7 @@ public class PagedTreeGrid {
         int offset = pageNumber * pageLength;
         dataSet = loadData(offset, pageLength);
         @SuppressWarnings("unchecked")
-        TreeData<Row> treeData = treeDataProvider.getTreeData();
+        TreeData<GtnWsRecordBean> treeData = treeDataProvider.getTreeData();
         treeData.clear();
         treeData.addItems(null, dataSet.getRows());
         addExpandIcon(treeData, dataSet.getRows());
@@ -72,12 +73,12 @@ public class PagedTreeGrid {
         Set<String> headers = tableColumns;
 
         leftTableDataSet.getColumns().stream().forEach((leftColumn) -> {
-            grid.addColumn(leftRow -> leftRow.getValue(leftColumn)).setCaption(leftColumn);
+            grid.addColumn(leftRow -> leftRow.getPropertyValue(leftColumn.toString())).setCaption(leftColumn.toString());
         });
         dataSet.getColumns().stream().forEach((column) -> {
-            grid.addColumn(row -> row.getValue(column)).setCaption(column);
+            grid.addColumn(row -> row.getPropertyValue(column.toString())).setCaption(column.toString());
         });
-        TreeData<Row> data = new TreeData<>();
+        TreeData<GtnWsRecordBean> data = new TreeData<>();
         data.addItems(null, dataSet.getRows());
         addExpandIcon(data, dataSet.getRows());
 
@@ -89,13 +90,13 @@ public class PagedTreeGrid {
     }
 
     private void addExpandListener() {
-        grid.addExpandListener(new ExpandEvent.ExpandListener<Row>() {
+        grid.addExpandListener(new ExpandEvent.ExpandListener<GtnWsRecordBean>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void itemExpand(ExpandEvent<Row> event) {
-                TreeData<Row> treeData = treeDataProvider.getTreeData();
-                Row parent = event.getExpandedItem();
+            public void itemExpand(ExpandEvent<GtnWsRecordBean> event) {
+                TreeData<GtnWsRecordBean> treeData = treeDataProvider.getTreeData();
+                GtnWsRecordBean parent = event.getExpandedItem();
                 int childCount = 0;
                 expandRow(parent, childCount, treeData,true);
             }
@@ -103,11 +104,11 @@ public class PagedTreeGrid {
         });
     }
 
-    public void expandRow(Row parent, int childCount, TreeData<Row> treeData,boolean moveToNextPage) {
-        if (parent != null && parent.getValue(LEVEL_NO) != null
+    public void expandRow(GtnWsRecordBean parent, int childCount, TreeData<GtnWsRecordBean> treeData,boolean moveToNextPage) {
+        if (parent != null && parent.getPropertyValue(LEVEL_NO) != null
                 && (childCount = getChildCountForRow(parent)) > 0) {
-            Row firstChild = treeData.getChildren(parent).get(0);
-            if (firstChild.getValue(LEVEL_NO) != null) {
+            GtnWsRecordBean firstChild = treeData.getChildren(parent).get(0);
+            if (firstChild.getPropertyValue(LEVEL_NO) != null) {
                 return;
             }
             treeData.removeItem(firstChild);
@@ -119,7 +120,7 @@ public class PagedTreeGrid {
             expandedRowIds.add(rowNo);
             if (limit == 0 ) {
                 if(!moveToNextPage){
-                    treeData.addItem(parent, new Row());
+                    treeData.addItem(parent, new GtnWsRecordBean());
                     return;
                 }
                 limit = pageLength > childCount ? childCount : pageLength;
@@ -129,7 +130,7 @@ public class PagedTreeGrid {
             getLeftData(0, limit, getLevelNo(parent) + 1, getHierarchyNo(parent));
 
             limit = childCount < limit ? childCount : limit;
-            List<Row> childRows = fetchChildren(0, limit, parent, rowNo).getRows();
+            List<GtnWsRecordBean> childRows = fetchChildren(0, limit, parent, rowNo).getRows();
 
             refreshDataProvider(treeData, parent, childRows);
         }
@@ -137,7 +138,7 @@ public class PagedTreeGrid {
 
     public void addCollapseListener() {
         grid.addCollapseListener(event -> {
-            Row parent = event.getCollapsedItem();
+            GtnWsRecordBean parent = event.getCollapsedItem();
             int childCount = getChildCountForRow(parent);
             int rowNo = getRowNo(parent);
             expandedItemIds.remove(parent);
@@ -146,20 +147,20 @@ public class PagedTreeGrid {
         });
     }
 
-    private void refreshDataProvider(TreeData<Row> treeData, Row parent, List<Row> childRows) {
+    private void refreshDataProvider(TreeData<GtnWsRecordBean> treeData, GtnWsRecordBean parent, List<GtnWsRecordBean> childRows) {
         treeData.addItems(treeData.contains(parent) ? parent : null, childRows);
         addExpandIcon(treeData, childRows);
         treeDataProvider.refreshAll();
     }
 
-    private void addExpandIcon(TreeData<Row> data, List<Row> rows) {
+    private void addExpandIcon(TreeData<GtnWsRecordBean> data, List<GtnWsRecordBean> rows) {
         System.out.println("addExpandIcon");
         rows.stream().map((parent) -> {
-            if (parent != null && parent.getValue(LEVEL_NO) != null && getChildCountForRow(parent) > 0) {
-                data.addItem(parent, new Row());
+            if (parent != null && parent.getPropertyValue(LEVEL_NO) != null && getChildCountForRow(parent) > 0) {
+                data.addItem(parent, new GtnWsRecordBean());
             }
             return parent;
-        }).forEach((Row parent) -> {
+        }).forEach((GtnWsRecordBean parent) -> {
             int rowNo = getRowNo(parent);
             if (expandedRowIds.contains(rowNo)) {
                 int childCount = 0;
@@ -173,31 +174,31 @@ public class PagedTreeGrid {
 
     private int getTotalCount() {
 
-        if (tableConfig.getQueryBean().getCountQuery() != null) {
+        if (tableConfig.getCountQuery() != null) {
 
             String countQuery = replaceQueryInput(tableConfig.getLevelNo(), "%",
-                    tableConfig.getQueryBean().getCountQuery());
-            List<Row> result = FetchData.fetchResultAsRow(countQuery, tableConfig.getQueryBean().getCountQueryInputs());
+                    tableConfig.getCountQuery());
+            List<GtnWsRecordBean> result = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),countQuery, tableConfig.getCountQueryInputs());
             System.out.println("total count " + result.size());
 
-            leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
+            leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
             return result.size();
         }
         return 0;
 
     }
 
-    private int getChildCount(Row parent) {
+    private int getChildCount(GtnWsRecordBean parent) {
 
-        if (tableConfig.getQueryBean().getCountQuery() != null) {
-            System.out.println("parent.getValue(\"levelNo\")" + parent.getValue(LEVEL_NO));
-            int levelNo = Integer.valueOf(parent.getValue(LEVEL_NO).toString()) + 1;
-            String hierarchyNo = String.valueOf(parent.getValue(HIERARCHY_NO)) + "%";
-            String countQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getQueryBean().getCountQuery());
-            List<Row> result = FetchData.fetchResultAsRow(countQuery, tableConfig.getQueryBean().getCountQueryInputs());
+        if (tableConfig.getCountQuery() != null) {
+            System.out.println("parent.getPropertyValue(\"levelNo\")" + parent.getPropertyValue(LEVEL_NO));
+            int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
+            String hierarchyNo = String.valueOf(parent.getPropertyValue(HIERARCHY_NO)) + "%";
+            String countQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getCountQuery());
+            List<GtnWsRecordBean> result = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),countQuery, tableConfig.getCountQueryInputs());
             System.out.println("child count" + result.size());
             if (!result.isEmpty()) {
-                leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
+                leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
             }
             return result.size();
         }
@@ -207,13 +208,13 @@ public class PagedTreeGrid {
 
     private int getLeftData(int offset, int limit, int levelNo, String hierarchyNo) {
 
-        if (tableConfig.getQueryBean().getCountQuery() != null) {
-            String countQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getQueryBean().getLeftDataQuery());
-            List<Object> list = addRangeInInput(tableConfig.getQueryBean().getLeftDataQueryInputs(), offset, limit);
-            List<Row> result = FetchData.fetchResultAsRow(countQuery, list.toArray());
+        if (tableConfig.getCountQuery() != null) {
+            String countQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getLeftDataQuery());
+            List<Object> list = addRangeInInput(tableConfig.getLeftDataQueryInputs(), offset, limit);
+            List<GtnWsRecordBean> result = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),countQuery, list.toArray());
             System.out.println("child count" + result.size());
             if (!result.isEmpty()) {
-                leftTableDataSet = new DataSet(tableConfig.getLeftVisibleColumns().stream().collect(Collectors.toList()), result);
+                leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
             }
             return result.size();
         }
@@ -221,14 +222,14 @@ public class PagedTreeGrid {
 
     }
 
-    public DataSet fetchChildren(int offset, int limit, Row parent, int parentRowIndex) {
-        String hierarchyNo = String.valueOf(parent.getValue(HIERARCHY_NO)) + "%";
-        int levelNo = Integer.valueOf(parent.getValue(LEVEL_NO).toString()) + 1;
-        String dataQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getQueryBean().getDataQuery());
-        Object[] input = tableConfig.getQueryBean().getDataQueryInputs();
+    public DataSet fetchChildren(int offset, int limit, GtnWsRecordBean parent, int parentRowIndex) {
+        String hierarchyNo = String.valueOf(parent.getPropertyValue(HIERARCHY_NO)) + "%";
+        int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
+        String dataQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getDataQuery());
+        Object[] input = tableConfig.getDataQueryInputs();
         List<Object> list = addRangeInInput(input, offset, limit);
-        List<Row> rows = FetchData.fetchResultAsRow(dataQuery, list.toArray());
-        List<Row> updatedrows = mergeLeftAndRightData(rows, limit, offset, parentRowIndex);
+        List<GtnWsRecordBean> rows = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),dataQuery, list.toArray());
+        List<GtnWsRecordBean> updatedrows = mergeLeftAndRightData(rows, limit, offset, parentRowIndex);
         return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
     }
 
@@ -249,35 +250,35 @@ public class PagedTreeGrid {
     }
 
     private DataSet loadData(int offset, int limit) {
-        String dataQuery = replaceQueryInput(tableConfig.getLevelNo(), "%", tableConfig.getQueryBean().getDataQuery());
-        Object[] input = tableConfig.getQueryBean().getDataQueryInputs();
+        String dataQuery = replaceQueryInput(tableConfig.getLevelNo(), "%", tableConfig.getDataQuery());
+        Object[] input = tableConfig.getDataQueryInputs();
         List<Object> list = addRangeInInput(input, offset * tableConfig.getRowsPerLevelItem(), limit * tableConfig.getRowsPerLevelItem());
-        List<Row> rows = FetchData.fetchResultAsRow(dataQuery, list.toArray());
-        List<Row> updatedrows = mergeLeftAndRightData(rows, limit, offset, pageNumber * pageLength);
+        List<GtnWsRecordBean> rows = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),dataQuery, list.toArray());
+        List<GtnWsRecordBean> updatedrows = mergeLeftAndRightData(rows, limit, offset, pageNumber * pageLength);
 
         return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
     }
 
-    private List<Row> mergeLeftAndRightData(List<Row> rows, int limit, int offset, int parentRowIndex) {
+    private List<GtnWsRecordBean> mergeLeftAndRightData(List<GtnWsRecordBean> rows, int limit, int offset, int parentRowIndex) {
 
-        List<Row> rowsList = new ArrayList<>();
-        List<Row> leftRows = leftTableDataSet.getRows();
-        for (Row newRow : leftRows) {
+        List<GtnWsRecordBean> rowsList = new ArrayList<>();
+        List<GtnWsRecordBean> leftRows = leftTableDataSet.getRows();
+        for (GtnWsRecordBean newRow : leftRows) {
             int childCount = getChildCount(newRow);
-            newRow.setValue(CHILD_COUNT, childCount);
-            newRow.setValue(ROW_NUMBER, parentRowIndex + 1);
-            rows.stream().filter((row) -> !(!String.valueOf(row.getValue(HIERARCHY_NO)).equals(String.valueOf(newRow.getValue(HIERARCHY_NO))))).forEach((row) -> {
-                String period = String.valueOf(row.getValue("frequency"));
-                String year = String.valueOf(row.getValue("year"));
+            newRow.addProperties(CHILD_COUNT, childCount);
+            newRow.addProperties(ROW_NUMBER, parentRowIndex + 1);
+            rows.stream().filter((row) -> !(!String.valueOf(row.getPropertyValue(HIERARCHY_NO)).equals(String.valueOf(newRow.getPropertyValue(HIERARCHY_NO))))).forEach((row) -> {
+                String period = String.valueOf(row.getPropertyValue("frequency"));
+                String year = String.valueOf(row.getPropertyValue("year"));
 
-                newRow.setValue(HIERARCHY_NO, row.getValue(HIERARCHY_NO));
-                newRow.setValue(LEVEL_NO, row.getValue(LEVEL_NO));
+                newRow.addProperties(HIERARCHY_NO, row.getPropertyValue(HIERARCHY_NO));
+                newRow.addProperties(LEVEL_NO, row.getPropertyValue(LEVEL_NO));
 
                 tableConfig.getVisibleColumns().stream().map((column) -> {
                     tableColumns.add(period + year + column);
                     return column;
                 }).forEach((column) -> {
-                    newRow.setValue(period + year + column, row.getValue(column));
+                    newRow.addProperties(period + year + column, row.getPropertyValue(column.toString()));
                 });
             });
             rowsList.add(newRow);
@@ -395,23 +396,23 @@ public class PagedTreeGrid {
         this.dataSet = dataSet;
     }
 
-    public TreeGrid<Row> getGrid() {
+    public TreeGrid<GtnWsRecordBean> getGrid() {
         return grid;
     }
 
-    public void setGrid(TreeGrid<Row> grid) {
+    public void setGrid(TreeGrid<GtnWsRecordBean> grid) {
         this.grid = grid;
     }
 
-    public boolean isExpanded(Row item) {
+    public boolean isExpanded(GtnWsRecordBean item) {
         if (item == null) {
             return true;
         }
         return expandedItemIds.contains(item);
     }
 
-    public boolean hasChildren(Row item) {
-        if (item != null && item.getValue(CHILD_COUNT) != null) {
+    public boolean hasChildren(GtnWsRecordBean item) {
+        if (item != null && item.getPropertyValue(CHILD_COUNT) != null) {
             return getChildCountForRow(item) > 0;
         }
         return false;
@@ -419,7 +420,7 @@ public class PagedTreeGrid {
 
     private void getNextPageOffset() {
         if (lastRow != null) {
-            TreeData<Row> treeData = treeDataProvider.getTreeData();
+            TreeData<GtnWsRecordBean> treeData = treeDataProvider.getTreeData();
             int lastRowIndex = getRowNo(lastRow);
             if (lastExpandedItem != null) {
                 int childCount = getChildCountForRow(lastExpandedItem);
@@ -428,7 +429,7 @@ public class PagedTreeGrid {
                 int limit = pageLength - offset;
                 limit = (childCount - offset) < limit ? childCount : limit;
 
-                List<Row> childRows = fetchChildren(lastRowIndex + 1, limit, lastExpandedItem, parentRowIndex).getRows();
+                List<GtnWsRecordBean> childRows = fetchChildren(lastRowIndex + 1, limit, lastExpandedItem, parentRowIndex).getRows();
                 treeData.clear();
                 refreshDataProvider(treeData, null, childRows);
 
@@ -463,7 +464,7 @@ public class PagedTreeGrid {
 
     public void findLastExpandedItem(int currentOffset) {
         int totalCount = getTotalCount();
-        for (Row row : expandedItemIds) {
+        for (GtnWsRecordBean row : expandedItemIds) {
             int childCount = getChildCountForRow(row);
             totalCount = totalCount + childCount;
             if (totalCount > currentOffset) {
@@ -473,20 +474,20 @@ public class PagedTreeGrid {
         }
     }
 
-    public static int getChildCountForRow(Row row) {
-        return (int) row.getValue(CHILD_COUNT);
+    public static int getChildCountForRow(GtnWsRecordBean row) {
+        return (int) row.getPropertyValue(CHILD_COUNT);
     }
 
-    public static int getRowNo(Row row) {
-        return (int) row.getValue(ROW_NUMBER);
+    public static int getRowNo(GtnWsRecordBean row) {
+        return (int) row.getPropertyValue(ROW_NUMBER);
     }
 
-    public static int getLevelNo(Row row) {
-        return Integer.parseInt(row.getValue(LEVEL_NO).toString());
+    public static int getLevelNo(GtnWsRecordBean row) {
+        return Integer.parseInt(row.getPropertyValue(LEVEL_NO).toString());
     }
 
-    public String getHierarchyNo(Row row) {
-        return String.valueOf(row.getValue(HIERARCHY_NO));
+    public String getHierarchyNo(GtnWsRecordBean row) {
+        return String.valueOf(row.getPropertyValue(HIERARCHY_NO));
     }
 
     public HorizontalLayout getControlLayout() {
@@ -504,5 +505,8 @@ public class PagedTreeGrid {
             pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) -1));
         }
         return controlLayout;
+    }
+    public void addStyleNames(String... styles){
+        grid.addStyleNames(styles);
     }
 }

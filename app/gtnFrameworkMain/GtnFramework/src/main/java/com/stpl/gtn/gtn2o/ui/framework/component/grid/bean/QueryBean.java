@@ -7,7 +7,7 @@ public class QueryBean {
     String leftDataQuery;
     Object[] dataQueryInputs;
     Object[] leftDataQueryInputs;
-
+   Object[] countQueryInputs;
     public String getLeftDataQuery() {
         return leftDataQuery;
     }
@@ -23,7 +23,7 @@ public class QueryBean {
     public void setLeftDataQueryInputs(Object[] leftDataQueryInputs) {
         this.leftDataQueryInputs = leftDataQueryInputs;
     }
-    Object[] countQueryInputs;
+ 
 
     public QueryBean(String countQuery, String dataQuery, Object[] dataQueryInputs, Object[] countQueryInputs) {
         super();

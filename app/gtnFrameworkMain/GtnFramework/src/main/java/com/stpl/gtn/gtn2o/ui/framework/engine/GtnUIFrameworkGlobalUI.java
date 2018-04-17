@@ -570,20 +570,15 @@ public class GtnUIFrameworkGlobalUI {
 		}
 	}
         
-     public static QueryBean setQueryBean(GtnUIFrameworkPagedTableConfig tableConfig) {
-        Object[] countQueryInputs = new Object[tableConfig.getCountQueryInputs().length];
-        Object[] dataQueryInputs = new Object[tableConfig.getDataQueryInputs().length];
-        fetchInput(tableConfig.getCountQueryInputs(), countQueryInputs);
-        fetchInput(tableConfig.getDataQueryInputs(), dataQueryInputs);
-        return  new QueryBean(tableConfig.getCountQuery(), tableConfig.getDataQuery(), countQueryInputs, dataQueryInputs);
-       
-    }
+    
 
-    public static void fetchInput(String[] queryInputIds, Object[] values) {
+    public static Object[]  fetchInput(Object[] queryInputIds) {
+        Object[] values=new Object[queryInputIds.length];
         int i = 0;
-        for (String object : queryInputIds) {
-            GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(object);
+        for (Object object : queryInputIds) {
+            GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(object.toString());
             values[i++] = baseComponent == null ? object : baseComponent.getFieldValue() == null || baseComponent.getFieldValue().toString().isEmpty() ? '%' : baseComponent.getFieldValue();
         }
+        return values;
     }
 }

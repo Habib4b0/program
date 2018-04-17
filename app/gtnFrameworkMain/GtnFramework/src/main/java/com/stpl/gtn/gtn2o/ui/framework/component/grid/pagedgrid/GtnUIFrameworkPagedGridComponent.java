@@ -31,17 +31,17 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
     public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) throws GtnFrameworkGeneralException {
         VerticalLayout resultLayout = new VerticalLayout();
         GtnUIFrameworkPagedTableConfig tableConfig = componentConfig.getGtnPagedTableConfig();
-        PagedTableConfig pagedTableConfig = new PagedTableConfig();
+//        PagedTableConfig pagedTableConfig = new PagedTableConfig();
 
-        String columns[] = Arrays.stream(tableConfig.getTableColumnMappingId()).map(Object::toString).toArray(String[]::new);
-        pagedTableConfig.setVisibleColumns(Arrays.asList(columns));
+//        String columns[] = Arrays.stream(tableConfig.getTableColumnMappingId()).map(Object::toString).toArray(String[]::new);
+//        pagedTableConfig.setVisibleColumns(Arrays.asList(columns));
         
         
-        pagedTableConfig.setColumnHeaders(Arrays.asList(tableConfig.getTableVisibleHeader()));
-        QueryBean queryBean = GtnUIFrameworkGlobalUI.setQueryBean(tableConfig);
-        pagedTableConfig.setQueryBean(queryBean);
-
-        PagedGrid pagedGrid = new PagedGrid(pagedTableConfig,tableConfig);
+//        pagedTableConfig.setColumnHeaders(Arrays.asList(tableConfig.getTableVisibleHeader()));
+//        pagedTableConfig.setQueryBean(queryBean);
+        tableConfig.setDataQueryInputs(GtnUIFrameworkGlobalUI.fetchInput(tableConfig.getDataQueryInputs()));
+        tableConfig.setCountQueryInputs(GtnUIFrameworkGlobalUI.fetchInput(tableConfig.getCountQueryInputs()));
+        PagedGrid pagedGrid = new PagedGrid(tableConfig);
         pagedGrid.getGrid().setId(componentConfig.getComponentId());
         resultLayout.setSizeFull();
         resultLayout.addComponent(pagedGrid.getGrid());

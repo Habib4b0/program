@@ -73,6 +73,17 @@ public class GtnUIFrameworkPagedTableConfig {
     private List<String> checkAllColumnList;
     private String countQuery;
     private String dataQuery;
+    private HashMap<String, Object> filterValueMap=new HashMap<>();
+
+
+    public List<String> getColumnHeaders() {
+        return columnHeaders;
+    }
+
+    public void setColumnHeaders(List<String> columnHeaders) {
+        this.columnHeaders = columnHeaders;
+    }
+    private List<String> columnHeaders;
    
 	public String getModuleName() {
         return moduleName;
@@ -550,23 +561,31 @@ public class GtnUIFrameworkPagedTableConfig {
     public void setDataQuery(String dataQuery) {
         this.dataQuery = dataQuery;
     }
-    String[] dataQueryInputs;
-    String[] countQueryInputs;
+    Object[] dataQueryInputs;
+    Object[] countQueryInputs;
 
-    public String[] getCountQueryInputs() {
+    public Object[] getCountQueryInputs() {
         return countQueryInputs;
     }
 
-    public void setCountQueryInputs(String[] countQueryInputs) {
+    public void setCountQueryInputs(Object[] countQueryInputs) {
         this.countQueryInputs = countQueryInputs;
     }
 
-    public String[] getDataQueryInputs() {
+    public Object[] getDataQueryInputs() {
         return dataQueryInputs;
     }
 
-    public void setDataQueryInputs(String[] dataQueryInputs) {
+    public void setDataQueryInputs(Object[] dataQueryInputs) {
         this.dataQueryInputs = dataQueryInputs;
+    }
+
+    public HashMap<String, Object> getFilterValueMap() {
+        return filterValueMap;
+    }
+
+    public void setFilterValueMap(HashMap<String, Object> filterValueMap) {
+        this.filterValueMap = filterValueMap;
     }
 
 

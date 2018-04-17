@@ -12,7 +12,6 @@ package com.stpl.gtn.gtn2o.ui.framework.action;
  */
     
 
-import com.stpl.addons.grid.paged.bean.Row;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -21,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.data.HasValue;
@@ -59,8 +59,8 @@ import java.util.Set;
 
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, componentId);
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
-                 Set<Row> rows= componentData.getPagedGrid().getValue();
-                 Row selectedRow=rows.isEmpty()?null:rows.iterator().next();
+                 Set<GtnWsRecordBean> rows= componentData.getPagedGrid().getValue();
+                 GtnWsRecordBean selectedRow=rows.isEmpty()?null:rows.iterator().next();
 		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromParent(idComponent, componentId).getComponentData();
 		idComponentData.setCustomData(selectedRow);

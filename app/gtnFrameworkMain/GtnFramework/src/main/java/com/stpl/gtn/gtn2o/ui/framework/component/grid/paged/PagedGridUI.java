@@ -30,7 +30,7 @@ public class PagedGridUI extends VerticalLayout {
 		QueryBean queryBean = new QueryBean(countQuery, dataQuery, null, null);
 		pagedTableConfig.setQueryBean(queryBean);
 
-		PagedGrid pagedGrid = new PagedGrid(pagedTableConfig,new GtnUIFrameworkPagedTableConfig());
+		PagedGrid pagedGrid = new PagedGrid(new GtnUIFrameworkPagedTableConfig());
 		setStyleName("demoContentLayout");
 		setSizeFull();
 		addComponent(pagedGrid.getGrid());

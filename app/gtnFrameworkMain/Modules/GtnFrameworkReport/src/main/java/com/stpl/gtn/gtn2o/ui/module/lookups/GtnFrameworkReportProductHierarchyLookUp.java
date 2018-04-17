@@ -326,7 +326,20 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		selectButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		selectButton.setAddToParent(true);
+                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
+		selectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
+		List<Object> actionParameter = new ArrayList<>();
+		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
+		actionParameter.add("dataSelectionTab" + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy");
+		actionParameter.add(Arrays.asList("hierName"));
+		actionParameter
+				.add(Arrays.asList("dataSelectionTab" + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy"));
 
+		selectAction.setActionParameterList(actionParameter);
+		actionConfigList.add(selectAction);
+		selectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(selectButton);
 
 		GtnUIFrameworkComponentConfig cancelButton = new GtnUIFrameworkComponentConfig();

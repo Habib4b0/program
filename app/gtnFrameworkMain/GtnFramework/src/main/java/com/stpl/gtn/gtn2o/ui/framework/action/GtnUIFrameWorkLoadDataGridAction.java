@@ -9,6 +9,7 @@ package com.stpl.gtn.gtn2o.ui.framework.action;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -23,8 +24,9 @@ public class GtnUIFrameWorkLoadDataGridAction implements GtnUIFrameWorkAction {
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData((String) params.get(0), componentId);
 		if (componentData != null) {
-                     QueryBean querybean=GtnUIFrameworkGlobalUI.setQueryBean(componentData.getTableConfig());
-                      componentData.getPagedGrid().getTableConfig().setQueryBean(querybean);
+                    GtnUIFrameworkPagedTableConfig tableConfig=componentData.getTableConfig();
+//                     QueryBean querybean=GtnUIFrameworkGlobalUI.setQueryBean(componentData.getTableConfig());
+//                      componentData.getPagedGrid().getTableConfig().setQueryBean(querybean);
                       componentData.getPagedGrid().refreshGrid();
 		}
 	}
