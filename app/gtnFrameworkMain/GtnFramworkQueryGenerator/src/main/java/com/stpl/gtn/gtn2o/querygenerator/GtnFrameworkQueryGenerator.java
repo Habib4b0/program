@@ -94,7 +94,12 @@ public final class GtnFrameworkQueryGenerator {
 				GtnFrameworkColumnBean rightBean = gtnFrameworkWhereClauseConfig.getWhereClauseRightbean();
 				generatedWhereClause.append(leftBean.getAliesName()).append(".").append(leftBean.getColumnName())
 						.append(gtnFrameworkWhereClauseConfig.getOperatorType().getOperaterType());
-				setRightBean(gtnFrameworkWhereClauseConfig, leftBean, rightBean, generatedWhereClause);
+                                if (rightBean == null) {
+                                setRightBean(gtnFrameworkWhereClauseConfig, generatedWhereClause);
+                                }else{
+                                generatedWhereClause.append(rightBean.getColumnNameWithAlies());
+                                }
+				
 				if (listSize > 1 && countForAddingAnd != (listSize - 1)) {
 					generatedWhereClause.append(GtnFrameworkQueryGeneratorBean.AND);
 				}
@@ -190,9 +195,7 @@ public final class GtnFrameworkQueryGenerator {
 
 	}
 
-	private void setRightBean(GtnFrameworkWhereClauseBean gtnFrameworkWhereClauseConfig,
-			GtnFrameworkColumnBean leftBean, GtnFrameworkColumnBean rightBean, StringBuilder generatedWhereClause) {
-		if (rightBean == null) {
+	private void setRightBean(GtnFrameworkWhereClauseBean gtnFrameworkWhereClauseConfig,StringBuilder generatedWhereClause) {
 			String conditionalValue = gtnFrameworkWhereClauseConfig.getConditionalValue();
 			boolean inCondition = gtnFrameworkWhereClauseConfig.getConditionValueType()
 					.equals(GtnFrameworkDataType.IN_LIST);
@@ -210,9 +213,6 @@ public final class GtnFrameworkQueryGenerator {
 					|| operatorType.equals(GtnFrameworkOperatorType.NOT_IN)) {
 				generatedWhereClause.append(")");
 			}
-		} else {
-			generatedWhereClause.append(leftBean.getAliesName()).append(".").append(leftBean.getColumnName());
-		}
 	}
 
 }
