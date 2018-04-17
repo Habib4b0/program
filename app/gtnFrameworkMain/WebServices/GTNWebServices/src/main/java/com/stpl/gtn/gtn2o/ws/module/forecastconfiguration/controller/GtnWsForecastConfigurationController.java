@@ -377,6 +377,12 @@ public class GtnWsForecastConfigurationController {
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
+                        Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
+			if (gtnWsRequest.getForecastConfigurationRequest().getToDate().after(gtsCal.getTime())) {
+				forecastResponse.setErrorMessage(true);
+				forecastResponse.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
+			}
 		} catch (Exception ex) {
 			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE, ex);
