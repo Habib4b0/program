@@ -1311,11 +1311,14 @@ public class ProjectionVarianceLogic {
      * @return
      */
     public ProjectionVarianceDTO configureDetailsInDTO(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator, int levelNo, List detailsList) {
+        Map<Object,Object> dataMap=new HashMap<>();
         ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
         dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO).toString()));
         dto.setTreeLevelNo(levelNo);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
-        dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, projSelDTO.getSessionDTO().getHierarchyLevelDetails(), projSelDTO.getSessionDTO(), projSelDTO.getDisplayFormat()));
+        dataMap.put("format", projSelDTO.getDisplayFormat());
+        dataMap.put("isExcel", false);
+        dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, projSelDTO.getSessionDTO().getHierarchyLevelDetails(), projSelDTO.getSessionDTO(),dataMap ));
         dto.setLevelValue(detailsList.get(0).toString());
         dto.setHierarchyNo(hierarchyNo);
         dto.setHierarchyIndicator(hierarchyIndicator);
