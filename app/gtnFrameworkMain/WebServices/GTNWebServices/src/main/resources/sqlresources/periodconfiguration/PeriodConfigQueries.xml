@@ -13,7 +13,7 @@ from
 			MODULES.DESCRIPTION as MODULES,
 			case
 				when PCM.BUSINESS_PROCESS_TYPE =- 1 then 'Adjustment Summary'
-				when PCM.BUSINESS_PROCESS_TYPE =- 2 THEN 'Balance Summary Report'
+				 WHEN pcm.business_process_type<-1 THEN 'Balance Summary Report - ' + Replace(ht_config.description,'Balance Summary', '')
 				else ADJUST_CONFIG.TRANSACTION_NAME
 			end as TRANSACTION_NAME,
 			Company.COMPANY_NO + ' - ' + Company.COMPANY_NAME as Company_NAME,
@@ -53,7 +53,16 @@ from
 		JOIN COMPANY_MASTER Buciness_Unit ON
 			Buciness_Unit.COMPANY_MASTER_SID = PCM.BU_COMPANY_MASTER_SID left
 		JOIN ARM_ADJUSTMENT_CONFIG ADJUST_CONFIG ON
-			ADJUST_CONFIG.ARM_ADJUSTMENT_CONFIG_SID = PCM.BUSINESS_PROCESS_TYPE left
+			ADJUST_CONFIG.ARM_ADJUSTMENT_CONFIG_SID = PCM.BUSINESS_PROCESS_TYPE
+               LEFT JOIN 
+                    ( 
+                           SELECT period_config_master_sid, 
+                                  RIGHT(business_process_type, Len(business_process_type) - 1) AS business_process_type
+                           FROM   period_config_master PCM1 
+                           WHERE  pcm1.business_process_type < - 1) PCM2 
+          ON        pcm2.period_config_master_sid = pcm.period_config_master_sid 
+          LEFT JOIN helper_table HT_CONFIG 
+          ON        ht_config.helper_table_sid = pcm2.business_process_type left
 		JOIN HELPER_TABLE MODULES ON
 			PCM."MODULE" = MODULES.HELPER_TABLE_SID
 			AND MODULES.LIST_NAME = 'PERIODCONFIG_MODULES' left
@@ -117,7 +126,7 @@ from
 			MODULES.DESCRIPTION as MODULES,
 			case
 				when PCM.BUSINESS_PROCESS_TYPE =- 1 then 'Adjustment Summary'
-				when PCM.BUSINESS_PROCESS_TYPE =- 2 THEN 'Balance Summary Report'
+				 WHEN pcm.business_process_type<-1 THEN 'Balance Summary Report - ' + Replace(ht_config.description,'Balance Summary', '')
 				else ADJUST_CONFIG.TRANSACTION_NAME
 			end as TRANSACTION_NAME,
 			Company.COMPANY_NO + ' - ' + Company.COMPANY_NAME as Company_NAME,
@@ -157,7 +166,16 @@ from
 		JOIN COMPANY_MASTER Buciness_Unit ON
 			Buciness_Unit.COMPANY_MASTER_SID = PCM.BU_COMPANY_MASTER_SID left
 		JOIN ARM_ADJUSTMENT_CONFIG ADJUST_CONFIG ON
-			ADJUST_CONFIG.ARM_ADJUSTMENT_CONFIG_SID = PCM.BUSINESS_PROCESS_TYPE left
+			ADJUST_CONFIG.ARM_ADJUSTMENT_CONFIG_SID = PCM.BUSINESS_PROCESS_TYPE
+                LEFT JOIN 
+                    ( 
+                           SELECT period_config_master_sid, 
+                                  RIGHT(business_process_type, Len(business_process_type) - 1) AS business_process_type
+                           FROM   period_config_master PCM1 
+                           WHERE  pcm1.business_process_type < - 1) PCM2 
+          ON        pcm2.period_config_master_sid = pcm.period_config_master_sid 
+          LEFT JOIN helper_table HT_CONFIG 
+          ON        ht_config.helper_table_sid = pcm2.business_process_type left
 		JOIN HELPER_TABLE MODULES ON
 			PCM."MODULE" = MODULES.HELPER_TABLE_SID
 			AND MODULES.LIST_NAME = 'PERIODCONFIG_MODULES' left

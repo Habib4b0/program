@@ -57,7 +57,7 @@ public class GtnFrameworkCurdResetAction implements GtnUIFrameWorkAction, GtnUIF
 			Boolean defaultHolidays = Boolean.FALSE;
 			Object country = null;
 			List<Date> holidayList = new ArrayList<>();
-			if (customDataList != null && !customDataList.isEmpty()) {
+			if (customDataList != null && !customDataList.isEmpty() && customDataList.get(0) != null) {
 				GtnWsRecordBean tableBean = (GtnWsRecordBean) customDataList.get(0);
 				calendarName = tableBean.getStringPropertyByIndex(0);
 				calendarDesc = tableBean.getStringPropertyByIndex(1);

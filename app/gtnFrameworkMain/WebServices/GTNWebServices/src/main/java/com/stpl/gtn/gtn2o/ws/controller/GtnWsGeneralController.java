@@ -115,9 +115,9 @@ public class GtnWsGeneralController {
 			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 			String comboBoxType = generalWSRequest.getComboBoxType();
 			String query = comboBoxTypeResponseMap.get(comboBoxType);
-            List<Object[]> resultList = null;
+                        List<Object[]> resultList = null;
 
-			if (query != null) {
+    			if (query != null) {
 				if (!"loadFromXML".equals(query)) {
 					if (query.contains("?")) {
 						if (generalWSRequest.getComboBoxWhereclauseParamList() != null) {

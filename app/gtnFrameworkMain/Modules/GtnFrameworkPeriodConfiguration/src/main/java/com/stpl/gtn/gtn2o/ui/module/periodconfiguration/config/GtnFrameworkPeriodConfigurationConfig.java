@@ -125,7 +125,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkComponentType.PANEL);
 		panelConfig.setAuthorizationIncluded(true);
 		panelConfig.setComponentName("From Period");
-                panelConfig.setComponentWidth(GtnFrameworkPeriodConfigurationContants.ONE_HUNDRED_PERCENT);
+                panelConfig.setComponentWidth(GtnFrameworkPeriodConfigurationContants.FIFTY_PERCENT);
 		panelConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_6);
 		componentList.add(panelConfig);
 		addPeriodFromLayout(componentList, namspacePrefix, componentConfigProvider);
@@ -140,7 +140,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkComponentType.PANEL);
 		panelConfig.setAuthorizationIncluded(true);
 		panelConfig.setComponentName("To Period");
-                panelConfig.setComponentWidth(GtnFrameworkPeriodConfigurationContants.ONE_HUNDRED_PERCENT);
+                panelConfig.setComponentWidth(GtnFrameworkPeriodConfigurationContants.FIFTY_PERCENT);
 		panelConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_6);
 		componentList.add(panelConfig);
 		addPeriodtoLayout(componentList, namspacePrefix, componentConfigProvider);
@@ -611,7 +611,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 
 		GtnUIFrameworkTextBoxConfig textboxConfig = componentConfigProvider.getTextBoxConfig(true, true, true);
 		periodFromTextboxComponentConfig.setGtnUIFrameworkValidationConfig(componentConfigProvider
-				.getRegexOnlyValidationConfig(GtnFrameworkRegexStringConstants.ACCEPT_NEGATIVE_AND_ZERO,
+				.getRegexOnlyValidationConfig(GtnFrameworkRegexStringConstants.ACCEPT_NEGATIVE_AND_ZERO_L7,
 						GtnFrameworkPeriodConfigurationContants.NEGATIVE_ONLY_MSG));
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -643,7 +643,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				.setComponentName(GtnFrameworkPeriodConfigurationContants.DEFAULT_PERIOD);
 		GtnUIFrameworkTextBoxConfig textboxConfig = componentConfigProvider.getTextBoxConfig(true, true, true);
 		defaultPeriodFromTextBoxComponentConfig.setGtnUIFrameworkValidationConfig(componentConfigProvider
-				.getRegexOnlyValidationConfig(GtnFrameworkRegexStringConstants.ACCEPT_NEGATIVE_AND_ZERO,
+				.getRegexOnlyValidationConfig(GtnFrameworkRegexStringConstants.ACCEPT_NEGATIVE_AND_ZERO_L7,
 						GtnFrameworkPeriodConfigurationContants.NEGATIVE_ONLY_MSG));
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -897,7 +897,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 		periodToTextBoxComponentConfig.setComponentName(GtnFrameworkPeriodConfigurationContants.PERIOD);
 		periodToTextBoxComponentConfig.setVisible(false);
 		periodToTextBoxComponentConfig.setGtnUIFrameworkValidationConfig(componentConfigProvider
-				.getRegexOnlyValidationConfig(GtnFrameworkRegexStringConstants.ACCEPT_POSITIVE_AND_ZERO,
+				.getRegexOnlyValidationConfig(GtnFrameworkRegexStringConstants.ACCEPT_POS_AND_ZERO_AND_NEGA,
 						GtnFrameworkPeriodConfigurationContants.POSITIVE_ONLY_MSG));
 
 		GtnUIFrameworkTextBoxConfig periodTextboxConfig = componentConfigProvider.getTextBoxConfig(false, true, true);
@@ -936,7 +936,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 		GtnUIFrameworkTextBoxConfig defaultPeriodTextboxConfig = componentConfigProvider.getTextBoxConfig(false, true,
 				true);
 		defaultPeriodToComponentConfig.setGtnUIFrameworkValidationConfig(componentConfigProvider
-				.getRegexOnlyValidationConfig(GtnFrameworkRegexStringConstants.ACCEPT_POSITIVE_AND_ZERO,
+				.getRegexOnlyValidationConfig(GtnFrameworkRegexStringConstants.ACCEPT_POS_AND_ZERO_AND_NEGA,
 						GtnFrameworkPeriodConfigurationContants.POSITIVE_ONLY_MSG));
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();

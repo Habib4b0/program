@@ -32,8 +32,11 @@ public class GtnFrameworkRegexStringConstants {
 	public static final String ACCEPT_MIN8_MAX100_CHARACTER = "^[a-zA-Z0-9]{8,100}?$";
 
 	public static final String ACCEPT_NEGATIVE_AND_ZERO = "^\\-[1-9]*|0$";
+        
+        public static final String ACCEPT_NEGATIVE_AND_ZERO_L7 = "^\\-[0-9]+$|0";
 
 	public static final String ACCEPT_POSITIVE_AND_ZERO = "^[1-9]*|0$";
+        public static final String ACCEPT_POS_AND_ZERO_AND_NEGA = "^\\-[0-9]+$|0|[0-9]+";
 
 	public static final String NUMERIC_WITH_DOT_REGEX = "^\\d+(\\.\\d+)*$";
 
