@@ -51,11 +51,11 @@ public class GtnFrameworkRSFieldFactoryPopupSelectAction implements GtnUIFrameWo
 				.getVaadinBaseComponent(popupIdViewMap.get(propertId)).getComponentConfig();
 		List<GtnUIFrameWorkActionConfig> rsActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig psSelectAction = new GtnUIFrameWorkActionConfig();
+		List<Object> rsActionParameter = new ArrayList<>();
 
 		if (propertId.equals(GtnFrameworkCommonConstants.FORMULA_NO)) {
 
 			psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
-			List<Object> rsActionParameter = new ArrayList<>();
 			rsActionParameter.add(tableId);
 			rsActionParameter.add(GtnFrameworkCommonConstants.FORMULA_NO);
 			rsActionParameter.add(
@@ -65,16 +65,30 @@ public class GtnFrameworkRSFieldFactoryPopupSelectAction implements GtnUIFrameWo
 			psSelectAction.setActionParameterList(rsActionParameter);
 			rsActionConfigList.add(psSelectAction);
 
-		} else {
+		}
 
-			psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
-			List<Object> rsActionParameter = new ArrayList<>();
-			rsActionParameter.add(tableId);
-			rsActionParameter.add(componentId);
-			rsActionParameter.add(Arrays.asList(sourceId));
-			rsActionParameter.add(Arrays.asList(componentId));
-			psSelectAction.setActionParameterList(rsActionParameter);
-			rsActionConfigList.add(psSelectAction);
+		else {
+			if (propertId.equals(GtnFrameworkRSConstants.REBATE_PLAN_NO1)) {
+				psSelectAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+				rsActionParameter.add(GtnFrameworkRPSelectMsgAction.class.getName());
+
+				rsActionParameter.add(tableId);
+				rsActionParameter.add(componentId);
+				rsActionParameter.add(Arrays.asList(sourceId));
+				rsActionParameter.add(Arrays.asList(componentId));
+				psSelectAction.setActionParameterList(rsActionParameter);
+				rsActionConfigList.add(psSelectAction);
+
+			} else {
+				psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
+
+				rsActionParameter.add(tableId);
+				rsActionParameter.add(componentId);
+				rsActionParameter.add(Arrays.asList(sourceId));
+				rsActionParameter.add(Arrays.asList(componentId));
+				psSelectAction.setActionParameterList(rsActionParameter);
+				rsActionConfigList.add(psSelectAction);
+			}
 
 		}
 

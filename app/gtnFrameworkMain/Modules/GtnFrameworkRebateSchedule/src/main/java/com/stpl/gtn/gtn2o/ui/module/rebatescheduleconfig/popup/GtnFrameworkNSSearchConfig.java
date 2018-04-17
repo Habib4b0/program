@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.util.GtnFrameworkRSConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -393,8 +394,8 @@ public class GtnFrameworkNSSearchConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getNsPopupCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> sPopupCustomFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkCommonConstants.FORMULA_TYPE, "createdBy", "modifiedBy" };
-		String[] listNameArray = { "NS_FORMULA_TYPE", "userIdName", "userIdName" };
+		String[] propertyIds = GtnFrameworkRSConstants.getNsFilterPropertyIds();
+		String[] listNameArray = GtnFrameworkRSConstants.getNsListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);

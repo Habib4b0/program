@@ -51,14 +51,19 @@ public class GtnFrameworkCurdResetAction implements GtnUIFrameWorkAction, GtnUIF
 			GtnUIFrameworkBaseComponent viewBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(1).toString());
 			List<Object> customDataList = viewBaseComponent.getComponentData().getCustomDataList();
+			
+			gtnLogger.info("CustomDataList = " + customDataList);
+			
 			String calendarName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			String calendarDesc = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			Object calendarYear = null;
 			Boolean defaultHolidays = Boolean.FALSE;
 			Object country = null;
-			List<Date> holidayList = new ArrayList<>();
+			List<Date> holidayList = new ArrayList<>();	
 			if (customDataList != null && !customDataList.isEmpty() && customDataList.get(0) != null) {
+				gtnLogger.info("CustomDataList = " + customDataList);
 				GtnWsRecordBean tableBean = (GtnWsRecordBean) customDataList.get(0);
+				gtnLogger.info("Data = " + tableBean);
 				calendarName = tableBean.getStringPropertyByIndex(0);
 				calendarDesc = tableBean.getStringPropertyByIndex(1);
 				calendarYear = tableBean.getStringPropertyByIndex(2);

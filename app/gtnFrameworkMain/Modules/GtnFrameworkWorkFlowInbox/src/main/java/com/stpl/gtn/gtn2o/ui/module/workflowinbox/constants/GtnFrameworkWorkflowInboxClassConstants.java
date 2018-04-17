@@ -501,6 +501,32 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 			WORKFLOWSTATUSARM, ADJUSTMENTTYPE, CONTRACTIDARM, CONTRACTNOARM, CUSTOMERNOARM, CUSTOMERNAMEARM, BRANDIDARM,
 			CONTRACTNAMEARM, ITEMNOARM, ITEMNAMEARM, BRANDNAMEARM, GLDATEARM, DEDUCTIONLEVELARM, DEDUCTIONVALUEARM,
 			DEDUCTIONNOARM, DEDUCTIONNAMEARM, SAVEVIEWNAME, SAVEVIEWTYPE, BUSINESS_PROCESS, CREATEDBY, APPROVEDBY);
+        
+private static final String[] ADDRESS_VISIBLE_FIELDS = new String[] { GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL,
+				GtnFrameworkWorkflowInboxClassConstants.RETURNDETAILSEARCHPANEL,
+				GtnFrameworkWorkflowInboxClassConstants.ARMDETAILSEARCHPANEL };
+
+private static final String[] CUSTOM_PROPERTY_IDS = { GtnFrameworkWorkflowInboxClassConstants.STATUS,
+				GtnFrameworkWorkflowInboxClassConstants.CREATEDBY, GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY,
+				GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE,
+				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSARM };
+private static final String[] CUSTOM_LIST_NAME_ARRAY = { GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUS,
+				GtnFrameworkWorkflowInboxClassConstants.USERS, GtnFrameworkWorkflowInboxClassConstants.USERS,
+				GtnFrameworkWorkflowInboxClassConstants.ARM_ADJUSTMENT_TYPE,
+				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUS };
+
+    public static String[] getCustomListNameArray() {
+        return CUSTOM_LIST_NAME_ARRAY.clone();
+    }
+
+
+    public static String[] getCustomPropertyIds() {
+        return CUSTOM_PROPERTY_IDS.clone();
+    }
+
+    public static String[] getAddressVisibleFields() {
+        return ADDRESS_VISIBLE_FIELDS.clone();
+    }
 
 	public static List<String> getViewSaveFields() {
 		return Collections.unmodifiableList(VIEW_SAVE_FIELDS);

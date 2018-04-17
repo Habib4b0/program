@@ -267,7 +267,14 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 customItem[i].setCheckAll(true);
             }
         }
+        if (!"edit".equals(sessionDTO.getAction()) ) {
         customMenuBar.addSubMenuCloseListener(customMenuBarListener);
+        customMenuItem.getChildren().get(6).setChecked(true);
+        customMenuItem.getChildren().get(7).setChecked(true);
+        customMenuItem.getChildren().get(8).setChecked(true);
+        customMenuItem.getChildren().get(11).setChecked(true);
+        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, "Multiple");
+        }
 
         String[] variableCategoryValues = ConstantsUtil.PVVariableCategory.names();
 
@@ -280,6 +287,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             variableCategoryCustomItem[i].setItemClickable(true);
 
             variableCategoryCustomItem[i].setItemClickNotClosable(true);
+        }  if (!"edit".equals(sessionDTO.getAction()) ) {
+        variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryListener);
+        variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
+         ChangeMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
         }
         variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryListener);
 
@@ -619,7 +630,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     protected void getGenerateCall(boolean excelFlag) {
         try {
             Object[] displayValidation = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
-            if (!CommonUtils.nullCheck(displayValidation) && displayValidation.length == 0) {
+            if (displayValidation.length == 0 && !CommonUtils.nullCheck(displayValidation)) {
                 AbstractNotificationUtils.getErrorNotification("No Display Format Selected", "Please select value(s) from the Display Format field");
             } else {
                 if (discountLevel.getValue().equals("Program")) {
@@ -2162,7 +2173,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             deductionInclusionCustomItem[i].setItemClickable(true);
             deductionInclusionCustomItem[i].setItemClickNotClosable(true);
         }
+         if (!"edit".equals(sessionDTO.getAction()) ) {
         deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
+        deductionInclusionValues.getChildren().get(0).setChecked(true);
+         ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, "Yes");
+        }
     }
 
     private void loadSalesInclusion() {
@@ -2178,7 +2193,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
 
         }
+        if (!"edit".equals(sessionDTO.getAction()) ) {
         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
+        salesInclusionValues.getChildren().get(0).setChecked(true);
+         ChangeMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, "Yes");
+        }
     }
 
     protected List getCheckedDeductionInclusionValues() {

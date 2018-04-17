@@ -108,7 +108,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             return getMarketType();
         }
 
-        if (RELATIONSHIP_LEVEL_NAME.equals(propertyId) && pvFlag) {
+        if (pvFlag && RELATIONSHIP_LEVEL_NAME.equals(propertyId)) {
 
             if (Constant.PRODUCT_LABEL.equals(pvSelectionDTO.getView())) {
                 indicator = "P";
@@ -176,7 +176,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             return contractTypeDdlb;
         }
 
-        if (RELATIONSHIP_LEVEL_NAME.equals(propertyId) && prFlag) {
+        if (prFlag && RELATIONSHIP_LEVEL_NAME.equals(propertyId)) {
 
             if (Constant.PRODUCT_LABEL.equals(sprProjectionDTO.getView())) {
                 indicator = "P";
@@ -246,7 +246,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             }
 
         }
-        if (RELATIONSHIP_LEVEL_NAME.equals(propertyId) && sprFlag) {
+        if (sprFlag && RELATIONSHIP_LEVEL_NAME.equals(propertyId)) {
             pvSelectionDTO = new PVSelectionDTO();
             final ComboBox filterBox = new ComboBox();
             filterBox.setNullSelectionAllowed(true);
