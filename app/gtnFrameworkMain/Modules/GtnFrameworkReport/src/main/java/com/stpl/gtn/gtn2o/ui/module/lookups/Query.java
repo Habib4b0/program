@@ -54,11 +54,11 @@ public class Query {
 "                            dbo.HELPER_TABLE ht\n" +
 "                        WHERE\n" +
 "                            ht.DESCRIPTION LIKE '?'\n" +
-"                    )\n" ;
+"                    )@filter\n" ;
 //"                    ? ? ? ? ? ";
     
     
-  public static final  String  getDataProductHierarchy="SELECT * FROM (SELECT\n" +
+  public static final  String  getDataProductHierarchy="SELECT\n" +
 "                	distinct\n" +
 "                    c.HIERARCHY_NAME as hierName,\n" +
 "                    a.LEVEL_NO as highestLevel,\n" +
@@ -107,7 +107,7 @@ public class Query {
 "                            dbo.HELPER_TABLE ht\n" +
 "                        WHERE\n" +
 "                            ht.DESCRIPTION LIKE '?'\n" +
-"                    )) as A @filter\n" +
+"                    )@filter\n" +
 //"                    ?\n" +
 //"                    ?\n" +
 //"                    ? ? ?\n" +
