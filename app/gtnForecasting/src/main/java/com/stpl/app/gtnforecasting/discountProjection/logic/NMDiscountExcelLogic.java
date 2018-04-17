@@ -133,7 +133,7 @@ public class NMDiscountExcelLogic {
     
      private void getProjectionData(ProjectionSelectionDTO projectionSelection, Object[] obj, DiscountProjectionDTO discountProjectionDTO, String header,String column) {
     	  String value=CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.NINE], false);
-          String projectedValue=commonLogic.getFormattedValue(PERCENTAGE_FORMAT, Constant.NULL.equals(String.valueOf(obj[NumericConstants.SEVEN])) ? DASH : String.valueOf(obj[NumericConstants.SEVEN]));
+          String projectedValue=commonLogic.getFormattedValue(PERCENTAGE_FORMAT, Constant.NULL.equals(String.valueOf(obj[NumericConstants.TEN])) ? DASH : String.valueOf(obj[NumericConstants.TEN]));
           discountProjectionDTO.addStringProperties(header + PROJECTED_RATE,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
                       column, projectedValue) );
           projectedValue=Constant.NULL.equals(value)?DASH:value;
