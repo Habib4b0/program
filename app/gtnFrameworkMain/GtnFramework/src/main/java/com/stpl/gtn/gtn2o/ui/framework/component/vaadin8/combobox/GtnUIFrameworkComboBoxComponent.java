@@ -283,7 +283,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 		comboboxRequest.setGtnWsGeneralRequest(comboboxGeneralWSRequest);
 		if (comboboxConfig.getLoadingUrl() != null) {
 			comboboxResponse = comboboxWsclient
-					.callGtnWebServiceUrl(comboboxConfig.getLoadingUrl(), comboboxRequest,
+					.callGtnWebServiceUrl(comboboxConfig.getLoadingUrl(),comboboxConfig.getModuleName(), comboboxRequest,
 							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
 		}
