@@ -202,7 +202,7 @@ public class GtnWsContractHeaderService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
+		return session.load(HelperTable.class, systemId == null ? Integer.valueOf(0) : systemId);
 	}
 
 	public void getCompanyGrpDeleteQuery(GtnUIFrameworkWebserviceRequest gtnWsRequest)
@@ -527,7 +527,7 @@ public class GtnWsContractHeaderService {
 					cmNotesTabQuery.append(",(").append(masterSid).append(",'")
                                             .append(notesTabRequest.getMasterTableName()).append("','")
                                             .append(notesTabRequest.getFilePath()).append("',").append("GETDATE(),").append(notesTabRequest.getCreatedBy())
-							.append(")");
+							.append(')');
 				}
 				i++;
 			}

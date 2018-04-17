@@ -114,7 +114,7 @@ public class GtnWsCfpSaveService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
+		return session.load(HelperTable.class, systemId == null ? Integer.valueOf(0) : systemId);
 	}
 
 	public void updateCfpQuery(GtnUIFrameworkWebserviceRequest generalWSRequest) throws GtnFrameworkGeneralException {
