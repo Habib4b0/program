@@ -318,6 +318,19 @@ public class GtnWsForecastConfigurationController {
 					String leastYear = getFrequencyDivision(table.getDescription(), gtsCal, foreCastPeriod);
 					LOGGER.info("leastYear===============>" + leastYear);
 					response.setForecastPeriod(leastYear);
+					String interval = request.getFutureInterval().trim();
+					LOGGER.info("interval===============>" + interval);
+					if ("".equals(interval)) {
+						Integer intervalValue = Integer.valueOf(request.getFutureInterval().trim());
+						Calendar futureDate = GtnWsForecastConfigurationUtil.convertPeriod(1, table.getDescription(),
+								intervalValue);
+						if (futureDate.getTime()
+								.after(getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES)
+										.getTime())) {
+							response.setErrorMessage(true);
+							response.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
+				}
+			}
 				}
 			}
 		} catch (Exception ex) {
@@ -364,6 +377,12 @@ public class GtnWsForecastConfigurationController {
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
+                        Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
+			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
+			if (gtnWsRequest.getForecastConfigurationRequest().getToDate().after(gtsCal.getTime())) {
+				forecastResponse.setErrorMessage(true);
+				forecastResponse.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
+			}
 		} catch (Exception ex) {
 			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE, ex);
@@ -416,7 +435,7 @@ public class GtnWsForecastConfigurationController {
 
 					StringBuilder value = new StringBuilder(forecastConfigurationSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(forecastConfigurationSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(GtnCommonUtil.getWhereClauseForAColumn(

@@ -86,7 +86,7 @@ public class GtnWsWorkflowSaveService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
+		return session.load(HelperTable.class, systemId == null ? Integer.valueOf(0) : systemId);
 	}
 
 	public static String getKeyFromValue(Map<Integer, String> hm, String value) {
