@@ -144,7 +144,7 @@ public class GtnFrameworkContractDashBoardConfirmSubmitAction
 				"/" + GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE+ "/contractPriceProtectionStartDateAlert", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-		int responseResult = Integer.parseInt(String.valueOf(responseStartDateContract.getOutBountData()[0]));
+		int responseResult = Integer.parseInt(String.valueOf(responseStartDateContract.getOutBountData()[0] != null ? responseStartDateContract.getOutBountData()[0] : "0"));
 		if (responseResult > 1) {
 			GtnUIFrameWorkActionConfig startDateAlertActionConfig = new GtnUIFrameWorkActionConfig();
 			startDateAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);

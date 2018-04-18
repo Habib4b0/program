@@ -398,7 +398,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         tableLogic.sinkItemPerPageWithPageLength(false);
         if (flag) {
             configure();
-        }
+    }
         flag = true;
 
         if (CommonUtil.isValueEligibleForLoading()) {
@@ -2030,12 +2030,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     } else {
                         checkedDiscountNames.addAll(projectionSelection.getDeductionLevelFilter());
                     }
-                    if ((selectedField.equals(Constant.GROUPFCAPS)
-                            && (valueDdlb != null && valueDdlb.getValue() != null && !valueDdlbValue.isEmpty()))
-                            || (selectedField.equals(Constant.DISCOUNT_RATE_LABEL) && !valueText.isEmpty())
-                            || (selectedField.equals("RPU") && !valueText.isEmpty())
-                            || (selectedField.equals(Constant.DISCOUNT_AMOUNT_LABEL) && !valueText.isEmpty())
-                            || (selectedField.equals(Constant.GROWTH) && !valueText.isEmpty())) {
+                    if (((valueDdlb != null && valueDdlb.getValue() != null && !valueDdlbValue.isEmpty()) 
+                            && selectedField.equals(Constant.GROUPFCAPS))
+                            || (!valueText.isEmpty() && selectedField.equals(Constant.DISCOUNT_RATE_LABEL))
+                            || (!valueText.isEmpty() && selectedField.equals("RPU"))
+                            || (!valueText.isEmpty() && selectedField.equals(Constant.DISCOUNT_AMOUNT_LABEL))
+                            || (!valueText.isEmpty() && selectedField.equals(Constant.GROWTH))) {
                         if (!Constant.GROUPFCAPS.equals(selectedField)) {
                             if (checkedDiscountNames.isEmpty()) {
                                 new AbstractNotificationUtils() {
@@ -3481,7 +3481,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             NotificationUtils.getErrorNotification("No Frequency selected", "Please select any frequency");
         } else if (historyDdlb.getValue() == null || historyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
             NotificationUtils.getErrorNotification("No History selected", "Please select any history");
-        } else if (!CommonUtil.nullCheck(displayValidation) && displayValidation.length == 0) {
+        } else if (displayValidation.length == 0 && !CommonUtil.nullCheck(displayValidation)) {
             NotificationUtils.getErrorNotification("No Display Format Selected", "Please select value(s) from the Display Format field");
         } else {
             if (CommonUtil.isValueEligibleForLoading()) {
@@ -4268,7 +4268,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         boolean end = true;
         LOGGER.debug(" startPeriod= {} ", startPeriod);
         for (String period : periods) {
-            if (!period.equals(startPeriod) && end) {
+            if (end && !period.equals(startPeriod)) {
                 continue;
             }
             end = false;

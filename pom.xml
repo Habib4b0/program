@@ -8,7 +8,6 @@
 	<version>1.0</version>
 	<name>global-parent</name>
 	<url>http://maven.apache.org</url>
-
 	<properties>
 		<mavencompilerplugin>2.5</mavencompilerplugin>
 		<mavencompilerpluginsoruce>1.7</mavencompilerpluginsoruce>

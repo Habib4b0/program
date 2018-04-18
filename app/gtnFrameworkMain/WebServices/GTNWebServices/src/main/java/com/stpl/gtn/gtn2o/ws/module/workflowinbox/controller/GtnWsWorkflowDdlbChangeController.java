@@ -57,8 +57,7 @@ public class GtnWsWorkflowDdlbChangeController {
 
 			connection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions()
 					.getServiceRegistry().getService(ConnectionProvider.class).getConnection();
-			sqlQuery.append("select lastName,firstName,CONCAT(lastName, ' ', firstName) as fullName from "
-					+ connection.getCatalog() + ".dbo.User_");
+			sqlQuery.append("select lastName,firstName,CONCAT(lastName, ' ', firstName) as fullName from ").append(connection.getCatalog()).append(".dbo.User_");
 			List<Object[]> resultList = null;
 
 			resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(sqlQuery.toString());

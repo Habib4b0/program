@@ -67,7 +67,7 @@ public class GtnFrameworkRebatePlanCalculationAddButtonAction
 			if (tierTo != null && tierTo.equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tierToId).getComponent().setEnabled(false);
 			} else {
-				BigDecimal value = BigDecimal.valueOf(Double.valueOf(tierTo));
+				BigDecimal value = BigDecimal.valueOf(Double.parseDouble(tierTo));
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tierFromId)
 						.loadFieldValue(value.add(new BigDecimal("0.01")));
 			}

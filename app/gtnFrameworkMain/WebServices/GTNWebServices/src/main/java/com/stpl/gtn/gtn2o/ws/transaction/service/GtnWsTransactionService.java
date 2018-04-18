@@ -241,7 +241,7 @@ public class GtnWsTransactionService {
 		} else if ("java.lang.Double".equalsIgnoreCase(type)) {
 			return Double.valueOf(filterValue);
 		} else if (GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type)) {
-			return Integer.parseInt(filterValue);
+			return Integer.valueOf(filterValue);
 		} else {
 			return value;
 		}

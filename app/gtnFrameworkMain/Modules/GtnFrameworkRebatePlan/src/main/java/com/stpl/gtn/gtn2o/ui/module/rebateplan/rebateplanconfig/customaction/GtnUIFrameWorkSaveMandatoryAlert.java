@@ -6,6 +6,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.module.rebateplan.util.GtnFrameworkStringConstants;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
@@ -29,8 +30,7 @@ public class GtnUIFrameWorkSaveMandatoryAlert implements GtnUIFrameWorkAction, G
 				getString("rebatePlanInformationTabformulaType"), getString("rebatePlanInformationTabRebatePlanNo"),
 				getInt("rebatePlanInformationTabRebateStatus"), getInt("rebatePlanCalculationsRebateStructure"),
 				getInt("rebatePlanCalculationsRangeBasedOn"), getInt("rebatePlanCalculationsRebateBasedOn") };
-		String[] fields = new String[] { "Rebate Plan Name", "Rebate Plan Type", "Rebate Plan ID", "Formula Type",
-				"Rebate Plan No", "Rebate Status", "Rebate Structure", "Range Based On", "Rebate Based On" };
+		String[] fields = GtnFrameworkStringConstants.getDoActionFields();
 
 		String resultValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanInformationTabformulaType")
 				.getCaptionFromComboBox();

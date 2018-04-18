@@ -91,6 +91,11 @@ public class GtnWsForecastConfigurationUtil {
 		int endYear = list.get(GtnWsNumericConstants.TWO);
 		int futureFreq = futurePeriod + 1;
 		int futureYear = endYear;
+		LOGGER.info("startYear==>>" + futureYear);
+		LOGGER.info("futureFreq==>>" + futureFreq);
+		LOGGER.info("futurePeriod==>>" + futurePeriod);
+		LOGGER.info("endYear==>>" + endYear);
+		LOGGER.info("futureNum==>>" + futureNum);
 		if (frequencyDivision == 1) {
 			futureYear = futureYear + futureNum;
 			LOGGER.info("startYear = startYear - historyNum;" + futureYear);
@@ -100,7 +105,8 @@ public class GtnWsForecastConfigurationUtil {
 		int futtempFreq = futureNum + futurePeriod + 1;
 		futureFreq = futureFreq + futureNum - 1;
 		List<Integer> calculateForecastPeriod = getCalculatedForecastPeriod(futtempFreq, frequencyDivision, futureFreq,
-				futureYear);
+					futureYear);
+
 		frequencyDivision = calculateForecastPeriod.get(0);
 		futureFreq = calculateForecastPeriod.get(1);
 		futureYear = calculateForecastPeriod.get(2);
@@ -215,16 +221,20 @@ public class GtnWsForecastConfigurationUtil {
 		return cal.getTime();
 	}
 
-	private static List<Integer> getCalculatedForecastPeriod(int futtempFreq, int frequencyDivision, int futureFreq,
+        private static List<Integer> getCalculatedForecastPeriod(int futtempFreq, int frequencyDivision, int futureFreq,
 			int futureYear) {
             int newFutureYear = futureYear;
             int newfutureFreq = futureFreq;
 		if ((futtempFreq > frequencyDivision) && frequencyDivision != 2) {// monthly
 			newFutureYear = newFutureYear + (futtempFreq / frequencyDivision);
-			newfutureFreq = 1;
 			if (futtempFreq % frequencyDivision > 0) {
 				newfutureFreq = (futtempFreq % frequencyDivision) - 1;
-			} else if ((futtempFreq % frequencyDivision == 0) && frequencyDivision == 4) {// quarter
+			}
+                        else {
+                newfutureFreq = 11;
+                newFutureYear = newFutureYear -1;
+            }
+                        if ((futtempFreq % frequencyDivision == 0) && frequencyDivision == 4) {// quarter
 				newfutureFreq = 3;
 				newFutureYear = newFutureYear - 1;
 			}

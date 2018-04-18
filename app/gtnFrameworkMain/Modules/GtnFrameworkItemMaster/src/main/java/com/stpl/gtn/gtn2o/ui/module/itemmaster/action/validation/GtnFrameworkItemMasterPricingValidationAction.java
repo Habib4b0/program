@@ -106,7 +106,7 @@ public class GtnFrameworkItemMasterPricingValidationAction implements GtnUIFrame
 
 	boolean isDouble(String str) {
 		try {
-			Double doubleValue = Double.parseDouble(str);
+			Double doubleValue = Double.valueOf(str);
 			gtnLogger.debug("doubleValue is " + doubleValue);
 			return true;
 		} catch (NumberFormatException e) {

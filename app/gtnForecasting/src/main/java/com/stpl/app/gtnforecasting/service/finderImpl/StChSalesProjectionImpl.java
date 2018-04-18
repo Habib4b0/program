@@ -12,8 +12,6 @@ import com.stpl.app.serviceUtils.Constants;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +27,7 @@ public class StChSalesProjectionImpl  {
 
 
         
-        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder();
         if (parameters.get(Constants.INDICATOR) != null && "getListViewProductLevel".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             String query = SQlUtil.getQuery(getClass(),"getListViewProductLevel");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);

@@ -82,7 +82,9 @@ public class GtnFrameworkDedAutoUpdateQueryGeneratorCallable implements Callable
 		StringBuilder result = new StringBuilder();
 		if (masterSids != null && !masterSids.isEmpty()) {
 			for (Object hirarechyNo : masterSids) {
-				result.append("'" + hirarechyNo + "' ,");
+				result.append("'" );
+                                result.append(hirarechyNo);
+                                result.append("' ,");
 			}
 			result.deleteCharAt(result.length() - 1);
 			return result.toString();

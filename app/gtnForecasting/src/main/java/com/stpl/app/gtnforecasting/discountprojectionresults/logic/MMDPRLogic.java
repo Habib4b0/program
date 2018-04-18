@@ -719,7 +719,7 @@ public class MMDPRLogic {
                 resultList.addAll(discountDTO);
             }
 
-        } else if ((!projSelDTO.getGroup().equals(Constant.PROJECTION_TOTAL)) && (neededRecord > 0)) {
+        } else if ((neededRecord > 0) && (!projSelDTO.getGroup().equals(Constant.PROJECTION_TOTAL))) {
 
                 if ((Constant.MANDATED_DISCOUNT.equals(projSelDTO.getGroup()) || Constant.MANDATED_DISCOUNT.equals(projSelDTO.getLevelValue()) || Constant.MANDATED_DISCOUNT.equals(projSelDTO.getDiscountLevel())) && !Constant.DISCOUNT_SMALL.equals(projSelDTO.getPivotView())) {
                     List list = new ArrayList();
@@ -2193,7 +2193,8 @@ public class MMDPRLogic {
                 List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = column.get(1);
 
-                    if ((!checkYear.isEmpty() && commonColumn.equalsIgnoreCase(checkYear)) && ((projSelDTO.getGroup().equals(commonColumn) && pivotBrandName.equalsIgnoreCase(String.valueOf(obj[0]))) && (!String.valueOf(obj[0]).isEmpty() && obj[0] != null))) {
+                    if (obj[0] != null && !checkYear.isEmpty() && !String.valueOf(obj[0]).isEmpty() && commonColumn.equalsIgnoreCase(checkYear) && projSelDTO.getGroup().equals(commonColumn) 
+                            && pivotBrandName.equalsIgnoreCase(String.valueOf(obj[0]))) {
                             dto.setGroup(String.valueOf(obj[0]));
                             dto.setLevelValue(StringUtils.EMPTY + String.valueOf(obj[0]));
                             dto.setParent(0);
@@ -2620,7 +2621,7 @@ public class MMDPRLogic {
     public List loadCustomerDdlb(ProjectionSelectionDTO projSelDTO, String str) {
         List list;
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
-        StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder customSql = new StringBuilder();
         String[] tempTableName = new String[NumericConstants.TWO];
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
             tempTableName[0] = "CUST_RELATIONSHIP_BUILDER_SID";

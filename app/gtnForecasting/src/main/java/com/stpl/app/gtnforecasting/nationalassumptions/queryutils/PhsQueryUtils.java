@@ -143,7 +143,7 @@ public class PhsQueryUtils {
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
             for (String values : editedValues.keySet()) {
-                queryBuilder1 = new StringBuilder(StringUtils.EMPTY);
+                queryBuilder1 = new StringBuilder();
 
                 String formatedValue = editedValues.get(values);
 

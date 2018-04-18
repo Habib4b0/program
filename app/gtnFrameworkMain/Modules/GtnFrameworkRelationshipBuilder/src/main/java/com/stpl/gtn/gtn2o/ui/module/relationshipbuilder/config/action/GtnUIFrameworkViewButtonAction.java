@@ -57,7 +57,7 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 			boolean view = Boolean.parseBoolean(parameters.get(21).toString());
 			String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
 			setInitialValue(parameters, namespaceprefix, relationshipBean, index, view, mode);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(3).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(3)))
 					.loadDefaultCombobox(versionNo, versionNo);
 			loadResultLayout(componentId, parameters, namespaceprefix, relationshipBean, view);
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(true);
@@ -90,13 +90,13 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 		GtnFrameworkRelationshipBuilderResultLayoutConfig resultLayoutConfig = new GtnFrameworkRelationshipBuilderResultLayoutConfig();
 		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
 		resultLayoutConfig.addResultLayout(componentList, namespaceprefix, view);
-		GtnUIFrameworkGlobalUI.addChildComponent(namespaceprefix + parameters.get(8).toString(), componentList);
+		GtnUIFrameworkGlobalUI.addChildComponent(namespaceprefix + String.valueOf(parameters.get(8)), componentList);
 
 		loadHierarchyLevels(namespaceprefix, parameters, view);
 		GtnUIFrameworkBaseComponent rbTreeBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(namespaceprefix + parameters.get(9).toString());
+				.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(9)));
 		rbTreeBaseComponent.loadTreeFromTreeNode(rbResponse.getRbTreeNodeList());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(24).toString())
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(24)))
 				.setComponentVisible(!rbTreeBaseComponent.getItemsFromDataTable().isEmpty());
 	}
 
@@ -124,37 +124,37 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15))
 						.setComponentEnable(true);
 			} else {
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(13)))
 						.loadDateValue(relationshipName);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(14)))
 						.loadDateValue(relationshipDescription);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(15)))
 						.loadDateValue(startDate);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(13)))
 						.setComponentEnable(false);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(14)))
 						.setComponentEnable(false);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(15).toString())
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(15)))
 						.setComponentEnable(false);
 			}
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(10)))
 					.loadComboBoxComponentValue(hierarchySId);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(11)))
 					.loadFieldValue(relationshipType);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(12).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(12)))
 					.loadFieldValue(builderType);
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(10)))
 					.setComponentEnable(!view);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(11)))
 					.setComponentEnable(!view);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(3).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(3)))
 					.setComponentEnable(!view);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(12).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(12)))
 					.setComponentEnable(!view);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(22).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(22)))
 					.setComponentEnable(!view);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(23).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(23)))
 					.setComponentEnable(!view);
 		} catch (Exception e) {
 			gtnLogger.error("Exception in setInitialValue", e);
@@ -165,7 +165,7 @@ public class GtnUIFrameworkViewButtonAction implements GtnUIFrameWorkAction, Gtn
 			throws GtnFrameworkGeneralException {
 		if (!view) {
 			GtnUIFrameworkBaseComponent rbTableBaseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(namespaceprefix + parameters.get(16).toString());
+					.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(16)));
 			rbTableBaseComponent.getLogicFromPagedDataTable().startSearchProcess(
 					Arrays.asList((namespaceprefix + "hierarchyName"), (namespaceprefix + "versionNo")), true);
 		}
