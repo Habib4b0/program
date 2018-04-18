@@ -120,7 +120,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Callable<
 		StringBuilder result = new StringBuilder();
 		          if (masterSids != null && !masterSids.isEmpty()) {
                 for (Object value : masterSids) {
-                    result.append("'");
+                    result.append(" '");
                     result.append(value);
                     result.append("' ,");
                 }

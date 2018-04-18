@@ -95,22 +95,22 @@ public class GtnFrameworkCGrpStringContants {
 				GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_NO, GtnFrameworkCGrpStringContants.CUSTOMER_GROUP_DESC,
 				GtnFrameworkCGrpStringContants.C_GRPSEARCH_RESULT_TABLE };
 
-    public static String[] getRESET_COMPONENT_ID_ARRAY() {
+    public static String[] getResetComponentidArray() {
         return RESET_COMPONENT_ID_ARRAY.clone();
     }
        
 
-    public static Object[] getAUDIT_SEARCH_DISABLE_FIELD() {
+    public static Object[] getAuditSearchDisableField() {
         return AUDIT_SEARCH_DISABLE_FIELD.clone();
     }
        
 
-    public static Object[] getADD_SEARCH_DISABLE_FIELD() {
+    public static Object[] getAddSearchDisableField() {
         return ADD_SEARCH_DISABLE_FIELD.clone();
     }
        
 
-    public static String[] getCOMPONENT_ID_ARRAY() {
+    public static String[] getComponentidArray() {
         return COMPONENT_ID_ARRAY.clone();
     }
         

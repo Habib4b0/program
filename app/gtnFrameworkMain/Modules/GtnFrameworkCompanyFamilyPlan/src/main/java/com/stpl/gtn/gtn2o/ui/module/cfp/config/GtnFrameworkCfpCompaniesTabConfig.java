@@ -406,8 +406,8 @@ public class GtnFrameworkCfpCompaniesTabConfig {
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig(
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkCfpStringContants.getCUSTOM_FILTER_PROPERTY_IDS();
-		String[] listNameList = GtnFrameworkCfpStringContants.getLIST_NAME_LIST();
+		String[] propertyIds = GtnFrameworkCfpStringContants.getCustomFilterPropertyIds();
+		String[] listNameList = GtnFrameworkCfpStringContants.getListNameList();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);

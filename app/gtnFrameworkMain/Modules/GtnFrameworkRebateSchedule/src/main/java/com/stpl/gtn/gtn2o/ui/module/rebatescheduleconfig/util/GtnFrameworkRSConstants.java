@@ -67,6 +67,7 @@ public class GtnFrameworkRSConstants {
 	public static final String RS_STATUS = "rsStatus";
 	public static final String START_DATE = "Start Date";
 	public static final String END_DATE = "End Date";
+	public static final String USER_ID_NAME = "userIdName";
 	private static final String[] RS_LOOKUP_COLUMN = { "systemId", "rsId", "rsNo", "rsName", "rsType", RS_STATUS,
 			"rsCategory", GtnFrameworkCommonConstants.START_DATE, GtnFrameworkCommonConstants.END_DATE, "rsDesignation",
 			"parentRsId", "parentRsName" };
@@ -547,8 +548,8 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
 				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
-				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE, "RSleftResultTable",
-				"RSrightResultTable" };
+				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE, GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE,
+				GtnFrameworkRSConstants.R_SRIGHT_RESULT_TABLE };
 
         
         private static final Object[] ADD_ENABLE_FIELDS = new String[] { GtnFrameworkCommonConstants.NOTES_TAB,
@@ -628,7 +629,7 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6 };
          
          private static final String[] LIST_NAME_ARRAY = { "RS_TYPE", "STATUS", "REBATE_PROGRAM_TYPE", "RS_CATEGORY", "RS_TRADE_CLASS",
-				"REBATE_FREQUENCY", "RS_CALENDAR", "CALCULATION_TYPE", "RULE_LEVEL", "REBATE_RULE_TYPE",
+				"REBATE_FREQUENCY", "RS_CALENDAR", "CALCULATION_TYPE", GtnFrameworkRSConstants.RULE_LEVEL, "REBATE_RULE_TYPE",
 				"PAYMENT_TERMS", "PAYMENT_METHOD", "PAYMENT_FREQUENCY", "INTEREST_BEARING_INDICATOR",
 				"INTEREST_BEARING_BASIS", "RS_DESIGNATION", "RS_UDC1", "RS_UDC2", "RS_UDC3", "RS_UDC4", "RS_UDC5",
 				"RS_UDC6" };
@@ -666,26 +667,26 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_RIGHT_INDICATOR,
 				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_MOVE_ALL_LEFT_INDICATOR };
          
-        private static final String[] RP_LIST_NAME_ARRAY = {"RULE_TYPE", "RULE_CATEGORY", "userIdName", "userIdName"};
+        private static final String[] RP_LIST_NAME_ARRAY = {"RULE_TYPE", "RULE_CATEGORY", USER_ID_NAME, USER_ID_NAME};
 
     private static final String[] RP_POPUP_PROPERTY_IDS = {"ruleType", "ruleCategory", "createdBy", "modifiedBy"};
 
     private static final String[] NS_FILTER_PROPERTY_IDS = {GtnFrameworkCommonConstants.FORMULA_TYPE, "createdBy", "modifiedBy"};
 
-    public static String[] getNS_FILTER_PROPERTY_IDS() {
+    public static String[] getNsFilterPropertyIds() {
         return NS_FILTER_PROPERTY_IDS.clone();
     }
-    private static final String[] NS_LIST_NAME_ARRAY = {"NS_FORMULA_TYPE", "userIdName", "userIdName"};
+    private static final String[] NS_LIST_NAME_ARRAY = {"NS_FORMULA_TYPE", USER_ID_NAME, USER_ID_NAME};
 
-    public static String[] getNS_LIST_NAME_ARRAY() {
+    public static String[] getNsListNameArray() {
         return NS_LIST_NAME_ARRAY.clone();
     }
 
-    public static final String[] getRP_POPUP_PROPERTY_IDS() {
+    public static final String[] getRpPopupPropertyIds() {
         return RP_POPUP_PROPERTY_IDS.clone();
     }
 
-    public static final String[] getRP_LIST_NAME_ARRAY() {
+    public static final String[] getRpListNameArray() {
         return RP_LIST_NAME_ARRAY.clone();
     }
     

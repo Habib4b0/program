@@ -598,8 +598,8 @@ public class GtnUIFrameworkContractHeaderLandingScreenConfig {
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnUIFrameworkContractHeaderStringContants.getCUSTOM_PROPERTY_FIELDS();
-		String[] listNameArray = GtnUIFrameworkContractHeaderStringContants.getCUSTOM_LIST_NAME_ARRAY();
+		String[] propertyIds = GtnUIFrameworkContractHeaderStringContants.getCustomPropertyFields();
+		String[] listNameArray = GtnUIFrameworkContractHeaderStringContants.getCustomListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);

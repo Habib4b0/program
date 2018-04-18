@@ -505,7 +505,7 @@ public class GtnFrameworkPSSearchConfig {
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
 
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getADD_ENABLE_FIELD()));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddEnableField()));
 		psAddButtonActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig setDefaultValueAction = new GtnUIFrameWorkActionConfig();
@@ -523,7 +523,7 @@ public class GtnFrameworkPSSearchConfig {
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
 		
 
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getADD_DISABLE_FIELD()));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddDisableField()));
 		psAddButtonActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
@@ -610,14 +610,14 @@ public class GtnFrameworkPSSearchConfig {
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
 		
 
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getADD_EDIT_ENABLE_FIELD()));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddEditEnableField()));
 		psEditButtonActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
 		
 
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getADD_EDIT_DISABLE_FIELD()));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddEditDisableField()));
 		psEditButtonActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
@@ -626,7 +626,7 @@ public class GtnFrameworkPSSearchConfig {
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkPSConstants.getADD_EDIT_VISIBLE_FIELD()));
+		visibleParameters.add(Arrays.asList(GtnFrameworkPSConstants.getAddEditVisibleField()));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		psEditButtonActionConfigList.add(visibleAction);
@@ -680,7 +680,7 @@ public class GtnFrameworkPSSearchConfig {
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
 		
 
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getADD_VIEW_DISABLE_FIELD()));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddViewDisableField()));
 		psViewButtonActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
@@ -689,7 +689,7 @@ public class GtnFrameworkPSSearchConfig {
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkPSConstants.getADD_VIEW_VISIBLE_FIELD()));
+		visibleParameters.add(Arrays.asList(GtnFrameworkPSConstants.getAddViewVisibleField()));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		psViewButtonActionConfigList.add(visibleAction);

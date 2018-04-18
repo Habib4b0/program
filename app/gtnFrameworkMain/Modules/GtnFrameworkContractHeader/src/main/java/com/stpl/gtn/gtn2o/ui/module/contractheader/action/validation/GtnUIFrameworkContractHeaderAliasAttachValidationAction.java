@@ -45,7 +45,7 @@ public class GtnUIFrameworkContractHeaderAliasAttachValidationAction
 				.getIntegerFromField();
 
 		final Object[] values = new Object[] { aliasNo, aliasType, startDate };
-		final String[] mesaages = GtnUIFrameworkContractHeaderStringContants.getDO_ACTION_MESAAGES();
+		final String[] mesaages = GtnUIFrameworkContractHeaderStringContants.getDoActionMesaages();
 		validateFields(mesaages, values, componentId);
 
 		if (endDate != null) {

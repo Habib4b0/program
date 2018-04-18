@@ -439,7 +439,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
 		
 
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkCompanyStringContants.getADD_ADD_ENABLE_FIELD()));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkCompanyStringContants.getAddEnableField()));
 		actionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = configProvider
@@ -447,7 +447,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 		
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkCompanyStringContants.getADD_ADD_VISIBLE_FIELDS()));
+		visibleParameters.add(Arrays.asList(GtnFrameworkCompanyStringContants.getAddVisibleFields()));
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
 
@@ -505,7 +505,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
 		
 
-		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkCompanyStringContants.getADD_EDIT_DISABLE_FIELD()));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkCompanyStringContants.getAddEditDisableField()));
 		companyMasterSearchEditActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig customActionEdit = configProvider
@@ -521,7 +521,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkCompanyStringContants.getADD_EDIT_VISIBLE_FIELD()));
+		visibleParameters.add(Arrays.asList(GtnFrameworkCompanyStringContants.getAddEditVisibleField()));
 		visibleAction.setActionParameterList(visibleParameters);
 		companyMasterSearchEditActionConfigList.add(visibleAction);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(companyMasterSearchEditActionConfigList);
@@ -570,7 +570,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
 		
 
-		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkCompanyStringContants.getADD_VIEW_DISABLE_FIELD()));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkCompanyStringContants.getAddViewDisableField()));
 		actionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig customActionView = new GtnUIFrameWorkActionConfig();
@@ -628,8 +628,8 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = GtnFrameworkCompanyStringContants.getPROPERTY_IDS();
-		String[] listNameArray = GtnFrameworkCompanyStringContants.getLIST_NAME_ARRAY();
+		String[] propertyIds = GtnFrameworkCompanyStringContants.getPropertyIds();
+		String[] listNameArray = GtnFrameworkCompanyStringContants.getListNameArray();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);

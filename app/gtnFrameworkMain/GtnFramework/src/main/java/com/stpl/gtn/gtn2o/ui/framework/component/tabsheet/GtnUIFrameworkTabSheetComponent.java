@@ -77,7 +77,7 @@ public class GtnUIFrameworkTabSheetComponent implements GtnUIFrameworkComponent,
 				currentTab.setEnabled(currentComponent.isEnabled());
 				GtnUIFrameworkComponentData tabComponentData = (GtnUIFrameworkComponentData) currentComponent.getData();
 				tabComponentData.setGtnUIFrameworkTabConfig(currentTabConfig);
-				if (!(GtnUIFrameworkTabSheetLoadType.LAZY_LOAD == currentTabConfig.getTabloadingType())) {
+				if (GtnUIFrameworkTabSheetLoadType.LAZY_LOAD != currentTabConfig.getTabloadingType()) {
 					gtnUIFrameworkView.addComponentList(currentTabConfig.getTabLayoutComponentConfigList().subList(1,
 							currentTabConfig.getTabLayoutComponentConfigList().size()));
 					tabComponentData.setTabLoaded(true);

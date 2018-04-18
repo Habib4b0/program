@@ -38,9 +38,13 @@ public class GtnUIFrameworkIntervalFrequencyValueChangeAction
 					.getIntegerFromField();
 			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(2).toString());
-			if (baseComponent.isValidFieldValue() && frequency!=0) {
+			if (baseComponent.isValidFieldValue() && frequency != 0) {
 				String interval = baseComponent.getStringFromField();
 				GtnWsForecastConfigurationRequest forecastConfigurationRequest = new GtnWsForecastConfigurationRequest();
+				gtnLogger.info("parameters.size()------------------->>>>" + parameters.size());
+				if (parameters.size() > 4) {
+					interval = "";
+				}
 				forecastConfigurationRequest.setFutureFrequency(frequency);
 				forecastConfigurationRequest.setFutureInterval(interval);
 
@@ -52,7 +56,7 @@ public class GtnUIFrameworkIntervalFrequencyValueChangeAction
 								+ GtnWsForecastConfigurationConstants.FUTURE_FREQUENCY_VALUE_CHANGE,
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 				String year = response.getGtnWsForecastConfigurationResponse().getForecastPeriod();
-                                gtnLogger.info("year------------------->>>>"+year);
+				gtnLogger.info("year------------------->>>>" + year);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString()).setPropertyValue(year);
 				if (response.getGtnWsForecastConfigurationResponse().isErrorMessage()) {
 					GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.INFO_ACTION,
