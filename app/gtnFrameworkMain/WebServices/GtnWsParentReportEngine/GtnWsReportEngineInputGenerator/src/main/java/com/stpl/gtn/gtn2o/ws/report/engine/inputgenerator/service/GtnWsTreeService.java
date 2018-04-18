@@ -70,12 +70,6 @@ public class GtnWsTreeService {
 	 * Level NO
 	 *
 	 */
-	/**
-	 *
-	 * customViewInput 0 - Level No 1 - Indicator 2 - Level Name 3 - Custom view
-	 * Level NO
-	 *
-	 */
 	public GtnWsReportEngineTreeNode formingTreeBasedOnInputs(GtnWsReportEngineTreeNode customer,
 			GtnWsReportEngineTreeNode product, List<Object[]> ccpResult, List<Object[]> customViewInput,
 			List<Object[]> deductionHierarchy) {
@@ -103,7 +97,7 @@ public class GtnWsTreeService {
 								deductionHierarchy);
 						break;
 					case "V":
-						
+
 						break;
 					default:
 						break;

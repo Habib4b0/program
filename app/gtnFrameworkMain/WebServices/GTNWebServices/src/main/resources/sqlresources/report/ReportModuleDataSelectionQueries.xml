@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql>
+
+
+<entity id="ReportTimePeriodHistoryFrequencyDate">
+		<query> 
+            <![CDATA[
+      ;WITH cte AS
+	 (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+               TO_DATE AS  TO_DATE
+  FROM   forecast_config f
+         JOIN HELPER_TABLE h
+           ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+  WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+         AND DESCRIPTION = 'Returns'
+  ORDER BY VERSION_NO DESC)
+  
+  SELECT    DESCRIPTION  
+	          FROM   forecast_config f
+	            JOIN HELPER_TABLE h
+           ON f.HIST_FREQ = h.HELPER_TABLE_SID
+  WHERE  FROM_DATE=(SELECT FROM_DATE
+                FROM   cte c)
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="TimePeriodFromDateInQuarters">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+                      TO_DATE   TO_DATE
+         FROM   forecast_config f
+                JOIN HELPER_TABLE h
+                  ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+         WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+                AND DESCRIPTION = 'Returns'
+         ORDER  BY VERSION_NO DESC)
+	SELECT Min(period_sid) AS PERIOD_SID,
+	       Concat('Q', QUARTER, ' - ', YEAR)
+	FROM   PERIOD p
+	WHERE  EXISTS (SELECT 1
+	               FROM   cte c
+	               WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+	GROUP  BY Concat('Q', QUARTER, ' - ', YEAR),
+	          year,
+	          QUARTER
+	ORDER  BY YEAR,
+	          QUARTER,
+	          Concat('Q', QUARTER, ' - ', YEAR) 
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="TimePeriodFromDateInYears">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+                      TO_DATE   TO_DATE
+         FROM   forecast_config f
+                JOIN HELPER_TABLE h
+                  ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+         WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+                AND DESCRIPTION = 'Returns'
+         ORDER  BY VERSION_NO DESC)
+	SELECT Min(period_sid) AS PERIOD_SID,YEAR
+	FROM   PERIOD p
+	WHERE  EXISTS (SELECT 1
+	               FROM   cte c
+	               WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+	GROUP  BY YEAR
+	ORDER  BY YEAR
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="TimePeriodFromDateInSemiAnnual">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+               TO_DATE AS  TO_DATE
+  		FROM   forecast_config f
+         		JOIN HELPER_TABLE h
+           			ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+  		WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+        	   AND DESCRIPTION = 'Returns'
+  		ORDER BY VERSION_NO DESC)
+ 	SELECT Min(period_sid) AS PERIOD_SID,
+      	CONCAT('S',SEMI_ANNUAL,'-',YEAR)
+ 	FROM   PERIOD p
+ 	WHERE  EXISTS (SELECT 1
+                FROM   cte c
+                WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+ 	GROUP  BY YEAR,SEMI_ANNUAL
+ 	ORDER  BY YEAR,SEMI_ANNUAL
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="TimePeriodFromDateInMonth">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+               TO_DATE AS  TO_DATE
+  		FROM   forecast_config f
+         		JOIN HELPER_TABLE h
+           			ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+  		WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+        	   AND DESCRIPTION = 'Returns'
+  		ORDER BY VERSION_NO DESC)
+ 	SELECT Min(period_sid) AS PERIOD_SID,
+      	CONCAT(SUBSTRING(DATENAME(mm,PERIOD_DATE),1,3),' ',YEAR)
+ 	FROM   PERIOD p
+ 	WHERE  EXISTS (SELECT 1
+                FROM   cte c
+                WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+ 	GROUP  BY YEAR,PERIOD_DATE
+ 	ORDER  BY YEAR,PERIOD_DATE
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="TimePeriodToDateInQuarters">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+                      TO_DATE   TO_DATE
+         FROM   forecast_config f
+                JOIN HELPER_TABLE h
+                  ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+         WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+                AND DESCRIPTION = 'Returns'
+         ORDER  BY VERSION_NO DESC)
+	SELECT TOP 1 Min(period_sid) AS PERIOD_SID,
+	       Concat('Q', QUARTER, ' - ', YEAR)
+	FROM   PERIOD p
+	WHERE  EXISTS (SELECT 1
+	               FROM   cte c
+	               WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+	GROUP  BY Concat('Q', QUARTER, ' - ', YEAR),
+	          year,
+	          QUARTER
+	ORDER  BY PERIOD_SID DESC
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="TimePeriodToDateInYears">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+                      TO_DATE   TO_DATE
+         FROM   forecast_config f
+                JOIN HELPER_TABLE h
+                  ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+         WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+                AND DESCRIPTION = 'Returns'
+         ORDER  BY VERSION_NO DESC)
+	SELECT TOP 1 Min(period_sid) AS PERIOD_SID,YEAR
+	FROM   PERIOD p
+	WHERE  EXISTS (SELECT 1
+	               FROM   cte c
+	               WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+	GROUP  BY YEAR
+	ORDER  BY PERIOD_SID DESC
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="TimePeriodToDateInSemiAnnual">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+               TO_DATE AS  TO_DATE
+  		FROM   forecast_config f
+         		JOIN HELPER_TABLE h
+           			ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+  		WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+        	   AND DESCRIPTION = 'Returns'
+  		ORDER BY VERSION_NO DESC)
+ 	SELECT TOP 1 Min(period_sid) AS PERIOD_SID,
+      	CONCAT('S',SEMI_ANNUAL,'-',YEAR)
+ 	FROM   PERIOD p
+ 	WHERE  EXISTS (SELECT 1
+                FROM   cte c
+                WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+ 	GROUP  BY YEAR,SEMI_ANNUAL
+ 	ORDER  BY PERIOD_SID DESC
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="TimePeriodToDateInMonth">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+               TO_DATE AS  TO_DATE
+  		FROM   forecast_config f
+         		JOIN HELPER_TABLE h
+           			ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+  		WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+        	   AND DESCRIPTION = 'Returns'
+  		ORDER BY VERSION_NO DESC)
+ 	SELECT TOP 1 Min(period_sid) AS PERIOD_SID,
+      	CONCAT(SUBSTRING(DATENAME(mm,PERIOD_DATE),1,3),' ',YEAR)
+ 	FROM   PERIOD p
+ 	WHERE  EXISTS (SELECT 1
+                FROM   cte c
+                WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+ 	GROUP  BY YEAR,PERIOD_DATE
+ 	ORDER  BY PERIOD_SID DESC
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="getCountReportProductHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT
+                    Count(c.HIERARCHY_DEFINITION_SID) AS HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Product Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ? ? ? ? ? 
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getDataReportProductHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT 
+                    c.HIERARCHY_NAME,
+                    a.LEVEL_NO as HIGH_LEVEL,
+                    b.LEVEL_NO as LOW_LEVEL,
+                    c.CREATED_DATE,
+                    c.MODIFIED_DATE,
+                    c.HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Product Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ?
+                    ?
+                    ? ? ?
+                    ORDER BY ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+            ]]>
+		</query>
+	</entity>
+
+	<entity id="getCountReportCustomerHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT
+                    Count(c.HIERARCHY_DEFINITION_SID) AS HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Customer Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ? ? ? ? ? 
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getDataReportCustomerHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT 
+                    c.HIERARCHY_NAME,
+                    a.LEVEL_NO as HIGH_LEVEL,
+                    b.LEVEL_NO as LOW_LEVEL,
+                    c.CREATED_DATE,
+                    c.MODIFIED_DATE,
+                    c.HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Customer Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ?
+                    ?
+                    ? ? ?
+                    ORDER BY ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+            ]]>
+		</query>
+	</entity>
+</sql>

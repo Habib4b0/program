@@ -330,6 +330,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(fromPeriodLayoutConfig);
 
+
 		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
 		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		fromPeriod.setComponentId(
@@ -349,6 +350,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromPeriod.setGtnUIFrameworkValidationConfig(valConfigForFromPeriod);
 		componentList.add(fromPeriod);
 
+
 		GtnUIFrameworkLayoutConfig toPeriodLayout = new GtnUIFrameworkLayoutConfig();
 		toPeriodLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig toPeriodLayoutConfig = new GtnUIFrameworkComponentConfig();
@@ -360,6 +362,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		toPeriodLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(toPeriodLayoutConfig);
+
 
 		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
 		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
@@ -381,6 +384,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		valConfigForToPeriod.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		toPeriod.setGtnUIFrameworkValidationConfig(valConfigForToPeriod);
 		componentList.add(toPeriod);
+
 	}
 
 	private void addProductSelectionLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
