@@ -49,6 +49,7 @@ public class GtnFrameworkCfpMoveLeftAction
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 		try {
+                    GtnUIFrameworkWebServiceClient FrameworkWebServiceClient = new GtnUIFrameworkWebServiceClient();
 			for (GtnWsRecordBean gtnWsRecordBean : cfpRightResultTableDtoList) {
 				Object systemId = gtnWsRecordBean.getProperties().get(8);
 				int companyMasterSid = systemId == null ? 0 : Integer.parseInt(String.valueOf(systemId));
@@ -65,7 +66,7 @@ public class GtnFrameworkCfpMoveLeftAction
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpCompaniesTabResultDataTable").getExtPagedTable()
 						.setData(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-				new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				FrameworkWebServiceClient.callGtnWebServiceUrl(
 						GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
 								+ GtnWsCFamilyPlanContants.GTN_WS_CFP_COMPANY_ADDITION_MOVE_LEFT_SERVICE,
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());

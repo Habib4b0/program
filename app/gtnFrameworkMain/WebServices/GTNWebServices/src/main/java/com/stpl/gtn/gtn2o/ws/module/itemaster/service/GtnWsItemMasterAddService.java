@@ -91,27 +91,27 @@ public class GtnWsItemMasterAddService {
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
 
-	public org.hibernate.SessionFactory getSessionFactory() {
+	public synchronized org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
+	public synchronized void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public GtnWsSqlService getGtnWsSqlService() {
+	public synchronized GtnWsSqlService getGtnWsSqlService() {
 		return gtnWsSqlService;
 	}
 
-	public void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
+	public synchronized void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
 		this.gtnWsSqlService = gtnWsSqlService;
 	}
 
-	public org.hibernate.SessionFactory getSysSessionFactory() {
+	public synchronized org.hibernate.SessionFactory getSysSessionFactory() {
 		return sysSessionFactory;
 	}
 
-	public void setSysSessionFactory(org.hibernate.SessionFactory sysSessionFactory) {
+	public synchronized void setSysSessionFactory(org.hibernate.SessionFactory sysSessionFactory) {
 		this.sysSessionFactory = sysSessionFactory;
 	}
 
@@ -497,11 +497,12 @@ public class GtnWsItemMasterAddService {
 			throws ParseException {
 		StringBuilder conditionBuilder = new StringBuilder();
 		Map<String, String> columnIdMapping = getPricingColumnMap();
+                GtnWsSearchQueryGenerationLogic GtnWsSearchQueryGenerationLogicObj = new GtnWsSearchQueryGenerationLogic();
 		for (Iterator<GtnWebServiceSearchCriteria> iterator = gtnWebServiceSearchCriteriaList.iterator(); iterator
 				.hasNext();) {
 			conditionBuilder.append(" AND  ");
 			GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria = iterator.next();
-			new GtnWsSearchQueryGenerationLogic().generateSqlBasedOnExpression(gtnWebServiceSearchCriteria,
+			GtnWsSearchQueryGenerationLogicObj.generateSqlBasedOnExpression(gtnWebServiceSearchCriteria,
 					conditionBuilder, columnIdMapping.get(gtnWebServiceSearchCriteria.getFieldId()));
 
 		}

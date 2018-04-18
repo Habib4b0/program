@@ -56,19 +56,20 @@ public class GtnWsRelationshipBuilderConstants {
 		 */
 	}
 
+       static {
+        CONDITIONS.put("equal to", "=");
+        CONDITIONS.put("starts with", "like");
+        CONDITIONS.put("ends with", "like");
+        CONDITIONS.put("greater than", ">");
+        CONDITIONS.put("greater than or equal to", ">=");
+        CONDITIONS.put("lesser than", "<");
+        CONDITIONS.put("lesser than or equal to", "<=");
+        CONDITIONS.put("in", "in");
+        CONDITIONS.put("not in", "not in");
+        CONDITIONS.put(CONTAINS, "like");
+    }
 	public static String getConditions(String key) {
-		if (CONDITIONS.isEmpty()) {
-			CONDITIONS.put("equal to", "=");
-			CONDITIONS.put("starts with", "like");
-			CONDITIONS.put("ends with", "like");
-			CONDITIONS.put("greater than", ">");
-			CONDITIONS.put("greater than or equal to", ">=");
-			CONDITIONS.put("lesser than", "<");
-			CONDITIONS.put("lesser than or equal to", "<=");
-			CONDITIONS.put("in", "in");
-			CONDITIONS.put("not in", "not in");
-			CONDITIONS.put(CONTAINS, "like");
-		}
+		
 		return CONDITIONS.get(key);
 	}
 

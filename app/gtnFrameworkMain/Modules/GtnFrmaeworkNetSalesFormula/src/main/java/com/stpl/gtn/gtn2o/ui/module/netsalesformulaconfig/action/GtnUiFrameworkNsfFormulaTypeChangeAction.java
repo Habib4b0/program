@@ -147,7 +147,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 				.getItemsFromTable().isEmpty()
 				|| !GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + SELECTED_DEDUCTIONS_RESULT_TABLE)
 						.getItemsFromTable().isEmpty())
-				&& !"test".equals(formulaTypeValueCurrent) && (formulaType != null && !"null".equals(formulaType))) {
+				&& (formulaType != null && !"null".equals(formulaType) &&  !"test".equals(formulaTypeValueCurrent) )) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 			List<Object> alertParams = new ArrayList<>();
