@@ -23,7 +23,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.data.HasValue;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HasComponents;
@@ -1069,3 +1068,4 @@ public class GtnUIFrameworkBaseComponent {
     }
 
 }
+

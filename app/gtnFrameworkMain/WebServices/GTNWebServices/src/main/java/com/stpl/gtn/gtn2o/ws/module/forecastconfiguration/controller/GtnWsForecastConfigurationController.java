@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 891d313898e19eb4b7f80918342b51a1582a52bd
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -938,6 +941,7 @@ public class GtnWsForecastConfigurationController {
 		}
 	}
 }
+<<<<<<< HEAD
 =======
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -1860,3 +1864,6 @@ public class GtnWsForecastConfigurationController {
 	}
 }
 >>>>>>> 293e4270a0e6ba917976d05be53a17c15fedc76f
+=======
+
+>>>>>>> 891d313898e19eb4b7f80918342b51a1582a52bd
