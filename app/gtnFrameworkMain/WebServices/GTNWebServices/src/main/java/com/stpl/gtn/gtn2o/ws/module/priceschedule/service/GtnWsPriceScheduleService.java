@@ -349,7 +349,6 @@ public class GtnWsPriceScheduleService {
 		if (rPInfo != null) {
 			psInfoBean = setPsInfoBean(rPInfo.get(0));
 			psInfoBean.setNoteBeanList(getPsNotesTabDetails(systemId));
-			psInfoBean.setNoteBeanList(getPsNotesTabAttachDetails(systemId));
 		}
 
 		return psInfoBean;
@@ -381,16 +380,6 @@ public class GtnWsPriceScheduleService {
 		return GtnCommonUtil.getNotesTabBean(psNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private List<NotesTabBean> getPsNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
-
-		String psNotesTabAttachDetailsQuery = gtnWsSqlService.getQuery("psNotesTabAttachDetailsQuery");
-		Object[] psNotesTabAttachDetailsQueryParams = { systemId };
-		GtnFrameworkDataType[] psInfoQueryTypes = { GtnFrameworkDataType.INTEGER };
-		List<Object[]> psNotesDetailsResultList = (List<Object[]>) gtnSqlQueryEngine
-				.executeSelectQuery(psNotesTabAttachDetailsQuery, psNotesTabAttachDetailsQueryParams, psInfoQueryTypes);
-		return GtnCommonUtil.getNotesTabBean(psNotesDetailsResultList, gtnWebServiceAllListConfig);
-	}
 
 	private int getIntValue(Object obj) {
 		int value = 0;
