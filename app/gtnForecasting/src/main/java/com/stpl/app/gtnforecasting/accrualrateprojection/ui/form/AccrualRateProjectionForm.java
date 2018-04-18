@@ -565,7 +565,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             }
 
             CountDownLatch latch = new CountDownLatch(NumericConstants.SEVEN);
-            if (AccrualRateUtils.ADD.equalsIgnoreCase(session.getAction()) && !heirarchySaved) {
+            if (!heirarchySaved && AccrualRateUtils.ADD.equalsIgnoreCase(session.getAction())) {
                 DataSelectionLogic.accrualDetailsInsert(session.getProjectionId(), session.getCurrentTableNames());
                 heirarchySaved = true;
             }

@@ -277,7 +277,7 @@ public class SPRCommonLogic {
             if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (isExpand)) {
                 whereCond = " and HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
             }
-            if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (!isFilter)) {
+            if ((!isFilter) && (!hierarchyNo.equals(StringUtils.EMPTY))) {
                 hierarchyNo1 = hierarchyNo;
 
             }

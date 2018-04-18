@@ -22,8 +22,8 @@ public class GtnWsReportClientController {
 		GtnWsReportEngineTreeNode outputTree = getGtnGeneratedReportOutput(input);
 		System.out.println("outputTree = " + outputTree);
 
-		// MONGO_SERVICE.createCollection("computedResults");
-		// MONGO_SERVICE.updateFinalResultsToMongo("computedResults", outputTree);
+		 MONGO_SERVICE.createCollection("computedResults");
+		 MONGO_SERVICE.updateFinalResultsToMongo("computedResults", outputTree);
 	}
 
 	private GtnWsReportEngineTreeNode getGtnGeneratedReportOutput(GtnWsReportEngineTreeNode input) {

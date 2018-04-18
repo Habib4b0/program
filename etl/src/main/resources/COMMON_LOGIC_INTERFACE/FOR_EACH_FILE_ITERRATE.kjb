@@ -226,13 +226,13 @@
       <add_result_filesname>N</add_result_filesname>
       <destination_is_a_file>Y</destination_is_a_file>
       <create_destination_folder>N</create_destination_folder>
-      <add_date>N</add_date>
-      <add_time>Y</add_time>
+      <add_date>Y</add_date>
+      <add_time>N</add_time>
       <SpecifyFormat>N</SpecifyFormat>
       <date_time_format/>
       <nr_errors_less_than>10</nr_errors_less_than>
       <success_condition>success_if_no_errors</success_condition>
-      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <AddDateBeforeExtension>Y</AddDateBeforeExtension>
       <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
       <iffileexists>unique_name</iffileexists>
       <destinationFolder/>
@@ -254,7 +254,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>317</xloc>
+      <xloc>316</xloc>
       <yloc>396</yloc>
       </entry>
     <entry>
@@ -267,13 +267,13 @@
       <add_result_filesname>N</add_result_filesname>
       <destination_is_a_file>Y</destination_is_a_file>
       <create_destination_folder>N</create_destination_folder>
-      <add_date>N</add_date>
-      <add_time>Y</add_time>
+      <add_date>Y</add_date>
+      <add_time>N</add_time>
       <SpecifyFormat>N</SpecifyFormat>
       <date_time_format/>
       <nr_errors_less_than>10</nr_errors_less_than>
       <success_condition>success_if_no_errors</success_condition>
-      <AddDateBeforeExtension>N</AddDateBeforeExtension>
+      <AddDateBeforeExtension>Y</AddDateBeforeExtension>
       <DoNotKeepFolderStructure>N</DoNotKeepFolderStructure>
       <iffileexists>unique_name</iffileexists>
       <destinationFolder/>

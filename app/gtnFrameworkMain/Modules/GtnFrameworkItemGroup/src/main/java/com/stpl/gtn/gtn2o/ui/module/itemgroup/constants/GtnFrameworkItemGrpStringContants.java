@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.itemgroup.constants;
 
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 
 /**
@@ -40,6 +41,43 @@ public class GtnFrameworkItemGrpStringContants {
 	public static final String GTN_ITEM_GRP_CONFIRMATION_HEADER = "Confirmation";
 	public static final String GTN_ITEM_GRP_NO_RESULTS_FOUND_MSG = "No results could be found that match the entered search criteria";
 
+        
+        private static final String[] RESET_ID_ARRAY = { GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_CUSTOMER_TYPE,
+				GtnFrameworkCommonConstants.I_GRP_INFORMATION_I_GRP_DESC,
+				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_CUSTOMER_NO,
+				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_BRAND,
+				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_STRENGTH,
+				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_THERAPEUTIC_CLASS,
+				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_FORM };
+        private static final Object[] ADD_SEARCH_DISABLE_FIELD = new String[] { GtnFrameworkCommonConstants.ITEM_GRPGTN_EDIT_BUTTON,
+				GtnFrameworkCommonConstants.ITEM_GRP_GTN_COPY_BUTTON,
+				GtnFrameworkCommonConstants.ITEM_GRP_GTN_DELETE_BUTTON };
+        private static final Object[] AUDIT_SEARCH_DISABLE_FIELD = new String[] { GtnFrameworkCommonConstants.ITEM_GRPGTN_EDIT_BUTTON,
+				GtnFrameworkCommonConstants.ITEM_GRP_GTN_COPY_BUTTON,
+				GtnFrameworkCommonConstants.ITEM_GRP_GTN_DELETE_BUTTON };
+        private static final Object[] RESET_VALUE_ARRAY = { GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
+				null };
+
+    public static Object[] getResetValueArray() {
+        return RESET_VALUE_ARRAY.clone();
+    }
+        
+
+    public static Object[] getAuditSearchDisableField() {
+        return AUDIT_SEARCH_DISABLE_FIELD.clone();
+    }
+        
+
+    public static Object[] getAddSearchDisableField() {
+        return ADD_SEARCH_DISABLE_FIELD.clone();
+    }
+        
+
+    public static String[] getResetIdArray() {
+        return RESET_ID_ARRAY.clone();
+    }
+        
 	private GtnFrameworkItemGrpStringContants() {
 	}
 }

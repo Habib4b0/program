@@ -96,7 +96,7 @@ public class Utility {
                      */
                     for (CustomViewDetails ob : customDetailsList) {
                         for (Object[] obj : list) {
-                            if ((String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim())) && (obj.length > 1)) {
+                            if ((obj.length > 1) && (String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim()))) {
                                     Leveldto dto = new Leveldto();
                                     dto.setHierarchyId(ob.getHierarchyId());
                                     dto.setLevelNo(Integer.valueOf(String.valueOf((obj[1].toString()).trim())));

@@ -31,7 +31,7 @@ public class GtnFrameworkNetSaleRulePopupLoadAction implements GtnUIFrameWorkAct
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			List<Object> parameters = (List<Object>) gtnUIFrameWorkActionConfig.getActionParameterList();
+			List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 			GtnUIFrameworkComponentData viewComponentData = GtnUIFrameworkGlobalUI
 					.getVaadinComponentData(parameters.get(2).toString());
 			Object sharedPopupData = viewComponentData.getSharedPopupData();
