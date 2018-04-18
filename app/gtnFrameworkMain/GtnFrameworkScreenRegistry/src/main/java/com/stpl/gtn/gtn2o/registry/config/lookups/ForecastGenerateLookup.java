@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.registry.config.GtnUIFrameworkDataSelectionScreenConfig;
+import com.stpl.gtn.gtn2o.registry.config.additionalinformation.GtnFrameworkAdditionalInformationTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.dataassumptions.GtnFrameworkDataAssumptionsTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.discountprojection.GtnFrameworkDiscountProjectionTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.salesprojection.GtnFrameworkSalesProjectionTabConfig;
@@ -90,13 +91,13 @@ public class ForecastGenerateLookup {
 		dataAssumptions.setTabCaption("Data Assumptions");
 		List<GtnUIFrameworkComponentConfig> dataAssumptionsTabConfigList = new ArrayList<>();
 		dataAssumptions.setTabLayoutComponentConfigList(dataAssumptionsTabConfigList);
-		new GtnFrameworkDataAssumptionsTabConfig().addDataAssumptionsTabComponents(dataAssumptionsTabConfigList, namespace);
+		new GtnFrameworkDataAssumptionsTabConfig().addDataAssumptionsTabComponents(dataAssumptionsTabConfigList, dataAssumptions.getComponentId());
 		
 		GtnUIFrameworkTabConfig salesProjection = new GtnUIFrameworkTabConfig();
 		salesProjection.setComponentId(namespace + "_" + "salesProjectionTab");
 		salesProjection.setTabCaption("Sales Projection");
 		List<GtnUIFrameworkComponentConfig> salesProjectionTabConfigList = new ArrayList<>();
-		new GtnFrameworkSalesProjectionTabConfig().addSalesProjectionTabComponents(salesProjectionTabConfigList, namespace);
+		new GtnFrameworkSalesProjectionTabConfig().addSalesProjectionTabComponents(salesProjectionTabConfigList, salesProjection.getComponentId());
 		salesProjection.setTabLayoutComponentConfigList(salesProjectionTabConfigList);
 		
 		GtnUIFrameworkTabConfig discountProjection = new GtnUIFrameworkTabConfig();
@@ -104,13 +105,21 @@ public class ForecastGenerateLookup {
 		discountProjection.setTabCaption("Discount Projection");
 		List<GtnUIFrameworkComponentConfig> discountProjectionTabConfigList = new ArrayList<>();
 		discountProjection.setTabLayoutComponentConfigList(discountProjectionTabConfigList);
-		new GtnFrameworkDiscountProjectionTabConfig().addDiscountProjectionComponents(discountProjectionTabConfigList, "discountProjectionTab");
+		new GtnFrameworkDiscountProjectionTabConfig().addDiscountProjectionComponents(discountProjectionTabConfigList, discountProjection.getComponentId());
+		
+		GtnUIFrameworkTabConfig additionalInformation = new GtnUIFrameworkTabConfig();
+		additionalInformation.setComponentId(namespace + "_" + "additionalInformationTab");
+		additionalInformation.setTabCaption("Additional Information");
+		List<GtnUIFrameworkComponentConfig> additionalInformationTabConfigList = new ArrayList<>();
+		additionalInformation.setTabLayoutComponentConfigList(additionalInformationTabConfigList);
+		new GtnFrameworkAdditionalInformationTabConfig().addAdditionalInformationComponents(additionalInformationTabConfigList, additionalInformation.getComponentId());
 
 		List<GtnUIFrameworkTabConfig> tabList = new ArrayList<>();
 		tabList.add(dataSelection);
 		tabList.add(dataAssumptions);
 		tabList.add(salesProjection);
 		tabList.add(discountProjection);
+		tabList.add(additionalInformation);
 
 		tabSheetConfig.setGtnTabSheetConfigList(tabList);
 
