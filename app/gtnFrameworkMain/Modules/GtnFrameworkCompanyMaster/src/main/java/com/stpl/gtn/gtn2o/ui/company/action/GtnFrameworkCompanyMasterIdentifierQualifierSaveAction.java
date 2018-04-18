@@ -39,7 +39,7 @@ public class GtnFrameworkCompanyMasterIdentifierQualifierSaveAction
 		GtnWsRecordBean selectedId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("editattachResultTable")
 				.getValueFromDataTable();
 
-		final Integer companyQualifierSid = selectedId == null ? new Integer(0)
+		final Integer companyQualifierSid = selectedId == null ? Integer.valueOf(0)
 				: (Integer) selectedId.getPropertyValueByIndex(selectedId.getProperties().size() - 2);
 
 		final String qualifier = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("editListidentifierCodeQualifier")

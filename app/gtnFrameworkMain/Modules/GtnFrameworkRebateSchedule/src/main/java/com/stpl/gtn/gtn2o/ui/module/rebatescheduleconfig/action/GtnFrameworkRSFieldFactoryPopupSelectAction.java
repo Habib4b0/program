@@ -51,12 +51,12 @@ public class GtnFrameworkRSFieldFactoryPopupSelectAction implements GtnUIFrameWo
 				.getVaadinBaseComponent(popupIdViewMap.get(propertId)).getComponentConfig();
 		List<GtnUIFrameWorkActionConfig> rsActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig psSelectAction = new GtnUIFrameWorkActionConfig();
-                List<Object> rsActionParameter = new ArrayList<>();
-
+		List<Object> rsActionParameter = new ArrayList<>();
 
 		if (propertId.equals(GtnFrameworkCommonConstants.FORMULA_NO)) {
 
 			psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
+			rsActionParameter.add(tableId);
 			rsActionParameter.add(GtnFrameworkCommonConstants.FORMULA_NO);
 			rsActionParameter.add(
 					Arrays.asList(GtnFrameworkCommonConstants.FORMULA_NO, GtnFrameworkCommonConstants.FORMULA_NAME));
@@ -81,6 +81,8 @@ public class GtnFrameworkRSFieldFactoryPopupSelectAction implements GtnUIFrameWo
 
 			} else {
 				psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
+
+				rsActionParameter.add(tableId);
 				rsActionParameter.add(componentId);
 				rsActionParameter.add(Arrays.asList(sourceId));
 				rsActionParameter.add(Arrays.asList(componentId));
