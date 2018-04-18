@@ -561,8 +561,8 @@ public class GtnUIFrameworkPagedTableConfig {
     public void setDataQuery(String dataQuery) {
         this.dataQuery = dataQuery;
     }
-    Object[] dataQueryInputs;
-    Object[] countQueryInputs;
+    Object[] dataQueryInputs=null;
+    Object[] countQueryInputs=null;
 
     public Object[] getCountQueryInputs() {
         return countQueryInputs;

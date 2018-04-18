@@ -14,6 +14,7 @@
 		<module>GtnWsReportEngineInputGenerator</module>
 		<module>GtnWsReportEngine</module>
 		<module>GtnWsReportEngineClient</module>
+		<module>GtnReportingWebservice</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

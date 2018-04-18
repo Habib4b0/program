@@ -107,8 +107,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
     protected CustomMenuBar.SubMenuCloseListener salesInclusionListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-            String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionValue);
+          String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
+          ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionValue);
         }
     };
     protected CustomMenuBar.SubMenuCloseListener displayFormatListener = new CustomMenuBar.SubMenuCloseListener() {
@@ -957,7 +957,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
 
         }
+        if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) ) {
         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
+        salesInclusionValues.getChildren().get(0).setChecked(true);
+         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, "Yes");
+        }
+        
     }
 
     private void loadDisplayFormatDdlb() throws IllegalStateException {
