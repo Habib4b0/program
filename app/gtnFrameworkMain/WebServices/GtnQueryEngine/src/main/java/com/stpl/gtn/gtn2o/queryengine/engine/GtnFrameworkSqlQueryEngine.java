@@ -72,10 +72,12 @@ public class GtnFrameworkSqlQueryEngine {
 		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
 		List<?> list = null;
 		try (Session session = getSessionFactory().openSession()) {
-			long startTime = queryLogger.startQueryLog(sqlQuery);
+			logger.info("--------------session----------"+session);
+			//long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = session.createSQLQuery(sqlQuery);
 			list = query.list();
-			queryLogger.endQueryLog(startTime, sqlQuery);
+			logger.info("--------------list----------"+list.get(0));
+			//queryLogger.endQueryLog(startTime, sqlQuery);
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
@@ -108,10 +110,10 @@ public class GtnFrameworkSqlQueryEngine {
 		Session session = getSessionFactory().openSession();
 		List<?> queyValuelist = null;
 		try {
-			long startTime = queryLogger.startQueryLog(sqlQuery);
+			//long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			queyValuelist = query.list();
-			queryLogger.endQueryLog(startTime, sqlQuery);
+			//queryLogger.endQueryLog(startTime, sqlQuery);
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,

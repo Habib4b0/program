@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkEditAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkExcelExportAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkInfoAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadCustomAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataGridAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataTreeTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkManageTableRecordTypeAction;
@@ -48,6 +49,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkSetDataAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableCollapseAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableExpandAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableLevelFilterAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkV8PopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkVisibleAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDualListBoxLoadLeftTableAction;
@@ -166,8 +168,10 @@ public enum GtnUIFrameworkActionType {
 	LOAD_NOTES_TAB(new GtnUIFrameworkLoadNotesTabAction()),
 
 	LOAD_TABLE_ACTION(new GtnUIFrameworkLoadTableAction()),
-
-	DATA_TABLE_CHECKALL_ACTION(new GtnUIFrameworkDataTableCheckAllAction());
+        LOAD_DATA_GRID_ACTION(new GtnUIFrameWorkLoadDataGridAction()),
+	DATA_TABLE_CHECKALL_ACTION(new GtnUIFrameworkDataTableCheckAllAction()),
+        
+        V8_POP_UP_SELECT_ACTION(new GtnUIFrameworkV8PopupSelectAction());
 
 	private final GtnUIFrameWorkAction gtnUIFrameWorkAction;
 

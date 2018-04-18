@@ -20,7 +20,8 @@ public class GtnWsReportAllListConfig {
 	}
 
 	public void loadComboboxQuerymap() {
-		comboboxLoadMap.put("type", "query");
+		comboboxLoadMap.put("timePeriodForReportFromDate", "FROM");
+		comboboxLoadMap.put("timePeriodForReportToDate", "TO");
 	}
 
 }

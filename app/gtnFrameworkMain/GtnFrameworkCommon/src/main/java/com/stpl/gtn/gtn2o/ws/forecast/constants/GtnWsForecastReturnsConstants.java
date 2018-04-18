@@ -5,6 +5,8 @@
  */
 package com.stpl.gtn.gtn2o.ws.forecast.constants;
 
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+
 /**
  *
  * @author Sibi.Chakaravarthy
@@ -107,5 +109,4 @@ public final class GtnWsForecastReturnsConstants {
 	public static final String GTN_WS_RETURNS_FORECAST_WRITE_DATA_SELECTION_FILE = "/writeDataSelectionFile";
 
 	public static final String GTN_WS_RETURNS_FORECAST_READ_DATA_SELECTION_FILE = "/readDataSelectionFile";
-
 }

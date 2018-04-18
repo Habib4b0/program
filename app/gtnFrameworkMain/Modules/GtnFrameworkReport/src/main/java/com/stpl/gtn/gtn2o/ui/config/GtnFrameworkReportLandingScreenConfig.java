@@ -201,7 +201,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = new GtnUIFrameworkComboBoxConfig();
 		companyTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
+		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.BUSINESS_UNIT_GLCOMP);
 		company.setGtnComboboxConfig(companyTypeConfig);
 		
 		componentList.add(company);
@@ -339,9 +339,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
-		fromPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		fromPeriodConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.TIME_PERIOD_FROM_DATE);
+		fromPeriodConfig.setModuleName("report");
+		fromPeriodConfig.setLoadingUrl("/gtnWsReportComboboxLoad");
+		fromPeriodConfig.setComboBoxType("timePeriodForReportFromDate");
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 
 		GtnUIFrameworkValidationConfig valConfigForFromPeriod = new GtnUIFrameworkValidationConfig();
@@ -367,14 +367,15 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD);
 		toPeriod.setComponentName("To ");
 		toPeriod.setAddToParent(true);
-		toPeriod.setEnable(false);
+		toPeriod.setEnable(true);
 
 		toPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
 
 		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
-		toPeriodTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		toPeriodTypeConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE);
+		toPeriodTypeConfig.setModuleName("report");
+		toPeriodTypeConfig.setLoadingUrl("/gtnWsReportComboboxLoad");
+		toPeriodTypeConfig.setComboBoxType("timePeriodForReportToDate");
+
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
 		GtnUIFrameworkValidationConfig valConfigForToPeriod = new GtnUIFrameworkValidationConfig();
