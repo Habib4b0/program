@@ -63,6 +63,7 @@ public class PVExcelLogic {
     private String groupFilterValue = StringUtils.EMPTY;
     private String viewValue = StringUtils.EMPTY;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
+    public static final String SEPERATOR_FORMAT = "`$";
     private final Map<String, String> discountNameMap = new HashMap<>();
     public static final String TOTAL1 = "Total";
     private List<Object> pivotDiscountList = new ArrayList<>();
@@ -80,6 +81,8 @@ public class PVExcelLogic {
     public static final String PRC_CFF_EXCEL_EXPORT = "PRC_CFF_EXCEL_EXPORT";
     public static final String PERIOD_LABEL = "Period";
     public static final String PRC_CFF_DISCOUNT_EXCEL_EXPORT = "PRC_CFF_DISCOUNT_EXCEL_EXPORT";
+    public static final String EXCEL_FLAG = "isExcel";
+    public static final String DISPLAY_FORMAT = "format";
     public static final String PIVOT_LABEL = "PIVOT";
     private static final int COLUMN_COUNT_TOTAL = 96;
     private static final int COLUMN_COUNT_DISCOUNT = 12;
@@ -418,8 +421,11 @@ public class PVExcelLogic {
                     getFormattedExcelColumns(detail, selection, obj);
 
                 } else {
+                    Map<Object,Object> dataMap=new HashMap<>();
+                    dataMap.put(DISPLAY_FORMAT, selection.getDisplayFormat());
+                    dataMap.put(EXCEL_FLAG, Boolean.TRUE);
                     groupName = CommonUtils.getDisplayFormattedName(obj[NumericConstants.TWO].toString(), selection.getHierarchyIndicator(),
-                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(),dataMap );
                 }
             }
             
@@ -1366,7 +1372,10 @@ public class PVExcelLogic {
 
         for (Iterator i = keys.iterator(); i.hasNext();) {
             String key = (String) i.next();
-            String value = CommonUtils.getDisplayFormattedName(key, relationshipLevelDetailsMap.get(key).get(4).toString(), relationshipLevelDetailsMap, selection.getSessionDTO(), selection.getDisplayFormat());
+            Map<Object, Object> dataMap = new HashMap<>();
+            dataMap.put(DISPLAY_FORMAT, selection.getDisplayFormat());
+            dataMap.put(EXCEL_FLAG, Boolean.TRUE);
+            String value = CommonUtils.getDisplayFormattedName(key, relationshipLevelDetailsMap.get(key).get(4).toString(), relationshipLevelDetailsMap, selection.getSessionDTO(), dataMap);
             customViewMap.put(key, value);
         }
         return customViewMap;
@@ -1458,12 +1467,16 @@ public class PVExcelLogic {
             dto.setHierarchyNo(obj[NumericConstants.TWO].toString());
             dto.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
         } else {
+            Map<Object, Object> dataMap = new HashMap<>();
+            dataMap.put(DISPLAY_FORMAT, selection.getDisplayFormat());
+            dataMap.put(EXCEL_FLAG, Boolean.TRUE);
+            
             groupName = CommonUtils.getDisplayFormattedName(hierarchy.trim(), selection.getHierarchyIndicator(),
-                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), dataMap);
             dto.setGroup(groupName);
         }
-        if (groupName.contains("-")) {
-                String[] tempArr = groupName.split("-");
+        if (groupName.contains(SEPERATOR_FORMAT)) {
+                String[] tempArr = groupName.split(SEPERATOR_FORMAT);
                 dto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
                 dto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
             } else if (selection.getDisplayFormat().length > 0) {
