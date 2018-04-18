@@ -31,7 +31,7 @@ public class GtnFrameworkCompanyMasterTradeClassParentTabValidation
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		int position = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").getTabSheetSelectedTabIndex();
-		StringBuilder errorMessage = new StringBuilder(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		StringBuilder errorMessage = new StringBuilder();
 		char appender = ' ';
 		if (position == GtnWsNumericConstants.THREE) {
 			Integer tradeClass = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tradeTabtradeClass")

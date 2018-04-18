@@ -332,7 +332,7 @@ public class GtnWsPeriodConfigurationController {
 			throws GtnFrameworkGeneralException {
 		List<Object> periodConfigurationInputList = new ArrayList<>();
 
-		StringBuilder inputWhereConditions = new StringBuilder("");
+		StringBuilder inputWhereConditions = new StringBuilder();
 		String and = "AND ";
 		String where = " ";
 		try {
