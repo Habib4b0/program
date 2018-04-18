@@ -497,12 +497,12 @@ public class GtnWsItemMasterAddService {
 			throws ParseException {
 		StringBuilder conditionBuilder = new StringBuilder();
 		Map<String, String> columnIdMapping = getPricingColumnMap();
-                GtnWsSearchQueryGenerationLogic GtnWsSearchQueryGenerationLogicObj = new GtnWsSearchQueryGenerationLogic();
+                GtnWsSearchQueryGenerationLogic gtnWsSearchQueryGenerationLogicObj = new GtnWsSearchQueryGenerationLogic();
 		for (Iterator<GtnWebServiceSearchCriteria> iterator = gtnWebServiceSearchCriteriaList.iterator(); iterator
 				.hasNext();) {
 			conditionBuilder.append(" AND  ");
 			GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria = iterator.next();
-			GtnWsSearchQueryGenerationLogicObj.generateSqlBasedOnExpression(gtnWebServiceSearchCriteria,
+			gtnWsSearchQueryGenerationLogicObj.generateSqlBasedOnExpression(gtnWebServiceSearchCriteria,
 					conditionBuilder, columnIdMapping.get(gtnWebServiceSearchCriteria.getFieldId()));
 
 		}
