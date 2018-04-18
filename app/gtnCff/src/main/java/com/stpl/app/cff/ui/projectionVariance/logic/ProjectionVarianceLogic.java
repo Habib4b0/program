@@ -1317,7 +1317,7 @@ public class ProjectionVarianceLogic {
         dto.setTreeLevelNo(levelNo);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         dataMap.put("format", projSelDTO.getDisplayFormat());
-        dataMap.put("isExcel", false);
+        dataMap.put("isExcel", Boolean.FALSE);
         dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, projSelDTO.getSessionDTO().getHierarchyLevelDetails(), projSelDTO.getSessionDTO(),dataMap ));
         dto.setLevelValue(detailsList.get(0).toString());
         dto.setHierarchyNo(hierarchyNo);
@@ -2800,9 +2800,9 @@ public class ProjectionVarianceLogic {
                     flag = false;
                 } else {
                     ccps = ccps + "," + String.valueOf(obj[0]);
-                }
             }
         }
+    }
         return ccps;
     }
     
@@ -3061,7 +3061,7 @@ public class ProjectionVarianceLogic {
                     sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 case "D":
-                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo));
+                        sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 default:
                     LOGGER.warn("Invalid Hierarchy Indicator: {}", currentHierarchyIndicator);
