@@ -111,7 +111,7 @@ public class GtnWebServiceCompanyGroupConfig implements GtnWsSearchQueryConfigLo
 	private void getCommonConditionForSearch(GtnWsSearchQueryConfig gtnWsAddTabAviableTableSearchQueryConfig,
 			boolean isSelected) {
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMapAddTab = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMapAddTab = new HashMap<>(50);
 		List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
 		fieldToColumnDetailsMapAddTab.put("organizationKey", configProvider
 				.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "HT", "ORGANIZATION_KEY"));

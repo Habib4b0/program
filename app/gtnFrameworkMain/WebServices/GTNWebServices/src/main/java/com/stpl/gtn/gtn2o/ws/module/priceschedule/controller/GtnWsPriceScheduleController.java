@@ -465,7 +465,7 @@ public class GtnWsPriceScheduleController {
 	public Object validateTempPSDeatils(String userId, String sessionId, String process)
 			throws GtnFrameworkGeneralException {
 
-		StringBuilder psValidateSql = new StringBuilder("");
+		StringBuilder psValidateSql = new StringBuilder();
 		boolean checkRecord = false;
 
 		if (TEMP_COUNT.equalsIgnoreCase(process)) {
@@ -685,7 +685,7 @@ public class GtnWsPriceScheduleController {
 	public Object validateTempPriceProtectionDeatils(String userId, String sessionId, String process)
 			throws GtnFrameworkGeneralException {
 
-		StringBuilder ppValidateSql = new StringBuilder("");
+		StringBuilder ppValidateSql = new StringBuilder();
 		boolean checkRecord = false;
 
 		if (TEMP_COUNT.equalsIgnoreCase(process)) {
