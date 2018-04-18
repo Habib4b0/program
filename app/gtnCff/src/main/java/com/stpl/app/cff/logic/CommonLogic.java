@@ -3121,10 +3121,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             String firstIndex = obj[0].toString();
             String secondIndex = obj[1].toString();
             newLevel = firstIndex + " - " + secondIndex;
-            if (oldLevel.equals(newLevel)) {
-                listOfSids += "," + obj[1].toString();
-                oldLevel = newLevel;
-            } else {
+         
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);
                      listOfSids = "";
@@ -3135,7 +3132,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                 }
                 listOfSids += obj[2].toString();
                 oldLevel = newLevel;
-            }
+        
             if (i == listOfLevelFilter.size() - 1) {
                 dto = new MenuItemDTO(listOfSids, newLevel);
                 customerlevelCustomItem[i] = filterValues.addItem(dto, null);
