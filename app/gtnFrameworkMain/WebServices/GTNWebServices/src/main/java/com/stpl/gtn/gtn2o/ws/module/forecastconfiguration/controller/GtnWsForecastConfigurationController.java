@@ -320,7 +320,7 @@ public class GtnWsForecastConfigurationController {
 					response.setForecastPeriod(leastYear);
 					String interval = request.getFutureInterval().trim();
 					LOGGER.info("interval===============>" + interval);
-					if ("".equals(interval)) {
+					if (!"".equals(interval)) {
 						Integer intervalValue = Integer.valueOf(request.getFutureInterval().trim());
 						Calendar futureDate = GtnWsForecastConfigurationUtil.convertPeriod(1, table.getDescription(),
 								intervalValue);
