@@ -83,7 +83,7 @@ public class GtnFrameworkTransactionViewTemplateConfig {
 		GtnUIFrameworkComponentConfig searchButtonConfig = new GtnUIFrameworkComponentConfig();
 		searchButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		searchButtonConfig.setComponentId("BackButton");
-		searchButtonConfig.setComponentName("CLOSE");
+		searchButtonConfig.setComponentName("BACK");
 		searchButtonConfig.setAddToParent(true);
 		searchButtonConfig.setParentComponentId("backButtonlayout");
 		componentList.add(searchButtonConfig);
