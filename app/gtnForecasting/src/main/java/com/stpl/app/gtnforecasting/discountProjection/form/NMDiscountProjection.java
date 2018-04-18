@@ -608,11 +608,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         variables.addItem(GROWTH.getConstant());
         variables.focus();
         variables.setImmediate(true);
-        variables.select(DISCOUNT_RATE.getConstant());
-        variables.select(REBATE_PER_UNIT.getConstant());
         variables.select(DISCOUNT_AMT.getConstant());
-        projectionSelection.setdPVariablesList(Arrays.asList(new String[]{DISCOUNT_RATE.getConstant(),
-            REBATE_PER_UNIT.getConstant(), DISCOUNT_AMT.getConstant()}));
+        projectionSelection.setdPVariablesList(Arrays.asList(new String[]{ DISCOUNT_AMT.getConstant()}));
         newBtn.setEnabled(true);
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
@@ -2030,12 +2027,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     } else {
                         checkedDiscountNames.addAll(projectionSelection.getDeductionLevelFilter());
                     }
-                    if ((selectedField.equals(Constant.GROUPFCAPS)
-                            && (valueDdlb != null && valueDdlb.getValue() != null && !valueDdlbValue.isEmpty()))
-                            || (selectedField.equals(Constant.DISCOUNT_RATE_LABEL) && !valueText.isEmpty())
-                            || (selectedField.equals("RPU") && !valueText.isEmpty())
-                            || (selectedField.equals(Constant.DISCOUNT_AMOUNT_LABEL) && !valueText.isEmpty())
-                            || (selectedField.equals(Constant.GROWTH) && !valueText.isEmpty())) {
+                    if (((valueDdlb != null && valueDdlb.getValue() != null && !valueDdlbValue.isEmpty()) 
+                            && selectedField.equals(Constant.GROUPFCAPS))
+                            || (!valueText.isEmpty() && selectedField.equals(Constant.DISCOUNT_RATE_LABEL))
+                            || (!valueText.isEmpty() && selectedField.equals("RPU"))
+                            || (!valueText.isEmpty() && selectedField.equals(Constant.DISCOUNT_AMOUNT_LABEL))
+                            || (!valueText.isEmpty() && selectedField.equals(Constant.GROWTH))) {
                         if (!Constant.GROUPFCAPS.equals(selectedField)) {
                             if (checkedDiscountNames.isEmpty()) {
                                 new AbstractNotificationUtils() {
@@ -3481,7 +3478,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             NotificationUtils.getErrorNotification("No Frequency selected", "Please select any frequency");
         } else if (historyDdlb.getValue() == null || historyDdlb.getValue().equals(SELECT_ONE.getConstant())) {
             NotificationUtils.getErrorNotification("No History selected", "Please select any history");
-        } else if (!CommonUtil.nullCheck(displayValidation) && displayValidation.length == 0) {
+        } else if (displayValidation.length == 0 && !CommonUtil.nullCheck(displayValidation)) {
             NotificationUtils.getErrorNotification("No Display Format Selected", "Please select value(s) from the Display Format field");
         } else {
             if (CommonUtil.isValueEligibleForLoading()) {
@@ -4096,8 +4093,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         projectionSelection.setdPVariablesList(l);
         if (l.isEmpty()) {
-            projectionSelection.setdPVariablesList(Arrays.asList(new String[]{DISCOUNT_RATE.getConstant(),
-                REBATE_PER_UNIT.getConstant(), DISCOUNT_AMT.getConstant()}));
+            projectionSelection.setdPVariablesList(Arrays.asList(new String[]{DISCOUNT_AMT.getConstant()}));
 
         }
         LOGGER.debug(" Ending Selection Dto Creation");
@@ -4144,10 +4140,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 frequencyDdlb.setValue(QUARTERLY.getConstant());
                 periodOrder.select(ASCENDING.getConstant());
                 actualsProjs.select(ACTUALS.getConstant());
-                variables.select(DISCOUNT_RATE.getConstant());
-                variables.select(REBATE_PER_UNIT.getConstant());
-                variables.select(DISCOUNT_AMT.getConstant());
+                variables.unselect(DISCOUNT_RATE.getConstant());
+                variables.unselect(REBATE_PER_UNIT.getConstant());
                 variables.unselect(GROWTH.getConstant());
+                variables.select(DISCOUNT_AMT.getConstant());
                 uomDdlb.select("EACH");
                 loadDisplayFormatDdlb();
                 if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
@@ -4268,7 +4264,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         boolean end = true;
         LOGGER.debug(" startPeriod= {} ", startPeriod);
         for (String period : periods) {
-            if (!period.equals(startPeriod) && end) {
+            if (end && !period.equals(startPeriod)) {
                 continue;
             }
             end = false;
@@ -5472,7 +5468,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             deductionInclusionCustomItem[i].setItemClickNotClosable(true);
 
         }
+        if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) ) {
         deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
+        deductionInclusionValues.getChildren().get(0).setChecked(true);
+         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, "Yes");
+        }
     }
 
     protected List getCheckedDeductionInclusionValues() {

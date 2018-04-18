@@ -45,6 +45,7 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.utils.Constants;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
@@ -312,7 +313,14 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 customItem[i].setCheckAll(true);
             }
         }
+         if (!"edit".equals(session.getAction()) ) {
         customMenuBar.addSubMenuCloseListener(customMenuBarListener);
+        customMenuItem.getChildren().get(4).setChecked(true);
+        customMenuItem.getChildren().get(5).setChecked(true);
+        customMenuItem.getChildren().get(6).setChecked(true);
+        customMenuItem.getChildren().get(9).setChecked(true);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, "Multiple");
+        }
 
         String[] variableCategoryValues = Constant.PVVariableCategory.names();
 
@@ -325,6 +333,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             variableCategoryCustomItem[i].setItemClickable(true);
 
             variableCategoryCustomItem[i].setItemClickNotClosable(true);
+        }
+        if (!"edit".equals(session.getAction()) ) {
+        variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryCustomMenuBarListener);
+        variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
+         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
         }
         variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryCustomMenuBarListener);
         discountLevel.addItem(Constants.LabelConstants.TOTAL_DISCOUNT.toString());
@@ -905,7 +918,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     protected void getGenerateCall(boolean excelFlag) {
         try {
             Object[] displayValidation = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
-            if (!CommonUtil.nullCheck(displayValidation) && displayValidation.length == 0) {
+            if (displayValidation.length == 0 && !CommonUtil.nullCheck(displayValidation)) {
                 AbstractNotificationUtils.getErrorNotification("No Display Format Selected", "Please select value(s) from the Display Format field");
             } else {
                 pvSelectionDTO.setCustomerLevelFilter((List) (generateCustomerToBeLoaded != null ? generateCustomerToBeLoaded : new ArrayList<>()));
@@ -1486,7 +1499,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         NMDiscountProjection dp = nonMandatedForm.getDiscountProjection();
         if (dp != null) {
             String discountType = nonMandatedForm.getDiscountProjection().getDiscountType();
-            if (dp.getResultBeanContainer().size() > 0 && discountType != null && session.isDiscountRSlistUpdated()) {
+            if (discountType != null && session.isDiscountRSlistUpdated() && dp.getResultBeanContainer().size() > 0 ) {
                 discountlist = new ArrayList<>();
                 if (PROGRAM_CATEGORY.getConstant().equals(discountType)) {
                     List<String> priceGroupType = nonMandatedForm.getDiscountProjection().getDiscountNamesList();
@@ -2488,7 +2501,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             deductionInclusionCustomItem[i].setItemClickable(true);
             deductionInclusionCustomItem[i].setItemClickNotClosable(true);
         }
+           if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) ) {
         deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
+        deductionInclusionValues.getChildren().get(0).setChecked(true);
+         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, "Yes");
+        }
     }
 
     protected List getCheckedSalesInclusionValues() {
@@ -2533,7 +2550,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
 
         }
+           if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) ) {
         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
+        salesInclusionValues.getChildren().get(0).setChecked(true);
+         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, "Yes");
+        }
     }
 
     public List<String> getComparisonProjName() {

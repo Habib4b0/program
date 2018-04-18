@@ -525,7 +525,7 @@ public class CommonUtils {
      */
     public static boolean isInteger(String str) {
         try {
-            if ((!"null".equals(str)) && (str != null) && (!"".equals(str)) && (!"All".equals(str))) { // For GAL-9221,GAL-9219,GAL-9197 server log issues	
+            if ((str != null) && (!"null".equals(str)) && (!"".equals(str)) && (!"All".equals(str))) { // For GAL-9221,GAL-9219,GAL-9197 server log issues	
                 Integer.parseInt(str);
                 return true;
             }

@@ -721,8 +721,8 @@ public class NMSalesProjectionResultsLogic {
 				neededRecord--;
 			}
 			String salesUnits = projSelDTO.getSalesOrUnit();
-			if ((neededRecord > 0 && (salesUnits.equals(Constant.BOTH) || salesUnits.equals(Constant.SALES_SMALL)))
-					&& ((start < NumericConstants.THREE) && (contractSalesDto != null))) {
+			if (((contractSalesDto != null) && (start < NumericConstants.THREE)) 
+                                && (neededRecord > 0 && (salesUnits.equals(Constant.BOTH) || salesUnits.equals(Constant.SALES_SMALL)))) {
 				projDTOList.add(contractSalesDto);
 				neededRecord--;
 			}

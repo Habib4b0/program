@@ -427,7 +427,7 @@ CREATE TABLE #ACCRUAL_DISCOUNT (
 	,CCP_DETAILS_SID INT
 	,PERIOD_SID INT
 	,RS_CONTRACT_SID INT
-	,DISCOUNT_AMOUNT NUMERIC(22, 6)
+	,DISCOUNT_AMOUNT NUMERIC(33, 8)
 	)
 
   SET @SQL_ACC= ' ;
@@ -1847,31 +1847,31 @@ EXEC ('SELECT DISTINCT RS_CONTRACT_SID FROM ' + @PPA_MASTER_TABLE + ' X  WHERE E
                            PROJECTION_MASTER_SID          INT,
                            ITEM_MASTER_SID                INT,
                            PERIOD_SID                     INT,
-                           EXFACTORY_ACTUAL_SALES         NUMERIC(22, 6),
-                           EXFACTORY_ACTUAL_UNITS         NUMERIC(22, 6),
-                           EXFACTORY_FORECAST_SALES       NUMERIC(22, 6),
-                           EXFACTORY_FORECAST_UNITS       NUMERIC(22, 6),
-                           DEMAND_ACTUAL_SALES            NUMERIC(22, 6),
-                           DEMAND_ACTUAL_UNITS            NUMERIC(22, 6),
-                           DEMAND_FORECAST_SALES          NUMERIC(22, 6),
-                           DEMAND_FORECAST_UNITS          NUMERIC(22, 6),
-                           ADJUSTED_DEMAND_ACTUAL_SALES   NUMERIC(22, 6),
-                           ADJUSTED_DEMAND_ACTUAL_UNITS   NUMERIC(22, 6),
-                           ADJUSTED_DEMAND_FORECAST_SALES NUMERIC(22, 6),
-                           ADJUSTED_DEMAND_FORECAST_UNITS NUMERIC(22, 6),
-                           INVENTORY_ACTUAL_SALES         NUMERIC(22, 6),
-                           INVENTORY_ACTUAL_UNITS         NUMERIC(22, 6),
-                           INVENTORY_FORECAST_SALES       NUMERIC(22, 6),
-                           INVENTORY_FORECAST_UNITS       NUMERIC(22, 6),
-                           ITEM_PRICE                     NUMERIC(22, 6),
-                           EXFACTORY_CUST_ACTUAL_SALES    NUMERIC(22, 6),
-                           EXFACTORY_CUST_ACTUAL_UNITS    NUMERIC(22, 6),
-                           EXFACTORY_CUST_FORECAST_SALES  NUMERIC(22, 6),
-                           EXFACTORY_CUST_FORECAST_UNITS  NUMERIC(22, 6),
-                           INVENTORY_CUST_ACTUAL_SALES    NUMERIC(22, 6),
-                           INVENTORY_CUST_ACTUAL_UNITS    NUMERIC(22, 6),
-                           INVENTORY_CUST_FORECAST_SALES  NUMERIC(22, 6),
-                           INVENTORY_CUST_FORECAST_UNITS  NUMERIC(22, 6)
+                           EXFACTORY_ACTUAL_SALES         NUMERIC(33, 8),
+                           EXFACTORY_ACTUAL_UNITS         NUMERIC(33, 8),
+                           EXFACTORY_FORECAST_SALES       NUMERIC(33, 8),
+                           EXFACTORY_FORECAST_UNITS       NUMERIC(33, 8),
+                           DEMAND_ACTUAL_SALES            NUMERIC(33, 8),
+                           DEMAND_ACTUAL_UNITS            NUMERIC(33, 8),
+                           DEMAND_FORECAST_SALES          NUMERIC(33, 8),
+                           DEMAND_FORECAST_UNITS          NUMERIC(33, 8),
+                           ADJUSTED_DEMAND_ACTUAL_SALES   NUMERIC(33, 8),
+                           ADJUSTED_DEMAND_ACTUAL_UNITS   NUMERIC(33, 8),
+                           ADJUSTED_DEMAND_FORECAST_SALES NUMERIC(33, 8),
+                           ADJUSTED_DEMAND_FORECAST_UNITS NUMERIC(33, 8),
+                           INVENTORY_ACTUAL_SALES         NUMERIC(33, 8),
+                           INVENTORY_ACTUAL_UNITS         NUMERIC(33, 8),
+                           INVENTORY_FORECAST_SALES       NUMERIC(33, 8),
+                           INVENTORY_FORECAST_UNITS       NUMERIC(33, 8),
+                           ITEM_PRICE                     NUMERIC(33, 8),
+                           EXFACTORY_CUST_ACTUAL_SALES    NUMERIC(33, 8),
+                           EXFACTORY_CUST_ACTUAL_UNITS    NUMERIC(33, 8),
+                           EXFACTORY_CUST_FORECAST_SALES  NUMERIC(33, 8),
+                           EXFACTORY_CUST_FORECAST_UNITS  NUMERIC(33, 8),
+                           INVENTORY_CUST_ACTUAL_SALES    NUMERIC(33, 8),
+                           INVENTORY_CUST_ACTUAL_UNITS    NUMERIC(33, 8),
+                           INVENTORY_CUST_FORECAST_SALES  NUMERIC(33, 8),
+                           INVENTORY_CUST_FORECAST_UNITS  NUMERIC(33, 8)
                         )
 
                       --  -------------------------------------------------------
@@ -1955,7 +1955,7 @@ CREATE TABLE #PRIOR_ACCRUAL_DISCOUNT (
 	,PROJECTION_DETAILS_SID INT
 	,PERIOD_SID INT
 	,RS_CONTRACT_SID INT
-	,DISCOUNT_AMOUNT NUMERIC(22, 6)
+	,DISCOUNT_AMOUNT NUMERIC(33, 8)
 	);
 
 WITH CTE

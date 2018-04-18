@@ -187,7 +187,7 @@ public class GtnWsContractDashboardLogic {
 				if (searchCriteria.isFilter()) {
 					StringBuilder value = new StringBuilder(searchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(searchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(getWhereClauseForAColumn(searchCriteria.getExpression(),
@@ -235,7 +235,7 @@ public class GtnWsContractDashboardLogic {
 		StringBuilder value = new StringBuilder(" '" + searchCriteria.getFilterValue1().replace('*', '%') + "' ");
 		String expression = " " + searchCriteria.getExpression().replace("EQUALS", "=");
 		if (searchQuery.contains("in (")) {
-			value.append(value).append(")");
+			value.append(value).append(')');
 		}
 		inputWhereConditions.append(where).append(and).append(searchQuery).append(expression).append(value);
 	}

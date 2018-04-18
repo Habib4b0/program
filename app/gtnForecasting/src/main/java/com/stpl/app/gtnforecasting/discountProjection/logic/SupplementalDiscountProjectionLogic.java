@@ -1292,7 +1292,7 @@ public class SupplementalDiscountProjectionLogic {
                     for (Object list1 : prcList) {
                         final Object[] obj = (Object[]) list1;
                         LookUpDTO prclookUpDto = new LookUpDTO();
-                        if (!Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWO])) && !StringUtils.EMPTY.equals(String.valueOf(obj[NumericConstants.TWO])) && obj[NumericConstants.TWO] != null) {
+                        if (obj[NumericConstants.TWO] != null && !Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWO])) && !StringUtils.EMPTY.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                             prclookUpDto.setQuarterValue(String.valueOf(obj[0]));
                             prclookUpDto.setYearValue(String.valueOf(obj[1]));
                             prclookUpDto.setMethodology(String.valueOf(obj[NumericConstants.TWO]));

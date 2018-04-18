@@ -235,7 +235,7 @@ public class GtnWsIfpAddService {
 		StringBuilder ifpAdditionTabSortByQuery = new StringBuilder();
 		for (GtnWebServiceOrderByCriteria ifpAdditionTabOrderByCriteria : ifpAdditionTabOrderByCriteriaList) {
 			String property = ifpAdditionTabOrderByCriteria.getPropertyId();
-			ifpAdditionTabSortByQuery.append(separator).append(getImAdditionTabColumns(property)).append(" ")
+			ifpAdditionTabSortByQuery.append(separator).append(getImAdditionTabColumns(property)).append(' ')
 					.append(ifpAdditionTabOrderByCriteria.getOrderByCriteria());
 			separator = comma;
 		}

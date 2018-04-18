@@ -30,39 +30,39 @@ public class GtnFrameworkPopupSelectAction implements GtnUIFrameWorkAction, GtnU
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
-		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(parameters.get(1).toString());
-		Object value = tableBaseComponent.getValueFromComponent();
-		if (value != null) {
-			GtnWsRecordBean dto = (GtnWsRecordBean) value;
+		List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		GtnUIFrameworkBaseComponent baseComp = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(parameterList.get(1).toString());
+		Object objectVal = baseComp.getValueFromComponent();
+		if (objectVal != null) {
+			GtnWsRecordBean recordBeanDto = (GtnWsRecordBean) objectVal;
 
-			GtnUIFrameworkComponentData viewComponentData = GtnUIFrameworkGlobalUI
-					.getVaadinComponentData(parameters.get(2).toString());
-			Object sharedPopupData = viewComponentData.getSharedPopupData();
-			if (sharedPopupData != null) {
-				List<Object> cdSharedPopupDataList = (List<Object>) sharedPopupData;
+			GtnUIFrameworkComponentData viewDataComponent = GtnUIFrameworkGlobalUI
+					.getVaadinComponentData(parameterList.get(2).toString());
+			Object popupSharedData = viewDataComponent.getSharedPopupData();
+			if (popupSharedData != null) {
+				List<Object> cdSharedPopupDataList = (List<Object>) popupSharedData;
 
-				GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
+				GtnUIFrameworkComponentData popupSharedIdComponent = GtnUIFrameworkGlobalUI
 						.getVaadinComponentData(cdSharedPopupDataList.get(0).toString());
-				Object idValue = dto.getPropertyValueByIndex(Integer.parseInt(String.valueOf(parameters.get(3))));
-				idComponentData.setCustomDataList(Arrays.asList(idValue, dto, parameters.get(3)));
-				List<String> inputColumIds = (List<String>) cdSharedPopupDataList.get(1);
-				List<String> outputFieldIds = (List<String>) cdSharedPopupDataList.get(2);
-				for (int i = 0; i < inputColumIds.size(); i++) {
-					Object newValue = dto.getPropertyValue(inputColumIds.get(i));
-					if (newValue == null) {
-						newValue = dto.getPropertyValueByIndex(Integer.parseInt(inputColumIds.get(i)));
+				Object propObjIdValue = recordBeanDto.getPropertyValueByIndex(Integer.parseInt(String.valueOf(parameterList.get(3))));
+				popupSharedIdComponent.setCustomDataList(Arrays.asList(propObjIdValue, recordBeanDto, parameterList.get(3)));
+				List<String> columnIds = (List<String>) cdSharedPopupDataList.get(1);
+				List<String> fieldIds = (List<String>) cdSharedPopupDataList.get(2);
+				for (int i = 0; i < columnIds.size(); i++) {
+					Object newValueObject = recordBeanDto.getPropertyValue(columnIds.get(i));
+					if (newValueObject == null) {
+						newValueObject = recordBeanDto.getPropertyValueByIndex(Integer.parseInt(columnIds.get(i)));
 					}
-					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(outputFieldIds.get(i)).setPropertyValue(newValue);
+					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fieldIds.get(i)).setPropertyValue(newValueObject);
 				}
 				if (cdSharedPopupDataList.size() > 3 && cdSharedPopupDataList.get(3) != null) {
-					List<Object> actionConfigs = (List<Object>) cdSharedPopupDataList.get(3);
-					GtnUIFrameWorkActionConfig cdPopupActionConfig = (GtnUIFrameWorkActionConfig) actionConfigs.get(0);
-					Object newValue = dto
-							.getPropertyValueByIndex(Integer.parseInt(String.valueOf(actionConfigs.get(1))));
-					cdPopupActionConfig.addActionParameter(newValue);
-					GtnUIFrameworkActionExecutor.executeSingleAction(componentId, cdPopupActionConfig);
+					List<Object> actionConfigLists = (List<Object>) cdSharedPopupDataList.get(3);
+					GtnUIFrameWorkActionConfig cdPopupSharedActionConfig = (GtnUIFrameWorkActionConfig) actionConfigLists.get(0);
+					Object newPropValue = recordBeanDto
+							.getPropertyValueByIndex(Integer.parseInt(String.valueOf(actionConfigLists.get(1))));
+					cdPopupSharedActionConfig.addActionParameter(newPropValue);
+					GtnUIFrameworkActionExecutor.executeSingleAction(componentId, cdPopupSharedActionConfig);
 				}
 			}
 		}

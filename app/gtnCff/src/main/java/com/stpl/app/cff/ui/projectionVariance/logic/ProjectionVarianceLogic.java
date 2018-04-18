@@ -1311,11 +1311,14 @@ public class ProjectionVarianceLogic {
      * @return
      */
     public ProjectionVarianceDTO configureDetailsInDTO(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator, int levelNo, List detailsList) {
+        Map<Object,Object> dataMap=new HashMap<>();
         ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
         dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO).toString()));
         dto.setTreeLevelNo(levelNo);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
-        dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, projSelDTO.getSessionDTO().getHierarchyLevelDetails(), projSelDTO.getSessionDTO(), projSelDTO.getDisplayFormat()));
+        dataMap.put("format", projSelDTO.getDisplayFormat());
+        dataMap.put("isExcel", Boolean.FALSE);
+        dto.setGroup(CommonUtils.getDisplayFormattedName(hierarchy, hierarchyIndicator, projSelDTO.getSessionDTO().getHierarchyLevelDetails(), projSelDTO.getSessionDTO(),dataMap ));
         dto.setLevelValue(detailsList.get(0).toString());
         dto.setHierarchyNo(hierarchyNo);
         dto.setHierarchyIndicator(hierarchyIndicator);
@@ -2720,7 +2723,7 @@ public class ProjectionVarianceLogic {
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
-                if (!"".equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
+                if (obj[NumericConstants.TWO] != null && !"".equals(lastValue) && !"null".equals(lastValue) && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                     pvDTO.setGroup(lastValue);
                     resultDto.add(pvDTO);
                     pvDTO = new ProjectionVarianceDTO();
@@ -2797,9 +2800,9 @@ public class ProjectionVarianceLogic {
                     flag = false;
                 } else {
                     ccps = ccps + "," + String.valueOf(obj[0]);
-                }
             }
         }
+    }
         return ccps;
     }
     
@@ -3058,7 +3061,7 @@ public class ProjectionVarianceLogic {
                     sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 case "D":
-                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo));
+                        sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 default:
                     LOGGER.warn("Invalid Hierarchy Indicator: {}", currentHierarchyIndicator);

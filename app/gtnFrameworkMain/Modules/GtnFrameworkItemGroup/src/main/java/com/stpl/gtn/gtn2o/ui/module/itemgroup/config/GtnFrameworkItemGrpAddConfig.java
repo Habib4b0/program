@@ -485,15 +485,7 @@ public class GtnFrameworkItemGrpAddConfig {
 		resetActionConfig
 				.addActionParameter(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_CONFIRMATION_MSG_RESET_HEADER);
 		resetActionConfig.addActionParameter(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_CONFIRMATION_MSG_RESET);
-
-		String[] resetIdArray = { GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_CUSTOMER_TYPE,
-				GtnFrameworkCommonConstants.I_GRP_INFORMATION_I_GRP_DESC,
-				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_CUSTOMER_NO,
-				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_BRAND,
-				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_STRENGTH,
-				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_THERAPEUTIC_CLASS,
-				GtnFrameworkCommonConstants.I_GRP_INFORMATION_TAB_FORM };
-		List<String> resetIdList = Arrays.asList(resetIdArray);
+		List<String> resetIdList = Arrays.asList(GtnFrameworkItemGrpStringContants.getResetIdArray());
 
 		Object[] resetValueArray = { null, GtnFrameworkCommonStringConstants.STRING_EMPTY,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, null, GtnFrameworkCommonStringConstants.STRING_EMPTY,
