@@ -23,7 +23,7 @@ public class DisplaySelectionFilterOptionTab {
 	public void addTabSheet(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig tabLayout = configProvider.getHorizontalLayoutConfig(nameSpace + "_" + "tabLayout", true, parentComponentId);
-		tabLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+//		tabLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		tabLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(tabLayout);
 
@@ -67,10 +67,11 @@ public class DisplaySelectionFilterOptionTab {
 		
 	
 		GtnUIFrameworkComponentConfig displaySelectionLayoutConfig = configProvider
-				.getVerticalLayoutConfig(nameSpace + "_" + "displaySelectionLayout", true, nameSpace + "_" + "projectionVarianceSubMainPanel");
-		displaySelectionLayoutConfig.setComponentWidth("170%");
+				.getHorizontalLayoutConfig(nameSpace + "_" + "displaySelectionLayout", true, nameSpace + "_" + "projectionVarianceSubMainPanel");
+		displaySelectionLayoutConfig.setComponentWidth("175%");
 		displaySelectionLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		displaySelectionLayoutConfig.setAddToParent(true);
+		
 		
 		componentList.add(displaySelectionLayoutConfig);
 
@@ -82,7 +83,6 @@ public class DisplaySelectionFilterOptionTab {
 		
 		GtnUIFrameworkLayoutConfig displaySelectionInnerMainLayout = new GtnUIFrameworkLayoutConfig();
 		displaySelectionInnerMainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
-		//displaySelectionInnerMainLayout.setComponentColumnSize(12);
 		GtnUIFrameworkComponentConfig displaySelectionInnerMainLayoutConfig = new GtnUIFrameworkComponentConfig();
 		displaySelectionInnerMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		displaySelectionInnerMainLayoutConfig.setComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
@@ -91,6 +91,17 @@ public class DisplaySelectionFilterOptionTab {
 		displaySelectionInnerMainLayout.setMargin(Boolean.TRUE);
 		displaySelectionInnerMainLayoutConfig.setParentComponentId(parentComponentId);
 		displaySelectionInnerMainLayoutConfig.setGtnLayoutConfig(displaySelectionInnerMainLayout);
+		
+		GtnUIFrameworkLayoutConfig displaySelectionInnerMainLayout2 = new GtnUIFrameworkLayoutConfig();
+		displaySelectionInnerMainLayout2.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		displaySelectionInnerMainLayout2.setMargin(Boolean.TRUE);
+		GtnUIFrameworkComponentConfig displaySelectionInnerMainLayoutConfig2 = new GtnUIFrameworkComponentConfig();
+		displaySelectionInnerMainLayoutConfig2.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		displaySelectionInnerMainLayoutConfig2.setComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
+		displaySelectionInnerMainLayoutConfig2.setAddToParent(Boolean.TRUE);
+		displaySelectionInnerMainLayoutConfig2.setSpacing(Boolean.TRUE);
+		displaySelectionInnerMainLayoutConfig2.setParentComponentId(parentComponentId);
+		displaySelectionInnerMainLayoutConfig2.setGtnLayoutConfig(displaySelectionInnerMainLayout2);
 		
 		
 //--------Vertical Inside 1 -> Horizontal 1
@@ -103,8 +114,6 @@ public class DisplaySelectionFilterOptionTab {
 		displaySelectionInnerLayoutConfig1.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig1.setSpacing(Boolean.TRUE);
 		displaySelectionInnerLayout1.setMargin(Boolean.TRUE);
-//		displaySelectionInnerLayoutConfig1.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
-//		displaySelectionInnerLayoutConfig1.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
 		displaySelectionInnerLayoutConfig1.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
 		displaySelectionInnerLayoutConfig1.setGtnLayoutConfig(displaySelectionInnerLayout1);
 		
@@ -118,8 +127,6 @@ public class DisplaySelectionFilterOptionTab {
 		displaySelectionInnerLayoutConfig2.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig2.setSpacing(Boolean.TRUE);
 		displaySelectionInnerLayout2.setMargin(Boolean.TRUE);
-//		displaySelectionInnerLayoutConfig2.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
-//		displaySelectionInnerLayoutConfig2.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
 		displaySelectionInnerLayoutConfig2.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
 		displaySelectionInnerLayoutConfig2.setGtnLayoutConfig(displaySelectionInnerLayout2);
 		
@@ -133,44 +140,62 @@ public class DisplaySelectionFilterOptionTab {
 		displaySelectionInnerLayoutConfig3.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig3.setSpacing(Boolean.TRUE);
 		displaySelectionInnerLayout3.setMargin(Boolean.TRUE);
-//		displaySelectionInnerLayoutConfig3.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
-//		displaySelectionInnerLayoutConfig3.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
 		displaySelectionInnerLayoutConfig3.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
 		displaySelectionInnerLayoutConfig3.setGtnLayoutConfig(displaySelectionInnerLayout3);
 		
-
 		
-	
+		GtnUIFrameworkLayoutConfig displaySelectionInnerLayout4 = new GtnUIFrameworkLayoutConfig();
+		displaySelectionInnerLayout4.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		GtnUIFrameworkComponentConfig displaySelectionInnerLayoutConfig4 = new GtnUIFrameworkComponentConfig();
+		displaySelectionInnerLayoutConfig4.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		displaySelectionInnerLayoutConfig4.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout4");
+		displaySelectionInnerLayoutConfig4.setAddToParent(Boolean.TRUE);
+		displaySelectionInnerLayoutConfig4.setSpacing(Boolean.TRUE);
+		displaySelectionInnerLayout4.setMargin(Boolean.TRUE);
+		displaySelectionInnerLayoutConfig4.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
+		displaySelectionInnerLayoutConfig4.setGtnLayoutConfig(displaySelectionInnerLayout4);
+		
+//--------Vertical Inside 1 -> Horizontal 2
+		
+		GtnUIFrameworkLayoutConfig displaySelectionInnerLayout5 = new GtnUIFrameworkLayoutConfig();
+		displaySelectionInnerLayout5.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		GtnUIFrameworkComponentConfig displaySelectionInnerLayoutConfig5 = new GtnUIFrameworkComponentConfig();
+		displaySelectionInnerLayoutConfig5.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		displaySelectionInnerLayoutConfig5.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout5");
+		displaySelectionInnerLayoutConfig5.setAddToParent(Boolean.TRUE);
+		displaySelectionInnerLayoutConfig5.setSpacing(Boolean.TRUE);
+		displaySelectionInnerLayout5.setMargin(Boolean.TRUE);
+		displaySelectionInnerLayoutConfig5.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
+		displaySelectionInnerLayoutConfig5.setGtnLayoutConfig(displaySelectionInnerLayout5);
+		
+		
+		
 		componentList.add(displaySelectionInnerMainLayoutConfig);
+		componentList.add(displaySelectionInnerMainLayoutConfig2);
 		componentList.add(displaySelectionInnerLayoutConfig1);
 		componentList.add(displaySelectionInnerLayoutConfig2);
 		componentList.add(displaySelectionInnerLayoutConfig3);
-		
-		
+		componentList.add(displaySelectionInnerLayoutConfig4);
+		componentList.add(displaySelectionInnerLayoutConfig5);
 		
 		addComparisonComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);	
-		
 		addlevelLabelComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addLevelComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addComparisonBasisComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
-		
 		addVariableCatagoryComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addProjectionPeriodOrderComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addDateRangeComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
-		addFromComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
-		addDisplayFormatComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);	
-		
 		addFrequencyComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
 		addDiscountLevelLabelComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
 		addDiscountLevelComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
 		addVariablesComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
+		addPivoteViewLabelComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
 		addPivotViewComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
-		addToComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
-		addUnitOfMeasureComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
-		
 		addCurrencyFormatComponent(componentList, displaySelectionInnerLayoutConfig3.getComponentId(), nameSpace);
-		
-		
+		addFromComponent(componentList, displaySelectionInnerLayoutConfig4.getComponentId(), nameSpace);
+		addDisplayFormatComponent(componentList, displaySelectionInnerLayoutConfig4.getComponentId(), nameSpace);	
+		addToComponent(componentList, displaySelectionInnerLayoutConfig5.getComponentId(), nameSpace);
+		addUnitOfMeasureComponent(componentList, displaySelectionInnerLayoutConfig5.getComponentId(), nameSpace);
 	}
 	
 	private void addComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
@@ -219,16 +244,16 @@ public class DisplaySelectionFilterOptionTab {
 	
 	private void addLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 		
-		GtnUIFrameworkComponentConfig actualsProjectionLayoutConfig = configProvider
+		GtnUIFrameworkComponentConfig levelLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "levelLayout", true, parentComponentId);
-		actualsProjectionLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(actualsProjectionLayoutConfig);
+		levelLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		levelLayoutConfig.setSpacing(true);
+		componentList.add(levelLayoutConfig);
 
 		GtnUIFrameworkComponentConfig levelOptionRadioGroup = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "level", true, nameSpace + "_" + "levelLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
 		//levelOptionRadioGroup.setComponentName("Level:");
-		levelOptionRadioGroup.setSpacing(true);
 
 		GtnUIFrameworkOptionGroupConfig levelOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
 		levelOptionGroupConfig.setItemValues(Arrays.asList(new String[] { "Total", "Detail"}));
@@ -239,7 +264,6 @@ public class DisplaySelectionFilterOptionTab {
 
 		componentList.add(levelOptionRadioGroup);
 	}
-
 	
 	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
@@ -365,6 +389,7 @@ public class DisplaySelectionFilterOptionTab {
 		GtnUIFrameworkComponentConfig displayFormatLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "displayFormatLayout", true, parentComponentId);
 		displayFormatLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		displayFormatLayout.setSpacing(true);
 		componentList.add(displayFormatLayout);
 		
 		GtnUIFrameworkComponentConfig displayFormat = new GtnUIFrameworkComponentConfig();
@@ -436,13 +461,13 @@ public class DisplaySelectionFilterOptionTab {
 		GtnUIFrameworkComponentConfig discountLevelLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "discountLevelLayout", true, parentComponentId);
 		discountLevelLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		discountLevelLayoutConfig.setSpacing(true);
 		componentList.add(discountLevelLayoutConfig);
 
 		GtnUIFrameworkComponentConfig discountLevelLayoutOptionRadioGroup = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "level", true, nameSpace + "_" + "discountLevelLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
 		//discountLevelLayoutOptionRadioGroup.setComponentName("Discount Level:");
-		discountLevelLayoutOptionRadioGroup.setSpacing(true);
 		discountLevelLayoutOptionRadioGroup.setMargin(true);
 
 		GtnUIFrameworkOptionGroupConfig disocountLevelOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
@@ -469,7 +494,6 @@ public class DisplaySelectionFilterOptionTab {
 		variables.setComponentId(nameSpace + "_" + "variables");
 		variables.setParentComponentId(variablesLayout.getComponentId());
 		variables.setAddToParent(true);
-		variables.setSpacing(true);
 		variables.setMargin(true);
 		
 		GtnUIFrameworkComboBoxConfig variablesConfig = new GtnUIFrameworkComboBoxConfig();
@@ -481,17 +505,41 @@ public class DisplaySelectionFilterOptionTab {
 
 	}
 
+	private void addPivoteViewLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
+		
+		GtnUIFrameworkComponentConfig pivoteViewLabelLayout = configProvider
+				.getHorizontalLayoutConfig(nameSpace + "_" + "pivoteViewLabelLayout", true, parentComponentId);
+		pivoteViewLabelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		componentList.add(pivoteViewLabelLayout);
+
+		GtnUIFrameworkComponentConfig pivoteViewLabel = new GtnUIFrameworkComponentConfig();
+		pivoteViewLabel.setComponentType(GtnUIFrameworkComponentType.LABEL);
+		pivoteViewLabel.setComponentValue("Pivot View:");
+		pivoteViewLabel.setComponentId(nameSpace + "_" + "pivoteViewLabel");
+		pivoteViewLabel.setParentComponentId(pivoteViewLabelLayout.getComponentId());
+		pivoteViewLabel.setAddToParent(true);
+		
+		GtnUIFrameworkLabelConfig discountLevelLableConfig = new GtnUIFrameworkLabelConfig();
+		discountLevelLableConfig.setEnable(true);
+		pivoteViewLabel.setGtnLabelConfig(discountLevelLableConfig);
+		
+		
+		componentList.add(pivoteViewLabel);
+
+	}
+	
 	private void addPivotViewComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig pivotViewLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "pivotViewLayout", true, parentComponentId);
 		pivotViewLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		pivotViewLayoutConfig.setSpacing(true);
 		componentList.add(pivotViewLayoutConfig);
 
 		GtnUIFrameworkComponentConfig pivotViewOptionRadioGroup = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "pivotView", true, nameSpace + "_" + "pivotViewLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
-		pivotViewOptionRadioGroup.setComponentName("Pivot View:");
+		//pivotViewOptionRadioGroup.setComponentName("Pivot View:");
 		pivotViewOptionRadioGroup.setSpacing(true);
 
 		GtnUIFrameworkOptionGroupConfig pivotOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
@@ -591,13 +639,13 @@ public class DisplaySelectionFilterOptionTab {
 			String nameSpace) {
 		GtnUIFrameworkLayoutConfig filterInnerLayout = new GtnUIFrameworkLayoutConfig();
 		filterInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
-		filterInnerLayout.setComponentColumnSize(12);
+		filterInnerLayout.setMargin(Boolean.TRUE);
 		GtnUIFrameworkComponentConfig filterInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
 		filterInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		filterInnerLayoutConfig.setComponentId(nameSpace + "_" + "filterInnerLayout");
 		filterInnerLayoutConfig.setAddToParent(Boolean.TRUE);
 		filterInnerLayoutConfig.setSpacing(Boolean.TRUE);
-		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
 		filterInnerLayoutConfig.setParentComponentId(parentComponentId);
 		filterInnerLayoutConfig.setGtnLayoutConfig(filterInnerLayout);

@@ -33,10 +33,11 @@ public class ProjectionVarianceGenerateResetButton {
 	
 		GtnUIFrameworkComponentConfig generateResetButtonLayoutConfig = configProvider
 				.getVerticalLayoutConfig(nameSpace + "_" + "GRLayout", true, nameSpace + "_" + "GRMainPanel");
-		generateResetButtonLayoutConfig.setComponentWidth("150%");
+		generateResetButtonLayoutConfig.setComponentWidth("145%");
 		generateResetButtonLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		generateResetButtonButtonPanel.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_1);
+		//generateResetButtonButtonPanel.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
 		generateResetButtonLayoutConfig.setAddToParent(true);
-		
 		componentList.add(generateResetButtonLayoutConfig);
 
 		addGRInnerLayout(componentList,generateResetButtonLayoutConfig.getComponentId(), nameSpace);		
@@ -47,8 +48,8 @@ public class ProjectionVarianceGenerateResetButton {
 		
 		GtnUIFrameworkLayoutConfig grInnerLayout = new GtnUIFrameworkLayoutConfig();
 		grInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		grInnerLayout.setMargin(true);
-		grInnerLayout.setSpacing(true);
+		//grInnerLayout.setMargin(true);
+		//grInnerLayout.setSpacing(true);
 		
 		GtnUIFrameworkComponentConfig grInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
 		grInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
@@ -122,7 +123,7 @@ public class ProjectionVarianceGenerateResetButton {
 		GtnUIFrameworkComponentConfig levelLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "levelLayout", true, parentComponentId);
 		levelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		levelLayout.setSpacing(true);
+		//levelLayout.setSpacing(true);
 		levelLayout.setMargin(true);
 		componentList.add(levelLayout);
 
@@ -132,6 +133,7 @@ public class ProjectionVarianceGenerateResetButton {
 		level.setComponentId(nameSpace + "_" + "level");
 		level.setParentComponentId(levelLayout.getComponentId());
 		level.setAddToParent(true);
+		level.setMargin(true);
 		
 		GtnUIFrameworkComboBoxConfig levelConfig = new GtnUIFrameworkComboBoxConfig();
 		levelConfig.setComboBoxType("FORECAST_FREQUENCY");
@@ -146,7 +148,7 @@ public class ProjectionVarianceGenerateResetButton {
 		GtnUIFrameworkComponentConfig levelFilterLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "levelFilterLayout", true, parentComponentId);
 		levelFilterLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		levelFilterLayout.setSpacing(true);
+		//levelFilterLayout.setSpacing(true);
 		componentList.add(levelFilterLayout);
 
 		GtnUIFrameworkComponentConfig levelFilter = new GtnUIFrameworkComponentConfig();
@@ -155,6 +157,7 @@ public class ProjectionVarianceGenerateResetButton {
 		levelFilter.setComponentId(nameSpace + "_" + "levelFilter");
 		levelFilter.setParentComponentId(levelFilterLayout.getComponentId());
 		levelFilter.setAddToParent(true);
+		levelFilter.setMargin(true);
 		
 		GtnUIFrameworkComboBoxConfig levelFilterConfig = new GtnUIFrameworkComboBoxConfig();
 		levelFilterConfig.setComboBoxType("FORECAST_FREQUENCY");
@@ -175,7 +178,7 @@ public class ProjectionVarianceGenerateResetButton {
 				nameSpace + "_" + "view", true, nameSpace + "_" + "viewLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
 		viewLayoutOptionRadioGroup.setComponentName("View:");
-		viewLayoutOptionRadioGroup.setSpacing(true);
+		//viewLayoutOptionRadioGroup.setSpacing(true);
 		viewLayoutOptionRadioGroup.setMargin(true);
 
 		GtnUIFrameworkOptionGroupConfig viewOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
@@ -193,7 +196,7 @@ public class ProjectionVarianceGenerateResetButton {
 		GtnUIFrameworkComponentConfig customMenuLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "customMenulayout", true, parentComponentId);
 		customMenuLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		customMenuLayout.setSpacing(true);
+		//customMenuLayout.setSpacing(true);
 		componentList.add(customMenuLayout);
 
 		GtnUIFrameworkComponentConfig customMenu = new GtnUIFrameworkComponentConfig();

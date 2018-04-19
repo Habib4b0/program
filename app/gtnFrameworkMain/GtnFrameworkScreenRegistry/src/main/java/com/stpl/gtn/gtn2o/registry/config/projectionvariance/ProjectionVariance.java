@@ -30,8 +30,6 @@ public class ProjectionVariance {
 		
 		GtnUIFrameworkComponentConfig projectionVarianceMainLayout = configProvider.getVerticalLayoutConfig(
 			nameSpace + "_" + "projectionVarianceMainLayout", true, nameSpace + "_" + "projectionVarianceMainPanel");
-		/*GtnUIFrameworkComponentConfig salesProjectionMainLayout = configProvider.getVerticalLayoutConfig(
-				nameSpace + "_" + "salesProjectionMainLayout", false, null);*/
 		projectionVarianceMainLayout.setComponentWidth("100%");
 		projectionVarianceMainLayout.setMargin(true);
 		componentList.add(projectionVarianceMainLayout);
