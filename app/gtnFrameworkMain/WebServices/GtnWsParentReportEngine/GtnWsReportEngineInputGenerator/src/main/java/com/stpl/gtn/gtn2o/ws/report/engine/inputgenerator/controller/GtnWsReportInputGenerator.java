@@ -26,9 +26,8 @@ public class GtnWsReportInputGenerator {
 		GtnWsReportEngineTreeNode customerRootNode = TREE_SERVICE.buildTree(selectedCust, custHierarchy);
 		Map<String, Object[]> prodHierarchy = convertAsMap(SQL_INSTANCE.executeQuery(QUERY.getProductMap()));
 		GtnWsReportEngineTreeNode productrootNode = TREE_SERVICE.buildTree(selectedProd, prodHierarchy);
-		GtnWsReportEngineTreeNode ccpNode = buildStructure(caseNo, customerRootNode, productrootNode, ccpResult,
+		return buildStructure(caseNo, customerRootNode, productrootNode, ccpResult,
 				deductionList);
-		return ccpNode;
 	}
 
 	private Map<String, Object[]> convertAsMap(List<Object[]> resultList) {
@@ -40,7 +39,7 @@ public class GtnWsReportInputGenerator {
 		return inputParam;
 	}
 
-	private void displayNodeValues(GtnWsReportEngineTreeNode ccpNode) {
+	public void displayNodeValues(GtnWsReportEngineTreeNode ccpNode) {
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
 			System.out.println(gtnWsTreeNode.toString());
 			if (gtnWsTreeNode.getChildren() != null) {
