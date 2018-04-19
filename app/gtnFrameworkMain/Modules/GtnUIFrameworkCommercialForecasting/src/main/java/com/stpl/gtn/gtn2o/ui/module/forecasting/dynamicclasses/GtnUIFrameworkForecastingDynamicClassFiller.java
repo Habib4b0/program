@@ -1,7 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.module.forecasting.dynamicclasses;
 
-
-
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 
 public class GtnUIFrameworkForecastingDynamicClassFiller implements GtnUIDynamicObjectFiller{
@@ -9,6 +7,7 @@ public class GtnUIFrameworkForecastingDynamicClassFiller implements GtnUIDynamic
 	@Override
 	public void addDynamicObject() {
 	
+		
 		
 	}
 }
