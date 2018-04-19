@@ -1113,14 +1113,18 @@ public class DPRQueryUtils {
         List list = new ArrayList();
         try {
 
-            String idString = StringUtils.EMPTY;
+            String idString;
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    //idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i)).append(',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    //idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             String startPeriod = StringUtils.EMPTY;
             String endPeriod = StringUtils.EMPTY;
 
@@ -1254,14 +1258,18 @@ public class DPRQueryUtils {
         List list = new ArrayList();
         try {
 
-            String idString = StringUtils.EMPTY;
+            String idString;
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    //idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i)).append(',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    //idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             String startPeriod = StringUtils.EMPTY;
             String endPeriod = StringUtils.EMPTY;
 
@@ -1386,13 +1394,17 @@ public class DPRQueryUtils {
         try {
 
             String idString = StringUtils.EMPTY;
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    //idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i)).append(',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    //idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             if (frequency.equals(Constant.QUARTERLY)) {
                 frequency = Constant.QUARTER;
             }
@@ -1482,14 +1494,18 @@ public class DPRQueryUtils {
         List list = new ArrayList();
         try {
 
-            String idString = StringUtils.EMPTY;
+            String idString;
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    //idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i)).append( ',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    //idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             if (frequency.equals(Constant.QUARTERLY)) {
                 frequency = Constant.QUARTER;
             }

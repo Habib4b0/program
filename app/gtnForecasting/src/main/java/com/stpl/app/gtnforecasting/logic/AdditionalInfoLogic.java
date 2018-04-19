@@ -47,7 +47,7 @@ public class AdditionalInfoLogic {
      */
     private final AdditionalInfoDAO addInfoDao = new AdditionalInfoDAOImpl();
     private final SimpleDateFormat wordFormat = new SimpleDateFormat("<MM/dd/yyyy> <hh:mm:ss a>");
-    private boolean isFileExists;
+     
     /**
      * method to Save uploaded file .
      *
@@ -178,7 +178,7 @@ public class AdditionalInfoLogic {
     public Boolean deleteUploadedFile(final int docDetailsId, final File file) throws SystemException, PortalException{
         LOGGER.debug("Entering deleteUploadedFile method with docDetailsId= {}, file= {} " , docDetailsId, file);
         addInfoDao.deleteDocDetails(docDetailsId);
-        isFileExists=file.delete();
+        boolean isFileExists=file.delete();
         LOGGER.info("File deleted successfully= {} ",isFileExists);
         LOGGER.debug("End of deleteUploadedFile method");
         return BooleanConstant.getTrueFlag();

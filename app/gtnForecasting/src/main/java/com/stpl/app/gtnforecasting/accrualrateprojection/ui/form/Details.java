@@ -500,16 +500,20 @@ public class Details extends CustomComponent {
         selectionMap.put(Constant.PRODUCT_LABEL, String.valueOf(productDdlb.getValue()));
         selectionMap.put("FromDDLB", String.valueOf(fromDdlb.getValue()));
         selectionMap.put("TODDLB", String.valueOf(toDdlb.getValue()));
-        String varValue = StringUtils.EMPTY;
+        String varValue ;
+        StringBuilder varValueBuilder = new StringBuilder();
         actionValue = (Constant.EDIT_CAPS.equalsIgnoreCase(session.getAction()) || Constant.VIEW_CAPS.equalsIgnoreCase(session.getAction())) ? "Update" : "Save";
 
         for (String variables : accrualRateSelectionDTO.getVariableList()) {
-            if (StringUtils.EMPTY.equals(varValue)) {
-                varValue += variables;
+            if (StringUtils.EMPTY.equals(varValueBuilder.toString())) {
+                //varValue += variables;
+                varValueBuilder.append(variables);
             } else {
-                varValue += "," + variables;
+                //varValue += "," + variables;
+                varValueBuilder.append(',').append(variables);
             }
         }
+        varValue = varValueBuilder.toString();
         selectionMap.put(Constant.VARIABLES, varValue);
         dsLogic.saveScreenSelection(session.getProjectionId(), selectionMap, Constant.DETAILS, actionValue);
     }

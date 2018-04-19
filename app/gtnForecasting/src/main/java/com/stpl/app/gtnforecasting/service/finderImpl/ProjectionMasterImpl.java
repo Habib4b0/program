@@ -627,6 +627,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         }
         primarykeyTableName = SQlUtil.getQuery(getClass(),"TableNamesFordelete");
         String sql1 = StringUtils.EMPTY;
+        StringBuilder sqlBuilder = new StringBuilder();
         String sql = StringUtils.EMPTY;
         String sql2 = StringUtils.EMPTY;
         try {
@@ -639,15 +640,17 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 String fkTbName[] = foreignKeyTableName.split(",");
                 int pksize = fkTbName.length;
                 for (int i = 0; i < pksize; i++) {
-                    sql1 += "delete from ";
+                    //sql1 += "delete from ";
+                    sqlBuilder.append("delete from ");
                     if (fkTbName[i] != null && !StringUtils.EMPTY.equals(fkTbName[i]) && !ConstantsUtils.NULL.equals(fkTbName[i])) {
-                        sql1 += fkTbName[i];
+                        sqlBuilder.append(fkTbName[i]);
                     }
                     String projectionDetailsSid = CommonUtils.CollectionToString(idList, false);
 
-                    sql1 += " where PROJECTION_DETAILS_SID IN (" + projectionDetailsSid + ");";
+                    sqlBuilder.append(" where PROJECTION_DETAILS_SID IN (" ).append( projectionDetailsSid ).append( ");");
 
                 }
+                sql1 = sqlBuilder.toString();
                 HelperTableLocalServiceUtil.executeUpdateQuery(sql1);
             }
 
@@ -1317,6 +1320,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
     public Object tempOperation(final Map<String, Object> input, final String queryName) {
         String customSql = SQlUtil.getQuery(getClass(),queryName);
         String finalQuery = StringUtils.EMPTY;
+        StringBuilder finalQueryBuilder = new StringBuilder();
         try {
             Object temp;
             if ("getHierarchyTableDetails".equals(queryName)) {
@@ -1337,8 +1341,10 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                     if (i != 0) {
                         customSql = customSql.concat(" UNION ALL ");
                     }
-                    finalQuery += customSql;
+                    finalQueryBuilder.append(customSql);
+                    //finalQuery += customSql;
                 }
+                finalQuery = finalQueryBuilder.toString();
                 List tempValueList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
                 for (int j = tempValueList.size() - 1; j >= 0; j--) {
                     Object[] tempObject = (Object[]) tempValueList.get(j);

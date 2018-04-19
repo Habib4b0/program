@@ -125,10 +125,13 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
                 if (workFlowState.equals(Constant.SUBMITTED)) {
                     workFlowState = WorkflowConstants.getPendingStatus();
                 }
-                String notSearchProjId = "'" + currentProjId + "'";
+                String notSearchProjId;
+                StringBuilder idStringBuilder = new StringBuilder();
+                idStringBuilder.append("'" ).append( currentProjId ).append( "'");
                 for (int j = 0; j < selectedResultsBean.size(); j++) {
-                    notSearchProjId += ",'" + selectedResultsBean.getIdByIndex(j).getProjectionId() + "'";
+                    idStringBuilder.append( ",'" ).append( selectedResultsBean.getIdByIndex(j).getProjectionId() ).append( "'");
                 }
+                notSearchProjId = idStringBuilder.toString();
                 comparisonLookup.setWorkflowStatus(workFlowState);
                 comparisonLookup.setCurrentProjId(notSearchProjId);
                 comparisonLookup.setCreatedDateFrom(fromDate.getValue());

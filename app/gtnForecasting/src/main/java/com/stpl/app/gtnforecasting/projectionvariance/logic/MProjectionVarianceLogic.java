@@ -598,17 +598,19 @@ public class MProjectionVarianceLogic {
         List<String> finalHeaderList = new ArrayList<>();
         String from = StringUtils.EMPTY;
         String to = StringUtils.EMPTY;
+        StringBuilder fromBuilder = new StringBuilder();
+        StringBuilder toBuilder = new StringBuilder();
         for (int i = 0; i < fromArray.length; i++) {
-            from = from + fromArray[i];
+            //from = from + fromArray[i];
+            fromBuilder.append(fromArray[i]);
         }
         for (int i = 0; i < toArray.length; i++) {
-            to = to + toArray[i];
+            //to = to + toArray[i];
+            toBuilder.append(toArray[i]);
         }
-        if (frequency.equalsIgnoreCase(Constant.MONTHLY)) {
-            from = from;
-            to = to;
-        }
-
+        from = fromBuilder.toString();
+        to = toBuilder.toString();
+        
         int start = visibleDoubleCol.indexOf(from);
         int end = visibleDoubleCol.indexOf(to);
 

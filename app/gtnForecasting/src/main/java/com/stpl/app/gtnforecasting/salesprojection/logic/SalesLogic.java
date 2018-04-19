@@ -2509,12 +2509,15 @@ public class SalesLogic {
                     List<Map> mapList = getActiveExFactorySalesAndUnitsForMassUpdate(projectionSelectionDTO, periodQuery, frequency);
                     Map<String, Map<String, Double>> salesMap = mapList.get(0);
                     String bulkQuery = StringUtils.EMPTY;
+                    StringBuilder bulkQueryBuilder = new StringBuilder();
                     String query;
                     for (Map.Entry<String, Map<String, Double>> entrys : salesMap.entrySet()) {
                         query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]).replace(Constant.PERIOD1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[1]);
                         query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[1]), query);
-                        bulkQuery += calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), entrys.getValue());
+                        //bulkQuery += calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), entrys.getValue());
+                        bulkQueryBuilder.append(calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), entrys.getValue()));
                     }
+                    bulkQuery = bulkQueryBuilder.toString();
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
             } else if (updateVariable.equals(Constant.PROJECTED_RPU)) {
@@ -2528,14 +2531,14 @@ public class SalesLogic {
                     List<Map> mapList = getActiveExFactorySalesAndUnitsForMassUpdate(projectionSelectionDTO, periodQuery, frequency);
                     Map<String, Map<String, Double>> salesMap = mapList.get(0);
                     Map<String, Map<String, Double>> unitsMap = mapList.get(1);
-                    String bulkQuery = StringUtils.EMPTY;
+                    StringBuilder bulkQuery = new StringBuilder();
                     String query;
                     for (Map.Entry<String, Map<String, Double>> entrys : salesMap.entrySet()) {
                         query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]).replace(Constant.PERIOD1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[1]);
                         query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[1]), query);
-                        bulkQuery += calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), unitsMap.get(entrys.getKey()));
+                        bulkQuery.append(calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), unitsMap.get(entrys.getKey())));
                     }
-                    salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+                    salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
             } else if (updateVariable.equals(Constant.GROWTH_RATE)) {
                 actualAmount = Double.valueOf(enteredValue);
@@ -3385,12 +3388,15 @@ public class SalesLogic {
         String queryName = Constant.VIEW.equals(projSelDTO.getSessionDTO().getAction()) ? "RETURNS_SALES_QUERY_RESULTS_VIEW" : "RETURNS_SALES_QUERY_RESULTS";
         String frequency = StringUtils.EMPTY;
         String returnDetailsSID = StringUtils.EMPTY;
+        StringBuilder returnDetailsSIDBuilder = new StringBuilder();
         Map<String, String> returnMap = projSelDTO.getSessionDTO().getReturnsDetailsMap();
         for (Map.Entry<String, String> entr : returnMap.entrySet()) {
             if (entr.getKey().contains(projSelDTO.getHierarchyNo())) {
-                returnDetailsSID += entr.getValue() + ",";
+                //returnDetailsSID += entr.getValue() + ",";
+                returnDetailsSIDBuilder.append(entr.getValue() ).append( ',');
             }
         }
+        returnDetailsSID = returnDetailsSIDBuilder.toString();
         LOGGER.debug("ReturnDetailsSID= {} " , returnDetailsSID);
         StringBuilder query = new StringBuilder();
         query.append(SQlUtil.getQuery(queryName));

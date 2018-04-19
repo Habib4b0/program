@@ -39,7 +39,7 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 	@Override
 	public boolean isDirty() {
 		// TODO Auto-generated method stub
-		return true;
+		return dirty;
 	}
 
 	@Override

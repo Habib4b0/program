@@ -76,20 +76,23 @@ public class MedicaidQueryUtils {
         Map<String, Object> input = new HashMap<>();
         List medicaidList;
         String customSql;
-        String priceType = StringUtils.EMPTY;
+        String priceTypeString;
+        StringBuilder priceTypeStringBuilder = new StringBuilder();
         int size = priceTypeList.size();
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                priceType += priceTypeList.get(i).toUpperCase();
+                //priceTypeString += priceTypeList.get(i).toUpperCase();
+                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase());
             } else {
-                priceType += priceTypeList.get(i).toUpperCase() + ",";
+                //priceTypeString += priceTypeList.get(i).toUpperCase() + ",";
+                priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase() ).append( ',');
             }
         }
-
+        priceTypeString = priceTypeStringBuilder.toString();
         input.put("?PID", session.getProjectionId());
         input.put(Constant.NDC_NINE_QUESTION, "'" + parentSid + "'");
-        input.put("?PT", priceType);
+        input.put("?PT", priceTypeString);
 
         if (percentFlag) {
             customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidPercentageForView" : "getMedicaidPercentage");

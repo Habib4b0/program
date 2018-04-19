@@ -394,6 +394,7 @@ public class UiUtils {
 	 */
 	public static String generateHqlField(String fieldName, final String indicator) {
 		String finalValue = StringUtils.EMPTY;
+                StringBuilder finalValueBuilder = new StringBuilder();
 		int loop = 0;
 		fieldName = fieldName.toLowerCase();
 		String[] splitArray = fieldName.split("_");
@@ -404,9 +405,12 @@ public class UiUtils {
 			loop = 1;
 		}
 		for (int i = loop, j = splitArray.length; i < j; i++) {
-			finalValue += splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
-					String.valueOf(splitArray[i].charAt(0)).toUpperCase());
+			//finalValue += splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
+			//		String.valueOf(splitArray[i].charAt(0)).toUpperCase());
+                        finalValueBuilder.append(finalValue).append(splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
+					String.valueOf(splitArray[i].charAt(0)).toUpperCase()));
 		}
+                finalValue = finalValueBuilder.toString();
 		return finalValue;
 	}
 

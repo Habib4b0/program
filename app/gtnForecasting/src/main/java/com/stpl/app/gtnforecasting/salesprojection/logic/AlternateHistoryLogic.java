@@ -1763,12 +1763,15 @@ public class AlternateHistoryLogic {
         List<String> months = Arrays.asList(dateFormatSymbols.getShortMonths());
 
         String selectedPeriods = StringUtils.EMPTY;
+        StringBuilder selectedPeriodsBuilder = new StringBuilder();
         for (Object object : allocatedPeriods) {
             String frequency = (StringUtils.EMPTY + object).substring(frequencyStartIndex, frequncyEndIndex);
             String year = (StringUtils.EMPTY + object).substring(yearStartIndex, yearEndIndex);
             frequency = isMonthlyFrequency ? (months.indexOf(StringUtils.capitalize(frequency)) + 1) + StringUtils.EMPTY : frequency;
-            selectedPeriods += "'" + frequency + " " + year + "',";
+            //selectedPeriods += "'" + frequency + " " + year + "',";
+            selectedPeriodsBuilder.append('\'' ).append( frequency ).append( ' ' ).append( year ).append( "',");
         }
+        selectedPeriods = selectedPeriodsBuilder.toString();
         selectedPeriods = selectedPeriods.substring(0, selectedPeriods.length() - 1);
 
         boolean isNotAllocated = true;

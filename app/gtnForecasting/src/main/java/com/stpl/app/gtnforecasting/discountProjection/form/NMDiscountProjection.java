@@ -5216,7 +5216,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @return
      */
     private String getHierarchyNoForCheckedRecord(final Set<String> tableLevelNo) {
-        String hierarchyNo = StringUtils.EMPTY;
+        String hierarchyNo;
+        StringBuilder hierarchyNoBuilder = new StringBuilder(); 
         for (String tableTreeLevelNo : tableLevelNo) {
 
             Object itemId = tableLogic.getcurrentTreeData(tableTreeLevelNo);
@@ -5224,9 +5225,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 itemId = tableLogic.getExpandedTreeValues(tableTreeLevelNo);
             }
             if (itemId != null) {
-                hierarchyNo += ((DiscountProjectionDTO) itemId).getHierarchyNo() + ",";
+                //hierarchyNo += ((DiscountProjectionDTO) itemId).getHierarchyNo() + ",";
+                hierarchyNoBuilder.append(((DiscountProjectionDTO) itemId).getHierarchyNo()).append(',');
             }
         }
+        hierarchyNo = hierarchyNoBuilder.toString();
         return StringUtils.isEmpty(hierarchyNo) ? StringUtils.EMPTY
                 : hierarchyNo.substring(0, hierarchyNo.length() - 1);
     }

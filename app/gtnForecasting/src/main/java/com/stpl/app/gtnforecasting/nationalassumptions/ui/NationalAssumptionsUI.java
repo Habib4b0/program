@@ -124,16 +124,17 @@ public class NationalAssumptionsUI extends UI {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 // Find the final cause
-                String cause = "The Exception occured because of: ";
+                String cause;
+                StringBuilder causeBuilder = new StringBuilder("The Exception occured because of: ");
                 for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
                     if (t.getCause() == null) // We're at final cause
                     {
-
-                        cause += t.getClass().getName();
+                        //cause += t.getClass().getName();
+                        causeBuilder.append(t.getClass().getName());
                     }
 
                 }
-
+                cause = causeBuilder.toString();
                 LOGGER.error(cause);
                 // Do the default error handling (optional)
             }

@@ -64,7 +64,6 @@ public class FcpResultsLogic {
     public static final String FCP_OVERRIDE_FSS = "FCP_OVERRIDE_FSS";
     public static final String FCP_OVERRIDE_CPI_U = "FCP_OVERRIDE_CPI_U";
 
-    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private final FcpQueryUtils queryUtil = new FcpQueryUtils();
 
     public List<TableDTO> getConfiguredFcpResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
@@ -952,6 +951,7 @@ public class FcpResultsLogic {
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
+            String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException ex)
         {

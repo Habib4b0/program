@@ -515,7 +515,10 @@ public class DataSelectionLogic {
 		parameters.put(Constant.PROJECTION_ID, projectionId);
 		parameters.put(Constant.TABLE_NAME, PROJECTION_PROD_HIERARCHY);
 		parameters.put(BUSINESS_UNIT_PROPERTY, dataSelectionDTO.getBusinessUnitSystemId());
-		String insertQuery = prepareRelationShipQuery(parameters, false);
+		//String insertQuery = prepareRelationShipQuery(parameters, false);
+                String insertQuery;
+                StringBuilder insertQueryBuilder = new StringBuilder();
+                insertQueryBuilder.append(prepareRelationShipQuery(parameters, false));
 		String endLevelsQuery = "";
 		if (endLevelSids != null && !endLevelSids.isEmpty()) {
 			endLevelsQuery = prepareRelationShipQuery(parameters, true);
@@ -526,33 +529,43 @@ public class DataSelectionLogic {
 				int listSize = addLevels.size();
 				for (int i = 0; i < listSize; i++) {
 					if (i == 0) {
-						insertQuery += "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)  ";
+						//insertQuery += "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)  ";
+                                                insertQueryBuilder.append("Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)  ");
 					}
-					insertQuery += SELECT_CAPS + projectionId + " , "
-							+ UiUtils.parseStringToInteger(String.valueOf(addLevels.get(i)));
+					//insertQuery += SELECT_CAPS + projectionId + " , "
+					//		+ UiUtils.parseStringToInteger(String.valueOf(addLevels.get(i)));
+                                        insertQueryBuilder.append(SELECT_CAPS).append(projectionId ).append( " , "
+							).append( UiUtils.parseStringToInteger(String.valueOf(addLevels.get(i))));
 					if (i != listSize - 1) {
-						insertQuery += UNION_ALL;
+						//insertQuery += UNION_ALL;
+                                                insertQueryBuilder.append(UNION_ALL);
 					}
 				}
 			} else if (Constant.SAVE.equals(indicator)) {
 				int listSize = levelList.size();
 				for (int i = 0; i < listSize; i++) {
 					if (i == 0) {
-						insertQuery = insertQuery
-								+ "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ";
+						//insertQuery = insertQuery
+						//		+ "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ";
+                                                insertQueryBuilder.append("Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ");
 					}
-					insertQuery += SELECT_CAPS + projectionId + " , " + levelList.get(i).getRelationshipLevelSid();
+					//insertQuery += SELECT_CAPS + projectionId + " , " + levelList.get(i).getRelationshipLevelSid();
+                                        insertQueryBuilder.append(SELECT_CAPS ).append( projectionId ).append( " , " ).append( levelList.get(i).getRelationshipLevelSid());
 					if (i != listSize - 1) {
-						insertQuery += UNION_ALL;
+						//insertQuery += UNION_ALL;
+                                                insertQueryBuilder.append(UNION_ALL);
 					}
 				}
-				if (insertQuery.isEmpty()) {
-					insertQuery = insertQuery
-							+ "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ";
+				if (insertQueryBuilder.toString().isEmpty()) {
+					//insertQuery = insertQuery
+					//		+ "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ";
+                                        insertQueryBuilder.append("Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ");
 				} else {
-					insertQuery += UNION_ALL + endLevelsQuery;
+					//insertQuery += UNION_ALL + endLevelsQuery;
+                                        insertQueryBuilder.append(UNION_ALL ).append( endLevelsQuery);
 				}
 			}
+                        insertQuery = insertQueryBuilder.toString();
 			if (!insertQuery.isEmpty()) {
 				HelperTableLocalServiceUtil.executeUpdateQuery(insertQuery);
 			}

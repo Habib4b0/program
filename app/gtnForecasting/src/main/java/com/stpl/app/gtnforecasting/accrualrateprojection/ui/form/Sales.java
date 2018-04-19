@@ -392,16 +392,20 @@ public class Sales extends CustomComponent {
         selectionMap.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
         selectionMap.put(Constant.FREQUENCY_SMALL, String.valueOf(frequencyDdlb.getValue()));
         selectionMap.put("Price Basis", String.valueOf(priceBasisDdlb.getValue()));
-        String varValue = StringUtils.EMPTY;
+        String varValue;
+        StringBuilder varValueBuilder = new StringBuilder();
         String actionValue = (Constant.EDIT_CAPS.equalsIgnoreCase(session.getAction()) || Constant.VIEW_CAPS.equalsIgnoreCase(session.getAction())) ? Constant.UPDATE_SMALL : "Save";
         for (String variables : selectedVariables) {
-            if (StringUtils.EMPTY.equals(varValue)) {
-                varValue += variables;
+            if (StringUtils.EMPTY.equals(varValueBuilder.toString())) {
+                //varValue += variables;
+                varValueBuilder.append(variables);
             } else {
 
-                varValue += "," + variables;
+                //varValue += "," + variables;
+                varValueBuilder.append(',').append(variables);
             }
         }
+        varValue = varValueBuilder.toString();
         selectionMap.put(Constant.VARIABLES, varValue);
         dsLogic.saveScreenSelection(session.getProjectionId(), selectionMap, Constant.SALES_SMALL, actionValue);
     }

@@ -551,11 +551,13 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 						List<String> projId = new ArrayList<>();
 						projId.add(toDate);
 
-						String notSearchProjId = "'" + currentProjId + "'";
+						String notSearchProjId;
+                                                StringBuilder notSearchProjIdBuilder = new StringBuilder();
+                                                notSearchProjIdBuilder.append('\'').append( currentProjId ).append('\'');
 						for (int j = 0; j < selectedResultsBean.size(); j++) {
-							notSearchProjId += ",'" + selectedResultsBean.getIdByIndex(j).getProjectionId() + "'";
+							notSearchProjIdBuilder.append(",'" ).append( selectedResultsBean.getIdByIndex(j).getProjectionId() ).append( '\'');
 						}
-
+                                                notSearchProjId = notSearchProjIdBuilder.toString();
 						String resultString = logic.getComparisonSearch(workFlowState, marketTypeValue, brandValue,
 								projecName, chValue, ndcNoValue, ndcNameValue, projDesc, contractVal, fromDate, toDate,
 								notSearchProjId);

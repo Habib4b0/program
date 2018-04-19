@@ -81,13 +81,17 @@ public class DPRQueryBuilder {
         String projectionQuery = "";
         try {
             String idString = "";
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    //idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i)).append(',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    //idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             String startPeriod = "";
             String endPeriod = "";
 
@@ -218,13 +222,17 @@ public class DPRQueryBuilder {
         String sql = "";
         try {
             String idString = "";
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    //idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i)).append(',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    //idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             String startPeriod = "";
             String endPeriod = "";
             String forecastStartPeriod = "";
@@ -334,13 +342,17 @@ public class DPRQueryBuilder {
         String projectionQuery = "";
         try {
             String idString = "";
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < projectionDetailsId.size(); i++) {
                 if (i != projectionDetailsId.size() - 1) {
-                    idString = idString + projectionDetailsId.get(i) + ",";
+                    //idString = idString + projectionDetailsId.get(i) + ",";
+                    idStringBuilder.append(projectionDetailsId.get(i)).append(',');
                 } else {
-                    idString = idString + projectionDetailsId.get(i);
+                    //idString = idString + projectionDetailsId.get(i);
+                    idStringBuilder.append(projectionDetailsId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             String startPeriod = "";
             String endPeriod = "";
             String forecastStartPeriod = "";
@@ -457,13 +469,17 @@ public class DPRQueryBuilder {
             String sql = "";
             try {
                 String idString = "";
+                StringBuilder idStringBuilder = new StringBuilder();
                 for (int i = 0; i < projectionDetailsId.size(); i++) {
                     if (i != projectionDetailsId.size() - 1) {
-                        idString = idString + projectionDetailsId.get(i) + ",";
+                        //idString = idString + projectionDetailsId.get(i) + ",";
+                        idStringBuilder.append(projectionDetailsId.get(i)).append(',');
                     } else {
-                        idString = idString + projectionDetailsId.get(i);
+                        //idString = idString + projectionDetailsId.get(i);
+                        idStringBuilder.append(projectionDetailsId.get(i));
                     }
                 }
+                idString = idStringBuilder.toString();
                 String startPeriod = "";
                 String endPeriod = "";
                 String forecastStartPeriod = "";
