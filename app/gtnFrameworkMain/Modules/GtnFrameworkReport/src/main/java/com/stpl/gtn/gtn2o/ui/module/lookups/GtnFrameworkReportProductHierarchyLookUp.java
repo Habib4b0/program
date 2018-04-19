@@ -242,16 +242,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 
 		componentList.add(searchResultConfig);
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
-//		searchResults.setEditable(false);
-//		searchResults.setFilterBar(true);
-//		searchResults.setSelectable(false);
-//		searchResults.setPageLength(10);
-//		searchResults.setItemPerPage(10);
-//		searchResults.setSelectable(true);
-//		searchResults.setSinkItemPerPageWithPageLength(false);
-//		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
-//				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
-//				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
+
 		searchResults.setTableVisibleHeader(new String[] { "HierarchyName", "Highest Level", "Lowest Level",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER });
 		searchResults.setTableColumnMappingId(

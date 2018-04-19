@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
@@ -33,6 +34,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.components.grid.HeaderRow;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,7 @@ public class PagedGrid {
 
 	GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
     GtnUIFrameworkPagedTableConfig tableConfig;
+    GtnUIFrameworkComponentConfig componentConfig;
 	int count;
 	private int pageLength = 10;
 	private int pageNumber = 0;
@@ -53,8 +56,9 @@ public class PagedGrid {
 	private TextField pageNoField;
 
    GtnUIFrameworkPagedGridLogic pagedTableLogic;
-    public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig) {
+    public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
+		this.componentConfig=componentConfig;
 		grid = new Grid<>();
 		int i = 0;
         for (Object column : tableConfig.getTableColumnMappingId()) {
@@ -62,12 +66,15 @@ public class PagedGrid {
             grid.addColumn(row -> row.getPropertyValue(property)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(property);
 			i++;
 		}
-		setFilterToGrid();
-        pagedTableLogic=new GtnUIFrameworkPagedGridLogic(tableConfig);
+		//setFilterToGrid();
+        
+        pagedTableLogic=new GtnUIFrameworkPagedGridLogic(tableConfig,componentConfig);
+        refreshGrid();
 	}
 
 	public void refreshGrid() {
 		count = getTotalCount();
+		gtnlogger.info("count------"+count);
 		dataSet = loadData((pageNumber * pageLength), pageLength);
 //		int i = 0;
 //		grid.removeAllColumns();
@@ -78,8 +85,9 @@ public class PagedGrid {
         if (dataSet.getRows() != null) {
 			grid.setItems(dataSet.getRows());
 
-		pageCountLabel.setCaption(String.valueOf(getPageCount()));
+		
 	}
+        //pageCountLabel.setCaption(String.valueOf(getPageCount()));
     }
 
 	private int getTotalCount() {
@@ -89,10 +97,8 @@ public class PagedGrid {
                     tableConfig.getCountQueryInputs());
 			return result == null || result.isEmpty() ? 0 : Integer.parseInt(String.valueOf(result.get(0)[0]));
         }else{
-            	pagedTableLogic.getCount();
-		}
-		return 0;
-
+        	return pagedTableLogic.getCount();
+		}		
 	}
 
 	private DataSet loadData(int offset, int limit) {

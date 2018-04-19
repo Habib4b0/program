@@ -130,6 +130,8 @@ public class GtnUIFrameworkComponentConfig {
 
     private boolean defaultFocus = false;
 
+    private String moduleName="";
+    
     public GtnUIFrameworkComponentConfig() {
         super();
     }
@@ -698,5 +700,13 @@ public class GtnUIFrameworkComponentConfig {
     public void setGtnUIFrameworkV8DualListBoxConfig(GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig) {
         this.gtnUIFrameworkV8DualListBoxConfig = gtnUIFrameworkV8DualListBoxConfig;
     }
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
@@ -9,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.Query;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 
@@ -88,30 +90,32 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 			String parentId) {
 
 		GtnUIFrameworkComponentConfig dataAssumptionsPagedTableComponent = configProvider.getUIFrameworkComponentConfig(
-				"dataAssumptionsPagedTableComponent", true, parentId, GtnUIFrameworkComponentType.PAGEDTABLE);
+				"dataAssumptionsPagedTableComponent", true, parentId, GtnUIFrameworkComponentType.PAGED_GRID);
 		dataAssumptionsPagedTableComponent.setAuthorizationIncluded(true);
 		dataAssumptionsPagedTableComponent.setComponentName(GtnFrameworkCommonConstants.RESULTS);
 		dataAssumptionsPagedTableComponent.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
+		dataAssumptionsPagedTableComponent.setModuleName("report");
 		componentList.add(dataAssumptionsPagedTableComponent);
 
-		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
-		dataAssumptionsPagedTableConfig.setEditable(false);
-		dataAssumptionsPagedTableConfig.setFilterBar(true);
-		dataAssumptionsPagedTableConfig.setSelectable(true);
-		dataAssumptionsPagedTableConfig.setItemPerPage(5);
-		dataAssumptionsPagedTableConfig.setPageLength(5);
-		dataAssumptionsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
-		dataAssumptionsPagedTableConfig.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVALANG_STRING,
-				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
-				GtnFrameworkCommonConstants.JAVALANG_STRING,GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
-				GtnFrameworkCommonConstants.JAVA_UTIL_DATE,GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
-				GtnFrameworkCommonConstants.JAVA_LANG_STRING});
-		dataAssumptionsPagedTableConfig
-				.setTableVisibleHeader(new String[] { "File", "Company", "Business Unit", "Type","Version","Active From","Active To","Active File?" });
-		dataAssumptionsPagedTableConfig.setTableColumnMappingId(
-				new Object[] {"file", "company", "businessUnit", "type","version","activeFrom","activeTo","activeFile?"});
+//		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
+//		dataAssumptionsPagedTableConfig.setEditable(false);
+//		dataAssumptionsPagedTableConfig.setFilterBar(true);
+//		dataAssumptionsPagedTableConfig.setSelectable(true);
+//		dataAssumptionsPagedTableConfig.setItemPerPage(5);
+//		dataAssumptionsPagedTableConfig.setPageLength(5);
+//		dataAssumptionsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
 		
+		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
+
+		dataAssumptionsPagedTableConfig
+		.setColumnHeaders(Arrays.asList(new String[] { "File", "Company", "Business Unit", "Type","Version","Active From","From Period","To Period" }));
+dataAssumptionsPagedTableConfig.setTableColumnMappingId(
+		new Object[] {"file", "company", "businessUnit", "type","version","activeFrom","fromPeriod","toPeriod"});
+dataAssumptionsPagedTableConfig.setCountUrl("/gtnWsReportLoadDataAssumptions");
+dataAssumptionsPagedTableConfig.setResultSetUrl("/gtnWsReportLoadDataAssumptions");
+
+
 		dataAssumptionsPagedTableComponent.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);
 
 	}

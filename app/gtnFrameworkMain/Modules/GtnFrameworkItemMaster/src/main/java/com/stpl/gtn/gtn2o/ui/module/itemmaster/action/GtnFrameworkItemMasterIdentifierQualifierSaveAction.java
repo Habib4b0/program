@@ -43,7 +43,7 @@ public class GtnFrameworkItemMasterIdentifierQualifierSaveAction
 					.getVaadinBaseComponent(actionParameter.get(GtnWsNumericConstants.ONE).toString())
 					.getValueFromDataTable();
 
-			final Integer selectedSid = selectedId == null ? new Integer(0)
+			final Integer selectedSid = selectedId == null ? Integer.valueOf(0)
 					: (Integer) selectedId.getPropertyValueByIndex(selectedId.getProperties().size() - 2);
 
 			final String qualifier = GtnUIFrameworkGlobalUI
