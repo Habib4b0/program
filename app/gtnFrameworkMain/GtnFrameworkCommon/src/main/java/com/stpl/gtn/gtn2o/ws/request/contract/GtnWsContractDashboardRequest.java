@@ -226,11 +226,4 @@ public class GtnWsContractDashboardRequest implements GtnWSRequestData {
 		this.contractStructure = contractStructure;
 	}
 
-	private void writeObject(ObjectOutputStream stream) throws IOException {
-		stream.defaultWriteObject();
-	}
-
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		stream.defaultReadObject();
-	}
 }

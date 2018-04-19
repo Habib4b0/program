@@ -174,11 +174,5 @@ public class GtnWsEMailConfigurationBean implements Serializable {
 				: Collections.unmodifiableList(comboboxOnChangeDataLoad);
 	}
 
-	private void writeObject(ObjectOutputStream stream) throws IOException {
-		stream.defaultWriteObject();
-	}
 
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		stream.defaultReadObject();
-	}
 }

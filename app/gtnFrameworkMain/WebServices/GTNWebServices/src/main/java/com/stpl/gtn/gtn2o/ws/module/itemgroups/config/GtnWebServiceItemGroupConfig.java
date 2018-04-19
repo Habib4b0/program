@@ -69,7 +69,7 @@ public class GtnWebServiceItemGroupConfig implements GtnWsSearchQueryConfigLoade
 			gtnWsAddTabAviableTableSearchQueryConfig
 					.setCountQuerySelectClause(GtnWsItemGrpQueryContants.GTN_IFP_AVAILABLE_SEARCH_QUERY_SELECT);
 
-			Map<String, GtnWsColumnDetailsConfig> itemGroupFieldDetailsMapAddTab = new HashMap<>();
+			Map<String, GtnWsColumnDetailsConfig> itemGroupFieldDetailsMapAddTab = new HashMap<>(100);
 			itemGroupFieldDetailsMapAddTab.put("itemId", configProvider.getColumnStringConfig("ITEM_ID", "IM"));
 			itemGroupFieldDetailsMapAddTab.put("itemNo", configProvider.getColumnStringConfig("ITEM_NO", "IM"));
 			itemGroupFieldDetailsMapAddTab.put("iGrpInformationTabCustomerNo",

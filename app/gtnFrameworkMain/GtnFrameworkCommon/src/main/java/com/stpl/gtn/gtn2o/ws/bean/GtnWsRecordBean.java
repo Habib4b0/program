@@ -407,9 +407,6 @@ public class GtnWsRecordBean implements Serializable {
 		return Arrays.equals(rawObjectArray, other.rawObjectArray);
 	}
 
-	private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-		s.defaultWriteObject();
-	}
 
 	// Dont delete. this Method is called during Serialization
 
