@@ -78,17 +78,18 @@ public class FcpQueryUtils {
         Map<String, Object> input = new HashMap<>();
         List fcpList;
         String customSql;
-        String priceType = StringUtils.EMPTY;
+        String priceType;
+        StringBuilder priceTypeBuilder = new StringBuilder();
         int size = priceTypeList.size();
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                priceType += priceTypeList.get(i).toUpperCase();
+                priceTypeBuilder.append(priceTypeList.get(i).toUpperCase());
             } else {
-                priceType += priceTypeList.get(i).toUpperCase() + ",";
+                priceTypeBuilder.append(priceTypeList.get(i).toUpperCase() ).append( ',');
             }
         }
-
+        priceType = priceTypeBuilder.toString();
         input.put("?PID", session.getProjectionId());
         input.put(Constant.IMID1, parentSid);
         input.put("?PT", priceType);

@@ -118,7 +118,7 @@ public class GtnWsContractDashboardProcessLogic {
 
 	private void getCountInputList(GtnWsSearchRequest searchRequest, String memberLevel, List<Object> countInputlist,
 			int queryIndex, String conId) {
-		if ("1".equals(memberLevel) && queryIndex == 2) {
+		if (queryIndex == 2  && "1".equals(memberLevel)) {
 
 			countInputlist.add(getCountQuery(3, "=" + conId, GtnFrameworkWebserviceConstant.CFPCO_CFP_CONTRACT_SID));
 			countInputlist.add(getCountQuery(4, "=" + conId, GtnFrameworkWebserviceConstant.CFPCO_CFP_CONTRACT_SID,

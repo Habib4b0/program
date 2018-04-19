@@ -1256,7 +1256,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 finalPeriodList[0] = startPeriodList[0];
                 finalPeriodList[1] = endPeriodList[endPeriodList.length - 1];
                 final List<List> returnList = supplementalDiscountProjectionLogic.callParityProcedure(dtoListValue, finalPeriodList, session);
-                String notifyContent = StringUtils.EMPTY;
+                String notifyContent;
+                StringBuilder notifyContentBuilder = new StringBuilder();
                 if (!returnList.get(0).isEmpty()) {
                     List<LookUpDTO> insertDtoList = returnList.get(0);
                     for (int z = 0; z < insertDtoList.size(); z++) {
@@ -1279,17 +1280,19 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     selectedValue = String.valueOf(valueLookUp.getValue());
                 } else {
                     String lookUpValue = StringUtils.EMPTY;
+                    StringBuilder lookUpValueBuilder = new StringBuilder();
                     List<String> emptyNdcList = returnList.get(1);
                     String emptyValue = StringUtils.EMPTY;
                     if (!emptyNdcList.isEmpty()) {
                         for (int k = 0; k < emptyNdcList.size(); k++) {
                             if (k != 0 && !emptyValue.equals(emptyNdcList.get(k))) {
-                                lookUpValue += ",";
+                                lookUpValueBuilder.append(',');
                             }
                             emptyValue = emptyNdcList.get(k);
-                            lookUpValue += emptyNdcList.get(k);
+                            lookUpValueBuilder.append(emptyNdcList.get(k));
                         }
                     }
+                    lookUpValue = lookUpValueBuilder.toString();
                     int quatValue = 0;
                     List<List> emptyQuarList = returnList.get(NumericConstants.TWO);
                     final String[] quaterName = new String[emptyQuarList.size()];
@@ -1299,11 +1302,12 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         for (int q = 0; q < emptyQuarList.size(); q++) {
 
                             List<String> lit = (List<String>) emptyQuarList.get(q);
-                            String tempValue = StringUtils.EMPTY;
+                            String tempValue;
+                            StringBuilder tempValueBuilder = new StringBuilder();
                             for (String le : lit) {
-                                tempValue += le + ", ";
+                                tempValueBuilder.append(le ).append( ", ");
                             }
-
+                            tempValue = tempValueBuilder.toString();
                             quaterName[q] = tempValue;
                             quatValue += 1;
 
@@ -1313,27 +1317,23 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     List<String> ndcValue = returnList.get(NumericConstants.THREE);
 
                     if (!StringUtils.EMPTY.equals(lookUpValue)) {
-                        notifyContent += lookUpValue;
-                        notifyContent += ",";
+                        notifyContentBuilder.append(lookUpValue).append(',');
                     }
 
                     for (int j = 0; j < ndcValue.size(); j++) {
-
-                        notifyContent += j == 0 ? StringUtils.EMPTY : " and";
-
-                        notifyContent += ndcValue.get(j);
+                        notifyContentBuilder.append(j == 0 ? StringUtils.EMPTY : " and").append(ndcValue.get(j));
 
                         if (quaterName.length != 0) {
-                            notifyContent += " " + quaterName[j];
+                            notifyContentBuilder.append(' ').append(quaterName[j]);
 
                             if (quatValue != quaterName.length) {
-                                notifyContent += ",";
+                                notifyContentBuilder.append(',');
                             }
                         } else if (quatValue != quaterName.length) {
-                            notifyContent += ", ";
+                            notifyContentBuilder.append(", ");
                         }
                     }
-
+                    notifyContent = notifyContentBuilder.toString();
                     if (returnList.get(0).isEmpty()) {
                         AbstractNotificationUtils.getErrorNotification("Populate Error", "In NDC:" + notifyContent + " are not having any prior values");
                     } else {

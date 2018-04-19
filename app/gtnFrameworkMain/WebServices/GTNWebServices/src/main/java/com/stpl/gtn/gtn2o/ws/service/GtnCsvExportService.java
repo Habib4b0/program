@@ -92,11 +92,11 @@ public class GtnCsvExportService {
         return csvPath.toString();
     }
 
-    public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
+    public synchronized GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
         return gtnSqlQueryEngine;
     }
 
-    public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
+    public synchronized void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
         this.gtnSqlQueryEngine = gtnSqlQueryEngine;
     }
 }

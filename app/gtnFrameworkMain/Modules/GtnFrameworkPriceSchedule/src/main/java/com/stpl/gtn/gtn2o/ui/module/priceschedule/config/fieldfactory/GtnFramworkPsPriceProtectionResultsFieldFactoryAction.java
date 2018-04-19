@@ -69,7 +69,7 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 		Object localVarable = value;
 		GtnUIFrameworkWebserviceRequest updateRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-		if ((column.equals("psPPStartDate")) && localVarable == null) {
+		if ( localVarable == null && (column.equals("psPPStartDate"))) {
 			localVarable = "NULL";
 		}
 
