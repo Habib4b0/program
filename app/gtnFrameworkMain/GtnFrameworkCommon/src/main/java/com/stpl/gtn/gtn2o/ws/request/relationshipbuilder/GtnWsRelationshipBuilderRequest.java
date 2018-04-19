@@ -331,7 +331,13 @@ public class GtnWsRelationshipBuilderRequest implements GtnWSRequestData {
 	public void setPrimarySIDList(List<String> primarySIDList) {
 		this.primarySIDList = primarySIDList == null ? null : Collections.unmodifiableList(primarySIDList);
 	}
+        private void writeObject(ObjectOutputStream stream) throws IOException {
+		stream.defaultWriteObject();
+	}
 
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
+	}
 
 	public GtnWsRecordBean getSelectedTreeBean() {
 		return selectedTreeBean;
