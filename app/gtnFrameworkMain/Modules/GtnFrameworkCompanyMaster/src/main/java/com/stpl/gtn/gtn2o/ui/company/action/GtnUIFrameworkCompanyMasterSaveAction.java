@@ -252,7 +252,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 		for (GtnWsRecordBean tradeClass1 : tradeClassList) {
 			GtnCMasterCompanyTradeClassBean tradeClass = new GtnCMasterCompanyTradeClassBean();
 			Object tradeClassSid = tradeClass1.getPropertyValueByIndex(tradeClass1.getProperties().size() - 1);
-			tradeClass.setCompanyTradeClassSid(tradeClassSid == null ? new Integer(0) : (Integer) tradeClassSid);
+			tradeClass.setCompanyTradeClassSid(tradeClassSid == null ? Integer.valueOf(0) : (Integer) tradeClassSid);
 			tradeClass.setCompanyTradeClassValue(tradeClass1.getStringProperty("tradeClass"));
 			tradeClass.setCompanyTradeClassStartDate(tradeClass1.getDateProperty("tradeClassStartDate"));
 			tradeClass.setCompanyTradeClassEndDate(tradeClass1.getDateProperty("tradeClassEndDate"));
@@ -273,7 +273,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 		for (GtnWsRecordBean identifierList1 : identifierList) {
 			GtnCMasterIdentifierInfoBean identifier = new GtnCMasterIdentifierInfoBean();
 			Object qualifierSid = identifierList1.getPropertyValueByIndex(identifierList1.getProperties().size() - 3);
-			identifier.setCompanyQualifierSid(qualifierSid == null ? new Integer(0) : (Integer) qualifierSid);
+			identifier.setCompanyQualifierSid(qualifierSid == null ? Integer.valueOf(0) : (Integer) qualifierSid);
 			identifier.setCompanyQualifierValue(identifierList1.getStringProperty("qualifierName"));
 			identifier.setCompanyIdentifierValue(identifierList1.getStringProperty("identifier"));
 			identifier.setIdentifierStatus(identifierList1.getIntegerProperty("identifierStatus"));

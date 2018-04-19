@@ -89,10 +89,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 				setDefaultFocus(vaadinComboBox, componentConfig);
 				return vaadinComboBox;
 			}
-		} catch (GtnFrameworkGeneralException ex) {
-
-			gtnLogger.error(ex.getMessage(), ex);
-
+		} catch (Exception exception) {
+			gtnLogger.error("Exception in addVaadinComponent for " + componentConfig.getComponentId(), exception);
 		}
 
 		return null;
@@ -208,6 +206,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 		return null;
 	}
 
+        @SuppressWarnings("unchecked")
 	private ComboBox fillDataAndCaption(GtnUIFrameworkComboBoxConfig comboboxConfig, List itemCodeList,
 			List<String> itemValueList, ComboBox vaadinComboBox) {
 
@@ -283,7 +282,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 		comboboxRequest.setGtnWsGeneralRequest(comboboxGeneralWSRequest);
 		if (comboboxConfig.getLoadingUrl() != null) {
 			comboboxResponse = comboboxWsclient
-					.callGtnWebServiceUrl(comboboxConfig.getLoadingUrl(), comboboxRequest,
+					.callGtnWebServiceUrl(comboboxConfig.getLoadingUrl(),comboboxConfig.getModuleName(), comboboxRequest,
 							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
 		}

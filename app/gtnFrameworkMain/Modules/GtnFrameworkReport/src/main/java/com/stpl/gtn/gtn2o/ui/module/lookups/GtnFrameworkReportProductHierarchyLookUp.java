@@ -1,19 +1,27 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GtnFrameworkReportProductHierarchyLookUp {
 
@@ -154,6 +162,20 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
 		productHierarchySearchButton.setAddToParent(true);
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+
+		List<Object> actionParams = new ArrayList<>();
+		actionParams.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
+
+		loadDataTableActionConfig.setActionParameterList(actionParams);
+
+		actionConfigList.add(loadDataTableActionConfig);
+                productHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+                
 		componentList.add(productHierarchySearchButton);
 
 		GtnUIFrameworkComponentConfig productHierarchyResetButton = new GtnUIFrameworkComponentConfig();
@@ -202,7 +224,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 	private void addProductHierarchyPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig searchResultConfig = new GtnUIFrameworkComponentConfig();
-		searchResultConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
+		searchResultConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
 		searchResultConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
 		searchResultConfig.setComponentName("Results");
@@ -215,26 +237,63 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		tableStyle.add("v-table-filterbar");
 		tableStyle.add("table-header-normal");
 		searchResultConfig.setComponentWidth("100%");
+		searchResultConfig.setComponentHight("450px");
 		searchResultConfig.setComponentStyle(tableStyle);
 
 		componentList.add(searchResultConfig);
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
-		searchResults.setEditable(false);
-		searchResults.setFilterBar(true);
-		searchResults.setSelectable(false);
-		searchResults.setPageLength(10);
-		searchResults.setItemPerPage(10);
-		searchResults.setSelectable(true);
-		searchResults.setSinkItemPerPageWithPageLength(false);
-		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
-				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
-				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
+
 		searchResults.setTableVisibleHeader(new String[] { "HierarchyName", "Highest Level", "Lowest Level",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER });
 		searchResults.setTableColumnMappingId(
 				new Object[] { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate" });
+		searchResults.setCountQuery(Query.getCountProductHierarchy);
+		searchResults.setDataQuery(Query.getDataProductHierarchy);
+		searchResults
+				.setCountQueryInputs(new String[] {
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.HIERARCHY_NAME,
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE });
+		searchResults
+				.setDataQueryInputs(new String[] {
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.HIERARCHY_NAME,
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE });
 
+		searchResults.setCustomFilterConfigMap(getCustomFilterConfig());
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
+	}
+
+	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
+		String[] propertyIds = { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate"  };
+		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
+		String[] comboboxIds={"highestLevel"};
+		String[] comboboxType={"STATUS"};
+		int comboboxStart=0;
+		for (int i = 0; i < propertyIds.length; i++) {
+			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
+			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
+			if((comboboxStart<comboboxIds.length) && propertyIds[i].equals(comboboxIds[comboboxStart])){
+				GtnUIFrameworkComponentConfig companyMasterSearchFilterComponentConfig = new GtnUIFrameworkComponentConfig();
+				companyMasterSearchFilterComponentConfig.setComponentId("customFilterComboBox");
+				companyMasterSearchFilterComponentConfig.setComponentName("customFilterComboBox");
+				companyMasterSearchFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(comboboxType[comboboxStart]);
+				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig()
+						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+				pagedTableCustomFilterConfig.setGtnComponentConfig(companyMasterSearchFilterComponentConfig);
+				comboboxStart++;
+			}
+			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
+		}
+		return customFilterConfigMap;
 	}
 
 	private void addreportProductHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
@@ -258,7 +317,20 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		selectButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		selectButton.setAddToParent(true);
+                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
+		selectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
+		List<Object> actionParameter = new ArrayList<>();
+		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
+		actionParameter.add("dataSelectionTab" + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy");
+		actionParameter.add(Arrays.asList("hierName"));
+		actionParameter
+				.add(Arrays.asList("dataSelectionTab" + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy"));
 
+		selectAction.setActionParameterList(actionParameter);
+		actionConfigList.add(selectAction);
+		selectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(selectButton);
 
 		GtnUIFrameworkComponentConfig cancelButton = new GtnUIFrameworkComponentConfig();

@@ -201,18 +201,18 @@ public class GtnWsTransactionReprocessIOService {
                                                     + columns.getFieldId() + " < '"
                                                     + formattedDate.format(dateformate.parse(columns.getFilterValue2())) + "'"));
 					} else {
-						whereClause.append(columns.getFieldId()).append(" >'").append(columns.getFilterValue1()).append("' and ").append(columns.getFieldId()).append(" < '").append(columns.getFilterValue2()).append("'");
+						whereClause.append(columns.getFieldId()).append(" >'").append(columns.getFilterValue1()).append("' and ").append(columns.getFieldId()).append(" < '").append(columns.getFilterValue2()).append("' ");
 					}
 					break;
 				case "LIKE":
-					whereClause.append(columns.getFieldId()).append(" like '").append(value.replaceAll("\\*", "%")).append("'");
+					whereClause.append(columns.getFieldId()).append(" like '").append(value.replaceAll("\\*", "%")).append("' ");
 					break;
 				case "EQUAL":
-					whereClause.append(columns.getFieldId()).append(" = '").append(getValueBasedOnType(type, value, filterValue1)).append("'");
+					whereClause.append(columns.getFieldId()).append(" = '").append(getValueBasedOnType(type, value, filterValue1)).append("' ");
 					break;
 
 				case "EQUALS":
-					whereClause.append(columns.getFieldId()).append(" = '").append(getValueBasedOnType(type, value, filterValue1)).append("'");
+					whereClause.append(columns.getFieldId()).append(" = '").append(getValueBasedOnType(type, value, filterValue1)).append("' ");
 					break;
 				case "GREATER":
 					whereClause.append(columns.getFieldId()).append(" > ").append(getValueBasedOnType(type, value, filterValue1));
@@ -242,7 +242,7 @@ public class GtnWsTransactionReprocessIOService {
 					break;
 
 				default:
-					whereClause.append(columns.getFieldId()).append(" like '").append(value.replaceAll("\\*", "%")).append("'");
+					whereClause.append(columns.getFieldId()).append(" like '").append(value.replaceAll("\\*", "%")).append("' ");
 					break;
 				}
 			}

@@ -10,6 +10,8 @@ import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroup
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedgrid.GtnUIFrameworkPagedGridComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreeGrid.GtnUIFrameworkPagedTreeGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.error.GtnUIFrameworkErrorBannerComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutComponent;
@@ -27,7 +29,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabSheet
 import com.stpl.gtn.gtn2o.ui.framework.component.textarea.GtnUIFrameworkTextAreaComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponent;
-import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.checkboxgroup.GtnUIFrameworkCheckBoxGroupComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.comboboxmultiselect.GtnUIFrameworkComboBoxMultiselectComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date.GtnUIFrameworkDateFieldComponent;
@@ -99,9 +100,10 @@ public enum GtnUIFrameworkComponentType {
 	
 	RADIOBUTTON_VAADIN8(new GtnUIFrameworkRadioButtonGroupComponent()),
 	
-	CHECKBOX_VAADIN8(new GtnUIFrameworkCheckBoxGroupComponent()),
-	
-	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox());
+	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox()),
+        PAGED_GRID(new  GtnUIFrameworkPagedGridComponent()),
+        V8_DUALLISTBOX(new GtnUIFrameworkDualListBoxComponent()),
+        PAGED_TREE_GRID(new  GtnUIFrameworkPagedTreeGridComponent());
 	
 	private GtnUIFrameworkComponent gtnComponent;
 

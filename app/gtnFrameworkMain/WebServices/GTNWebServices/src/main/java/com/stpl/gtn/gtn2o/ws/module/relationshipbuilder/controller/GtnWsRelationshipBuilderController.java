@@ -199,7 +199,7 @@ public class GtnWsRelationshipBuilderController {
 					inputWhereConditions.append(where).append(and)
 							.append(searchCriteriaMap().get(searchCriteria.getFieldId())).append(' ')
 							.append(searchCriteria.getExpression().replace("EQUALS", "=")).append(" '")
-							.append(searchCriteria.getFilterValue1().replace("*", "%")).append("' ");
+							.append(searchCriteria.getFilterValue1().replace('*', '%')).append("' ");
 					and = GtnFrameworkWebserviceConstant.AND_COLUMN;
 					where = "";
 				}
