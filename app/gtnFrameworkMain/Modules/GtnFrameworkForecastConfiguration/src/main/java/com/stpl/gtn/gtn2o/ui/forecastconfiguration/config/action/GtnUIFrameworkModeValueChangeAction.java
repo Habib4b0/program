@@ -58,18 +58,16 @@ public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction
                                 gtnLogger.info("futureYear----------------->>>>"+futureYear);
                         	GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod").setPropertyValue(futureYear);
                         }
+                        GtnWsForecastConfigurationRequest forecastConfigurationRequest = new GtnWsForecastConfigurationRequest();
+			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 			for (int pameterindex = 3; pameterindex < parameters.size() - 3; pameterindex++) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(pameterindex).toString())
 						.setComponentVisible(visibility);
                                 if(!"Interval".equals(value)){
-                                GtnWsForecastConfigurationRequest forecastConfigurationRequest = new GtnWsForecastConfigurationRequest();
-				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+                                
 				request.setForecastConfigurationRequest(forecastConfigurationRequest);
 
-				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
-				+ GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				GtnUIFrameworkWebserviceResponse response = getResponse(request);
                                 String forecastYear = response.getGtnWsForecastConfigurationResponse().getForecastPeriod();
                                 gtnLogger.info("year----------------->>>>"+forecastYear);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_forecastPeriod").setPropertyValue(forecastYear);
@@ -88,5 +86,12 @@ public class GtnUIFrameworkModeValueChangeAction implements GtnUIFrameWorkAction
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
 	}
+
+    private GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) {
+        return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+						GtnWsForecastConfigurationConstants.GTN_FORECAST_CONFIGURATION_SERVICE
+				+ GtnWsForecastConfigurationConstants.PERIOD_FREQUENCY_VALUE_CHANGE,
+						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+    }
 
 }

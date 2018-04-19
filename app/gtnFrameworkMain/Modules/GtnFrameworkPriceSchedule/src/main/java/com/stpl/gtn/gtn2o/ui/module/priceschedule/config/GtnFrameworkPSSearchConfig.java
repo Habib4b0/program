@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPSdefaultValuesetAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameWorkPSLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnUIFrameworkPSValidationActionIsRecordSelectedAction;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.constants.GtnFrameworkPSConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -503,25 +504,8 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enaableField = new String[] { GtnFrameworkCommonConstants.NOTES_TAB,
-				GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE, GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE,
-				"psPriceProtectionTabResultDataTable", "psPricingTabResultDataTable",
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_END_DATE,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_START_DATE, GtnFrameworkCommonConstants.PRICE_SCHEDULE_TYPE1,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_DESIGNATION,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_STATUS1, GtnFrameworkCommonConstants.CREATED_BY,
-				GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_TOP, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID1, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO1,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME1, GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB,
-				GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE, GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE,
-				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_SEARCH_VALUE,
-				GtnFrameworkCommonConstants.CFP_COMPANY_ADDITION_GTN_SEARCH_01,
-				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_MOVE_RIGHT_BUTTONS,
-				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_MOVE_LEFT_BUTTONS, "PricingTab",
-				GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB };
 
-		enableAction.setActionParameterList(Arrays.asList(enaableField));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddEnableField()));
 		psAddButtonActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig setDefaultValueAction = new GtnUIFrameWorkActionConfig();
@@ -537,17 +521,9 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new Object[] { GtnFrameworkCommonConstants.CREATED_BY,
-				GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_TOP, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP,
-				GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_NAME, GtnFrameworkCommonConstants.CREATED_DATE,
-				GtnFrameworkCommonConstants.MODIFIED_DATE, GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID,
-				GtnFrameworkCommonConstants.PS_PRICING_TAB_TAB_POPULATE_BUTTON,
-				GtnFrameworkCommonConstants.PS_PRICING_TAB_TAB_POPULATE_ALL_BUTTON,
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_POPULATE_BUTTON,
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_POPULATE_ALL_BUTTON };
+		
 
-		disableAction.setActionParameterList(Arrays.asList(disableField));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddDisableField()));
 		psAddButtonActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
@@ -632,53 +608,25 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		Object[] enableField = new String[] { GtnFrameworkCommonConstants.NOTES_TAB,
-				GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE, GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE,
-				"psPriceProtectionTabResultDataTable", "psPricingTabResultDataTable",
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_END_DATE,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_START_DATE, "priceScheduleTradeClass",
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_TYPE1,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_DESIGNATION,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_STATUS1, GtnFrameworkCommonConstants.CREATED_BY,
-				GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_TOP, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID1, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO1,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME1, GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB,
-				GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE, GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE,
-				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_SEARCH_VALUE,
-				GtnFrameworkCommonConstants.CFP_COMPANY_ADDITION_GTN_SEARCH_01,
-				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_MOVE_RIGHT_BUTTONS,
-				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_MOVE_LEFT_BUTTONS, "PricingTab",
-				GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB };
+		
 
-		enableAction.setActionParameterList(Arrays.asList(enableField));
+		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddEditEnableField()));
 		psEditButtonActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new Object[] { GtnFrameworkCommonConstants.CREATED_BY,
-				GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_TOP, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP,
-				GtnFrameworkCommonConstants.CREATED_DATE, GtnFrameworkCommonConstants.MODIFIED_DATE,
-				GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_NAME, "psPricingTabTabMassField",
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_MASS_FIELD,
-				GtnFrameworkCommonConstants.PS_PRICING_TAB_TAB_POPULATE_BUTTON,
-				GtnFrameworkCommonConstants.PS_PRICING_TAB_TAB_POPULATE_ALL_BUTTON,
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_POPULATE_BUTTON,
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_POPULATE_ALL_BUTTON };
+		
 
-		disableAction.setActionParameterList(Arrays.asList(disableField));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddEditDisableField()));
 		psEditButtonActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_ADD_RESET_BUTTON,
-				GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON };
+		
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkPSConstants.getAddEditVisibleField()));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		psEditButtonActionConfigList.add(visibleAction);
@@ -730,41 +678,18 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_END_DATE,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_START_DATE, "priceScheduleTradeClass",
-				"priceScheduleCategory", GtnFrameworkCommonConstants.PRICE_SCHEDULE_TYPE1,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_DESIGNATION,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_STATUS1, GtnFrameworkCommonConstants.CREATED_BY,
-				GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_TOP, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID1, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO1,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME1,
-				GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_NAME, GtnFrameworkCommonConstants.CREATED_DATE,
-				GtnFrameworkCommonConstants.MODIFIED_DATE,
-				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_MOVE_RIGHT_BUTTONS,
-				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_MOVE_LEFT_BUTTONS };
+		
 
-		disableAction.setActionParameterList(Arrays.asList(disableField));
+		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddViewDisableField()));
 		psViewButtonActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_ADD_RESET_BUTTON,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON, "itemOrIfpOption",
-				"psItemAdditionSearchField", GtnFrameworkCommonConstants.PS_ITEM_ADDITION_SEARCH_VALUE,
-				GtnFrameworkCommonConstants.CFP_COMPANY_ADDITION_GTN_SEARCH_01, "cfpPricingTabMassCheck",
-				"psPricingTabTabMassField", GtnFrameworkCommonConstants.PS_PRICING_TAB_TAB_POPULATE_BUTTON,
-				GtnFrameworkCommonConstants.PS_PRICING_TAB_TAB_POPULATE_ALL_BUTTON, "cfpPriceProtectionMassCheck",
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_MASS_FIELD,
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_MASS_FIELD,
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_POPULATE_BUTTON,
-				"psPriceProtectionTabPopulateAllButton","massUpdatePanel","pricingMassUpdatePanel"};
+		
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkPSConstants.getAddViewVisibleField()));
 
 		visibleAction.setActionParameterList(visibleParameters);
 		psViewButtonActionConfigList.add(visibleAction);

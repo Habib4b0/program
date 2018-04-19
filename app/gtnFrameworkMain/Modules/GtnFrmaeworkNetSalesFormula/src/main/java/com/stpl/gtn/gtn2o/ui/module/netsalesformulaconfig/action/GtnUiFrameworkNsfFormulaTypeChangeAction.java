@@ -7,7 +7,6 @@ package com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -85,9 +84,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 		String selectedDeductionQueryName = null;
 		if (formulaType != null && formulaType.equals(GtnFrameworkNSFConstants.getFormulaTypeContract())) {
 			enableDisableComponents(componentIds, true);
-			tableColumnDataTypes = new Class<?>[] { String.class, String.class, String.class, String.class,
-					String.class, String.class, String.class, String.class, Date.class, Date.class, String.class,
-					String.class, String.class, String.class, String.class, String.class, String.class };
+			tableColumnDataTypes = GtnFrameworkNSFConstants.getPerformActionTableColumnDataTypes();
 			availableDeductionVisibleHeaders = GtnFrameworkNSFConstants
 					.getAvailableDeductionsHeadersFormulaTypeContract();
 			availableDeductionVisibleColumns = GtnFrameworkNSFConstants
@@ -95,14 +92,10 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			availableDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getDeductionType(),
 					GtnFrameworkNSFConstants.getDeductionSubType(), GtnFrameworkNSFConstants.getDeductionCategory(),
 					"contractSystemId", "rsContractSystemId" };
-			availableDeductionExtraColumnsDataTypes = new Class<?>[] { String.class, String.class, String.class,
-					Integer.class, Integer.class };
+			availableDeductionExtraColumnsDataTypes = GtnFrameworkNSFConstants.getAvailableDeductionExtraColumnsDataTypes();
 			availableDeductionQueryName = GtnWsNsfCommonConstants.GTN_NSF_FORMULA_TYPE_CONTRACT_SEARCH_QUERY;
 
-			selectedDeductionTableColumnDataTypes = new Class<?>[] { Boolean.class, String.class, String.class,
-					String.class, String.class, String.class, String.class, String.class, String.class, Date.class,
-					Date.class, String.class, String.class, String.class, String.class, String.class, String.class,
-					String.class, String.class, String.class, String.class };
+			selectedDeductionTableColumnDataTypes = GtnFrameworkNSFConstants.getSelectedDeductionTableColDataTypes();
 			selectedDeductionVisibleHeaders = GtnFrameworkNSFConstants
 					.getSelectedDeductionsHeadersFormulaTypeContract();
 			selectedDeductionVisibleColumns = GtnFrameworkNSFConstants
@@ -113,16 +106,14 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 
 		} else {
 			enableDisableComponents(componentIds, false);
-			tableColumnDataTypes = new Class<?>[] { String.class, String.class, String.class };
+			tableColumnDataTypes = GtnFrameworkNSFConstants.getTableColumnDataTypes();
 			availableDeductionVisibleHeaders = GtnFrameworkNSFConstants.getAvailableDeductionsVisibleHeaders();
 			availableDeductionVisibleColumns = GtnFrameworkNSFConstants.getAvailableDeductionsVisibleColumns();
 			availableDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getDeductionType(),
 					GtnFrameworkNSFConstants.getDeductionSubType(), GtnFrameworkNSFConstants.getDeductionCategory(), };
-			availableDeductionExtraColumnsDataTypes = new Class<?>[] { Integer.class, Integer.class, Integer.class, };
-			availableDeductionQueryName = GtnWsNsfCommonConstants.GTN_NSF_AVAILABLE_DEDUCTIONS_SEARCH_QUERY_NAME;
+			availableDeductionExtraColumnsDataTypes = GtnFrameworkNSFConstants.getAvailableDeductionExtraColumnsDataTypesPa();
 
-			selectedDeductionTableColumnDataTypes = new Class<?>[] { Boolean.class, String.class, String.class,
-					String.class, String.class, String.class, String.class };
+			selectedDeductionTableColumnDataTypes = GtnFrameworkNSFConstants.getSelectedDeductionTableColDataTypes();
 			selectedDeductionVisibleHeaders = GtnFrameworkNSFConstants.getSelectedDeductionsVisibleHeaders();
 			selectedDeductionVisibleColumns = GtnFrameworkNSFConstants.getSelectedDeductionsVisibleColumns();
 			selectedDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getSystemid() };
@@ -156,7 +147,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 				.getItemsFromTable().isEmpty()
 				|| !GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + SELECTED_DEDUCTIONS_RESULT_TABLE)
 						.getItemsFromTable().isEmpty())
-				&& !"test".equals(formulaTypeValueCurrent) && (formulaType != null && !"null".equals(formulaType))) {
+				&& (formulaType != null && !"null".equals(formulaType) &&  !"test".equals(formulaTypeValueCurrent) )) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 			List<Object> alertParams = new ArrayList<>();

@@ -164,7 +164,7 @@ public class DiscountQueryBuilder {
             int check = checkValue ? 1 : 0;
 
             query = "UPDATE M SET CHECK_RECORD = " + check
-                    + " From ST_NM_DISCOUNT_PROJ_MASTER M";
+                    + " From ST_NM_DISCOUNT_PROJ_MASTER M WHERE FILTER_CCP = 1 ";
             if(!userGroup.isEmpty()){
                 query += " and M.USER_GROUP = '" + userGroup + "'\n";
             }

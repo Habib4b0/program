@@ -273,8 +273,6 @@ public class GtnWsModuleAuthorizationService {
 		Set gtnUitableComponentDetailsSet = new HashSet(0);
 		if (gtnWsTablePropertyBeanList != null && !gtnWsTablePropertyBeanList.isEmpty()) {
 			for (GtnWsTablePropertyBean gtnWsTablePropertyBean : gtnWsTablePropertyBeanList) {
-				List<Object> values = new ArrayList<>();
-				values.add(gtnWsTablePropertyBean.getModuleName());
 				GtnUitableComponentDetails uitableComponentDetails = getGtnUiTableComponentDetailsModel(
 						gtnWsTablePropertyBean, gtnSecurityGeneralRequest, moduleCompMasterModel);
 				gtnUitableComponentDetailsSet.add(uitableComponentDetails);

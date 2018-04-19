@@ -38,7 +38,7 @@ public class GtnUIMsgBoxTwoButtonListener implements MessageBoxListener {
 
 	@Override
 	public void buttonClicked(ButtonId buttonId) {
-		if (buttonId.name().equalsIgnoreCase("YES") && (onSucessActionConfigList != null)) {
+		if ((onSucessActionConfigList != null) && buttonId.name().equalsIgnoreCase("YES")) {
 			try {
 				GtnUIFrameworkActionExecutor.executeActionList(sourceComponentId, onSucessActionConfigList);
 			} catch (GtnFrameworkGeneralException e) {
@@ -47,7 +47,7 @@ public class GtnUIMsgBoxTwoButtonListener implements MessageBoxListener {
 			}
 		}
 
-		if (buttonId.name().equalsIgnoreCase("NO") && (onFailureActionConfigList != null)) {
+		if ((onFailureActionConfigList != null) && buttonId.name().equalsIgnoreCase("NO")) {
 			try {
 				GtnUIFrameworkActionExecutor.executeActionList(sourceComponentId, onFailureActionConfigList);
 			} catch (GtnFrameworkGeneralException e) {

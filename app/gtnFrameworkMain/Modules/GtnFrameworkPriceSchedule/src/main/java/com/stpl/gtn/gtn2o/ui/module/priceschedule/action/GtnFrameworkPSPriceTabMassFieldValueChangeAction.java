@@ -59,10 +59,10 @@ public class GtnFrameworkPSPriceTabMassFieldValueChangeAction
 
 			} else if (valueFromComboBox.endsWith("Price")) {
 				psPricingTabTabmassTextField.setVisible(true);
-			} else {
+			} else if(comboBoxFieldMap.containsKey(valueFromComboBox)){
 				psPricingTabTabMassDropDown.setVisible(true);
 				fillPriceComboBox("psPricingTabTabMassDropDown", comboBoxFieldMap.get(valueFromComboBox));
-
+				
 			}
 
 		}

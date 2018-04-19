@@ -56,11 +56,11 @@ public class GtnWsCfpSaveService {
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
-	public org.hibernate.SessionFactory getSessionFactory() {
+	public synchronized org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
+	public synchronized void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -114,7 +114,7 @@ public class GtnWsCfpSaveService {
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
-		return session.load(HelperTable.class, systemId == null ? new Integer(0) : systemId);
+		return session.load(HelperTable.class, systemId == null ? Integer.valueOf(0) : systemId);
 	}
 
 	public void updateCfpQuery(GtnUIFrameworkWebserviceRequest generalWSRequest) throws GtnFrameworkGeneralException {
