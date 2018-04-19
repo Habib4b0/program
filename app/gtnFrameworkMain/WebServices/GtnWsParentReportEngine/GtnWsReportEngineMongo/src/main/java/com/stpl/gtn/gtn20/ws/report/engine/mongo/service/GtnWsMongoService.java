@@ -8,11 +8,11 @@ import org.bson.Document;
 
 import com.mongodb.MongoCommandException;
 import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCommonCalculationService;
@@ -21,7 +21,7 @@ import net.sourceforge.jeval.EvaluationException;
 
 public class GtnWsMongoService {
 
-	private static GtnWsMongoService MONGO_SERVICE = null;
+	private static GtnWsMongoService mongoService = null;
 	private static final MongoDatabase MONGODB_INSTANCE = GtnWsMongoDBConnectionService.getDBInstance();
 	private final GtnWsCommonCalculationService gtnWsCommonCalculation = GtnWsCommonCalculationService.getInstance();
 
@@ -30,10 +30,10 @@ public class GtnWsMongoService {
 	}
 
 	public static GtnWsMongoService getInstance() {
-		if (MONGO_SERVICE == null) {
-			MONGO_SERVICE = new GtnWsMongoService();
+		if (mongoService == null) {
+			mongoService = new GtnWsMongoService();
 		}
-		return MONGO_SERVICE;
+		return mongoService;
 	}
 
 	public void createCollection(String collectionName) {
@@ -49,12 +49,11 @@ public class GtnWsMongoService {
 		return MONGODB_INSTANCE.getCollection(collectionName);
 	}
 
-	public MongoCollection<GtnWsProjectionBean> getCollectionForCustomClass(String collectionName) {
-		return MONGODB_INSTANCE.getCollection(collectionName, GtnWsProjectionBean.class);
+	public MongoCollection<?> getCollectionForCustomClass(String collectionName, Class<?> clazz) {
+		return MONGODB_INSTANCE.getCollection(collectionName, clazz);
 	}
 
-	public void insertManyRecordsToMongoDbUsingCustomClass(String collectionName, Class<GtnWsProjectionBean> clazz, List<GtnWsProjectionBean> dataList) {
-		MongoCollection<GtnWsProjectionBean> collection = getCollectionForCustomClass(collectionName);
+	public void insertManyRecordsToMongoDbUsingCustomClass(MongoCollection collection, List<?> dataList) {
 		collection.insertMany(dataList);
 	}
 
@@ -71,6 +70,17 @@ public class GtnWsMongoService {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println(ex.getMessage());
+		}
+	}
+
+	public void writeTreeToMongo(String collectionName, GtnWsReportEngineTreeNode output) {
+		try {
+			@SuppressWarnings("unchecked")
+			MongoCollection<GtnWsReportEngineTreeNode> collection = (MongoCollection<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
+					collectionName, GtnWsReportEngineTreeNode.class);
+			collection.insertOne(output);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -124,11 +134,11 @@ public class GtnWsMongoService {
 		conditions.add(group);
 		conditions.add(project);
 		conditions.add(sort);
-		AggregateIterable itr = getCollection(collectionName).aggregate(conditions).batchSize(1000);
-		MongoCursor cr = itr.iterator();
+		AggregateIterable<Document> itr = getCollection(collectionName).aggregate(conditions).batchSize(1000);
+		MongoCursor<Document> cr = itr.iterator();
 		GtnWsAttributeBean attributeBean = new GtnWsAttributeBean();
 		while (cr.hasNext()) {
-			Document doc = (Document) cr.next();
+			Document doc = cr.next();
 			Document frequencyDocument = (Document) doc.remove("_id");
 			if (frequencyDocument != null) {
 				attributeBean.putAllAttributes(frequencyDocument);
@@ -205,7 +215,7 @@ public class GtnWsMongoService {
 		Document group = new Document("$group", groupFields);
 		Document project = new Document("$project", selectClause);
 		Document sort = new Document("$sort", new Document("_id.year", 1).append("_id.semiAnnual", 1));
-	
+
 		List<Document> conditions = new ArrayList<>();
 		conditions.add(match);
 		conditions.add(new Document("$unwind", "$projectionDetailsValues"));
@@ -309,6 +319,19 @@ public class GtnWsMongoService {
 			documentList.add(new Document(gtnWsAttributeBean.getAttributeMap()));
 		}
 		return documentList;
+	}
+
+	public GtnWsReportEngineTreeNode getTreeFromMongo(String collectionName) {
+
+		@SuppressWarnings("unchecked")
+		FindIterable<GtnWsReportEngineTreeNode> itr = (FindIterable<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
+				collectionName, GtnWsReportEngineTreeNode.class).find();
+		MongoCursor<GtnWsReportEngineTreeNode> cursor = itr.iterator();
+		GtnWsReportEngineTreeNode treeNode = null;
+		while (cursor.hasNext()) {
+			treeNode = cursor.next();
+		}
+		return treeNode;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn20.ws.report.engine.client.service;
 
+import com.mongodb.client.MongoCollection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,7 +117,9 @@ public class GtnWsRawDataCustomiseService {
 
 	private void writeRawDataToMongo(String filename, List<GtnWsProjectionBean> rawData) {
 		// JSON_SERVICE_INSTANCE.writeToJsonFile(filename, rawData);
-		MONGO_SERVICE.insertManyRecordsToMongoDbUsingCustomClass("testingpurpose", GtnWsProjectionBean.class, rawData);
+                MongoCollection<GtnWsProjectionBean> collection = (MongoCollection<GtnWsProjectionBean>)
+                        MONGO_SERVICE.getCollectionForCustomClass(filename, GtnWsProjectionBean.class);
+                MONGO_SERVICE.insertManyRecordsToMongoDbUsingCustomClass(collection, rawData);
 	}
 
 }

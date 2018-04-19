@@ -9,7 +9,6 @@ public class GtnGenerateReportEngine {
 	public GtnWsReportEngineTreeNode generateReportOutput(GtnWsReportEngineBean engineBean) {
 		GtnWsMongoCalculation calculation = new GtnWsMongoCalculation(engineBean);
 		calculation.nodeData();
-		GtnWsReportEngineTreeNode calculatedOutputTree = calculation.variableCategoryCalculation();
-		return calculatedOutputTree;
+		return calculation.variableCategoryCalculation();
 	}
 }
