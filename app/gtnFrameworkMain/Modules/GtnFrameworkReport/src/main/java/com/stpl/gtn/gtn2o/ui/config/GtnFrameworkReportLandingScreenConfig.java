@@ -447,15 +447,31 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateBtn.setAddToParent(true);
 
 		componentList.add(generateBtn);
-
+		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
+		
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		gtnUIFrameWorkGeneratePopupAction
-				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter("Report Generate Lookup View");
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
+		List<Object> params=new ArrayList<>();
+		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		params.add("Report Generate Lookup View");
+		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
+		
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+
+		List<Object> actionParams = new ArrayList<>();
+		actionParams.add("dataAssumptionsPagedTableComponent");
+
+		loadDataTableActionConfig.setActionParameterList(actionParams);
+		
+		actionList.add(gtnUIFrameWorkGeneratePopupAction);
+		actionList.add(loadDataTableActionConfig);
+		
+		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
+
+
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);

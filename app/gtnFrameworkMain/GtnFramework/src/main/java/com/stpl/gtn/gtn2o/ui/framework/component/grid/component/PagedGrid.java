@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.data.HasValue;
+import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
@@ -66,10 +67,11 @@ public class PagedGrid {
             grid.addColumn(row -> row.getPropertyValue(property)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(property);
 			i++;
 		}
-		//setFilterToGrid();
+		
         
         pagedTableLogic=new GtnUIFrameworkPagedGridLogic(tableConfig,componentConfig);
-        refreshGrid();
+        setFilterToGrid();
+       refreshGrid();
 	}
 
 	public void refreshGrid() {
@@ -292,8 +294,8 @@ public class PagedGrid {
 
 	private Component getCustomFilterComponent(String property) {
 		try {
-			GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = gtnUIFrameworkPagedTableConfig
-					.getCustomFilterConfigMap().get(property);
+			gtnlogger.info("-------property------"+property);
+			GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap().get(property);
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
 				TextField textField = new TextField();
 				textField.setId(property);
@@ -325,6 +327,7 @@ public class PagedGrid {
 						UI.getCurrent().addWindow(window);
 					}
 				});
+			
 				return dateFilterPopupButton;
 			}
 

@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +27,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 
 @RestController
-public class GtnWsGeneralController {
+public class GtnWsReportController {
 	@Autowired
 	private GtnQueryLogger queryLogger;
 
@@ -43,7 +45,7 @@ public class GtnWsGeneralController {
 		this.queryLogger = queryLogger;
 	}
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsGeneralController.class);
+	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
 
 	@RequestMapping(value = "/gtnWsReportComboboxLoad", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getComboBoxResultSet(
@@ -119,9 +121,9 @@ public class GtnWsGeneralController {
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
 		boolean count = gtnWsRequest.getGtnWsSearchRequest().isCount();
+		
 		try {
 			if (count) {
-
 				resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY);
 				wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 				gtnLogger.info("-------count" + wsSearchResponse.getCount());
@@ -129,6 +131,7 @@ public class GtnWsGeneralController {
 
 			else {
 				resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY);
+				resultList=resultListCustomization(resultList);
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(resultList);
 				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
@@ -139,7 +142,18 @@ public class GtnWsGeneralController {
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
 		return wsResponse;
 	}
-
+	
+	public List<Object[]> resultListCustomization(List<Object[]> resultList){
+		List<Object[]> customizedResultList = new ArrayList<>();
+		for(Object[] object:resultList){
+			Object[] obj=object;
+			for(int i=0;i<obj.length;i++){		
+				obj[i]=String.valueOf(obj[i]);
+			}
+			customizedResultList.add(object);
+		}
+		return customizedResultList;
+	}
 	@SuppressWarnings({ "rawtypes" })
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		gtnSqlQueryEngine.setSessionFactory(sessionFactory);
