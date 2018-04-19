@@ -3,15 +3,12 @@ package com.stpl.gtn.gtn2o.ws.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkQueryEngineMain;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -25,7 +22,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 
 @RestController
-public class GtnWsGeneralController {
+public class GtnWsReportController {
 	@Autowired
 	private GtnQueryLogger queryLogger;
 
@@ -43,7 +40,7 @@ public class GtnWsGeneralController {
 		this.queryLogger = queryLogger;
 	}
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsGeneralController.class);
+	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
 
 	@RequestMapping(value = "/gtnWsReportComboboxLoad", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getComboBoxResultSet(
