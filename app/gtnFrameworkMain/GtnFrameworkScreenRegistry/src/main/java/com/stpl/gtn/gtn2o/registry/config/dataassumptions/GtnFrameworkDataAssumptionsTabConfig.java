@@ -1,8 +1,11 @@
 package com.stpl.gtn.gtn2o.registry.config.dataassumptions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.config.common.UpdatePreviousNextCloseSubmitButton;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
@@ -23,7 +26,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	private void addDataAssumptionsRootLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig dataAssumptionsRootLayout = new GtnUIFrameworkComponentConfig();
-		dataAssumptionsRootLayout.setComponentId(nameSpace + "_" + "dataAssumptionsRootLayout");
+		dataAssumptionsRootLayout.setComponentId(nameSpace + "_" + "rootLayout");
 		dataAssumptionsRootLayout.setComponentWidth("100%");
 		dataAssumptionsRootLayout.setAddToParent(false);
 		dataAssumptionsRootLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
@@ -61,7 +64,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		GtnUIFrameworkComponentConfig dataAssumptionsPanelLayout = new GtnUIFrameworkComponentConfig();
 		dataAssumptionsPanelLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		dataAssumptionsPanelLayout.setAuthorizationIncluded(true);
-		dataAssumptionsPanelLayout.setComponentId(nameSpace + "_" + "dataAssumptionsPanelLayout");
+		dataAssumptionsPanelLayout.setComponentId(nameSpace + "_" + "panelLayout");
 		dataAssumptionsPanelLayout.setAddToParent(Boolean.TRUE);
 		dataAssumptionsPanelLayout.setParentComponentId(parentComponentId);
 		GtnUIFrameworkLayoutConfig layoutConfig = new GtnUIFrameworkLayoutConfig();
@@ -80,14 +83,21 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	private void addDataAssumptionsPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId, String nameSpace) {
 		GtnUIFrameworkComponentConfig dataAssumptionsResultsTable = new GtnUIFrameworkComponentConfig();
-		dataAssumptionsResultsTable.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
+		dataAssumptionsResultsTable.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
 		dataAssumptionsResultsTable.setAuthorizationIncluded(true);
-		dataAssumptionsResultsTable.setComponentName("Data Assumptions Paged Table"); /* Ask */
-		dataAssumptionsResultsTable.setComponentId(nameSpace + "_" + "dataAssumptionsResultsTable");
+		dataAssumptionsResultsTable.setComponentName("Data Assumptions Paged Table");
+		dataAssumptionsResultsTable.setComponentId(nameSpace + "_" + "resultsTable");
 		dataAssumptionsResultsTable.setAddToParent(Boolean.TRUE);
 		dataAssumptionsResultsTable.setParentComponentId(parentComponentId);
 		dataAssumptionsResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
+		List<String> tableStyle = new ArrayList<>();
+		tableStyle.add("filterbar");
+		tableStyle.add("v-has-width");
+		tableStyle.add("v-table-filterbar");
+		tableStyle.add("table-header-normal");
+		dataAssumptionsResultsTable.setComponentStyle(tableStyle);
+		
 		componentList.add(dataAssumptionsResultsTable);
 
 		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -102,8 +112,8 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
-		dataAssumptionsPagedTableConfig.setTableVisibleHeader(new String[] { "File", "Company", "Business Unit", "Type",
-				"Version", "Active From", "From Period", "To Period" });
+		dataAssumptionsPagedTableConfig.setColumnHeaders(Arrays.asList(new String[] { "File", "Company", "Business Unit", "Type",
+				"Version", "Active From", "From Period", "To Period" }));
 		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
 				"type", "version", "activeFrom", "fromPeriod", "toPeriod" });
 		dataAssumptionsResultsTable.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);
@@ -124,67 +134,17 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	}
 
-	private void addDataAssumptionsButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
-			String parentComponentId, String nameSpace) {
-		gtnLogger.info("started executing addDataAssumptionsButtonLayout()");
-		GtnUIFrameworkComponentConfig dataAssumptionsButtonLayout = new GtnUIFrameworkComponentConfig();
-		dataAssumptionsButtonLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		dataAssumptionsButtonLayout.setAuthorizationIncluded(true);
-		dataAssumptionsButtonLayout.setComponentId(nameSpace + "_" + "dataAssumptionsButtonLayout");
-		dataAssumptionsButtonLayout.setAddToParent(Boolean.TRUE);
-		dataAssumptionsButtonLayout.setParentComponentId(parentComponentId);
-		GtnUIFrameworkLayoutConfig layoutConfig = new GtnUIFrameworkLayoutConfig();
-		layoutConfig.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		dataAssumptionsButtonLayout.setGtnLayoutConfig(layoutConfig);
-		dataAssumptionsButtonLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-
-		componentList.add(dataAssumptionsButtonLayout);
-
-		addDataAssumptionsButtonComponent(componentList, dataAssumptionsButtonLayout.getComponentId(), nameSpace);
+	private void addDataAssumptionsButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
+			String nameSpace) {
+		UpdatePreviousNextCloseSubmitButton buttonLayout=new UpdatePreviousNextCloseSubmitButton();
+		buttonLayout.addCommonButtonLayout(componentList,  parentComponentId, nameSpace);
+		buttonLayout.addUpdateButton(componentList, nameSpace);
+		buttonLayout.addPreviousButton(componentList, nameSpace);
+		buttonLayout.addNextButton(componentList, nameSpace);
+		buttonLayout.addCloseButton(componentList, nameSpace);
+		buttonLayout.addSubmitButton(componentList, nameSpace);
+		
 	}
 
-	private void addDataAssumptionsButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
-			String parentComponentId, String nameSpace) {
-		gtnLogger.info("started executing addDataAssumptionsButtonComponent()");
-		GtnUIFrameworkComponentConfig updateButtonConfig = new GtnUIFrameworkComponentConfig();
-		updateButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		updateButtonConfig.setComponentId(nameSpace + "_" + "updateButton");
-		updateButtonConfig.setComponentName("UPDATE");
-		updateButtonConfig.setAddToParent(Boolean.TRUE);
-		updateButtonConfig.setParentComponentId(parentComponentId);
-
-		GtnUIFrameworkComponentConfig previousButtonConfig = new GtnUIFrameworkComponentConfig();
-		previousButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		previousButtonConfig.setComponentId(nameSpace + "_" + "previousButton");
-		previousButtonConfig.setComponentName("PREVIOUS");
-		previousButtonConfig.setAddToParent(Boolean.TRUE);
-		previousButtonConfig.setParentComponentId(parentComponentId);
-
-		GtnUIFrameworkComponentConfig nextButtonConfig = new GtnUIFrameworkComponentConfig();
-		nextButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		nextButtonConfig.setComponentId(nameSpace + "_" + "nextButton");
-		nextButtonConfig.setComponentName("NEXT");
-		nextButtonConfig.setAddToParent(Boolean.TRUE);
-		nextButtonConfig.setParentComponentId(parentComponentId);
-		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
-		closeButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		closeButtonConfig.setComponentId(nameSpace + "_" + "closeButton");
-		closeButtonConfig.setComponentName("CLOSE");
-		closeButtonConfig.setAddToParent(Boolean.TRUE);
-		closeButtonConfig.setParentComponentId(parentComponentId);
-
-		GtnUIFrameworkComponentConfig submitButtonConfig = new GtnUIFrameworkComponentConfig();
-		submitButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		submitButtonConfig.setComponentId(nameSpace + "_" + "submitButton");
-		submitButtonConfig.setComponentName("SUBMIT");
-		submitButtonConfig.setAddToParent(Boolean.TRUE);
-		submitButtonConfig.setParentComponentId(parentComponentId);
-
-		componentList.add(updateButtonConfig);
-		componentList.add(previousButtonConfig);
-		componentList.add(nextButtonConfig);
-		componentList.add(closeButtonConfig);
-		componentList.add(submitButtonConfig);
-
-	}
+	
 }

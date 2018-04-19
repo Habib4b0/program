@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.stpl.gtn.gtn2o.ws</groupId>
+	<artifactId>GtnReportingWebservice</artifactId>
+	<packaging>war</packaging>
+	<name>GtnReportingWebservice</name>
+	<parent>
+		<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
+		<artifactId>GtnWsParentReportEngine</artifactId>
+		<version>1</version>
+	</parent>
+	<properties>
+		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.test.skip>false</maven.test.skip>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.stpl.gtn.gtn2o.webservices</groupId>
+			<artifactId>GtnFrameworkQueryEngine</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>GtnReportingWebservice</finalName>
+	</build>
+</project>

@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.framework.component.grid.paged;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTableConfig;
@@ -30,7 +31,7 @@ public class PagedGridUI extends VerticalLayout {
 		QueryBean queryBean = new QueryBean(countQuery, dataQuery, null, null);
 		pagedTableConfig.setQueryBean(queryBean);
 
-		PagedGrid pagedGrid = new PagedGrid(new GtnUIFrameworkPagedTableConfig());
+		PagedGrid pagedGrid = new PagedGrid(new GtnUIFrameworkPagedTableConfig(),new GtnUIFrameworkComponentConfig());
 		setStyleName("demoContentLayout");
 		setSizeFull();
 		addComponent(pagedGrid.getGrid());

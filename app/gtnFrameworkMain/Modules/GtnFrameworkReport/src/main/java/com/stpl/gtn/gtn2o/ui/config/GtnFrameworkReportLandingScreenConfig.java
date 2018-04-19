@@ -201,7 +201,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = new GtnUIFrameworkComboBoxConfig();
 		companyTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
+		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.BUSINESS_UNIT_GLCOMP);
 		company.setGtnComboboxConfig(companyTypeConfig);
 		
 		componentList.add(company);
@@ -330,24 +330,25 @@ public class GtnFrameworkReportLandingScreenConfig {
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(fromPeriodLayoutConfig);
 
-//		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
-//		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-//		fromPeriod.setComponentId(
-//				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
-//		fromPeriod.setComponentName("From ");
-//		fromPeriod.setAddToParent(true);
-//
-//		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
-//		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
-//		fromPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-//				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-//		fromPeriodConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.TIME_PERIOD_FROM_DATE);
-//		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
-//
-//		GtnUIFrameworkValidationConfig valConfigForFromPeriod = new GtnUIFrameworkValidationConfig();
-//		valConfigForFromPeriod.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-//		fromPeriod.setGtnUIFrameworkValidationConfig(valConfigForFromPeriod);
-//		componentList.add(fromPeriod);
+		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
+		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		fromPeriod.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
+		fromPeriod.setComponentName("From ");
+		fromPeriod.setAddToParent(true);
+
+		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
+		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
+
+		fromPeriodConfig.setModuleName("report");
+		fromPeriodConfig.setLoadingUrl("/gtnWsReportComboboxLoad");
+		fromPeriodConfig.setComboBoxType("timePeriodForReportFromDate");
+
+		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
+
+	
+		componentList.add(fromPeriod);
+
 
 		GtnUIFrameworkLayoutConfig toPeriodLayout = new GtnUIFrameworkLayoutConfig();
 		toPeriodLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
@@ -361,26 +362,31 @@ public class GtnFrameworkReportLandingScreenConfig {
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(toPeriodLayoutConfig);
 
-//		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
-//		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-//		toPeriod.setComponentId(
-//				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD);
-//		toPeriod.setComponentName("To ");
-//		toPeriod.setAddToParent(true);
-//		toPeriod.setEnable(false);
-//
-//		toPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
-//
-//		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
-//		toPeriodTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-//				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-//		toPeriodTypeConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE);
 
-//		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
-//		GtnUIFrameworkValidationConfig valConfigForToPeriod = new GtnUIFrameworkValidationConfig();
-//		valConfigForToPeriod.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-//		toPeriod.setGtnUIFrameworkValidationConfig(valConfigForToPeriod);
-//		componentList.add(toPeriod);
+
+		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
+		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		toPeriod.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.STATUS);
+		toPeriod.setComponentName("To ");
+		toPeriod.setAddToParent(true);
+		toPeriod.setEnable(false);
+
+
+		toPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
+
+		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
+
+		toPeriodTypeConfig.setModuleName("report");
+		toPeriodTypeConfig.setLoadingUrl("/gtnWsReportComboboxLoad");
+		toPeriodTypeConfig.setComboBoxType("timePeriodForReportToDate");
+
+
+
+		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
+
+		componentList.add(toPeriod);
+
 	}
 
 	private void addProductSelectionLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {

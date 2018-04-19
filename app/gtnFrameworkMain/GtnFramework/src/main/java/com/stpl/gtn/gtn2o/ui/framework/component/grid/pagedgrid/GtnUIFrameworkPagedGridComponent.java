@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
@@ -27,8 +28,10 @@ import java.util.Arrays;
  */
 public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 
+	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedGridComponent.class);
     @Override
     public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) throws GtnFrameworkGeneralException {
+ 
         VerticalLayout resultLayout = new VerticalLayout();
         GtnUIFrameworkPagedTableConfig tableConfig = componentConfig.getGtnPagedTableConfig();
 //        PagedTableConfig pagedTableConfig = new PagedTableConfig();
@@ -39,9 +42,16 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         
 //        pagedTableConfig.setColumnHeaders(Arrays.asList(tableConfig.getTableVisibleHeader()));
 //        pagedTableConfig.setQueryBean(queryBean);
+//       	try{
+//       		if(tableConfig.getDataQueryInputs()==null && tableConfig.getCountQueryInputs()==null){
 //        tableConfig.setDataQueryInputs(GtnUIFrameworkGlobalUI.fetchInput(tableConfig.getDataQueryInputs()));
 //        tableConfig.setCountQueryInputs(GtnUIFrameworkGlobalUI.fetchInput(tableConfig.getCountQueryInputs()));
-        PagedGrid pagedGrid = new PagedGrid(tableConfig);
+//       		}
+//    	}
+//    	catch(Exception e){
+//    		gtnLogger.info("Exception in grid"+e);
+//    	}
+        PagedGrid pagedGrid = new PagedGrid(tableConfig,componentConfig);
         pagedGrid.getGrid().setId(componentConfig.getComponentId());
         resultLayout.setSizeFull();
         resultLayout.addComponent(pagedGrid.getGrid());
@@ -51,7 +61,6 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
         componentData.setTableConfig(tableConfig);
         componentData.setPagedGrid(pagedGrid);
-        componentData.setCurrentPageGridLogic(pagedGrid.getPagedTableLogic());
         componentData.setCustomData(pagedGrid);
 
         VerticalLayout controls = new VerticalLayout();
@@ -164,7 +173,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 //            }
 //
             resultLayout.setData(componentData);
-
+    	
         return resultLayout;
     }
 

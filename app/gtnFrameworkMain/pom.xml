@@ -117,7 +117,7 @@
 				<module>GtnFramework</module>
 				<module>GtnFrameworkComponentRepository</module>
 				<module>GtnFrameworkScreenRegistry</module>
-				<!-- <module>GtnFrameworkHierarchyRouteBuilder</module> -->
+				<module>GtnFrameworkHierarchyRouteBuilder</module>
 				<module>Modules</module>
 			</modules>
 			<activation>
@@ -177,7 +177,8 @@
 				<module>GtnFrameworkHierarchyRouteBuilder</module>
 				<module>GtnFramworkQueryGenerator</module>
 				<module>Modules</module>
-				<module>WebServices</module>
+				<!-- <module>WebServices</module> -->
+				<module>GtnFrameworkScreenRegistry</module>
 			</modules>
 			<activation>
 				<property>
