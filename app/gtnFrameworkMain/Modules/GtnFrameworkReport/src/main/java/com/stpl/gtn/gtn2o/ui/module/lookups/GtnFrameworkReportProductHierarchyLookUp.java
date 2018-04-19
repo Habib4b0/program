@@ -242,6 +242,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 
 		componentList.add(searchResultConfig);
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
+
 //		searchResults.setEditable(false);
 //		searchResults.setFilterBar(true);
 //		searchResults.setSelectable(false);

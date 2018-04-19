@@ -42,8 +42,10 @@ public class DateFilterPopup {
 		horizontalLayoutForButton.addComponents(setButton, clearButton);
 		verticalLayout.addComponents(horizontalLayout, horizontalLayoutForButton);
 
+		
 		window.setContent(verticalLayout);
-
+		window.setResizable(false);
+		window.setClosable(false);
 		return window;
 	}
 

@@ -201,7 +201,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = new GtnUIFrameworkComboBoxConfig();
 		companyTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
+		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.BUSINESS_UNIT_GLCOMP);
 		company.setGtnComboboxConfig(companyTypeConfig);
 		
 		componentList.add(company);
@@ -330,7 +330,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(fromPeriodLayoutConfig);
 
-
 		GtnUIFrameworkComponentConfig fromPeriod = new GtnUIFrameworkComponentConfig();
 		fromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		fromPeriod.setComponentId(
@@ -340,14 +339,14 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		fromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriodLayout");
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
-		fromPeriodConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		fromPeriodConfig.setComboBoxType(GtnFrameworkReportStringConstants.BUSINESS_UNIT_GLCOMP);
+
+		fromPeriodConfig.setModuleName("report");
+		fromPeriodConfig.setLoadingUrl("/gtnWsReportComboboxLoad");
+		fromPeriodConfig.setComboBoxType("timePeriodForReportFromDate");
+
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 
-		GtnUIFrameworkValidationConfig valConfigForFromPeriod = new GtnUIFrameworkValidationConfig();
-		valConfigForFromPeriod.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		fromPeriod.setGtnUIFrameworkValidationConfig(valConfigForFromPeriod);
+	
 		componentList.add(fromPeriod);
 
 
@@ -364,6 +363,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(toPeriodLayoutConfig);
 
 
+
 		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
 		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		toPeriod.setComponentId(
@@ -372,17 +372,19 @@ public class GtnFrameworkReportLandingScreenConfig {
 		toPeriod.setAddToParent(true);
 		toPeriod.setEnable(false);
 
+
 		toPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
 
 		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
-		toPeriodTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		toPeriodTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.BUSINESS_UNIT_GLCOMP);
+
+		toPeriodTypeConfig.setModuleName("report");
+		toPeriodTypeConfig.setLoadingUrl("/gtnWsReportComboboxLoad");
+		toPeriodTypeConfig.setComboBoxType("timePeriodForReportToDate");
+
+
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
-		GtnUIFrameworkValidationConfig valConfigForToPeriod = new GtnUIFrameworkValidationConfig();
-		valConfigForToPeriod.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		toPeriod.setGtnUIFrameworkValidationConfig(valConfigForToPeriod);
+
 		componentList.add(toPeriod);
 
 	}
@@ -445,15 +447,31 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateBtn.setAddToParent(true);
 
 		componentList.add(generateBtn);
-
+		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
+		
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		gtnUIFrameWorkGeneratePopupAction
-				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter("Report Generate Lookup View");
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		gtnUIFrameWorkGeneratePopupAction.addActionParameter(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		generateBtn.addGtnUIFrameWorkActionConfig(gtnUIFrameWorkGeneratePopupAction);
+		List<Object> params=new ArrayList<>();
+		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		params.add("Report Generate Lookup View");
+		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
+		
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+
+		List<Object> actionParams = new ArrayList<>();
+		actionParams.add("dataAssumptionsPagedTableComponent");
+
+		loadDataTableActionConfig.setActionParameterList(actionParams);
+		
+		actionList.add(gtnUIFrameWorkGeneratePopupAction);
+		actionList.add(loadDataTableActionConfig);
+		
+		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
+
+
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
