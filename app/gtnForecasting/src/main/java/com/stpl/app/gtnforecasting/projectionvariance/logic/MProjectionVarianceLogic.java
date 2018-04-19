@@ -133,7 +133,7 @@ public class MProjectionVarianceLogic {
         String contractVal;
         boolean isProjectionStatus = false;
         try {
-            StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder customSql = new StringBuilder();
 
             if (Constant.SAVED.equals(lookUpDTO.getWorkflowStatus())) {
                 isProjectionStatus = true;
@@ -330,7 +330,7 @@ public class MProjectionVarianceLogic {
             isProjectionStatus = true;
         }
         try {
-            StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+            StringBuilder customSql = new StringBuilder();
 
             customSql.append("SELECT distinct PM.PROJECTION_MASTER_SID,PM.PROJECTION_NAME,PM.PROJECTION_DESCRIPTION,HT.DESCRIPTION MARKET_TYPE,CM.COMPANY_NO  Customer,CO.CONTRACT_NO Contract,\n"
                     + "BM.BRAND_NAME  BRAND,IM.ITEM_NO,IM.ITEM_NAME,PM.CREATED_DATE,PM.CREATED_BY FROM   CONTRACT_MASTER CO \n"
@@ -800,7 +800,7 @@ public class MProjectionVarianceLogic {
                 if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (isExpand)) {
                     whereCond = " and HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO='" + hierarchyNo + "' ";
                 }
-                if ((!hierarchyNo.equals(StringUtils.EMPTY)) && (!isFilter)) {
+                if ((!isFilter) && (!hierarchyNo.equals(StringUtils.EMPTY))) {
                     hierarchyNo1 = hierarchyNo;
                 }
         }
@@ -2013,7 +2013,7 @@ public class MProjectionVarianceLogic {
         int count = 0;
 
         List<Object> list = discountProgramMap.get(projectionVarianceDTO.getHierarchyNo());
-        if (StringUtils.isNotBlank(levelNo) && list == null) {
+        if (list == null && StringUtils.isNotBlank(levelNo)) {
             list = getpcNames(projSelDTO, projectionVarianceDTO, levelNo, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, false, true);
             discountProgramMap.put(projectionVarianceDTO.getHierarchyNo(), list);
         }
@@ -4974,7 +4974,7 @@ public class MProjectionVarianceLogic {
 
     public static ComboBox loadCustomerDdlb(PVSelectionDTO pvSelectionDTO, ComboBox contractType) {
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
-        StringBuilder customSql = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder customSql = new StringBuilder();
         String[] tempTableName = new String[NumericConstants.TWO];
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
             tempTableName[0] = "CUST_RELATIONSHIP_BUILDER_SID";

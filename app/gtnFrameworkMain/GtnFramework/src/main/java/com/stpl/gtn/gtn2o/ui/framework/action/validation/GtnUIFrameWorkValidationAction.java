@@ -56,13 +56,13 @@ public class GtnUIFrameWorkValidationAction implements GtnUIFrameWorkAction {
 
 				}
 
-				if (validationType.equals(GtnUIFrameworkValidationType.OR)) {
+				if (GtnUIFrameworkValidationType.OR == validationType) {
 					break;
 				}
 			} catch (GtnFrameworkGeneralException exception) {
 				List<GtnUIFrameWorkActionConfig> onFailureActionConfigList = (List<GtnUIFrameWorkActionConfig>) gtnUIFrameWorkActionConfig
 						.getActionParameterList().get(1);
-				if (validationType.equals(GtnUIFrameworkValidationType.AND) || (i == vaadinVieldValueList.size() - 1)) {
+				if (GtnUIFrameworkValidationType.AND == validationType || (i == vaadinVieldValueList.size() - 1)) {
 					onFailure(fieldId, onFailureActionConfigList, exception);
 				}
 

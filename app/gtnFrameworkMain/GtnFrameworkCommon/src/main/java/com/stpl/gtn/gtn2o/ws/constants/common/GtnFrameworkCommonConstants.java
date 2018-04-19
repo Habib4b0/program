@@ -252,6 +252,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String PARENT_COMPANY_PRICING_VIEW = "parentCompanyPricingView";
 	public static final String CREATED_DATE = "createdDate";
 	public static final String PRICING_EDITLIST_SAVE_BUTTON = "pricingEditListSaveButton";
+	public static final String USERS = "USERS";
 
 	public static final String END_DATE_SHOULD_BE_GREATER_THAN_START_DAT = "End date should be greater than Start date";
 	public static final String START_DATE_AND_END_DATE_SHOULD_NOT_BE_EQ = "Start date and End date should not be  equal";

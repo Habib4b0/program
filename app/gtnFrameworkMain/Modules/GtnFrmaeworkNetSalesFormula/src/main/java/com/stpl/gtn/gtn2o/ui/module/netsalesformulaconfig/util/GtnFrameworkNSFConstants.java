@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import java.util.Date;
 
 public class GtnFrameworkNSFConstants {
 
@@ -43,66 +44,128 @@ public class GtnFrameworkNSFConstants {
 	private static final Object[] AVAILABLE_CUSTOMER_VISIBLE_COLUMNS = new Object[] { "customerNo", "customerName",
 			GtnFrameworkCommonConstants.CONTRACT_NO, GtnFrameworkCommonConstants.CONTRACT_NAME,
 			GtnFrameworkCommonConstants.CFP_NO, GtnFrameworkCommonConstants.CFP_NAME };
-	private static final String CFP_CONTRACT_DETAILS_SID = "cfpContractDetailsSid";
+	   private static final String CFP_CONTRACT_DETAILS_SID = "cfpContractDetailsSid";
 
-	private static final String ENABLE = "Enable";
-	private static final String DISABLE = "Disable";
-	private static final String EMPTY = "";
-	public static final String NET_SALES_RULE_NO = "Net Sales Rule No";
-	public static final String NET_SALES_RULE_NAME = "Net Sales Rule Name";
+    private static final String ENABLE = "Enable";
+    private static final String DISABLE = "Disable";
+    private static final String EMPTY = "";
+    public static final String NET_SALES_RULE_NO = "Net Sales Rule No";
+    public static final String NET_SALES_RULE_NAME = "Net Sales Rule Name";
 
-	private static final String[] SELECTED_CUSTOMER_VISIBLE_HEADERS = new String[] { "", "Customer No", "Customer Name",
-			"Contract No", "Contract Name", "Company Family Plan No", "Company Family Plan Name",
-			GtnFrameworkNSFConstants.NET_SALES_RULE_NO, GtnFrameworkNSFConstants.NET_SALES_RULE_NAME };
-	private static final Object[] SELECTED_CUSTOMER_VISIBLE_COLUMNS = new Object[] { "checkRecordId", "customerNo",
-			"customerName", "contractNo", "contractName", "cfpName", "cfpNo", "ruleNo", "ruleName" };
+    private static final String[] SELECTED_CUSTOMER_VISIBLE_HEADERS = new String[]{"", "Customer No", "Customer Name",
+        "Contract No", "Contract Name", "Company Family Plan No", "Company Family Plan Name",
+        GtnFrameworkNSFConstants.NET_SALES_RULE_NO, GtnFrameworkNSFConstants.NET_SALES_RULE_NAME};
+    private static final Object[] SELECTED_CUSTOMER_VISIBLE_COLUMNS = new Object[]{"checkRecordId", "customerNo",
+        "customerName", "contractNo", "contractName", "cfpName", "cfpNo", "ruleNo", "ruleName"};
 
-	private static final String[] AVAILABLE_CONTRACT_VISIBLE_HEADERS = new String[] { "Contract No", "Contract Name",
-			"Contract Holder", "Market Type", "Company Family Plan No", "Company Family Plan Name",
-			"Item Family Plan No", "Item Family Plan Name", "Price Schedule No", "Price Schedule Name", "Deduction No",
-			"Deduction Name" };
-	private static final Object[] AVAILABLE_CONTRACT_VISIBLE_COLUMNS = new Object[] { "contractNo", "contractName",
-			"contractHolder", "marketType", "cfpNo", "cfpName", "ifpNo", "ifpName", "psNo", "psName", "rsNo",
-			"rsName" };
-	private static final Object[] AVAILABLE_DEDUCTIONS_VISIBLE_COLUMNS = new Object[] { "deductionType",
-			"deductionSubType", "deductionCategory" };
-	private static final String[] AVAILABLE_DEDUCTIONS_VISIBLE_HEADERS = new String[] { "Deduction Type",
-			"Deduction Sub Type", "Deduction Category" };
+    private static final String[] DEDUCTION_TAB_PROPERTY_IDS = {"deductionType", "deductionSubType", "deductionCategory",
+        GtnFrameworkCommonConstants.MARKET_TYPE};
+    private static final String[] DEDUCTION_TAB_LIST_NAMES = {GtnFrameworkNSFComboBoxTypeConstants.RS_TYPE,
+        GtnFrameworkNSFComboBoxTypeConstants.REBATE_PROGRAM_TYPE,
+        GtnFrameworkNSFComboBoxTypeConstants.RS_CATEGORY, GtnFrameworkNSFComboBoxTypeConstants.CONTRACT_TYPE};
+    private static final String[] LANDING_SCREEN_PRP_IDS = {GtnFrameworkCommonConstants.FORMULA_TYPE, "createdBy", "modifiedBy"};
+    private static final String[] LANDING_SCREEN_LIST_NAME = {"NS_FORMULA_TYPE", "USERS", "USERS"};
+    private static final Class<?>[] PERFORM_ACTION_TABLE_COLUMN_DATA_TYPES = new Class<?>[]{String.class, String.class, String.class, String.class,
+        String.class, String.class, String.class, String.class, Date.class, Date.class, String.class,
+        String.class, String.class, String.class, String.class, String.class, String.class};
+    private static final Class<?>[] AVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES_PA = new Class<?>[]{String.class, String.class, String.class,
+        Integer.class, Integer.class};
+    private static final Class<?>[] SELECTED_DEDUCTION_TABLE_COLUMN_DATA_TYPES = new Class<?>[]{Boolean.class, String.class, String.class,
+        String.class, String.class, String.class, String.class};
+    private static final Class<?>[] SELECTED_DEDUCTION_TABLE_COL_DATA_TYPES = new Class<?>[]{Boolean.class, String.class, String.class,
+        String.class, String.class, String.class, String.class, String.class, String.class, Date.class,
+        Date.class, String.class, String.class, String.class, String.class, String.class, String.class,
+        String.class, String.class, String.class, String.class};
+    private static final Class<?>[] AVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES = new Class<?>[]{String.class, String.class, String.class,
+        Integer.class, Integer.class};
+    private static final Class<?>[] TABLE_COLUMN_DATA_TYPES = new Class<?>[]{String.class, String.class, String.class};
 
-	private static final String ADD_SUBTRACT_INDICATOR = "+/- Indicator";
-	private static final String ADD = "Add";
-	private static final String SUBTRACT = "Subtract";
-	private static final String[] SELECTED_DEDUCTIONS_VISIBLE_HEADERS = new String[] { "",
-			GtnFrameworkCommonConstants.DEDUCTION_TYPE, GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE,
-			GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_HEADER, GtnFrameworkNSFConstants.INDICATOR_HEADER,
-			NET_SALES_RULE_NO, NET_SALES_RULE_NAME };
-	private static final Object[] SELECTED_DEDUCTIONS_VISIBLE_COLUMNS = new Object[] {
-			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_TYPE,
-			GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE_HEADER,
-			GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_PROPERTY, "indicator", "netSalesRuleNo",
-			"netSalesRuleName" };
-	private static final String ROW_NUMBER = "rn";
+    public static Class<?>[] getTableColumnDataTypes() {
+        return TABLE_COLUMN_DATA_TYPES.clone();
+    }
 
-	private static final String[] AVAILABLE_DEDUCTIONS_HEADERS_FORMULA_TYPE_CONTRACT = new String[] {
-			GtnFrameworkCommonConstants.CONTRACT_NO_HEADER, GtnFrameworkCommonConstants.CONTRACT_NAME_HEADER,
-			GtnFrameworkCommonConstants.DEDUCTION_NO, GtnFrameworkCommonConstants.DEDUCTION_NAME,
-			GtnFrameworkCommonConstants.DEDUCTION_TYPE, GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE,
-			GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_HEADER, GtnFrameworkCommonConstants.MARKET_TYPE_HEADER,
-			"Start Date", "End Date", GtnFrameworkCommonConstants.CONTRACT_HOLDER_HEADER,
-			GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_NO_HEADER,
-			GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_NAME_HEADER,
-			GtnFrameworkCommonConstants.ITEM_FAMILY_PLAN_NO, GtnFrameworkCommonConstants.HEADER_ITEM_FAMILY_PLAN_NAME,
-			GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_HEADER,
-			GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_HEADER };
+    public static Class<?>[] getAvailableDeductionExtraColumnsDataTypes() {
+        return AVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES.clone();
+    }
 
-	private static final Object[] AVAILABLE_DEDUCTIONS_COLUMNS_FORMULA_TYPE_CONTRACT = new Object[] {
-			GtnFrameworkCommonConstants.CONTRACT_NO, GtnFrameworkCommonConstants.CONTRACT_NAME, "deductionNo",
-			"deductionName", GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_TYPE,
-			GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE_HEADER,
-			GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_PROPERTY, GtnFrameworkCommonConstants.MARKET_TYPE,
-			"startDate", "endDate", GtnFrameworkCommonConstants.CONTRACT_HOLDER, GtnFrameworkCommonConstants.CFP_NO,
-			GtnFrameworkCommonConstants.CFP_NAME, GtnFrameworkCommonConstants.IFP_NUMBER,
-			GtnFrameworkCommonConstants.IFP_NAME, "psNo", GtnFrameworkCommonConstants.PS_NAME };
+    public static Class<?>[] getSelectedDeductionTableColDataTypes() {
+        return SELECTED_DEDUCTION_TABLE_COL_DATA_TYPES.clone();
+    }
+
+    public static Class<?>[] getSelectedDeductionTableColumnDataTypes() {
+        return SELECTED_DEDUCTION_TABLE_COLUMN_DATA_TYPES.clone();
+    }
+
+    public static Class<?>[] getAvailableDeductionExtraColumnsDataTypesPa() {
+        return AVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES_PA.clone();
+    }
+
+    public static Class<?>[] getPerformActionTableColumnDataTypes() {
+        return PERFORM_ACTION_TABLE_COLUMN_DATA_TYPES.clone();
+    }
+
+    public static String[] getLandingScreenListName() {
+        return LANDING_SCREEN_LIST_NAME.clone();
+    }
+
+    public static String[] getLandingScreenPrpIds() {
+        return LANDING_SCREEN_PRP_IDS.clone();
+    }
+
+    public static String[] getDeductionTabListNames() {
+        return DEDUCTION_TAB_LIST_NAMES.clone();
+    }
+
+    public static String[] getDeductionTabPropertyIds() {
+        return DEDUCTION_TAB_PROPERTY_IDS.clone();
+    }
+
+    private static final String[] AVAILABLE_CONTRACT_VISIBLE_HEADERS = new String[]{"Contract No", "Contract Name",
+        "Contract Holder", "Market Type", "Company Family Plan No", "Company Family Plan Name",
+        "Item Family Plan No", "Item Family Plan Name", "Price Schedule No", "Price Schedule Name", "Deduction No",
+        "Deduction Name"};
+    private static final Object[] AVAILABLE_CONTRACT_VISIBLE_COLUMNS = new Object[]{"contractNo", "contractName",
+        "contractHolder", "marketType", "cfpNo", "cfpName", "ifpNo", "ifpName", "psNo", "psName", "rsNo",
+        "rsName"};
+    private static final Object[] AVAILABLE_DEDUCTIONS_VISIBLE_COLUMNS = new Object[]{"deductionType",
+        "deductionSubType", "deductionCategory"};
+    private static final String[] AVAILABLE_DEDUCTIONS_VISIBLE_HEADERS = new String[]{"Deduction Type",
+        "Deduction Sub Type", "Deduction Category"};
+
+    private static final String ADD_SUBTRACT_INDICATOR = "+/- Indicator";
+    private static final String ADD = "Add";
+    private static final String SUBTRACT = "Subtract";
+    private static final String[] SELECTED_DEDUCTIONS_VISIBLE_HEADERS = new String[]{"",
+        GtnFrameworkCommonConstants.DEDUCTION_TYPE, GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE,
+        GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_HEADER, GtnFrameworkNSFConstants.INDICATOR_HEADER,
+        NET_SALES_RULE_NO, NET_SALES_RULE_NAME};
+    private static final Object[] SELECTED_DEDUCTIONS_VISIBLE_COLUMNS = new Object[]{
+        GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_TYPE,
+        GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE_HEADER,
+        GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_PROPERTY, "indicator", "netSalesRuleNo",
+        "netSalesRuleName"};
+    private static final String ROW_NUMBER = "rn";
+
+    private static final String[] AVAILABLE_DEDUCTIONS_HEADERS_FORMULA_TYPE_CONTRACT = new String[]{
+        GtnFrameworkCommonConstants.CONTRACT_NO_HEADER, GtnFrameworkCommonConstants.CONTRACT_NAME_HEADER,
+        GtnFrameworkCommonConstants.DEDUCTION_NO, GtnFrameworkCommonConstants.DEDUCTION_NAME,
+        GtnFrameworkCommonConstants.DEDUCTION_TYPE, GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE,
+        GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_HEADER, GtnFrameworkCommonConstants.MARKET_TYPE_HEADER,
+        "Start Date", "End Date", GtnFrameworkCommonConstants.CONTRACT_HOLDER_HEADER,
+        GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_NO_HEADER,
+        GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_NAME_HEADER,
+        GtnFrameworkCommonConstants.ITEM_FAMILY_PLAN_NO, GtnFrameworkCommonConstants.HEADER_ITEM_FAMILY_PLAN_NAME,
+        GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_HEADER,
+        GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_HEADER};
+
+    private static final Object[] AVAILABLE_DEDUCTIONS_COLUMNS_FORMULA_TYPE_CONTRACT = new Object[]{
+        GtnFrameworkCommonConstants.CONTRACT_NO, GtnFrameworkCommonConstants.CONTRACT_NAME, "deductionNo",
+        "deductionName", GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_TYPE,
+        GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE_HEADER,
+        GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_PROPERTY, GtnFrameworkCommonConstants.MARKET_TYPE,
+        "startDate", "endDate", GtnFrameworkCommonConstants.CONTRACT_HOLDER, GtnFrameworkCommonConstants.CFP_NO,
+        GtnFrameworkCommonConstants.CFP_NAME, GtnFrameworkCommonConstants.IFP_NUMBER,
+        GtnFrameworkCommonConstants.IFP_NAME, "psNo", GtnFrameworkCommonConstants.PS_NAME};
 
 	private static final String[] SELECTED_DEDUCTIONS_HEADERS_FORMULA_TYPE_CONTRACT = new String[] { "",
 			GtnFrameworkCommonConstants.CONTRACT_NO_HEADER, GtnFrameworkCommonConstants.CONTRACT_NAME_HEADER,

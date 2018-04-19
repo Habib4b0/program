@@ -332,7 +332,7 @@ JOIN (SELECT PR.*
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,
                 CCP_DETAILS_SID)
-                SELECT DISTINCT CUST_HIERARCHY_NO,CH.CCP_DETAILS_SID
+                SELECT DISTINCT HIERARCHY_NO,CH.CCP_DETAILS_SID
                 FROM  ST_CCP_HIERARCHY CH 
                 WHERE CUST_HIERARCHY_NO like '[?CustomerParent]%' AND PROD_HIERARCHY_NO like '[?ProductParent]%'
                 

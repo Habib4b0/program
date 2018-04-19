@@ -642,7 +642,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 	public String getProductHierarchyEndLevelsHierNo() {
 
-		StringBuilder returnString = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder returnString = new StringBuilder();
 
 		List<String> productHierarchyEndLevelsHierNo = new ArrayList<>();
 		for (Object item : selectedProductContainer.getItemIds()) {

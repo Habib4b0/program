@@ -1294,8 +1294,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "Rolling Average baseline is not selected");
             return;
         }
-        if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && ROLLING_AVERAGE.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))
-                && rollAvgselected < NumericConstants.TWO) {
+        if (rollAvgselected < NumericConstants.TWO && !priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && ROLLING_AVERAGE.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))) {
             AbstractNotificationUtils.getErrorNotification("Rolling Average Error",
                     "Please select at least 2 ‘Periods for Rolling Average’");
             return;

@@ -720,7 +720,7 @@ public class CommonUtils {
      * @return
      */
     public static String stringListToString(List<String> stringList) {
-        StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder builder = new StringBuilder();
         if (stringList != null && !stringList.isEmpty()) {
             for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
                 builder.append('\'');
@@ -1511,14 +1511,14 @@ public class CommonUtils {
         if (stringNullCheck(selection.getConversionFactor())
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constants.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
-            if (nullCheck(value) && needZeroForNull) {
+            if (needZeroForNull && nullCheck(value)) {
                 return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
             } else if (nullCheck(value)) {
                 return String.valueOf(value);
             }
             return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
         }
-        if (nullCheck(value) && needZeroForNull) {
+        if (needZeroForNull && nullCheck(value)) {
             return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));
         } else if (nullCheck(value)) {
             return String.valueOf(value);

@@ -186,7 +186,7 @@ public class SelectionLogic {
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
                     String filterValue = String.valueOf(stringFilter.getValue());
-                    if (ConstantsUtils.CUSTOMER_TYPE.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.CUSTOMER_TYPE.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.COMPANY_TYPE, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_TYPE, helperId);
@@ -194,7 +194,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.CUSTOMER_STATUS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.CUSTOMER_STATUS.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.STATUS, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_STATUS, helperId);
@@ -202,7 +202,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(ConstantsUtils.COMPANY_TRADE_CLASS_LIST, filterValue);
                                 parameters.put(ConstantsUtils.TRADE_CLASS, helperId);
@@ -210,7 +210,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.UDC1, filterValue);
                                 parameters.put(ConstantsUtils.UDC1, helperId);
@@ -218,7 +218,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.UDC2.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.UDC2.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.UDC2, filterValue);
                                 parameters.put(ConstantsUtils.UDC2, helperId);
@@ -226,7 +226,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.UDC3.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.UDC3.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.UDC3, filterValue);
                                 parameters.put(ConstantsUtils.UDC3, helperId);
@@ -234,7 +234,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.UDC4.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.UDC4.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.UDC4, filterValue);
                                 parameters.put(ConstantsUtils.UDC4, helperId);
@@ -242,7 +242,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.UDC5.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.UDC5.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.UDC5, filterValue);
                                 parameters.put(ConstantsUtils.UDC5, helperId);
@@ -250,7 +250,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.UDC6.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.UDC6.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.UDC6, filterValue);
                                 parameters.put(ConstantsUtils.UDC6, helperId);
@@ -258,7 +258,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.ORGANISATION_KEY.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.ORGANISATION_KEY.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.ORGANIZATION_KEY, filterValue);
                                 parameters.put(ConstantsUtils.ORGANISATION_KEY, helperId);
@@ -266,7 +266,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.CUSTOMER_GROUP.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.CUSTOMER_GROUP.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.COMPANY_GROUP, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_GROUP, helperId);
@@ -981,25 +981,25 @@ public class SelectionLogic {
             SelectionDTO selectionDTO = getBeanFromId(searchFields.getItemDataSource());
             Set<String> keys = criteria.keySet();
             for (String fields : keys) {
-                if ("itemTypeDdlb".equals(fields) && selectionDTO.getItemTypeDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getItemTypeDdlb().getDescription().toString()) && !selectionDTO.getItemTypeDdlb().getDescription().toString().trim().isEmpty()) {
+                if ("itemTypeDdlb".equals(fields) && selectionDTO.getItemTypeDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getItemTypeDdlb().getDescription()) && !selectionDTO.getItemTypeDdlb().getDescription().trim().isEmpty()) {
                         queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getItemTypeDdlb().getId()).append('\'');
                 }
-                if ("brandDdlb".equals(fields) && selectionDTO.getBrandDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getBrandDdlb().getDescription().toString()) && !selectionDTO.getBrandDdlb().getDescription().toString().trim().isEmpty()) {
+                if ("brandDdlb".equals(fields) && selectionDTO.getBrandDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getBrandDdlb().getDescription()) && !selectionDTO.getBrandDdlb().getDescription().trim().isEmpty()) {
                         queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getBrandDdlb().getId()).append('\'');
                 }
-                if ("formDdlb".equals(fields) && selectionDTO.getFormDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getFormDdlb().getDescription().toString()) && !selectionDTO.getFormDdlb().getDescription().toString().trim().isEmpty()) {
+                if ("formDdlb".equals(fields) && selectionDTO.getFormDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getFormDdlb().getDescription()) && !selectionDTO.getFormDdlb().getDescription().trim().isEmpty()) {
                         queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getFormDdlb().getId()).append('\'');
                 }
-                if ("strengthDdlb".equals(fields) && selectionDTO.getStrengthDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getStrengthDdlb().getDescription().toString()) && !selectionDTO.getStrengthDdlb().getDescription().toString().trim().isEmpty()) {
+                if ("strengthDdlb".equals(fields) && selectionDTO.getStrengthDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getStrengthDdlb().getDescription()) && !selectionDTO.getStrengthDdlb().getDescription().trim().isEmpty()) {
                         queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getStrengthDdlb().getId()).append('\'');
                 }
-                if ("therapeuticclassDdlb".equals(fields) && selectionDTO.getTherapeuticclassDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getTherapeuticclassDdlb().getDescription().toString()) && !selectionDTO.getTherapeuticclassDdlb().getDescription().toString().trim().isEmpty()) {
+                if ("therapeuticclassDdlb".equals(fields) && selectionDTO.getTherapeuticclassDdlb() != null && !ConstantUtil.SELECT_ONE.equals(selectionDTO.getTherapeuticclassDdlb().getDescription()) && !selectionDTO.getTherapeuticclassDdlb().getDescription().trim().isEmpty()) {
                         queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" = '").append(selectionDTO.getTherapeuticclassDdlb().getId()).append('\'');
                 }
                 if (ConstantsUtils.ITEM_DESC.equals(fields) && selectionDTO.getItemDesc() != null && !selectionDTO.getItemDesc().trim().isEmpty() &&!"*".equals(selectionDTO.getItemDesc().trim())) {
                         queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItemDesc().trim())).append('\'');
                 }
-                if ("item".equals(fields) && selectionDTO.getItem() != null && !selectionDTO.getItem().toString().trim().isEmpty() &&!"*".equals(selectionDTO.getItem().trim())) {
+                if ("item".equals(fields) && selectionDTO.getItem() != null && !selectionDTO.getItem().trim().isEmpty() &&!"*".equals(selectionDTO.getItem().trim())) {
                         queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(" LIKE '").append(CommonUtil.buildSearchCriteria(selectionDTO.getItem().trim())).append('\'');
                 }
             }
@@ -1652,7 +1652,7 @@ public class SelectionLogic {
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
                     String filterValue = String.valueOf(stringFilter.getValue());
-                    if (ConstantsUtils.CUSTOMER_TYPE.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.CUSTOMER_TYPE.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.COMPANY_TYPE, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_TYPE, helperId);
@@ -1660,7 +1660,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.CUSTOMER_STATUS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.CUSTOMER_STATUS.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(CommonUIUtils.STATUS, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_STATUS, helperId);
@@ -1668,7 +1668,7 @@ public class SelectionLogic {
                                 LOGGER.error(ex.getMessage());
                             }
                     }
-                    if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
+                    if (filterValue != null && ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
                                 int helperId = getHelperCode(ConstantsUtils.COMPANY_TRADE_CLASS_LIST, filterValue);
                                 parameters.put(ConstantsUtils.TRADE_CLASS, helperId);

@@ -406,10 +406,8 @@ public class GtnFrameworkCfpCompaniesTabConfig {
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig(
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_STATUS_VALUE, "companyStatusValue",
-				"companyTypeValue", "tradeClass", "companyCategory", "modifiedBy", "createdBy" };
-		String[] listNameList = { GtnFrameworkCommonConstants.STATUS, GtnFrameworkCommonConstants.STATUS,
-				"COMPANY_TYPE", "COMPANY_TRADE_CLASS", "COMPANY_CATEGORY", "USERS", "USERS" };
+		String[] propertyIds = GtnFrameworkCfpStringContants.getCustomFilterPropertyIds();
+		String[] listNameList = GtnFrameworkCfpStringContants.getListNameList();
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig customFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			customFilterConfig.setPropertId(propertyIds[i]);

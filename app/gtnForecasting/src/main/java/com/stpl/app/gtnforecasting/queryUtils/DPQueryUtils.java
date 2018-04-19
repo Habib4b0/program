@@ -240,9 +240,9 @@ public class DPQueryUtils {
     }
 
     public String getLevelvalues(boolean isLevelFilter, int endLevelNo, boolean isCustomHierarchy, int projectionId, String hierarchy, int startLevelNo) {
-        StringBuffer query = new StringBuffer(StringUtils.EMPTY);
-        StringBuffer orderBy = new StringBuffer(StringUtils.EMPTY);
-        StringBuffer endLevelRestriction = new StringBuffer(StringUtils.EMPTY);
+        StringBuffer query = new StringBuffer();
+        StringBuffer orderBy = new StringBuffer();
+        StringBuffer endLevelRestriction = new StringBuffer();
         if (isLevelFilter) {
             query.append("Select Distinct HLD.LEVEL_NO ,('Level '+HLD.LEVEL_NO +' - '+HLD.LEVEL_NAME)\n");
         } else {
@@ -279,7 +279,7 @@ public class DPQueryUtils {
     }
 
     public String masterTableUpdateQuery(String baselinePeriods, int projectionId, int discountName, String selectedPeriods) {
-        StringBuffer query = new StringBuffer(StringUtils.EMPTY);
+        StringBuffer query = new StringBuffer();
         query.append("UPDATE DM SET DM.BASELINE_PERIODS = '" ).append( baselinePeriods ).append( "', DM.SELECTED_PERIODS = '" ).append( selectedPeriods ).append( "' FROM ST_CH_DISCOUNT_PROJ_MASTER DM ");
         query.append(" JOIN (SELECT PD.PROJECTION_DETAILS_SID");
 
@@ -299,7 +299,7 @@ public class DPQueryUtils {
 
     public String discountProjectionTableUpdateQuery(String adjustmentType, String adjustmentBasis, String allocationMethodology, String adjustmentValue, int projectionId,
             int discountName, String userId, String sessionId, String period, String selectedPeriodsToUpdate) {
-        StringBuffer query = new StringBuffer(StringUtils.EMPTY);
+        StringBuffer query = new StringBuffer();
         if ("Lowest Level (Month and Product)".equals(allocationMethodology)) {
             allocationMethodology = "None";
         }

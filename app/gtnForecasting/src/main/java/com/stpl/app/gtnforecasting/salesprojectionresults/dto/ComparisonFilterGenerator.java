@@ -103,7 +103,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             return contractType;
         }
 
-        if (Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId) && pvFlag) {
+        if (pvFlag && Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId)) {
             //This block is for PROJECTION Variance
 
             if (Constant.PRODUCT_LABEL.equals(pvSelectionDTO.getView())) {
@@ -159,7 +159,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             return contractType;
         }
 
-        if (Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId) && prFlag) {
+        if (prFlag && Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId)) {
 
             if (Constant.PRODUCT_LABEL.equals(sprProjectionDTO.getView())) {
                 indicator = "P";
@@ -233,7 +233,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             }
 
         }
-        if (Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId) && sprFlag) {
+        if (sprFlag && Constant.RELATIONSHIP_LEVEL_NAME1.equals(propertyId)) {
 
             //This block is for SALES PROJECTION RESULTS
             return getfilterBox();

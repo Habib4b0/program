@@ -2980,8 +2980,7 @@ public class DataSelection extends AbstractDataSelection {
 				}
 
 			}
-			if ((productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))
-					&& (innerProdLevels != null)) {
+			if ((innerProdLevels != null) && (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
 				String relationshipSid = String.valueOf(productRelation.getValue());
 				Leveldto companyLevel = null;
 				for (Leveldto dto : innerProdLevels) {
@@ -3105,8 +3104,7 @@ public class DataSelection extends AbstractDataSelection {
 	private List<Leveldto> getItemSidFromHierarchy() {
 		List<Leveldto> innerLevelValues = null;
 		try {
-			if ((productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))
-					&& (innerProdLevels != null)) {
+			if ((innerProdLevels != null) && (productRelation.getValue() != null && !SELECT_ONE.equals(productRelation.getValue()))) {
 				String relationshipSid = String.valueOf(productRelation.getValue());
 				DataSelectionLogic logic = new DataSelectionLogic();
 				Leveldto ndcLevel = null;
@@ -3261,8 +3259,7 @@ public class DataSelection extends AbstractDataSelection {
 	private List<Leveldto> getCustomersFromHierarchy() {
 		List<Leveldto> innerLevelValues = null;
 		try {
-			if ((customerRelation.getValue() != null && !SELECT_ONE.equals(customerRelation.getValue()))
-					&& (innerCustLevels != null)) {
+			if ((innerCustLevels != null) && (customerRelation.getValue() != null && !SELECT_ONE.equals(customerRelation.getValue()))) {
 				String relationshipSid = String.valueOf(customerRelation.getValue());
 				DataSelectionLogic logic = new DataSelectionLogic();
 				Leveldto customerLevelDto = null;
@@ -3395,7 +3392,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	public String getProductHierarchyEndLevelsHierNo(final ExtTreeContainer<Leveldto> selectedProductContainer) {
 
-		StringBuilder returnString = new StringBuilder(StringUtils.EMPTY);
+		StringBuilder returnString = new StringBuilder();
 
 		List<String> productHieEndLevelsHierNo = new ArrayList<>();
 		for (Object item : selectedProductContainer.getItemIds()) {

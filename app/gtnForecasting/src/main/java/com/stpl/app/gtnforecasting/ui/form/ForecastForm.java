@@ -242,7 +242,7 @@ public class ForecastForm extends AbstractForm {
 	private CountDownLatch latch;
 	private boolean isCommercialGovernment = BooleanConstant.getFalseFlag();
 	private ExecutorService service = ThreadPool.getInstance().getService();
-
+      
 	public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session,
 			ForecastEditWindow editWindow, final ExtFilterTable resultTable, final String screenName,
 			final DataSelectionForm dataSelectionForm, ForecastWindow forecastWindow) throws Exception {
@@ -273,7 +273,7 @@ public class ForecastForm extends AbstractForm {
 			LOGGER.error(e.getMessage());
 		}
 	}
-
+        
 	private void forecastDTOConfiguration() {
 		DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
 	}
@@ -307,14 +307,14 @@ public class ForecastForm extends AbstractForm {
 			this.salesProjectionResults = new NMSalesProjectionResults(session, screenName);
 			this.nmSalesProjection = new NMSalesProjection(session, screenName);
 			this.dataAssumptions = new DataAssumptions(session);
-			this.discountProjection = new NMDiscountProjection(session, screenName);
+                        this.discountProjection = new NMDiscountProjection(session, screenName);
 			this.discountProjectionResults = new NMDiscountProjectionResults(session, screenName, this);
 			this.ppaProjectionResults = new PPAProjectionResults(session);
 			this.projectionVariance = new NMProjectionVariance(this, session, screenName);
 			this.nonmandatedprojectionResults = new NMProjectionResults(session, screenName, this);
 			this.additionalInformation = new AdditionalInformationForm(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED,
 					session.getProjectionId(), session.getAction());
-		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+                } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
 			governmentConfiguration();
 			this.salesProjectionResultsForMandated = new MSalesProjectionResults(session, screenName);
 			this.salesProjectionForMandated = new MSalesProjection(session, screenName);
@@ -337,6 +337,21 @@ public class ForecastForm extends AbstractForm {
 
 		}
 	}
+        
+         public void commercialDiscountConfiguration() {
+        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+            CommonUtil commonUtil = CommonUtil.getInstance();
+            commonUtil
+                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
+				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
+						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
+            }
+	}
 
 	/**
 	 * Adds the content to the screen.
@@ -344,63 +359,66 @@ public class ForecastForm extends AbstractForm {
 	 * @throws Exception
 	 * @throws SystemException
 	 */
-	private void addContent() throws SystemException, PortalException {
-		initializeTabs();
-		initializeLazyTabLoad(tabLazyLoadMap, tabSheet.getComponentCount());
-		buildScreen();
+	   private void addContent() throws SystemException, PortalException {
+        initializeTabs();
+        initializeLazyTabLoad(tabLazyLoadMap, tabSheet.getComponentCount());
+        buildScreen();
 
-		if (session != null && (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
-				|| Constant.VIEW.equalsIgnoreCase(session.getAction())) && session.getWorkflowId() != 0) {
+        if (session != null && (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
+                || Constant.VIEW.equalsIgnoreCase(session.getAction())) && session.getWorkflowId() != 0) {
 
-			if (WorkflowConstants.getApproverConstant().equals(session.getWorkflowUserType())) {
+            if (WorkflowConstants.getApproverConstant().equals(session.getWorkflowUserType())) {
 
-				getBtnWithdraw().setVisible(false);
-				getBtnSubmit().setVisible(false);
+                getBtnWithdraw().setVisible(false);
+                getBtnSubmit().setVisible(false);
 
-				boolean buttonVisiblity = WorkflowConstants.getPendingStatus()
-						.equalsIgnoreCase(session.getWorkflowStatus());
-				getBtnApprove().setVisible(buttonVisiblity);
-				getBtnReject().setVisible(buttonVisiblity);
-				getBtnCancel().setVisible(buttonVisiblity);
+                boolean buttonVisiblity = WorkflowConstants.getPendingStatus()
+                        .equalsIgnoreCase(session.getWorkflowStatus());
+                getBtnApprove().setVisible(buttonVisiblity);
+                getBtnReject().setVisible(buttonVisiblity);
+                getBtnCancel().setVisible(buttonVisiblity);
 
-			} else if (WorkflowConstants.getCreatorConstant().equals(session.getWorkflowUserType())) {
+            } else if (WorkflowConstants.getCreatorConstant().equals(session.getWorkflowUserType())) {
 
-				getBtnApprove().setVisible(false);
-				getBtnReject().setVisible(false);
-				getBtnCancel().setVisible(false);
+                getBtnApprove().setVisible(false);
+                getBtnReject().setVisible(false);
+                getBtnCancel().setVisible(false);
 
-				if (WorkflowConstants.getPendingStatus().equalsIgnoreCase(session.getWorkflowStatus())) {
-					getBtnWithdraw().setVisible(true);
-					getBtnSubmit().setVisible(false);
-					getBtnCancel().setVisible(false);
-				} else if (WorkflowConstants.getWithdrawnStatus().equalsIgnoreCase(session.getWorkflowStatus())
-						|| WorkflowConstants.getRejectedStatus().equalsIgnoreCase(session.getWorkflowStatus())) {
-					getBtnWithdraw().setVisible(false);
-					getBtnSubmit().setVisible(true);
-					getBtnCancel().setVisible(false);
-				} else if (WorkflowConstants.getApprovedStatus().equals(session.getWorkflowStatus())
-						|| WorkflowConstants.getCancelledStatus().equals(session.getWorkflowStatus())) {
-					getBtnWithdraw().setVisible(false);
-					getBtnSubmit().setVisible(false);
-				}
-			}
-		} else {
-			getBtnApprove().setVisible(false);
-			getBtnReject().setVisible(false);
-			getBtnWithdraw().setVisible(false);
-			getBtnCancel().setVisible(false);
-		}
+                if (WorkflowConstants.getPendingStatus().equalsIgnoreCase(session.getWorkflowStatus())) {
+                    getBtnWithdraw().setVisible(true);
+                    getBtnSubmit().setVisible(false);
+                    getBtnCancel().setVisible(false);
+                } else if (WorkflowConstants.getWithdrawnStatus().equalsIgnoreCase(session.getWorkflowStatus())
+                        || WorkflowConstants.getRejectedStatus().equalsIgnoreCase(session.getWorkflowStatus())) {
+                    getBtnWithdraw().setVisible(false);
+                    getBtnSubmit().setVisible(true);
+                    getBtnCancel().setVisible(false);
+                } else if (WorkflowConstants.getApprovedStatus().equals(session.getWorkflowStatus())
+                        || WorkflowConstants.getCancelledStatus().equals(session.getWorkflowStatus())) {
+                    getBtnWithdraw().setVisible(false);
+                    getBtnSubmit().setVisible(false);
+                       }
+                   }
+               } else {
+                   getBtnApprove().setVisible(false);
+                   getBtnReject().setVisible(false);
+                   getBtnWithdraw().setVisible(false);
+                   getBtnCancel().setVisible(false);
+               }
 
-		getBtnSubmit().setEnabled(true);
-		configureForView();
-		setTabSecurity();
-		setButtonSecurity();
-		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-			tabSheet.setSelectedTab(2);
-		} else {
-			tabSheet.setSelectedTab(1);
-		}
-        }
+               getBtnSubmit().setEnabled(true);
+               configureForView();
+               setTabSecurity();
+               setButtonSecurity();
+               if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                   tabSheet.setSelectedTab(2);
+                   if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
+                       callContractDetailsPrcForDiscount();
+                   }
+               } else {
+                   tabSheet.setSelectedTab(1);
+               }
+    }
 
 	protected void initializeLazyTabLoad(final Map<Integer, Boolean> tabLazyLoadMap, final int componentCount) {
 		tabLazyLoadMap.clear();
@@ -562,10 +580,8 @@ public class ForecastForm extends AbstractForm {
 		if (tabPosition <= i) {
 			btnPrevInForm.setEnabled(true);
 		}
-		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-			if (tabPosition == NumericConstants.NINE) {
-				btnRefresh.setVisible(false);
-			}
+		if (tabPosition == NumericConstants.NINE && screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                        btnRefresh.setVisible(false);
 		}
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
 			if (tabPosition == 0 || tabPosition == 1) {
@@ -1669,7 +1685,7 @@ public class ForecastForm extends AbstractForm {
 					}
 				}
 				// Call Discount Insert Procedure
-				nmDiscountInsertProcedure();
+				new DataSelectionLogic().nmDiscountInsertProcedure(session);
 
 				// To wait for the sales procedures to get complete
 				if (futureMap.containsKey(Constant.SALES_PROCEDURE_CALL)) {
@@ -2328,19 +2344,11 @@ public class ForecastForm extends AbstractForm {
 					service.submit(CommonUtil.getInstance().createRunnable(Constant.PROJECTION_DETAILS_INSERT,
 							dataSelectionDTO.getProjectionId(), session.getCurrentTableNames(), Boolean.FALSE)) });
 			// Call sales Insert Procedure
-			nmSalesInsertProcedure();
+			nmSalesInsertDiscMasterProcedure();
 			// sales threads need to be completed before calling discound thread
 			CommonUtil.getInstance()
 					.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
-			// Call Discount Insert Procedure, inside this thread wait until the
-			// main to temp insert get complete. For this we passing
-			// CountDownLatch
-			// --> Once the master procedure is excecuted then actual and
-			// discound procedure should be executed
-			nmDiscountInsertProcedure();
-			// Discount Contrat Details Methodology Procedure
-			callContractDetailsPrcForDiscount();
-
+                        DataSelectionLogic.nmDiscountActProjInsertProcedure(session);      
 			break;
 		case Constant.EDIT_SMALL:
 			// Main to temp insert
@@ -2351,19 +2359,11 @@ public class ForecastForm extends AbstractForm {
 			session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[] {
 					service.submit(CommonUtil.getInstance().createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data)) });
 			// Call sales Insert Procedure
-			nmSalesInsertProcedure();
+			nmSalesInsertDiscMasterProcedure();
 			// sales threads need to be completed before calling discound thread
 			CommonUtil.getInstance()
 					.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
-			// Call Discount Insert Procedure, inside this thread wait until the
-			// main to temp insert get complete. For this we passing
-			// CountDownLatch
-			// --> Once the master procedure is excecuted then actual and
-			// discound procedure should be executed
-			nmDiscountInsertProcedure();
-			// Discount Contrat Details Methodology Procedure
-			callContractDetailsPrcForDiscount();
-			
+                        DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
 			break;
 
 		case Constant.VIEW:
@@ -2382,7 +2382,7 @@ public class ForecastForm extends AbstractForm {
 
 		}
 	}
-
+        
 	private void governmentConfiguration() {
 		switch (session.getAction().toLowerCase()) {
 		case Constant.ADD_FULL_SMALL:
@@ -2494,15 +2494,36 @@ public class ForecastForm extends AbstractForm {
 
 	private Boolean checkLastPositionTab(int tabPosition) {
 		boolean salesFlag = false;
-		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) && tabPosition == 2) {
+		if (tabPosition == 2 && screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			salesFlag = true;
-		} else if ((!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) && tabPosition == 1) {
+		} else if (tabPosition == 1 && (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED))) {
 			salesFlag = true;
 		}
 		return salesFlag;
 	}
 
-	private void nmSalesInsertProcedure() {
+	private void nmSalesInsertDiscMasterProcedure() {
+            CommonUtil salesCommonUtil = CommonUtil.getInstance();
+		session.addFutureMap(Constant.SALES_PROCEDURE_CALL,
+				new Future[] {
+						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.SALES1,session)),
+						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.SALES1,session)),
+						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
+								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
+								session.getUserId(), session.getSessionId(), Constant.SALES1,session)) });
+                session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
+				new Future[] {
+						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
+				SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(),
+				session.getSessionId(), Constant.DISCOUNT3,session)) });
+               
+	}
+        
+        private void nmSalesInsertProcedure() {
 		session.addFutureMap(Constant.SALES_PROCEDURE_CALL,
 				new Future[] {
 						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
@@ -2514,21 +2535,6 @@ public class ForecastForm extends AbstractForm {
 						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.SALES1)) });
-	}
-
-	private void nmDiscountInsertProcedure() {
-		Future discountMasterInsert = service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
-				SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(),
-				session.getSessionId(), Constant.DISCOUNT3));
-		session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
-				new Future[] { discountMasterInsert,
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_ACTUAL_INSERT, dataSelectionDTO.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3, discountMasterInsert)),
-						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,
-								discountMasterInsert)) });
 	}
 
 	private void nmPPAInitProcedure() {
@@ -2544,14 +2550,14 @@ public class ForecastForm extends AbstractForm {
 			public void run() {
 				Thread.currentThread().setName(Constant.PRC_CONTRACT_DETAILS_REBATE);
 				// It will wait until the discount insert procedure complete
-				CommonUtil.getInstance()
+                        CommonUtil.getInstance()
 						.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROCEDURE_CALL));
 				StringBuilder query = new StringBuilder("EXEC ");
 				query.append(Constant.PRC_CONTRACT_DETAILS_REBATE);
 				query.append(' ').append(session.getProjectionId()).append(',');
 				query.append(session.getUserId()).append(",'").append(session.getSessionId()).append('\'');
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-			}
+	}
 		};
 		session.addFutureMap(Constant.CALL_PRC_CONTRACT_DETAILS_REBATE, new Future[] { service.submit(runnable) });
 	}

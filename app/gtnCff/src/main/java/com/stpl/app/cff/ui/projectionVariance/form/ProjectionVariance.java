@@ -619,7 +619,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     protected void getGenerateCall(boolean excelFlag) {
         try {
             Object[] displayValidation = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
-            if (!CommonUtils.nullCheck(displayValidation) && displayValidation.length == 0) {
+            if (displayValidation.length == 0 && !CommonUtils.nullCheck(displayValidation)) {
                 AbstractNotificationUtils.getErrorNotification("No Display Format Selected", "Please select value(s) from the Display Format field");
             } else {
                 if (discountLevel.getValue().equals("Program")) {

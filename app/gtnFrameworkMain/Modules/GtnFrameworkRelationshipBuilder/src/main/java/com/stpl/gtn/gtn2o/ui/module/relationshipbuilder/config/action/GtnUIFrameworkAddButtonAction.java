@@ -51,39 +51,39 @@ public class GtnUIFrameworkAddButtonAction implements GtnUIFrameWorkAction, GtnU
 
 			String namespaceprefix = parameters.get(5).toString();
 			GtnUIFrameworkBaseComponent comp = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(namespaceprefix + parameters.get(1).toString());
+					.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(1)));
 			comp.loadDefaultCombobox(0, 0);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(7).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(7)))
 					.setPropertyValue(null);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(8).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(8)))
 					.setPropertyValue("Primary");
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(9).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(9)))
 					.setPropertyValue("Manual");
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(10)))
 					.setPropertyValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(11)))
 					.setPropertyValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(12).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(12)))
 					.setPropertyValue(null);
 			List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
-			GtnUIFrameworkGlobalUI.addChildComponent(namespaceprefix + parameters.get(6).toString(), componentList);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(1).toString())
+			GtnUIFrameworkGlobalUI.addChildComponent(namespaceprefix + String.valueOf(parameters.get(6)), componentList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(1)))
 					.setComponentEnable(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(7).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(7)))
 					.setComponentEnable(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(8).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(8)))
 					.setComponentEnable(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(9).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(9)))
 					.setComponentEnable(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(10).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(10)))
 					.setComponentEnable(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(11).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(11)))
 					.setComponentEnable(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(12).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(12)))
 					.setComponentEnable(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(13).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(13)))
 					.setComponentEnable(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + parameters.get(14).toString())
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(namespaceprefix + String.valueOf(parameters.get(14)))
 					.setComponentEnable(true);
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(true);
 		} catch (Exception e) {
