@@ -59,13 +59,21 @@ public class GtnWsModuleAuthorizationGeneralRequest implements GtnWSRequestData 
 		return gtnWsModuleSecurityBean;
 	}
 
-	public void setGtnWsModuleSecurityBean(GtnWsModuleAuthorizationBean gtnWsModuleSecurityBean) {
-		this.gtnWsModuleSecurityBean = gtnWsModuleSecurityBean;
-	}
+	   public void setGtnWsModuleSecurityBean(GtnWsModuleAuthorizationBean gtnWsModuleSecurityBean) {
+        this.gtnWsModuleSecurityBean = gtnWsModuleSecurityBean;
+    }
 
-	public void addGtnWsModuleSecuritySaveBean(GtnWsModuleAuthorizationBean gtnWsModuleSecurityBean) {
-		gtnWsModuleSecuritySaveBeanList.add(gtnWsModuleSecurityBean);
-	}
+    public void addGtnWsModuleSecuritySaveBean(GtnWsModuleAuthorizationBean gtnWsModuleSecurityBean) {
+        gtnWsModuleSecuritySaveBeanList.add(gtnWsModuleSecurityBean);
+    }
 
+    private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
+        s.defaultWriteObject();
+    }
+
+    // Dont delete. this Method is called during Serialization
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+    }
 
 }
