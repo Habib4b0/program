@@ -97,13 +97,6 @@ public class GtnWsGeneralRequest implements GtnWSRequestData {
 		this.isExcel = isExcel;
 	}
 
-	private void writeObject(ObjectOutputStream stream) throws IOException {
-		stream.defaultWriteObject();
-	}
-
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		stream.defaultReadObject();
-	}
 
 	public List<String> getTableColumnFormatList() {
 		return tableColumnFormatList == null ? tableColumnFormatList

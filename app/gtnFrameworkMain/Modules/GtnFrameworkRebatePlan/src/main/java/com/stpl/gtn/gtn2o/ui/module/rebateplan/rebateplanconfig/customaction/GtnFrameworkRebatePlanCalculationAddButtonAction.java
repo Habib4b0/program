@@ -114,7 +114,7 @@ public class GtnFrameworkRebatePlanCalculationAddButtonAction
 	private void refreshComponenent(String componentId) throws GtnFrameworkGeneralException {
 		GtnUIFrameWorkActionConfig resetTableConfig = new GtnUIFrameWorkActionConfig();
 		GtnUIFrameWorkSetDefaultAction defaultAction = new GtnUIFrameWorkSetDefaultAction();
-		Map<String, Object> resetSelectMap = new HashMap<>();
+		Map<String, Object> resetSelectMap = new HashMap<>(30);
 		List<Object> selectResetParams = new ArrayList<>();
 		resetSelectMap.put(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TO, "");
 		resetSelectMap.put(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_OPERATOR, null);

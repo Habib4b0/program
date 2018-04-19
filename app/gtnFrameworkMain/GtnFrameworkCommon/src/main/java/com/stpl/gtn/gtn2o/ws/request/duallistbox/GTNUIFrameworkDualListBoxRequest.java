@@ -98,11 +98,4 @@ public class GTNUIFrameworkDualListBoxRequest implements GtnWSRequestData {
 		this.dualListBoxRecord = dualListBoxRecord;
 	}
 
-	private void writeObject(ObjectOutputStream stream) throws IOException {
-		stream.defaultWriteObject();
-	}
-
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		stream.defaultReadObject();
-	}
 }

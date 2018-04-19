@@ -67,14 +67,5 @@ public class GtnWsModuleAuthorizationGeneralRequest implements GtnWSRequestData 
 		gtnWsModuleSecuritySaveBeanList.add(gtnWsModuleSecurityBean);
 	}
 
-	private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-		s.defaultWriteObject();
-	}
-
-	// Dont delete. this Method is called during Serialization
-
-	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-		ois.defaultReadObject();
-	}
 
 }

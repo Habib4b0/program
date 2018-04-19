@@ -58,11 +58,4 @@ public class GtnCompanyGroupRequest implements GtnWSRequestData {
 		this.gtnCompanyGrpValidationBean = gtnCompanyGrpValidationBean;
 	}
 
-	private void writeObject(ObjectOutputStream stream) throws IOException {
-		stream.defaultWriteObject();
-	}
-
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		stream.defaultReadObject();
-	}
 }

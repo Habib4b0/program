@@ -78,11 +78,4 @@ public class GtnWsItemMasterRequest implements GtnWSRequestData {
 		this.gtnWsBrandMasterBean = gtnWsBrandMasterBean;
 	}
 
-	private void writeObject(ObjectOutputStream stream) throws IOException {
-		stream.defaultWriteObject();
-	}
-
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		stream.defaultReadObject();
-	}
 }
