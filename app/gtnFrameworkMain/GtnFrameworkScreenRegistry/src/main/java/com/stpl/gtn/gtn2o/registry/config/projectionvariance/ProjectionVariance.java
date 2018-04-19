@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 
+
 public class ProjectionVariance {
 
 
@@ -52,41 +53,6 @@ public class ProjectionVariance {
 	private void addProjectionPivoteViewTable(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace)
 	{
 
-		GtnUIFrameworkComponentConfig periodPivotViewComponentConfig = new GtnUIFrameworkComponentConfig();
-		periodPivotViewComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTREETABLE);
-		periodPivotViewComponentConfig.setComponentId(nameSpace + "_" + "periodPivotViewTable");
-		periodPivotViewComponentConfig.setComponentName("Period Pivot View");
-		periodPivotViewComponentConfig.setAddToParent(Boolean.TRUE);
-		periodPivotViewComponentConfig.setParentComponentId(parentComponentId);
 
-		GtnUIFrameworkPagedTreeTableConfig gtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
-
-		List<Object> actionConfigList = new ArrayList<>();
-		actionConfigList.add(parentComponentId);
-		GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkActionConfig.setActionParameterList(actionConfigList);
-		gtnPagedTreeTableConfig.setGtnUIFrameWorkActionConfig(gtnUIFrameWorkActionConfig);
-
-		gtnPagedTreeTableConfig.setLeftHeader("");
-		gtnPagedTreeTableConfig.setRightHeader("");
-		gtnPagedTreeTableConfig.setCountUrl("");
-		gtnPagedTreeTableConfig.setItemPerPage(10);
-
-		gtnPagedTreeTableConfig.setMaxSplitPosition(1000);
-		gtnPagedTreeTableConfig.setMinSplitPosition(300);
-		gtnPagedTreeTableConfig.setPageLength(15);
-		gtnPagedTreeTableConfig.setResultSetUrl("");
-		gtnPagedTreeTableConfig.setSplitPosition(600);
-
-		gtnPagedTreeTableConfig.setTableHeight("650px");
-		gtnPagedTreeTableConfig.setDoubleHeaderVisible(Boolean.TRUE);
-
-		gtnPagedTreeTableConfig.setLeftTableEditable(true);
-		gtnPagedTreeTableConfig.setRightTableEditable(true);
-
-		gtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
-
-		periodPivotViewComponentConfig.setGtnPagedTreeTableConfig(gtnPagedTreeTableConfig);
-		componentList.add(periodPivotViewComponentConfig);
 	}
 }
